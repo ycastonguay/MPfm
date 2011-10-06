@@ -210,6 +210,9 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\fmodex.dll" />
+    <Content Include="Lib\System.Data.SQLite.dll" />
+    <Content Include="Lib\System.Data.SQLite.Linq.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
     <Content Include="MPFM.ico" />
     <Content Include="References\taglib-sharp.dll" />
