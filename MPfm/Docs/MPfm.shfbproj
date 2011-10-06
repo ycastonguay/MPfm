@@ -26,18 +26,18 @@
     <HelpTitle>MPfm Framework Documentation</HelpTitle>
     <ProjectSummary>MPfm: Music Player for Musicians </ProjectSummary>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Output\Debug\MPfm.Core.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Core.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.exe" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Fonts.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Fonts.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Library.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Library.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Sound.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.Sound.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.WindowsControls.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.WindowsControls.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Output\Debug\MPfm.xml" xmlns="" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Core.dll" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Core.xml" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.exe" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Fonts.dll" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Fonts.xml" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Library.dll" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Library.xml" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Sound.dll" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.Sound.xml" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.WindowsControls.dll" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.WindowsControls.xml" />
+<DocumentationSource sourceFile="..\Solution\Output\Debug\MPfm.xml" /></DocumentationSources>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional
