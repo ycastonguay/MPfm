@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PMPEFModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="PMPEFModelStoreContainer">
+          <EntitySet Name="AlbumArt" EntityType="PMPEFModel.Store.AlbumArt" store:Type="Tables" />
+          <EntitySet Name="Bookmarks" EntityType="PMPEFModel.Store.Bookmarks" store:Type="Tables" />
+          <EntitySet Name="Equalizers" EntityType="PMPEFModel.Store.Equalizers" store:Type="Tables" />
+          <EntitySet Name="Folders" EntityType="PMPEFModel.Store.Folders" store:Type="Tables" />
+          <EntitySet Name="Loops" EntityType="PMPEFModel.Store.Loops" store:Type="Tables" />
+          <EntitySet Name="Playlists" EntityType="PMPEFModel.Store.Playlists" store:Type="Tables" />
+          <EntitySet Name="PlaylistSongs" EntityType="PMPEFModel.Store.PlaylistSongs" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="PMPEFModel.Store.Settings" store:Type="Tables" />
+          <EntitySet Name="Songs" EntityType="PMPEFModel.Store.Songs" store:Type="Tables" />
+          <EntitySet Name="Tabs" EntityType="PMPEFModel.Store.Tabs" store:Type="Tables" />
+        </EntityContainer>
+        <EntityType Name="AlbumArt">
+          <Key>
+            <PropertyRef Name="AlbumArtId" />
+          </Key>
+          <Property Name="AlbumArtId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="AlbumArtData" Type="blob" />
+          <Property Name="Album" Type="nvarchar" MaxLength="500" />
+          <Property Name="Artist" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Bookmarks">
+          <Key>
+            <PropertyRef Name="BookmarkId" />
+          </Key>
+          <Property Name="BookmarkId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="Time" Type="nvarchar" MaxLength="100" />
+          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="5000" />
+          <Property Name="AbsoluteTime" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Equalizers">
+          <Key>
+            <PropertyRef Name="EqualizerId" />
+          </Key>
+          <Property Name="EqualizerId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Gain55Hz" Type="float" />
+          <Property Name="Gain77Hz" Type="float" />
+          <Property Name="Gain110Hz" Type="float" />
+          <Property Name="Gain156Hz" Type="float" />
+          <Property Name="Gain220Hz" Type="float" />
+          <Property Name="Gain311Hz" Type="float" />
+          <Property Name="Gain440Hz" Type="float" />
+          <Property Name="Gain622Hz" Type="float" />
+          <Property Name="Gain880Hz" Type="float" />
+          <Property Name="Gain1_2kHz" Type="float" />
+          <Property Name="Gain1_8kHz" Type="float" />
+          <Property Name="Gain2_5kHz" Type="float" />
+          <Property Name="Gain3_5kHz" Type="float" />
+          <Property Name="Gain5kHz" Type="float" />
+          <Property Name="Gain7kHz" Type="float" />
+          <Property Name="Gain10kHz" Type="float" />
+          <Property Name="Gain14kHz" Type="float" />
+          <Property Name="Gain20kHz" Type="float" />
+        </EntityType>
+        <EntityType Name="Folders">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="FolderId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FolderPath" Type="nvarchar" MaxLength="5000" />
+          <Property Name="LastUpdate" Type="datetime" />
+          <Property Name="Recursive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Loops">
+          <Key>
+            <PropertyRef Name="LoopId" />
+          </Key>
+          <Property Name="LoopId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Playlists">
+          <Key>
+            <PropertyRef Name="PlaylistId" />
+          </Key>
+          <Property Name="PlaylistId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PlaylistName" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="PlaylistSongs">
+          <Key>
+            <PropertyRef Name="PlaylistSongId" />
+          </Key>
+          <Property Name="PlaylistSongId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PlaylistId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Position" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SettingName" Type="nvarchar" MaxLength="500" />
+          <Property Name="SettingValue" Type="nvarchar" />
+        </EntityType>
+        <EntityType Name="Songs">
+          <Key>
+            <PropertyRef Name="SongId" />
+          </Key>
+          <Property Name="SongId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="5000" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="3000" />
+          <Property Name="ArtistName" Type="nvarchar" MaxLength="3000" />
+          <Property Name="AlbumTitle" Type="nvarchar" MaxLength="3000" />
+          <Property Name="PlayCount" Type="integer" />
+          <Property Name="LastPlayed" Type="datetime" />
+          <Property Name="Year" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiscNumber" Type="integer" />
+          <Property Name="TrackNumber" Type="integer" />
+          <Property Name="TrackCount" Type="integer" />
+          <Property Name="Rating" Type="integer" />
+          <Property Name="Time" Type="nvarchar" MaxLength="50" />
+          <Property Name="Genre" Type="nvarchar" MaxLength="250" />
+          <Property Name="Tempo" Type="integer" />
+          <Property Name="Lyrics" Type="nvarchar" />
+          <Property Name="SoundFormat" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Tabs">
+          <Key>
+            <PropertyRef Name="TabId" />
+          </Key>
+          <Property Name="TabId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TabName" Type="nvarchar" MaxLength="500" />
+          <Property Name="TabType" Type="integer" Nullable="false" />
+          <Property Name="TabText" Type="nvarchar" />
+          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MPFM.Library.Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="MPFM_EF">
+          <EntitySet Name="AlbumArts" EntityType="MPFM.Library.Model.AlbumArt" />
+          <EntitySet Name="Bookmarks" EntityType="MPFM.Library.Model.Bookmark" />
+          <EntitySet Name="Equalizers" EntityType="MPFM.Library.Model.Equalizer" />
+          <EntitySet Name="Folders" EntityType="MPFM.Library.Model.Folder" />
+          <EntitySet Name="Loops" EntityType="MPFM.Library.Model.Loop" />
+          <EntitySet Name="PlaylistSongs" EntityType="MPFM.Library.Model.PlaylistSong" />
+          <EntitySet Name="Playlists" EntityType="MPFM.Library.Model.Playlist" />
+          <EntitySet Name="Settings" EntityType="MPFM.Library.Model.Setting" />
+          <EntitySet Name="Songs" EntityType="MPFM.Library.Model.Song" />
+          <EntitySet Name="Tabs" EntityType="MPFM.Library.Model.Tab" />
+        </EntityContainer>
+        <EntityType Name="AlbumArt">
+          <Key>
+            <PropertyRef Name="AlbumArtId" />
+          </Key>
+          <Property Type="String" Name="AlbumArtId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Binary" Name="AlbumArtData" MaxLength="2147483647" FixedLength="false" />
+          <Property Type="String" Name="Album" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Artist" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Bookmark">
+          <Key>
+            <PropertyRef Name="BookmarkId" />
+          </Key>
+          <Property Type="String" Name="BookmarkId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Time" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Comments" MaxLength="5000" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="AbsoluteTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Equalizer">
+          <Key>
+            <PropertyRef Name="EqualizerId" />
+          </Key>
+          <Property Type="String" Name="EqualizerId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Gain55Hz" />
+          <Property Type="Double" Name="Gain77Hz" />
+          <Property Type="Double" Name="Gain110Hz" />
+          <Property Type="Double" Name="Gain156Hz" />
+          <Property Type="Double" Name="Gain220Hz" />
+          <Property Type="Double" Name="Gain311Hz" />
+          <Property Type="Double" Name="Gain440Hz" />
+          <Property Type="Double" Name="Gain622Hz" />
+          <Property Type="Double" Name="Gain880Hz" />
+          <Property Type="Double" Name="Gain1_2kHz" />
+          <Property Type="Double" Name="Gain1_8kHz" />
+          <Property Type="Double" Name="Gain2_5kHz" />
+          <Property Type="Double" Name="Gain3_5kHz" />
+          <Property Type="Double" Name="Gain5kHz" />
+          <Property Type="Double" Name="Gain7kHz" />
+          <Property Type="Double" Name="Gain10kHz" />
+          <Property Type="Double" Name="Gain14kHz" />
+          <Property Type="Double" Name="Gain20kHz" />
+        </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Type="String" Name="FolderId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FolderPath" MaxLength="5000" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastUpdate" />
+          <Property Type="Boolean" Name="Recursive" />
+        </EntityType>
+        <EntityType Name="Loop">
+          <Key>
+            <PropertyRef Name="LoopId" />
+          </Key>
+          <Property Type="String" Name="LoopId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PlaylistSong">
+          <Key>
+            <PropertyRef Name="PlaylistSongId" />
+          </Key>
+          <Property Type="String" Name="PlaylistSongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PlaylistId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Position" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Playlist">
+          <Key>
+            <PropertyRef Name="PlaylistId" />
+          </Key>
+          <Property Type="String" Name="PlaylistId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PlaylistName" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Type="String" Name="SettingId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SettingName" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SettingValue" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongId" />
+          </Key>
+          <Property Type="String" Name="SongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" MaxLength="5000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FilePath" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ArtistName" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AlbumTitle" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="PlayCount" />
+          <Property Type="DateTime" Name="LastPlayed" />
+          <Property Type="String" Name="Year" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="TrackNumber" />
+          <Property Type="Int64" Name="TrackCount" />
+          <Property Type="Int64" Name="Rating" />
+          <Property Type="String" Name="Time" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Genre" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Tempo" />
+          <Property Type="String" Name="Lyrics" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="DiscNumber" />
+          <Property Type="String" Name="SoundFormat" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tab">
+          <Key>
+            <PropertyRef Name="TabId" />
+          </Key>
+          <Property Type="String" Name="TabId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TabName" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="TabType" Nullable="false" />
+          <Property Type="String" Name="TabText" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="PMPEFModelStoreContainer" CdmEntityContainer="MPFM_EF">
+          <EntitySetMapping Name="AlbumArts">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.AlbumArt">
+              <MappingFragment StoreEntitySet="AlbumArt">
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Album" ColumnName="Album" />
+                <ScalarProperty Name="AlbumArtData" ColumnName="AlbumArtData" />
+                <ScalarProperty Name="AlbumArtId" ColumnName="AlbumArtId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookmarks">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Bookmark">
+              <MappingFragment StoreEntitySet="Bookmarks">
+                <ScalarProperty Name="AbsoluteTime" ColumnName="AbsoluteTime" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BookmarkId" ColumnName="BookmarkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equalizers">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Equalizer">
+              <MappingFragment StoreEntitySet="Equalizers">
+                <ScalarProperty Name="Gain20kHz" ColumnName="Gain20kHz" />
+                <ScalarProperty Name="Gain14kHz" ColumnName="Gain14kHz" />
+                <ScalarProperty Name="Gain10kHz" ColumnName="Gain10kHz" />
+                <ScalarProperty Name="Gain7kHz" ColumnName="Gain7kHz" />
+                <ScalarProperty Name="Gain5kHz" ColumnName="Gain5kHz" />
+                <ScalarProperty Name="Gain3_5kHz" ColumnName="Gain3_5kHz" />
+                <ScalarProperty Name="Gain2_5kHz" ColumnName="Gain2_5kHz" />
+                <ScalarProperty Name="Gain1_8kHz" ColumnName="Gain1_8kHz" />
+                <ScalarProperty Name="Gain1_2kHz" ColumnName="Gain1_2kHz" />
+                <ScalarProperty Name="Gain880Hz" ColumnName="Gain880Hz" />
+                <ScalarProperty Name="Gain622Hz" ColumnName="Gain622Hz" />
+                <ScalarProperty Name="Gain440Hz" ColumnName="Gain440Hz" />
+                <ScalarProperty Name="Gain311Hz" ColumnName="Gain311Hz" />
+                <ScalarProperty Name="Gain220Hz" ColumnName="Gain220Hz" />
+                <ScalarProperty Name="Gain156Hz" ColumnName="Gain156Hz" />
+                <ScalarProperty Name="Gain110Hz" ColumnName="Gain110Hz" />
+                <ScalarProperty Name="Gain77Hz" ColumnName="Gain77Hz" />
+                <ScalarProperty Name="Gain55Hz" ColumnName="Gain55Hz" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EqualizerId" ColumnName="EqualizerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Folders">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Folder">
+              <MappingFragment StoreEntitySet="Folders">
+                <ScalarProperty Name="Recursive" ColumnName="Recursive" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="FolderPath" ColumnName="FolderPath" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Loops">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Loop">
+              <MappingFragment StoreEntitySet="Loops">
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="LoopId" ColumnName="LoopId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlaylistSongs">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.PlaylistSong">
+              <MappingFragment StoreEntitySet="PlaylistSongs">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
+                <ScalarProperty Name="PlaylistSongId" ColumnName="PlaylistSongId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Playlists">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Playlist">
+              <MappingFragment StoreEntitySet="Playlists">
+                <ScalarProperty Name="PlaylistName" ColumnName="PlaylistName" />
+                <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+                <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Song">
+              <MappingFragment StoreEntitySet="Songs">
+                <ScalarProperty Name="SoundFormat" ColumnName="SoundFormat" />
+                <ScalarProperty Name="DiscNumber" ColumnName="DiscNumber" />
+                <ScalarProperty Name="Lyrics" ColumnName="Lyrics" />
+                <ScalarProperty Name="Tempo" ColumnName="Tempo" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="TrackCount" ColumnName="TrackCount" />
+                <ScalarProperty Name="TrackNumber" ColumnName="TrackNumber" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="LastPlayed" ColumnName="LastPlayed" />
+                <ScalarProperty Name="PlayCount" ColumnName="PlayCount" />
+                <ScalarProperty Name="AlbumTitle" ColumnName="AlbumTitle" />
+                <ScalarProperty Name="ArtistName" ColumnName="ArtistName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tabs">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Tab">
+              <MappingFragment StoreEntitySet="Tabs">
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="TabText" ColumnName="TabText" />
+                <ScalarProperty Name="TabType" ColumnName="TabType" />
+                <ScalarProperty Name="TabName" ColumnName="TabName" />
+                <ScalarProperty Name="TabId" ColumnName="TabId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="PMPEF">
+        <EntityTypeShape EntityType="MPFM.Library.Model.AlbumArt" Width="1.5" PointX="0.75" PointY="0.75" Height="1.5319933734337496" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Bookmark" Width="1.5" PointX="2.75" PointY="0.75" Height="1.8434557658433945" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Equalizer" Width="1.5" PointX="0.75" PointY="3.75" Height="4.0236925127108947" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Folder" Width="1.5" PointX="2.75" PointY="3.75" Height="1.5319933734337496" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Loop" Width="1.5" PointX="4.75" PointY="0.75" Height="1.2205309810241118" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.PlaylistSong" Width="1.5" PointX="4.75" PointY="2.75" Height="1.3762621772289307" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Playlist" Width="1.5" PointX="4.75" PointY="5.75" Height="1.2205309810241118" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Setting" Width="1.5" PointX="6.75" PointY="0.75" Height="1.3762621772289307" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Song" Width="1.5" PointX="6.75" PointY="3.75" Height="3.7288216145833326" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Tab" Width="1.5" PointX="2.75" PointY="7.75" Height="1.6877245696385756" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
