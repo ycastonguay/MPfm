@@ -88,7 +88,7 @@ namespace MPfm
             // 
             this.lblVersion.AntiAliasingEnabled = true;
             this.lblVersion.BackColor = System.Drawing.Color.Black;
-            this.lblVersion.CustomFontName = "Junction";
+            this.lblVersion.CustomFontName = "BPMono";
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
             this.lblVersion.FontCollection = this.fontCollection;
             this.lblVersion.ForeColor = System.Drawing.Color.White;
