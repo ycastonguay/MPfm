@@ -64,7 +64,7 @@ namespace MPfm
             this.lblStatus.ForeColor = System.Drawing.Color.White;
             this.lblStatus.Location = new System.Drawing.Point(8, 481);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(620, 22);
+            this.lblStatus.Size = new System.Drawing.Size(608, 22);
             this.lblStatus.TabIndex = 50;
             this.lblStatus.Text = "Initializing tracing...";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
