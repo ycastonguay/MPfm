@@ -30,11 +30,11 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -733,26 +733,26 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "BPmono";
-            customFont4.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "CPmono";
-            customFont5.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "LeagueGothic";
+            customFont6.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "Junction";
+            customFont7.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "TitilliumText22L Lt";
+            customFont8.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont9.AssemblyPath = "MPfm.Fonts.dll";
+            customFont9.Name = "BPmono";
+            customFont9.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont10.AssemblyPath = "MPfm.Fonts.dll";
+            customFont10.Name = "CPmono";
+            customFont10.ResourceName = "MPfm.Fonts.CPmono.ttf";
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
+            this.fontCollection.Fonts.Add(customFont9);
+            this.fontCollection.Fonts.Add(customFont10);
             // 
             // treeLibrary
             // 
@@ -1987,6 +1987,7 @@ namespace MPfm
             this.btnRemoveMarker.Text = "Remove";
             this.btnRemoveMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRemoveMarker.UseVisualStyleBackColor = true;
+            this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
             // 
             // lblMarkers
             // 
@@ -2033,6 +2034,7 @@ namespace MPfm
             this.btnEditMarker.Text = "Edit";
             this.btnEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnEditMarker.UseVisualStyleBackColor = true;
+            this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
             // 
             // btnAddMarker
             // 
@@ -2064,6 +2066,7 @@ namespace MPfm
             this.btnAddMarker.Text = "Add";
             this.btnAddMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAddMarker.UseVisualStyleBackColor = true;
+            this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
             // 
             // viewMarkers
             // 

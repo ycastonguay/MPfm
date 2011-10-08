@@ -77,6 +77,7 @@ namespace MPfm
         public frmSettings formSettings = null;
         public frmPlaylist formPlaylist = null;
         public frmEditSongMetadata formEditSongMetadata = null;
+        public frmAddEditMarker formAddEditMarker = null;
         public frmVisualizer formVisualizer = null;
 
         // Tree library nodes
@@ -2907,12 +2908,39 @@ namespace MPfm
             lblSongPercentage.Text = newPosition.ToString();
         }
 
-        private void hScrollBar1_MouseCaptureChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when the user has clicked on the Add Marker button.
+        /// Opens the Add/Edit Marker window.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnAddMarker_Click(object sender, EventArgs e)
         {
-
+            // Create window and show as dialog
+            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add);
+            formAddEditMarker.ShowDialog(this);
         }
 
-        private void hScrollBar1_ValueChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when the user has clicked on the Edit Marker button.
+        /// Opens the Add/Edit Marker window.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEditMarker_Click(object sender, EventArgs e)
+        {
+            // Create window and show as dialog
+            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit);
+            formAddEditMarker.ShowDialog(this);
+        }
+
+        /// <summary>
+        /// Occurs when the user has clicked on the Remove Marker button.
+        /// Opens the Add/Edit Marker window.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnRemoveMarker_Click(object sender, EventArgs e)
         {
 
         }
