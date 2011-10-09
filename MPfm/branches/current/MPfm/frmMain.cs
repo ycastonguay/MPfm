@@ -720,8 +720,9 @@ namespace MPfm
                     // Set next song in configuration                    
                     Config.SongQuerySongId = data.NextSong.Song.SongId.ToString();
 
-                    // Refresh markers
+                    // Refresh loops & markers
                     RefreshMarkers();
+                    RefreshLoops();
 
                     // Refresh play count
                     foreach (ListViewItem item in viewSongs.Items)
@@ -1574,6 +1575,11 @@ namespace MPfm
             // Check if a song is currently playing
             if (Player.CurrentSong == null)
             {
+                // Reset buttons
+                btnAddMarker.Enabled = false;
+                btnEditMarker.Enabled = false;
+                btnRemoveMarker.Enabled = false;
+                btnGoToMarker.Enabled = false;
                 return;
             }
             
@@ -1602,6 +1608,12 @@ namespace MPfm
             // Check if a song is currently playing
             if (Player.CurrentSong == null)
             {
+                // Reset buttons
+                btnAddLoop.Enabled = false;
+                btnEditLoop.Enabled = false;
+                btnRemoveLoop.Enabled = false;
+                btnPlayLoop.Enabled = false;
+                btnStopLoop.Enabled = false;
                 return;
             }
 
@@ -1882,6 +1894,8 @@ namespace MPfm
                 btnAddMarker.Enabled = false;
                 waveFormMarkersLoops.Clear();
                 RefreshSongControls();
+                RefreshMarkers();
+                RefreshLoops();
                 formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);                               
             }
         }
@@ -3194,14 +3208,79 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Occurs when the user has clicked on the Play Loop button.
+        /// Starts the playback of a loop.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
         private void btnPlayLoop_Click(object sender, EventArgs e)
         {
+            // Check if an item is selected
+            if (viewLoops.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
+            // Get selected loopId
+            Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+
+            // Fetch loop from database
+            MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(loopId);
+
+            // Check if the loop is valid
+            if (loop == null)
+            {
+                return;
+            }
+
+            // Set current loop in player
+            Player.CurrentLoop = loop;
+
+            // Set currently playing loop icon
+            for (int a = 0; a < viewLoops.Items.Count; a++)
+            {
+                // Check if the loop is currently playing
+                if (viewLoops.Items[a].Tag.ToString() == loop.LoopId)
+                {
+                    // Set flag
+                    viewLoops.Items[a].ImageIndex = 7;
+                }
+                else
+                {
+                    // Reset flag
+                    viewLoops.Items[a].ImageIndex = -1;
+                }
+            }
+
+            // Reset buttons
+            btnPlayLoop.Enabled = false;
+            btnStopLoop.Enabled = true;
         }
 
+        /// <summary>
+        /// Occurs when the user has clicked on the Stop Loop button.
+        /// Stops the playback of a loop.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
         private void btnStopLoop_Click(object sender, EventArgs e)
         {
+            // Check if an item is selected
+            if (viewLoops.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
+            // Reset loop
+            Player.CurrentLoop = null;
+
+            // Refresh loops
+            RefreshLoops();
+
+            // Reset buttons
+            btnPlayLoop.Enabled = true;
+            btnStopLoop.Enabled = false;
         }
 
         /// <summary>
@@ -3221,9 +3300,23 @@ namespace MPfm
             }
             else
             {
+                // At least one item is selected.                
                 btnPlayLoop.Enabled = true;
+                btnStopLoop.Enabled = false;
                 btnEditLoop.Enabled = true;
-                btnRemoveLoop.Enabled = true;                
+                btnRemoveLoop.Enabled = true;    
+            
+                // Check if the loop is currently playing
+                if(Player.CurrentLoop != null)
+                {
+                    // Check if the loop matches
+                    if (viewLoops.SelectedItems[0].Tag.ToString() == Player.CurrentLoop.LoopId)
+                    {
+                        // Set buttons
+                        btnPlayLoop.Enabled = false;
+                        btnStopLoop.Enabled = true;
+                    }
+                }
             }
         }
 
@@ -3235,7 +3328,46 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void viewLoops_DoubleClick(object sender, EventArgs e)
         {
+            // Check if an item is selected
+            if (viewLoops.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
+            // Get selected loopId
+            Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+
+            // Fetch loop from database
+            MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(loopId);
+
+            // Check if the loop is valid
+            if (loop == null)
+            {
+                return;
+            }
+
+            // Set current loop in player
+            Player.CurrentLoop = loop;
+            
+            // Set currently playing loop icon
+            for (int a = 0; a < viewLoops.Items.Count; a++)
+            {
+                // Check if the loop is currently playing
+                if (viewLoops.Items[a].Tag.ToString() == loop.LoopId)
+                {
+                    // Set flag
+                    viewLoops.Items[a].ImageIndex = 7;
+                }
+                else
+                {
+                    // Reset flag
+                    viewLoops.Items[a].ImageIndex = -1;
+                }
+            }
+
+            // Reset buttons
+            btnPlayLoop.Enabled = false;
+            btnStopLoop.Enabled = true;
         }
 
         #endregion
