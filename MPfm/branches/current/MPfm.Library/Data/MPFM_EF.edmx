@@ -7,10 +7,19 @@
     <Schema Namespace="PMPEFModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="PMPEFModelStoreContainer">
           <EntitySet Name="AlbumArt" EntityType="PMPEFModel.Store.AlbumArt" store:Type="Tables" />
-          <EntitySet Name="Bookmarks" EntityType="PMPEFModel.Store.Bookmarks" store:Type="Tables" />
           <EntitySet Name="Equalizers" EntityType="PMPEFModel.Store.Equalizers" store:Type="Tables" />
           <EntitySet Name="Folders" EntityType="PMPEFModel.Store.Folders" store:Type="Tables" />
           <EntitySet Name="Loops" EntityType="PMPEFModel.Store.Loops" store:Type="Tables" />
+          <EntitySet Name="Markers" EntityType="PMPEFModel.Store.Markers" store:Type="Tables" store:Name="Markers">
+            <DefiningQuery>SELECT 
+      [Markers].[MarkerId] AS [MarkerId], 
+      [Markers].[Name] AS [Name], 
+      [Markers].[Position] AS [Position], 
+      [Markers].[SongId] AS [SongId], 
+      [Markers].[Comments] AS [Comments], 
+      [Markers].[AbsoluteTime] AS [AbsoluteTime]
+      FROM [Markers] AS [Markers]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Playlists" EntityType="PMPEFModel.Store.Playlists" store:Type="Tables" />
           <EntitySet Name="PlaylistSongs" EntityType="PMPEFModel.Store.PlaylistSongs" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="PMPEFModel.Store.Settings" store:Type="Tables" />
@@ -25,17 +34,6 @@
           <Property Name="AlbumArtData" Type="blob" />
           <Property Name="Album" Type="nvarchar" MaxLength="500" />
           <Property Name="Artist" Type="nvarchar" MaxLength="500" />
-        </EntityType>
-        <EntityType Name="Bookmarks">
-          <Key>
-            <PropertyRef Name="BookmarkId" />
-          </Key>
-          <Property Name="BookmarkId" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Name" Type="nvarchar" MaxLength="500" />
-          <Property Name="Time" Type="nvarchar" MaxLength="100" />
-          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
-          <Property Name="Comments" Type="nvarchar" MaxLength="5000" />
-          <Property Name="AbsoluteTime" Type="integer" Nullable="false" />
         </EntityType>
         <EntityType Name="Equalizers">
           <Key>
@@ -77,6 +75,21 @@
           </Key>
           <Property Name="LoopId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="SongId" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'main.Markers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Markers">
+          <Key>
+            <PropertyRef Name="MarkerId" />
+            <PropertyRef Name="AbsoluteTime" />
+          </Key>
+          <Property Name="MarkerId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="5000" />
+          <Property Name="AbsoluteTime" Type="integer" Nullable="false" />
         </EntityType>
         <EntityType Name="Playlists">
           <Key>
@@ -140,7 +153,6 @@
       <Schema Namespace="MPFM.Library.Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
         <EntityContainer Name="MPFM_EF">
           <EntitySet Name="AlbumArts" EntityType="MPFM.Library.Model.AlbumArt" />
-          <EntitySet Name="Bookmarks" EntityType="MPFM.Library.Model.Bookmark" />
           <EntitySet Name="Equalizers" EntityType="MPFM.Library.Model.Equalizer" />
           <EntitySet Name="Folders" EntityType="MPFM.Library.Model.Folder" />
           <EntitySet Name="Loops" EntityType="MPFM.Library.Model.Loop" />
@@ -149,6 +161,7 @@
           <EntitySet Name="Settings" EntityType="MPFM.Library.Model.Setting" />
           <EntitySet Name="Songs" EntityType="MPFM.Library.Model.Song" />
           <EntitySet Name="Tabs" EntityType="MPFM.Library.Model.Tab" />
+          <EntitySet Name="Markers" EntityType="MPFM.Library.Model.Marker" />
         </EntityContainer>
         <EntityType Name="AlbumArt">
           <Key>
@@ -158,17 +171,6 @@
           <Property Type="Binary" Name="AlbumArtData" MaxLength="2147483647" FixedLength="false" />
           <Property Type="String" Name="Album" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Artist" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Bookmark">
-          <Key>
-            <PropertyRef Name="BookmarkId" />
-          </Key>
-          <Property Type="String" Name="BookmarkId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Time" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Comments" MaxLength="5000" FixedLength="false" Unicode="true" />
-          <Property Type="Int64" Name="AbsoluteTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Equalizer">
           <Key>
@@ -267,6 +269,18 @@
           <Property Type="String" Name="TabText" MaxLength="2147483647" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Marker">
+          <Key>
+            <PropertyRef Name="MarkerId" />
+            <PropertyRef Name="AbsoluteTime" />
+          </Key>
+          <Property Type="String" Name="MarkerId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Position" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Comments" MaxLength="5000" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="AbsoluteTime" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -280,18 +294,6 @@
                 <ScalarProperty Name="Album" ColumnName="Album" />
                 <ScalarProperty Name="AlbumArtData" ColumnName="AlbumArtData" />
                 <ScalarProperty Name="AlbumArtId" ColumnName="AlbumArtId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Bookmarks">
-            <EntityTypeMapping TypeName="MPFM.Library.Model.Bookmark">
-              <MappingFragment StoreEntitySet="Bookmarks">
-                <ScalarProperty Name="AbsoluteTime" ColumnName="AbsoluteTime" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="SongId" ColumnName="SongId" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BookmarkId" ColumnName="BookmarkId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -400,6 +402,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Markers">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Marker">
+              <MappingFragment StoreEntitySet="Markers">
+                <ScalarProperty Name="AbsoluteTime" ColumnName="AbsoluteTime" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MarkerId" ColumnName="MarkerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -422,7 +436,6 @@
     <Diagrams>
       <Diagram Name="PMPEF">
         <EntityTypeShape EntityType="MPFM.Library.Model.AlbumArt" Width="1.5" PointX="0.75" PointY="0.75" Height="1.5319933734337496" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Bookmark" Width="1.5" PointX="2.75" PointY="0.75" Height="1.8434557658433945" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Equalizer" Width="1.5" PointX="0.75" PointY="3.75" Height="4.0236925127108947" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Folder" Width="1.5" PointX="2.75" PointY="3.75" Height="1.5319933734337496" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Loop" Width="1.5" PointX="4.75" PointY="0.75" Height="1.2205309810241118" />
@@ -431,6 +444,7 @@
         <EntityTypeShape EntityType="MPFM.Library.Model.Setting" Width="1.5" PointX="6.75" PointY="0.75" Height="1.3762621772289307" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Song" Width="1.5" PointX="6.75" PointY="3.75" Height="3.7288216145833326" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Tab" Width="1.5" PointX="2.75" PointY="7.75" Height="1.6877245696385756" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Marker" Width="1.5" PointX="9.375" PointY="0.75" Height="2.1725878906250031" />
       </Diagram>
     </Diagrams>
   </Designer>
