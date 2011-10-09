@@ -1642,7 +1642,7 @@ namespace MPfm
                 ListViewItem item = viewLoops.Items.Add("");
                 item.Tag = loop.LoopId;
                 item.SubItems.Add(loop.Name);
-                item.SubItems.Add(loop.Length.ToString());
+                item.SubItems.Add(Conversion.MillisecondsToTimeString((ulong)loop.Length));
 
                 // Find the markers
                 MPfm.Library.Data.Marker markerA = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerAId);

@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
+using MPfm.Sound;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -43,6 +44,9 @@ namespace MPfm
         private SongDTO m_song = null;
         private Guid m_loopId = Guid.Empty;
         private List<MPfm.Library.Data.Marker> m_markers = null;
+        private uint m_loopLengthMS = 0;
+        private uint m_loopLengthPCM = 0;
+        private uint m_loopLengthPCMBytes = 0;
 
         /// <summary>
         /// Hook to the main form.
@@ -176,7 +180,7 @@ namespace MPfm
             loop.SongId = m_song.SongId.ToString();
             loop.MarkerAId = markerA.MarkerId;
             loop.MarkerBId = markerB.MarkerId;
-            loop.Length = length;            
+            loop.Length = m_loopLengthMS;
 
             // Determine if an INSERT or an UPDATE is necessary
             if (m_mode == AddEditLoopWindowMode.Add)
@@ -207,15 +211,8 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            // Check if name is empty
-            if (String.IsNullOrEmpty(txtName.Text))
-            {
-                btnSave.Enabled = false;
-            }
-            else
-            {
-                btnSave.Enabled = true;
-            }
+            // Validate form
+            ValidateForm();
         }
 
         /// <summary>
@@ -228,6 +225,9 @@ namespace MPfm
             // Get marker and display position
             MPfm.Library.Data.Marker marker = (MPfm.Library.Data.Marker)comboMarkerA.SelectedItem;
             lblMarkerAPosition.Text = marker.Position;
+
+            // Validate form
+            ValidateForm();
         }
 
         /// <summary>
@@ -240,8 +240,67 @@ namespace MPfm
             // Get marker and display position
             MPfm.Library.Data.Marker marker = (MPfm.Library.Data.Marker)comboMarkerB.SelectedItem;
             lblMarkerBPosition.Text = marker.Position;
+
+            // Validate form
+            ValidateForm();
         }
 
+        /// <summary>
+        /// Validates the form and displays warning if needed.
+        /// </summary>
+        public void ValidateForm()
+        {
+            // Declare variables
+            bool isValid = true;
+            string warningMessage = string.Empty;
+
+            // Check if name is empty
+            if (String.IsNullOrEmpty(txtName.Text))
+            {
+                isValid = false;
+                warningMessage = "The loop must have a valid name.";                
+            }
+
+            // Check if the loop length is negative or zero
+            if (String.IsNullOrEmpty(lblMarkerAPosition.Text) ||
+                String.IsNullOrEmpty(lblMarkerBPosition.Text))
+            {
+                isValid = false;
+                warningMessage = "The loop length must be positive.";
+            }
+            else
+            {
+                // Get delta ms
+                uint msMarkerA = ConvertAudio.ToMS(lblMarkerAPosition.Text);
+                uint msMarkerB = ConvertAudio.ToMS(lblMarkerBPosition.Text);
+
+                // Check if the loop length is negative or zero
+                if (msMarkerB < msMarkerA || msMarkerA == msMarkerB)
+                {
+                    isValid = false;
+                    warningMessage = "The loop length must be positive.";
+                }
+                else
+                {
+                    // Convert values
+                    m_loopLengthMS = msMarkerB - msMarkerA;
+                    m_loopLengthPCM = ConvertAudio.ToPCM(m_loopLengthMS, 44100);
+                    m_loopLengthPCMBytes = ConvertAudio.ToPCMBytes(m_loopLengthPCM, 16, 2);
+
+                    // Update loop length
+                    lblLoopLengthValue.Text = MPfm.Core.Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
+                    lblLoopLengthPCMValue.Text = m_loopLengthPCM.ToString();
+                    lblLoopLengthPCMBytesValue.Text = m_loopLengthPCMBytes.ToString();
+                }
+            }
+
+            // Set warning
+            panelWarning.Visible = !isValid;
+            lblWarning.Text = warningMessage;
+
+            // Enable/disable save button
+            btnSave.Enabled = isValid;
+        }
     }
 
     /// <summary>

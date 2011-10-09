@@ -28,11 +28,11 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.panelEditLoop = new MPfm.WindowsControls.Panel();
             this.waveForm = new MPfm.WindowsControls.WaveFormMarkersLoops();
@@ -55,6 +55,10 @@ namespace MPfm
             this.lblName = new MPfm.WindowsControls.Label();
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
+            this.lblLoopLengthPCMValue = new MPfm.WindowsControls.Label();
+            this.lblLoopLengthPCM = new MPfm.WindowsControls.Label();
+            this.lblLoopLengthPCMBytesValue = new MPfm.WindowsControls.Label();
+            this.lblLoopLengthPCMBytes = new MPfm.WindowsControls.Label();
             this.panelEditLoop.SuspendLayout();
             this.panelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -62,32 +66,36 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "Nobile";
-            customFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "TitilliumText22L Lt";
-            customFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "Museo Sans 500";
-            customFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "LeagueGothic";
+            customFont6.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "Junction";
+            customFont7.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "Nobile";
+            customFont8.ResourceName = "MPfm.Fonts.nobile.ttf";
+            customFont9.AssemblyPath = "MPfm.Fonts.dll";
+            customFont9.Name = "TitilliumText22L Lt";
+            customFont9.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont10.AssemblyPath = "MPfm.Fonts.dll";
+            customFont10.Name = "Museo Sans 500";
+            customFont10.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
+            this.fontCollection.Fonts.Add(customFont9);
+            this.fontCollection.Fonts.Add(customFont10);
             // 
             // panelEditLoop
             // 
             this.panelEditLoop.AntiAliasingEnabled = true;
-            this.panelEditLoop.Controls.Add(this.waveForm);
             this.panelEditLoop.Controls.Add(this.panelWarning);
+            this.panelEditLoop.Controls.Add(this.lblLoopLengthPCMBytesValue);
+            this.panelEditLoop.Controls.Add(this.lblLoopLengthPCMBytes);
+            this.panelEditLoop.Controls.Add(this.lblLoopLengthPCMValue);
+            this.panelEditLoop.Controls.Add(this.lblLoopLengthPCM);
+            this.panelEditLoop.Controls.Add(this.waveForm);
             this.panelEditLoop.Controls.Add(this.lblMarkerBPosition);
             this.panelEditLoop.Controls.Add(this.lblMarkerAPosition);
             this.panelEditLoop.Controls.Add(this.lblLoopLengthValue);
@@ -219,7 +227,6 @@ namespace MPfm
             this.lblMarkerBPosition.Name = "lblMarkerBPosition";
             this.lblMarkerBPosition.Size = new System.Drawing.Size(89, 17);
             this.lblMarkerBPosition.TabIndex = 89;
-            this.lblMarkerBPosition.Text = "0";
             this.lblMarkerBPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblMarkerAPosition
@@ -234,17 +241,17 @@ namespace MPfm
             this.lblMarkerAPosition.Name = "lblMarkerAPosition";
             this.lblMarkerAPosition.Size = new System.Drawing.Size(89, 17);
             this.lblMarkerAPosition.TabIndex = 88;
-            this.lblMarkerAPosition.Text = "0";
             this.lblMarkerAPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblLoopLengthValue
             // 
+            this.lblLoopLengthValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoopLengthValue.AntiAliasingEnabled = true;
             this.lblLoopLengthValue.BackColor = System.Drawing.Color.Transparent;
             this.lblLoopLengthValue.CustomFontName = "";
             this.lblLoopLengthValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopLengthValue.FontCollection = this.fontCollection;
-            this.lblLoopLengthValue.Location = new System.Drawing.Point(495, 68);
+            this.lblLoopLengthValue.Location = new System.Drawing.Point(2, 362);
             this.lblLoopLengthValue.Name = "lblLoopLengthValue";
             this.lblLoopLengthValue.Size = new System.Drawing.Size(89, 17);
             this.lblLoopLengthValue.TabIndex = 75;
@@ -267,12 +274,13 @@ namespace MPfm
             // 
             // lblLoopLength
             // 
+            this.lblLoopLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoopLength.AntiAliasingEnabled = true;
             this.lblLoopLength.BackColor = System.Drawing.Color.Transparent;
             this.lblLoopLength.CustomFontName = "Junction";
             this.lblLoopLength.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopLength.FontCollection = this.fontCollection;
-            this.lblLoopLength.Location = new System.Drawing.Point(495, 51);
+            this.lblLoopLength.Location = new System.Drawing.Point(2, 345);
             this.lblLoopLength.Name = "lblLoopLength";
             this.lblLoopLength.Size = new System.Drawing.Size(89, 17);
             this.lblLoopLength.TabIndex = 74;
@@ -476,6 +484,62 @@ namespace MPfm
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // lblLoopLengthPCMValue
+            // 
+            this.lblLoopLengthPCMValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLoopLengthPCMValue.AntiAliasingEnabled = true;
+            this.lblLoopLengthPCMValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMValue.CustomFontName = "";
+            this.lblLoopLengthPCMValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthPCMValue.FontCollection = this.fontCollection;
+            this.lblLoopLengthPCMValue.Location = new System.Drawing.Point(107, 362);
+            this.lblLoopLengthPCMValue.Name = "lblLoopLengthPCMValue";
+            this.lblLoopLengthPCMValue.Size = new System.Drawing.Size(89, 17);
+            this.lblLoopLengthPCMValue.TabIndex = 95;
+            this.lblLoopLengthPCMValue.Text = "0";
+            // 
+            // lblLoopLengthPCM
+            // 
+            this.lblLoopLengthPCM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLoopLengthPCM.AntiAliasingEnabled = true;
+            this.lblLoopLengthPCM.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCM.CustomFontName = "Junction";
+            this.lblLoopLengthPCM.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthPCM.FontCollection = this.fontCollection;
+            this.lblLoopLengthPCM.Location = new System.Drawing.Point(107, 345);
+            this.lblLoopLengthPCM.Name = "lblLoopLengthPCM";
+            this.lblLoopLengthPCM.Size = new System.Drawing.Size(130, 17);
+            this.lblLoopLengthPCM.TabIndex = 94;
+            this.lblLoopLengthPCM.Text = "Loop Length (samples)";
+            // 
+            // lblLoopLengthPCMBytesValue
+            // 
+            this.lblLoopLengthPCMBytesValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLoopLengthPCMBytesValue.AntiAliasingEnabled = true;
+            this.lblLoopLengthPCMBytesValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMBytesValue.CustomFontName = "";
+            this.lblLoopLengthPCMBytesValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthPCMBytesValue.FontCollection = this.fontCollection;
+            this.lblLoopLengthPCMBytesValue.Location = new System.Drawing.Point(255, 362);
+            this.lblLoopLengthPCMBytesValue.Name = "lblLoopLengthPCMBytesValue";
+            this.lblLoopLengthPCMBytesValue.Size = new System.Drawing.Size(89, 17);
+            this.lblLoopLengthPCMBytesValue.TabIndex = 97;
+            this.lblLoopLengthPCMBytesValue.Text = "0";
+            // 
+            // lblLoopLengthPCMBytes
+            // 
+            this.lblLoopLengthPCMBytes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLoopLengthPCMBytes.AntiAliasingEnabled = true;
+            this.lblLoopLengthPCMBytes.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMBytes.CustomFontName = "Junction";
+            this.lblLoopLengthPCMBytes.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthPCMBytes.FontCollection = this.fontCollection;
+            this.lblLoopLengthPCMBytes.Location = new System.Drawing.Point(255, 345);
+            this.lblLoopLengthPCMBytes.Name = "lblLoopLengthPCMBytes";
+            this.lblLoopLengthPCMBytes.Size = new System.Drawing.Size(110, 17);
+            this.lblLoopLengthPCMBytes.TabIndex = 96;
+            this.lblLoopLengthPCMBytes.Text = "Loop Length (bytes)";
+            // 
             // frmAddEditLoop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -520,6 +584,10 @@ namespace MPfm
         private WindowsControls.Panel panelWarning;
         private System.Windows.Forms.PictureBox pictureBox1;
         private WindowsControls.Label lblWarning;
-        public WindowsControls.WaveFormMarkersLoops waveForm;        
+        public WindowsControls.WaveFormMarkersLoops waveForm;
+        private WindowsControls.Label lblLoopLengthPCMBytesValue;
+        private WindowsControls.Label lblLoopLengthPCMBytes;
+        private WindowsControls.Label lblLoopLengthPCMValue;
+        private WindowsControls.Label lblLoopLengthPCM;        
     }
 }
