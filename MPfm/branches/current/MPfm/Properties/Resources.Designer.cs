@@ -417,6 +417,13 @@ namespace MPfm.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap time1 {
+            get {
+                object obj = ResourceManager.GetObject("time1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap timeline_marker {
             get {
                 object obj = ResourceManager.GetObject("timeline_marker", resourceCulture);

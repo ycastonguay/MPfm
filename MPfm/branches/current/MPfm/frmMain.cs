@@ -719,6 +719,9 @@ namespace MPfm
                     // Set next song in configuration                    
                     Config.SongQuerySongId = data.NextSong.Song.SongId.ToString();
 
+                    // Refresh markers
+                    RefreshMarkers();
+
                     // Refresh play count
                     foreach (ListViewItem item in viewSongs.Items)
                     {
@@ -734,7 +737,7 @@ namespace MPfm
                             item.SubItems[7].Text = updatedSong.LastPlayed.ToString();
                             break;
                         }
-                    }
+                    }                    
                 }
             };
 
@@ -1560,6 +1563,34 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Refreshes the Markers grid view.
+        /// </summary>
+        public void RefreshMarkers()
+        {
+            // Clear items
+            viewMarkers.Items.Clear();
+
+            // Check if a song is currently playing
+            if (Player.CurrentSong == null)
+            {
+                return;
+            }
+            
+            // Fetch markers from database
+            List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
+
+            // Update grid view
+            foreach (MPfm.Library.Data.Marker marker in markers)
+            {
+                // Create grid view item
+                ListViewItem item = viewMarkers.Items.Add(marker.Name);
+                item.Tag = marker.MarkerId;
+                item.SubItems.Add(marker.Position);
+                item.SubItems.Add(marker.PositionPCM.ToString());
+            }
+        }
+
+        /// <summary>
         /// Refreshes the tree view control presenting the library.
         /// </summary>
         public void RefreshTreeLibrary()
@@ -1783,6 +1814,10 @@ namespace MPfm
 
                     // Refresh controls after song playback
                     RefreshSongControls();
+
+                    // Refresh marker controls
+                    RefreshMarkers();
+                    btnAddMarker.Enabled = true;
                 }
             }
             catch (Exception ex)
@@ -1796,13 +1831,15 @@ namespace MPfm
         /// </summary>
         public void Stop()
         {
+            // Check if the player is initialized
             if (Player.IsInitialized)
             {
-                // Stop song
+                // Stop song, wait a little
                 Player.Stop();
                 System.Threading.Thread.Sleep(100);
 
                 // Refresh controls
+                btnAddMarker.Enabled = false;
                 waveFormMarkersLoops.Clear();
                 RefreshSongControls();
                 formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);                               
@@ -2916,9 +2953,13 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnAddMarker_Click(object sender, EventArgs e)
         {
-            // Create window and show as dialog
-            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add);
-            formAddEditMarker.ShowDialog(this);
+            // Check if the wave data is loaded
+            if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
+            {
+                // Create window and show as dialog
+                formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.CurrentSong, Guid.Empty);
+                formAddEditMarker.ShowDialog(this);
+            }
         }
 
         /// <summary>
@@ -2929,8 +2970,17 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnEditMarker_Click(object sender, EventArgs e)
         {
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Get selected markerId
+            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+
             // Create window and show as dialog
-            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit);
+            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit, Player.CurrentSong, markerId);
             formAddEditMarker.ShowDialog(this);
         }
 
@@ -2942,7 +2992,95 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnRemoveMarker_Click(object sender, EventArgs e)
         {
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
+            // Confirm with the user
+            if (MessageBox.Show("Are you sure you wish to remove the '" + viewMarkers.SelectedItems[0].Text + "' marker?", "Remove marker confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+            {
+                // Get selected markerId
+                Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+
+                // Remove marker and refresh list                
+                DataAccess.DeleteMarker(markerId);
+                RefreshMarkers();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user has clicked on the Go To Marker button.
+        /// Sets the player position as the currently selecter marker position.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnGoToMarker_Click(object sender, EventArgs e)
+        {
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Get selected markerId
+            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+
+            // Get PCM position
+            uint position = 0;
+            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[2].Text, out position);
+
+            // Set player position
+            m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+        }
+
+        /// <summary>
+        /// Occurs when the user double-clicks on the Marker grid view.
+        /// Sets the player position as the currently selecter marker position.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void viewMarkers_DoubleClick(object sender, EventArgs e)
+        {
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Get selected markerId
+            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+
+            // Get PCM position
+            uint position = 0;
+            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[2].Text, out position);
+
+            // Set player position
+            m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the selection on the Markers grid view.
+        /// Enables/disables marker buttons.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void viewMarkers_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            // Enable/disable marker buttons
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                btnEditMarker.Enabled = false;
+                btnRemoveMarker.Enabled = false;
+                btnGoToMarker.Enabled = false;
+            }
+            else
+            {
+                btnEditMarker.Enabled = true;
+                btnRemoveMarker.Enabled = true;
+                btnGoToMarker.Enabled = true;
+            }
         }
     }
 

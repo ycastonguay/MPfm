@@ -1009,7 +1009,7 @@ namespace MPfm.Library
         #region Markers
 
         /// <summary>
-        /// Select all markers from the database.
+        /// Selects all markers from the database.
         /// </summary>
         /// <returns>List of markers</returns>
         public static List<Marker> SelectMarkers()
@@ -1027,6 +1027,33 @@ namespace MPfm.Library
             catch (Exception ex)
             {
                 Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectMarkers(): " + ex.Message);
+                throw ex;
+            }
+
+            return markers;
+        }
+
+        /// <summary>
+        /// Selects markers of a specific song from the database.
+        /// </summary>
+        /// <param name="songId">Song identifier</param>
+        /// <returns>List of markers</returns>
+        public static List<Marker> SelectSongMarkers(Guid songId)
+        {
+            List<Marker> markers = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    string strSongId = songId.ToString();
+                    markers = context.Markers.Where(m => m.SongId == strSongId).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectSongMarkers(): " + ex.Message);
                 throw ex;
             }
 
@@ -1072,8 +1099,7 @@ namespace MPfm.Library
                 // Open the connection
                 using (MPFM_EF context = new MPFM_EF())
                 {
-                    // Add to database
-                    marker.MarkerId = Guid.NewGuid().ToString();
+                    // Add to database                    
                     context.AddToMarkers(marker);
                     context.SaveChanges();
                 }
@@ -1102,7 +1128,8 @@ namespace MPfm.Library
                         markerToModify.Name = marker.Name;
                         markerToModify.Position = marker.Position;
                         markerToModify.SongId = marker.SongId;
-                        markerToModify.AbsoluteTime = marker.AbsoluteTime;
+                        markerToModify.PositionPCM = marker.PositionPCM;
+                        markerToModify.PositionPCMBytes = marker.PositionPCMBytes;
                         markerToModify.Comments = marker.Comments;                        
                         context.SaveChanges();
                     }

@@ -355,7 +355,24 @@ namespace MPfm.Sound
         #endregion
 
         #region Sentence Position Properties
-        
+
+        /// <summary>
+        /// Returns the current position of the sound in the channel, in PCM format.
+        /// </summary>
+        public uint PositionSentencePCM
+        {
+            get
+            {
+                FMOD.RESULT result;
+                uint value = 0;
+
+                result = baseChannel.getPosition(ref value, FMOD.TIMEUNIT.SENTENCE_PCM);
+                Channel.CheckForError(result);
+
+                return value;
+            }
+        }
+
         /// <summary>
         /// Returns the current position of the sound in the channel, in PCM bytes format.
         /// </summary>

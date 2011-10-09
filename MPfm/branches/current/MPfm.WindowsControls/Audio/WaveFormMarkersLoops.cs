@@ -2150,7 +2150,7 @@ namespace MPfm.WindowsControls
                         imgZoomOut = null;
                     }
 
-                    g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.White, new Point(0, (Height / 2) - 6));
+                    //g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.White, new Point(0, (Height / 2) - 6));
 
                     //g.DrawString(CurrentPosition.ToString() + " / " + TotalBytes.ToString(), Font, Brushes.White, new Point(1, 1));
                     //g.DrawString(positionPercentage.ToString(), Font, Brushes.White, new Point(1, 20));
