@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
+using MPfm.Sound;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -195,8 +196,8 @@ namespace MPfm
 
             // Update controls
             txtPosition.Text = Main.Player.MainChannel.Position;
-            lblPositionPCMValue.Text = Main.Player.MainChannel.PositionSentencePCM.ToString();
-            lblPositionPCMBytesValue.Text = Main.Player.MainChannel.PositionSentencePCMBytes.ToString();            
+            //lblPositionPCMValue.Text = Main.Player.MainChannel.PositionSentencePCM.ToString();
+            //lblPositionPCMBytesValue.Text = Main.Player.MainChannel.PositionSentencePCMBytes.ToString();            
         }
 
         /// <summary>
@@ -215,8 +216,11 @@ namespace MPfm
 
             // Set position
             uint position = 0;
-            uint.TryParse(lblPositionPCMValue.Text, out position);
+            uint.TryParse(lblPositionPCMValue.Text, out position);            
             Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            
+            //uint.TryParse(lblPositionMSValue.Text, out position);
+            //Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_MS);
         }
 
         /// <summary>
@@ -227,17 +231,65 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void txtName_TextChanged(object sender, EventArgs e)
         {
+            // Validate form
+            ValidateForm();
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the position value.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void txtPosition_TextChanged(object sender, EventArgs e)
+        {
+            // Convert 0:00.000 to MS
+            uint totalMS = ConvertAudio.ToMS(txtPosition.Text);
+            uint samples = ConvertAudio.ToPCM(totalMS, 44100); // Sample rate of the song, not of the mixer!
+            uint bytes = ConvertAudio.ToPCMBytes(samples, 16, 2);
+
+            // Set new values
+            lblPositionMSValue.Text = totalMS.ToString();
+            lblPositionPCMValue.Text = samples.ToString();
+            lblPositionPCMBytesValue.Text = bytes.ToString();
+
+            // Validate form
+            ValidateForm();
+        }
+
+        /// <summary>
+        /// Validates the form and displays warning if needed.
+        /// </summary>
+        public void ValidateForm()
+        {
+            // Declare variables
+            bool isValid = true;
+            string warningMessage = string.Empty;
+
             // Check if name is empty
             if (String.IsNullOrEmpty(txtName.Text))
             {
-                btnSave.Enabled = false;
+                isValid = false;
+                warningMessage = "The marker must have a valid name.";
             }
-            else
-            {
-                btnSave.Enabled = true;
-            }
-        }
 
+            // Get song length in MS
+            uint msTotal = ConvertAudio.ToMS(m_song.Time);
+            uint msMarker = ConvertAudio.ToMS(txtPosition.Text);
+
+            // Check if the position exceeds the song length
+            if (msMarker > msTotal)
+            {
+                isValid = false;
+                warningMessage = "The marker position cannot exceed the song length (" + m_song.Time + ").";
+            }
+
+            // Set warning
+            panelWarning.Visible = !isValid;
+            lblWarning.Text = warningMessage;
+
+            // Enable/disable save button
+            btnSave.Enabled = isValid;
+        }
     }
 
     /// <summary>

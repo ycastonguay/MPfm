@@ -1208,6 +1208,9 @@ namespace MPfm.Library
 
                 // Set current song to null                
                 CurrentPlaylist.CurrentSong = null;
+
+                // Reset current loop
+                CurrentLoop = null;
             }
         }   
 

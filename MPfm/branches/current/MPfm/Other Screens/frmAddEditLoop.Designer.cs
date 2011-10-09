@@ -35,6 +35,18 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.panelEditLoop = new MPfm.WindowsControls.Panel();
+            this.waveForm = new MPfm.WindowsControls.WaveFormMarkersLoops();
+            this.panelWarning = new MPfm.WindowsControls.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblWarning = new MPfm.WindowsControls.Label();
+            this.lblMarkerBPosition = new MPfm.WindowsControls.Label();
+            this.lblMarkerAPosition = new MPfm.WindowsControls.Label();
+            this.lblLoopLengthValue = new MPfm.WindowsControls.Label();
+            this.comboMarkerB = new System.Windows.Forms.ComboBox();
+            this.lblLoopLength = new MPfm.WindowsControls.Label();
+            this.comboMarkerA = new System.Windows.Forms.ComboBox();
+            this.lblMarkerB = new MPfm.WindowsControls.Label();
+            this.lblMarkerA = new MPfm.WindowsControls.Label();
             this.lblSongTitle = new MPfm.WindowsControls.Label();
             this.lblAlbumTitle = new MPfm.WindowsControls.Label();
             this.lblArtistName = new MPfm.WindowsControls.Label();
@@ -43,13 +55,9 @@ namespace MPfm
             this.lblName = new MPfm.WindowsControls.Label();
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
-            this.lblMarkerA = new MPfm.WindowsControls.Label();
-            this.lblMarkerB = new MPfm.WindowsControls.Label();
-            this.comboMarkerA = new System.Windows.Forms.ComboBox();
-            this.comboMarkerB = new System.Windows.Forms.ComboBox();
-            this.lblLoopLengthValue = new MPfm.WindowsControls.Label();
-            this.lblLoopLength = new MPfm.WindowsControls.Label();
             this.panelEditLoop.SuspendLayout();
+            this.panelWarning.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // fontCollection
@@ -78,6 +86,10 @@ namespace MPfm
             // panelEditLoop
             // 
             this.panelEditLoop.AntiAliasingEnabled = true;
+            this.panelEditLoop.Controls.Add(this.waveForm);
+            this.panelEditLoop.Controls.Add(this.panelWarning);
+            this.panelEditLoop.Controls.Add(this.lblMarkerBPosition);
+            this.panelEditLoop.Controls.Add(this.lblMarkerAPosition);
             this.panelEditLoop.Controls.Add(this.lblLoopLengthValue);
             this.panelEditLoop.Controls.Add(this.comboMarkerB);
             this.panelEditLoop.Controls.Add(this.lblLoopLength);
@@ -110,8 +122,206 @@ namespace MPfm
             this.panelEditLoop.HeaderTitle = "Edit Loop";
             this.panelEditLoop.Location = new System.Drawing.Point(0, 0);
             this.panelEditLoop.Name = "panelEditLoop";
-            this.panelEditLoop.Size = new System.Drawing.Size(592, 319);
+            this.panelEditLoop.Size = new System.Drawing.Size(592, 391);
             this.panelEditLoop.TabIndex = 65;
+            // 
+            // waveForm
+            // 
+            this.waveForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.waveForm.AutoScrollWithCursor = true;
+            this.waveForm.BorderColor = System.Drawing.Color.Empty;
+            this.waveForm.BorderWidth = 0;
+            this.waveForm.CurrentPositionMS = ((uint)(0u));
+            this.waveForm.CurrentPositionPCMBytes = ((uint)(0u));
+            this.waveForm.CursorColor = System.Drawing.Color.RoyalBlue;
+            this.waveForm.CustomFontName = "BPmono";
+            this.waveForm.DisplayCurrentPosition = true;
+            this.waveForm.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
+            this.waveForm.Font = new System.Drawing.Font("Arial", 8F);
+            this.waveForm.FontCollection = this.fontCollection;
+            this.waveForm.GradientColor1 = System.Drawing.Color.Black;
+            this.waveForm.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.waveForm.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.waveForm.Location = new System.Drawing.Point(6, 258);
+            this.waveForm.Name = "waveForm";
+            this.waveForm.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
+    "s\\om-0gycd01\\Peak Files\\";
+            this.waveForm.Size = new System.Drawing.Size(578, 77);
+            this.waveForm.TabIndex = 93;
+            this.waveForm.TotalMS = ((uint)(0u));
+            this.waveForm.TotalPCMBytes = ((uint)(0u));
+            this.waveForm.WaveFormColor = System.Drawing.Color.Yellow;
+            this.waveForm.Zoom = 100F;
+            // 
+            // panelWarning
+            // 
+            this.panelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelWarning.AntiAliasingEnabled = true;
+            this.panelWarning.Controls.Add(this.pictureBox1);
+            this.panelWarning.Controls.Add(this.lblWarning);
+            this.panelWarning.ExpandedHeight = 200;
+            this.panelWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelWarning.FontCollection = this.fontCollection;
+            this.panelWarning.GradientColor1 = System.Drawing.Color.LemonChiffon;
+            this.panelWarning.GradientColor2 = System.Drawing.Color.Gold;
+            this.panelWarning.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelWarning.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelWarning.HeaderExpandable = false;
+            this.panelWarning.HeaderExpanded = true;
+            this.panelWarning.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelWarning.HeaderGradientColor1 = System.Drawing.Color.LemonChiffon;
+            this.panelWarning.HeaderGradientColor2 = System.Drawing.Color.Gold;
+            this.panelWarning.HeaderHeight = 18;
+            this.panelWarning.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelWarning.HeaderTitle = "Warning";
+            this.panelWarning.Location = new System.Drawing.Point(6, 341);
+            this.panelWarning.Name = "panelWarning";
+            this.panelWarning.Size = new System.Drawing.Size(382, 44);
+            this.panelWarning.TabIndex = 90;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::MPfm.Properties.Resources.error;
+            this.pictureBox1.Location = new System.Drawing.Point(6, 21);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(21, 23);
+            this.pictureBox1.TabIndex = 92;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblWarning
+            // 
+            this.lblWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWarning.AntiAliasingEnabled = true;
+            this.lblWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblWarning.CustomFontName = "Junction";
+            this.lblWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarning.FontCollection = this.fontCollection;
+            this.lblWarning.Location = new System.Drawing.Point(24, 20);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(334, 17);
+            this.lblWarning.TabIndex = 91;
+            this.lblWarning.Text = "The loop length must be positive.";
+            // 
+            // lblMarkerBPosition
+            // 
+            this.lblMarkerBPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMarkerBPosition.AntiAliasingEnabled = true;
+            this.lblMarkerBPosition.BackColor = System.Drawing.Color.Transparent;
+            this.lblMarkerBPosition.CustomFontName = "";
+            this.lblMarkerBPosition.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarkerBPosition.FontCollection = this.fontCollection;
+            this.lblMarkerBPosition.Location = new System.Drawing.Point(495, 209);
+            this.lblMarkerBPosition.Name = "lblMarkerBPosition";
+            this.lblMarkerBPosition.Size = new System.Drawing.Size(89, 17);
+            this.lblMarkerBPosition.TabIndex = 89;
+            this.lblMarkerBPosition.Text = "0";
+            this.lblMarkerBPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblMarkerAPosition
+            // 
+            this.lblMarkerAPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMarkerAPosition.AntiAliasingEnabled = true;
+            this.lblMarkerAPosition.BackColor = System.Drawing.Color.Transparent;
+            this.lblMarkerAPosition.CustomFontName = "";
+            this.lblMarkerAPosition.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarkerAPosition.FontCollection = this.fontCollection;
+            this.lblMarkerAPosition.Location = new System.Drawing.Point(495, 161);
+            this.lblMarkerAPosition.Name = "lblMarkerAPosition";
+            this.lblMarkerAPosition.Size = new System.Drawing.Size(89, 17);
+            this.lblMarkerAPosition.TabIndex = 88;
+            this.lblMarkerAPosition.Text = "0";
+            this.lblMarkerAPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblLoopLengthValue
+            // 
+            this.lblLoopLengthValue.AntiAliasingEnabled = true;
+            this.lblLoopLengthValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthValue.CustomFontName = "";
+            this.lblLoopLengthValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthValue.FontCollection = this.fontCollection;
+            this.lblLoopLengthValue.Location = new System.Drawing.Point(495, 68);
+            this.lblLoopLengthValue.Name = "lblLoopLengthValue";
+            this.lblLoopLengthValue.Size = new System.Drawing.Size(89, 17);
+            this.lblLoopLengthValue.TabIndex = 75;
+            this.lblLoopLengthValue.Text = "0";
+            // 
+            // comboMarkerB
+            // 
+            this.comboMarkerB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboMarkerB.DisplayMember = "Name";
+            this.comboMarkerB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMarkerB.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboMarkerB.FormattingEnabled = true;
+            this.comboMarkerB.Location = new System.Drawing.Point(6, 229);
+            this.comboMarkerB.Name = "comboMarkerB";
+            this.comboMarkerB.Size = new System.Drawing.Size(578, 23);
+            this.comboMarkerB.TabIndex = 87;
+            this.comboMarkerB.ValueMember = "MarkerId";
+            this.comboMarkerB.SelectedIndexChanged += new System.EventHandler(this.comboMarkerB_SelectedIndexChanged);
+            // 
+            // lblLoopLength
+            // 
+            this.lblLoopLength.AntiAliasingEnabled = true;
+            this.lblLoopLength.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLength.CustomFontName = "Junction";
+            this.lblLoopLength.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLength.FontCollection = this.fontCollection;
+            this.lblLoopLength.Location = new System.Drawing.Point(495, 51);
+            this.lblLoopLength.Name = "lblLoopLength";
+            this.lblLoopLength.Size = new System.Drawing.Size(89, 17);
+            this.lblLoopLength.TabIndex = 74;
+            this.lblLoopLength.Text = "Loop Length";
+            // 
+            // comboMarkerA
+            // 
+            this.comboMarkerA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboMarkerA.DisplayMember = "Name";
+            this.comboMarkerA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMarkerA.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboMarkerA.FormattingEnabled = true;
+            this.comboMarkerA.Location = new System.Drawing.Point(6, 180);
+            this.comboMarkerA.Name = "comboMarkerA";
+            this.comboMarkerA.Size = new System.Drawing.Size(578, 23);
+            this.comboMarkerA.TabIndex = 86;
+            this.comboMarkerA.ValueMember = "MarkerId";
+            this.comboMarkerA.SelectedIndexChanged += new System.EventHandler(this.comboMarkerA_SelectedIndexChanged);
+            // 
+            // lblMarkerB
+            // 
+            this.lblMarkerB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMarkerB.AntiAliasingEnabled = true;
+            this.lblMarkerB.BackColor = System.Drawing.Color.Transparent;
+            this.lblMarkerB.CustomFontName = "Junction";
+            this.lblMarkerB.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarkerB.FontCollection = this.fontCollection;
+            this.lblMarkerB.Location = new System.Drawing.Point(3, 210);
+            this.lblMarkerB.Name = "lblMarkerB";
+            this.lblMarkerB.Size = new System.Drawing.Size(586, 17);
+            this.lblMarkerB.TabIndex = 84;
+            this.lblMarkerB.Text = "Marker B :";
+            // 
+            // lblMarkerA
+            // 
+            this.lblMarkerA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMarkerA.AntiAliasingEnabled = true;
+            this.lblMarkerA.BackColor = System.Drawing.Color.Transparent;
+            this.lblMarkerA.CustomFontName = "Junction";
+            this.lblMarkerA.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarkerA.FontCollection = this.fontCollection;
+            this.lblMarkerA.Location = new System.Drawing.Point(3, 160);
+            this.lblMarkerA.Name = "lblMarkerA";
+            this.lblMarkerA.Size = new System.Drawing.Size(586, 17);
+            this.lblMarkerA.TabIndex = 82;
+            this.lblMarkerA.Text = "Marker A :";
             // 
             // lblSongTitle
             // 
@@ -220,13 +430,13 @@ namespace MPfm
             this.btnSave.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSave.Image = global::MPfm.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSave.Location = new System.Drawing.Point(390, 270);
+            this.btnSave.Location = new System.Drawing.Point(394, 341);
             this.btnSave.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnSave.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSave.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnSave.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(92, 40);
+            this.btnSave.Size = new System.Drawing.Size(92, 45);
             this.btnSave.TabIndex = 65;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -253,107 +463,23 @@ namespace MPfm
             this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnClose.Location = new System.Drawing.Point(488, 270);
+            this.btnClose.Location = new System.Drawing.Point(492, 341);
             this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(92, 40);
+            this.btnClose.Size = new System.Drawing.Size(92, 45);
             this.btnClose.TabIndex = 63;
             this.btnClose.Text = "Close";
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // lblMarkerA
-            // 
-            this.lblMarkerA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMarkerA.AntiAliasingEnabled = true;
-            this.lblMarkerA.BackColor = System.Drawing.Color.Transparent;
-            this.lblMarkerA.CustomFontName = "Junction";
-            this.lblMarkerA.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMarkerA.FontCollection = this.fontCollection;
-            this.lblMarkerA.Location = new System.Drawing.Point(3, 160);
-            this.lblMarkerA.Name = "lblMarkerA";
-            this.lblMarkerA.Size = new System.Drawing.Size(586, 17);
-            this.lblMarkerA.TabIndex = 82;
-            this.lblMarkerA.Text = "Marker A :";
-            // 
-            // lblMarkerB
-            // 
-            this.lblMarkerB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMarkerB.AntiAliasingEnabled = true;
-            this.lblMarkerB.BackColor = System.Drawing.Color.Transparent;
-            this.lblMarkerB.CustomFontName = "Junction";
-            this.lblMarkerB.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMarkerB.FontCollection = this.fontCollection;
-            this.lblMarkerB.Location = new System.Drawing.Point(3, 210);
-            this.lblMarkerB.Name = "lblMarkerB";
-            this.lblMarkerB.Size = new System.Drawing.Size(586, 17);
-            this.lblMarkerB.TabIndex = 84;
-            this.lblMarkerB.Text = "Marker B :";
-            // 
-            // comboMarkerA
-            // 
-            this.comboMarkerA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboMarkerA.DisplayMember = "Name";
-            this.comboMarkerA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboMarkerA.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboMarkerA.FormattingEnabled = true;
-            this.comboMarkerA.Location = new System.Drawing.Point(6, 180);
-            this.comboMarkerA.Name = "comboMarkerA";
-            this.comboMarkerA.Size = new System.Drawing.Size(578, 23);
-            this.comboMarkerA.TabIndex = 86;
-            this.comboMarkerA.ValueMember = "MarkerId";
-            // 
-            // comboMarkerB
-            // 
-            this.comboMarkerB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboMarkerB.DisplayMember = "Name";
-            this.comboMarkerB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboMarkerB.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboMarkerB.FormattingEnabled = true;
-            this.comboMarkerB.Location = new System.Drawing.Point(6, 229);
-            this.comboMarkerB.Name = "comboMarkerB";
-            this.comboMarkerB.Size = new System.Drawing.Size(578, 23);
-            this.comboMarkerB.TabIndex = 87;
-            this.comboMarkerB.ValueMember = "MarkerId";
-            // 
-            // lblLoopLengthValue
-            // 
-            this.lblLoopLengthValue.AntiAliasingEnabled = true;
-            this.lblLoopLengthValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblLoopLengthValue.CustomFontName = "";
-            this.lblLoopLengthValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoopLengthValue.FontCollection = this.fontCollection;
-            this.lblLoopLengthValue.Location = new System.Drawing.Point(4, 276);
-            this.lblLoopLengthValue.Name = "lblLoopLengthValue";
-            this.lblLoopLengthValue.Size = new System.Drawing.Size(89, 17);
-            this.lblLoopLengthValue.TabIndex = 75;
-            this.lblLoopLengthValue.Text = "0";
-            // 
-            // lblLoopLength
-            // 
-            this.lblLoopLength.AntiAliasingEnabled = true;
-            this.lblLoopLength.BackColor = System.Drawing.Color.Transparent;
-            this.lblLoopLength.CustomFontName = "Junction";
-            this.lblLoopLength.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoopLength.FontCollection = this.fontCollection;
-            this.lblLoopLength.Location = new System.Drawing.Point(4, 260);
-            this.lblLoopLength.Name = "lblLoopLength";
-            this.lblLoopLength.Size = new System.Drawing.Size(89, 17);
-            this.lblLoopLength.TabIndex = 74;
-            this.lblLoopLength.Text = "Loop Length";
-            // 
             // frmAddEditLoop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(592, 319);
+            this.ClientSize = new System.Drawing.Size(592, 391);
             this.ControlBox = false;
             this.Controls.Add(this.panelEditLoop);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -365,6 +491,8 @@ namespace MPfm
             this.Text = "Edit Loop";
             this.panelEditLoop.ResumeLayout(false);
             this.panelEditLoop.PerformLayout();
+            this.panelWarning.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -386,6 +514,12 @@ namespace MPfm
         private WindowsControls.Label lblMarkerB;
         private WindowsControls.Label lblMarkerA;
         private WindowsControls.Label lblLoopLengthValue;
-        private WindowsControls.Label lblLoopLength;        
+        private WindowsControls.Label lblLoopLength;
+        private WindowsControls.Label lblMarkerBPosition;
+        private WindowsControls.Label lblMarkerAPosition;
+        private WindowsControls.Panel panelWarning;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private WindowsControls.Label lblWarning;
+        public WindowsControls.WaveFormMarkersLoops waveForm;        
     }
 }

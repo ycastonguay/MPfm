@@ -28,13 +28,19 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.panelEditMarker = new MPfm.WindowsControls.Panel();
+            this.lblPositionMSValue = new MPfm.WindowsControls.Label();
+            this.lblPositionMS = new MPfm.WindowsControls.Label();
+            this.waveForm = new MPfm.WindowsControls.WaveFormMarkersLoops();
+            this.panelWarning = new MPfm.WindowsControls.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblWarning = new MPfm.WindowsControls.Label();
             this.lblSongTitle = new MPfm.WindowsControls.Label();
             this.lblAlbumTitle = new MPfm.WindowsControls.Label();
             this.lblArtistName = new MPfm.WindowsControls.Label();
@@ -52,34 +58,40 @@ namespace MPfm
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.panelEditMarker.SuspendLayout();
+            this.panelWarning.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "Nobile";
-            customFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "TitilliumText22L Lt";
-            customFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "Museo Sans 500";
-            customFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "LeagueGothic";
+            customFont6.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "Junction";
+            customFont7.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "Nobile";
+            customFont8.ResourceName = "MPfm.Fonts.nobile.ttf";
+            customFont9.AssemblyPath = "MPfm.Fonts.dll";
+            customFont9.Name = "TitilliumText22L Lt";
+            customFont9.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont10.AssemblyPath = "MPfm.Fonts.dll";
+            customFont10.Name = "Museo Sans 500";
+            customFont10.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
+            this.fontCollection.Fonts.Add(customFont9);
+            this.fontCollection.Fonts.Add(customFont10);
             // 
             // panelEditMarker
             // 
             this.panelEditMarker.AntiAliasingEnabled = true;
+            this.panelEditMarker.Controls.Add(this.lblPositionMSValue);
+            this.panelEditMarker.Controls.Add(this.lblPositionMS);
+            this.panelEditMarker.Controls.Add(this.waveForm);
+            this.panelEditMarker.Controls.Add(this.panelWarning);
             this.panelEditMarker.Controls.Add(this.lblSongTitle);
             this.panelEditMarker.Controls.Add(this.lblAlbumTitle);
             this.panelEditMarker.Controls.Add(this.lblArtistName);
@@ -114,8 +126,116 @@ namespace MPfm
             this.panelEditMarker.HeaderTitle = "Edit Marker";
             this.panelEditMarker.Location = new System.Drawing.Point(0, 0);
             this.panelEditMarker.Name = "panelEditMarker";
-            this.panelEditMarker.Size = new System.Drawing.Size(585, 301);
+            this.panelEditMarker.Size = new System.Drawing.Size(596, 341);
             this.panelEditMarker.TabIndex = 65;
+            // 
+            // lblPositionMSValue
+            // 
+            this.lblPositionMSValue.AntiAliasingEnabled = true;
+            this.lblPositionMSValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblPositionMSValue.CustomFontName = "";
+            this.lblPositionMSValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPositionMSValue.FontCollection = this.fontCollection;
+            this.lblPositionMSValue.Location = new System.Drawing.Point(279, 193);
+            this.lblPositionMSValue.Name = "lblPositionMSValue";
+            this.lblPositionMSValue.Size = new System.Drawing.Size(89, 17);
+            this.lblPositionMSValue.TabIndex = 94;
+            this.lblPositionMSValue.Text = "0";
+            // 
+            // lblPositionMS
+            // 
+            this.lblPositionMS.AntiAliasingEnabled = true;
+            this.lblPositionMS.BackColor = System.Drawing.Color.Transparent;
+            this.lblPositionMS.CustomFontName = "Junction";
+            this.lblPositionMS.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPositionMS.FontCollection = this.fontCollection;
+            this.lblPositionMS.Location = new System.Drawing.Point(279, 177);
+            this.lblPositionMS.Name = "lblPositionMS";
+            this.lblPositionMS.Size = new System.Drawing.Size(89, 17);
+            this.lblPositionMS.TabIndex = 93;
+            this.lblPositionMS.Text = "Milliseconds";
+            // 
+            // waveForm
+            // 
+            this.waveForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.waveForm.AutoScrollWithCursor = true;
+            this.waveForm.BorderColor = System.Drawing.Color.Empty;
+            this.waveForm.BorderWidth = 0;
+            this.waveForm.CurrentPositionMS = ((uint)(0u));
+            this.waveForm.CurrentPositionPCMBytes = ((uint)(0u));
+            this.waveForm.CursorColor = System.Drawing.Color.RoyalBlue;
+            this.waveForm.CustomFontName = "BPmono";
+            this.waveForm.DisplayCurrentPosition = true;
+            this.waveForm.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
+            this.waveForm.Font = new System.Drawing.Font("Arial", 8F);
+            this.waveForm.FontCollection = this.fontCollection;
+            this.waveForm.GradientColor1 = System.Drawing.Color.Black;
+            this.waveForm.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.waveForm.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.waveForm.Location = new System.Drawing.Point(6, 215);
+            this.waveForm.Name = "waveForm";
+            this.waveForm.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
+    "s\\om-0gycd01\\Peak Files\\";
+            this.waveForm.Size = new System.Drawing.Size(582, 67);
+            this.waveForm.TabIndex = 92;
+            this.waveForm.TotalMS = ((uint)(0u));
+            this.waveForm.TotalPCMBytes = ((uint)(0u));
+            this.waveForm.WaveFormColor = System.Drawing.Color.Yellow;
+            this.waveForm.Zoom = 100F;
+            // 
+            // panelWarning
+            // 
+            this.panelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelWarning.AntiAliasingEnabled = true;
+            this.panelWarning.Controls.Add(this.pictureBox1);
+            this.panelWarning.Controls.Add(this.lblWarning);
+            this.panelWarning.ExpandedHeight = 200;
+            this.panelWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelWarning.FontCollection = this.fontCollection;
+            this.panelWarning.GradientColor1 = System.Drawing.Color.LemonChiffon;
+            this.panelWarning.GradientColor2 = System.Drawing.Color.Gold;
+            this.panelWarning.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelWarning.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelWarning.HeaderExpandable = false;
+            this.panelWarning.HeaderExpanded = true;
+            this.panelWarning.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelWarning.HeaderGradientColor1 = System.Drawing.Color.LemonChiffon;
+            this.panelWarning.HeaderGradientColor2 = System.Drawing.Color.Gold;
+            this.panelWarning.HeaderHeight = 18;
+            this.panelWarning.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelWarning.HeaderTitle = "Warning";
+            this.panelWarning.Location = new System.Drawing.Point(6, 289);
+            this.panelWarning.Name = "panelWarning";
+            this.panelWarning.Size = new System.Drawing.Size(386, 44);
+            this.panelWarning.TabIndex = 91;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::MPfm.Properties.Resources.error;
+            this.pictureBox1.Location = new System.Drawing.Point(6, 21);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(21, 23);
+            this.pictureBox1.TabIndex = 92;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblWarning
+            // 
+            this.lblWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWarning.AntiAliasingEnabled = true;
+            this.lblWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblWarning.CustomFontName = "Junction";
+            this.lblWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarning.FontCollection = this.fontCollection;
+            this.lblWarning.Location = new System.Drawing.Point(24, 20);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(338, 17);
+            this.lblWarning.TabIndex = 91;
+            this.lblWarning.Text = "The marker must have a valid name.";
             // 
             // lblSongTitle
             // 
@@ -128,7 +248,7 @@ namespace MPfm
             this.lblSongTitle.FontCollection = this.fontCollection;
             this.lblSongTitle.Location = new System.Drawing.Point(3, 89);
             this.lblSongTitle.Name = "lblSongTitle";
-            this.lblSongTitle.Size = new System.Drawing.Size(574, 17);
+            this.lblSongTitle.Size = new System.Drawing.Size(585, 17);
             this.lblSongTitle.TabIndex = 81;
             this.lblSongTitle.Text = "SongTitle";
             // 
@@ -143,7 +263,7 @@ namespace MPfm
             this.lblAlbumTitle.FontCollection = this.fontCollection;
             this.lblAlbumTitle.Location = new System.Drawing.Point(3, 70);
             this.lblAlbumTitle.Name = "lblAlbumTitle";
-            this.lblAlbumTitle.Size = new System.Drawing.Size(574, 17);
+            this.lblAlbumTitle.Size = new System.Drawing.Size(585, 17);
             this.lblAlbumTitle.TabIndex = 80;
             this.lblAlbumTitle.Text = "AlbumTitle";
             // 
@@ -158,7 +278,7 @@ namespace MPfm
             this.lblArtistName.FontCollection = this.fontCollection;
             this.lblArtistName.Location = new System.Drawing.Point(3, 52);
             this.lblArtistName.Name = "lblArtistName";
-            this.lblArtistName.Size = new System.Drawing.Size(574, 17);
+            this.lblArtistName.Size = new System.Drawing.Size(585, 17);
             this.lblArtistName.TabIndex = 79;
             this.lblArtistName.Text = "ArtistName";
             // 
@@ -173,7 +293,7 @@ namespace MPfm
             this.lblSong.FontCollection = this.fontCollection;
             this.lblSong.Location = new System.Drawing.Point(3, 34);
             this.lblSong.Name = "lblSong";
-            this.lblSong.Size = new System.Drawing.Size(574, 17);
+            this.lblSong.Size = new System.Drawing.Size(585, 17);
             this.lblSong.TabIndex = 78;
             this.lblSong.Text = "Song (Artist Name / Album Title / Song Title) :";
             // 
@@ -184,7 +304,7 @@ namespace MPfm
             this.lblPositionPCMBytesValue.CustomFontName = "";
             this.lblPositionPCMBytesValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPositionPCMBytesValue.FontCollection = this.fontCollection;
-            this.lblPositionPCMBytesValue.Location = new System.Drawing.Point(3, 263);
+            this.lblPositionPCMBytesValue.Location = new System.Drawing.Point(481, 193);
             this.lblPositionPCMBytesValue.Name = "lblPositionPCMBytesValue";
             this.lblPositionPCMBytesValue.Size = new System.Drawing.Size(89, 17);
             this.lblPositionPCMBytesValue.TabIndex = 77;
@@ -197,11 +317,11 @@ namespace MPfm
             this.lblPositionPCMBytes.CustomFontName = "Junction";
             this.lblPositionPCMBytes.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPositionPCMBytes.FontCollection = this.fontCollection;
-            this.lblPositionPCMBytes.Location = new System.Drawing.Point(3, 247);
+            this.lblPositionPCMBytes.Location = new System.Drawing.Point(481, 177);
             this.lblPositionPCMBytes.Name = "lblPositionPCMBytes";
-            this.lblPositionPCMBytes.Size = new System.Drawing.Size(89, 17);
+            this.lblPositionPCMBytes.Size = new System.Drawing.Size(107, 17);
             this.lblPositionPCMBytes.TabIndex = 76;
-            this.lblPositionPCMBytes.Text = "PCM (Bytes)";
+            this.lblPositionPCMBytes.Text = "PCM Bytes";
             // 
             // btnGoTo
             // 
@@ -274,7 +394,7 @@ namespace MPfm
             this.lblPositionPCMValue.CustomFontName = "";
             this.lblPositionPCMValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPositionPCMValue.FontCollection = this.fontCollection;
-            this.lblPositionPCMValue.Location = new System.Drawing.Point(3, 230);
+            this.lblPositionPCMValue.Location = new System.Drawing.Point(374, 193);
             this.lblPositionPCMValue.Name = "lblPositionPCMValue";
             this.lblPositionPCMValue.Size = new System.Drawing.Size(89, 17);
             this.lblPositionPCMValue.TabIndex = 73;
@@ -287,11 +407,11 @@ namespace MPfm
             this.lblPositionPCM.CustomFontName = "Junction";
             this.lblPositionPCM.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPositionPCM.FontCollection = this.fontCollection;
-            this.lblPositionPCM.Location = new System.Drawing.Point(3, 214);
+            this.lblPositionPCM.Location = new System.Drawing.Point(374, 177);
             this.lblPositionPCM.Name = "lblPositionPCM";
-            this.lblPositionPCM.Size = new System.Drawing.Size(89, 17);
+            this.lblPositionPCM.Size = new System.Drawing.Size(101, 17);
             this.lblPositionPCM.TabIndex = 72;
-            this.lblPositionPCM.Text = "PCM";
+            this.lblPositionPCM.Text = "PCM (samples)";
             // 
             // lblPosition
             // 
@@ -304,7 +424,7 @@ namespace MPfm
             this.lblPosition.FontCollection = this.fontCollection;
             this.lblPosition.Location = new System.Drawing.Point(3, 158);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(579, 17);
+            this.lblPosition.Size = new System.Drawing.Size(590, 17);
             this.lblPosition.TabIndex = 70;
             this.lblPosition.Text = "Position :";
             // 
@@ -317,6 +437,7 @@ namespace MPfm
             this.txtPosition.Size = new System.Drawing.Size(115, 30);
             this.txtPosition.TabIndex = 69;
             this.txtPosition.Text = "000000";
+            this.txtPosition.TextChanged += new System.EventHandler(this.txtPosition_TextChanged);
             // 
             // txtName
             // 
@@ -325,7 +446,7 @@ namespace MPfm
             this.txtName.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtName.Location = new System.Drawing.Point(6, 132);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(571, 21);
+            this.txtName.Size = new System.Drawing.Size(582, 21);
             this.txtName.TabIndex = 68;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -340,7 +461,7 @@ namespace MPfm
             this.lblName.FontCollection = this.fontCollection;
             this.lblName.Location = new System.Drawing.Point(3, 112);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(579, 17);
+            this.lblName.Size = new System.Drawing.Size(590, 17);
             this.lblName.TabIndex = 67;
             this.lblName.Text = "Name :";
             // 
@@ -365,13 +486,13 @@ namespace MPfm
             this.btnSave.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSave.Image = global::MPfm.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSave.Location = new System.Drawing.Point(383, 252);
+            this.btnSave.Location = new System.Drawing.Point(398, 289);
             this.btnSave.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnSave.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSave.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnSave.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(92, 40);
+            this.btnSave.Size = new System.Drawing.Size(92, 45);
             this.btnSave.TabIndex = 65;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -398,13 +519,13 @@ namespace MPfm
             this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnClose.Location = new System.Drawing.Point(481, 252);
+            this.btnClose.Location = new System.Drawing.Point(496, 289);
             this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(92, 40);
+            this.btnClose.Size = new System.Drawing.Size(92, 45);
             this.btnClose.TabIndex = 63;
             this.btnClose.Text = "Close";
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -414,7 +535,7 @@ namespace MPfm
             // frmAddEditMarker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(585, 301);
+            this.ClientSize = new System.Drawing.Size(596, 341);
             this.ControlBox = false;
             this.Controls.Add(this.panelEditMarker);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -426,6 +547,8 @@ namespace MPfm
             this.Text = "Edit Marker";
             this.panelEditMarker.ResumeLayout(false);
             this.panelEditMarker.PerformLayout();
+            this.panelWarning.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -449,6 +572,12 @@ namespace MPfm
         private WindowsControls.Label lblSongTitle;
         private WindowsControls.Label lblAlbumTitle;
         private WindowsControls.Label lblArtistName;
-        private WindowsControls.Label lblSong;        
+        private WindowsControls.Label lblSong;
+        private WindowsControls.Panel panelWarning;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private WindowsControls.Label lblWarning;
+        public WindowsControls.WaveFormMarkersLoops waveForm;
+        private WindowsControls.Label lblPositionMSValue;
+        private WindowsControls.Label lblPositionMS;        
     }
 }

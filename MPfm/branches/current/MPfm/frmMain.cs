@@ -1097,6 +1097,8 @@ namespace MPfm
 
                 // Refresh controls
                 RefreshSongControls();
+                RefreshMarkers();
+                RefreshLoops();
             }
         }
 
@@ -1116,6 +1118,8 @@ namespace MPfm
 
                 // Refresh controls
                 RefreshSongControls();
+                RefreshMarkers();
+                RefreshLoops();
             }
         }
 
@@ -1572,16 +1576,21 @@ namespace MPfm
             // Clear items
             viewMarkers.Items.Clear();
 
+            // Set marker buttons
+            btnEditMarker.Enabled = false;
+            btnRemoveMarker.Enabled = false;
+            btnGoToMarker.Enabled = false;
+
             // Check if a song is currently playing
             if (Player.CurrentSong == null)
             {
                 // Reset buttons
                 btnAddMarker.Enabled = false;
-                btnEditMarker.Enabled = false;
-                btnRemoveMarker.Enabled = false;
-                btnGoToMarker.Enabled = false;
                 return;
             }
+
+            // Set button
+            btnAddMarker.Enabled = true;
             
             // Fetch markers from database
             List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
@@ -1605,17 +1614,22 @@ namespace MPfm
             // Clear items
             viewLoops.Items.Clear();
 
+            // Set buttons
+            btnEditLoop.Enabled = false;
+            btnRemoveLoop.Enabled = false;
+            btnPlayLoop.Enabled = false;
+            btnStopLoop.Enabled = false;
+
             // Check if a song is currently playing
             if (Player.CurrentSong == null)
             {
                 // Reset buttons
                 btnAddLoop.Enabled = false;
-                btnEditLoop.Enabled = false;
-                btnRemoveLoop.Enabled = false;
-                btnPlayLoop.Enabled = false;
-                btnStopLoop.Enabled = false;
                 return;
             }
+
+            // Set button
+            btnAddLoop.Enabled = true;
 
             // Fetch loops from database
             List<MPfm.Library.Data.Loop> loops = DataAccess.SelectSongLoops(Player.CurrentSong.SongId);
@@ -3152,12 +3166,22 @@ namespace MPfm
         private void btnAddLoop_Click(object sender, EventArgs e)
         {
             // Check if the wave data is loaded
-            if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
+            if (waveFormMarkersLoops.WaveDataHistory.Count == 0)
             {
-                // Create window and show as dialog
-                formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.CurrentSong, Guid.Empty);
-                formAddEditLoop.ShowDialog(this);
+                return;
             }
+
+            // Check if there are at least two markers
+            if (viewMarkers.Items.Count < 2)
+            {
+                // Display message
+                MessageBox.Show("You must add at least two markers before adding a loop.", "Error adding loop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Create window and show as dialog
+            formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.CurrentSong, Guid.Empty);
+            formAddEditLoop.ShowDialog(this);            
         }
 
         /// <summary>

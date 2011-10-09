@@ -1048,7 +1048,7 @@ namespace MPfm.Library
                 using (MPFM_EF context = new MPFM_EF())
                 {
                     string strSongId = songId.ToString();
-                    markers = context.Markers.Where(m => m.SongId == strSongId).ToList();
+                    markers = context.Markers.Where(x => x.SongId == strSongId).OrderBy(x => x.PositionPCM).ToList();
                 }
             }
             catch (Exception ex)

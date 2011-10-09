@@ -143,7 +143,7 @@ namespace MPfm
             this.lblLoops = new MPfm.WindowsControls.Label();
             this.btnRemoveLoop = new MPfm.WindowsControls.Button();
             this.btnAddLoop = new MPfm.WindowsControls.Button();
-            this.viewLoops = new System.Windows.Forms.ListView();
+            this.viewLoops = new WindowsControls.ReorderListView();
             this.columnLoopPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -154,7 +154,7 @@ namespace MPfm
             this.lblMarkers = new MPfm.WindowsControls.Label();
             this.btnEditMarker = new MPfm.WindowsControls.Button();
             this.btnAddMarker = new MPfm.WindowsControls.Button();
-            this.viewMarkers = new System.Windows.Forms.ListView();
+            this.viewMarkers = new MPfm.WindowsControls.ReorderListView();
             this.columnMarkerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnMarkerPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnMarkerPositionPCM = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -2769,7 +2769,7 @@ namespace MPfm
         public System.Windows.Forms.ToolStripButton btnVisualizer;
         private System.Windows.Forms.ToolStripMenuItem miTreeLibraryDeletePlaylist;
         private WindowsControls.Label lblMarkers;
-        private System.Windows.Forms.ListView viewMarkers;
+        private MPfm.WindowsControls.ReorderListView viewMarkers;
         private System.Windows.Forms.ColumnHeader columnMarkerName;
         private System.Windows.Forms.ColumnHeader columnMarkerPosition;
         private System.Windows.Forms.ColumnHeader columnMarkerPositionPCM;
@@ -2779,7 +2779,7 @@ namespace MPfm
         private WindowsControls.Label lblLoops;
         private WindowsControls.Button btnRemoveLoop;
         private WindowsControls.Button btnAddLoop;
-        private System.Windows.Forms.ListView viewLoops;
+        private MPfm.WindowsControls.ReorderListView viewLoops;
         private System.Windows.Forms.ColumnHeader columnLoopPlayIcon;
         private System.Windows.Forms.ColumnHeader columnLoopName;
         private System.Windows.Forms.ColumnHeader columnLoopLength;

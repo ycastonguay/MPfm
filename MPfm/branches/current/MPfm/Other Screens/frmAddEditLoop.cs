@@ -218,6 +218,30 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Occurs when the user changes the marker A selection.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void comboMarkerA_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get marker and display position
+            MPfm.Library.Data.Marker marker = (MPfm.Library.Data.Marker)comboMarkerA.SelectedItem;
+            lblMarkerAPosition.Text = marker.Position;
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the marker B selection.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void comboMarkerB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get marker and display position
+            MPfm.Library.Data.Marker marker = (MPfm.Library.Data.Marker)comboMarkerB.SelectedItem;
+            lblMarkerBPosition.Text = marker.Position;
+        }
+
     }
 
     /// <summary>
