@@ -30,11 +30,11 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -149,6 +149,7 @@ namespace MPfm
             this.columnLoopLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopMarkerA = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopMarkerB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnGoToMarker = new MPfm.WindowsControls.Button();
             this.btnRemoveMarker = new MPfm.WindowsControls.Button();
             this.lblMarkers = new MPfm.WindowsControls.Label();
             this.btnEditMarker = new MPfm.WindowsControls.Button();
@@ -195,7 +196,6 @@ namespace MPfm
             this.timerUpdateOutputMeter = new System.Windows.Forms.Timer(this.components);
             this.workerAlbumArt = new System.ComponentModel.BackgroundWorker();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.btnGoToMarker = new MPfm.WindowsControls.Button();
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -734,26 +734,26 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont6.AssemblyPath = "MPfm.Fonts.dll";
-            customFont6.Name = "LeagueGothic";
-            customFont6.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont7.AssemblyPath = "MPfm.Fonts.dll";
-            customFont7.Name = "Junction";
-            customFont7.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont8.AssemblyPath = "MPfm.Fonts.dll";
-            customFont8.Name = "TitilliumText22L Lt";
-            customFont8.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont9.AssemblyPath = "MPfm.Fonts.dll";
-            customFont9.Name = "BPmono";
-            customFont9.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont10.AssemblyPath = "MPfm.Fonts.dll";
-            customFont10.Name = "CPmono";
-            customFont10.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont6);
-            this.fontCollection.Fonts.Add(customFont7);
-            this.fontCollection.Fonts.Add(customFont8);
-            this.fontCollection.Fonts.Add(customFont9);
-            this.fontCollection.Fonts.Add(customFont10);
+            customFont16.AssemblyPath = "MPfm.Fonts.dll";
+            customFont16.Name = "LeagueGothic";
+            customFont16.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont17.AssemblyPath = "MPfm.Fonts.dll";
+            customFont17.Name = "Junction";
+            customFont17.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont18.AssemblyPath = "MPfm.Fonts.dll";
+            customFont18.Name = "TitilliumText22L Lt";
+            customFont18.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont19.AssemblyPath = "MPfm.Fonts.dll";
+            customFont19.Name = "BPmono";
+            customFont19.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont20.AssemblyPath = "MPfm.Fonts.dll";
+            customFont20.Name = "CPmono";
+            customFont20.ResourceName = "MPfm.Fonts.CPmono.ttf";
+            this.fontCollection.Fonts.Add(customFont16);
+            this.fontCollection.Fonts.Add(customFont17);
+            this.fontCollection.Fonts.Add(customFont18);
+            this.fontCollection.Fonts.Add(customFont19);
+            this.fontCollection.Fonts.Add(customFont20);
             // 
             // treeLibrary
             // 
@@ -1752,6 +1752,7 @@ namespace MPfm
             this.btnStopLoop.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnStopLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnStopLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnStopLoop.Enabled = false;
             this.btnStopLoop.Font = new System.Drawing.Font("Arial", 7.5F);
             this.btnStopLoop.FontCollection = this.fontCollection;
             this.btnStopLoop.FontColor = System.Drawing.Color.Black;
@@ -1771,6 +1772,7 @@ namespace MPfm
             this.btnStopLoop.Text = "Stop";
             this.btnStopLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnStopLoop.UseVisualStyleBackColor = true;
+            this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
             // 
             // btnEditLoop
             // 
@@ -1783,6 +1785,7 @@ namespace MPfm
             this.btnEditLoop.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnEditLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnEditLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnEditLoop.Enabled = false;
             this.btnEditLoop.Font = new System.Drawing.Font("Arial", 7.5F);
             this.btnEditLoop.FontCollection = this.fontCollection;
             this.btnEditLoop.FontColor = System.Drawing.Color.Black;
@@ -1802,6 +1805,7 @@ namespace MPfm
             this.btnEditLoop.Text = "Edit";
             this.btnEditLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnEditLoop.UseVisualStyleBackColor = true;
+            this.btnEditLoop.Click += new System.EventHandler(this.btnEditLoop_Click);
             // 
             // btnPlayLoop
             // 
@@ -1814,6 +1818,7 @@ namespace MPfm
             this.btnPlayLoop.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnPlayLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnPlayLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnPlayLoop.Enabled = false;
             this.btnPlayLoop.Font = new System.Drawing.Font("Arial", 7.5F);
             this.btnPlayLoop.FontCollection = this.fontCollection;
             this.btnPlayLoop.FontColor = System.Drawing.Color.Black;
@@ -1833,6 +1838,7 @@ namespace MPfm
             this.btnPlayLoop.Text = "Play";
             this.btnPlayLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPlayLoop.UseVisualStyleBackColor = true;
+            this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
             // 
             // lblLoops
             // 
@@ -1860,6 +1866,7 @@ namespace MPfm
             this.btnRemoveLoop.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnRemoveLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnRemoveLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnRemoveLoop.Enabled = false;
             this.btnRemoveLoop.Font = new System.Drawing.Font("Arial", 7.5F);
             this.btnRemoveLoop.FontCollection = this.fontCollection;
             this.btnRemoveLoop.FontColor = System.Drawing.Color.Black;
@@ -1879,6 +1886,7 @@ namespace MPfm
             this.btnRemoveLoop.Text = "Remove";
             this.btnRemoveLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRemoveLoop.UseVisualStyleBackColor = true;
+            this.btnRemoveLoop.Click += new System.EventHandler(this.btnRemoveLoop_Click);
             // 
             // btnAddLoop
             // 
@@ -1891,6 +1899,7 @@ namespace MPfm
             this.btnAddLoop.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnAddLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnAddLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnAddLoop.Enabled = false;
             this.btnAddLoop.Font = new System.Drawing.Font("Arial", 7.5F);
             this.btnAddLoop.FontCollection = this.fontCollection;
             this.btnAddLoop.FontColor = System.Drawing.Color.Black;
@@ -1910,6 +1919,7 @@ namespace MPfm
             this.btnAddLoop.Text = "Add";
             this.btnAddLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAddLoop.UseVisualStyleBackColor = true;
+            this.btnAddLoop.Click += new System.EventHandler(this.btnAddLoop_Click);
             // 
             // viewLoops
             // 
@@ -1933,6 +1943,8 @@ namespace MPfm
             this.viewLoops.TabIndex = 74;
             this.viewLoops.UseCompatibleStateImageBehavior = false;
             this.viewLoops.View = System.Windows.Forms.View.Details;
+            this.viewLoops.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.viewLoops_ItemSelectionChanged);
+            this.viewLoops.DoubleClick += new System.EventHandler(this.viewLoops_DoubleClick);
             // 
             // columnLoopPlayIcon
             // 
@@ -1958,6 +1970,39 @@ namespace MPfm
             // 
             this.columnLoopMarkerB.Text = "Marker B";
             this.columnLoopMarkerB.Width = 72;
+            // 
+            // btnGoToMarker
+            // 
+            this.btnGoToMarker.AntiAliasingEnabled = true;
+            this.btnGoToMarker.BorderColor = System.Drawing.Color.Gray;
+            this.btnGoToMarker.BorderWidth = 1;
+            this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGoToMarker.CustomFontName = "Junction";
+            this.btnGoToMarker.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnGoToMarker.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnGoToMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnGoToMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnGoToMarker.Enabled = false;
+            this.btnGoToMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnGoToMarker.FontCollection = this.fontCollection;
+            this.btnGoToMarker.FontColor = System.Drawing.Color.Black;
+            this.btnGoToMarker.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnGoToMarker.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnGoToMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnGoToMarker.Image = global::MPfm.Properties.Resources.arrow_right;
+            this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGoToMarker.Location = new System.Drawing.Point(163, 16);
+            this.btnGoToMarker.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnGoToMarker.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnGoToMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnGoToMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnGoToMarker.Name = "btnGoToMarker";
+            this.btnGoToMarker.Size = new System.Drawing.Size(54, 20);
+            this.btnGoToMarker.TabIndex = 75;
+            this.btnGoToMarker.Text = "Go to";
+            this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGoToMarker.UseVisualStyleBackColor = true;
+            this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
             // 
             // btnRemoveMarker
             // 
@@ -2542,39 +2587,6 @@ namespace MPfm
             // 
             this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
             this.dialogOpenFile.Title = "Select an audio file to play";
-            // 
-            // btnGoToMarker
-            // 
-            this.btnGoToMarker.AntiAliasingEnabled = true;
-            this.btnGoToMarker.BorderColor = System.Drawing.Color.Gray;
-            this.btnGoToMarker.BorderWidth = 1;
-            this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGoToMarker.CustomFontName = "Junction";
-            this.btnGoToMarker.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnGoToMarker.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnGoToMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnGoToMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnGoToMarker.Enabled = false;
-            this.btnGoToMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnGoToMarker.FontCollection = this.fontCollection;
-            this.btnGoToMarker.FontColor = System.Drawing.Color.Black;
-            this.btnGoToMarker.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnGoToMarker.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnGoToMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnGoToMarker.Image = global::MPfm.Properties.Resources.arrow_right;
-            this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGoToMarker.Location = new System.Drawing.Point(163, 16);
-            this.btnGoToMarker.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnGoToMarker.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnGoToMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnGoToMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnGoToMarker.Name = "btnGoToMarker";
-            this.btnGoToMarker.Size = new System.Drawing.Size(54, 20);
-            this.btnGoToMarker.TabIndex = 75;
-            this.btnGoToMarker.Text = "Go to";
-            this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGoToMarker.UseVisualStyleBackColor = true;
-            this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
             // 
             // frmMain
             // 

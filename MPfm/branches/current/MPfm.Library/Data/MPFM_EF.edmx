@@ -65,9 +65,11 @@
             <PropertyRef Name="LoopId" />
           </Key>
           <Property Name="LoopId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
           <Property Name="SongId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="MarkerAId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="MarkerBId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Length" Type="integer" Nullable="false" />
         </EntityType>
         <EntityType Name="Markers">
           <Key>
@@ -272,6 +274,8 @@
           <Property Type="String" Name="SongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="MarkerAId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="MarkerBId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Length" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -402,6 +406,8 @@
           <EntitySetMapping Name="Loops">
             <EntityTypeMapping TypeName="MPFM.Library.Model.Loop">
               <MappingFragment StoreEntitySet="Loops">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="MarkerBId" ColumnName="MarkerBId" />
                 <ScalarProperty Name="MarkerAId" ColumnName="MarkerAId" />
                 <ScalarProperty Name="SongId" ColumnName="SongId" />

@@ -78,6 +78,7 @@ namespace MPfm
         public frmPlaylist formPlaylist = null;
         public frmEditSongMetadata formEditSongMetadata = null;
         public frmAddEditMarker formAddEditMarker = null;
+        public frmAddEditLoop formAddEditLoop = null;
         public frmVisualizer formVisualizer = null;
 
         // Tree library nodes
@@ -1591,6 +1592,43 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Refreshes the Loops grid view.
+        /// </summary>
+        public void RefreshLoops()
+        {
+            // Clear items
+            viewLoops.Items.Clear();
+
+            // Check if a song is currently playing
+            if (Player.CurrentSong == null)
+            {
+                return;
+            }
+
+            // Fetch loops from database
+            List<MPfm.Library.Data.Loop> loops = DataAccess.SelectSongLoops(Player.CurrentSong.SongId);
+            List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
+
+            // Update grid view
+            foreach (MPfm.Library.Data.Loop loop in loops)
+            {
+                // Create grid view item
+                ListViewItem item = viewLoops.Items.Add("");
+                item.Tag = loop.LoopId;
+                item.SubItems.Add(loop.Name);
+                item.SubItems.Add(loop.Length.ToString());
+
+                // Find the markers
+                MPfm.Library.Data.Marker markerA = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerAId);
+                MPfm.Library.Data.Marker markerB = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerBId);
+
+                // Update marker subitems
+                item.SubItems.Add(markerA.Position);
+                item.SubItems.Add(markerB.Position);
+            }
+        }
+
+        /// <summary>
         /// Refreshes the tree view control presenting the library.
         /// </summary>
         public void RefreshTreeLibrary()
@@ -1815,9 +1853,11 @@ namespace MPfm
                     // Refresh controls after song playback
                     RefreshSongControls();
 
-                    // Refresh marker controls
+                    // Refresh loop and marker controls
                     RefreshMarkers();
+                    RefreshLoops();
                     btnAddMarker.Enabled = true;
+                    btnAddLoop.Enabled = true;
                 }
             }
             catch (Exception ex)
@@ -2945,6 +2985,8 @@ namespace MPfm
             lblSongPercentage.Text = newPosition.ToString();
         }
 
+        #region Markers Button and GridView Events
+        
         /// <summary>
         /// Occurs when the user has clicked on the Add Marker button.
         /// Opens the Add/Edit Marker window.
@@ -2986,7 +3028,7 @@ namespace MPfm
 
         /// <summary>
         /// Occurs when the user has clicked on the Remove Marker button.
-        /// Opens the Add/Edit Marker window.
+        /// Confirms with the user the deletion of the marker.
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
@@ -3082,6 +3124,122 @@ namespace MPfm
                 btnGoToMarker.Enabled = true;
             }
         }
+
+        #endregion
+
+        #region Loops Button and GridView Events
+
+        /// <summary>
+        /// Occurs when the user has clicked on the Add Loop button.
+        /// Opens the Add/Edit Loop window.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnAddLoop_Click(object sender, EventArgs e)
+        {
+            // Check if the wave data is loaded
+            if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
+            {
+                // Create window and show as dialog
+                formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.CurrentSong, Guid.Empty);
+                formAddEditLoop.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user has clicked on the Edit Loop button.
+        /// Opens the Add/Edit Loop window.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEditLoop_Click(object sender, EventArgs e)
+        {
+            // Check if an item is selected
+            if (viewLoops.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Get selected loopId
+            Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+
+            // Create window and show as dialog
+            formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Edit, Player.CurrentSong, loopId);
+            formAddEditLoop.ShowDialog(this);
+        }
+
+        /// <summary>
+        /// Occurs when the user has clicked on the Remove Loop button.
+        /// Confirms with the user the deletion of the loop.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnRemoveLoop_Click(object sender, EventArgs e)
+        {
+            // Check if an item is selected
+            if (viewLoops.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Confirm with the user
+            if (MessageBox.Show("Are you sure you wish to remove the '" + viewLoops.SelectedItems[0].SubItems[1].Text + "' loop?", "Remove loop confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+            {
+                // Get selected markerId
+                Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+
+                // Remove marker and refresh list                
+                DataAccess.DeleteLoop(loopId);
+                RefreshLoops();
+            }
+        }
+
+        private void btnPlayLoop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnStopLoop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the selection on the Loops grid view.
+        /// Enables/disables loop buttons.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void viewLoops_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            // Enable/disable loop buttons
+            if (viewLoops.SelectedItems.Count == 0)
+            {
+                btnPlayLoop.Enabled = false;
+                btnEditLoop.Enabled = false;
+                btnRemoveLoop.Enabled = false;
+            }
+            else
+            {
+                btnPlayLoop.Enabled = true;
+                btnEditLoop.Enabled = true;
+                btnRemoveLoop.Enabled = true;                
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user double-clicks on the Loops grid view.
+        /// Sets the current loop as the currently selected item.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void viewLoops_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
     }
 
     #region Legacy

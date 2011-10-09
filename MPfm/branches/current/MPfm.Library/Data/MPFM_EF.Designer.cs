@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 10/9/2011 4:12:37 AM
+// Generation date: 10/9/2011 5:22:37 AM
 namespace MPfm.Library.Data
 {
     
@@ -2313,14 +2313,18 @@ namespace MPfm.Library.Data
         /// <param name="songId">Initial value of SongId.</param>
         /// <param name="markerAId">Initial value of MarkerAId.</param>
         /// <param name="markerBId">Initial value of MarkerBId.</param>
+        /// <param name="length">Initial value of Length.</param>
+        /// <param name="name">Initial value of Name.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Loop CreateLoop(string loopId, string songId, string markerAId, string markerBId)
+        public static Loop CreateLoop(string loopId, string songId, string markerAId, string markerBId, long length, string name)
         {
             Loop loop = new Loop();
             loop.LoopId = loopId;
             loop.SongId = songId;
             loop.MarkerAId = markerAId;
             loop.MarkerBId = markerBId;
+            loop.Length = length;
+            loop.Name = name;
             return loop;
         }
         /// <summary>
@@ -2431,5 +2435,59 @@ namespace MPfm.Library.Data
         partial void OnMarkerBIdChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnMarkerBIdChanged();
+        /// <summary>
+        /// There are no comments for property Length in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public long Length
+        {
+            get
+            {
+                return this._Length;
+            }
+            set
+            {
+                this.OnLengthChanging(value);
+                this.ReportPropertyChanging("Length");
+                this._Length = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Length");
+                this.OnLengthChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private long _Length;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnLengthChanging(long value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnLengthChanged();
+        /// <summary>
+        /// There are no comments for property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Name;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanged();
     }
 }

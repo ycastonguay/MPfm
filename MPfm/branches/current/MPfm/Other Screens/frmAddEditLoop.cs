@@ -35,14 +35,14 @@ namespace MPfm
     /// Edit Song Metadata window. This is where the user can modify the ID3 and other
     /// tags for the media files.
     /// </summary>
-    public partial class frmAddEditMarker : MPfm.WindowsControls.Form
+    public partial class frmAddEditLoop : MPfm.WindowsControls.Form
     {
         // Private variables
-        private AddEditMarkerWindowMode m_mode = AddEditMarkerWindowMode.Add;
-        private frmMain m_main = null;
-        private List<string> m_filePaths = null;
+        private AddEditLoopWindowMode m_mode = AddEditLoopWindowMode.Add;
+        private frmMain m_main = null;        
         private SongDTO m_song = null;
-        private Guid m_markerId = Guid.Empty;
+        private Guid m_loopId = Guid.Empty;
+        private List<MPfm.Library.Data.Marker> m_markers = null;
 
         /// <summary>
         /// Hook to the main form.
@@ -56,20 +56,20 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Constructor for Add/Edit Marker window. Requires a hook to the main form and
+        /// Constructor for Add/Edit Loop window. Requires a hook to the main form and
         /// the window mode must be specified.
         /// </summary>
         /// <param name="main">Hook to the main window</param>
         /// <param name="mode">Window mode</param>
         /// <param name="song">Song linked to the marker</param>
-        /// <param name="markerId">Identifier of the marker (if it exists)</param>
-        public frmAddEditMarker(frmMain main, AddEditMarkerWindowMode mode, SongDTO song, Guid markerId)
+        /// <param name="loopId">Identifier of the loop (if it exists)</param>
+        public frmAddEditLoop(frmMain main, AddEditLoopWindowMode mode, SongDTO song, Guid loopId)
         {
             InitializeComponent();
             m_main = main;
             m_mode = mode;
             m_song = song;
-            m_markerId = markerId;
+            m_loopId = loopId;
 
             // Initialize controls
             Initialize();
@@ -85,33 +85,51 @@ namespace MPfm
             lblAlbumTitle.Text = m_song.AlbumTitle;
             lblSongTitle.Text = m_song.Title;
 
+            // Refresh markers
+            RefreshMarkers();
+
             // Set labels depending on mode
-            if (m_mode == AddEditMarkerWindowMode.Add)
+            if (m_mode == AddEditLoopWindowMode.Add)
             {
-                panelEditMarker.HeaderTitle = "Add marker";
-                Text = "Add marker";
+                panelEditLoop.HeaderTitle = "Add loop";
+                Text = "Add loop";
             }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
+            else if (m_mode == AddEditLoopWindowMode.Edit)
             {
-                panelEditMarker.HeaderTitle = "Edit marker";
-                panelEditMarker.Refresh();
-                Text = "Edit marker";
+                panelEditLoop.HeaderTitle = "Edit loop";
+                panelEditLoop.Refresh();
+                Text = "Edit loop";
 
-                // Fetch marker from database
-                MPfm.Library.Data.Marker marker = DataAccess.SelectMarker(m_markerId);
+                // Fetch loop from database
+                MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(m_loopId);
 
-                // Check if the marker was found
-                if(marker == null)
+                // Check if the loop was found
+                if (loop == null)
                 {
                     return;
                 }
 
                 // Update fields
-                txtName.Text = marker.Name;
-                txtPosition.Text = marker.Position;
-                lblPositionPCMValue.Text = marker.PositionPCM.ToString();
-                lblPositionPCMBytesValue.Text = marker.PositionPCMBytes.ToString();
+                txtName.Text = loop.Name;
+                comboMarkerA.SelectedValue = loop.MarkerAId;
+                comboMarkerB.SelectedValue = loop.MarkerBId;
             }
+        }
+
+        /// <summary>
+        /// Refreshes the list of markers in both comboboxes.
+        /// </summary>
+        public void RefreshMarkers()
+        {
+            // Fetch markers from database
+            m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
+
+            // Set combo box items for A
+            comboMarkerA.DataSource = m_markers;
+
+            // Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
+            m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
+            comboMarkerB.DataSource = m_markers;  
         }
 
         /// <summary>
@@ -131,92 +149,54 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Get PCM and PCM bytes values
-            long pcm = 0;
-            long.TryParse(lblPositionPCMValue.Text, out pcm);
-            long pcmBytes = 0;
-            long.TryParse(lblPositionPCMBytesValue.Text, out pcmBytes);
+            // Get loop length
+            int length = 0;
+            int.TryParse(lblLoopLengthValue.Text, out length);
 
-            // Create a new marker or fetch the existing marker from the database
-            MPfm.Library.Data.Marker marker = null;
-            if (m_mode == AddEditMarkerWindowMode.Add)
+            // Get selected markers
+            MPfm.Library.Data.Marker markerA = (MPfm.Library.Data.Marker)comboMarkerA.SelectedItem;
+            MPfm.Library.Data.Marker markerB = (MPfm.Library.Data.Marker)comboMarkerB.SelectedItem;
+
+            // Create a new loop or fetch the existing loop from the database
+            MPfm.Library.Data.Loop loop = null;
+            if (m_mode == AddEditLoopWindowMode.Add)
             {
                 // Insert the new marker into the database
-                marker = new Library.Data.Marker();
-                marker.MarkerId = Guid.NewGuid().ToString();
+                loop = new Library.Data.Loop();
+                loop.LoopId = Guid.NewGuid().ToString();
             }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
+            else if (m_mode == AddEditLoopWindowMode.Edit)
             {
                 // Select the existing marker from the database
-                marker = DataAccess.SelectMarker(m_markerId);
+                loop = DataAccess.SelectLoop(m_loopId);
             }
 
-            // Set properties            
-            marker.SongId = m_song.SongId.ToString();
-            marker.Name = txtName.Text;
-            marker.Position = txtPosition.Text;
-            marker.PositionPCM = pcm;
-            marker.PositionPCMBytes = pcmBytes;
+            // Set properties    
+            loop.Name = txtName.Text;
+            loop.SongId = m_song.SongId.ToString();
+            loop.MarkerAId = markerA.MarkerId;
+            loop.MarkerBId = markerB.MarkerId;
+            loop.Length = length;            
 
             // Determine if an INSERT or an UPDATE is necessary
-            if (m_mode == AddEditMarkerWindowMode.Add)
+            if (m_mode == AddEditLoopWindowMode.Add)
             {
                 // Insert marker
-                DataAccess.InsertMarker(marker);
+                DataAccess.InsertLoop(loop);
 
                 // Refresh window as Edit Marker
-                m_markerId = new Guid(marker.MarkerId);
-                m_mode = AddEditMarkerWindowMode.Edit;
+                m_loopId = new Guid(loop.LoopId);
+                m_mode = AddEditLoopWindowMode.Edit;
                 Initialize();
             }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
+            else if (m_mode == AddEditLoopWindowMode.Edit)
             {
                 // Update marker
-                DataAccess.UpdateMarker(marker);
+                DataAccess.UpdateLoop(loop);
             }
 
             // Refresh main window marker list
-            Main.RefreshMarkers();
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Punch in" button.
-        /// Sets the marker position to the current playback position.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void btnPunchIn_Click(object sender, EventArgs e)
-        {
-            // Check if the player is currently playing
-            if (!Main.Player.IsPlaying)
-            {
-                return;
-            }
-
-            // Update controls
-            txtPosition.Text = Main.Player.MainChannel.Position;
-            lblPositionPCMValue.Text = Main.Player.MainChannel.PositionSentencePCM.ToString();
-            lblPositionPCMBytesValue.Text = Main.Player.MainChannel.PositionSentencePCMBytes.ToString();            
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Go to" button.
-        /// Sets the player position t the current marker position.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void btnGoTo_Click(object sender, EventArgs e)
-        {
-            // Check if the player is currently playing
-            if (!Main.Player.IsPlaying)
-            {
-                return;
-            }
-
-            // Set position
-            uint position = 0;
-            uint.TryParse(lblPositionPCMValue.Text, out position);
-            Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            Main.RefreshLoops();
         }
 
         /// <summary>
@@ -241,9 +221,9 @@ namespace MPfm
     }
 
     /// <summary>
-    /// Defines the mode of the AddEditMarker window.
+    /// Defines the mode of the AddEditLoop window.
     /// </summary>
-    public enum AddEditMarkerWindowMode
+    public enum AddEditLoopWindowMode
     {
         Add = 0, Edit = 1
     }
