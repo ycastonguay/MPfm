@@ -1602,6 +1602,7 @@ namespace MPfm
                 ListViewItem item = viewMarkers.Items.Add(marker.Name);
                 item.Tag = marker.MarkerId;
                 item.SubItems.Add(marker.Position);
+                item.SubItems.Add(marker.Comments);
                 item.SubItems.Add(marker.PositionPCM.ToString());
             }
         }
@@ -1651,6 +1652,12 @@ namespace MPfm
                 // Update marker subitems
                 item.SubItems.Add(markerA.Position);
                 item.SubItems.Add(markerB.Position);
+
+                // Check if this is the currently playing loop
+                if (Player.CurrentLoop != null && Player.CurrentLoop.Name == loop.Name)
+                {
+                    item.ImageIndex = 7;
+                }
             }
         }
 
@@ -3124,7 +3131,7 @@ namespace MPfm
 
             // Get PCM position
             uint position = 0;
-            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[2].Text, out position);
+            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
 
             // Set player position
             m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);

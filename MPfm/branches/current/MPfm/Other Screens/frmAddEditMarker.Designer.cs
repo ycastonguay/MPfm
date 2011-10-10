@@ -57,6 +57,8 @@ namespace MPfm
             this.lblName = new MPfm.WindowsControls.Label();
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
+            this.txtComments = new System.Windows.Forms.TextBox();
+            this.lblComments = new MPfm.WindowsControls.Label();
             this.panelEditMarker.SuspendLayout();
             this.panelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -88,6 +90,8 @@ namespace MPfm
             // panelEditMarker
             // 
             this.panelEditMarker.AntiAliasingEnabled = true;
+            this.panelEditMarker.Controls.Add(this.txtComments);
+            this.panelEditMarker.Controls.Add(this.lblComments);
             this.panelEditMarker.Controls.Add(this.lblPositionMSValue);
             this.panelEditMarker.Controls.Add(this.lblPositionMS);
             this.panelEditMarker.Controls.Add(this.waveForm);
@@ -126,7 +130,7 @@ namespace MPfm
             this.panelEditMarker.HeaderTitle = "Edit Marker";
             this.panelEditMarker.Location = new System.Drawing.Point(0, 0);
             this.panelEditMarker.Name = "panelEditMarker";
-            this.panelEditMarker.Size = new System.Drawing.Size(596, 341);
+            this.panelEditMarker.Size = new System.Drawing.Size(596, 434);
             this.panelEditMarker.TabIndex = 65;
             // 
             // lblPositionMSValue
@@ -178,7 +182,7 @@ namespace MPfm
             this.waveForm.Name = "waveForm";
             this.waveForm.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
     "s\\om-0gycd01\\Peak Files\\";
-            this.waveForm.Size = new System.Drawing.Size(582, 67);
+            this.waveForm.Size = new System.Drawing.Size(582, 78);
             this.waveForm.TabIndex = 92;
             this.waveForm.TotalMS = ((uint)(0u));
             this.waveForm.TotalPCMBytes = ((uint)(0u));
@@ -207,7 +211,7 @@ namespace MPfm
             this.panelWarning.HeaderHeight = 18;
             this.panelWarning.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelWarning.HeaderTitle = "Warning";
-            this.panelWarning.Location = new System.Drawing.Point(6, 289);
+            this.panelWarning.Location = new System.Drawing.Point(6, 382);
             this.panelWarning.Name = "panelWarning";
             this.panelWarning.Size = new System.Drawing.Size(386, 44);
             this.panelWarning.TabIndex = 91;
@@ -486,7 +490,7 @@ namespace MPfm
             this.btnSave.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSave.Image = global::MPfm.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSave.Location = new System.Drawing.Point(398, 289);
+            this.btnSave.Location = new System.Drawing.Point(398, 382);
             this.btnSave.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnSave.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSave.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -519,7 +523,7 @@ namespace MPfm
             this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnClose.Location = new System.Drawing.Point(496, 289);
+            this.btnClose.Location = new System.Drawing.Point(496, 382);
             this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -532,10 +536,36 @@ namespace MPfm
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // txtComments
+            // 
+            this.txtComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtComments.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtComments.Location = new System.Drawing.Point(6, 316);
+            this.txtComments.Multiline = true;
+            this.txtComments.Name = "txtComments";
+            this.txtComments.Size = new System.Drawing.Size(582, 57);
+            this.txtComments.TabIndex = 96;
+            // 
+            // lblComments
+            // 
+            this.lblComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblComments.AntiAliasingEnabled = true;
+            this.lblComments.BackColor = System.Drawing.Color.Transparent;
+            this.lblComments.CustomFontName = "Junction";
+            this.lblComments.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblComments.FontCollection = this.fontCollection;
+            this.lblComments.Location = new System.Drawing.Point(3, 296);
+            this.lblComments.Name = "lblComments";
+            this.lblComments.Size = new System.Drawing.Size(590, 17);
+            this.lblComments.TabIndex = 95;
+            this.lblComments.Text = "Comments :";
+            // 
             // frmAddEditMarker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(596, 341);
+            this.ClientSize = new System.Drawing.Size(596, 434);
             this.ControlBox = false;
             this.Controls.Add(this.panelEditMarker);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -578,6 +608,8 @@ namespace MPfm
         private WindowsControls.Label lblWarning;
         public WindowsControls.WaveFormMarkersLoops waveForm;
         private WindowsControls.Label lblPositionMSValue;
-        private WindowsControls.Label lblPositionMS;        
+        private WindowsControls.Label lblPositionMS;
+        private System.Windows.Forms.TextBox txtComments;
+        private WindowsControls.Label lblComments;        
     }
 }

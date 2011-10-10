@@ -30,11 +30,11 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,7 +143,7 @@ namespace MPfm
             this.lblLoops = new MPfm.WindowsControls.Label();
             this.btnRemoveLoop = new MPfm.WindowsControls.Button();
             this.btnAddLoop = new MPfm.WindowsControls.Button();
-            this.viewLoops = new WindowsControls.ReorderListView();
+            this.viewLoops = new MPfm.WindowsControls.ReorderListView();
             this.columnLoopPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -157,7 +157,7 @@ namespace MPfm
             this.viewMarkers = new MPfm.WindowsControls.ReorderListView();
             this.columnMarkerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnMarkerPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnMarkerPositionPCM = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnMarkerComments = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelSongBrowser = new MPfm.WindowsControls.Panel();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -734,26 +734,26 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "BPmono";
-            customFont4.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "CPmono";
-            customFont5.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "LeagueGothic";
+            customFont6.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "Junction";
+            customFont7.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "TitilliumText22L Lt";
+            customFont8.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont9.AssemblyPath = "MPfm.Fonts.dll";
+            customFont9.Name = "BPmono";
+            customFont9.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont10.AssemblyPath = "MPfm.Fonts.dll";
+            customFont10.Name = "CPmono";
+            customFont10.ResourceName = "MPfm.Fonts.CPmono.ttf";
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
+            this.fontCollection.Fonts.Add(customFont9);
+            this.fontCollection.Fonts.Add(customFont10);
             // 
             // treeLibrary
             // 
@@ -1923,9 +1923,12 @@ namespace MPfm
             // 
             // viewLoops
             // 
+            this.viewLoops.AllowDrop = true;
+            this.viewLoops.AllowRowReorder = true;
             this.viewLoops.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewLoops.AntiAliasingEnabled = true;
             this.viewLoops.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.viewLoops.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnLoopPlayIcon,
@@ -1933,12 +1936,22 @@ namespace MPfm
             this.columnLoopLength,
             this.columnLoopMarkerA,
             this.columnLoopMarkerB});
+            this.viewLoops.CustomFontName = null;
             this.viewLoops.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewLoops.FontCollection = null;
             this.viewLoops.FullRowSelect = true;
+            this.viewLoops.GradientColor1 = System.Drawing.Color.LightGray;
+            this.viewLoops.GradientColor2 = System.Drawing.Color.Gray;
+            this.viewLoops.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.viewLoops.GridLines = true;
+            this.viewLoops.HeaderForeColor = System.Drawing.Color.Black;
+            this.viewLoops.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.viewLoops.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.viewLoops.HeaderHeight = 0;
             this.viewLoops.HideSelection = false;
             this.viewLoops.Location = new System.Drawing.Point(0, 37);
             this.viewLoops.Name = "viewLoops";
+            this.viewLoops.SelectedColor = System.Drawing.Color.DarkGray;
             this.viewLoops.Size = new System.Drawing.Size(393, 103);
             this.viewLoops.SmallImageList = this.imageList;
             this.viewLoops.TabIndex = 74;
@@ -1950,22 +1963,22 @@ namespace MPfm
             // columnLoopPlayIcon
             // 
             this.columnLoopPlayIcon.Text = "";
-            this.columnLoopPlayIcon.Width = 24;
+            this.columnLoopPlayIcon.Width = 20;
             // 
             // columnLoopName
             // 
             this.columnLoopName.Text = "Name";
-            this.columnLoopName.Width = 145;
+            this.columnLoopName.Width = 149;
             // 
             // columnLoopLength
             // 
             this.columnLoopLength.Text = "Length";
-            this.columnLoopLength.Width = 53;
+            this.columnLoopLength.Width = 63;
             // 
             // columnLoopMarkerA
             // 
             this.columnLoopMarkerA.Text = "Marker A";
-            this.columnLoopMarkerA.Width = 94;
+            this.columnLoopMarkerA.Width = 82;
             // 
             // columnLoopMarkerB
             // 
@@ -2121,20 +2134,33 @@ namespace MPfm
             // 
             // viewMarkers
             // 
+            this.viewMarkers.AllowDrop = true;
+            this.viewMarkers.AllowRowReorder = true;
             this.viewMarkers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewMarkers.AntiAliasingEnabled = true;
             this.viewMarkers.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.viewMarkers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnMarkerName,
             this.columnMarkerPosition,
-            this.columnMarkerPositionPCM});
+            this.columnMarkerComments});
+            this.viewMarkers.CustomFontName = null;
             this.viewMarkers.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewMarkers.FontCollection = null;
             this.viewMarkers.FullRowSelect = true;
+            this.viewMarkers.GradientColor1 = System.Drawing.Color.LightGray;
+            this.viewMarkers.GradientColor2 = System.Drawing.Color.Gray;
+            this.viewMarkers.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.viewMarkers.GridLines = true;
+            this.viewMarkers.HeaderForeColor = System.Drawing.Color.Black;
+            this.viewMarkers.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.viewMarkers.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.viewMarkers.HeaderHeight = 0;
             this.viewMarkers.HideSelection = false;
             this.viewMarkers.Location = new System.Drawing.Point(0, 37);
             this.viewMarkers.Name = "viewMarkers";
+            this.viewMarkers.SelectedColor = System.Drawing.Color.DarkGray;
             this.viewMarkers.Size = new System.Drawing.Size(393, 103);
             this.viewMarkers.TabIndex = 70;
             this.viewMarkers.UseCompatibleStateImageBehavior = false;
@@ -2152,10 +2178,10 @@ namespace MPfm
             this.columnMarkerPosition.Text = "Position";
             this.columnMarkerPosition.Width = 64;
             // 
-            // columnMarkerPositionPCM
+            // columnMarkerComments
             // 
-            this.columnMarkerPositionPCM.Text = "Position (PCM)";
-            this.columnMarkerPositionPCM.Width = 148;
+            this.columnMarkerComments.Text = "Comments";
+            this.columnMarkerComments.Width = 148;
             // 
             // panelSongBrowser
             // 
@@ -2772,7 +2798,7 @@ namespace MPfm
         private MPfm.WindowsControls.ReorderListView viewMarkers;
         private System.Windows.Forms.ColumnHeader columnMarkerName;
         private System.Windows.Forms.ColumnHeader columnMarkerPosition;
-        private System.Windows.Forms.ColumnHeader columnMarkerPositionPCM;
+        private System.Windows.Forms.ColumnHeader columnMarkerComments;
         private WindowsControls.Button btnAddMarker;
         private WindowsControls.Button btnEditMarker;
         private System.Windows.Forms.SplitContainer splitLoopsMarkers;

@@ -109,6 +109,7 @@ namespace MPfm
 
                 // Update fields
                 txtName.Text = marker.Name;
+                txtComments.Text = marker.Comments;
                 txtPosition.Text = marker.Position;
                 lblPositionPCMValue.Text = marker.PositionPCM.ToString();
                 lblPositionPCMBytesValue.Text = marker.PositionPCMBytes.ToString();
@@ -155,6 +156,7 @@ namespace MPfm
             // Set properties            
             marker.SongId = m_song.SongId.ToString();
             marker.Name = txtName.Text;
+            marker.Comments = txtComments.Text;
             marker.Position = txtPosition.Text;
             marker.PositionPCM = pcm;
             marker.PositionPCMBytes = pcmBytes;

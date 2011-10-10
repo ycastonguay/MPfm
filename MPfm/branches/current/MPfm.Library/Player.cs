@@ -858,6 +858,9 @@ namespace MPfm.Library
                 return;
             }
 
+            // Reset loop
+            CurrentLoop = null;
+
             // Set flags
             isGapless = false;
             m_playbackMode = MPfm.Library.PlaybackMode.Playlist;
@@ -1556,8 +1559,10 @@ namespace MPfm.Library
                     // Check if a loop is set
                     if (CurrentLoop != null)
                     { 
-                        // Check if the current time exceeds the marker B position
-                        if (MainChannel.PositionSentencePCM > m_currentLoopMarkerB.PositionPCM)
+                        // Check if the current position exceeds the marker B position,
+                        // or if the current position is below the marker A position
+                        if (MainChannel.PositionSentencePCM > m_currentLoopMarkerB.PositionPCM ||
+                            MainChannel.PositionSentencePCM < m_currentLoopMarkerA.PositionPCM)
                         {
                             // Set marker A position (start loop)
                             MainChannel.SetPosition((uint)m_currentLoopMarkerA.PositionPCM.Value, FMOD.TIMEUNIT.SENTENCE_PCM);
