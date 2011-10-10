@@ -868,7 +868,7 @@ namespace MPfm.Library
         #region Equalizers
 
         /// <summary>
-        /// Select all EQ presets in the database.
+        /// Select all EQ presets from the database.
         /// </summary>
         /// <returns>List of Presets</returns>
         public static List<Equalizer> SelectEqualizers()
@@ -892,6 +892,11 @@ namespace MPfm.Library
             return eqs;
         }
 
+        /// <summary>
+        /// Selects an EQ preset from the database.
+        /// </summary>
+        /// <param name="name">EQ preset name</param>
+        /// <returns>EQ preset</returns>
         public static Equalizer SelectEqualizer(string name)
         {
             Equalizer eq = null;
@@ -902,7 +907,7 @@ namespace MPfm.Library
                 using (MPFM_EF context = new MPFM_EF())
                 {
                     // Convert to a list of strings
-                    eq = context.Equalizers.Where(q => q.Name == name).FirstOrDefault();
+                    eq = context.Equalizers.FirstOrDefault(q => q.Name == name);
                 }
             }
             catch (Exception ex)
@@ -914,6 +919,10 @@ namespace MPfm.Library
             return eq;
         }
 
+        /// <summary>
+        /// Inserts a new EQ preset into the database.
+        /// </summary>
+        /// <param name="eq">EQ preset to insert</param>
         public static void InsertEqualizer(Equalizer eq)
         {
             try
@@ -934,6 +943,10 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Updates an existing EQ preset in the database.
+        /// </summary>
+        /// <param name="eq">EQ preset to update</param>
         public static void UpdateEqualizer(Equalizer eq)
         {
             try
@@ -941,7 +954,7 @@ namespace MPfm.Library
                 // Open the connection
                 using (MPFM_EF context = new MPFM_EF())
                 {
-                    Equalizer eqToModify = context.Equalizers.Where(e => e.EqualizerId == eq.EqualizerId).FirstOrDefault();
+                    Equalizer eqToModify = context.Equalizers.FirstOrDefault(e => e.EqualizerId == eq.EqualizerId);
                     if (eqToModify != null)
                     {
                         eqToModify.Gain55Hz = eq.Gain55Hz;
@@ -970,19 +983,340 @@ namespace MPfm.Library
             }
         }
 
-        public static void DeleteEqualizer(string equalizerId)
+        /// <summary>
+        /// Deletes an EQ preset from the database.
+        /// </summary>
+        /// <param name="equalizerId">EQ preset identifier</param>
+        public static void DeleteEqualizer(Guid equalizerId)
         {
             try
             {
                 // Open the connection
                 using (MPFM_EF context = new MPFM_EF())
                 {
-                    ExecuteSql(context, "DELETE FROM Equalizers WHERE EqualizerId = @EqualizerId", new SQLiteParameter("EqualizerId", equalizerId));
+                    ExecuteSql(context, "DELETE FROM Equalizers WHERE EqualizerId = @EqualizerId", new SQLiteParameter("EqualizerId", equalizerId.ToString()));
                 }
             }
             catch (Exception ex)
             {
                 Tracing.Log("MPfm.Library (DataAccess) --  Error in DeleteEqualizer(): " + ex.Message);
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        #region Markers
+
+        /// <summary>
+        /// Selects all markers from the database.
+        /// </summary>
+        /// <returns>List of markers</returns>
+        public static List<Marker> SelectMarkers()
+        {
+            List<Marker> markers = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    markers = context.Markers.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectMarkers(): " + ex.Message);
+                throw ex;
+            }
+
+            return markers;
+        }
+
+        /// <summary>
+        /// Selects markers of a specific song from the database.
+        /// </summary>
+        /// <param name="songId">Song identifier</param>
+        /// <returns>List of markers</returns>
+        public static List<Marker> SelectSongMarkers(Guid songId)
+        {
+            List<Marker> markers = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    string strSongId = songId.ToString();
+                    markers = context.Markers.Where(x => x.SongId == strSongId).OrderBy(x => x.PositionPCM).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectSongMarkers(): " + ex.Message);
+                throw ex;
+            }
+
+            return markers;
+        }
+
+        /// <summary>
+        /// Selects a marker from the database by its identifier.
+        /// </summary>
+        /// <param name="markerId">Marker identifier</param>
+        /// <returns>Marker</returns>
+        public static Marker SelectMarker(Guid markerId)
+        {
+            Marker marker = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    // Convert to a list of strings
+                    string strMarkerId = markerId.ToString();
+                    marker = context.Markers.FirstOrDefault(m => m.MarkerId == strMarkerId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectMarker(): " + ex.Message);
+                throw ex;
+            }
+
+            return marker;
+        }
+
+        /// <summary>
+        /// Inserts a new marker into the database.
+        /// </summary>
+        /// <param name="marker">Marker to insert</param>
+        public static void InsertMarker(Marker marker)
+        {
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    // Add to database                    
+                    context.AddToMarkers(marker);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertMarker(): " + ex.Message);
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing marker in the database.
+        /// </summary>
+        /// <param name="marker">Marker to update</param>
+        public static void UpdateMarker(Marker marker)
+        {
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    Marker markerToModify = context.Markers.FirstOrDefault(m => m.MarkerId == marker.MarkerId);
+                    if (markerToModify != null)
+                    {
+                        markerToModify.Name = marker.Name;
+                        markerToModify.Position = marker.Position;
+                        markerToModify.SongId = marker.SongId;
+                        markerToModify.PositionPCM = marker.PositionPCM;
+                        markerToModify.PositionPCMBytes = marker.PositionPCMBytes;
+                        markerToModify.Comments = marker.Comments;                        
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdateMarker(): " + ex.Message);
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a marker from the database.
+        /// </summary>
+        /// <param name="markerId">Marker identifier</param>
+        public static void DeleteMarker(Guid markerId)
+        {
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    ExecuteSql(context, "DELETE FROM Markers WHERE MarkerId = @MarkerId", new SQLiteParameter("MarkerId", markerId.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in DeleteMarker(): " + ex.Message);
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        #region Loops
+
+        /// <summary>
+        /// Selects all loops from the database.
+        /// </summary>
+        /// <returns>List of loops</returns>
+        public static List<Loop> SelectLoops()
+        {
+            List<Loop> loops = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    loops = context.Loops.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectLoops(): " + ex.Message);
+                throw ex;
+            }
+
+            return loops;
+        }
+
+        /// <summary>
+        /// Selects loops of a specific song from the database.
+        /// </summary>
+        /// <param name="songId">Song identifier</param>
+        /// <returns>List of markers</returns>
+        public static List<Loop> SelectSongLoops(Guid songId)
+        {
+            List<Loop> loops = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    string strSongId = songId.ToString();
+                    loops = context.Loops.Where(m => m.SongId == strSongId).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectSongLoops(): " + ex.Message);
+                throw ex;
+            }
+
+            return loops;
+        }
+
+        /// <summary>
+        /// Selects a loop from the database by its identifier.
+        /// </summary>
+        /// <param name="loopId">Loop identifier</param>
+        /// <returns>Marker</returns>
+        public static Loop SelectLoop(Guid loopId)
+        {
+            Loop loop = null;
+
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    // Convert to a list of strings
+                    string strLoopId = loopId.ToString();
+                    loop = context.Loops.FirstOrDefault(m => m.LoopId == strLoopId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectLoop(): " + ex.Message);
+                throw ex;
+            }
+
+            return loop;
+        }
+
+        /// <summary>
+        /// Inserts a new loop into the database.
+        /// </summary>
+        /// <param name="loop">Loop to insert</param>
+        public static void InsertLoop(Loop loop)
+        {
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    // Add to database                    
+                    context.AddToLoops(loop);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertLoop(): " + ex.Message);
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing loop in the database.
+        /// </summary>
+        /// <param name="loop">Loop to update</param>
+        public static void UpdateLoop(Loop loop)
+        {
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    Loop loopToModify = context.Loops.FirstOrDefault(m => m.LoopId == loop.LoopId);
+                    if (loopToModify != null)
+                    {
+                        loopToModify.Name = loop.Name;
+                        loopToModify.MarkerAId = loop.MarkerAId;
+                        loopToModify.MarkerBId = loop.MarkerBId;
+                        loopToModify.SongId = loop.SongId;
+                        loopToModify.Length = loop.Length;
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdateLoop(): " + ex.Message);
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a loop from the database.
+        /// </summary>
+        /// <param name="loopId">Loop identifier</param>
+        public static void DeleteLoop(Guid loopId)
+        {
+            try
+            {
+                // Open the connection
+                using (MPFM_EF context = new MPFM_EF())
+                {
+                    ExecuteSql(context, "DELETE FROM Loops WHERE LoopId = @LoopId", new SQLiteParameter("LoopId", loopId.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MPfm.Library (DataAccess) --  Error in DeleteLoop(): " + ex.Message);
                 throw ex;
             }
         }

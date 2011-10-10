@@ -78,6 +78,7 @@
     <Compile Include="AudioFile.cs" />
     <Compile Include="AudioTools.cs" />
     <Compile Include="Channel.cs" />
+    <Compile Include="ConvertAudio.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="DSP\DSP.cs" />
     <Compile Include="DSP\ParamEQDSP.cs" />

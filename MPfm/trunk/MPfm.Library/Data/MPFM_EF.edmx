@@ -7,10 +7,10 @@
     <Schema Namespace="PMPEFModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="PMPEFModelStoreContainer">
           <EntitySet Name="AlbumArt" EntityType="PMPEFModel.Store.AlbumArt" store:Type="Tables" />
-          <EntitySet Name="Bookmarks" EntityType="PMPEFModel.Store.Bookmarks" store:Type="Tables" />
           <EntitySet Name="Equalizers" EntityType="PMPEFModel.Store.Equalizers" store:Type="Tables" />
           <EntitySet Name="Folders" EntityType="PMPEFModel.Store.Folders" store:Type="Tables" />
           <EntitySet Name="Loops" EntityType="PMPEFModel.Store.Loops" store:Type="Tables" />
+          <EntitySet Name="Markers" EntityType="PMPEFModel.Store.Markers" store:Type="Tables" />
           <EntitySet Name="Playlists" EntityType="PMPEFModel.Store.Playlists" store:Type="Tables" />
           <EntitySet Name="PlaylistSongs" EntityType="PMPEFModel.Store.PlaylistSongs" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="PMPEFModel.Store.Settings" store:Type="Tables" />
@@ -25,17 +25,6 @@
           <Property Name="AlbumArtData" Type="blob" />
           <Property Name="Album" Type="nvarchar" MaxLength="500" />
           <Property Name="Artist" Type="nvarchar" MaxLength="500" />
-        </EntityType>
-        <EntityType Name="Bookmarks">
-          <Key>
-            <PropertyRef Name="BookmarkId" />
-          </Key>
-          <Property Name="BookmarkId" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Name" Type="nvarchar" MaxLength="500" />
-          <Property Name="Time" Type="nvarchar" MaxLength="100" />
-          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
-          <Property Name="Comments" Type="nvarchar" MaxLength="5000" />
-          <Property Name="AbsoluteTime" Type="integer" Nullable="false" />
         </EntityType>
         <EntityType Name="Equalizers">
           <Key>
@@ -76,7 +65,23 @@
             <PropertyRef Name="LoopId" />
           </Key>
           <Property Name="LoopId" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="SongId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="SongId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MarkerAId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MarkerBId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Length" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Markers">
+          <Key>
+            <PropertyRef Name="MarkerId" />
+          </Key>
+          <Property Name="SongId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MarkerId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="5000" />
+          <Property Name="PositionPCM" Type="integer" />
+          <Property Name="PositionPCMBytes" Type="integer" />
         </EntityType>
         <EntityType Name="Playlists">
           <Key>
@@ -140,15 +145,15 @@
       <Schema Namespace="MPFM.Library.Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
         <EntityContainer Name="MPFM_EF">
           <EntitySet Name="AlbumArts" EntityType="MPFM.Library.Model.AlbumArt" />
-          <EntitySet Name="Bookmarks" EntityType="MPFM.Library.Model.Bookmark" />
           <EntitySet Name="Equalizers" EntityType="MPFM.Library.Model.Equalizer" />
           <EntitySet Name="Folders" EntityType="MPFM.Library.Model.Folder" />
-          <EntitySet Name="Loops" EntityType="MPFM.Library.Model.Loop" />
-          <EntitySet Name="PlaylistSongs" EntityType="MPFM.Library.Model.PlaylistSong" />
           <EntitySet Name="Playlists" EntityType="MPFM.Library.Model.Playlist" />
+          <EntitySet Name="PlaylistSongs" EntityType="MPFM.Library.Model.PlaylistSong" />
           <EntitySet Name="Settings" EntityType="MPFM.Library.Model.Setting" />
           <EntitySet Name="Songs" EntityType="MPFM.Library.Model.Song" />
           <EntitySet Name="Tabs" EntityType="MPFM.Library.Model.Tab" />
+          <EntitySet Name="Markers" EntityType="MPFM.Library.Model.Marker" />
+          <EntitySet Name="Loops" EntityType="MPFM.Library.Model.Loop" />
         </EntityContainer>
         <EntityType Name="AlbumArt">
           <Key>
@@ -158,17 +163,6 @@
           <Property Type="Binary" Name="AlbumArtData" MaxLength="2147483647" FixedLength="false" />
           <Property Type="String" Name="Album" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Artist" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Bookmark">
-          <Key>
-            <PropertyRef Name="BookmarkId" />
-          </Key>
-          <Property Type="String" Name="BookmarkId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Time" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Comments" MaxLength="5000" FixedLength="false" Unicode="true" />
-          <Property Type="Int64" Name="AbsoluteTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Equalizer">
           <Key>
@@ -204,12 +198,12 @@
           <Property Type="DateTime" Name="LastUpdate" />
           <Property Type="Boolean" Name="Recursive" />
         </EntityType>
-        <EntityType Name="Loop">
+        <EntityType Name="Playlist">
           <Key>
-            <PropertyRef Name="LoopId" />
+            <PropertyRef Name="PlaylistId" />
           </Key>
-          <Property Type="String" Name="LoopId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PlaylistId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PlaylistName" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PlaylistSong">
           <Key>
@@ -219,13 +213,6 @@
           <Property Type="String" Name="PlaylistId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int64" Name="Position" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Playlist">
-          <Key>
-            <PropertyRef Name="PlaylistId" />
-          </Key>
-          <Property Type="String" Name="PlaylistId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PlaylistName" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Setting">
           <Key>
@@ -247,6 +234,7 @@
           <Property Type="Int64" Name="PlayCount" />
           <Property Type="DateTime" Name="LastPlayed" />
           <Property Type="String" Name="Year" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="DiscNumber" />
           <Property Type="Int64" Name="TrackNumber" />
           <Property Type="Int64" Name="TrackCount" />
           <Property Type="Int64" Name="Rating" />
@@ -254,7 +242,6 @@
           <Property Type="String" Name="Genre" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Type="Int64" Name="Tempo" />
           <Property Type="String" Name="Lyrics" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Type="Int64" Name="DiscNumber" />
           <Property Type="String" Name="SoundFormat" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Tab">
@@ -266,6 +253,29 @@
           <Property Type="Int64" Name="TabType" Nullable="false" />
           <Property Type="String" Name="TabText" MaxLength="2147483647" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SongId" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Marker">
+          <Key>
+            <PropertyRef Name="MarkerId" />
+          </Key>
+          <Property Type="String" Name="SongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MarkerId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Position" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Comments" MaxLength="5000" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="PositionPCM" />
+          <Property Type="Int64" Name="PositionPCMBytes" />
+        </EntityType>
+        <EntityType Name="Loop">
+          <Key>
+            <PropertyRef Name="LoopId" />
+          </Key>
+          <Property Type="String" Name="LoopId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SongId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MarkerAId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MarkerBId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Length" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -280,18 +290,6 @@
                 <ScalarProperty Name="Album" ColumnName="Album" />
                 <ScalarProperty Name="AlbumArtData" ColumnName="AlbumArtData" />
                 <ScalarProperty Name="AlbumArtId" ColumnName="AlbumArtId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Bookmarks">
-            <EntityTypeMapping TypeName="MPFM.Library.Model.Bookmark">
-              <MappingFragment StoreEntitySet="Bookmarks">
-                <ScalarProperty Name="AbsoluteTime" ColumnName="AbsoluteTime" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="SongId" ColumnName="SongId" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BookmarkId" ColumnName="BookmarkId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -331,11 +329,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Loops">
-            <EntityTypeMapping TypeName="MPFM.Library.Model.Loop">
-              <MappingFragment StoreEntitySet="Loops">
-                <ScalarProperty Name="SongId" ColumnName="SongId" />
-                <ScalarProperty Name="LoopId" ColumnName="LoopId" />
+          <EntitySetMapping Name="Playlists">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Playlist">
+              <MappingFragment StoreEntitySet="Playlists">
+                <ScalarProperty Name="PlaylistName" ColumnName="PlaylistName" />
+                <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -346,14 +344,6 @@
                 <ScalarProperty Name="SongId" ColumnName="SongId" />
                 <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
                 <ScalarProperty Name="PlaylistSongId" ColumnName="PlaylistSongId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Playlists">
-            <EntityTypeMapping TypeName="MPFM.Library.Model.Playlist">
-              <MappingFragment StoreEntitySet="Playlists">
-                <ScalarProperty Name="PlaylistName" ColumnName="PlaylistName" />
-                <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -370,7 +360,6 @@
             <EntityTypeMapping TypeName="MPFM.Library.Model.Song">
               <MappingFragment StoreEntitySet="Songs">
                 <ScalarProperty Name="SoundFormat" ColumnName="SoundFormat" />
-                <ScalarProperty Name="DiscNumber" ColumnName="DiscNumber" />
                 <ScalarProperty Name="Lyrics" ColumnName="Lyrics" />
                 <ScalarProperty Name="Tempo" ColumnName="Tempo" />
                 <ScalarProperty Name="Genre" ColumnName="Genre" />
@@ -378,6 +367,7 @@
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="TrackCount" ColumnName="TrackCount" />
                 <ScalarProperty Name="TrackNumber" ColumnName="TrackNumber" />
+                <ScalarProperty Name="DiscNumber" ColumnName="DiscNumber" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="LastPlayed" ColumnName="LastPlayed" />
                 <ScalarProperty Name="PlayCount" ColumnName="PlayCount" />
@@ -397,6 +387,31 @@
                 <ScalarProperty Name="TabType" ColumnName="TabType" />
                 <ScalarProperty Name="TabName" ColumnName="TabName" />
                 <ScalarProperty Name="TabId" ColumnName="TabId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Markers">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Marker">
+              <MappingFragment StoreEntitySet="Markers">
+                <ScalarProperty Name="PositionPCMBytes" ColumnName="PositionPCMBytes" />
+                <ScalarProperty Name="PositionPCM" ColumnName="PositionPCM" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MarkerId" ColumnName="MarkerId" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Loops">
+            <EntityTypeMapping TypeName="MPFM.Library.Model.Loop">
+              <MappingFragment StoreEntitySet="Loops">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="MarkerBId" ColumnName="MarkerBId" />
+                <ScalarProperty Name="MarkerAId" ColumnName="MarkerAId" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="LoopId" ColumnName="LoopId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -421,16 +436,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="PMPEF">
-        <EntityTypeShape EntityType="MPFM.Library.Model.AlbumArt" Width="1.5" PointX="0.75" PointY="0.75" Height="1.5319933734337496" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Bookmark" Width="1.5" PointX="2.75" PointY="0.75" Height="1.8434557658433945" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Equalizer" Width="1.5" PointX="0.75" PointY="3.75" Height="4.0236925127108947" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Folder" Width="1.5" PointX="2.75" PointY="3.75" Height="1.5319933734337496" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Loop" Width="1.5" PointX="4.75" PointY="0.75" Height="1.2205309810241118" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.PlaylistSong" Width="1.5" PointX="4.75" PointY="2.75" Height="1.3762621772289307" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Playlist" Width="1.5" PointX="4.75" PointY="5.75" Height="1.2205309810241118" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Setting" Width="1.5" PointX="6.75" PointY="0.75" Height="1.3762621772289307" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Song" Width="1.5" PointX="6.75" PointY="3.75" Height="3.7288216145833326" />
-        <EntityTypeShape EntityType="MPFM.Library.Model.Tab" Width="1.5" PointX="2.75" PointY="7.75" Height="1.6877245696385756" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.AlbumArt" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Equalizer" Width="1.5" PointX="2.75" PointY="0.75" Height="4.8648079427083317" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Folder" Width="1.5" PointX="4.75" PointY="0.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Playlist" Width="1.5" PointX="0.75" PointY="6.75" Height="1.4033821614583388" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.PlaylistSong" Width="1.5" PointX="2.75" PointY="6.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Setting" Width="1.5" PointX="6.75" PointY="4.75" Height="1.5956835937500031" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Song" Width="1.5" PointX="4.75" PointY="7.75" Height="4.2879036458333388" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Tab" Width="1.5" PointX="6.75" PointY="7.75" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Marker" Width="1.5" PointX="7.375" PointY="0.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="MPFM.Library.Model.Loop" Width="1.5" PointX="9.375" PointY="0.75" Height="1.7879850260416674" />
       </Diagram>
     </Diagrams>
   </Designer>

@@ -341,7 +341,7 @@ namespace MPfm
                 // Are you sure?
                 if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {                    
-                    DataAccess.DeleteEqualizer(equalizerExists.EqualizerId);
+                    DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
 
                     RefreshEQPresets();
                     ResetEQ();

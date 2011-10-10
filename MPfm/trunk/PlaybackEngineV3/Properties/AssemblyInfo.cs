@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MPfm: Music Player for Musicians")]
-[assembly: AssemblyDescription("Music player made for musicians, by musicians")]
+[assembly: AssemblyTitle("MPfm - Playback Engine V3")]
+[assembly: AssemblyDescription("Prototype screen used for testing the MPfm Playback Engine V3.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Yanick Castonguay")]
-[assembly: AssemblyProduct("MPfm: Music Player for Musicians")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("MPfm - Playback Engine V3")]
 [assembly: AssemblyCopyright("Copyright © 2011 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ee9bad2d-11ff-4f3c-9e75-9e0f9bc1b4eb")]
+[assembly: Guid("9d4a008b-3d14-43fd-9d3a-6b8d4958b1ed")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,5 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.4.5.0")]
-[assembly: AssemblyFileVersion("0.4.5.0")]
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("0.3.4.0")]
+[assembly: AssemblyFileVersion("0.3.4.0")]

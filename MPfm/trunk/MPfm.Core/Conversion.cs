@@ -170,10 +170,10 @@ namespace MPfm.Core
 
         /// <summary>
         /// The MillisecondsToTimeString static functions converts a time in milliseconds into a string 
-        /// displaying the time in the following format: 00:00.00
+        /// displaying the time in the following format: 00:00.000
         /// </summary>
         /// <param name="time">Milliseconds value to convert</param>
-        /// <returns>A string displaying the time (00:00.00)</returns>
+        /// <returns>A string displaying the time (00:00.000)</returns>
         public static string MillisecondsToTimeString(ulong time)
         {
             ulong pos = time;
@@ -278,18 +278,6 @@ namespace MPfm.Core
         public static double GetSeconds(int absolutems)
         {
             return (double)absolutems / 1000 % 60;
-        }
-
-        /// <summary>
-        /// Converts milliseconds to a time string.
-        /// </summary>
-        /// <param name="milliseconds">Value in milliseconds</param>
-        /// <returns>Time string</returns>
-        public static string MillisecondsToTime(int milliseconds)
-        {
-            TimeSpan span = TimeSpan.FromMilliseconds(milliseconds);
-            return span.Minutes.ToString("0") + ":" + span.Seconds.ToString("00") + "." + (span.Milliseconds / 10).ToString("0");
-            //return GetMinutes(absolutems).ToString("0") + ":" + GetSeconds(absolutems).ToString("00") + "." + GetMilliseconds(absolutems).ToString("00");
         }
 	}
 }

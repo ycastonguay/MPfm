@@ -308,6 +308,36 @@ namespace MPfm.Library
                 return m_currentSound;
             }
         }
+
+        // Markers for current loop
+        private MPfm.Library.Data.Marker m_currentLoopMarkerA = null;
+        private MPfm.Library.Data.Marker m_currentLoopMarkerB = null;
+
+        /// <summary>
+        /// Private value for the CurrentLoop property.
+        /// </summary>
+        private MPfm.Library.Data.Loop m_currentLoop = null;
+        /// <summary>
+        /// Current loop. Must be related to the currently playing song.
+        /// </summary>
+        public MPfm.Library.Data.Loop CurrentLoop
+        {
+            get
+            {
+                return m_currentLoop;
+            }
+            set
+            {
+                m_currentLoop = value;
+
+                // Fetch markers if necessary
+                if (m_currentLoop != null)
+                {
+                    m_currentLoopMarkerA = DataAccess.SelectMarker(new Guid(m_currentLoop.MarkerAId));
+                    m_currentLoopMarkerB = DataAccess.SelectMarker(new Guid(m_currentLoop.MarkerBId));
+                }
+            }
+        }
         
         /// <summary>
         /// The current song playing (SongDTO). Comes from the CurrentSong
@@ -828,6 +858,9 @@ namespace MPfm.Library
                 return;
             }
 
+            // Reset loop
+            CurrentLoop = null;
+
             // Set flags
             isGapless = false;
             m_playbackMode = MPfm.Library.PlaybackMode.Playlist;
@@ -1178,6 +1211,9 @@ namespace MPfm.Library
 
                 // Set current song to null                
                 CurrentPlaylist.CurrentSong = null;
+
+                // Reset current loop
+                CurrentLoop = null;
             }
         }   
 
@@ -1517,6 +1553,19 @@ namespace MPfm.Library
 
                             // Raise event
                             OnSongFinished(data);                            
+                        }
+                    }
+                                        
+                    // Check if a loop is set
+                    if (CurrentLoop != null)
+                    { 
+                        // Check if the current position exceeds the marker B position,
+                        // or if the current position is below the marker A position
+                        if (MainChannel.PositionSentencePCM > m_currentLoopMarkerB.PositionPCM ||
+                            MainChannel.PositionSentencePCM < m_currentLoopMarkerA.PositionPCM)
+                        {
+                            // Set marker A position (start loop)
+                            MainChannel.SetPosition((uint)m_currentLoopMarkerA.PositionPCM.Value, FMOD.TIMEUNIT.SENTENCE_PCM);
                         }
                     }
 

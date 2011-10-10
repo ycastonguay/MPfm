@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 30/04/2011 7:00:28 PM
+// Generation date: 10/9/2011 5:22:37 AM
 namespace MPfm.Library.Data
 {
     
@@ -63,23 +63,6 @@ namespace MPfm.Library.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<AlbumArt> _AlbumArts;
         /// <summary>
-        /// There are no comments for Bookmarks in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<Bookmark> Bookmarks
-        {
-            get
-            {
-                if ((this._Bookmarks == null))
-                {
-                    this._Bookmarks = base.CreateQuery<Bookmark>("[Bookmarks]");
-                }
-                return this._Bookmarks;
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<Bookmark> _Bookmarks;
-        /// <summary>
         /// There are no comments for Equalizers in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -114,22 +97,22 @@ namespace MPfm.Library.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Folder> _Folders;
         /// <summary>
-        /// There are no comments for Loops in the schema.
+        /// There are no comments for Playlists in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<Loop> Loops
+        public global::System.Data.Objects.ObjectQuery<Playlist> Playlists
         {
             get
             {
-                if ((this._Loops == null))
+                if ((this._Playlists == null))
                 {
-                    this._Loops = base.CreateQuery<Loop>("[Loops]");
+                    this._Playlists = base.CreateQuery<Playlist>("[Playlists]");
                 }
-                return this._Loops;
+                return this._Playlists;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<Loop> _Loops;
+        private global::System.Data.Objects.ObjectQuery<Playlist> _Playlists;
         /// <summary>
         /// There are no comments for PlaylistSongs in the schema.
         /// </summary>
@@ -147,23 +130,6 @@ namespace MPfm.Library.Data
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<PlaylistSong> _PlaylistSongs;
-        /// <summary>
-        /// There are no comments for Playlists in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<Playlist> Playlists
-        {
-            get
-            {
-                if ((this._Playlists == null))
-                {
-                    this._Playlists = base.CreateQuery<Playlist>("[Playlists]");
-                }
-                return this._Playlists;
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<Playlist> _Playlists;
         /// <summary>
         /// There are no comments for Settings in the schema.
         /// </summary>
@@ -216,20 +182,46 @@ namespace MPfm.Library.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Tab> _Tabs;
         /// <summary>
+        /// There are no comments for Markers in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<Marker> Markers
+        {
+            get
+            {
+                if ((this._Markers == null))
+                {
+                    this._Markers = base.CreateQuery<Marker>("[Markers]");
+                }
+                return this._Markers;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<Marker> _Markers;
+        /// <summary>
+        /// There are no comments for Loops in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<Loop> Loops
+        {
+            get
+            {
+                if ((this._Loops == null))
+                {
+                    this._Loops = base.CreateQuery<Loop>("[Loops]");
+                }
+                return this._Loops;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<Loop> _Loops;
+        /// <summary>
         /// There are no comments for AlbumArts in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         public void AddToAlbumArts(AlbumArt albumArt)
         {
             base.AddObject("AlbumArts", albumArt);
-        }
-        /// <summary>
-        /// There are no comments for Bookmarks in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToBookmarks(Bookmark bookmark)
-        {
-            base.AddObject("Bookmarks", bookmark);
         }
         /// <summary>
         /// There are no comments for Equalizers in the schema.
@@ -248,12 +240,12 @@ namespace MPfm.Library.Data
             base.AddObject("Folders", folder);
         }
         /// <summary>
-        /// There are no comments for Loops in the schema.
+        /// There are no comments for Playlists in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToLoops(Loop loop)
+        public void AddToPlaylists(Playlist playlist)
         {
-            base.AddObject("Loops", loop);
+            base.AddObject("Playlists", playlist);
         }
         /// <summary>
         /// There are no comments for PlaylistSongs in the schema.
@@ -262,14 +254,6 @@ namespace MPfm.Library.Data
         public void AddToPlaylistSongs(PlaylistSong playlistSong)
         {
             base.AddObject("PlaylistSongs", playlistSong);
-        }
-        /// <summary>
-        /// There are no comments for Playlists in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToPlaylists(Playlist playlist)
-        {
-            base.AddObject("Playlists", playlist);
         }
         /// <summary>
         /// There are no comments for Settings in the schema.
@@ -294,6 +278,22 @@ namespace MPfm.Library.Data
         public void AddToTabs(Tab tab)
         {
             base.AddObject("Tabs", tab);
+        }
+        /// <summary>
+        /// There are no comments for Markers in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToMarkers(Marker marker)
+        {
+            base.AddObject("Markers", marker);
+        }
+        /// <summary>
+        /// There are no comments for Loops in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToLoops(Loop loop)
+        {
+            base.AddObject("Loops", loop);
         }
     }
     /// <summary>
@@ -426,193 +426,6 @@ namespace MPfm.Library.Data
         partial void OnArtistChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnArtistChanged();
-    }
-    /// <summary>
-    /// There are no comments for MPFM.Library.Model.Bookmark in the schema.
-    /// </summary>
-    /// <KeyProperties>
-    /// BookmarkId
-    /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="Bookmark")]
-    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [global::System.Serializable()]
-    public partial class Bookmark : global::System.Data.Objects.DataClasses.EntityObject
-    {
-        /// <summary>
-        /// Create a new Bookmark object.
-        /// </summary>
-        /// <param name="bookmarkId">Initial value of BookmarkId.</param>
-        /// <param name="absoluteTime">Initial value of AbsoluteTime.</param>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Bookmark CreateBookmark(string bookmarkId, long absoluteTime)
-        {
-            Bookmark bookmark = new Bookmark();
-            bookmark.BookmarkId = bookmarkId;
-            bookmark.AbsoluteTime = absoluteTime;
-            return bookmark;
-        }
-        /// <summary>
-        /// There are no comments for property BookmarkId in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string BookmarkId
-        {
-            get
-            {
-                return this._BookmarkId;
-            }
-            set
-            {
-                this.OnBookmarkIdChanging(value);
-                this.ReportPropertyChanging("BookmarkId");
-                this._BookmarkId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("BookmarkId");
-                this.OnBookmarkIdChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _BookmarkId;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnBookmarkIdChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnBookmarkIdChanged();
-        /// <summary>
-        /// There are no comments for property Name in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                this.OnNameChanging(value);
-                this.ReportPropertyChanging("Name");
-                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Name");
-                this.OnNameChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _Name;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnNameChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnNameChanged();
-        /// <summary>
-        /// There are no comments for property Time in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string Time
-        {
-            get
-            {
-                return this._Time;
-            }
-            set
-            {
-                this.OnTimeChanging(value);
-                this.ReportPropertyChanging("Time");
-                this._Time = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Time");
-                this.OnTimeChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _Time;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnTimeChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnTimeChanged();
-        /// <summary>
-        /// There are no comments for property SongId in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string SongId
-        {
-            get
-            {
-                return this._SongId;
-            }
-            set
-            {
-                this.OnSongIdChanging(value);
-                this.ReportPropertyChanging("SongId");
-                this._SongId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("SongId");
-                this.OnSongIdChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _SongId;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnSongIdChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnSongIdChanged();
-        /// <summary>
-        /// There are no comments for property Comments in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string Comments
-        {
-            get
-            {
-                return this._Comments;
-            }
-            set
-            {
-                this.OnCommentsChanging(value);
-                this.ReportPropertyChanging("Comments");
-                this._Comments = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Comments");
-                this.OnCommentsChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _Comments;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnCommentsChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnCommentsChanged();
-        /// <summary>
-        /// There are no comments for property AbsoluteTime in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public long AbsoluteTime
-        {
-            get
-            {
-                return this._AbsoluteTime;
-            }
-            set
-            {
-                this.OnAbsoluteTimeChanging(value);
-                this.ReportPropertyChanging("AbsoluteTime");
-                this._AbsoluteTime = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("AbsoluteTime");
-                this.OnAbsoluteTimeChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private long _AbsoluteTime;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAbsoluteTimeChanging(long value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAbsoluteTimeChanged();
     }
     /// <summary>
     /// There are no comments for MPFM.Library.Model.Equalizer in the schema.
@@ -1309,81 +1122,81 @@ namespace MPfm.Library.Data
         partial void OnRecursiveChanged();
     }
     /// <summary>
-    /// There are no comments for MPFM.Library.Model.Loop in the schema.
+    /// There are no comments for MPFM.Library.Model.Playlist in the schema.
     /// </summary>
     /// <KeyProperties>
-    /// LoopId
+    /// PlaylistId
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="Loop")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="Playlist")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class Loop : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class Playlist : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new Loop object.
+        /// Create a new Playlist object.
         /// </summary>
-        /// <param name="loopId">Initial value of LoopId.</param>
+        /// <param name="playlistId">Initial value of PlaylistId.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Loop CreateLoop(string loopId)
+        public static Playlist CreatePlaylist(string playlistId)
         {
-            Loop loop = new Loop();
-            loop.LoopId = loopId;
-            return loop;
+            Playlist playlist = new Playlist();
+            playlist.PlaylistId = playlistId;
+            return playlist;
         }
         /// <summary>
-        /// There are no comments for property LoopId in the schema.
+        /// There are no comments for property PlaylistId in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string LoopId
+        public string PlaylistId
         {
             get
             {
-                return this._LoopId;
+                return this._PlaylistId;
             }
             set
             {
-                this.OnLoopIdChanging(value);
-                this.ReportPropertyChanging("LoopId");
-                this._LoopId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("LoopId");
-                this.OnLoopIdChanged();
+                this.OnPlaylistIdChanging(value);
+                this.ReportPropertyChanging("PlaylistId");
+                this._PlaylistId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("PlaylistId");
+                this.OnPlaylistIdChanged();
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _LoopId;
+        private string _PlaylistId;
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnLoopIdChanging(string value);
+        partial void OnPlaylistIdChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnLoopIdChanged();
+        partial void OnPlaylistIdChanged();
         /// <summary>
-        /// There are no comments for property SongId in the schema.
+        /// There are no comments for property PlaylistName in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string SongId
+        public string PlaylistName
         {
             get
             {
-                return this._SongId;
+                return this._PlaylistName;
             }
             set
             {
-                this.OnSongIdChanging(value);
-                this.ReportPropertyChanging("SongId");
-                this._SongId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("SongId");
-                this.OnSongIdChanged();
+                this.OnPlaylistNameChanging(value);
+                this.ReportPropertyChanging("PlaylistName");
+                this._PlaylistName = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("PlaylistName");
+                this.OnPlaylistNameChanged();
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _SongId;
+        private string _PlaylistName;
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnSongIdChanging(string value);
+        partial void OnPlaylistNameChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnSongIdChanged();
+        partial void OnPlaylistNameChanged();
     }
     /// <summary>
     /// There are no comments for MPFM.Library.Model.PlaylistSong in the schema.
@@ -1521,83 +1334,6 @@ namespace MPfm.Library.Data
         partial void OnPositionChanging(long value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnPositionChanged();
-    }
-    /// <summary>
-    /// There are no comments for MPFM.Library.Model.Playlist in the schema.
-    /// </summary>
-    /// <KeyProperties>
-    /// PlaylistId
-    /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="Playlist")]
-    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [global::System.Serializable()]
-    public partial class Playlist : global::System.Data.Objects.DataClasses.EntityObject
-    {
-        /// <summary>
-        /// Create a new Playlist object.
-        /// </summary>
-        /// <param name="playlistId">Initial value of PlaylistId.</param>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Playlist CreatePlaylist(string playlistId)
-        {
-            Playlist playlist = new Playlist();
-            playlist.PlaylistId = playlistId;
-            return playlist;
-        }
-        /// <summary>
-        /// There are no comments for property PlaylistId in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string PlaylistId
-        {
-            get
-            {
-                return this._PlaylistId;
-            }
-            set
-            {
-                this.OnPlaylistIdChanging(value);
-                this.ReportPropertyChanging("PlaylistId");
-                this._PlaylistId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("PlaylistId");
-                this.OnPlaylistIdChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _PlaylistId;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnPlaylistIdChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnPlaylistIdChanged();
-        /// <summary>
-        /// There are no comments for property PlaylistName in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string PlaylistName
-        {
-            get
-            {
-                return this._PlaylistName;
-            }
-            set
-            {
-                this.OnPlaylistNameChanging(value);
-                this.ReportPropertyChanging("PlaylistName");
-                this._PlaylistName = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("PlaylistName");
-                this.OnPlaylistNameChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _PlaylistName;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnPlaylistNameChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnPlaylistNameChanged();
     }
     /// <summary>
     /// There are no comments for MPFM.Library.Model.Setting in the schema.
@@ -1942,6 +1678,33 @@ namespace MPfm.Library.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnYearChanged();
         /// <summary>
+        /// There are no comments for property DiscNumber in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Nullable<long> DiscNumber
+        {
+            get
+            {
+                return this._DiscNumber;
+            }
+            set
+            {
+                this.OnDiscNumberChanging(value);
+                this.ReportPropertyChanging("DiscNumber");
+                this._DiscNumber = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("DiscNumber");
+                this.OnDiscNumberChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Nullable<long> _DiscNumber;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnDiscNumberChanging(global::System.Nullable<long> value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnDiscNumberChanged();
+        /// <summary>
         /// There are no comments for property TrackNumber in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
@@ -2131,33 +1894,6 @@ namespace MPfm.Library.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnLyricsChanged();
         /// <summary>
-        /// There are no comments for property DiscNumber in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Nullable<long> DiscNumber
-        {
-            get
-            {
-                return this._DiscNumber;
-            }
-            set
-            {
-                this.OnDiscNumberChanging(value);
-                this.ReportPropertyChanging("DiscNumber");
-                this._DiscNumber = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("DiscNumber");
-                this.OnDiscNumberChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Nullable<long> _DiscNumber;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnDiscNumberChanging(global::System.Nullable<long> value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnDiscNumberChanged();
-        /// <summary>
         /// There are no comments for property SoundFormat in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
@@ -2344,5 +2080,414 @@ namespace MPfm.Library.Data
         partial void OnSongIdChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnSongIdChanged();
+    }
+    /// <summary>
+    /// There are no comments for MPFM.Library.Model.Marker in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// MarkerId
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="Marker")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Marker : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Marker object.
+        /// </summary>
+        /// <param name="songId">Initial value of SongId.</param>
+        /// <param name="markerId">Initial value of MarkerId.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static Marker CreateMarker(string songId, string markerId)
+        {
+            Marker marker = new Marker();
+            marker.SongId = songId;
+            marker.MarkerId = markerId;
+            return marker;
+        }
+        /// <summary>
+        /// There are no comments for property SongId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string SongId
+        {
+            get
+            {
+                return this._SongId;
+            }
+            set
+            {
+                this.OnSongIdChanging(value);
+                this.ReportPropertyChanging("SongId");
+                this._SongId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("SongId");
+                this.OnSongIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _SongId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnSongIdChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnSongIdChanged();
+        /// <summary>
+        /// There are no comments for property MarkerId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string MarkerId
+        {
+            get
+            {
+                return this._MarkerId;
+            }
+            set
+            {
+                this.OnMarkerIdChanging(value);
+                this.ReportPropertyChanging("MarkerId");
+                this._MarkerId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("MarkerId");
+                this.OnMarkerIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _MarkerId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnMarkerIdChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnMarkerIdChanged();
+        /// <summary>
+        /// There are no comments for property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Name;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for property Position in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Position
+        {
+            get
+            {
+                return this._Position;
+            }
+            set
+            {
+                this.OnPositionChanging(value);
+                this.ReportPropertyChanging("Position");
+                this._Position = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Position");
+                this.OnPositionChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Position;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnPositionChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnPositionChanged();
+        /// <summary>
+        /// There are no comments for property Comments in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Comments
+        {
+            get
+            {
+                return this._Comments;
+            }
+            set
+            {
+                this.OnCommentsChanging(value);
+                this.ReportPropertyChanging("Comments");
+                this._Comments = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Comments");
+                this.OnCommentsChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Comments;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnCommentsChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnCommentsChanged();
+        /// <summary>
+        /// There are no comments for property PositionPCM in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Nullable<long> PositionPCM
+        {
+            get
+            {
+                return this._PositionPCM;
+            }
+            set
+            {
+                this.OnPositionPCMChanging(value);
+                this.ReportPropertyChanging("PositionPCM");
+                this._PositionPCM = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("PositionPCM");
+                this.OnPositionPCMChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Nullable<long> _PositionPCM;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnPositionPCMChanging(global::System.Nullable<long> value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnPositionPCMChanged();
+        /// <summary>
+        /// There are no comments for property PositionPCMBytes in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Nullable<long> PositionPCMBytes
+        {
+            get
+            {
+                return this._PositionPCMBytes;
+            }
+            set
+            {
+                this.OnPositionPCMBytesChanging(value);
+                this.ReportPropertyChanging("PositionPCMBytes");
+                this._PositionPCMBytes = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("PositionPCMBytes");
+                this.OnPositionPCMBytesChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Nullable<long> _PositionPCMBytes;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnPositionPCMBytesChanging(global::System.Nullable<long> value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnPositionPCMBytesChanged();
+    }
+    /// <summary>
+    /// There are no comments for MPFM.Library.Model.Loop in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// LoopId
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="Loop")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Loop : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Loop object.
+        /// </summary>
+        /// <param name="loopId">Initial value of LoopId.</param>
+        /// <param name="songId">Initial value of SongId.</param>
+        /// <param name="markerAId">Initial value of MarkerAId.</param>
+        /// <param name="markerBId">Initial value of MarkerBId.</param>
+        /// <param name="length">Initial value of Length.</param>
+        /// <param name="name">Initial value of Name.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static Loop CreateLoop(string loopId, string songId, string markerAId, string markerBId, long length, string name)
+        {
+            Loop loop = new Loop();
+            loop.LoopId = loopId;
+            loop.SongId = songId;
+            loop.MarkerAId = markerAId;
+            loop.MarkerBId = markerBId;
+            loop.Length = length;
+            loop.Name = name;
+            return loop;
+        }
+        /// <summary>
+        /// There are no comments for property LoopId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string LoopId
+        {
+            get
+            {
+                return this._LoopId;
+            }
+            set
+            {
+                this.OnLoopIdChanging(value);
+                this.ReportPropertyChanging("LoopId");
+                this._LoopId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("LoopId");
+                this.OnLoopIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _LoopId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnLoopIdChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnLoopIdChanged();
+        /// <summary>
+        /// There are no comments for property SongId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string SongId
+        {
+            get
+            {
+                return this._SongId;
+            }
+            set
+            {
+                this.OnSongIdChanging(value);
+                this.ReportPropertyChanging("SongId");
+                this._SongId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("SongId");
+                this.OnSongIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _SongId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnSongIdChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnSongIdChanged();
+        /// <summary>
+        /// There are no comments for property MarkerAId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string MarkerAId
+        {
+            get
+            {
+                return this._MarkerAId;
+            }
+            set
+            {
+                this.OnMarkerAIdChanging(value);
+                this.ReportPropertyChanging("MarkerAId");
+                this._MarkerAId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("MarkerAId");
+                this.OnMarkerAIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _MarkerAId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnMarkerAIdChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnMarkerAIdChanged();
+        /// <summary>
+        /// There are no comments for property MarkerBId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string MarkerBId
+        {
+            get
+            {
+                return this._MarkerBId;
+            }
+            set
+            {
+                this.OnMarkerBIdChanging(value);
+                this.ReportPropertyChanging("MarkerBId");
+                this._MarkerBId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("MarkerBId");
+                this.OnMarkerBIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _MarkerBId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnMarkerBIdChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnMarkerBIdChanged();
+        /// <summary>
+        /// There are no comments for property Length in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public long Length
+        {
+            get
+            {
+                return this._Length;
+            }
+            set
+            {
+                this.OnLengthChanging(value);
+                this.ReportPropertyChanging("Length");
+                this._Length = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Length");
+                this.OnLengthChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private long _Length;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnLengthChanging(long value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnLengthChanged();
+        /// <summary>
+        /// There are no comments for property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Name;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanged();
     }
 }
