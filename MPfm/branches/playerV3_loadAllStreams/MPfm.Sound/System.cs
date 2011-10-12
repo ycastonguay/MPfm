@@ -219,14 +219,14 @@ namespace MPfm.Sound
                 {
                     // Init system
                     Tracing.Log("[MPfm.Sound.System] Initializing sound system (WavWriter)...");
-                    result = baseSystem.init(32, FMOD.INITFLAGS.NORMAL, Marshal.StringToHGlobalUni(@"test.wav"));
+                    result = baseSystem.init(1024, FMOD.INITFLAGS.NORMAL, Marshal.StringToHGlobalUni(@"test.wav"));
                     CheckForError(result);
                 }
                 else
                 {
                     // Init system
                     Tracing.Log("[MPfm.Sound.System] Initializing sound system...");
-                    result = baseSystem.init(32, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
+                    result = baseSystem.init(1024, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
                     CheckForError(result);
                 }
             }

@@ -489,46 +489,46 @@ namespace MPfm.Library
             // Reset timer
             m_timerPlayer.Enabled = false;
 
-            // Load Sound object
-            Tracing.Log("[PlayerV3.timerPlayer] Time to load a new song!");
-            Tracing.Log("[PlayerV3.timerPlayer] (" + (m_currentAudioFileIndex + 1).ToString() + "/" + m_audioFiles.Length.ToString() + ") " + m_audioFiles[m_currentAudioFileIndex + 1].FilePath);
-            //m_audioFiles[m_currentAudioFileIndex + 1].Sound = m_soundSystem.CreateSound(m_audioFiles[m_currentAudioFileIndex + 1].FilePath, true);
+            //// Load Sound object
+            //Tracing.Log("[PlayerV3.timerPlayer] Time to load a new song!");
+            //Tracing.Log("[PlayerV3.timerPlayer] (" + (m_currentAudioFileIndex + 1).ToString() + "/" + m_audioFiles.Length.ToString() + ") " + m_audioFiles[m_currentAudioFileIndex + 1].FilePath);
+            ////m_audioFiles[m_currentAudioFileIndex + 1].Sound = m_soundSystem.CreateSound(m_audioFiles[m_currentAudioFileIndex + 1].FilePath, true);
 
-            // Create channel                
-            //m_audioFiles[m_currentAudioFileIndex + 1].Channel = new Channel(m_soundSystem);
-            //m_audioFiles[m_currentAudioFileIndex + 1].Channel.SoundEnd += new Channel.SoundEndHandler(Channel_SoundEnd);
-            //m_audioFiles[m_currentAudioFileIndex+1].Channel.Volume = m_volume;
+            //// Create channel                
+            ////m_audioFiles[m_currentAudioFileIndex + 1].Channel = new Channel(m_soundSystem);
+            ////m_audioFiles[m_currentAudioFileIndex + 1].Channel.SoundEnd += new Channel.SoundEndHandler(Channel_SoundEnd);
+            ////m_audioFiles[m_currentAudioFileIndex+1].Channel.Volume = m_volume;
 
-            uint length_pcm = (uint)((m_audioFiles[m_currentAudioFileIndex].Sound.LengthPCM * m_outputFormatMixer.sampleRate / m_audioFiles[m_currentAudioFileIndex].Channel.Frequency) + 0.5f);
-            float frequency = m_audioFiles[m_currentAudioFileIndex].Channel.Frequency;
-            Tracing.Log("[PlayerV3.timerPlayer] LengthPCM: " + length_pcm.ToString());
+            //uint length_pcm = (uint)((m_audioFiles[m_currentAudioFileIndex].Sound.LengthPCM * m_outputFormatMixer.sampleRate / m_audioFiles[m_currentAudioFileIndex].Channel.Frequency) + 0.5f);
+            //float frequency = m_audioFiles[m_currentAudioFileIndex].Channel.Frequency;
+            //Tracing.Log("[PlayerV3.timerPlayer] LengthPCM: " + length_pcm.ToString());
 
-            // Lock the DSP mixer (make sure the delay values stay in sync)
-            Tracing.Log("[PlayerV3.timerPlayer] Locking DSP engine...");
-            m_soundSystem.LockDSP();
+            //// Lock the DSP mixer (make sure the delay values stay in sync)
+            //Tracing.Log("[PlayerV3.timerPlayer] Locking DSP engine...");
+            //m_soundSystem.LockDSP();
 
-            // Start playback (in paused mode) 
-            m_soundSystem.PlaySound(m_audioFiles[m_currentAudioFileIndex + 1].Sound, true, m_audioFiles[m_currentAudioFileIndex + 1].Channel);
+            //// Start playback (in paused mode) 
+            //m_soundSystem.PlaySound(m_audioFiles[m_currentAudioFileIndex + 1].Sound, true, m_audioFiles[m_currentAudioFileIndex + 1].Channel);
 
-            // Get existing delay
-            Fmod64BitWord wordDelay = m_audioFiles[m_currentAudioFileIndex + 1].Channel.GetDelay(FMOD.DELAYTYPE.DSPCLOCK_START);
+            //// Get existing delay
+            //Fmod64BitWord wordDelay = m_audioFiles[m_currentAudioFileIndex + 1].Channel.GetDelay(FMOD.DELAYTYPE.DSPCLOCK_START);
             
-            // Calculate position (with frequency conversion)
-            uint position = (uint)((m_audioFiles[m_currentAudioFileIndex].Channel.PositionPCM * m_outputFormatMixer.sampleRate / frequency) + 0.5f);
+            //// Calculate position (with frequency conversion)
+            //uint position = (uint)((m_audioFiles[m_currentAudioFileIndex].Channel.PositionPCM * m_outputFormatMixer.sampleRate / frequency) + 0.5f);
 
-            // Substact the current position from the total length
-            AudioTools.FMOD_64BIT_ADD(ref wordDelay.hi, ref wordDelay.lo, 0, length_pcm - position);
+            //// Substact the current position from the total length
+            //AudioTools.FMOD_64BIT_ADD(ref wordDelay.hi, ref wordDelay.lo, 0, length_pcm - position);
 
-            // Set the new DSP clock start delay value            
-            m_audioFiles[m_currentAudioFileIndex + 1].Channel.SetDelay(FMOD.DELAYTYPE.DSPCLOCK_START, wordDelay.hi, wordDelay.lo);                                                         
+            //// Set the new DSP clock start delay value            
+            //m_audioFiles[m_currentAudioFileIndex + 1].Channel.SetDelay(FMOD.DELAYTYPE.DSPCLOCK_START, wordDelay.hi, wordDelay.lo);                                                         
 
-            // Start playback
-            m_audioFiles[m_currentAudioFileIndex + 1].Channel.Pause(false);
+            //// Start playback
+            //m_audioFiles[m_currentAudioFileIndex + 1].Channel.Pause(false);
 
-            // Unlock the DSP mixer (the delays have been set)
-            m_soundSystem.UnlockDSP();
-            Tracing.Log("[PlayerV3.timerPlayer] Unlocked DSP engine.");
-            Tracing.Log("[PlayerV3.timerPlayer] Set delay: " + wordDelay.lo.ToString());
+            //// Unlock the DSP mixer (the delays have been set)
+            //m_soundSystem.UnlockDSP();
+            //Tracing.Log("[PlayerV3.timerPlayer] Unlocked DSP engine.");
+            //Tracing.Log("[PlayerV3.timerPlayer] Set delay: " + wordDelay.lo.ToString());
         }
 
         #endregion
@@ -587,7 +587,8 @@ namespace MPfm.Library
             if (m_audioFiles.Length > 1)
             {
                 // Schedule the first two channels from start
-                ScheduleChannel(0, 1500000);
+                //ScheduleChannel(0, 1500000);
+                ScheduleChannel(0, 0);
             }
             else if (m_audioFiles.Length == 1)
             {
@@ -939,11 +940,19 @@ namespace MPfm.Library
             m_soundSystem.LockDSP();
 
             // Loop through the first two songs
-            for (int a = channelStartIndex; a < channelStartIndex + 2; a++)
+            //for (int a = channelStartIndex; a < channelStartIndex + 2; a++)
+            for (int a = channelStartIndex; a < m_audioFiles.Length; a++)
             {
-                // Start playback (in paused mode)                
-                m_soundSystem.PlaySound(m_audioFiles[a].Sound, true, m_audioFiles[a].Channel);
+                try
+                {
+                    // Start playback (in paused mode)                
+                    m_soundSystem.PlaySound(m_audioFiles[a].Sound, true, m_audioFiles[a].Channel);
 
+                }
+                catch (Exception ex)
+                {
+
+                }
                 // Set initial volume
                 //m_audioFiles[a].Channel.Volume = m_volume;
             }
@@ -964,32 +973,44 @@ namespace MPfm.Library
             // ----------------------------------------------------------------
             // Set channel 2 delay (minimum delay + sound 1 length)
 
-            // Get DSP clock start delay            
-            Fmod64BitWord wordDelayChannel2 = m_audioFiles[channelStartIndex+1].Channel.GetDelay(FMOD.DELAYTYPE.DSPCLOCK_START);
+            // Create initial delay (sound file 1 length)
+            Fmod64BitWord wordAdditionalDelay = new Fmod64BitWord(0, length_pcm);
 
-            // Minimum delay + First audio file PCM length - Encoder delay - Encoder padding
-            AudioTools.FMOD_64BIT_ADD(ref wordDelayChannel2.hi, ref wordDelayChannel2.lo, 0, m_minimumDelay + length_pcm - startPosition_pcm - channel1EncoderDelay - channel1EncoderPadding);
-
-            // Set the new DSP clock start delay value            
-            m_audioFiles[channelStartIndex+1].Channel.SetDelay(FMOD.DELAYTYPE.DSPCLOCK_START, wordDelayChannel2.hi, wordDelayChannel2.lo);
-
-            // Check if a start position must be set on the start channel
-            if (startChannelPositionPCM > 0)
+            // Loop through remaining audio files
+            for (int a = channelStartIndex + 1; a < m_audioFiles.Length; a++)
             {
-                // Set position for the starting channel
-                // Note: this overrides the MP3 encoder delay because it is already in the position value
-                m_audioFiles[channelStartIndex].Channel.SetPosition(startChannelPositionPCM, FMOD.TIMEUNIT.PCM);
-            }
-            // Check if the file is an MP3 file with a Xing/Info header and encoder delay information
-            else if (m_audioFiles[channelStartIndex].FileType == AudioFileType.MP3 && m_audioFiles[channelStartIndex].XingInfoHeader != null && m_audioFiles[channelStartIndex].XingInfoHeader.EncoderDelay != null)
-            {
-                // Set position as encoder delay for both channels
-                m_audioFiles[channelStartIndex].Channel.SetPosition(channel1EncoderDelay, FMOD.TIMEUNIT.PCM);
-                m_audioFiles[channelStartIndex + 1].Channel.SetPosition(channel2EncoderDelay, FMOD.TIMEUNIT.PCM);                
+                try
+                {
+                    // Calculate the length in PCM
+                    uint currentSoundLengthPCM = (uint)((m_audioFiles[a].Sound.LengthPCM * m_outputFormatMixer.sampleRate / m_audioFiles[a].SampleRate) + 0.5f);
+
+                    // Get initial DSP clock start delay            
+                    Fmod64BitWord wordDelayChannel = m_audioFiles[a].Channel.GetDelay(FMOD.DELAYTYPE.DSPCLOCK_START);
+
+                    // 
+
+                    // Minimum delay + First audio file PCM length - Encoder delay - Encoder padding
+                    //uint delayValue = m_minimumDelay + length_pcm - startPosition_pcm - channel1EncoderDelay - channel1EncoderPadding;
+                    //int delayValue = m_minimumDelay - channel1EncoderDelay - channel1EncoderPadding;
+
+                    AudioTools.FMOD_64BIT_ADD(ref wordDelayChannel.hi, ref wordDelayChannel.lo, wordAdditionalDelay.hi, wordAdditionalDelay.lo + m_minimumDelay);
+
+                    // Set the new DSP clock start delay value            
+                    m_audioFiles[a].Channel.SetDelay(FMOD.DELAYTYPE.DSPCLOCK_START, wordDelayChannel.hi, wordDelayChannel.lo);
+
+                    // Add audio file length to the delay
+                    AudioTools.FMOD_64BIT_ADD(ref wordAdditionalDelay.hi, ref wordAdditionalDelay.lo, 0, currentSoundLengthPCM);
+                }
+                
+                catch (Exception ex)
+                {
+
+                }
             }
 
             // Unpause the first two channels            
-            for (int a = channelStartIndex; a < channelStartIndex + 2; a++)
+            //for (int a = channelStartIndex; a < channelStartIndex + 2; a++)
+            for (int a = channelStartIndex; a < m_audioFiles.Length; a++)
             {
                 // Check if the channel exists
                 if (m_audioFiles[a].Channel != null)
@@ -1003,8 +1024,8 @@ namespace MPfm.Library
             m_soundSystem.UnlockDSP();
             Tracing.Log("[PlayerV3.PlayFiles] Unlocked DSP engine.");
             Tracing.Log("[PlayerV3.PlayFiles] Original channel 1 delay: " + originalChannel1Delay.ToString());
-            Tracing.Log("[PlayerV3.PlayFiles] Set channel 1 delay: " + wordDelayChannel1.lo.ToString());
-            Tracing.Log("[PlayerV3.PlayFiles] Set channel 2 delay: " + wordDelayChannel2.lo.ToString());
+            //Tracing.Log("[PlayerV3.PlayFiles] Set channel 1 delay: " + wordDelayChannel1.lo.ToString());
+            //Tracing.Log("[PlayerV3.PlayFiles] Set channel 2 delay: " + wordDelayChannel2.lo.ToString());
         }
 
         /// <summary>
