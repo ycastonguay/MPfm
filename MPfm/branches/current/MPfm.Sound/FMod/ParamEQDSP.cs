@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.FMODWrapper
 {
     /// <summary>
     /// This class wraps up the parametric equalizer DSP effect
@@ -30,7 +30,7 @@ namespace MPfm.Sound
     /// </summary>
     public class ParamEQDSP : DSP
     {
-        public ParamEQDSP(MPfm.Sound.System system, FMOD.DSP baseDSP)
+        public ParamEQDSP(MPfm.Sound.FMODWrapper.System system, FMOD.DSP baseDSP)
             : base(system, baseDSP)
         {            
             //SetPitch(pitch);

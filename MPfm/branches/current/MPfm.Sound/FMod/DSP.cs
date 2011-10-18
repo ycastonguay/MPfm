@@ -22,14 +22,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.FMODWrapper
 {
     /// <summary>
     /// This class wraps up the DSP class of the FMOD library.
     /// </summary>
     public class DSP
     {
-        protected MPfm.Sound.System system = null;
+        protected MPfm.Sound.FMODWrapper.System system = null;
         public FMOD.DSP baseDSP = null;
 
         public DSP()
@@ -37,7 +37,7 @@ namespace MPfm.Sound
             baseDSP = new FMOD.DSP();
         }
 
-        public DSP(MPfm.Sound.System system, FMOD.DSP baseDSP)
+        public DSP(MPfm.Sound.FMODWrapper.System system, FMOD.DSP baseDSP)
         {
             this.system = system;
             this.baseDSP = baseDSP;

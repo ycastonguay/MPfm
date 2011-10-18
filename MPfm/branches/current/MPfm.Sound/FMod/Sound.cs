@@ -25,7 +25,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.FMODWrapper
 {
     /// <summary>
     /// This class wraps up the Sound class of the FMOD library.

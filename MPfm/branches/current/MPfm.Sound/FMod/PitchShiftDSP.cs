@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.FMODWrapper
 {
     /// <summary>
     /// This class wraps up the pitch shift DSP effect
@@ -30,7 +30,7 @@ namespace MPfm.Sound
     /// </summary>
     public class PitchShiftDSP : DSP
     {
-        public PitchShiftDSP(MPfm.Sound.System system, FMOD.DSP baseDSP, float pitch) 
+        public PitchShiftDSP(MPfm.Sound.FMODWrapper.System system, FMOD.DSP baseDSP, float pitch) 
             : base(system, baseDSP)
         {            
             SetPitch(pitch);

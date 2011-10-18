@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Text;
 using MPfm.Core;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.FMODWrapper
 {
     /// <summary>
     /// This class wraps up the Channel class of the FMOD library.
