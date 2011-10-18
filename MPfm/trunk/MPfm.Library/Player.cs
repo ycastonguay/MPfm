@@ -29,6 +29,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 
 namespace MPfm.Library
 {
@@ -65,8 +66,8 @@ namespace MPfm.Library
         public event SongFinished OnSongFinished;
 
         // Sound system
-        private MPfm.Sound.System soundSystem;
-        public MPfm.Sound.System SoundSystem
+        private MPfm.Sound.FMODWrapper.System soundSystem;
+        public MPfm.Sound.FMODWrapper.System SoundSystem
         {
             get
             {
@@ -95,8 +96,8 @@ namespace MPfm.Library
         #region Equalizer properties
 
         // Equalizer (18 bands)
-        private MPfm.Sound.ParamEQDSP m_paramEQ55Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ55Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ55Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ55Hz
         {
             get
             {
@@ -104,8 +105,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ77Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ77Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ77Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ77Hz
         {
             get
             {
@@ -113,8 +114,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ110Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ110Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ110Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ110Hz
         {
             get
             {
@@ -122,8 +123,8 @@ namespace MPfm.Library
             }
         }
         
-        private MPfm.Sound.ParamEQDSP m_paramEQ156Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ156Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ156Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ156Hz
         {
             get
             {
@@ -131,8 +132,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ220Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ220Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ220Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ220Hz
         {
             get
             {
@@ -140,8 +141,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ311Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ311Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ311Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ311Hz
         {
             get
             {
@@ -149,8 +150,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ440Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ440Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ440Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ440Hz
         {
             get
             {
@@ -158,8 +159,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ622Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ622Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ622Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ622Hz
         {
             get
             {
@@ -167,8 +168,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ880Hz;
-        public MPfm.Sound.ParamEQDSP ParamEQ880Hz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ880Hz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ880Hz
         {
             get
             {
@@ -176,8 +177,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ1_2kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ1_2kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ1_2kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ1_2kHz
         {
             get
             {
@@ -185,8 +186,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ1_8kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ1_8kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ1_8kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ1_8kHz
         {
             get
             {
@@ -194,8 +195,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ2_5kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ2_5kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ2_5kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ2_5kHz
         {
             get
             {
@@ -203,8 +204,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ3_5kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ3_5kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ3_5kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ3_5kHz
         {
             get
             {
@@ -212,8 +213,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ5kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ5kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ5kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ5kHz
         {
             get
             {
@@ -221,8 +222,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ7kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ7kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ7kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ7kHz
         {
             get
             {
@@ -230,8 +231,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ10kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ10kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ10kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ10kHz
         {
             get
             {
@@ -239,8 +240,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ14kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ14kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ14kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ14kHz
         {
             get
             {
@@ -248,8 +249,8 @@ namespace MPfm.Library
             }
         }
 
-        private MPfm.Sound.ParamEQDSP m_paramEQ20kHz;
-        public MPfm.Sound.ParamEQDSP ParamEQ20kHz
+        private MPfm.Sound.FMODWrapper.ParamEQDSP m_paramEQ20kHz;
+        public MPfm.Sound.FMODWrapper.ParamEQDSP ParamEQ20kHz
         {
             get
             {
@@ -297,11 +298,11 @@ namespace MPfm.Library
 
         #endregion
 
-        private MPfm.Sound.Sound m_currentSound;
+        private MPfm.Sound.FMODWrapper.Sound m_currentSound;
         /// <summary>
         /// The current sound structure.
         /// </summary>
-        public MPfm.Sound.Sound CurrentSound
+        public MPfm.Sound.FMODWrapper.Sound CurrentSound
         {
             get
             {
@@ -513,7 +514,7 @@ namespace MPfm.Library
 
                 // Initialize sound system
                 Tracing.Log("Player -- Initializing sound system...");
-                soundSystem = new MPfm.Sound.System(driver, outputDeviceName);                
+                soundSystem = new MPfm.Sound.FMODWrapper.System(driver, outputDeviceName);                
 
                 // Create main channel
                 Tracing.Log("Player -- Creating main channel...");
@@ -1103,7 +1104,7 @@ namespace MPfm.Library
             }
 
             // Detect the file information for the stream 
-            MPfm.Sound.Sound tempSound = soundSystem.CreateSound(filePaths[0], false);
+            MPfm.Sound.FMODWrapper.Sound tempSound = soundSystem.CreateSound(filePaths[0], false);
             SoundFormat soundFormat = tempSound.GetSoundFormat();
             tempSound.Release();
             
@@ -1112,7 +1113,7 @@ namespace MPfm.Library
 
             // Set current sound as the first file
             //FMOD.Sound newSound = new FMOD.Sound();
-            m_currentSound = new MPfm.Sound.Sound(gaplessSequenceData.subSounds[0], filePaths[0]);
+            m_currentSound = new MPfm.Sound.FMODWrapper.Sound(gaplessSequenceData.subSounds[0], filePaths[0]);
             currentSongLength = m_currentSound.LengthAbsoluteMilliseconds;
 
             // Volume
@@ -1536,7 +1537,7 @@ namespace MPfm.Library
                         CurrentPlaylist.Position++;
 
                         // Load current sound                        
-                        m_currentSound = new MPfm.Sound.Sound(gaplessSequenceData.subSounds[currentSentenceIndex], subSoundsFilePaths[currentSentenceIndex]);                        
+                        m_currentSound = new MPfm.Sound.FMODWrapper.Sound(gaplessSequenceData.subSounds[currentSentenceIndex], subSoundsFilePaths[currentSentenceIndex]);                        
                         currentSongLength = m_currentSound.LengthAbsoluteMilliseconds;                        
                         CurrentPlaylist.CurrentSong = CurrentPlaylist.Songs[CurrentPlaylist.Position - 1];
 

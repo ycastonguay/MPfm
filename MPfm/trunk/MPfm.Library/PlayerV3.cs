@@ -28,6 +28,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 
 namespace MPfm.Library
 {
@@ -130,11 +131,11 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the SoundSystem property.
         /// </summary>
-        private MPfm.Sound.System m_soundSystem;
+        private MPfm.Sound.FMODWrapper.System m_soundSystem;
         /// <summary>
         /// MPfm Sound System used for playback (property).
         /// </summary>
-        public MPfm.Sound.System SoundSystem
+        public MPfm.Sound.FMODWrapper.System SoundSystem
         {
             get
             {
@@ -195,7 +196,7 @@ namespace MPfm.Library
         /// <summary>
         /// Returns the currently playing Sound object from the AudioFiles array.
         /// </summary>
-        public MPfm.Sound.Sound CurrentSound
+        public MPfm.Sound.FMODWrapper.Sound CurrentSound
         {
             get
             {
@@ -213,7 +214,7 @@ namespace MPfm.Library
         /// <summary>
         /// Returns the currently playing Channel object from the AudioFiles array.
         /// </summary>
-        public MPfm.Sound.Channel CurrentChannel
+        public MPfm.Sound.FMODWrapper.Channel CurrentChannel
         {
             get
             {
@@ -361,7 +362,7 @@ namespace MPfm.Library
             FMOD.OUTPUTTYPE fmodOutputType = ConvertDriverTypeToFMODOutputType(driverType);
 
             // Create sound system
-            m_soundSystem = new MPfm.Sound.System(fmodOutputType, outputDeviceName);
+            m_soundSystem = new MPfm.Sound.FMODWrapper.System(fmodOutputType, outputDeviceName);
 
             // Get DSP buffer size
             DSPBufferSize dspBufferSize = m_soundSystem.GetDSPBufferSize();

@@ -41,6 +41,7 @@ using System.Web.Services.Protocols;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
 
@@ -1526,7 +1527,7 @@ namespace MPfm
                 }
                                 
                 // Get sound format and tags
-                MPfm.Sound.Sound tempSound = Player.SoundSystem.CreateSound(filePath, false);
+                MPfm.Sound.FMODWrapper.Sound tempSound = Player.SoundSystem.CreateSound(filePath, false);
                 
                 // Get sound format
                 SoundFormat soundFormat = tempSound.GetSoundFormat();
