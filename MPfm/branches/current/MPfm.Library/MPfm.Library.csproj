@@ -75,6 +75,7 @@
     <Compile Include="Library.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerV3.cs" />
+    <Compile Include="PlayerV4.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

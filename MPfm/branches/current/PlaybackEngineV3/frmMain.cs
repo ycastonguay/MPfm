@@ -28,7 +28,8 @@ namespace PlaybackEngineV3
     {
         // Private variables
         private string ConfigKey_LastUsedDirectory = "LastUsedDirectory";
-        private PlayerV3 player = null;
+        private PlayerV3 playerV3 = null;
+        private PlayerV4 playerV4 = null;
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
@@ -79,8 +80,8 @@ namespace PlaybackEngineV3
 
             // Load player
             //player = new PlayerV3(V3DriverType.WavWriter, "");
-            player = new PlayerV3();
-            player.Volume = trackVolume.Value;
+            playerV3 = new PlayerV3();
+            playerV3.Volume = trackVolume.Value;
         }
 
         /// <summary>
@@ -91,11 +92,11 @@ namespace PlaybackEngineV3
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Make sure the player isn't null
-            if (player != null)
+            if (playerV3 != null)
             {
                 // Close the player and set to null
-                player.Close();
-                player = null;
+                playerV3.Close();
+                playerV3 = null;
             }
         }
 
@@ -146,7 +147,7 @@ namespace PlaybackEngineV3
         private void btnStop_Click(object sender, EventArgs e)
         {
             // Stop playback
-            player.Stop();
+            playerV3.Stop();
 
             // Enable/disable buttons
             btnPlay.Enabled = true;
@@ -167,7 +168,7 @@ namespace PlaybackEngineV3
             btnStop.Enabled = true;
 
             // Play set of files
-            player.PlayFiles(soundFiles);
+            playerV3.PlayFiles(soundFiles);
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnPause_Click(object sender, EventArgs e)
         {
-            if (!player.IsPaused)
+            if (!playerV3.IsPaused)
             {
                 btnPause.BackColor = SystemColors.ControlDark;
             }
@@ -185,7 +186,7 @@ namespace PlaybackEngineV3
             {
                 btnPause.BackColor = SystemColors.Control;
             }
-            player.Pause();            
+            playerV3.Pause();            
         }
 
         /// <summary>
@@ -208,35 +209,35 @@ namespace PlaybackEngineV3
         private void timerUpdateSoundSystem_Tick(object sender, EventArgs e)
         {
             // Check if the player needs to be updated
-            if (player != null && player.IsPlaying)
+            if (playerV3 != null && playerV3.IsPlaying)
             {
                 // Update the player audio stream
-                player.Update();
+                playerV3.Update();
 
                 // Check if there's a currently playing channel/sound object
-                if (player.CurrentAudioFile == null || !player.IsPlaying || player.IsPaused)
+                if (playerV3.CurrentAudioFile == null || !playerV3.IsPlaying || playerV3.IsPaused)
                 {
                     return;
                 }
 
                 // Set metadata           
-                lblCurrentArtist.Text = player.CurrentAudioFile.ArtistName;
-                lblCurrentAlbum.Text = player.CurrentAudioFile.AlbumTitle;
-                lblCurrentTitle.Text = player.CurrentAudioFile.Title;
-                lblCurrentPath.Text = player.CurrentAudioFile.FilePath;                
-                lblCurrentPosition.Text = player.CurrentChannel.Position;
-                lblCurrentPositionPCM.Text = player.CurrentChannel.PositionPCM.ToString();
-                lblCurrentLength.Text = player.CurrentSound.Length;
-                lblCurrentLengthPCM.Text = player.CurrentSound.LengthPCM.ToString();
+                lblCurrentArtist.Text = playerV3.CurrentAudioFile.ArtistName;
+                lblCurrentAlbum.Text = playerV3.CurrentAudioFile.AlbumTitle;
+                lblCurrentTitle.Text = playerV3.CurrentAudioFile.Title;
+                lblCurrentPath.Text = playerV3.CurrentAudioFile.FilePath;
+                lblCurrentPosition.Text = playerV3.CurrentChannel.Position;
+                lblCurrentPositionPCM.Text = playerV3.CurrentChannel.PositionPCM.ToString();
+                lblCurrentLength.Text = playerV3.CurrentSound.Length;
+                lblCurrentLengthPCM.Text = playerV3.CurrentSound.LengthPCM.ToString();
 
                 if (!isSongPositionChanging)
                 {
-                    trackPosition.Maximum = (int)player.CurrentSound.LengthPCMBytes;
-                    trackPosition.Value = (int)player.CurrentChannel.PositionPCMBytes;
+                    trackPosition.Maximum = (int)playerV3.CurrentSound.LengthPCMBytes;
+                    trackPosition.Value = (int)playerV3.CurrentChannel.PositionPCMBytes;
                 }
 
                 // Set status bar
-                lblStatus.Text = player.NumberOfChannelsPlaying.ToString() + " channel(s) playing // Current channel index: " + player.CurrentAudioFileIndex.ToString() + " // Output mixer frequency: " + player.OutputFormatMixer.sampleRate.ToString() + " Hz";
+                lblStatus.Text = playerV3.NumberOfChannelsPlaying.ToString() + " channel(s) playing // Current channel index: " + playerV3.CurrentAudioFileIndex.ToString() + " // Output mixer frequency: " + playerV3.OutputFormatMixer.sampleRate.ToString() + " Hz";
             }
         }
 
@@ -276,11 +277,11 @@ namespace PlaybackEngineV3
         private void trackVolume_Scroll(object sender, EventArgs e)
         {
             // Check if player is valid
-            if (player != null)
+            if (playerV3 != null)
             {
                 // Set volume and update label
-                player.Volume = trackVolume.Value;
-                lblVolumeValue.Text = player.Volume.ToString() + "%";
+                playerV3.Volume = trackVolume.Value;
+                lblVolumeValue.Text = playerV3.Volume.ToString() + "%";
             }
         }
 

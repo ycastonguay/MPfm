@@ -58,6 +58,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bass.Net, Version=2.4.8.0, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -76,7 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFile.cs" />
-    <Compile Include="AudioTools.cs" />    
+    <Compile Include="AudioTools.cs" />
+    <Compile Include="Bass.Net\Stream.cs" />
+    <Compile Include="Bass.Net\Exception.cs" />
+    <Compile Include="Bass.Net\System.cs" />
     <Compile Include="ConvertAudio.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="FMod\DSP.cs" />
@@ -118,11 +122,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\bass.dll" />
+    <Content Include="Lib\Bass.Net.dll" />
+    <Content Include="Lib\bassflac.dll" />
+    <Content Include="Lib\bass_fx.dll" />
+    <Content Include="Lib\fmodex.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bass.Net\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
