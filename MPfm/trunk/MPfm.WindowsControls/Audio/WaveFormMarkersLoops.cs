@@ -38,6 +38,7 @@ using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 
 namespace MPfm.WindowsControls
@@ -968,10 +969,10 @@ namespace MPfm.WindowsControls
                 string fileName = (string)e.Argument;
 
                 // Create sound system with NOSOUND
-                MPfm.Sound.System soundSystem = new MPfm.Sound.System(FMOD.OUTPUTTYPE.NOSOUND, string.Empty);
+                MPfm.Sound.FMODWrapper.System soundSystem = new MPfm.Sound.FMODWrapper.System(FMOD.OUTPUTTYPE.NOSOUND, string.Empty);
 
                 // Create sound
-                MPfm.Sound.Sound sound = soundSystem.CreateSound(fileName, false);
+                MPfm.Sound.FMODWrapper.Sound sound = soundSystem.CreateSound(fileName, false);
 
                 // Get sound format; specifically bits per sample (changes the calculations later)
                 SoundFormat soundFormat = sound.GetSoundFormat();               

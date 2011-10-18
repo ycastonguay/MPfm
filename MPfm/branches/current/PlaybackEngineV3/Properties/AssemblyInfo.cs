@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Prototype screen used for testing the MPfm Playback Engine V3.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MPfm - Playback Engine V3")]03 - Bananfluer Overalt.flac
+[assembly: AssemblyProduct("MPfm - Playback Engine V3")]
 [assembly: AssemblyCopyright("Copyright © 2011 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

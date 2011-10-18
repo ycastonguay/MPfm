@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using MPfm.Library;
 using MPfm.Library.Data;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 
 namespace MPfm

@@ -30,6 +30,7 @@ using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
 using MPfm.Library.Data;
