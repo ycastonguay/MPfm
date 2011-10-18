@@ -110,7 +110,7 @@
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(307, 15);
             this.lblTitle.TabIndex = 14;
-            this.lblTitle.Text = "MPfm - Playback Engine V3 Demo";
+            this.lblTitle.Text = "MPfm - Playback Engine V4 Demo";
             // 
             // groupOptions
             // 

@@ -88,6 +88,11 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        public long GetPosition()
+        {
+            return Bass.BASS_ChannelGetPosition(m_handle);
+        }
+
         public void Play(bool restart)
         {
             // Start playback
@@ -96,6 +101,21 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error
                 System.CheckForError();
             }
+        }
+
+        public void Stop()
+        {
+            // Stop playback
+            if (!Bass.BASS_ChannelStop(m_handle))
+            {
+                // Check for error
+                System.CheckForError();
+            }
+        }
+
+        public bool Pause()
+        {
+            return Bass.BASS_ChannelPause(m_handle);
         }
     }
 }

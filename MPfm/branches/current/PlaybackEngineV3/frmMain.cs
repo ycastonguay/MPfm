@@ -49,39 +49,51 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void frmMain_Load(object sender, EventArgs e)
         {
-            // Configure trace
-            textTraceListener = new TextWriterTraceListener(@"PEV3_Log.txt");
-            Trace.Listeners.Add(textTraceListener);
-
-            // Write trace init
-            Tracing.Log("======================================================");
-            Tracing.Log("MPfm - Playback Engine V3 Demo");
-            Tracing.Log("Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString());            
-
-            // Set version label
-            lblVersion.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-            // Get last used directory from configuration
-            string directory = string.Empty;
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            if (config.AppSettings.Settings[ConfigKey_LastUsedDirectory] != null)
+            try
             {
-                directory = config.AppSettings.Settings[ConfigKey_LastUsedDirectory].Value;
+                // Configure trace
+                textTraceListener = new TextWriterTraceListener(@"PEV4_Log.txt");
+                Trace.Listeners.Add(textTraceListener);
+
+                // Write trace init
+                Tracing.Log("======================================================");
+                Tracing.Log("MPfm - Playback Engine V4 Demo");
+                Tracing.Log("Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+                // Set version label
+                lblVersion.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+                // Get last used directory from configuration
+                string directory = string.Empty;
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                if (config.AppSettings.Settings[ConfigKey_LastUsedDirectory] != null)
+                {
+                    directory = config.AppSettings.Settings[ConfigKey_LastUsedDirectory].Value;
+                }
+
+                // Set directory
+                txtPath.Text = directory;
+
+                // Load the playlist if the path is valid
+                if (!String.IsNullOrEmpty(directory))
+                {
+                    LoadPlaylist();
+                }
+
+                // Load player
+                //player = new PlayerV3(V3DriverType.WavWriter, "");
+                //playerV3 = new PlayerV3();
+                //playerV3.Volume = trackVolume.Value;
+                playerV4 = new PlayerV4();
+
             }
-
-            // Set directory
-            txtPath.Text = directory;
-
-            // Load the playlist if the path is valid
-            if (!String.IsNullOrEmpty(directory))
+            catch (Exception ex)
             {
-                LoadPlaylist();
+                MessageBox.Show(ex.Message);
+                Tracing.Log(ex.Message);
+                Tracing.Log(ex.StackTrace);
+                Application.Exit();
             }
-
-            // Load player
-            //player = new PlayerV3(V3DriverType.WavWriter, "");
-            playerV3 = new PlayerV3();
-            playerV3.Volume = trackVolume.Value;
         }
 
         /// <summary>
@@ -91,13 +103,13 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Make sure the player isn't null
-            if (playerV3 != null)
-            {
-                // Close the player and set to null
-                playerV3.Close();
-                playerV3 = null;
-            }
+            //// Make sure the player isn't null
+            //if (playerV3 != null)
+            //{
+            //    // Close the player and set to null
+            //    playerV3.Close();
+            //    playerV3 = null;
+            //}
         }
 
         /// <summary>
@@ -147,7 +159,8 @@ namespace PlaybackEngineV3
         private void btnStop_Click(object sender, EventArgs e)
         {
             // Stop playback
-            playerV3.Stop();
+            //playerV3.Stop();
+            playerV4.Stop();
 
             // Enable/disable buttons
             btnPlay.Enabled = true;
@@ -168,7 +181,8 @@ namespace PlaybackEngineV3
             btnStop.Enabled = true;
 
             // Play set of files
-            playerV3.PlayFiles(soundFiles);
+            //playerV3.PlayFiles(soundFiles);
+            playerV4.PlayFiles(soundFiles);
         }
 
         /// <summary>
@@ -178,15 +192,17 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnPause_Click(object sender, EventArgs e)
         {
-            if (!playerV3.IsPaused)
-            {
-                btnPause.BackColor = SystemColors.ControlDark;
-            }
-            else
-            {
-                btnPause.BackColor = SystemColors.Control;
-            }
-            playerV3.Pause();            
+            playerV4.Pause();
+
+            //if (!playerV3.IsPaused)
+            //{
+            //    btnPause.BackColor = SystemColors.ControlDark;
+            //}
+            //else
+            //{
+            //    btnPause.BackColor = SystemColors.Control;
+            //}
+            //playerV3.Pause();            
         }
 
         /// <summary>
@@ -208,37 +224,49 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void timerUpdateSoundSystem_Tick(object sender, EventArgs e)
         {
-            // Check if the player needs to be updated
-            if (playerV3 != null && playerV3.IsPlaying)
+            // Check if the player exists
+            if (playerV4 == null || !playerV4.IsPlaying)
             {
-                // Update the player audio stream
-                playerV3.Update();
-
-                // Check if there's a currently playing channel/sound object
-                if (playerV3.CurrentAudioFile == null || !playerV3.IsPlaying || playerV3.IsPaused)
-                {
-                    return;
-                }
-
-                // Set metadata           
-                lblCurrentArtist.Text = playerV3.CurrentAudioFile.ArtistName;
-                lblCurrentAlbum.Text = playerV3.CurrentAudioFile.AlbumTitle;
-                lblCurrentTitle.Text = playerV3.CurrentAudioFile.Title;
-                lblCurrentPath.Text = playerV3.CurrentAudioFile.FilePath;
-                lblCurrentPosition.Text = playerV3.CurrentChannel.Position;
-                lblCurrentPositionPCM.Text = playerV3.CurrentChannel.PositionPCM.ToString();
-                lblCurrentLength.Text = playerV3.CurrentSound.Length;
-                lblCurrentLengthPCM.Text = playerV3.CurrentSound.LengthPCM.ToString();
-
-                if (!isSongPositionChanging)
-                {
-                    trackPosition.Maximum = (int)playerV3.CurrentSound.LengthPCMBytes;
-                    trackPosition.Value = (int)playerV3.CurrentChannel.PositionPCMBytes;
-                }
-
-                // Set status bar
-                lblStatus.Text = playerV3.NumberOfChannelsPlaying.ToString() + " channel(s) playing // Current channel index: " + playerV3.CurrentAudioFileIndex.ToString() + " // Output mixer frequency: " + playerV3.OutputFormatMixer.sampleRate.ToString() + " Hz";
+                return;
             }
+
+            //long positionBytes = playerV4.SubChannels[playerV4.CurrentChannel].Channel.GetPosition();
+
+            //lblCurrentPositionPCM.Text = positionBytes.ToString();
+
+            //lblStatus.Text = "Current channel: " + playerV4.CurrentChannel.ToString();
+
+            //// Check if the player needs to be updated
+            //if (playerV3 != null && playerV3.IsPlaying)
+            //{
+            //    // Update the player audio stream
+            //    playerV3.Update();
+
+            //    // Check if there's a currently playing channel/sound object
+            //    if (playerV3.CurrentAudioFile == null || !playerV3.IsPlaying || playerV3.IsPaused)
+            //    {
+            //        return;
+            //    }
+
+            //    // Set metadata           
+            //    lblCurrentArtist.Text = playerV3.CurrentAudioFile.ArtistName;
+            //    lblCurrentAlbum.Text = playerV3.CurrentAudioFile.AlbumTitle;
+            //    lblCurrentTitle.Text = playerV3.CurrentAudioFile.Title;
+            //    lblCurrentPath.Text = playerV3.CurrentAudioFile.FilePath;
+            //    lblCurrentPosition.Text = playerV3.CurrentChannel.Position;
+            //    lblCurrentPositionPCM.Text = playerV3.CurrentChannel.PositionPCM.ToString();
+            //    lblCurrentLength.Text = playerV3.CurrentSound.Length;
+            //    lblCurrentLengthPCM.Text = playerV3.CurrentSound.LengthPCM.ToString();
+
+            //    if (!isSongPositionChanging)
+            //    {
+            //        trackPosition.Maximum = (int)playerV3.CurrentSound.LengthPCMBytes;
+            //        trackPosition.Value = (int)playerV3.CurrentChannel.PositionPCMBytes;
+            //    }
+
+            //    // Set status bar
+            //    lblStatus.Text = playerV3.NumberOfChannelsPlaying.ToString() + " channel(s) playing // Current channel index: " + playerV3.CurrentAudioFileIndex.ToString() + " // Output mixer frequency: " + playerV3.OutputFormatMixer.sampleRate.ToString() + " Hz";
+            //}
         }
 
         /// <summary>

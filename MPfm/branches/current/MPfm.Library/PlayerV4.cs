@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
@@ -23,8 +24,50 @@ namespace MPfm.Library
             }
         }
 
+        private bool m_isPlaying = false;
+        public bool IsPlaying
+        {
+            get
+            {
+                return m_isPlaying;
+            }
+        }
+
+        private bool m_isPaused = false;
+        public bool IsPaused
+        {
+            get
+            {
+                return m_isPaused;
+            }
+        }
+
         private Channel m_mainChannel = null;
+        public Channel MainChannel
+        {
+            get
+            {
+                return m_mainChannel;
+            }
+        }
+        
         private List<PlayerV4Channel> m_subChannels = null;
+        public List<PlayerV4Channel> SubChannels
+        {
+            get
+            {
+                return m_subChannels;
+            }
+        }
+
+        private int m_currentChannel = 0;
+        public int CurrentChannel
+        {
+            get
+            {
+                return m_currentChannel;
+            }
+        }
 
         public PlayerV4()
         {
@@ -73,40 +116,72 @@ namespace MPfm.Library
                 }
             }
 
-            // Reset channels (TODO: Check if channel is in use)
-            m_subChannels = new List<PlayerV4Channel>();
-
-            if (filePaths.Count == 1)
+            try
             {
-                // TODO Something
+
+                // Reset channels (TODO: Check if channel is in use)
+                m_subChannels = new List<PlayerV4Channel>();
+                m_currentChannel = 0;
+
+                if (filePaths.Count == 1)
+                {
+                    // TODO Something
+                }
+
+                // Loop through the first two file paths
+                for (int a = 0; a < filePaths.Count; a++)
+                {
+                    // Create audio file and sound objects
+                    Tracing.Log("[PlayerV4.PlayFiles] Loading file " + (a + 1).ToString() + ": " + filePaths[a]);
+
+                    // Create channel for decoding
+                    PlayerV4Channel channel = new PlayerV4Channel();
+                    channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);
+                    channel.FileProperties = new AudioFile(filePaths[a]);
+
+                    // Add channel to list
+                    m_subChannels.Add(channel);
+                }
+
+                // Create the main channel
+                STREAMPROC streamProc = new STREAMPROC(FileProc);
+                m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, streamProc);
+
+                // Start playback
+                m_isPlaying = true;
+                m_isPaused = false;
+                m_mainChannel.Play(false);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message);
+                Tracing.Log(ex.StackTrace);
+            }
+        }
+
+        public void Pause()
+        {
+            if (!m_isPaused)
+            {
+                m_mainChannel.Pause();
+            }
+            else
+            {
+                m_mainChannel.Play(false);
             }
 
-            // Loop through the first two file paths
-            for (int a = 0; a < 2; a++)
-            {
-                // Create audio file and sound objects
-                Tracing.Log("[PlayerV4.PlayFiles] Loading file " + (a + 1).ToString() + ": " + filePaths[a]);
-                
-                // Create channel for decoding
-                PlayerV4Channel channel = new PlayerV4Channel();
-                channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);
-                channel.FileProperties = new AudioFile(filePaths[a]);
+            m_isPaused = !m_isPaused;
+        }
 
-                // Add channel to list
-                m_subChannels.Add(channel);
-            }
-
-            // Create the main channel
-            STREAMPROC streamProc = new STREAMPROC(FileProc);
-            m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, streamProc);
-
-            // Start playback
-            m_mainChannel.Play(false);
+        public void Stop()
+        {
+            m_isPlaying = false;
+            m_mainChannel.Stop();
         }
 
         private int FileProc(int handle, IntPtr buffer, int length, IntPtr user)
         {
-            // Loop through channels
+            // Loop through channels (TODO: use current channel instead)
             for (int a = 0; a < m_subChannels.Count; a++)
             {
                 // Get active status
@@ -115,8 +190,17 @@ namespace MPfm.Library
                 // Check if channel is playing
                 if (status == BASSActive.BASS_ACTIVE_PLAYING)
                 {
+                    // Update current channel
+                    m_currentChannel = a;
+
                     // Return data
                     return m_subChannels[a].Channel.GetData(buffer, length);
+
+                    // create a pinned handle to a managed object
+                    //GCHandle hGC = GCHandle.Alloc(data, GCHandleType.Pinned);
+
+                    //int data = 0;
+
                 }
             }
 

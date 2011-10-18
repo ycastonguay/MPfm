@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Flac;
@@ -48,11 +50,19 @@ namespace MPfm.Sound.BassNetWrapper
         
         public void LoadFlacPlugin()
         {
-            // Load Flac plugin
-            if (!BassFlac.LoadMe())
+            //// Load Flac plugin
+            //if (!BassFlac.LoadMe())
+            //{
+            //    // Check for error (throw exception if the error is found)
+            //    CheckForError();
+            //}
+
+            // Load plugins
+            string filePathFlacPlugin = Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath) + "\\bassflac.dll";
+            int pluginFlac = Bass.BASS_PluginLoad(filePathFlacPlugin);
+            if (pluginFlac == 0)
             {
-                // Check for error (throw exception if the error is found)
-                CheckForError();
+                // Error loading plugin
             }
         }
 
