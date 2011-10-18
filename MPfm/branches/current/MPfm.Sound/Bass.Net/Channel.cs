@@ -8,7 +8,7 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Sound.BassNetWrapper
 {
-    public class Stream
+    public class Channel
     {
         private int m_handle = 0;
         public int Handle
@@ -19,12 +19,25 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
-        public Stream(int handle)
+        public Channel(int handle)
         {
             m_handle = handle;
         }
 
-        public static Stream CreateFileStreamForDecoding(string filePath)
+        public static Channel CreateStream(int frequency, int numberOfChannels, STREAMPROC streamProc)
+        {
+            // Create file stream
+            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, BASSFlag.BASS_DEFAULT, streamProc, IntPtr.Zero);
+            if (handle == 0)
+            {
+                // Check for error
+                System.CheckForError();
+            }
+
+            return new Channel(handle);
+        }
+
+        public static Channel CreateFileStreamForDecoding(string filePath)
         {
             // Create file stream
             int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE);
@@ -34,10 +47,10 @@ namespace MPfm.Sound.BassNetWrapper
                 System.CheckForError();
             }
 
-            return new Stream(handle);
+            return new Channel(handle);
         }
 
-        public static Stream CreateStreamForTimeShifting(int streamHandle, bool decode)
+        public static Channel CreateStreamForTimeShifting(int streamHandle, bool decode)
         {
             // Create file stream
             int handle = BassFx.BASS_FX_TempoCreate(streamHandle, decode ? BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT : BASSFlag.BASS_SAMPLE_FLOAT);
@@ -47,7 +60,22 @@ namespace MPfm.Sound.BassNetWrapper
                 System.CheckForError();
             }
 
-            return new Stream(handle);
+            return new Channel(handle);
+        }
+
+        public int GetData(byte[] buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
+        }
+
+        public int GetData(IntPtr buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
+        }
+
+        public BASSActive IsActive()
+        {
+            return Bass.BASS_ChannelIsActive(m_handle);
         }
         
         public void SetTempo(float tempo)

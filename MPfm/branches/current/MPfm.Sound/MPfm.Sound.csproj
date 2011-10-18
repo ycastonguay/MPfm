@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="AudioFile.cs" />
     <Compile Include="AudioTools.cs" />
-    <Compile Include="Bass.Net\Stream.cs" />
+    <Compile Include="Bass.Net\Channel.cs" />
     <Compile Include="Bass.Net\Exception.cs" />
     <Compile Include="Bass.Net\System.cs" />
     <Compile Include="ConvertAudio.cs" />
