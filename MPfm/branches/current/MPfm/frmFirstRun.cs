@@ -68,7 +68,7 @@ namespace MPfm
             try
             {
                 // Get list of output devices without starting the sound system
-                listOutputDevices = MPfm.Sound.System.GetOutputDevicesWithoutStartingSystem();
+                listOutputDevices = MPfm.Sound.FMODWrapper.System.GetOutputDevicesWithoutStartingSystem();
 
                 // Update combo list of output devices
                 cboOutputDevices.Items.Clear();
@@ -81,7 +81,7 @@ namespace MPfm
                 cboOutputDevices.SelectedIndex = 0;
 
                 // Get list of drivers (output types)
-                cboDrivers.DataSource = MPfm.Sound.System.GetOutputTypes();
+                cboDrivers.DataSource = MPfm.Sound.FMODWrapper.System.GetOutputTypes();
             }
             catch (Exception ex)
             {

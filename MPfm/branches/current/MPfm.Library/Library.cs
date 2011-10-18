@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.FMODWrapper;
 using MPfm.Library.Data;
 
 namespace MPfm.Library
@@ -692,7 +693,7 @@ namespace MPfm.Library
         public Song UpdateSongFromTags(Song song, bool updateDatabase)
         {
             // Create temporary sound
-            MPfm.Sound.Sound sound = Player.SoundSystem.CreateSound(song.FilePath, false);
+            MPfm.Sound.FMODWrapper.Sound sound = Player.SoundSystem.CreateSound(song.FilePath, false);
 
             // Get tags
             Tags tags = sound.GetTags();

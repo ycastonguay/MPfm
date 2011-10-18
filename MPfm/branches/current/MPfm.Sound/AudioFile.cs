@@ -240,11 +240,11 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Private value for the Channel property.
 		/// </summary>
-		private MPfm.Sound.Channel m_channel = null;
+        private MPfm.Sound.FMODWrapper.Channel m_channel = null;
 		/// <summary>
 		/// Channel object used for playing this audio file.
 		/// </summary>
-		public MPfm.Sound.Channel Channel
+        public MPfm.Sound.FMODWrapper.Channel Channel
 		{
 			get
 			{
@@ -259,11 +259,11 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Private value for the Sound property.
 		/// </summary>
-		private MPfm.Sound.Sound m_sound = null;
+        private MPfm.Sound.FMODWrapper.Sound m_sound = null;
 		/// <summary>
 		/// Sound object used for playing this audio file.
 		/// </summary>
-		public MPfm.Sound.Sound Sound
+        public MPfm.Sound.FMODWrapper.Sound Sound
 		{
 			get
 			{
