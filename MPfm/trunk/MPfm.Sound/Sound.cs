@@ -224,6 +224,30 @@ namespace MPfm.Sound
         }
 
         /// <summary>
+        /// [FMOD documentation] Retrieves the state a sound is in after FMOD_NONBLOCKING has been used to open it, or the state of the streaming buffer.
+        /// </summary>
+        public SoundOpenState GetOpenState()
+        {
+            FMOD.RESULT result;
+            SoundOpenState state = new SoundOpenState();
+
+            try
+            {
+                if (BaseSound != null)
+                {
+                    result = BaseSound.getOpenState(ref state.openState, ref state.percentBuffered, ref state.starving, ref state.diskBusy);
+                    System.CheckForError(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return state;
+        }
+
+        /// <summary>
         /// Reads the PCM raw data of the sound object.        
         /// </summary>
         /// <returns>Byte array</returns>
@@ -758,5 +782,13 @@ namespace MPfm.Sound
         public string Trck { get; set; }
         public string Tpe1 { get; set; }
         public string Txxx { get; set; }
+    }
+
+    public class SoundOpenState
+    {
+        public FMOD.OPENSTATE openState;
+        public uint percentBuffered;
+        public bool starving;
+        public bool diskBusy;
     }
 }
