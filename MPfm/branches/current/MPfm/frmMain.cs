@@ -785,6 +785,8 @@ namespace MPfm
                 string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
                 lblCurrentTime.Text = currentTime;
 
+                lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
+
                 // Update data for Loops & Markers wave form display
                 waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
                 waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;

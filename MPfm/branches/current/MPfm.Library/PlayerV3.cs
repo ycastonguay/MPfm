@@ -452,30 +452,77 @@ namespace MPfm.Library
                 return;
             }
 
-            Tracing.Log("[PlayerV3.Channel_SoundEnd] Channel has stopped playing");
+            //Tracing.Log("[PlayerV3.Channel_SoundEnd] Channel has stopped playing");
 
             // Make sure this is not the last audio file to play
             if (m_currentAudioFileIndex >= m_audioFiles.Length - 1)
             {
-                Tracing.Log("[PlayerV3.Channel_SoundEnd] No need to increment m_currentAudioFileIndex since this is the last song (" + (m_currentAudioFileIndex + 1).ToString() + " / " + m_audioFiles.Length.ToString() + ")");
+                //Tracing.Log("[PlayerV3.Channel_SoundEnd] No need to increment m_currentAudioFileIndex since this is the last song (" + (m_currentAudioFileIndex + 1).ToString() + " / " + m_audioFiles.Length.ToString() + ")");
                 return;
             }
 
             // Increment the audio file counter
             m_currentAudioFileIndex++;
 
-            Tracing.Log("[PlayerV3.Channel_SoundEnd] Incremented the current channel to " + (m_currentAudioFileIndex + 1).ToString() + " / " + m_audioFiles.Length.ToString());
+            //Tracing.Log("[PlayerV3.Channel_SoundEnd] Incremented the current channel to " + (m_currentAudioFileIndex + 1).ToString() + " / " + m_audioFiles.Length.ToString());
 
             // Make sure this is not the last audio file to play
             if (m_currentAudioFileIndex < m_audioFiles.Length - 1)
             {
                 // Flag the timer it's time to load the next song                                
-                Tracing.Log("[PlayerV3.Channel_SoundEnd] Load the next song in advance (start timer).");
-                m_timerPlayer.Enabled = true;
+                //Tracing.Log("[PlayerV3.Channel_SoundEnd] Load the next song in advance (start timer).");
+
+                // Load Sound object
+                //Tracing.Log("[PlayerV3.timerPlayer] Time to load a new song!");
+                //Tracing.Log("[PlayerV3.timerPlayer] (" + (m_currentAudioFileIndex + 1).ToString() + "/" + m_audioFiles.Length.ToString() + ") " + m_audioFiles[m_currentAudioFileIndex + 1].FilePath);
+                
+                
+                
+                //m_audioFiles[m_currentAudioFileIndex + 1].Sound = m_soundSystem.CreateSound(m_audioFiles[m_currentAudioFileIndex + 1].FilePath, true);
+
+                // Create channel                
+                //m_audioFiles[m_currentAudioFileIndex + 1].Channel = new Channel(m_soundSystem);
+                //m_audioFiles[m_currentAudioFileIndex + 1].Channel.SoundEnd += new Channel.SoundEndHandler(Channel_SoundEnd);
+                //m_audioFiles[m_currentAudioFileIndex+1].Channel.Volume = m_volume;
+
+                // Lock the DSP mixer (make sure the delay values stay in sync)
+                //Tracing.Log("[PlayerV3.timerPlayer] Locking DSP engine...");
+                m_soundSystem.LockDSP();
+
+                uint length_pcm = (uint)((m_audioFiles[m_currentAudioFileIndex].Sound.LengthPCM * m_outputFormatMixer.sampleRate / m_audioFiles[m_currentAudioFileIndex].Channel.Frequency) + 0.5f);
+                float frequency = m_audioFiles[m_currentAudioFileIndex].Channel.Frequency;
+                //Tracing.Log("[PlayerV3.timerPlayer] LengthPCM: " + length_pcm.ToString());
+
+                // Start playback (in paused mode) <<-- this can be done BEFORE and just setPaused(true) instead.
+                m_soundSystem.PlaySound(m_audioFiles[m_currentAudioFileIndex + 1].Sound, true, m_audioFiles[m_currentAudioFileIndex + 1].Channel);            
+
+                // Get existing delay
+                Fmod64BitWord wordDelay = m_audioFiles[m_currentAudioFileIndex + 1].Channel.GetDelay(FMOD.DELAYTYPE.DSPCLOCK_START);
+
+                // Calculate position (with frequency conversion)
+                //uint position = (uint)((m_audioFiles[m_currentAudioFileIndex].Channel.PositionPCM * m_outputFormatMixer.sampleRate / frequency) + 0.5f);
+
+                // Substact the current position from the total length
+                AudioTools.FMOD_64BIT_ADD(ref wordDelay.hi, ref wordDelay.lo, 0, length_pcm);
+
+                // Set the new DSP clock start delay value            
+                m_audioFiles[m_currentAudioFileIndex + 1].Channel.SetDelay(FMOD.DELAYTYPE.DSPCLOCK_START, wordDelay.hi, wordDelay.lo);
+
+                // Start playback
+                m_audioFiles[m_currentAudioFileIndex + 1].Channel.Pause(false);
+
+                // Unlock the DSP mixer (the delays have been set)
+                m_soundSystem.UnlockDSP();
+                //Tracing.Log("[PlayerV3.timerPlayer] Unlocked DSP engine.");
+                //Tracing.Log("[PlayerV3.timerPlayer] Set delay: " + wordDelay.lo.ToString());
+                
+                
+                
+                //m_timerPlayer.Enabled = true;
             }
             else
             {
-                Tracing.Log("[PlayerV3.Channel_SoundEnd] This is the last song, no more songs to load in advance.");
+                //Tracing.Log("[PlayerV3.Channel_SoundEnd] This is the last song, no more songs to load in advance.");
             }
         }
 
@@ -507,8 +554,8 @@ namespace MPfm.Library
             Tracing.Log("[PlayerV3.timerPlayer] Locking DSP engine...");
             m_soundSystem.LockDSP();
 
-            // Start playback (in paused mode) 
-            m_soundSystem.PlaySound(m_audioFiles[m_currentAudioFileIndex + 1].Sound, true, m_audioFiles[m_currentAudioFileIndex + 1].Channel);
+            // Start playback (in paused mode) <<-- this can be done BEFORE and just setPaused(true) instead.
+            //m_soundSystem.PlaySound(m_audioFiles[m_currentAudioFileIndex + 1].Sound, true, m_audioFiles[m_currentAudioFileIndex + 1].Channel);            
 
             // Get existing delay
             Fmod64BitWord wordDelay = m_audioFiles[m_currentAudioFileIndex + 1].Channel.GetDelay(FMOD.DELAYTYPE.DSPCLOCK_START);
@@ -940,6 +987,7 @@ namespace MPfm.Library
 
             // Loop through the first two songs
             for (int a = channelStartIndex; a < channelStartIndex + 2; a++)
+            //for (int a = channelStartIndex; a < m_audioFiles.Length; a++)
             {
                 // Start playback (in paused mode)                
                 m_soundSystem.PlaySound(m_audioFiles[a].Sound, true, m_audioFiles[a].Channel);
