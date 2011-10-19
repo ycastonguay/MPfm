@@ -17,6 +17,9 @@ namespace MPfm.Library
     {
         private STREAMPROC m_streamProc;
 
+        public delegate void SongFinished(PlayerV4SongFinishedData data);
+        public event SongFinished OnSongFinished;
+
         private MPfm.Sound.BassNetWrapper.System m_system = null;
         public MPfm.Sound.BassNetWrapper.System System
         {
@@ -62,12 +65,20 @@ namespace MPfm.Library
             }
         }
 
-        private int m_currentChannel = 0;
-        public int CurrentChannel
+        private int m_currentSubChannelIndex = 0;
+        public int CurrentSubChannelIndex
         {
             get
             {
-                return m_currentChannel;
+                return m_currentSubChannelIndex;
+            }
+        }
+
+        public PlayerV4Channel CurrentSubChannel
+        {
+            get
+            {
+                return m_subChannels[m_currentSubChannelIndex];
             }
         }
 
@@ -123,7 +134,7 @@ namespace MPfm.Library
 
                 // Reset channels (TODO: Check if channel is in use)
                 m_subChannels = new List<PlayerV4Channel>();
-                m_currentChannel = 0;
+                m_currentSubChannelIndex = 0;
 
                 if (filePaths.Count == 1)
                 {
@@ -192,8 +203,22 @@ namespace MPfm.Library
                 // Check if channel is playing
                 if (status == BASSActive.BASS_ACTIVE_PLAYING)
                 {
-                    // Update current channel
-                    m_currentChannel = a;
+                    // Check if the current channel needs to be updated
+                    if (m_currentSubChannelIndex != a)
+                    {
+                        // Set current channel
+                        m_currentSubChannelIndex = a;
+
+                        // Raise song end event (if an event is subscribed)
+                        if (OnSongFinished != null)
+                        {
+                            // Create data
+                            PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+
+                            // Raise event
+                            OnSongFinished(data);
+                        }   
+                    }
 
                     // Return data
                     return m_subChannels[a].Channel.GetData(buffer, length);
@@ -215,5 +240,12 @@ namespace MPfm.Library
     {
         public AudioFile FileProperties { get; set; }
         public Channel Channel { get; set; }
+    }
+
+    /// <summary>
+    /// Defines the data structure for the end-of-song event.
+    /// </summary>
+    public class PlayerV4SongFinishedData
+    {
     }
 }

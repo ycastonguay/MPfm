@@ -28,7 +28,7 @@ namespace PlaybackEngineV3
     {
         // Private variables
         private string ConfigKey_LastUsedDirectory = "LastUsedDirectory";
-        private PlayerV3 playerV3 = null;
+        //private PlayerV3 playerV3 = null;
         private PlayerV4 playerV4 = null;
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
@@ -85,6 +85,7 @@ namespace PlaybackEngineV3
                 //playerV3 = new PlayerV3();
                 //playerV3.Volume = trackVolume.Value;
                 playerV4 = new PlayerV4();
+                playerV4.OnSongFinished += new PlayerV4.SongFinished(playerV4_OnSongFinished);
 
             }
             catch (Exception ex)
@@ -110,6 +111,19 @@ namespace PlaybackEngineV3
             //    playerV3.Close();
             //    playerV3 = null;
             //}
+        }
+
+        /// <summary>
+        /// Occurs when the current song has finished playing.
+        /// </summary>
+        /// <param name="data">Song Finished Data</param>
+        protected void playerV4_OnSongFinished(PlayerV4SongFinishedData data)
+        {
+            // Set metadata           
+            lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+            lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+            lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+            lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
         }
 
         /// <summary>
@@ -230,12 +244,33 @@ namespace PlaybackEngineV3
                 return;
             }
 
-            long positionBytes = playerV4.SubChannels[playerV4.CurrentChannel].Channel.GetPosition();
+            // Get position (in bytes)
+            long positionBytes = playerV4.CurrentSubChannel.Channel.GetPosition();
 
+            // Set position labels
             lblCurrentPositionPCM.Text = positionBytes.ToString();
 
-            lblStatus.Text = "Current channel: " + playerV4.CurrentChannel.ToString();
+            lblStatus.Text = "Current channel: " + playerV4.CurrentSubChannelIndex.ToString();
 
+            //double seconds = playerV4.CurrentSubChannel.Channel.Bytes2Seconds(positionBytes).ToString();            
+
+            long samples = positionBytes * 8 / 16 / 2;
+            ulong milliseconds = (ulong)samples * 1000 / 44100;
+
+
+            lblCurrentPosition.Text = MPfm.Core.Conversion.MillisecondsToTimeString(milliseconds);
+            
+            //label6.Text = milliseconds.ToString();
+
+            // Set the metadata for the first time (initial value == [Artist])
+            if (lblCurrentArtist.Text == "[Artist]")
+            {
+                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;               
+            }
+             
             //// Check if the player needs to be updated
             //if (playerV3 != null && playerV3.IsPlaying)
             //{
@@ -304,13 +339,13 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void trackVolume_Scroll(object sender, EventArgs e)
         {
-            // Check if player is valid
-            if (playerV3 != null)
-            {
-                // Set volume and update label
-                playerV3.Volume = trackVolume.Value;
-                lblVolumeValue.Text = playerV3.Volume.ToString() + "%";
-            }
+            //// Check if player is valid
+            //if (playerV3 != null)
+            //{
+            //    // Set volume and update label
+            //    playerV3.Volume = trackVolume.Value;
+            //    lblVolumeValue.Text = playerV3.Volume.ToString() + "%";
+            //}
         }
 
         /// <summary>
