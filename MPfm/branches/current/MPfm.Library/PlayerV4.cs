@@ -149,8 +149,8 @@ namespace MPfm.Library
 
                     // Create channel for decoding
                     PlayerV4Channel channel = new PlayerV4Channel();
-                    channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);
                     channel.FileProperties = new AudioFile(filePaths[a]);
+                    channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);                    
 
                     // Add channel to list
                     m_subChannels.Add(channel);

@@ -119,11 +119,25 @@ namespace PlaybackEngineV3
         /// <param name="data">Song Finished Data</param>
         protected void playerV4_OnSongFinished(PlayerV4SongFinishedData data)
         {
-            // Set metadata           
-            lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-            lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-            lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-            lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                // Set metadata
+                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }
         }
 
         /// <summary>
