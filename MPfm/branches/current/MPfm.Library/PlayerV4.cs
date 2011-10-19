@@ -15,6 +15,8 @@ namespace MPfm.Library
 {   
     public class PlayerV4
     {
+        private STREAMPROC m_streamProc;
+
         private MPfm.Sound.BassNetWrapper.System m_system = null;
         public MPfm.Sound.BassNetWrapper.System System
         {
@@ -144,8 +146,8 @@ namespace MPfm.Library
                 }
 
                 // Create the main channel
-                STREAMPROC streamProc = new STREAMPROC(FileProc);
-                m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, streamProc);
+                m_streamProc = new STREAMPROC(FileProc);
+                m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);
 
                 // Start playback
                 m_isPlaying = true;

@@ -230,11 +230,11 @@ namespace PlaybackEngineV3
                 return;
             }
 
-            //long positionBytes = playerV4.SubChannels[playerV4.CurrentChannel].Channel.GetPosition();
+            long positionBytes = playerV4.SubChannels[playerV4.CurrentChannel].Channel.GetPosition();
 
-            //lblCurrentPositionPCM.Text = positionBytes.ToString();
+            lblCurrentPositionPCM.Text = positionBytes.ToString();
 
-            //lblStatus.Text = "Current channel: " + playerV4.CurrentChannel.ToString();
+            lblStatus.Text = "Current channel: " + playerV4.CurrentChannel.ToString();
 
             //// Check if the player needs to be updated
             //if (playerV3 != null && playerV3.IsPlaying)
