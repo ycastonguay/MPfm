@@ -93,6 +93,16 @@ namespace MPfm.Sound.BassNetWrapper
             return Bass.BASS_ChannelGetPosition(m_handle);
         }
 
+        public void SetPosition(long position)
+        {
+            // Set position
+            if (!Bass.BASS_ChannelSetPosition(m_handle, position))
+            {
+                // Check for error
+                System.CheckForError();
+            }
+        }
+
         public long Seconds2Bytes2(double position)
         {
             return Bass.BASS_ChannelSeconds2Bytes(m_handle, position);

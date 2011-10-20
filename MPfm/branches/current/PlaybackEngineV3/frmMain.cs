@@ -123,10 +123,10 @@ namespace PlaybackEngineV3
             MethodInvoker methodUIUpdate = delegate
             {
                 // Set metadata
-                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+                //lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+                //lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+                //lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+                //lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
             };
 
             // Check if invoking is necessary
@@ -208,8 +208,7 @@ namespace PlaybackEngineV3
             btnPause.Enabled = true;
             btnStop.Enabled = true;
 
-            // Play set of files
-            //playerV3.PlayFiles(soundFiles);
+            // Play set of files            
             playerV4.PlayFiles(soundFiles);
         }
 
@@ -220,17 +219,15 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnPause_Click(object sender, EventArgs e)
         {
-            playerV4.Pause();
-
-            //if (!playerV3.IsPaused)
-            //{
-            //    btnPause.BackColor = SystemColors.ControlDark;
-            //}
-            //else
-            //{
-            //    btnPause.BackColor = SystemColors.Control;
-            //}
-            //playerV3.Pause();            
+            if (!playerV4.IsPaused)
+            {
+                btnPause.BackColor = SystemColors.ControlDark;
+            }
+            else
+            {
+                btnPause.BackColor = SystemColors.Control;
+            }
+            playerV4.Pause();                 
         }
 
         /// <summary>
@@ -271,7 +268,6 @@ namespace PlaybackEngineV3
             long samples = positionBytes * 8 / 16 / 2;
             ulong milliseconds = (ulong)samples * 1000 / 44100;
 
-
             lblCurrentPosition.Text = MPfm.Core.Conversion.MillisecondsToTimeString(milliseconds);
             
             //label6.Text = milliseconds.ToString();
@@ -279,10 +275,10 @@ namespace PlaybackEngineV3
             // Set the metadata for the first time (initial value == [Artist])
             if (lblCurrentArtist.Text == "[Artist]")
             {
-                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;               
+                //lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+                //lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+                //lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+                //lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;               
             }
              
             //// Check if the player needs to be updated

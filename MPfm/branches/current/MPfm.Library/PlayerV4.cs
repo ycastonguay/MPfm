@@ -129,6 +129,13 @@ namespace MPfm.Library
                 }
             }
 
+            // Check if the player is currently playing
+            if (m_isPlaying)
+            {
+                // Stop playback
+                Stop();
+            }
+
             try
             {
 
@@ -150,7 +157,7 @@ namespace MPfm.Library
                     // Create channel for decoding
                     PlayerV4Channel channel = new PlayerV4Channel();
                     channel.FileProperties = new AudioFile(filePaths[a]);
-                    channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);                    
+                    channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);                                        
 
                     // Add channel to list
                     m_subChannels.Add(channel);
@@ -169,6 +176,7 @@ namespace MPfm.Library
             {
                 Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message);
                 Tracing.Log(ex.StackTrace);
+                throw ex;
             }
         }
 
@@ -187,9 +195,15 @@ namespace MPfm.Library
         }
 
         public void Stop()
-        {
-            m_isPlaying = false;
+        {            
+            // Stop main channel
             m_mainChannel.Stop();
+            m_mainChannel = null;
+            m_subChannels.Clear();
+            m_subChannels = null;
+
+            // Set flag
+            m_isPlaying = false;
         }
 
         private int FileProc(int handle, IntPtr buffer, int length, IntPtr user)
@@ -219,6 +233,15 @@ namespace MPfm.Library
                             OnSongFinished(data);
                         }   
                     }
+
+                    // Loop prototype: working. 
+                    //// Check position
+                    //long positionBytes = m_subChannels[a].Channel.GetPosition();
+
+                    //if (positionBytes >= 1500000)
+                    //{
+                    //    m_subChannels[a].Channel.SetPosition(50000);
+                    //}
 
                     // Return data
                     return m_subChannels[a].Channel.GetData(buffer, length);
