@@ -1,4 +1,25 @@
-﻿using System;
+﻿//
+// PlayerV4.cs: This class is used for playing songs, sound files, gapless sequences
+//              and more.
+//
+// Copyright © 2011 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,15 +33,25 @@ using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Library
-{   
+{
+    /// <summary>
+    /// This is the main Player class which manages audio playback and the audio library.
+    /// This is the MPfm Playback Engine V4.
+    /// </summary>
     public class PlayerV4
     {
+        // Callbacks
         private STREAMPROC m_streamProc;
 
+        // Events
         public delegate void SongFinished(PlayerV4SongFinishedData data);
         public event SongFinished OnSongFinished;
 
+        // Private value for the System property.
         private MPfm.Sound.BassNetWrapper.System m_system = null;
+        /// <summary>
+        /// System main audio class.
+        /// </summary>
         public MPfm.Sound.BassNetWrapper.System System
         {
             get
@@ -29,7 +60,11 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the IsPlaying property.
         private bool m_isPlaying = false;
+        /// <summary>
+        /// Indicates if the player is currently playing an audio file.
+        /// </summary>
         public bool IsPlaying
         {
             get
@@ -38,7 +73,11 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the IsPaused property.
         private bool m_isPaused = false;
+        /// <summary>
+        /// Indicates if the player is currently paused.
+        /// </summary>
         public bool IsPaused
         {
             get
@@ -47,7 +86,11 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the MainChannel property.
         private Channel m_mainChannel = null;
+        /// <summary>
+        /// Pointer to the main channel.
+        /// </summary>
         public Channel MainChannel
         {
             get
@@ -56,7 +99,11 @@ namespace MPfm.Library
             }
         }
         
+        // Private value for the SubChannels property.
         private List<PlayerV4Channel> m_subChannels = null;
+        /// <summary>
+        /// List of sub channels used for gapless playback into the main channel.
+        /// </summary>
         public List<PlayerV4Channel> SubChannels
         {
             get
@@ -65,7 +112,11 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the CurrentSubChannelIndex.
         private int m_currentSubChannelIndex = 0;
+        /// <summary>
+        /// Currently playing sub channel index.
+        /// </summary>
         public int CurrentSubChannelIndex
         {
             get
@@ -74,6 +125,9 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Returns the currently playing sub channel.
+        /// </summary>
         public PlayerV4Channel CurrentSubChannel
         {
             get
@@ -82,6 +136,9 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Default constructor for the PlayerV4 class.
+        /// </summary>
         public PlayerV4()
         {
             // Initialize player using default driver (DirectSound)
@@ -95,6 +152,10 @@ namespace MPfm.Library
             m_subChannels = new List<PlayerV4Channel>();
         }
 
+        /// <summary>
+        /// Disposes the PlayerV4 class. 
+        /// Closes the resources to the main audio system and its plugins.
+        /// </summary>
         public void Dispose()
         {
             // Dispose plugins
@@ -180,6 +241,9 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Pauses the audio playback. Resumes the audio playback if it was paused.
+        /// </summary>
         public void Pause()
         {
             if (!m_isPaused)
@@ -194,6 +258,9 @@ namespace MPfm.Library
             m_isPaused = !m_isPaused;
         }
 
+        /// <summary>
+        /// Stops the audio playback and frees the resources used by the playback engine.
+        /// </summary>
         public void Stop()
         {            
             // Stop main channel
@@ -206,6 +273,14 @@ namespace MPfm.Library
             m_isPlaying = false;
         }
 
+        /// <summary>
+        /// File callback routine used for reading audio files.
+        /// </summary>
+        /// <param name="handle">Handle to the channel</param>
+        /// <param name="buffer">Buffer pointer</param>
+        /// <param name="length">Audio length</param>
+        /// <param name="user">User data</param>
+        /// <returns>Audio data</returns>
         private int FileProc(int handle, IntPtr buffer, int length, IntPtr user)
         {
             // Loop through channels (TODO: use current channel instead)
@@ -259,6 +334,10 @@ namespace MPfm.Library
         }
     }
 
+    /// <summary>
+    /// Structure used for the PlayerV4 containing the audio file properties/metadata
+    /// and the channel/stream properties.
+    /// </summary>
     public class PlayerV4Channel
     {
         public AudioFile FileProperties { get; set; }
