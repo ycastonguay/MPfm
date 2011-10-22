@@ -87,6 +87,9 @@ namespace PlaybackEngineV3
                 playerV4 = new PlayerV4();
                 playerV4.OnSongFinished += new PlayerV4.SongFinished(playerV4_OnSongFinished);
 
+                // Refresh status bar
+                RefreshStatusBar();
+
             }
             catch (Exception ex)
             {
@@ -104,13 +107,13 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //// Make sure the player isn't null
-            //if (playerV3 != null)
-            //{
-            //    // Close the player and set to null
-            //    playerV3.Close();
-            //    playerV3 = null;
-            //}
+            // Make sure the player isn't null
+            if (playerV4 != null)
+            {
+                // Close the player and set to null
+                playerV4.Dispose();
+                playerV4 = null;
+            }
         }
 
         /// <summary>
@@ -123,10 +126,10 @@ namespace PlaybackEngineV3
             MethodInvoker methodUIUpdate = delegate
             {
                 // Set metadata
-                //lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-                //lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-                //lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                //lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
             };
 
             // Check if invoking is necessary
@@ -140,6 +143,8 @@ namespace PlaybackEngineV3
             }
         }
 
+        #region Button Events
+        
         /// <summary>
         /// Occurs when the user clicks on the Browse button.
         /// Opens a Select Folder dialog.
@@ -231,6 +236,51 @@ namespace PlaybackEngineV3
         }
 
         /// <summary>
+        /// Occurs when the user clicks on the Prev (previous song) button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnPrev_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Next (next song) button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Repeat (repeat type) button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnRepeat_Click(object sender, EventArgs e)
+        {
+            // Cycle through repeat types
+            if (playerV4.RepeatType == RepeatType.Off)
+            {
+                playerV4.RepeatType = RepeatType.Playlist;
+            }
+            else if (playerV4.RepeatType == RepeatType.Playlist)
+            {
+                playerV4.RepeatType = RepeatType.Song;
+            }
+            else
+            {
+                playerV4.RepeatType = RepeatType.Off;
+            }
+
+            // Update status bar
+            RefreshStatusBar();
+        }
+
+        /// <summary>
         /// Occurs when the user clicks on the Exit button.
         /// </summary>
         /// <param name="sender">Event sender</param>
@@ -240,6 +290,8 @@ namespace PlaybackEngineV3
             // Exit the application
             Application.Exit();
         }
+
+        #endregion
 
         /// <summary>
         /// Occurs when the timer for updating the sound system has expired.
@@ -261,7 +313,8 @@ namespace PlaybackEngineV3
             // Set position labels
             lblCurrentPositionPCM.Text = positionBytes.ToString();
 
-            lblStatus.Text = "Current channel: " + playerV4.CurrentSubChannelIndex.ToString();
+            // Refresh status bar
+            RefreshStatusBar();
 
             //double seconds = playerV4.CurrentSubChannel.Channel.Bytes2Seconds(positionBytes).ToString();            
 
@@ -275,10 +328,10 @@ namespace PlaybackEngineV3
             // Set the metadata for the first time (initial value == [Artist])
             if (lblCurrentArtist.Text == "[Artist]")
             {
-                //lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-                //lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-                //lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                //lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;               
+                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
+                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
+                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
+                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;               
             }
              
             //// Check if the player needs to be updated
@@ -312,6 +365,22 @@ namespace PlaybackEngineV3
             //    // Set status bar
             //    lblStatus.Text = playerV3.NumberOfChannelsPlaying.ToString() + " channel(s) playing // Current channel index: " + playerV3.CurrentAudioFileIndex.ToString() + " // Output mixer frequency: " + playerV3.OutputFormatMixer.sampleRate.ToString() + " Hz";
             //}
+        }
+
+        /// <summary>
+        /// Refreshes the status bar.
+        /// </summary>
+        private void RefreshStatusBar()
+        {
+            // Build string
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Current channel: " + playerV4.CurrentSubChannelIndex.ToString());
+            sb.Append(" // ");
+            sb.Append("Mixer sample rate: " + playerV4.MixerSampleRate.ToString());
+            sb.Append(" // ");
+            sb.Append("Repeat type: " + playerV4.RepeatType.ToString());            
+
+            lblStatus.Text = sb.ToString();
         }
 
         /// <summary>

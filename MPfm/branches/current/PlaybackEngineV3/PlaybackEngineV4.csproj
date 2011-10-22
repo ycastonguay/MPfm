@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1474_Tape.ico" />
+    <None Include="Resources\RepeatHS.png" />
+    <None Include="Resources\DataContainer_MoveLastHS.png" />
+    <None Include="Resources\DataContainer_MoveFirstHS.png" />
     <None Include="Resources\PauseHS.png" />
     <None Include="Resources\DeleteHS.png" />
     <None Include="Resources\PlayHS.png" />

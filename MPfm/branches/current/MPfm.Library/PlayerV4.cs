@@ -86,6 +86,36 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the RepeatType property.
+        private RepeatType m_repeatType = RepeatType.Off;
+        /// <summary>
+        /// Repeat type (Off, Playlist, Song)
+        /// </summary>
+        public RepeatType RepeatType
+        {
+            get
+            {
+                return m_repeatType;
+            }
+            set
+            {
+                m_repeatType = value;
+            }
+        }
+
+        // Private value for the MixerSampleRate property.
+        private int m_mixerSampleRate = 44100;
+        /// <summary>
+        /// Defines the sample rate of the mixer.
+        /// </summary>
+        public int MixerSampleRate
+        {
+            get
+            {
+                return m_mixerSampleRate;
+            }
+        }
+
         // Private value for the MainChannel property.
         private Channel m_mainChannel = null;
         /// <summary>
@@ -137,16 +167,43 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Default constructor for the PlayerV4 class.
+        /// Default constructor for the PlayerV4 class. Initializes the player at the default
+        /// mixer sample rate of 44100 Hz.
         /// </summary>
         public PlayerV4()
         {
+            // Initialize system with default sample rate
+            Initialize(m_mixerSampleRate);
+        }
+
+        /// <summary>
+        /// Constructor for the PlayerV4 class which requires the mixer sample rate value to be passed
+        /// in parameter.
+        /// </summary>
+        public PlayerV4(int mixerSampleRate)
+        {
+            // Initialize system using specified sample rate
+            m_mixerSampleRate = mixerSampleRate;
+            Initialize(m_mixerSampleRate);
+        }
+
+        /// <summary>
+        /// Initializes the player.
+        /// </summary>
+        /// <param name="mixerSampleRate">Mixer sample rate</param>
+        private void Initialize(int mixerSampleRate)
+        {
             // Initialize player using default driver (DirectSound)
-            m_system = new Sound.BassNetWrapper.System(DriverType.DirectSound);
-            
+            m_system = new Sound.BassNetWrapper.System(DriverType.DirectSound, m_mixerSampleRate);
+
             // Load plugins
             m_system.LoadFlacPlugin();
             m_system.LoadFxPlugin();
+
+            // Get config
+            int buffer = m_system.GetConfig(BASSConfig.BASS_CONFIG_BUFFER);
+            int updatePeriod = m_system.GetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD);
+            int updateThreads = m_system.GetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS);
 
             // Create lists
             m_subChannels = new List<PlayerV4Channel>();
@@ -216,6 +273,8 @@ namespace MPfm.Library
                     Tracing.Log("[PlayerV4.PlayFiles] Loading file " + (a + 1).ToString() + ": " + filePaths[a]);
 
                     // Create channel for decoding
+                    // TODO: A file is already in used when playing again a playlist from the start. This happens only with MP3 files.
+                    // It is used by the BASS.NET library or the TagLib library.
                     PlayerV4Channel channel = new PlayerV4Channel();
                     channel.FileProperties = new AudioFile(filePaths[a]);
                     channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);                                        

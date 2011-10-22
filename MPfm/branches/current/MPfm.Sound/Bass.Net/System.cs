@@ -21,6 +21,15 @@ namespace MPfm.Sound.BassNetWrapper
             Initialize(44100);
         }
 
+        public System(DriverType driverType, int mixerSampleRate)
+        {
+            // Register BASS.NET with key
+            Register("yanick.castonguay@gmail.com", "2X3433427152222");
+
+            // Initialize system with default frequency and default sound card
+            Initialize(mixerSampleRate);
+        }
+
         private void Register(string email, string registrationKey)
         {
             BassNet.Registration(email, registrationKey);
@@ -44,6 +53,11 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error (throw exception if the error is found)
                 CheckForError();            
             }
+        }
+
+        public int GetConfig(BASSConfig option)
+        {
+            return Bass.BASS_GetConfig(option);
         }
 
         #region Plugins

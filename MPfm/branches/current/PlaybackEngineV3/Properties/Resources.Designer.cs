@@ -74,6 +74,20 @@ namespace PlaybackEngineV3.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap DataContainer_MoveFirstHS {
+            get {
+                object obj = ResourceManager.GetObject("DataContainer_MoveFirstHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DataContainer_MoveLastHS {
+            get {
+                object obj = ResourceManager.GetObject("DataContainer_MoveLastHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DeleteHS {
             get {
                 object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
@@ -98,6 +112,13 @@ namespace PlaybackEngineV3.Properties {
         internal static System.Drawing.Bitmap PlayHS {
             get {
                 object obj = ResourceManager.GetObject("PlayHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RepeatHS {
+            get {
+                object obj = ResourceManager.GetObject("RepeatHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

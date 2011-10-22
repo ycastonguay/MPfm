@@ -35,7 +35,6 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.groupOptions = new System.Windows.Forms.GroupBox();
             this.lblPath = new System.Windows.Forms.Label();
-            this.btnBrowse = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,28 +57,36 @@
             this.lblCurrentPositionPCM = new System.Windows.Forms.Label();
             this.lblCurrentPosition = new System.Windows.Forms.Label();
             this.trackPosition = new System.Windows.Forms.TrackBar();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dialogFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnPause = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.btnPlay = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timerUpdateSoundSystem = new System.Windows.Forms.Timer(this.components);
             this.trackVolume = new System.Windows.Forms.TrackBar();
             this.lblVolume = new System.Windows.Forms.Label();
             this.lblVolumeValue = new System.Windows.Forms.Label();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnRepeat = new System.Windows.Forms.Button();
+            this.btnPrev = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnBrowse = new System.Windows.Forms.Button();
+            this.btnPause = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnPlay = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblTimeShiftingValue = new System.Windows.Forms.Label();
+            this.lblTimeShifting = new System.Windows.Forms.Label();
+            this.trackTimeShifting = new System.Windows.Forms.TrackBar();
             this.groupOptions.SuspendLayout();
             this.groupPlaylist.SuspendLayout();
             this.groupCurrentlyPlaying.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPosition)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -121,7 +128,7 @@
             this.groupOptions.Controls.Add(this.txtPath);
             this.groupOptions.Location = new System.Drawing.Point(5, 61);
             this.groupOptions.Name = "groupOptions";
-            this.groupOptions.Size = new System.Drawing.Size(814, 62);
+            this.groupOptions.Size = new System.Drawing.Size(906, 62);
             this.groupOptions.TabIndex = 15;
             this.groupOptions.TabStop = false;
             this.groupOptions.Text = "Options";
@@ -135,20 +142,6 @@
             this.lblPath.TabIndex = 3;
             this.lblPath.Text = "Select a folder containing an album to play :";
             // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
-            this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBrowse.Location = new System.Drawing.Point(703, 30);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(107, 27);
-            this.btnBrowse.TabIndex = 1;
-            this.btnBrowse.Text = "Browse ...";
-            this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
             // txtPath
             // 
             this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -157,7 +150,7 @@
             this.txtPath.Location = new System.Drawing.Point(7, 34);
             this.txtPath.Name = "txtPath";
             this.txtPath.ReadOnly = true;
-            this.txtPath.Size = new System.Drawing.Size(690, 20);
+            this.txtPath.Size = new System.Drawing.Size(782, 20);
             this.txtPath.TabIndex = 0;
             this.txtPath.Text = "C:\\";
             // 
@@ -213,7 +206,7 @@
             this.lblCurrentArtist.ForeColor = System.Drawing.Color.White;
             this.lblCurrentArtist.Location = new System.Drawing.Point(130, 15);
             this.lblCurrentArtist.Name = "lblCurrentArtist";
-            this.lblCurrentArtist.Size = new System.Drawing.Size(394, 11);
+            this.lblCurrentArtist.Size = new System.Drawing.Size(486, 11);
             this.lblCurrentArtist.TabIndex = 24;
             this.lblCurrentArtist.Text = "[Artist]";
             this.lblCurrentArtist.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -226,7 +219,7 @@
             this.lblCurrentAlbum.ForeColor = System.Drawing.Color.White;
             this.lblCurrentAlbum.Location = new System.Drawing.Point(130, 41);
             this.lblCurrentAlbum.Name = "lblCurrentAlbum";
-            this.lblCurrentAlbum.Size = new System.Drawing.Size(400, 11);
+            this.lblCurrentAlbum.Size = new System.Drawing.Size(492, 11);
             this.lblCurrentAlbum.TabIndex = 25;
             this.lblCurrentAlbum.Text = "[Album]";
             this.lblCurrentAlbum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -239,7 +232,7 @@
             this.lblCurrentTitle.ForeColor = System.Drawing.Color.White;
             this.lblCurrentTitle.Location = new System.Drawing.Point(130, 67);
             this.lblCurrentTitle.Name = "lblCurrentTitle";
-            this.lblCurrentTitle.Size = new System.Drawing.Size(394, 11);
+            this.lblCurrentTitle.Size = new System.Drawing.Size(486, 11);
             this.lblCurrentTitle.TabIndex = 26;
             this.lblCurrentTitle.Text = "[Title]";
             this.lblCurrentTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -252,7 +245,7 @@
             this.lblCurrentPath.ForeColor = System.Drawing.Color.White;
             this.lblCurrentPath.Location = new System.Drawing.Point(130, 93);
             this.lblCurrentPath.Name = "lblCurrentPath";
-            this.lblCurrentPath.Size = new System.Drawing.Size(400, 11);
+            this.lblCurrentPath.Size = new System.Drawing.Size(492, 11);
             this.lblCurrentPath.TabIndex = 27;
             this.lblCurrentPath.Text = "[Path]";
             this.lblCurrentPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -266,7 +259,7 @@
             this.listBoxPlaylist.ItemHeight = 12;
             this.listBoxPlaylist.Location = new System.Drawing.Point(6, 16);
             this.listBoxPlaylist.Name = "listBoxPlaylist";
-            this.listBoxPlaylist.Size = new System.Drawing.Size(801, 100);
+            this.listBoxPlaylist.Size = new System.Drawing.Size(893, 100);
             this.listBoxPlaylist.TabIndex = 28;
             // 
             // groupPlaylist
@@ -277,7 +270,7 @@
             this.groupPlaylist.Controls.Add(this.listBoxPlaylist);
             this.groupPlaylist.Location = new System.Drawing.Point(5, 264);
             this.groupPlaylist.Name = "groupPlaylist";
-            this.groupPlaylist.Size = new System.Drawing.Size(814, 133);
+            this.groupPlaylist.Size = new System.Drawing.Size(906, 133);
             this.groupPlaylist.TabIndex = 16;
             this.groupPlaylist.TabStop = false;
             this.groupPlaylist.Text = "Playlist";
@@ -289,7 +282,7 @@
             this.groupCurrentlyPlaying.Controls.Add(this.panel1);
             this.groupCurrentlyPlaying.Location = new System.Drawing.Point(5, 129);
             this.groupCurrentlyPlaying.Name = "groupCurrentlyPlaying";
-            this.groupCurrentlyPlaying.Size = new System.Drawing.Size(814, 129);
+            this.groupCurrentlyPlaying.Size = new System.Drawing.Size(906, 129);
             this.groupCurrentlyPlaying.TabIndex = 29;
             this.groupCurrentlyPlaying.TabStop = false;
             this.groupCurrentlyPlaying.Text = "Currently playing";
@@ -319,7 +312,7 @@
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Location = new System.Drawing.Point(6, 18);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(801, 111);
+            this.panel1.Size = new System.Drawing.Size(893, 111);
             this.panel1.TabIndex = 28;
             // 
             // label10
@@ -327,7 +320,7 @@
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Silver;
-            this.label10.Location = new System.Drawing.Point(654, 76);
+            this.label10.Location = new System.Drawing.Point(746, 76);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(32, 9);
             this.label10.TabIndex = 37;
@@ -339,7 +332,7 @@
             this.lblCurrentLengthPCM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentLengthPCM.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentLengthPCM.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentLengthPCM.Location = new System.Drawing.Point(698, 75);
+            this.lblCurrentLengthPCM.Location = new System.Drawing.Point(790, 75);
             this.lblCurrentLengthPCM.Name = "lblCurrentLengthPCM";
             this.lblCurrentLengthPCM.Size = new System.Drawing.Size(92, 12);
             this.lblCurrentLengthPCM.TabIndex = 38;
@@ -351,7 +344,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Gray;
-            this.label8.Location = new System.Drawing.Point(666, 45);
+            this.label8.Location = new System.Drawing.Point(758, 45);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(124, 9);
             this.label8.TabIndex = 35;
@@ -363,7 +356,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Gray;
-            this.label7.Location = new System.Drawing.Point(536, 45);
+            this.label7.Location = new System.Drawing.Point(628, 45);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(124, 9);
             this.label7.TabIndex = 34;
@@ -375,7 +368,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Silver;
-            this.label6.Location = new System.Drawing.Point(536, 4);
+            this.label6.Location = new System.Drawing.Point(628, 4);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(221, 9);
             this.label6.TabIndex = 33;
@@ -387,7 +380,7 @@
             this.lblCurrentLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentLength.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentLength.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentLength.Location = new System.Drawing.Point(676, 59);
+            this.lblCurrentLength.Location = new System.Drawing.Point(768, 59);
             this.lblCurrentLength.Name = "lblCurrentLength";
             this.lblCurrentLength.Size = new System.Drawing.Size(114, 12);
             this.lblCurrentLength.TabIndex = 32;
@@ -399,7 +392,7 @@
             this.lblCurrentPositionPCM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentPositionPCM.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentPositionPCM.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentPositionPCM.Location = new System.Drawing.Point(536, 75);
+            this.lblCurrentPositionPCM.Location = new System.Drawing.Point(628, 75);
             this.lblCurrentPositionPCM.Name = "lblCurrentPositionPCM";
             this.lblCurrentPositionPCM.Size = new System.Drawing.Size(115, 12);
             this.lblCurrentPositionPCM.TabIndex = 31;
@@ -411,7 +404,7 @@
             this.lblCurrentPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentPosition.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentPosition.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentPosition.Location = new System.Drawing.Point(536, 59);
+            this.lblCurrentPosition.Location = new System.Drawing.Point(628, 59);
             this.lblCurrentPosition.Name = "lblCurrentPosition";
             this.lblCurrentPosition.Size = new System.Drawing.Size(147, 12);
             this.lblCurrentPosition.TabIndex = 29;
@@ -422,7 +415,7 @@
             // 
             this.trackPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.trackPosition.LargeChange = 50;
-            this.trackPosition.Location = new System.Drawing.Point(530, 19);
+            this.trackPosition.Location = new System.Drawing.Point(622, 19);
             this.trackPosition.Maximum = 1000;
             this.trackPosition.Name = "trackPosition";
             this.trackPosition.Size = new System.Drawing.Size(268, 45);
@@ -432,19 +425,125 @@
             this.trackPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseDown);
             this.trackPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseUp);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(-58, -72);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(203, 170);
-            this.pictureBox2.TabIndex = 19;
-            this.pictureBox2.TabStop = false;
-            // 
             // dialogFolderBrowser
             // 
             this.dialogFolderBrowser.Description = "Select a folder with MP3 files to play.";
             this.dialogFolderBrowser.SelectedPath = "F:\\Flac\\Nine Inch Nails";
+            // 
+            // timerUpdateSoundSystem
+            // 
+            this.timerUpdateSoundSystem.Enabled = true;
+            this.timerUpdateSoundSystem.Interval = 10;
+            this.timerUpdateSoundSystem.Tick += new System.EventHandler(this.timerUpdateSoundSystem_Tick);
+            // 
+            // trackVolume
+            // 
+            this.trackVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackVolume.LargeChange = 10;
+            this.trackVolume.Location = new System.Drawing.Point(754, 38);
+            this.trackVolume.Maximum = 100;
+            this.trackVolume.Name = "trackVolume";
+            this.trackVolume.Size = new System.Drawing.Size(157, 45);
+            this.trackVolume.SmallChange = 25;
+            this.trackVolume.TabIndex = 32;
+            this.trackVolume.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackVolume.Value = 90;
+            this.trackVolume.Scroll += new System.EventHandler(this.trackVolume_Scroll);
+            // 
+            // lblVolume
+            // 
+            this.lblVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVolume.AutoSize = true;
+            this.lblVolume.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVolume.Location = new System.Drawing.Point(700, 36);
+            this.lblVolume.Name = "lblVolume";
+            this.lblVolume.Size = new System.Drawing.Size(54, 12);
+            this.lblVolume.TabIndex = 33;
+            this.lblVolume.Text = "Volume:";
+            // 
+            // lblVolumeValue
+            // 
+            this.lblVolumeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVolumeValue.AutoSize = true;
+            this.lblVolumeValue.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVolumeValue.Location = new System.Drawing.Point(724, 49);
+            this.lblVolumeValue.Name = "lblVolumeValue";
+            this.lblVolumeValue.Size = new System.Drawing.Size(29, 11);
+            this.lblVolumeValue.TabIndex = 34;
+            this.lblVolumeValue.Text = "90%";
+            this.lblVolumeValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatus});
+            this.statusStrip.Location = new System.Drawing.Point(0, 400);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(917, 22);
+            this.statusStrip.TabIndex = 35;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 17);
+            // 
+            // btnRepeat
+            // 
+            this.btnRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRepeat.Image = global::PlaybackEngineV3.Properties.Resources.RepeatHS;
+            this.btnRepeat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRepeat.Location = new System.Drawing.Point(769, 5);
+            this.btnRepeat.Name = "btnRepeat";
+            this.btnRepeat.Size = new System.Drawing.Size(74, 27);
+            this.btnRepeat.TabIndex = 38;
+            this.btnRepeat.Text = "Repeat";
+            this.btnRepeat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRepeat.UseVisualStyleBackColor = true;
+            this.btnRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
+            // 
+            // btnPrev
+            // 
+            this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrev.Enabled = false;
+            this.btnPrev.Image = global::PlaybackEngineV3.Properties.Resources.DataContainer_MoveFirstHS;
+            this.btnPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPrev.Location = new System.Drawing.Point(631, 5);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Size = new System.Drawing.Size(63, 27);
+            this.btnPrev.TabIndex = 37;
+            this.btnPrev.Text = "Prev";
+            this.btnPrev.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.Enabled = false;
+            this.btnNext.Image = global::PlaybackEngineV3.Properties.Resources.DataContainer_MoveLastHS;
+            this.btnNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNext.Location = new System.Drawing.Point(700, 5);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(63, 27);
+            this.btnNext.TabIndex = 36;
+            this.btnNext.Text = "Next";
+            this.btnNext.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
+            this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBrowse.Location = new System.Drawing.Point(795, 30);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(107, 27);
+            this.btnBrowse.TabIndex = 1;
+            this.btnBrowse.Text = "Browse ...";
+            this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // btnPause
             // 
@@ -453,7 +552,7 @@
             this.btnPause.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
             this.btnPause.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPause.Location = new System.Drawing.Point(612, 5);
+            this.btnPause.Location = new System.Drawing.Point(486, 5);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(69, 27);
             this.btnPause.TabIndex = 31;
@@ -467,7 +566,7 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
             this.btnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExit.Location = new System.Drawing.Point(756, 5);
+            this.btnExit.Location = new System.Drawing.Point(848, 5);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(63, 27);
             this.btnExit.TabIndex = 30;
@@ -482,7 +581,7 @@
             this.btnStop.Enabled = false;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
             this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStop.Location = new System.Drawing.Point(687, 5);
+            this.btnStop.Location = new System.Drawing.Point(561, 5);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(63, 27);
             this.btnStop.TabIndex = 29;
@@ -491,13 +590,22 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(-58, -72);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(203, 170);
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
+            // 
             // btnPlay
             // 
             this.btnPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPlay.Enabled = false;
             this.btnPlay.Image = ((System.Drawing.Image)(resources.GetObject("btnPlay.Image")));
             this.btnPlay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPlay.Location = new System.Drawing.Point(541, 5);
+            this.btnPlay.Location = new System.Drawing.Point(417, 5);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(63, 27);
             this.btnPlay.TabIndex = 4;
@@ -515,67 +623,52 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // timerUpdateSoundSystem
+            // lblTimeShiftingValue
             // 
-            this.timerUpdateSoundSystem.Enabled = true;
-            this.timerUpdateSoundSystem.Interval = 10;
-            this.timerUpdateSoundSystem.Tick += new System.EventHandler(this.timerUpdateSoundSystem_Tick);
+            this.lblTimeShiftingValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTimeShiftingValue.AutoSize = true;
+            this.lblTimeShiftingValue.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeShiftingValue.Location = new System.Drawing.Point(507, 49);
+            this.lblTimeShiftingValue.Name = "lblTimeShiftingValue";
+            this.lblTimeShiftingValue.Size = new System.Drawing.Size(21, 11);
+            this.lblTimeShiftingValue.TabIndex = 41;
+            this.lblTimeShiftingValue.Text = "0%";
+            this.lblTimeShiftingValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // trackVolume
+            // lblTimeShifting
             // 
-            this.trackVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackVolume.LargeChange = 10;
-            this.trackVolume.Location = new System.Drawing.Point(662, 38);
-            this.trackVolume.Maximum = 100;
-            this.trackVolume.Name = "trackVolume";
-            this.trackVolume.Size = new System.Drawing.Size(157, 45);
-            this.trackVolume.SmallChange = 25;
-            this.trackVolume.TabIndex = 32;
-            this.trackVolume.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackVolume.Value = 90;
-            this.trackVolume.Scroll += new System.EventHandler(this.trackVolume_Scroll);
+            this.lblTimeShifting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTimeShifting.AutoSize = true;
+            this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeShifting.Location = new System.Drawing.Point(433, 36);
+            this.lblTimeShifting.Name = "lblTimeShifting";
+            this.lblTimeShifting.Size = new System.Drawing.Size(103, 12);
+            this.lblTimeShifting.TabIndex = 40;
+            this.lblTimeShifting.Text = "Time Shifting:";
             // 
-            // lblVolume
+            // trackTimeShifting
             // 
-            this.lblVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblVolume.AutoSize = true;
-            this.lblVolume.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolume.Location = new System.Drawing.Point(608, 36);
-            this.lblVolume.Name = "lblVolume";
-            this.lblVolume.Size = new System.Drawing.Size(54, 12);
-            this.lblVolume.TabIndex = 33;
-            this.lblVolume.Text = "Volume:";
-            // 
-            // lblVolumeValue
-            // 
-            this.lblVolumeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblVolumeValue.AutoSize = true;
-            this.lblVolumeValue.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolumeValue.Location = new System.Drawing.Point(632, 49);
-            this.lblVolumeValue.Name = "lblVolumeValue";
-            this.lblVolumeValue.Size = new System.Drawing.Size(29, 11);
-            this.lblVolumeValue.TabIndex = 34;
-            this.lblVolumeValue.Text = "90%";
-            this.lblVolumeValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus});
-            this.statusStrip.Location = new System.Drawing.Point(0, 400);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(825, 22);
-            this.statusStrip.TabIndex = 35;
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 17);
+            this.trackTimeShifting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackTimeShifting.LargeChange = 10;
+            this.trackTimeShifting.Location = new System.Drawing.Point(537, 38);
+            this.trackTimeShifting.Maximum = 100;
+            this.trackTimeShifting.Minimum = -100;
+            this.trackTimeShifting.Name = "trackTimeShifting";
+            this.trackTimeShifting.Size = new System.Drawing.Size(157, 45);
+            this.trackTimeShifting.SmallChange = 25;
+            this.trackTimeShifting.TabIndex = 39;
+            this.trackTimeShifting.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(825, 422);
+            this.ClientSize = new System.Drawing.Size(917, 422);
+            this.Controls.Add(this.lblTimeShiftingValue);
+            this.Controls.Add(this.lblTimeShifting);
+            this.Controls.Add(this.trackTimeShifting);
+            this.Controls.Add(this.btnRepeat);
+            this.Controls.Add(this.btnPrev);
+            this.Controls.Add(this.btnNext);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.lblVolumeValue);
             this.Controls.Add(this.lblVolume);
@@ -604,11 +697,12 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPosition)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -657,6 +751,12 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label lblCurrentLengthPCM;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnPrev;
+        private System.Windows.Forms.Button btnRepeat;
+        private System.Windows.Forms.Label lblTimeShiftingValue;
+        private System.Windows.Forms.Label lblTimeShifting;
+        private System.Windows.Forms.TrackBar trackTimeShifting;
     }
 }
 
