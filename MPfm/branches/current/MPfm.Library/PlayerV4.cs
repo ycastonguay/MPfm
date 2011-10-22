@@ -169,17 +169,14 @@ namespace MPfm.Library
                 return m_mainChannel;
             }
         }
-        
-        // Private value for the SubChannels property.
-        private List<PlayerV4Channel> m_subChannels = null;
-        /// <summary>
-        /// List of sub channels used for gapless playback into the main channel.
-        /// </summary>
-        public List<PlayerV4Channel> SubChannels
+
+        // Private value for the FilePaths property.
+        private List<string> m_filePaths = null;
+        public List<string> FilePaths
         {
             get
             {
-                return m_subChannels;
+                return m_filePaths;
             }
         }
 
@@ -196,6 +193,7 @@ namespace MPfm.Library
             }
         }
 
+        private PlayerV4Channel m_currentSubChannel = null;
         /// <summary>
         /// Returns the currently playing sub channel.
         /// </summary>
@@ -203,9 +201,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_subChannels[m_currentSubChannelIndex];
+                return m_currentSubChannel;
             }
         }
+
+        /// <summary>
+        /// Timer for the player.
+        /// </summary>
+        private System.Timers.Timer m_timerPlayer = null;
 
         /// <summary>
         /// Default constructor for the PlayerV4 class. Initializes the player using the default
@@ -256,7 +259,15 @@ namespace MPfm.Library
             m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
 
             // Create lists
-            m_subChannels = new List<PlayerV4Channel>();
+            m_filePaths = new List<string>();
+            //m_subChannels = new List<PlayerV4Channel>();
+
+            // Create timer
+            Tracing.Log("[PlayerV4.Initialize] Creating timer...");
+            m_timerPlayer = new System.Timers.Timer();
+            m_timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(m_timerPlayer_Elapsed);
+            m_timerPlayer.Interval = 1000;
+            m_timerPlayer.Enabled = false;
         }
 
         /// <summary>
@@ -271,6 +282,20 @@ namespace MPfm.Library
 
             // Dispose system
             m_system.Free();
+        }
+        
+        /// <summary>
+        /// Occurs when the timer for loading the next song in advance expires.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        protected void m_timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // Reset timer
+            m_timerPlayer.Enabled = false;            
+
+            // Create the next channel
+            CreateChannel(ref m_currentSubChannel, m_filePaths[m_currentSubChannelIndex + 1]);
         }
 
         /// <summary>
@@ -307,31 +332,25 @@ namespace MPfm.Library
             try
             {
 
-                // Reset channels (TODO: Check if channel is in use)
-                m_subChannels = new List<PlayerV4Channel>();
+                // Reset flags
                 m_currentSubChannelIndex = 0;
 
-                if (filePaths.Count == 1)
+                // Set file paths
+                m_filePaths = filePaths;
+
+                // Create the first channel
+                PlayerV4Channel channelNull = null;
+                PlayerV4Channel channelOne = CreateChannel(ref channelNull, filePaths[0]);
+
+                // Check if there are other files in the playlist
+                if (filePaths.Count > 1)
                 {
-                    // TODO Something
+                    // Create the second channel
+                    PlayerV4Channel channelTwo = CreateChannel(ref channelOne, filePaths[1]);
                 }
 
-                // Loop through the first two file paths
-                for (int a = 0; a < filePaths.Count; a++)
-                {
-                    // Create audio file and sound objects
-                    Tracing.Log("[PlayerV4.PlayFiles] Loading file " + (a + 1).ToString() + ": " + filePaths[a]);
-
-                    // Create channel for decoding
-                    // TODO: A file is already in used when playing again a playlist from the start. This happens only with MP3 files.
-                    // It is used by the BASS.NET library or the TagLib library.
-                    PlayerV4Channel channel = new PlayerV4Channel();
-                    channel.FileProperties = new AudioFile(filePaths[a]);
-                    channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePaths[a]);                                        
-
-                    // Add channel to list
-                    m_subChannels.Add(channel);
-                }
+                // Set the current channel as the first one
+                m_currentSubChannel = channelOne;
 
                 // Create the main channel
                 m_streamProc = new STREAMPROC(FileProc);
@@ -344,10 +363,36 @@ namespace MPfm.Library
             }
             catch (Exception ex)
             {
-                Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message);
-                Tracing.Log(ex.StackTrace);
+                Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);                
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// Creates a channel to be used in the player.
+        /// </summary>
+        /// <param name="previousChannel">Pointer to the previous channel</param>
+        /// <param name="filePath">File path to the audio file</param>
+        /// <returns>Instance of the channel</returns>
+        private PlayerV4Channel CreateChannel(ref PlayerV4Channel previousChannel, string filePath)
+        {
+            // Create channel file properties and BASS channel
+            PlayerV4Channel channel = new PlayerV4Channel();
+            channel.FileProperties = new AudioFile(filePath);
+            channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePath);
+
+            // Set pointer to the previous channel
+            channel.PreviousChannel = previousChannel;
+
+            // Make sure there was a previous channel
+            if (previousChannel != null)
+            {
+                // Set next channel for the previous channel
+                previousChannel.NextChannel = channel;
+            }
+
+            // Return instance of the channel
+            return channel;
         }
 
         /// <summary>
@@ -374,12 +419,114 @@ namespace MPfm.Library
         {            
             // Stop main channel
             m_mainChannel.Stop();
-            m_mainChannel = null;
-            m_subChannels.Clear();
-            m_subChannels = null;
+            //m_mainChannel = null;
+
+            if (m_currentSubChannel != null)
+            {
+                if (m_currentSubChannel.Channel != null)
+                {
+                    if (m_currentSubChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+                    {
+                        m_currentSubChannel.Channel.Stop();
+                    }
+                }
+
+                if (m_currentSubChannel.NextChannel != null && 
+                    m_currentSubChannel.NextChannel.Channel != null)
+                {
+                    if (m_currentSubChannel.NextChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+                    {
+                        m_currentSubChannel.NextChannel.Channel.Stop();
+                    }
+                }
+            }
+
+            //m_subChannels.Clear();
+            //m_subChannels = null;
 
             // Set flag
             m_isPlaying = false;
+        }
+
+        /// <summary>
+        /// Stops the playback and starts playback at a specific playlist song.
+        /// </summary>
+        /// <param name="index">Song index</param>
+        public void GoTo(int index)
+        {
+            // Make sure index is in the list
+            if (index <= m_filePaths.Count - 1)
+            {
+                // Stop playback
+                Stop();
+
+                // Set index
+                m_currentSubChannelIndex = index;
+
+                try
+                {
+                    // Create the first channel
+                    PlayerV4Channel channelNull = null;
+                    PlayerV4Channel channelOne = CreateChannel(ref channelNull, m_filePaths[m_currentSubChannelIndex]);
+
+                    // Check if there are other files in the playlist
+                    if (m_currentSubChannelIndex + 1 < m_filePaths.Count)
+                    {
+                        // Create the second channel
+                        PlayerV4Channel channelTwo = CreateChannel(ref channelOne, m_filePaths[m_currentSubChannelIndex + 1]);
+                    }
+
+                    // Set the current channel as the first one
+                    m_currentSubChannel = channelOne;
+
+                    // Start playback
+                    m_isPlaying = true;
+                    m_isPaused = false;
+                    m_mainChannel.Play(false);
+
+                    // Raise song end event (if an event is subscribed)
+                    if (OnSongFinished != null)
+                    {
+                        // Create data
+                        PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                        data.IsPlaybackStopped = false;
+
+                        // Raise event
+                        OnSongFinished(data);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Tracing.Log("Error in PlayerV4.GoTo: " + ex.Message + "\n" + ex.StackTrace);
+                    throw ex;
+                }
+            }   
+        }
+
+        /// <summary>
+        /// Goes back to the previous channel in the list.
+        /// </summary>
+        public void Previous()
+        {
+            // Check if there is a previous song
+            if (m_currentSubChannelIndex > 0)
+            {
+                // Go to previous audio file
+                GoTo(m_currentSubChannelIndex - 1);
+            }
+        }
+
+        /// <summary>
+        /// Skips to the next channel in the list.
+        /// </summary>
+        public void Next()
+        {
+            // Check if there is a next song
+            if (m_currentSubChannelIndex < m_filePaths.Count - 1)
+            {
+                // Go to next audio file
+                GoTo(m_currentSubChannelIndex + 1);
+            }            
         }
 
         /// <summary>
@@ -392,45 +539,142 @@ namespace MPfm.Library
         /// <returns>Audio data</returns>
         private int FileProc(int handle, IntPtr buffer, int length, IntPtr user)
         {
-            // Loop through channels (TODO: use current channel instead)
-            for (int a = 0; a < m_subChannels.Count; a++)
+            // If the current sub channel is null, end the stream
+            if (m_currentSubChannel == null)
             {
-                // Get active status
-                BASSActive status = m_subChannels[a].Channel.IsActive();
+                // Return end-of-channel
+                return (int)BASSStreamProc.BASS_STREAMPROC_END;
+            }
 
-                // Check if channel is playing
-                if (status == BASSActive.BASS_ACTIVE_PLAYING)
+            // Get active status
+            BASSActive status = m_currentSubChannel.Channel.IsActive();
+
+            // Check the current channel status
+            if (status == BASSActive.BASS_ACTIVE_PLAYING)
+            {
+                // Check if the next channel needs to be loaded
+                if (m_currentSubChannelIndex < m_filePaths.Count - 1 &&
+                    m_currentSubChannel.NextChannel == null)
                 {
-                    // Check if the current channel needs to be updated
-                    if (m_currentSubChannelIndex != a)
-                    {
-                        // Set current channel
-                        m_currentSubChannelIndex = a;
-
-                        // Raise song end event (if an event is subscribed)
-                        if (OnSongFinished != null)
-                        {
-                            // Create data
-                            PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
-                            data.IsPlaybackStopped = false;
-
-                            // Raise event
-                            OnSongFinished(data);
-                        }   
-                    }
-
-                    // Loop prototype: working. 
-                    //// Check position
-                    //long positionBytes = m_subChannels[a].Channel.GetPosition();
-
-                    //if (positionBytes >= 1500000)
-                    //{
-                    //    m_subChannels[a].Channel.SetPosition(50000);
-                    //}
-
-                    // Return data
-                    return m_subChannels[a].Channel.GetData(buffer, length);
+                    // Create the next channel using a timer
+                    m_timerPlayer.Start();
                 }
+
+                // Get data from the current channel since it is running
+                return m_currentSubChannel.Channel.GetData(buffer, length);
+            }
+            else if (status == BASSActive.BASS_ACTIVE_STOPPED)
+            {
+                // Check if there is another channel to load
+                if (m_currentSubChannel.NextChannel == null)
+                {
+                    // Raise song end event (if an event is subscribed)
+                    if (OnSongFinished != null)
+                    {
+                        // Create data
+                        PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                        data.IsPlaybackStopped = true;
+
+                        // Raise event
+                        OnSongFinished(data);
+                    }   
+
+                    // This is the end of the playlist                    
+                    return (int)BASSStreamProc.BASS_STREAMPROC_END;
+                }
+
+                // Load next channel
+                m_currentSubChannel = m_currentSubChannel.NextChannel;
+
+                // Increment index
+                m_currentSubChannelIndex++;
+
+                // Raise song end event (if an event is subscribed)
+                if (OnSongFinished != null)
+                {
+                    // Create data
+                    PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                    data.IsPlaybackStopped = false;
+
+                    // Raise event
+                    OnSongFinished(data);
+                }
+
+                // Return data from the new channel
+                return m_currentSubChannel.Channel.GetData(buffer, length);
+            }
+            else if (status == BASSActive.BASS_ACTIVE_STALLED)
+            {
+                // WTF
+            }
+            else if(status == BASSActive.BASS_ACTIVE_PAUSED)
+            {
+                // Do nothing, right?
+            }
+
+            //// Decode data from the current sub stream
+            //if (m_currentSubChannel != null)
+            //{
+            //    return m_currentSubChannel.Channel.GetData(buffer, length);
+            //}
+
+            //// Loop through channels (TODO: use current channel instead)
+            //for (int a = 0; a < m_subChannels.Count; a++)
+            //{
+            //    // Get active status
+            //    BASSActive status = m_subChannels[a].Channel.IsActive();
+
+            //    // Check if channel is playing
+            //    if (status == BASSActive.BASS_ACTIVE_PLAYING)
+            //    {
+            //        // Check if the current channel needs to be updated
+            //        if (m_currentSubChannelIndex != a)
+            //        {
+            //            // Check if the repeat type is set to Song
+            //            if (RepeatType == MPfm.Library.RepeatType.Song)
+            //            {
+            //                // Restart playback on the original channel, restarting the position to 0
+            //                //m_subChannels[a].Channel.Play(true);   // SEEMS NOT TO WORK BECAUSE IT DOESNT HAVE THE TIME TO PLAY?
+            //                //return m_subChannels[a].Channel.GetData(buffer, length);
+
+            //                // MAYBE THE SOLUTION IS TO PREPARE THOSE CHANNELS IN ADVANCE.
+            //            }
+
+            //            // Set current channel
+            //            m_currentSubChannelIndex = a;
+
+            //            // Raise song end event (if an event is subscribed)
+            //            if (OnSongFinished != null)
+            //            {
+            //                // Create data
+            //                PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+            //                data.IsPlaybackStopped = false;
+
+            //                // Raise event
+            //                OnSongFinished(data);
+            //            }   
+            //        }
+
+            //        // Loop prototype: working. 
+            //        //// Check position
+            //        //long positionBytes = m_subChannels[a].Channel.GetPosition();
+
+            //        //if (positionBytes >= 1500000)
+            //        //{
+            //        //    m_subChannels[a].Channel.SetPosition(50000);
+            //        //}
+
+            //        // Return data
+            //        return m_subChannels[a].Channel.GetData(buffer, length);
+            //    }
+            //}
+
+            // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
+            if (RepeatType == MPfm.Library.RepeatType.Playlist)
+            {
+                // Restart playback from the first channel
+
+                // IDEA: USE GOTO?
             }
 
             // Raise song end event (if an event is subscribed)
@@ -447,27 +691,5 @@ namespace MPfm.Library
             // Return end-of-channel
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
         }
-    }
-
-    /// <summary>
-    /// Structure used for the PlayerV4 containing the audio file properties/metadata
-    /// and the channel/stream properties.
-    /// </summary>
-    public class PlayerV4Channel
-    {
-        public AudioFile FileProperties { get; set; }
-        public Channel Channel { get; set; }
-    }
-
-    /// <summary>
-    /// Defines the data structure for the end-of-song event.
-    /// </summary>
-    public class PlayerV4SongFinishedData
-    {
-        /// <summary>
-        /// Defines if the playback was stopped after the song was finished.
-        /// i.e. if the RepeatType is off and the playlist is over, this property will be true.
-        /// </summary>
-        public bool IsPlaybackStopped { get; set; }
     }
 }

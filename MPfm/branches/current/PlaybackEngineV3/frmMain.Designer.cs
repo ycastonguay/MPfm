@@ -261,6 +261,7 @@
             this.listBoxPlaylist.Name = "listBoxPlaylist";
             this.listBoxPlaylist.Size = new System.Drawing.Size(910, 100);
             this.listBoxPlaylist.TabIndex = 28;
+            this.listBoxPlaylist.DoubleClick += new System.EventHandler(this.listBoxPlaylist_DoubleClick);
             // 
             // groupPlaylist
             // 

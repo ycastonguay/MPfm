@@ -122,6 +122,11 @@ namespace PlaybackEngineV3
         /// <param name="data">Song Finished Data</param>
         protected void playerV4_OnSongFinished(PlayerV4SongFinishedData data)
         {
+            if (playerV4.CurrentSubChannel == null)
+            {
+                return;
+            }
+
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
@@ -136,6 +141,10 @@ namespace PlaybackEngineV3
                 {
                     btnStop.PerformClick();
                 }
+
+                // Check if the previous/next buttons need to be updated
+                btnNext.Enabled = (playerV4.CurrentSubChannelIndex + 1 < playerV4.FilePaths.Count);
+                btnPrev.Enabled = (playerV4.CurrentSubChannelIndex > 0);
             };
 
             // Check if invoking is necessary
@@ -254,7 +263,7 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnPrev_Click(object sender, EventArgs e)
         {
-
+            playerV4.Previous();
         }
 
         /// <summary>
@@ -264,7 +273,7 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnNext_Click(object sender, EventArgs e)
         {
-
+            playerV4.Next();
         }
 
         /// <summary>
@@ -315,6 +324,11 @@ namespace PlaybackEngineV3
         {
             // Check if the player exists
             if (playerV4 == null || !playerV4.IsPlaying)
+            {
+                return;
+            }
+
+            if (playerV4.CurrentSubChannel == null)
             {
                 return;
             }
@@ -465,6 +479,12 @@ namespace PlaybackEngineV3
         private void trackTimeShifting_Scroll(object sender, EventArgs e)
         {
 
+        }
+
+        private void listBoxPlaylist_DoubleClick(object sender, EventArgs e)
+        {
+            // Skip to this song
+            playerV4.GoTo(listBoxPlaylist.SelectedIndex);
         }
     }
 }
