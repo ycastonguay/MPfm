@@ -106,6 +106,31 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the Volume property.
+        private float m_volume = 1.0f;
+        /// <summary>
+        /// Defines the master volume (from 0 to 1).
+        /// </summary>
+        public float Volume
+        {
+            get
+            {
+                return m_volume;
+            }
+            set
+            {
+                // Set value
+                m_volume = value;
+
+                // Check if the player is playing
+                if (m_mainChannel != null)
+                {
+                    // Set main volume
+                    m_mainChannel.Volume = value;
+                }
+            }
+        }
+
         // Private value for the MixerSampleRate property.
         private int m_mixerSampleRate = 44100;
         /// <summary>

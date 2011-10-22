@@ -19,8 +19,34 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Gets/sets the volume of the channel using GetAttribute/SetAttribute with
+        /// the attribute BASS_ATTRIB_VOL.
+        /// </summary>
+        public float Volume
+        {
+            get
+            {
+                // Get volume
+                float value = 0;
+                GetAttribute(BASSAttribute.BASS_ATTRIB_VOL, ref value);
+                return value;
+            }
+            set
+            {
+                // Set volume
+                SetAttribute(BASSAttribute.BASS_ATTRIB_VOL, value);
+            }
+        }
+
+        /// <summary>
+        /// Default constructor for Channel. To create a new channel, use one
+        /// of the static methods of this class.
+        /// </summary>
+        /// <param name="handle">Handle to the BASS.NET channel</param>
         public Channel(int handle)
         {
+            // Set current handle
             m_handle = handle;
         }
 
@@ -102,6 +128,31 @@ namespace MPfm.Sound.BassNetWrapper
                 System.CheckForError();
             }
         }
+
+        public long GetLength()
+        {
+            return Bass.BASS_ChannelGetLength(m_handle);
+        }
+
+        public void GetAttribute(BASSAttribute attribute, ref float value)
+        {
+            // Get attribute value
+            if (!Bass.BASS_ChannelGetAttribute(m_handle, attribute, ref value))
+            {
+                // Check for error
+                System.CheckForError();
+            }
+        }
+
+        public void SetAttribute(BASSAttribute attribute, float value)
+        {
+            // Set attribute value
+            if (!Bass.BASS_ChannelSetAttribute(m_handle, attribute, value))
+            {
+                // Check for error
+                System.CheckForError();
+            }
+        }        
 
         public long Seconds2Bytes2(double position)
         {

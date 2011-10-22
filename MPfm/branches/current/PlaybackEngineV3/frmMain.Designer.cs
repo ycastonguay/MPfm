@@ -158,7 +158,7 @@
             // 
             this.label2.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Gray;
-            this.label2.Location = new System.Drawing.Point(130, 29);
+            this.label2.Location = new System.Drawing.Point(136, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 9);
             this.label2.TabIndex = 21;
@@ -169,7 +169,7 @@
             // 
             this.label3.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Gray;
-            this.label3.Location = new System.Drawing.Point(130, 3);
+            this.label3.Location = new System.Drawing.Point(136, 3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(245, 9);
             this.label3.TabIndex = 20;
@@ -180,7 +180,7 @@
             // 
             this.label4.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Gray;
-            this.label4.Location = new System.Drawing.Point(130, 55);
+            this.label4.Location = new System.Drawing.Point(136, 55);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 9);
             this.label4.TabIndex = 22;
@@ -191,7 +191,7 @@
             // 
             this.label5.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Gray;
-            this.label5.Location = new System.Drawing.Point(130, 81);
+            this.label5.Location = new System.Drawing.Point(136, 81);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 9);
             this.label5.TabIndex = 23;
@@ -204,7 +204,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentArtist.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentArtist.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentArtist.Location = new System.Drawing.Point(130, 15);
+            this.lblCurrentArtist.Location = new System.Drawing.Point(136, 15);
             this.lblCurrentArtist.Name = "lblCurrentArtist";
             this.lblCurrentArtist.Size = new System.Drawing.Size(503, 11);
             this.lblCurrentArtist.TabIndex = 24;
@@ -217,7 +217,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentAlbum.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentAlbum.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentAlbum.Location = new System.Drawing.Point(130, 41);
+            this.lblCurrentAlbum.Location = new System.Drawing.Point(136, 41);
             this.lblCurrentAlbum.Name = "lblCurrentAlbum";
             this.lblCurrentAlbum.Size = new System.Drawing.Size(509, 11);
             this.lblCurrentAlbum.TabIndex = 25;
@@ -230,7 +230,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentTitle.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentTitle.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentTitle.Location = new System.Drawing.Point(130, 67);
+            this.lblCurrentTitle.Location = new System.Drawing.Point(136, 67);
             this.lblCurrentTitle.Name = "lblCurrentTitle";
             this.lblCurrentTitle.Size = new System.Drawing.Size(503, 11);
             this.lblCurrentTitle.TabIndex = 26;
@@ -243,7 +243,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentPath.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentPath.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentPath.Location = new System.Drawing.Point(130, 93);
+            this.lblCurrentPath.Location = new System.Drawing.Point(136, 93);
             this.lblCurrentPath.Name = "lblCurrentPath";
             this.lblCurrentPath.Size = new System.Drawing.Size(509, 11);
             this.lblCurrentPath.TabIndex = 27;
@@ -422,7 +422,8 @@
             this.trackPosition.Size = new System.Drawing.Size(268, 45);
             this.trackPosition.SmallChange = 25;
             this.trackPosition.TabIndex = 30;
-            this.trackPosition.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackPosition.TickStyle = System.Windows.Forms.TickStyle.None;            
+            this.trackPosition.MouseCaptureChanged += new System.EventHandler(this.trackPosition_MouseCaptureChanged);
             this.trackPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseDown);
             this.trackPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseUp);
             // 
@@ -594,7 +595,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(-58, -72);
+            this.pictureBox2.Location = new System.Drawing.Point(-56, -72);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(203, 170);
             this.pictureBox2.TabIndex = 19;

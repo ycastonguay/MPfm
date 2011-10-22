@@ -33,6 +33,7 @@ namespace PlaybackEngineV3
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
+        private long m_currentSongLength = 0;
 
         /// <summary>
         /// Main form constructor.
@@ -145,6 +146,10 @@ namespace PlaybackEngineV3
                 // Check if the previous/next buttons need to be updated
                 btnNext.Enabled = (playerV4.CurrentSubChannelIndex + 1 < playerV4.FilePaths.Count);
                 btnPrev.Enabled = (playerV4.CurrentSubChannelIndex > 0);
+
+                m_currentSongLength = playerV4.CurrentSubChannel.Channel.GetLength();
+                lblCurrentLength.Text = BytesToTime(m_currentSongLength);
+                lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
             };
 
             // Check if invoking is necessary
@@ -342,14 +347,8 @@ namespace PlaybackEngineV3
             // Refresh status bar
             RefreshStatusBar();
 
-            //double seconds = playerV4.CurrentSubChannel.Channel.Bytes2Seconds(positionBytes).ToString();            
-
-            long samples = positionBytes * 8 / 16 / 2;
-            ulong milliseconds = (ulong)samples * 1000 / 44100;
-
-            lblCurrentPosition.Text = MPfm.Core.Conversion.MillisecondsToTimeString(milliseconds);
-            
-            //label6.Text = milliseconds.ToString();
+            // Set position
+            lblCurrentPosition.Text = BytesToTime(positionBytes);            
 
             // Set the metadata for the first time (initial value == [Artist])
             if (lblCurrentArtist.Text == "[Artist]")
@@ -357,36 +356,27 @@ namespace PlaybackEngineV3
                 lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
                 lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
                 lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;               
+                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+
+                m_currentSongLength = playerV4.CurrentSubChannel.Channel.GetLength();
+                lblCurrentLength.Text = BytesToTime(m_currentSongLength);
+                lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
+
+                //long length = playerV4.CurrentSubChannel.FileProperties.LastBlockPosition - playerV4.CurrentSubChannel.FileProperties.FirstBlockPosition;
             }
-             
-            //// Check if the player needs to be updated
-            //if (playerV3 != null && playerV3.IsPlaying)
-            //{
-            //    // Update the player audio stream
-            //    playerV3.Update();
 
-            //    // Check if there's a currently playing channel/sound object
-            //    if (playerV3.CurrentAudioFile == null || !playerV3.IsPlaying || playerV3.IsPaused)
-            //    {
-            //        return;
-            //    }
-
-            //    // Set metadata           
-            //    lblCurrentArtist.Text = playerV3.CurrentAudioFile.ArtistName;
-            //    lblCurrentAlbum.Text = playerV3.CurrentAudioFile.AlbumTitle;
-            //    lblCurrentTitle.Text = playerV3.CurrentAudioFile.Title;
-            //    lblCurrentPath.Text = playerV3.CurrentAudioFile.FilePath;
-            //    lblCurrentPosition.Text = playerV3.CurrentChannel.Position;
-            //    lblCurrentPositionPCM.Text = playerV3.CurrentChannel.PositionPCM.ToString();
-            //    lblCurrentLength.Text = playerV3.CurrentSound.Length;
-            //    lblCurrentLengthPCM.Text = playerV3.CurrentSound.LengthPCM.ToString();
-
-            //    if (!isSongPositionChanging)
-            //    {
-            //        trackPosition.Maximum = (int)playerV3.CurrentSound.LengthPCMBytes;
-            //        trackPosition.Value = (int)playerV3.CurrentChannel.PositionPCMBytes;
-            //    }
+            if (!isSongPositionChanging)
+            {
+                trackPosition.Maximum = (int)m_currentSongLength;
+                if (positionBytes > m_currentSongLength)
+                {
+                    trackPosition.Value = (int)m_currentSongLength;
+                }
+                else
+                {
+                    trackPosition.Value = (int)positionBytes;
+                }
+            }
 
             //    // Set status bar
             //    lblStatus.Text = playerV3.NumberOfChannelsPlaying.ToString() + " channel(s) playing // Current channel index: " + playerV3.CurrentAudioFileIndex.ToString() + " // Output mixer frequency: " + playerV3.OutputFormatMixer.sampleRate.ToString() + " Hz";
@@ -447,8 +437,8 @@ namespace PlaybackEngineV3
         private void trackVolume_Scroll(object sender, EventArgs e)
         {
             // Set volume and update label
-            //playerV3.Volume = trackVolume.Value;
-            //lblVolumeValue.Text = playerV3.Volume.ToString() + "%";            
+            playerV4.Volume = (float)trackVolume.Value / 100;
+            lblVolumeValue.Text = (playerV4.Volume * 100).ToString("0") + "%";            
         }
 
         /// <summary>
@@ -485,6 +475,21 @@ namespace PlaybackEngineV3
         {
             // Skip to this song
             playerV4.GoTo(listBoxPlaylist.SelectedIndex);
+        }
+
+        private string BytesToTime(long bytes)
+        {
+            long samples = bytes * 8 / 16 / 2;
+            ulong ms = (ulong)samples * 1000 / 44100;
+            return MPfm.Core.Conversion.MillisecondsToTimeString(ms);
+        }
+
+        private void trackPosition_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            if (playerV4.CurrentSubChannel != null)
+            {
+                playerV4.CurrentSubChannel.Channel.SetPosition(trackPosition.Value);
+            }
         }
     }
 }

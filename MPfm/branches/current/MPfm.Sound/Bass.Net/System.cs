@@ -70,6 +70,21 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        public float GetVolume()
+        {
+            return Bass.BASS_GetVolume();
+        }
+
+        public void SetVolume(float volume)
+        {
+            // Set volume
+            if (!Bass.BASS_SetVolume(volume))
+            {
+                // Check for error (throw exception if the error is found)
+                CheckForError();
+            }
+        }
+
         #region Plugins
         
         public void LoadFlacPlugin()
