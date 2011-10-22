@@ -60,6 +60,16 @@ namespace MPfm.Sound.BassNetWrapper
             return Bass.BASS_GetConfig(option);
         }
 
+        public void SetConfig(BASSConfig option, int value)
+        {
+            // Set configuration value
+            if(!Bass.BASS_SetConfig(option, value))
+            {
+                // Check for error (throw exception if the error is found)
+                CheckForError();
+            }
+        }
+
         #region Plugins
         
         public void LoadFlacPlugin()

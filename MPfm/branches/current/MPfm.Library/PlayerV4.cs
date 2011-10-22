@@ -45,6 +45,9 @@ namespace MPfm.Library
 
         // Events
         public delegate void SongFinished(PlayerV4SongFinishedData data);
+        /// <summary>
+        /// The OnSongFinished event is triggered when a song has finished playing.
+        /// </summary>
         public event SongFinished OnSongFinished;
 
         // Private value for the System property.
@@ -116,6 +119,44 @@ namespace MPfm.Library
             }
         }
 
+        // Private value for the BufferSize property.
+        private int m_bufferSize = 500;
+        /// <summary>
+        /// Defines the buffer size (in milliseconds). Increase this value if older computers have trouble
+        /// filling up the buffer in time.        
+        /// Default value: 500ms. The default BASS value is 500ms.
+        /// </summary>
+        public int BufferSize
+        {
+            get
+            {
+                return m_bufferSize;
+            }
+            set
+            {
+                m_bufferSize = value;
+            }
+        }
+
+        // Private value for the UpdatePeriod property.
+        private int m_updatePeriod = 10;
+        /// <summary>
+        /// Defines how often BASS fills the buffer to make sure it is always full (in milliseconds).
+        /// This affects the accuracy of the ChannelGetPosition value.
+        /// Default value: 10ms. The default BASS value is 100ms.
+        /// </summary>
+        public int UpdatePeriod
+        {
+            get
+            {
+                return m_updatePeriod;
+            }
+            set
+            {
+                m_updatePeriod = value;
+            }
+        }
+
         // Private value for the MainChannel property.
         private Channel m_mainChannel = null;
         /// <summary>
@@ -167,31 +208,35 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Default constructor for the PlayerV4 class. Initializes the player at the default
-        /// mixer sample rate of 44100 Hz.
+        /// Default constructor for the PlayerV4 class. Initializes the player using the default
+        /// values (see property comments).
         /// </summary>
         public PlayerV4()
         {
-            // Initialize system with default sample rate
-            Initialize(m_mixerSampleRate);
+            // Initialize system with default values
+            Initialize();
         }
 
         /// <summary>
         /// Constructor for the PlayerV4 class which requires the mixer sample rate value to be passed
         /// in parameter.
         /// </summary>
-        public PlayerV4(int mixerSampleRate)
+        /// <param name="mixerSampleRate">Mixer sample rate (default: 44100 Hz)</param>
+        /// <param name="bufferSize">Buffer size (default: 500 ms)</param>
+        /// <param name="updatePeriod">Update period (default: 10 ms)</param>
+        public PlayerV4(int mixerSampleRate, int bufferSize, int updatePeriod)
         {
-            // Initialize system using specified sample rate
+            // Initialize system using specified values
             m_mixerSampleRate = mixerSampleRate;
-            Initialize(m_mixerSampleRate);
+            m_bufferSize = bufferSize;
+            m_updatePeriod = updatePeriod;
+            Initialize();
         }
 
         /// <summary>
         /// Initializes the player.
-        /// </summary>
-        /// <param name="mixerSampleRate">Mixer sample rate</param>
-        private void Initialize(int mixerSampleRate)
+        /// </summary>        
+        private void Initialize()
         {
             // Initialize player using default driver (DirectSound)
             m_system = new Sound.BassNetWrapper.System(DriverType.DirectSound, m_mixerSampleRate);
@@ -200,10 +245,15 @@ namespace MPfm.Library
             m_system.LoadFlacPlugin();
             m_system.LoadFxPlugin();
 
-            // Get config
-            int buffer = m_system.GetConfig(BASSConfig.BASS_CONFIG_BUFFER);
-            int updatePeriod = m_system.GetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD);
-            int updateThreads = m_system.GetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS);
+            // Default BASS.NET configuration values:
+            //
+            // BASS_CONFIG_BUFFER: 500
+            // BASS_CONFIG_UPDATEPERIOD: 100
+            // BASS_CONFIG_UPDATETHREADS: 1
+
+            // Set configuration for buffer and update period
+            m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+            m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
 
             // Create lists
             m_subChannels = new List<PlayerV4Channel>();
@@ -362,6 +412,7 @@ namespace MPfm.Library
                         {
                             // Create data
                             PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                            data.IsPlaybackStopped = false;
 
                             // Raise event
                             OnSongFinished(data);
@@ -379,14 +430,19 @@ namespace MPfm.Library
 
                     // Return data
                     return m_subChannels[a].Channel.GetData(buffer, length);
-
-                    // create a pinned handle to a managed object
-                    //GCHandle hGC = GCHandle.Alloc(data, GCHandleType.Pinned);
-
-                    //int data = 0;
-
                 }
             }
+
+            // Raise song end event (if an event is subscribed)
+            if (OnSongFinished != null)
+            {
+                // Create data
+                PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                data.IsPlaybackStopped = true;
+
+                // Raise event
+                OnSongFinished(data);
+            }   
 
             // Return end-of-channel
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
@@ -408,5 +464,10 @@ namespace MPfm.Library
     /// </summary>
     public class PlayerV4SongFinishedData
     {
+        /// <summary>
+        /// Defines if the playback was stopped after the song was finished.
+        /// i.e. if the RepeatType is off and the playlist is over, this property will be true.
+        /// </summary>
+        public bool IsPlaybackStopped { get; set; }
     }
 }

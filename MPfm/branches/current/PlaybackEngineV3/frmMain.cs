@@ -130,6 +130,12 @@ namespace PlaybackEngineV3
                 lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
                 lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
                 lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+
+                // Check if this was the last song
+                if (data.IsPlaybackStopped)
+                {
+                    btnStop.PerformClick();
+                }
             };
 
             // Check if invoking is necessary
@@ -163,6 +169,8 @@ namespace PlaybackEngineV3
                 btnStop.Enabled = false;
                 btnPlay.Enabled = false;
                 btnPause.Enabled = false;
+                btnPrev.Enabled = false;
+                btnNext.Enabled = false;
 
                 // Clear playlist
                 listBoxPlaylist.Items.Clear();
@@ -199,6 +207,8 @@ namespace PlaybackEngineV3
             btnPlay.Enabled = true;
             btnPause.Enabled = false;
             btnStop.Enabled = false;
+            btnPrev.Enabled = false;
+            btnNext.Enabled = false;
         }
 
         /// <summary>
@@ -212,6 +222,8 @@ namespace PlaybackEngineV3
             btnPlay.Enabled = false;
             btnPause.Enabled = true;
             btnStop.Enabled = true;
+            btnPrev.Enabled = false; // by default we start on the first song!
+            btnNext.Enabled = true;
 
             // Play set of files            
             playerV4.PlayFiles(soundFiles);
@@ -403,6 +415,8 @@ namespace PlaybackEngineV3
             btnStop.Enabled = false;
             btnPlay.Enabled = true;
             btnPause.Enabled = false;
+            btnPrev.Enabled = false;
+            btnNext.Enabled = false;            
 
             // Fill playlist                
             foreach (string filePath in soundFiles)
@@ -418,13 +432,9 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void trackVolume_Scroll(object sender, EventArgs e)
         {
-            //// Check if player is valid
-            //if (playerV3 != null)
-            //{
-            //    // Set volume and update label
-            //    playerV3.Volume = trackVolume.Value;
-            //    lblVolumeValue.Text = playerV3.Volume.ToString() + "%";
-            //}
+            // Set volume and update label
+            //playerV3.Volume = trackVolume.Value;
+            //lblVolumeValue.Text = playerV3.Volume.ToString() + "%";            
         }
 
         /// <summary>
@@ -445,6 +455,16 @@ namespace PlaybackEngineV3
         private void trackPosition_MouseUp(object sender, MouseEventArgs e)
         {
             isSongPositionChanging = false;
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the time shifting using the track bar.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void trackTimeShifting_Scroll(object sender, EventArgs e)
+        {
+
         }
     }
 }
