@@ -33,6 +33,7 @@ namespace PlaybackEngineV3
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
+        private bool isNewPlaylist = false;
         private long m_currentSongLength = 0;
 
         /// <summary>
@@ -241,6 +242,7 @@ namespace PlaybackEngineV3
 
             // Play set of files            
             playerV4.PlayFiles(soundFiles);
+            isNewPlaylist = true;
         }
 
         /// <summary>
@@ -350,9 +352,11 @@ namespace PlaybackEngineV3
             // Set position
             lblCurrentPosition.Text = BytesToTime(positionBytes);            
 
-            // Set the metadata for the first time (initial value == [Artist])
-            if (lblCurrentArtist.Text == "[Artist]")
+            // Set the metadata when loading a new playlist
+            if (isNewPlaylist)
             {
+                isNewPlaylist = !isNewPlaylist;
+
                 lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
                 lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
                 lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;

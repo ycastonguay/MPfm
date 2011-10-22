@@ -42,6 +42,8 @@ namespace MPfm.Library
     {
         // Callbacks
         private STREAMPROC m_streamProc;
+        private SYNCPROC m_syncProc;
+        private int m_syncProcHandle;
 
         // Events
         public delegate void SongFinished(PlayerV4SongFinishedData data);
@@ -103,6 +105,15 @@ namespace MPfm.Library
             set
             {
                 m_repeatType = value;
+                if (m_repeatType == MPfm.Library.RepeatType.Song)
+                {
+                    if (m_currentSubChannel != null)
+                    {
+                        
+                        //m_syncProc = new SYNCPROC(EndSync);
+                        //m_syncProcHandle = m_currentSubChannel.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);
+                    }
+                }
             }
         }
 
@@ -381,6 +392,10 @@ namespace MPfm.Library
                 m_streamProc = new STREAMPROC(FileProc);
                 m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);
 
+                // Set sync test - nice this can be used for repeating song.
+                //m_syncProc = new SYNCPROC(EndSync);
+                //m_syncProcHandle = channelOne.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);
+
                 // Start playback
                 m_isPlaying = true;
                 m_isPaused = false;
@@ -390,6 +405,16 @@ namespace MPfm.Library
             {
                 Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);                
                 throw ex;
+            }
+        }
+
+        private void EndSync(int handle, int channel, int data, IntPtr user)
+        {
+            if (m_repeatType == MPfm.Library.RepeatType.Song)
+            {
+                // the 'channel' has ended - jump to the beginning
+                Bass.BASS_ChannelSetPosition(channel, 0L);
+                //m_currentSubChannel.Channel.SetPosition(0);
             }
         }
 

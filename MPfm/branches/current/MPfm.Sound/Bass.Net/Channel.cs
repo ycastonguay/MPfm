@@ -66,7 +66,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static Channel CreateFileStreamForDecoding(string filePath)
         {
             // Create file stream
-            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE);
+            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN);
             if (handle == 0)
             {
                 // Check for error
@@ -127,6 +127,16 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error
                 System.CheckForError();
             }
+        }
+
+        public int SetSync(BASSSync type, long param, SYNCPROC syncProc)
+        {
+            return Bass.BASS_ChannelSetSync(m_handle, type, param, syncProc, IntPtr.Zero);
+        }
+
+        public void RemoveSync(int syncHandle)
+        {
+            Bass.BASS_ChannelRemoveSync(m_handle, syncHandle);
         }
 
         public long GetLength()
