@@ -119,4 +119,126 @@ namespace MPfm.Library
         /// </summary>
         public bool IsPlaybackStopped { get; set; }
     }
+
+    /// <summary>
+    /// Defines a 18-band equalizer preset for PlayerV4 using BASS FX.
+    /// </summary>
+    public class PlayerV4EQPreset
+    {
+        /// <summary>
+        /// Private value for the Bands property.
+        /// </summary>
+        private List<PlayerV4EQPresetBand> m_bands = null;
+        /// <summary>
+        /// List of equalizer bands (18 bands).
+        /// </summary>
+        public List<PlayerV4EQPresetBand> Bands
+        {
+            get
+            {
+                return m_bands;
+            }
+        }
+
+        /// <summary>
+        /// Default constructor for the PlayerV4EQPreset class.
+        /// </summary>
+        public PlayerV4EQPreset()
+        {
+            // Create default preset
+            LoadDefault();
+        }
+
+        public void LoadDefault()
+        {
+            // Create default preset
+            m_bands = new List<PlayerV4EQPresetBand>();
+
+            // Create default list of frequencies
+            List<float> freqs = new List<float>();
+            freqs.Add(55.0f);
+            freqs.Add(77.0f);
+            freqs.Add(110.0f);
+            freqs.Add(156.0f);
+            freqs.Add(220.0f);
+            freqs.Add(311.0f);
+            freqs.Add(440.0f);
+            freqs.Add(622.0f);
+            freqs.Add(880.0f);
+            freqs.Add(1200.0f);
+            freqs.Add(1800.0f);
+            freqs.Add(2500.0f);
+            freqs.Add(3500.0f);
+            freqs.Add(5000.0f);
+            freqs.Add(7000.0f);
+            freqs.Add(10000.0f);
+            freqs.Add(14000.0f);
+            freqs.Add(20000.0f);
+
+            // Loop through default frequencies (i.e. 18 times)
+            for (int a = 0; a < freqs.Count; a++)
+            {
+                // Add equalizer band
+                m_bands.Add(new PlayerV4EQPresetBand(freqs[a]));
+            }
+            
+        }
+
+        public static void Load(string filePath)
+        {
+        
+        }
+
+        public static void Save(string filePath)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// Defines a band of the 18-band equalizer (see PlayerV4EQPreset).
+    /// </summary>
+    public class PlayerV4EQPresetBand
+    {
+        public BASSFXChan FXChannel { get; set; }
+        public float Bandwidth { get; set; }
+        public float Center { get; set; }
+        public float Gain { get; set; }
+        public float Q { get; set; }
+
+        /// <summary>
+        /// Default constructor for the PlayerV4EQPresetBand class.
+        /// Sets the default values for an equalizer band.
+        /// </summary>
+        public PlayerV4EQPresetBand()
+        {
+            // Set default values
+            SetDefaultValues();
+        }
+
+        /// <summary>
+        /// Default constructor for the PlayerV4EQPresetBand class.
+        /// Sets the default values for an equalizer band.
+        /// </summary>
+        /// <param name="center">Equalizer center (in Hz)</param>
+        public PlayerV4EQPresetBand(float center)
+        {
+            // Set default values
+            SetDefaultValues();
+            Center = center;
+        }
+
+        /// <summary>
+        /// Sets the default values for an equalizer band.
+        /// </summary>
+        private void SetDefaultValues()
+        {
+            // Set default values
+            FXChannel = BASSFXChan.BASS_BFX_CHANALL;
+            Center = 8000.0f;
+            Q = 1.0f;
+            Bandwidth = 2.5f;
+            Gain = 0.0f;
+        }
+    }
 }

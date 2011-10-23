@@ -78,6 +78,7 @@
             this.lblTimeShifting = new System.Windows.Forms.Label();
             this.trackTimeShifting = new System.Windows.Forms.TrackBar();
             this.linkResetTimeShifting = new System.Windows.Forms.LinkLabel();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupOptions.SuspendLayout();
             this.groupPlaylist.SuspendLayout();
             this.groupCurrentlyPlaying.SuspendLayout();
@@ -308,6 +309,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.lblCurrentLengthPCM);
             this.panel1.Controls.Add(this.label8);
@@ -674,6 +676,19 @@
             this.linkResetTimeShifting.Text = "Reset";
             this.linkResetTimeShifting.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkResetTimeShifting_LinkClicked);
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(570, 63);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(43, 27);
+            this.button1.TabIndex = 43;
+            this.button1.Text = "Test";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -775,6 +790,7 @@
         private System.Windows.Forms.Label lblTimeShifting;
         private System.Windows.Forms.TrackBar trackTimeShifting;
         private System.Windows.Forms.LinkLabel linkResetTimeShifting;
+        private System.Windows.Forms.Button button1;
     }
 }
 

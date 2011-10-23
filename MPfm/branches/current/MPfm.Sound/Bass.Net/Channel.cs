@@ -100,6 +100,16 @@ namespace MPfm.Sound.BassNetWrapper
             return new Channel(handle);
         }
 
+        public void Free()
+        {
+            // Free stream
+            if (!Bass.BASS_StreamFree(m_handle))
+            {
+                // Check for error
+                System.CheckForError();
+            }
+        }
+
         public int GetData(byte[] buffer, int length)
         {
             return Bass.BASS_ChannelGetData(m_handle, buffer, length);
@@ -123,6 +133,11 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error
                 System.CheckForError();
             }
+        }
+
+        public int SetFX(BASSFXType type, int priority)
+        {
+            return Bass.BASS_ChannelSetFX(m_handle, type, priority);
         }
 
         public long GetPosition()
@@ -173,7 +188,12 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error
                 System.CheckForError();
             }
-        }        
+        }
+
+        public BASSFlag SetFlags(BASSFlag flags, BASSFlag mask)
+        {
+            return Bass.BASS_ChannelFlags(m_handle, flags, mask);
+        }
 
         public long Seconds2Bytes2(double position)
         {

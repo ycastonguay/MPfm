@@ -44,6 +44,7 @@ namespace MPfm.Library
         private STREAMPROC m_streamProc;
         private SYNCPROC m_syncProc;
         private int m_syncProcHandle;
+        private int m_fxEQHandle;
 
         /// <summary>
         /// Delegate method for the OnSongFinished event.
@@ -200,7 +201,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the BufferSize property.
         /// </summary>
-        private int m_bufferSize = 500;
+        private int m_bufferSize = 100;
         /// <summary>
         /// Defines the buffer size (in milliseconds). Increase this value if older computers have trouble
         /// filling up the buffer in time.        
@@ -449,10 +450,30 @@ namespace MPfm.Library
                 // Set the current channel as the first one
                 m_currentSubChannel = channelOne;
 
-                // Create the main channel
+                // Create the main channel (SHOULDN'T THIS BE DONE ONLY ONCE? SEE FOR 0.2.5).
                 m_streamProc = new STREAMPROC(FileProc);
                 Channel mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);
                 m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(mainChannel.Handle, false);
+
+                // Load 18-band equalizer
+                m_fxEQHandle = m_mainChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
+                BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
+                PlayerV4EQPreset eqPreset = new PlayerV4EQPreset();
+                for (int a = 0; a < eqPreset.Bands.Count; a++)
+                {
+                    // Get current band
+                    PlayerV4EQPresetBand currentBand = eqPreset.Bands[a];
+
+                    // Set equalizer band properties
+                    eq.lBand = a;
+                    eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
+                    eq.fCenter = currentBand.Center;
+                    eq.fGain = currentBand.Gain;
+                    eq.fQ = currentBand.Q;
+                    Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+                    UpdateEQ(a, currentBand.Gain);
+                }
+
                 //m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);                
 
                 // Set sync test - nice this can be used for repeating song.
@@ -469,6 +490,16 @@ namespace MPfm.Library
                 Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);                
                 throw ex;
             }
+        }
+
+        public void UpdateEQ(int band, float gain)
+        {
+            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
+            // get values of the selected band
+            eq.lBand = band;
+            Bass.BASS_FXGetParameters(m_fxEQHandle, eq);
+            eq.fGain = gain;
+            Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
         }
 
         private void EndSync(int handle, int channel, int data, IntPtr user)
@@ -540,19 +571,21 @@ namespace MPfm.Library
             {
                 if (m_currentSubChannel.Channel != null)
                 {
-                    if (m_currentSubChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
-                    {
+                    //if (m_currentSubChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+                    //{
                         m_currentSubChannel.Channel.Stop();
-                    }
+                        m_currentSubChannel.Channel.Free();
+                    //}
                 }
 
                 if (m_currentSubChannel.NextChannel != null && 
                     m_currentSubChannel.NextChannel.Channel != null)
                 {
-                    if (m_currentSubChannel.NextChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
-                    {
+                    //if (m_currentSubChannel.NextChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+                   // {
                         m_currentSubChannel.NextChannel.Channel.Stop();
-                    }
+                        m_currentSubChannel.NextChannel.Channel.Free();
+                    //}
                 }
             }
 
@@ -593,6 +626,9 @@ namespace MPfm.Library
 
                     // Set the current channel as the first one
                     m_currentSubChannel = channelOne;
+
+                    // Force looping
+                    m_currentSubChannel.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
 
                     // Start playback
                     m_isPlaying = true;

@@ -523,5 +523,10 @@ namespace PlaybackEngineV3
             ulong ms = (ulong)samples * 1000 / 44100;
             return MPfm.Core.Conversion.MillisecondsToTimeString(ms);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            playerV4.UpdateEQ(2, 20f);
+        }
     }
 }
