@@ -132,13 +132,23 @@ namespace MPfm.Library.PlayerV4
             set
             {
                 m_repeatType = value;
-                if (m_repeatType == MPfm.Library.RepeatType.Song)
+
+                // Check if the current song exists
+                if (m_currentSong != null)
                 {
-                    if (m_currentSong != null)
+                    // Check if the repeat type is Song
+                    if (m_repeatType == MPfm.Library.RepeatType.Song)
                     {
-                        
+                        // Force looping
+                        m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+
                         //m_syncProc = new SYNCPROC(EndSync);
-                        //m_syncProcHandle = m_currentSubChannel.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);
+                        //m_syncProcHandle = m_currentSubChannel.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);                    
+                    }
+                    else
+                    {
+                        // Remove looping
+                        m_currentSong.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
                     }
                 }
             }
@@ -572,6 +582,13 @@ namespace MPfm.Library.PlayerV4
                     UpdateEQ(a, currentBand.Gain);
                 }
 
+                // Check if the repeat type is Song
+                if (m_repeatType == MPfm.Library.RepeatType.Song)
+                {
+                    // Force looping
+                    m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                }
+
                 //m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);                
 
                 // Set sync test - nice this can be used for repeating song.
@@ -707,8 +724,12 @@ namespace MPfm.Library.PlayerV4
                     // Set the current channel as the first one
                     m_currentSong = channelOne;
 
-                    // Force looping
-                    //m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                    // Check if the repeat type is Song
+                    if (m_repeatType == MPfm.Library.RepeatType.Song)
+                    {
+                        // Force looping
+                        m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                    }
 
                     // Start playback
                     m_isPlaying = true;
@@ -915,16 +936,51 @@ namespace MPfm.Library.PlayerV4
                 // Check if there is another channel to load
                 if (m_currentSong.NextSong == null)
                 {
-                    // Raise song end event (if an event is subscribed)
-                    if (OnSongFinished != null)
+                    // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
+                    if (RepeatType == MPfm.Library.RepeatType.Playlist)
                     {
-                        // Create data
-                        PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
-                        data.IsPlaybackStopped = true;
+                        // Restart playback from the first channel                        
+                        m_currentSongIndex = 0;
+                        Song channelNull = null;
+                        Song channelOne = CreateSong(ref channelNull, m_filePaths[m_currentSongIndex]);
 
-                        // Raise event
-                        OnSongFinished(data);
-                    }   
+                        // Check if there are other files in the playlist
+                        if (m_currentSongIndex + 1 < m_filePaths.Count)
+                        {
+                            // Create the second channel
+                            Song channelTwo = CreateSong(ref channelOne, m_filePaths[m_currentSongIndex + 1]);
+                        }
+
+                        // Set the current channel as the first one
+                        m_currentSong = channelOne;
+
+                        // Raise song end event (if an event is subscribed)
+                        if (OnSongFinished != null)
+                        {
+                            // Create data
+                            PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                            data.IsPlaybackStopped = false;
+
+                            // Raise event
+                            OnSongFinished(data);
+                        }
+
+                        // Return data from the new channel
+                        return m_currentSong.Channel.GetData(buffer, length);
+                    }
+                    else 
+                    {
+                        // Raise song end event (if an event is subscribed)
+                        if (OnSongFinished != null)
+                        {
+                            // Create data
+                            PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                            data.IsPlaybackStopped = true;
+
+                            // Raise event
+                            OnSongFinished(data);
+                        }
+                    }
 
                     // This is the end of the playlist                    
                     return (int)BASSStreamProc.BASS_STREAMPROC_END;
@@ -1015,14 +1071,6 @@ namespace MPfm.Library.PlayerV4
             //        return m_subChannels[a].Channel.GetData(buffer, length);
             //    }
             //}
-
-            // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
-            if (RepeatType == MPfm.Library.RepeatType.Playlist)
-            {
-                // Restart playback from the first channel
-
-                // IDEA: USE GOTO?
-            }
 
             // Raise song end event (if an event is subscribed)
             if (OnSongFinished != null)

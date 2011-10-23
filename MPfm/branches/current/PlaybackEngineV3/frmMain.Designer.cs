@@ -30,16 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCopyright = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.groupLoadPlaylist = new System.Windows.Forms.GroupBox();
             this.lblPath = new System.Windows.Forms.Label();
             this.txtPath = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblCurrentAlbumTitle = new System.Windows.Forms.Label();
+            this.lblCurrentArtistTitle = new System.Windows.Forms.Label();
+            this.lblCurrentTitleTitle = new System.Windows.Forms.Label();
+            this.lblCurrentPathTitle = new System.Windows.Forms.Label();
             this.lblCurrentArtist = new System.Windows.Forms.Label();
             this.lblCurrentAlbum = new System.Windows.Forms.Label();
             this.lblCurrentTitle = new System.Windows.Forms.Label();
@@ -48,11 +48,11 @@
             this.groupPlaylist = new System.Windows.Forms.GroupBox();
             this.groupCurrentlyPlaying = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblPCM = new System.Windows.Forms.Label();
             this.lblCurrentLengthPCM = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblLength = new System.Windows.Forms.Label();
+            this.lblPosition = new System.Windows.Forms.Label();
+            this.lblAudioFilePosition = new System.Windows.Forms.Label();
             this.lblCurrentLength = new System.Windows.Forms.Label();
             this.lblCurrentPositionPCM = new System.Windows.Forms.Label();
             this.lblCurrentPosition = new System.Windows.Forms.Label();
@@ -71,17 +71,17 @@
             this.groupLoop = new System.Windows.Forms.GroupBox();
             this.txtLoopEnd = new System.Windows.Forms.MaskedTextBox();
             this.txtLoopStart = new System.Windows.Forms.MaskedTextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblLoopEnd = new System.Windows.Forms.Label();
+            this.lblLoopStart = new System.Windows.Forms.Label();
+            this.groupEQ = new System.Windows.Forms.GroupBox();
             this.txtEQBandwidth = new System.Windows.Forms.MaskedTextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.lblEQBandwidth = new System.Windows.Forms.Label();
             this.txtEQQ = new System.Windows.Forms.MaskedTextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.lblEQQ = new System.Windows.Forms.Label();
             this.comboEQBands = new System.Windows.Forms.ComboBox();
             this.txtEQGain = new System.Windows.Forms.MaskedTextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.lblEQGain = new System.Windows.Forms.Label();
+            this.lblEQBand = new System.Windows.Forms.Label();
             this.btnResetEQ = new System.Windows.Forms.Button();
             this.btnSetEQ = new System.Windows.Forms.Button();
             this.btnStopLoop = new System.Windows.Forms.Button();
@@ -105,20 +105,20 @@
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).BeginInit();
             this.groupLoop.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupEQ.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // lblCopyright
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(62, 41);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(243, 12);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Copyright © 2011 Yanick Castonguay";
+            this.lblCopyright.AutoSize = true;
+            this.lblCopyright.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCopyright.Location = new System.Drawing.Point(62, 41);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(243, 12);
+            this.lblCopyright.TabIndex = 18;
+            this.lblCopyright.Text = "Copyright © 2011 Yanick Castonguay";
             // 
             // lblVersion
             // 
@@ -172,53 +172,53 @@
             this.txtPath.Multiline = true;
             this.txtPath.Name = "txtPath";
             this.txtPath.ReadOnly = true;
-            this.txtPath.Size = new System.Drawing.Size(287, 44);
+            this.txtPath.Size = new System.Drawing.Size(298, 44);
             this.txtPath.TabIndex = 0;
             this.txtPath.Text = "C:\\";
             // 
-            // label2
+            // lblCurrentAlbumTitle
             // 
-            this.label2.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Gray;
-            this.label2.Location = new System.Drawing.Point(136, 29);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 9);
-            this.label2.TabIndex = 21;
-            this.label2.Text = "Album";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCurrentAlbumTitle.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentAlbumTitle.ForeColor = System.Drawing.Color.Gray;
+            this.lblCurrentAlbumTitle.Location = new System.Drawing.Point(136, 29);
+            this.lblCurrentAlbumTitle.Name = "lblCurrentAlbumTitle";
+            this.lblCurrentAlbumTitle.Size = new System.Drawing.Size(71, 9);
+            this.lblCurrentAlbumTitle.TabIndex = 21;
+            this.lblCurrentAlbumTitle.Text = "Album";
+            this.lblCurrentAlbumTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label3
+            // lblCurrentArtistTitle
             // 
-            this.label3.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Gray;
-            this.label3.Location = new System.Drawing.Point(136, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(245, 9);
-            this.label3.TabIndex = 20;
-            this.label3.Text = "Artist";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCurrentArtistTitle.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentArtistTitle.ForeColor = System.Drawing.Color.Gray;
+            this.lblCurrentArtistTitle.Location = new System.Drawing.Point(136, 3);
+            this.lblCurrentArtistTitle.Name = "lblCurrentArtistTitle";
+            this.lblCurrentArtistTitle.Size = new System.Drawing.Size(245, 9);
+            this.lblCurrentArtistTitle.TabIndex = 20;
+            this.lblCurrentArtistTitle.Text = "Artist";
+            this.lblCurrentArtistTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label4
+            // lblCurrentTitleTitle
             // 
-            this.label4.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Gray;
-            this.label4.Location = new System.Drawing.Point(136, 55);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 9);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "Title";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCurrentTitleTitle.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentTitleTitle.ForeColor = System.Drawing.Color.Gray;
+            this.lblCurrentTitleTitle.Location = new System.Drawing.Point(136, 55);
+            this.lblCurrentTitleTitle.Name = "lblCurrentTitleTitle";
+            this.lblCurrentTitleTitle.Size = new System.Drawing.Size(71, 9);
+            this.lblCurrentTitleTitle.TabIndex = 22;
+            this.lblCurrentTitleTitle.Text = "Title";
+            this.lblCurrentTitleTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label5
+            // lblCurrentPathTitle
             // 
-            this.label5.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Gray;
-            this.label5.Location = new System.Drawing.Point(136, 81);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 9);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Path";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCurrentPathTitle.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentPathTitle.ForeColor = System.Drawing.Color.Gray;
+            this.lblCurrentPathTitle.Location = new System.Drawing.Point(136, 81);
+            this.lblCurrentPathTitle.Name = "lblCurrentPathTitle";
+            this.lblCurrentPathTitle.Size = new System.Drawing.Size(71, 9);
+            this.lblCurrentPathTitle.TabIndex = 23;
+            this.lblCurrentPathTitle.Text = "Path";
+            this.lblCurrentPathTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblCurrentArtist
             // 
@@ -315,40 +315,40 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
-            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.lblPCM);
             this.panel1.Controls.Add(this.lblCurrentLengthPCM);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.lblLength);
+            this.panel1.Controls.Add(this.lblPosition);
+            this.panel1.Controls.Add(this.lblAudioFilePosition);
             this.panel1.Controls.Add(this.lblCurrentLength);
             this.panel1.Controls.Add(this.lblCurrentPositionPCM);
             this.panel1.Controls.Add(this.lblCurrentPosition);
             this.panel1.Controls.Add(this.trackPosition);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lblCurrentArtistTitle);
             this.panel1.Controls.Add(this.lblCurrentPath);
             this.panel1.Controls.Add(this.lblCurrentArtist);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.lblCurrentAlbumTitle);
+            this.panel1.Controls.Add(this.lblCurrentPathTitle);
             this.panel1.Controls.Add(this.lblCurrentTitle);
             this.panel1.Controls.Add(this.lblCurrentAlbum);
-            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lblCurrentTitleTitle);
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Location = new System.Drawing.Point(6, 18);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(910, 111);
             this.panel1.TabIndex = 28;
             // 
-            // label10
+            // lblPCM
             // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label10.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Silver;
-            this.label10.Location = new System.Drawing.Point(763, 76);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(32, 9);
-            this.label10.TabIndex = 37;
-            this.label10.Text = "PCM";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPCM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPCM.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPCM.ForeColor = System.Drawing.Color.Silver;
+            this.lblPCM.Location = new System.Drawing.Point(763, 76);
+            this.lblPCM.Name = "lblPCM";
+            this.lblPCM.Size = new System.Drawing.Size(32, 9);
+            this.lblPCM.TabIndex = 37;
+            this.lblPCM.Text = "PCM";
+            this.lblPCM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblCurrentLengthPCM
             // 
@@ -362,41 +362,41 @@
             this.lblCurrentLengthPCM.Text = "[Length]";
             this.lblCurrentLengthPCM.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label8
+            // lblLength
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.Gray;
-            this.label8.Location = new System.Drawing.Point(775, 45);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(124, 9);
-            this.label8.TabIndex = 35;
-            this.label8.Text = "Length";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblLength.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLength.ForeColor = System.Drawing.Color.Gray;
+            this.lblLength.Location = new System.Drawing.Point(775, 45);
+            this.lblLength.Name = "lblLength";
+            this.lblLength.Size = new System.Drawing.Size(124, 9);
+            this.lblLength.TabIndex = 35;
+            this.lblLength.Text = "Length";
+            this.lblLength.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label7
+            // lblPosition
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.Gray;
-            this.label7.Location = new System.Drawing.Point(645, 45);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(124, 9);
-            this.label7.TabIndex = 34;
-            this.label7.Text = "Position";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPosition.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPosition.ForeColor = System.Drawing.Color.Gray;
+            this.lblPosition.Location = new System.Drawing.Point(645, 45);
+            this.lblPosition.Name = "lblPosition";
+            this.lblPosition.Size = new System.Drawing.Size(124, 9);
+            this.lblPosition.TabIndex = 34;
+            this.lblPosition.Text = "Position";
+            this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label6
+            // lblAudioFilePosition
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Silver;
-            this.label6.Location = new System.Drawing.Point(645, 4);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(221, 9);
-            this.label6.TabIndex = 33;
-            this.label6.Text = "Audio File Position";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblAudioFilePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAudioFilePosition.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAudioFilePosition.ForeColor = System.Drawing.Color.Silver;
+            this.lblAudioFilePosition.Location = new System.Drawing.Point(645, 4);
+            this.lblAudioFilePosition.Name = "lblAudioFilePosition";
+            this.lblAudioFilePosition.Size = new System.Drawing.Size(221, 9);
+            this.lblAudioFilePosition.TabIndex = 33;
+            this.lblAudioFilePosition.Text = "Audio File Position";
+            this.lblAudioFilePosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblCurrentLength
             // 
@@ -451,7 +451,7 @@
             // 
             // dialogFolderBrowser
             // 
-            this.dialogFolderBrowser.Description = "Select a folder with MP3 files to play.";
+            this.dialogFolderBrowser.Description = "Select a folder with audio files to play (*.MP3, *.FLAC, *.OGG, *.WAV).";
             this.dialogFolderBrowser.SelectedPath = "F:\\Flac\\Nine Inch Nails";
             // 
             // timerUpdateSoundSystem
@@ -565,8 +565,8 @@
             this.groupLoop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupLoop.Controls.Add(this.txtLoopEnd);
             this.groupLoop.Controls.Add(this.txtLoopStart);
-            this.groupLoop.Controls.Add(this.label11);
-            this.groupLoop.Controls.Add(this.label9);
+            this.groupLoop.Controls.Add(this.lblLoopEnd);
+            this.groupLoop.Controls.Add(this.lblLoopStart);
             this.groupLoop.Controls.Add(this.btnStopLoop);
             this.groupLoop.Controls.Add(this.btnPlayLoop);
             this.groupLoop.Location = new System.Drawing.Point(718, 69);
@@ -596,43 +596,43 @@
             this.txtLoopStart.TabIndex = 46;
             this.txtLoopStart.Text = "00000000";
             // 
-            // label11
+            // lblLoopEnd
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(108, 15);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(33, 12);
-            this.label11.TabIndex = 45;
-            this.label11.Text = "End:";
+            this.lblLoopEnd.AutoSize = true;
+            this.lblLoopEnd.Location = new System.Drawing.Point(108, 15);
+            this.lblLoopEnd.Name = "lblLoopEnd";
+            this.lblLoopEnd.Size = new System.Drawing.Size(33, 12);
+            this.lblLoopEnd.TabIndex = 45;
+            this.lblLoopEnd.Text = "End:";
             // 
-            // label9
+            // lblLoopStart
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 16);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 12);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "Start:";
+            this.lblLoopStart.AutoSize = true;
+            this.lblLoopStart.Location = new System.Drawing.Point(6, 16);
+            this.lblLoopStart.Name = "lblLoopStart";
+            this.lblLoopStart.Size = new System.Drawing.Size(47, 12);
+            this.lblLoopStart.TabIndex = 4;
+            this.lblLoopStart.Text = "Start:";
             // 
-            // groupBox1
+            // groupEQ
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.btnResetEQ);
-            this.groupBox1.Controls.Add(this.txtEQBandwidth);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.txtEQQ);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.btnSetEQ);
-            this.groupBox1.Controls.Add(this.comboEQBands);
-            this.groupBox1.Controls.Add(this.txtEQGain);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Location = new System.Drawing.Point(390, 69);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(323, 85);
-            this.groupBox1.TabIndex = 48;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "EQ";
+            this.groupEQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupEQ.Controls.Add(this.btnResetEQ);
+            this.groupEQ.Controls.Add(this.txtEQBandwidth);
+            this.groupEQ.Controls.Add(this.lblEQBandwidth);
+            this.groupEQ.Controls.Add(this.txtEQQ);
+            this.groupEQ.Controls.Add(this.lblEQQ);
+            this.groupEQ.Controls.Add(this.btnSetEQ);
+            this.groupEQ.Controls.Add(this.comboEQBands);
+            this.groupEQ.Controls.Add(this.txtEQGain);
+            this.groupEQ.Controls.Add(this.lblEQGain);
+            this.groupEQ.Controls.Add(this.lblEQBand);
+            this.groupEQ.Location = new System.Drawing.Point(390, 69);
+            this.groupEQ.Name = "groupEQ";
+            this.groupEQ.Size = new System.Drawing.Size(323, 85);
+            this.groupEQ.TabIndex = 48;
+            this.groupEQ.TabStop = false;
+            this.groupEQ.Text = "EQ";
             // 
             // txtEQBandwidth
             // 
@@ -644,14 +644,14 @@
             this.txtEQBandwidth.TabIndex = 56;
             this.txtEQBandwidth.Text = "0250";
             // 
-            // label15
+            // lblEQBandwidth
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(232, 18);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(75, 12);
-            this.label15.TabIndex = 55;
-            this.label15.Text = "Bandwidth:";
+            this.lblEQBandwidth.AutoSize = true;
+            this.lblEQBandwidth.Location = new System.Drawing.Point(232, 18);
+            this.lblEQBandwidth.Name = "lblEQBandwidth";
+            this.lblEQBandwidth.Size = new System.Drawing.Size(75, 12);
+            this.lblEQBandwidth.TabIndex = 55;
+            this.lblEQBandwidth.Text = "Bandwidth:";
             // 
             // txtEQQ
             // 
@@ -663,14 +663,14 @@
             this.txtEQQ.TabIndex = 54;
             this.txtEQQ.Text = "0100";
             // 
-            // label14
+            // lblEQQ
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(178, 18);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(19, 12);
-            this.label14.TabIndex = 53;
-            this.label14.Text = "Q:";
+            this.lblEQQ.AutoSize = true;
+            this.lblEQQ.Location = new System.Drawing.Point(178, 18);
+            this.lblEQQ.Name = "lblEQQ";
+            this.lblEQQ.Size = new System.Drawing.Size(19, 12);
+            this.lblEQQ.TabIndex = 53;
+            this.lblEQQ.Text = "Q:";
             // 
             // comboEQBands
             // 
@@ -695,23 +695,23 @@
             this.txtEQGain.TabIndex = 51;
             this.txtEQGain.Text = "0600";
             // 
-            // label13
+            // lblEQGain
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(124, 18);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(40, 12);
-            this.label13.TabIndex = 50;
-            this.label13.Text = "Gain:";
+            this.lblEQGain.AutoSize = true;
+            this.lblEQGain.Location = new System.Drawing.Point(124, 18);
+            this.lblEQGain.Name = "lblEQGain";
+            this.lblEQGain.Size = new System.Drawing.Size(40, 12);
+            this.lblEQGain.TabIndex = 50;
+            this.lblEQGain.Text = "Gain:";
             // 
-            // label12
+            // lblEQBand
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 18);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(40, 12);
-            this.label12.TabIndex = 48;
-            this.label12.Text = "Band:";
+            this.lblEQBand.AutoSize = true;
+            this.lblEQBand.Location = new System.Drawing.Point(6, 18);
+            this.lblEQBand.Name = "lblEQBand";
+            this.lblEQBand.Size = new System.Drawing.Size(40, 12);
+            this.lblEQBand.TabIndex = 48;
+            this.lblEQBand.Text = "Band:";
             // 
             // btnResetEQ
             // 
@@ -772,9 +772,9 @@
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
             this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnBrowse.Location = new System.Drawing.Point(300, 33);
+            this.btnBrowse.Location = new System.Drawing.Point(310, 33);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 45);
+            this.btnBrowse.Size = new System.Drawing.Size(62, 45);
             this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -907,7 +907,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(934, 467);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupEQ);
             this.Controls.Add(this.groupLoop);
             this.Controls.Add(this.groupLoadPlaylist);
             this.Controls.Add(this.linkResetTimeShifting);
@@ -927,7 +927,7 @@
             this.Controls.Add(this.groupCurrentlyPlaying);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.groupPlaylist);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblCopyright);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.pictureBox1);
@@ -951,8 +951,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).EndInit();
             this.groupLoop.ResumeLayout(false);
             this.groupLoop.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupEQ.ResumeLayout(false);
+            this.groupEQ.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -963,7 +963,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCopyright;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.GroupBox groupLoadPlaylist;
@@ -971,10 +971,10 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblCurrentAlbumTitle;
+        private System.Windows.Forms.Label lblCurrentArtistTitle;
+        private System.Windows.Forms.Label lblCurrentTitleTitle;
+        private System.Windows.Forms.Label lblCurrentPathTitle;
         private System.Windows.Forms.Label lblCurrentArtist;
         private System.Windows.Forms.Label lblCurrentAlbum;
         private System.Windows.Forms.Label lblCurrentTitle;
@@ -998,10 +998,10 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Label lblCurrentLength;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblAudioFilePosition;
+        private System.Windows.Forms.Label lblPosition;
+        private System.Windows.Forms.Label lblLength;
+        private System.Windows.Forms.Label lblPCM;
         private System.Windows.Forms.Label lblCurrentLengthPCM;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPrev;
@@ -1011,22 +1011,22 @@
         private System.Windows.Forms.TrackBar trackTimeShifting;
         private System.Windows.Forms.LinkLabel linkResetTimeShifting;
         private System.Windows.Forms.GroupBox groupLoop;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblLoopEnd;
+        private System.Windows.Forms.Label lblLoopStart;
         private System.Windows.Forms.Button btnStopLoop;
         private System.Windows.Forms.Button btnPlayLoop;
         private System.Windows.Forms.MaskedTextBox txtLoopStart;
         private System.Windows.Forms.MaskedTextBox txtLoopEnd;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupEQ;
         private System.Windows.Forms.ComboBox comboEQBands;
         private System.Windows.Forms.MaskedTextBox txtEQGain;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblEQGain;
+        private System.Windows.Forms.Label lblEQBand;
         private System.Windows.Forms.Button btnSetEQ;
         private System.Windows.Forms.MaskedTextBox txtEQQ;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblEQQ;
         private System.Windows.Forms.MaskedTextBox txtEQBandwidth;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblEQBandwidth;
         private System.Windows.Forms.Button btnResetEQ;
     }
 }
