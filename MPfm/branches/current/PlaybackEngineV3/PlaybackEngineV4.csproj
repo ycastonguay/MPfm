@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1474_Tape.ico" />
+    <None Include="Resources\chart_bar_error.png" />
+    <None Include="Resources\chart_bar_edit.png" />
     <None Include="Resources\RepeatHS.png" />
     <None Include="Resources\DataContainer_MoveLastHS.png" />
     <None Include="Resources\DataContainer_MoveFirstHS.png" />

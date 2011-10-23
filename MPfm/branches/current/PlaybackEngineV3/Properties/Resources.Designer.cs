@@ -74,6 +74,20 @@ namespace PlaybackEngineV4.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap chart_bar_edit {
+            get {
+                object obj = ResourceManager.GetObject("chart_bar_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap chart_bar_error {
+            get {
+                object obj = ResourceManager.GetObject("chart_bar_error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DataContainer_MoveFirstHS {
             get {
                 object obj = ResourceManager.GetObject("DataContainer_MoveFirstHS", resourceCulture);

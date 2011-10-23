@@ -40,12 +40,23 @@ namespace MPfm.Library.PlayerV4
     /// </summary>
     public class Player
     {
+        /// <summary>
+        /// Timer for the player.
+        /// </summary>
+        private System.Timers.Timer m_timerPlayer = null;
+
+        #region Callbacks
+        
         // Callbacks
         private STREAMPROC m_streamProc;
         private SYNCPROC m_syncProc;
         private int m_syncProcHandle;
         private int m_fxEQHandle;
 
+        #endregion
+
+        #region Events
+        
         /// <summary>
         /// Delegate method for the OnSongFinished event.
         /// </summary>
@@ -56,6 +67,10 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         public event SongFinished OnSongFinished;
 
+        #endregion
+
+        #region Properties
+        
         /// <summary>
         /// Private value for the System property.
         /// </summary>
@@ -301,9 +316,80 @@ namespace MPfm.Library.PlayerV4
         }
 
         /// <summary>
-        /// Timer for the player.
+        /// Private value for the CurrentEQPreset property.
         /// </summary>
-        private System.Timers.Timer m_timerPlayer = null;
+        private EQPreset m_currentEQPreset = null;
+        /// <summary>
+        /// Defines the current EQ preset.
+        /// </summary>
+        public EQPreset CurrentEQPreset
+        {
+            get
+            {
+                return m_currentEQPreset;
+            }
+            set
+            {
+                m_currentEQPreset = value;
+            }
+        }
+
+        #region Loops and Markers
+        
+        /// <summary>
+        /// Private value for the Markers property.
+        /// </summary>
+        private List<Marker> m_markers = null;
+        /// <summary>
+        /// Defines a collection of markers.
+        /// </summary>
+        public List<Marker> Markers
+        {
+            get
+            {
+                return m_markers;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Loops property.
+        /// </summary>
+        private List<Loop> m_loops = null;
+        /// <summary>
+        /// Defines a collection of loops.
+        /// </summary>
+        public List<Loop> Loops
+        {
+            get
+            {
+                return m_loops;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the CurrentLoop property.
+        /// </summary>
+        private Loop m_currentLoop = null;
+        /// <summary>
+        /// Defines the currently playing loop.
+        /// </summary>
+        public Loop CurrentLoop
+        {
+            get
+            {
+                return m_currentLoop;
+            }
+            set
+            {
+                m_currentLoop = value;
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Constructors, Initialization/Dispose
 
         /// <summary>
         /// Default constructor for the PlayerV4 class. Initializes the player using the default
@@ -353,9 +439,13 @@ namespace MPfm.Library.PlayerV4
             m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
             m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
 
+            // Create default EQ
+            m_currentEQPreset = new EQPreset();
+
             // Create lists
             m_filePaths = new List<string>();
-            //m_subChannels = new List<PlayerV4Channel>();
+            m_markers = new List<Marker>();
+            m_loops = new List<Loop>();            
 
             // Create timer
             Tracing.Log("[PlayerV4.Initialize] Creating timer...");
@@ -378,6 +468,10 @@ namespace MPfm.Library.PlayerV4
             // Dispose system
             m_system.Free();
         }
+
+        #endregion
+
+        #region Timers
         
         /// <summary>
         /// Occurs when the timer for loading the next song in advance expires.
@@ -395,6 +489,10 @@ namespace MPfm.Library.PlayerV4
             // Set time shifting value
             //m_currentSubChannel.Channel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, TimeShifting);
         }
+
+        #endregion
+
+        #region Playback Methods
 
         /// <summary>
         /// Plays the list of audio files specified in the filePaths parameter.
@@ -458,11 +556,11 @@ namespace MPfm.Library.PlayerV4
                 // Load 18-band equalizer
                 m_fxEQHandle = m_mainChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
                 BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-                EQPreset eqPreset = new EQPreset();
-                for (int a = 0; a < eqPreset.Bands.Count; a++)
+                m_currentEQPreset = new EQPreset();
+                for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
                 {
                     // Get current band
-                    EQPresetBand currentBand = eqPreset.Bands[a];
+                    EQPresetBand currentBand = m_currentEQPreset.Bands[a];
 
                     // Set equalizer band properties
                     eq.lBand = a;
@@ -489,26 +587,6 @@ namespace MPfm.Library.PlayerV4
             {
                 Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);                
                 throw ex;
-            }
-        }
-
-        public void UpdateEQ(int band, float gain)
-        {
-            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            // get values of the selected band
-            eq.lBand = band;
-            Bass.BASS_FXGetParameters(m_fxEQHandle, eq);
-            eq.fGain = gain;
-            Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
-        }
-
-        private void EndSync(int handle, int channel, int data, IntPtr user)
-        {
-            if (m_repeatType == MPfm.Library.RepeatType.Song)
-            {
-                // the 'channel' has ended - jump to the beginning
-                Bass.BASS_ChannelSetPosition(channel, 0L);
-                //m_currentSubChannel.Channel.SetPosition(0);
             }
         }
 
@@ -566,6 +644,7 @@ namespace MPfm.Library.PlayerV4
         {            
             // Stop main channel
             m_mainChannel.Stop();
+
             //m_mainChannel = null;
 
             if (m_currentSong != null)
@@ -629,7 +708,7 @@ namespace MPfm.Library.PlayerV4
                     m_currentSong = channelOne;
 
                     // Force looping
-                    m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                    //m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
 
                     // Start playback
                     m_isPlaying = true;
@@ -679,6 +758,122 @@ namespace MPfm.Library.PlayerV4
                 // Go to next audio file
                 GoTo(m_currentSongIndex + 1);
             }            
+        }
+
+        /// <summary>
+        /// Go to a marker position.
+        /// </summary>
+        /// <param name="marker">Marker position</param>
+        public void GoToMarker(Marker marker)
+        {
+            // Set current song position
+            m_currentSong.Channel.SetPosition(marker.Position);
+        }
+
+        /// <summary>
+        /// Starts a loop. The playback must be activated.
+        /// </summary>
+        /// <param name="loop">Loop to apply</param>
+        public void StartLoop(Loop loop)
+        {
+            // Set loop sync proc            
+            m_currentSong.SyncProc = new SYNCPROC(LoopSyncProc);
+            m_currentSong.SyncProcHandle = m_currentSong.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.Position, m_currentSong.SyncProc);
+
+            // Set current song position to marker A
+            m_currentSong.Channel.SetPosition(loop.MarkerA.Position);
+
+            // Set current loop
+            m_currentLoop = loop;
+
+        }
+
+        /// <summary>
+        /// Stops any loop currently playing.
+        /// </summary>
+        public void StopLoop()
+        {
+            // Make sure there is a loop to stop
+            if (m_currentLoop == null)
+            {
+                return;
+            }
+            
+            // Remove sync proc
+            m_currentSong.Channel.RemoveSync(m_currentSong.SyncProcHandle);
+
+            // Stop loop and release
+            m_currentLoop = null;            
+        }
+
+        #endregion
+
+        #region Other Methods (EQ)
+
+        /// <summary>
+        /// Gets the parameters of an EQ band.
+        /// </summary>
+        /// <param name="band">Band index</param>
+        /// <returns>EQ parameters</returns>
+        public BASS_BFX_PEAKEQ GetEQParams(int band)
+        {
+            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
+            eq.lBand = band;
+            Bass.BASS_FXGetParameters(m_fxEQHandle, eq);
+            
+            return eq;
+        }
+
+        /// <summary>
+        /// Updates the gain of an EQ band.
+        /// </summary>
+        /// <param name="band">Band index</param>
+        /// <param name="gain">Gain (in dB)</param>
+        public void UpdateEQ(int band, float gain)
+        {
+            BASS_BFX_PEAKEQ eq = GetEQParams(band);
+            eq.fGain = gain;
+            Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+
+            // Set EQ preset too
+            m_currentEQPreset.Bands[band].Gain = gain;
+        }
+
+        /// <summary>
+        /// Resets the gain of every EQ band.
+        /// </summary>
+        public void ResetEQ()
+        {
+            // Loop through bands
+            for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
+            {
+                // Reset gain
+                UpdateEQ(a, 0.0f);
+                m_currentEQPreset.Bands[a].Gain = 0.0f;
+            }
+        }
+
+        #endregion
+
+        #region Callback Events
+
+        /// <summary>
+        /// Sync callback routine used for looping the current channel.
+        /// </summary>
+        /// <param name="handle">Handle to the sync</param>
+        /// <param name="channel">Channel handle</param>
+        /// <param name="data">Data</param>
+        /// <param name="user">User data</param>
+        private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
+        {
+            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.Position);
+
+            //if (m_repeatType == MPfm.Library.RepeatType.Song)
+            //{
+            //    // the 'channel' has ended - jump to the beginning
+            //    Bass.BASS_ChannelSetPosition(channel, 0L);
+            //    //m_currentSubChannel.Channel.SetPosition(0);
+            //}
         }
 
         /// <summary>
@@ -843,5 +1038,7 @@ namespace MPfm.Library.PlayerV4
             // Return end-of-channel
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
         }
+
+        #endregion
     }
 }

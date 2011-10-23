@@ -92,6 +92,19 @@ namespace PlaybackEngineV4
                 // Refresh status bar
                 RefreshStatusBar();
 
+                // Set EQ bands combo box
+                List<EQBandComboBoxItem> items = new List<EQBandComboBoxItem>();
+                for(int a = 0; a < player.CurrentEQPreset.Bands.Count; a++)
+                {
+                    // Get current band
+                    EQPresetBand currentBand = player.CurrentEQPreset.Bands[a];
+
+                    // Add combo box item
+                    items.Add(new EQBandComboBoxItem() { Band = a + 1, Center = currentBand.Center, Text = "B" + (a+1).ToString() + " (" + currentBand.Center.ToString("0") + "Hz)" });
+                }
+
+                // Set combo box items
+                comboEQBands.DataSource = items;
             }
             catch (Exception ex)
             {
@@ -186,6 +199,8 @@ namespace PlaybackEngineV4
                 btnPause.Enabled = false;
                 btnPrev.Enabled = false;
                 btnNext.Enabled = false;
+                btnPlayLoop.Enabled = false;
+                btnStopLoop.Enabled = false;
 
                 // Clear playlist
                 listBoxPlaylist.Items.Clear();
@@ -224,6 +239,8 @@ namespace PlaybackEngineV4
             btnStop.Enabled = false;
             btnPrev.Enabled = false;
             btnNext.Enabled = false;
+            btnPlayLoop.Enabled = false;
+            btnStopLoop.Enabled = false;
         }
 
         /// <summary>
@@ -239,6 +256,8 @@ namespace PlaybackEngineV4
             btnStop.Enabled = true;
             btnPrev.Enabled = false; // by default we start on the first song!
             btnNext.Enabled = true;
+            btnPlayLoop.Enabled = true;
+            btnStopLoop.Enabled = false;
 
             // Play set of files            
             player.PlayFiles(soundFiles);
@@ -306,6 +325,71 @@ namespace PlaybackEngineV4
 
             // Update status bar
             RefreshStatusBar();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Play Loop button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnPlayLoop_Click(object sender, EventArgs e)
+        {
+            // Get values
+            long positionStart = 0;
+            long.TryParse(txtLoopStart.Text, out positionStart);
+            long positionEnd = 0;
+            long.TryParse(txtLoopEnd.Text, out positionEnd);
+
+            // Create and start loop
+            Loop loop = new Loop();
+            loop.MarkerA = new Marker() { Position = positionStart };
+            loop.MarkerB = new Marker() { Position = positionEnd };
+            player.StartLoop(loop);
+
+            // Set button enable
+            btnPlayLoop.Enabled = false;
+            btnStopLoop.Enabled = true;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Stop Loop button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnStopLoop_Click(object sender, EventArgs e)
+        {
+            // Stop loop
+            player.StopLoop();
+
+            // Set button enable
+            btnPlayLoop.Enabled = true;
+            btnStopLoop.Enabled = false;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Set EQ button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnSetEQ_Click(object sender, EventArgs e)
+        {
+            float gain = 0.0f;
+            float.TryParse(txtEQGain.Text, out gain);
+            player.UpdateEQ(comboEQBands.SelectedIndex, gain);
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Reset EQ button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnResetEQ_Click(object sender, EventArgs e)
+        {
+            // Reset EQ
+            player.ResetEQ();
+
+            // Set current gain
+            txtEQGain.Text = "0000";
         }
 
         /// <summary>
@@ -517,22 +601,40 @@ namespace PlaybackEngineV4
             player.GoTo(listBoxPlaylist.SelectedIndex);
         }
 
+        /// <summary>
+        /// Occurs when the user changes the EQ band selection.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void comboEQBands_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Load band
+            EQPresetBand currentBand = player.CurrentEQPreset.Bands[comboEQBands.SelectedIndex];
+            txtEQBandwidth.Text = currentBand.Bandwidth.ToString("00.00");
+            txtEQQ.Text = currentBand.Q.ToString("00.00");
+            txtEQGain.Text = currentBand.Gain.ToString("00.00");
+        }
+
+        /// <summary>
+        /// Converts bytes to time string.
+        /// </summary>
+        /// <param name="bytes">Bytes</param>
+        /// <returns>Time string</returns>
         private string BytesToTime(long bytes)
         {
             long samples = bytes * 8 / 16 / 2;
             ulong ms = (ulong)samples * 1000 / 44100;
             return MPfm.Core.Conversion.MillisecondsToTimeString(ms);
         }
+    }
 
-        /// <summary>
-        /// Example of how to change the equalizer.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnTestEQ_Click(object sender, EventArgs e)
-        {
-            // Example: set second band to +10.0dB.
-            player.UpdateEQ(2, 10f);
-        }
+    /// <summary>
+    /// Defines an item of the EQ band combo box.
+    /// </summary>
+    public class EQBandComboBoxItem
+    {
+        public int Band { get; set; }
+        public float Center { get; set; }
+        public string Text { get; set; }
     }
 }

@@ -76,7 +76,9 @@
     <Compile Include="Library.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerV3.cs" />
+    <Compile Include="PlayerV4\Marker.cs" />
     <Compile Include="PlayerV4\EQPreset.cs" />
+    <Compile Include="PlayerV4\Loop.cs" />
     <Compile Include="PlayerV4\Player.cs" />
     <Compile Include="PlayerV4\EQPresetBand.cs" />
     <Compile Include="PlayerV4\Events.cs" />

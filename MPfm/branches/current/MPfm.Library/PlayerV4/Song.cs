@@ -39,6 +39,32 @@ namespace MPfm.Library.PlayerV4
     /// </summary>
     public class Song
     {
+        private SYNCPROC m_syncProc = null;
+        public SYNCPROC SyncProc
+        {
+            get
+            {
+                return m_syncProc;
+            }
+            set
+            {
+                m_syncProc = value;
+            }
+        }
+
+        private int m_syncProcHandle = 0;
+        public int SyncProcHandle
+        {
+            get
+            {
+                return m_syncProcHandle;
+            }
+            set
+            {
+                m_syncProcHandle = value;
+            }
+        }
+
         private AudioFile m_fileProperties = null;
         public AudioFile FileProperties
         {

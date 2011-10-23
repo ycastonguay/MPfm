@@ -63,11 +63,8 @@ namespace MPfm.Library.PlayerV4
             LoadDefault();
         }
 
-        public void LoadDefault()
+        public static List<float> GetDefaultFreqs()
         {
-            // Create default preset
-            m_bands = new List<EQPresetBand>();
-
             // Create default list of frequencies
             List<float> freqs = new List<float>();
             freqs.Add(55.0f);
@@ -88,6 +85,17 @@ namespace MPfm.Library.PlayerV4
             freqs.Add(10000.0f);
             freqs.Add(14000.0f);
             freqs.Add(20000.0f);
+
+            return freqs;
+        }
+
+        public void LoadDefault()
+        {
+            // Create default preset
+            m_bands = new List<EQPresetBand>();
+
+            // Create default list of frequencies
+            List<float> freqs = GetDefaultFreqs();
 
             // Loop through default frequencies (i.e. 18 times)
             for (int a = 0; a < freqs.Count; a++)
