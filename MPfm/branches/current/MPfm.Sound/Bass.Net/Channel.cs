@@ -53,7 +53,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static Channel CreateStream(int frequency, int numberOfChannels, STREAMPROC streamProc)
         {
             // Create file stream
-            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, BASSFlag.BASS_DEFAULT, streamProc, IntPtr.Zero);
+            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, BASSFlag.BASS_STREAM_DECODE, streamProc, IntPtr.Zero);
             if (handle == 0)
             {
                 // Check for error
@@ -79,7 +79,18 @@ namespace MPfm.Sound.BassNetWrapper
         public static Channel CreateStreamForTimeShifting(int streamHandle, bool decode)
         {
             // Create file stream
-            int handle = BassFx.BASS_FX_TempoCreate(streamHandle, decode ? BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT : BASSFlag.BASS_SAMPLE_FLOAT);
+            //int handle = BassFx.BASS_FX_TempoCreate(streamHandle, decode ? BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT : BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN);
+            int handle = 0;
+
+            if (decode)
+            {
+                handle = BassFx.BASS_FX_TempoCreate(streamHandle, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT);
+            }
+            else
+            {
+                handle = BassFx.BASS_FX_TempoCreate(streamHandle, BASSFlag.BASS_FX_FREESOURCE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT);
+            }
+
             if (handle == 0)
             {
                 // Check for error

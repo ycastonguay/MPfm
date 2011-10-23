@@ -45,14 +45,19 @@ namespace MPfm.Library
         private SYNCPROC m_syncProc;
         private int m_syncProcHandle;
 
-        // Events
+        /// <summary>
+        /// Delegate method for the OnSongFinished event.
+        /// </summary>
+        /// <param name="data">OnSongFinished data</param>
         public delegate void SongFinished(PlayerV4SongFinishedData data);
         /// <summary>
         /// The OnSongFinished event is triggered when a song has finished playing.
         /// </summary>
         public event SongFinished OnSongFinished;
 
-        // Private value for the System property.
+        /// <summary>
+        /// Private value for the System property.
+        /// </summary>
         private MPfm.Sound.BassNetWrapper.System m_system = null;
         /// <summary>
         /// System main audio class.
@@ -65,7 +70,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the IsPlaying property.
+        /// <summary>
+        /// Private value for the IsPlaying property.
+        /// </summary>
         private bool m_isPlaying = false;
         /// <summary>
         /// Indicates if the player is currently playing an audio file.
@@ -78,7 +85,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the IsPaused property.
+        /// <summary>
+        /// Private value for the IsPaused property.
+        /// </summary>
         private bool m_isPaused = false;
         /// <summary>
         /// Indicates if the player is currently paused.
@@ -91,7 +100,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the RepeatType property.
+        /// <summary>
+        /// Private value for the RepeatType property.
+        /// </summary>
         private RepeatType m_repeatType = RepeatType.Off;
         /// <summary>
         /// Repeat type (Off, Playlist, Song)
@@ -117,7 +128,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the Volume property.
+        /// <summary>
+        /// Private value for the Volume property.
+        /// </summary>
         private float m_volume = 1.0f;
         /// <summary>
         /// Defines the master volume (from 0 to 1).
@@ -142,7 +155,36 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the MixerSampleRate property.
+        /// <summary>
+        /// Private value for the TimeShifting property.
+        /// </summary>
+        private float m_timeShifting = 0.0f;
+        /// <summary>
+        /// Defines the time shifting applied to the currently playing stream.
+        /// Value range from -100.0f (-100%) to 100.0f (+100%). To reset, set to 0.0f.
+        /// </summary>
+        public float TimeShifting
+        {
+            get
+            {
+                return m_timeShifting;
+            }
+            set
+            {
+                m_timeShifting = value;
+
+                // Check if the main channel exists
+                if (m_mainChannel != null)
+                {
+                    // Set time shifting
+                    m_mainChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, m_timeShifting);
+                }
+            }           
+        }
+
+        /// <summary>
+        /// Private value for the MixerSampleRate property.
+        /// </summary>
         private int m_mixerSampleRate = 44100;
         /// <summary>
         /// Defines the sample rate of the mixer.
@@ -155,7 +197,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the BufferSize property.
+        /// <summary>
+        /// Private value for the BufferSize property.
+        /// </summary>
         private int m_bufferSize = 500;
         /// <summary>
         /// Defines the buffer size (in milliseconds). Increase this value if older computers have trouble
@@ -174,7 +218,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the UpdatePeriod property.
+        /// <summary>
+        /// Private value for the UpdatePeriod property.
+        /// </summary>
         private int m_updatePeriod = 10;
         /// <summary>
         /// Defines how often BASS fills the buffer to make sure it is always full (in milliseconds).
@@ -193,7 +239,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the MainChannel property.
+        /// <summary>
+        /// Private value for the MainChannel property.
+        /// </summary>
         private Channel m_mainChannel = null;
         /// <summary>
         /// Pointer to the main channel.
@@ -206,8 +254,13 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the FilePaths property.
+        /// <summary>
+        /// Private value for the FilePaths property.
+        /// </summary>
         private List<string> m_filePaths = null;
+        /// <summary>
+        /// Defines the list of file paths in the playlist.
+        /// </summary>
         public List<string> FilePaths
         {
             get
@@ -216,7 +269,9 @@ namespace MPfm.Library
             }
         }
 
-        // Private value for the CurrentSubChannelIndex.
+        /// <summary>
+        /// Private value for the CurrentSubChannelIndex.
+        /// </summary>
         private int m_currentSubChannelIndex = 0;
         /// <summary>
         /// Currently playing sub channel index.
@@ -229,6 +284,9 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Private value for the CurrentSubChannel property.
+        /// </summary>
         private PlayerV4Channel m_currentSubChannel = null;
         /// <summary>
         /// Returns the currently playing sub channel.
@@ -332,6 +390,9 @@ namespace MPfm.Library
 
             // Create the next channel
             CreateChannel(ref m_currentSubChannel, m_filePaths[m_currentSubChannelIndex + 1]);
+
+            // Set time shifting value
+            //m_currentSubChannel.Channel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, TimeShifting);
         }
 
         /// <summary>
@@ -390,7 +451,9 @@ namespace MPfm.Library
 
                 // Create the main channel
                 m_streamProc = new STREAMPROC(FileProc);
-                m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);
+                Channel mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);
+                m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(mainChannel.Handle, false);
+                //m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);                
 
                 // Set sync test - nice this can be used for repeating song.
                 //m_syncProc = new SYNCPROC(EndSync);
@@ -430,6 +493,8 @@ namespace MPfm.Library
             PlayerV4Channel channel = new PlayerV4Channel();
             channel.FileProperties = new AudioFile(filePath);
             channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePath);
+            //channel.ChannelDecode = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePath);
+            //channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(channel.ChannelDecode.Handle, true);
 
             // Set pointer to the previous channel
             channel.PreviousChannel = previousChannel;

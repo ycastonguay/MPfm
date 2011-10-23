@@ -35,6 +35,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.groupOptions = new System.Windows.Forms.GroupBox();
             this.lblPath = new System.Windows.Forms.Label();
+            this.btnBrowse = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -57,6 +58,7 @@
             this.lblCurrentPositionPCM = new System.Windows.Forms.Label();
             this.lblCurrentPosition = new System.Windows.Forms.Label();
             this.trackPosition = new System.Windows.Forms.TrackBar();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dialogFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.timerUpdateSoundSystem = new System.Windows.Forms.Timer(this.components);
             this.trackVolume = new System.Windows.Forms.TrackBar();
@@ -67,24 +69,23 @@
             this.btnRepeat = new System.Windows.Forms.Button();
             this.btnPrev = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
-            this.btnBrowse = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnPlay = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblTimeShiftingValue = new System.Windows.Forms.Label();
             this.lblTimeShifting = new System.Windows.Forms.Label();
             this.trackTimeShifting = new System.Windows.Forms.TrackBar();
+            this.linkResetTimeShifting = new System.Windows.Forms.LinkLabel();
             this.groupOptions.SuspendLayout();
             this.groupPlaylist.SuspendLayout();
             this.groupCurrentlyPlaying.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPosition)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).BeginInit();
             this.SuspendLayout();
@@ -141,6 +142,20 @@
             this.lblPath.Size = new System.Drawing.Size(320, 12);
             this.lblPath.TabIndex = 3;
             this.lblPath.Text = "Select a folder containing an album to play :";
+            // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
+            this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBrowse.Location = new System.Drawing.Point(812, 30);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(107, 27);
+            this.btnBrowse.TabIndex = 1;
+            this.btnBrowse.Text = "Browse ...";
+            this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtPath
             // 
@@ -422,10 +437,19 @@
             this.trackPosition.Size = new System.Drawing.Size(268, 45);
             this.trackPosition.SmallChange = 25;
             this.trackPosition.TabIndex = 30;
-            this.trackPosition.TickStyle = System.Windows.Forms.TickStyle.None;            
+            this.trackPosition.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackPosition.MouseCaptureChanged += new System.EventHandler(this.trackPosition_MouseCaptureChanged);
             this.trackPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseDown);
             this.trackPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseUp);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(-56, -72);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(203, 170);
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
             // 
             // dialogFolderBrowser
             // 
@@ -449,7 +473,7 @@
             this.trackVolume.SmallChange = 25;
             this.trackVolume.TabIndex = 32;
             this.trackVolume.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackVolume.Value = 90;
+            this.trackVolume.Value = 100;
             this.trackVolume.Scroll += new System.EventHandler(this.trackVolume_Scroll);
             // 
             // lblVolume
@@ -468,11 +492,11 @@
             this.lblVolumeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVolumeValue.AutoSize = true;
             this.lblVolumeValue.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolumeValue.Location = new System.Drawing.Point(741, 49);
+            this.lblVolumeValue.Location = new System.Drawing.Point(732, 49);
             this.lblVolumeValue.Name = "lblVolumeValue";
-            this.lblVolumeValue.Size = new System.Drawing.Size(29, 11);
+            this.lblVolumeValue.Size = new System.Drawing.Size(37, 11);
             this.lblVolumeValue.TabIndex = 34;
-            this.lblVolumeValue.Text = "90%";
+            this.lblVolumeValue.Text = "100%";
             this.lblVolumeValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // statusStrip
@@ -533,20 +557,6 @@
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
-            this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBrowse.Location = new System.Drawing.Point(812, 30);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(107, 27);
-            this.btnBrowse.TabIndex = 1;
-            this.btnBrowse.Text = "Browse ...";
-            this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
             // btnPause
             // 
             this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -592,15 +602,6 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(-56, -72);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(203, 170);
-            this.pictureBox2.TabIndex = 19;
-            this.pictureBox2.TabStop = false;
-            // 
             // btnPlay
             // 
             this.btnPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -630,7 +631,7 @@
             this.lblTimeShiftingValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTimeShiftingValue.AutoSize = true;
             this.lblTimeShiftingValue.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTimeShiftingValue.Location = new System.Drawing.Point(524, 49);
+            this.lblTimeShiftingValue.Location = new System.Drawing.Point(514, 49);
             this.lblTimeShiftingValue.Name = "lblTimeShiftingValue";
             this.lblTimeShiftingValue.Size = new System.Drawing.Size(21, 11);
             this.lblTimeShiftingValue.TabIndex = 41;
@@ -662,10 +663,23 @@
             this.trackTimeShifting.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackTimeShifting.Scroll += new System.EventHandler(this.trackTimeShifting_Scroll);
             // 
+            // linkResetTimeShifting
+            // 
+            this.linkResetTimeShifting.AutoSize = true;
+            this.linkResetTimeShifting.Location = new System.Drawing.Point(450, 50);
+            this.linkResetTimeShifting.Name = "linkResetTimeShifting";
+            this.linkResetTimeShifting.Size = new System.Drawing.Size(40, 12);
+            this.linkResetTimeShifting.TabIndex = 42;
+            this.linkResetTimeShifting.TabStop = true;
+            this.linkResetTimeShifting.Text = "Reset";
+            this.linkResetTimeShifting.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkResetTimeShifting_LinkClicked);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(934, 412);
+            this.Controls.Add(this.groupOptions);
+            this.Controls.Add(this.linkResetTimeShifting);
             this.Controls.Add(this.lblTimeShiftingValue);
             this.Controls.Add(this.lblTimeShifting);
             this.Controls.Add(this.trackTimeShifting);
@@ -675,7 +689,6 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.lblVolumeValue);
             this.Controls.Add(this.lblVolume);
-            this.Controls.Add(this.groupOptions);
             this.Controls.Add(this.trackVolume);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnExit);
@@ -701,10 +714,10 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPosition)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).EndInit();
             this.ResumeLayout(false);
@@ -761,6 +774,7 @@
         private System.Windows.Forms.Label lblTimeShiftingValue;
         private System.Windows.Forms.Label lblTimeShifting;
         private System.Windows.Forms.TrackBar trackTimeShifting;
+        private System.Windows.Forms.LinkLabel linkResetTimeShifting;
     }
 }
 

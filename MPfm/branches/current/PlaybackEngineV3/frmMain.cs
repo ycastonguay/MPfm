@@ -472,9 +472,45 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void trackTimeShifting_Scroll(object sender, EventArgs e)
         {
-
+            // Set time shifting and update label
+            playerV4.TimeShifting = (float)trackTimeShifting.Value;
+            lblTimeShiftingValue.Text = trackTimeShifting.Value.ToString("0") + "%";
         }
 
+        /// <summary>
+        /// Occurs when the user changes the position of the song position trackbar.
+        /// This is fired only when the mouse button has been released.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void trackPosition_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            // Make sure the channel exists
+            if (playerV4.CurrentSubChannel != null)
+            {
+                // Set channel position
+                playerV4.CurrentSubChannel.Channel.SetPosition(trackPosition.Value);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Reset time shifting link. Sets time shifting to 0%.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void linkResetTimeShifting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Reset time shifting (0%)
+            trackTimeShifting.Value = 0;
+            playerV4.TimeShifting = 0.0f;
+            lblTimeShiftingValue.Text = "0%";
+        }
+
+        /// <summary>
+        /// Occurs when the user double clicks on an item of the listbox playlist.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void listBoxPlaylist_DoubleClick(object sender, EventArgs e)
         {
             // Skip to this song
@@ -486,14 +522,6 @@ namespace PlaybackEngineV3
             long samples = bytes * 8 / 16 / 2;
             ulong ms = (ulong)samples * 1000 / 44100;
             return MPfm.Core.Conversion.MillisecondsToTimeString(ms);
-        }
-
-        private void trackPosition_MouseCaptureChanged(object sender, EventArgs e)
-        {
-            if (playerV4.CurrentSubChannel != null)
-            {
-                playerV4.CurrentSubChannel.Channel.SetPosition(trackPosition.Value);
-            }
         }
     }
 }
