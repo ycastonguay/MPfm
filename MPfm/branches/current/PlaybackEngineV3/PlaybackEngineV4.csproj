@@ -8,8 +8,8 @@
     <ProjectGuid>{064ABDA7-31DC-495F-8214-ED2B13E05601}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlaybackEngineV3</RootNamespace>
-    <AssemblyName>PlaybackEngineV3</AssemblyName>
+    <RootNamespace>PlaybackEngineV4</RootNamespace>
+    <AssemblyName>PlaybackEngineV4</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

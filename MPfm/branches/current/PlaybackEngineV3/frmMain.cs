@@ -18,8 +18,9 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Library;
+using MPfm.Library.PlayerV4;
 
-namespace PlaybackEngineV3
+namespace PlaybackEngineV4
 {
     /// <summary>
     /// Main application form.
@@ -27,9 +28,8 @@ namespace PlaybackEngineV3
     public partial class frmMain : Form
     {
         // Private variables
-        private string ConfigKey_LastUsedDirectory = "LastUsedDirectory";
-        //private PlayerV3 playerV3 = null;
-        private PlayerV4 playerV4 = null;
+        private string ConfigKey_LastUsedDirectory = "LastUsedDirectory";        
+        private MPfm.Library.PlayerV4.Player player = null;
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
@@ -86,8 +86,8 @@ namespace PlaybackEngineV3
                 //player = new PlayerV3(V3DriverType.WavWriter, "");
                 //playerV3 = new PlayerV3();
                 //playerV3.Volume = trackVolume.Value;
-                playerV4 = new PlayerV4();
-                playerV4.OnSongFinished += new PlayerV4.SongFinished(playerV4_OnSongFinished);
+                player = new MPfm.Library.PlayerV4.Player();
+                player.OnSongFinished += new MPfm.Library.PlayerV4.Player.SongFinished(playerV4_OnSongFinished);
 
                 // Refresh status bar
                 RefreshStatusBar();
@@ -110,11 +110,11 @@ namespace PlaybackEngineV3
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Make sure the player isn't null
-            if (playerV4 != null)
+            if (player != null)
             {
                 // Close the player and set to null
-                playerV4.Dispose();
-                playerV4 = null;
+                player.Dispose();
+                player = null;
             }
         }
 
@@ -124,7 +124,7 @@ namespace PlaybackEngineV3
         /// <param name="data">Song Finished Data</param>
         protected void playerV4_OnSongFinished(PlayerV4SongFinishedData data)
         {
-            if (playerV4.CurrentSubChannel == null)
+            if (player.CurrentSong == null)
             {
                 return;
             }
@@ -133,10 +133,10 @@ namespace PlaybackEngineV3
             MethodInvoker methodUIUpdate = delegate
             {
                 // Set metadata
-                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+                lblCurrentArtist.Text = player.CurrentSong.FileProperties.ArtistName;
+                lblCurrentAlbum.Text = player.CurrentSong.FileProperties.AlbumTitle;
+                lblCurrentTitle.Text = player.CurrentSong.FileProperties.Title;
+                lblCurrentPath.Text = player.CurrentSong.FileProperties.FilePath;
 
                 // Check if this was the last song
                 if (data.IsPlaybackStopped)
@@ -145,10 +145,10 @@ namespace PlaybackEngineV3
                 }
 
                 // Check if the previous/next buttons need to be updated
-                btnNext.Enabled = (playerV4.CurrentSubChannelIndex + 1 < playerV4.FilePaths.Count);
-                btnPrev.Enabled = (playerV4.CurrentSubChannelIndex > 0);
+                btnNext.Enabled = (player.CurrentSongIndex + 1 < player.FilePaths.Count);
+                btnPrev.Enabled = (player.CurrentSongIndex > 0);
 
-                m_currentSongLength = playerV4.CurrentSubChannel.Channel.GetLength();
+                m_currentSongLength = player.CurrentSong.Channel.GetLength();
                 lblCurrentLength.Text = BytesToTime(m_currentSongLength);
                 lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
             };
@@ -216,7 +216,7 @@ namespace PlaybackEngineV3
         {
             // Stop playback
             //playerV3.Stop();
-            playerV4.Stop();
+            player.Stop();
 
             // Enable/disable buttons
             btnPlay.Enabled = true;
@@ -241,7 +241,7 @@ namespace PlaybackEngineV3
             btnNext.Enabled = true;
 
             // Play set of files            
-            playerV4.PlayFiles(soundFiles);
+            player.PlayFiles(soundFiles);
             isNewPlaylist = true;
         }
 
@@ -252,7 +252,7 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnPause_Click(object sender, EventArgs e)
         {
-            if (!playerV4.IsPaused)
+            if (!player.IsPaused)
             {
                 btnPause.BackColor = SystemColors.ControlDark;
             }
@@ -260,7 +260,7 @@ namespace PlaybackEngineV3
             {
                 btnPause.BackColor = SystemColors.Control;
             }
-            playerV4.Pause();                 
+            player.Pause();                 
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnPrev_Click(object sender, EventArgs e)
         {
-            playerV4.Previous();
+            player.Previous();
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace PlaybackEngineV3
         /// <param name="e">Event arguments</param>
         private void btnNext_Click(object sender, EventArgs e)
         {
-            playerV4.Next();
+            player.Next();
         }
 
         /// <summary>
@@ -291,17 +291,17 @@ namespace PlaybackEngineV3
         private void btnRepeat_Click(object sender, EventArgs e)
         {
             // Cycle through repeat types
-            if (playerV4.RepeatType == RepeatType.Off)
+            if (player.RepeatType == RepeatType.Off)
             {
-                playerV4.RepeatType = RepeatType.Playlist;
+                player.RepeatType = RepeatType.Playlist;
             }
-            else if (playerV4.RepeatType == RepeatType.Playlist)
+            else if (player.RepeatType == RepeatType.Playlist)
             {
-                playerV4.RepeatType = RepeatType.Song;
+                player.RepeatType = RepeatType.Song;
             }
             else
             {
-                playerV4.RepeatType = RepeatType.Off;
+                player.RepeatType = RepeatType.Off;
             }
 
             // Update status bar
@@ -330,18 +330,18 @@ namespace PlaybackEngineV3
         private void timerUpdateSoundSystem_Tick(object sender, EventArgs e)
         {
             // Check if the player exists
-            if (playerV4 == null || !playerV4.IsPlaying)
+            if (player == null || !player.IsPlaying)
             {
                 return;
             }
 
-            if (playerV4.CurrentSubChannel == null)
+            if (player.CurrentSong == null)
             {
                 return;
             }
 
             // Get position (in bytes)
-            long positionBytes = playerV4.CurrentSubChannel.Channel.GetPosition();
+            long positionBytes = player.CurrentSong.Channel.GetPosition();
 
             // Set position labels
             lblCurrentPositionPCM.Text = positionBytes.ToString();
@@ -357,12 +357,12 @@ namespace PlaybackEngineV3
             {
                 isNewPlaylist = !isNewPlaylist;
 
-                lblCurrentArtist.Text = playerV4.CurrentSubChannel.FileProperties.ArtistName;
-                lblCurrentAlbum.Text = playerV4.CurrentSubChannel.FileProperties.AlbumTitle;
-                lblCurrentTitle.Text = playerV4.CurrentSubChannel.FileProperties.Title;
-                lblCurrentPath.Text = playerV4.CurrentSubChannel.FileProperties.FilePath;
+                lblCurrentArtist.Text = player.CurrentSong.FileProperties.ArtistName;
+                lblCurrentAlbum.Text = player.CurrentSong.FileProperties.AlbumTitle;
+                lblCurrentTitle.Text = player.CurrentSong.FileProperties.Title;
+                lblCurrentPath.Text = player.CurrentSong.FileProperties.FilePath;
 
-                m_currentSongLength = playerV4.CurrentSubChannel.Channel.GetLength();
+                m_currentSongLength = player.CurrentSong.Channel.GetLength();
                 lblCurrentLength.Text = BytesToTime(m_currentSongLength);
                 lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
 
@@ -394,11 +394,11 @@ namespace PlaybackEngineV3
         {
             // Build string
             StringBuilder sb = new StringBuilder();
-            sb.Append("Current channel: " + playerV4.CurrentSubChannelIndex.ToString());
+            sb.Append("Current song index: " + player.CurrentSongIndex.ToString());
             sb.Append(" // ");
-            sb.Append("Mixer sample rate: " + playerV4.MixerSampleRate.ToString());
+            sb.Append("Mixer sample rate: " + player.MixerSampleRate.ToString());
             sb.Append(" // ");
-            sb.Append("Repeat type: " + playerV4.RepeatType.ToString());            
+            sb.Append("Repeat type: " + player.RepeatType.ToString());            
 
             lblStatus.Text = sb.ToString();
         }
@@ -441,8 +441,8 @@ namespace PlaybackEngineV3
         private void trackVolume_Scroll(object sender, EventArgs e)
         {
             // Set volume and update label
-            playerV4.Volume = (float)trackVolume.Value / 100;
-            lblVolumeValue.Text = (playerV4.Volume * 100).ToString("0") + "%";            
+            player.Volume = (float)trackVolume.Value / 100;
+            lblVolumeValue.Text = (player.Volume * 100).ToString("0") + "%";            
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace PlaybackEngineV3
         private void trackTimeShifting_Scroll(object sender, EventArgs e)
         {
             // Set time shifting and update label
-            playerV4.TimeShifting = (float)trackTimeShifting.Value;
+            player.TimeShifting = (float)trackTimeShifting.Value;
             lblTimeShiftingValue.Text = trackTimeShifting.Value.ToString("0") + "%";
         }
 
@@ -486,10 +486,10 @@ namespace PlaybackEngineV3
         private void trackPosition_MouseCaptureChanged(object sender, EventArgs e)
         {
             // Make sure the channel exists
-            if (playerV4.CurrentSubChannel != null)
+            if (player.CurrentSong != null)
             {
                 // Set channel position
-                playerV4.CurrentSubChannel.Channel.SetPosition(trackPosition.Value);
+                player.CurrentSong.Channel.SetPosition(trackPosition.Value);
             }
         }
 
@@ -502,7 +502,7 @@ namespace PlaybackEngineV3
         {
             // Reset time shifting (0%)
             trackTimeShifting.Value = 0;
-            playerV4.TimeShifting = 0.0f;
+            player.TimeShifting = 0.0f;
             lblTimeShiftingValue.Text = "0%";
         }
 
@@ -514,7 +514,7 @@ namespace PlaybackEngineV3
         private void listBoxPlaylist_DoubleClick(object sender, EventArgs e)
         {
             // Skip to this song
-            playerV4.GoTo(listBoxPlaylist.SelectedIndex);
+            player.GoTo(listBoxPlaylist.SelectedIndex);
         }
 
         private string BytesToTime(long bytes)
@@ -524,9 +524,15 @@ namespace PlaybackEngineV3
             return MPfm.Core.Conversion.MillisecondsToTimeString(ms);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Example of how to change the equalizer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTestEQ_Click(object sender, EventArgs e)
         {
-            playerV4.UpdateEQ(2, 20f);
+            // Example: set second band to +10.0dB.
+            player.UpdateEQ(2, 10f);
         }
     }
 }

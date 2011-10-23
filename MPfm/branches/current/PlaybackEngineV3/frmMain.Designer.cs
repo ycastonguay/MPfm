@@ -1,4 +1,4 @@
-﻿namespace PlaybackEngineV3
+﻿namespace PlaybackEngineV4
 {
     partial class frmMain
     {
@@ -49,6 +49,7 @@
             this.groupPlaylist = new System.Windows.Forms.GroupBox();
             this.groupCurrentlyPlaying = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnTestEQ = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.lblCurrentLengthPCM = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -78,7 +79,6 @@
             this.lblTimeShifting = new System.Windows.Forms.Label();
             this.trackTimeShifting = new System.Windows.Forms.TrackBar();
             this.linkResetTimeShifting = new System.Windows.Forms.LinkLabel();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupOptions.SuspendLayout();
             this.groupPlaylist.SuspendLayout();
             this.groupCurrentlyPlaying.SuspendLayout();
@@ -309,7 +309,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btnTestEQ);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.lblCurrentLengthPCM);
             this.panel1.Controls.Add(this.label8);
@@ -332,6 +332,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(910, 111);
             this.panel1.TabIndex = 28;
+            // 
+            // btnTestEQ
+            // 
+            this.btnTestEQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTestEQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTestEQ.Location = new System.Drawing.Point(575, 4);
+            this.btnTestEQ.Name = "btnTestEQ";
+            this.btnTestEQ.Size = new System.Drawing.Size(64, 27);
+            this.btnTestEQ.TabIndex = 43;
+            this.btnTestEQ.Text = "Test EQ";
+            this.btnTestEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnTestEQ.UseVisualStyleBackColor = true;
+            this.btnTestEQ.Click += new System.EventHandler(this.btnTestEQ_Click);
             // 
             // label10
             // 
@@ -518,7 +531,7 @@
             // btnRepeat
             // 
             this.btnRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRepeat.Image = global::PlaybackEngineV3.Properties.Resources.RepeatHS;
+            this.btnRepeat.Image = global::PlaybackEngineV4.Properties.Resources.RepeatHS;
             this.btnRepeat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRepeat.Location = new System.Drawing.Point(786, 5);
             this.btnRepeat.Name = "btnRepeat";
@@ -533,7 +546,7 @@
             // 
             this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrev.Enabled = false;
-            this.btnPrev.Image = global::PlaybackEngineV3.Properties.Resources.DataContainer_MoveFirstHS;
+            this.btnPrev.Image = global::PlaybackEngineV4.Properties.Resources.DataContainer_MoveFirstHS;
             this.btnPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPrev.Location = new System.Drawing.Point(648, 5);
             this.btnPrev.Name = "btnPrev";
@@ -548,7 +561,7 @@
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNext.Enabled = false;
-            this.btnNext.Image = global::PlaybackEngineV3.Properties.Resources.DataContainer_MoveLastHS;
+            this.btnNext.Image = global::PlaybackEngineV4.Properties.Resources.DataContainer_MoveLastHS;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNext.Location = new System.Drawing.Point(717, 5);
             this.btnNext.Name = "btnNext";
@@ -676,19 +689,6 @@
             this.linkResetTimeShifting.Text = "Reset";
             this.linkResetTimeShifting.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkResetTimeShifting_LinkClicked);
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(570, 63);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(43, 27);
-            this.button1.TabIndex = 43;
-            this.button1.Text = "Test";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -790,7 +790,7 @@
         private System.Windows.Forms.Label lblTimeShifting;
         private System.Windows.Forms.TrackBar trackTimeShifting;
         private System.Windows.Forms.LinkLabel linkResetTimeShifting;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnTestEQ;
     }
 }
 
