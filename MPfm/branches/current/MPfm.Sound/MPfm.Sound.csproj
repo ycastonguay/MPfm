@@ -79,6 +79,9 @@
     <Compile Include="AudioFile.cs" />
     <Compile Include="AudioTools.cs" />
     <Compile Include="Bass.Net\Channel.cs" />
+    <Compile Include="Bass.Net\TestDevice.cs" />
+    <Compile Include="Bass.Net\DeviceHelper.cs" />
+    <Compile Include="Bass.Net\Device.cs" />
     <Compile Include="Bass.Net\Exception.cs" />
     <Compile Include="Bass.Net\System.cs" />
     <Compile Include="ConvertAudio.cs" />
@@ -124,7 +127,9 @@
   <ItemGroup>
     <Content Include="Lib\bass.dll" />
     <Content Include="Lib\Bass.Net.dll" />
+    <Content Include="Lib\bassasio.dll" />
     <Content Include="Lib\bassflac.dll" />
+    <Content Include="Lib\basswasapi.dll" />
     <Content Include="Lib\bass_fx.dll" />
     <Content Include="Lib\fmodex.dll" />
     <Content Include="Lib\taglib-sharp.dll" />

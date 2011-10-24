@@ -82,6 +82,7 @@
             this.txtEQGain = new System.Windows.Forms.MaskedTextBox();
             this.lblEQGain = new System.Windows.Forms.Label();
             this.lblEQBand = new System.Windows.Forms.Label();
+            this.btnSettings = new System.Windows.Forms.Button();
             this.btnResetEQ = new System.Windows.Forms.Button();
             this.btnSetEQ = new System.Windows.Forms.Button();
             this.btnStopLoop = new System.Windows.Forms.Button();
@@ -136,9 +137,9 @@
             this.lblTitle.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(60, 9);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(307, 15);
+            this.lblTitle.Size = new System.Drawing.Size(257, 15);
             this.lblTitle.TabIndex = 14;
-            this.lblTitle.Text = "MPfm - Playback Engine V4 Demo";
+            this.lblTitle.Text = "MPfm - Playback Engine V4";
             // 
             // groupLoadPlaylist
             // 
@@ -713,6 +714,20 @@
             this.lblEQBand.TabIndex = 48;
             this.lblEQBand.Text = "Band:";
             // 
+            // btnSettings
+            // 
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettings.Image = global::PlaybackEngineV4.Properties.Resources.cog;
+            this.btnSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettings.Location = new System.Drawing.Point(771, 5);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(89, 27);
+            this.btnSettings.TabIndex = 49;
+            this.btnSettings.Text = "Settings";
+            this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
             // btnResetEQ
             // 
             this.btnResetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_error;
@@ -786,7 +801,7 @@
             this.btnRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRepeat.Image = global::PlaybackEngineV4.Properties.Resources.RepeatHS;
             this.btnRepeat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRepeat.Location = new System.Drawing.Point(786, 5);
+            this.btnRepeat.Location = new System.Drawing.Point(692, 5);
             this.btnRepeat.Name = "btnRepeat";
             this.btnRepeat.Size = new System.Drawing.Size(74, 27);
             this.btnRepeat.TabIndex = 38;
@@ -801,7 +816,7 @@
             this.btnPrev.Enabled = false;
             this.btnPrev.Image = global::PlaybackEngineV4.Properties.Resources.DataContainer_MoveFirstHS;
             this.btnPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPrev.Location = new System.Drawing.Point(648, 5);
+            this.btnPrev.Location = new System.Drawing.Point(554, 5);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(63, 27);
             this.btnPrev.TabIndex = 37;
@@ -816,7 +831,7 @@
             this.btnNext.Enabled = false;
             this.btnNext.Image = global::PlaybackEngineV4.Properties.Resources.DataContainer_MoveLastHS;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNext.Location = new System.Drawing.Point(717, 5);
+            this.btnNext.Location = new System.Drawing.Point(623, 5);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(63, 27);
             this.btnNext.TabIndex = 36;
@@ -832,7 +847,7 @@
             this.btnPause.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
             this.btnPause.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPause.Location = new System.Drawing.Point(503, 5);
+            this.btnPause.Location = new System.Drawing.Point(409, 5);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(69, 27);
             this.btnPause.TabIndex = 31;
@@ -861,7 +876,7 @@
             this.btnStop.Enabled = false;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
             this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStop.Location = new System.Drawing.Point(578, 5);
+            this.btnStop.Location = new System.Drawing.Point(484, 5);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(63, 27);
             this.btnStop.TabIndex = 29;
@@ -885,7 +900,7 @@
             this.btnPlay.Enabled = false;
             this.btnPlay.Image = ((System.Drawing.Image)(resources.GetObject("btnPlay.Image")));
             this.btnPlay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPlay.Location = new System.Drawing.Point(434, 5);
+            this.btnPlay.Location = new System.Drawing.Point(340, 5);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(63, 27);
             this.btnPlay.TabIndex = 4;
@@ -907,6 +922,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(934, 467);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.groupEQ);
             this.Controls.Add(this.groupLoop);
             this.Controls.Add(this.groupLoadPlaylist);
@@ -1028,6 +1044,7 @@
         private System.Windows.Forms.MaskedTextBox txtEQBandwidth;
         private System.Windows.Forms.Label lblEQBandwidth;
         private System.Windows.Forms.Button btnResetEQ;
+        private System.Windows.Forms.Button btnSettings;
     }
 }
 

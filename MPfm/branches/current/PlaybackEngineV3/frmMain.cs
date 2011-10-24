@@ -1,4 +1,25 @@
-﻿using System;
+﻿//
+// frmMain.cs: This class is part of the PlaybackEngineV4 demo application.
+//             This is the main form of the application.
+//
+// Copyright © 2011 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +50,7 @@ namespace PlaybackEngineV4
     {
         // Private variables
         private string ConfigKey_LastUsedDirectory = "LastUsedDirectory";        
-        private MPfm.Library.PlayerV4.Player player = null;
+        public MPfm.Library.PlayerV4.Player player = null;
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
@@ -625,6 +646,12 @@ namespace PlaybackEngineV4
             long samples = bytes * 8 / 16 / 2;
             ulong ms = (ulong)samples * 1000 / 44100;
             return MPfm.Core.Conversion.MillisecondsToTimeString(ms);
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            frmSettings settings = new frmSettings(this);
+            settings.ShowDialog();
         }
     }
 

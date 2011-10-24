@@ -29,6 +29,7 @@ using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
+using Un4seen.BassAsio;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
@@ -83,6 +84,21 @@ namespace MPfm.Library.PlayerV4
             get
             {
                 return m_system;
+            }
+        }
+        
+        /// <summary>
+        /// Private value for the CurrentDriver property.
+        /// </summary>
+        private Driver m_currentDriver = null;
+        /// <summary>
+        /// Defines the driver currently used for playback.
+        /// </summary>
+        public Driver CurrentDriver
+        {
+            get
+            {
+                return m_currentDriver;
             }
         }
 
@@ -241,6 +257,13 @@ namespace MPfm.Library.PlayerV4
             set
             {
                 m_bufferSize = value;
+
+                // Check if system exists
+                if (m_system != null)
+                {
+                    // Set configuration
+                    m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+                }   
             }
         }
 
@@ -262,6 +285,41 @@ namespace MPfm.Library.PlayerV4
             set
             {
                 m_updatePeriod = value;
+
+                // Check if system exists
+                if (m_system != null)
+                {
+                    // Set configuration
+                    m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
+                }       
+            }
+        }
+
+        /// <summary>
+        /// Private value for the UpdateThreads property.
+        /// </summary>
+        private int m_updateThreads = 1;
+        /// <summary>
+        /// Defines how many threads BASS can use to update playback buffers in parrallel.
+        /// Note: The playback engine plays perfectly with just one update thread.
+        /// Default value: 1 thread. The default BASS value is 1 thread.
+        /// </summary>
+        public int UpdateThreads
+        {
+            get
+            {
+                return m_updateThreads;
+            }
+            set
+            {
+                m_updateThreads = value;
+
+                // Check if system exists
+                if (m_system != null)
+                {
+                    // Set configuration
+                    m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, m_updateThreads);
+                }
             }
         }
 
@@ -659,6 +717,12 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         public void Stop()
         {            
+            // Check if the main channel exists
+            if (m_mainChannel == null)
+            {
+                return;
+            }
+
             // Stop main channel
             m_mainChannel.Stop();
 

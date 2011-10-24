@@ -1,6 +1,6 @@
 ﻿//
-// Exception.cs: This file contains the Exception class which is part of the
-//               BASS.NET wrapper.
+// Device.cs: This file contains the Device class which is part of the
+//            BASS.NET wrapper.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -34,11 +34,15 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Sound.BassNetWrapper
 {
-    public class BassNetWrapperException : Exception
+    /// <summary>
+    /// Defines an audio device that can be used with PlayerV4.
+    /// </summary>
+    public class Device
     {
-        public BassNetWrapperException(string message) 
-            : base("An error has occured in Bass.Net: " + message)
-        {            
-        }
+        public DriverType DriverType { get; set; }
+        public bool IsDefault { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Driver { get; set; }
     }
 }

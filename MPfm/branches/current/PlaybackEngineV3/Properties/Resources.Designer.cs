@@ -74,6 +74,13 @@ namespace PlaybackEngineV4.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap asterisk_orange {
+            get {
+                object obj = ResourceManager.GetObject("asterisk_orange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap chart_bar_edit {
             get {
                 object obj = ResourceManager.GetObject("chart_bar_edit", resourceCulture);
@@ -84,6 +91,13 @@ namespace PlaybackEngineV4.Properties {
         internal static System.Drawing.Bitmap chart_bar_error {
             get {
                 object obj = ResourceManager.GetObject("chart_bar_error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap cog {
+            get {
+                object obj = ResourceManager.GetObject("cog", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,6 +119,13 @@ namespace PlaybackEngineV4.Properties {
         internal static System.Drawing.Bitmap DeleteHS {
             get {
                 object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap disk {
+            get {
+                object obj = ResourceManager.GetObject("disk", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,6 +154,13 @@ namespace PlaybackEngineV4.Properties {
         internal static System.Drawing.Bitmap RepeatHS {
             get {
                 object obj = ResourceManager.GetObject("RepeatHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap sound {
+            get {
+                object obj = ResourceManager.GetObject("sound", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
