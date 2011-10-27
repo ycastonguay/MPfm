@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MPfm.Core;
 using MPfm.Sound.BassNetWrapper;
 
 namespace PlaybackEngineV4
@@ -69,10 +70,28 @@ namespace PlaybackEngineV4
 
             // Update combo box
             List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
-            drivers.Add(new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default, recommended)" });
-            drivers.Add(new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required, supports VST plugins)" });
-            drivers.Add(new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Windows Vista/Windows 7 only)" });
-            comboDriver.DataSource = drivers;            
+            DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default, recommended)" };
+            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required, supports VST plugins)" };
+            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Windows Vista/Windows 7 only)" };
+            drivers.Add(driverDirectSound);
+            drivers.Add(driverASIO);
+            drivers.Add(driverWASAPI);
+            comboDriver.DataSource = drivers;
+
+            //// Select values
+            //string driverType = Config.LoadConfig("DriverType");            
+            //for (int a = 0; a < comboDriver.Items.Count; a++ )
+            //{
+            //    // Get item
+            //    DriverComboBoxItem item = (DriverComboBoxItem)comboDriver.Items[a];
+
+            //    // Check if value match
+            //    if (item.DriverType.ToString().ToUpper() == driverType.ToUpper())
+            //    {
+            //        // Set selected index
+            //        comboDriver.SelectedIndex = a;
+            //    }
+            //}            
         }
 
         #region Button Events
@@ -84,6 +103,22 @@ namespace PlaybackEngineV4
         /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
+            // Ask user for saving settings
+            if (MessageBox.Show("Do you wish to save your settings?", "Save settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                // Get selected device and selected driver
+                DriverComboBoxItem driver = (DriverComboBoxItem)comboDriver.SelectedItem;                
+                Device device = (Device)comboOutputDevice.SelectedItem;
+
+                // Save config
+                Config.SaveConfig("BufferSize", txtBufferSize.Text);
+                Config.SaveConfig("UpdatePeriod", txtUpdatePeriod.Text);                
+                Config.SaveConfig("UpdateThreads", txtUpdateThreads.Text);
+                Config.SaveConfig("DriverType", device.DriverType.ToString());                
+                Config.SaveConfig("DeviceId", device.Id.ToString());
+                Config.SaveConfig("DeviceName", device.Name);
+            }
+
             this.Close();
         }
 
@@ -127,6 +162,16 @@ namespace PlaybackEngineV4
         /// <param name="e">Event arguments</param>
         private void btnTestAudio_Click(object sender, EventArgs e)
         {
+            // Check if the player is playing
+            if (m_main.player.IsPlaying)
+            {
+                // Warn the user this will stop the playback!
+                if (MessageBox.Show("Warning: The player is currently playing a song. This will interrumpt the playback. Are you sure?", "Interrumpt playback", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.No)
+                {
+                    return;
+                }
+            }
+
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)comboDriver.SelectedItem;
 
@@ -134,13 +179,14 @@ namespace PlaybackEngineV4
             Device device = (Device)comboOutputDevice.SelectedItem;
 
             // Check if the player exists
-            if (m_main.player != null)
-            {
-                // Dispose player (cannot have two BASS.NET engines running on the same device)
+            if (m_main.player.IsPlaying)
+            {               
+                // Stop playback
                 m_main.player.Stop();
-                m_main.player.Dispose();
-                m_main.player = null;
             }
+
+            // Free device
+            m_main.player.FreeDevice();
 
             // Show open file dialog
             if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -148,7 +194,7 @@ namespace PlaybackEngineV4
                 try
                 {
                     // Create the test device
-                    TestDevice testDevice = new TestDevice(driver.DriverType, device.Id);
+                    TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);
                     testDevice.Play(openFile.FileName);
 
                     // Display message during playback
@@ -164,6 +210,9 @@ namespace PlaybackEngineV4
                     MessageBox.Show("An error occured while testing the audio device.\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error playing audio file", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            // Reinitialize player            
+            m_main.player.InitializeDefaultDevice();
         }
 
         #endregion

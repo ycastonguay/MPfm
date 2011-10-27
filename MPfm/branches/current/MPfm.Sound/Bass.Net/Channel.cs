@@ -83,7 +83,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (handle == 0)
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
 
             return new Channel(handle);
@@ -96,7 +96,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (handle == 0)
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
 
             return new Channel(handle);
@@ -120,7 +120,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (handle == 0)
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
 
             return new Channel(handle);
@@ -132,7 +132,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_StreamFree(m_handle))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 
@@ -157,7 +157,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_ChannelSetAttribute(m_handle, BASSAttribute.BASS_ATTRIB_TEMPO, tempo))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 
@@ -177,7 +177,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_ChannelSetPosition(m_handle, position))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 
@@ -202,7 +202,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_ChannelGetAttribute(m_handle, attribute, ref value))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 
@@ -212,7 +212,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_ChannelSetAttribute(m_handle, attribute, value))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 
@@ -237,7 +237,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_ChannelPlay(m_handle, restart))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 
@@ -247,7 +247,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (!Bass.BASS_ChannelStop(m_handle))
             {
                 // Check for error
-                System.CheckForError();
+                Base.CheckForError();
             }
         }
 

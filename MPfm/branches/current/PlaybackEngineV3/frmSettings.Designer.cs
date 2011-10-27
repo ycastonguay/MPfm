@@ -50,7 +50,6 @@
             this.lblDefaultValue = new System.Windows.Forms.Label();
             this.btnTestAudio = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.groupAudio.SuspendLayout();
@@ -63,6 +62,7 @@
             // groupAudio
             // 
             this.groupAudio.Controls.Add(this.label3);
+            this.groupAudio.Controls.Add(this.btnReset);
             this.groupAudio.Controls.Add(this.txtUpdateThreads);
             this.groupAudio.Controls.Add(this.lblUpdateThreads);
             this.groupAudio.Controls.Add(this.label2);
@@ -79,7 +79,7 @@
             this.groupAudio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupAudio.Name = "groupAudio";
             this.groupAudio.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupAudio.Size = new System.Drawing.Size(417, 115);
+            this.groupAudio.Size = new System.Drawing.Size(417, 135);
             this.groupAudio.TabIndex = 17;
             this.groupAudio.TabStop = false;
             this.groupAudio.Text = "Audio Settings";
@@ -312,10 +312,9 @@
             // 
             // btnReset
             // 
-            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnReset.Image = global::PlaybackEngineV4.Properties.Resources.asterisk_orange;
             this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReset.Location = new System.Drawing.Point(4, 301);
+            this.btnReset.Location = new System.Drawing.Point(8, 99);
             this.btnReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(209, 26);
@@ -325,27 +324,12 @@
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSave.Image = global::PlaybackEngineV4.Properties.Resources.disk;
-            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(219, 301);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(127, 26);
-            this.btnSave.TabIndex = 49;
-            this.btnSave.Text = "Save settings";
-            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnClose.Image = global::PlaybackEngineV4.Properties.Resources.DeleteHS;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnClose.Location = new System.Drawing.Point(352, 301);
+            this.btnClose.Location = new System.Drawing.Point(352, 319);
             this.btnClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(69, 26);
@@ -363,10 +347,9 @@
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(428, 334);
+            this.ClientSize = new System.Drawing.Size(428, 352);
+            this.ControlBox = false;
             this.Controls.Add(this.groupSoundCard);
-            this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.groupAudio);
             this.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -395,7 +378,6 @@
         private System.Windows.Forms.Label lblBufferSize;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TrackBar trackBufferSize;
         private System.Windows.Forms.TrackBar trackUpdatePeriod;

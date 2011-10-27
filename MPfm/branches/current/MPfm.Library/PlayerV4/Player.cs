@@ -46,6 +46,9 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         private System.Timers.Timer m_timerPlayer = null;
 
+        private int m_flacPluginHandle = 0;
+        private int m_fxPluginHandle = 0;        
+
         #region Callbacks
         
         // Callbacks
@@ -72,33 +75,33 @@ namespace MPfm.Library.PlayerV4
 
         #region Properties
         
-        /// <summary>
-        /// Private value for the System property.
-        /// </summary>
-        private MPfm.Sound.BassNetWrapper.System m_system = null;
-        /// <summary>
-        /// System main audio class.
-        /// </summary>
-        public MPfm.Sound.BassNetWrapper.System System
-        {
-            get
-            {
-                return m_system;
-            }
-        }
+        ///// <summary>
+        ///// Private value for the System property.
+        ///// </summary>
+        //private MPfm.Sound.BassNetWrapper.System m_system = null;
+        ///// <summary>
+        ///// System main audio class.
+        ///// </summary>
+        //public MPfm.Sound.BassNetWrapper.System System
+        //{
+        //    get
+        //    {
+        //        return m_system;
+        //    }
+        //}
         
         /// <summary>
-        /// Private value for the CurrentDriver property.
+        /// Private value for the CurrentDevice property.
         /// </summary>
-        private Driver m_currentDriver = null;
+        private Device m_currentDevice = null;
         /// <summary>
-        /// Defines the driver currently used for playback.
+        /// Defines the device currently used for playback.
         /// </summary>
-        public Driver CurrentDriver
+        public Device CurrentDevice
         {
             get
             {
-                return m_currentDriver;
+                return m_currentDevice;
             }
         }
 
@@ -131,6 +134,36 @@ namespace MPfm.Library.PlayerV4
                 return m_isPaused;
             }
         }
+
+        /// <summary>
+        /// Private value for the Device property.
+        /// </summary>
+        private Device m_device = null;
+        /// <summary>
+        /// Defines the currently used device for playback.
+        /// </summary>
+        public Device Device
+        {
+            get
+            {
+                return m_device;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the IsDeviceInitialized property.
+        /// </summary>
+        private bool m_isDeviceInitialized = false;
+        /// <summary>
+        /// Indicates if the device (as in the Device property) is initialized.
+        /// </summary>
+        public bool IsDeviceInitialized
+        {
+            get
+            {
+                return m_isDeviceInitialized;
+            }
+        }       
 
         /// <summary>
         /// Private value for the RepeatType property.
@@ -258,12 +291,14 @@ namespace MPfm.Library.PlayerV4
             {
                 m_bufferSize = value;
 
-                // Check if system exists
-                if (m_system != null)
-                {
-                    // Set configuration
-                    m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
-                }   
+                //// Check if system exists
+                //if (m_system != null)
+                //{
+                //    // Set configuration
+                //    m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+                //}   
+                
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
             }
         }
 
@@ -286,12 +321,8 @@ namespace MPfm.Library.PlayerV4
             {
                 m_updatePeriod = value;
 
-                // Check if system exists
-                if (m_system != null)
-                {
-                    // Set configuration
-                    m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
-                }       
+                // Set configuration
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
             }
         }
 
@@ -314,12 +345,8 @@ namespace MPfm.Library.PlayerV4
             {
                 m_updateThreads = value;
 
-                // Check if system exists
-                if (m_system != null)
-                {
-                    // Set configuration
-                    m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, m_updateThreads);
-                }
+                // Set configuration
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, m_updateThreads);
             }
         }
 
@@ -473,12 +500,14 @@ namespace MPfm.Library.PlayerV4
         /// Constructor for the PlayerV4 class which requires the mixer sample rate value to be passed
         /// in parameter.
         /// </summary>
+        /// <param name="device">Device output</param>
         /// <param name="mixerSampleRate">Mixer sample rate (default: 44100 Hz)</param>
         /// <param name="bufferSize">Buffer size (default: 500 ms)</param>
         /// <param name="updatePeriod">Update period (default: 10 ms)</param>
-        public Player(int mixerSampleRate, int bufferSize, int updatePeriod)
+        public Player(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
         {
             // Initialize system using specified values
+            m_currentDevice = device;
             m_mixerSampleRate = mixerSampleRate;
             m_bufferSize = bufferSize;
             m_updatePeriod = updatePeriod;
@@ -490,26 +519,6 @@ namespace MPfm.Library.PlayerV4
         /// </summary>        
         private void Initialize()
         {
-            // Initialize player using default driver (DirectSound)
-            m_system = new Sound.BassNetWrapper.System(DriverType.DirectSound, m_mixerSampleRate);
-
-            // Load plugins
-            m_system.LoadFlacPlugin();
-            m_system.LoadFxPlugin();
-
-            // Default BASS.NET configuration values:
-            //
-            // BASS_CONFIG_BUFFER: 500
-            // BASS_CONFIG_UPDATEPERIOD: 100
-            // BASS_CONFIG_UPDATETHREADS: 1
-
-            // Set configuration for buffer and update period
-            m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
-            m_system.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
-
-            // Create default EQ
-            m_currentEQPreset = new EQPreset();
-
             // Create lists
             m_filePaths = new List<string>();
             m_markers = new List<Marker>();
@@ -521,7 +530,97 @@ namespace MPfm.Library.PlayerV4
             m_timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(m_timerPlayer_Elapsed);
             m_timerPlayer.Interval = 1000;
             m_timerPlayer.Enabled = false;
+
+            // Load plugins
+            m_flacPluginHandle = Base.LoadFlacPlugin();
+            Base.LoadFxPlugin();
+
+            // Create default EQ
+            m_currentEQPreset = new EQPreset();
+
+            // Initialize sound system
+            InitializeDefaultDevice();
         }
+
+        /// <summary>
+        /// Initializes the default audio device for playback.
+        /// </summary>
+        public void InitializeDefaultDevice()
+        {
+            // Initialize player using default driver (DirectSound)            
+            Base.Init();
+
+            // Default BASS.NET configuration values:
+            //
+            // BASS_CONFIG_BUFFER: 500
+            // BASS_CONFIG_UPDATEPERIOD: 100
+            // BASS_CONFIG_UPDATETHREADS: 1
+
+            // Set configuration for buffer and update period
+            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+            Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
+
+            // Set flags
+            m_device = new Device();
+            m_device.DriverType = DriverType.DirectSound;            
+            m_isDeviceInitialized = true;
+        }
+
+        /// <summary>
+        /// Initializes a specific audio device for playback.
+        /// </summary>
+        /// <param name="device">Audio device</param>
+        public void InitializeDevice(Device device)
+        {
+            // Initialize player using default driver (DirectSound)
+            //m_system = new Sound.BassNetWrapper.System(DriverType.DirectSound, m_mixerSampleRate);
+            
+            //// Check driver type
+            //if (driverType == DriverType.DirectSound)
+            //{
+            //    // Initialize sound system
+            //    Base.Init(deviceId, 44100, BASSInit.BASS_DEVICE_DEFAULT);
+            //}
+
+            // Default BASS.NET configuration values:
+            //
+            // BASS_CONFIG_BUFFER: 500
+            // BASS_CONFIG_UPDATEPERIOD: 100
+            // BASS_CONFIG_UPDATETHREADS: 1
+
+            // Set configuration for buffer and update period
+            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+            Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
+        }
+
+        /// <summary>
+        /// Frees the device currently used for playback.
+        /// </summary>
+        public void FreeDevice()
+        {
+            // Check if a device has been initialized
+            if (!m_isDeviceInitialized)
+            {
+                return;
+            }
+
+            // Dispose system
+            Base.Free();
+
+            // Set flags
+            m_device = null;
+            m_isDeviceInitialized = false;
+        }
+
+        /// <summary>
+        /// Frees the BASS plugins used by the player.
+        /// </summary>
+        public void FreePlugins()
+        {
+            // Dispose plugins
+            Base.FreeFxPlugin();
+            Base.FreeFlacPlugin(m_flacPluginHandle);
+        }        
 
         /// <summary>
         /// Disposes the PlayerV4 class. 
@@ -529,13 +628,12 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         public void Dispose()
         {
-            // Dispose plugins
-            m_system.FreeFxPlugin();
-            m_system.FreeFlacPlugin();
+            // Free device
+            FreeDevice();
 
-            // Dispose system
-            m_system.Free();
-        }
+            // Free plugins
+            FreePlugins();
+        }        
 
         #endregion
 
@@ -717,8 +815,8 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         public void Stop()
         {            
-            // Check if the main channel exists
-            if (m_mainChannel == null)
+            // Check if the main channel exists, and make sure the player is playing
+            if (m_mainChannel == null)// || !m_isPlaying)
             {
                 return;
             }

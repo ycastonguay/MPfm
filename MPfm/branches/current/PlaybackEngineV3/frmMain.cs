@@ -38,6 +38,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.Library;
 using MPfm.Library.PlayerV4;
 
@@ -100,28 +101,44 @@ namespace PlaybackEngineV4
                 // Load the playlist if the path is valid
                 if (!String.IsNullOrEmpty(directory))
                 {
+                    Tracing.Log("Loading playlist...");
                     LoadPlaylist();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Tracing.Log(ex.Message);
+                Tracing.Log(ex.StackTrace);
+                Application.Exit();
+            }
+        }
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+            try
+            {
+                // Register BASS.NET with key                
+                Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");                
 
                 // Load player
-                //player = new PlayerV3(V3DriverType.WavWriter, "");
-                //playerV3 = new PlayerV3();
-                //playerV3.Volume = trackVolume.Value;
+                Tracing.Log("Initializing player...");
                 player = new MPfm.Library.PlayerV4.Player();
                 player.OnSongFinished += new MPfm.Library.PlayerV4.Player.SongFinished(playerV4_OnSongFinished);
 
                 // Refresh status bar
+                Tracing.Log("Refreshing UI...");
                 RefreshStatusBar();
 
                 // Set EQ bands combo box
                 List<EQBandComboBoxItem> items = new List<EQBandComboBoxItem>();
-                for(int a = 0; a < player.CurrentEQPreset.Bands.Count; a++)
+                for (int a = 0; a < player.CurrentEQPreset.Bands.Count; a++)
                 {
                     // Get current band
                     EQPresetBand currentBand = player.CurrentEQPreset.Bands[a];
 
                     // Add combo box item
-                    items.Add(new EQBandComboBoxItem() { Band = a + 1, Center = currentBand.Center, Text = "B" + (a+1).ToString() + " (" + currentBand.Center.ToString("0") + "Hz)" });
+                    items.Add(new EQBandComboBoxItem() { Band = a + 1, Center = currentBand.Center, Text = "B" + (a + 1).ToString() + " (" + currentBand.Center.ToString("0") + "Hz)" });
                 }
 
                 // Set combo box items
@@ -229,14 +246,17 @@ namespace PlaybackEngineV4
                 // The user has clicked OK; set the current path
                 txtPath.Text = dialogFolderBrowser.SelectedPath;
 
-                // Record path in configuration file for next use
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                if (config.AppSettings.Settings[ConfigKey_LastUsedDirectory] != null)
-                {
-                    config.AppSettings.Settings.Remove(ConfigKey_LastUsedDirectory);
-                }
-                config.AppSettings.Settings.Add(ConfigKey_LastUsedDirectory, txtPath.Text);
-                config.Save();
+                // Save last used directory
+                Config.SaveConfig(ConfigKey_LastUsedDirectory, txtPath.Text);
+
+                //// Record path in configuration file for next use
+                //Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                //if (config.AppSettings.Settings[ConfigKey_LastUsedDirectory] != null)
+                //{
+                //    config.AppSettings.Settings.Remove(ConfigKey_LastUsedDirectory);
+                //}
+                //config.AppSettings.Settings.Add(ConfigKey_LastUsedDirectory, txtPath.Text);
+                //config.Save();
 
                 // Load playlist
                 LoadPlaylist();
@@ -476,10 +496,10 @@ namespace PlaybackEngineV4
 
             if (!isSongPositionChanging)
             {
-                trackPosition.Maximum = (int)m_currentSongLength;
-                if (positionBytes > m_currentSongLength)
+                trackPosition.Maximum = (int)m_currentSongLength - 1;
+                if (positionBytes > m_currentSongLength - 1)
                 {
-                    trackPosition.Value = (int)m_currentSongLength;
+                    trackPosition.Value = (int)m_currentSongLength - 1;
                 }
                 else
                 {
@@ -653,6 +673,7 @@ namespace PlaybackEngineV4
             frmSettings settings = new frmSettings(this);
             settings.ShowDialog();
         }
+
     }
 
     /// <summary>

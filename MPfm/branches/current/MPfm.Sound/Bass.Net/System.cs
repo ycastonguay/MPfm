@@ -30,47 +30,100 @@ using MPfm.Core;
 using MPfm.Sound;
 using Un4seen.Bass;
 using Un4seen.BassAsio;
+using Un4seen.BassWasapi;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Sound.BassNetWrapper
 {
-    public class System
+    public static class Base
     {
-        public System(DriverType driverType)
-        {
-            // Register BASS.NET with key
-            Register("yanick.castonguay@gmail.com", "2X3433427152222");
+        //public System(DriverType driverType)
+        //{
+        //    // Register BASS.NET with key
+        //    Register("yanick.castonguay@gmail.com", "2X3433427152222");
 
-            // Initialize system with default frequency and default sound card
-            Initialize(44100);
-        }
+        //    // Initialize system with default frequency and default sound card
+        //    Initialize(44100);
+        //}
 
-        public System(DriverType driverType, int mixerSampleRate)
-        {
-            // Register BASS.NET with key
-            Register("yanick.castonguay@gmail.com", "2X3433427152222");
+        //public System(DriverType driverType, int mixerSampleRate)
+        //{
+        //    // Register BASS.NET with key
+        //    Register("yanick.castonguay@gmail.com", "2X3433427152222");
 
-            // Initialize system with default frequency and default sound card
-            Initialize(mixerSampleRate);
-        }
+        //    // Initialize system with default frequency and default sound card
+        //    Initialize(mixerSampleRate);
+        //}
 
-        private void Register(string email, string registrationKey)
+        public static void Register(string email, string registrationKey)
         {
             BassNet.Registration(email, registrationKey);
         }
 
-        private void Initialize(int frequency)
+        public static void Init()
+        {
+            Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT);
+        }
+
+        public static void Init(int deviceId, int frequency, BASSInit init)
         {
             // Initialize system
-            if (!Bass.BASS_Init(-1, frequency, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
+            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
             }
         }
 
-        public void Free()
+        public static void InitASIO()
+        {
+            InitASIO(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
+        }
+
+        public static void InitASIO(int deviceId, int frequency, BASSInit init, BASSASIOInit asioInit)
+        {
+            // Initialize base device
+            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
+            {
+                // Check for error (throw exception if the error is found)
+                CheckForError();            
+            }
+
+            // Initialize ASIO device
+            if (!BassAsio.BASS_ASIO_Init(deviceId, asioInit))
+            {
+                // Check for error (throw exception if the error is found)
+                CheckForError();
+            }   
+        }
+
+        public static void InitWASAPI(WASAPIPROC proc)
+        {
+            InitWASAPI(-1, 44100, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, proc);
+        }
+
+        public static void InitWASAPI(int deviceId, int frequency, int channels, BASSInit init, 
+            BASSWASAPIInit wasapiInit, float buffer, float period, WASAPIPROC proc)
+        {
+            // Initialize base device
+            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
+            {
+                // Get error
+                BASSError error = Bass.BASS_ErrorGetCode();
+                throw new Exception("Error initializing TestDevice: " + error.ToString());
+            }
+
+            // Initialize WASAPI device
+            if (!BassWasapi.BASS_WASAPI_Init(deviceId, frequency, 2, wasapiInit, buffer, period, proc, IntPtr.Zero))
+            {
+                // Get error
+                BASSError error = Bass.BASS_ErrorGetCode();
+                throw new Exception("Error initializing TestDevice: " + error.ToString());
+            }
+        }
+
+        public static void Free()
         {
             // Free system
             if(!Bass.BASS_Free())
@@ -80,12 +133,12 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
-        public int GetConfig(BASSConfig option)
+        public static int GetConfig(BASSConfig option)
         {
             return Bass.BASS_GetConfig(option);
         }
 
-        public void SetConfig(BASSConfig option, int value)
+        public static void SetConfig(BASSConfig option, int value)
         {
             // Set configuration value
             if(!Bass.BASS_SetConfig(option, value))
@@ -95,12 +148,12 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
-        public float GetVolume()
+        public static float GetVolume()
         {
             return Bass.BASS_GetVolume();
         }
 
-        public void SetVolume(float volume)
+        public static void SetVolume(float volume)
         {
             // Set volume
             if (!Bass.BASS_SetVolume(volume))
@@ -111,37 +164,44 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         #region Plugins
-        
-        public void LoadFlacPlugin()
-        {
-            //// Load Flac plugin
-            //if (!BassFlac.LoadMe())
-            //{
-            //    // Check for error (throw exception if the error is found)
-            //    CheckForError();
-            //}
 
+        public static int LoadFlacPlugin()
+        {
             // Load plugins
             string filePathFlacPlugin = Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath) + "\\bassflac.dll";
             int pluginFlac = Bass.BASS_PluginLoad(filePathFlacPlugin);
             if (pluginFlac == 0)
             {
-                // Error loading plugin
+                // Check for error (throw exception if the error is found)
+                CheckForError();
             }
+
+            return pluginFlac;
         }
 
-        public void FreeFlacPlugin()
+        public static void FreeFlacPlugin(int handle)
         {
             // Free Flac plugin
-            if (!BassFlac.FreeMe())
+            if (!Bass.BASS_PluginFree(handle))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
             }
         }
 
-        public void LoadFxPlugin()
-        {            
+        public static void LoadFxPlugin()
+        {
+            //// Load plugins           
+            //string filePathFlacPlugin = Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath) + "\\bass_fx.dll";
+            //int pluginFlac = Bass.BASS_PluginLoad(filePathFlacPlugin);
+            //if (pluginFlac == 0)
+            //{
+            //    // Check for error (throw exception if the error is found)
+            //    CheckForError();
+            //}
+
+            //return pluginFlac;
+
             // Load FX plugin
             if (!BassFx.LoadMe())
             {
@@ -150,7 +210,7 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
-        public void FreeFxPlugin()
+        public static void FreeFxPlugin()
         {
             // Free FX plugin
             if (!BassFx.FreeMe())
@@ -167,7 +227,7 @@ namespace MPfm.Sound.BassNetWrapper
             Un4seen.Bass.BASSError error = Bass.BASS_ErrorGetCode();
             if(error != BASSError.BASS_OK)
             {
-                throw new Exception(error.ToString());
+                throw new Exception("An error has occured in BassNetWrapper: " + error.ToString());
             }
         }
     }
