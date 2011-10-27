@@ -44,11 +44,9 @@ namespace MPfm.Sound.BassNetWrapper
     {
         #region Private variables
 
-        // Private varibles
-        private int m_pluginFlac = 0;
-        private DriverType m_driverType = DriverType.DirectSound;
-        private int m_deviceId = 0;
-        private int m_stream = 0;
+        // Private varibles        
+        private Device m_device = null;
+        private int m_stream = 0;        
         private int m_streamDirectSound = 0;
         private STREAMPROC m_streamProc;
         private ASIOPROC m_asioProc;
@@ -61,33 +59,54 @@ namespace MPfm.Sound.BassNetWrapper
         /// <summary>
         /// Default constructor for the TestDevice class.
         /// </summary>
-        /// <param name="driverType">Driver type to use (DirectSound, ASIO, WASAPI)</param>
-        /// <param name="deviceId">DeviceId to use (use DeviceHelper to get DeviceId)</param>
+        /// <param name="driverType">Driver type to use for playback (DirectSound, ASIO, WASAPI)</param>
+        /// <param name="deviceId">DeviceId to use for playback (use DeviceHelper to get DeviceId)</param>
         /// <param name="frequency">Mixer sample rate/frequency</param>
         public TestDevice(DriverType driverType, int deviceId, int frequency)
         {
+            // Initialize the audio device
+            InitializeDevice(new Device() { DriverType = driverType, Id = deviceId }, frequency);
+        }
+
+        /// <summary>
+        /// Constructor for the TestDevice class which requires a Device class.
+        /// </summary>
+        /// <param name="device">Device to use for playback</param>
+        /// <param name="frequency">Mixer sample rate/frequency</param>
+        public TestDevice(Device device, int frequency)
+        {
+            // Initialize the audio device
+            InitializeDevice(device, frequency);
+        }
+
+        /// <summary>
+        /// Initializes a device for playback.
+        /// </summary>
+        /// <param name="device">Device to use for playback</param>
+        /// <param name="frequency">Mixer sample rate/frequency</param>
+        private void InitializeDevice(Device device, int frequency)
+        {
             // Set properties
-            m_driverType = driverType;
-            m_deviceId = deviceId;
+            m_device = device;
 
             // Check driver type
-            if (m_driverType == DriverType.DirectSound)
+            if (m_device.DriverType == DriverType.DirectSound)
             {
                 // Initialize sound system
-                Base.Init(deviceId, frequency, BASSInit.BASS_DEVICE_DEFAULT);
+                Base.Init(m_device.Id, frequency, BASSInit.BASS_DEVICE_DEFAULT);
             }
-            else if (m_driverType == DriverType.ASIO)
+            else if (m_device.DriverType == DriverType.ASIO)
             {
                 // Initialize sound system
-                Base.InitASIO(deviceId, frequency, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);              
+                Base.InitASIO(m_device.Id, frequency, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);              
             }
-            else if (m_driverType == DriverType.WASAPI)
+            else if (m_device.DriverType == DriverType.WASAPI)
             {
                 // Create callback
                 m_wasapiProc = new WASAPIPROC(WASAPICallback);
 
                 // Initialize sound system
-                Base.InitWASAPI(deviceId, frequency, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
+                Base.InitWASAPI(m_device.Id, frequency, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
             }
         }
 
@@ -97,7 +116,7 @@ namespace MPfm.Sound.BassNetWrapper
         public void Dispose()
         {
             // Check driver type
-            if (m_driverType == DriverType.ASIO)
+            if (m_device.DriverType == DriverType.ASIO)
             {
                 // Free ASIO device
                 if (!BassAsio.BASS_ASIO_Free())
@@ -107,7 +126,7 @@ namespace MPfm.Sound.BassNetWrapper
                     throw new Exception("Error disposing TestDevice: " + error.ToString());
                 }
             }
-            else if (m_driverType == DriverType.WASAPI)
+            else if (m_device.DriverType == DriverType.WASAPI)
             {
                 // Free WASAPI device
                 if (!BassWasapi.BASS_WASAPI_Free())
@@ -139,7 +158,7 @@ namespace MPfm.Sound.BassNetWrapper
             }
             
             // Check driver type
-            if (m_driverType == DriverType.DirectSound)
+            if (m_device.DriverType == DriverType.DirectSound)
             {
                 // Create stream
                 m_stream = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_DEFAULT);
@@ -167,7 +186,7 @@ namespace MPfm.Sound.BassNetWrapper
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
             }
-            else if (m_driverType == DriverType.ASIO)
+            else if (m_device.DriverType == DriverType.ASIO)
             {
                 // Create stream
                 m_stream = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE);                
@@ -193,7 +212,7 @@ namespace MPfm.Sound.BassNetWrapper
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
             }
-            else if (m_driverType == DriverType.WASAPI)
+            else if (m_device.DriverType == DriverType.WASAPI)
             {
                 // Create stream
                 m_stream = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT);
@@ -211,8 +230,6 @@ namespace MPfm.Sound.BassNetWrapper
                     BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
-
-                //BassWasapi.BASS_WASAPI_SetVolume(true, 1);
             }
         }
 
@@ -229,12 +246,12 @@ namespace MPfm.Sound.BassNetWrapper
             }
 
             // Check driver type
-            if (m_driverType == DriverType.ASIO)
+            if (m_device.DriverType == DriverType.ASIO)
             {
                 // Stop playback
                 BassAsio.BASS_ASIO_Stop();
             }
-            else if (m_driverType == DriverType.WASAPI)
+            else if (m_device.DriverType == DriverType.WASAPI)
             {
                 // Stop playback
                 BassWasapi.BASS_WASAPI_Stop(false);

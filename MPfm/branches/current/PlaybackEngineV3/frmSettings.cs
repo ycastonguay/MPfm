@@ -117,6 +117,15 @@ namespace PlaybackEngineV4
                 Config.SaveConfig("DriverType", device.DriverType.ToString());                
                 Config.SaveConfig("DeviceId", device.Id.ToString());
                 Config.SaveConfig("DeviceName", device.Name);
+
+                // Set player device
+                m_main.player.InitializeDevice(device);
+            }
+
+            if (!m_main.player.IsDeviceInitialized)
+            {
+                // Set player default device
+                m_main.player.InitializeDevice();
             }
 
             this.Close();
@@ -210,9 +219,6 @@ namespace PlaybackEngineV4
                     MessageBox.Show("An error occured while testing the audio device.\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error playing audio file", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            // Reinitialize player            
-            m_main.player.InitializeDefaultDevice();
         }
 
         #endregion

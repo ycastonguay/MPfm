@@ -30,6 +30,7 @@ using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
 using Un4seen.BassAsio;
+using Un4seen.BassWasapi;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
@@ -45,17 +46,18 @@ namespace MPfm.Library.PlayerV4
         /// Timer for the player.
         /// </summary>
         private System.Timers.Timer m_timerPlayer = null;
-
-        private int m_flacPluginHandle = 0;
-        private int m_fxPluginHandle = 0;        
+        private Channel m_streamChannel = null;
+        private int m_syncProcHandle;
+        private int m_fxEQHandle;
+        private int m_flacPluginHandle = 0;        
 
         #region Callbacks
         
         // Callbacks
         private STREAMPROC m_streamProc;
         private SYNCPROC m_syncProc;
-        private int m_syncProcHandle;
-        private int m_fxEQHandle;
+        private ASIOPROC m_asioProc;
+        private WASAPIPROC m_wasapiProc;
 
         #endregion
 
@@ -89,21 +91,6 @@ namespace MPfm.Library.PlayerV4
         //        return m_system;
         //    }
         //}
-        
-        /// <summary>
-        /// Private value for the CurrentDevice property.
-        /// </summary>
-        private Device m_currentDevice = null;
-        /// <summary>
-        /// Defines the device currently used for playback.
-        /// </summary>
-        public Device CurrentDevice
-        {
-            get
-            {
-                return m_currentDevice;
-            }
-        }
 
         /// <summary>
         /// Private value for the IsPlaying property.
@@ -493,7 +480,7 @@ namespace MPfm.Library.PlayerV4
         public Player()
         {
             // Initialize system with default values
-            Initialize();
+            Initialize(new Device(), 44100, 100, 10);
         }
 
         /// <summary>
@@ -506,19 +493,25 @@ namespace MPfm.Library.PlayerV4
         /// <param name="updatePeriod">Update period (default: 10 ms)</param>
         public Player(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
         {
-            // Initialize system using specified values
-            m_currentDevice = device;
-            m_mixerSampleRate = mixerSampleRate;
-            m_bufferSize = bufferSize;
-            m_updatePeriod = updatePeriod;
-            Initialize();
+            // Initialize system with specific values.
+            Initialize(device, mixerSampleRate, bufferSize, updatePeriod);
         }
 
         /// <summary>
         /// Initializes the player.
         /// </summary>        
-        private void Initialize()
+        /// <param name="device">Device output</param>
+        /// <param name="mixerSampleRate">Mixer sample rate (default: 44100 Hz)</param>
+        /// <param name="bufferSize">Buffer size (default: 500 ms)</param>
+        /// <param name="updatePeriod">Update period (default: 10 ms)</param> 
+        private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
         {
+            // Initialize system using specified values
+            m_device = device;
+            m_mixerSampleRate = mixerSampleRate;
+            m_bufferSize = bufferSize;
+            m_updatePeriod = updatePeriod;
+
             // Create lists
             m_filePaths = new List<string>();
             m_markers = new List<Marker>();
@@ -539,31 +532,16 @@ namespace MPfm.Library.PlayerV4
             m_currentEQPreset = new EQPreset();
 
             // Initialize sound system
-            InitializeDefaultDevice();
+            InitializeDevice(m_device);
         }
 
         /// <summary>
         /// Initializes the default audio device for playback.
         /// </summary>
-        public void InitializeDefaultDevice()
+        public void InitializeDevice()
         {
-            // Initialize player using default driver (DirectSound)            
-            Base.Init();
-
-            // Default BASS.NET configuration values:
-            //
-            // BASS_CONFIG_BUFFER: 500
-            // BASS_CONFIG_UPDATEPERIOD: 100
-            // BASS_CONFIG_UPDATETHREADS: 1
-
-            // Set configuration for buffer and update period
-            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
-            Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
-
-            // Set flags
-            m_device = new Device();
-            m_device.DriverType = DriverType.DirectSound;            
-            m_isDeviceInitialized = true;
+            // Initialize default device
+            InitializeDevice(new Device());
         }
 
         /// <summary>
@@ -572,15 +550,28 @@ namespace MPfm.Library.PlayerV4
         /// <param name="device">Audio device</param>
         public void InitializeDevice(Device device)
         {
-            // Initialize player using default driver (DirectSound)
-            //m_system = new Sound.BassNetWrapper.System(DriverType.DirectSound, m_mixerSampleRate);
-            
-            //// Check driver type
-            //if (driverType == DriverType.DirectSound)
-            //{
-            //    // Initialize sound system
-            //    Base.Init(deviceId, 44100, BASSInit.BASS_DEVICE_DEFAULT);
-            //}
+            // Set properties
+            m_device = device;
+
+            // Check driver type
+            if (m_device.DriverType == DriverType.DirectSound)
+            {
+                // Initialize sound system
+                Base.Init(m_device.Id, m_mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT);
+            }
+            else if (m_device.DriverType == DriverType.ASIO)
+            {
+                // Initialize sound system
+                Base.InitASIO(m_device.Id, m_mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
+            }
+            else if (m_device.DriverType == DriverType.WASAPI)
+            {
+                // Create callback
+                m_wasapiProc = new WASAPIPROC(WASAPICallback);
+
+                // Initialize sound system
+                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
+            }
 
             // Default BASS.NET configuration values:
             //
@@ -591,6 +582,9 @@ namespace MPfm.Library.PlayerV4
             // Set configuration for buffer and update period
             Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
             Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
+
+            // Set flags            
+            m_isDeviceInitialized = true;
         }
 
         /// <summary>
@@ -602,6 +596,28 @@ namespace MPfm.Library.PlayerV4
             if (!m_isDeviceInitialized)
             {
                 return;
+            }
+
+            // Check driver type
+            if (m_device.DriverType == DriverType.ASIO)
+            {
+                // Free ASIO device
+                if (!BassAsio.BASS_ASIO_Free())
+                {
+                    // Get error
+                    BASSError error = Bass.BASS_ErrorGetCode();
+                    throw new Exception("Error freeing ASIO device: " + error.ToString());
+                }
+            }
+            else if (m_device.DriverType == DriverType.WASAPI)
+            {
+                // Free WASAPI device
+                if (!BassWasapi.BASS_WASAPI_Free())
+                {
+                    // Get error
+                    BASSError error = Bass.BASS_ErrorGetCode();
+                    throw new Exception("Error freeing WASAPI device: " + error.ToString());
+                }
             }
 
             // Dispose system
@@ -658,7 +674,7 @@ namespace MPfm.Library.PlayerV4
 
         #endregion
 
-        #region Playback Methods
+        #region Playback Methods        
 
         /// <summary>
         /// Plays the list of audio files specified in the filePaths parameter.
@@ -693,7 +709,6 @@ namespace MPfm.Library.PlayerV4
 
             try
             {
-
                 // Reset flags
                 m_currentSongIndex = 0;
 
@@ -714,10 +729,49 @@ namespace MPfm.Library.PlayerV4
                 // Set the current channel as the first one
                 m_currentSong = channelOne;
 
-                // Create the main channel (SHOULDN'T THIS BE DONE ONLY ONCE? SEE FOR 0.2.5).
-                m_streamProc = new STREAMPROC(FileProc);
-                Channel mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);
-                m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(mainChannel.Handle, false);
+                // Create the streaming channel
+                m_streamProc = new STREAMPROC(StreamCallback);
+                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_mixerSampleRate, 2, m_streamProc);
+
+                // Check driver type
+                if (m_device.DriverType == DriverType.DirectSound)
+                {
+                    // Create main channel
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false);
+                }
+                else if (m_device.DriverType == DriverType.ASIO)
+                {
+                    // Create main channel
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true);
+
+                    // Create callback
+                    m_asioProc = new ASIOPROC(AsioCallback);
+
+                    // Create channel
+                    BassAsio.BASS_ASIO_ChannelEnable(false, 0, m_asioProc, new IntPtr(m_mainChannel.Handle));
+                    BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
+
+                    // Start playback
+                    if (!BassAsio.BASS_ASIO_Start(0))
+                    {
+                        // Get error
+                        BASSError error = Bass.BASS_ErrorGetCode();
+                        throw new Exception("[PlayerV4.PlayFiles] Error playing files in ASIO: " + error.ToString());
+                    }
+                }
+                else if (m_device.DriverType == DriverType.WASAPI)
+                {
+                    // Create main channel
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true);
+
+                    // Start playback
+                    if (!BassWasapi.BASS_WASAPI_Start())
+                    {
+                        // Get error
+                        BASSError error = Bass.BASS_ErrorGetCode();
+                        throw new Exception("[PlayerV4.PlayFiles] Error playing files in WASAPI: " + error.ToString());
+                    }
+                }
 
                 // Load 18-band equalizer
                 m_fxEQHandle = m_mainChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
@@ -745,16 +799,16 @@ namespace MPfm.Library.PlayerV4
                     m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                 }
 
-                //m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(44100, 2, m_streamProc);                
-
-                // Set sync test - nice this can be used for repeating song.
-                //m_syncProc = new SYNCPROC(EndSync);
-                //m_syncProcHandle = channelOne.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);
-
                 // Start playback
                 m_isPlaying = true;
                 m_isPaused = false;
-                m_mainChannel.Play(false);
+
+                // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
+                if (m_device.DriverType == DriverType.DirectSound)
+                {
+                    // Start playback
+                    m_mainChannel.Play(false);
+                }
             }
             catch (Exception ex)
             {
@@ -821,11 +875,25 @@ namespace MPfm.Library.PlayerV4
                 return;
             }
 
-            // Stop main channel
-            m_mainChannel.Stop();
 
-            //m_mainChannel = null;
+            // Check driver type
+            if (m_device.DriverType == DriverType.DirectSound)
+            {
+                // Stop main channel
+                m_mainChannel.Stop();
+            }
+            else if (m_device.DriverType == DriverType.ASIO)
+            {
+                // Stop playback
+                BassAsio.BASS_ASIO_Stop();
+            }
+            else if (m_device.DriverType == DriverType.WASAPI)
+            {
+                // Stop playback
+                BassWasapi.BASS_WASAPI_Stop(false);
+            }            
 
+            // Check if the current song exists
             if (m_currentSong != null)
             {
                 if (m_currentSong.Channel != null)
@@ -847,6 +915,7 @@ namespace MPfm.Library.PlayerV4
                     //}
                 }
             }
+
 
             //m_subChannels.Clear();
             //m_subChannels = null;
@@ -872,6 +941,8 @@ namespace MPfm.Library.PlayerV4
 
                 try
                 {
+                    // TODO: MERGE THIS METHOD WITH PLAY.
+
                     // Create the first channel
                     Song channelNull = null;
                     Song channelOne = CreateSong(ref channelNull, m_filePaths[m_currentSongIndex]);
@@ -893,10 +964,35 @@ namespace MPfm.Library.PlayerV4
                         m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     }
 
+                    if (m_device.DriverType == DriverType.ASIO)
+                    {
+                        // Start playback
+                        if (!BassAsio.BASS_ASIO_Start(0))
+                        {
+                            // Get error
+                            BASSError error = Bass.BASS_ErrorGetCode();
+                            throw new Exception("[PlayerV4.GoTo] Error playing files in ASIO: " + error.ToString());
+                        }
+                    }
+                    else if (m_device.DriverType == DriverType.WASAPI)
+                    {
+                        // Start playback
+                        if (!BassWasapi.BASS_WASAPI_Start())
+                        {
+                            // Get error
+                            BASSError error = Bass.BASS_ErrorGetCode();
+                            throw new Exception("[PlayerV4.GoTo] Error playing files in WASAPI: " + error.ToString());
+                        }
+                    }
+
                     // Start playback
                     m_isPlaying = true;
                     m_isPaused = false;
-                    m_mainChannel.Play(false);
+
+                    if (m_device.DriverType == DriverType.DirectSound)
+                    {
+                        m_mainChannel.Play(false);
+                    }
 
                     // Raise song end event (if an event is subscribed)
                     if (OnSongFinished != null)
@@ -1041,33 +1137,14 @@ namespace MPfm.Library.PlayerV4
         #region Callback Events
 
         /// <summary>
-        /// Sync callback routine used for looping the current channel.
+        /// Callback used for DirectSound devices.
         /// </summary>
-        /// <param name="handle">Handle to the sync</param>
-        /// <param name="channel">Channel handle</param>
-        /// <param name="data">Data</param>
-        /// <param name="user">User data</param>
-        private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
-        {
-            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.Position);
-
-            //if (m_repeatType == MPfm.Library.RepeatType.Song)
-            //{
-            //    // the 'channel' has ended - jump to the beginning
-            //    Bass.BASS_ChannelSetPosition(channel, 0L);
-            //    //m_currentSubChannel.Channel.SetPosition(0);
-            //}
-        }
-
-        /// <summary>
-        /// File callback routine used for reading audio files.
-        /// </summary>
-        /// <param name="handle">Handle to the channel</param>
-        /// <param name="buffer">Buffer pointer</param>
-        /// <param name="length">Audio length</param>
+        /// <param name="handle">Channel handle</param>
+        /// <param name="buffer">Buffer data</param>
+        /// <param name="length">Buffer length</param>
         /// <param name="user">User data</param>
         /// <returns>Audio data</returns>
-        private int FileProc(int handle, IntPtr buffer, int length, IntPtr user)
+        private int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
             // If the current sub channel is null, end the stream
             if (m_currentSong == null)
@@ -1130,7 +1207,7 @@ namespace MPfm.Library.PlayerV4
                         // Return data from the new channel
                         return m_currentSong.Channel.GetData(buffer, length);
                     }
-                    else 
+                    else
                     {
                         // Raise song end event (if an event is subscribed)
                         if (OnSongFinished != null)
@@ -1168,71 +1245,6 @@ namespace MPfm.Library.PlayerV4
                 // Return data from the new channel
                 return m_currentSong.Channel.GetData(buffer, length);
             }
-            else if (status == BASSActive.BASS_ACTIVE_STALLED)
-            {
-                // WTF
-            }
-            else if(status == BASSActive.BASS_ACTIVE_PAUSED)
-            {
-                // Do nothing, right?
-            }
-
-            //// Decode data from the current sub stream
-            //if (m_currentSubChannel != null)
-            //{
-            //    return m_currentSubChannel.Channel.GetData(buffer, length);
-            //}
-
-            //// Loop through channels (TODO: use current channel instead)
-            //for (int a = 0; a < m_subChannels.Count; a++)
-            //{
-            //    // Get active status
-            //    BASSActive status = m_subChannels[a].Channel.IsActive();
-
-            //    // Check if channel is playing
-            //    if (status == BASSActive.BASS_ACTIVE_PLAYING)
-            //    {
-            //        // Check if the current channel needs to be updated
-            //        if (m_currentSubChannelIndex != a)
-            //        {
-            //            // Check if the repeat type is set to Song
-            //            if (RepeatType == MPfm.Library.RepeatType.Song)
-            //            {
-            //                // Restart playback on the original channel, restarting the position to 0
-            //                //m_subChannels[a].Channel.Play(true);   // SEEMS NOT TO WORK BECAUSE IT DOESNT HAVE THE TIME TO PLAY?
-            //                //return m_subChannels[a].Channel.GetData(buffer, length);
-
-            //                // MAYBE THE SOLUTION IS TO PREPARE THOSE CHANNELS IN ADVANCE.
-            //            }
-
-            //            // Set current channel
-            //            m_currentSubChannelIndex = a;
-
-            //            // Raise song end event (if an event is subscribed)
-            //            if (OnSongFinished != null)
-            //            {
-            //                // Create data
-            //                PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
-            //                data.IsPlaybackStopped = false;
-
-            //                // Raise event
-            //                OnSongFinished(data);
-            //            }   
-            //        }
-
-            //        // Loop prototype: working. 
-            //        //// Check position
-            //        //long positionBytes = m_subChannels[a].Channel.GetPosition();
-
-            //        //if (positionBytes >= 1500000)
-            //        //{
-            //        //    m_subChannels[a].Channel.SetPosition(50000);
-            //        //}
-
-            //        // Return data
-            //        return m_subChannels[a].Channel.GetData(buffer, length);
-            //    }
-            //}
 
             // Raise song end event (if an event is subscribed)
             if (OnSongFinished != null)
@@ -1243,10 +1255,71 @@ namespace MPfm.Library.PlayerV4
 
                 // Raise event
                 OnSongFinished(data);
-            }   
+            }
 
             // Return end-of-channel
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
+        }
+
+        /// <summary>
+        /// Callback used for ASIO devices.
+        /// </summary>
+        /// <param name="input">Is an input channel</param>
+        /// <param name="channel">Channel handle</param>
+        /// <param name="buffer">Buffer data</param>
+        /// <param name="length">Buffer length</param>
+        /// <param name="user">User data</param>
+        /// <returns>Audio data</returns>
+        private int AsioCallback(bool input, int channel, IntPtr buffer, int length, IntPtr user)
+        {
+            return GetData(buffer, length, user);
+        }
+
+        /// <summary>
+        /// Callback used for WASAPI devices.
+        /// </summary>
+        /// <param name="buffer">Buffer data</param>
+        /// <param name="length">Buffer length</param>
+        /// <param name="user">User data</param>
+        /// <returns>Audio data</returns>
+        private int WASAPICallback(IntPtr buffer, int length, IntPtr user)
+        {
+            return GetData(buffer, length, user);
+        }
+
+        /// <summary>
+        /// Returns the audio data for the ASIO and WASAPI callbacks.
+        /// </summary>
+        /// <param name="buffer">Buffer data</param>
+        /// <param name="length">Buffer length</param>
+        /// <param name="user">User data</param>
+        /// <returns>Audio data</returns>
+        private int GetData(IntPtr buffer, int length, IntPtr user)
+        {
+            // Check if the channel is still playing
+            if (Bass.BASS_ChannelIsActive(m_mainChannel.Handle) == BASSActive.BASS_ACTIVE_PLAYING)
+            {
+                // Return data
+                return Bass.BASS_ChannelGetData(m_mainChannel.Handle, buffer, length);
+            }
+            else
+            {
+                // Return end of file
+                return (int)BASSStreamProc.BASS_STREAMPROC_END;
+            }
+        }
+
+        /// <summary>
+        /// Sync callback routine used for looping the current channel.
+        /// </summary>
+        /// <param name="handle">Handle to the sync</param>
+        /// <param name="channel">Channel handle</param>
+        /// <param name="data">Data</param>
+        /// <param name="user">User data</param>
+        private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
+        {
+            // Set loop position
+            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.Position);
         }
 
         #endregion

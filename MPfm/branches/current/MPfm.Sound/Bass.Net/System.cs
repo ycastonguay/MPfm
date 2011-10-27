@@ -109,17 +109,15 @@ namespace MPfm.Sound.BassNetWrapper
             // Initialize base device
             if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
             {
-                // Get error
-                BASSError error = Bass.BASS_ErrorGetCode();
-                throw new Exception("Error initializing TestDevice: " + error.ToString());
+                // Check for error (throw exception if the error is found)
+                CheckForError();  
             }
 
             // Initialize WASAPI device
             if (!BassWasapi.BASS_WASAPI_Init(deviceId, frequency, 2, wasapiInit, buffer, period, proc, IntPtr.Zero))
             {
-                // Get error
-                BASSError error = Bass.BASS_ErrorGetCode();
-                throw new Exception("Error initializing TestDevice: " + error.ToString());
+                // Check for error (throw exception if the error is found)
+                CheckForError();
             }
         }
 

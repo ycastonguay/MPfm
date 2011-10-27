@@ -44,5 +44,17 @@ namespace MPfm.Sound.BassNetWrapper
         public int Id { get; set; }
         public string Name { get; set; }
         public string Driver { get; set; }
+
+        /// <summary>
+        /// Default constructor for the Device class.
+        /// </summary>
+        public Device()
+        {
+            DriverType = BassNetWrapper.DriverType.DirectSound;
+            IsDefault = true;
+            Id = -1; // default id for default device in BASS
+            Name = "Default device";
+            Driver = string.Empty;
+        }
     }
 }
