@@ -198,7 +198,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("Name of the embedded font for the header (as written in the Name property of a CustomFont).")]
+        [Category("Theme"), Browsable(true), Description("Name of the embedded font for the header (as written in the Name property of a CustomFont).")]
         public string HeaderCustomFontName
         {
             get
@@ -525,15 +525,8 @@ namespace MPfm.WindowsControls
         /// Pointer to the embedded font collection.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
+        [Category("Configuration"), Browsable(true), Description("Pointer to the embedded font collection.")]
         public FontCollection FontCollection { get; set; }
-
-        /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
 
         /// <summary>
         /// Private value for the AntiAliasingEnabled property.
@@ -555,6 +548,14 @@ namespace MPfm.WindowsControls
                 m_antiAliasingEnabled = value;
             }
         }
+
+        /// <summary>
+        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
+        public string CustomFontName { get; set; }
+
 
         /// <summary>
         /// Overrides the Font property to invalidate the cache when updating the font.
@@ -583,6 +584,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Hook to the MPfm Library object.
         /// </summary>
+        [Browsable(false)]
         public MPfm.Library.Library Library
         {
             get
@@ -602,6 +604,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// List of grid view items (representing songs).
         /// </summary>
+        [Browsable(false)]
         public List<SongGridViewItem> Items
         {
             get
@@ -611,12 +614,24 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Returns the list of selected items.
+        /// </summary>
+        public List<SongGridViewItem> SelectedItems
+        {
+            get
+            {
+                return m_items.Where(x => x.IsSelected).ToList();
+            }            
+        }
+
+        /// <summary>
         /// Private value for the Columns property.
         /// </summary>
         private List<GridViewSongColumn> m_columns = null;
         /// <summary>
         /// List of grid view columns.
         /// </summary>
+        [Browsable(false)]
         public List<GridViewSongColumn> Columns
         {
             get
@@ -690,6 +705,7 @@ namespace MPfm.WindowsControls
         #region Settings Properties
         
         private Guid m_nowPlayingSongId = Guid.Empty;
+        [Browsable(false)]
         public Guid NowPlayingSongId
         {
             get
@@ -730,6 +746,20 @@ namespace MPfm.WindowsControls
         }
 
         #endregion
+
+        private ContextMenuStrip m_contextMenuStrip = null;        
+        [Category("Misc"), Browsable(true), Description("Stuff.")]   
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get
+            {
+                return m_contextMenuStrip;
+            }
+            set
+            {
+                m_contextMenuStrip = value;
+            }
+        }
 
         #region Constructors
         
@@ -775,7 +805,7 @@ namespace MPfm.WindowsControls
             m_timerUpdateAlbumArt = new System.Windows.Forms.Timer();
             m_timerUpdateAlbumArt.Interval = 10;
             m_timerUpdateAlbumArt.Tick += new EventHandler(m_timerUpdateAlbumArt_Tick);
-            m_timerUpdateAlbumArt.Enabled = true;
+            m_timerUpdateAlbumArt.Enabled = true;            
         }
 
         /// <summary>
@@ -2083,6 +2113,14 @@ namespace MPfm.WindowsControls
                 return;
             }
 
+            // Show context menu strip if the button click is right and not the album art column
+            if (e.Button == System.Windows.Forms.MouseButtons.Right &&
+                e.X > m_columns[0].Width)
+            {
+                // Show context menu strip
+                m_contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);                
+            }
+
             // Check if the user is resizing a column
             GridViewSongColumn columnResizing = m_columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
 
@@ -2249,7 +2287,7 @@ namespace MPfm.WindowsControls
             if (m_columns == null || m_songCache == null)
             {
                 return;
-            }
+            }           
 
             // Calculate scrollbar offset Y
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;

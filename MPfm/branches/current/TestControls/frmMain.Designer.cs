@@ -1,6 +1,6 @@
 ﻿namespace TestControls
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,7 @@
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.groupSongGridView = new System.Windows.Forms.GroupBox();
             this.txtSearchArtistName = new System.Windows.Forms.TextBox();
             this.chkDebug = new System.Windows.Forms.CheckBox();
@@ -59,8 +59,13 @@
             this.label2 = new MPfm.WindowsControls.Label();
             this.lblDisplayDebugInformation = new MPfm.WindowsControls.Label();
             this.songGridView = new MPfm.WindowsControls.SongGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupSongGridView.SuspendLayout();
             this.groupGeneral.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupSongGridView
@@ -379,6 +384,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.songGridView.AntiAliasingEnabled = true;
+            this.songGridView.ContextMenuStrip = this.contextMenuStrip1;
             this.songGridView.CustomFontName = "Junction";
             this.songGridView.DisplayDebugInformation = false;
             this.songGridView.FontCollection = this.fontCollection;
@@ -410,7 +416,34 @@
             this.songGridView.TabIndex = 2;
             this.songGridView.Text = "libraryGridView1";
             // 
-            // Form1
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "toolStripMenuItem2";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Text = "toolStripMenuItem3";
+            // 
+            // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(938, 473);
@@ -418,13 +451,14 @@
             this.Controls.Add(this.groupSongGridView);
             this.Controls.Add(this.songGridView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.Text = "MPfm - Test Controls";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupSongGridView.ResumeLayout(false);
             this.groupSongGridView.PerformLayout();
             this.groupGeneral.ResumeLayout(false);
             this.groupGeneral.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -455,6 +489,10 @@
         private MPfm.WindowsControls.Label lblPadding;
         private MPfm.WindowsControls.TrackBar trackPadding;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 
