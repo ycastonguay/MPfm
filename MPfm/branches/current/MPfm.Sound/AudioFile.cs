@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.IO;
 using System.Text;
+using MPfm.Core;
 
 namespace MPfm.Sound
 {
@@ -499,8 +500,15 @@ namespace MPfm.Sound
 				// Check if at least one image was found
 				if (imageFiles.Count > 0)
 				{
-					// Get image from file
-					imageCover = Image.FromFile(imageFiles[0].FullName);
+                    try
+                    {
+                        // Get image from file
+                        imageCover = Image.FromFile(imageFiles[0].FullName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
+                    }
 				}
 			}
 

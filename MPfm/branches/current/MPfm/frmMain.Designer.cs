@@ -30,11 +30,11 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont116 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont117 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont118 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont119 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont120 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,21 +159,13 @@ namespace MPfm
             this.columnMarkerPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnMarkerComments = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelSongBrowser = new MPfm.WindowsControls.Panel();
+            this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label1 = new MPfm.WindowsControls.Label();
             this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
             this.btnAddSongToPlaylist = new MPfm.WindowsControls.Button();
             this.btnEditSongMetadata = new MPfm.WindowsControls.Button();
-            this.viewSongs = new MPfm.WindowsControls.ReorderListView();
-            this.columnSongPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongTrackNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongArtistName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongAlbumTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongPlayCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongLastPlayed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageListSongBrowser = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -734,26 +726,26 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "BPmono";
-            customFont4.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "CPmono";
-            customFont5.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
+            customFont116.AssemblyPath = "MPfm.Fonts.dll";
+            customFont116.Name = "LeagueGothic";
+            customFont116.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont117.AssemblyPath = "MPfm.Fonts.dll";
+            customFont117.Name = "Junction";
+            customFont117.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont118.AssemblyPath = "MPfm.Fonts.dll";
+            customFont118.Name = "TitilliumText22L Lt";
+            customFont118.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont119.AssemblyPath = "MPfm.Fonts.dll";
+            customFont119.Name = "BPmono";
+            customFont119.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont120.AssemblyPath = "MPfm.Fonts.dll";
+            customFont120.Name = "CPmono";
+            customFont120.ResourceName = "MPfm.Fonts.CPmono.ttf";
+            this.fontCollection.Fonts.Add(customFont116);
+            this.fontCollection.Fonts.Add(customFont117);
+            this.fontCollection.Fonts.Add(customFont118);
+            this.fontCollection.Fonts.Add(customFont119);
+            this.fontCollection.Fonts.Add(customFont120);
             // 
             // treeLibrary
             // 
@@ -2190,8 +2182,8 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongBrowser.AntiAliasingEnabled = true;
             this.panelSongBrowser.BackColor = System.Drawing.Color.Gray;
+            this.panelSongBrowser.Controls.Add(this.viewSongs2);
             this.panelSongBrowser.Controls.Add(this.panelSongBrowserToolbar);
-            this.panelSongBrowser.Controls.Add(this.viewSongs);
             this.panelSongBrowser.ExpandedHeight = 200;
             this.panelSongBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSongBrowser.FontCollection = this.fontCollection;
@@ -2210,6 +2202,47 @@ namespace MPfm
             this.panelSongBrowser.Name = "panelSongBrowser";
             this.panelSongBrowser.Size = new System.Drawing.Size(792, 218);
             this.panelSongBrowser.TabIndex = 25;
+            // 
+            // viewSongs2
+            // 
+            this.viewSongs2.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.viewSongs2.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.viewSongs2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewSongs2.AntiAliasingEnabled = true;
+            this.viewSongs2.CustomFontName = "Junction";
+            this.viewSongs2.DisplayDebugInformation = false;
+            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewSongs2.FontCollection = this.fontCollection;
+            this.viewSongs2.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.viewSongs2.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.viewSongs2.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.viewSongs2.HeaderHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.viewSongs2.HeaderHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this.viewSongs2.IconNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this.viewSongs2.IconNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
+            this.viewSongs2.ImageCacheSize = 10;
+            this.viewSongs2.LineColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.viewSongs2.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.viewSongs2.LineForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.viewSongs2.LineHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.viewSongs2.LineHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.viewSongs2.LineNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
+            this.viewSongs2.LineNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
+            this.viewSongs2.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.viewSongs2.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
+            this.viewSongs2.Location = new System.Drawing.Point(0, 47);
+            this.viewSongs2.Name = "viewSongs2";
+            this.viewSongs2.NowPlayingSongId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.OrderByAscending = true;
+            this.viewSongs2.OrderByFieldName = "";
+            this.viewSongs2.Size = new System.Drawing.Size(792, 171);
+            this.viewSongs2.TabIndex = 74;
+            this.viewSongs2.Text = "songGridView1";
+            this.viewSongs2.OnSelectedIndexChanged += new MPfm.WindowsControls.SongGridView.SelectedIndexChanged(this.viewSongs2_OnSelectedIndexChanged);
+            this.viewSongs2.OnColumnClick += new MPfm.WindowsControls.SongGridView.ColumnClick(this.viewSongs2_OnColumnClick);
+            this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
             // 
             // panelSongBrowserToolbar
             // 
@@ -2359,89 +2392,6 @@ namespace MPfm
             this.btnEditSongMetadata.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnEditSongMetadata.UseVisualStyleBackColor = true;
             this.btnEditSongMetadata.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
-            // 
-            // viewSongs
-            // 
-            this.viewSongs.AllowDrop = true;
-            this.viewSongs.AllowRowReorder = false;
-            this.viewSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewSongs.AntiAliasingEnabled = true;
-            this.viewSongs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.viewSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnSongPlayIcon,
-            this.columnSongTrackNumber,
-            this.columnSongTitle,
-            this.columnSongLength,
-            this.columnSongArtistName,
-            this.columnSongAlbumTitle,
-            this.columnSongPlayCount,
-            this.columnSongLastPlayed});
-            this.viewSongs.ContextMenuStrip = this.menuSongBrowser;
-            this.viewSongs.CustomFontName = null;
-            this.viewSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs.FontCollection = this.fontCollection;
-            this.viewSongs.FullRowSelect = true;
-            this.viewSongs.GradientColor1 = System.Drawing.Color.LightGray;
-            this.viewSongs.GradientColor2 = System.Drawing.Color.Gray;
-            this.viewSongs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.viewSongs.GridLines = true;
-            this.viewSongs.HeaderForeColor = System.Drawing.Color.Black;
-            this.viewSongs.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.viewSongs.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.viewSongs.HeaderHeight = 0;
-            this.viewSongs.HideSelection = false;
-            this.viewSongs.Location = new System.Drawing.Point(0, 47);
-            this.viewSongs.Name = "viewSongs";
-            this.viewSongs.SelectedColor = System.Drawing.Color.DarkGray;
-            this.viewSongs.Size = new System.Drawing.Size(792, 171);
-            this.viewSongs.SmallImageList = this.imageListSongBrowser;
-            this.viewSongs.TabIndex = 22;
-            this.viewSongs.UseCompatibleStateImageBehavior = false;
-            this.viewSongs.View = System.Windows.Forms.View.Details;
-            this.viewSongs.SelectedIndexChanged += new System.EventHandler(this.viewSongs_SelectedIndexChanged);
-            this.viewSongs.DoubleClick += new System.EventHandler(this.viewSongs_DoubleClick);
-            // 
-            // columnSongPlayIcon
-            // 
-            this.columnSongPlayIcon.Text = "";
-            this.columnSongPlayIcon.Width = 21;
-            // 
-            // columnSongTrackNumber
-            // 
-            this.columnSongTrackNumber.Text = "Tr #";
-            this.columnSongTrackNumber.Width = 35;
-            // 
-            // columnSongTitle
-            // 
-            this.columnSongTitle.Text = "Title";
-            this.columnSongTitle.Width = 234;
-            // 
-            // columnSongLength
-            // 
-            this.columnSongLength.Text = "Length";
-            this.columnSongLength.Width = 80;
-            // 
-            // columnSongArtistName
-            // 
-            this.columnSongArtistName.Text = "Artist Name";
-            this.columnSongArtistName.Width = 198;
-            // 
-            // columnSongAlbumTitle
-            // 
-            this.columnSongAlbumTitle.Text = "Album Title";
-            this.columnSongAlbumTitle.Width = 216;
-            // 
-            // columnSongPlayCount
-            // 
-            this.columnSongPlayCount.Text = "Play Count";
-            this.columnSongPlayCount.Width = 68;
-            // 
-            // columnSongLastPlayed
-            // 
-            this.columnSongLastPlayed.Text = "Last Played";
-            this.columnSongLastPlayed.Width = 161;
             // 
             // imageListSongBrowser
             // 
@@ -2824,19 +2774,11 @@ namespace MPfm
         private WindowsControls.Button btnPlaySelectedSong;
         private WindowsControls.Button btnAddSongToPlaylist;
         private WindowsControls.Button btnEditSongMetadata;
-        public WindowsControls.ReorderListView viewSongs;
-        private System.Windows.Forms.ColumnHeader columnSongPlayIcon;
-        private System.Windows.Forms.ColumnHeader columnSongTrackNumber;
-        private System.Windows.Forms.ColumnHeader columnSongTitle;
-        private System.Windows.Forms.ColumnHeader columnSongLength;
-        private System.Windows.Forms.ColumnHeader columnSongArtistName;
-        private System.Windows.Forms.ColumnHeader columnSongAlbumTitle;
-        private System.Windows.Forms.ColumnHeader columnSongPlayCount;
-        private System.Windows.Forms.ColumnHeader columnSongLastPlayed;
         private System.Windows.Forms.SplitContainer splitLoopsMarkersSongBrowser;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private WindowsControls.Button btnGoToMarker;        
+        private WindowsControls.Button btnGoToMarker;
+        private WindowsControls.SongGridView viewSongs2;        
     }
 }
 

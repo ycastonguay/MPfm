@@ -79,6 +79,30 @@ namespace MPfm.WindowsControls
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Delegate method for the OnSelectedItemChanged event.
+        /// </summary>
+        /// <param name="data">SelectedIndexChanged data</param>
+        public delegate void SelectedIndexChanged(SongGridViewSelectedIndexChangedData data);
+        /// <summary>
+        /// The OnSelectedIndexChanged event is triggered when the selected item(s) have changed.
+        /// </summary>
+        public event SelectedIndexChanged OnSelectedIndexChanged;
+
+        /// <summary>
+        /// Delegate method for the OnColumnClick event.
+        /// </summary>
+        /// <param name="data">SongGridViewColumnClickData data</param>
+        public delegate void ColumnClick(SongGridViewColumnClickData data);
+        /// <summary>
+        /// The ColumnClick event is triggered when the user has clicked on one of the columns.
+        /// </summary>
+        public event ColumnClick OnColumnClick;
+
+        #endregion
+
         #region Theme Properties
 
         #region Header
@@ -577,25 +601,25 @@ namespace MPfm.WindowsControls
 
         #region Other Properties (Library, Items, Columns, etc.)
         
-        /// <summary>
-        /// Private value for the Library property.
-        /// </summary>
-        private MPfm.Library.Library m_library = null;
-        /// <summary>
-        /// Hook to the MPfm Library object.
-        /// </summary>
-        [Browsable(false)]
-        public MPfm.Library.Library Library
-        {
-            get
-            {
-                return m_library;
-            }
-            set
-            {
-                m_library = value;
-            }
-        }
+        ///// <summary>
+        ///// Private value for the Library property.
+        ///// </summary>
+        //private MPfm.Library.Library m_library = null;
+        ///// <summary>
+        ///// Hook to the MPfm Library object.
+        ///// </summary>
+        //[Browsable(false)]
+        //public MPfm.Library.Library Library
+        //{
+        //    get
+        //    {
+        //        return m_library;
+        //    }
+        //    set
+        //    {
+        //        m_library = value;
+        //    }
+        //}
 
         /// <summary>
         /// Private value for the Items property.
@@ -616,12 +640,24 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Returns the list of selected items.
         /// </summary>
+        [Browsable(false)]
         public List<SongGridViewItem> SelectedItems
         {
             get
             {
                 return m_items.Where(x => x.IsSelected).ToList();
-            }            
+            }
+            set
+            {
+                // Check if the selection needs to be reset
+                if (value == null)
+                {
+                    foreach (SongGridViewItem item in m_items)
+                    {
+                        item.IsSelected = false;
+                    }                    
+                }
+            }
         }
 
         /// <summary>
@@ -644,25 +680,27 @@ namespace MPfm.WindowsControls
 
         #region Filter / OrderBy Properties
 
-        private string m_searchArtistName = string.Empty;
-        public string SearchArtistName
-        {
-            get
-            {
-                return m_searchArtistName;
-            }
-            set
-            {
-                m_searchArtistName = value;
+        // TODO: REPLACE THIS BY A DATASOURCE/DATABIND INSTEAD. LET THE USER CONTROL THE QUERY!
 
-                // Invalidate item list and cache
-                m_items = null;
-                m_songCache = null;
+        //private string m_searchArtistName = string.Empty;
+        //public string SearchArtistName
+        //{
+        //    get
+        //    {
+        //        return m_searchArtistName;
+        //    }
+        //    set
+        //    {
+        //        m_searchArtistName = value;
 
-                // Refresh control
-                Refresh();
-            }
-        }
+        //        // Invalidate item list and cache
+        //        m_items = null;
+        //        m_songCache = null;
+
+        //        // Refresh control
+        //        Refresh();
+        //    }
+        //}
 
         /// <summary>
         /// Private value for the OrderByFieldName property.
@@ -963,6 +1001,30 @@ namespace MPfm.WindowsControls
             //}
         }
 
+        /// <summary>
+        /// Imports songs as SongGridViewItems.
+        /// </summary>
+        /// <param name="songs">List of SongDTO</param>
+        public void ImportSongs(List<SongDTO> songs)
+        {
+            // Create list of items
+            m_items = new List<SongGridViewItem>();
+            foreach (SongDTO song in songs)
+            {
+                // Create item and add to list
+                SongGridViewItem item = new SongGridViewItem();
+                item.Song = song;
+                m_items.Add(item);
+            }
+
+            // Reset scrollbar position
+            m_vScrollBar.Value = 0;
+            m_songCache = null;
+
+            // Refresh control
+            Refresh();
+        }
+
         #endregion
 
         #region Paint Events
@@ -988,7 +1050,7 @@ namespace MPfm.WindowsControls
         protected override void OnPaint(PaintEventArgs e)
         {
             // Check if the library is valid
-            if (m_library == null)
+            if (m_items == null)
             {
                 return;
             }
@@ -1041,7 +1103,7 @@ namespace MPfm.WindowsControls
             int albumCoverStartIndex = 0;
             int albumCoverEndIndex = 0;
             string currentAlbumTitle = string.Empty;
-            bool regenerateItems = true;
+            //bool regenerateItems = true;
             bool nowPlayingSongFound = false;
 
             // Load custom font
@@ -1063,15 +1125,22 @@ namespace MPfm.WindowsControls
             // Set string format
             StringFormat stringFormat = new StringFormat();
 
-            // Check for an existing collection of items
-            if (m_items != null)
+            //// Check for an existing collection of items
+            //if (m_items != null)
+            //{
+            //    // Check the first item, if there's one
+            //    if (m_items.Count > 0 && m_items[0] is SongGridViewItem)
+            //    {
+            //        regenerateItems = false;
+            //    }
+            //}
+
+            // If there are no items..,
+            if (m_items == null)
             {
-                // Check the first item, if there's one
-                if (m_items.Count > 0 && m_items[0] is SongGridViewItem)
-                {
-                    regenerateItems = false;
-                }
-            }
+                // Do not do anything.
+                return;
+            }            
 
             // Check if columns exist
             if (m_columns == null)
@@ -1116,26 +1185,27 @@ namespace MPfm.WindowsControls
                 m_columns.Add(columnSongLastPlayed);
             }
 
-            // Check if the items have been generated, or that the items are not of album type
-            if (regenerateItems)
-            {
-                // Query how many albums there are in the library
-                //List<SongDTO> songs = m_library.SelectSongs(FilterSoundFormat.MP3, m_searchArtistName);
-                List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(m_searchArtistName, string.Empty, string.Empty, m_orderByFieldName, m_orderByAscending));
+            //// Check if the items have been generated, or that the items are not of album type
+            //if (regenerateItems)
+            //{
+            //    // Query how many albums there are in the library
+            //    List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs());
+            //    //List<SongDTO> songs = m_library.SelectSongs(FilterSoundFormat.MP3, m_searchArtistName);
+            //    //List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(m_searchArtistName, string.Empty, string.Empty, m_orderByFieldName, m_orderByAscending));
 
-                // Create list of items
-                m_items = new List<SongGridViewItem>();
-                foreach (SongDTO song in songs)
-                {
-                    // Create item and add to list
-                    SongGridViewItem item = new SongGridViewItem();
-                    item.Song = song;
-                    m_items.Add(item);
-                }
+            //    // Create list of items
+            //    m_items = new List<SongGridViewItem>();
+            //    foreach (SongDTO song in songs)
+            //    {
+            //        // Create item and add to list
+            //        SongGridViewItem item = new SongGridViewItem();
+            //        item.Song = song;
+            //        m_items.Add(item);
+            //    }
 
-                // Reset scrollbar position
-                m_vScrollBar.Value = 0;
-            }
+            //    // Reset scrollbar position
+            //    m_vScrollBar.Value = 0;
+            //}
 
             // Check if a cache exists, or if the cache needs to be refreshed
             if (m_songCache == null)
@@ -2161,6 +2231,17 @@ namespace MPfm.WindowsControls
                         m_items = null;
                         m_songCache = null;
 
+                        // Raise column click event (if an event is subscribed)
+                        if (OnColumnClick != null)
+                        {
+                            // Create data
+                            SongGridViewColumnClickData data = new SongGridViewColumnClickData();
+                            data.ColumnIndex = a;
+
+                            // Raise event
+                            OnColumnClick(data);
+                        }
+
                         // Refresh control
                         Refresh();
                         return;
@@ -2221,11 +2302,15 @@ namespace MPfm.WindowsControls
             }
 
             // Loop through visible lines to update the new selected item
+            bool invalidatedNewSelection = false;
             for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
                 if (m_items[a].IsMouseOverItem)
                 {
+                    // Set flag
+                    invalidatedNewSelection = true;
+
                     // Check if SHIFT is held
                     if ((Control.ModifierKeys & Keys.Shift) != 0)
                     {
@@ -2268,6 +2353,16 @@ namespace MPfm.WindowsControls
                     // Exit loop
                     break;
                 }
+            }
+
+            // Raise selected item changed event (if an event is subscribed)
+            if (invalidatedNewSelection && OnSelectedIndexChanged != null)
+            {
+                // Create data
+                SongGridViewSelectedIndexChangedData data = new SongGridViewSelectedIndexChangedData();                
+
+                // Raise event
+                OnSelectedIndexChanged(data);                
             }
 
             // Update invalid regions
@@ -2574,15 +2669,15 @@ namespace MPfm.WindowsControls
                 // Set new value
                 int newValue = m_vScrollBar.Value + (-value * m_songCache.LineHeight);
 
+                // Check for maximum
+                if (newValue > m_vScrollBar.Maximum - m_vScrollBar.LargeChange)
+                {
+                    newValue = m_vScrollBar.Maximum - m_vScrollBar.LargeChange;
+                }
                 // Check for minimum
                 if (newValue < 0)
                 {
                     newValue = 0;
-                }
-                // Check for maximum
-                else if (newValue > m_vScrollBar.Maximum - m_vScrollBar.LargeChange)
-                {
-                    newValue = m_vScrollBar.Maximum - m_vScrollBar.LargeChange;
                 }
 
                 // Set scrollbar value
@@ -2774,4 +2869,14 @@ namespace MPfm.WindowsControls
         public SongDTO Song { get; set; }
         public int LineIndex { get; set; }        
     }
+
+    public class SongGridViewSelectedIndexChangedData
+    {        
+    }
+
+    public class SongGridViewColumnClickData
+    {
+        public int ColumnIndex { get; set; }
+    }
+
 }

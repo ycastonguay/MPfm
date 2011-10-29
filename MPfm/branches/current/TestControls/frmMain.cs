@@ -13,6 +13,8 @@ namespace TestControls
 {
     public partial class frmMain : Form
     {
+        private Player m_player = null;
+
         public frmMain()
         {
             InitializeComponent();
@@ -21,8 +23,8 @@ namespace TestControls
         private void Form1_Load(object sender, EventArgs e)
         {
             // Load player
-            Player player = new Player(FMOD.OUTPUTTYPE.DSOUND, "", true);
-            songGridView.Library = player.Library;
+            m_player = new Player(FMOD.OUTPUTTYPE.DSOUND, "", true);
+            //songGridView.Library = player.Library;
 
             comboDisplayType.SelectedItem = "SongGridView";
 
@@ -40,6 +42,11 @@ namespace TestControls
                 comboStandardFontName.Items.Add(fonts.Families[a].Name);
             }
             comboStandardFontName.SelectedItem = "Tahoma";
+
+            songGridView.ImportSongs(m_player.Library.SelectSongs(FilterSoundFormat.MP3));
+
+            // Set initial query
+
         }
 
         private void trackFontSize_OnTrackBarValueChanged()
@@ -63,7 +70,8 @@ namespace TestControls
 
         private void txtSearchArtistName_TextChanged(object sender, EventArgs e)
         {
-            songGridView.SearchArtistName = txtSearchArtistName.Text;
+            List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(txtSearchArtistName.Text, string.Empty, string.Empty, songGridView.OrderByFieldName, songGridView.OrderByAscending));
+            songGridView.ImportSongs(songs);
         }
 
         private void lblDisplayDebugInformation_Click(object sender, EventArgs e)

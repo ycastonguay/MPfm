@@ -395,8 +395,7 @@
             this.songGridView.HeaderHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.songGridView.IconNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
             this.songGridView.IconNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
-            this.songGridView.ImageCacheSize = 10;
-            this.songGridView.Library = null;
+            this.songGridView.ImageCacheSize = 10;            
             this.songGridView.LineColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
             this.songGridView.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.songGridView.LineForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -410,8 +409,7 @@
             this.songGridView.Name = "songGridView";
             this.songGridView.NowPlayingSongId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.songGridView.OrderByAscending = true;
-            this.songGridView.OrderByFieldName = "";
-            this.songGridView.SearchArtistName = "";
+            this.songGridView.OrderByFieldName = "";            
             this.songGridView.Size = new System.Drawing.Size(936, 300);
             this.songGridView.TabIndex = 2;
             this.songGridView.Text = "libraryGridView1";
