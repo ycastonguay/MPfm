@@ -87,6 +87,22 @@ namespace PlaybackEngineV4
 
                 // Set version label
                 lblVersion.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Tracing.Log(ex.Message);
+                Tracing.Log(ex.StackTrace);
+                Application.Exit();
+            }
+        }
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+            try
+            {
+                // Register BASS.NET with key                
+                Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");  
 
                 // Get last used directory from configuration
                 string directory = Config.Load("LastUsedDirectory");
@@ -110,23 +126,7 @@ namespace PlaybackEngineV4
                     // Load playlist
                     Tracing.Log("Loading playlist...");
                     LoadPlaylist();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                Tracing.Log(ex.Message);
-                Tracing.Log(ex.StackTrace);
-                Application.Exit();
-            }
-        }
-
-        private void frmMain_Shown(object sender, EventArgs e)
-        {
-            try
-            {
-                // Register BASS.NET with key                
-                Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");                
+                }             
 
                 // Check configured driver type
                 if (m_configData.driverType.ToUpper() == "DIRECTSOUND")

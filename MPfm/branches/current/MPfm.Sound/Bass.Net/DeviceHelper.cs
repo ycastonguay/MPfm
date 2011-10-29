@@ -156,7 +156,6 @@ namespace MPfm.Sound.BassNetWrapper
             } 
             else if (driverType == DriverType.WASAPI)
             {
-
                 // Detect WASAPI devices
                 List<BASS_WASAPI_DEVICEINFO> devicesWASAPI = BassWasapi.BASS_WASAPI_GetDeviceInfos().ToList();
                 for (int a = 0; a < devicesWASAPI.Count; a++)
@@ -174,6 +173,62 @@ namespace MPfm.Sound.BassNetWrapper
                         device.Driver = devicesWASAPI[a].id;
                         return device;
                     }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the default DirectSound device.
+        /// If no device was no found, the value is null.
+        /// </summary>
+        /// <returns>Default DirectSound device</returns>
+        public static Device GetDefaultDirectSoundOutputDevice()
+        {
+            // Detect DirectSound devices
+            List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
+            for (int a = 0; a < devicesDirectSound.Count; a++)
+            {
+                // Check if the device is the default one
+                if (devicesDirectSound[a].IsEnabled && devicesDirectSound[a].IsDefault)
+                {
+                    // Create device and add to list
+                    Device device = new Device();
+                    device.IsDefault = devicesDirectSound[a].IsDefault;
+                    device.Id = a;
+                    device.DriverType = DriverType.DirectSound;
+                    device.Name = devicesDirectSound[a].name;
+                    device.Driver = devicesDirectSound[a].driver;
+                    return device;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the default WASAPI device.
+        /// If no device was no found, the value is null.
+        /// </summary>
+        /// <returns>Default WASAPI device</returns>
+        public static Device GetDefaultWASAPIOutputDevice()
+        {
+            // Detect WASAPI devices
+            List<BASS_WASAPI_DEVICEINFO> devicesWASAPI = BassWasapi.BASS_WASAPI_GetDeviceInfos().ToList();
+            for (int a = 0; a < devicesWASAPI.Count; a++)
+            {
+                // Check if the device is the default one
+                if (devicesWASAPI[a].IsEnabled && devicesWASAPI[a].IsDefault && !devicesWASAPI[a].IsInput)
+                {
+                    // Create device and add to list
+                    Device device = new Device();
+                    device.IsDefault = devicesWASAPI[a].IsDefault;
+                    device.Id = a;
+                    device.DriverType = DriverType.WASAPI;
+                    device.Name = devicesWASAPI[a].name;
+                    device.Driver = devicesWASAPI[a].id;
+                    return device;
                 }
             }
 
