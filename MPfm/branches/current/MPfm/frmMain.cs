@@ -519,7 +519,29 @@ namespace MPfm
             }
             else
             {
-                Location = new Point(Config.WindowX, Config.WindowY);
+                int x = 0;
+                int y = 0;
+
+                // Make sure the window X isn't negative
+                if (Config.WindowX < 0)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x = Config.WindowX;
+                }
+                // Make sure the window Y isn't negative
+                if (Config.WindowY < 0)
+                {
+                    y = 0;
+                }
+                else
+                {
+                    y = Config.WindowY;
+                }
+
+                Location = new Point(x, y);
             }
            
             Width = Config.WindowWidth;
