@@ -51,13 +51,20 @@ namespace MPfm.WindowsControls
         private System.Windows.Forms.VScrollBar m_vScrollBar = null;
         private System.Windows.Forms.HScrollBar m_hScrollBar = null;
 
+        // Background worker for updating album art
+        private int m_preloadLinesAlbumCover = 20;
+        private BackgroundWorker m_workerUpdateAlbumArt = null;
+        public List<SongGridViewBackgroundWorkerArgument> m_workerUpdateAlbumArtPile = null;
+        private System.Windows.Forms.Timer m_timerUpdateAlbumArt = null;
+        private List<string> m_currentlyVisibleAlbumArt = null;
+
         // Cache        
         private GridViewSongCache m_songCache = null;
-        private List<GridViewImageCache> m_imageCache = new List<GridViewImageCache>();
+        private List<GridViewImageCache> m_imageCache = new List<GridViewImageCache>();        
 
         // Private variables used for mouse events
-        private int m_startLineNumber = 0;
-        private int m_numberOfLinesToDraw = 0;
+        public int m_startLineNumber = 0;
+        public int m_numberOfLinesToDraw = 0;
         private int m_minimumColumnWidth = 30;
         private int m_dragStartX = -1;
         private int m_dragOriginalColumnWidth = -1;
@@ -757,6 +764,173 @@ namespace MPfm.WindowsControls
 
             // Override mouse messages for mouse wheel (get mouse wheel events out of control)
             Application.AddMessageFilter(this);
+
+            // Create background worker for updating album art
+            m_workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
+            m_workerUpdateAlbumArt = new BackgroundWorker();            
+            m_workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(m_workerUpdateAlbumArt_DoWork);
+            m_workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_workerUpdateAlbumArt_RunWorkerCompleted);
+            
+            // Create timer for updating album art
+            m_timerUpdateAlbumArt = new System.Windows.Forms.Timer();
+            m_timerUpdateAlbumArt.Interval = 10;
+            m_timerUpdateAlbumArt.Tick += new EventHandler(m_timerUpdateAlbumArt_Tick);
+            m_timerUpdateAlbumArt.Enabled = true;
+        }
+
+        /// <summary>
+        /// Occurs when the Update Album Art timer expires.
+        /// Checks if there are more album art covers to load and starts the background
+        /// thread if it is not running already.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        public void m_timerUpdateAlbumArt_Tick(object sender, EventArgs e)
+        {
+            // Stop timer
+            m_timerUpdateAlbumArt.Enabled = false;
+
+            // Check for the next album art to fetch
+            if (m_workerUpdateAlbumArtPile.Count > 0 && !m_workerUpdateAlbumArt.IsBusy)
+            {
+                // Do some cleanup: clean items that are not visible anymore
+                bool cleanUpDone = false;
+                while (!cleanUpDone)
+                {
+                    int indexToDelete = -1;
+                    for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
+                    {
+                        // Get argument
+                        SongGridViewBackgroundWorkerArgument arg = m_workerUpdateAlbumArtPile[a];
+
+                        // Check if this album is still visible (cancel if it is out of display).     
+                        if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
+                        {
+                            indexToDelete = a;
+                            break;
+                        }
+                    }
+
+                    if (indexToDelete >= 0)
+                    {
+                        m_workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
+                    }
+                    else
+                    {
+                        cleanUpDone = true;
+                    }
+                }
+                // There must be more album art to fetch.. right?
+                if (m_workerUpdateAlbumArtPile.Count > 0)
+                {
+                    // Start background worker                
+                    SongGridViewBackgroundWorkerArgument arg = m_workerUpdateAlbumArtPile[0];
+                    m_workerUpdateAlbumArt.RunWorkerAsync(arg);
+                }
+            }
+
+            // Restart timer
+            m_timerUpdateAlbumArt.Enabled = true;
+        }
+
+        /// <summary>
+        /// Occurs when the Update Album Art background worker starts its work.
+        /// Fetches the album cover in another thread and returns the image once done.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        public void m_workerUpdateAlbumArt_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Make sure the argument is valid
+            if (e.Argument == null)
+            {
+                return;
+            }
+
+            // Cast argument
+            SongGridViewBackgroundWorkerArgument arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
+
+            // Create result
+            SongGridViewBackgroundWorkerResult result = new SongGridViewBackgroundWorkerResult();
+            result.Song = arg.Song;
+
+            // Check if this album is still visible (cancel if it is out of display).     
+            if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
+            {
+                // Set result with empty image
+                e.Result = result;
+                return;
+            }
+
+            // Extract image from file
+            Image imageAlbumCover = AudioFile.ExtractImageForAudioFile(arg.Song.FilePath);
+
+            // Set album art in return data            
+            result.AlbumArt = imageAlbumCover;
+            e.Result = result;
+        }
+
+        /// <summary>
+        /// Occurs when the Update Album Art background worker has finished its work.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        public void m_workerUpdateAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // Check if the result was OK
+            if (e.Result == null)
+            {
+                return;
+            }
+
+            // Get album art
+            SongGridViewBackgroundWorkerResult result = (SongGridViewBackgroundWorkerResult)e.Result;
+
+            // Check if an image was found
+            if (result.AlbumArt != null)
+            {
+                // We found cover art! Add to cache and get out of the loop
+                m_imageCache.Add(new GridViewImageCache() { Key = result.Song.ArtistName + "_" + result.Song.AlbumTitle, Image = result.AlbumArt });
+
+                // Check if the cache size has been reached
+                if (m_imageCache.Count > m_imageCacheSize)
+                {
+                    // Remove the oldest item
+                    Image imageTemp = m_imageCache[0].Image;
+                    imageTemp.Dispose();
+                    imageTemp = null;
+                    m_imageCache.RemoveAt(0);
+                }
+            }
+
+            // Remove song from list
+            int indexRemove = -1;
+            for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
+            {
+                if (m_workerUpdateAlbumArtPile[a].Song.FilePath.ToUpper() == result.Song.FilePath.ToUpper())
+                {
+                    indexRemove = a;
+                }
+            }
+            if (indexRemove >= 0)
+            {
+                m_workerUpdateAlbumArtPile.RemoveAt(indexRemove);
+            }            
+
+            // Refresh control (TODO: Invalidate instead)
+            Refresh();
+            //Invalidate(new Rectangle(0, 0, m_columns[0].Width, Height));  <== this cuts the line between the album art and the other columns
+
+            //// Remove all invisible items from list
+            ////for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
+            //foreach(SongGridViewBackgroundWorkerArgument arg in m_workerUpdateAlbumArtPile)
+            //{
+            //    // TODO: Check if this album is still visible (cancel if it is out of display).     
+            //    if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw)
+            //    {
+            //        m_workerUpdateAlbumArtPile.Remove(arg);
+            //    }
+            //}
         }
 
         #endregion
@@ -1111,47 +1285,88 @@ namespace MPfm.WindowsControls
                         // Album art not found in cache; try to find an album cover in one of the file
                         if (imageAlbumCover == null)
                         {
-                            // Loop through album files
-                            for (int d = albumCoverStartIndex; d < albumCoverEndIndex; d++)
+                            // Check if the album cover is already in the pile
+                            bool albumCoverFound = false;
+                            foreach (SongGridViewBackgroundWorkerArgument arg in m_workerUpdateAlbumArtPile)
                             {
-                                //// Extract image from file
-                                //imageAlbumCover = AudioFile.ExtractImageForAudioFile(song.FilePath);
-
-                                //// Check if an image was found
-                                //if (imageAlbumCover != null)
-                                //{
-                                //    // We found cover art! Add to cache and get out of the loop
-                                //    m_imageCache.Add(new GridViewImageCache() { Key = song.ArtistName + "_" + song.AlbumTitle, Image = imageAlbumCover });
-
-                                //    // Check if the cache size has been reached
-                                //    if (m_imageCache.Count > m_imageCacheSize)
-                                //    {
-                                //        // Remove the oldest item
-                                //        Image imageTemp = m_imageCache[0].Image;
-                                //        imageTemp.Dispose();
-                                //        imageTemp = null;
-                                //        m_imageCache.RemoveAt(0);
-                                //    }
-
-                                //    //try
-                                //    //{
-                                //    //    // Try to save the album cover art
-                                //    //    imageAlbumCover.Save(imageFilePath);
-                                //    //}
-                                //    //catch
-                                //    //{
-                                //    //    // Check if the cover art directory exists
-                                //    //    if (!Directory.Exists(imageFileDirectory))
-                                //    //    {
-                                //    //        // Create the directory and try again
-                                //    //        Directory.CreateDirectory(imageFileDirectory);
-                                //    //        imageAlbumCover.Save(imageFilePath);
-                                //    //    }
-                                //    //}
-
-                                //    break;
-                                //}
+                                // Match by file path
+                                if (arg.Song.FilePath.ToUpper() == song.FilePath.ToUpper())
+                                {
+                                    // We found the album cover
+                                    albumCoverFound = true;
+                                }
                             }
+
+                            // Add to the pile only if the album cover isn't already in it
+                            if (!albumCoverFound)
+                            {
+                                // Add item to update album art worker pile
+                                SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
+                                arg.Song = song;
+                                arg.LineIndex = a;
+                                m_workerUpdateAlbumArtPile.Add(arg);
+                            }
+
+
+                            //// Loop through album files
+                            //for (int d = albumCoverStartIndex; d < albumCoverEndIndex; d++)
+                            //{                                                                
+
+
+                            //    // Make sure the song isn't already in the pile
+                            //    if (!m_workerUpdateAlbumArtPile.Contains(song))
+                            //    {
+                            //        // Add song to update album art worker pile
+                            //        m_workerUpdateAlbumArtPile.Add(song);
+                            //    }
+
+                            //    //// Check if this is the first item of the pile
+                            //    //if (m_workerUpdateAlbumArtPile.Count == 1)
+                            //    //{
+                            //    //    // Start background worker
+                            //    //    m_workerUpdateAlbumArt.RunWorkerAsync(m_workerUpdateAlbumArtPile[0]);
+                            //    //}
+
+                            //    break;
+
+                            //    //// Extract image from file
+                            //    //imageAlbumCover = AudioFile.ExtractImageForAudioFile(song.FilePath);
+
+                            //    //// Check if an image was found
+                            //    //if (imageAlbumCover != null)
+                            //    //{
+                            //    //    // We found cover art! Add to cache and get out of the loop
+                            //    //    m_imageCache.Add(new GridViewImageCache() { Key = song.ArtistName + "_" + song.AlbumTitle, Image = imageAlbumCover });
+
+                            //    //    // Check if the cache size has been reached
+                            //    //    if (m_imageCache.Count > m_imageCacheSize)
+                            //    //    {
+                            //    //        // Remove the oldest item
+                            //    //        Image imageTemp = m_imageCache[0].Image;
+                            //    //        imageTemp.Dispose();
+                            //    //        imageTemp = null;
+                            //    //        m_imageCache.RemoveAt(0);
+                            //    //    }
+
+                            //    //    //try
+                            //    //    //{
+                            //    //    //    // Try to save the album cover art
+                            //    //    //    imageAlbumCover.Save(imageFilePath);
+                            //    //    //}
+                            //    //    //catch
+                            //    //    //{
+                            //    //    //    // Check if the cover art directory exists
+                            //    //    //    if (!Directory.Exists(imageFileDirectory))
+                            //    //    //    {
+                            //    //    //        // Create the directory and try again
+                            //    //    //        Directory.CreateDirectory(imageFileDirectory);
+                            //    //    //        imageAlbumCover.Save(imageFilePath);
+                            //    //    //    }
+                            //    //    //}
+
+                            //    //    break;
+                            //    //}
+                            //}
 
                         }
 
@@ -2508,5 +2723,17 @@ namespace MPfm.WindowsControls
             Invalidate(m_rectNowPlaying);
             Update(); // This is necessary after an invalidate.
         }
+    }
+
+    public class SongGridViewBackgroundWorkerResult
+    {
+        public SongDTO Song { get; set; }
+        public Image AlbumArt { get; set; }
+    }
+
+    public class SongGridViewBackgroundWorkerArgument
+    {
+        public SongDTO Song { get; set; }
+        public int LineIndex { get; set; }        
     }
 }

@@ -142,5 +142,10 @@ namespace TestControls
             songGridView.Refresh();
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = songGridView.m_startLineNumber.ToString() + " - " + songGridView.m_numberOfLinesToDraw.ToString() + " - " + songGridView.m_workerUpdateAlbumArtPile.Count.ToString();
+        }
+
     }
 }
