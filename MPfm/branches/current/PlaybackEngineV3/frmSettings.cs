@@ -39,6 +39,10 @@ namespace PlaybackEngineV4
     {
         // Private variables
         private frmMain m_main = null;
+        private ConfigData m_configData = null;
+        private bool m_settingsChanged = false;
+        private bool m_isNewAudioDeviceTested = false;
+        private bool m_isAudioDeviceDifferent = false;
         private List<Device> m_devices = null;
         private List<Device> m_devicesDirectSound = null;
         private List<Device> m_devicesASIO = null;
@@ -63,7 +67,7 @@ namespace PlaybackEngineV4
             trackUpdateThreads.Value = main.player.UpdateThreads;
 
             // Detect devices
-            m_devices = DeviceHelper.DetectDevices();
+            m_devices = DeviceHelper.DetectOutputDevices();
             m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
             m_devicesASIO = m_devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
             m_devicesWASAPI = m_devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
@@ -78,20 +82,79 @@ namespace PlaybackEngineV4
             drivers.Add(driverWASAPI);
             comboDriver.DataSource = drivers;
 
-            //// Select values
-            //string driverType = Config.LoadConfig("DriverType");            
-            //for (int a = 0; a < comboDriver.Items.Count; a++ )
-            //{
-            //    // Get item
-            //    DriverComboBoxItem item = (DriverComboBoxItem)comboDriver.Items[a];
+            // Get configuration values
+            m_configData = new ConfigData();
 
-            //    // Check if value match
-            //    if (item.DriverType.ToString().ToUpper() == driverType.ToUpper())
-            //    {
-            //        // Set selected index
-            //        comboDriver.SelectedIndex = a;
-            //    }
-            //}            
+            // Set values
+            txtBufferSize.Text = m_configData.bufferSize.ToString("0000");
+            txtUpdatePeriod.Text = m_configData.updatePeriod.ToString("0000");
+            txtUpdateThreads.Text = m_configData.updateThreads.ToString("0");
+            trackBufferSize.Value = m_configData.bufferSize;
+            trackUpdatePeriod.Value = m_configData.updatePeriod;
+            trackUpdateThreads.Value = m_configData.updateThreads;
+
+            // Check the driver type
+            int deviceId = -1;
+            int index = 0;
+            if (m_configData.driverType.ToUpper() == "DIRECTSOUND")
+            {
+                // Select the driver
+                comboDriver.SelectedIndex = 0;
+
+                // Loop through devices to get the deviceId
+                for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                {
+                    // Match output device by name instead of deviceId (because deviceId can change!)
+                    if (m_devicesDirectSound[a].Name.ToUpper() == m_configData.deviceName.ToUpper())
+                    {
+                        // Set deviceId
+                        deviceId = m_devicesDirectSound[a].Id;
+                        index = a;
+                    }
+                }
+            }
+            else if (m_configData.driverType.ToUpper() == "ASIO")
+            {
+                // Select the driver
+                comboDriver.SelectedIndex = 1;
+
+                // Loop through devices to get the deviceId
+                for (int a = 0; a < m_devicesASIO.Count; a++)
+                {
+                    // Match output device by name instead of deviceId (because deviceId can change!)
+                    if (m_devicesASIO[a].Name.ToUpper() == m_configData.deviceName.ToUpper())
+                    {
+                        // Set deviceId
+                        deviceId = m_devicesASIO[a].Id;
+                        index = a;
+                    }
+                }
+            }
+            else if (m_configData.driverType.ToUpper() == "WASAPI")
+            {
+                // Select the driver
+                comboDriver.SelectedIndex = 2;
+
+                // Loop through devices to get the deviceId
+                for (int a = 0; a < m_devicesWASAPI.Count; a++)
+                {
+                    // Match output device by name instead of deviceId (because deviceId can change!)
+                    if (m_devicesWASAPI[a].Name.ToUpper() == m_configData.deviceName.ToUpper())
+                    {
+                        // Set deviceId
+                        deviceId = m_devicesWASAPI[a].Id;
+                        index = a;
+                    }
+                }
+            }
+            
+            // Set output device combo box value
+            comboOutputDevice.SelectedIndex = index;           
+
+            // Set flags
+            m_isNewAudioDeviceTested = false;
+            m_isAudioDeviceDifferent = false;
+            m_settingsChanged = false;
         }
 
         #region Button Events
@@ -103,31 +166,61 @@ namespace PlaybackEngineV4
         /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
-            // Ask user for saving settings
-            if (MessageBox.Show("Do you wish to save your settings?", "Save settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            // Check if the audio device has changed
+            if (m_isAudioDeviceDifferent && !m_isNewAudioDeviceTested)
             {
-                // Get selected device and selected driver
-                DriverComboBoxItem driver = (DriverComboBoxItem)comboDriver.SelectedItem;                
-                Device device = (Device)comboOutputDevice.SelectedItem;
-
-                // Save config
-                Config.SaveConfig("BufferSize", txtBufferSize.Text);
-                Config.SaveConfig("UpdatePeriod", txtUpdatePeriod.Text);                
-                Config.SaveConfig("UpdateThreads", txtUpdateThreads.Text);
-                Config.SaveConfig("DriverType", device.DriverType.ToString());                
-                Config.SaveConfig("DeviceId", device.Id.ToString());
-                Config.SaveConfig("DeviceName", device.Name);
-
-                // Set player device
-                m_main.player.InitializeDevice(device);
+                // Warn user
+                if (MessageBox.Show("Warning: The new sound card configuration has not been tested.\nIt is strongly recommended to test the audio device before applying the new configuration.\n\nDo you wish to apply this configuration without testing?", "New audio device hasn't been tested", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.No)
+                {
+                    // The user has cancelled
+                    return;
+                }
             }
 
+            // Check if the settings changed
+            if (m_settingsChanged)
+            {
+                // Ask user for saving settings
+                if (MessageBox.Show("Do you wish to save your settings?", "Save settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // Get selected device and selected driver
+                    DriverComboBoxItem driver = (DriverComboBoxItem)comboDriver.SelectedItem;
+                    Device device = (Device)comboOutputDevice.SelectedItem;
+
+                    // Get values before saving to configuration file
+                    int.TryParse(txtBufferSize.Text, out m_configData.bufferSize);
+                    int.TryParse(txtUpdatePeriod.Text, out m_configData.updatePeriod);
+                    int.TryParse(txtUpdateThreads.Text, out m_configData.updateThreads);
+                    m_configData.driverType = driver.DriverType.ToString();
+                    m_configData.deviceName = device.Name;
+                    m_configData.deviceId = device.Id;
+
+                    // Save configuration values
+                    m_configData.Save();
+                    //Config.Save("BufferSize", bufferSize.ToString());
+                    //Config.Save("UpdatePeriod", updatePeriod.ToString());                
+                    //Config.Save("UpdateThreads", updateThreads.ToString());
+                    //Config.Save("DriverType", device.DriverType.ToString());                
+                    //Config.Save("DeviceId", device.Id.ToString());
+                    //Config.Save("DeviceName", device.Name);
+
+                    // Check if the device needs to be initialized
+                    if (!m_main.player.IsDeviceInitialized)
+                    {
+                        // Initialize device
+                        m_main.player.InitializeDevice(device);
+                    }
+                }
+            }
+
+            // Check if the device needs to be initialized
             if (!m_main.player.IsDeviceInitialized)
             {
                 // Set player default device
                 m_main.player.InitializeDevice();
             }
 
+            // Close settings window
             this.Close();
         }
 
@@ -209,9 +302,12 @@ namespace PlaybackEngineV4
                     // Display message during playback
                     MessageBox.Show("If you hear an audio file playing, it means that the audio test is successful.\nClick on OK to stop the playback.", "Audio test successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Dispose it
+                    // Stop and dispose the device
                     testDevice.Stop();
                     testDevice.Dispose();
+
+                    // Set flags
+                    m_isNewAudioDeviceTested = true;
                 }
                 catch (Exception ex)
                 {
@@ -233,6 +329,9 @@ namespace PlaybackEngineV4
         /// <param name="e">Event arguments</param>
         private void trackBufferSize_Scroll(object sender, EventArgs e)
         {
+            // Set flags
+            m_settingsChanged = true;
+
             // Set value and update player
             txtBufferSize.Text = trackBufferSize.Value.ToString("0000");
             m_main.player.BufferSize = trackBufferSize.Value;
@@ -246,6 +345,9 @@ namespace PlaybackEngineV4
         /// <param name="e">Event arguments</param>
         private void trackUpdatePeriod_Scroll(object sender, EventArgs e)
         {
+            // Set flags
+            m_settingsChanged = true;
+
             // Set value and update player
             txtUpdatePeriod.Text = trackUpdatePeriod.Value.ToString("0000");
             m_main.player.UpdatePeriod = trackUpdatePeriod.Value;
@@ -259,6 +361,9 @@ namespace PlaybackEngineV4
         /// <param name="e">Event arguments</param>
         private void trackUpdateThreads_Scroll(object sender, EventArgs e)
         {
+            // Set flags
+            m_settingsChanged = true;
+
             // Set value and update player
             txtUpdateThreads.Text = trackUpdateThreads.Value.ToString("0");
             m_main.player.UpdateThreads = trackUpdateThreads.Value;
@@ -266,8 +371,20 @@ namespace PlaybackEngineV4
 
         #endregion
 
+        #region Combo Box Events
+
+        /// <summary>
+        /// Occurs when the user changes the driver combo box value.        
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void comboDriver_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Reset flags
+            m_isNewAudioDeviceTested = false;
+            m_isAudioDeviceDifferent = true;            
+            m_settingsChanged = true;
+
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)comboDriver.SelectedItem;
 
@@ -322,13 +439,24 @@ namespace PlaybackEngineV4
             }
         }
 
+        /// <summary>
+        /// Occurs when the user changes the output device combo box value.        
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void comboOutputDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            // Set flags
+            m_settingsChanged = true;
+            m_isAudioDeviceDifferent = true;
         }
 
+        #endregion
     }
 
+    /// <summary>
+    /// This class represents a driver combo box item.
+    /// </summary>
     public class DriverComboBoxItem
     {
         public DriverType DriverType { get; set; }

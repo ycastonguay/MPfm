@@ -41,10 +41,10 @@ namespace MPfm.Sound.BassNetWrapper
     public static class DeviceHelper
     {
         /// <summary>
-        /// Detects the devices present in the system (DirectSound, ASIO, WASAPI).
+        /// Detects the output devices present in the system (DirectSound, ASIO, WASAPI).
         /// </summary>
-        /// <returns>List of DirectSound/ASIO/WASPI devices</returns>
-        public static List<Device> DetectDevices()
+        /// <returns>List of DirectSound/ASIO/WASPI output devices</returns>
+        public static List<Device> DetectOutputDevices()
         {
             // Create variables
             List<Device> devices = new List<Device>();
@@ -85,8 +85,8 @@ namespace MPfm.Sound.BassNetWrapper
             List<BASS_WASAPI_DEVICEINFO> devicesWASAPI = BassWasapi.BASS_WASAPI_GetDeviceInfos().ToList();
             for (int a = 0; a < devicesWASAPI.Count; a++)
             {
-                // Make sure the device is usable
-                if (devicesWASAPI[a].IsEnabled)
+                // Make sure the device is usable, and an output device
+                if (devicesWASAPI[a].IsEnabled && !devicesWASAPI[a].IsInput)
                 {
                     // Create device and add to list
                     Device device = new Device();
@@ -100,6 +100,84 @@ namespace MPfm.Sound.BassNetWrapper
             }
 
             return devices;
+        }
+
+        /// <summary>
+        /// Find an output device by its driver type and its device name.
+        /// This is useful to get the actual deviceId because it can change if the
+        /// user plugs/unplugs a sound card.
+        /// </summary>
+        /// <param name="driverType">Driver type</param>
+        /// <param name="deviceName">Device name</param>
+        /// <returns>Device (null if none found)</returns>
+        public static Device FindOutputDevice(DriverType driverType, string deviceName)
+        {
+            // Check driver type
+            if (driverType == DriverType.DirectSound)
+            {
+                // Detect DirectSound devices
+                List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
+                for (int a = 0; a < devicesDirectSound.Count; a++)
+                {
+                    // Check if the driver name is the same, and make sure the device is also enabled (i.e. available)
+                    if (devicesDirectSound[a].name.ToUpper() == deviceName.ToUpper() &&
+                        devicesDirectSound[a].IsEnabled)
+                    {                        
+                        // Create device and add to list
+                        Device device = new Device();
+                        device.IsDefault = devicesDirectSound[a].IsDefault;
+                        device.Id = a;
+                        device.DriverType = DriverType.DirectSound;
+                        device.Name = devicesDirectSound[a].name;
+                        device.Driver = devicesDirectSound[a].driver;
+                        return device;
+                    }
+                }
+            }
+            else if (driverType == DriverType.ASIO)
+            {
+                // Detect ASIO devices
+                List<BASS_ASIO_DEVICEINFO> devicesASIO = BassAsio.BASS_ASIO_GetDeviceInfos().ToList();
+                for (int a = 0; a < devicesASIO.Count; a++)
+                {
+                    // Check if the driver name is the same
+                    if (devicesASIO[a].name.ToUpper() == deviceName.ToUpper())
+                    {
+                        // Create device and add to list
+                        Device device = new Device();
+                        device.IsDefault = false;
+                        device.Id = a;
+                        device.DriverType = DriverType.ASIO;
+                        device.Name = devicesASIO[a].name;
+                        device.Driver = devicesASIO[a].driver;
+                        return device;
+                    }
+                }
+            } 
+            else if (driverType == DriverType.WASAPI)
+            {
+
+                // Detect WASAPI devices
+                List<BASS_WASAPI_DEVICEINFO> devicesWASAPI = BassWasapi.BASS_WASAPI_GetDeviceInfos().ToList();
+                for (int a = 0; a < devicesWASAPI.Count; a++)
+                {
+                    // Check if the driver name is the same, that the device is an output device, and make sure that it is enabled
+                    if (devicesWASAPI[a].name.ToUpper() == deviceName.ToUpper() &&
+                        devicesWASAPI[a].IsEnabled && !devicesWASAPI[a].IsInput)
+                    {
+                        // Create device and add to list
+                        Device device = new Device();
+                        device.IsDefault = devicesWASAPI[a].IsDefault;
+                        device.Id = a;
+                        device.DriverType = DriverType.WASAPI;
+                        device.Name = devicesWASAPI[a].name;
+                        device.Driver = devicesWASAPI[a].id;
+                        return device;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

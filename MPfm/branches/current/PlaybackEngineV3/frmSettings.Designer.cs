@@ -30,6 +30,7 @@
         {
             this.groupAudio = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.txtUpdateThreads = new System.Windows.Forms.MaskedTextBox();
             this.lblUpdateThreads = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,14 +43,13 @@
             this.trackUpdatePeriod = new System.Windows.Forms.TrackBar();
             this.trackBufferSize = new System.Windows.Forms.TrackBar();
             this.groupSoundCard = new System.Windows.Forms.GroupBox();
+            this.btnTestAudio = new System.Windows.Forms.Button();
+            this.lblDefaultValue = new System.Windows.Forms.Label();
+            this.lblDefault = new System.Windows.Forms.Label();
             this.comboOutputDevice = new System.Windows.Forms.ComboBox();
             this.lblOutputDevice = new System.Windows.Forms.Label();
             this.comboDriver = new System.Windows.Forms.ComboBox();
             this.lblDriver = new System.Windows.Forms.Label();
-            this.lblDefault = new System.Windows.Forms.Label();
-            this.lblDefaultValue = new System.Windows.Forms.Label();
-            this.btnTestAudio = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.groupAudio.SuspendLayout();
@@ -92,6 +92,20 @@
             this.label3.Size = new System.Drawing.Size(68, 11);
             this.label3.TabIndex = 56;
             this.label3.Text = "thread(s)";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Image = global::PlaybackEngineV4.Properties.Resources.asterisk_orange;
+            this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReset.Location = new System.Drawing.Point(8, 99);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(209, 26);
+            this.btnReset.TabIndex = 50;
+            this.btnReset.Text = "Reset to default settings";
+            this.btnReset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // txtUpdateThreads
             // 
@@ -235,6 +249,37 @@
             this.groupSoundCard.TabStop = false;
             this.groupSoundCard.Text = "Sound Card Settings";
             // 
+            // btnTestAudio
+            // 
+            this.btnTestAudio.Image = global::PlaybackEngineV4.Properties.Resources.sound;
+            this.btnTestAudio.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTestAudio.Location = new System.Drawing.Point(8, 127);
+            this.btnTestAudio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnTestAudio.Name = "btnTestAudio";
+            this.btnTestAudio.Size = new System.Drawing.Size(104, 26);
+            this.btnTestAudio.TabIndex = 59;
+            this.btnTestAudio.Text = "Test audio";
+            this.btnTestAudio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnTestAudio.UseVisualStyleBackColor = true;
+            this.btnTestAudio.Click += new System.EventHandler(this.btnTestAudio_Click);
+            // 
+            // lblDefaultValue
+            // 
+            this.lblDefaultValue.AutoSize = true;
+            this.lblDefaultValue.Location = new System.Drawing.Point(76, 109);
+            this.lblDefaultValue.Name = "lblDefaultValue";
+            this.lblDefaultValue.Size = new System.Drawing.Size(0, 11);
+            this.lblDefaultValue.TabIndex = 63;
+            // 
+            // lblDefault
+            // 
+            this.lblDefault.AutoSize = true;
+            this.lblDefault.Location = new System.Drawing.Point(9, 109);
+            this.lblDefault.Name = "lblDefault";
+            this.lblDefault.Size = new System.Drawing.Size(61, 11);
+            this.lblDefault.TabIndex = 62;
+            this.lblDefault.Text = "Default:";
+            // 
             // comboOutputDevice
             // 
             this.comboOutputDevice.DisplayMember = "Name";
@@ -278,51 +323,6 @@
             this.lblDriver.Size = new System.Drawing.Size(54, 11);
             this.lblDriver.TabIndex = 4;
             this.lblDriver.Text = "Driver:";
-            // 
-            // lblDefault
-            // 
-            this.lblDefault.AutoSize = true;
-            this.lblDefault.Location = new System.Drawing.Point(9, 109);
-            this.lblDefault.Name = "lblDefault";
-            this.lblDefault.Size = new System.Drawing.Size(61, 11);
-            this.lblDefault.TabIndex = 62;
-            this.lblDefault.Text = "Default:";
-            // 
-            // lblDefaultValue
-            // 
-            this.lblDefaultValue.AutoSize = true;
-            this.lblDefaultValue.Location = new System.Drawing.Point(76, 109);
-            this.lblDefaultValue.Name = "lblDefaultValue";
-            this.lblDefaultValue.Size = new System.Drawing.Size(0, 11);
-            this.lblDefaultValue.TabIndex = 63;
-            // 
-            // btnTestAudio
-            // 
-            this.btnTestAudio.Image = global::PlaybackEngineV4.Properties.Resources.sound;
-            this.btnTestAudio.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTestAudio.Location = new System.Drawing.Point(8, 127);
-            this.btnTestAudio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnTestAudio.Name = "btnTestAudio";
-            this.btnTestAudio.Size = new System.Drawing.Size(104, 26);
-            this.btnTestAudio.TabIndex = 59;
-            this.btnTestAudio.Text = "Test audio";
-            this.btnTestAudio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnTestAudio.UseVisualStyleBackColor = true;
-            this.btnTestAudio.Click += new System.EventHandler(this.btnTestAudio_Click);
-            // 
-            // btnReset
-            // 
-            this.btnReset.Image = global::PlaybackEngineV4.Properties.Resources.asterisk_orange;
-            this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReset.Location = new System.Drawing.Point(8, 99);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(209, 26);
-            this.btnReset.TabIndex = 50;
-            this.btnReset.Text = "Reset to default settings";
-            this.btnReset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnClose
             // 

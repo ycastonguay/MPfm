@@ -69,7 +69,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void Init(int deviceId, int frequency, BASSInit init)
         {
             // Initialize system
-            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
+            if (!Bass.BASS_Init(deviceId, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();

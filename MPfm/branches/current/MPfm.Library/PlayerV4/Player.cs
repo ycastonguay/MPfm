@@ -875,7 +875,6 @@ namespace MPfm.Library.PlayerV4
                 return;
             }
 
-
             // Check driver type
             if (m_device.DriverType == DriverType.DirectSound)
             {

@@ -49,14 +49,15 @@ namespace PlaybackEngineV4
     /// </summary>
     public partial class frmMain : Form
     {
-        // Private variables
-        private string ConfigKey_LastUsedDirectory = "LastUsedDirectory";        
+        // Private variables        
         public MPfm.Library.PlayerV4.Player player = null;
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
         private bool isNewPlaylist = false;
         private long m_currentSongLength = 0;
+        public ConfigData m_configData = null;
+        public Device m_device = null;
 
         /// <summary>
         /// Main form constructor.
@@ -88,12 +89,17 @@ namespace PlaybackEngineV4
                 lblVersion.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
                 // Get last used directory from configuration
-                string directory = string.Empty;
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                if (config.AppSettings.Settings[ConfigKey_LastUsedDirectory] != null)
-                {
-                    directory = config.AppSettings.Settings[ConfigKey_LastUsedDirectory].Value;
-                }
+                string directory = Config.Load("LastUsedDirectory");
+
+                // Get configuration values
+                Tracing.Log("Loading configuration file...");
+                m_configData = new ConfigData();
+                Tracing.Log("BufferSize: " + m_configData.bufferSize.ToString());
+                Tracing.Log("UpdatePeriod: " + m_configData.updatePeriod.ToString());
+                Tracing.Log("UpdateThreads: " + m_configData.updateThreads.ToString());
+                Tracing.Log("DriverType: " + m_configData.driverType);
+                Tracing.Log("DeviceId: " + m_configData.deviceId.ToString());
+                Tracing.Log("DeviceName: " + m_configData.deviceName);
 
                 // Set directory
                 txtPath.Text = directory;
@@ -101,6 +107,7 @@ namespace PlaybackEngineV4
                 // Load the playlist if the path is valid
                 if (!String.IsNullOrEmpty(directory))
                 {
+                    // Load playlist
                     Tracing.Log("Loading playlist...");
                     LoadPlaylist();
                 }
@@ -121,9 +128,34 @@ namespace PlaybackEngineV4
                 // Register BASS.NET with key                
                 Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");                
 
-                // Load player
+                // Check configured driver type
+                if (m_configData.driverType.ToUpper() == "DIRECTSOUND")
+                {
+                    // Try to find the configured device
+                    m_device = DeviceHelper.FindOutputDevice(DriverType.DirectSound, m_configData.deviceName);
+                }
+                else if (m_configData.driverType.ToUpper() == "ASIO")
+                {
+                    // Try to find the configured device
+                    m_device = DeviceHelper.FindOutputDevice(DriverType.ASIO, m_configData.deviceName);
+                }
+                else if (m_configData.driverType.ToUpper() == "WASAPI")
+                {
+                    // Try to find the configured device
+                    m_device = DeviceHelper.FindOutputDevice(DriverType.WASAPI, m_configData.deviceName);
+                }
+
+                // Check if the device was found
+                if (m_device == null)
+                {
+                    // Select default device instead (DirectSound, default device)
+                    m_device = new Device();
+                }
+
+                // Load player using configuration values
                 Tracing.Log("Initializing player...");
-                player = new MPfm.Library.PlayerV4.Player();
+                player = new MPfm.Library.PlayerV4.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod);
+                player.UpdateThreads = m_configData.updateThreads;
                 player.OnSongFinished += new MPfm.Library.PlayerV4.Player.SongFinished(playerV4_OnSongFinished);
 
                 // Refresh status bar
@@ -247,7 +279,7 @@ namespace PlaybackEngineV4
                 txtPath.Text = dialogFolderBrowser.SelectedPath;
 
                 // Save last used directory
-                Config.SaveConfig(ConfigKey_LastUsedDirectory, txtPath.Text);
+                Config.Save("LastUsedDirectory", txtPath.Text);
 
                 //// Record path in configuration file for next use
                 //Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
