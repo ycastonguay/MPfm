@@ -190,16 +190,16 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPunchIn_Click(object sender, EventArgs e)
         {
-            // Check if the player is currently playing
-            if (!Main.Player.IsPlaying)
-            {
-                return;
-            }
+            //// Check if the player is currently playing
+            //if (!Main.Player.IsPlaying)
+            //{
+            //    return;
+            //}
 
-            // Update controls
-            txtPosition.Text = Main.Player.MainChannel.Position;
-            //lblPositionPCMValue.Text = Main.Player.MainChannel.PositionSentencePCM.ToString();
-            //lblPositionPCMBytesValue.Text = Main.Player.MainChannel.PositionSentencePCMBytes.ToString();            
+            //// Update controls
+            //txtPosition.Text = Main.Player.MainChannel.Position;
+            ////lblPositionPCMValue.Text = Main.Player.MainChannel.PositionSentencePCM.ToString();
+            ////lblPositionPCMBytesValue.Text = Main.Player.MainChannel.PositionSentencePCMBytes.ToString();            
         }
 
         /// <summary>
@@ -210,19 +210,19 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnGoTo_Click(object sender, EventArgs e)
         {
-            // Check if the player is currently playing
-            if (!Main.Player.IsPlaying)
-            {
-                return;
-            }
+            //// Check if the player is currently playing
+            //if (!Main.Player.IsPlaying)
+            //{
+            //    return;
+            //}
 
-            // Set position
-            uint position = 0;
-            uint.TryParse(lblPositionPCMValue.Text, out position);            
-            Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            //// Set position
+            //uint position = 0;
+            //uint.TryParse(lblPositionPCMValue.Text, out position);            
+            //Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
             
-            //uint.TryParse(lblPositionMSValue.Text, out position);
-            //Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_MS);
+            ////uint.TryParse(lblPositionMSValue.Text, out position);
+            ////Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_MS);
         }
 
         /// <summary>

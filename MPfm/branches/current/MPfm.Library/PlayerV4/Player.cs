@@ -635,57 +635,28 @@ namespace MPfm.Library.PlayerV4
         #region Playback Methods        
 
         /// <summary>
-        /// Plays the list of audio files specified in the filePaths parameter.
+        /// Plays the playlist from the current item index.
         /// </summary>
-        /// <param name="filePaths">List of audio file paths</param>
-        public void PlayFiles(List<string> filePaths)
+        public void Play()
         {
-            // Check for null or empty list of file paths
-            if (filePaths == null || filePaths.Count == 0)
-            {
-                throw new Exception("There must be at least one file in the filePaths parameter.");
-            }
-
-            // Check if all file paths exist
-            Tracing.Log("[PlayerV4.PlayFiles] Playing a list of " + filePaths.Count.ToString() + " files.");
-            foreach (string filePath in filePaths)
-            {
-                // Check if the file exists                
-                if (!File.Exists(filePath))
-                {
-                    // Throw exception
-                    throw new Exception("The file at " + filePath + " doesn't exist!");
-                }
-            }
-
-            // Check if the player is currently playing
-            if (m_isPlaying)
-            {
-                // Stop playback
-                Stop();
-            }
-
             try
             {
-                // Reset flags                
-                m_playlist.Clear();
-
-                // Create playlist items
-                foreach (string filePath in filePaths)
+                // Check if the player is currently playing
+                if (m_isPlaying)
                 {
-                    // Add playlist item
-                    m_playlist.AddItem(filePath);
+                    // Stop playback
+                    Stop();
                 }
 
                 // Load the first two channels
-                for (int a = 0; a < 2; a++)
+                for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + 2; a++)
                 {
                     // Load channel and audio file metadata
-                    m_playlist.Items[a].Load();                    
+                    m_playlist.Items[a].Load();
                 }
 
                 // Set first item in playlist
-                m_playlist.First();
+                //m_playlist.First();
 
                 // Create the streaming channel
                 m_streamProc = new STREAMPROC(StreamCallback);
@@ -770,9 +741,99 @@ namespace MPfm.Library.PlayerV4
             }
             catch (Exception ex)
             {
-                Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);                
+                Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// Plays the list of audio files specified in the filePaths parameter.
+        /// </summary>
+        /// <param name="filePaths">List of audio file paths</param>
+        public void PlayFiles(List<string> filePaths)
+        {
+            // Check for null or empty list of file paths
+            if (filePaths == null || filePaths.Count == 0)
+            {
+                throw new Exception("There must be at least one file in the filePaths parameter.");
+            }
+
+            // Check if all file paths exist
+            Tracing.Log("[PlayerV4.PlayFiles] Playing a list of " + filePaths.Count.ToString() + " files.");
+            foreach (string filePath in filePaths)
+            {
+                // Check if the file exists                
+                if (!File.Exists(filePath))
+                {
+                    // Throw exception
+                    throw new Exception("The file at " + filePath + " doesn't exist!");
+                }
+            }
+
+            // Check if the player is currently playing
+            if (m_isPlaying)
+            {
+                // Stop playback
+                Stop();
+            }
+
+            // Reset flags                
+            m_playlist.Clear();
+
+            // Create playlist items
+            foreach (string filePath in filePaths)
+            {
+                // Add playlist item
+                m_playlist.AddItem(filePath);
+            }
+          
+            // Start playback
+            Play();
+        }
+
+        /// <summary>
+        /// Plays the list of songs specified in the songs parameter.
+        /// </summary>
+        /// <param name="songs">List of songs</param>
+        public void PlaySongs(List<SongDTO> songs)
+        {
+            // Check for null or empty list of file paths
+            if (songs == null || songs.Count == 0)
+            {
+                throw new Exception("There must be at least one song the songs parameter.");
+            }
+
+            // Check if all file paths exist
+            Tracing.Log("[PlayerV4.PlaySongs] Playing a list of " + songs.Count.ToString() + " files.");
+            foreach (SongDTO song in songs)
+            {
+                // Check if the file exists                
+                if (!File.Exists(song.FilePath))
+                {
+                    // Throw exception
+                    throw new Exception("The file at " + song.FilePath + " doesn't exist!");
+                }
+            }
+
+            // Check if the player is currently playing
+            if (m_isPlaying)
+            {
+                // Stop playback
+                Stop();
+            }
+
+            // Reset flags                
+            m_playlist.Clear();
+
+            // Create playlist items
+            foreach (SongDTO song in songs)
+            {
+                // Add playlist item
+                m_playlist.AddItem(song);
+            }
+
+            // Start playback
+            Play();
         }
 
         /// <summary>
@@ -938,6 +999,22 @@ namespace MPfm.Library.PlayerV4
                 // Go to next audio file
                 GoTo(Playlist.CurrentItemIndex + 1);
             }            
+        }
+
+        /// <summary>
+        /// Sets the position of the currently playing channel.
+        /// </summary>
+        /// <param name="bytes">Position (in bytes)</param>
+        public void SetPosition(long bytes)
+        {
+            // Validate player
+            if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
+            {
+                return;
+            }
+
+            // Set position
+            Playlist.CurrentItem.Channel.SetPosition(bytes);
         }
 
         /// <summary>

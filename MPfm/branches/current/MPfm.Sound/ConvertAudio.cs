@@ -41,13 +41,18 @@ namespace MPfm.Sound
             return ms * (sampleRate / 1000);
         }
 
+        public static long ToPCM(long bytes, uint bitRate, int channelCount)
+        {
+            return bytes * 8 / bitRate / channelCount;
+        }
+
         /// <summary>
         /// Converts to the milliseconds format.
         /// </summary>
         /// <param name="samples">Total number of samples</param>
         /// <param name="sampleRate">Sample rate</param>
         /// <returns>Milliseconds</returns>
-        public static uint ToMS(uint samples, uint sampleRate)
+        public static long ToMS(long samples, uint sampleRate)
         {
             return samples * 1000 / sampleRate;
         }

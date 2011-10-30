@@ -118,6 +118,7 @@ namespace MPfm
             MethodInvoker methodUIUpdate = delegate
             {
                 windowSplash.closeFormAfterFadeOut = true;
+                windowSplash.fadingIn = false;
                 windowSplash.fadingOut = true;
             };
 

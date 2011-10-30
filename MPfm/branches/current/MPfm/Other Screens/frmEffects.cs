@@ -418,8 +418,8 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
         {
-            // Set equalizer
-            Main.Player.IsEQOn = chkEQOn.Checked;    
+            //// Set equalizer
+            //Main.Player.IsEQOn = chkEQOn.Checked;    
         }        
 
         /// <summary>
@@ -487,67 +487,67 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void fader_ValueChanged(object sender, EventArgs e)
         {
-            // Get track bar
-            VolumeFader fader = sender as VolumeFader;
-            string hertz = fader.Tag.ToString();
+            //// Get track bar
+            //VolumeFader fader = sender as VolumeFader;
+            //string hertz = fader.Tag.ToString();
 
-            // Get label
-            FieldInfo infoLabel = this.GetType().GetField("lblGain" + hertz, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-            MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
+            //// Get label
+            //FieldInfo infoLabel = this.GetType().GetField("lblGain" + hertz, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+            //MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
 
-            // Default gain: 0 dB
-            double gainParameter = 1;
+            //// Default gain: 0 dB
+            //double gainParameter = 1;
 
-            // Since the track resolution top is 30 and the min is -30, divide by 10 to get actual dB.
-            float trackValue = ((float)fader.Value) / 10;
+            //// Since the track resolution top is 30 and the min is -30, divide by 10 to get actual dB.
+            //float trackValue = ((float)fader.Value) / 10;
 
-            // 10 power dB            
-            //gainParameter = Math.Pow(10, trackValue / 10);
-            gainParameter = Math.Pow(10, trackValue / 20);
-            //gainParameter = Math.Pow(10, trackValue);
+            //// 10 power dB            
+            ////gainParameter = Math.Pow(10, trackValue / 10);
+            //gainParameter = Math.Pow(10, trackValue / 20);
+            ////gainParameter = Math.Pow(10, trackValue);
 
-            // FMOD_DSP_PARAMEQ_GAIN
-            // Frequency Gain. 0.05 to 3.0. Default = 1.0 (no gain)
-            //
-            // Fader value range: -30 to 30. 0 = no gain.
-            //
-            // My tests: Gain parameter of 2 is a LOT louder.
+            //// FMOD_DSP_PARAMEQ_GAIN
+            //// Frequency Gain. 0.05 to 3.0. Default = 1.0 (no gain)
+            ////
+            //// Fader value range: -30 to 30. 0 = no gain.
+            ////
+            //// My tests: Gain parameter of 2 is a LOT louder.
             
-            //gainParameter = ratio;
+            ////gainParameter = ratio;
 
-            // Update dB display
-            string strDB = "";
-            if (trackValue > 0)
-            {
-                strDB = "+" + trackValue.ToString("0.0") + " dB";
-            }
-            else
-            {
-                strDB = trackValue.ToString("0.0") + " dB";
-            }
-            label.Text = gainParameter.ToString("0.00");
-            //label.Text = strDB;
+            //// Update dB display
+            //string strDB = "";
+            //if (trackValue > 0)
+            //{
+            //    strDB = "+" + trackValue.ToString("0.0") + " dB";
+            //}
+            //else
+            //{
+            //    strDB = trackValue.ToString("0.0") + " dB";
+            //}
+            //label.Text = gainParameter.ToString("0.00");
+            ////label.Text = strDB;
 
-            try
-            {
-                // Set EQ gain
-                PropertyInfo propEQ = Main.Player.GetType().GetProperty("ParamEQ" + hertz);
+            //try
+            //{
+            //    // Set EQ gain
+            //    PropertyInfo propEQ = Main.Player.GetType().GetProperty("ParamEQ" + hertz);
 
-                if (propEQ != null)
-                {
-                    object obj = propEQ.GetValue(Main.Player, null);
+            //    if (propEQ != null)
+            //    {
+            //        object obj = propEQ.GetValue(Main.Player, null);
 
-                    if (obj != null)
-                    {
-                        ParamEQDSP dsp = (ParamEQDSP)obj;
-                        dsp.SetGain((float)gainParameter);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Ignore for the moment
-            }
+            //        if (obj != null)
+            //        {
+            //            ParamEQDSP dsp = (ParamEQDSP)obj;
+            //            dsp.SetGain((float)gainParameter);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Ignore for the moment
+            //}
         }
 
         #endregion

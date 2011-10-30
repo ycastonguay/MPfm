@@ -82,27 +82,11 @@ namespace MPfm.Library
             }
         }
 
-        private Player m_player = null;
-        /// <summary>
-        /// Pointer to the Player instance. Needed to access the base sound system for FMOD tagging.
-        /// </summary>
-        public Player Player
-        {
-            get
-            {
-                return m_player;
-            }
-        }
-
         /// <summary>
         /// Constructs the Library class. Requires a pointer to an instance of a Player class.
-        /// </summary>        
-        /// <param name="player">Pointer to an instance of the Player class</param>
-        public Library(Player player)
+        /// </summary>                
+        public Library()
         {
-            // Set private variables
-            m_player = player;
-
             // Create worker process
             workerUpdateLibrary = new BackgroundWorker();
             workerUpdateLibrary.WorkerReportsProgress = true;
@@ -693,43 +677,43 @@ namespace MPfm.Library
         /// <returns>Song with updated properties</returns>
         public Song UpdateSongFromTags(Song song, bool updateDatabase)
         {
-            // Create temporary sound
-            MPfm.Sound.FMODWrapper.Sound sound = Player.SoundSystem.CreateSound(song.FilePath, false);
+            //// Create temporary sound
+            //MPfm.Sound.FMODWrapper.Sound sound = Player.SoundSystem.CreateSound(song.FilePath, false);
 
-            // Get tags
-            Tags tags = sound.GetTags();
+            //// Get tags
+            //Tags tags = sound.GetTags();
 
-            // Set song properties                            
-            song.ArtistName = tags.ArtistName;
-            song.AlbumTitle = tags.AlbumTitle;
-            song.Title = tags.Title;
-            song.Genre = tags.Genre;
-            song.Time = sound.Length;      
+            //// Set song properties                            
+            //song.ArtistName = tags.ArtistName;
+            //song.AlbumTitle = tags.AlbumTitle;
+            //song.Title = tags.Title;
+            //song.Genre = tags.Genre;
+            //song.Time = sound.Length;      
 
-            long trackNumber = 0;
-            long.TryParse(tags.TrackNumber, out trackNumber);
-            song.TrackNumber = trackNumber;
+            //long trackNumber = 0;
+            //long.TryParse(tags.TrackNumber, out trackNumber);
+            //song.TrackNumber = trackNumber;
 
-            long discNumber = 0;
-            long.TryParse(tags.DiscNumber, out discNumber);
-            song.DiscNumber = discNumber;                             
+            //long discNumber = 0;
+            //long.TryParse(tags.DiscNumber, out discNumber);
+            //song.DiscNumber = discNumber;                             
 
-            // Release sound
-            sound.Release();
+            //// Release sound
+            //sound.Release();
 
-            try
-            {
-                // Update song in database?
-                if (updateDatabase)
-                {
-                    // Update song
-                    DataAccess.UpdateSong(song);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //try
+            //{
+            //    // Update song in database?
+            //    if (updateDatabase)
+            //    {
+            //        // Update song
+            //        DataAccess.UpdateSong(song);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
 
             return song;
         }

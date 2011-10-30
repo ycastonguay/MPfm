@@ -117,56 +117,56 @@ namespace MPfm
         /// <param name="args">Event Arguments</param>
         public void viewSongs_ItemsReordered(EventArgs args)
         {
-            // Copy the original list of songs (we have to create a new list or the objects will stay as a reference)
-            List<PlaylistSongDTO> playlistSongs = new List<PlaylistSongDTO>();
-            foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-            {
-                // Perform a deep clone of the object
-                PlaylistSongDTO newPlaylistSong = new PlaylistSongDTO();
-                newPlaylistSong.PlaylistSongId = playlistSong.PlaylistSongId;
-                newPlaylistSong.Song = playlistSong.Song;
-                playlistSongs.Add(newPlaylistSong);
-            }           
+            //// Copy the original list of songs (we have to create a new list or the objects will stay as a reference)
+            //List<PlaylistSongDTO> playlistSongs = new List<PlaylistSongDTO>();
+            //foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
+            //{
+            //    // Perform a deep clone of the object
+            //    PlaylistSongDTO newPlaylistSong = new PlaylistSongDTO();
+            //    newPlaylistSong.PlaylistSongId = playlistSong.PlaylistSongId;
+            //    newPlaylistSong.Song = playlistSong.Song;
+            //    playlistSongs.Add(newPlaylistSong);
+            //}           
 
-            // Loop through list view items            
-            for (int a = 0; a < viewSongs.Items.Count; a++ )
-            {
-                // Get the playlist song id
-                Guid playlistSongId = new Guid(viewSongs.Items[a].Tag.ToString());
+            //// Loop through list view items            
+            //for (int a = 0; a < viewSongs.Items.Count; a++ )
+            //{
+            //    // Get the playlist song id
+            //    Guid playlistSongId = new Guid(viewSongs.Items[a].Tag.ToString());
 
-                // Check if the playlist song id matches
-                if (playlistSongs[a].PlaylistSongId != playlistSongId)
-                {
-                    // No match: we have to update this song                   
+            //    // Check if the playlist song id matches
+            //    if (playlistSongs[a].PlaylistSongId != playlistSongId)
+            //    {
+            //        // No match: we have to update this song                   
 
-                    // We can't just update the properties of the PlaylistSongDTO or it will
-                    // change the values in the CurrentSong property. Thus we will create a new
-                    // PlaylistSongDTO instance with the same id.
-                    PlaylistSongDTO newPlaylistSong = new PlaylistSongDTO();
+            //        // We can't just update the properties of the PlaylistSongDTO or it will
+            //        // change the values in the CurrentSong property. Thus we will create a new
+            //        // PlaylistSongDTO instance with the same id.
+            //        PlaylistSongDTO newPlaylistSong = new PlaylistSongDTO();
 
-                    // Update the playlist song id
-                    // Note; This changes the id of the CurrentSong too! it must not do that!
-                    newPlaylistSong.PlaylistSongId = playlistSongId;
+            //        // Update the playlist song id
+            //        // Note; This changes the id of the CurrentSong too! it must not do that!
+            //        newPlaylistSong.PlaylistSongId = playlistSongId;
 
-                    // Find the SongDTO in the list of playlist songs
-                    foreach (PlaylistSongDTO playlistSong in playlistSongs)
-                    {
-                        // Is there a match?
-                        if (playlistSong.PlaylistSongId == playlistSongId)
-                        {
-                            // Update the SongDTO item
-                            newPlaylistSong.Song = playlistSong.Song;
+            //        // Find the SongDTO in the list of playlist songs
+            //        foreach (PlaylistSongDTO playlistSong in playlistSongs)
+            //        {
+            //            // Is there a match?
+            //            if (playlistSong.PlaylistSongId == playlistSongId)
+            //            {
+            //                // Update the SongDTO item
+            //                newPlaylistSong.Song = playlistSong.Song;
 
-                            // Get out of the loop
-                            break;
-                        }
+            //                // Get out of the loop
+            //                break;
+            //            }
 
-                    }
+            //        }
 
-                    // Replace object in array
-                    Main.Player.CurrentPlaylist.Songs[a] = newPlaylistSong;
-                }
-            }            
+            //        // Replace object in array
+            //        Main.Player.CurrentPlaylist.Songs[a] = newPlaylistSong;
+            //    }
+            //}            
         }
 
         /// <summary>
@@ -185,19 +185,19 @@ namespace MPfm
         /// </summary>
         public void PlaySelectedSong()
         {
-            // Check if there is a selection
-            if (viewSongs.SelectedItems.Count > 0)
-            {               
-                // Get playlist song id
-                Guid playlistSongId = new Guid(viewSongs.SelectedItems[0].Tag.ToString());
+            //// Check if there is a selection
+            //if (viewSongs.SelectedItems.Count > 0)
+            //{               
+            //    // Get playlist song id
+            //    Guid playlistSongId = new Guid(viewSongs.SelectedItems[0].Tag.ToString());
 
-                // Skip to song
-                Main.Player.SkipToSong(playlistSongId);
+            //    // Skip to song
+            //    Main.Player.SkipToSong(playlistSongId);
 
-                // Refresh controls                
-                Main.RefreshSongControls(false);
-                RefreshPlaylistPlayIcon(playlistSongId);
-            }
+            //    // Refresh controls                
+            //    Main.RefreshSongControls(false);
+            //    RefreshPlaylistPlayIcon(playlistSongId);
+            //}
         }
 
         #region Refresh Methods
@@ -207,20 +207,20 @@ namespace MPfm
         /// </summary>
         public void RefreshTitle()
         {
-            // Set form title depending on playlist type
-            if (Main.Player.CurrentPlaylist.PlaylistType == PlaylistType.Custom)
-            {
-                this.Text = "[Custom] - " + Main.Player.CurrentPlaylist.PlaylistName;
-            }
-            else
-            {
-                this.Text = "[Auto] - " + Main.Player.CurrentPlaylist.PlaylistName;
-            }
+            //// Set form title depending on playlist type
+            //if (Main.Player.CurrentPlaylist.PlaylistType == PlaylistType.Custom)
+            //{
+            //    this.Text = "[Custom] - " + Main.Player.CurrentPlaylist.PlaylistName;
+            //}
+            //else
+            //{
+            //    this.Text = "[Auto] - " + Main.Player.CurrentPlaylist.PlaylistName;
+            //}
 
-            if (Main.Player.CurrentPlaylist.PlaylistModified)
-            {
-                Text = "*" + Text;
-            }
+            //if (Main.Player.CurrentPlaylist.PlaylistModified)
+            //{
+            //    Text = "*" + Text;
+            //}
         }
 
         /// <summary>
@@ -228,96 +228,96 @@ namespace MPfm
         /// </summary>
         public void RefreshPlaylist()
         {
-            // If the form isn't visible, just don't refresh
-            if (!Visible)
-            {
-                return;
-            }
+            //// If the form isn't visible, just don't refresh
+            //if (!Visible)
+            //{
+            //    return;
+            //}
 
-            // Remove all items from grid
-            viewSongs.Items.Clear();
+            //// Remove all items from grid
+            //viewSongs.Items.Clear();
 
-            // Make sure the playlist is valid
-            if (Main.Player.CurrentPlaylist == null)
-            {
-                return;
-            }
+            //// Make sure the playlist is valid
+            //if (Main.Player.CurrentPlaylist == null)
+            //{
+            //    return;
+            //}
 
-            // Make sure the list of songs is valid and non empty
-            if (Main.Player.CurrentPlaylist.Songs == null)
-            {
-                return;
-            }
+            //// Make sure the list of songs is valid and non empty
+            //if (Main.Player.CurrentPlaylist.Songs == null)
+            //{
+            //    return;
+            //}
 
-            // Create array
-            ListViewItem[] lvItems = new ListViewItem[Main.Player.CurrentPlaylist.Songs.Count];
-            int a = 0;
+            //// Create array
+            //ListViewItem[] lvItems = new ListViewItem[Main.Player.CurrentPlaylist.Songs.Count];
+            //int a = 0;
 
-            // Loop through playlist songs
-            foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-            {
-                // Create item
-                ListViewItem item = new ListViewItem(playlistSong.PlaylistSongId.ToString());
-                item.Tag = playlistSong.PlaylistSongId.ToString();
+            //// Loop through playlist songs
+            //foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
+            //{
+            //    // Create item
+            //    ListViewItem item = new ListViewItem(playlistSong.PlaylistSongId.ToString());
+            //    item.Tag = playlistSong.PlaylistSongId.ToString();
 
-                // Format the track number with the disc number if available
-                if (playlistSong.Song.DiscNumber == null || playlistSong.Song.DiscNumber.Value == 0)
-                {
-                    // Display the track number
-                    item.SubItems.Add(playlistSong.Song.TrackNumber.ToString());
-                }
-                else
-                {
-                    // Display the track number with the disc number (disc.track: i.e. 1.1, 1.2, 2.1, 2.2, etc.)
-                    item.SubItems.Add(playlistSong.Song.DiscNumber.ToString() + "." + playlistSong.Song.TrackNumber.ToString());
-                }
+            //    // Format the track number with the disc number if available
+            //    if (playlistSong.Song.DiscNumber == null || playlistSong.Song.DiscNumber.Value == 0)
+            //    {
+            //        // Display the track number
+            //        item.SubItems.Add(playlistSong.Song.TrackNumber.ToString());
+            //    }
+            //    else
+            //    {
+            //        // Display the track number with the disc number (disc.track: i.e. 1.1, 1.2, 2.1, 2.2, etc.)
+            //        item.SubItems.Add(playlistSong.Song.DiscNumber.ToString() + "." + playlistSong.Song.TrackNumber.ToString());
+            //    }
 
-                item.SubItems.Add(playlistSong.Song.Title);
-                item.SubItems.Add(playlistSong.Song.Time);
-                item.SubItems.Add(playlistSong.Song.ArtistName);
-                item.SubItems.Add(playlistSong.Song.AlbumTitle);
+            //    item.SubItems.Add(playlistSong.Song.Title);
+            //    item.SubItems.Add(playlistSong.Song.Time);
+            //    item.SubItems.Add(playlistSong.Song.ArtistName);
+            //    item.SubItems.Add(playlistSong.Song.AlbumTitle);
 
-                // Play count
-                if (playlistSong.Song.PlayCount == 0)
-                {
-                    item.SubItems.Add("");
-                }
-                else
-                {
-                    item.SubItems.Add(playlistSong.Song.PlayCount.ToString());
-                }
+            //    // Play count
+            //    if (playlistSong.Song.PlayCount == 0)
+            //    {
+            //        item.SubItems.Add("");
+            //    }
+            //    else
+            //    {
+            //        item.SubItems.Add(playlistSong.Song.PlayCount.ToString());
+            //    }
 
-                // Last played
-                if (playlistSong.Song.LastPlayed == DateTime.MinValue)
-                {
-                    item.SubItems.Add("");
-                }
-                else
-                {
-                    item.SubItems.Add(playlistSong.Song.LastPlayed.ToString());
-                }
+            //    // Last played
+            //    if (playlistSong.Song.LastPlayed == DateTime.MinValue)
+            //    {
+            //        item.SubItems.Add("");
+            //    }
+            //    else
+            //    {
+            //        item.SubItems.Add(playlistSong.Song.LastPlayed.ToString());
+            //    }
 
-                // Check if a play icon needs to be shown
-                if (Main.Player.CurrentPlaylist != null && 
-                    Main.Player.CurrentPlaylist.CurrentSong != null &&
-                    Main.Player.CurrentPlaylist.CurrentSong.PlaylistSongId == playlistSong.PlaylistSongId)
-                {
-                    item.Selected = true;
-                    item.ImageIndex = 0;
-                }
+            //    // Check if a play icon needs to be shown
+            //    if (Main.Player.CurrentPlaylist != null && 
+            //        Main.Player.CurrentPlaylist.CurrentSong != null &&
+            //        Main.Player.CurrentPlaylist.CurrentSong.PlaylistSongId == playlistSong.PlaylistSongId)
+            //    {
+            //        item.Selected = true;
+            //        item.ImageIndex = 0;
+            //    }
 
-                //viewSongs.Items.Add(item);
-                lvItems[a] = item;
-                a++;
-            }
+            //    //viewSongs.Items.Add(item);
+            //    lvItems[a] = item;
+            //    a++;
+            //}
 
-            // Update list view
-            viewSongs.BeginUpdate();
-            viewSongs.Items.AddRange(lvItems);
-            viewSongs.EndUpdate();
+            //// Update list view
+            //viewSongs.BeginUpdate();
+            //viewSongs.Items.AddRange(lvItems);
+            //viewSongs.EndUpdate();
 
-            // Refresh window title
-            RefreshTitle();
+            //// Refresh window title
+            //RefreshTitle();
         }
 
         /// <summary>
@@ -368,26 +368,26 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnNewPlaylist_Click(object sender, EventArgs e)
         {
-            // Check if the playlist has at least one item
-            if (viewSongs.Items.Count > 0)
-            {
-                // Warn user
-                if (MessageBox.Show("Are you sure you wish to create a new playlist?\nYou will lose the contents of the current playlist. This will also stop playback.", "Create a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
-                {
-                    // The user said no; exit method
-                    return;
-                }
-            }
+            //// Check if the playlist has at least one item
+            //if (viewSongs.Items.Count > 0)
+            //{
+            //    // Warn user
+            //    if (MessageBox.Show("Are you sure you wish to create a new playlist?\nYou will lose the contents of the current playlist. This will also stop playback.", "Create a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+            //    {
+            //        // The user said no; exit method
+            //        return;
+            //    }
+            //}
 
-            // Stop playback
-            Main.Stop();
+            //// Stop playback
+            //Main.Stop();
 
-            // Empty current playlist
-            Main.Player.CurrentPlaylist.Songs.Clear();
-            Main.Player.CurrentPlaylist.PlaylistName = "Empty playlist";
+            //// Empty current playlist
+            //Main.Player.CurrentPlaylist.Songs.Clear();
+            //Main.Player.CurrentPlaylist.PlaylistName = "Empty playlist";
 
-            // Refresh playlist
-            RefreshPlaylist();
+            //// Refresh playlist
+            //RefreshPlaylist();
         }
 
         /// <summary>
@@ -397,21 +397,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSavePlaylist_Click(object sender, EventArgs e)
         {
-            // Save playlist
-            Cursor.Current = Cursors.WaitCursor;
-            Main.Player.Library.SavePlaylist(Main.Player.CurrentPlaylist);            
+            //// Save playlist
+            //Cursor.Current = Cursors.WaitCursor;
+            //Main.Player.Library.SavePlaylist(Main.Player.CurrentPlaylist);            
 
-            // Set modified flag
-            Main.Player.CurrentPlaylist.PlaylistModified = false;
+            //// Set modified flag
+            //Main.Player.CurrentPlaylist.PlaylistModified = false;
 
-            // Refresh the window title
-            RefreshTitle();
+            //// Refresh the window title
+            //RefreshTitle();
 
-            // Refresh the playlists node in the Artist/Album browser
-            Main.RefreshTreeLibraryPlaylists();
+            //// Refresh the playlists node in the Artist/Album browser
+            //Main.RefreshTreeLibraryPlaylists();
 
-            // Reset cursor
-            Cursor.Current = Cursors.Default;
+            //// Reset cursor
+            //Cursor.Current = Cursors.Default;
         }
 
         /// <summary>
@@ -422,48 +422,48 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSavePlaylistAs_Click(object sender, EventArgs e)
         {
-            // Popup window                
-            formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.SavePlaylist);
+            //// Popup window                
+            //formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.SavePlaylist);
 
-            // Set window location
-            formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
-            formRenameSavePlaylist.txtName.Text = Main.Player.CurrentPlaylist.PlaylistName;
+            //// Set window location
+            //formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
+            //formRenameSavePlaylist.txtName.Text = Main.Player.CurrentPlaylist.PlaylistName;
 
-            // Show Save Playlist dialog
-            if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            {
-                // First, change all ids to make sure items are unique
-                Cursor.Current = Cursors.WaitCursor;
+            //// Show Save Playlist dialog
+            //if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // First, change all ids to make sure items are unique
+            //    Cursor.Current = Cursors.WaitCursor;
 
-                // Change the playlist Id
-                Main.Player.CurrentPlaylist.PlaylistId = Guid.NewGuid();
+            //    // Change the playlist Id
+            //    Main.Player.CurrentPlaylist.PlaylistId = Guid.NewGuid();
 
-                // Change the playlist songs ids
-                foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-                {
-                    playlistSong.PlaylistSongId = Guid.NewGuid();
-                }
+            //    // Change the playlist songs ids
+            //    foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
+            //    {
+            //        playlistSong.PlaylistSongId = Guid.NewGuid();
+            //    }
 
-                // Save playlist
-                Main.Player.Library.SavePlaylist(Main.Player.CurrentPlaylist);
-            }
-            else
-            {
-                // The user has cancelled
-                return;
-            }
+            //    // Save playlist
+            //    Main.Player.Library.SavePlaylist(Main.Player.CurrentPlaylist);
+            //}
+            //else
+            //{
+            //    // The user has cancelled
+            //    return;
+            //}
 
-            // Set modified flag
-            Main.Player.CurrentPlaylist.PlaylistModified = false;
+            //// Set modified flag
+            //Main.Player.CurrentPlaylist.PlaylistModified = false;
 
-            // Refresh the window title
-            RefreshTitle();
+            //// Refresh the window title
+            //RefreshTitle();
 
-            // Refresh the playlists node in the Artist/Album browser
-            Main.RefreshTreeLibraryPlaylists();
+            //// Refresh the playlists node in the Artist/Album browser
+            //Main.RefreshTreeLibraryPlaylists();
 
-            // Reset cursor
-            Cursor.Current = Cursors.Default;
+            //// Reset cursor
+            //Cursor.Current = Cursors.Default;
         }
 
         /// <summary>
@@ -474,25 +474,25 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnRenamePlaylist_Click(object sender, EventArgs e)
         {
-            // Create window
-            formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
+            //// Create window
+            //formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
 
-            // Set window location
-            formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
-            formRenameSavePlaylist.txtName.Text = Main.Player.CurrentPlaylist.PlaylistName;
+            //// Set window location
+            //formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
+            //formRenameSavePlaylist.txtName.Text = Main.Player.CurrentPlaylist.PlaylistName;
 
-            // Show Save Playlist dialog
-            if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            {
-                // Set playlist type 
-                Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
+            //// Show Save Playlist dialog
+            //if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // Set playlist type 
+            //    Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
 
-                // Refresh the window title
-                RefreshTitle();
+            //    // Refresh the window title
+            //    RefreshTitle();
 
-                // Refresh the playlists node in the Artist/Album browser
-                Main.RefreshTreeLibraryPlaylists();
-            }
+            //    // Refresh the playlists node in the Artist/Album browser
+            //    Main.RefreshTreeLibraryPlaylists();
+            //}
         }
 
         /// <summary>
@@ -502,55 +502,55 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnRemoveSongs_Click(object sender, EventArgs e)
         {
-            // Create a list of songs to remove
-            //List<Guid> removedSongs = new List<Guid>();
+            //// Create a list of songs to remove
+            ////List<Guid> removedSongs = new List<Guid>();
 
-            // Check if there is at least one item selected
-            if (viewSongs.SelectedItems.Count > 0)
-            {
-                // Go through list view items
-                foreach (ListViewItem item in viewSongs.SelectedItems)
-                {
-                    // Get the current playlist song Id
-                    Guid currentPlaylistSongId = new Guid(item.Tag.ToString());
+            //// Check if there is at least one item selected
+            //if (viewSongs.SelectedItems.Count > 0)
+            //{
+            //    // Go through list view items
+            //    foreach (ListViewItem item in viewSongs.SelectedItems)
+            //    {
+            //        // Get the current playlist song Id
+            //        Guid currentPlaylistSongId = new Guid(item.Tag.ToString());
 
-                    // Check if the selected song is playing
-                    if (Main.Player.CurrentPlaylist != null && 
-                        Main.Player.CurrentPlaylist.CurrentSong != null &&
-                        currentPlaylistSongId == Main.Player.CurrentPlaylist.CurrentSong.PlaylistSongId)
-                    {
-                        // Warn the user
-                        MessageBox.Show("You cannot remove the current song from the playlist!", "Error removing song from playlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    else
-                    {
-                        // Add the song to the list of ids to remove
-                        //removedSongs.Add(currentSongId);
+            //        // Check if the selected song is playing
+            //        if (Main.Player.CurrentPlaylist != null && 
+            //            Main.Player.CurrentPlaylist.CurrentSong != null &&
+            //            currentPlaylistSongId == Main.Player.CurrentPlaylist.CurrentSong.PlaylistSongId)
+            //        {
+            //            // Warn the user
+            //            MessageBox.Show("You cannot remove the current song from the playlist!", "Error removing song from playlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            // Add the song to the list of ids to remove
+            //            //removedSongs.Add(currentSongId);
 
-                        // Find the playlist song in the current playlist
-                        foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-                        {
-                            // Is this the good playlist song?
-                            if (playlistSong.PlaylistSongId == currentPlaylistSongId)
-                            {
-                                Main.Player.CurrentPlaylist.Songs.Remove(playlistSong);
-                                break;
-                            }
-                        }
+            //            // Find the playlist song in the current playlist
+            //            foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
+            //            {
+            //                // Is this the good playlist song?
+            //                if (playlistSong.PlaylistSongId == currentPlaylistSongId)
+            //                {
+            //                    Main.Player.CurrentPlaylist.Songs.Remove(playlistSong);
+            //                    break;
+            //                }
+            //            }
 
-                        // Remove item from list view
-                        item.Remove();
-                    }
-                }
+            //            // Remove item from list view
+            //            item.Remove();
+            //        }
+            //    }
 
-                // Set playlist as modified
-                Main.Player.CurrentPlaylist.PlaylistModified = true;
-                Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
+            //    // Set playlist as modified
+            //    Main.Player.CurrentPlaylist.PlaylistModified = true;
+            //    Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
 
-                // Refresh the window title
-                RefreshTitle();
-            }
+            //    // Refresh the window title
+            //    RefreshTitle();
+            //}
         }
 
         #endregion

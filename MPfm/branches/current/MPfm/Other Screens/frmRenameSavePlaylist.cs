@@ -84,35 +84,35 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            //// Check if name is already taken
-            //if (DataAccess.PlaylistExists(txtName.Text))
+            ////// Check if name is already taken
+            ////if (DataAccess.PlaylistExists(txtName.Text))
+            ////{
+            ////    // Show message box and cancel the form close
+            ////    MessageBox.Show("A playlist named \"" + txtName.Text + "\" already exists in the database!\nPlease select another name.", "Playlist already exists in database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ////    return;
+            ////}
+
+            //// Check window mode
+            //if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
             //{
-            //    // Show message box and cancel the form close
-            //    MessageBox.Show("A playlist named \"" + txtName.Text + "\" already exists in the database!\nPlease select another name.", "Playlist already exists in database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
+            //    // Rename playlist and reset its id (save AS)
+            //    Main.Player.CurrentPlaylist.PlaylistName = txtName.Text;
+            //    Main.Player.CurrentPlaylist.PlaylistId = Guid.NewGuid();
+            //}
+            //else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
+            //{
+            //    // Rename playlist
+            //    Main.Player.CurrentPlaylist.PlaylistName = txtName.Text;                
             //}
 
-            // Check window mode
-            if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
-            {
-                // Rename playlist and reset its id (save AS)
-                Main.Player.CurrentPlaylist.PlaylistName = txtName.Text;
-                Main.Player.CurrentPlaylist.PlaylistId = Guid.NewGuid();
-            }
-            else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
-            {
-                // Rename playlist
-                Main.Player.CurrentPlaylist.PlaylistName = txtName.Text;                
-            }
+            //// Set result
+            //this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
-            // Set result
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            //// Refresh the window title
+            //Main.formPlaylist.RefreshTitle();
 
-            // Refresh the window title
-            Main.formPlaylist.RefreshTitle();
-
-            // Close form
-            this.Close();          
+            //// Close form
+            //this.Close();          
         }
 
         /// <summary>

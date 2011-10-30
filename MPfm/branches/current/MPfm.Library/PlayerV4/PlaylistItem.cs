@@ -20,6 +20,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
@@ -74,6 +75,42 @@ namespace MPfm.Library.PlayerV4
             }
         }
 
+        private long m_lengthSamples = 0;
+        public long LengthSamples
+        {
+            get
+            {
+                return m_lengthSamples;
+            }
+        }
+
+        private long m_lengthBytes = 0;
+        public long LengthBytes
+        {
+            get
+            {
+                return m_lengthBytes;
+            }
+        }
+
+        private int m_lengthMilliseconds = 0;
+        public int LengthMilliseconds
+        {
+            get
+            {
+                return m_lengthMilliseconds;
+            }
+        }
+
+        private string m_lengthString = string.Empty;
+        public string LengthString
+        {
+            get
+            {
+                return m_lengthString;
+            }
+        }
+
         /// <summary>
         /// Private value for the Channel property.
         /// </summary>
@@ -86,6 +123,26 @@ namespace MPfm.Library.PlayerV4
             get
             {
                 return m_channel;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Song property.
+        /// </summary>
+        private SongDTO m_song = null;
+        /// <summary>
+        /// SongDTO object from the Library class. 
+        /// Useful to keep the database version of the song around.
+        /// </summary>
+        public SongDTO Song
+        {
+            get
+            {
+                return m_song;
+            }
+            set
+            {
+                m_song = value;
             }
         }
 
@@ -164,6 +221,12 @@ namespace MPfm.Library.PlayerV4
 
             // Load channel
             m_channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(m_filePath);
+
+            // Load channel length
+            m_lengthBytes = m_channel.GetLength();
+            m_lengthSamples = ConvertAudio.ToPCM(m_lengthBytes, 16, 2);
+            m_lengthMilliseconds = (int)ConvertAudio.ToMS(m_lengthSamples, 44100);
+            m_lengthString = Conversion.MillisecondsToTimeString((ulong)m_lengthMilliseconds);
 
             // Set flag
             m_isLoaded = true;

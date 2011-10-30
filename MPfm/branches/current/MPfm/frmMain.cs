@@ -90,13 +90,25 @@ namespace MPfm
         public TreeNode nodeAllPlaylists = null;
         public TreeNode nodeRecentlyPlayed = null;
 
-        // Player and library
-        private Player m_player = null;
-        public Player Player
+        // Timer for updating song position
+        public System.Windows.Forms.Timer m_timerSongPosition = null;
+
+        //// Player and library
+        //private Player m_player = null;
+        //public Player Player
+        //{
+        //    get
+        //    {
+        //        return m_player;
+        //    }
+        //}
+
+        private MPfm.Library.Library m_library = null;
+        public MPfm.Library.Library Library
         {
             get
             {
-                return m_player;
+                return m_library;
             }
         }
 
@@ -283,8 +295,52 @@ namespace MPfm
             // Create player
             try
             {
+                Device device = null;
                 Tracing.Log("Loading player...");
                 frmSplash.SetStatus("Loading player...");
+                
+                // Get configuration values
+                DriverType driverType = Config.Driver;
+                string deviceName = Config.OutputDevice;                
+
+                // Check configured driver type
+                if (driverType == DriverType.DirectSound)
+                {
+                    // Try to find the configured device
+                    device = DeviceHelper.FindOutputDevice(DriverType.DirectSound, deviceName);
+                }
+                else if (driverType == DriverType.ASIO)
+                {
+                    // Try to find the configured device
+                    device = DeviceHelper.FindOutputDevice(DriverType.ASIO, deviceName);
+                }
+                else if (driverType == DriverType.WASAPI)
+                {
+                    // Try to find the configured device
+                    device = DeviceHelper.FindOutputDevice(DriverType.WASAPI, deviceName);
+                }
+
+                // Check if the device was found
+                if (device == null)
+                {
+                    // Select default device instead (DirectSound, default device)
+                    device = new Device();
+                }
+
+                // Create player
+                m_playerV4 = new MPfm.Library.PlayerV4.Player(device, 44100, 100, 10);
+                m_playerV4.OnSongFinished += new Library.PlayerV4.Player.SongFinished(m_playerV4_OnSongFinished);
+
+                // Create timer
+                m_timerSongPosition = new System.Windows.Forms.Timer();
+                m_timerSongPosition.Interval = 10;
+                m_timerSongPosition.Tick += new EventHandler(m_timerSongPosition_Tick);
+                m_timerSongPosition.Enabled = true;
+
+                // Load library
+                Tracing.Log("Loading library...");
+                frmSplash.SetStatus("Loading library...");
+                m_library = new Library.Library();
 
                 //// Create player with configured driver and output device
                 //m_player = new Player(Config.Driver, Config.OutputDevice, true);
@@ -324,13 +380,8 @@ namespace MPfm
                 Tracing.Log("Loading UI - Playlist...");
                 formPlaylist = new frmPlaylist(this);
 
-                //Tracing.Log("Loading UI - Edit Song Information...");
-                //formEditSongMetadata = new frmEditSongMetadata(this);
-
                 Tracing.Log("Loading UI - Visualizer...");
                 formVisualizer = new frmVisualizer(this);
-
-                //viewSongs2.Library = m_player.Library;
             }
             catch (Exception ex)
             {
@@ -516,6 +567,57 @@ namespace MPfm
                 }                
                 nodeAllPlaylists.Expand();
             }
+        }
+
+        /// <summary>
+        /// Occurs when the timer for updating the song position has expired.
+        /// Updates the song position UI and other things.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        public void m_timerSongPosition_Tick(object sender, EventArgs e)
+        {
+            // Check for valid objects
+            if (m_playerV4 == null || !m_playerV4.IsPlaying ||
+                m_playerV4.Playlist == null || m_playerV4.Playlist.CurrentItem == null)
+            {
+                return;
+            }
+
+            // Get position
+            long positionBytes = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
+            long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+            long positionMS = ConvertAudio.ToMS(positionSamples, 44100);
+
+            // Set UI
+            lblCurrentTime.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);
+            lblTotalTime.Text = m_playerV4.Playlist.CurrentItem.LengthString;
+
+            // Update the song position
+            if (!songPositionChanging)
+            {
+                float ratio = (float)positionSamples / (float)m_playerV4.Playlist.CurrentItem.LengthSamples;
+
+                // Do not go beyong 99% or the song might end before!
+                if (ratio <= 0.99f)
+                {
+                    trackPosition.Value = Convert.ToInt32(ratio * 1000);
+                }
+
+                // Set time on seek control
+                lblSongPosition.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the player has finished playing a song.
+        /// Updates the UI.
+        /// </summary>
+        /// <param name="data">Song finished data</param>
+        public void m_playerV4_OnSongFinished(Library.PlayerV4.SongFinishedData data)
+        {
+            
         }
 
         /// <summary>
@@ -710,15 +812,15 @@ namespace MPfm
         /// <param name="hookEvents">Hook events (OnTimerElapsed, OnSongFinished)</param>
         public void ResetPlayer(FMOD.OUTPUTTYPE outputType, string outputDevice, bool hookEvents, bool initializeLibrary)
         {
-            // Create player with configured driver and output device
-            m_player = new Player(outputType, outputDevice, initializeLibrary);
+            //// Create player with configured driver and output device
+            //m_player = new Player(outputType, outputDevice, initializeLibrary);
 
-            // Set up events
-            if (hookEvents)
-            {
-                m_player.OnTimerElapsed += new Player.TimerElapsed(m_player_OnTimerElapsed);
-                m_player.OnSongFinished += new Player.SongFinished(m_player_OnSongFinished);
-            }
+            //// Set up events
+            //if (hookEvents)
+            //{
+            //    m_player.OnTimerElapsed += new Player.TimerElapsed(m_player_OnTimerElapsed);
+            //    m_player.OnSongFinished += new Player.SongFinished(m_player_OnSongFinished);
+            //}
         }
 
         #endregion
@@ -731,72 +833,72 @@ namespace MPfm
         /// <param name="data">Event data</param>
         private void m_player_OnSongFinished(SongFinishedData data)
         {
-            // If the initialization isn't finished, exit this event
-            if (!IsInitDone)
-            {
-                return;
-            }
+            //// If the initialization isn't finished, exit this event
+            //if (!IsInitDone)
+            //{
+            //    return;
+            //}
 
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                // Need to update song information
-                if (data != null && data.NextSong != null)
-                {
-                    // Refresh song information                    
-                    RefreshSongInformation(data.NextSong.Song.FilePath);
+            //// Invoke UI updates
+            //MethodInvoker methodUIUpdate = delegate
+            //{
+            //    // Need to update song information
+            //    if (data != null && data.NextSong != null)
+            //    {
+            //        // Refresh song information                    
+            //        RefreshSongInformation(data.NextSong.Song.FilePath);
 
-                    // Set the play icon in the song browser
-                    RefreshSongBrowserPlayIcon(data.NextSong.Song.SongId);
+            //        // Set the play icon in the song browser
+            //        RefreshSongBrowserPlayIcon(data.NextSong.Song.SongId);
 
-                    // Refresh play icon in playlist
-                    formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
+            //        // Refresh play icon in playlist
+            //        formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
 
-                    // Set next song in configuration                    
-                    Config.SongQuerySongId = data.NextSong.Song.SongId.ToString();
+            //        // Set next song in configuration                    
+            //        Config.SongQuerySongId = data.NextSong.Song.SongId.ToString();
 
-                    // Refresh loops & markers
-                    RefreshMarkers();
-                    RefreshLoops();
+            //        // Refresh loops & markers
+            //        RefreshMarkers();
+            //        RefreshLoops();
 
-                    // Refresh play count
-                    SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == data.CurrentSong.Song.SongId);
-                    if (item != null)
-                    {
-                        // Set updated data
-                        SongDTO updatedSong = Player.Library.SelectSong(data.CurrentSong.Song.SongId);
-                        item.Song = updatedSong;
-                    }
+            //        // Refresh play count
+            //        SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == data.CurrentSong.Song.SongId);
+            //        if (item != null)
+            //        {
+            //            // Set updated data
+            //            SongDTO updatedSong = Player.Library.SelectSong(data.CurrentSong.Song.SongId);
+            //            item.Song = updatedSong;
+            //        }
 
-                    Refresh();
+            //        Refresh();
 
-                    //foreach (ListViewItem item in viewSongs.Items)
-                    //{
-                    //    // Get song from tag                        
-                    //    SongDTO song = (SongDTO)item.Tag;
+            //        //foreach (ListViewItem item in viewSongs.Items)
+            //        //{
+            //        //    // Get song from tag                        
+            //        //    SongDTO song = (SongDTO)item.Tag;
 
-                    //    // If song is valid...
-                    //    if (song != null && song.SongId == data.CurrentSong.Song.SongId)
-                    //    {
-                    //        // Get updated song
-                    //        SongDTO updatedSong = Player.Library.SelectSong(song.SongId);
-                    //        item.SubItems[6].Text = updatedSong.PlayCount.Value.ToString();
-                    //        item.SubItems[7].Text = updatedSong.LastPlayed.ToString();
-                    //        break;
-                    //    }
-                    //}                    
-                }
-            };
+            //        //    // If song is valid...
+            //        //    if (song != null && song.SongId == data.CurrentSong.Song.SongId)
+            //        //    {
+            //        //        // Get updated song
+            //        //        SongDTO updatedSong = Player.Library.SelectSong(song.SongId);
+            //        //        item.SubItems[6].Text = updatedSong.PlayCount.Value.ToString();
+            //        //        item.SubItems[7].Text = updatedSong.LastPlayed.ToString();
+            //        //        break;
+            //        //    }
+            //        //}                    
+            //    }
+            //};
 
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }
+            //// Check if invoking is necessary
+            //if (InvokeRequired)
+            //{
+            //    BeginInvoke(methodUIUpdate);
+            //}
+            //else
+            //{
+            //    methodUIUpdate.Invoke();
+            //}
         }       
 
         /// <summary>
@@ -814,59 +916,59 @@ namespace MPfm
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
-                // Check if player is playing
-                if (!Player.IsPlaying)
-                {
-                    // Nothing to update
-                    return;
-                }
+                //// Check if player is playing
+                //if (!Player.IsPlaying)
+                //{
+                //    // Nothing to update
+                //    return;
+                //}
 
-                // debug
-                //lblBitrateTitle.Text = data.Debug;
-                //lblFrequencyTitle.Text = data.Debug2;
-                //lblBitrateTitle.Text = Player.CurrentPlaylist.Position.ToString();
+                //// debug
+                ////lblBitrateTitle.Text = data.Debug;
+                ////lblFrequencyTitle.Text = data.Debug2;
+                ////lblBitrateTitle.Text = Player.CurrentPlaylist.Position.ToString();
 
-                // Update current time               
-                string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
-                lblCurrentTime.Text = currentTime;
+                //// Update current time               
+                //string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
+                //lblCurrentTime.Text = currentTime;
 
-                //lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
+                ////lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
 
-                // Update data for Loops & Markers wave form display
-                waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
-                waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;
+                //// Update data for Loops & Markers wave form display
+                //waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
+                //waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;
 
-                // Update wave form control
-                formVisualizer.waveForm.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
+                //// Update wave form control
+                //formVisualizer.waveForm.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
 
-                // Get minmax data from wave data
-                //WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(data.WaveDataLeft, data.WaveDataRight, true);
+                //// Get minmax data from wave data
+                ////WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(data.WaveDataLeft, data.WaveDataRight, true);
 
-                // Add raw wave data to control
-                outputMeter.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
+                //// Add raw wave data to control
+                //outputMeter.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
 
-                // Get min max info from wave block
-                if (AudioTools.CheckForDistortion(data.WaveDataLeft, data.WaveDataRight, true, 0.0f))
-                {
-                    // Show distortion warning "LED"
-                    picDistortionWarning.Visible = true;
-                }
+                //// Get min max info from wave block
+                //if (AudioTools.CheckForDistortion(data.WaveDataLeft, data.WaveDataRight, true, 0.0f))
+                //{
+                //    // Show distortion warning "LED"
+                //    picDistortionWarning.Visible = true;
+                //}
 
-                //double rms = System.Math.Sqrt(doubleSum / 256);
+                ////double rms = System.Math.Sqrt(doubleSum / 256);
 
-                // Update the song position
-                if (!songPositionChanging)
-                {
-                    // Do not go beyong 99% or the song might end before!
-                    if (data.SongPositionPercentage <= 99)
-                    {                        
-                        trackPosition.Value = Convert.ToInt32(data.SongPositionPercentage * 10);
-                    }
+                //// Update the song position
+                //if (!songPositionChanging)
+                //{
+                //    // Do not go beyong 99% or the song might end before!
+                //    if (data.SongPositionPercentage <= 99)
+                //    {                        
+                //        trackPosition.Value = Convert.ToInt32(data.SongPositionPercentage * 10);
+                //    }
 
-                    // Set time on seek control
-                    lblSongPosition.Text = currentTime;
-                    lblSongPercentage.Text = data.SongPositionPercentage.ToString("0.00") + " %";
-                }
+                //    // Set time on seek control
+                //    lblSongPosition.Text = currentTime;
+                //    lblSongPercentage.Text = data.SongPositionPercentage.ToString("0.00") + " %";
+                //}
 
             };
 
@@ -893,51 +995,18 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Tracing.Log("Closing PMP...");
-
-            // Save configuration
-            SaveWindowConfiguration();
-            e.Cancel = false;
-
-            // Close player if not null
-            if (Player != null)
-            {
-                // Release the sound system from memory
-                Player.Close();
-            }
-
-            //if (e.CloseReason == CloseReason.ApplicationExitCall || e.CloseReason == CloseReason.TaskManagerClosing || e.CloseReason == CloseReason.WindowsShutDown)
-            //{
-            //    // Save window configuration
-            //    SaveWindowConfiguration();
-            //    Config.Save();
-            //}
-
-            //// Check if the main windows must be hidden to the tray
-            ////if (Convert.ToBoolean(Config[PMPConfig.Key_HideTray]))
-            ////{
-            //    // Save window configuration
-            //    SaveWindowConfiguration();
-
-            //    // Save configuration
-            //    m_config.Save();
-
-            //    //// Make sure that the application does not close if it's in the tray
-            //    //if (e.CloseReason == CloseReason.ApplicationExitCall || e.CloseReason == CloseReason.TaskManagerClosing || e.CloseReason == CloseReason.WindowsShutDown)
-            //    //{
-            //    //    // Do not cancel the close
-            //    //    Tracing.Log("Closing PMP...");
-            //    //    e.Cancel = false;
-            //    //    return;
-            //    //}            
-                
-            //    // Cancel close and hide the form.
-            //    e.Cancel = true;
-            //    this.Hide();
-            ////}
+            //Tracing.Log("Closing MPfm...");
 
             //// Save configuration
+            //SaveWindowConfiguration();
+            //e.Cancel = false;
 
+            //// Close player if not null
+            //if (Player != null)
+            //{
+            //    // Release the sound system from memory
+            //    Player.Close();
+            //}
         }
         
         /// <summary>
@@ -1001,25 +1070,25 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void miFileOpenAudioFile_Click(object sender, EventArgs e)
         {
-            // Display dialog
-            if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                // The user has cancelled the operation
-                return;
-            }
+            //// Display dialog
+            //if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            //{
+            //    // The user has cancelled the operation
+            //    return;
+            //}
 
-            // MISSING: Update play controls with total length, bitrate, frequency, etc.
-            // Doesn't seem to crash already, that's good news. Output Meter and song position works.
+            //// MISSING: Update play controls with total length, bitrate, frequency, etc.
+            //// Doesn't seem to crash already, that's good news. Output Meter and song position works.
 
-            // Get the song info
-            RefreshSongInformation(dialogOpenFile.FileName);
+            //// Get the song info
+            //RefreshSongInformation(dialogOpenFile.FileName);
 
-            // Remove play icon on song browser and playlist
-            RefreshSongBrowserPlayIcon(Guid.Empty);
-            formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
+            //// Remove play icon on song browser and playlist
+            //RefreshSongBrowserPlayIcon(Guid.Empty);
+            //formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
 
-            // Play the audio file
-            Player.PlayFile(dialogOpenFile.FileName);
+            //// Play the audio file
+            //Player.PlayFile(dialogOpenFile.FileName);
         }
 
         /// <summary>
@@ -1103,18 +1172,26 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPause_Click(object sender, EventArgs e)
         {
-            if (Player.IsPaused)
+            // Validate player
+            if (m_playerV4 == null || m_playerV4.Playlist == null || !m_playerV4.IsPlaying)
             {
-                btnPause.Checked = false;                
+                return;
+            }
+
+            // Check pause status
+            if (m_playerV4.IsPaused)
+            {
+                btnPause.Checked = false;
                 miTrayPause.Checked = false;
             }
             else
             {
-                btnPause.Checked = true;                
+                btnPause.Checked = true;
                 miTrayPause.Checked = true;
             }
 
-            Player.Pause();
+            // Set pause
+            m_playerV4.Pause();
         }
 
         /// <summary>
@@ -1136,17 +1213,19 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnNextSong_Click(object sender, EventArgs e)
         {
-            // Check if player is playing
-            if (Player.IsPlaying)
+            // Validate player
+            if (m_playerV4 == null || m_playerV4.Playlist == null || !m_playerV4.IsPlaying)
             {
-                // Skip to next song in player
-                Player.GoToNextSong();
-
-                // Refresh controls
-                RefreshSongControls();
-                RefreshMarkers();
-                RefreshLoops();
+                return;
             }
+
+            // Skip to next song in player
+            m_playerV4.Next();
+
+            // Refresh controls
+            RefreshSongControls();
+            RefreshMarkers();
+            RefreshLoops();            
         }
 
         /// <summary>
@@ -1157,17 +1236,19 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPreviousSong_Click(object sender, EventArgs e)
         {
-            // Check if player is playing
-            if (Player.IsPlaying)
+            // Validate player
+            if (m_playerV4 == null || m_playerV4.Playlist == null || !m_playerV4.IsPlaying)
             {
-                // Go to previous song in player
-                Player.GoToPreviousSong();
-
-                // Refresh controls
-                RefreshSongControls();
-                RefreshMarkers();
-                RefreshLoops();
+                return;
             }
+
+            // Go to previous song in player
+            m_playerV4.Previous();
+
+            // Refresh controls
+            RefreshSongControls();
+            RefreshMarkers();
+            RefreshLoops();            
         }
 
         /// <summary>
@@ -1179,17 +1260,17 @@ namespace MPfm
         private void btnRepeat_Click(object sender, EventArgs e)
         {
             // Cycle through the repeat types
-            if (Player.RepeatType == RepeatType.Off)
+            if (m_playerV4.RepeatType == RepeatType.Off)
             {
-                Player.RepeatType = RepeatType.Playlist;
+                m_playerV4.RepeatType = RepeatType.Playlist;
             }
-            else if (Player.RepeatType == RepeatType.Playlist)
+            else if (m_playerV4.RepeatType == RepeatType.Playlist)
             {
-                Player.RepeatType = RepeatType.Song;
+                m_playerV4.RepeatType = RepeatType.Song;
             }
             else
             {
-                Player.RepeatType = RepeatType.Off;
+                m_playerV4.RepeatType = RepeatType.Off;
             }
 
             // Update repeat button
@@ -1296,18 +1377,17 @@ namespace MPfm
         public void RefreshSongControls(bool refreshPlaylistWindow)
         {
             // Is the player playing?
-            if (Player.IsPlaying)
+            if (PlayerV4.IsPlaying)
             {
                 // Mantis 0000042
                 // Reset the pause button icon
                 btnPause.Checked = false;
 
-                // Update song information
-                //RefreshSongInformation(Player.CurrentSong);
-                RefreshSongInformation(Player.CurrentSong.FilePath);
+                // Update song information                
+                RefreshSongInformation(PlayerV4.Playlist.CurrentItem.FilePath);
 
                 // Set the play icon in the song browser
-                RefreshSongBrowserPlayIcon(Player.CurrentSong.SongId);
+                RefreshSongBrowserPlayIcon(PlayerV4.Playlist.CurrentItem.Song.SongId);
 
                 // Refresh playlist window
                 if (refreshPlaylistWindow)
@@ -1341,7 +1421,7 @@ namespace MPfm
                 // Refresh play icon
                 RefreshSongBrowserPlayIcon(Guid.Empty);
                 formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
-                viewSongs2.ClearSelectedItems();                
+                viewSongs2.ClearSelectedItems();
             }
         }
 
@@ -1416,7 +1496,7 @@ namespace MPfm
         /// </summary>
         /// <param name="query">Query for Song Browser</param>
         public void RefreshSongBrowser(SongQuery query)
-        {           
+        {
             // Create the list of songs for the browser
             List<SongDTO> songs = null;
             string orderBy = viewSongs2.OrderByFieldName;
@@ -1425,19 +1505,19 @@ namespace MPfm
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
+                songs = Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
+                songs = Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
             }
             else if (query.Type == SongQueryType.Playlist)
             {
-                songs = Player.Library.SelectSongs(query.PlaylistId);
-            }            
+                songs = Library.SelectSongs(query.PlaylistId);
+            }
             else if (query.Type == SongQueryType.All)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending);
+                songs = Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -1469,81 +1549,8 @@ namespace MPfm
                 return;
             }
 
-            //// Create array
-            //ListViewItem[] lvItems = new ListViewItem[songs.Count];
-
-            //// For each song
-            //foreach (SongDTO song in songs)
-            //{
-            //    // Create list view item and set basic properties
-            //    ListViewItem item = new ListViewItem(song.SongId.ToString());
-            //    item.Tag = song;
-
-            //    // Format the track number with the disc number if available
-            //    if (song.DiscNumber == null || song.DiscNumber.Value == 0)
-            //    {
-            //        // Display the track number
-            //        item.SubItems.Add(song.TrackNumber.ToString());
-            //    }
-            //    else
-            //    {
-            //        // Display the track number with the disc number (disc.track: i.e. 1.1, 1.2, 2.1, 2.2, etc.)
-            //        item.SubItems.Add(song.DiscNumber.ToString() + "." + song.TrackNumber.ToString());
-            //    }
-
-            //    item.SubItems.Add(song.Title);
-            //    item.SubItems.Add(song.Time);
-            //    item.SubItems.Add(song.ArtistName);
-            //    item.SubItems.Add(song.AlbumTitle);
-
-            //    // Set play count data
-            //    if (song.PlayCount == null || (song.PlayCount != null && song.PlayCount.Value == 0))
-            //    {
-            //        item.SubItems.Add("");
-            //    }
-            //    else
-            //    {
-            //        item.SubItems.Add(song.PlayCount.ToString());
-            //    }
-
-            //    // Set last played
-            //    if (song.LastPlayed == null)
-            //    {
-            //        item.SubItems.Add("");
-            //    }
-            //    else
-            //    {
-            //        item.SubItems.Add(song.LastPlayed.ToString());
-            //    }
-
-            //    // Set play icon if song is currently playing
-            //    if (Player.CurrentSong != null && Player.CurrentSong.SongId == song.SongId)
-            //    {
-            //        item.Selected = true;
-            //        item.ImageIndex = 0;
-            //    }
-                    
-            //    // Add item to list view
-            //    //viewSongs.Items.Add(item);
-            //    lvItems[a] = item;
-
-            //    // Check if initialization isn't done and if we have to select a song
-            //    if (!IsInitDone && song.SongId == InitCurrentSongId)
-            //    {
-            //        item.Selected = true;
-            //    }
-
-            //    // Increment counter
-            //    a++;
-            //}
-
-            //// Update song browser
-            //viewSongs.BeginUpdate();
-            //viewSongs.Items.AddRange(lvItems);
-            //viewSongs.EndUpdate();
-
-            viewSongs2.ImportSongs(songs);
-            
+            // Import list of songs into song grid view
+            viewSongs2.ImportSongs(songs);            
         }
 
         /// <summary>
@@ -1552,75 +1559,75 @@ namespace MPfm
         /// <param name="filePath">File path to the song</param>
         public void RefreshSongInformation(string filePath)
         {
-            try
-            {
-                try
-                {
-                    // Update the album art in an another thread
-                    workerAlbumArt.RunWorkerAsync(filePath);
-                }
-                catch
-                {
-                    // Just do nothing if thread is busy
-                }
+            //try
+            //{
+            //    try
+            //    {
+            //        // Update the album art in an another thread
+            //        workerAlbumArt.RunWorkerAsync(filePath);
+            //    }
+            //    catch
+            //    {
+            //        // Just do nothing if thread is busy
+            //    }
 
-                // Check the player playback mode 
-                if (Player.PlaybackMode == PlaybackMode.Playlist)
-                {
-                    // Fetch song from database
-                    MPfm.Library.Data.Song song = DataAccess.SelectSong(filePath);
+            //    // Check the player playback mode 
+            //    if (Player.PlaybackMode == PlaybackMode.Playlist)
+            //    {
+            //        // Fetch song from database
+            //        MPfm.Library.Data.Song song = DataAccess.SelectSong(filePath);
 
-                    // Check if song exists
-                    if (song != null)
-                    {
-                        // Update song from tags
-                        song = Player.Library.UpdateSongFromTags(song, true);
-                    }
-                }
+            //        // Check if song exists
+            //        if (song != null)
+            //        {
+            //            // Update song from tags
+            //            song = Player.Library.UpdateSongFromTags(song, true);
+            //        }
+            //    }
                                 
-                // Get sound format and tags
-                MPfm.Sound.FMODWrapper.Sound tempSound = Player.SoundSystem.CreateSound(filePath, false);
+            //    // Get sound format and tags
+            //    MPfm.Sound.FMODWrapper.Sound tempSound = Player.SoundSystem.CreateSound(filePath, false);
                 
-                // Get sound format
-                SoundFormat soundFormat = tempSound.GetSoundFormat();
-                lblTotalTime.Text = tempSound.Length;
-                lblBitsPerSample.Text = soundFormat.BitsPerSample.ToString();
-                lblFrequency.Text = soundFormat.Frequency.ToString();
+            //    // Get sound format
+            //    SoundFormat soundFormat = tempSound.GetSoundFormat();
+            //    lblTotalTime.Text = tempSound.Length;
+            //    lblBitsPerSample.Text = soundFormat.BitsPerSample.ToString();
+            //    lblFrequency.Text = soundFormat.Frequency.ToString();
 
-                // Get tags
-                Tags tags = tempSound.GetTags();
-                lblCurrentArtistName.Text = tags.ArtistName;
-                lblCurrentAlbumTitle.Text = tags.AlbumTitle;
-                lblCurrentSongTitle.Text = tags.Title;
+            //    // Get tags
+            //    Tags tags = tempSound.GetTags();
+            //    lblCurrentArtistName.Text = tags.ArtistName;
+            //    lblCurrentAlbumTitle.Text = tags.AlbumTitle;
+            //    lblCurrentSongTitle.Text = tags.Title;
 
-                // Update the rest of the fields
-                lblCurrentFilePath.Text = filePath;                
-                lblSoundFormat.Text = Path.GetExtension(filePath).Replace(".", "").ToUpper();
+            //    // Update the rest of the fields
+            //    lblCurrentFilePath.Text = filePath;                
+            //    lblSoundFormat.Text = Path.GetExtension(filePath).Replace(".", "").ToUpper();
 
-                // Set the song length for the Loops & Markers wave form display control
-                waveFormMarkersLoops.TotalPCMBytes = tempSound.LengthPCMBytes;
-                waveFormMarkersLoops.TotalMS = tempSound.LengthAbsoluteMilliseconds;
+            //    // Set the song length for the Loops & Markers wave form display control
+            //    waveFormMarkersLoops.TotalPCMBytes = tempSound.LengthPCMBytes;
+            //    waveFormMarkersLoops.TotalMS = tempSound.LengthAbsoluteMilliseconds;
 
-                // Release sound
-                tempSound.Release();
+            //    // Release sound
+            //    tempSound.Release();
 
-                // Load the wave form                
-                waveFormMarkersLoops.LoadWaveForm(filePath);               
+            //    // Load the wave form                
+            //    waveFormMarkersLoops.LoadWaveForm(filePath);               
 
-                //// Update wave form loops & markers control
-                //waveFormMarkersLoops.WaveDataHistory.Clear();               
-                //if (workerWaveFormMarkerLoops.IsBusy)
-                //{
-                //    workerWaveFormMarkerLoops.CancelAsync();
-                //}
-                //workerWaveFormMarkerLoops.RunWorkerAsync(filePath);
-                //waveFormMarkersLoops.IsLoading = true;
-                //timerWaveFormLoopsMarkers.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //    //// Update wave form loops & markers control
+            //    //waveFormMarkersLoops.WaveDataHistory.Clear();               
+            //    //if (workerWaveFormMarkerLoops.IsBusy)
+            //    //{
+            //    //    workerWaveFormMarkerLoops.CancelAsync();
+            //    //}
+            //    //workerWaveFormMarkerLoops.RunWorkerAsync(filePath);
+            //    //waveFormMarkersLoops.IsLoading = true;
+            //    //timerWaveFormLoopsMarkers.Enabled = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
         }
 
         /// <summary>
@@ -1628,38 +1635,38 @@ namespace MPfm
         /// </summary>
         public void RefreshMarkers()
         {
-            // Clear items
-            viewMarkers.Items.Clear();
+            //// Clear items
+            //viewMarkers.Items.Clear();
 
-            // Set marker buttons
-            btnEditMarker.Enabled = false;
-            btnRemoveMarker.Enabled = false;
-            btnGoToMarker.Enabled = false;
+            //// Set marker buttons
+            //btnEditMarker.Enabled = false;
+            //btnRemoveMarker.Enabled = false;
+            //btnGoToMarker.Enabled = false;
 
-            // Check if a song is currently playing
-            if (Player.CurrentSong == null)
-            {
-                // Reset buttons
-                btnAddMarker.Enabled = false;
-                return;
-            }
+            //// Check if a song is currently playing
+            //if (Player.CurrentSong == null)
+            //{
+            //    // Reset buttons
+            //    btnAddMarker.Enabled = false;
+            //    return;
+            //}
 
-            // Set button
-            btnAddMarker.Enabled = true;
+            //// Set button
+            //btnAddMarker.Enabled = true;
             
-            // Fetch markers from database
-            List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
+            //// Fetch markers from database
+            //List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
 
-            // Update grid view
-            foreach (MPfm.Library.Data.Marker marker in markers)
-            {
-                // Create grid view item
-                ListViewItem item = viewMarkers.Items.Add(marker.Name);
-                item.Tag = marker.MarkerId;
-                item.SubItems.Add(marker.Position);
-                item.SubItems.Add(marker.Comments);
-                item.SubItems.Add(marker.PositionPCM.ToString());
-            }
+            //// Update grid view
+            //foreach (MPfm.Library.Data.Marker marker in markers)
+            //{
+            //    // Create grid view item
+            //    ListViewItem item = viewMarkers.Items.Add(marker.Name);
+            //    item.Tag = marker.MarkerId;
+            //    item.SubItems.Add(marker.Position);
+            //    item.SubItems.Add(marker.Comments);
+            //    item.SubItems.Add(marker.PositionPCM.ToString());
+            //}
         }
 
         /// <summary>
@@ -1667,53 +1674,53 @@ namespace MPfm
         /// </summary>
         public void RefreshLoops()
         {
-            // Clear items
-            viewLoops.Items.Clear();
+            //// Clear items
+            //viewLoops.Items.Clear();
 
-            // Set buttons
-            btnEditLoop.Enabled = false;
-            btnRemoveLoop.Enabled = false;
-            btnPlayLoop.Enabled = false;
-            btnStopLoop.Enabled = false;
+            //// Set buttons
+            //btnEditLoop.Enabled = false;
+            //btnRemoveLoop.Enabled = false;
+            //btnPlayLoop.Enabled = false;
+            //btnStopLoop.Enabled = false;
 
-            // Check if a song is currently playing
-            if (Player.CurrentSong == null)
-            {
-                // Reset buttons
-                btnAddLoop.Enabled = false;
-                return;
-            }
+            //// Check if a song is currently playing
+            //if (Player.CurrentSong == null)
+            //{
+            //    // Reset buttons
+            //    btnAddLoop.Enabled = false;
+            //    return;
+            //}
 
-            // Set button
-            btnAddLoop.Enabled = true;
+            //// Set button
+            //btnAddLoop.Enabled = true;
 
-            // Fetch loops from database
-            List<MPfm.Library.Data.Loop> loops = DataAccess.SelectSongLoops(Player.CurrentSong.SongId);
-            List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
+            //// Fetch loops from database
+            //List<MPfm.Library.Data.Loop> loops = DataAccess.SelectSongLoops(Player.CurrentSong.SongId);
+            //List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
 
-            // Update grid view
-            foreach (MPfm.Library.Data.Loop loop in loops)
-            {
-                // Create grid view item
-                ListViewItem item = viewLoops.Items.Add("");
-                item.Tag = loop.LoopId;
-                item.SubItems.Add(loop.Name);
-                item.SubItems.Add(Conversion.MillisecondsToTimeString((ulong)loop.Length));
+            //// Update grid view
+            //foreach (MPfm.Library.Data.Loop loop in loops)
+            //{
+            //    // Create grid view item
+            //    ListViewItem item = viewLoops.Items.Add("");
+            //    item.Tag = loop.LoopId;
+            //    item.SubItems.Add(loop.Name);
+            //    item.SubItems.Add(Conversion.MillisecondsToTimeString((ulong)loop.Length));
 
-                // Find the markers
-                MPfm.Library.Data.Marker markerA = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerAId);
-                MPfm.Library.Data.Marker markerB = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerBId);
+            //    // Find the markers
+            //    MPfm.Library.Data.Marker markerA = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerAId);
+            //    MPfm.Library.Data.Marker markerB = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerBId);
 
-                // Update marker subitems
-                item.SubItems.Add(markerA.Position);
-                item.SubItems.Add(markerB.Position);
+            //    // Update marker subitems
+            //    item.SubItems.Add(markerA.Position);
+            //    item.SubItems.Add(markerB.Position);
 
-                // Check if this is the currently playing loop
-                if (Player.CurrentLoop != null && Player.CurrentLoop.Name == loop.Name)
-                {
-                    item.ImageIndex = 7;
-                }
-            }
+            //    // Check if this is the currently playing loop
+            //    if (Player.CurrentLoop != null && Player.CurrentLoop.Name == loop.Name)
+            //    {
+            //        item.ImageIndex = 7;
+            //    }
+            //}
         }
 
         /// <summary>
@@ -1789,44 +1796,44 @@ namespace MPfm
         /// </summary>
         public void RefreshTreeLibraryPlaylists()
         {
-            // Check for nulls
-            if (nodeAllPlaylists == null)
-            {
-                return;
-            }
+            ////// Check for nulls
+            ////if (nodeAllPlaylists == null)
+            ////{
+            ////    return;
+            ////}
 
-            // If the node isn't expanded, no need to refresh that node
-            if (!nodeAllPlaylists.IsExpanded && nodeAllPlaylists.Nodes.Count > 0)
-            {
-                return;
-            }
+            ////// If the node isn't expanded, no need to refresh that node
+            ////if (!nodeAllPlaylists.IsExpanded && nodeAllPlaylists.Nodes.Count > 0)
+            ////{
+            ////    return;
+            ////}
 
-            // Fetch playlists
-            List<PlaylistDTO> playlists = Player.Library.SelectPlaylists(false);
+            ////// Fetch playlists
+            ////List<PlaylistDTO> playlists = Player.Library.SelectPlaylists(false);
 
-            // Clear nodes
-            nodeAllPlaylists.Nodes.Clear();
+            ////// Clear nodes
+            ////nodeAllPlaylists.Nodes.Clear();
 
-            // For each playlist
-            foreach (PlaylistDTO playlist in playlists)
-            {
-                // Create tree node
-                TreeNode nodePlaylist = new TreeNode();
-                nodePlaylist.Text = playlist.PlaylistName;
-                nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
-                nodePlaylist.ImageIndex = 11;
-                nodePlaylist.SelectedImageIndex = 11;
+            ////// For each playlist
+            ////foreach (PlaylistDTO playlist in playlists)
+            ////{
+            ////    // Create tree node
+            ////    TreeNode nodePlaylist = new TreeNode();
+            ////    nodePlaylist.Text = playlist.PlaylistName;
+            ////    nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
+            ////    nodePlaylist.ImageIndex = 11;
+            ////    nodePlaylist.SelectedImageIndex = 11;
 
-                // Add node to tree
-                nodeAllPlaylists.Nodes.Add(nodePlaylist);
+            ////    // Add node to tree
+            ////    nodeAllPlaylists.Nodes.Add(nodePlaylist);
 
-                // If the form is initializing and setting the initial opened node from history...
-                if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
-                {
-                    // Set node as selected
-                    treeLibrary.SelectedNode = nodePlaylist;
-                }
-            }
+            ////    // If the form is initializing and setting the initial opened node from history...
+            ////    if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
+            ////    {
+            ////        // Set node as selected
+            ////        treeLibrary.SelectedNode = nodePlaylist;
+            ////    }
+            ////}
 
         }
 
@@ -1840,7 +1847,7 @@ namespace MPfm
             string repeatSong = "Repeat (Song)";
 
             // Display the repeat type
-            if (Player.RepeatType == RepeatType.Playlist)
+            if (m_playerV4.RepeatType == RepeatType.Playlist)
             {
                 btnRepeat.Text = repeatPlaylist;
                 btnRepeat.Checked = true;
@@ -1848,10 +1855,10 @@ namespace MPfm
                 miTrayRepeat.Text = repeatPlaylist;
                 miTrayRepeat.Checked = true;
             }
-            else if (Player.RepeatType == RepeatType.Song)
+            else if (m_playerV4.RepeatType == RepeatType.Song)
             {
                 btnRepeat.Text = repeatSong;
-                btnRepeat.Checked = true;                               
+                btnRepeat.Checked = true;
 
                 miTrayRepeat.Text = repeatSong;
                 miTrayRepeat.Checked = true;
@@ -1907,42 +1914,46 @@ namespace MPfm
             {
                 return;
             }
-            //if (viewSongs.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
 
             try
             {
-
-                // Get the song from the tag of the selected item
-                //SongDTO currentSong = (SongDTO)viewSongs.SelectedItems[0].Tag;
+                // Get the song from the tag of the selected item                
                 SongDTO currentSong = viewSongs2.SelectedItems[0].Song;
 
                 // Check if song is null
                 if (currentSong != null)
                 {
                     // Set playback depending on the query in the song browser
+                    List<SongDTO> songs = null;
                     if (QuerySongBrowser.Type == SongQueryType.Album)
                     {
                         // Generate an artist/album playlist and start playback
-                        Player.PlayAlbum(FilterSoundFormat, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle, currentSong.SongId);
+                        songs = Library.SelectSongs(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle);
+                        //Player.PlayAlbum(FilterSoundFormat, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle, currentSong.SongId);
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.Artist)
                     {
-                        // Generate an artist playlist and start playback
-                        Player.PlayArtist(FilterSoundFormat, QuerySongBrowser.ArtistName, currentSong.SongId);
+                        // Generate an artist playlist and start playback                                                                        
+                        songs = Library.SelectSongs(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName);
+                        //Player.PlayArtist(FilterSoundFormat, QuerySongBrowser.ArtistName, currentSong.SongId);
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.Playlist)
                     {
                         // Play playlist
-                        Player.PlayPlaylist(QuerySongBrowser.PlaylistId);
+                        //Player.PlayPlaylist(QuerySongBrowser.PlaylistId);
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.All)
                     {
                         // Generate a playlist with all the library and start playaback
-                        Player.PlayAll(FilterSoundFormat, currentSong.SongId);
+                        songs = Library.SelectSongs(FilterSoundFormat);
+                        //Player.PlayAll(FilterSoundFormat, currentSong.SongId);
                     }
+
+                    // Clear playlist and add songs
+                    m_playerV4.Playlist.Clear();
+                    m_playerV4.Playlist.AddItems(songs);
+                    m_playerV4.Playlist.GoTo(currentSong.SongId);
+                    m_playerV4.Play();                    
 
                     // Refresh controls after song playback
                     RefreshSongControls();
@@ -1965,21 +1976,23 @@ namespace MPfm
         /// </summary>
         public void Stop()
         {
-            // Check if the player is initialized
-            if (Player.IsInitialized)
+            // Validate player
+            if(m_playerV4 == null || m_playerV4.Playlist == null || !m_playerV4.IsPlaying)
             {
-                // Stop song, wait a little
-                Player.Stop();
-                System.Threading.Thread.Sleep(100);
-
-                // Refresh controls
-                btnAddMarker.Enabled = false;
-                waveFormMarkersLoops.Clear();
-                RefreshSongControls();
-                RefreshMarkers();
-                RefreshLoops();
-                formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);                               
+                return;
             }
+
+            // Stop song, wait a little
+            m_playerV4.Stop();
+            //System.Threading.Thread.Sleep(100);
+
+            // Refresh controls
+            btnAddMarker.Enabled = false;
+            waveFormMarkersLoops.Clear();
+            RefreshSongControls();
+            RefreshMarkers();
+            RefreshLoops();
+            formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);            
         }
 
         #endregion
@@ -2003,20 +2016,32 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void trackPosition_MouseUp(object sender, MouseEventArgs e)
         {
+            // Validate player
+            if (m_playerV4 == null || !m_playerV4.IsPlaying ||
+                m_playerV4.Playlist == null || m_playerV4.Playlist.CurrentItem == null)
+            {
+                return;
+            }
+
             try
             {
-                if (Player.CurrentSound != null)
-                {
-                    // Get percentage and set position
-                    double percentage = (double)trackPosition.Value / 1000;                    
-                    uint newPosition = Player.SetPositionSentenceMS(percentage);
-                    
-                    string time = Conversion.MillisecondsToTimeString(Convert.ToUInt32((percentage * (double)Player.currentSongLength) / 100));
-                    lblSongPosition.Text = time;
-                    lblSongPercentage.Text = newPosition.ToString();
+                // Get ratio and set position
+                double ratio = (double)trackPosition.Value / 1000;
 
-                    songPositionChanging = false;
-                }
+                // Get length
+                int positionBytes = (int)(ratio * (double)m_playerV4.Playlist.CurrentItem.LengthBytes);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+                long positionMS = ConvertAudio.ToMS(positionSamples, 44100);
+
+                // Set player position
+                m_playerV4.SetPosition(positionBytes);
+
+                // Set UI
+                lblSongPosition.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);                
+                lblSongPercentage.Text = (ratio * 100).ToString("00.00");
+
+                // Set flags
+                songPositionChanging = false;
             }
             catch (Exception ex)
             {
@@ -2031,15 +2056,22 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void trackPosition_MouseMove(object sender, MouseEventArgs e)
         {
-            double percentage = (double)trackPosition.Value / 10;
+            // Validate player
+            if (m_playerV4 == null || !m_playerV4.IsPlaying ||
+                m_playerV4.Playlist == null || m_playerV4.Playlist.CurrentItem == null)
+            {
+                return;
+            }
+
+            // Get ratio
+            double ratio = (double)trackPosition.Value / 1000;
+
+            // Check if the left mouse button was clicked
             if (e.Button == MouseButtons.Left)
             {
-                if (Player.CurrentSound != null)
-                {
-                    string time = Conversion.MillisecondsToTimeString(Convert.ToUInt32((percentage * (double)Player.currentSongLength) / 100));
-                    lblSongPosition.Text = time;
-                    lblSongPercentage.Text = percentage.ToString("0.00") + " %";
-                }
+                // Get time                
+                lblSongPosition.Text = Conversion.MillisecondsToTimeString(Convert.ToUInt32((ratio * (double)m_playerV4.Playlist.CurrentItem.LengthMilliseconds)));
+                lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
             }
         }
 
@@ -2050,11 +2082,11 @@ namespace MPfm
         /// <param name="e"></param>
         private void trackTimeShiftingNew_OnTrackBarValueChanged()
         {
-            double multiplier = 1 / ((double)trackTimeShifting.Value / 100);
+            //double multiplier = 1 / ((double)trackTimeShifting.Value / 100);
 
-            lblTimeShifting.Text = trackTimeShifting.Value.ToString() + " %";
+            //lblTimeShifting.Text = trackTimeShifting.Value.ToString() + " %";
 
-            Player.TimeShifting = trackTimeShifting.Value;
+            //Player.TimeShifting = trackTimeShifting.Value;
         }
 
 
@@ -2087,14 +2119,14 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkEditSongMetadata_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Check for null
-            if (Player.CurrentSong == null)
-            {
-                return;
-            }
+            //// Check for null
+            //if (Player.CurrentSong == null)
+            //{
+            //    return;
+            //}
 
-            // Open window
-            EditSongMetadata(Player.CurrentSong.FilePath);
+            //// Open window
+            //EditSongMetadata(Player.CurrentSong.FilePath);
         }
 
         /// <summary>
@@ -2104,9 +2136,9 @@ namespace MPfm
         /// <param name="e">Arguments</param>
         private void faderVolume_OnFaderValueChanged(object sender, EventArgs e)
         {
-            Player.Volume = faderVolume.Value;
-            lblVolume.Text = faderVolume.Value.ToString() + " %";
-            Config.Volume = faderVolume.Value;
+            //Player.Volume = faderVolume.Value;
+            //lblVolume.Text = faderVolume.Value.ToString() + " %";
+            //Config.Volume = faderVolume.Value;
         }
 
         /// <summary>
@@ -2131,10 +2163,10 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkSearchGuitarTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (Player.CurrentSong != null)
-            {
-                Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+guitar+tab");
-            }
+            //if (Player.CurrentSong != null)
+            //{
+            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+guitar+tab");
+            //}
         }
 
         /// <summary>
@@ -2145,10 +2177,10 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkSearchBassTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (Player.CurrentSong != null)
-            {
-                Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+bass+tab");
-            }
+            //if (Player.CurrentSong != null)
+            //{
+            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+bass+tab");
+            //}
         }
 
         /// <summary>
@@ -2159,10 +2191,10 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkSearchLyrics_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (Player.CurrentSong != null)
-            {
-                Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+lyrics");
-            }
+            //if (Player.CurrentSong != null)
+            //{
+            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+lyrics");
+            //}
         }
 
         /// <summary>
@@ -2173,10 +2205,10 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void picAlbum_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Player.CurrentSong != null)
-            {
-                Process.Start("http://www.google.ca/search?q=" + Player.CurrentSong.ArtistName + "+" + Player.CurrentSong.AlbumTitle + "+album+cover");
-            }
+            //if (Player.CurrentSong != null)
+            //{
+            //    Process.Start("http://www.google.ca/search?q=" + Player.CurrentSong.ArtistName + "+" + Player.CurrentSong.AlbumTitle + "+album+cover");
+            //}
         }
 
         #endregion  
@@ -2350,22 +2382,22 @@ namespace MPfm
             if (args.OperationType == WorkerTreeLibraryOperationType.GetArtistAlbums)
             {
                 // Select all albums from artist
-                result.Albums = Player.Library.SelectArtistAlbumTitles(args.ArtistName, FilterSoundFormat);
+                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, FilterSoundFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetArtists)
             {
                 // Select all artists
-                result.Artists = Player.Library.SelectArtistNames(FilterSoundFormat);
+                result.Artists = Library.SelectArtistNames(FilterSoundFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetAlbums)
             {
                 // Select all albums
-                result.AllAlbums = Player.Library.SelectAlbumTitles(FilterSoundFormat);
+                result.AllAlbums = Library.SelectAlbumTitles(FilterSoundFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
             {
                 // Select playlists
-                result.Playlists = Player.Library.SelectPlaylists(false);
+                result.Playlists = Library.SelectPlaylists(false);
             }
 
             e.Result = result;
@@ -2948,15 +2980,15 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void timerUpdateOutputMeter_Tick(object sender, EventArgs e)
         {
-            if (Player != null && Player.IsPlaying)
-            {
-                outputMeter.Refresh();
+            //if (Player != null && Player.IsPlaying)
+            //{
+            //    outputMeter.Refresh();
 
-                if (!waveFormMarkersLoops.IsLoading)
-                {
-                    waveFormMarkersLoops.Refresh();
-                }
-            }
+            //    if (!waveFormMarkersLoops.IsLoading)
+            //    {
+            //        waveFormMarkersLoops.Refresh();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -2967,52 +2999,52 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void miTreeLibraryAddSongsToPlaylist_Click(object sender, EventArgs e)
         {
-            // Get selected node
-            TreeNode node = treeLibrary.SelectedNode;
+            //// Get selected node
+            //TreeNode node = treeLibrary.SelectedNode;
 
 
-            // Check for null
-            if (node == null)
-            {
-                return;
-            }
+            //// Check for null
+            //if (node == null)
+            //{
+            //    return;
+            //}
 
-            // Get the node metadata
-            TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)node.Tag;
+            //// Get the node metadata
+            //TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)node.Tag;
 
-            // Check for null
-            if (metadata == null)
-            {
-                return;
-            }
+            //// Check for null
+            //if (metadata == null)
+            //{
+            //    return;
+            //}
 
-            // Build a playlist based on node type
-            PlaylistDTO playlist = null;
-            if (metadata.NodeType == TreeLibraryNodeType.Artist)
-            {
-                // Generate playlist from library
-                playlist = Player.Library.GeneratePlaylistFromArtist(FilterSoundFormat, metadata.Query.ArtistName);
-            }
-            else if (metadata.NodeType == TreeLibraryNodeType.ArtistAlbum)
-            {
-                // Generate playlist from library
-                playlist = Player.Library.GeneratePlaylistFromAlbum(FilterSoundFormat, metadata.Query.ArtistName, metadata.Query.AlbumTitle);
-            }
+            //// Build a playlist based on node type
+            //PlaylistDTO playlist = null;
+            //if (metadata.NodeType == TreeLibraryNodeType.Artist)
+            //{
+            //    // Generate playlist from library
+            //    playlist = Player.Library.GeneratePlaylistFromArtist(FilterSoundFormat, metadata.Query.ArtistName);
+            //}
+            //else if (metadata.NodeType == TreeLibraryNodeType.ArtistAlbum)
+            //{
+            //    // Generate playlist from library
+            //    playlist = Player.Library.GeneratePlaylistFromAlbum(FilterSoundFormat, metadata.Query.ArtistName, metadata.Query.AlbumTitle);
+            //}
 
-            // If the playlist is valid, add songs to current playlist
-            if (playlist != null)
-            {
-                // Add each song to current playlist
-                //foreach (SongDTO song in playlist.Songs)
-                foreach(PlaylistSongDTO playlistSong in playlist.Songs)
-                {
-                    // Add song to playlist
-                    Player.AddSongToPlaylist(playlistSong.Song.SongId);
-                }
+            //// If the playlist is valid, add songs to current playlist
+            //if (playlist != null)
+            //{
+            //    // Add each song to current playlist
+            //    //foreach (SongDTO song in playlist.Songs)
+            //    foreach(PlaylistSongDTO playlistSong in playlist.Songs)
+            //    {
+            //        // Add song to playlist
+            //        Player.AddSongToPlaylist(playlistSong.Song.SongId);
+            //    }
 
-                // Refresh playlist window
-                formPlaylist.RefreshPlaylist();
-            }
+            //    // Refresh playlist window
+            //    formPlaylist.RefreshPlaylist();
+            //}
         }
 
         /// <summary>
@@ -3039,25 +3071,25 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnAddSongToPlaylist_Click(object sender, EventArgs e)
         {
-            // Loop through selected items
-            for (int a = 0; a < viewSongs2.SelectedItems.Count; a++)
-            {
-                // Get the song from the tag of the item
-                SongDTO currentSong = viewSongs2.SelectedItems[a].Song;
+            //// Loop through selected items
+            //for (int a = 0; a < viewSongs2.SelectedItems.Count; a++)
+            //{
+            //    // Get the song from the tag of the item
+            //    SongDTO currentSong = viewSongs2.SelectedItems[a].Song;
 
-                // Check for null
-                if (currentSong != null)
-                {
-                    // Add to playlist
-                    Player.AddSongToPlaylist(currentSong.SongId);
-                }
-            }
+            //    // Check for null
+            //    if (currentSong != null)
+            //    {
+            //        // Add to playlist
+            //        Player.AddSongToPlaylist(currentSong.SongId);
+            //    }
+            //}
 
-            // Refresh playlists (if there was at least one selected item)
-            if (viewSongs2.SelectedItems.Count > 0)
-            {
-                formPlaylist.RefreshPlaylist();
-            }
+            //// Refresh playlists (if there was at least one selected item)
+            //if (viewSongs2.SelectedItems.Count > 0)
+            //{
+            //    formPlaylist.RefreshPlaylist();
+            //}
         }  
 
         /// <summary>
@@ -3095,19 +3127,19 @@ namespace MPfm
         /// <param name="data">Event Data</param>
         private void waveFormMarkersLoops_OnPositionChanged(PositionChangedData data)
         {
-            // Check if data is valid
-            if (data == null)
-            {
-                return;
-            }
+            //// Check if data is valid
+            //if (data == null)
+            //{
+            //    return;
+            //}
 
-            // Set new position
-            uint newPosition = Player.SetPositionSentenceMS(data.Percentage);
+            //// Set new position
+            //uint newPosition = Player.SetPositionSentenceMS(data.Percentage);
 
-            // Update song position
-            string time = Conversion.MillisecondsToTimeString(Convert.ToUInt32((data.Percentage * (double)Player.currentSongLength) / 100));
-            lblSongPosition.Text = time;
-            lblSongPercentage.Text = newPosition.ToString();
+            //// Update song position
+            //string time = Conversion.MillisecondsToTimeString(Convert.ToUInt32((data.Percentage * (double)Player.currentSongLength) / 100));
+            //lblSongPosition.Text = time;
+            //lblSongPercentage.Text = newPosition.ToString();
         }
 
         #region Markers Button and GridView Events
@@ -3120,13 +3152,13 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnAddMarker_Click(object sender, EventArgs e)
         {
-            // Check if the wave data is loaded
-            if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
-            {
-                // Create window and show as dialog
-                formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.CurrentSong, Guid.Empty);
-                formAddEditMarker.ShowDialog(this);
-            }
+            //// Check if the wave data is loaded
+            //if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
+            //{
+            //    // Create window and show as dialog
+            //    formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.CurrentSong, Guid.Empty);
+            //    formAddEditMarker.ShowDialog(this);
+            //}
         }
 
         /// <summary>
@@ -3137,18 +3169,18 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnEditMarker_Click(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewMarkers.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewMarkers.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get selected markerId
-            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+            //// Get selected markerId
+            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
-            // Create window and show as dialog
-            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit, Player.CurrentSong, markerId);
-            formAddEditMarker.ShowDialog(this);
+            //// Create window and show as dialog
+            //formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit, Player.CurrentSong, markerId);
+            //formAddEditMarker.ShowDialog(this);
         }
 
         /// <summary>
@@ -3185,21 +3217,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnGoToMarker_Click(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewMarkers.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewMarkers.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get selected markerId
-            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+            //// Get selected markerId
+            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
-            // Get PCM position
-            uint position = 0;
-            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[2].Text, out position);
+            //// Get PCM position
+            //uint position = 0;
+            //uint.TryParse(viewMarkers.SelectedItems[0].SubItems[2].Text, out position);
 
-            // Set player position
-            m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            //// Set player position
+            //m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
         }
 
         /// <summary>
@@ -3210,21 +3242,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void viewMarkers_DoubleClick(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewMarkers.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewMarkers.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get selected markerId
-            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+            //// Get selected markerId
+            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
-            // Get PCM position
-            uint position = 0;
-            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
+            //// Get PCM position
+            //uint position = 0;
+            //uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
 
-            // Set player position
-            m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            //// Set player position
+            //m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
         }
 
         /// <summary>
@@ -3262,23 +3294,23 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnAddLoop_Click(object sender, EventArgs e)
         {
-            // Check if the wave data is loaded
-            if (waveFormMarkersLoops.WaveDataHistory.Count == 0)
-            {
-                return;
-            }
+            //// Check if the wave data is loaded
+            //if (waveFormMarkersLoops.WaveDataHistory.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Check if there are at least two markers
-            if (viewMarkers.Items.Count < 2)
-            {
-                // Display message
-                MessageBox.Show("You must add at least two markers before adding a loop.", "Error adding loop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //// Check if there are at least two markers
+            //if (viewMarkers.Items.Count < 2)
+            //{
+            //    // Display message
+            //    MessageBox.Show("You must add at least two markers before adding a loop.", "Error adding loop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
 
-            // Create window and show as dialog
-            formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.CurrentSong, Guid.Empty);
-            formAddEditLoop.ShowDialog(this);            
+            //// Create window and show as dialog
+            //formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.CurrentSong, Guid.Empty);
+            //formAddEditLoop.ShowDialog(this);            
         }
 
         /// <summary>
@@ -3289,18 +3321,18 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnEditLoop_Click(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewLoops.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewLoops.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get selected loopId
-            Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+            //// Get selected loopId
+            //Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
-            // Create window and show as dialog
-            formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Edit, Player.CurrentSong, loopId);
-            formAddEditLoop.ShowDialog(this);
+            //// Create window and show as dialog
+            //formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Edit, Player.CurrentSong, loopId);
+            //formAddEditLoop.ShowDialog(this);
         }
 
         /// <summary>
@@ -3337,46 +3369,46 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPlayLoop_Click(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewLoops.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewLoops.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get selected loopId
-            Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+            //// Get selected loopId
+            //Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
-            // Fetch loop from database
-            MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(loopId);
+            //// Fetch loop from database
+            //MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(loopId);
 
-            // Check if the loop is valid
-            if (loop == null)
-            {
-                return;
-            }
+            //// Check if the loop is valid
+            //if (loop == null)
+            //{
+            //    return;
+            //}
 
-            // Set current loop in player
-            Player.CurrentLoop = loop;
+            //// Set current loop in player
+            //Player.CurrentLoop = loop;
 
-            // Set currently playing loop icon
-            for (int a = 0; a < viewLoops.Items.Count; a++)
-            {
-                // Check if the loop is currently playing
-                if (viewLoops.Items[a].Tag.ToString() == loop.LoopId)
-                {
-                    // Set flag
-                    viewLoops.Items[a].ImageIndex = 7;
-                }
-                else
-                {
-                    // Reset flag
-                    viewLoops.Items[a].ImageIndex = -1;
-                }
-            }
+            //// Set currently playing loop icon
+            //for (int a = 0; a < viewLoops.Items.Count; a++)
+            //{
+            //    // Check if the loop is currently playing
+            //    if (viewLoops.Items[a].Tag.ToString() == loop.LoopId)
+            //    {
+            //        // Set flag
+            //        viewLoops.Items[a].ImageIndex = 7;
+            //    }
+            //    else
+            //    {
+            //        // Reset flag
+            //        viewLoops.Items[a].ImageIndex = -1;
+            //    }
+            //}
 
-            // Reset buttons
-            btnPlayLoop.Enabled = false;
-            btnStopLoop.Enabled = true;
+            //// Reset buttons
+            //btnPlayLoop.Enabled = false;
+            //btnStopLoop.Enabled = true;
         }
 
         /// <summary>
@@ -3387,21 +3419,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnStopLoop_Click(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewLoops.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewLoops.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Reset loop
-            Player.CurrentLoop = null;
+            //// Reset loop
+            //Player.CurrentLoop = null;
 
-            // Refresh loops
-            RefreshLoops();
+            //// Refresh loops
+            //RefreshLoops();
 
-            // Reset buttons
-            btnPlayLoop.Enabled = true;
-            btnStopLoop.Enabled = false;
+            //// Reset buttons
+            //btnPlayLoop.Enabled = true;
+            //btnStopLoop.Enabled = false;
         }
 
         /// <summary>
@@ -3412,33 +3444,33 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void viewLoops_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            // Enable/disable loop buttons
-            if (viewLoops.SelectedItems.Count == 0)
-            {
-                btnPlayLoop.Enabled = false;
-                btnEditLoop.Enabled = false;
-                btnRemoveLoop.Enabled = false;
-            }
-            else
-            {
-                // At least one item is selected.                
-                btnPlayLoop.Enabled = true;
-                btnStopLoop.Enabled = false;
-                btnEditLoop.Enabled = true;
-                btnRemoveLoop.Enabled = true;    
+            //// Enable/disable loop buttons
+            //if (viewLoops.SelectedItems.Count == 0)
+            //{
+            //    btnPlayLoop.Enabled = false;
+            //    btnEditLoop.Enabled = false;
+            //    btnRemoveLoop.Enabled = false;
+            //}
+            //else
+            //{
+            //    // At least one item is selected.                
+            //    btnPlayLoop.Enabled = true;
+            //    btnStopLoop.Enabled = false;
+            //    btnEditLoop.Enabled = true;
+            //    btnRemoveLoop.Enabled = true;    
             
-                // Check if the loop is currently playing
-                if(Player.CurrentLoop != null)
-                {
-                    // Check if the loop matches
-                    if (viewLoops.SelectedItems[0].Tag.ToString() == Player.CurrentLoop.LoopId)
-                    {
-                        // Set buttons
-                        btnPlayLoop.Enabled = false;
-                        btnStopLoop.Enabled = true;
-                    }
-                }
-            }
+            //    // Check if the loop is currently playing
+            //    if(Player.CurrentLoop != null)
+            //    {
+            //        // Check if the loop matches
+            //        if (viewLoops.SelectedItems[0].Tag.ToString() == Player.CurrentLoop.LoopId)
+            //        {
+            //            // Set buttons
+            //            btnPlayLoop.Enabled = false;
+            //            btnStopLoop.Enabled = true;
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -3449,46 +3481,46 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void viewLoops_DoubleClick(object sender, EventArgs e)
         {
-            // Check if an item is selected
-            if (viewLoops.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Check if an item is selected
+            //if (viewLoops.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get selected loopId
-            Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
+            //// Get selected loopId
+            //Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
-            // Fetch loop from database
-            MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(loopId);
+            //// Fetch loop from database
+            //MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(loopId);
 
-            // Check if the loop is valid
-            if (loop == null)
-            {
-                return;
-            }
+            //// Check if the loop is valid
+            //if (loop == null)
+            //{
+            //    return;
+            //}
 
-            // Set current loop in player
-            Player.CurrentLoop = loop;
+            //// Set current loop in player
+            //Player.CurrentLoop = loop;
             
-            // Set currently playing loop icon
-            for (int a = 0; a < viewLoops.Items.Count; a++)
-            {
-                // Check if the loop is currently playing
-                if (viewLoops.Items[a].Tag.ToString() == loop.LoopId)
-                {
-                    // Set flag
-                    viewLoops.Items[a].ImageIndex = 7;
-                }
-                else
-                {
-                    // Reset flag
-                    viewLoops.Items[a].ImageIndex = -1;
-                }
-            }
+            //// Set currently playing loop icon
+            //for (int a = 0; a < viewLoops.Items.Count; a++)
+            //{
+            //    // Check if the loop is currently playing
+            //    if (viewLoops.Items[a].Tag.ToString() == loop.LoopId)
+            //    {
+            //        // Set flag
+            //        viewLoops.Items[a].ImageIndex = 7;
+            //    }
+            //    else
+            //    {
+            //        // Reset flag
+            //        viewLoops.Items[a].ImageIndex = -1;
+            //    }
+            //}
 
-            // Reset buttons
-            btnPlayLoop.Enabled = false;
-            btnStopLoop.Enabled = true;
+            //// Reset buttons
+            //btnPlayLoop.Enabled = false;
+            //btnStopLoop.Enabled = true;
         }
 
         #endregion

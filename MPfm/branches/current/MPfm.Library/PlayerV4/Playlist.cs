@@ -122,6 +122,44 @@ namespace MPfm.Library.PlayerV4
         }
 
         /// <summary>
+        /// Adds an item at the end of the playlist.
+        /// </summary>
+        /// <param name="song">SongDTO instance</param>
+        public void AddItem(SongDTO song)
+        {
+            // Add new playlist item at the end
+            Items.Add(new PlaylistItem(this, song.FilePath) { Song = song });
+        }
+
+        /// <summary>
+        /// Adds a list of items at the end of the playlist.
+        /// </summary>
+        /// <param name="filePaths">List of audio file paths</param>
+        public void AddItems(List<string> filePaths)
+        {
+            // Loop through file paths
+            foreach (string filePath in filePaths)
+            {
+                // Add item
+                AddItem(filePath);
+            }
+        }
+
+        /// <summary>
+        /// Adds a list of items at the end of the playlist.
+        /// </summary>
+        /// <param name="songs">List of SongDTO instances</param>
+        public void AddItems(List<SongDTO> songs)
+        {
+            // Loop through file paths
+            foreach (SongDTO song in songs)
+            {
+                // Add item
+                AddItem(song);
+            }
+        }
+
+        /// <summary>
         /// Inserts an item at a specific location in the playlist.
         /// </summary>
         /// <param name="filePath">Audio file path</param>
@@ -130,6 +168,24 @@ namespace MPfm.Library.PlayerV4
         {
             // Add new playlist item at the specified index
             Items.Insert(index, new PlaylistItem(this, filePath));
+
+            // Increment current item index if an item was inserted before the current item
+            if (index <= CurrentItemIndex)
+            {
+                // Increment index
+                m_currentItemIndex++;
+            }
+        }
+
+        /// <summary>
+        /// Inserts an item at a specific location in the playlist.
+        /// </summary>
+        /// <param name="song">SongDTO instance</param>
+        /// <param name="index">The item will be inserted before this index</param>
+        public void InsertItem(SongDTO song, int index)
+        {
+            // Add new playlist item at the specified index
+            Items.Insert(index, new PlaylistItem(this, song.FilePath) { Song = song });
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
@@ -184,6 +240,30 @@ namespace MPfm.Library.PlayerV4
             // Set index
             m_currentItemIndex = index;
             m_currentItem = m_items[m_currentItemIndex];
+        }
+
+        /// <summary>
+        /// Go to a specific item index in the playlist.
+        /// </summary>
+        /// <param name="index">Item index</param>
+        public void GoTo(Guid songId)
+        {
+            int index = -1;
+            for (int a = 0; a < Items.Count; a++)
+            {
+                if (Items[a].Song != null)
+                {
+                    if (Items[a].Song.SongId == songId)
+                    {
+                        index = a;
+                    }
+                }
+            }
+
+            if (index >= 0)
+            {
+                GoTo(index);
+            }
         }
 
         /// <summary>

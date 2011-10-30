@@ -125,23 +125,23 @@ namespace MPfm
         /// <param name="folderPath">Folder path (for the SpecificFolder mode)</param>
         private void InitializeForm(frmMain main, UpdateLibraryMode mode, List<string> filePaths, string folderPath)
         {
-            // Initialize private variables
-            InitializeComponent();
-            m_main = main;
-            this.mode = mode;
-            m_filePaths = filePaths;
-            m_folderPath = folderPath;
+            //// Initialize private variables
+            //InitializeComponent();
+            //m_main = main;
+            //this.mode = mode;
+            //m_filePaths = filePaths;
+            //m_folderPath = folderPath;
 
-            // Update UI
-            lblTitle.Text = "Updating";
-            lblMessage.Text = "Calculating...";
-            lblArtist.Text = string.Empty;
-            lblAlbum.Text = string.Empty;
-            lblSongTitle.Text = string.Empty;
+            //// Update UI
+            //lblTitle.Text = "Updating";
+            //lblMessage.Text = "Calculating...";
+            //lblArtist.Text = string.Empty;
+            //lblAlbum.Text = string.Empty;
+            //lblSongTitle.Text = string.Empty;
 
-            // Set update library events
-            main.Player.Library.OnUpdateLibraryProgress += new MPfm.Library.Library.UpdateLibraryProgress(Library_OnUpdateLibraryProgress);
-            main.Player.Library.OnUpdateLibraryFinished += new MPfm.Library.Library.UpdateLibraryFinished(Library_OnUpdateLibraryFinished);
+            //// Set update library events
+            //main.Player.Library.OnUpdateLibraryProgress += new MPfm.Library.Library.UpdateLibraryProgress(Library_OnUpdateLibraryProgress);
+            //main.Player.Library.OnUpdateLibraryFinished += new MPfm.Library.Library.UpdateLibraryFinished(Library_OnUpdateLibraryFinished);
         }
 
         /// <summary>
@@ -151,31 +151,31 @@ namespace MPfm
         /// <param name="e">Arguments</param>
         private void frmUpdateLibraryStatus_Shown(object sender, EventArgs e)
         {
-            // Stop any song playing
-            //Main.Player.Stop();
+            //// Stop any song playing
+            ////Main.Player.Stop();
 
-            // Reset buttons
-            btnCancel.Enabled = true;
-            btnOK.Enabled = false;
-            linkSaveLog.Visible = false;
+            //// Reset buttons
+            //btnCancel.Enabled = true;
+            //btnOK.Enabled = false;
+            //linkSaveLog.Visible = false;
 
-            // Reset log
-            sbLog = new StringBuilder(1000);
+            //// Reset log
+            //sbLog = new StringBuilder(1000);
 
-            // Start timer
-            timerEnabled = true;
-            workerTimer.RunWorkerAsync();
+            //// Start timer
+            //timerEnabled = true;
+            //workerTimer.RunWorkerAsync();
 
-            // Reset variables
-            startTime = DateTime.Now;
-            startTimeAddFiles = DateTime.MinValue;
-            listAlbums = new List<string>();
+            //// Reset variables
+            //startTime = DateTime.Now;
+            //startTimeAddFiles = DateTime.MinValue;
+            //listAlbums = new List<string>();
 
-            // Update UI
-            lblEstimatedTimeLeft.Text = "Estimated time left: Calculating...";
+            //// Update UI
+            //lblEstimatedTimeLeft.Text = "Estimated time left: Calculating...";
 
-            // Start the update process
-            Main.Player.Library.UpdateLibrary(mode, FilePaths, FolderPath);
+            //// Start the update process
+            //Main.Player.Library.UpdateLibrary(mode, FilePaths, FolderPath);
         }
 
         #region Control Events
@@ -205,12 +205,12 @@ namespace MPfm
         /// <param name="e">Arguments</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            // Set the cancel update library flag to true
-            Main.Player.Library.CancelUpdateLibrary = true;
+            //// Set the cancel update library flag to true
+            //Main.Player.Library.CancelUpdateLibrary = true;
 
-            // Reset buttons
-            btnOK.Enabled = true;
-            btnCancel.Enabled = false;
+            //// Reset buttons
+            //btnOK.Enabled = true;
+            //btnCancel.Enabled = false;
         }
 
         /// <summary>
@@ -256,44 +256,44 @@ namespace MPfm
         /// </summary>
         private void Library_OnUpdateLibraryFinished(UpdateLibraryFinishedData data)
         {
-            if (data.Successful)
-            {
-                // Success
-                lblProgress.Text = "100%";
-                progressBar.Value = 100;
-                lblMessage.Text = "The update library process has finished successfully.";
-                lblTitle.Text = "Update library successful";
-            }
-            else if (data.Cancelled)
-            {
-                // Cancel
-                lblProgress.Text = "0%";
-                progressBar.Value = 0;
-                lblMessage.Text = "The update library process was cancelled by the user.";
-                lblTitle.Text = "Update library process cancelled";
-            }
-            else if(!data.Successful)
-            {
-                // Fail
-                lblProgress.Text = "0%";
-                progressBar.Value = 0;
-                lblMessage.Text = "The update library process has failed.";
-                lblTitle.Text = "Update library failed";
-            }
+            //if (data.Successful)
+            //{
+            //    // Success
+            //    lblProgress.Text = "100%";
+            //    progressBar.Value = 100;
+            //    lblMessage.Text = "The update library process has finished successfully.";
+            //    lblTitle.Text = "Update library successful";
+            //}
+            //else if (data.Cancelled)
+            //{
+            //    // Cancel
+            //    lblProgress.Text = "0%";
+            //    progressBar.Value = 0;
+            //    lblMessage.Text = "The update library process was cancelled by the user.";
+            //    lblTitle.Text = "Update library process cancelled";
+            //}
+            //else if(!data.Successful)
+            //{
+            //    // Fail
+            //    lblProgress.Text = "0%";
+            //    progressBar.Value = 0;
+            //    lblMessage.Text = "The update library process has failed.";
+            //    lblTitle.Text = "Update library failed";
+            //}
 
-            lblEstimatedTimeLeft.Text = "Estimated time left: N/A";
+            //lblEstimatedTimeLeft.Text = "Estimated time left: N/A";
 
-            // Stop timer
-            timerEnabled = false;
-            //workerTimer.CancelAsync();
+            //// Stop timer
+            //timerEnabled = false;
+            ////workerTimer.CancelAsync();
 
-            // Refresh song cache
-            Main.Player.Library.RefreshCache();
+            //// Refresh song cache
+            //Main.Player.Library.RefreshCache();
 
-            // Set buttons
-            btnCancel.Enabled = false;
-            btnOK.Enabled = true;
-            linkSaveLog.Visible = true;
+            //// Set buttons
+            //btnCancel.Enabled = false;
+            //btnOK.Enabled = true;
+            //linkSaveLog.Visible = true;
         }
 
         /// <summary>

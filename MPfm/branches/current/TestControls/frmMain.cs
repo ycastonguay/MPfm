@@ -13,7 +13,8 @@ namespace TestControls
 {
     public partial class frmMain : Form
     {
-        private Player m_player = null;
+        //private Player m_player = null;
+        private Library m_library = null;
 
         public frmMain()
         {
@@ -23,8 +24,11 @@ namespace TestControls
         private void Form1_Load(object sender, EventArgs e)
         {
             // Load player
-            m_player = new Player(FMOD.OUTPUTTYPE.DSOUND, "", true);
+            //m_player = new Player(FMOD.OUTPUTTYPE.DSOUND, "", true);
             //songGridView.Library = player.Library;
+
+            // Load library
+            m_library = new Library();
 
             comboDisplayType.SelectedItem = "SongGridView";
 
@@ -43,7 +47,7 @@ namespace TestControls
             }
             comboStandardFontName.SelectedItem = "Tahoma";
 
-            songGridView.ImportSongs(m_player.Library.SelectSongs(FilterSoundFormat.MP3));
+            songGridView.ImportSongs(m_library.SelectSongs(FilterSoundFormat.MP3));
 
             // Set initial query
 

@@ -83,11 +83,11 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
-            // Make sure the player is valid and something plays
-            if (Main.Player != null && Main.Player.IsPlaying)
-            {
-                waveForm.Refresh();
-            }
+            //// Make sure the player is valid and something plays
+            //if (Main.Player != null && Main.Player.IsPlaying)
+            //{
+            //    waveForm.Refresh();
+            //}
         }
     }
 }

@@ -125,15 +125,15 @@ namespace MPfm
         /// </summary>
         public void RefreshMarkers()
         {
-            // Fetch markers from database
-            m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
+            //// Fetch markers from database
+            //m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
 
-            // Set combo box items for A
-            comboMarkerA.DataSource = m_markers;
+            //// Set combo box items for A
+            //comboMarkerA.DataSource = m_markers;
 
-            // Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
-            m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
-            comboMarkerB.DataSource = m_markers;  
+            //// Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
+            //m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
+            //comboMarkerB.DataSource = m_markers;  
         }
 
         /// <summary>
