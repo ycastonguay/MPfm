@@ -310,9 +310,10 @@
             this.Label5.ForeColor = System.Drawing.Color.Black;
             this.Label5.Location = new System.Drawing.Point(5, 29);
             this.Label5.Name = "Label5";
-            this.Label5.Size = new System.Drawing.Size(398, 20);
+            this.Label5.Size = new System.Drawing.Size(583, 20);
             this.Label5.TabIndex = 83;
-            this.Label5.Text = "The driver recommended for Windows XP is DirectSound.";
+            this.Label5.Text = "The recommended driver for Windows XP, Windows Vista, Windows 7 and Windows 8 is " +
+    "DirectSound.";
             // 
             // Label6
             // 
@@ -324,10 +325,10 @@
             this.Label6.ForeColor = System.Drawing.Color.Black;
             this.Label6.Location = new System.Drawing.Point(5, 48);
             this.Label6.Name = "Label6";
-            this.Label6.Size = new System.Drawing.Size(542, 20);
+            this.Label6.Size = new System.Drawing.Size(583, 20);
             this.Label6.TabIndex = 84;
-            this.Label6.Text = "The driver recommended for Windows Vista and Windows 7 is Windows Audio Session A" +
-    "PI.";
+            this.Label6.Text = "The ASIO and WASAPI (Windows Audio Session API) drivers are also available for te" +
+    "sting (Beta for now).";
             // 
             // Label7
             // 
@@ -339,10 +340,10 @@
             this.Label7.ForeColor = System.Drawing.Color.Black;
             this.Label7.Location = new System.Drawing.Point(6, 67);
             this.Label7.Name = "Label7";
-            this.Label7.Size = new System.Drawing.Size(552, 20);
+            this.Label7.Size = new System.Drawing.Size(582, 20);
             this.Label7.TabIndex = 85;
-            this.Label7.Text = "The ASIO driver is recommended only if you have a low latency sound card with a t" +
-    "rue ASIO driver.";
+            this.Label7.Text = "Note: The ASIO driver will work better if you have a low latency sound card with " +
+    "a true ASIO driver.";
             // 
             // Label8
             // 
@@ -379,12 +380,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboOutputDevices.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cboOutputDevices.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboOutputDevices.DisplayMember = "Name";
             this.cboOutputDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOutputDevices.FormattingEnabled = true;
             this.cboOutputDevices.Location = new System.Drawing.Point(16, 325);
             this.cboOutputDevices.Name = "cboOutputDevices";
             this.cboOutputDevices.Size = new System.Drawing.Size(591, 23);
             this.cboOutputDevices.TabIndex = 81;
+            this.cboOutputDevices.ValueMember = "Id";
             this.cboOutputDevices.SelectedIndexChanged += new System.EventHandler(this.cboOutputDevices_SelectedIndexChanged);
             // 
             // cboDrivers
@@ -393,14 +396,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboDrivers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cboDrivers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboDrivers.DisplayMember = "Description";
+            this.cboDrivers.DisplayMember = "Title";
             this.cboDrivers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDrivers.FormattingEnabled = true;
             this.cboDrivers.Location = new System.Drawing.Point(16, 168);
             this.cboDrivers.Name = "cboDrivers";
             this.cboDrivers.Size = new System.Drawing.Size(591, 23);
             this.cboDrivers.TabIndex = 77;
-            this.cboDrivers.ValueMember = "FMODOutputType";
+            this.cboDrivers.ValueMember = "DriverType";
             this.cboDrivers.SelectedIndexChanged += new System.EventHandler(this.cboDrivers_SelectedIndexChanged);
             // 
             // panelError

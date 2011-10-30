@@ -242,7 +242,7 @@ namespace MPfm
             cboDrivers.SelectedValue = Main.Config.Driver;            
 
             // Load values for history (if the user applies something and then wants to cancel)
-            outputType = Main.Config.Driver;
+            //outputType = Main.Config.Driver;
             outputDevice = Main.Config.OutputDevice;
         }
 
@@ -252,7 +252,7 @@ namespace MPfm
         private void SaveConfig()
         {
             Main.Config.OutputDevice = (string)cboOutputDevices.SelectedItem;
-            Main.Config.Driver = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
+            //Main.Config.Driver = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
             Main.Config.HideTray = chkHideTray.Checked;
             Main.Config.ShowTray = chkShowTray.Checked;
         }

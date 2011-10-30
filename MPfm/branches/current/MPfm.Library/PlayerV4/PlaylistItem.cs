@@ -119,7 +119,13 @@ namespace MPfm.Library.PlayerV4
             }
         }
 
+        /// <summary>
+        /// Private value for the IsLoaded property.
+        /// </summary>
         private bool m_isLoaded = false;
+        /// <summary>
+        /// Indicates if the channel and the audio file metadata have been loaded.
+        /// </summary>
         public bool IsLoaded
         {
             get
@@ -163,6 +169,9 @@ namespace MPfm.Library.PlayerV4
             m_isLoaded = true;
         }
 
+        /// <summary>
+        /// Disposes the current channel.
+        /// </summary>
         public void Dispose()
         {
             // Check if a channel already exists

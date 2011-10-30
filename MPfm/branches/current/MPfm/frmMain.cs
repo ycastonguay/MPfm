@@ -41,6 +41,7 @@ using System.Web.Services.Protocols;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
@@ -96,6 +97,15 @@ namespace MPfm
             get
             {
                 return m_player;
+            }
+        }
+
+        private MPfm.Library.PlayerV4.Player m_playerV4 = null;
+        public MPfm.Library.PlayerV4.Player PlayerV4
+        {
+            get
+            {
+                return m_playerV4;
             }
         }
 
@@ -166,7 +176,11 @@ namespace MPfm
 
             // Load configuration
             try
-            {
+            {                               
+                // Register BASS.NET with key      
+                Tracing.Log("Registering BASS.NET...");
+                Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");
+
                 Tracing.Log("Loading configuration...");
                 frmSplash.SetStatus("Loading configuration...");
 
@@ -272,16 +286,12 @@ namespace MPfm
                 Tracing.Log("Loading player...");
                 frmSplash.SetStatus("Loading player...");
 
-                // Create player with configured driver and output device
-                m_player = new Player(Config.Driver, Config.OutputDevice, true);
+                //// Create player with configured driver and output device
+                //m_player = new Player(Config.Driver, Config.OutputDevice, true);
 
-                // Set up events
-                m_player.OnTimerElapsed += new Player.TimerElapsed(m_player_OnTimerElapsed);
-                m_player.OnSongFinished += new Player.SongFinished(m_player_OnSongFinished);
-
-                //int numPlugins = m_player.SoundSystem.GetNumPlugins();
-                //m_player.SoundSystem.GetPluginHandle(0);
-                //m_player.SoundSystem.GetPluginInfo();
+                //// Set up events
+                //m_player.OnTimerElapsed += new Player.TimerElapsed(m_player_OnTimerElapsed);
+                //m_player.OnSongFinished += new Player.SongFinished(m_player_OnSongFinished);
             }
             catch (Exception ex)
             {
@@ -687,7 +697,7 @@ namespace MPfm
         /// </summary>
         public void ResetPlayer()
         {
-            ResetPlayer(Config.Driver, Config.OutputDevice, true, true);
+            //ResetPlayer(Config.Driver, Config.OutputDevice, true, true);
         }
 
         /// <summary>

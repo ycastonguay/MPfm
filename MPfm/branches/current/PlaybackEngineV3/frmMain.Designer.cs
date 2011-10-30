@@ -320,7 +320,6 @@
             // 
             // btnInsertFile
             // 
-            this.btnInsertFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnInsertFile.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInsertFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInsertFile.Location = new System.Drawing.Point(5, 14);
@@ -944,7 +943,6 @@
             // 
             // btnRemoveFile
             // 
-            this.btnRemoveFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveFile.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveFile.Location = new System.Drawing.Point(265, 14);

@@ -29,6 +29,7 @@ using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -40,6 +41,13 @@ namespace MPfm
     /// </summary>
     public partial class frmFirstRun : MPfm.WindowsControls.Form
     {
+        // Private variables
+        private string filePath = string.Empty;
+        private List<Device> m_devices = null;
+        private List<Device> m_devicesDirectSound = null;
+        private List<Device> m_devicesASIO = null;
+        private List<Device> m_devicesWASAPI = null;
+
         private frmMain m_main = null;
         /// <summary>
         /// Hook to the main form.
@@ -52,9 +60,6 @@ namespace MPfm
             }
         }
 
-        // Private variables
-        private string filePath = string.Empty;
-
         /// <summary>
         /// Constructor for the First Run form. Requires a hook to the main form.
         /// </summary>
@@ -63,25 +68,30 @@ namespace MPfm
         {
             m_main = main;
             InitializeComponent();
-
-            List<string> listOutputDevices = new List<string>();
+            
             try
             {
-                // Get list of output devices without starting the sound system
-                listOutputDevices = MPfm.Sound.FMODWrapper.System.GetOutputDevicesWithoutStartingSystem();
+                // Detect devices
+                m_devices = DeviceHelper.DetectOutputDevices();
+                m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
+                m_devicesASIO = m_devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
+                m_devicesWASAPI = m_devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
 
-                // Update combo list of output devices
-                cboOutputDevices.Items.Clear();
-                foreach (string outputDevice in listOutputDevices)
-                {
-                    cboOutputDevices.Items.Add(outputDevice);
-                }
+                // Update combo box
+                List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
+                DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default, recommended)" };
+                DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required, supports VST plugins)" };
+                DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Windows Vista/Windows 7 only)" };
+                drivers.Add(driverDirectSound);
+                drivers.Add(driverASIO);
+                drivers.Add(driverWASAPI);
+                cboDrivers.DataSource = drivers;
 
-                // By default, select the first one
-                cboOutputDevices.SelectedIndex = 0;
+                // Set default value
+                cboDrivers.SelectedIndex = 0;
 
                 // Get list of drivers (output types)
-                cboDrivers.DataSource = MPfm.Sound.FMODWrapper.System.GetOutputTypes();
+                //cboDrivers.DataSource = MPfm.Sound.FMODWrapper.System.GetOutputTypes();
             }
             catch (Exception ex)
             {
@@ -149,16 +159,15 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnNext_Click(object sender, EventArgs e)
         {     
-            // Get driver
-            FMOD.OUTPUTTYPE outputType = FMOD.OUTPUTTYPE.UNKNOWN;
-            if (cboDrivers.SelectedItem != null && cboDrivers.SelectedValue != null)
-            {
-                outputType = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
-            }
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            // Get selected device
+            Device device = (Device)cboOutputDevices.SelectedItem;
 
             // Save configuration            
-            Main.Config.OutputDevice = cboOutputDevices.SelectedItem.ToString();
-            Main.Config.Driver = outputType;
+            Main.Config.OutputDevice = device.Name;
+            Main.Config.Driver = driver.DriverType;
 
             // Close wizard
             DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -172,21 +181,57 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void cboDrivers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Get driver
-            FMOD.OUTPUTTYPE outputType = FMOD.OUTPUTTYPE.UNKNOWN;
-            if (cboDrivers.SelectedItem != null && cboDrivers.SelectedValue != null)
-            {
-                outputType = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
-            }
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Disable output device combo box if the user has chosen "No Sound"
-            if (outputType == FMOD.OUTPUTTYPE.NOSOUND)
+            // Check driver type
+            if (driver.DriverType == DriverType.DirectSound)
             {
-                cboOutputDevices.Enabled = false;
+                // Set combo box data source
+                cboOutputDevices.DataSource = m_devicesDirectSound;
+
+                // Find default device
+                Device defaultDevice = m_devicesDirectSound.FirstOrDefault(x => x.IsDefault);
+                //if (defaultDevice != null)
+                //{
+                //    lblDefaultValue.Text = "[" + defaultDevice.Id.ToString() + "] " + defaultDevice.Name;
+                //}
+                //else
+                //{
+                //    lblDefaultValue.Text = "Unknown";
+                //}
             }
-            else
+            else if (driver.DriverType == DriverType.ASIO)
             {
-                cboOutputDevices.Enabled = true;
+                // Set combo box data source
+                cboOutputDevices.DataSource = m_devicesASIO;
+
+                // Find default device
+                Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);
+                //if (defaultDevice != null)
+                //{
+                //    lblDefaultValue.Text = "[" + defaultDevice.Id.ToString() + "] " + defaultDevice.Name;
+                //}
+                //else
+                //{
+                //    lblDefaultValue.Text = "Unknown";
+                //}
+            }
+            else if (driver.DriverType == DriverType.WASAPI)
+            {
+                // Set combo box data source
+                cboOutputDevices.DataSource = m_devicesWASAPI;
+
+                // Find default device
+                Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
+                //if (defaultDevice != null)
+                //{
+                //    lblDefaultValue.Text = "[" + defaultDevice.Id.ToString() + "] " + defaultDevice.Name;
+                //}
+                //else
+                //{
+                //    lblDefaultValue.Text = "Unknown";
+                //}
             }
 
             // The test is successful, enable Next button
@@ -213,36 +258,14 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestAudioSettings_Click(object sender, EventArgs e)
         {
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            // Get selected device
+            Device device = (Device)cboOutputDevices.SelectedItem;
+
             try
             {
-                // Get driver
-                FMOD.OUTPUTTYPE outputType = FMOD.OUTPUTTYPE.UNKNOWN;
-                if (cboDrivers.SelectedItem != null && cboDrivers.SelectedValue != null)
-                {
-                    outputType = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
-                }
-
-                // Check if parameters are valid
-                if (outputType == FMOD.OUTPUTTYPE.UNKNOWN || cboOutputDevices.SelectedIndex == -1)
-                {
-                    return;
-                }
-
-                // This can't be done in a background thread. Display an hourglass mouse cursor
-                Cursor.Current = Cursors.WaitCursor;
-
-                // Log 
-                Tracing.Log("Starting audio settings test with the following settings: ");
-                Tracing.Log("Output Type: " + outputType.ToString());
-                Tracing.Log("Output Device: " + (string)cboOutputDevices.SelectedItem);               
-
-                // Reset player
-                Tracing.Log("Creating player...");
-                Main.ResetPlayer(outputType, (string)cboOutputDevices.SelectedItem, true, false);
-
-                // Reset cursor
-                Cursor.Current = Cursors.Default;
-
                 // Display the open file dialog (set filepath first)
                 Tracing.Log("User selects a file.");
                 openFile.FileName = filePath;
@@ -251,16 +274,33 @@ namespace MPfm
                     return;
                 }
 
+                // Log 
+                Tracing.Log("Starting audio settings test with the following settings: ");
+                Tracing.Log("Driver Type: " + driver.DriverType.ToString());
+                Tracing.Log("Output Device Id: " + device.Id);
+                Tracing.Log("Output Device Name: " + device.Name);
+                Tracing.Log("Output Device Driver: " + device.Driver);
+                Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());                
+
+                // Create test device
+                Tracing.Log("Creating test device...");
+
+                // Create the test device
+                int flacPluginHandle = Base.LoadFlacPlugin();
+                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);
+                testDevice.Play(openFile.FileName);
+
                 // Play sound file
                 Tracing.Log("The audio file is playing...");
-                Main.Player.PlayFile(openFile.FileName);
 
                 // Display info
                 MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Stop playback
-                Tracing.Log("User stops playback.");
-                Main.Player.Stop();
+                // Stop and dispose the device
+                Tracing.Log("User stops playback.");                
+                testDevice.Stop();
+                testDevice.Dispose();
+                Base.FreeFlacPlugin(flacPluginHandle);
 
                 // The test is successful, enable Next button
                 btnNext.Enabled = true;
@@ -281,5 +321,14 @@ namespace MPfm
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// This class represents a driver combo box item.
+    /// </summary>
+    public class DriverComboBoxItem
+    {
+        public DriverType DriverType { get; set; }
+        public string Title { get; set; }
     }
 }

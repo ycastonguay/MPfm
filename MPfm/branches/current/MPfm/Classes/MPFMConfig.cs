@@ -25,6 +25,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Reflection;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm
 {
@@ -122,7 +123,7 @@ namespace MPfm
             }
         }
 
-        public FMOD.OUTPUTTYPE Driver
+        public DriverType Driver
         {
             get
             {
@@ -137,34 +138,21 @@ namespace MPfm
                     return KeyDefaultValue_Driver;
                 }
 
-                // Return value
-                FMOD.OUTPUTTYPE outputType = FMOD.OUTPUTTYPE.UNKNOWN;
+                // Return value                
+                DriverType driverType = DriverType.DirectSound;
 
                 // Analyse string to get value
                 string driverString = this[Key_Driver].ToUpper();
-
-                if (driverString.Contains("DSOUND"))
+                if (driverString.Contains("ASIO"))
                 {
-                    outputType = FMOD.OUTPUTTYPE.DSOUND;
+                    driverType = DriverType.ASIO;
                 }
                 else if (driverString.Contains("WASAPI"))
                 {
-                    outputType = FMOD.OUTPUTTYPE.WASAPI;
-                }
-                else if(driverString.Contains("ASIO"))
-                {
-                    outputType = FMOD.OUTPUTTYPE.ASIO;
-                }
-                else if (driverString.Contains("WINMM"))
-                {
-                    outputType = FMOD.OUTPUTTYPE.WINMM;
-                }
-                else if (driverString.Contains("NOSOUND"))
-                {
-                    outputType = FMOD.OUTPUTTYPE.NOSOUND;
+                    driverType = DriverType.WASAPI;
                 }
 
-                return outputType;
+                return driverType;
             }
             set
             {
@@ -1242,7 +1230,7 @@ namespace MPfm
         public const bool KeyDefaultValue_FirstRun = true;
 
         public const string KeyDefaultValue_OutputDevice = "";
-        public const FMOD.OUTPUTTYPE KeyDefaultValue_Driver = FMOD.OUTPUTTYPE.UNKNOWN;
+        public const DriverType KeyDefaultValue_Driver = DriverType.DirectSound;
 
         public const bool KeyDefaultValue_HideForm = false;
         public const int KeyDefaultValue_Volume = 85;
