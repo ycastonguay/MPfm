@@ -59,6 +59,7 @@ namespace MPfm.Library.PlayerV4
             }
         }
 
+        private PlaylistItem m_currentItem = null;
         /// <summary>
         /// Returns the current item.
         /// </summary>
@@ -66,7 +67,7 @@ namespace MPfm.Library.PlayerV4
         {
             get
             {
-                return Items[CurrentItemIndex];
+                return m_currentItem;
             }
         }
 
@@ -86,14 +87,45 @@ namespace MPfm.Library.PlayerV4
         {
             m_items = new List<PlaylistItem>();
             m_currentItemIndex = 0;
+            m_currentItem = null;
         }
 
+        /// <summary>
+        /// Disposes channels and set them to null.
+        /// </summary>
+        public void DisposeChannels()
+        {
+            // Free current channel
+            if (m_currentItem.Channel != null)
+            {
+                // Stop and free channel
+                m_currentItem.Dispose();
+                m_currentItem = null;
+            }
+
+            // Go through items to set them load = false
+            for (int a = 0; a < m_items.Count; a++)
+            {
+                // Dispose channel, if not null (validation inside method)
+                m_items[a].Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Adds an item at the end of the playlist.
+        /// </summary>
+        /// <param name="filePath">Audio file path</param>
         public void AddItem(string filePath)
         {
             // Add new playlist item at the end
             Items.Add(new PlaylistItem(this, filePath));
         }
 
+        /// <summary>
+        /// Inserts an item at a specific location in the playlist.
+        /// </summary>
+        /// <param name="filePath">Audio file path</param>
+        /// <param name="index">The item will be inserted before this index</param>
         public void InsertItem(string filePath, int index)
         {
             // Add new playlist item at the specified index
@@ -107,18 +139,56 @@ namespace MPfm.Library.PlayerV4
             }
         }
 
+        /// <summary>
+        /// Removes the item at the location passed in the index parameter.
+        /// </summary>
+        /// <param name="index">Index of the item to remove</param>
+        public void RemoveItem(int index)
+        {            
+            // Make sure the item is not playing
+            if (CurrentItemIndex == index)
+            {
+                throw new Exception("You cannot remove a playlist item which is currently playing.");
+            }
+
+            // Dispose item
+            Items[index].Dispose();
+
+            // Remove playlist item
+            Items.RemoveAt(index);
+
+            // Decrement current item index if an item was removed before the current item
+            if (index <= CurrentItemIndex)
+            {
+                // Decrement current item index
+                m_currentItemIndex--;
+            }
+        }
+
+        /// <summary>
+        /// Sets the playlist to the first item.
+        /// </summary>
         public void First()
         {
             // Set first index
             m_currentItemIndex = 0;
+            m_currentItem = m_items[m_currentItemIndex];
         }
 
+        /// <summary>
+        /// Go to a specific item index in the playlist.
+        /// </summary>
+        /// <param name="index">Item index</param>
         public void GoTo(int index)
         {
             // Set index
             m_currentItemIndex = index;
+            m_currentItem = m_items[m_currentItemIndex];
         }
 
+        /// <summary>
+        /// Go to the previous item.
+        /// </summary>
         public void Previous()
         {
             // Check if the previous channel needs to be loaded
@@ -127,8 +197,12 @@ namespace MPfm.Library.PlayerV4
                 // Increment item
                 m_currentItemIndex--;
             }
+            m_currentItem = m_items[m_currentItemIndex];
         }
 
+        /// <summary>
+        /// Go to the next item.
+        /// </summary>
         public void Next()
         {
             // Check if the next channel needs to be loaded
@@ -137,6 +211,7 @@ namespace MPfm.Library.PlayerV4
                 // Increment item
                 m_currentItemIndex++;                
             }
+            m_currentItem = m_items[m_currentItemIndex];
         }
     }
 }

@@ -205,8 +205,9 @@ namespace PlaybackEngineV4
         /// Occurs when the current song has finished playing.
         /// </summary>
         /// <param name="data">Song Finished Data</param>
-        protected void playerV4_OnSongFinished(PlayerV4SongFinishedData data)
+        protected void playerV4_OnSongFinished(MPfm.Library.PlayerV4.SongFinishedData data)
         {
+            // Check if playlist exists
             if (player.Playlist == null || player.Playlist.CurrentItem == null)
             {
                 return;
@@ -225,6 +226,7 @@ namespace PlaybackEngineV4
                 if (data.IsPlaybackStopped)
                 {
                     btnStop.PerformClick();
+                    return;
                 }
 
                 // Check if the previous/next buttons need to be updated
@@ -234,6 +236,9 @@ namespace PlaybackEngineV4
                 m_currentSongLength = player.Playlist.CurrentItem.Channel.GetLength();
                 lblCurrentLength.Text = BytesToTime(m_currentSongLength);
                 lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
+
+                // Set list box position
+                SetListBoxPosition(player.Playlist.CurrentItemIndex);
             };
 
             // Check if invoking is necessary
@@ -244,6 +249,33 @@ namespace PlaybackEngineV4
             else
             {
                 methodUIUpdate.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Sets a ==> marker on the currently playing song.
+        /// </summary>
+        /// <param name="position">Playlist index</param>
+        public void SetListBoxPosition(int position)
+        {
+            // If there are no items, just return
+            if (listBoxPlaylist.Items.Count == 0)
+            {
+                return;
+            }
+
+            // Reset previous statuses
+            for (int a = 0; a < listBoxPlaylist.Items.Count; a++)
+            {
+                listBoxPlaylist.Items[a] = listBoxPlaylist.Items[a].ToString().Replace("==> ", "");
+            }
+
+            // Make sure position is at least zero
+            if (position >= 0)
+            {
+                // Update list box
+                string stuff = listBoxPlaylist.Items[position].ToString();
+                listBoxPlaylist.Items[position] = "==> " + stuff;
             }
         }
 
@@ -304,6 +336,7 @@ namespace PlaybackEngineV4
         {
             // Stop playback            
             player.Stop();
+            SetListBoxPosition(-1);
 
             // Enable/disable buttons
             btnPlay.Enabled = true;
@@ -334,6 +367,9 @@ namespace PlaybackEngineV4
             // Play set of files            
             player.PlayFiles(soundFiles);
             isNewPlaylist = true;
+
+            // Set list box position
+            SetListBoxPosition(0);
         }
 
         /// <summary>
@@ -532,6 +568,10 @@ namespace PlaybackEngineV4
                 {
                     trackPosition.Value = (int)m_currentSongLength - 1;
                 }
+                else if (positionBytes <= 0)
+                {
+                    trackPosition.Value = 0;
+                }
                 else
                 {
                     trackPosition.Value = (int)positionBytes;
@@ -699,6 +739,49 @@ namespace PlaybackEngineV4
         {
             frmSettings settings = new frmSettings(this);
             settings.ShowDialog();
+        }
+
+        private void btnInsertFile_Click(object sender, EventArgs e)
+        {
+            // Check if the user has selected something
+            if (listBoxPlaylist.SelectedIndex < 0)
+            {
+                return;
+            }            
+
+            // Ask user for file
+            if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // Insert file into playlist
+                player.Playlist.InsertItem(dialogOpenFile.FileName, listBoxPlaylist.SelectedIndex);
+
+                // Insert file in list box
+                soundFiles.Insert(listBoxPlaylist.SelectedIndex, dialogOpenFile.FileName);
+                listBoxPlaylist.Items.Insert(listBoxPlaylist.SelectedIndex, dialogOpenFile.FileName);                
+            }            
+        }
+
+        private void btnRemoveFile_Click(object sender, EventArgs e)
+        {
+            // Check if the user has selected something
+            if (listBoxPlaylist.SelectedIndex < 0)
+            {
+                return;
+            } 
+
+            try
+            {
+                // Remove file from playlist
+                player.Playlist.RemoveItem(listBoxPlaylist.SelectedIndex);
+
+                // Remove file from listbox
+                soundFiles.RemoveAt(listBoxPlaylist.SelectedIndex);
+                listBoxPlaylist.Items.RemoveAt(listBoxPlaylist.SelectedIndex);                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }

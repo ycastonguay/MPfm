@@ -36,7 +36,7 @@ namespace MPfm.Library.PlayerV4
     /// <summary>
     /// Defines the data structure for the end-of-song event.
     /// </summary>
-    public class PlayerV4SongFinishedData
+    public class SongFinishedData
     {
         /// <summary>
         /// Defines if the playback was stopped after the song was finished.

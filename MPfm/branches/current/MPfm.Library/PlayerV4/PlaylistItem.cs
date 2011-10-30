@@ -119,6 +119,15 @@ namespace MPfm.Library.PlayerV4
             }
         }
 
+        private bool m_isLoaded = false;
+        public bool IsLoaded
+        {
+            get
+            {
+                return m_isLoaded;
+            }
+        }
+
         /// <summary>
         /// Default constructor for the PlaylistItem class.
         /// </summary>
@@ -133,11 +142,44 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         public void Load()
         {
-            // Load audio file metadata
-            m_audioFile = new AudioFile(m_filePath);
+            // Check if the metadata has already been loaded
+            if (m_audioFile == null)
+            {
+                // Load audio file metadata
+                m_audioFile = new AudioFile(m_filePath);
+            }
+
+            // Check if a channel already exists
+            if (m_channel != null)
+            {
+                // Dispose channel
+                Dispose();
+            }
 
             // Load channel
             m_channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(m_filePath);
+
+            // Set flag
+            m_isLoaded = true;
+        }
+
+        public void Dispose()
+        {
+            // Check if a channel already exists
+            if (m_channel != null)
+            {
+                // Check if the channel is in use
+                if (m_channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+                {
+                    // Stop and free channel
+                    m_channel.Stop();
+                    m_channel.Free();
+                    m_channel = null;
+                }
+            }
+
+            // Set flags
+            m_isLoaded = false;
         }
     }
 }

@@ -67,7 +67,7 @@ namespace MPfm.Library.PlayerV4
         /// Delegate method for the OnSongFinished event.
         /// </summary>
         /// <param name="data">OnSongFinished data</param>
-        public delegate void SongFinished(PlayerV4SongFinishedData data);
+        public delegate void SongFinished(SongFinishedData data);
         /// <summary>
         /// The OnSongFinished event is triggered when a song has finished playing.
         /// </summary>
@@ -618,8 +618,12 @@ namespace MPfm.Library.PlayerV4
             // Check if the next channel needs to be loaded
             if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)
             {
-                // Create the next channel
-                m_playlist.Items[m_playlist.CurrentItemIndex + 1].Load();           
+                // Check if the channel has already been loaded
+                if (!m_playlist.Items[m_playlist.CurrentItemIndex + 1].IsLoaded)
+                {
+                    // Create the next channel
+                    m_playlist.Items[m_playlist.CurrentItemIndex + 1].Load();
+                }
             }
 
             // Set time shifting value
@@ -677,8 +681,11 @@ namespace MPfm.Library.PlayerV4
                 for (int a = 0; a < 2; a++)
                 {
                     // Load channel and audio file metadata
-                    m_playlist.Items[a].Load();
+                    m_playlist.Items[a].Load();                    
                 }
+
+                // Set first item in playlist
+                m_playlist.First();
 
                 // Create the streaming channel
                 m_streamProc = new STREAMPROC(StreamCallback);
@@ -816,11 +823,8 @@ namespace MPfm.Library.PlayerV4
             // Check if the current song exists
             if (m_playlist != null && m_playlist.CurrentItem != null)
             {
-                if (m_playlist.CurrentItem.Channel != null)
-                {
-                    m_playlist.CurrentItem.Channel.Stop();
-                    m_playlist.CurrentItem.Channel.Free();                    
-                }
+                // Dispose channels
+                m_playlist.DisposeChannels();
             }
 
             // Set flag
@@ -895,7 +899,7 @@ namespace MPfm.Library.PlayerV4
                     if (OnSongFinished != null)
                     {
                         // Create data
-                        PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                        SongFinishedData data = new SongFinishedData();
                         data.IsPlaybackStopped = false;
 
                         // Raise event
@@ -1072,7 +1076,10 @@ namespace MPfm.Library.PlayerV4
                 {
                     // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                     if (RepeatType == MPfm.Library.RepeatType.Playlist)
-                    {
+                    {                        
+                        // Dispose channels
+                        m_playlist.DisposeChannels();
+
                         // Restart playback from the first item
                         Playlist.First();
                         Playlist.Items[0].Load();
@@ -1082,7 +1089,7 @@ namespace MPfm.Library.PlayerV4
                         if (OnSongFinished != null)
                         {
                             // Create data
-                            PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                            SongFinishedData data = new SongFinishedData();
                             data.IsPlaybackStopped = false;
 
                             // Raise event
@@ -1098,7 +1105,7 @@ namespace MPfm.Library.PlayerV4
                         if (OnSongFinished != null)
                         {
                             // Create data
-                            PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                            SongFinishedData data = new SongFinishedData();
                             data.IsPlaybackStopped = true;
 
                             // Raise event
@@ -1117,7 +1124,7 @@ namespace MPfm.Library.PlayerV4
                 if (OnSongFinished != null)
                 {
                     // Create data
-                    PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                    SongFinishedData data = new SongFinishedData();
                     data.IsPlaybackStopped = false;
 
                     // Raise event
@@ -1132,7 +1139,7 @@ namespace MPfm.Library.PlayerV4
             if (OnSongFinished != null)
             {
                 // Create data
-                PlayerV4SongFinishedData data = new PlayerV4SongFinishedData();
+                SongFinishedData data = new SongFinishedData();
                 data.IsPlaybackStopped = true;
 
                 // Raise event

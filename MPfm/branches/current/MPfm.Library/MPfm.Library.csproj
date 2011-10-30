@@ -84,7 +84,6 @@
     <Compile Include="PlayerV4\Player.cs" />
     <Compile Include="PlayerV4\EQPresetBand.cs" />
     <Compile Include="PlayerV4\Events.cs" />
-    <Compile Include="PlayerV4\Song.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

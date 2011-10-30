@@ -35,6 +35,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.groupLoadPlaylist = new System.Windows.Forms.GroupBox();
             this.lblPath = new System.Windows.Forms.Label();
+            this.btnBrowse = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.lblCurrentAlbumTitle = new System.Windows.Forms.Label();
             this.lblCurrentArtistTitle = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.lblCurrentPath = new System.Windows.Forms.Label();
             this.listBoxPlaylist = new System.Windows.Forms.ListBox();
             this.groupPlaylist = new System.Windows.Forms.GroupBox();
+            this.btnInsertFile = new System.Windows.Forms.Button();
             this.groupCurrentlyPlaying = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblPCM = new System.Windows.Forms.Label();
@@ -57,6 +59,7 @@
             this.lblCurrentPositionPCM = new System.Windows.Forms.Label();
             this.lblCurrentPosition = new System.Windows.Forms.Label();
             this.trackPosition = new System.Windows.Forms.TrackBar();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dialogFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.timerUpdateSoundSystem = new System.Windows.Forms.Timer(this.components);
             this.trackVolume = new System.Windows.Forms.TrackBar();
@@ -73,41 +76,41 @@
             this.txtLoopStart = new System.Windows.Forms.MaskedTextBox();
             this.lblLoopEnd = new System.Windows.Forms.Label();
             this.lblLoopStart = new System.Windows.Forms.Label();
+            this.btnStopLoop = new System.Windows.Forms.Button();
+            this.btnPlayLoop = new System.Windows.Forms.Button();
             this.groupEQ = new System.Windows.Forms.GroupBox();
+            this.btnResetEQ = new System.Windows.Forms.Button();
             this.txtEQBandwidth = new System.Windows.Forms.MaskedTextBox();
             this.lblEQBandwidth = new System.Windows.Forms.Label();
             this.txtEQQ = new System.Windows.Forms.MaskedTextBox();
             this.lblEQQ = new System.Windows.Forms.Label();
+            this.btnSetEQ = new System.Windows.Forms.Button();
             this.comboEQBands = new System.Windows.Forms.ComboBox();
             this.txtEQGain = new System.Windows.Forms.MaskedTextBox();
             this.lblEQGain = new System.Windows.Forms.Label();
             this.lblEQBand = new System.Windows.Forms.Label();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.btnResetEQ = new System.Windows.Forms.Button();
-            this.btnSetEQ = new System.Windows.Forms.Button();
-            this.btnStopLoop = new System.Windows.Forms.Button();
-            this.btnPlayLoop = new System.Windows.Forms.Button();
-            this.btnBrowse = new System.Windows.Forms.Button();
             this.btnRepeat = new System.Windows.Forms.Button();
             this.btnPrev = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnPlay = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.btnRemoveFile = new System.Windows.Forms.Button();
             this.groupLoadPlaylist.SuspendLayout();
             this.groupPlaylist.SuspendLayout();
             this.groupCurrentlyPlaying.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPosition)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeShifting)).BeginInit();
             this.groupLoop.SuspendLayout();
             this.groupEQ.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -163,6 +166,20 @@
             this.lblPath.Size = new System.Drawing.Size(341, 12);
             this.lblPath.TabIndex = 3;
             this.lblPath.Text = "Select a folder containing audio files to play :";
+            // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
+            this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnBrowse.Location = new System.Drawing.Point(310, 33);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(62, 45);
+            this.btnBrowse.TabIndex = 1;
+            this.btnBrowse.Text = "Browse";
+            this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtPath
             // 
@@ -280,9 +297,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxPlaylist.FormattingEnabled = true;
             this.listBoxPlaylist.ItemHeight = 12;
-            this.listBoxPlaylist.Location = new System.Drawing.Point(6, 16);
+            this.listBoxPlaylist.Location = new System.Drawing.Point(6, 40);
             this.listBoxPlaylist.Name = "listBoxPlaylist";
-            this.listBoxPlaylist.Size = new System.Drawing.Size(910, 124);
+            this.listBoxPlaylist.Size = new System.Drawing.Size(910, 100);
             this.listBoxPlaylist.TabIndex = 28;
             this.listBoxPlaylist.DoubleClick += new System.EventHandler(this.listBoxPlaylist_DoubleClick);
             // 
@@ -291,6 +308,8 @@
             this.groupPlaylist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupPlaylist.Controls.Add(this.btnRemoveFile);
+            this.groupPlaylist.Controls.Add(this.btnInsertFile);
             this.groupPlaylist.Controls.Add(this.listBoxPlaylist);
             this.groupPlaylist.Location = new System.Drawing.Point(5, 295);
             this.groupPlaylist.Name = "groupPlaylist";
@@ -298,6 +317,20 @@
             this.groupPlaylist.TabIndex = 16;
             this.groupPlaylist.TabStop = false;
             this.groupPlaylist.Text = "Playlist";
+            // 
+            // btnInsertFile
+            // 
+            this.btnInsertFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInsertFile.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInsertFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInsertFile.Location = new System.Drawing.Point(5, 14);
+            this.btnInsertFile.Name = "btnInsertFile";
+            this.btnInsertFile.Size = new System.Drawing.Size(254, 22);
+            this.btnInsertFile.TabIndex = 50;
+            this.btnInsertFile.Text = "Insert audio file at this position";
+            this.btnInsertFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInsertFile.UseVisualStyleBackColor = true;
+            this.btnInsertFile.Click += new System.EventHandler(this.btnInsertFile_Click);
             // 
             // groupCurrentlyPlaying
             // 
@@ -449,6 +482,15 @@
             this.trackPosition.MouseCaptureChanged += new System.EventHandler(this.trackPosition_MouseCaptureChanged);
             this.trackPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseDown);
             this.trackPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseUp);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(-56, -72);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(203, 170);
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
             // 
             // dialogFolderBrowser
             // 
@@ -615,6 +657,34 @@
             this.lblLoopStart.TabIndex = 4;
             this.lblLoopStart.Text = "Start:";
             // 
+            // btnStopLoop
+            // 
+            this.btnStopLoop.Enabled = false;
+            this.btnStopLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnStopLoop.Image")));
+            this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnStopLoop.Location = new System.Drawing.Point(110, 55);
+            this.btnStopLoop.Name = "btnStopLoop";
+            this.btnStopLoop.Size = new System.Drawing.Size(94, 23);
+            this.btnStopLoop.TabIndex = 43;
+            this.btnStopLoop.Text = "Stop Loop";
+            this.btnStopLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnStopLoop.UseVisualStyleBackColor = true;
+            this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
+            // 
+            // btnPlayLoop
+            // 
+            this.btnPlayLoop.Enabled = false;
+            this.btnPlayLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnPlayLoop.Image")));
+            this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnPlayLoop.Location = new System.Drawing.Point(8, 55);
+            this.btnPlayLoop.Name = "btnPlayLoop";
+            this.btnPlayLoop.Size = new System.Drawing.Size(94, 23);
+            this.btnPlayLoop.TabIndex = 43;
+            this.btnPlayLoop.Text = "Play Loop";
+            this.btnPlayLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPlayLoop.UseVisualStyleBackColor = true;
+            this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
+            // 
             // groupEQ
             // 
             this.groupEQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -634,6 +704,19 @@
             this.groupEQ.TabIndex = 48;
             this.groupEQ.TabStop = false;
             this.groupEQ.Text = "EQ";
+            // 
+            // btnResetEQ
+            // 
+            this.btnResetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_error;
+            this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnResetEQ.Location = new System.Drawing.Point(91, 55);
+            this.btnResetEQ.Name = "btnResetEQ";
+            this.btnResetEQ.Size = new System.Drawing.Size(91, 23);
+            this.btnResetEQ.TabIndex = 57;
+            this.btnResetEQ.Text = "Reset EQ";
+            this.btnResetEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnResetEQ.UseVisualStyleBackColor = true;
+            this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
             // 
             // txtEQBandwidth
             // 
@@ -672,6 +755,19 @@
             this.lblEQQ.Size = new System.Drawing.Size(19, 12);
             this.lblEQQ.TabIndex = 53;
             this.lblEQQ.Text = "Q:";
+            // 
+            // btnSetEQ
+            // 
+            this.btnSetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_edit;
+            this.btnSetEQ.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnSetEQ.Location = new System.Drawing.Point(8, 55);
+            this.btnSetEQ.Name = "btnSetEQ";
+            this.btnSetEQ.Size = new System.Drawing.Size(77, 23);
+            this.btnSetEQ.TabIndex = 48;
+            this.btnSetEQ.Text = "Set EQ";
+            this.btnSetEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSetEQ.UseVisualStyleBackColor = true;
+            this.btnSetEQ.Click += new System.EventHandler(this.btnSetEQ_Click);
             // 
             // comboEQBands
             // 
@@ -727,74 +823,6 @@
             this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // btnResetEQ
-            // 
-            this.btnResetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_error;
-            this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnResetEQ.Location = new System.Drawing.Point(91, 55);
-            this.btnResetEQ.Name = "btnResetEQ";
-            this.btnResetEQ.Size = new System.Drawing.Size(91, 23);
-            this.btnResetEQ.TabIndex = 57;
-            this.btnResetEQ.Text = "Reset EQ";
-            this.btnResetEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnResetEQ.UseVisualStyleBackColor = true;
-            this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
-            // 
-            // btnSetEQ
-            // 
-            this.btnSetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_edit;
-            this.btnSetEQ.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnSetEQ.Location = new System.Drawing.Point(8, 55);
-            this.btnSetEQ.Name = "btnSetEQ";
-            this.btnSetEQ.Size = new System.Drawing.Size(77, 23);
-            this.btnSetEQ.TabIndex = 48;
-            this.btnSetEQ.Text = "Set EQ";
-            this.btnSetEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSetEQ.UseVisualStyleBackColor = true;
-            this.btnSetEQ.Click += new System.EventHandler(this.btnSetEQ_Click);
-            // 
-            // btnStopLoop
-            // 
-            this.btnStopLoop.Enabled = false;
-            this.btnStopLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnStopLoop.Image")));
-            this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnStopLoop.Location = new System.Drawing.Point(110, 55);
-            this.btnStopLoop.Name = "btnStopLoop";
-            this.btnStopLoop.Size = new System.Drawing.Size(94, 23);
-            this.btnStopLoop.TabIndex = 43;
-            this.btnStopLoop.Text = "Stop Loop";
-            this.btnStopLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnStopLoop.UseVisualStyleBackColor = true;
-            this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
-            // 
-            // btnPlayLoop
-            // 
-            this.btnPlayLoop.Enabled = false;
-            this.btnPlayLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnPlayLoop.Image")));
-            this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnPlayLoop.Location = new System.Drawing.Point(8, 55);
-            this.btnPlayLoop.Name = "btnPlayLoop";
-            this.btnPlayLoop.Size = new System.Drawing.Size(94, 23);
-            this.btnPlayLoop.TabIndex = 43;
-            this.btnPlayLoop.Text = "Play Loop";
-            this.btnPlayLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnPlayLoop.UseVisualStyleBackColor = true;
-            this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
-            // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowse.Image")));
-            this.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnBrowse.Location = new System.Drawing.Point(310, 33);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(62, 45);
-            this.btnBrowse.TabIndex = 1;
-            this.btnBrowse.Text = "Browse";
-            this.btnBrowse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // btnRepeat
             // 
@@ -885,15 +913,6 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(-56, -72);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(203, 170);
-            this.pictureBox2.TabIndex = 19;
-            this.pictureBox2.TabStop = false;
-            // 
             // btnPlay
             // 
             this.btnPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -917,6 +936,25 @@
             this.pictureBox1.Size = new System.Drawing.Size(60, 50);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // dialogOpenFile
+            // 
+            this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
+            this.dialogOpenFile.Title = "Select an audio file to insert in the playlist (*.MP3, *.FLAC, *.OGG, *.WAV).";
+            // 
+            // btnRemoveFile
+            // 
+            this.btnRemoveFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveFile.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveFile.Location = new System.Drawing.Point(265, 14);
+            this.btnRemoveFile.Name = "btnRemoveFile";
+            this.btnRemoveFile.Size = new System.Drawing.Size(133, 22);
+            this.btnRemoveFile.TabIndex = 51;
+            this.btnRemoveFile.Text = "Remove audio file";
+            this.btnRemoveFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveFile.UseVisualStyleBackColor = true;
+            this.btnRemoveFile.Click += new System.EventHandler(this.btnRemoveFile_Click);
             // 
             // frmMain
             // 
@@ -963,6 +1001,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPosition)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -971,7 +1010,6 @@
             this.groupLoop.PerformLayout();
             this.groupEQ.ResumeLayout(false);
             this.groupEQ.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1047,6 +1085,9 @@
         private System.Windows.Forms.Label lblEQBandwidth;
         private System.Windows.Forms.Button btnResetEQ;
         private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Button btnInsertFile;
+        private System.Windows.Forms.OpenFileDialog dialogOpenFile;
+        private System.Windows.Forms.Button btnRemoveFile;
     }
 }
 
