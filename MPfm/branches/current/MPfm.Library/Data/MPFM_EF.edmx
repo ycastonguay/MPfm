@@ -6,7 +6,6 @@
     <edmx:StorageModels>
     <Schema Namespace="PMPEFModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="PMPEFModelStoreContainer">
-          <EntitySet Name="AlbumArt" EntityType="PMPEFModel.Store.AlbumArt" store:Type="Tables" />
           <EntitySet Name="Equalizers" EntityType="PMPEFModel.Store.Equalizers" store:Type="Tables" />
           <EntitySet Name="Folders" EntityType="PMPEFModel.Store.Folders" store:Type="Tables" />
           <EntitySet Name="Loops" EntityType="PMPEFModel.Store.Loops" store:Type="Tables" />
@@ -17,15 +16,6 @@
           <EntitySet Name="Songs" EntityType="PMPEFModel.Store.Songs" store:Type="Tables" />
           <EntitySet Name="Tabs" EntityType="PMPEFModel.Store.Tabs" store:Type="Tables" />
         </EntityContainer>
-        <EntityType Name="AlbumArt">
-          <Key>
-            <PropertyRef Name="AlbumArtId" />
-          </Key>
-          <Property Name="AlbumArtId" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="AlbumArtData" Type="blob" />
-          <Property Name="Album" Type="nvarchar" MaxLength="500" />
-          <Property Name="Artist" Type="nvarchar" MaxLength="500" />
-        </EntityType>
         <EntityType Name="Equalizers">
           <Key>
             <PropertyRef Name="EqualizerId" />
@@ -144,7 +134,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MPFM.Library.Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
         <EntityContainer Name="MPFM_EF">
-          <EntitySet Name="AlbumArts" EntityType="MPFM.Library.Model.AlbumArt" />
           <EntitySet Name="Equalizers" EntityType="MPFM.Library.Model.Equalizer" />
           <EntitySet Name="Folders" EntityType="MPFM.Library.Model.Folder" />
           <EntitySet Name="Playlists" EntityType="MPFM.Library.Model.Playlist" />
@@ -155,15 +144,6 @@
           <EntitySet Name="Markers" EntityType="MPFM.Library.Model.Marker" />
           <EntitySet Name="Loops" EntityType="MPFM.Library.Model.Loop" />
         </EntityContainer>
-        <EntityType Name="AlbumArt">
-          <Key>
-            <PropertyRef Name="AlbumArtId" />
-          </Key>
-          <Property Type="String" Name="AlbumArtId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Binary" Name="AlbumArtData" MaxLength="2147483647" FixedLength="false" />
-          <Property Type="String" Name="Album" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Artist" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Equalizer">
           <Key>
             <PropertyRef Name="EqualizerId" />
@@ -283,16 +263,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
         <EntityContainerMapping StorageEntityContainer="PMPEFModelStoreContainer" CdmEntityContainer="MPFM_EF">
-          <EntitySetMapping Name="AlbumArts">
-            <EntityTypeMapping TypeName="MPFM.Library.Model.AlbumArt">
-              <MappingFragment StoreEntitySet="AlbumArt">
-                <ScalarProperty Name="Artist" ColumnName="Artist" />
-                <ScalarProperty Name="Album" ColumnName="Album" />
-                <ScalarProperty Name="AlbumArtData" ColumnName="AlbumArtData" />
-                <ScalarProperty Name="AlbumArtId" ColumnName="AlbumArtId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Equalizers">
             <EntityTypeMapping TypeName="MPFM.Library.Model.Equalizer">
               <MappingFragment StoreEntitySet="Equalizers">
@@ -436,7 +406,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="PMPEF">
-        <EntityTypeShape EntityType="MPFM.Library.Model.AlbumArt" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7879850260416674" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Equalizer" Width="1.5" PointX="2.75" PointY="0.75" Height="4.8648079427083317" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Folder" Width="1.5" PointX="4.75" PointY="0.75" Height="1.7879850260416674" />
         <EntityTypeShape EntityType="MPFM.Library.Model.Playlist" Width="1.5" PointX="0.75" PointY="6.75" Height="1.4033821614583388" />

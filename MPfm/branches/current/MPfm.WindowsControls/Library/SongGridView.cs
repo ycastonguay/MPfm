@@ -1005,6 +1005,8 @@ namespace MPfm.WindowsControls
                     item.IsSelected = false;
                 }
             }
+
+            Refresh();
         }
 
         /// <summary>
@@ -2193,8 +2195,12 @@ namespace MPfm.WindowsControls
             if (e.Button == System.Windows.Forms.MouseButtons.Right &&
                 e.X > m_columns[0].Width)
             {
-                // Show context menu strip
-                m_contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);                
+                // Is there a context menu strip configured?
+                if (m_contextMenuStrip != null)
+                {
+                    // Show context menu strip
+                    m_contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);
+                }
             }
 
             // Check if the user is resizing a column
@@ -2689,8 +2695,8 @@ namespace MPfm.WindowsControls
                 // Set scrollbar value
                 m_vScrollBar.Value = newValue;
 
-                // Invalidate the whole control and refresh
-                Refresh();
+                // Invalidate the whole control and refresh                
+                Refresh();                
             }
 
             return false;

@@ -28,6 +28,7 @@ using System.Data.Objects;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
@@ -891,7 +892,7 @@ namespace MPfm.Library
         /// <returns>List of songs</returns>
         public List<SongDTO> SelectSongs()
         {
-            return SelectSongs(FilterSoundFormat.All, string.Empty, string.Empty, string.Empty);
+            return SelectSongs(FilterSoundFormat.All, string.Empty, true, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
@@ -901,7 +902,17 @@ namespace MPfm.Library
         /// <returns>List of songs</returns>
         public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat)
         {
-            return SelectSongs(soundFormat, string.Empty, string.Empty, string.Empty);
+            return SelectSongs(soundFormat, string.Empty, true, string.Empty, string.Empty, string.Empty);
+        }
+
+        /// <summary>
+        /// Selects the songs from the song cache, filtered by the sound format passed in parameter.
+        /// </summary>
+        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <returns>List of songs</returns>
+        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending)
+        {
+            return SelectSongs(soundFormat, orderBy, orderByAscending, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
@@ -911,9 +922,9 @@ namespace MPfm.Library
         /// <param name="soundFormat">Sound Format Filter</param>
         /// <param name="artistName">Artist Name</param>
         /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string artistName)
+        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName)
         {
-            return SelectSongs(soundFormat, artistName, string.Empty, string.Empty);
+            return SelectSongs(soundFormat, orderBy, orderByAscending, artistName, string.Empty, string.Empty);
         }
 
         /// <summary>
@@ -924,9 +935,15 @@ namespace MPfm.Library
         /// <param name="artistName">Artist Name</param>
         /// <param name="albumTitle">Album Title</param>
         /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string artistName, string albumTitle)
+        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
         {
-            return SelectSongs(soundFormat, artistName, albumTitle, string.Empty);
+            return SelectSongs(soundFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
+        }
+
+        private static object GetPropertyValue(object obj, string property)
+        {
+            PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
+            return propertyInfo.GetValue(obj, null);
         }
 
         /// <summary>
@@ -938,16 +955,41 @@ namespace MPfm.Library
         /// <param name="albumTitle">Album Title</param>
         /// <param name="songTitle">Song Title</param>
         /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string artistName, string albumTitle, string songTitle)
+        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string songTitle)
         {
             // Create variables
             List<SongDTO> songs = null;
 
             try
             {
-                IEnumerable<SongDTO> querySongs = from s in Songs                            
-                                                  orderby s.ArtistName, s.AlbumTitle, s.DiscNumber, s.TrackNumber
-                                                  select s;
+                IEnumerable<SongDTO> querySongs = null;
+
+                // Check for default order by (ignore ascending)
+                if (String.IsNullOrEmpty(orderBy))
+                {
+                    // Set query
+                    querySongs = from s in Songs
+                                 orderby s.ArtistName, s.AlbumTitle, s.DiscNumber, s.TrackNumber
+                                 select s;
+                }
+                else
+                {
+                    // Check for orderby ascending/descending
+                    if (orderByAscending)
+                    {
+                        // Set query
+                        querySongs = from s in Songs
+                                     orderby GetPropertyValue(s, orderBy)
+                                     select s;
+                    }
+                    else
+                    {
+                        // Set query
+                        querySongs = from s in Songs
+                                     orderby GetPropertyValue(s, orderBy) descending
+                                     select s;                        
+                    }
+                }
 
                 // Check if artistName is null
                 if (!String.IsNullOrEmpty(artistName))
@@ -975,6 +1017,18 @@ namespace MPfm.Library
                 {
                     querySongs = querySongs.Where(s => s.SoundFormat == soundFormat.ToString());
                 }
+
+                //// Check for default order by
+                //if (String.IsNullOrEmpty(orderBy))
+                //{
+                //    // Add order by
+                //    querySongs = querySongs.OrderBy(s => s.ArtistName).ThenBy(s => s.AlbumTitle).ThenBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber);
+                //}
+                //else
+                //{
+                //    // Custom order by
+                //    querySongs = querySongs.OrderBy("");
+                //}
 
                 // Execute query
                 songs = querySongs.ToList();
@@ -1070,7 +1124,7 @@ namespace MPfm.Library
             playlist.PlaylistType = PlaylistType.Artist;           
 
             // Get songs for this artist
-            List<SongDTO> songs = SelectSongs(soundFormat, artistName);
+            List<SongDTO> songs = SelectSongs(soundFormat, string.Empty, true, artistName);
 
             // Transform songs into playlist songs
             foreach (SongDTO song in songs)
@@ -1108,7 +1162,7 @@ namespace MPfm.Library
             playlist.PlaylistType = PlaylistType.Album;
 
             // Get songs for this artist
-            List<SongDTO> songs = SelectSongs(soundFormat, artistName, albumTitle);
+            List<SongDTO> songs = SelectSongs(soundFormat, string.Empty, true, artistName, albumTitle);
 
             // Transform songs into playlist songs
             foreach (SongDTO song in songs)

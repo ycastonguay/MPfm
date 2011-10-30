@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont25 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -725,22 +725,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont25.AssemblyPath = "MPfm.Fonts.dll";
-            customFont25.Name = "LeagueGothic";
-            customFont25.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont26.AssemblyPath = "MPfm.Fonts.dll";
-            customFont26.Name = "Junction";
-            customFont26.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont27.AssemblyPath = "MPfm.Fonts.dll";
-            customFont27.Name = "TitilliumText22L Lt";
-            customFont27.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont28.AssemblyPath = "MPfm.Fonts.dll";
-            customFont28.Name = "Droid Sans Mono";
-            customFont28.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont25);
-            this.fontCollection.Fonts.Add(customFont26);
-            this.fontCollection.Fonts.Add(customFont27);
-            this.fontCollection.Fonts.Add(customFont28);
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
             // 
             // treeLibrary
             // 
@@ -2206,6 +2206,7 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.viewSongs2.AntiAliasingEnabled = true;
+            this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;
             this.viewSongs2.CustomFontName = "Junction";
             this.viewSongs2.DisplayDebugInformation = false;
             this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

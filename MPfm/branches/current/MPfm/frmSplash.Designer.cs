@@ -78,8 +78,8 @@ namespace MPfm
             customFont2.Name = "TitilliumText22L Lt";
             customFont2.ResourceName = "MPfm.Fonts.Titillium2.ttf";
             customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "BPmono";
-            customFont3.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont3.Name = "Droid Sans Mono";
+            customFont3.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
             this.fontCollection.Fonts.Add(customFont1);
             this.fontCollection.Fonts.Add(customFont2);
             this.fontCollection.Fonts.Add(customFont3);
@@ -88,13 +88,13 @@ namespace MPfm
             // 
             this.lblVersion.AntiAliasingEnabled = true;
             this.lblVersion.BackColor = System.Drawing.Color.Black;
-            this.lblVersion.CustomFontName = "BPMono";
+            this.lblVersion.CustomFontName = "Droid Sans Mono";
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
             this.lblVersion.FontCollection = this.fontCollection;
             this.lblVersion.ForeColor = System.Drawing.Color.White;
             this.lblVersion.Location = new System.Drawing.Point(7, 8);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(58, 16);
+            this.lblVersion.Size = new System.Drawing.Size(62, 16);
             this.lblVersion.TabIndex = 55;
             this.lblVersion.Text = "0.0.0.0";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

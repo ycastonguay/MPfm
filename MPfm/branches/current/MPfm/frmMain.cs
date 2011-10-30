@@ -820,7 +820,7 @@ namespace MPfm
                 string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
                 lblCurrentTime.Text = currentTime;
 
-                lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
+                //lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
 
                 // Update data for Loops & Markers wave form display
                 waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
@@ -1331,7 +1331,7 @@ namespace MPfm
                 // Refresh play icon
                 RefreshSongBrowserPlayIcon(Guid.Empty);
                 formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
-                viewSongs2.ClearSelectedItems();
+                viewSongs2.ClearSelectedItems();                
             }
         }
 
@@ -1409,15 +1409,17 @@ namespace MPfm
         {           
             // Create the list of songs for the browser
             List<SongDTO> songs = null;
+            string orderBy = viewSongs2.OrderByFieldName;
+            bool orderByAscending = viewSongs2.OrderByAscending;
 
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, query.ArtistName, query.AlbumTitle);
+                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, query.ArtistName);
+                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
             }
             else if (query.Type == SongQueryType.Playlist)
             {
@@ -1425,7 +1427,7 @@ namespace MPfm
             }            
             else if (query.Type == SongQueryType.All)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat);
+                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -3483,12 +3485,10 @@ namespace MPfm
 
         private void viewSongs2_OnColumnClick(SongGridViewColumnClickData data)
         {
+
+
             RefreshSongBrowser();
         }
-
-
-
-
     }
 
     #region Legacy
