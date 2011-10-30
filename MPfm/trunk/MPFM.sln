@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.WindowsControls", "MPf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestControls", "TestControls\TestControls.csproj", "{322A7779-3E37-4C25-9A1A-D2866F643F33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaybackEngineV3", "PlaybackEngineV3\PlaybackEngineV3.csproj", "{064ABDA7-31DC-495F-8214-ED2B13E05601}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaybackEngineV4", "PlaybackEngineV3\PlaybackEngineV4.csproj", "{064ABDA7-31DC-495F-8214-ED2B13E05601}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

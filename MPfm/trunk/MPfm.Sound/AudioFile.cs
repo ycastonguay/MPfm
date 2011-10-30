@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.IO;
 using System.Text;
+using MPfm.Core;
 
 namespace MPfm.Sound
 {
@@ -357,15 +358,15 @@ namespace MPfm.Sound
 					// Close TagLib file
 					fileMP3.Dispose();
 
-					// Check if there's a Xing header
-					XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
+                    // Check if there's a Xing header
+                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
 
-					// Check if the read was successful
-					if (xingHeader.Status == XingInfoHeaderStatus.Successful)
-					{
-						// Set property value
-						m_xingInfoHeader = xingHeader;
-					}
+                    // Check if the read was successful
+                    if (xingHeader.Status == XingInfoHeaderStatus.Successful)
+                    {
+                        // Set property value
+                        m_xingInfoHeader = xingHeader;
+                    }
 				}
 				catch (Exception ex)
 				{
@@ -436,76 +437,83 @@ namespace MPfm.Sound
 			}
 		}
 
-        public static Image ExtractImageForAudioFile(string filePath)
-        {
-            // Declare variables
-            Image imageCover = null;
+		public static Image ExtractImageForAudioFile(string filePath)
+		{
+			// Declare variables
+			Image imageCover = null;
 
-            // Check if the file exists
-            if (!File.Exists(filePath))
-            {
-                return null;
-            }
+			// Check if the file exists
+			if (!File.Exists(filePath))
+			{
+				return null;
+			}
 
-            // Check the file extension
-            string extension = Path.GetExtension(filePath).ToUpper();
-            if (extension == ".MP3")
-            {
-                try
-                {
-                    // Get tags using TagLib
-                    TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath);
+			// Check the file extension
+			string extension = Path.GetExtension(filePath).ToUpper();
+			if (extension == ".MP3")
+			{
+				try
+				{
+					// Get tags using TagLib
+					TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath);
 
-                    // Can we get the image from the ID3 tags?
-                    if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+					// Can we get the image from the ID3 tags?
+					if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+					{
+						// Get image from ID3 tags
+						ImageConverter ic = new ImageConverter();
+						imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
+					}
+				}
+				catch
+				{
+					// Do nothing, try to get an image from another method
+				}
+			}
+			else if (extension == ".FLAC")
+			{
+
+			}
+			else if (extension == ".OGG")
+			{
+
+			}
+
+			// Check if the image was found using TagLib
+			if (imageCover == null)
+			{
+				// Check in the same folder for an image representing the album cover
+				string folderPath = Path.GetDirectoryName(filePath);
+
+				// Get the directory information
+				DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);
+
+				// Try to find image files 
+				List<FileInfo> imageFiles = new List<FileInfo>();
+				imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.JPG").ToList());
+				imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.PNG").ToList());
+				imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.GIF").ToList());
+				imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.JPG").ToList());
+				imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.PNG").ToList());
+				imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.GIF").ToList());
+
+				// Check if at least one image was found
+				if (imageFiles.Count > 0)
+				{
+                    try
                     {
-                        // Get image from ID3 tags
-                        ImageConverter ic = new ImageConverter();
-                        imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
+                        // Get image from file
+                        imageCover = Image.FromFile(imageFiles[0].FullName);
                     }
-                }
-                catch
-                {
-                    // Do nothing, try to get an image from another method
-                }
-            }
-            else if (extension == ".FLAC")
-            {
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
+                    }
+				}
+			}
 
-            }
-            else if (extension == ".OGG")
-            {
-
-            }
-
-            // Check if the image was found using TagLib
-            if (imageCover == null)
-            {
-                // Check in the same folder for an image representing the album cover
-                string folderPath = Path.GetDirectoryName(filePath);
-
-                // Get the directory information
-                DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);
-
-                // Try to find image files 
-                List<FileInfo> imageFiles = new List<FileInfo>();
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.JPG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.PNG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.GIF").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.JPG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.PNG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.GIF").ToList());
-
-                // Check if at least one image was found
-                if (imageFiles.Count > 0)
-                {
-                    // Get image from file
-                    imageCover = Image.FromFile(imageFiles[0].FullName);
-                }
-            }
-
-            return imageCover;
-        }
+			return imageCover;
+		}
 	}
 
 	/// <summary>

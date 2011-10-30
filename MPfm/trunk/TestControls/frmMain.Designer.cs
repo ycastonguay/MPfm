@@ -1,6 +1,6 @@
 ﻿namespace TestControls
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -28,37 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.groupSongGridView = new System.Windows.Forms.GroupBox();
-            this.lblPadding = new MPfm.WindowsControls.Label();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
-            this.trackPadding = new MPfm.WindowsControls.TrackBar();
-            this.label1 = new MPfm.WindowsControls.Label();
             this.txtSearchArtistName = new System.Windows.Forms.TextBox();
-            this.label3 = new MPfm.WindowsControls.Label();
-            this.label2 = new MPfm.WindowsControls.Label();
             this.chkDebug = new System.Windows.Forms.CheckBox();
-            this.lblDisplayDebugInformation = new MPfm.WindowsControls.Label();
             this.comboCustomFontName = new System.Windows.Forms.ComboBox();
             this.comboStandardFontName = new System.Windows.Forms.ComboBox();
             this.comboDisplayType = new System.Windows.Forms.ComboBox();
             this.groupGeneral = new System.Windows.Forms.GroupBox();
-            this.lblUseStandardFont = new MPfm.WindowsControls.Label();
             this.radioUseStandardFont = new System.Windows.Forms.RadioButton();
+            this.radioUseCustomFont = new System.Windows.Forms.RadioButton();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lblUseStandardFont = new MPfm.WindowsControls.Label();
+            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.label5 = new MPfm.WindowsControls.Label();
             this.label4 = new MPfm.WindowsControls.Label();
-            this.radioUseCustomFont = new System.Windows.Forms.RadioButton();
             this.lblUseCustomFont = new MPfm.WindowsControls.Label();
             this.lblFontSize = new MPfm.WindowsControls.Label();
             this.trackFontSize = new MPfm.WindowsControls.TrackBar();
+            this.lblPadding = new MPfm.WindowsControls.Label();
+            this.trackPadding = new MPfm.WindowsControls.TrackBar();
+            this.label1 = new MPfm.WindowsControls.Label();
+            this.label3 = new MPfm.WindowsControls.Label();
+            this.label2 = new MPfm.WindowsControls.Label();
+            this.lblDisplayDebugInformation = new MPfm.WindowsControls.Label();
             this.songGridView = new MPfm.WindowsControls.SongGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupSongGridView.SuspendLayout();
             this.groupGeneral.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupSongGridView
@@ -78,75 +85,6 @@
             this.groupSongGridView.TabStop = false;
             this.groupSongGridView.Text = "111";
             // 
-            // lblPadding
-            // 
-            this.lblPadding.AntiAliasingEnabled = true;
-            this.lblPadding.CustomFontName = "Junction";
-            this.lblPadding.FontCollection = this.fontCollection;
-            this.lblPadding.Location = new System.Drawing.Point(4, 19);
-            this.lblPadding.Name = "lblPadding";
-            this.lblPadding.Size = new System.Drawing.Size(100, 18);
-            this.lblPadding.TabIndex = 17;
-            this.lblPadding.Text = "Padding  : 6 pt";
-            // 
-            // fontCollection
-            // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "Junction";
-            customFont1.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "LeagueGothic";
-            customFont2.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "BPmono";
-            customFont4.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "CPmono";
-            customFont5.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
-            // 
-            // trackPadding
-            // 
-            this.trackPadding.CenterLineColor = System.Drawing.Color.Black;
-            this.trackPadding.CenterLineShadowColor = System.Drawing.Color.DarkGray;
-            this.trackPadding.CustomFontName = null;
-            this.trackPadding.FaderGradientColor1 = System.Drawing.SystemColors.ControlDark;
-            this.trackPadding.FaderGradientColor2 = System.Drawing.SystemColors.ControlDark;
-            this.trackPadding.FaderHeight = 12;
-            this.trackPadding.FaderShadowGradientColor1 = System.Drawing.SystemColors.ControlDark;
-            this.trackPadding.FaderShadowGradientColor2 = System.Drawing.SystemColors.ControlDarkDark;
-            this.trackPadding.FontCollection = null;
-            this.trackPadding.GradientColor1 = System.Drawing.SystemColors.Control;
-            this.trackPadding.GradientColor2 = System.Drawing.SystemColors.ControlDark;
-            this.trackPadding.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.trackPadding.Location = new System.Drawing.Point(7, 40);
-            this.trackPadding.Maximum = 24;
-            this.trackPadding.Name = "trackPadding";
-            this.trackPadding.Size = new System.Drawing.Size(167, 21);
-            this.trackPadding.TabIndex = 16;
-            this.trackPadding.Text = "trackBar1";
-            this.trackPadding.Value = 6;
-            this.trackPadding.OnTrackBarValueChanged += new MPfm.WindowsControls.TrackBar.TrackBarValueChanged(this.trackPadding_OnTrackBarValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AntiAliasingEnabled = true;
-            this.label1.CustomFontName = "Junction";
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.FontCollection = this.fontCollection;
-            this.label1.Location = new System.Drawing.Point(183, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 18);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Search";
-            // 
             // txtSearchArtistName
             // 
             this.txtSearchArtistName.Location = new System.Drawing.Point(186, 57);
@@ -154,29 +92,6 @@
             this.txtSearchArtistName.Size = new System.Drawing.Size(150, 20);
             this.txtSearchArtistName.TabIndex = 7;
             this.txtSearchArtistName.TextChanged += new System.EventHandler(this.txtSearchArtistName_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.AntiAliasingEnabled = true;
-            this.label3.CustomFontName = "Junction";
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.FontCollection = this.fontCollection;
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(138, 18);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "SongGridView Settings";
-            // 
-            // label2
-            // 
-            this.label2.AntiAliasingEnabled = true;
-            this.label2.CustomFontName = "Junction";
-            this.label2.FontCollection = this.fontCollection;
-            this.label2.Location = new System.Drawing.Point(183, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(153, 18);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Artist Name :";
             // 
             // chkDebug
             // 
@@ -187,18 +102,6 @@
             this.chkDebug.TabIndex = 6;
             this.chkDebug.UseVisualStyleBackColor = true;
             this.chkDebug.CheckedChanged += new System.EventHandler(this.chkDebug_CheckedChanged);
-            // 
-            // lblDisplayDebugInformation
-            // 
-            this.lblDisplayDebugInformation.AntiAliasingEnabled = true;
-            this.lblDisplayDebugInformation.CustomFontName = "Junction";
-            this.lblDisplayDebugInformation.FontCollection = this.fontCollection;
-            this.lblDisplayDebugInformation.Location = new System.Drawing.Point(22, 70);
-            this.lblDisplayDebugInformation.Name = "lblDisplayDebugInformation";
-            this.lblDisplayDebugInformation.Size = new System.Drawing.Size(153, 18);
-            this.lblDisplayDebugInformation.TabIndex = 5;
-            this.lblDisplayDebugInformation.Text = "Display debug information";
-            this.lblDisplayDebugInformation.Click += new System.EventHandler(this.lblDisplayDebugInformation_Click);
             // 
             // comboCustomFontName
             // 
@@ -259,6 +162,34 @@
             this.groupGeneral.TabStop = false;
             this.groupGeneral.Text = "_";
             // 
+            // radioUseStandardFont
+            // 
+            this.radioUseStandardFont.AutoSize = true;
+            this.radioUseStandardFont.Location = new System.Drawing.Point(293, 21);
+            this.radioUseStandardFont.Name = "radioUseStandardFont";
+            this.radioUseStandardFont.Size = new System.Drawing.Size(14, 13);
+            this.radioUseStandardFont.TabIndex = 18;
+            this.radioUseStandardFont.UseVisualStyleBackColor = true;
+            this.radioUseStandardFont.CheckedChanged += new System.EventHandler(this.radioUseStandardFont_CheckedChanged);
+            // 
+            // radioUseCustomFont
+            // 
+            this.radioUseCustomFont.AutoSize = true;
+            this.radioUseCustomFont.Checked = true;
+            this.radioUseCustomFont.Location = new System.Drawing.Point(161, 21);
+            this.radioUseCustomFont.Name = "radioUseCustomFont";
+            this.radioUseCustomFont.Size = new System.Drawing.Size(14, 13);
+            this.radioUseCustomFont.TabIndex = 17;
+            this.radioUseCustomFont.TabStop = true;
+            this.radioUseCustomFont.UseVisualStyleBackColor = true;
+            this.radioUseCustomFont.CheckedChanged += new System.EventHandler(this.radioUseCustomFont_CheckedChanged);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 50;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // lblUseStandardFont
             // 
             this.lblUseStandardFont.AntiAliasingEnabled = true;
@@ -271,15 +202,28 @@
             this.lblUseStandardFont.Text = "Use Standard Font";
             this.lblUseStandardFont.Click += new System.EventHandler(this.lblUseStandardFont_Click);
             // 
-            // radioUseStandardFont
+            // fontCollection
             // 
-            this.radioUseStandardFont.AutoSize = true;
-            this.radioUseStandardFont.Location = new System.Drawing.Point(293, 21);
-            this.radioUseStandardFont.Name = "radioUseStandardFont";
-            this.radioUseStandardFont.Size = new System.Drawing.Size(14, 13);
-            this.radioUseStandardFont.TabIndex = 18;
-            this.radioUseStandardFont.UseVisualStyleBackColor = true;
-            this.radioUseStandardFont.CheckedChanged += new System.EventHandler(this.radioUseStandardFont_CheckedChanged);
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "Junction";
+            customFont1.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "LeagueGothic";
+            customFont2.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "BPmono";
+            customFont4.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont5.AssemblyPath = "MPfm.Fonts.dll";
+            customFont5.Name = "CPmono";
+            customFont5.ResourceName = "MPfm.Fonts.CPmono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
+            this.fontCollection.Fonts.Add(customFont5);
             // 
             // label5
             // 
@@ -303,18 +247,6 @@
             this.label4.Size = new System.Drawing.Size(109, 18);
             this.label4.TabIndex = 16;
             this.label4.Text = "Control to display :";
-            // 
-            // radioUseCustomFont
-            // 
-            this.radioUseCustomFont.AutoSize = true;
-            this.radioUseCustomFont.Checked = true;
-            this.radioUseCustomFont.Location = new System.Drawing.Point(161, 21);
-            this.radioUseCustomFont.Name = "radioUseCustomFont";
-            this.radioUseCustomFont.Size = new System.Drawing.Size(14, 13);
-            this.radioUseCustomFont.TabIndex = 17;
-            this.radioUseCustomFont.TabStop = true;
-            this.radioUseCustomFont.UseVisualStyleBackColor = true;
-            this.radioUseCustomFont.CheckedChanged += new System.EventHandler(this.radioUseCustomFont_CheckedChanged);
             // 
             // lblUseCustomFont
             // 
@@ -363,6 +295,87 @@
             this.trackFontSize.Value = 8;
             this.trackFontSize.OnTrackBarValueChanged += new MPfm.WindowsControls.TrackBar.TrackBarValueChanged(this.trackFontSize_OnTrackBarValueChanged);
             // 
+            // lblPadding
+            // 
+            this.lblPadding.AntiAliasingEnabled = true;
+            this.lblPadding.CustomFontName = "Junction";
+            this.lblPadding.FontCollection = this.fontCollection;
+            this.lblPadding.Location = new System.Drawing.Point(4, 19);
+            this.lblPadding.Name = "lblPadding";
+            this.lblPadding.Size = new System.Drawing.Size(100, 18);
+            this.lblPadding.TabIndex = 17;
+            this.lblPadding.Text = "Padding  : 6 pt";
+            // 
+            // trackPadding
+            // 
+            this.trackPadding.CenterLineColor = System.Drawing.Color.Black;
+            this.trackPadding.CenterLineShadowColor = System.Drawing.Color.DarkGray;
+            this.trackPadding.CustomFontName = null;
+            this.trackPadding.FaderGradientColor1 = System.Drawing.SystemColors.ControlDark;
+            this.trackPadding.FaderGradientColor2 = System.Drawing.SystemColors.ControlDark;
+            this.trackPadding.FaderHeight = 12;
+            this.trackPadding.FaderShadowGradientColor1 = System.Drawing.SystemColors.ControlDark;
+            this.trackPadding.FaderShadowGradientColor2 = System.Drawing.SystemColors.ControlDarkDark;
+            this.trackPadding.FontCollection = null;
+            this.trackPadding.GradientColor1 = System.Drawing.SystemColors.Control;
+            this.trackPadding.GradientColor2 = System.Drawing.SystemColors.ControlDark;
+            this.trackPadding.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackPadding.Location = new System.Drawing.Point(7, 40);
+            this.trackPadding.Maximum = 24;
+            this.trackPadding.Name = "trackPadding";
+            this.trackPadding.Size = new System.Drawing.Size(167, 21);
+            this.trackPadding.TabIndex = 16;
+            this.trackPadding.Text = "trackBar1";
+            this.trackPadding.Value = 6;
+            this.trackPadding.OnTrackBarValueChanged += new MPfm.WindowsControls.TrackBar.TrackBarValueChanged(this.trackPadding_OnTrackBarValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AntiAliasingEnabled = true;
+            this.label1.CustomFontName = "Junction";
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.FontCollection = this.fontCollection;
+            this.label1.Location = new System.Drawing.Point(183, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 18);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Search";
+            // 
+            // label3
+            // 
+            this.label3.AntiAliasingEnabled = true;
+            this.label3.CustomFontName = "Junction";
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.FontCollection = this.fontCollection;
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(138, 18);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "SongGridView Settings";
+            // 
+            // label2
+            // 
+            this.label2.AntiAliasingEnabled = true;
+            this.label2.CustomFontName = "Junction";
+            this.label2.FontCollection = this.fontCollection;
+            this.label2.Location = new System.Drawing.Point(183, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(153, 18);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Artist Name :";
+            // 
+            // lblDisplayDebugInformation
+            // 
+            this.lblDisplayDebugInformation.AntiAliasingEnabled = true;
+            this.lblDisplayDebugInformation.CustomFontName = "Junction";
+            this.lblDisplayDebugInformation.FontCollection = this.fontCollection;
+            this.lblDisplayDebugInformation.Location = new System.Drawing.Point(22, 70);
+            this.lblDisplayDebugInformation.Name = "lblDisplayDebugInformation";
+            this.lblDisplayDebugInformation.Size = new System.Drawing.Size(153, 18);
+            this.lblDisplayDebugInformation.TabIndex = 5;
+            this.lblDisplayDebugInformation.Text = "Display debug information";
+            this.lblDisplayDebugInformation.Click += new System.EventHandler(this.lblDisplayDebugInformation_Click);
+            // 
             // songGridView
             // 
             this.songGridView.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
@@ -371,6 +384,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.songGridView.AntiAliasingEnabled = true;
+            this.songGridView.ContextMenuStrip = this.contextMenuStrip1;
             this.songGridView.CustomFontName = "Junction";
             this.songGridView.DisplayDebugInformation = false;
             this.songGridView.FontCollection = this.fontCollection;
@@ -381,8 +395,7 @@
             this.songGridView.HeaderHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.songGridView.IconNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
             this.songGridView.IconNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
-            this.songGridView.ImageCacheSize = 10;
-            this.songGridView.Library = null;
+            this.songGridView.ImageCacheSize = 10;            
             this.songGridView.LineColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
             this.songGridView.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.songGridView.LineForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -396,13 +409,39 @@
             this.songGridView.Name = "songGridView";
             this.songGridView.NowPlayingSongId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.songGridView.OrderByAscending = true;
-            this.songGridView.OrderByFieldName = "";
-            this.songGridView.SearchArtistName = "";
+            this.songGridView.OrderByFieldName = "";            
             this.songGridView.Size = new System.Drawing.Size(936, 300);
             this.songGridView.TabIndex = 2;
             this.songGridView.Text = "libraryGridView1";
             // 
-            // Form1
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "toolStripMenuItem2";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Text = "toolStripMenuItem3";
+            // 
+            // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(938, 473);
@@ -410,13 +449,14 @@
             this.Controls.Add(this.groupSongGridView);
             this.Controls.Add(this.songGridView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.Text = "MPfm - Test Controls";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupSongGridView.ResumeLayout(false);
             this.groupSongGridView.PerformLayout();
             this.groupGeneral.ResumeLayout(false);
             this.groupGeneral.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -446,6 +486,11 @@
         private MPfm.WindowsControls.Label lblUseStandardFont;
         private MPfm.WindowsControls.Label lblPadding;
         private MPfm.WindowsControls.TrackBar trackPadding;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 

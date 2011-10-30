@@ -94,10 +94,7 @@
     <EmbeddedResource Include="Titillium2.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BPmono.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="CPmono.ttf" />
+    <EmbeddedResource Include="DroidSansMono.ttf" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

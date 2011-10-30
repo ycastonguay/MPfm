@@ -51,13 +51,20 @@ namespace MPfm.WindowsControls
         private System.Windows.Forms.VScrollBar m_vScrollBar = null;
         private System.Windows.Forms.HScrollBar m_hScrollBar = null;
 
+        // Background worker for updating album art
+        private int m_preloadLinesAlbumCover = 20;
+        private BackgroundWorker m_workerUpdateAlbumArt = null;
+        public List<SongGridViewBackgroundWorkerArgument> m_workerUpdateAlbumArtPile = null;
+        private System.Windows.Forms.Timer m_timerUpdateAlbumArt = null;
+        private List<string> m_currentlyVisibleAlbumArt = null;
+
         // Cache        
         private GridViewSongCache m_songCache = null;
-        private List<GridViewImageCache> m_imageCache = new List<GridViewImageCache>();
+        private List<GridViewImageCache> m_imageCache = new List<GridViewImageCache>();        
 
         // Private variables used for mouse events
-        private int m_startLineNumber = 0;
-        private int m_numberOfLinesToDraw = 0;
+        public int m_startLineNumber = 0;
+        public int m_numberOfLinesToDraw = 0;
         private int m_minimumColumnWidth = 30;
         private int m_dragStartX = -1;
         private int m_dragOriginalColumnWidth = -1;
@@ -69,6 +76,30 @@ namespace MPfm.WindowsControls
         private int m_timerAnimationNowPlayingCount = 0;
         private Rectangle m_rectNowPlaying = new Rectangle(0, 0, 1, 1);
         private System.Windows.Forms.Timer m_timerAnimationNowPlaying = null;
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Delegate method for the OnSelectedItemChanged event.
+        /// </summary>
+        /// <param name="data">SelectedIndexChanged data</param>
+        public delegate void SelectedIndexChanged(SongGridViewSelectedIndexChangedData data);
+        /// <summary>
+        /// The OnSelectedIndexChanged event is triggered when the selected item(s) have changed.
+        /// </summary>
+        public event SelectedIndexChanged OnSelectedIndexChanged;
+
+        /// <summary>
+        /// Delegate method for the OnColumnClick event.
+        /// </summary>
+        /// <param name="data">SongGridViewColumnClickData data</param>
+        public delegate void ColumnClick(SongGridViewColumnClickData data);
+        /// <summary>
+        /// The ColumnClick event is triggered when the user has clicked on one of the columns.
+        /// </summary>
+        public event ColumnClick OnColumnClick;
 
         #endregion
 
@@ -191,7 +222,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("Name of the embedded font for the header (as written in the Name property of a CustomFont).")]
+        [Category("Theme"), Browsable(true), Description("Name of the embedded font for the header (as written in the Name property of a CustomFont).")]
         public string HeaderCustomFontName
         {
             get
@@ -518,15 +549,8 @@ namespace MPfm.WindowsControls
         /// Pointer to the embedded font collection.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
+        [Category("Configuration"), Browsable(true), Description("Pointer to the embedded font collection.")]
         public FontCollection FontCollection { get; set; }
-
-        /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
 
         /// <summary>
         /// Private value for the AntiAliasingEnabled property.
@@ -550,6 +574,14 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
+        public string CustomFontName { get; set; }
+
+
+        /// <summary>
         /// Overrides the Font property to invalidate the cache when updating the font.
         /// </summary>
         public override Font Font
@@ -569,24 +601,25 @@ namespace MPfm.WindowsControls
 
         #region Other Properties (Library, Items, Columns, etc.)
         
-        /// <summary>
-        /// Private value for the Library property.
-        /// </summary>
-        private MPfm.Library.Library m_library = null;
-        /// <summary>
-        /// Hook to the MPfm Library object.
-        /// </summary>
-        public MPfm.Library.Library Library
-        {
-            get
-            {
-                return m_library;
-            }
-            set
-            {
-                m_library = value;
-            }
-        }
+        ///// <summary>
+        ///// Private value for the Library property.
+        ///// </summary>
+        //private MPfm.Library.Library m_library = null;
+        ///// <summary>
+        ///// Hook to the MPfm Library object.
+        ///// </summary>
+        //[Browsable(false)]
+        //public MPfm.Library.Library Library
+        //{
+        //    get
+        //    {
+        //        return m_library;
+        //    }
+        //    set
+        //    {
+        //        m_library = value;
+        //    }
+        //}
 
         /// <summary>
         /// Private value for the Items property.
@@ -595,11 +628,30 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// List of grid view items (representing songs).
         /// </summary>
+        [Browsable(false)]
         public List<SongGridViewItem> Items
         {
             get
             {
                 return m_items;
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of selected items.
+        /// </summary>
+        [Browsable(false)]
+        public List<SongGridViewItem> SelectedItems
+        {
+            get
+            {
+                // Check if the item list exists
+                if (m_items != null)
+                {
+                    return m_items.Where(x => x.IsSelected).ToList();
+                }
+
+                return null;
             }
         }
 
@@ -610,6 +662,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// List of grid view columns.
         /// </summary>
+        [Browsable(false)]
         public List<GridViewSongColumn> Columns
         {
             get
@@ -622,25 +675,27 @@ namespace MPfm.WindowsControls
 
         #region Filter / OrderBy Properties
 
-        private string m_searchArtistName = string.Empty;
-        public string SearchArtistName
-        {
-            get
-            {
-                return m_searchArtistName;
-            }
-            set
-            {
-                m_searchArtistName = value;
+        // TODO: REPLACE THIS BY A DATASOURCE/DATABIND INSTEAD. LET THE USER CONTROL THE QUERY!
 
-                // Invalidate item list and cache
-                m_items = null;
-                m_songCache = null;
+        //private string m_searchArtistName = string.Empty;
+        //public string SearchArtistName
+        //{
+        //    get
+        //    {
+        //        return m_searchArtistName;
+        //    }
+        //    set
+        //    {
+        //        m_searchArtistName = value;
 
-                // Refresh control
-                Refresh();
-            }
-        }
+        //        // Invalidate item list and cache
+        //        m_items = null;
+        //        m_songCache = null;
+
+        //        // Refresh control
+        //        Refresh();
+        //    }
+        //}
 
         /// <summary>
         /// Private value for the OrderByFieldName property.
@@ -683,6 +738,7 @@ namespace MPfm.WindowsControls
         #region Settings Properties
         
         private Guid m_nowPlayingSongId = Guid.Empty;
+        [Browsable(false)]
         public Guid NowPlayingSongId
         {
             get
@@ -724,6 +780,20 @@ namespace MPfm.WindowsControls
 
         #endregion
 
+        private ContextMenuStrip m_contextMenuStrip = null;        
+        [Category("Misc"), Browsable(true), Description("Stuff.")]   
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get
+            {
+                return m_contextMenuStrip;
+            }
+            set
+            {
+                m_contextMenuStrip = value;
+            }
+        }
+
         #region Constructors
         
         /// <summary>
@@ -757,6 +827,210 @@ namespace MPfm.WindowsControls
 
             // Override mouse messages for mouse wheel (get mouse wheel events out of control)
             Application.AddMessageFilter(this);
+
+            // Create background worker for updating album art
+            m_workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
+            m_workerUpdateAlbumArt = new BackgroundWorker();            
+            m_workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(m_workerUpdateAlbumArt_DoWork);
+            m_workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_workerUpdateAlbumArt_RunWorkerCompleted);
+            
+            // Create timer for updating album art
+            m_timerUpdateAlbumArt = new System.Windows.Forms.Timer();
+            m_timerUpdateAlbumArt.Interval = 10;
+            m_timerUpdateAlbumArt.Tick += new EventHandler(m_timerUpdateAlbumArt_Tick);
+            m_timerUpdateAlbumArt.Enabled = true;            
+        }
+
+        /// <summary>
+        /// Occurs when the Update Album Art timer expires.
+        /// Checks if there are more album art covers to load and starts the background
+        /// thread if it is not running already.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        public void m_timerUpdateAlbumArt_Tick(object sender, EventArgs e)
+        {
+            // Stop timer
+            m_timerUpdateAlbumArt.Enabled = false;
+
+            // Check for the next album art to fetch
+            if (m_workerUpdateAlbumArtPile.Count > 0 && !m_workerUpdateAlbumArt.IsBusy)
+            {
+                // Do some cleanup: clean items that are not visible anymore
+                bool cleanUpDone = false;
+                while (!cleanUpDone)
+                {
+                    int indexToDelete = -1;
+                    for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
+                    {
+                        // Get argument
+                        SongGridViewBackgroundWorkerArgument arg = m_workerUpdateAlbumArtPile[a];
+
+                        // Check if this album is still visible (cancel if it is out of display).     
+                        if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
+                        {
+                            indexToDelete = a;
+                            break;
+                        }
+                    }
+
+                    if (indexToDelete >= 0)
+                    {
+                        m_workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
+                    }
+                    else
+                    {
+                        cleanUpDone = true;
+                    }
+                }
+                // There must be more album art to fetch.. right?
+                if (m_workerUpdateAlbumArtPile.Count > 0)
+                {
+                    // Start background worker                
+                    SongGridViewBackgroundWorkerArgument arg = m_workerUpdateAlbumArtPile[0];
+                    m_workerUpdateAlbumArt.RunWorkerAsync(arg);
+                }
+            }
+
+            // Restart timer
+            m_timerUpdateAlbumArt.Enabled = true;
+        }
+
+        /// <summary>
+        /// Occurs when the Update Album Art background worker starts its work.
+        /// Fetches the album cover in another thread and returns the image once done.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        public void m_workerUpdateAlbumArt_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Make sure the argument is valid
+            if (e.Argument == null)
+            {
+                return;
+            }
+
+            // Cast argument
+            SongGridViewBackgroundWorkerArgument arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
+
+            // Create result
+            SongGridViewBackgroundWorkerResult result = new SongGridViewBackgroundWorkerResult();
+            result.Song = arg.Song;
+
+            // Check if this album is still visible (cancel if it is out of display).     
+            if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
+            {
+                // Set result with empty image
+                e.Result = result;
+                return;
+            }
+
+            // Extract image from file
+            Image imageAlbumCover = AudioFile.ExtractImageForAudioFile(arg.Song.FilePath);
+
+            // Set album art in return data            
+            result.AlbumArt = imageAlbumCover;
+            e.Result = result;
+        }
+
+        /// <summary>
+        /// Occurs when the Update Album Art background worker has finished its work.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        public void m_workerUpdateAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // Check if the result was OK
+            if (e.Result == null)
+            {
+                return;
+            }
+
+            // Get album art
+            SongGridViewBackgroundWorkerResult result = (SongGridViewBackgroundWorkerResult)e.Result;
+
+            // Check if an image was found
+            if (result.AlbumArt != null)
+            {
+                // We found cover art! Add to cache and get out of the loop
+                m_imageCache.Add(new GridViewImageCache() { Key = result.Song.ArtistName + "_" + result.Song.AlbumTitle, Image = result.AlbumArt });
+
+                // Check if the cache size has been reached
+                if (m_imageCache.Count > m_imageCacheSize)
+                {
+                    // Remove the oldest item
+                    Image imageTemp = m_imageCache[0].Image;
+                    imageTemp.Dispose();
+                    imageTemp = null;
+                    m_imageCache.RemoveAt(0);
+                }
+            }
+
+            // Remove song from list
+            int indexRemove = -1;
+            for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
+            {
+                if (m_workerUpdateAlbumArtPile[a].Song.FilePath.ToUpper() == result.Song.FilePath.ToUpper())
+                {
+                    indexRemove = a;
+                }
+            }
+            if (indexRemove >= 0)
+            {
+                m_workerUpdateAlbumArtPile.RemoveAt(indexRemove);
+            }            
+
+            // Refresh control (TODO: Invalidate instead)
+            Refresh();
+            //Invalidate(new Rectangle(0, 0, m_columns[0].Width, Height));  <== this cuts the line between the album art and the other columns
+
+            //// Remove all invisible items from list
+            ////for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
+            //foreach(SongGridViewBackgroundWorkerArgument arg in m_workerUpdateAlbumArtPile)
+            //{
+            //    // TODO: Check if this album is still visible (cancel if it is out of display).     
+            //    if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw)
+            //    {
+            //        m_workerUpdateAlbumArtPile.Remove(arg);
+            //    }
+            //}
+        }
+
+        public void ClearSelectedItems()
+        {
+            foreach (SongGridViewItem item in m_items)
+            {
+                if (item.IsSelected)
+                {
+                    item.IsSelected = false;
+                }
+            }
+
+            Refresh();
+        }
+
+        /// <summary>
+        /// Imports songs as SongGridViewItems.
+        /// </summary>
+        /// <param name="songs">List of SongDTO</param>
+        public void ImportSongs(List<SongDTO> songs)
+        {
+            // Create list of items
+            m_items = new List<SongGridViewItem>();
+            foreach (SongDTO song in songs)
+            {
+                // Create item and add to list
+                SongGridViewItem item = new SongGridViewItem();
+                item.Song = song;
+                m_items.Add(item);
+            }
+
+            // Reset scrollbar position
+            m_vScrollBar.Value = 0;
+            m_songCache = null;
+
+            // Refresh control
+            Refresh();
         }
 
         #endregion
@@ -784,7 +1058,7 @@ namespace MPfm.WindowsControls
         protected override void OnPaint(PaintEventArgs e)
         {
             // Check if the library is valid
-            if (m_library == null)
+            if (m_items == null)
             {
                 return;
             }
@@ -837,7 +1111,7 @@ namespace MPfm.WindowsControls
             int albumCoverStartIndex = 0;
             int albumCoverEndIndex = 0;
             string currentAlbumTitle = string.Empty;
-            bool regenerateItems = true;
+            //bool regenerateItems = true;
             bool nowPlayingSongFound = false;
 
             // Load custom font
@@ -859,15 +1133,22 @@ namespace MPfm.WindowsControls
             // Set string format
             StringFormat stringFormat = new StringFormat();
 
-            // Check for an existing collection of items
-            if (m_items != null)
+            //// Check for an existing collection of items
+            //if (m_items != null)
+            //{
+            //    // Check the first item, if there's one
+            //    if (m_items.Count > 0 && m_items[0] is SongGridViewItem)
+            //    {
+            //        regenerateItems = false;
+            //    }
+            //}
+
+            // If there are no items..,
+            if (m_items == null)
             {
-                // Check the first item, if there's one
-                if (m_items.Count > 0 && m_items[0] is SongGridViewItem)
-                {
-                    regenerateItems = false;
-                }
-            }
+                // Do not do anything.
+                return;
+            }            
 
             // Check if columns exist
             if (m_columns == null)
@@ -912,26 +1193,27 @@ namespace MPfm.WindowsControls
                 m_columns.Add(columnSongLastPlayed);
             }
 
-            // Check if the items have been generated, or that the items are not of album type
-            if (regenerateItems)
-            {
-                // Query how many albums there are in the library
-                //List<SongDTO> songs = m_library.SelectSongs(FilterSoundFormat.MP3, m_searchArtistName);
-                List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(m_searchArtistName, string.Empty, string.Empty, m_orderByFieldName, m_orderByAscending));
+            //// Check if the items have been generated, or that the items are not of album type
+            //if (regenerateItems)
+            //{
+            //    // Query how many albums there are in the library
+            //    List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs());
+            //    //List<SongDTO> songs = m_library.SelectSongs(FilterSoundFormat.MP3, m_searchArtistName);
+            //    //List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(m_searchArtistName, string.Empty, string.Empty, m_orderByFieldName, m_orderByAscending));
 
-                // Create list of items
-                m_items = new List<SongGridViewItem>();
-                foreach (SongDTO song in songs)
-                {
-                    // Create item and add to list
-                    SongGridViewItem item = new SongGridViewItem();
-                    item.Song = song;
-                    m_items.Add(item);
-                }
+            //    // Create list of items
+            //    m_items = new List<SongGridViewItem>();
+            //    foreach (SongDTO song in songs)
+            //    {
+            //        // Create item and add to list
+            //        SongGridViewItem item = new SongGridViewItem();
+            //        item.Song = song;
+            //        m_items.Add(item);
+            //    }
 
-                // Reset scrollbar position
-                m_vScrollBar.Value = 0;
-            }
+            //    // Reset scrollbar position
+            //    m_vScrollBar.Value = 0;
+            //}
 
             // Check if a cache exists, or if the cache needs to be refreshed
             if (m_songCache == null)
@@ -1111,47 +1393,88 @@ namespace MPfm.WindowsControls
                         // Album art not found in cache; try to find an album cover in one of the file
                         if (imageAlbumCover == null)
                         {
-                            // Loop through album files
-                            for (int d = albumCoverStartIndex; d < albumCoverEndIndex; d++)
+                            // Check if the album cover is already in the pile
+                            bool albumCoverFound = false;
+                            foreach (SongGridViewBackgroundWorkerArgument arg in m_workerUpdateAlbumArtPile)
                             {
-                                //// Extract image from file
-                                //imageAlbumCover = AudioFile.ExtractImageForAudioFile(song.FilePath);
-
-                                //// Check if an image was found
-                                //if (imageAlbumCover != null)
-                                //{
-                                //    // We found cover art! Add to cache and get out of the loop
-                                //    m_imageCache.Add(new GridViewImageCache() { Key = song.ArtistName + "_" + song.AlbumTitle, Image = imageAlbumCover });
-
-                                //    // Check if the cache size has been reached
-                                //    if (m_imageCache.Count > m_imageCacheSize)
-                                //    {
-                                //        // Remove the oldest item
-                                //        Image imageTemp = m_imageCache[0].Image;
-                                //        imageTemp.Dispose();
-                                //        imageTemp = null;
-                                //        m_imageCache.RemoveAt(0);
-                                //    }
-
-                                //    //try
-                                //    //{
-                                //    //    // Try to save the album cover art
-                                //    //    imageAlbumCover.Save(imageFilePath);
-                                //    //}
-                                //    //catch
-                                //    //{
-                                //    //    // Check if the cover art directory exists
-                                //    //    if (!Directory.Exists(imageFileDirectory))
-                                //    //    {
-                                //    //        // Create the directory and try again
-                                //    //        Directory.CreateDirectory(imageFileDirectory);
-                                //    //        imageAlbumCover.Save(imageFilePath);
-                                //    //    }
-                                //    //}
-
-                                //    break;
-                                //}
+                                // Match by file path
+                                if (arg.Song.FilePath.ToUpper() == song.FilePath.ToUpper())
+                                {
+                                    // We found the album cover
+                                    albumCoverFound = true;
+                                }
                             }
+
+                            // Add to the pile only if the album cover isn't already in it
+                            if (!albumCoverFound)
+                            {
+                                // Add item to update album art worker pile
+                                SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
+                                arg.Song = song;
+                                arg.LineIndex = a;
+                                m_workerUpdateAlbumArtPile.Add(arg);
+                            }
+
+
+                            //// Loop through album files
+                            //for (int d = albumCoverStartIndex; d < albumCoverEndIndex; d++)
+                            //{                                                                
+
+
+                            //    // Make sure the song isn't already in the pile
+                            //    if (!m_workerUpdateAlbumArtPile.Contains(song))
+                            //    {
+                            //        // Add song to update album art worker pile
+                            //        m_workerUpdateAlbumArtPile.Add(song);
+                            //    }
+
+                            //    //// Check if this is the first item of the pile
+                            //    //if (m_workerUpdateAlbumArtPile.Count == 1)
+                            //    //{
+                            //    //    // Start background worker
+                            //    //    m_workerUpdateAlbumArt.RunWorkerAsync(m_workerUpdateAlbumArtPile[0]);
+                            //    //}
+
+                            //    break;
+
+                            //    //// Extract image from file
+                            //    //imageAlbumCover = AudioFile.ExtractImageForAudioFile(song.FilePath);
+
+                            //    //// Check if an image was found
+                            //    //if (imageAlbumCover != null)
+                            //    //{
+                            //    //    // We found cover art! Add to cache and get out of the loop
+                            //    //    m_imageCache.Add(new GridViewImageCache() { Key = song.ArtistName + "_" + song.AlbumTitle, Image = imageAlbumCover });
+
+                            //    //    // Check if the cache size has been reached
+                            //    //    if (m_imageCache.Count > m_imageCacheSize)
+                            //    //    {
+                            //    //        // Remove the oldest item
+                            //    //        Image imageTemp = m_imageCache[0].Image;
+                            //    //        imageTemp.Dispose();
+                            //    //        imageTemp = null;
+                            //    //        m_imageCache.RemoveAt(0);
+                            //    //    }
+
+                            //    //    //try
+                            //    //    //{
+                            //    //    //    // Try to save the album cover art
+                            //    //    //    imageAlbumCover.Save(imageFilePath);
+                            //    //    //}
+                            //    //    //catch
+                            //    //    //{
+                            //    //    //    // Check if the cover art directory exists
+                            //    //    //    if (!Directory.Exists(imageFileDirectory))
+                            //    //    //    {
+                            //    //    //        // Create the directory and try again
+                            //    //    //        Directory.CreateDirectory(imageFileDirectory);
+                            //    //    //        imageAlbumCover.Save(imageFilePath);
+                            //    //    //    }
+                            //    //    //}
+
+                            //    //    break;
+                            //    //}
+                            //}
 
                         }
 
@@ -1868,6 +2191,18 @@ namespace MPfm.WindowsControls
                 return;
             }
 
+            // Show context menu strip if the button click is right and not the album art column
+            if (e.Button == System.Windows.Forms.MouseButtons.Right &&
+                e.X > m_columns[0].Width)
+            {
+                // Is there a context menu strip configured?
+                if (m_contextMenuStrip != null)
+                {
+                    // Show context menu strip
+                    m_contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);
+                }
+            }
+
             // Check if the user is resizing a column
             GridViewSongColumn columnResizing = m_columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
 
@@ -1907,6 +2242,17 @@ namespace MPfm.WindowsControls
                         // Invalidate cache and song items
                         m_items = null;
                         m_songCache = null;
+
+                        // Raise column click event (if an event is subscribed)
+                        if (OnColumnClick != null)
+                        {
+                            // Create data
+                            SongGridViewColumnClickData data = new SongGridViewColumnClickData();
+                            data.ColumnIndex = a;
+
+                            // Raise event
+                            OnColumnClick(data);
+                        }
 
                         // Refresh control
                         Refresh();
@@ -1968,11 +2314,15 @@ namespace MPfm.WindowsControls
             }
 
             // Loop through visible lines to update the new selected item
+            bool invalidatedNewSelection = false;
             for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
                 if (m_items[a].IsMouseOverItem)
                 {
+                    // Set flag
+                    invalidatedNewSelection = true;
+
                     // Check if SHIFT is held
                     if ((Control.ModifierKeys & Keys.Shift) != 0)
                     {
@@ -2017,6 +2367,16 @@ namespace MPfm.WindowsControls
                 }
             }
 
+            // Raise selected item changed event (if an event is subscribed)
+            if (invalidatedNewSelection && OnSelectedIndexChanged != null)
+            {
+                // Create data
+                SongGridViewSelectedIndexChangedData data = new SongGridViewSelectedIndexChangedData();                
+
+                // Raise event
+                OnSelectedIndexChanged(data);                
+            }
+
             // Update invalid regions
             Update();
 
@@ -2034,7 +2394,7 @@ namespace MPfm.WindowsControls
             if (m_columns == null || m_songCache == null)
             {
                 return;
-            }
+            }           
 
             // Calculate scrollbar offset Y
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
@@ -2321,22 +2681,22 @@ namespace MPfm.WindowsControls
                 // Set new value
                 int newValue = m_vScrollBar.Value + (-value * m_songCache.LineHeight);
 
+                // Check for maximum
+                if (newValue > m_vScrollBar.Maximum - m_vScrollBar.LargeChange)
+                {
+                    newValue = m_vScrollBar.Maximum - m_vScrollBar.LargeChange;
+                }
                 // Check for minimum
                 if (newValue < 0)
                 {
                     newValue = 0;
                 }
-                // Check for maximum
-                else if (newValue > m_vScrollBar.Maximum - m_vScrollBar.LargeChange)
-                {
-                    newValue = m_vScrollBar.Maximum - m_vScrollBar.LargeChange;
-                }
 
                 // Set scrollbar value
                 m_vScrollBar.Value = newValue;
 
-                // Invalidate the whole control and refresh
-                Refresh();
+                // Invalidate the whole control and refresh                
+                Refresh();                
             }
 
             return false;
@@ -2509,4 +2869,26 @@ namespace MPfm.WindowsControls
             Update(); // This is necessary after an invalidate.
         }
     }
+
+    public class SongGridViewBackgroundWorkerResult
+    {
+        public SongDTO Song { get; set; }
+        public Image AlbumArt { get; set; }
+    }
+
+    public class SongGridViewBackgroundWorkerArgument
+    {
+        public SongDTO Song { get; set; }
+        public int LineIndex { get; set; }        
+    }
+
+    public class SongGridViewSelectedIndexChangedData
+    {        
+    }
+
+    public class SongGridViewColumnClickData
+    {
+        public int ColumnIndex { get; set; }
+    }
+
 }

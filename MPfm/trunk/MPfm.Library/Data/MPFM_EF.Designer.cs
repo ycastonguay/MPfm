@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 10/9/2011 5:22:37 AM
+// Generation date: 10/30/2011 8:28:51 AM
 namespace MPfm.Library.Data
 {
     
@@ -45,23 +45,6 @@ namespace MPfm.Library.Data
             this.OnContextCreated();
         }
         partial void OnContextCreated();
-        /// <summary>
-        /// There are no comments for AlbumArts in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<AlbumArt> AlbumArts
-        {
-            get
-            {
-                if ((this._AlbumArts == null))
-                {
-                    this._AlbumArts = base.CreateQuery<AlbumArt>("[AlbumArts]");
-                }
-                return this._AlbumArts;
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<AlbumArt> _AlbumArts;
         /// <summary>
         /// There are no comments for Equalizers in the schema.
         /// </summary>
@@ -216,14 +199,6 @@ namespace MPfm.Library.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Loop> _Loops;
         /// <summary>
-        /// There are no comments for AlbumArts in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToAlbumArts(AlbumArt albumArt)
-        {
-            base.AddObject("AlbumArts", albumArt);
-        }
-        /// <summary>
         /// There are no comments for Equalizers in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -295,137 +270,6 @@ namespace MPfm.Library.Data
         {
             base.AddObject("Loops", loop);
         }
-    }
-    /// <summary>
-    /// There are no comments for MPFM.Library.Model.AlbumArt in the schema.
-    /// </summary>
-    /// <KeyProperties>
-    /// AlbumArtId
-    /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MPFM.Library.Model", Name="AlbumArt")]
-    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [global::System.Serializable()]
-    public partial class AlbumArt : global::System.Data.Objects.DataClasses.EntityObject
-    {
-        /// <summary>
-        /// Create a new AlbumArt object.
-        /// </summary>
-        /// <param name="albumArtId">Initial value of AlbumArtId.</param>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static AlbumArt CreateAlbumArt(string albumArtId)
-        {
-            AlbumArt albumArt = new AlbumArt();
-            albumArt.AlbumArtId = albumArtId;
-            return albumArt;
-        }
-        /// <summary>
-        /// There are no comments for property AlbumArtId in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string AlbumArtId
-        {
-            get
-            {
-                return this._AlbumArtId;
-            }
-            set
-            {
-                this.OnAlbumArtIdChanging(value);
-                this.ReportPropertyChanging("AlbumArtId");
-                this._AlbumArtId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("AlbumArtId");
-                this.OnAlbumArtIdChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _AlbumArtId;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAlbumArtIdChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAlbumArtIdChanged();
-        /// <summary>
-        /// There are no comments for property AlbumArtData in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public byte[] AlbumArtData
-        {
-            get
-            {
-                return global::System.Data.Objects.DataClasses.StructuralObject.GetValidValue(this._AlbumArtData);
-            }
-            set
-            {
-                this.OnAlbumArtDataChanging(value);
-                this.ReportPropertyChanging("AlbumArtData");
-                this._AlbumArtData = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("AlbumArtData");
-                this.OnAlbumArtDataChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private byte[] _AlbumArtData;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAlbumArtDataChanging(byte[] value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAlbumArtDataChanged();
-        /// <summary>
-        /// There are no comments for property Album in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string Album
-        {
-            get
-            {
-                return this._Album;
-            }
-            set
-            {
-                this.OnAlbumChanging(value);
-                this.ReportPropertyChanging("Album");
-                this._Album = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Album");
-                this.OnAlbumChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _Album;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAlbumChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnAlbumChanged();
-        /// <summary>
-        /// There are no comments for property Artist in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string Artist
-        {
-            get
-            {
-                return this._Artist;
-            }
-            set
-            {
-                this.OnArtistChanging(value);
-                this.ReportPropertyChanging("Artist");
-                this._Artist = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Artist");
-                this.OnArtistChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _Artist;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnArtistChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnArtistChanged();
     }
     /// <summary>
     /// There are no comments for MPFM.Library.Model.Equalizer in the schema.

@@ -79,6 +79,7 @@ namespace MPfm
             // 
             // panelMain
             // 
+            this.panelMain.AntiAliasingEnabled = true;
             this.panelMain.Controls.Add(this.lblEstimatedTimeLeft);
             this.panelMain.Controls.Add(this.lblTimeElapsed);
             this.panelMain.Controls.Add(this.linkSaveLog);
@@ -99,6 +100,7 @@ namespace MPfm
             this.panelMain.FontCollection = null;
             this.panelMain.GradientColor1 = System.Drawing.Color.Black;
             this.panelMain.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.panelMain.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelMain.HeaderCustomFontName = "NeuzeitS";
             this.panelMain.HeaderExpanded = true;
             this.panelMain.HeaderForeColor = System.Drawing.Color.White;
@@ -141,8 +143,8 @@ namespace MPfm
             customFont3.Name = "TitilliumText22L Lt";
             customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
             customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "BPmono";
-            customFont4.ResourceName = "MPfm.Fonts.BPmono.ttf";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
             this.fontCollection.Fonts.Add(customFont1);
             this.fontCollection.Fonts.Add(customFont2);
             this.fontCollection.Fonts.Add(customFont3);
@@ -231,6 +233,7 @@ namespace MPfm
             // 
             // btnOK
             // 
+            this.btnOK.AntiAliasingEnabled = true;
             this.btnOK.BorderColor = System.Drawing.Color.Black;
             this.btnOK.BorderWidth = 1;
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -262,6 +265,7 @@ namespace MPfm
             // 
             // btnCancel
             // 
+            this.btnCancel.AntiAliasingEnabled = true;
             this.btnCancel.BorderColor = System.Drawing.Color.Black;
             this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -324,12 +328,14 @@ namespace MPfm
             // panelLog
             // 
             this.panelLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelLog.AntiAliasingEnabled = true;
             this.panelLog.Controls.Add(this.lbLog);
             this.panelLog.ExpandedHeight = 56;
             this.panelLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelLog.FontCollection = this.fontCollection;
             this.panelLog.GradientColor1 = System.Drawing.Color.Black;
             this.panelLog.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.panelLog.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelLog.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelLog.HeaderExpandable = false;
             this.panelLog.HeaderExpanded = true;
@@ -349,7 +355,7 @@ namespace MPfm
             this.lbLog.AntiAliasingEnabled = true;
             this.lbLog.BackColor = System.Drawing.Color.Black;
             this.lbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lbLog.CustomFontName = "BPmono";
+            this.lbLog.CustomFontName = "Droid Sans Mono";
             this.lbLog.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lbLog.Font = new System.Drawing.Font("Courier New", 8F);
             this.lbLog.FontCollection = this.fontCollection;
@@ -428,7 +434,6 @@ namespace MPfm
         #endregion
 
         public System.ComponentModel.BackgroundWorker workerUpdateLibrary;
-        private System.Windows.Forms.ProgressBar progressBar;
         private MPfm.WindowsControls.Panel panelMain;
         private MPfm.WindowsControls.Panel panelLog;
         private MPfm.WindowsControls.Label lblMessage;
@@ -447,5 +452,6 @@ namespace MPfm
         private System.ComponentModel.BackgroundWorker workerTimer;
         private System.Windows.Forms.SaveFileDialog saveLogDialog;
         private MPfm.WindowsControls.FontCollection fontCollection;
+        private WindowsControls.ProgressBar progressBar;
     }
 }

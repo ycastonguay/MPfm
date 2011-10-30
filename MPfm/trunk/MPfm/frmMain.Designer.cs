@@ -30,11 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,21 +158,13 @@ namespace MPfm
             this.columnMarkerPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnMarkerComments = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelSongBrowser = new MPfm.WindowsControls.Panel();
+            this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label1 = new MPfm.WindowsControls.Label();
             this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
             this.btnAddSongToPlaylist = new MPfm.WindowsControls.Button();
             this.btnEditSongMetadata = new MPfm.WindowsControls.Button();
-            this.viewSongs = new MPfm.WindowsControls.ReorderListView();
-            this.columnSongPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongTrackNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongArtistName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongAlbumTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongPlayCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSongLastPlayed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageListSongBrowser = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -734,26 +725,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont6.AssemblyPath = "MPfm.Fonts.dll";
-            customFont6.Name = "LeagueGothic";
-            customFont6.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont7.AssemblyPath = "MPfm.Fonts.dll";
-            customFont7.Name = "Junction";
-            customFont7.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont8.AssemblyPath = "MPfm.Fonts.dll";
-            customFont8.Name = "TitilliumText22L Lt";
-            customFont8.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont9.AssemblyPath = "MPfm.Fonts.dll";
-            customFont9.Name = "BPmono";
-            customFont9.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont10.AssemblyPath = "MPfm.Fonts.dll";
-            customFont10.Name = "CPmono";
-            customFont10.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont6);
-            this.fontCollection.Fonts.Add(customFont7);
-            this.fontCollection.Fonts.Add(customFont8);
-            this.fontCollection.Fonts.Add(customFont9);
-            this.fontCollection.Fonts.Add(customFont10);
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
             // 
             // treeLibrary
             // 
@@ -975,13 +962,13 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFrequency.AntiAliasingEnabled = true;
             this.lblFrequency.BackColor = System.Drawing.Color.Transparent;
-            this.lblFrequency.CustomFontName = "BPmono";
-            this.lblFrequency.Font = new System.Drawing.Font("Arial", 7F);
+            this.lblFrequency.CustomFontName = "Droid Sans Mono";
+            this.lblFrequency.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFrequency.FontCollection = this.fontCollection;
             this.lblFrequency.ForeColor = System.Drawing.Color.White;
-            this.lblFrequency.Location = new System.Drawing.Point(4, 58);
+            this.lblFrequency.Location = new System.Drawing.Point(4, 59);
             this.lblFrequency.Name = "lblFrequency";
-            this.lblFrequency.Size = new System.Drawing.Size(82, 8);
+            this.lblFrequency.Size = new System.Drawing.Size(82, 10);
             this.lblFrequency.TabIndex = 65;
             this.lblFrequency.Text = "Frequency";
             this.lblFrequency.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1009,13 +996,13 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBitsPerSample.AntiAliasingEnabled = true;
             this.lblBitsPerSample.BackColor = System.Drawing.Color.Transparent;
-            this.lblBitsPerSample.CustomFontName = "BPmono";
-            this.lblBitsPerSample.Font = new System.Drawing.Font("Arial", 7F);
+            this.lblBitsPerSample.CustomFontName = "Droid Sans Mono";
+            this.lblBitsPerSample.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBitsPerSample.FontCollection = this.fontCollection;
             this.lblBitsPerSample.ForeColor = System.Drawing.Color.White;
-            this.lblBitsPerSample.Location = new System.Drawing.Point(4, 83);
+            this.lblBitsPerSample.Location = new System.Drawing.Point(4, 84);
             this.lblBitsPerSample.Name = "lblBitsPerSample";
-            this.lblBitsPerSample.Size = new System.Drawing.Size(82, 8);
+            this.lblBitsPerSample.Size = new System.Drawing.Size(82, 10);
             this.lblBitsPerSample.TabIndex = 63;
             this.lblBitsPerSample.Text = "Bits per sample";
             this.lblBitsPerSample.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1043,13 +1030,13 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSoundFormat.AntiAliasingEnabled = true;
             this.lblSoundFormat.BackColor = System.Drawing.Color.Transparent;
-            this.lblSoundFormat.CustomFontName = "BPmono";
-            this.lblSoundFormat.Font = new System.Drawing.Font("Arial", 7F);
+            this.lblSoundFormat.CustomFontName = "Droid Sans Mono";
+            this.lblSoundFormat.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSoundFormat.FontCollection = this.fontCollection;
             this.lblSoundFormat.ForeColor = System.Drawing.Color.White;
             this.lblSoundFormat.Location = new System.Drawing.Point(4, 33);
             this.lblSoundFormat.Name = "lblSoundFormat";
-            this.lblSoundFormat.Size = new System.Drawing.Size(82, 8);
+            this.lblSoundFormat.Size = new System.Drawing.Size(82, 10);
             this.lblSoundFormat.TabIndex = 61;
             this.lblSoundFormat.Text = "Sound Format";
             this.lblSoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1320,8 +1307,8 @@ namespace MPfm
             this.lblVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVolume.AntiAliasingEnabled = true;
             this.lblVolume.BackColor = System.Drawing.Color.Transparent;
-            this.lblVolume.CustomFontName = "";
-            this.lblVolume.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVolume.CustomFontName = "Droid Sans Mono";
+            this.lblVolume.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVolume.FontCollection = this.fontCollection;
             this.lblVolume.ForeColor = System.Drawing.Color.White;
             this.lblVolume.Location = new System.Drawing.Point(4, 139);
@@ -1362,8 +1349,8 @@ namespace MPfm
             // 
             this.lblTimeShifting.AntiAliasingEnabled = true;
             this.lblTimeShifting.BackColor = System.Drawing.Color.Transparent;
-            this.lblTimeShifting.CustomFontName = "";
-            this.lblTimeShifting.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeShifting.CustomFontName = "Droid Sans Mono";
+            this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeShifting.FontCollection = this.fontCollection;
             this.lblTimeShifting.ForeColor = System.Drawing.Color.White;
             this.lblTimeShifting.Location = new System.Drawing.Point(57, 36);
@@ -1377,8 +1364,8 @@ namespace MPfm
             // 
             this.linkResetTimeShifting.AntiAliasingEnabled = true;
             this.linkResetTimeShifting.BackColor = System.Drawing.Color.Transparent;
-            this.linkResetTimeShifting.CustomFontName = "";
-            this.linkResetTimeShifting.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkResetTimeShifting.CustomFontName = "Droid Sans Mono";
+            this.linkResetTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkResetTimeShifting.FontCollection = this.fontCollection;
             this.linkResetTimeShifting.ForeColor = System.Drawing.Color.LightGray;
             this.linkResetTimeShifting.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1449,8 +1436,8 @@ namespace MPfm
             this.lblSongPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSongPercentage.AntiAliasingEnabled = true;
             this.lblSongPercentage.BackColor = System.Drawing.Color.Transparent;
-            this.lblSongPercentage.CustomFontName = "";
-            this.lblSongPercentage.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSongPercentage.CustomFontName = "Droid Sans Mono";
+            this.lblSongPercentage.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPercentage.FontCollection = this.fontCollection;
             this.lblSongPercentage.ForeColor = System.Drawing.Color.White;
             this.lblSongPercentage.Location = new System.Drawing.Point(201, 36);
@@ -1466,8 +1453,8 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSongPosition.AntiAliasingEnabled = true;
             this.lblSongPosition.BackColor = System.Drawing.Color.Transparent;
-            this.lblSongPosition.CustomFontName = "";
-            this.lblSongPosition.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSongPosition.CustomFontName = "Droid Sans Mono";
+            this.lblSongPosition.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPosition.FontCollection = this.fontCollection;
             this.lblSongPosition.ForeColor = System.Drawing.Color.White;
             this.lblSongPosition.Location = new System.Drawing.Point(4, 36);
@@ -1534,8 +1521,8 @@ namespace MPfm
             // 
             this.lblTotalTime.AntiAliasingEnabled = true;
             this.lblTotalTime.BackColor = System.Drawing.Color.Transparent;
-            this.lblTotalTime.CustomFontName = "";
-            this.lblTotalTime.Font = new System.Drawing.Font("Droid Sans Mono", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalTime.CustomFontName = "Droid Sans Mono";
+            this.lblTotalTime.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalTime.FontCollection = this.fontCollection;
             this.lblTotalTime.ForeColor = System.Drawing.Color.White;
             this.lblTotalTime.Location = new System.Drawing.Point(1, 22);
@@ -1573,8 +1560,8 @@ namespace MPfm
             // 
             this.lblCurrentTime.AntiAliasingEnabled = true;
             this.lblCurrentTime.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentTime.CustomFontName = "";
-            this.lblCurrentTime.Font = new System.Drawing.Font("Droid Sans Mono", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentTime.CustomFontName = "Droid Sans Mono";
+            this.lblCurrentTime.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentTime.FontCollection = this.fontCollection;
             this.lblCurrentTime.ForeColor = System.Drawing.Color.White;
             this.lblCurrentTime.Location = new System.Drawing.Point(0, 22);
@@ -1690,7 +1677,7 @@ namespace MPfm
             this.waveFormMarkersLoops.CurrentPositionMS = ((uint)(0u));
             this.waveFormMarkersLoops.CurrentPositionPCMBytes = ((uint)(0u));
             this.waveFormMarkersLoops.CursorColor = System.Drawing.Color.RoyalBlue;
-            this.waveFormMarkersLoops.CustomFontName = "BPmono";
+            this.waveFormMarkersLoops.CustomFontName = "Droid Sans Mono";
             this.waveFormMarkersLoops.DisplayCurrentPosition = true;
             this.waveFormMarkersLoops.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
             this.waveFormMarkersLoops.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2190,8 +2177,8 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongBrowser.AntiAliasingEnabled = true;
             this.panelSongBrowser.BackColor = System.Drawing.Color.Gray;
+            this.panelSongBrowser.Controls.Add(this.viewSongs2);
             this.panelSongBrowser.Controls.Add(this.panelSongBrowserToolbar);
-            this.panelSongBrowser.Controls.Add(this.viewSongs);
             this.panelSongBrowser.ExpandedHeight = 200;
             this.panelSongBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSongBrowser.FontCollection = this.fontCollection;
@@ -2210,6 +2197,48 @@ namespace MPfm
             this.panelSongBrowser.Name = "panelSongBrowser";
             this.panelSongBrowser.Size = new System.Drawing.Size(792, 218);
             this.panelSongBrowser.TabIndex = 25;
+            // 
+            // viewSongs2
+            // 
+            this.viewSongs2.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.viewSongs2.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.viewSongs2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewSongs2.AntiAliasingEnabled = true;
+            this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;
+            this.viewSongs2.CustomFontName = "Junction";
+            this.viewSongs2.DisplayDebugInformation = false;
+            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewSongs2.FontCollection = this.fontCollection;
+            this.viewSongs2.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.viewSongs2.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.viewSongs2.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.viewSongs2.HeaderHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.viewSongs2.HeaderHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this.viewSongs2.IconNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this.viewSongs2.IconNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
+            this.viewSongs2.ImageCacheSize = 10;
+            this.viewSongs2.LineColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.viewSongs2.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.viewSongs2.LineForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.viewSongs2.LineHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.viewSongs2.LineHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.viewSongs2.LineNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
+            this.viewSongs2.LineNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
+            this.viewSongs2.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.viewSongs2.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
+            this.viewSongs2.Location = new System.Drawing.Point(0, 47);
+            this.viewSongs2.Name = "viewSongs2";
+            this.viewSongs2.NowPlayingSongId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.OrderByAscending = true;
+            this.viewSongs2.OrderByFieldName = "";
+            this.viewSongs2.Size = new System.Drawing.Size(792, 171);
+            this.viewSongs2.TabIndex = 74;
+            this.viewSongs2.Text = "songGridView1";
+            this.viewSongs2.OnSelectedIndexChanged += new MPfm.WindowsControls.SongGridView.SelectedIndexChanged(this.viewSongs2_OnSelectedIndexChanged);
+            this.viewSongs2.OnColumnClick += new MPfm.WindowsControls.SongGridView.ColumnClick(this.viewSongs2_OnColumnClick);
+            this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
             // 
             // panelSongBrowserToolbar
             // 
@@ -2359,89 +2388,6 @@ namespace MPfm
             this.btnEditSongMetadata.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnEditSongMetadata.UseVisualStyleBackColor = true;
             this.btnEditSongMetadata.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
-            // 
-            // viewSongs
-            // 
-            this.viewSongs.AllowDrop = true;
-            this.viewSongs.AllowRowReorder = false;
-            this.viewSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewSongs.AntiAliasingEnabled = true;
-            this.viewSongs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.viewSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnSongPlayIcon,
-            this.columnSongTrackNumber,
-            this.columnSongTitle,
-            this.columnSongLength,
-            this.columnSongArtistName,
-            this.columnSongAlbumTitle,
-            this.columnSongPlayCount,
-            this.columnSongLastPlayed});
-            this.viewSongs.ContextMenuStrip = this.menuSongBrowser;
-            this.viewSongs.CustomFontName = null;
-            this.viewSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs.FontCollection = this.fontCollection;
-            this.viewSongs.FullRowSelect = true;
-            this.viewSongs.GradientColor1 = System.Drawing.Color.LightGray;
-            this.viewSongs.GradientColor2 = System.Drawing.Color.Gray;
-            this.viewSongs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.viewSongs.GridLines = true;
-            this.viewSongs.HeaderForeColor = System.Drawing.Color.Black;
-            this.viewSongs.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.viewSongs.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.viewSongs.HeaderHeight = 0;
-            this.viewSongs.HideSelection = false;
-            this.viewSongs.Location = new System.Drawing.Point(0, 47);
-            this.viewSongs.Name = "viewSongs";
-            this.viewSongs.SelectedColor = System.Drawing.Color.DarkGray;
-            this.viewSongs.Size = new System.Drawing.Size(792, 171);
-            this.viewSongs.SmallImageList = this.imageListSongBrowser;
-            this.viewSongs.TabIndex = 22;
-            this.viewSongs.UseCompatibleStateImageBehavior = false;
-            this.viewSongs.View = System.Windows.Forms.View.Details;
-            this.viewSongs.SelectedIndexChanged += new System.EventHandler(this.viewSongs_SelectedIndexChanged);
-            this.viewSongs.DoubleClick += new System.EventHandler(this.viewSongs_DoubleClick);
-            // 
-            // columnSongPlayIcon
-            // 
-            this.columnSongPlayIcon.Text = "";
-            this.columnSongPlayIcon.Width = 21;
-            // 
-            // columnSongTrackNumber
-            // 
-            this.columnSongTrackNumber.Text = "Tr #";
-            this.columnSongTrackNumber.Width = 35;
-            // 
-            // columnSongTitle
-            // 
-            this.columnSongTitle.Text = "Title";
-            this.columnSongTitle.Width = 234;
-            // 
-            // columnSongLength
-            // 
-            this.columnSongLength.Text = "Length";
-            this.columnSongLength.Width = 80;
-            // 
-            // columnSongArtistName
-            // 
-            this.columnSongArtistName.Text = "Artist Name";
-            this.columnSongArtistName.Width = 198;
-            // 
-            // columnSongAlbumTitle
-            // 
-            this.columnSongAlbumTitle.Text = "Album Title";
-            this.columnSongAlbumTitle.Width = 216;
-            // 
-            // columnSongPlayCount
-            // 
-            this.columnSongPlayCount.Text = "Play Count";
-            this.columnSongPlayCount.Width = 68;
-            // 
-            // columnSongLastPlayed
-            // 
-            this.columnSongLastPlayed.Text = "Last Played";
-            this.columnSongLastPlayed.Width = 161;
             // 
             // imageListSongBrowser
             // 
@@ -2824,19 +2770,11 @@ namespace MPfm
         private WindowsControls.Button btnPlaySelectedSong;
         private WindowsControls.Button btnAddSongToPlaylist;
         private WindowsControls.Button btnEditSongMetadata;
-        public WindowsControls.ReorderListView viewSongs;
-        private System.Windows.Forms.ColumnHeader columnSongPlayIcon;
-        private System.Windows.Forms.ColumnHeader columnSongTrackNumber;
-        private System.Windows.Forms.ColumnHeader columnSongTitle;
-        private System.Windows.Forms.ColumnHeader columnSongLength;
-        private System.Windows.Forms.ColumnHeader columnSongArtistName;
-        private System.Windows.Forms.ColumnHeader columnSongAlbumTitle;
-        private System.Windows.Forms.ColumnHeader columnSongPlayCount;
-        private System.Windows.Forms.ColumnHeader columnSongLastPlayed;
         private System.Windows.Forms.SplitContainer splitLoopsMarkersSongBrowser;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private WindowsControls.Button btnGoToMarker;        
+        private WindowsControls.Button btnGoToMarker;
+        private WindowsControls.SongGridView viewSongs2;        
     }
 }
 

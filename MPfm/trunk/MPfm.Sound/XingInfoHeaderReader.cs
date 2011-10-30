@@ -28,7 +28,7 @@ namespace MPfm.Sound
             try
             {
                 // Open binary reader                        
-                using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
+                using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
                 {
                     // Seek to first frame
                     reader.BaseStream.Seek(startPosition, SeekOrigin.Begin);

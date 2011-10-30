@@ -319,6 +319,8 @@ namespace MPfm
 
                 Tracing.Log("Loading UI - Visualizer...");
                 formVisualizer = new frmVisualizer(this);
+
+                //viewSongs2.Library = m_player.Library;
             }
             catch (Exception ex)
             {
@@ -519,7 +521,29 @@ namespace MPfm
             }
             else
             {
-                Location = new Point(Config.WindowX, Config.WindowY);
+                int x = 0;
+                int y = 0;
+
+                // Make sure the window X isn't negative
+                if (Config.WindowX < 0)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x = Config.WindowX;
+                }
+                // Make sure the window Y isn't negative
+                if (Config.WindowY < 0)
+                {
+                    y = 0;
+                }
+                else
+                {
+                    y = Config.WindowY;
+                }
+
+                Location = new Point(x, y);
             }
            
             Width = Config.WindowWidth;
@@ -536,15 +560,15 @@ namespace MPfm
 
             splitFirst.SplitterDistance = Config.WindowSplitterDistance;
 
-            // Load song browser column widths
-            viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
-            viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
-            viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
-            viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
-            viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
-            viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
-            viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
-            viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
+            //// Load song browser column widths
+            //viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
+            //viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
+            //viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
+            //viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
+            //viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
+            //viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
+            //viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
+            //viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
 
             if (formPlaylist != null)
             {
@@ -605,15 +629,15 @@ namespace MPfm
             }
             Config.WindowMaximized = isMaximized;
 
-            // Save song browser column widths
-            Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
-            Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
-            Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
-            Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
-            Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
-            Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
-            Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
-            Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
+            //// Save song browser column widths
+            //Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
+            //Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
+            //Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
+            //Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
+            //Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
+            //Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
+            //Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
+            //Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
 
             // Save playlist window position and size
             if (formPlaylist != null)
@@ -726,21 +750,31 @@ namespace MPfm
                     RefreshLoops();
 
                     // Refresh play count
-                    foreach (ListViewItem item in viewSongs.Items)
+                    SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == data.CurrentSong.Song.SongId);
+                    if (item != null)
                     {
-                        // Get song from tag                        
-                        SongDTO song = (SongDTO)item.Tag;
+                        // Set updated data
+                        SongDTO updatedSong = Player.Library.SelectSong(data.CurrentSong.Song.SongId);
+                        item.Song = updatedSong;
+                    }
 
-                        // If song is valid...
-                        if (song != null && song.SongId == data.CurrentSong.Song.SongId)
-                        {
-                            // Get updated song
-                            SongDTO updatedSong = Player.Library.SelectSong(song.SongId);
-                            item.SubItems[6].Text = updatedSong.PlayCount.Value.ToString();
-                            item.SubItems[7].Text = updatedSong.LastPlayed.ToString();
-                            break;
-                        }
-                    }                    
+                    Refresh();
+
+                    //foreach (ListViewItem item in viewSongs.Items)
+                    //{
+                    //    // Get song from tag                        
+                    //    SongDTO song = (SongDTO)item.Tag;
+
+                    //    // If song is valid...
+                    //    if (song != null && song.SongId == data.CurrentSong.Song.SongId)
+                    //    {
+                    //        // Get updated song
+                    //        SongDTO updatedSong = Player.Library.SelectSong(song.SongId);
+                    //        item.SubItems[6].Text = updatedSong.PlayCount.Value.ToString();
+                    //        item.SubItems[7].Text = updatedSong.LastPlayed.ToString();
+                    //        break;
+                    //    }
+                    //}                    
                 }
             };
 
@@ -786,7 +820,7 @@ namespace MPfm
                 string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
                 lblCurrentTime.Text = currentTime;
 
-                lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
+                //lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
 
                 // Update data for Loops & Markers wave form display
                 waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
@@ -1048,7 +1082,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            PlaySelectedSongQuery();
+            PlaySelectedSongQuery();            
         }
 
         /// <summary>
@@ -1297,7 +1331,7 @@ namespace MPfm
                 // Refresh play icon
                 RefreshSongBrowserPlayIcon(Guid.Empty);
                 formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
-                viewSongs.SelectedItems.Clear();
+                viewSongs2.ClearSelectedItems();                
             }
         }
 
@@ -1309,30 +1343,34 @@ namespace MPfm
         /// <param name="newSongId">Song identifier</param>
         public void RefreshSongBrowserPlayIcon(Guid newSongId)
         {
-            // Set the play icon in the song browser
-            foreach (ListViewItem item in viewSongs.Items)
-            {
-                // Find out if the next song is the current item
-                SongDTO song = (SongDTO)item.Tag;
-                if (song != null && song.SongId == newSongId)
-                {
-                    // Set the play icon
-                    viewSongs.SelectedItems.Clear();
-                    item.Selected = true;
-                    item.ImageIndex = 0;
-                }
-                else
-                {
-                    // Clear the play icon if set
-                    if (item.ImageIndex != -1)
-                    {
-                        item.ImageIndex = -1;
-                    }
-                }
-            }
+            //// Set the play icon in the song browser
+            //foreach (ListViewItem item in viewSongs.Items)
+            //{
+            //    // Find out if the next song is the current item
+            //    SongDTO song = (SongDTO)item.Tag;
+            //    if (song != null && song.SongId == newSongId)
+            //    {
+            //        // Set the play icon
+            //        viewSongs.SelectedItems.Clear();
+            //        item.Selected = true;
+            //        item.ImageIndex = 0;
+            //    }
+            //    else
+            //    {
+            //        // Clear the play icon if set
+            //        if (item.ImageIndex != -1)
+            //        {
+            //            item.ImageIndex = -1;
+            //        }
+            //    }
+            //}
 
-            // Force repaint
-            viewSongs.Refresh();
+            //// Force repaint
+            //viewSongs.Refresh();
+
+            // Set currently playing song
+            viewSongs2.NowPlayingSongId = newSongId;
+            viewSongs2.Refresh();
         }
 
         /// <summary>
@@ -1371,15 +1409,17 @@ namespace MPfm
         {           
             // Create the list of songs for the browser
             List<SongDTO> songs = null;
+            string orderBy = viewSongs2.OrderByFieldName;
+            bool orderByAscending = viewSongs2.OrderByAscending;
 
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, query.ArtistName, query.AlbumTitle);
+                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat, query.ArtistName);
+                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
             }
             else if (query.Type == SongQueryType.Playlist)
             {
@@ -1387,7 +1427,7 @@ namespace MPfm
             }            
             else if (query.Type == SongQueryType.All)
             {
-                songs = Player.Library.SelectSongs(FilterSoundFormat);
+                songs = Player.Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -1409,8 +1449,8 @@ namespace MPfm
             }
 
             // Clear view
-            viewSongs.Items.Clear();
-            viewSongs.Groups.Clear();
+            //viewSongs.Items.Clear();
+            //viewSongs.Groups.Clear();
 
             // Make sure the song list is valid
             int a = 0;
@@ -1419,78 +1459,80 @@ namespace MPfm
                 return;
             }
 
-            // Create array
-            ListViewItem[] lvItems = new ListViewItem[songs.Count];
+            //// Create array
+            //ListViewItem[] lvItems = new ListViewItem[songs.Count];
 
-            // For each song
-            foreach (SongDTO song in songs)
-            {
-                // Create list view item and set basic properties
-                ListViewItem item = new ListViewItem(song.SongId.ToString());
-                item.Tag = song;
+            //// For each song
+            //foreach (SongDTO song in songs)
+            //{
+            //    // Create list view item and set basic properties
+            //    ListViewItem item = new ListViewItem(song.SongId.ToString());
+            //    item.Tag = song;
 
-                // Format the track number with the disc number if available
-                if (song.DiscNumber == null || song.DiscNumber.Value == 0)
-                {
-                    // Display the track number
-                    item.SubItems.Add(song.TrackNumber.ToString());
-                }
-                else
-                {
-                    // Display the track number with the disc number (disc.track: i.e. 1.1, 1.2, 2.1, 2.2, etc.)
-                    item.SubItems.Add(song.DiscNumber.ToString() + "." + song.TrackNumber.ToString());
-                }
+            //    // Format the track number with the disc number if available
+            //    if (song.DiscNumber == null || song.DiscNumber.Value == 0)
+            //    {
+            //        // Display the track number
+            //        item.SubItems.Add(song.TrackNumber.ToString());
+            //    }
+            //    else
+            //    {
+            //        // Display the track number with the disc number (disc.track: i.e. 1.1, 1.2, 2.1, 2.2, etc.)
+            //        item.SubItems.Add(song.DiscNumber.ToString() + "." + song.TrackNumber.ToString());
+            //    }
 
-                item.SubItems.Add(song.Title);
-                item.SubItems.Add(song.Time);
-                item.SubItems.Add(song.ArtistName);
-                item.SubItems.Add(song.AlbumTitle);
+            //    item.SubItems.Add(song.Title);
+            //    item.SubItems.Add(song.Time);
+            //    item.SubItems.Add(song.ArtistName);
+            //    item.SubItems.Add(song.AlbumTitle);
 
-                // Set play count data
-                if (song.PlayCount == null || (song.PlayCount != null && song.PlayCount.Value == 0))
-                {
-                    item.SubItems.Add("");
-                }
-                else
-                {
-                    item.SubItems.Add(song.PlayCount.ToString());
-                }
+            //    // Set play count data
+            //    if (song.PlayCount == null || (song.PlayCount != null && song.PlayCount.Value == 0))
+            //    {
+            //        item.SubItems.Add("");
+            //    }
+            //    else
+            //    {
+            //        item.SubItems.Add(song.PlayCount.ToString());
+            //    }
 
-                // Set last played
-                if (song.LastPlayed == null)
-                {
-                    item.SubItems.Add("");
-                }
-                else
-                {
-                    item.SubItems.Add(song.LastPlayed.ToString());
-                }
+            //    // Set last played
+            //    if (song.LastPlayed == null)
+            //    {
+            //        item.SubItems.Add("");
+            //    }
+            //    else
+            //    {
+            //        item.SubItems.Add(song.LastPlayed.ToString());
+            //    }
 
-                // Set play icon if song is currently playing
-                if (Player.CurrentSong != null && Player.CurrentSong.SongId == song.SongId)
-                {
-                    item.Selected = true;
-                    item.ImageIndex = 0;
-                }
+            //    // Set play icon if song is currently playing
+            //    if (Player.CurrentSong != null && Player.CurrentSong.SongId == song.SongId)
+            //    {
+            //        item.Selected = true;
+            //        item.ImageIndex = 0;
+            //    }
                     
-                // Add item to list view
-                //viewSongs.Items.Add(item);
-                lvItems[a] = item;
+            //    // Add item to list view
+            //    //viewSongs.Items.Add(item);
+            //    lvItems[a] = item;
 
-                // Check if initialization isn't done and if we have to select a song
-                if (!IsInitDone && song.SongId == InitCurrentSongId)
-                {
-                    item.Selected = true;
-                }
+            //    // Check if initialization isn't done and if we have to select a song
+            //    if (!IsInitDone && song.SongId == InitCurrentSongId)
+            //    {
+            //        item.Selected = true;
+            //    }
 
-                // Increment counter
-                a++;
-            }
+            //    // Increment counter
+            //    a++;
+            //}
 
-            // Update song browser
-            viewSongs.BeginUpdate();
-            viewSongs.Items.AddRange(lvItems);
-            viewSongs.EndUpdate();
+            //// Update song browser
+            //viewSongs.BeginUpdate();
+            //viewSongs.Items.AddRange(lvItems);
+            //viewSongs.EndUpdate();
+
+            viewSongs2.ImportSongs(songs);
             
         }
 
@@ -1824,11 +1866,12 @@ namespace MPfm
         public void PlaySelectedView()
         {
             // Is there at least one item?
-            if (viewSongs.Items.Count > 0)
+            if (viewSongs2.Items.Count > 0)
             {
                 // Select the first song
-                viewSongs.SelectedItems.Clear();
-                viewSongs.Items[0].Selected = true;
+                //viewSongs2.SelectedItems = null;
+                viewSongs2.ClearSelectedItems();
+                viewSongs2.Items[0].IsSelected = true;
 
                 // Play newly selected song
                 PlaySelectedSongQuery();
@@ -1850,16 +1893,21 @@ namespace MPfm
         private void PlaySelectedSongQuery(bool paused, int position)
         {
             // Make sure there is a selected song
-            if (viewSongs.SelectedItems.Count == 0)
+            if (viewSongs2.SelectedItems.Count == 0)
             {
                 return;
             }
+            //if (viewSongs.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
             try
             {
 
                 // Get the song from the tag of the selected item
-                SongDTO currentSong = (SongDTO)viewSongs.SelectedItems[0].Tag;
+                //SongDTO currentSong = (SongDTO)viewSongs.SelectedItems[0].Tag;
+                SongDTO currentSong = viewSongs2.SelectedItems[0].Song;
 
                 // Check if song is null
                 if (currentSong != null)
@@ -2145,22 +2193,50 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void menuSongBrowser_Opening(object sender, CancelEventArgs e)
         {
-            if (viewSongs.SelectedItems.Count == 0)
+            if (viewSongs2.SelectedItems.Count == 0)
             {
                 e.Cancel = true;
             }
         }
 
-        /// <summary>
-        /// Occurs when the user changes the selection on the Song Browser.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void viewSongs_SelectedIndexChanged(object sender, EventArgs e)
+        ///// <summary>
+        ///// Occurs when the user changes the selection on the Song Browser.
+        ///// </summary>
+        ///// <param name="sender">Event Sender</param>
+        ///// <param name="e">Event Arguments</param>
+        //private void viewSongs_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    // Check if a selection has been made
+        //    bool enabled = true;
+        //    if (viewSongs2.SelectedIndices.Count == 0)
+        //    {
+        //        enabled = false;
+        //    }
+
+        //    // Set buttons
+        //    if (btnPlaySelectedSong.Enabled != enabled)
+        //        btnPlaySelectedSong.Enabled = enabled;
+        //    if (btnEditSongMetadata.Enabled != enabled)
+        //        btnEditSongMetadata.Enabled = enabled;
+        //    if (btnAddSongToPlaylist.Enabled != enabled)
+        //        btnAddSongToPlaylist.Enabled = enabled;
+
+        //    // Set selected song in config
+        //    if (viewSongs.SelectedIndices.Count > 0)
+        //    {
+        //        SongDTO song = (SongDTO)viewSongs.SelectedItems[0].Tag;
+        //        if (song != null)
+        //        {
+        //            Config.SongQuerySongId = song.SongId.ToString();
+        //        }
+        //    }
+        //}
+
+        private void viewSongs2_OnSelectedIndexChanged(SongGridViewSelectedIndexChangedData data)
         {
             // Check if a selection has been made
             bool enabled = true;
-            if (viewSongs.SelectedIndices.Count == 0)
+            if (viewSongs2.SelectedItems.Count == 0)
             {
                 enabled = false;
             }
@@ -2174,13 +2250,9 @@ namespace MPfm
                 btnAddSongToPlaylist.Enabled = enabled;
 
             // Set selected song in config
-            if (viewSongs.SelectedIndices.Count > 0)
-            {
-                SongDTO song = (SongDTO)viewSongs.SelectedItems[0].Tag;
-                if (song != null)
-                {
-                    Config.SongQuerySongId = song.SongId.ToString();
-                }
+            if (viewSongs2.SelectedItems.Count > 0)
+            {                
+                Config.SongQuerySongId = viewSongs2.SelectedItems[0].Song.SongId.ToString();
             }
         }
 
@@ -2212,6 +2284,11 @@ namespace MPfm
             PlaySelectedSongQuery();
         }
 
+        private void viewSongs2_DoubleClick(object sender, EventArgs e)
+        {
+            PlaySelectedSongQuery();
+        }
+
         /// <summary>
         /// Occurs when the user clicks on the "Edit Song Metadata" button on the Song Browser toolbar.
         /// </summary>
@@ -2220,13 +2297,13 @@ namespace MPfm
         private void btnEditSongMetadata_Click(object sender, EventArgs e)
         {
             // Check if at least one item is selected
-            if (viewSongs.SelectedItems.Count == 0)
+            if (viewSongs2.SelectedItems.Count == 0)
             {
                 return;
             }
 
             // Get song from item metadata (check for null)
-            SongDTO song = (SongDTO)viewSongs.SelectedItems[0].Tag;
+            SongDTO song = viewSongs2.SelectedItems[0].Song;
             if (song == null)
             {
                 return;
@@ -2953,10 +3030,10 @@ namespace MPfm
         private void btnAddSongToPlaylist_Click(object sender, EventArgs e)
         {
             // Loop through selected items
-            for (int a = 0; a < viewSongs.SelectedItems.Count; a++)
+            for (int a = 0; a < viewSongs2.SelectedItems.Count; a++)
             {
                 // Get the song from the tag of the item
-                SongDTO currentSong = (SongDTO)viewSongs.SelectedItems[a].Tag;
+                SongDTO currentSong = viewSongs2.SelectedItems[a].Song;
 
                 // Check for null
                 if (currentSong != null)
@@ -2967,7 +3044,7 @@ namespace MPfm
             }
 
             // Refresh playlists (if there was at least one selected item)
-            if (viewSongs.SelectedItems.Count > 0)
+            if (viewSongs2.SelectedItems.Count > 0)
             {
                 formPlaylist.RefreshPlaylist();
             }
@@ -3406,6 +3483,12 @@ namespace MPfm
 
         #endregion
 
+        private void viewSongs2_OnColumnClick(SongGridViewColumnClickData data)
+        {
+
+
+            RefreshSongBrowser();
+        }
     }
 
     #region Legacy

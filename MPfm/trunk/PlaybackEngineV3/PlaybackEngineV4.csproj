@@ -8,8 +8,8 @@
     <ProjectGuid>{064ABDA7-31DC-495F-8214-ED2B13E05601}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlaybackEngineV3</RootNamespace>
-    <AssemblyName>PlaybackEngineV3</AssemblyName>
+    <RootNamespace>PlaybackEngineV4</RootNamespace>
+    <AssemblyName>PlaybackEngineV4</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -52,16 +52,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigData.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSettings.Designer.cs">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSettings.resx">
+      <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -73,6 +83,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -85,6 +96,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1474_Tape.ico" />
+    <None Include="Resources\sound.png" />
+    <None Include="Resources\asterisk_orange.png" />
+    <None Include="Resources\disk.png" />
+    <None Include="Resources\cog.png" />
+    <None Include="Resources\chart_bar_error.png" />
+    <None Include="Resources\chart_bar_edit.png" />
+    <None Include="Resources\RepeatHS.png" />
+    <None Include="Resources\DataContainer_MoveLastHS.png" />
+    <None Include="Resources\DataContainer_MoveFirstHS.png" />
     <None Include="Resources\PauseHS.png" />
     <None Include="Resources\DeleteHS.png" />
     <None Include="Resources\PlayHS.png" />
