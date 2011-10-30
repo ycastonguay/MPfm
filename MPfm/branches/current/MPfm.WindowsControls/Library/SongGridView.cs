@@ -645,18 +645,13 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_items.Where(x => x.IsSelected).ToList();
-            }
-            set
-            {
-                // Check if the selection needs to be reset
-                if (value == null)
+                // Check if the item list exists
+                if (m_items != null)
                 {
-                    foreach (SongGridViewItem item in m_items)
-                    {
-                        item.IsSelected = false;
-                    }                    
+                    return m_items.Where(x => x.IsSelected).ToList();
                 }
+
+                return null;
             }
         }
 
@@ -999,6 +994,17 @@ namespace MPfm.WindowsControls
             //        m_workerUpdateAlbumArtPile.Remove(arg);
             //    }
             //}
+        }
+
+        public void ClearSelectedItems()
+        {
+            foreach (SongGridViewItem item in m_items)
+            {
+                if (item.IsSelected)
+                {
+                    item.IsSelected = false;
+                }
+            }
         }
 
         /// <summary>

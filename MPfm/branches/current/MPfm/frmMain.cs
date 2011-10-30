@@ -1331,7 +1331,7 @@ namespace MPfm
                 // Refresh play icon
                 RefreshSongBrowserPlayIcon(Guid.Empty);
                 formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
-                viewSongs2.SelectedItems = null;
+                viewSongs2.ClearSelectedItems();
             }
         }
 
@@ -1867,7 +1867,8 @@ namespace MPfm
             if (viewSongs2.Items.Count > 0)
             {
                 // Select the first song
-                viewSongs2.SelectedItems = null;
+                //viewSongs2.SelectedItems = null;
+                viewSongs2.ClearSelectedItems();
                 viewSongs2.Items[0].IsSelected = true;
 
                 // Play newly selected song

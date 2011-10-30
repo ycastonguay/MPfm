@@ -30,11 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont116 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont117 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont118 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont119 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont120 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont25 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -726,26 +725,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont116.AssemblyPath = "MPfm.Fonts.dll";
-            customFont116.Name = "LeagueGothic";
-            customFont116.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont117.AssemblyPath = "MPfm.Fonts.dll";
-            customFont117.Name = "Junction";
-            customFont117.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont118.AssemblyPath = "MPfm.Fonts.dll";
-            customFont118.Name = "TitilliumText22L Lt";
-            customFont118.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont119.AssemblyPath = "MPfm.Fonts.dll";
-            customFont119.Name = "BPmono";
-            customFont119.ResourceName = "MPfm.Fonts.BPmono.ttf";
-            customFont120.AssemblyPath = "MPfm.Fonts.dll";
-            customFont120.Name = "CPmono";
-            customFont120.ResourceName = "MPfm.Fonts.CPmono.ttf";
-            this.fontCollection.Fonts.Add(customFont116);
-            this.fontCollection.Fonts.Add(customFont117);
-            this.fontCollection.Fonts.Add(customFont118);
-            this.fontCollection.Fonts.Add(customFont119);
-            this.fontCollection.Fonts.Add(customFont120);
+            customFont25.AssemblyPath = "MPfm.Fonts.dll";
+            customFont25.Name = "LeagueGothic";
+            customFont25.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont26.AssemblyPath = "MPfm.Fonts.dll";
+            customFont26.Name = "Junction";
+            customFont26.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont27.AssemblyPath = "MPfm.Fonts.dll";
+            customFont27.Name = "TitilliumText22L Lt";
+            customFont27.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont28.AssemblyPath = "MPfm.Fonts.dll";
+            customFont28.Name = "Droid Sans Mono";
+            customFont28.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont25);
+            this.fontCollection.Fonts.Add(customFont26);
+            this.fontCollection.Fonts.Add(customFont27);
+            this.fontCollection.Fonts.Add(customFont28);
             // 
             // treeLibrary
             // 
@@ -967,13 +962,13 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFrequency.AntiAliasingEnabled = true;
             this.lblFrequency.BackColor = System.Drawing.Color.Transparent;
-            this.lblFrequency.CustomFontName = "BPmono";
-            this.lblFrequency.Font = new System.Drawing.Font("Arial", 7F);
+            this.lblFrequency.CustomFontName = "Droid Sans Mono";
+            this.lblFrequency.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFrequency.FontCollection = this.fontCollection;
             this.lblFrequency.ForeColor = System.Drawing.Color.White;
-            this.lblFrequency.Location = new System.Drawing.Point(4, 58);
+            this.lblFrequency.Location = new System.Drawing.Point(4, 59);
             this.lblFrequency.Name = "lblFrequency";
-            this.lblFrequency.Size = new System.Drawing.Size(82, 8);
+            this.lblFrequency.Size = new System.Drawing.Size(82, 10);
             this.lblFrequency.TabIndex = 65;
             this.lblFrequency.Text = "Frequency";
             this.lblFrequency.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1001,13 +996,13 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBitsPerSample.AntiAliasingEnabled = true;
             this.lblBitsPerSample.BackColor = System.Drawing.Color.Transparent;
-            this.lblBitsPerSample.CustomFontName = "BPmono";
-            this.lblBitsPerSample.Font = new System.Drawing.Font("Arial", 7F);
+            this.lblBitsPerSample.CustomFontName = "Droid Sans Mono";
+            this.lblBitsPerSample.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBitsPerSample.FontCollection = this.fontCollection;
             this.lblBitsPerSample.ForeColor = System.Drawing.Color.White;
-            this.lblBitsPerSample.Location = new System.Drawing.Point(4, 83);
+            this.lblBitsPerSample.Location = new System.Drawing.Point(4, 84);
             this.lblBitsPerSample.Name = "lblBitsPerSample";
-            this.lblBitsPerSample.Size = new System.Drawing.Size(82, 8);
+            this.lblBitsPerSample.Size = new System.Drawing.Size(82, 10);
             this.lblBitsPerSample.TabIndex = 63;
             this.lblBitsPerSample.Text = "Bits per sample";
             this.lblBitsPerSample.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1035,13 +1030,13 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSoundFormat.AntiAliasingEnabled = true;
             this.lblSoundFormat.BackColor = System.Drawing.Color.Transparent;
-            this.lblSoundFormat.CustomFontName = "BPmono";
-            this.lblSoundFormat.Font = new System.Drawing.Font("Arial", 7F);
+            this.lblSoundFormat.CustomFontName = "Droid Sans Mono";
+            this.lblSoundFormat.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSoundFormat.FontCollection = this.fontCollection;
             this.lblSoundFormat.ForeColor = System.Drawing.Color.White;
             this.lblSoundFormat.Location = new System.Drawing.Point(4, 33);
             this.lblSoundFormat.Name = "lblSoundFormat";
-            this.lblSoundFormat.Size = new System.Drawing.Size(82, 8);
+            this.lblSoundFormat.Size = new System.Drawing.Size(82, 10);
             this.lblSoundFormat.TabIndex = 61;
             this.lblSoundFormat.Text = "Sound Format";
             this.lblSoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1312,8 +1307,8 @@ namespace MPfm
             this.lblVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVolume.AntiAliasingEnabled = true;
             this.lblVolume.BackColor = System.Drawing.Color.Transparent;
-            this.lblVolume.CustomFontName = "";
-            this.lblVolume.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVolume.CustomFontName = "Droid Sans Mono";
+            this.lblVolume.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVolume.FontCollection = this.fontCollection;
             this.lblVolume.ForeColor = System.Drawing.Color.White;
             this.lblVolume.Location = new System.Drawing.Point(4, 139);
@@ -1354,8 +1349,8 @@ namespace MPfm
             // 
             this.lblTimeShifting.AntiAliasingEnabled = true;
             this.lblTimeShifting.BackColor = System.Drawing.Color.Transparent;
-            this.lblTimeShifting.CustomFontName = "";
-            this.lblTimeShifting.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeShifting.CustomFontName = "Droid Sans Mono";
+            this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeShifting.FontCollection = this.fontCollection;
             this.lblTimeShifting.ForeColor = System.Drawing.Color.White;
             this.lblTimeShifting.Location = new System.Drawing.Point(57, 36);
@@ -1369,8 +1364,8 @@ namespace MPfm
             // 
             this.linkResetTimeShifting.AntiAliasingEnabled = true;
             this.linkResetTimeShifting.BackColor = System.Drawing.Color.Transparent;
-            this.linkResetTimeShifting.CustomFontName = "";
-            this.linkResetTimeShifting.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkResetTimeShifting.CustomFontName = "Droid Sans Mono";
+            this.linkResetTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkResetTimeShifting.FontCollection = this.fontCollection;
             this.linkResetTimeShifting.ForeColor = System.Drawing.Color.LightGray;
             this.linkResetTimeShifting.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1441,8 +1436,8 @@ namespace MPfm
             this.lblSongPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSongPercentage.AntiAliasingEnabled = true;
             this.lblSongPercentage.BackColor = System.Drawing.Color.Transparent;
-            this.lblSongPercentage.CustomFontName = "";
-            this.lblSongPercentage.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSongPercentage.CustomFontName = "Droid Sans Mono";
+            this.lblSongPercentage.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPercentage.FontCollection = this.fontCollection;
             this.lblSongPercentage.ForeColor = System.Drawing.Color.White;
             this.lblSongPercentage.Location = new System.Drawing.Point(201, 36);
@@ -1458,8 +1453,8 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSongPosition.AntiAliasingEnabled = true;
             this.lblSongPosition.BackColor = System.Drawing.Color.Transparent;
-            this.lblSongPosition.CustomFontName = "";
-            this.lblSongPosition.Font = new System.Drawing.Font("Droid Sans Mono", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSongPosition.CustomFontName = "Droid Sans Mono";
+            this.lblSongPosition.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPosition.FontCollection = this.fontCollection;
             this.lblSongPosition.ForeColor = System.Drawing.Color.White;
             this.lblSongPosition.Location = new System.Drawing.Point(4, 36);
@@ -1526,8 +1521,8 @@ namespace MPfm
             // 
             this.lblTotalTime.AntiAliasingEnabled = true;
             this.lblTotalTime.BackColor = System.Drawing.Color.Transparent;
-            this.lblTotalTime.CustomFontName = "";
-            this.lblTotalTime.Font = new System.Drawing.Font("Droid Sans Mono", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalTime.CustomFontName = "Droid Sans Mono";
+            this.lblTotalTime.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalTime.FontCollection = this.fontCollection;
             this.lblTotalTime.ForeColor = System.Drawing.Color.White;
             this.lblTotalTime.Location = new System.Drawing.Point(1, 22);
@@ -1565,8 +1560,8 @@ namespace MPfm
             // 
             this.lblCurrentTime.AntiAliasingEnabled = true;
             this.lblCurrentTime.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentTime.CustomFontName = "";
-            this.lblCurrentTime.Font = new System.Drawing.Font("Droid Sans Mono", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentTime.CustomFontName = "Droid Sans Mono";
+            this.lblCurrentTime.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentTime.FontCollection = this.fontCollection;
             this.lblCurrentTime.ForeColor = System.Drawing.Color.White;
             this.lblCurrentTime.Location = new System.Drawing.Point(0, 22);
@@ -1682,7 +1677,7 @@ namespace MPfm
             this.waveFormMarkersLoops.CurrentPositionMS = ((uint)(0u));
             this.waveFormMarkersLoops.CurrentPositionPCMBytes = ((uint)(0u));
             this.waveFormMarkersLoops.CursorColor = System.Drawing.Color.RoyalBlue;
-            this.waveFormMarkersLoops.CustomFontName = "BPmono";
+            this.waveFormMarkersLoops.CustomFontName = "Droid Sans Mono";
             this.waveFormMarkersLoops.DisplayCurrentPosition = true;
             this.waveFormMarkersLoops.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
             this.waveFormMarkersLoops.Dock = System.Windows.Forms.DockStyle.Fill;
