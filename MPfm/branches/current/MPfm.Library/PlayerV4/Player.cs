@@ -77,21 +77,6 @@ namespace MPfm.Library.PlayerV4
 
         #region Properties
         
-        ///// <summary>
-        ///// Private value for the System property.
-        ///// </summary>
-        //private MPfm.Sound.BassNetWrapper.System m_system = null;
-        ///// <summary>
-        ///// System main audio class.
-        ///// </summary>
-        //public MPfm.Sound.BassNetWrapper.System System
-        //{
-        //    get
-        //    {
-        //        return m_system;
-        //    }
-        //}
-
         /// <summary>
         /// Private value for the IsPlaying property.
         /// </summary>
@@ -170,13 +155,13 @@ namespace MPfm.Library.PlayerV4
                 m_repeatType = value;
 
                 // Check if the current song exists
-                if (m_currentSong != null)
+                if (m_playlist != null && m_playlist.CurrentItem != null)
                 {
                     // Check if the repeat type is Song
                     if (m_repeatType == MPfm.Library.RepeatType.Song)
                     {
                         // Force looping
-                        m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                        m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
 
                         //m_syncProc = new SYNCPROC(EndSync);
                         //m_syncProcHandle = m_currentSubChannel.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);                    
@@ -184,7 +169,7 @@ namespace MPfm.Library.PlayerV4
                     else
                     {
                         // Remove looping
-                        m_currentSong.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
+                        m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
                     }
                 }
             }
@@ -278,13 +263,7 @@ namespace MPfm.Library.PlayerV4
             {
                 m_bufferSize = value;
 
-                //// Check if system exists
-                //if (m_system != null)
-                //{
-                //    // Set configuration
-                //    m_system.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
-                //}   
-                
+                // Set configuration
                 Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
             }
         }
@@ -353,47 +332,18 @@ namespace MPfm.Library.PlayerV4
         }
 
         /// <summary>
-        /// Private value for the FilePaths property.
+        /// Private value for the Playlist property.
         /// </summary>
-        private List<string> m_filePaths = null;
+        private Playlist m_playlist = null;
         /// <summary>
-        /// Defines the list of file paths in the playlist.
+        /// Playlist used for playback. Contains the audio file metadata and decode channels for
+        /// playback.
         /// </summary>
-        public List<string> FilePaths
+        public Playlist Playlist
         {
             get
             {
-                return m_filePaths;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the CurrentSongIndex.
-        /// </summary>
-        private int m_currentSongIndex = 0;
-        /// <summary>
-        /// Currently playing song index.
-        /// </summary>
-        public int CurrentSongIndex
-        {
-            get
-            {
-                return m_currentSongIndex;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the CurrentSong property.
-        /// </summary>
-        private Song m_currentSong = null;
-        /// <summary>
-        /// Returns the currently playing song.
-        /// </summary>
-        public Song CurrentSong
-        {
-            get
-            {
-                return m_currentSong;
+                return m_playlist;
             }
         }
 
@@ -512,8 +462,8 @@ namespace MPfm.Library.PlayerV4
             m_bufferSize = bufferSize;
             m_updatePeriod = updatePeriod;
 
-            // Create lists
-            m_filePaths = new List<string>();
+            // Create lists            
+            m_playlist = new PlayerV4.Playlist();
             m_markers = new List<Marker>();
             m_loops = new List<Loop>();            
 
@@ -663,10 +613,14 @@ namespace MPfm.Library.PlayerV4
         protected void m_timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             // Reset timer
-            m_timerPlayer.Enabled = false;            
+            m_timerPlayer.Enabled = false;
 
-            // Create the next channel
-            CreateSong(ref m_currentSong, m_filePaths[m_currentSongIndex + 1]);
+            // Check if the next channel needs to be loaded
+            if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)
+            {
+                // Create the next channel
+                m_playlist.Items[m_playlist.CurrentItemIndex + 1].Load();           
+            }
 
             // Set time shifting value
             //m_currentSubChannel.Channel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, TimeShifting);
@@ -709,25 +663,22 @@ namespace MPfm.Library.PlayerV4
 
             try
             {
-                // Reset flags
-                m_currentSongIndex = 0;
+                // Reset flags                
+                m_playlist.Clear();
 
-                // Set file paths
-                m_filePaths = filePaths;
-
-                // Create the first channel
-                Song channelNull = null;
-                Song channelOne = CreateSong(ref channelNull, filePaths[0]);
-
-                // Check if there are other files in the playlist
-                if (filePaths.Count > 1)
+                // Create playlist items
+                foreach (string filePath in filePaths)
                 {
-                    // Create the second channel
-                    Song channelTwo = CreateSong(ref channelOne, filePaths[1]);
+                    // Add playlist item
+                    m_playlist.AddItem(filePath);
                 }
 
-                // Set the current channel as the first one
-                m_currentSong = channelOne;
+                // Load the first two channels
+                for (int a = 0; a < 2; a++)
+                {
+                    // Load channel and audio file metadata
+                    m_playlist.Items[a].Load();
+                }
 
                 // Create the streaming channel
                 m_streamProc = new STREAMPROC(StreamCallback);
@@ -795,8 +746,8 @@ namespace MPfm.Library.PlayerV4
                 // Check if the repeat type is Song
                 if (m_repeatType == MPfm.Library.RepeatType.Song)
                 {
-                    // Force looping
-                    m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                    // Force looping                    
+                    m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                 }
 
                 // Start playback
@@ -815,36 +766,6 @@ namespace MPfm.Library.PlayerV4
                 Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);                
                 throw ex;
             }
-        }
-
-        /// <summary>
-        /// Creates a song to be used in the player. This loads the audio file properties and
-        /// metadata and creates a stream.
-        /// </summary>
-        /// <param name="previousSong">Pointer to the previous song</param>
-        /// <param name="filePath">File path to the audio file</param>
-        /// <returns>Instance of the channel</returns>
-        private Song CreateSong(ref Song previousSong, string filePath)
-        {
-            // Create channel file properties and BASS channel
-            Song channel = new Song();
-            channel.FileProperties = new AudioFile(filePath);
-            channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePath);
-            //channel.ChannelDecode = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(filePath);
-            //channel.Channel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(channel.ChannelDecode.Handle, true);
-
-            // Set pointer to the previous channel
-            channel.PreviousSong = previousSong;
-
-            // Make sure there was a previous channel
-            if (previousSong != null)
-            {
-                // Set next channel for the previous channel
-                previousSong.NextSong = channel;
-            }
-
-            // Return instance of the channel
-            return channel;
         }
 
         /// <summary>
@@ -890,34 +811,17 @@ namespace MPfm.Library.PlayerV4
             {
                 // Stop playback
                 BassWasapi.BASS_WASAPI_Stop(false);
-            }            
-
-            // Check if the current song exists
-            if (m_currentSong != null)
-            {
-                if (m_currentSong.Channel != null)
-                {
-                    //if (m_currentSubChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
-                    //{
-                    m_currentSong.Channel.Stop();
-                    m_currentSong.Channel.Free();
-                    //}
-                }
-
-                if (m_currentSong.NextSong != null &&
-                    m_currentSong.NextSong.Channel != null)
-                {
-                    //if (m_currentSubChannel.NextChannel.Channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
-                   // {
-                    m_currentSong.NextSong.Channel.Stop();
-                    m_currentSong.NextSong.Channel.Free();
-                    //}
-                }
             }
 
-
-            //m_subChannels.Clear();
-            //m_subChannels = null;
+            // Check if the current song exists
+            if (m_playlist != null && m_playlist.CurrentItem != null)
+            {
+                if (m_playlist.CurrentItem.Channel != null)
+                {
+                    m_playlist.CurrentItem.Channel.Stop();
+                    m_playlist.CurrentItem.Channel.Free();                    
+                }
+            }
 
             // Set flag
             m_isPlaying = false;
@@ -930,37 +834,31 @@ namespace MPfm.Library.PlayerV4
         public void GoTo(int index)
         {
             // Make sure index is in the list
-            if (index <= m_filePaths.Count - 1)
+            if (index <= Playlist.Items.Count - 1)
             {
                 // Stop playback
                 Stop();
 
                 // Set index
-                m_currentSongIndex = index;
+                Playlist.GoTo(index);
 
                 try
                 {
-                    // TODO: MERGE THIS METHOD WITH PLAY.
+                    // Load current item
+                    Playlist.Items[index].Load();
 
-                    // Create the first channel
-                    Song channelNull = null;
-                    Song channelOne = CreateSong(ref channelNull, m_filePaths[m_currentSongIndex]);
-
-                    // Check if there are other files in the playlist
-                    if (m_currentSongIndex + 1 < m_filePaths.Count)
+                    // Load the next item, if it exists
+                    if (Playlist.CurrentItemIndex + 1 < Playlist.Items.Count)
                     {
-                        // Create the second channel
-                        Song channelTwo = CreateSong(ref channelOne, m_filePaths[m_currentSongIndex + 1]);
+                        // Load next item
+                        Playlist.Items[index+1].Load();
                     }
-
-                    // Set the current channel as the first one
-                    m_currentSong = channelOne;
 
                     // Check if the repeat type is Song
                     if (m_repeatType == MPfm.Library.RepeatType.Song)
                     {
                         // Force looping
-                        m_currentSong.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                        m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     }
 
                     if (m_device.DriverType == DriverType.ASIO)
@@ -1018,10 +916,10 @@ namespace MPfm.Library.PlayerV4
         public void Previous()
         {
             // Check if there is a previous song
-            if (m_currentSongIndex > 0)
+            if (Playlist.CurrentItemIndex > 0)
             {
                 // Go to previous audio file
-                GoTo(m_currentSongIndex - 1);
+                GoTo(Playlist.CurrentItemIndex - 1);
             }
         }
 
@@ -1031,10 +929,10 @@ namespace MPfm.Library.PlayerV4
         public void Next()
         {
             // Check if there is a next song
-            if (m_currentSongIndex < m_filePaths.Count - 1)
+            if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)
             {
                 // Go to next audio file
-                GoTo(m_currentSongIndex + 1);
+                GoTo(Playlist.CurrentItemIndex + 1);
             }            
         }
 
@@ -1045,7 +943,7 @@ namespace MPfm.Library.PlayerV4
         public void GoToMarker(Marker marker)
         {
             // Set current song position
-            m_currentSong.Channel.SetPosition(marker.Position);
+            Playlist.CurrentItem.Channel.SetPosition(marker.Position);
         }
 
         /// <summary>
@@ -1055,15 +953,14 @@ namespace MPfm.Library.PlayerV4
         public void StartLoop(Loop loop)
         {
             // Set loop sync proc            
-            m_currentSong.SyncProc = new SYNCPROC(LoopSyncProc);
-            m_currentSong.SyncProcHandle = m_currentSong.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.Position, m_currentSong.SyncProc);
+            Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
+            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.Position, Playlist.CurrentItem.SyncProc);
 
             // Set current song position to marker A
-            m_currentSong.Channel.SetPosition(loop.MarkerA.Position);
+            Playlist.CurrentItem.Channel.SetPosition(loop.MarkerA.Position);
 
             // Set current loop
             m_currentLoop = loop;
-
         }
 
         /// <summary>
@@ -1076,12 +973,12 @@ namespace MPfm.Library.PlayerV4
             {
                 return;
             }
-            
+
             // Remove sync proc
-            m_currentSong.Channel.RemoveSync(m_currentSong.SyncProcHandle);
+            Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
 
             // Stop loop and release
-            m_currentLoop = null;            
+            m_currentLoop = null;
         }
 
         #endregion
@@ -1145,52 +1042,41 @@ namespace MPfm.Library.PlayerV4
         /// <returns>Audio data</returns>
         private int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
-            // If the current sub channel is null, end the stream
-            if (m_currentSong == null)
+            // If the current sub channel is null, end the stream            
+            if(m_playlist == null || m_playlist.CurrentItem == null)
             {
                 // Return end-of-channel
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
             }
 
-            // Get active status
-            BASSActive status = m_currentSong.Channel.IsActive();
+            // Get active status            
+            BASSActive status = m_playlist.CurrentItem.Channel.IsActive();
 
             // Check the current channel status
             if (status == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Check if the next channel needs to be loaded
-                if (m_currentSongIndex < m_filePaths.Count - 1 &&
-                    m_currentSong.NextSong == null)
+                if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)                    
                 {
                     // Create the next channel using a timer
                     m_timerPlayer.Start();
                 }
 
-                // Get data from the current channel since it is running
-                return m_currentSong.Channel.GetData(buffer, length);
+                // Get data from the current channel since it is running                
+                return m_playlist.CurrentItem.Channel.GetData(buffer, length);
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
-                // Check if there is another channel to load
-                if (m_currentSong.NextSong == null)
+                // Check if this is the last item to play
+                if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
                 {
                     // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                     if (RepeatType == MPfm.Library.RepeatType.Playlist)
                     {
-                        // Restart playback from the first channel                        
-                        m_currentSongIndex = 0;
-                        Song channelNull = null;
-                        Song channelOne = CreateSong(ref channelNull, m_filePaths[m_currentSongIndex]);
-
-                        // Check if there are other files in the playlist
-                        if (m_currentSongIndex + 1 < m_filePaths.Count)
-                        {
-                            // Create the second channel
-                            Song channelTwo = CreateSong(ref channelOne, m_filePaths[m_currentSongIndex + 1]);
-                        }
-
-                        // Set the current channel as the first one
-                        m_currentSong = channelOne;
+                        // Restart playback from the first item
+                        Playlist.First();
+                        Playlist.Items[0].Load();
+                        Playlist.Items[1].Load();
 
                         // Raise song end event (if an event is subscribed)
                         if (OnSongFinished != null)
@@ -1204,7 +1090,7 @@ namespace MPfm.Library.PlayerV4
                         }
 
                         // Return data from the new channel
-                        return m_currentSong.Channel.GetData(buffer, length);
+                        return Playlist.CurrentItem.Channel.GetData(buffer, length);
                     }
                     else
                     {
@@ -1224,11 +1110,8 @@ namespace MPfm.Library.PlayerV4
                     return (int)BASSStreamProc.BASS_STREAMPROC_END;
                 }
 
-                // Load next channel
-                m_currentSong = m_currentSong.NextSong;
-
-                // Increment index
-                m_currentSongIndex++;
+                // There is another item to play; go on.                
+                Playlist.Next();
 
                 // Raise song end event (if an event is subscribed)
                 if (OnSongFinished != null)
@@ -1242,7 +1125,7 @@ namespace MPfm.Library.PlayerV4
                 }
 
                 // Return data from the new channel
-                return m_currentSong.Channel.GetData(buffer, length);
+                return Playlist.CurrentItem.Channel.GetData(buffer, length);
             }
 
             // Raise song end event (if an event is subscribed)
