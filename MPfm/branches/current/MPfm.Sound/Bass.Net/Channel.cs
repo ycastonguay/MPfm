@@ -166,6 +166,26 @@ namespace MPfm.Sound.BassNetWrapper
             return Bass.BASS_ChannelSetFX(m_handle, type, priority);
         }
 
+        public void RemoveFX(int handleFX)
+        {
+            // Remove FX
+            if (!Bass.BASS_ChannelRemoveFX(m_handle, handleFX))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }
+
+        public void ResetFX(int handleFX)
+        {
+            // Remove FX
+            if (!Bass.BASS_FXReset(handleFX))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }
+
         public long GetPosition()
         {            
             return Bass.BASS_ChannelGetPosition(m_handle);

@@ -34,66 +34,66 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
-            this.lblGain20kHz = new MPfm.WindowsControls.Label();
+            this.lblGain17 = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
-            this.lbl20kHz = new MPfm.WindowsControls.Label();
-            this.lblGain14kHz = new MPfm.WindowsControls.Label();
-            this.lbl14kHz = new MPfm.WindowsControls.Label();
-            this.lblGain10kHz = new MPfm.WindowsControls.Label();
-            this.lbl10kHz = new MPfm.WindowsControls.Label();
-            this.lblGain7kHz = new MPfm.WindowsControls.Label();
-            this.lbl7kHz = new MPfm.WindowsControls.Label();
-            this.lblGain5kHz = new MPfm.WindowsControls.Label();
-            this.lbl5kHz = new MPfm.WindowsControls.Label();
-            this.lblGain3_5kHz = new MPfm.WindowsControls.Label();
-            this.lbl3_5kHz = new MPfm.WindowsControls.Label();
-            this.lblGain2_5kHz = new MPfm.WindowsControls.Label();
-            this.lbl2_5kHz = new MPfm.WindowsControls.Label();
-            this.lblGain1_8kHz = new MPfm.WindowsControls.Label();
-            this.lbl1_8kHz = new MPfm.WindowsControls.Label();
-            this.lblGain1_2kHz = new MPfm.WindowsControls.Label();
-            this.lbl1_2kHz = new MPfm.WindowsControls.Label();
-            this.lblGain880Hz = new MPfm.WindowsControls.Label();
-            this.lbl880Hz = new MPfm.WindowsControls.Label();
-            this.lblGain622Hz = new MPfm.WindowsControls.Label();
-            this.lbl622Hz = new MPfm.WindowsControls.Label();
-            this.lblGain440Hz = new MPfm.WindowsControls.Label();
-            this.lbl440Hz = new MPfm.WindowsControls.Label();
-            this.lblGain311Hz = new MPfm.WindowsControls.Label();
-            this.lbl311Hz = new MPfm.WindowsControls.Label();
-            this.lblGain220Hz = new MPfm.WindowsControls.Label();
-            this.lbl220Hz = new MPfm.WindowsControls.Label();
-            this.lblGain156Hz = new MPfm.WindowsControls.Label();
-            this.lbl156Hz = new MPfm.WindowsControls.Label();
-            this.lblGain110Hz = new MPfm.WindowsControls.Label();
-            this.lbl110Hz = new MPfm.WindowsControls.Label();
-            this.lblGain77Hz = new MPfm.WindowsControls.Label();
-            this.lbl77Hz = new MPfm.WindowsControls.Label();
-            this.lblGain55Hz = new MPfm.WindowsControls.Label();
-            this.lbl55Hz = new MPfm.WindowsControls.Label();
+            this.lbl17 = new MPfm.WindowsControls.Label();
+            this.lblGain16 = new MPfm.WindowsControls.Label();
+            this.lbl16 = new MPfm.WindowsControls.Label();
+            this.lblGain15 = new MPfm.WindowsControls.Label();
+            this.lbl15 = new MPfm.WindowsControls.Label();
+            this.lblGain14 = new MPfm.WindowsControls.Label();
+            this.lbl14 = new MPfm.WindowsControls.Label();
+            this.lblGain13 = new MPfm.WindowsControls.Label();
+            this.lbl13 = new MPfm.WindowsControls.Label();
+            this.lblGain12 = new MPfm.WindowsControls.Label();
+            this.lbl12 = new MPfm.WindowsControls.Label();
+            this.lblGain11 = new MPfm.WindowsControls.Label();
+            this.lbl11 = new MPfm.WindowsControls.Label();
+            this.lblGain10 = new MPfm.WindowsControls.Label();
+            this.lbl10 = new MPfm.WindowsControls.Label();
+            this.lblGain9 = new MPfm.WindowsControls.Label();
+            this.lbl9 = new MPfm.WindowsControls.Label();
+            this.lblGain8 = new MPfm.WindowsControls.Label();
+            this.lbl8 = new MPfm.WindowsControls.Label();
+            this.lblGain7 = new MPfm.WindowsControls.Label();
+            this.lbl7 = new MPfm.WindowsControls.Label();
+            this.lblGain6 = new MPfm.WindowsControls.Label();
+            this.lbl6 = new MPfm.WindowsControls.Label();
+            this.lblGain5 = new MPfm.WindowsControls.Label();
+            this.lbl5 = new MPfm.WindowsControls.Label();
+            this.lblGain4 = new MPfm.WindowsControls.Label();
+            this.lbl4 = new MPfm.WindowsControls.Label();
+            this.lblGain3 = new MPfm.WindowsControls.Label();
+            this.lbl3 = new MPfm.WindowsControls.Label();
+            this.lblGain2 = new MPfm.WindowsControls.Label();
+            this.lbl2 = new MPfm.WindowsControls.Label();
+            this.lblGain1 = new MPfm.WindowsControls.Label();
+            this.lbl1 = new MPfm.WindowsControls.Label();
+            this.lblGain0 = new MPfm.WindowsControls.Label();
+            this.lbl0 = new MPfm.WindowsControls.Label();
             this.lbl0dB = new MPfm.WindowsControls.Label();
-            this.lbl_3dB = new MPfm.WindowsControls.Label();
-            this.lbl3dB = new MPfm.WindowsControls.Label();
+            this.lbl_6dB = new MPfm.WindowsControls.Label();
+            this.lbl6dB = new MPfm.WindowsControls.Label();
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.panelEqualizer = new MPfm.WindowsControls.Panel();
-            this.fader20kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader14kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader10kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader7kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader5kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader3_5kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader2_5kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader1_8kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader1_2kHz = new MPfm.WindowsControls.VolumeFader();
-            this.fader880Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader622Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader440Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader311Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader220Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader156Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader110Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader77Hz = new MPfm.WindowsControls.VolumeFader();
-            this.fader55Hz = new MPfm.WindowsControls.VolumeFader();
+            this.fader17 = new MPfm.WindowsControls.VolumeFader();
+            this.fader16 = new MPfm.WindowsControls.VolumeFader();
+            this.fader15 = new MPfm.WindowsControls.VolumeFader();
+            this.fader14 = new MPfm.WindowsControls.VolumeFader();
+            this.fader13 = new MPfm.WindowsControls.VolumeFader();
+            this.fader12 = new MPfm.WindowsControls.VolumeFader();
+            this.fader11 = new MPfm.WindowsControls.VolumeFader();
+            this.fader10 = new MPfm.WindowsControls.VolumeFader();
+            this.fader9 = new MPfm.WindowsControls.VolumeFader();
+            this.fader8 = new MPfm.WindowsControls.VolumeFader();
+            this.fader7 = new MPfm.WindowsControls.VolumeFader();
+            this.fader6 = new MPfm.WindowsControls.VolumeFader();
+            this.fader5 = new MPfm.WindowsControls.VolumeFader();
+            this.fader4 = new MPfm.WindowsControls.VolumeFader();
+            this.fader3 = new MPfm.WindowsControls.VolumeFader();
+            this.fader2 = new MPfm.WindowsControls.VolumeFader();
+            this.fader1 = new MPfm.WindowsControls.VolumeFader();
+            this.fader0 = new MPfm.WindowsControls.VolumeFader();
             this.panelPreset = new MPfm.WindowsControls.Panel();
             this.comboEQPreset = new System.Windows.Forms.ComboBox();
             this.lblEQOn = new MPfm.WindowsControls.Label();
@@ -108,26 +108,30 @@ namespace MPfm
             this.lblEQName = new MPfm.WindowsControls.Label();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.panelZeroLine = new System.Windows.Forms.Panel();
+            this.lblEQQ = new MPfm.WindowsControls.Label();
+            this.lblEQBandwidth = new MPfm.WindowsControls.Label();
+            this.txtEQQ = new System.Windows.Forms.MaskedTextBox();
+            this.txtEQBandwidth = new System.Windows.Forms.MaskedTextBox();
             this.tableLayout.SuspendLayout();
             this.panelEqualizer.SuspendLayout();
             this.panelPreset.SuspendLayout();
             this.panelInformation.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblGain20kHz
+            // lblGain17
             // 
-            this.lblGain20kHz.AntiAliasingEnabled = true;
-            this.lblGain20kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain20kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain20kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain20kHz.FontCollection = this.fontCollection;
-            this.lblGain20kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain20kHz.Location = new System.Drawing.Point(753, 423);
-            this.lblGain20kHz.Name = "lblGain20kHz";
-            this.lblGain20kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain20kHz.TabIndex = 58;
-            this.lblGain20kHz.Text = "0 dB";
-            this.lblGain20kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain17.AntiAliasingEnabled = true;
+            this.lblGain17.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain17.CustomFontName = "Museo Sans 500";
+            this.lblGain17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain17.FontCollection = this.fontCollection;
+            this.lblGain17.ForeColor = System.Drawing.Color.White;
+            this.lblGain17.Location = new System.Drawing.Point(753, 423);
+            this.lblGain17.Name = "lblGain17";
+            this.lblGain17.Size = new System.Drawing.Size(48, 19);
+            this.lblGain17.TabIndex = 58;
+            this.lblGain17.Text = "0 dB";
+            this.lblGain17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // fontCollection
             // 
@@ -152,530 +156,530 @@ namespace MPfm
             this.fontCollection.Fonts.Add(customFont4);
             this.fontCollection.Fonts.Add(customFont5);
             // 
-            // lbl20kHz
-            // 
-            this.lbl20kHz.AntiAliasingEnabled = true;
-            this.lbl20kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl20kHz.CustomFontName = "Museo Sans 500";
-            this.lbl20kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl20kHz.FontCollection = this.fontCollection;
-            this.lbl20kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl20kHz.Location = new System.Drawing.Point(753, 404);
-            this.lbl20kHz.Name = "lbl20kHz";
-            this.lbl20kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl20kHz.TabIndex = 57;
-            this.lbl20kHz.Text = "20 kHz";
-            this.lbl20kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain14kHz
-            // 
-            this.lblGain14kHz.AntiAliasingEnabled = true;
-            this.lblGain14kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain14kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain14kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain14kHz.FontCollection = this.fontCollection;
-            this.lblGain14kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain14kHz.Location = new System.Drawing.Point(709, 423);
-            this.lblGain14kHz.Name = "lblGain14kHz";
-            this.lblGain14kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain14kHz.TabIndex = 55;
-            this.lblGain14kHz.Text = "0 dB";
-            this.lblGain14kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl14kHz
-            // 
-            this.lbl14kHz.AntiAliasingEnabled = true;
-            this.lbl14kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl14kHz.CustomFontName = "Museo Sans 500";
-            this.lbl14kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl14kHz.FontCollection = this.fontCollection;
-            this.lbl14kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl14kHz.Location = new System.Drawing.Point(709, 404);
-            this.lbl14kHz.Name = "lbl14kHz";
-            this.lbl14kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl14kHz.TabIndex = 54;
-            this.lbl14kHz.Text = "14 kHz";
-            this.lbl14kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain10kHz
-            // 
-            this.lblGain10kHz.AntiAliasingEnabled = true;
-            this.lblGain10kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain10kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain10kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain10kHz.FontCollection = this.fontCollection;
-            this.lblGain10kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain10kHz.Location = new System.Drawing.Point(665, 423);
-            this.lblGain10kHz.Name = "lblGain10kHz";
-            this.lblGain10kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain10kHz.TabIndex = 52;
-            this.lblGain10kHz.Text = "0 dB";
-            this.lblGain10kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl10kHz
-            // 
-            this.lbl10kHz.AntiAliasingEnabled = true;
-            this.lbl10kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl10kHz.CustomFontName = "Museo Sans 500";
-            this.lbl10kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl10kHz.FontCollection = this.fontCollection;
-            this.lbl10kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl10kHz.Location = new System.Drawing.Point(665, 404);
-            this.lbl10kHz.Name = "lbl10kHz";
-            this.lbl10kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl10kHz.TabIndex = 51;
-            this.lbl10kHz.Text = "10 kHz";
-            this.lbl10kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain7kHz
-            // 
-            this.lblGain7kHz.AntiAliasingEnabled = true;
-            this.lblGain7kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain7kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain7kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain7kHz.FontCollection = this.fontCollection;
-            this.lblGain7kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain7kHz.Location = new System.Drawing.Point(621, 423);
-            this.lblGain7kHz.Name = "lblGain7kHz";
-            this.lblGain7kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain7kHz.TabIndex = 49;
-            this.lblGain7kHz.Text = "0 dB";
-            this.lblGain7kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl7kHz
-            // 
-            this.lbl7kHz.AntiAliasingEnabled = true;
-            this.lbl7kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl7kHz.CustomFontName = "Museo Sans 500";
-            this.lbl7kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl7kHz.FontCollection = this.fontCollection;
-            this.lbl7kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl7kHz.Location = new System.Drawing.Point(621, 404);
-            this.lbl7kHz.Name = "lbl7kHz";
-            this.lbl7kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl7kHz.TabIndex = 48;
-            this.lbl7kHz.Text = "7 kHz";
-            this.lbl7kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain5kHz
-            // 
-            this.lblGain5kHz.AntiAliasingEnabled = true;
-            this.lblGain5kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain5kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain5kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain5kHz.FontCollection = this.fontCollection;
-            this.lblGain5kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain5kHz.Location = new System.Drawing.Point(577, 423);
-            this.lblGain5kHz.Name = "lblGain5kHz";
-            this.lblGain5kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain5kHz.TabIndex = 46;
-            this.lblGain5kHz.Text = "0 dB";
-            this.lblGain5kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl5kHz
-            // 
-            this.lbl5kHz.AntiAliasingEnabled = true;
-            this.lbl5kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl5kHz.CustomFontName = "Museo Sans 500";
-            this.lbl5kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl5kHz.FontCollection = this.fontCollection;
-            this.lbl5kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl5kHz.Location = new System.Drawing.Point(577, 404);
-            this.lbl5kHz.Name = "lbl5kHz";
-            this.lbl5kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl5kHz.TabIndex = 45;
-            this.lbl5kHz.Text = "5 kHz";
-            this.lbl5kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain3_5kHz
-            // 
-            this.lblGain3_5kHz.AntiAliasingEnabled = true;
-            this.lblGain3_5kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain3_5kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain3_5kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain3_5kHz.FontCollection = this.fontCollection;
-            this.lblGain3_5kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain3_5kHz.Location = new System.Drawing.Point(533, 423);
-            this.lblGain3_5kHz.Name = "lblGain3_5kHz";
-            this.lblGain3_5kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain3_5kHz.TabIndex = 43;
-            this.lblGain3_5kHz.Text = "0 dB";
-            this.lblGain3_5kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl3_5kHz
-            // 
-            this.lbl3_5kHz.AntiAliasingEnabled = true;
-            this.lbl3_5kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl3_5kHz.CustomFontName = "Museo Sans 500";
-            this.lbl3_5kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl3_5kHz.FontCollection = this.fontCollection;
-            this.lbl3_5kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl3_5kHz.Location = new System.Drawing.Point(533, 404);
-            this.lbl3_5kHz.Name = "lbl3_5kHz";
-            this.lbl3_5kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl3_5kHz.TabIndex = 42;
-            this.lbl3_5kHz.Text = "3.5 kHz";
-            this.lbl3_5kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain2_5kHz
-            // 
-            this.lblGain2_5kHz.AntiAliasingEnabled = true;
-            this.lblGain2_5kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain2_5kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain2_5kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain2_5kHz.FontCollection = this.fontCollection;
-            this.lblGain2_5kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain2_5kHz.Location = new System.Drawing.Point(489, 423);
-            this.lblGain2_5kHz.Name = "lblGain2_5kHz";
-            this.lblGain2_5kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain2_5kHz.TabIndex = 40;
-            this.lblGain2_5kHz.Text = "0 dB";
-            this.lblGain2_5kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl2_5kHz
-            // 
-            this.lbl2_5kHz.AntiAliasingEnabled = true;
-            this.lbl2_5kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl2_5kHz.CustomFontName = "Museo Sans 500";
-            this.lbl2_5kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl2_5kHz.FontCollection = this.fontCollection;
-            this.lbl2_5kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl2_5kHz.Location = new System.Drawing.Point(489, 404);
-            this.lbl2_5kHz.Name = "lbl2_5kHz";
-            this.lbl2_5kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl2_5kHz.TabIndex = 39;
-            this.lbl2_5kHz.Text = "2.5 kHz";
-            this.lbl2_5kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain1_8kHz
-            // 
-            this.lblGain1_8kHz.AntiAliasingEnabled = true;
-            this.lblGain1_8kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain1_8kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain1_8kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain1_8kHz.FontCollection = this.fontCollection;
-            this.lblGain1_8kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain1_8kHz.Location = new System.Drawing.Point(445, 423);
-            this.lblGain1_8kHz.Name = "lblGain1_8kHz";
-            this.lblGain1_8kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain1_8kHz.TabIndex = 37;
-            this.lblGain1_8kHz.Text = "0 dB";
-            this.lblGain1_8kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl1_8kHz
-            // 
-            this.lbl1_8kHz.AntiAliasingEnabled = true;
-            this.lbl1_8kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl1_8kHz.CustomFontName = "Museo Sans 500";
-            this.lbl1_8kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1_8kHz.FontCollection = this.fontCollection;
-            this.lbl1_8kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl1_8kHz.Location = new System.Drawing.Point(445, 404);
-            this.lbl1_8kHz.Name = "lbl1_8kHz";
-            this.lbl1_8kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl1_8kHz.TabIndex = 36;
-            this.lbl1_8kHz.Text = "1.8 kHz";
-            this.lbl1_8kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain1_2kHz
-            // 
-            this.lblGain1_2kHz.AntiAliasingEnabled = true;
-            this.lblGain1_2kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain1_2kHz.CustomFontName = "Museo Sans 500";
-            this.lblGain1_2kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain1_2kHz.FontCollection = this.fontCollection;
-            this.lblGain1_2kHz.ForeColor = System.Drawing.Color.White;
-            this.lblGain1_2kHz.Location = new System.Drawing.Point(401, 423);
-            this.lblGain1_2kHz.Name = "lblGain1_2kHz";
-            this.lblGain1_2kHz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain1_2kHz.TabIndex = 34;
-            this.lblGain1_2kHz.Text = "0 dB";
-            this.lblGain1_2kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl1_2kHz
-            // 
-            this.lbl1_2kHz.AntiAliasingEnabled = true;
-            this.lbl1_2kHz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl1_2kHz.CustomFontName = "Museo Sans 500";
-            this.lbl1_2kHz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1_2kHz.FontCollection = this.fontCollection;
-            this.lbl1_2kHz.ForeColor = System.Drawing.Color.White;
-            this.lbl1_2kHz.Location = new System.Drawing.Point(401, 404);
-            this.lbl1_2kHz.Name = "lbl1_2kHz";
-            this.lbl1_2kHz.Size = new System.Drawing.Size(48, 19);
-            this.lbl1_2kHz.TabIndex = 33;
-            this.lbl1_2kHz.Text = "1.2 kHz";
-            this.lbl1_2kHz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain880Hz
-            // 
-            this.lblGain880Hz.AntiAliasingEnabled = true;
-            this.lblGain880Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain880Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain880Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain880Hz.FontCollection = this.fontCollection;
-            this.lblGain880Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain880Hz.Location = new System.Drawing.Point(357, 423);
-            this.lblGain880Hz.Name = "lblGain880Hz";
-            this.lblGain880Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain880Hz.TabIndex = 31;
-            this.lblGain880Hz.Text = "0 dB";
-            this.lblGain880Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl880Hz
-            // 
-            this.lbl880Hz.AntiAliasingEnabled = true;
-            this.lbl880Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl880Hz.CustomFontName = "Museo Sans 500";
-            this.lbl880Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl880Hz.FontCollection = this.fontCollection;
-            this.lbl880Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl880Hz.Location = new System.Drawing.Point(357, 404);
-            this.lbl880Hz.Name = "lbl880Hz";
-            this.lbl880Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl880Hz.TabIndex = 30;
-            this.lbl880Hz.Text = "880 Hz";
-            this.lbl880Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain622Hz
-            // 
-            this.lblGain622Hz.AntiAliasingEnabled = true;
-            this.lblGain622Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain622Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain622Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain622Hz.FontCollection = this.fontCollection;
-            this.lblGain622Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain622Hz.Location = new System.Drawing.Point(313, 423);
-            this.lblGain622Hz.Name = "lblGain622Hz";
-            this.lblGain622Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain622Hz.TabIndex = 28;
-            this.lblGain622Hz.Text = "0 dB";
-            this.lblGain622Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl622Hz
-            // 
-            this.lbl622Hz.AntiAliasingEnabled = true;
-            this.lbl622Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl622Hz.CustomFontName = "Museo Sans 500";
-            this.lbl622Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl622Hz.FontCollection = this.fontCollection;
-            this.lbl622Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl622Hz.Location = new System.Drawing.Point(313, 404);
-            this.lbl622Hz.Name = "lbl622Hz";
-            this.lbl622Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl622Hz.TabIndex = 27;
-            this.lbl622Hz.Text = "622 Hz";
-            this.lbl622Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain440Hz
-            // 
-            this.lblGain440Hz.AntiAliasingEnabled = true;
-            this.lblGain440Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain440Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain440Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain440Hz.FontCollection = this.fontCollection;
-            this.lblGain440Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain440Hz.Location = new System.Drawing.Point(269, 423);
-            this.lblGain440Hz.Name = "lblGain440Hz";
-            this.lblGain440Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain440Hz.TabIndex = 25;
-            this.lblGain440Hz.Text = "0 dB";
-            this.lblGain440Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl440Hz
-            // 
-            this.lbl440Hz.AntiAliasingEnabled = true;
-            this.lbl440Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl440Hz.CustomFontName = "Museo Sans 500";
-            this.lbl440Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl440Hz.FontCollection = this.fontCollection;
-            this.lbl440Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl440Hz.Location = new System.Drawing.Point(269, 404);
-            this.lbl440Hz.Name = "lbl440Hz";
-            this.lbl440Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl440Hz.TabIndex = 24;
-            this.lbl440Hz.Text = "440 Hz";
-            this.lbl440Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain311Hz
-            // 
-            this.lblGain311Hz.AntiAliasingEnabled = true;
-            this.lblGain311Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain311Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain311Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain311Hz.FontCollection = this.fontCollection;
-            this.lblGain311Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain311Hz.Location = new System.Drawing.Point(225, 423);
-            this.lblGain311Hz.Name = "lblGain311Hz";
-            this.lblGain311Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain311Hz.TabIndex = 22;
-            this.lblGain311Hz.Text = "0 dB";
-            this.lblGain311Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl311Hz
-            // 
-            this.lbl311Hz.AntiAliasingEnabled = true;
-            this.lbl311Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl311Hz.CustomFontName = "Museo Sans 500";
-            this.lbl311Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl311Hz.FontCollection = this.fontCollection;
-            this.lbl311Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl311Hz.Location = new System.Drawing.Point(225, 404);
-            this.lbl311Hz.Name = "lbl311Hz";
-            this.lbl311Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl311Hz.TabIndex = 21;
-            this.lbl311Hz.Text = "311 Hz";
-            this.lbl311Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain220Hz
-            // 
-            this.lblGain220Hz.AntiAliasingEnabled = true;
-            this.lblGain220Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain220Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain220Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain220Hz.FontCollection = this.fontCollection;
-            this.lblGain220Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain220Hz.Location = new System.Drawing.Point(181, 423);
-            this.lblGain220Hz.Name = "lblGain220Hz";
-            this.lblGain220Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain220Hz.TabIndex = 19;
-            this.lblGain220Hz.Text = "0 dB";
-            this.lblGain220Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl220Hz
-            // 
-            this.lbl220Hz.AntiAliasingEnabled = true;
-            this.lbl220Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl220Hz.CustomFontName = "Museo Sans 500";
-            this.lbl220Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl220Hz.FontCollection = this.fontCollection;
-            this.lbl220Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl220Hz.Location = new System.Drawing.Point(181, 404);
-            this.lbl220Hz.Name = "lbl220Hz";
-            this.lbl220Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl220Hz.TabIndex = 18;
-            this.lbl220Hz.Text = "220 Hz";
-            this.lbl220Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain156Hz
-            // 
-            this.lblGain156Hz.AntiAliasingEnabled = true;
-            this.lblGain156Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain156Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain156Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain156Hz.FontCollection = this.fontCollection;
-            this.lblGain156Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain156Hz.Location = new System.Drawing.Point(137, 423);
-            this.lblGain156Hz.Name = "lblGain156Hz";
-            this.lblGain156Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain156Hz.TabIndex = 16;
-            this.lblGain156Hz.Text = "0 dB";
-            this.lblGain156Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl156Hz
-            // 
-            this.lbl156Hz.AntiAliasingEnabled = true;
-            this.lbl156Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl156Hz.CustomFontName = "Museo Sans 500";
-            this.lbl156Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl156Hz.FontCollection = this.fontCollection;
-            this.lbl156Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl156Hz.Location = new System.Drawing.Point(137, 404);
-            this.lbl156Hz.Name = "lbl156Hz";
-            this.lbl156Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl156Hz.TabIndex = 15;
-            this.lbl156Hz.Text = "156 Hz";
-            this.lbl156Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain110Hz
-            // 
-            this.lblGain110Hz.AntiAliasingEnabled = true;
-            this.lblGain110Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain110Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain110Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain110Hz.FontCollection = this.fontCollection;
-            this.lblGain110Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain110Hz.Location = new System.Drawing.Point(93, 423);
-            this.lblGain110Hz.Name = "lblGain110Hz";
-            this.lblGain110Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain110Hz.TabIndex = 13;
-            this.lblGain110Hz.Text = "0 dB";
-            this.lblGain110Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl110Hz
-            // 
-            this.lbl110Hz.AntiAliasingEnabled = true;
-            this.lbl110Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl110Hz.CustomFontName = "Museo Sans 500";
-            this.lbl110Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl110Hz.FontCollection = this.fontCollection;
-            this.lbl110Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl110Hz.Location = new System.Drawing.Point(93, 404);
-            this.lbl110Hz.Name = "lbl110Hz";
-            this.lbl110Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl110Hz.TabIndex = 12;
-            this.lbl110Hz.Text = "110 Hz";
-            this.lbl110Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain77Hz
-            // 
-            this.lblGain77Hz.AntiAliasingEnabled = true;
-            this.lblGain77Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain77Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain77Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain77Hz.FontCollection = this.fontCollection;
-            this.lblGain77Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain77Hz.Location = new System.Drawing.Point(49, 423);
-            this.lblGain77Hz.Name = "lblGain77Hz";
-            this.lblGain77Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain77Hz.TabIndex = 10;
-            this.lblGain77Hz.Text = "0 dB";
-            this.lblGain77Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl77Hz
-            // 
-            this.lbl77Hz.AntiAliasingEnabled = true;
-            this.lbl77Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl77Hz.CustomFontName = "Museo Sans 500";
-            this.lbl77Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl77Hz.FontCollection = this.fontCollection;
-            this.lbl77Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl77Hz.Location = new System.Drawing.Point(49, 404);
-            this.lbl77Hz.Name = "lbl77Hz";
-            this.lbl77Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl77Hz.TabIndex = 9;
-            this.lbl77Hz.Text = "77 Hz";
-            this.lbl77Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblGain55Hz
-            // 
-            this.lblGain55Hz.AntiAliasingEnabled = true;
-            this.lblGain55Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain55Hz.CustomFontName = "Museo Sans 500";
-            this.lblGain55Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain55Hz.FontCollection = this.fontCollection;
-            this.lblGain55Hz.ForeColor = System.Drawing.Color.White;
-            this.lblGain55Hz.Location = new System.Drawing.Point(6, 423);
-            this.lblGain55Hz.Name = "lblGain55Hz";
-            this.lblGain55Hz.Size = new System.Drawing.Size(48, 19);
-            this.lblGain55Hz.TabIndex = 7;
-            this.lblGain55Hz.Text = "0 dB";
-            this.lblGain55Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl55Hz
-            // 
-            this.lbl55Hz.AntiAliasingEnabled = true;
-            this.lbl55Hz.BackColor = System.Drawing.Color.Transparent;
-            this.lbl55Hz.CustomFontName = "Museo Sans 500";
-            this.lbl55Hz.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl55Hz.FontCollection = this.fontCollection;
-            this.lbl55Hz.ForeColor = System.Drawing.Color.White;
-            this.lbl55Hz.Location = new System.Drawing.Point(6, 404);
-            this.lbl55Hz.Name = "lbl55Hz";
-            this.lbl55Hz.Size = new System.Drawing.Size(48, 19);
-            this.lbl55Hz.TabIndex = 6;
-            this.lbl55Hz.Text = "55 Hz";
-            this.lbl55Hz.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // lbl17
+            // 
+            this.lbl17.AntiAliasingEnabled = true;
+            this.lbl17.BackColor = System.Drawing.Color.Transparent;
+            this.lbl17.CustomFontName = "Museo Sans 500";
+            this.lbl17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl17.FontCollection = this.fontCollection;
+            this.lbl17.ForeColor = System.Drawing.Color.White;
+            this.lbl17.Location = new System.Drawing.Point(753, 404);
+            this.lbl17.Name = "lbl17";
+            this.lbl17.Size = new System.Drawing.Size(48, 19);
+            this.lbl17.TabIndex = 57;
+            this.lbl17.Text = "20 kHz";
+            this.lbl17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain16
+            // 
+            this.lblGain16.AntiAliasingEnabled = true;
+            this.lblGain16.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain16.CustomFontName = "Museo Sans 500";
+            this.lblGain16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain16.FontCollection = this.fontCollection;
+            this.lblGain16.ForeColor = System.Drawing.Color.White;
+            this.lblGain16.Location = new System.Drawing.Point(709, 423);
+            this.lblGain16.Name = "lblGain16";
+            this.lblGain16.Size = new System.Drawing.Size(48, 19);
+            this.lblGain16.TabIndex = 55;
+            this.lblGain16.Text = "0 dB";
+            this.lblGain16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl16
+            // 
+            this.lbl16.AntiAliasingEnabled = true;
+            this.lbl16.BackColor = System.Drawing.Color.Transparent;
+            this.lbl16.CustomFontName = "Museo Sans 500";
+            this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl16.FontCollection = this.fontCollection;
+            this.lbl16.ForeColor = System.Drawing.Color.White;
+            this.lbl16.Location = new System.Drawing.Point(709, 404);
+            this.lbl16.Name = "lbl16";
+            this.lbl16.Size = new System.Drawing.Size(48, 19);
+            this.lbl16.TabIndex = 54;
+            this.lbl16.Text = "14 kHz";
+            this.lbl16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain15
+            // 
+            this.lblGain15.AntiAliasingEnabled = true;
+            this.lblGain15.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain15.CustomFontName = "Museo Sans 500";
+            this.lblGain15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain15.FontCollection = this.fontCollection;
+            this.lblGain15.ForeColor = System.Drawing.Color.White;
+            this.lblGain15.Location = new System.Drawing.Point(665, 423);
+            this.lblGain15.Name = "lblGain15";
+            this.lblGain15.Size = new System.Drawing.Size(48, 19);
+            this.lblGain15.TabIndex = 52;
+            this.lblGain15.Text = "0 dB";
+            this.lblGain15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl15
+            // 
+            this.lbl15.AntiAliasingEnabled = true;
+            this.lbl15.BackColor = System.Drawing.Color.Transparent;
+            this.lbl15.CustomFontName = "Museo Sans 500";
+            this.lbl15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl15.FontCollection = this.fontCollection;
+            this.lbl15.ForeColor = System.Drawing.Color.White;
+            this.lbl15.Location = new System.Drawing.Point(665, 404);
+            this.lbl15.Name = "lbl15";
+            this.lbl15.Size = new System.Drawing.Size(48, 19);
+            this.lbl15.TabIndex = 51;
+            this.lbl15.Text = "10 kHz";
+            this.lbl15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain14
+            // 
+            this.lblGain14.AntiAliasingEnabled = true;
+            this.lblGain14.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain14.CustomFontName = "Museo Sans 500";
+            this.lblGain14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain14.FontCollection = this.fontCollection;
+            this.lblGain14.ForeColor = System.Drawing.Color.White;
+            this.lblGain14.Location = new System.Drawing.Point(621, 423);
+            this.lblGain14.Name = "lblGain14";
+            this.lblGain14.Size = new System.Drawing.Size(48, 19);
+            this.lblGain14.TabIndex = 49;
+            this.lblGain14.Text = "0 dB";
+            this.lblGain14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl14
+            // 
+            this.lbl14.AntiAliasingEnabled = true;
+            this.lbl14.BackColor = System.Drawing.Color.Transparent;
+            this.lbl14.CustomFontName = "Museo Sans 500";
+            this.lbl14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl14.FontCollection = this.fontCollection;
+            this.lbl14.ForeColor = System.Drawing.Color.White;
+            this.lbl14.Location = new System.Drawing.Point(621, 404);
+            this.lbl14.Name = "lbl14";
+            this.lbl14.Size = new System.Drawing.Size(48, 19);
+            this.lbl14.TabIndex = 48;
+            this.lbl14.Text = "7 kHz";
+            this.lbl14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain13
+            // 
+            this.lblGain13.AntiAliasingEnabled = true;
+            this.lblGain13.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain13.CustomFontName = "Museo Sans 500";
+            this.lblGain13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain13.FontCollection = this.fontCollection;
+            this.lblGain13.ForeColor = System.Drawing.Color.White;
+            this.lblGain13.Location = new System.Drawing.Point(577, 423);
+            this.lblGain13.Name = "lblGain13";
+            this.lblGain13.Size = new System.Drawing.Size(48, 19);
+            this.lblGain13.TabIndex = 46;
+            this.lblGain13.Text = "0 dB";
+            this.lblGain13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl13
+            // 
+            this.lbl13.AntiAliasingEnabled = true;
+            this.lbl13.BackColor = System.Drawing.Color.Transparent;
+            this.lbl13.CustomFontName = "Museo Sans 500";
+            this.lbl13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl13.FontCollection = this.fontCollection;
+            this.lbl13.ForeColor = System.Drawing.Color.White;
+            this.lbl13.Location = new System.Drawing.Point(577, 404);
+            this.lbl13.Name = "lbl13";
+            this.lbl13.Size = new System.Drawing.Size(48, 19);
+            this.lbl13.TabIndex = 45;
+            this.lbl13.Text = "5 kHz";
+            this.lbl13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain12
+            // 
+            this.lblGain12.AntiAliasingEnabled = true;
+            this.lblGain12.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain12.CustomFontName = "Museo Sans 500";
+            this.lblGain12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain12.FontCollection = this.fontCollection;
+            this.lblGain12.ForeColor = System.Drawing.Color.White;
+            this.lblGain12.Location = new System.Drawing.Point(533, 423);
+            this.lblGain12.Name = "lblGain12";
+            this.lblGain12.Size = new System.Drawing.Size(48, 19);
+            this.lblGain12.TabIndex = 43;
+            this.lblGain12.Text = "0 dB";
+            this.lblGain12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl12
+            // 
+            this.lbl12.AntiAliasingEnabled = true;
+            this.lbl12.BackColor = System.Drawing.Color.Transparent;
+            this.lbl12.CustomFontName = "Museo Sans 500";
+            this.lbl12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl12.FontCollection = this.fontCollection;
+            this.lbl12.ForeColor = System.Drawing.Color.White;
+            this.lbl12.Location = new System.Drawing.Point(533, 404);
+            this.lbl12.Name = "lbl12";
+            this.lbl12.Size = new System.Drawing.Size(48, 19);
+            this.lbl12.TabIndex = 42;
+            this.lbl12.Text = "3.5 kHz";
+            this.lbl12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain11
+            // 
+            this.lblGain11.AntiAliasingEnabled = true;
+            this.lblGain11.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain11.CustomFontName = "Museo Sans 500";
+            this.lblGain11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain11.FontCollection = this.fontCollection;
+            this.lblGain11.ForeColor = System.Drawing.Color.White;
+            this.lblGain11.Location = new System.Drawing.Point(489, 423);
+            this.lblGain11.Name = "lblGain11";
+            this.lblGain11.Size = new System.Drawing.Size(48, 19);
+            this.lblGain11.TabIndex = 40;
+            this.lblGain11.Text = "0 dB";
+            this.lblGain11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl11
+            // 
+            this.lbl11.AntiAliasingEnabled = true;
+            this.lbl11.BackColor = System.Drawing.Color.Transparent;
+            this.lbl11.CustomFontName = "Museo Sans 500";
+            this.lbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl11.FontCollection = this.fontCollection;
+            this.lbl11.ForeColor = System.Drawing.Color.White;
+            this.lbl11.Location = new System.Drawing.Point(489, 404);
+            this.lbl11.Name = "lbl11";
+            this.lbl11.Size = new System.Drawing.Size(48, 19);
+            this.lbl11.TabIndex = 39;
+            this.lbl11.Text = "2.5 kHz";
+            this.lbl11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain10
+            // 
+            this.lblGain10.AntiAliasingEnabled = true;
+            this.lblGain10.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain10.CustomFontName = "Museo Sans 500";
+            this.lblGain10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain10.FontCollection = this.fontCollection;
+            this.lblGain10.ForeColor = System.Drawing.Color.White;
+            this.lblGain10.Location = new System.Drawing.Point(445, 423);
+            this.lblGain10.Name = "lblGain10";
+            this.lblGain10.Size = new System.Drawing.Size(48, 19);
+            this.lblGain10.TabIndex = 37;
+            this.lblGain10.Text = "0 dB";
+            this.lblGain10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl10
+            // 
+            this.lbl10.AntiAliasingEnabled = true;
+            this.lbl10.BackColor = System.Drawing.Color.Transparent;
+            this.lbl10.CustomFontName = "Museo Sans 500";
+            this.lbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl10.FontCollection = this.fontCollection;
+            this.lbl10.ForeColor = System.Drawing.Color.White;
+            this.lbl10.Location = new System.Drawing.Point(445, 404);
+            this.lbl10.Name = "lbl10";
+            this.lbl10.Size = new System.Drawing.Size(48, 19);
+            this.lbl10.TabIndex = 36;
+            this.lbl10.Text = "1.8 kHz";
+            this.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain9
+            // 
+            this.lblGain9.AntiAliasingEnabled = true;
+            this.lblGain9.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain9.CustomFontName = "Museo Sans 500";
+            this.lblGain9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain9.FontCollection = this.fontCollection;
+            this.lblGain9.ForeColor = System.Drawing.Color.White;
+            this.lblGain9.Location = new System.Drawing.Point(401, 423);
+            this.lblGain9.Name = "lblGain9";
+            this.lblGain9.Size = new System.Drawing.Size(48, 19);
+            this.lblGain9.TabIndex = 34;
+            this.lblGain9.Text = "0 dB";
+            this.lblGain9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl9
+            // 
+            this.lbl9.AntiAliasingEnabled = true;
+            this.lbl9.BackColor = System.Drawing.Color.Transparent;
+            this.lbl9.CustomFontName = "Museo Sans 500";
+            this.lbl9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl9.FontCollection = this.fontCollection;
+            this.lbl9.ForeColor = System.Drawing.Color.White;
+            this.lbl9.Location = new System.Drawing.Point(401, 404);
+            this.lbl9.Name = "lbl9";
+            this.lbl9.Size = new System.Drawing.Size(48, 19);
+            this.lbl9.TabIndex = 33;
+            this.lbl9.Text = "1.2 kHz";
+            this.lbl9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain8
+            // 
+            this.lblGain8.AntiAliasingEnabled = true;
+            this.lblGain8.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain8.CustomFontName = "Museo Sans 500";
+            this.lblGain8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain8.FontCollection = this.fontCollection;
+            this.lblGain8.ForeColor = System.Drawing.Color.White;
+            this.lblGain8.Location = new System.Drawing.Point(357, 423);
+            this.lblGain8.Name = "lblGain8";
+            this.lblGain8.Size = new System.Drawing.Size(48, 19);
+            this.lblGain8.TabIndex = 31;
+            this.lblGain8.Text = "0 dB";
+            this.lblGain8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl8
+            // 
+            this.lbl8.AntiAliasingEnabled = true;
+            this.lbl8.BackColor = System.Drawing.Color.Transparent;
+            this.lbl8.CustomFontName = "Museo Sans 500";
+            this.lbl8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl8.FontCollection = this.fontCollection;
+            this.lbl8.ForeColor = System.Drawing.Color.White;
+            this.lbl8.Location = new System.Drawing.Point(357, 404);
+            this.lbl8.Name = "lbl8";
+            this.lbl8.Size = new System.Drawing.Size(48, 19);
+            this.lbl8.TabIndex = 30;
+            this.lbl8.Text = "880 Hz";
+            this.lbl8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain7
+            // 
+            this.lblGain7.AntiAliasingEnabled = true;
+            this.lblGain7.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain7.CustomFontName = "Museo Sans 500";
+            this.lblGain7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain7.FontCollection = this.fontCollection;
+            this.lblGain7.ForeColor = System.Drawing.Color.White;
+            this.lblGain7.Location = new System.Drawing.Point(313, 423);
+            this.lblGain7.Name = "lblGain7";
+            this.lblGain7.Size = new System.Drawing.Size(48, 19);
+            this.lblGain7.TabIndex = 28;
+            this.lblGain7.Text = "0 dB";
+            this.lblGain7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl7
+            // 
+            this.lbl7.AntiAliasingEnabled = true;
+            this.lbl7.BackColor = System.Drawing.Color.Transparent;
+            this.lbl7.CustomFontName = "Museo Sans 500";
+            this.lbl7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl7.FontCollection = this.fontCollection;
+            this.lbl7.ForeColor = System.Drawing.Color.White;
+            this.lbl7.Location = new System.Drawing.Point(313, 404);
+            this.lbl7.Name = "lbl7";
+            this.lbl7.Size = new System.Drawing.Size(48, 19);
+            this.lbl7.TabIndex = 27;
+            this.lbl7.Text = "622 Hz";
+            this.lbl7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain6
+            // 
+            this.lblGain6.AntiAliasingEnabled = true;
+            this.lblGain6.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain6.CustomFontName = "Museo Sans 500";
+            this.lblGain6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain6.FontCollection = this.fontCollection;
+            this.lblGain6.ForeColor = System.Drawing.Color.White;
+            this.lblGain6.Location = new System.Drawing.Point(269, 423);
+            this.lblGain6.Name = "lblGain6";
+            this.lblGain6.Size = new System.Drawing.Size(48, 19);
+            this.lblGain6.TabIndex = 25;
+            this.lblGain6.Text = "0 dB";
+            this.lblGain6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl6
+            // 
+            this.lbl6.AntiAliasingEnabled = true;
+            this.lbl6.BackColor = System.Drawing.Color.Transparent;
+            this.lbl6.CustomFontName = "Museo Sans 500";
+            this.lbl6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl6.FontCollection = this.fontCollection;
+            this.lbl6.ForeColor = System.Drawing.Color.White;
+            this.lbl6.Location = new System.Drawing.Point(269, 404);
+            this.lbl6.Name = "lbl6";
+            this.lbl6.Size = new System.Drawing.Size(48, 19);
+            this.lbl6.TabIndex = 24;
+            this.lbl6.Text = "440 Hz";
+            this.lbl6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain5
+            // 
+            this.lblGain5.AntiAliasingEnabled = true;
+            this.lblGain5.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain5.CustomFontName = "Museo Sans 500";
+            this.lblGain5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain5.FontCollection = this.fontCollection;
+            this.lblGain5.ForeColor = System.Drawing.Color.White;
+            this.lblGain5.Location = new System.Drawing.Point(225, 423);
+            this.lblGain5.Name = "lblGain5";
+            this.lblGain5.Size = new System.Drawing.Size(48, 19);
+            this.lblGain5.TabIndex = 22;
+            this.lblGain5.Text = "0 dB";
+            this.lblGain5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl5
+            // 
+            this.lbl5.AntiAliasingEnabled = true;
+            this.lbl5.BackColor = System.Drawing.Color.Transparent;
+            this.lbl5.CustomFontName = "Museo Sans 500";
+            this.lbl5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl5.FontCollection = this.fontCollection;
+            this.lbl5.ForeColor = System.Drawing.Color.White;
+            this.lbl5.Location = new System.Drawing.Point(225, 404);
+            this.lbl5.Name = "lbl5";
+            this.lbl5.Size = new System.Drawing.Size(48, 19);
+            this.lbl5.TabIndex = 21;
+            this.lbl5.Text = "311 Hz";
+            this.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain4
+            // 
+            this.lblGain4.AntiAliasingEnabled = true;
+            this.lblGain4.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain4.CustomFontName = "Museo Sans 500";
+            this.lblGain4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain4.FontCollection = this.fontCollection;
+            this.lblGain4.ForeColor = System.Drawing.Color.White;
+            this.lblGain4.Location = new System.Drawing.Point(181, 423);
+            this.lblGain4.Name = "lblGain4";
+            this.lblGain4.Size = new System.Drawing.Size(48, 19);
+            this.lblGain4.TabIndex = 19;
+            this.lblGain4.Text = "0 dB";
+            this.lblGain4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl4
+            // 
+            this.lbl4.AntiAliasingEnabled = true;
+            this.lbl4.BackColor = System.Drawing.Color.Transparent;
+            this.lbl4.CustomFontName = "Museo Sans 500";
+            this.lbl4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl4.FontCollection = this.fontCollection;
+            this.lbl4.ForeColor = System.Drawing.Color.White;
+            this.lbl4.Location = new System.Drawing.Point(181, 404);
+            this.lbl4.Name = "lbl4";
+            this.lbl4.Size = new System.Drawing.Size(48, 19);
+            this.lbl4.TabIndex = 18;
+            this.lbl4.Text = "220 Hz";
+            this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain3
+            // 
+            this.lblGain3.AntiAliasingEnabled = true;
+            this.lblGain3.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain3.CustomFontName = "Museo Sans 500";
+            this.lblGain3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain3.FontCollection = this.fontCollection;
+            this.lblGain3.ForeColor = System.Drawing.Color.White;
+            this.lblGain3.Location = new System.Drawing.Point(137, 423);
+            this.lblGain3.Name = "lblGain3";
+            this.lblGain3.Size = new System.Drawing.Size(48, 19);
+            this.lblGain3.TabIndex = 16;
+            this.lblGain3.Text = "0 dB";
+            this.lblGain3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl3
+            // 
+            this.lbl3.AntiAliasingEnabled = true;
+            this.lbl3.BackColor = System.Drawing.Color.Transparent;
+            this.lbl3.CustomFontName = "Museo Sans 500";
+            this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl3.FontCollection = this.fontCollection;
+            this.lbl3.ForeColor = System.Drawing.Color.White;
+            this.lbl3.Location = new System.Drawing.Point(137, 404);
+            this.lbl3.Name = "lbl3";
+            this.lbl3.Size = new System.Drawing.Size(48, 19);
+            this.lbl3.TabIndex = 15;
+            this.lbl3.Text = "156 Hz";
+            this.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain2
+            // 
+            this.lblGain2.AntiAliasingEnabled = true;
+            this.lblGain2.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain2.CustomFontName = "Museo Sans 500";
+            this.lblGain2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain2.FontCollection = this.fontCollection;
+            this.lblGain2.ForeColor = System.Drawing.Color.White;
+            this.lblGain2.Location = new System.Drawing.Point(93, 423);
+            this.lblGain2.Name = "lblGain2";
+            this.lblGain2.Size = new System.Drawing.Size(48, 19);
+            this.lblGain2.TabIndex = 13;
+            this.lblGain2.Text = "0 dB";
+            this.lblGain2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl2
+            // 
+            this.lbl2.AntiAliasingEnabled = true;
+            this.lbl2.BackColor = System.Drawing.Color.Transparent;
+            this.lbl2.CustomFontName = "Museo Sans 500";
+            this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl2.FontCollection = this.fontCollection;
+            this.lbl2.ForeColor = System.Drawing.Color.White;
+            this.lbl2.Location = new System.Drawing.Point(93, 404);
+            this.lbl2.Name = "lbl2";
+            this.lbl2.Size = new System.Drawing.Size(48, 19);
+            this.lbl2.TabIndex = 12;
+            this.lbl2.Text = "110 Hz";
+            this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain1
+            // 
+            this.lblGain1.AntiAliasingEnabled = true;
+            this.lblGain1.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain1.CustomFontName = "Museo Sans 500";
+            this.lblGain1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain1.FontCollection = this.fontCollection;
+            this.lblGain1.ForeColor = System.Drawing.Color.White;
+            this.lblGain1.Location = new System.Drawing.Point(49, 423);
+            this.lblGain1.Name = "lblGain1";
+            this.lblGain1.Size = new System.Drawing.Size(48, 19);
+            this.lblGain1.TabIndex = 10;
+            this.lblGain1.Text = "0 dB";
+            this.lblGain1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl1
+            // 
+            this.lbl1.AntiAliasingEnabled = true;
+            this.lbl1.BackColor = System.Drawing.Color.Transparent;
+            this.lbl1.CustomFontName = "Museo Sans 500";
+            this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1.FontCollection = this.fontCollection;
+            this.lbl1.ForeColor = System.Drawing.Color.White;
+            this.lbl1.Location = new System.Drawing.Point(49, 404);
+            this.lbl1.Name = "lbl1";
+            this.lbl1.Size = new System.Drawing.Size(48, 19);
+            this.lbl1.TabIndex = 9;
+            this.lbl1.Text = "77 Hz";
+            this.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGain0
+            // 
+            this.lblGain0.AntiAliasingEnabled = true;
+            this.lblGain0.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain0.CustomFontName = "Museo Sans 500";
+            this.lblGain0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGain0.FontCollection = this.fontCollection;
+            this.lblGain0.ForeColor = System.Drawing.Color.White;
+            this.lblGain0.Location = new System.Drawing.Point(6, 423);
+            this.lblGain0.Name = "lblGain0";
+            this.lblGain0.Size = new System.Drawing.Size(48, 19);
+            this.lblGain0.TabIndex = 7;
+            this.lblGain0.Text = "0 dB";
+            this.lblGain0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl0
+            // 
+            this.lbl0.AntiAliasingEnabled = true;
+            this.lbl0.BackColor = System.Drawing.Color.Transparent;
+            this.lbl0.CustomFontName = "Museo Sans 500";
+            this.lbl0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl0.FontCollection = this.fontCollection;
+            this.lbl0.ForeColor = System.Drawing.Color.White;
+            this.lbl0.Location = new System.Drawing.Point(6, 404);
+            this.lbl0.Name = "lbl0";
+            this.lbl0.Size = new System.Drawing.Size(48, 19);
+            this.lbl0.TabIndex = 6;
+            this.lbl0.Text = "55 Hz";
+            this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl0dB
             // 
@@ -691,33 +695,33 @@ namespace MPfm
             this.lbl0dB.Text = "  0 dB";
             this.lbl0dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lbl_3dB
+            // lbl_6dB
             // 
-            this.lbl_3dB.AntiAliasingEnabled = true;
-            this.lbl_3dB.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_3dB.CustomFontName = "Museo Sans 500";
-            this.lbl_3dB.FontCollection = this.fontCollection;
-            this.lbl_3dB.ForeColor = System.Drawing.Color.White;
-            this.lbl_3dB.Location = new System.Drawing.Point(800, 382);
-            this.lbl_3dB.Name = "lbl_3dB";
-            this.lbl_3dB.Size = new System.Drawing.Size(48, 19);
-            this.lbl_3dB.TabIndex = 60;
-            this.lbl_3dB.Text = "- 3 dB";
-            this.lbl_3dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_6dB.AntiAliasingEnabled = true;
+            this.lbl_6dB.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_6dB.CustomFontName = "Museo Sans 500";
+            this.lbl_6dB.FontCollection = this.fontCollection;
+            this.lbl_6dB.ForeColor = System.Drawing.Color.White;
+            this.lbl_6dB.Location = new System.Drawing.Point(800, 382);
+            this.lbl_6dB.Name = "lbl_6dB";
+            this.lbl_6dB.Size = new System.Drawing.Size(48, 19);
+            this.lbl_6dB.TabIndex = 60;
+            this.lbl_6dB.Text = "- 6 dB";
+            this.lbl_6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lbl3dB
+            // lbl6dB
             // 
-            this.lbl3dB.AntiAliasingEnabled = true;
-            this.lbl3dB.BackColor = System.Drawing.Color.Transparent;
-            this.lbl3dB.CustomFontName = "Museo Sans 500";
-            this.lbl3dB.FontCollection = this.fontCollection;
-            this.lbl3dB.ForeColor = System.Drawing.Color.White;
-            this.lbl3dB.Location = new System.Drawing.Point(800, 28);
-            this.lbl3dB.Name = "lbl3dB";
-            this.lbl3dB.Size = new System.Drawing.Size(48, 19);
-            this.lbl3dB.TabIndex = 61;
-            this.lbl3dB.Text = "+ 3 dB";
-            this.lbl3dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl6dB.AntiAliasingEnabled = true;
+            this.lbl6dB.BackColor = System.Drawing.Color.Transparent;
+            this.lbl6dB.CustomFontName = "Museo Sans 500";
+            this.lbl6dB.FontCollection = this.fontCollection;
+            this.lbl6dB.ForeColor = System.Drawing.Color.White;
+            this.lbl6dB.Location = new System.Drawing.Point(800, 28);
+            this.lbl6dB.Name = "lbl6dB";
+            this.lbl6dB.Size = new System.Drawing.Size(48, 19);
+            this.lbl6dB.TabIndex = 61;
+            this.lbl6dB.Text = "+ 6 dB";
+            this.lbl6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tableLayout
             // 
@@ -744,66 +748,66 @@ namespace MPfm
             this.panelEqualizer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelEqualizer.AntiAliasingEnabled = true;
-            this.panelEqualizer.Controls.Add(this.fader20kHz);
-            this.panelEqualizer.Controls.Add(this.fader14kHz);
-            this.panelEqualizer.Controls.Add(this.fader10kHz);
-            this.panelEqualizer.Controls.Add(this.fader7kHz);
-            this.panelEqualizer.Controls.Add(this.fader5kHz);
-            this.panelEqualizer.Controls.Add(this.fader3_5kHz);
-            this.panelEqualizer.Controls.Add(this.fader2_5kHz);
-            this.panelEqualizer.Controls.Add(this.fader1_8kHz);
-            this.panelEqualizer.Controls.Add(this.fader1_2kHz);
-            this.panelEqualizer.Controls.Add(this.fader880Hz);
-            this.panelEqualizer.Controls.Add(this.fader622Hz);
-            this.panelEqualizer.Controls.Add(this.fader440Hz);
-            this.panelEqualizer.Controls.Add(this.fader311Hz);
-            this.panelEqualizer.Controls.Add(this.fader220Hz);
-            this.panelEqualizer.Controls.Add(this.fader156Hz);
-            this.panelEqualizer.Controls.Add(this.fader110Hz);
-            this.panelEqualizer.Controls.Add(this.fader77Hz);
-            this.panelEqualizer.Controls.Add(this.fader55Hz);
+            this.panelEqualizer.Controls.Add(this.fader17);
+            this.panelEqualizer.Controls.Add(this.fader16);
+            this.panelEqualizer.Controls.Add(this.fader15);
+            this.panelEqualizer.Controls.Add(this.fader14);
+            this.panelEqualizer.Controls.Add(this.fader13);
+            this.panelEqualizer.Controls.Add(this.fader12);
+            this.panelEqualizer.Controls.Add(this.fader11);
+            this.panelEqualizer.Controls.Add(this.fader10);
+            this.panelEqualizer.Controls.Add(this.fader9);
+            this.panelEqualizer.Controls.Add(this.fader8);
+            this.panelEqualizer.Controls.Add(this.fader7);
+            this.panelEqualizer.Controls.Add(this.fader6);
+            this.panelEqualizer.Controls.Add(this.fader5);
+            this.panelEqualizer.Controls.Add(this.fader4);
+            this.panelEqualizer.Controls.Add(this.fader3);
+            this.panelEqualizer.Controls.Add(this.fader2);
+            this.panelEqualizer.Controls.Add(this.fader1);
+            this.panelEqualizer.Controls.Add(this.fader0);
             this.panelEqualizer.Controls.Add(this.panelPreset);
             this.panelEqualizer.Controls.Add(this.panelInformation);
             this.panelEqualizer.Controls.Add(this.btnClose);
-            this.panelEqualizer.Controls.Add(this.lbl3dB);
-            this.panelEqualizer.Controls.Add(this.lbl_3dB);
+            this.panelEqualizer.Controls.Add(this.lbl6dB);
+            this.panelEqualizer.Controls.Add(this.lbl_6dB);
             this.panelEqualizer.Controls.Add(this.lbl0dB);
-            this.panelEqualizer.Controls.Add(this.lbl55Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain20kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain55Hz);
-            this.panelEqualizer.Controls.Add(this.lbl20kHz);
-            this.panelEqualizer.Controls.Add(this.lbl77Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain14kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain77Hz);
-            this.panelEqualizer.Controls.Add(this.lbl14kHz);
-            this.panelEqualizer.Controls.Add(this.lbl110Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain10kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain110Hz);
-            this.panelEqualizer.Controls.Add(this.lbl10kHz);
-            this.panelEqualizer.Controls.Add(this.lbl156Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain7kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain156Hz);
-            this.panelEqualizer.Controls.Add(this.lbl7kHz);
-            this.panelEqualizer.Controls.Add(this.lbl220Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain5kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain220Hz);
-            this.panelEqualizer.Controls.Add(this.lbl5kHz);
-            this.panelEqualizer.Controls.Add(this.lbl311Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain3_5kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain311Hz);
-            this.panelEqualizer.Controls.Add(this.lbl3_5kHz);
-            this.panelEqualizer.Controls.Add(this.lbl440Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain2_5kHz);
-            this.panelEqualizer.Controls.Add(this.lblGain440Hz);
-            this.panelEqualizer.Controls.Add(this.lbl2_5kHz);
-            this.panelEqualizer.Controls.Add(this.lbl622Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain622Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain1_8kHz);
-            this.panelEqualizer.Controls.Add(this.lbl1_8kHz);
-            this.panelEqualizer.Controls.Add(this.lbl880Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain880Hz);
-            this.panelEqualizer.Controls.Add(this.lblGain1_2kHz);
-            this.panelEqualizer.Controls.Add(this.lbl1_2kHz);
+            this.panelEqualizer.Controls.Add(this.lbl0);
+            this.panelEqualizer.Controls.Add(this.lblGain17);
+            this.panelEqualizer.Controls.Add(this.lblGain0);
+            this.panelEqualizer.Controls.Add(this.lbl17);
+            this.panelEqualizer.Controls.Add(this.lbl1);
+            this.panelEqualizer.Controls.Add(this.lblGain16);
+            this.panelEqualizer.Controls.Add(this.lblGain1);
+            this.panelEqualizer.Controls.Add(this.lbl16);
+            this.panelEqualizer.Controls.Add(this.lbl2);
+            this.panelEqualizer.Controls.Add(this.lblGain15);
+            this.panelEqualizer.Controls.Add(this.lblGain2);
+            this.panelEqualizer.Controls.Add(this.lbl15);
+            this.panelEqualizer.Controls.Add(this.lbl3);
+            this.panelEqualizer.Controls.Add(this.lblGain14);
+            this.panelEqualizer.Controls.Add(this.lblGain3);
+            this.panelEqualizer.Controls.Add(this.lbl14);
+            this.panelEqualizer.Controls.Add(this.lbl4);
+            this.panelEqualizer.Controls.Add(this.lblGain13);
+            this.panelEqualizer.Controls.Add(this.lblGain4);
+            this.panelEqualizer.Controls.Add(this.lbl13);
+            this.panelEqualizer.Controls.Add(this.lbl5);
+            this.panelEqualizer.Controls.Add(this.lblGain12);
+            this.panelEqualizer.Controls.Add(this.lblGain5);
+            this.panelEqualizer.Controls.Add(this.lbl12);
+            this.panelEqualizer.Controls.Add(this.lbl6);
+            this.panelEqualizer.Controls.Add(this.lblGain11);
+            this.panelEqualizer.Controls.Add(this.lblGain6);
+            this.panelEqualizer.Controls.Add(this.lbl11);
+            this.panelEqualizer.Controls.Add(this.lbl7);
+            this.panelEqualizer.Controls.Add(this.lblGain7);
+            this.panelEqualizer.Controls.Add(this.lblGain10);
+            this.panelEqualizer.Controls.Add(this.lbl10);
+            this.panelEqualizer.Controls.Add(this.lbl8);
+            this.panelEqualizer.Controls.Add(this.lblGain8);
+            this.panelEqualizer.Controls.Add(this.lblGain9);
+            this.panelEqualizer.Controls.Add(this.lbl9);
             this.panelEqualizer.Controls.Add(this.panelZeroLine);
             this.panelEqualizer.ExpandedHeight = 450;
             this.panelEqualizer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -825,491 +829,491 @@ namespace MPfm
             this.panelEqualizer.Size = new System.Drawing.Size(993, 450);
             this.panelEqualizer.TabIndex = 26;
             // 
-            // fader20kHz
+            // fader17
             // 
-            this.fader20kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader20kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader20kHz.CustomFontName = null;
-            this.fader20kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader20kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader20kHz.FaderHeight = 30;
-            this.fader20kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader20kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader20kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader20kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader20kHz.FaderWidth = 12;
-            this.fader20kHz.FontCollection = this.fontCollection;
-            this.fader20kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader20kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader20kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader20kHz.Location = new System.Drawing.Point(764, 28);
-            this.fader20kHz.Maximum = 30;
-            this.fader20kHz.Minimum = -30;
-            this.fader20kHz.Name = "fader20kHz";
-            this.fader20kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader20kHz.TabIndex = 86;
-            this.fader20kHz.Tag = "20kHz";
-            this.fader20kHz.Text = "VolumeFader1";
-            this.fader20kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader17.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader17.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader17.CustomFontName = null;
+            this.fader17.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader17.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader17.FaderHeight = 30;
+            this.fader17.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader17.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader17.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader17.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader17.FaderWidth = 12;
+            this.fader17.FontCollection = this.fontCollection;
+            this.fader17.GradientColor1 = System.Drawing.Color.Black;
+            this.fader17.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader17.Location = new System.Drawing.Point(764, 28);
+            this.fader17.Maximum = 60;
+            this.fader17.Minimum = -60;
+            this.fader17.Name = "fader17";
+            this.fader17.Size = new System.Drawing.Size(26, 373);
+            this.fader17.TabIndex = 86;
+            this.fader17.Tag = "17";
+            this.fader17.Text = "VolumeFader1";
+            this.fader17.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader14kHz
+            // fader16
             // 
-            this.fader14kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader14kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader14kHz.CustomFontName = null;
-            this.fader14kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader14kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader14kHz.FaderHeight = 30;
-            this.fader14kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader14kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader14kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader14kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader14kHz.FaderWidth = 12;
-            this.fader14kHz.FontCollection = this.fontCollection;
-            this.fader14kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader14kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader14kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader14kHz.Location = new System.Drawing.Point(720, 28);
-            this.fader14kHz.Maximum = 30;
-            this.fader14kHz.Minimum = -30;
-            this.fader14kHz.Name = "fader14kHz";
-            this.fader14kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader14kHz.TabIndex = 85;
-            this.fader14kHz.Tag = "14kHz";
-            this.fader14kHz.Text = "VolumeFader1";
-            this.fader14kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader16.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader16.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader16.CustomFontName = null;
+            this.fader16.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader16.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader16.FaderHeight = 30;
+            this.fader16.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader16.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader16.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader16.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader16.FaderWidth = 12;
+            this.fader16.FontCollection = this.fontCollection;
+            this.fader16.GradientColor1 = System.Drawing.Color.Black;
+            this.fader16.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader16.Location = new System.Drawing.Point(720, 28);
+            this.fader16.Maximum = 60;
+            this.fader16.Minimum = -60;
+            this.fader16.Name = "fader16";
+            this.fader16.Size = new System.Drawing.Size(26, 373);
+            this.fader16.TabIndex = 85;
+            this.fader16.Tag = "16";
+            this.fader16.Text = "VolumeFader1";
+            this.fader16.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader10kHz
+            // fader15
             // 
-            this.fader10kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader10kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader10kHz.CustomFontName = null;
-            this.fader10kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader10kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader10kHz.FaderHeight = 30;
-            this.fader10kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader10kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader10kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader10kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader10kHz.FaderWidth = 12;
-            this.fader10kHz.FontCollection = this.fontCollection;
-            this.fader10kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader10kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader10kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader10kHz.Location = new System.Drawing.Point(676, 28);
-            this.fader10kHz.Maximum = 30;
-            this.fader10kHz.Minimum = -30;
-            this.fader10kHz.Name = "fader10kHz";
-            this.fader10kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader10kHz.TabIndex = 84;
-            this.fader10kHz.Tag = "10kHz";
-            this.fader10kHz.Text = "VolumeFader1";
-            this.fader10kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader15.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader15.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader15.CustomFontName = null;
+            this.fader15.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader15.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader15.FaderHeight = 30;
+            this.fader15.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader15.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader15.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader15.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader15.FaderWidth = 12;
+            this.fader15.FontCollection = this.fontCollection;
+            this.fader15.GradientColor1 = System.Drawing.Color.Black;
+            this.fader15.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader15.Location = new System.Drawing.Point(676, 28);
+            this.fader15.Maximum = 60;
+            this.fader15.Minimum = -60;
+            this.fader15.Name = "fader15";
+            this.fader15.Size = new System.Drawing.Size(26, 373);
+            this.fader15.TabIndex = 84;
+            this.fader15.Tag = "15";
+            this.fader15.Text = "VolumeFader1";
+            this.fader15.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader7kHz
+            // fader14
             // 
-            this.fader7kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader7kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader7kHz.CustomFontName = null;
-            this.fader7kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader7kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader7kHz.FaderHeight = 30;
-            this.fader7kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader7kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader7kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader7kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader7kHz.FaderWidth = 12;
-            this.fader7kHz.FontCollection = this.fontCollection;
-            this.fader7kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader7kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader7kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader7kHz.Location = new System.Drawing.Point(632, 28);
-            this.fader7kHz.Maximum = 30;
-            this.fader7kHz.Minimum = -30;
-            this.fader7kHz.Name = "fader7kHz";
-            this.fader7kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader7kHz.TabIndex = 83;
-            this.fader7kHz.Tag = "7kHz";
-            this.fader7kHz.Text = "VolumeFader1";
-            this.fader7kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader14.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader14.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader14.CustomFontName = null;
+            this.fader14.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader14.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader14.FaderHeight = 30;
+            this.fader14.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader14.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader14.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader14.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader14.FaderWidth = 12;
+            this.fader14.FontCollection = this.fontCollection;
+            this.fader14.GradientColor1 = System.Drawing.Color.Black;
+            this.fader14.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader14.Location = new System.Drawing.Point(632, 28);
+            this.fader14.Maximum = 60;
+            this.fader14.Minimum = -60;
+            this.fader14.Name = "fader14";
+            this.fader14.Size = new System.Drawing.Size(26, 373);
+            this.fader14.TabIndex = 83;
+            this.fader14.Tag = "14";
+            this.fader14.Text = "VolumeFader1";
+            this.fader14.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader5kHz
+            // fader13
             // 
-            this.fader5kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader5kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader5kHz.CustomFontName = null;
-            this.fader5kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader5kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader5kHz.FaderHeight = 30;
-            this.fader5kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader5kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader5kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader5kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader5kHz.FaderWidth = 12;
-            this.fader5kHz.FontCollection = this.fontCollection;
-            this.fader5kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader5kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader5kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader5kHz.Location = new System.Drawing.Point(588, 28);
-            this.fader5kHz.Maximum = 30;
-            this.fader5kHz.Minimum = -30;
-            this.fader5kHz.Name = "fader5kHz";
-            this.fader5kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader5kHz.TabIndex = 82;
-            this.fader5kHz.Tag = "5kHz";
-            this.fader5kHz.Text = "VolumeFader1";
-            this.fader5kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader13.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader13.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader13.CustomFontName = null;
+            this.fader13.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader13.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader13.FaderHeight = 30;
+            this.fader13.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader13.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader13.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader13.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader13.FaderWidth = 12;
+            this.fader13.FontCollection = this.fontCollection;
+            this.fader13.GradientColor1 = System.Drawing.Color.Black;
+            this.fader13.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader13.Location = new System.Drawing.Point(588, 28);
+            this.fader13.Maximum = 60;
+            this.fader13.Minimum = -60;
+            this.fader13.Name = "fader13";
+            this.fader13.Size = new System.Drawing.Size(26, 373);
+            this.fader13.TabIndex = 82;
+            this.fader13.Tag = "13";
+            this.fader13.Text = "VolumeFader1";
+            this.fader13.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader3_5kHz
+            // fader12
             // 
-            this.fader3_5kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader3_5kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader3_5kHz.CustomFontName = null;
-            this.fader3_5kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader3_5kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader3_5kHz.FaderHeight = 30;
-            this.fader3_5kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader3_5kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader3_5kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader3_5kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader3_5kHz.FaderWidth = 12;
-            this.fader3_5kHz.FontCollection = this.fontCollection;
-            this.fader3_5kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader3_5kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader3_5kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader3_5kHz.Location = new System.Drawing.Point(544, 28);
-            this.fader3_5kHz.Maximum = 30;
-            this.fader3_5kHz.Minimum = -30;
-            this.fader3_5kHz.Name = "fader3_5kHz";
-            this.fader3_5kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader3_5kHz.TabIndex = 81;
-            this.fader3_5kHz.Tag = "3_5kHz";
-            this.fader3_5kHz.Text = "VolumeFader1";
-            this.fader3_5kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader12.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader12.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader12.CustomFontName = null;
+            this.fader12.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader12.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader12.FaderHeight = 30;
+            this.fader12.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader12.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader12.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader12.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader12.FaderWidth = 12;
+            this.fader12.FontCollection = this.fontCollection;
+            this.fader12.GradientColor1 = System.Drawing.Color.Black;
+            this.fader12.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader12.Location = new System.Drawing.Point(544, 28);
+            this.fader12.Maximum = 60;
+            this.fader12.Minimum = -60;
+            this.fader12.Name = "fader12";
+            this.fader12.Size = new System.Drawing.Size(26, 373);
+            this.fader12.TabIndex = 81;
+            this.fader12.Tag = "12";
+            this.fader12.Text = "VolumeFader1";
+            this.fader12.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader2_5kHz
+            // fader11
             // 
-            this.fader2_5kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader2_5kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader2_5kHz.CustomFontName = null;
-            this.fader2_5kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader2_5kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader2_5kHz.FaderHeight = 30;
-            this.fader2_5kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader2_5kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader2_5kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader2_5kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader2_5kHz.FaderWidth = 12;
-            this.fader2_5kHz.FontCollection = this.fontCollection;
-            this.fader2_5kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader2_5kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader2_5kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader2_5kHz.Location = new System.Drawing.Point(500, 28);
-            this.fader2_5kHz.Maximum = 30;
-            this.fader2_5kHz.Minimum = -30;
-            this.fader2_5kHz.Name = "fader2_5kHz";
-            this.fader2_5kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader2_5kHz.TabIndex = 80;
-            this.fader2_5kHz.Tag = "2_5kHz";
-            this.fader2_5kHz.Text = "VolumeFader1";
-            this.fader2_5kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader11.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader11.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader11.CustomFontName = null;
+            this.fader11.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader11.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader11.FaderHeight = 30;
+            this.fader11.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader11.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader11.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader11.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader11.FaderWidth = 12;
+            this.fader11.FontCollection = this.fontCollection;
+            this.fader11.GradientColor1 = System.Drawing.Color.Black;
+            this.fader11.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader11.Location = new System.Drawing.Point(500, 28);
+            this.fader11.Maximum = 60;
+            this.fader11.Minimum = -60;
+            this.fader11.Name = "fader11";
+            this.fader11.Size = new System.Drawing.Size(26, 373);
+            this.fader11.TabIndex = 80;
+            this.fader11.Tag = "11";
+            this.fader11.Text = "VolumeFader1";
+            this.fader11.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader1_8kHz
+            // fader10
             // 
-            this.fader1_8kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader1_8kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader1_8kHz.CustomFontName = null;
-            this.fader1_8kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader1_8kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader1_8kHz.FaderHeight = 30;
-            this.fader1_8kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader1_8kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader1_8kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader1_8kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader1_8kHz.FaderWidth = 12;
-            this.fader1_8kHz.FontCollection = this.fontCollection;
-            this.fader1_8kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader1_8kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader1_8kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader1_8kHz.Location = new System.Drawing.Point(456, 28);
-            this.fader1_8kHz.Maximum = 30;
-            this.fader1_8kHz.Minimum = -30;
-            this.fader1_8kHz.Name = "fader1_8kHz";
-            this.fader1_8kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader1_8kHz.TabIndex = 79;
-            this.fader1_8kHz.Tag = "1_8kHz";
-            this.fader1_8kHz.Text = "VolumeFader1";
-            this.fader1_8kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader10.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader10.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader10.CustomFontName = null;
+            this.fader10.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader10.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader10.FaderHeight = 30;
+            this.fader10.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader10.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader10.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader10.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader10.FaderWidth = 12;
+            this.fader10.FontCollection = this.fontCollection;
+            this.fader10.GradientColor1 = System.Drawing.Color.Black;
+            this.fader10.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader10.Location = new System.Drawing.Point(456, 28);
+            this.fader10.Maximum = 60;
+            this.fader10.Minimum = -60;
+            this.fader10.Name = "fader10";
+            this.fader10.Size = new System.Drawing.Size(26, 373);
+            this.fader10.TabIndex = 79;
+            this.fader10.Tag = "10";
+            this.fader10.Text = "VolumeFader1";
+            this.fader10.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader1_2kHz
+            // fader9
             // 
-            this.fader1_2kHz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader1_2kHz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader1_2kHz.CustomFontName = null;
-            this.fader1_2kHz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader1_2kHz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader1_2kHz.FaderHeight = 30;
-            this.fader1_2kHz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader1_2kHz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader1_2kHz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader1_2kHz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader1_2kHz.FaderWidth = 12;
-            this.fader1_2kHz.FontCollection = this.fontCollection;
-            this.fader1_2kHz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader1_2kHz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader1_2kHz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader1_2kHz.Location = new System.Drawing.Point(412, 28);
-            this.fader1_2kHz.Maximum = 30;
-            this.fader1_2kHz.Minimum = -30;
-            this.fader1_2kHz.Name = "fader1_2kHz";
-            this.fader1_2kHz.Size = new System.Drawing.Size(26, 373);
-            this.fader1_2kHz.TabIndex = 78;
-            this.fader1_2kHz.Tag = "1_2kHz";
-            this.fader1_2kHz.Text = "VolumeFader1";
-            this.fader1_2kHz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader9.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader9.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader9.CustomFontName = null;
+            this.fader9.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader9.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader9.FaderHeight = 30;
+            this.fader9.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader9.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader9.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader9.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader9.FaderWidth = 12;
+            this.fader9.FontCollection = this.fontCollection;
+            this.fader9.GradientColor1 = System.Drawing.Color.Black;
+            this.fader9.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader9.Location = new System.Drawing.Point(412, 28);
+            this.fader9.Maximum = 60;
+            this.fader9.Minimum = -60;
+            this.fader9.Name = "fader9";
+            this.fader9.Size = new System.Drawing.Size(26, 373);
+            this.fader9.TabIndex = 78;
+            this.fader9.Tag = "9";
+            this.fader9.Text = "VolumeFader1";
+            this.fader9.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader880Hz
+            // fader8
             // 
-            this.fader880Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader880Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader880Hz.CustomFontName = null;
-            this.fader880Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader880Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader880Hz.FaderHeight = 30;
-            this.fader880Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader880Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader880Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader880Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader880Hz.FaderWidth = 12;
-            this.fader880Hz.FontCollection = this.fontCollection;
-            this.fader880Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader880Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader880Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader880Hz.Location = new System.Drawing.Point(368, 28);
-            this.fader880Hz.Maximum = 30;
-            this.fader880Hz.Minimum = -30;
-            this.fader880Hz.Name = "fader880Hz";
-            this.fader880Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader880Hz.TabIndex = 77;
-            this.fader880Hz.Tag = "880Hz";
-            this.fader880Hz.Text = "VolumeFader1";
-            this.fader880Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader8.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader8.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader8.CustomFontName = null;
+            this.fader8.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader8.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader8.FaderHeight = 30;
+            this.fader8.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader8.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader8.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader8.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader8.FaderWidth = 12;
+            this.fader8.FontCollection = this.fontCollection;
+            this.fader8.GradientColor1 = System.Drawing.Color.Black;
+            this.fader8.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader8.Location = new System.Drawing.Point(368, 28);
+            this.fader8.Maximum = 60;
+            this.fader8.Minimum = -60;
+            this.fader8.Name = "fader8";
+            this.fader8.Size = new System.Drawing.Size(26, 373);
+            this.fader8.TabIndex = 77;
+            this.fader8.Tag = "8";
+            this.fader8.Text = "VolumeFader1";
+            this.fader8.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader622Hz
+            // fader7
             // 
-            this.fader622Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader622Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader622Hz.CustomFontName = null;
-            this.fader622Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader622Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader622Hz.FaderHeight = 30;
-            this.fader622Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader622Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader622Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader622Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader622Hz.FaderWidth = 12;
-            this.fader622Hz.FontCollection = this.fontCollection;
-            this.fader622Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader622Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader622Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader622Hz.Location = new System.Drawing.Point(324, 28);
-            this.fader622Hz.Maximum = 30;
-            this.fader622Hz.Minimum = -30;
-            this.fader622Hz.Name = "fader622Hz";
-            this.fader622Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader622Hz.TabIndex = 76;
-            this.fader622Hz.Tag = "622Hz";
-            this.fader622Hz.Text = "VolumeFader1";
-            this.fader622Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader7.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader7.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader7.CustomFontName = null;
+            this.fader7.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader7.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader7.FaderHeight = 30;
+            this.fader7.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader7.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader7.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader7.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader7.FaderWidth = 12;
+            this.fader7.FontCollection = this.fontCollection;
+            this.fader7.GradientColor1 = System.Drawing.Color.Black;
+            this.fader7.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader7.Location = new System.Drawing.Point(324, 28);
+            this.fader7.Maximum = 60;
+            this.fader7.Minimum = -60;
+            this.fader7.Name = "fader7";
+            this.fader7.Size = new System.Drawing.Size(26, 373);
+            this.fader7.TabIndex = 76;
+            this.fader7.Tag = "7";
+            this.fader7.Text = "VolumeFader1";
+            this.fader7.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader440Hz
+            // fader6
             // 
-            this.fader440Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader440Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader440Hz.CustomFontName = null;
-            this.fader440Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader440Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader440Hz.FaderHeight = 30;
-            this.fader440Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader440Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader440Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader440Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader440Hz.FaderWidth = 12;
-            this.fader440Hz.FontCollection = this.fontCollection;
-            this.fader440Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader440Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader440Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader440Hz.Location = new System.Drawing.Point(280, 28);
-            this.fader440Hz.Maximum = 30;
-            this.fader440Hz.Minimum = -30;
-            this.fader440Hz.Name = "fader440Hz";
-            this.fader440Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader440Hz.TabIndex = 75;
-            this.fader440Hz.Tag = "440Hz";
-            this.fader440Hz.Text = "VolumeFader1";
-            this.fader440Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader6.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader6.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader6.CustomFontName = null;
+            this.fader6.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader6.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader6.FaderHeight = 30;
+            this.fader6.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader6.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader6.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader6.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader6.FaderWidth = 12;
+            this.fader6.FontCollection = this.fontCollection;
+            this.fader6.GradientColor1 = System.Drawing.Color.Black;
+            this.fader6.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader6.Location = new System.Drawing.Point(280, 28);
+            this.fader6.Maximum = 60;
+            this.fader6.Minimum = -60;
+            this.fader6.Name = "fader6";
+            this.fader6.Size = new System.Drawing.Size(26, 373);
+            this.fader6.TabIndex = 75;
+            this.fader6.Tag = "6";
+            this.fader6.Text = "VolumeFader1";
+            this.fader6.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader311Hz
+            // fader5
             // 
-            this.fader311Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader311Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader311Hz.CustomFontName = null;
-            this.fader311Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader311Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader311Hz.FaderHeight = 30;
-            this.fader311Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader311Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader311Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader311Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader311Hz.FaderWidth = 12;
-            this.fader311Hz.FontCollection = this.fontCollection;
-            this.fader311Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader311Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader311Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader311Hz.Location = new System.Drawing.Point(236, 28);
-            this.fader311Hz.Maximum = 30;
-            this.fader311Hz.Minimum = -30;
-            this.fader311Hz.Name = "fader311Hz";
-            this.fader311Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader311Hz.TabIndex = 74;
-            this.fader311Hz.Tag = "311Hz";
-            this.fader311Hz.Text = "VolumeFader1";
-            this.fader311Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader5.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader5.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader5.CustomFontName = null;
+            this.fader5.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader5.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader5.FaderHeight = 30;
+            this.fader5.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader5.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader5.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader5.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader5.FaderWidth = 12;
+            this.fader5.FontCollection = this.fontCollection;
+            this.fader5.GradientColor1 = System.Drawing.Color.Black;
+            this.fader5.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader5.Location = new System.Drawing.Point(236, 28);
+            this.fader5.Maximum = 60;
+            this.fader5.Minimum = -60;
+            this.fader5.Name = "fader5";
+            this.fader5.Size = new System.Drawing.Size(26, 373);
+            this.fader5.TabIndex = 74;
+            this.fader5.Tag = "5";
+            this.fader5.Text = "VolumeFader1";
+            this.fader5.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader220Hz
+            // fader4
             // 
-            this.fader220Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader220Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader220Hz.CustomFontName = null;
-            this.fader220Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader220Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader220Hz.FaderHeight = 30;
-            this.fader220Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader220Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader220Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader220Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader220Hz.FaderWidth = 12;
-            this.fader220Hz.FontCollection = this.fontCollection;
-            this.fader220Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader220Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader220Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader220Hz.Location = new System.Drawing.Point(192, 28);
-            this.fader220Hz.Maximum = 30;
-            this.fader220Hz.Minimum = -30;
-            this.fader220Hz.Name = "fader220Hz";
-            this.fader220Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader220Hz.TabIndex = 73;
-            this.fader220Hz.Tag = "220Hz";
-            this.fader220Hz.Text = "VolumeFader1";
-            this.fader220Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader4.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader4.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader4.CustomFontName = null;
+            this.fader4.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader4.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader4.FaderHeight = 30;
+            this.fader4.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader4.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader4.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader4.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader4.FaderWidth = 12;
+            this.fader4.FontCollection = this.fontCollection;
+            this.fader4.GradientColor1 = System.Drawing.Color.Black;
+            this.fader4.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader4.Location = new System.Drawing.Point(192, 28);
+            this.fader4.Maximum = 60;
+            this.fader4.Minimum = -60;
+            this.fader4.Name = "fader4";
+            this.fader4.Size = new System.Drawing.Size(26, 373);
+            this.fader4.TabIndex = 73;
+            this.fader4.Tag = "4";
+            this.fader4.Text = "VolumeFader1";
+            this.fader4.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader156Hz
+            // fader3
             // 
-            this.fader156Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader156Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader156Hz.CustomFontName = null;
-            this.fader156Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader156Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader156Hz.FaderHeight = 30;
-            this.fader156Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader156Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader156Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader156Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader156Hz.FaderWidth = 12;
-            this.fader156Hz.FontCollection = this.fontCollection;
-            this.fader156Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader156Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader156Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader156Hz.Location = new System.Drawing.Point(148, 28);
-            this.fader156Hz.Maximum = 30;
-            this.fader156Hz.Minimum = -30;
-            this.fader156Hz.Name = "fader156Hz";
-            this.fader156Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader156Hz.TabIndex = 72;
-            this.fader156Hz.Tag = "156Hz";
-            this.fader156Hz.Text = "VolumeFader1";
-            this.fader156Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader3.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader3.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader3.CustomFontName = null;
+            this.fader3.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader3.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader3.FaderHeight = 30;
+            this.fader3.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader3.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader3.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader3.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader3.FaderWidth = 12;
+            this.fader3.FontCollection = this.fontCollection;
+            this.fader3.GradientColor1 = System.Drawing.Color.Black;
+            this.fader3.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader3.Location = new System.Drawing.Point(148, 28);
+            this.fader3.Maximum = 60;
+            this.fader3.Minimum = -60;
+            this.fader3.Name = "fader3";
+            this.fader3.Size = new System.Drawing.Size(26, 373);
+            this.fader3.TabIndex = 72;
+            this.fader3.Tag = "3";
+            this.fader3.Text = "VolumeFader1";
+            this.fader3.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader110Hz
+            // fader2
             // 
-            this.fader110Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader110Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader110Hz.CustomFontName = null;
-            this.fader110Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader110Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader110Hz.FaderHeight = 30;
-            this.fader110Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader110Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader110Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader110Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader110Hz.FaderWidth = 12;
-            this.fader110Hz.FontCollection = this.fontCollection;
-            this.fader110Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader110Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader110Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader110Hz.Location = new System.Drawing.Point(104, 28);
-            this.fader110Hz.Maximum = 30;
-            this.fader110Hz.Minimum = -30;
-            this.fader110Hz.Name = "fader110Hz";
-            this.fader110Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader110Hz.TabIndex = 71;
-            this.fader110Hz.Tag = "110Hz";
-            this.fader110Hz.Text = "VolumeFader1";
-            this.fader110Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader2.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader2.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader2.CustomFontName = null;
+            this.fader2.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader2.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader2.FaderHeight = 30;
+            this.fader2.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader2.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader2.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader2.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader2.FaderWidth = 12;
+            this.fader2.FontCollection = this.fontCollection;
+            this.fader2.GradientColor1 = System.Drawing.Color.Black;
+            this.fader2.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader2.Location = new System.Drawing.Point(104, 28);
+            this.fader2.Maximum = 60;
+            this.fader2.Minimum = -60;
+            this.fader2.Name = "fader2";
+            this.fader2.Size = new System.Drawing.Size(26, 373);
+            this.fader2.TabIndex = 71;
+            this.fader2.Tag = "2";
+            this.fader2.Text = "VolumeFader1";
+            this.fader2.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader77Hz
+            // fader1
             // 
-            this.fader77Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader77Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader77Hz.CustomFontName = null;
-            this.fader77Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader77Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader77Hz.FaderHeight = 30;
-            this.fader77Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader77Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader77Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader77Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader77Hz.FaderWidth = 12;
-            this.fader77Hz.FontCollection = this.fontCollection;
-            this.fader77Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader77Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader77Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader77Hz.Location = new System.Drawing.Point(60, 28);
-            this.fader77Hz.Maximum = 30;
-            this.fader77Hz.Minimum = -30;
-            this.fader77Hz.Name = "fader77Hz";
-            this.fader77Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader77Hz.TabIndex = 70;
-            this.fader77Hz.Tag = "77Hz";
-            this.fader77Hz.Text = "VolumeFader1";
-            this.fader77Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader1.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader1.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader1.CustomFontName = null;
+            this.fader1.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader1.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader1.FaderHeight = 30;
+            this.fader1.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader1.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader1.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader1.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader1.FaderWidth = 12;
+            this.fader1.FontCollection = this.fontCollection;
+            this.fader1.GradientColor1 = System.Drawing.Color.Black;
+            this.fader1.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader1.Location = new System.Drawing.Point(60, 28);
+            this.fader1.Maximum = 60;
+            this.fader1.Minimum = -60;
+            this.fader1.Name = "fader1";
+            this.fader1.Size = new System.Drawing.Size(26, 373);
+            this.fader1.TabIndex = 70;
+            this.fader1.Tag = "1";
+            this.fader1.Text = "VolumeFader1";
+            this.fader1.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
-            // fader55Hz
+            // fader0
             // 
-            this.fader55Hz.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.fader55Hz.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader55Hz.CustomFontName = null;
-            this.fader55Hz.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
-            this.fader55Hz.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader55Hz.FaderHeight = 30;
-            this.fader55Hz.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.fader55Hz.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.fader55Hz.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
-            this.fader55Hz.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
-            this.fader55Hz.FaderWidth = 12;
-            this.fader55Hz.FontCollection = this.fontCollection;
-            this.fader55Hz.GradientColor1 = System.Drawing.Color.Black;
-            this.fader55Hz.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.fader55Hz.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.fader55Hz.Location = new System.Drawing.Point(16, 28);
-            this.fader55Hz.Maximum = 30;
-            this.fader55Hz.Minimum = -30;
-            this.fader55Hz.Name = "fader55Hz";
-            this.fader55Hz.Size = new System.Drawing.Size(26, 373);
-            this.fader55Hz.TabIndex = 69;
-            this.fader55Hz.Tag = "55Hz";
-            this.fader55Hz.Text = "VolumeFader1";
-            this.fader55Hz.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
+            this.fader0.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.fader0.CenterLineShadowColor = System.Drawing.Color.Gray;
+            this.fader0.CustomFontName = null;
+            this.fader0.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
+            this.fader0.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader0.FaderHeight = 30;
+            this.fader0.FaderMiddleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.fader0.FaderShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.fader0.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
+            this.fader0.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
+            this.fader0.FaderWidth = 12;
+            this.fader0.FontCollection = this.fontCollection;
+            this.fader0.GradientColor1 = System.Drawing.Color.Black;
+            this.fader0.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader0.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.fader0.Location = new System.Drawing.Point(16, 28);
+            this.fader0.Maximum = 60;
+            this.fader0.Minimum = -60;
+            this.fader0.Name = "fader0";
+            this.fader0.Size = new System.Drawing.Size(26, 373);
+            this.fader0.TabIndex = 69;
+            this.fader0.Tag = "0";
+            this.fader0.Text = "VolumeFader1";
+            this.fader0.OnFaderValueChanged += new MPfm.WindowsControls.VolumeFader.FaderValueChanged(this.fader_ValueChanged);
             // 
             // panelPreset
             // 
@@ -1381,6 +1385,10 @@ namespace MPfm
             // panelInformation
             // 
             this.panelInformation.AntiAliasingEnabled = true;
+            this.panelInformation.Controls.Add(this.txtEQBandwidth);
+            this.panelInformation.Controls.Add(this.txtEQQ);
+            this.panelInformation.Controls.Add(this.lblEQBandwidth);
+            this.panelInformation.Controls.Add(this.lblEQQ);
             this.panelInformation.Controls.Add(this.btnAutoLevel);
             this.panelInformation.Controls.Add(this.btnResetEQ);
             this.panelInformation.Controls.Add(this.lblEQChanged);
@@ -1405,7 +1413,7 @@ namespace MPfm
             this.panelInformation.HeaderTitle = "Information";
             this.panelInformation.Location = new System.Drawing.Point(860, 100);
             this.panelInformation.Name = "panelInformation";
-            this.panelInformation.Size = new System.Drawing.Size(130, 301);
+            this.panelInformation.Size = new System.Drawing.Size(130, 342);
             this.panelInformation.TabIndex = 64;
             // 
             // btnAutoLevel
@@ -1427,7 +1435,7 @@ namespace MPfm
             this.btnAutoLevel.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
             this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnAutoLevel.Location = new System.Drawing.Point(7, 155);
+            this.btnAutoLevel.Location = new System.Drawing.Point(7, 239);
             this.btnAutoLevel.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnAutoLevel.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnAutoLevel.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1459,7 +1467,7 @@ namespace MPfm
             this.btnResetEQ.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnResetEQ.Location = new System.Drawing.Point(7, 199);
+            this.btnResetEQ.Location = new System.Drawing.Point(7, 283);
             this.btnResetEQ.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnResetEQ.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnResetEQ.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1482,7 +1490,7 @@ namespace MPfm
             this.lblEQChanged.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQChanged.FontCollection = this.fontCollection;
             this.lblEQChanged.ForeColor = System.Drawing.Color.White;
-            this.lblEQChanged.Location = new System.Drawing.Point(4, 266);
+            this.lblEQChanged.Location = new System.Drawing.Point(4, 323);
             this.lblEQChanged.Name = "lblEQChanged";
             this.lblEQChanged.Size = new System.Drawing.Size(101, 16);
             this.lblEQChanged.TabIndex = 68;
@@ -1516,7 +1524,7 @@ namespace MPfm
             this.btnSaveEQPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSaveEQPreset.Image = global::MPfm.Properties.Resources.tick;
             this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSaveEQPreset.Location = new System.Drawing.Point(7, 65);
+            this.btnSaveEQPreset.Location = new System.Drawing.Point(7, 149);
             this.btnSaveEQPreset.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnSaveEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSaveEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1548,7 +1556,7 @@ namespace MPfm
             this.btnDeleteEQPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnDeleteEQPreset.Image = global::MPfm.Properties.Resources.delete;
             this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnDeleteEQPreset.Location = new System.Drawing.Point(7, 110);
+            this.btnDeleteEQPreset.Location = new System.Drawing.Point(7, 194);
             this.btnDeleteEQPreset.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnDeleteEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnDeleteEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1617,6 +1625,62 @@ namespace MPfm
             this.panelZeroLine.Size = new System.Drawing.Size(800, 2);
             this.panelZeroLine.TabIndex = 66;
             // 
+            // lblEQQ
+            // 
+            this.lblEQQ.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEQQ.AntiAliasingEnabled = true;
+            this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQQ.CustomFontName = "Junction";
+            this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEQQ.FontCollection = null;
+            this.lblEQQ.ForeColor = System.Drawing.Color.White;
+            this.lblEQQ.Location = new System.Drawing.Point(4, 62);
+            this.lblEQQ.Name = "lblEQQ";
+            this.lblEQQ.Size = new System.Drawing.Size(112, 14);
+            this.lblEQQ.TabIndex = 71;
+            this.lblEQQ.Text = "Q:";
+            this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblEQBandwidth
+            // 
+            this.lblEQBandwidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEQBandwidth.AntiAliasingEnabled = true;
+            this.lblEQBandwidth.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQBandwidth.CustomFontName = "Junction";
+            this.lblEQBandwidth.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEQBandwidth.FontCollection = null;
+            this.lblEQBandwidth.ForeColor = System.Drawing.Color.White;
+            this.lblEQBandwidth.Location = new System.Drawing.Point(4, 103);
+            this.lblEQBandwidth.Name = "lblEQBandwidth";
+            this.lblEQBandwidth.Size = new System.Drawing.Size(112, 14);
+            this.lblEQBandwidth.TabIndex = 73;
+            this.lblEQBandwidth.Text = "Bandwidth:";
+            this.lblEQBandwidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtEQQ
+            // 
+            this.txtEQQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEQQ.Location = new System.Drawing.Point(6, 79);
+            this.txtEQQ.Mask = "00.00";
+            this.txtEQQ.Name = "txtEQQ";
+            this.txtEQQ.ReadOnly = true;
+            this.txtEQQ.Size = new System.Drawing.Size(118, 21);
+            this.txtEQQ.TabIndex = 87;
+            this.txtEQQ.Text = "0100";
+            // 
+            // txtEQBandwidth
+            // 
+            this.txtEQBandwidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEQBandwidth.Location = new System.Drawing.Point(6, 120);
+            this.txtEQBandwidth.Mask = "00.00";
+            this.txtEQBandwidth.Name = "txtEQBandwidth";
+            this.txtEQBandwidth.ReadOnly = true;
+            this.txtEQBandwidth.Size = new System.Drawing.Size(118, 21);
+            this.txtEQBandwidth.TabIndex = 88;
+            this.txtEQBandwidth.Text = "0250";
+            // 
             // frmEffects
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1643,44 +1707,44 @@ namespace MPfm
 
         #endregion
 
-        private MPfm.WindowsControls.Label lblGain55Hz;
-        private MPfm.WindowsControls.Label lbl55Hz;
-        private MPfm.WindowsControls.Label lblGain622Hz;
-        private MPfm.WindowsControls.Label lbl622Hz;
-        private MPfm.WindowsControls.Label lblGain440Hz;
-        private MPfm.WindowsControls.Label lbl440Hz;
-        private MPfm.WindowsControls.Label lblGain311Hz;
-        private MPfm.WindowsControls.Label lbl311Hz;
-        private MPfm.WindowsControls.Label lblGain220Hz;
-        private MPfm.WindowsControls.Label lbl220Hz;
-        private MPfm.WindowsControls.Label lblGain156Hz;
-        private MPfm.WindowsControls.Label lbl156Hz;
-        private MPfm.WindowsControls.Label lblGain110Hz;
-        private MPfm.WindowsControls.Label lbl110Hz;
-        private MPfm.WindowsControls.Label lblGain77Hz;
-        private MPfm.WindowsControls.Label lbl77Hz;
-        private MPfm.WindowsControls.Label lblGain20kHz;
-        private MPfm.WindowsControls.Label lbl20kHz;
-        private MPfm.WindowsControls.Label lblGain14kHz;
-        private MPfm.WindowsControls.Label lbl14kHz;
-        private MPfm.WindowsControls.Label lblGain10kHz;
-        private MPfm.WindowsControls.Label lbl10kHz;
-        private MPfm.WindowsControls.Label lblGain7kHz;
-        private MPfm.WindowsControls.Label lbl7kHz;
-        private MPfm.WindowsControls.Label lblGain5kHz;
-        private MPfm.WindowsControls.Label lbl5kHz;
-        private MPfm.WindowsControls.Label lblGain3_5kHz;
-        private MPfm.WindowsControls.Label lbl3_5kHz;
-        private MPfm.WindowsControls.Label lblGain2_5kHz;
-        private MPfm.WindowsControls.Label lbl2_5kHz;
-        private MPfm.WindowsControls.Label lblGain1_8kHz;
-        private MPfm.WindowsControls.Label lbl1_8kHz;
-        private MPfm.WindowsControls.Label lblGain1_2kHz;
-        private MPfm.WindowsControls.Label lbl1_2kHz;
-        private MPfm.WindowsControls.Label lblGain880Hz;
-        private MPfm.WindowsControls.Label lbl880Hz;
-        private MPfm.WindowsControls.Label lbl3dB;
-        private MPfm.WindowsControls.Label lbl_3dB;
+        private MPfm.WindowsControls.Label lblGain0;
+        private MPfm.WindowsControls.Label lbl0;
+        private MPfm.WindowsControls.Label lblGain7;
+        private MPfm.WindowsControls.Label lbl7;
+        private MPfm.WindowsControls.Label lblGain6;
+        private MPfm.WindowsControls.Label lbl6;
+        private MPfm.WindowsControls.Label lblGain5;
+        private MPfm.WindowsControls.Label lbl5;
+        private MPfm.WindowsControls.Label lblGain4;
+        private MPfm.WindowsControls.Label lbl4;
+        private MPfm.WindowsControls.Label lblGain3;
+        private MPfm.WindowsControls.Label lbl3;
+        private MPfm.WindowsControls.Label lblGain2;
+        private MPfm.WindowsControls.Label lbl2;
+        private MPfm.WindowsControls.Label lblGain1;
+        private MPfm.WindowsControls.Label lbl1;
+        private MPfm.WindowsControls.Label lblGain17;
+        private MPfm.WindowsControls.Label lbl17;
+        private MPfm.WindowsControls.Label lblGain16;
+        private MPfm.WindowsControls.Label lbl16;
+        private MPfm.WindowsControls.Label lblGain15;
+        private MPfm.WindowsControls.Label lbl15;
+        private MPfm.WindowsControls.Label lblGain14;
+        private MPfm.WindowsControls.Label lbl14;
+        private MPfm.WindowsControls.Label lblGain13;
+        private MPfm.WindowsControls.Label lbl13;
+        private MPfm.WindowsControls.Label lblGain12;
+        private MPfm.WindowsControls.Label lbl12;
+        private MPfm.WindowsControls.Label lblGain11;
+        private MPfm.WindowsControls.Label lbl11;
+        private MPfm.WindowsControls.Label lblGain10;
+        private MPfm.WindowsControls.Label lbl10;
+        private MPfm.WindowsControls.Label lblGain9;
+        private MPfm.WindowsControls.Label lbl9;
+        private MPfm.WindowsControls.Label lblGain8;
+        private MPfm.WindowsControls.Label lbl8;
+        private MPfm.WindowsControls.Label lbl6dB;
+        private MPfm.WindowsControls.Label lbl_6dB;
         private MPfm.WindowsControls.Label lbl0dB;
         private System.Windows.Forms.TableLayoutPanel tableLayout;
         private MPfm.WindowsControls.Panel panelEqualizer;
@@ -1698,24 +1762,28 @@ namespace MPfm
         public System.Windows.Forms.ComboBox comboEQPreset;
         private System.Windows.Forms.Panel panelZeroLine;
         private MPfm.WindowsControls.FontCollection fontCollection;
-        private MPfm.WindowsControls.VolumeFader fader55Hz;
-        private MPfm.WindowsControls.VolumeFader fader440Hz;
-        private MPfm.WindowsControls.VolumeFader fader311Hz;
-        private MPfm.WindowsControls.VolumeFader fader220Hz;
-        private MPfm.WindowsControls.VolumeFader fader156Hz;
-        private MPfm.WindowsControls.VolumeFader fader110Hz;
-        private MPfm.WindowsControls.VolumeFader fader77Hz;
-        private MPfm.WindowsControls.VolumeFader fader20kHz;
-        private MPfm.WindowsControls.VolumeFader fader14kHz;
-        private MPfm.WindowsControls.VolumeFader fader10kHz;
-        private MPfm.WindowsControls.VolumeFader fader7kHz;
-        private MPfm.WindowsControls.VolumeFader fader5kHz;
-        private MPfm.WindowsControls.VolumeFader fader3_5kHz;
-        private MPfm.WindowsControls.VolumeFader fader2_5kHz;
-        private MPfm.WindowsControls.VolumeFader fader1_8kHz;
-        private MPfm.WindowsControls.VolumeFader fader1_2kHz;
-        private MPfm.WindowsControls.VolumeFader fader880Hz;
-        private MPfm.WindowsControls.VolumeFader fader622Hz;
+        private MPfm.WindowsControls.VolumeFader fader0;
+        private MPfm.WindowsControls.VolumeFader fader6;
+        private MPfm.WindowsControls.VolumeFader fader5;
+        private MPfm.WindowsControls.VolumeFader fader4;
+        private MPfm.WindowsControls.VolumeFader fader3;
+        private MPfm.WindowsControls.VolumeFader fader2;
+        private MPfm.WindowsControls.VolumeFader fader1;
+        private MPfm.WindowsControls.VolumeFader fader17;
+        private MPfm.WindowsControls.VolumeFader fader16;
+        private MPfm.WindowsControls.VolumeFader fader15;
+        private MPfm.WindowsControls.VolumeFader fader14;
+        private MPfm.WindowsControls.VolumeFader fader13;
+        private MPfm.WindowsControls.VolumeFader fader12;
+        private MPfm.WindowsControls.VolumeFader fader11;
+        private MPfm.WindowsControls.VolumeFader fader10;
+        private MPfm.WindowsControls.VolumeFader fader9;
+        private MPfm.WindowsControls.VolumeFader fader8;
+        private MPfm.WindowsControls.VolumeFader fader7;
         private WindowsControls.Button btnAutoLevel;
+        private System.Windows.Forms.MaskedTextBox txtEQBandwidth;
+        private System.Windows.Forms.MaskedTextBox txtEQQ;
+        private WindowsControls.Label lblEQBandwidth;
+        private WindowsControls.Label lblEQQ;
     }
 }

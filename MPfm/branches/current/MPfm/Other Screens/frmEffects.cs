@@ -28,8 +28,9 @@ using System.Reflection;
 using System.Windows.Forms;
 using MPfm.Library;
 using MPfm.Library.Data;
+using MPfm.Library.PlayerV4;
 using MPfm.Sound;
-using MPfm.Sound.FMODWrapper;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -62,7 +63,11 @@ namespace MPfm
             m_main = main;
 
             RefreshEQPresets();
-            LoadConfig();
+            //LoadConfig();
+
+            // Set UI values
+            chkEQOn.Checked = m_main.PlayerV4.IsEQEnabled;
+
         }
 
         #region Close Events
@@ -155,24 +160,24 @@ namespace MPfm
         {
             comboEQPreset.SelectedItem = null;
             txtEQPresetName.Text = "";
-            fader1_2kHz.Value = 0;
-            fader1_8kHz.Value = 0;
-            fader10kHz.Value = 0;
-            fader110Hz.Value = 0;
-            fader14kHz.Value = 0;
-            fader156Hz.Value = 0;
-            fader2_5kHz.Value = 0;
-            fader20kHz.Value = 0;
-            fader220Hz.Value = 0;
-            fader3_5kHz.Value = 0;
-            fader311Hz.Value = 0;
-            fader440Hz.Value = 0;
-            fader55Hz.Value = 0;
-            fader5kHz.Value = 0;
-            fader622Hz.Value = 0;
-            fader77Hz.Value = 0;
-            fader7kHz.Value = 0;
-            fader880Hz.Value = 0;
+            fader9.Value = 0;
+            fader10.Value = 0;
+            fader15.Value = 0;
+            fader2.Value = 0;
+            fader16.Value = 0;
+            fader3.Value = 0;
+            fader11.Value = 0;
+            fader17.Value = 0;
+            fader4.Value = 0;
+            fader12.Value = 0;
+            fader5.Value = 0;
+            fader6.Value = 0;
+            fader0.Value = 0;
+            fader13.Value = 0;
+            fader7.Value = 0;
+            fader1.Value = 0;
+            fader14.Value = 0;
+            fader8.Value = 0;
         }
 
         #endregion
@@ -194,109 +199,109 @@ namespace MPfm
             #region Find highest value
 
             // Find the highest and lowest value in the equalizer            
-            value = fader55Hz.Value;            
+            value = fader0.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader77Hz.Value;            
+            value = fader1.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader110Hz.Value;
+            value = fader2.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader156Hz.Value;            
+            value = fader3.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader220Hz.Value;           
+            value = fader4.Value;           
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader311Hz.Value;            
+            value = fader5.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader440Hz.Value;            
+            value = fader6.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader622Hz.Value;
+            value = fader7.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader880Hz.Value;            
+            value = fader8.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader1_2kHz.Value;
+            value = fader9.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader1_8kHz.Value;            
+            value = fader10.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader2_5kHz.Value;            
+            value = fader11.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader3_5kHz.Value;
+            value = fader12.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader5kHz.Value;            
+            value = fader13.Value;            
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader7kHz.Value;
+            value = fader14.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader10kHz.Value;
+            value = fader15.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader14kHz.Value;
+            value = fader16.Value;
 
             // Check for high
             if (value > highestValue)
                 highestValue = value;
 
-            value = fader20kHz.Value;
+            value = fader17.Value;
 
             // Check for high
             if (value > highestValue)
@@ -305,24 +310,24 @@ namespace MPfm
             #endregion
 
             // Substract value for every fader
-            fader55Hz.Value = fader55Hz.Value - highestValue;
-            fader77Hz.Value = fader77Hz.Value - highestValue;
-            fader110Hz.Value = fader110Hz.Value - highestValue;
-            fader156Hz.Value = fader156Hz.Value - highestValue;
-            fader220Hz.Value = fader220Hz.Value - highestValue;
-            fader311Hz.Value = fader311Hz.Value - highestValue;
-            fader440Hz.Value = fader440Hz.Value - highestValue;
-            fader622Hz.Value = fader622Hz.Value - highestValue;
-            fader880Hz.Value = fader880Hz.Value - highestValue;
-            fader1_2kHz.Value = fader1_2kHz.Value - highestValue;
-            fader1_8kHz.Value = fader1_8kHz.Value - highestValue;
-            fader2_5kHz.Value = fader2_5kHz.Value - highestValue;
-            fader3_5kHz.Value = fader3_5kHz.Value - highestValue;
-            fader5kHz.Value = fader5kHz.Value - highestValue;
-            fader7kHz.Value = fader7kHz.Value - highestValue;
-            fader10kHz.Value = fader10kHz.Value - highestValue;
-            fader14kHz.Value = fader14kHz.Value - highestValue;
-            fader20kHz.Value = fader20kHz.Value - highestValue;
+            fader0.Value = fader0.Value - highestValue;
+            fader1.Value = fader1.Value - highestValue;
+            fader2.Value = fader2.Value - highestValue;
+            fader3.Value = fader3.Value - highestValue;
+            fader4.Value = fader4.Value - highestValue;
+            fader5.Value = fader5.Value - highestValue;
+            fader6.Value = fader6.Value - highestValue;
+            fader7.Value = fader7.Value - highestValue;
+            fader8.Value = fader8.Value - highestValue;
+            fader9.Value = fader9.Value - highestValue;
+            fader10.Value = fader10.Value - highestValue;
+            fader11.Value = fader11.Value - highestValue;
+            fader12.Value = fader12.Value - highestValue;
+            fader13.Value = fader13.Value - highestValue;
+            fader14.Value = fader14.Value - highestValue;
+            fader15.Value = fader15.Value - highestValue;
+            fader16.Value = fader16.Value - highestValue;
+            fader17.Value = fader17.Value - highestValue;
 
             //MessageBox.Show("highest: " + highestValue.ToString());
         }
@@ -367,24 +372,24 @@ namespace MPfm
 
             // Build DTO
             Equalizer eq = new Equalizer();
-            eq.Gain55Hz = (double)fader55Hz.Value / 10;
-            eq.Gain77Hz = (double)fader77Hz.Value / 10;
-            eq.Gain110Hz = (double)fader110Hz.Value / 10;
-            eq.Gain156Hz = (double)fader156Hz.Value / 10;
-            eq.Gain220Hz = (double)fader220Hz.Value / 10;
-            eq.Gain311Hz = (double)fader311Hz.Value / 10;
-            eq.Gain440Hz = (double)fader440Hz.Value / 10;
-            eq.Gain622Hz = (double)fader622Hz.Value / 10;
-            eq.Gain880Hz = (double)fader880Hz.Value / 10;
-            eq.Gain1_2kHz = (double)fader1_2kHz.Value / 10;
-            eq.Gain1_8kHz = (double)fader1_8kHz.Value / 10;
-            eq.Gain2_5kHz = (double)fader2_5kHz.Value / 10;
-            eq.Gain3_5kHz = (double)fader3_5kHz.Value / 10;
-            eq.Gain5kHz = (double)fader5kHz.Value / 10;
-            eq.Gain7kHz = (double)fader7kHz.Value / 10;
-            eq.Gain10kHz = (double)fader10kHz.Value / 10;
-            eq.Gain14kHz = (double)fader14kHz.Value / 10;
-            eq.Gain20kHz = (double)fader20kHz.Value / 10;
+            eq.Gain55Hz = (double)fader0.Value / 10;
+            eq.Gain77Hz = (double)fader1.Value / 10;
+            eq.Gain110Hz = (double)fader2.Value / 10;
+            eq.Gain156Hz = (double)fader3.Value / 10;
+            eq.Gain220Hz = (double)fader4.Value / 10;
+            eq.Gain311Hz = (double)fader5.Value / 10;
+            eq.Gain440Hz = (double)fader6.Value / 10;
+            eq.Gain622Hz = (double)fader7.Value / 10;
+            eq.Gain880Hz = (double)fader8.Value / 10;
+            eq.Gain1_2kHz = (double)fader9.Value / 10;
+            eq.Gain1_8kHz = (double)fader10.Value / 10;
+            eq.Gain2_5kHz = (double)fader11.Value / 10;
+            eq.Gain3_5kHz = (double)fader12.Value / 10;
+            eq.Gain5kHz = (double)fader13.Value / 10;
+            eq.Gain7kHz = (double)fader14.Value / 10;
+            eq.Gain10kHz = (double)fader15.Value / 10;
+            eq.Gain14kHz = (double)fader16.Value / 10;
+            eq.Gain20kHz = (double)fader17.Value / 10;
 
             eq.Name = txtEQPresetName.Text;
 
@@ -417,9 +422,19 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
-        {
-            //// Set equalizer
-            //Main.Player.IsEQOn = chkEQOn.Checked;    
+        {           
+            // Set equalizer
+            if (m_main.PlayerV4.IsEQEnabled)
+            {
+                // Remove EQ
+                m_main.PlayerV4.RemoveEQ();
+            }
+            else
+            {
+                // Add EQ
+                EQPreset preset = GetEQPresetFromCurrentValues();
+                m_main.PlayerV4.AddEQ(preset);
+            }
         }        
 
         /// <summary>
@@ -451,24 +466,24 @@ namespace MPfm
 
                     // Set values
                     txtEQPresetName.Text = equalizer.Name;
-                    fader55Hz.Value = (Int32)(equalizer.Gain55Hz * 10);
-                    fader77Hz.Value = (Int32)(equalizer.Gain77Hz * 10);
-                    fader110Hz.Value = (Int32)(equalizer.Gain110Hz * 10);
-                    fader156Hz.Value = (Int32)(equalizer.Gain156Hz * 10);
-                    fader220Hz.Value = (Int32)(equalizer.Gain220Hz * 10);
-                    fader311Hz.Value = (Int32)(equalizer.Gain311Hz * 10);
-                    fader440Hz.Value = (Int32)(equalizer.Gain440Hz * 10);
-                    fader622Hz.Value = (Int32)(equalizer.Gain622Hz * 10);
-                    fader880Hz.Value = (Int32)(equalizer.Gain880Hz * 10);
-                    fader1_2kHz.Value = (Int32)(equalizer.Gain1_2kHz * 10);
-                    fader1_8kHz.Value = (Int32)(equalizer.Gain1_8kHz * 10);
-                    fader2_5kHz.Value = (Int32)(equalizer.Gain2_5kHz * 10);
-                    fader3_5kHz.Value = (Int32)(equalizer.Gain3_5kHz * 10);
-                    fader5kHz.Value = (Int32)(equalizer.Gain5kHz * 10);
-                    fader7kHz.Value = (Int32)(equalizer.Gain7kHz * 10);
-                    fader10kHz.Value = (Int32)(equalizer.Gain10kHz * 10);
-                    fader14kHz.Value = (Int32)(equalizer.Gain14kHz * 10);
-                    fader20kHz.Value = (Int32)(equalizer.Gain20kHz * 10);
+                    fader0.Value = (Int32)(equalizer.Gain55Hz * 10);
+                    fader1.Value = (Int32)(equalizer.Gain77Hz * 10);
+                    fader2.Value = (Int32)(equalizer.Gain110Hz * 10);
+                    fader3.Value = (Int32)(equalizer.Gain156Hz * 10);
+                    fader4.Value = (Int32)(equalizer.Gain220Hz * 10);
+                    fader5.Value = (Int32)(equalizer.Gain311Hz * 10);
+                    fader6.Value = (Int32)(equalizer.Gain440Hz * 10);
+                    fader7.Value = (Int32)(equalizer.Gain622Hz * 10);
+                    fader8.Value = (Int32)(equalizer.Gain880Hz * 10);
+                    fader9.Value = (Int32)(equalizer.Gain1_2kHz * 10);
+                    fader10.Value = (Int32)(equalizer.Gain1_8kHz * 10);
+                    fader11.Value = (Int32)(equalizer.Gain2_5kHz * 10);
+                    fader12.Value = (Int32)(equalizer.Gain3_5kHz * 10);
+                    fader13.Value = (Int32)(equalizer.Gain5kHz * 10);
+                    fader14.Value = (Int32)(equalizer.Gain7kHz * 10);
+                    fader15.Value = (Int32)(equalizer.Gain10kHz * 10);
+                    fader16.Value = (Int32)(equalizer.Gain14kHz * 10);
+                    fader17.Value = (Int32)(equalizer.Gain20kHz * 10);
 
                     // Set config                    
                     Main.Config.EQPreset = equalizer.Name;
@@ -480,6 +495,20 @@ namespace MPfm
             }
         }
 
+        public EQPreset GetEQPresetFromCurrentValues()
+        {
+            EQPreset preset = new EQPreset();
+
+            for (int a = 0; a < 18; a++)
+            {
+                FieldInfo infoFader = this.GetType().GetField("fader" + a.ToString(), BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+                MPfm.WindowsControls.VolumeFader fader = infoFader.GetValue(this) as MPfm.WindowsControls.VolumeFader;
+                preset.Bands[a].Gain = (float)fader.Value / 10;
+            }
+
+            return preset;
+        }
+
         /// <summary>
         /// Occurs when the user changes the value of a fader. This event is dynamic based on the event sender (fader).
         /// </summary>
@@ -487,13 +516,29 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void fader_ValueChanged(object sender, EventArgs e)
         {
-            //// Get track bar
-            //VolumeFader fader = sender as VolumeFader;
-            //string hertz = fader.Tag.ToString();
+            // Get track bar
+            VolumeFader fader = sender as VolumeFader;
+            int index = 0;
+            int.TryParse(fader.Tag.ToString(), out index);
 
-            //// Get label
-            //FieldInfo infoLabel = this.GetType().GetField("lblGain" + hertz, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-            //MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
+            // Get label
+            FieldInfo infoLabel = this.GetType().GetField("lblGain" + index.ToString(), BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+            MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
+
+            float gain = (float)fader.Value / 10;            
+            m_main.PlayerV4.UpdateEQ(index, gain);
+
+            // Update dB display
+            string strDB = "";
+            if (gain > 0)
+            {
+                strDB = "+" + gain.ToString("0.0") + " dB";
+            }
+            else
+            {
+                strDB = gain.ToString("0.0") + " dB";
+            }
+            label.Text = strDB;
 
             //// Default gain: 0 dB
             //double gainParameter = 1;
@@ -512,21 +557,12 @@ namespace MPfm
             //// Fader value range: -30 to 30. 0 = no gain.
             ////
             //// My tests: Gain parameter of 2 is a LOT louder.
-            
+
             ////gainParameter = ratio;
 
-            //// Update dB display
-            //string strDB = "";
-            //if (trackValue > 0)
-            //{
-            //    strDB = "+" + trackValue.ToString("0.0") + " dB";
-            //}
-            //else
-            //{
-            //    strDB = trackValue.ToString("0.0") + " dB";
-            //}
+
             //label.Text = gainParameter.ToString("0.00");
-            ////label.Text = strDB;
+            
 
             //try
             //{

@@ -366,6 +366,21 @@ namespace MPfm.Library.PlayerV4
             }
         }
 
+        /// <summary>
+        /// Private value for the IsEQEnabled property.
+        /// </summary>
+        private bool m_isEQEnabled = false;
+        /// <summary>
+        /// Indicates if the EQ is enabled.
+        /// </summary>
+        public bool IsEQEnabled
+        {
+            get
+            {
+                return m_isEQEnabled;
+            }
+        }
+
         #region Loops and Markers
         
         /// <summary>
@@ -632,7 +647,7 @@ namespace MPfm.Library.PlayerV4
 
         #endregion
 
-        #region Playback Methods        
+        #region Playback Methods
 
         /// <summary>
         /// Plays the playlist from the current item index.
@@ -654,9 +669,6 @@ namespace MPfm.Library.PlayerV4
                     // Load channel and audio file metadata
                     m_playlist.Items[a].Load();
                 }
-
-                // Set first item in playlist
-                //m_playlist.First();
 
                 // Create the streaming channel
                 m_streamProc = new STREAMPROC(StreamCallback);
@@ -703,23 +715,7 @@ namespace MPfm.Library.PlayerV4
                 }
 
                 // Load 18-band equalizer
-                m_fxEQHandle = m_mainChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
-                BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-                m_currentEQPreset = new EQPreset();
-                for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
-                {
-                    // Get current band
-                    EQPresetBand currentBand = m_currentEQPreset.Bands[a];
-
-                    // Set equalizer band properties
-                    eq.lBand = a;
-                    eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
-                    eq.fCenter = currentBand.Center;
-                    eq.fGain = currentBand.Gain;
-                    eq.fQ = currentBand.Q;
-                    Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
-                    UpdateEQ(a, currentBand.Gain);
-                }
+                //AddEQ();
 
                 // Check if the repeat type is Song
                 if (m_repeatType == MPfm.Library.RepeatType.Song)
@@ -778,7 +774,7 @@ namespace MPfm.Library.PlayerV4
             }
 
             // Reset flags                
-            m_playlist.Clear();
+            m_playlist.Clear();            
 
             // Create playlist items
             foreach (string filePath in filePaths)
@@ -786,6 +782,9 @@ namespace MPfm.Library.PlayerV4
                 // Add playlist item
                 m_playlist.AddItem(filePath);
             }
+
+            // Set playlist to first item
+            m_playlist.First();
           
             // Start playback
             Play();
@@ -831,6 +830,9 @@ namespace MPfm.Library.PlayerV4
                 // Add playlist item
                 m_playlist.AddItem(song);
             }
+
+            // Set playlist to first item
+            m_playlist.First();
 
             // Start playback
             Play();
@@ -1093,6 +1095,57 @@ namespace MPfm.Library.PlayerV4
 
             // Set EQ preset too
             m_currentEQPreset.Bands[band].Gain = gain;
+        }
+
+        public void AddEQ(EQPreset preset)
+        {
+            // Validate stuff
+            if (m_mainChannel == null)
+            {
+                return;
+            }
+
+            // Check if an handle already exists
+            if (m_fxEQHandle != 0)
+            {
+                throw new Exception("The equalizer already exists!");
+            }
+
+            // Load 18-band equalizer
+            m_fxEQHandle = m_mainChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
+            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
+            m_currentEQPreset = preset;
+            for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
+            {
+                // Get current band
+                EQPresetBand currentBand = m_currentEQPreset.Bands[a];
+
+                // Set equalizer band properties
+                eq.lBand = a;
+                eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
+                eq.fCenter = currentBand.Center;
+                eq.fGain = currentBand.Gain;
+                eq.fQ = currentBand.Q;
+                Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+                UpdateEQ(a, currentBand.Gain);
+            }
+
+            // Set flags
+            m_isEQEnabled = true;
+        }
+
+        public void RemoveEQ()
+        {
+            // Validate stuff
+            if (m_mainChannel == null)
+            {
+                return;
+            }
+
+            // Remove EQ
+            m_mainChannel.RemoveFX(m_fxEQHandle);
+            m_fxEQHandle = 0;
+            m_isEQEnabled = false;
         }
 
         /// <summary>
