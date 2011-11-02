@@ -83,7 +83,7 @@
     <Compile Include="Bass.Net\DeviceHelper.cs" />
     <Compile Include="Bass.Net\Device.cs" />
     <Compile Include="Bass.Net\Exception.cs" />
-    <Compile Include="Bass.Net\System.cs" />
+    <Compile Include="Bass.Net\Base.cs" />
     <Compile Include="ConvertAudio.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="FMod\DSP.cs" />

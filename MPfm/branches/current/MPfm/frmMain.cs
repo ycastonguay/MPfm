@@ -330,6 +330,7 @@ namespace MPfm
                 // Create player
                 m_playerV4 = new MPfm.Library.PlayerV4.Player(device, 44100, 100, 10);
                 m_playerV4.OnSongFinished += new Library.PlayerV4.Player.SongFinished(m_playerV4_OnSongFinished);
+                m_playerV4.OnStreamCallbackCalled += new MPfm.Library.PlayerV4.Player.StreamCallbackCalled(m_playerV4_OnStreamCallbackCalled);
 
                 // Create timer
                 m_timerSongPosition = new System.Windows.Forms.Timer();
@@ -746,6 +747,101 @@ namespace MPfm
         #endregion
 
         #region Player Events
+
+        public void m_playerV4_OnStreamCallbackCalled(Library.PlayerV4.StreamCallbackData data)
+        {
+            // Check for valid objects
+            if (m_playerV4 == null || !m_playerV4.IsPlaying ||
+                m_playerV4.Playlist == null || m_playerV4.Playlist.CurrentItem == null || m_playerV4.Playlist.CurrentItem.Channel == null)
+            {
+                return;
+            }
+
+        }
+
+        /// <summary>
+        /// Occurs when the timer for the output meter is expired. This forces the
+        /// output meter to refresh itself every 10ms.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void timerUpdateOutputMeter_Tick(object sender, EventArgs e)
+        {
+            // Check for valid objects
+            if (m_playerV4 == null || !m_playerV4.IsPlaying ||
+                m_playerV4.Playlist == null || m_playerV4.Playlist.CurrentItem == null || m_playerV4.Playlist.CurrentItem.Channel == null)
+            {
+                return;
+            }
+
+            int peakL = 0;
+            int peakR = 0;
+            float maxL = 0f;
+            float maxR = 0f;
+
+            // length of a 20ms window in bytes
+            int length20ms = (int)m_playerV4.MainChannel.Seconds2Bytes2(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
+            // the number of 32-bit floats required (since length is in bytes!)
+            int l4 = length20ms / 4; // 32-bit = 4 bytes
+
+            // create a data buffer as needed
+            float[] sampleData = new float[l4];
+
+            //int length = Bass.BASS_ChannelGetData(channel, sampleData, length20ms);
+            int length = m_playerV4.MainChannel.GetData(sampleData, length20ms);
+
+            // the number of 32-bit floats received
+            // as less data might be returned by BASS_ChannelGetData as requested
+            l4 = length / 4;
+
+            float[] left = new float[l4 / 2];
+            float[] right = new float[l4 / 2];
+            for (int a = 0; a < l4; a++)
+            {
+                float absLevel = Math.Abs(sampleData[a]);
+
+                // decide on L/R channel
+                if (a % 2 == 0)
+                {                    
+                    // Left channel
+                    left[a/2] = sampleData[a];
+                    if (absLevel > maxL)
+                        maxL = absLevel;
+                }
+                else
+                {
+                    // Right channel
+                    right[a/2] = sampleData[a];
+                    if (absLevel > maxR)
+                        maxR = absLevel;
+                }
+            }
+
+            // limit the maximum peak levels to +6bB = 65535 = 0xFFFF
+            // the peak levels will be int values, where 32767 = 0dB
+            // and a float value of 1.0 also represents 0db.
+            peakL = (int)Math.Round(32767f * maxL) & 0xFFFF;
+            peakR = (int)Math.Round(32767f * maxR) & 0xFFFF;
+
+            // convert the level to dB
+            double dBlevelL = Base.LevelToDB_16Bit(peakL);
+            double dBlevelR = Base.LevelToDB_16Bit(peakR);
+
+            lblBitsPerSampleTitle.Text = dBlevelL.ToString("0.000");
+
+            outputMeter.AddWaveDataBlock(left, right);
+            outputMeter.Refresh();
+
+            ////if (Player != null && Player.IsPlaying)
+            ////{
+            ////    outputMeter.Refresh();
+
+            ////    if (!waveFormMarkersLoops.IsLoading)
+            ////    {
+            ////        waveFormMarkersLoops.Refresh();
+            ////    }
+            ////}
+        }
 
         /// <summary>
         /// Occurs when the timer for updating the song position has expired.
@@ -3020,25 +3116,6 @@ namespace MPfm
                 // Refresh all controls
                 RefreshAll();
             }
-        }
-
-        /// <summary>
-        /// Occurs when the timer for the output meter is expired. This forces the
-        /// output meter to refresh itself every 10ms.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void timerUpdateOutputMeter_Tick(object sender, EventArgs e)
-        {
-            //if (Player != null && Player.IsPlaying)
-            //{
-            //    outputMeter.Refresh();
-
-            //    if (!waveFormMarkersLoops.IsLoading)
-            //    {
-            //        waveFormMarkersLoops.Refresh();
-            //    }
-            //}
         }
 
         /// <summary>

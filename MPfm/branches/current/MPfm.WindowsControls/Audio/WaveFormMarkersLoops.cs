@@ -831,6 +831,10 @@ namespace MPfm.WindowsControls
         /// <param name="filePath">File path of the audio file</param>
         public void LoadWaveForm(string filePath)
         {
+            // TODO: Add header to find out the version of the peak file.
+            //       Also add a length at the beginning or a marker at the end to determine if the peak file has 
+            //       been generated successfully (maybe it has been interrupted during generation).
+
             // Check if a wave form is already loading
             if (m_workerWaveForm.IsBusy)
             {

@@ -79,7 +79,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static Channel CreateStream(int frequency, int numberOfChannels, STREAMPROC streamProc)
         {
             // Create file stream
-            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, BASSFlag.BASS_STREAM_DECODE, streamProc, IntPtr.Zero);
+            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN, streamProc, IntPtr.Zero);
             if (handle == 0)
             {
                 // Check for error
@@ -92,7 +92,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static Channel CreateFileStreamForDecoding(string filePath)
         {
             // Create file stream
-            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN);
+            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT);
             if (handle == 0)
             {
                 // Check for error
@@ -146,6 +146,11 @@ namespace MPfm.Sound.BassNetWrapper
             return Bass.BASS_ChannelGetData(m_handle, buffer, length);
         }
 
+        public int GetData(float[] buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
+        }
+
         public BASSActive IsActive()
         {
             return Bass.BASS_ChannelIsActive(m_handle);
@@ -186,9 +191,16 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        public long GetLength()
+        {
+            long length = Bass.BASS_ChannelGetLength(m_handle);
+            return length;
+        }
+
         public long GetPosition()
         {            
-            return Bass.BASS_ChannelGetPosition(m_handle);
+            long position = Bass.BASS_ChannelGetPosition(m_handle);
+            return position;
         }
 
         public void SetPosition(long position)
@@ -209,11 +221,6 @@ namespace MPfm.Sound.BassNetWrapper
         public void RemoveSync(int syncHandle)
         {
             Bass.BASS_ChannelRemoveSync(m_handle, syncHandle);
-        }
-
-        public long GetLength()
-        {
-            return Bass.BASS_ChannelGetLength(m_handle);
         }
 
         public void GetAttribute(BASSAttribute attribute, ref float value)

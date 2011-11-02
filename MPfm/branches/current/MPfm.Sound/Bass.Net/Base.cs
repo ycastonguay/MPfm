@@ -38,23 +38,10 @@ namespace MPfm.Sound.BassNetWrapper
 {
     public static class Base
     {
-        //public System(DriverType driverType)
-        //{
-        //    // Register BASS.NET with key
-        //    Register("yanick.castonguay@gmail.com", "2X3433427152222");
-
-        //    // Initialize system with default frequency and default sound card
-        //    Initialize(44100);
-        //}
-
-        //public System(DriverType driverType, int mixerSampleRate)
-        //{
-        //    // Register BASS.NET with key
-        //    Register("yanick.castonguay@gmail.com", "2X3433427152222");
-
-        //    // Initialize system with default frequency and default sound card
-        //    Initialize(mixerSampleRate);
-        //}
+        public static Double LevelToDB_16Bit(double level)
+        {
+            return Utils.LevelToDB(level, 65535);
+        }
 
         public static void Register(string email, string registrationKey)
         {
@@ -144,6 +131,18 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error (throw exception if the error is found)
                 CheckForError();
             }
+        }
+
+        public static BASS_INFO GetInfo()
+        {
+            BASS_INFO info = new BASS_INFO();
+            if (!Bass.BASS_GetInfo(info))
+            {
+                // Check for error (throw exception if the error is found)
+                CheckForError();
+            }
+
+            return info;
         }
 
         public static float GetVolume()

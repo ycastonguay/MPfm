@@ -45,4 +45,14 @@ namespace MPfm.Library.PlayerV4
         public bool IsPlaybackStopped { get; set; }
     }
 
+    /// <summary>
+    /// Defines the data structure for the stream callback data.
+    /// </summary>
+    public class StreamCallbackData
+    {
+        public byte[] Data { get; set; }
+        public float[] Data2 { get; set; }
+        public int Length { get; set; }
+    }
+
 }

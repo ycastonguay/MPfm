@@ -73,6 +73,17 @@ namespace MPfm.Library.PlayerV4
         /// </summary>
         public event SongFinished OnSongFinished;
 
+        /// <summary>
+        /// Delegate method for the OnStreamCallbackCalled event.
+        /// </summary>
+        /// <param name="data">OnStreamCallbackCalled data</param>
+        public delegate void StreamCallbackCalled(StreamCallbackData data);
+        /// <summary>
+        /// The OnStreamCallbackCalled event is triggered when the stream callback has been called and
+        /// must return data.
+        /// </summary>
+        public event StreamCallbackCalled OnStreamCallbackCalled;
+
         #endregion
 
         #region Properties
@@ -683,7 +694,7 @@ namespace MPfm.Library.PlayerV4
                 else if (m_device.DriverType == DriverType.ASIO)
                 {
                     // Create main channel
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true);
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true);                    
 
                     // Create callback
                     m_asioProc = new ASIOPROC(AsioCallback);
@@ -693,12 +704,15 @@ namespace MPfm.Library.PlayerV4
                     BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
 
                     // Start playback
+                    //m_mainChannel.Play(false);
                     if (!BassAsio.BASS_ASIO_Start(0))
                     {
                         // Get error
                         BASSError error = Bass.BASS_ErrorGetCode();
                         throw new Exception("[PlayerV4.PlayFiles] Error playing files in ASIO: " + error.ToString());
                     }
+
+
                 }
                 else if (m_device.DriverType == DriverType.WASAPI)
                 {
@@ -1197,7 +1211,34 @@ namespace MPfm.Library.PlayerV4
                 }
 
                 // Get data from the current channel since it is running                
-                return m_playlist.CurrentItem.Channel.GetData(buffer, length);
+                int returns = m_playlist.CurrentItem.Channel.GetData(buffer, length);  
+              
+                //float[] stuff = new float[length];
+                //int returns2 = m_playlist.CurrentItem.Channel.GetData(stuff, length);
+
+                //// Raise song end event (if an event is subscribed)
+                //if (OnStreamCallbackCalled != null)
+                //{
+                //    // Create data
+                //    StreamCallbackData data = new StreamCallbackData();
+                //    data.Length = length;
+                //    data.Data = new byte[length];
+                //    Marshal.Copy(buffer, data.Data, 0, length);
+
+                //    float[] floats = new float[length / 4];
+                //    for (int a = 0; a < length / 4; a++)
+                //    {
+                //        floats[a] = BitConverter.ToSingle(data.Data, a);
+                //    }
+
+                //    //UnionArray arry = new UnionArray() { Bytes = data.Data };
+                //    //data.Data2 = stuff;
+
+                //    // Raise event
+                //    OnStreamCallbackCalled(data);
+                //}
+
+                return returns;
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
@@ -1226,7 +1267,7 @@ namespace MPfm.Library.PlayerV4
                             OnSongFinished(data);
                         }
 
-                        // Return data from the new channel
+                        // Return data from the new channel                        
                         return Playlist.CurrentItem.Channel.GetData(buffer, length);
                     }
                     else

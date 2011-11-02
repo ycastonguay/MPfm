@@ -26,6 +26,7 @@ using System.Text;
 using System.Threading;
 using System.Net.Sockets;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.IO;
 using System.Diagnostics;
@@ -280,4 +281,14 @@ namespace MPfm.Core
             return (double)absolutems / 1000 % 60;
         }
 	}
+
+    [StructLayout(LayoutKind.Explicit)]
+    public struct UnionArray
+    {
+        [FieldOffset(0)]
+        public Byte[] Bytes;
+
+        [FieldOffset(0)]
+        public float[] Floats;
+    }
 }
