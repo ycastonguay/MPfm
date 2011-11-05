@@ -141,8 +141,6 @@ namespace MPfm
             this.waveForm.AutoScrollWithCursor = true;
             this.waveForm.BorderColor = System.Drawing.Color.Empty;
             this.waveForm.BorderWidth = 0;
-            this.waveForm.CurrentPositionMS = ((uint)(0u));
-            this.waveForm.CurrentPositionPCMBytes = ((uint)(0u));
             this.waveForm.CursorColor = System.Drawing.Color.RoyalBlue;
             this.waveForm.CustomFontName = "BPmono";
             this.waveForm.DisplayCurrentPosition = true;
@@ -158,8 +156,6 @@ namespace MPfm
     "s\\om-0gycd01\\Peak Files\\";
             this.waveForm.Size = new System.Drawing.Size(578, 77);
             this.waveForm.TabIndex = 93;
-            this.waveForm.TotalMS = ((uint)(0u));
-            this.waveForm.TotalPCMBytes = ((uint)(0u));
             this.waveForm.WaveFormColor = System.Drawing.Color.Yellow;
             this.waveForm.Zoom = 100F;
             // 

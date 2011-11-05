@@ -274,74 +274,75 @@ namespace MPfm.WindowsControls
             }
         }
 
-        private uint m_currentPositionPCMBytes;
+        private long m_position = 0;
         /// <summary>
-        /// Defines the current position (in PCM bytes).
-        /// This needs to be set by the user in order to display the cursor.
+        /// Defines the current audio file position (in bytes).
+        /// This needs to be set by the user in order to display the cursor 
+        /// (with the Length property).
         /// </summary>
-        public uint CurrentPositionPCMBytes
+        public long Position
         {
             get
             {
-                return m_currentPositionPCMBytes;
+                return m_position;
             }
             set
             {
-                m_currentPositionPCMBytes = value;
+                m_position = value;
             }
         }
 
-        private uint m_totalPCMBytes = 0;
+        private long m_length = 0;
         /// <summary>
-        /// Defines the total number of PCM bytes to read when loading wave data history, 
-        /// or the total sound length in PCM bytes when displaying the cursor.
-        /// This needs to be set by the user in order to display the cursor.
+        /// Defines the current audio file length (in bytes).
+        /// This needs to be set by the user in order to display the cursor 
+        /// (with the Position property).
         /// </summary>
-        public uint TotalPCMBytes
+        public long Length
         {
             get
             {
-                return m_totalPCMBytes;
+                return m_length;
             }
             set
             {
-                m_totalPCMBytes = value;
+                m_length = value;
             }
         }
 
-        private uint m_currentPositionMS = 0;
-        /// <summary>
-        /// Defines the current position (in milliseconds).
-        /// This needs to be set by the user in order to display the cursor.
-        /// </summary>
-        public uint CurrentPositionMS
-        {
-            get
-            {
-                return m_currentPositionMS;
-            }
-            set
-            {
-                m_currentPositionMS = value;
-            }
-        }
+        //private uint m_currentPositionMS = 0;
+        ///// <summary>
+        ///// Defines the current position (in milliseconds).
+        ///// This needs to be set by the user in order to display the cursor.
+        ///// </summary>
+        //public uint CurrentPositionMS
+        //{
+        //    get
+        //    {
+        //        return m_currentPositionMS;
+        //    }
+        //    set
+        //    {
+        //        m_currentPositionMS = value;
+        //    }
+        //}
 
-        private uint m_totalMS = 0;
-        /// <summary>
-        /// Defines the total number of milliseconds of the audio file.        
-        /// This needs to be set by the user in order to display the cursor.
-        /// </summary>
-        public uint TotalMS
-        {
-            get
-            {
-                return m_totalMS;
-            }
-            set
-            {
-                m_totalMS = value;
-            }
-        }
+        //private uint m_totalMS = 0;
+        ///// <summary>
+        ///// Defines the total number of milliseconds of the audio file.        
+        ///// This needs to be set by the user in order to display the cursor.
+        ///// </summary>
+        //public uint TotalMS
+        //{
+        //    get
+        //    {
+        //        return m_totalMS;
+        //    }
+        //    set
+        //    {
+        //        m_totalMS = value;
+        //    }
+        //}
 
         #endregion
 
@@ -851,7 +852,18 @@ namespace MPfm.WindowsControls
 
             // Check if the peak file exists                            
             m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
+            
+            // Check if the folder for peak files exists
+            if (!Directory.Exists(PeakFileDirectory))
+            {
+                // Create directory
+                Directory.CreateDirectory(PeakFileDirectory);
+            }
+
+            // Build peak file path
             string peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+
+            // Check if the peak file exists
             if(File.Exists(peakFilePath))
             {
                 // Load peaks from file                
@@ -860,12 +872,19 @@ namespace MPfm.WindowsControls
                 needToRefreshBitmapCache = true;
                 Refresh();
                 return;
-            }           
+            }
 
-            // Start async loading, timer and set flags            
+            // Set flags
             WaveDataHistory.Clear();
             m_isLoading = true;
-            m_workerWaveForm.RunWorkerAsync(filePath);
+
+            // Build the background worker argument
+            WorkerWaveFormArgument arg = new WorkerWaveFormArgument();
+            arg.AudioFilePath = filePath;
+            arg.PeakFilePath = peakFilePath;
+
+            // Start background worker and timer for updating progress
+            m_workerWaveForm.RunWorkerAsync(arg);
             m_timer.Start();
         }
 
@@ -934,7 +953,12 @@ namespace MPfm.WindowsControls
         #endregion
 
         #region Background Worker for Writing Peak Files
-        
+
+        public void Stuffs(long position, float progress)
+        {
+
+        }
+
         /// <summary>
         /// Occurs when the background worker for generating the wave form for Markers & Loops has started its work.
         /// Decompresses an audio file (if needed) and extracts PCM data using FMOD. Generates peak information for wave form display.
@@ -944,261 +968,273 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event Arguments</param>
         private void m_workerWaveForm_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Declare variables
-            FMOD.RESULT result = FMOD.RESULT.OK;
-            FileStream fileStream = null;
-            BinaryWriter binaryWriter = null;
-            GZipStream gzipStream = null;
-            bool generatePeakFile = false;
-            int CHUNKSIZE = 0;
-            uint length = 0;
-            uint read = 0;
-            uint bytesread = 0;
-            Int16[] left16BitArray = null;
-            Int16[] right16BitArray = null;
-            Int32[] left32BitArray = null;
-            Int32[] right32BitArray = null;
-            float[] floatLeft = null;
-            float[] floatRight = null;
-            byte[] buffer = null;
-            IntPtr data = new IntPtr(); // initialized properly later
-            WaveDataMinMax minMax = null;
+            // Get argument
+            WorkerWaveFormArgument arg = (WorkerWaveFormArgument)e.Argument;
 
-            try
+            // Check if the argument is valid
+            if(arg == null)
             {
-                // Set current file directory
-                m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
-
-                // Get file name from argument
-                string fileName = (string)e.Argument;
-
-                // Create sound system with NOSOUND
-                MPfm.Sound.FMODWrapper.System soundSystem = new MPfm.Sound.FMODWrapper.System(FMOD.OUTPUTTYPE.NOSOUND, string.Empty);
-
-                // Create sound
-                MPfm.Sound.FMODWrapper.Sound sound = soundSystem.CreateSound(fileName, false);
-
-                // Get sound format; specifically bits per sample (changes the calculations later)
-                SoundFormat soundFormat = sound.GetSoundFormat();               
-
-                // Get the length of the file in PCM bytes               
-                sound.BaseSound.getLength(ref length, FMOD.TIMEUNIT.PCMBYTES);                
-
-                // Check if the folder for peak files exists
-                if (!Directory.Exists(PeakFileDirectory))
-                {
-                    // Create directory
-                    Directory.CreateDirectory(PeakFileDirectory);
-                }
-
-                // Generate the file name for the peak file by using the full path without special characters
-                string peakFilePath = PeakFileDirectory + fileName.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
-
-                // Check if peak file exists                
-                if(!File.Exists(peakFilePath))
-                {
-                    // Set flag
-                    generatePeakFile = true;
-
-                    // Create peak file
-                    fileStream = new FileStream(peakFilePath, FileMode.Create, FileAccess.Write);
-                    binaryWriter = new BinaryWriter(fileStream);
-                    gzipStream = new GZipStream(fileStream, CompressionMode.Compress);                   
-                }
-
-                // Check the bits per sample to determine what chunk size to get                
-                if (soundFormat.BitsPerSample == 16)
-                {
-                    // 4096 bytes for 16-bit PCM data
-                    CHUNKSIZE = 4096;
-
-                    //int blockSize = 3 * channels * (sampleRate / 10);
-                    //CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 10);
-                }
-                else if (soundFormat.BitsPerSample == 24)
-                {
-                    //CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 10);
-                    CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 100);
-                }
-
-                // Create buffer
-                data = Marshal.AllocHGlobal(CHUNKSIZE);
-                buffer = new byte[CHUNKSIZE];
-
-                // Loop through file using chunk size
-                do
-                {
-                    // Check for cancel
-                    if (m_workerWaveForm.CancellationPending)
-                    {
-                        return;
-                    }
-
-                    // Check the bits per sample
-                    if (soundFormat.BitsPerSample == 16)
-                    {
-                        // Read data chunk (4096 bytes for 16-bit PCM data)
-                        result = sound.BaseSound.readData(data, (uint)CHUNKSIZE, ref read);                        
-                        Marshal.Copy(data, buffer, 0, CHUNKSIZE);
-                        bytesread += read;
-
-                        // Is freehglobal needed? it crashes after one use.
-                        //Marshal.FreeHGlobal(data);
-
-                        // The data we're reading is stored in bytes (8-bit); we must take two 8-bit values and convert them into a 16-bit value.
-                        //
-                        // The PCM data is stored by alternating left and right channel values. For a 16-bit file, this data for a sample looks like this:
-                        // (8-bit left, high value)(8-bit left, low value)(8-bit right, high value)(8-bit right, low value)
-
-                        // Loop through every sample (each sample has 4 8-bit words, so increment by 4 to store values in the 16-bit arrays)
-                        left16BitArray = new Int16[buffer.Length / 4];
-                        right16BitArray = new Int16[buffer.Length / 4];                        
-                        for (int i = 0; i < buffer.Length; i = i + 4)
-                        {
-                            // Convert values to 16-bit
-                            left16BitArray[i / 4] = BitConverter.ToInt16(buffer, i);
-                            right16BitArray[i / 4] = BitConverter.ToInt16(buffer, i + 2); // alternate between left and right channel
-                        }
-
-                        // Convert the short arrays to float arrays (signed values)
-                        // This will convert the -32768 to 32768 value range to -1 to 1 (useful for wave display) 
-                        floatLeft = new float[left16BitArray.Length];
-                        floatRight = new float[left16BitArray.Length];
-                        for (int i = 0; i < left16BitArray.Length; i++)
-                        {
-                            // 16-bit data for unsigned values range from 0 to 65536.
-                            floatLeft[i] = left16BitArray[i] / 65536.0f;
-                            floatRight[i] = right16BitArray[i] / 65536.0f;                            
-                        }
-                    }
-                    else if (soundFormat.BitsPerSample == 24)
-                    {
-                        // Read data chunk (4096 bytes for 16-bit PCM data)
-                        result = sound.BaseSound.readData(data, (uint)CHUNKSIZE, ref read);                        
-                        Marshal.Copy(data, buffer, 0, CHUNKSIZE);
-                        bytesread += read;
-
-                        // Is freehglobal needed? it crashes after one use.
-                        //Marshal.FreeHGlobal(data);
-
-                        // The data we're reading is stored in bytes (8-bit); we must take three 8-bit values and convert them into a 24-bit value.
-                        // However, since there are no 24-bit variables, the values must be stored in a 32-bit array.
-                        //
-                        // The PCM data is stored by alternating left and right channel values. For a 24-bit file, this data for a sample looks like this:
-                        // (8-bit left, value 1)(8-bit left, value 2)(8-bit left, value 3)(8-bit right, value 1)(8-bit right, value 2)(8-bit right, value 3)
-
-                        // This article talks about converting 3 bytes into a 24-bit value, using a 32-bit variable.
-                        // http://stackoverflow.com/questions/3345553/how-do-you-convert-3-bytes-into-a-24-bit-number-in-c
-
-                        // Convert the byte array into a short (16-bit) array
-                        // Loop through every sample (each sample has 6 8-bit words, so increment by 6 to store values in the 32-bit arrays)
-                        left32BitArray = new Int32[buffer.Length / 6];
-                        right32BitArray = new Int32[buffer.Length / 6];
-                        for (int i = 0; i < buffer.Length; i = i + 6)
-                        {
-                            try
-                            {
-                                // Create smaller array in order to add the 4th 8-bit value
-                                byte[] byteArrayLeft = new byte[4] { buffer[i], buffer[i + 1], buffer[i + 2], 0 };
-                                byte[] byteArrayRight = new byte[4] { buffer[i + 3], buffer[i + 4], buffer[i + 5], 0 };
-
-                                // Convert values to 32-bit variables
-                                left32BitArray[i / 6] = BitConverter.ToInt32(byteArrayLeft, 0);
-                                right32BitArray[i / 6] = BitConverter.ToInt32(byteArrayRight, 0);
-                            }
-                            catch (Exception ex)
-                            {
-                                throw ex;
-                            }
-                        }
-
-                        // Convert the short arrays to float arrays
-                        floatLeft = new float[left32BitArray.Length];
-                        floatRight = new float[left32BitArray.Length];
-                        for (int i = 0; i < left32BitArray.Length; i++)
-                        {
-                            // 24-bit data for unsigned values range from 0 to 16777215.
-                            floatLeft[i] = left32BitArray[i] / 16777215.0f;
-                            floatRight[i] = right32BitArray[i] / 16777215.0f;                            
-                        }
-                    }
-
-                    // Calculate min/max
-                    minMax = AudioTools.GetMinMaxFromWaveData(floatLeft, floatRight, false);
-                    WaveDataHistory.Add(minMax);
-
-                    // Report progress
-                    m_bytesRead = bytesread;
-                    m_totalPCMBytes = length;
-                    m_percentageDone = ((float)bytesread / (float)length) * 100;
-
-                    // Write peak information to hard disk
-                    if (generatePeakFile)
-                    {
-                        // Write peak information
-                        binaryWriter.Write((double)minMax.leftMin);
-                        binaryWriter.Write((double)minMax.leftMax);
-                        binaryWriter.Write((double)minMax.rightMin);
-                        binaryWriter.Write((double)minMax.rightMax);
-                        binaryWriter.Write((double)minMax.mixMin);
-                        binaryWriter.Write((double)minMax.mixMax);
-                    }
-
-                    //// Report progress
-                    //WorkerWaveFormProgress progress = new WorkerWaveFormProgress();
-                    //progress.BytesRead = bytesread;
-                    //progress.TotalBytes = length;
-                    //progress.PercentageDone = ((float)bytesread / (float)length) * 100;
-                    //progress.WaveDataMinMax = minMax;
-                    //m_workerWaveForm.ReportProgress(0, progress);
-
-                    // TODO: GC Collect here?                    
-                }
-                while (result == FMOD.RESULT.OK && read == CHUNKSIZE);
-
-                // Release sound from memory
-                sound.Release();
-
-                // Close sound system and release from memory
-                soundSystem.Close();
-                soundSystem.Release();
-
-                // Set nulls for garbage collection               
-                sound = null;
-                soundSystem = null;
-                left16BitArray = null;
-                right16BitArray = null;
-                left32BitArray = null;
-                right32BitArray = null;
-                floatLeft = null;
-                floatRight = null;                
-                buffer = null;
-                minMax = null;
-            }
-            catch (Exception ex)
-            {
-                // Return exception
-                e.Result = ex;                
-            }
-            finally
-            {
-                // Did we have to generate a peak file?
-                if (generatePeakFile)
-                {
-                    // Close writer and stream
-                    gzipStream.Close();
-                    binaryWriter.Close();                   
-                    fileStream.Close();
-
-                    // Set nulls
-                    gzipStream = null;
-                    binaryWriter = null;
-                    fileStream = null;
-                }
+                return;
             }
 
-            // Call garbage collector
-            //GC.Collect();
+            // Generate peak file
+            //PeakFile.GeneratePeakFile(arg.AudioFilePath, arg.PeakFilePath, Stuffs);
+
+            //// Declare variables
+            //FMOD.RESULT result = FMOD.RESULT.OK;
+            //FileStream fileStream = null;
+            //BinaryWriter binaryWriter = null;
+            //GZipStream gzipStream = null;
+            //bool generatePeakFile = false;
+            //int CHUNKSIZE = 0;
+            //uint length = 0;
+            //uint read = 0;
+            //uint bytesread = 0;
+            //Int16[] left16BitArray = null;
+            //Int16[] right16BitArray = null;
+            //Int32[] left32BitArray = null;
+            //Int32[] right32BitArray = null;
+            //float[] floatLeft = null;
+            //float[] floatRight = null;
+            //byte[] buffer = null;
+            //IntPtr data = new IntPtr(); // initialized properly later
+            //WaveDataMinMax minMax = null;
+
+            //try
+            //{
+            //    // Set current file directory
+            //    m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
+
+            //    // Get file name from argument
+            //    string fileName = (string)e.Argument;
+
+            //    // Create sound system with NOSOUND
+            //    MPfm.Sound.FMODWrapper.System soundSystem = new MPfm.Sound.FMODWrapper.System(FMOD.OUTPUTTYPE.NOSOUND, string.Empty);
+
+            //    // Create sound
+            //    MPfm.Sound.FMODWrapper.Sound sound = soundSystem.CreateSound(fileName, false);
+
+            //    // Get sound format; specifically bits per sample (changes the calculations later)
+            //    SoundFormat soundFormat = sound.GetSoundFormat();               
+
+            //    // Get the length of the file in PCM bytes               
+            //    sound.BaseSound.getLength(ref length, FMOD.TIMEUNIT.PCMBYTES);                
+
+            //    // Check if the folder for peak files exists
+            //    if (!Directory.Exists(PeakFileDirectory))
+            //    {
+            //        // Create directory
+            //        Directory.CreateDirectory(PeakFileDirectory);
+            //    }
+
+            //    // Generate the file name for the peak file by using the full path without special characters
+            //    string peakFilePath = PeakFileDirectory + fileName.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+
+            //    // Check if peak file exists                
+            //    if(!File.Exists(peakFilePath))
+            //    {
+            //        // Set flag
+            //        generatePeakFile = true;
+
+            //        // Create peak file
+            //        fileStream = new FileStream(peakFilePath, FileMode.Create, FileAccess.Write);
+            //        binaryWriter = new BinaryWriter(fileStream);
+            //        gzipStream = new GZipStream(fileStream, CompressionMode.Compress);                   
+            //    }
+
+            //    // Check the bits per sample to determine what chunk size to get                
+            //    if (soundFormat.BitsPerSample == 16)
+            //    {
+            //        // 4096 bytes for 16-bit PCM data
+            //        CHUNKSIZE = 4096;
+
+            //        //int blockSize = 3 * channels * (sampleRate / 10);
+            //        //CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 10);
+            //    }
+            //    else if (soundFormat.BitsPerSample == 24)
+            //    {
+            //        //CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 10);
+            //        CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 100);
+            //    }
+
+            //    // Create buffer
+            //    data = Marshal.AllocHGlobal(CHUNKSIZE);
+            //    buffer = new byte[CHUNKSIZE];
+
+            //    // Loop through file using chunk size
+            //    do
+            //    {
+            //        // Check for cancel
+            //        if (m_workerWaveForm.CancellationPending)
+            //        {
+            //            return;
+            //        }
+
+            //        // Check the bits per sample
+            //        if (soundFormat.BitsPerSample == 16)
+            //        {
+            //            // Read data chunk (4096 bytes for 16-bit PCM data)
+            //            result = sound.BaseSound.readData(data, (uint)CHUNKSIZE, ref read);                        
+            //            Marshal.Copy(data, buffer, 0, CHUNKSIZE);
+            //            bytesread += read;
+
+            //            // Is freehglobal needed? it crashes after one use.
+            //            //Marshal.FreeHGlobal(data);
+
+            //            // The data we're reading is stored in bytes (8-bit); we must take two 8-bit values and convert them into a 16-bit value.
+            //            //
+            //            // The PCM data is stored by alternating left and right channel values. For a 16-bit file, this data for a sample looks like this:
+            //            // (8-bit left, high value)(8-bit left, low value)(8-bit right, high value)(8-bit right, low value)
+
+            //            // Loop through every sample (each sample has 4 8-bit words, so increment by 4 to store values in the 16-bit arrays)
+            //            left16BitArray = new Int16[buffer.Length / 4];
+            //            right16BitArray = new Int16[buffer.Length / 4];                        
+            //            for (int i = 0; i < buffer.Length; i = i + 4)
+            //            {
+            //                // Convert values to 16-bit
+            //                left16BitArray[i / 4] = BitConverter.ToInt16(buffer, i);
+            //                right16BitArray[i / 4] = BitConverter.ToInt16(buffer, i + 2); // alternate between left and right channel
+            //            }
+
+            //            // Convert the short arrays to float arrays (signed values)
+            //            // This will convert the -32768 to 32768 value range to -1 to 1 (useful for wave display) 
+            //            floatLeft = new float[left16BitArray.Length];
+            //            floatRight = new float[left16BitArray.Length];
+            //            for (int i = 0; i < left16BitArray.Length; i++)
+            //            {
+            //                // 16-bit data for unsigned values range from 0 to 65536.
+            //                floatLeft[i] = left16BitArray[i] / 65536.0f;
+            //                floatRight[i] = right16BitArray[i] / 65536.0f;                            
+            //            }
+            //        }
+            //        else if (soundFormat.BitsPerSample == 24)
+            //        {
+            //            // Read data chunk (4096 bytes for 16-bit PCM data)
+            //            result = sound.BaseSound.readData(data, (uint)CHUNKSIZE, ref read);                        
+            //            Marshal.Copy(data, buffer, 0, CHUNKSIZE);
+            //            bytesread += read;
+
+            //            // Is freehglobal needed? it crashes after one use.
+            //            //Marshal.FreeHGlobal(data);
+
+            //            // The data we're reading is stored in bytes (8-bit); we must take three 8-bit values and convert them into a 24-bit value.
+            //            // However, since there are no 24-bit variables, the values must be stored in a 32-bit array.
+            //            //
+            //            // The PCM data is stored by alternating left and right channel values. For a 24-bit file, this data for a sample looks like this:
+            //            // (8-bit left, value 1)(8-bit left, value 2)(8-bit left, value 3)(8-bit right, value 1)(8-bit right, value 2)(8-bit right, value 3)
+
+            //            // This article talks about converting 3 bytes into a 24-bit value, using a 32-bit variable.
+            //            // http://stackoverflow.com/questions/3345553/how-do-you-convert-3-bytes-into-a-24-bit-number-in-c
+
+            //            // Convert the byte array into a short (16-bit) array
+            //            // Loop through every sample (each sample has 6 8-bit words, so increment by 6 to store values in the 32-bit arrays)
+            //            left32BitArray = new Int32[buffer.Length / 6];
+            //            right32BitArray = new Int32[buffer.Length / 6];
+            //            for (int i = 0; i < buffer.Length; i = i + 6)
+            //            {
+            //                try
+            //                {
+            //                    // Create smaller array in order to add the 4th 8-bit value
+            //                    byte[] byteArrayLeft = new byte[4] { buffer[i], buffer[i + 1], buffer[i + 2], 0 };
+            //                    byte[] byteArrayRight = new byte[4] { buffer[i + 3], buffer[i + 4], buffer[i + 5], 0 };
+
+            //                    // Convert values to 32-bit variables
+            //                    left32BitArray[i / 6] = BitConverter.ToInt32(byteArrayLeft, 0);
+            //                    right32BitArray[i / 6] = BitConverter.ToInt32(byteArrayRight, 0);
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    throw ex;
+            //                }
+            //            }
+
+            //            // Convert the short arrays to float arrays
+            //            floatLeft = new float[left32BitArray.Length];
+            //            floatRight = new float[left32BitArray.Length];
+            //            for (int i = 0; i < left32BitArray.Length; i++)
+            //            {
+            //                // 24-bit data for unsigned values range from 0 to 16777215.
+            //                floatLeft[i] = left32BitArray[i] / 16777215.0f;
+            //                floatRight[i] = right32BitArray[i] / 16777215.0f;                            
+            //            }
+            //        }
+
+            //        // Calculate min/max
+            //        minMax = AudioTools.GetMinMaxFromWaveData(floatLeft, floatRight, false);
+            //        WaveDataHistory.Add(minMax);
+
+            //        // Report progress
+            //        m_bytesRead = bytesread;
+            //        m_totalPCMBytes = length;
+            //        m_percentageDone = ((float)bytesread / (float)length) * 100;
+
+            //        // Write peak information to hard disk
+            //        if (generatePeakFile)
+            //        {
+            //            // Write peak information
+            //            binaryWriter.Write((double)minMax.leftMin);
+            //            binaryWriter.Write((double)minMax.leftMax);
+            //            binaryWriter.Write((double)minMax.rightMin);
+            //            binaryWriter.Write((double)minMax.rightMax);
+            //            binaryWriter.Write((double)minMax.mixMin);
+            //            binaryWriter.Write((double)minMax.mixMax);
+            //        }
+
+            //        //// Report progress
+            //        //WorkerWaveFormProgress progress = new WorkerWaveFormProgress();
+            //        //progress.BytesRead = bytesread;
+            //        //progress.TotalBytes = length;
+            //        //progress.PercentageDone = ((float)bytesread / (float)length) * 100;
+            //        //progress.WaveDataMinMax = minMax;
+            //        //m_workerWaveForm.ReportProgress(0, progress);
+
+            //        // TODO: GC Collect here?                    
+            //    }
+            //    while (result == FMOD.RESULT.OK && read == CHUNKSIZE);
+
+            //    // Release sound from memory
+            //    sound.Release();
+
+            //    // Close sound system and release from memory
+            //    soundSystem.Close();
+            //    soundSystem.Release();
+
+            //    // Set nulls for garbage collection               
+            //    sound = null;
+            //    soundSystem = null;
+            //    left16BitArray = null;
+            //    right16BitArray = null;
+            //    left32BitArray = null;
+            //    right32BitArray = null;
+            //    floatLeft = null;
+            //    floatRight = null;                
+            //    buffer = null;
+            //    minMax = null;
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Return exception
+            //    e.Result = ex;                
+            //}
+            //finally
+            //{
+            //    // Did we have to generate a peak file?
+            //    if (generatePeakFile)
+            //    {
+            //        // Close writer and stream
+            //        gzipStream.Close();
+            //        binaryWriter.Close();                   
+            //        fileStream.Close();
+
+            //        // Set nulls
+            //        gzipStream = null;
+            //        binaryWriter = null;
+            //        fileStream = null;
+            //    }
+            //}
+
+            //// Call garbage collector
+            ////GC.Collect();
         }
 
         /// <summary>
@@ -1683,7 +1719,7 @@ namespace MPfm.WindowsControls
                 #endregion
 
                 // Get the current position in percentage
-                float positionPercentage = (float)CurrentPositionPCMBytes / (float)TotalPCMBytes;
+                float positionPercentage = (float)Position / (float)Length;
                 float xCursor = (positionPercentage * widthAvailable) - ScrollX;
 
                 // Check if auto scroll is enabled
@@ -1789,7 +1825,9 @@ namespace MPfm.WindowsControls
                     if (DisplayCurrentPosition)
                     {
                         // Convert milliseconds into time string
-                        string timePosition = Conversion.MillisecondsToTimeString(CurrentPositionMS);
+                        
+                        //string timePosition = Conversion.MillisecondsToTimeString(CurrentPositionMS);
+                        string timePosition = "00:00:00";
 
                         // Measure string
                         SizeF sizeText = g.MeasureString(timePosition, Font);
@@ -2321,7 +2359,7 @@ namespace MPfm.WindowsControls
             }
 
             // Check if wave form is generating
-            if (IsLoading || TotalPCMBytes == 0)
+            if (IsLoading || Length == 0)
             {
                 // No mouse interaction
                 return;
@@ -2605,5 +2643,14 @@ namespace MPfm.WindowsControls
         public uint TotalBytes { get; set; }
         public float PercentageDone { get; set; }
         public WaveDataMinMax WaveDataMinMax { get; set; }
+    }
+
+    /// <summary>
+    /// Defines the data structure passed to the background worker for generating waveforms.
+    /// </summary>
+    public class WorkerWaveFormArgument
+    {
+        public string AudioFilePath { get; set; }
+        public string PeakFilePath { get; set; }
     }
 }

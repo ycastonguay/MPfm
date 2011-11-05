@@ -34,9 +34,66 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Sound.BassNetWrapper
 {
+    /// <summary>
+    /// Defines a channel/stream used in BASS.NET.
+    /// There are a few static methods to load streams..
+    /// </summary>
     public class Channel
     {
+        #region Properties
+     
+        /// <summary>
+        /// Private value for the ChannelType property.
+        /// </summary>
+        private ChannelType m_channelType = ChannelType.Playback;
+        /// <summary>
+        /// Indicates the type of channel (playback, FX, etc.)
+        /// </summary>
+        public ChannelType ChannelType
+        {
+            get
+            {
+                return m_channelType;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the IsDecode property.
+        /// </summary>
+        private bool m_isDecode = false;
+        /// <summary>
+        /// Indicates if the channel/stream is decoding.
+        /// </summary>
+        public bool IsDecode
+        {
+            get
+            {
+                return m_isDecode;
+            }            
+        }
+
+        /// <summary>
+        /// Private value for the IsFloatingPoint property.
+        /// </summary>
+        private bool m_isFloatingPoint = false;
+        /// <summary>
+        /// Indicates if the channel/stream is using floating point.
+        /// </summary>
+        public bool IsFloatingPoint
+        {
+            get
+            {
+                return m_isFloatingPoint;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Handle property.
+        /// </summary>
         private int m_handle = 0;
+        /// <summary>
+        /// Handle to the channel.
+        /// </summary>
         public int Handle
         {
             get
@@ -65,67 +122,133 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        #endregion
+
+        #region Constructor
+        
         /// <summary>
         /// Default constructor for Channel. To create a new channel, use one
         /// of the static methods of this class.
         /// </summary>
         /// <param name="handle">Handle to the BASS.NET channel</param>
-        public Channel(int handle)
+        /// <param name="channelType">Type of channel (playback, FX, etc.)</param>
+        /// <param name="isDecode">Indicates if the channel is decoding</param>
+        /// <param name="isFloatingPoint">Indicates if the channel is using floating point</param>
+        public Channel(int handle, ChannelType channelType, bool isDecode, bool isFloatingPoint)
         {
-            // Set current handle
+            // Set properties
             m_handle = handle;
+            m_channelType = channelType;
+            m_isDecode = isDecode;
+            m_isFloatingPoint = isFloatingPoint;
         }
 
-        public static Channel CreateStream(int frequency, int numberOfChannels, STREAMPROC streamProc)
+        #endregion
+
+        #region Static Methods (CreateStream)
+
+        /// <summary>
+        /// Creates a stream from memory using a custom callback procedure.
+        /// </summary>
+        /// <param name="frequency">Frequency (sample rate)</param>
+        /// <param name="numberOfChannels">Number of channels (mono = 1, stereo = 2)</param>
+        /// <param name="isFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <param name="streamProc">Handle to the STREAMPROC callback</param>
+        /// <returns>Channel object</returns>
+        public static Channel CreateStream(int frequency, int numberOfChannels, bool useFloatingPoint, STREAMPROC streamProc)
         {
+            // Build flags; add base flags
+            BASSFlag flags = BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN;
+            if (useFloatingPoint)
+            {
+                // Add floating point
+                flags |= BASSFlag.BASS_SAMPLE_FLOAT;
+            }
+
             // Create file stream
-            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN, streamProc, IntPtr.Zero);
+            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
             if (handle == 0)
             {
                 // Check for error
                 Base.CheckForError();
             }
 
-            return new Channel(handle);
+            // Return new channel instance
+            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint);
         }
 
-        public static Channel CreateFileStreamForDecoding(string filePath)
+        /// <summary>
+        /// Creates a stream from file for decoding.
+        /// </summary>
+        /// <param name="filePath">File path to the audio file</param>
+        /// <param name="isFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <returns>Channel object</returns>
+        public static Channel CreateFileStreamForDecoding(string filePath, bool useFloatingPoint)
         {
+            // Build flags; add base flags
+            BASSFlag flags = BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN;
+            if (useFloatingPoint)
+            {
+                // Add floating point
+                flags |= BASSFlag.BASS_SAMPLE_FLOAT;
+            }
+
             // Create file stream
-            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT);
+            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, flags);
             if (handle == 0)
             {
                 // Check for error
                 Base.CheckForError();
             }
 
-            return new Channel(handle);
+            // Return new channel instance
+            return new Channel(handle, ChannelType.Decode, true, useFloatingPoint);
         }
 
-        public static Channel CreateStreamForTimeShifting(int streamHandle, bool decode)
+        /// <summary>
+        /// Creates a stream for FX (such as time shifting). It needs an handle to the decode stream in order to work.
+        /// </summary>
+        /// <param name="streamHandle">Handle to the base stream</param>
+        /// <param name="decode">Indicates if the file should be played or decoded</param>
+        /// <param name="isFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <returns>Channel object</returns>
+        public static Channel CreateStreamForTimeShifting(int streamHandle, bool decode, bool useFloatingPoint)
         {
-            // Create file stream
-            //int handle = BassFx.BASS_FX_TempoCreate(streamHandle, decode ? BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT : BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN);
-            int handle = 0;
-
+            // Build flags; add base flags
+            BASSFlag flags = BASSFlag.BASS_STREAM_PRESCAN;
             if (decode)
             {
-                handle = BassFx.BASS_FX_TempoCreate(streamHandle, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT);
+                // Add decode
+                flags |= BASSFlag.BASS_STREAM_DECODE;
             }
             else
             {
-                handle = BassFx.BASS_FX_TempoCreate(streamHandle, BASSFlag.BASS_FX_FREESOURCE | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_SAMPLE_FLOAT);
+                // No decode; it needs BASS_FX_FREESOURCE instead
+                flags |= BASSFlag.BASS_FX_FREESOURCE;
+            }
+            if (useFloatingPoint)
+            {
+                // Add floating point
+                flags |= BASSFlag.BASS_SAMPLE_FLOAT;
             }
 
+            // Create file stream            
+            int handle = BassFx.BASS_FX_TempoCreate(streamHandle, flags); 
             if (handle == 0)
             {
                 // Check for error
                 Base.CheckForError();
             }
 
-            return new Channel(handle);
+            // Return new channel instance
+            return new Channel(handle, ChannelType.FX, decode, useFloatingPoint);
         }
 
+        #endregion
+
+        /// <summary>
+        /// Frees the stream.
+        /// </summary>
         public void Free()
         {
             // Free stream
@@ -136,26 +259,52 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
         public int GetData(byte[] buffer, int length)
         {
             return Bass.BASS_ChannelGetData(m_handle, buffer, length);
         }
 
+        /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
         public int GetData(IntPtr buffer, int length)
         {
             return Bass.BASS_ChannelGetData(m_handle, buffer, length);
         }
 
+        /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
         public int GetData(float[] buffer, int length)
         {
             return Bass.BASS_ChannelGetData(m_handle, buffer, length);
         }
 
+        /// <summary>
+        /// Indicates if the channel/stream is currently active or stopped.
+        /// </summary>
+        /// <returns>BASSActive structure</returns>
         public BASSActive IsActive()
         {
             return Bass.BASS_ChannelIsActive(m_handle);
         }
         
+        /// <summary>
+        /// Sets the "tempo" of a track (for time shifting).
+        /// </summary>
+        /// <param name="tempo">Tempo (TODO: Add measure)</param>
         public void SetTempo(float tempo)
         {
             // Set value
@@ -191,36 +340,89 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Gets the length of the channel in bytes.
+        /// </summary>
+        /// <returns>Length (in bytes)</returns>
         public long GetLength()
         {
+            // Get length
             long length = Bass.BASS_ChannelGetLength(m_handle);
+
+            // Check for floating point
+            if (m_isFloatingPoint)
+            {
+                // Convert 32-bit into 16-bit
+                length = length / 2;
+            }
+
             return length;
         }
 
+        /// <summary>
+        /// Returns the current position of the channel/stream in bytes.
+        /// </summary>
+        /// <returns>Position (in bytes)</returns>
         public long GetPosition()
-        {            
+        {
+            // Get position
             long position = Bass.BASS_ChannelGetPosition(m_handle);
+
+            // Check for floating point
+            if (m_isFloatingPoint)
+            {
+                // Convert 32-bit into 16-bit
+                position = position / 2;
+            }
+            
             return position;
         }
 
+        /// <summary>
+        /// Sets the position of the channel/stream in bytes.
+        /// </summary>
+        /// <param name="position">Position (in bytes)</param>
         public void SetPosition(long position)
         {
+            // Check for floating point
+            long newPosition = position;
+            if (m_isFloatingPoint)
+            {
+                newPosition = newPosition * 2;
+            }
+
             // Set position
-            if (!Bass.BASS_ChannelSetPosition(m_handle, position))
+            if (!Bass.BASS_ChannelSetPosition(m_handle, newPosition))
             {
                 // Check for error
                 Base.CheckForError();
             }
         }
 
+        /// <summary>
+        /// Sets a synchronization callback.
+        /// </summary>
+        /// <param name="type">Sync type</param>
+        /// <param name="param">Parameter (depends on sync type)</param>
+        /// <param name="syncProc">Instance of the synchronization callback</param>
+        /// <returns>Synchronization callback handle</returns>
         public int SetSync(BASSSync type, long param, SYNCPROC syncProc)
         {
             return Bass.BASS_ChannelSetSync(m_handle, type, param, syncProc, IntPtr.Zero);
         }
 
+        /// <summary>
+        /// Removes a synchronization callback.
+        /// </summary>
+        /// <param name="syncHandle">Handle to the synchronization callback</param>
         public void RemoveSync(int syncHandle)
         {
-            Bass.BASS_ChannelRemoveSync(m_handle, syncHandle);
+            // Remove the sync callback
+            if (!Bass.BASS_ChannelRemoveSync(m_handle, syncHandle))
+            {                
+                // Check for error
+                Base.CheckForError();                
+            }
         }
 
         public void GetAttribute(BASSAttribute attribute, ref float value)
@@ -258,6 +460,10 @@ namespace MPfm.Sound.BassNetWrapper
             return Bass.BASS_ChannelBytes2Seconds(m_handle, position);
         }
 
+        /// <summary>
+        /// Starts the playback of a channel.
+        /// </summary>
+        /// <param name="restart">Restart playback from the beginning</param>
         public void Play(bool restart)
         {
             // Start playback
@@ -268,6 +474,9 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Stops the playback of a channel.
+        /// </summary>
         public void Stop()
         {
             // Stop playback
@@ -278,9 +487,21 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Pauses the playback of a channel
+        /// </summary>
+        /// <returns>True if the operation was successful</returns>
         public bool Pause()
         {
             return Bass.BASS_ChannelPause(m_handle);
         }
+    }
+
+    /// <summary>
+    /// Defines the type of channel.
+    /// </summary>
+    public enum ChannelType
+    {
+        Playback = 0, FX = 1, Decode = 2, Memory = 3
     }
 }

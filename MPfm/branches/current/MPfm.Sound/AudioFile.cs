@@ -345,14 +345,14 @@ namespace MPfm.Sound
 						// Convert codec into a header 
 						TagLib.Mpeg.AudioHeader header = (TagLib.Mpeg.AudioHeader)codec;
 
-						// Copy properties
-						m_bitrate = header.AudioBitrate;
+						// Copy properties						
 						m_audioChannels = header.AudioChannels;
 						m_frameLength = header.AudioFrameLength;
 						m_audioLayer = header.AudioLayer;
 						m_sampleRate = header.AudioSampleRate;
 						m_channelMode = header.ChannelMode;
-						m_duration = header.Duration;                        
+						m_duration = header.Duration;
+                        m_bitrate = header.AudioBitrate;
 					}
 
 					// Close TagLib file

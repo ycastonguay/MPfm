@@ -93,16 +93,6 @@ namespace MPfm
         // Timer for updating song position
         public System.Windows.Forms.Timer m_timerSongPosition = null;
 
-        //// Player and library
-        //private Player m_player = null;
-        //public Player Player
-        //{
-        //    get
-        //    {
-        //        return m_player;
-        //    }
-        //}
-
         private MPfm.Library.Library m_library = null;
         public MPfm.Library.Library Library
         {
@@ -252,6 +242,8 @@ namespace MPfm
                 {
                     // Ask user if he/she wants to create a new database file, or to point to another one
                     frmSplash.HideSplash();
+                    MessageBox.Show("The database file was not found. Check the database file path in the MPfm.exe.config file.", "Error: Could not find database file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     //DialogResult resultDatabaseFile = MessageBox.Show(this, "Error: The database file was not found.\n\nTo create a new database, click on the Yes button.\nTo select an existing database, click on the No button.\nTo exit the application, click on the Cancel button.", "Error: Database file not found", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
                     //if (resultDatabaseFile == System.Windows.Forms.DialogResult.Yes)
                     //{
@@ -259,6 +251,8 @@ namespace MPfm
                     //}
                     
                     // Actually... show the Select database or create a new one in the 2nd part of the first run window.
+
+                    // Create a new database from script... is that possible? 
 
                     //dialogOpenFile.ShowDialog();
                     Application.Exit();
@@ -342,13 +336,6 @@ namespace MPfm
                 Tracing.Log("Loading library...");
                 frmSplash.SetStatus("Loading library...");
                 m_library = new Library.Library();
-
-                //// Create player with configured driver and output device
-                //m_player = new Player(Config.Driver, Config.OutputDevice, true);
-
-                //// Set up events
-                //m_player.OnTimerElapsed += new Player.TimerElapsed(m_player_OnTimerElapsed);
-                //m_player.OnSongFinished += new Player.SongFinished(m_player_OnSongFinished);
             }
             catch (Exception ex)
             {
@@ -831,6 +818,13 @@ namespace MPfm
 
             outputMeter.AddWaveDataBlock(left, right);
             outputMeter.Refresh();
+
+            // Get min max info from wave block
+            if (AudioTools.CheckForDistortion(left, right, true, 0.0f))
+            {
+                // Show distortion warning "LED"
+                picDistortionWarning.Visible = true;
+            }
 
             ////if (Player != null && Player.IsPlaying)
             ////{
@@ -1727,38 +1721,23 @@ namespace MPfm
                 //    }
                 //}
 
-                //// Get sound format and tags
-                //MPfm.Sound.FMODWrapper.Sound tempSound = Player.SoundSystem.CreateSound(filePath, false);
-
-                //// Get sound format
-                //SoundFormat soundFormat = tempSound.GetSoundFormat();
-                //lblTotalTime.Text = tempSound.Length;
-                //lblBitsPerSample.Text = soundFormat.BitsPerSample.ToString();
-                //lblFrequency.Text = soundFormat.Frequency.ToString();
-
-                //// Get tags
-                //Tags tags = tempSound.GetTags();
-                //lblCurrentArtistName.Text = tags.ArtistName;
-                //lblCurrentAlbumTitle.Text = tags.AlbumTitle;
-                //lblCurrentSongTitle.Text = tags.Title;
-
+                // Set metadata and file path labels
                 lblCurrentArtistName.Text = m_playerV4.Playlist.CurrentItem.AudioFile.ArtistName;
                 lblCurrentAlbumTitle.Text = m_playerV4.Playlist.CurrentItem.AudioFile.AlbumTitle;
-                lblCurrentSongTitle.Text = m_playerV4.Playlist.CurrentItem.AudioFile.Title;
-
-                // Update the rest of the fields
+                lblCurrentSongTitle.Text = m_playerV4.Playlist.CurrentItem.AudioFile.Title;                
                 lblCurrentFilePath.Text = m_playerV4.Playlist.CurrentItem.FilePath;
+
+                // Set format labels
                 lblSoundFormat.Text = Path.GetExtension(m_playerV4.Playlist.CurrentItem.FilePath).Replace(".", "").ToUpper();
+                lblBitsPerSample.Text = m_playerV4.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
+                lblFrequency.Text = m_playerV4.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
 
                 // Set the song length for the Loops & Markers wave form display control
-                //waveFormMarkersLoops.TotalPCMBytes = tempSound.LengthPCMBytes;
-                //waveFormMarkersLoops.TotalMS = tempSound.LengthAbsoluteMilliseconds;
-
-                // Release sound
-                //tempSound.Release();
+                waveFormMarkersLoops.Position = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
+                waveFormMarkersLoops.Length = m_playerV4.Playlist.CurrentItem.Channel.GetLength(); ;                
 
                 // Load the wave form                
-                //waveFormMarkersLoops.LoadWaveForm(filePath);
+                waveFormMarkersLoops.LoadWaveForm(m_playerV4.Playlist.CurrentItem.AudioFile.FilePath);
 
                 //// Update wave form loops & markers control
                 //waveFormMarkersLoops.WaveDataHistory.Clear();               
@@ -2282,6 +2261,11 @@ namespace MPfm
         /// <param name="e">Arguments</param>
         private void faderVolume_OnFaderValueChanged(object sender, EventArgs e)
         {
+            // Set volume and update label            
+            m_playerV4.Volume = (float)faderVolume.Value / 100;
+            lblVolume.Text = faderVolume.Value.ToString() + " %";
+            Config.Volume = faderVolume.Value;
+
             //Player.Volume = faderVolume.Value;
             //lblVolume.Text = faderVolume.Value.ToString() + " %";
             //Config.Volume = faderVolume.Value;

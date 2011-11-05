@@ -220,7 +220,7 @@ namespace MPfm.Library.PlayerV4
             }
 
             // Load channel
-            m_channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(m_filePath);
+            m_channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(m_filePath, true);
 
             // Load channel length
             m_lengthBytes = m_channel.GetLength();

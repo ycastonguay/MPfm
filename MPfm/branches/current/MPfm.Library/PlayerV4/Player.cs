@@ -683,18 +683,18 @@ namespace MPfm.Library.PlayerV4
 
                 // Create the streaming channel
                 m_streamProc = new STREAMPROC(StreamCallback);
-                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_mixerSampleRate, 2, m_streamProc);
+                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_mixerSampleRate, 2, true, m_streamProc);
 
                 // Check driver type
                 if (m_device.DriverType == DriverType.DirectSound)
                 {
                     // Create main channel
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false);
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false, false);
                 }
                 else if (m_device.DriverType == DriverType.ASIO)
                 {
                     // Create main channel
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true);                    
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
 
                     // Create callback
                     m_asioProc = new ASIOPROC(AsioCallback);
@@ -711,13 +711,11 @@ namespace MPfm.Library.PlayerV4
                         BASSError error = Bass.BASS_ErrorGetCode();
                         throw new Exception("[PlayerV4.PlayFiles] Error playing files in ASIO: " + error.ToString());
                     }
-
-
                 }
                 else if (m_device.DriverType == DriverType.WASAPI)
                 {
                     // Create main channel
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true);
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
 
                     // Start playback
                     if (!BassWasapi.BASS_WASAPI_Start())

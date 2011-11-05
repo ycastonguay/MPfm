@@ -1674,8 +1674,6 @@ namespace MPfm
             this.waveFormMarkersLoops.AutoScrollWithCursor = true;
             this.waveFormMarkersLoops.BorderColor = System.Drawing.Color.Empty;
             this.waveFormMarkersLoops.BorderWidth = 0;
-            this.waveFormMarkersLoops.CurrentPositionMS = ((uint)(0u));
-            this.waveFormMarkersLoops.CurrentPositionPCMBytes = ((uint)(0u));
             this.waveFormMarkersLoops.CursorColor = System.Drawing.Color.RoyalBlue;
             this.waveFormMarkersLoops.CustomFontName = "Droid Sans Mono";
             this.waveFormMarkersLoops.DisplayCurrentPosition = true;
@@ -1692,8 +1690,6 @@ namespace MPfm
     "s\\om-0gycd01\\Peak Files\\";
             this.waveFormMarkersLoops.Size = new System.Drawing.Size(792, 56);
             this.waveFormMarkersLoops.TabIndex = 75;
-            this.waveFormMarkersLoops.TotalMS = ((uint)(0u));
-            this.waveFormMarkersLoops.TotalPCMBytes = ((uint)(0u));
             this.waveFormMarkersLoops.WaveFormColor = System.Drawing.Color.Yellow;
             this.waveFormMarkersLoops.Zoom = 100F;
             this.waveFormMarkersLoops.OnPositionChanged += new MPfm.WindowsControls.WaveFormMarkersLoops.PositionChanged(this.waveFormMarkersLoops_OnPositionChanged);
