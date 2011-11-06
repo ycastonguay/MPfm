@@ -69,8 +69,6 @@
     <Compile Include="DTO\PlaylistDTO.cs" />
     <Compile Include="DTO\SongDTO.cs" />
     <Compile Include="Library.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="PlayerV3.cs" />
     <Compile Include="PlayerV4\PlaylistItem.cs" />
     <Compile Include="PlayerV4\Playlist.cs" />
     <Compile Include="PlayerV4\Marker.cs" />
@@ -93,7 +91,6 @@
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
-    <Content Include="References\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
