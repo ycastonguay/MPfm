@@ -334,8 +334,8 @@ namespace MPfm.Library
                 // Fetch markers if necessary
                 if (m_currentLoop != null)
                 {
-                    m_currentLoopMarkerA = DataAccess.SelectMarker(new Guid(m_currentLoop.MarkerAId));
-                    m_currentLoopMarkerB = DataAccess.SelectMarker(new Guid(m_currentLoop.MarkerBId));
+                    //m_currentLoopMarkerA = DataAccess.SelectMarker(new Guid(m_currentLoop.MarkerAId));
+                    //m_currentLoopMarkerB = DataAccess.SelectMarker(new Guid(m_currentLoop.MarkerBId));
                 }
             }
         }
@@ -806,21 +806,21 @@ namespace MPfm.Library
         /// <param name="startSongId">Start Song Identifier (SongId or PlaylistSongId)</param>
         public void PlayPlaylist(Guid playlistId, Guid startSongId)
         {
-            // Get playlist from database
-            PlaylistDTO playlist = Library.SelectPlaylist(playlistId);
+            //// Get playlist from database
+            //PlaylistDTO playlist = Library.SelectPlaylist(playlistId);
 
-            // If there is no start song, start from the first song
-            if (startSongId == Guid.Empty && playlist.Songs.Count > 0)
-            {
-                playlist.CurrentSong = playlist.Songs[0];
-            }
-            else
-            {
-                playlist.CurrentSong = playlist.Songs.FirstOrDefault(x => x.PlaylistSongId == startSongId);
-            }
+            //// If there is no start song, start from the first song
+            //if (startSongId == Guid.Empty && playlist.Songs.Count > 0)
+            //{
+            //    playlist.CurrentSong = playlist.Songs[0];
+            //}
+            //else
+            //{
+            //    playlist.CurrentSong = playlist.Songs.FirstOrDefault(x => x.PlaylistSongId == startSongId);
+            //}
 
-            // Play playlist
-            Play(playlist, startSongId, false, 0);
+            //// Play playlist
+            //Play(playlist, startSongId, false, 0);
         }
 
         /// <summary>

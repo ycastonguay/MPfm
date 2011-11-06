@@ -1,5 +1,5 @@
 ﻿//
-// ConvertDTO.cs: Converts entities from Entity Framework into DTOs.
+// ConvertDTO.cs: Converts DataTable and DataRow from and to DTOs.
 //
 // Copyright © 2011 Yanick Castonguay
 //

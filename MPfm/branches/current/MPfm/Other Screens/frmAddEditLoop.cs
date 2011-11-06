@@ -105,18 +105,18 @@ namespace MPfm
                 Text = "Edit loop";
 
                 // Fetch loop from database
-                MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(m_loopId);
+                //MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(m_loopId);
 
-                // Check if the loop was found
-                if (loop == null)
-                {
-                    return;
-                }
+                //// Check if the loop was found
+                //if (loop == null)
+                //{
+                //    return;
+                //}
 
-                // Update fields
-                txtName.Text = loop.Name;
-                comboMarkerA.SelectedValue = loop.MarkerAId;
-                comboMarkerB.SelectedValue = loop.MarkerBId;
+                //// Update fields
+                //txtName.Text = loop.Name;
+                //comboMarkerA.SelectedValue = loop.MarkerAId;
+                //comboMarkerB.SelectedValue = loop.MarkerBId;
             }
         }
 
@@ -172,7 +172,7 @@ namespace MPfm
             else if (m_mode == AddEditLoopWindowMode.Edit)
             {
                 // Select the existing marker from the database
-                loop = DataAccess.SelectLoop(m_loopId);
+                //loop = DataAccess.SelectLoop(m_loopId);
             }
 
             // Set properties    
@@ -186,7 +186,7 @@ namespace MPfm
             if (m_mode == AddEditLoopWindowMode.Add)
             {
                 // Insert marker
-                DataAccess.InsertLoop(loop);
+                //DataAccess.InsertLoop(loop);
 
                 // Refresh window as Edit Marker
                 m_loopId = new Guid(loop.LoopId);
@@ -196,7 +196,7 @@ namespace MPfm
             else if (m_mode == AddEditLoopWindowMode.Edit)
             {
                 // Update marker
-                DataAccess.UpdateLoop(loop);
+                //DataAccess.UpdateLoop(loop);
             }
 
             // Refresh main window marker list

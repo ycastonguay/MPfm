@@ -99,20 +99,20 @@ namespace MPfm
                 Text = "Edit marker";
 
                 // Fetch marker from database
-                MPfm.Library.Data.Marker marker = DataAccess.SelectMarker(m_markerId);
+                //MPfm.Library.Data.Marker marker = DataAccess.SelectMarker(m_markerId);
 
-                // Check if the marker was found
-                if(marker == null)
-                {
-                    return;
-                }
+                //// Check if the marker was found
+                //if(marker == null)
+                //{
+                //    return;
+                //}
 
-                // Update fields
-                txtName.Text = marker.Name;
-                txtComments.Text = marker.Comments;
-                txtPosition.Text = marker.Position;
-                lblPositionPCMValue.Text = marker.PositionPCM.ToString();
-                lblPositionPCMBytesValue.Text = marker.PositionPCMBytes.ToString();
+                //// Update fields
+                //txtName.Text = marker.Name;
+                //txtComments.Text = marker.Comments;
+                //txtPosition.Text = marker.Position;
+                //lblPositionPCMValue.Text = marker.PositionPCM.ToString();
+                //lblPositionPCMBytesValue.Text = marker.PositionPCMBytes.ToString();
             }
         }
 
@@ -150,7 +150,7 @@ namespace MPfm
             else if (m_mode == AddEditMarkerWindowMode.Edit)
             {
                 // Select the existing marker from the database
-                marker = DataAccess.SelectMarker(m_markerId);
+                //marker = DataAccess.SelectMarker(m_markerId);
             }
 
             // Set properties            
@@ -165,7 +165,7 @@ namespace MPfm
             if (m_mode == AddEditMarkerWindowMode.Add)
             {
                 // Insert marker
-                DataAccess.InsertMarker(marker);
+                //DataAccess.InsertMarker(marker);
 
                 // Refresh window as Edit Marker
                 m_markerId = new Guid(marker.MarkerId);
@@ -175,7 +175,7 @@ namespace MPfm
             else if (m_mode == AddEditMarkerWindowMode.Edit)
             {
                 // Update marker
-                DataAccess.UpdateMarker(marker);
+                //DataAccess.UpdateMarker(marker);
             }
 
             // Refresh main window marker list

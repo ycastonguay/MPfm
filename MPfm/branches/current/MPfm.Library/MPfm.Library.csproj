@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\MPfmGateway.cs" />
-    <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\SQLiteGateway.cs" />
     <Compile Include="Data\MPFM_EF.Designer.cs">
       <AutoGen>True</AutoGen>

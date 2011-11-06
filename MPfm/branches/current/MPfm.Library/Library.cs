@@ -359,7 +359,8 @@ namespace MPfm.Library
 
                 // Compact database
                 UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);
-                DataAccess.CompactDatabase();
+                //DataAccess.CompactDatabase();
+                m_gateway.CompactDatabase();
             }
             catch (UpdateLibraryException ex)
             {
@@ -1064,32 +1065,32 @@ namespace MPfm.Library
             return songs;
         }
 
-        /// <summary>
-        /// Selects the songs from a specific playlist.
-        /// </summary>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(Guid playlistId)
-        {
-            // Create variables
-            List<SongDTO> dtos = new List<SongDTO>();
+        ///// <summary>
+        ///// Selects the songs from a specific playlist.
+        ///// </summary>
+        ///// <returns>List of songs</returns>
+        //public List<SongDTO> SelectSongs(Guid playlistId)
+        //{
+        //    // Create variables
+        //    List<SongDTO> dtos = new List<SongDTO>();
 
-            // Fetch playlist songs from the database
-            List<PlaylistSong> playlistSongs = DataAccess.SelectPlaylistSongs(playlistId);
+        //    // Fetch playlist songs from the database
+        //    List<PlaylistSong> playlistSongs = DataAccess.SelectPlaylistSongs(playlistId);
 
-            // Loop through playlist songs
-            foreach (PlaylistSong playlistSong in playlistSongs)
-            {
-                // Fetch the song from the cache
-                Guid songId = new Guid(playlistSong.SongId);
-                SongDTO song = Songs.FirstOrDefault(x => x.SongId == songId);
+        //    // Loop through playlist songs
+        //    foreach (PlaylistSong playlistSong in playlistSongs)
+        //    {
+        //        // Fetch the song from the cache
+        //        Guid songId = new Guid(playlistSong.SongId);
+        //        SongDTO song = Songs.FirstOrDefault(x => x.SongId == songId);
 
-                // Convert to DTO and add to collection
-                //SongDTO dto = ConvertDTO.ConvertSong(song);
-                dtos.Add(song);
-            }
+        //        // Convert to DTO and add to collection
+        //        //SongDTO dto = ConvertDTO.ConvertSong(song);
+        //        dtos.Add(song);
+        //    }
 
-            return dtos;
-        }
+        //    return dtos;
+        //}
 
         #endregion
 
@@ -1210,131 +1211,131 @@ namespace MPfm.Library
 
         #region Playlists
 
-        /// <summary>
-        /// Returns all the playlists from the database.
-        /// </summary>
-        /// <param name="includePlaylistSongs">If true, the playlist songs are included</param>
-        /// <returns>List of playlists</returns>
-        public List<PlaylistDTO> SelectPlaylists(bool includePlaylistSongs)
-        {
-            // Create the list of DTO
-            List<PlaylistDTO> dtos = new List<PlaylistDTO>();
+        ///// <summary>
+        ///// Returns all the playlists from the database.
+        ///// </summary>
+        ///// <param name="includePlaylistSongs">If true, the playlist songs are included</param>
+        ///// <returns>List of playlists</returns>
+        //public List<PlaylistDTO> SelectPlaylists(bool includePlaylistSongs)
+        //{
+        //    // Create the list of DTO
+        //    List<PlaylistDTO> dtos = new List<PlaylistDTO>();
 
-            // Get the playlists from the database
-            List<Playlist> playlists = DataAccess.SelectPlaylists();
+        //    // Get the playlists from the database
+        //    List<Playlist> playlists = DataAccess.SelectPlaylists();
 
-            // For each playlist
-            foreach (Playlist playlist in playlists)
-            {
-                // Fetch the playlist songs from the database, if specified
-                List<PlaylistSong> playlistSongs = null;
-                if (includePlaylistSongs)
-                {
-                    // Fetch the playlist songs from the database
-                    playlistSongs = DataAccess.SelectPlaylistSongs(new Guid(playlist.PlaylistId));
-                }
+        //    // For each playlist
+        //    foreach (Playlist playlist in playlists)
+        //    {
+        //        // Fetch the playlist songs from the database, if specified
+        //        List<PlaylistSong> playlistSongs = null;
+        //        if (includePlaylistSongs)
+        //        {
+        //            // Fetch the playlist songs from the database
+        //            playlistSongs = DataAccess.SelectPlaylistSongs(new Guid(playlist.PlaylistId));
+        //        }
 
-                // Convert into DTO and add to list
-                PlaylistDTO dto = ConvertDTO.ConvertPlaylist(playlist, playlistSongs);
-                dtos.Add(dto);
-            }
+        //        // Convert into DTO and add to list
+        //        PlaylistDTO dto = ConvertDTO.ConvertPlaylist(playlist, playlistSongs);
+        //        dtos.Add(dto);
+        //    }
 
-            return dtos;
-        }
+        //    return dtos;
+        //}
 
-        /// <summary>
-        /// Selects a playlist from the database, using its identifier.
-        /// </summary>
-        /// <param name="playlistId">Playlist Identifier</param>
-        /// <returns>PlaylistDTO</returns>
-        public PlaylistDTO SelectPlaylist(Guid playlistId)
-        {
-            PlaylistDTO dto = null;
+        ///// <summary>
+        ///// Selects a playlist from the database, using its identifier.
+        ///// </summary>
+        ///// <param name="playlistId">Playlist Identifier</param>
+        ///// <returns>PlaylistDTO</returns>
+        //public PlaylistDTO SelectPlaylist(Guid playlistId)
+        //{
+        //    PlaylistDTO dto = null;
 
-            // Get playlist from database
-            Playlist playlist = DataAccess.SelectPlaylist(playlistId);
-            List<PlaylistSong> playlistSongs = DataAccess.SelectPlaylistSongs(playlistId);
+        //    // Get playlist from database
+        //    Playlist playlist = DataAccess.SelectPlaylist(playlistId);
+        //    List<PlaylistSong> playlistSongs = DataAccess.SelectPlaylistSongs(playlistId);
 
-            // If not not, convert to dto
-            if (playlist != null)
-            {
-                // Convert to dto
-                dto = ConvertDTO.ConvertPlaylist(playlist, null);
+        //    // If not not, convert to dto
+        //    if (playlist != null)
+        //    {
+        //        // Convert to dto
+        //        dto = ConvertDTO.ConvertPlaylist(playlist, null);
 
-                // Check if there are playlist songs
-                if (playlistSongs != null)
-                {
-                    // Loop through playlist songs
-                    foreach (PlaylistSong playlistSong in playlistSongs)
-                    {
-                        // Create DTO
-                        PlaylistSongDTO playlistSongDTO = new PlaylistSongDTO();
-                        playlistSongDTO.PlaylistSongId = new Guid(playlistSong.PlaylistSongId);
+        //        // Check if there are playlist songs
+        //        if (playlistSongs != null)
+        //        {
+        //            // Loop through playlist songs
+        //            foreach (PlaylistSong playlistSong in playlistSongs)
+        //            {
+        //                // Create DTO
+        //                PlaylistSongDTO playlistSongDTO = new PlaylistSongDTO();
+        //                playlistSongDTO.PlaylistSongId = new Guid(playlistSong.PlaylistSongId);
 
-                        // Fetch song from cache
-                        Guid songId = new Guid(playlistSong.SongId);
-                        playlistSongDTO.Song = Songs.FirstOrDefault(x => x.SongId == songId);
+        //                // Fetch song from cache
+        //                Guid songId = new Guid(playlistSong.SongId);
+        //                playlistSongDTO.Song = Songs.FirstOrDefault(x => x.SongId == songId);
 
-                        // Add song to list
-                        dto.Songs.Add(playlistSongDTO);
-                    }
-                }
-            }
+        //                // Add song to list
+        //                dto.Songs.Add(playlistSongDTO);
+        //            }
+        //        }
+        //    }
 
-            return dto;
-        }
+        //    return dto;
+        //}
 
-        /// <summary>
-        /// Saves a playlist and its playlist songs into the database.
-        /// </summary>
-        /// <param name="playlist">Playlist</param>
-        public void SavePlaylist(PlaylistDTO playlist)
-        {
-            // Flag the playlist as custom
-            playlist.PlaylistType = PlaylistType.Custom;
+        ///// <summary>
+        ///// Saves a playlist and its playlist songs into the database.
+        ///// </summary>
+        ///// <param name="playlist">Playlist</param>
+        //public void SavePlaylist(PlaylistDTO playlist)
+        //{
+        //    // Flag the playlist as custom
+        //    playlist.PlaylistType = PlaylistType.Custom;
 
-            // Select playlist from database
-            Playlist playlistEF = DataAccess.SelectPlaylist(playlist.PlaylistId);
+        //    // Select playlist from database
+        //    Playlist playlistEF = DataAccess.SelectPlaylist(playlist.PlaylistId);
 
-            // Check if the playlist is null
-            if (playlistEF == null)
-            {
-                // The playlist doesn't exist in the database; we need to do an INSERT
-                playlistEF = new Playlist();
-                playlistEF.PlaylistId = playlist.PlaylistId.ToString();
-                playlistEF.PlaylistName = playlist.PlaylistName;
+        //    // Check if the playlist is null
+        //    if (playlistEF == null)
+        //    {
+        //        // The playlist doesn't exist in the database; we need to do an INSERT
+        //        playlistEF = new Playlist();
+        //        playlistEF.PlaylistId = playlist.PlaylistId.ToString();
+        //        playlistEF.PlaylistName = playlist.PlaylistName;
 
-                // Insert the playlist
-                DataAccess.InsertPlaylist(playlistEF);
-            }
-            else
-            {
-                // The playlist already exists in the database; we need to do an UPDATE
-                playlistEF.PlaylistName = playlist.PlaylistName;
+        //        // Insert the playlist
+        //        DataAccess.InsertPlaylist(playlistEF);
+        //    }
+        //    else
+        //    {
+        //        // The playlist already exists in the database; we need to do an UPDATE
+        //        playlistEF.PlaylistName = playlist.PlaylistName;
 
-                // Update the playlist
-                DataAccess.UpdatePlaylist(playlistEF);
+        //        // Update the playlist
+        //        DataAccess.UpdatePlaylist(playlistEF);
 
-                // Delete all the playlist songs for the playlist
-                DataAccess.DeletePlaylistSongs(playlist.PlaylistId);
-            }
+        //        // Delete all the playlist songs for the playlist
+        //        DataAccess.DeletePlaylistSongs(playlist.PlaylistId);
+        //    }
 
-            // Generate the playlist songs
-            List<PlaylistSong> playlistSongs = new List<PlaylistSong>();
-            for (int a = 0; a < playlist.Songs.Count; a++)
-            {
-                // Create playlist song for database
-                PlaylistSong playlistSongEF = new PlaylistSong();
-                playlistSongEF.PlaylistSongId = playlist.Songs[a].PlaylistSongId.ToString();
-                playlistSongEF.PlaylistId = playlist.PlaylistId.ToString();
-                playlistSongEF.SongId = playlist.Songs[a].Song.SongId.ToString();
-                playlistSongEF.Position = a + 1;
-                playlistSongs.Add(playlistSongEF);
-            }
+        //    // Generate the playlist songs
+        //    List<PlaylistSong> playlistSongs = new List<PlaylistSong>();
+        //    for (int a = 0; a < playlist.Songs.Count; a++)
+        //    {
+        //        // Create playlist song for database
+        //        PlaylistSong playlistSongEF = new PlaylistSong();
+        //        playlistSongEF.PlaylistSongId = playlist.Songs[a].PlaylistSongId.ToString();
+        //        playlistSongEF.PlaylistId = playlist.PlaylistId.ToString();
+        //        playlistSongEF.SongId = playlist.Songs[a].Song.SongId.ToString();
+        //        playlistSongEF.Position = a + 1;
+        //        playlistSongs.Add(playlistSongEF);
+        //    }
 
-            // Insert playlist songs into database
-            DataAccess.InsertPlaylistSongs(playlistSongs);
-        }
+        //    // Insert playlist songs into database
+        //    DataAccess.InsertPlaylistSongs(playlistSongs);
+        //}
 
         #endregion
 
@@ -1429,10 +1430,12 @@ namespace MPfm.Library
         public void ResetLibrary()
         {
             // Reset library
-            DataAccess.ResetLibrary();
+            //DataAccess.ResetLibrary();
+            m_gateway.ResetLibrary();
 
             // Compact database
-            DataAccess.CompactDatabase();
+            //DataAccess.CompactDatabase();
+            m_gateway.CompactDatabase();
 
             // Refresh cache
             RefreshCache();

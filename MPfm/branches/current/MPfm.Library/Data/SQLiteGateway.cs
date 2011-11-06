@@ -111,6 +111,11 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Executes a SQL query and returns the number of rows affected.
+        /// </summary>
+        /// <param name="sql">SQL query</param>
+        /// <returns>Number of rows affected</returns>
         protected int Execute(string sql)
         {
             // Open connection
@@ -126,6 +131,15 @@ namespace MPfm.Library
             CloseConnection();
 
             return rows;
+        }
+
+        /// <summary>
+        /// Compacts the database.
+        /// </summary>
+        public void CompactDatabase()
+        {
+            // Compact database
+            Execute("VACUUM;");
         }
 
         /// <summary>
@@ -197,7 +211,7 @@ namespace MPfm.Library
         /// <param name="tableName">Table name</param>
         /// <param name="idFieldName">Id field name</param>
         /// <param name="dto">DTO</param>
-        public void Insert(string tableName, string idFieldName, object dto)
+        protected void Insert(string tableName, string idFieldName, object dto)
         {
             // Get empty result set
             string baseQuery = "SELECT * FROM " + tableName;
@@ -219,7 +233,7 @@ namespace MPfm.Library
         /// <param name="idFieldName">Id field name</param>
         /// <param name="id">DTO id</param>
         /// <param name="dto">DTO</param>
-        public void Update(string tableName, string idFieldName, Guid id, object dto)
+        protected void Update(string tableName, string idFieldName, Guid id, object dto)
         {
             // Get item to update
             string baseQuery = "SELECT * FROM " + tableName;
@@ -245,7 +259,7 @@ namespace MPfm.Library
         /// <param name="tableName">Table name</param>
         /// <param name="idFieldName">Id field name</param>
         /// <param name="id">DTO id</param>
-        public void Delete(string tableName, string idFieldName, Guid id)
+        protected void Delete(string tableName, string idFieldName, Guid id)
         {
             Execute("DELETE FROM " + tableName + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
 
@@ -270,7 +284,7 @@ namespace MPfm.Library
         /// Deletes all rows from a database table.
         /// </summary>
         /// <param name="tableName">Database table name</param>
-        public void Delete(string tableName)
+        protected void Delete(string tableName)
         {
             Execute("DELETE FROM " + tableName);
         }
@@ -280,7 +294,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="tableName">Database table name</param>
         /// <param name="where">Where clause</param>
-        public void Delete(string tableName, string where)
+        protected void Delete(string tableName, string where)
         {
             Execute("DELETE FROM " + tableName + " WHERE " + where);
         }

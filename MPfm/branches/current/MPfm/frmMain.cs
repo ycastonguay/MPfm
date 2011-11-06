@@ -1651,7 +1651,7 @@ namespace MPfm
             }
             else if (query.Type == SongQueryType.Playlist)
             {
-                songs = Library.SelectSongs(query.PlaylistId);
+                //songs = Library.SelectSongs(query.PlaylistId);
             }
             else if (query.Type == SongQueryType.All)
             {
@@ -2528,7 +2528,7 @@ namespace MPfm
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
             {
                 // Select playlists
-                result.Playlists = Library.SelectPlaylists(false);
+                //result.Playlists = Library.SelectPlaylists(false);
             }
 
             e.Result = result;
@@ -2899,7 +2899,7 @@ namespace MPfm
             }
 
             // Delete playlist
-            DataAccess.DeletePlaylist(metadata.Query.PlaylistId);
+            //DataAccess.DeletePlaylist(metadata.Query.PlaylistId);
 
             // Refresh playlists
             RefreshTreeLibraryPlaylists();
@@ -3316,7 +3316,7 @@ namespace MPfm
                 Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
                 // Remove marker and refresh list                
-                DataAccess.DeleteMarker(markerId);
+                //DataAccess.DeleteMarker(markerId);
                 RefreshMarkers();
             }
         }
@@ -3468,7 +3468,7 @@ namespace MPfm
                 Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
                 // Remove marker and refresh list                
-                DataAccess.DeleteLoop(loopId);
+                //DataAccess.DeleteLoop(loopId);
                 RefreshLoops();
             }
         }
