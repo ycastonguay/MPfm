@@ -471,7 +471,23 @@ namespace MPfm
         private void btnTestSound_Click(object sender, EventArgs e)
         {
             MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
-            List<SongDTO> songs = gateway.GetSongs();            
+
+            SongDTO newSong = new SongDTO();
+            newSong.SongId = Guid.NewGuid();
+            newSong.Title = " HAHAHA";
+            newSong.FilePath = @"C:\Test.wav";
+            newSong.Year = 2011;
+
+            gateway.InsertSong(newSong);
+            newSong.Time = "HIHIHI";
+            gateway.UpdateSong(newSong);
+            
+
+            List<SongDTO> songs = gateway.GetSongs();
+
+            gateway.DeleteSong(newSong.SongId);
+
+            songs = gateway.GetSongs();      
 
 
             //try

@@ -114,6 +114,41 @@ namespace MPfm.Library
             return dtos;
         }
 
+        public static void ToRow(ref DataRow row, SongDTO song)
+        {
+            // Set row data
+            row["SongId"] = song.SongId.ToString();
+            row["Title"] = song.Title;
+            row["FilePath"] = song.FilePath;
+            row["ArtistName"] = song.ArtistName;
+            row["AlbumTitle"] = song.AlbumTitle;
+            row["Genre"] = song.Genre;
+            row["SoundFormat"] = song.SoundFormat;
+            row["Lyrics"] = song.Lyrics;
+            row["Time"] = song.Time;
+
+            AssignRowValue(ref row, "PlayCount", song.PlayCount);
+            AssignRowValue(ref row, "Year", song.Year);
+            AssignRowValue(ref row, "DiscNumber", song.DiscNumber);
+            AssignRowValue(ref row, "TrackNumber", song.TrackNumber);
+            AssignRowValue(ref row, "TrackCount", song.TrackCount);
+            AssignRowValue(ref row, "Rating", song.Rating);
+            AssignRowValue(ref row, "Tempo", song.Tempo);
+            AssignRowValue(ref row, "LastPlayed", song.LastPlayed);
+        }
+
+        public static void AssignRowValue(ref DataRow row, string field, object value)
+        {
+            if (value == null)
+            {
+                row[field] = DBNull.Value;
+            }
+            else
+            {
+                row[field] = value;
+            }
+        }
+
         /// <summary>
         /// Converts a Song entity from EF to SongDTO.
         /// </summary>

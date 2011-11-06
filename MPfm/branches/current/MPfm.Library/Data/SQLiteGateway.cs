@@ -135,5 +135,39 @@ namespace MPfm.Library
 
             return table;
         }
+
+        /// <summary>
+        /// Updates a DataTable into the database (useful for insert/update/delete).
+        /// </summary>
+        /// <param name="table">DataTable to update</param>
+        /// <param name="sql">Base query to select item to update/insert/delete</param>
+        protected void UpdateDataTable(DataTable table, string sql)
+        {
+            // Open connection
+            OpenConnection();
+
+            // Create command
+            DbCommand command = m_factory.CreateCommand();
+            command.CommandText = sql;
+            command.Connection = m_connection;
+
+            // Create adapter
+            DbDataAdapter adapter = m_factory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+
+            // Create command builder
+            DbCommandBuilder builder = m_factory.CreateCommandBuilder();
+            builder.DataAdapter = adapter;
+
+            // Get the insert, update and delete commands
+            adapter.InsertCommand = builder.GetInsertCommand();
+            adapter.UpdateCommand = builder.GetUpdateCommand();
+            adapter.DeleteCommand = builder.GetDeleteCommand();
+
+            adapter.Update(table);
+
+            // Close connection
+            CloseConnection();
+        }
     }
 }
