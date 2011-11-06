@@ -195,69 +195,69 @@ namespace MPfm
                 string title = "MPfm: Music Player for Musicians";
                 this.Text = title + " - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-                // Verify if the database path is in the configuration file 
-                bool databaseFileFound = false;
-                string connectionString = string.Empty;
-                if (m_config.Config.ConnectionStrings.ConnectionStrings.Count > 0)
-                {
-                    // Loop through connection strings
-                    foreach (ConnectionStringSettings connectionStringSetting in m_config.Config.ConnectionStrings.ConnectionStrings)
-                    {
-                        // Check for connection string name
-                        if (connectionStringSetting.Name.ToUpper() == "MPFM_EF")
-                        {
-                            // Set connection string
-                            connectionString = connectionStringSetting.ConnectionString;                            
-                        }
-                    }
-                }
+                //// Verify if the database path is in the configuration file 
+                //bool databaseFileFound = false;
+                //string connectionString = string.Empty;
+                //if (m_config.Config.ConnectionStrings.ConnectionStrings.Count > 0)
+                //{
+                //    // Loop through connection strings
+                //    foreach (ConnectionStringSettings connectionStringSetting in m_config.Config.ConnectionStrings.ConnectionStrings)
+                //    {
+                //        // Check for connection string name
+                //        if (connectionStringSetting.Name.ToUpper() == "MPFM_EF")
+                //        {
+                //            // Set connection string
+                //            connectionString = connectionStringSetting.ConnectionString;                            
+                //        }
+                //    }
+                //}
 
-                // If a connection string was found, check if the file exists
-                if (!String.IsNullOrEmpty(connectionString))
-                {
-                    // Extract file path
-                    string[] stuff = Regex.Split(connectionString.ToUpper(), "\"DATA SOURCE=");
-                    if (stuff.Length == 2)
-                    {
-                        // Get file path
-                        string filePath = stuff[1].Replace("\"", "");
+                //// If a connection string was found, check if the file exists
+                //if (!String.IsNullOrEmpty(connectionString))
+                //{
+                //    // Extract file path
+                //    string[] stuff = Regex.Split(connectionString.ToUpper(), "\"DATA SOURCE=");
+                //    if (stuff.Length == 2)
+                //    {
+                //        // Get file path
+                //        string filePath = stuff[1].Replace("\"", "");
 
-                        try
-                        {
-                            // Check if the database file exists
-                            if (File.Exists(filePath))
-                            {
-                                // We found the database file!
-                                databaseFileFound = true;
-                            }
-                        }
-                        catch
-                        {
-                            // Do nothing; the database file found flag is already false
-                        }
-                    }
-                }
+                //        try
+                //        {
+                //            // Check if the database file exists
+                //            if (File.Exists(filePath))
+                //            {
+                //                // We found the database file!
+                //                databaseFileFound = true;
+                //            }
+                //        }
+                //        catch
+                //        {
+                //            // Do nothing; the database file found flag is already false
+                //        }
+                //    }
+                //}
 
-                // Check if the database file was found
-                if(!databaseFileFound)
-                {
-                    // Ask user if he/she wants to create a new database file, or to point to another one
-                    frmSplash.HideSplash();
-                    MessageBox.Show("The database file was not found. Check the database file path in the MPfm.exe.config file.", "Error: Could not find database file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //// Check if the database file was found
+                //if(!databaseFileFound)
+                //{
+                //    // Ask user if he/she wants to create a new database file, or to point to another one
+                //    frmSplash.HideSplash();
+                //    MessageBox.Show("The database file was not found. Check the database file path in the MPfm.exe.config file.", "Error: Could not find database file", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    //DialogResult resultDatabaseFile = MessageBox.Show(this, "Error: The database file was not found.\n\nTo create a new database, click on the Yes button.\nTo select an existing database, click on the No button.\nTo exit the application, click on the Cancel button.", "Error: Database file not found", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
-                    //if (resultDatabaseFile == System.Windows.Forms.DialogResult.Yes)
-                    //{
+                //    //DialogResult resultDatabaseFile = MessageBox.Show(this, "Error: The database file was not found.\n\nTo create a new database, click on the Yes button.\nTo select an existing database, click on the No button.\nTo exit the application, click on the Cancel button.", "Error: Database file not found", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                //    //if (resultDatabaseFile == System.Windows.Forms.DialogResult.Yes)
+                //    //{
 
-                    //}
+                //    //}
                     
-                    // Actually... show the Select database or create a new one in the 2nd part of the first run window.
+                //    // Actually... show the Select database or create a new one in the 2nd part of the first run window.
 
-                    // Create a new database from script... is that possible? 
+                //    // Create a new database from script... is that possible? 
 
-                    //dialogOpenFile.ShowDialog();
-                    Application.Exit();
-                }
+                //    //dialogOpenFile.ShowDialog();
+                //    Application.Exit();
+                //}
 
             }
             catch (Exception ex)
