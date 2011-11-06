@@ -27,7 +27,6 @@ using System.Data.Objects;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
-using MPfm.Library.Data;
 
 namespace MPfm.Library
 {
@@ -375,45 +374,45 @@ namespace MPfm.Library
             }
         }
 
-        /// <summary>
-        /// Converts a Playlist entity from EF to PlaylistDTO. Also converts the playlist
-        /// songs into a list of PlaylistSongDTO.
-        /// </summary>
-        /// <param name="playlist">Playlist (EF)</param>
-        /// <param name="playlistSongs">Playlist songs (EF)</param>
-        /// <returns>Playlist (DTO)</returns>
-        public static PlaylistDTO ConvertPlaylist(Playlist playlist, List<PlaylistSong> playlistSongs)
-        {
-            // Create DTO
-            PlaylistDTO dto = new PlaylistDTO();
-            dto.PlaylistId = new Guid(playlist.PlaylistId);
-            dto.PlaylistName = playlist.PlaylistName;
-            dto.PlaylistType = PlaylistType.Custom;
-            dto.PlaylistModified = false;
-            dto.CurrentSong = null;
+        ///// <summary>
+        ///// Converts a Playlist entity from EF to PlaylistDTO. Also converts the playlist
+        ///// songs into a list of PlaylistSongDTO.
+        ///// </summary>
+        ///// <param name="playlist">Playlist (EF)</param>
+        ///// <param name="playlistSongs">Playlist songs (EF)</param>
+        ///// <returns>Playlist (DTO)</returns>
+        //public static PlaylistDTO ConvertPlaylist(Playlist playlist, List<PlaylistSong> playlistSongs)
+        //{
+        //    // Create DTO
+        //    PlaylistDTO dto = new PlaylistDTO();
+        //    dto.PlaylistId = new Guid(playlist.PlaylistId);
+        //    dto.PlaylistName = playlist.PlaylistName;
+        //    dto.PlaylistType = PlaylistType.Custom;
+        //    dto.PlaylistModified = false;
+        //    dto.CurrentSong = null;
 
-            // Convert playlist songs 
-            if (playlistSongs != null)
-            {
-                // Loop through playlist songs
-                foreach (PlaylistSong playlistSong in playlistSongs)
-                {
-                    // Create DTO
-                    PlaylistSongDTO playlistSongDTO = new PlaylistSongDTO();
-                    playlistSongDTO.PlaylistSongId = new Guid(playlistSong.PlaylistSongId);
+        //    // Convert playlist songs 
+        //    if (playlistSongs != null)
+        //    {
+        //        // Loop through playlist songs
+        //        foreach (PlaylistSong playlistSong in playlistSongs)
+        //        {
+        //            // Create DTO
+        //            PlaylistSongDTO playlistSongDTO = new PlaylistSongDTO();
+        //            playlistSongDTO.PlaylistSongId = new Guid(playlistSong.PlaylistSongId);
 
-                    //// Get song from database                    
-                    ////Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
-                    //Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
-                    //if (song != null)
-                    //{
-                    //    playlistSongDTO.Song = ConvertSong(song);
-                    //    dto.Songs.Add(playlistSongDTO);
-                    //}
-                }
-            }
+        //            //// Get song from database                    
+        //            ////Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
+        //            //Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
+        //            //if (song != null)
+        //            //{
+        //            //    playlistSongDTO.Song = ConvertSong(song);
+        //            //    dto.Songs.Add(playlistSongDTO);
+        //            //}
+        //        }
+        //    }
 
-            return dto;
-        }
+        //    return dto;
+        //}
     }
 }

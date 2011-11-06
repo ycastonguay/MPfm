@@ -33,7 +33,6 @@ using MPfm.Sound;
 using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
-using MPfm.Library.Data;
 
 namespace MPfm
 {

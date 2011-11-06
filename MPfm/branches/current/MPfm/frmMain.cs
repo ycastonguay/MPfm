@@ -45,6 +45,7 @@ using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
+using MPfm.Library.PlayerV4;
 
 namespace MPfm
 {
@@ -1064,87 +1065,87 @@ namespace MPfm
             //}
         }       
 
-        /// <summary>
-        /// Occurs when the Player has played about 10ms of audio. This event
-        /// refreshes the time display, output meter, wave form display, etc.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        private void m_player_OnTimerElapsed(TimerElapsedData data)
-        {
-            if (!IsInitDone)
-            {
-                return;
-            }
+        ///// <summary>
+        ///// Occurs when the Player has played about 10ms of audio. This event
+        ///// refreshes the time display, output meter, wave form display, etc.
+        ///// </summary>
+        ///// <param name="data">Event data</param>
+        //private void m_player_OnTimerElapsed(TimerElapsedData data)
+        //{
+        //    if (!IsInitDone)
+        //    {
+        //        return;
+        //    }
 
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                //// Check if player is playing
-                //if (!Player.IsPlaying)
-                //{
-                //    // Nothing to update
-                //    return;
-                //}
+        //    // Invoke UI updates
+        //    MethodInvoker methodUIUpdate = delegate
+        //    {
+        //        //// Check if player is playing
+        //        //if (!Player.IsPlaying)
+        //        //{
+        //        //    // Nothing to update
+        //        //    return;
+        //        //}
 
-                //// debug
-                ////lblBitrateTitle.Text = data.Debug;
-                ////lblFrequencyTitle.Text = data.Debug2;
-                ////lblBitrateTitle.Text = Player.CurrentPlaylist.Position.ToString();
+        //        //// debug
+        //        ////lblBitrateTitle.Text = data.Debug;
+        //        ////lblFrequencyTitle.Text = data.Debug2;
+        //        ////lblBitrateTitle.Text = Player.CurrentPlaylist.Position.ToString();
 
-                //// Update current time               
-                //string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
-                //lblCurrentTime.Text = currentTime;
+        //        //// Update current time               
+        //        //string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
+        //        //lblCurrentTime.Text = currentTime;
 
-                ////lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
+        //        ////lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
 
-                //// Update data for Loops & Markers wave form display
-                //waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
-                //waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;
+        //        //// Update data for Loops & Markers wave form display
+        //        //waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
+        //        //waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;
 
-                //// Update wave form control
-                //formVisualizer.waveForm.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
+        //        //// Update wave form control
+        //        //formVisualizer.waveForm.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
 
-                //// Get minmax data from wave data
-                ////WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(data.WaveDataLeft, data.WaveDataRight, true);
+        //        //// Get minmax data from wave data
+        //        ////WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(data.WaveDataLeft, data.WaveDataRight, true);
 
-                //// Add raw wave data to control
-                //outputMeter.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
+        //        //// Add raw wave data to control
+        //        //outputMeter.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
 
-                //// Get min max info from wave block
-                //if (AudioTools.CheckForDistortion(data.WaveDataLeft, data.WaveDataRight, true, 0.0f))
-                //{
-                //    // Show distortion warning "LED"
-                //    picDistortionWarning.Visible = true;
-                //}
+        //        //// Get min max info from wave block
+        //        //if (AudioTools.CheckForDistortion(data.WaveDataLeft, data.WaveDataRight, true, 0.0f))
+        //        //{
+        //        //    // Show distortion warning "LED"
+        //        //    picDistortionWarning.Visible = true;
+        //        //}
 
-                ////double rms = System.Math.Sqrt(doubleSum / 256);
+        //        ////double rms = System.Math.Sqrt(doubleSum / 256);
 
-                //// Update the song position
-                //if (!songPositionChanging)
-                //{
-                //    // Do not go beyong 99% or the song might end before!
-                //    if (data.SongPositionPercentage <= 99)
-                //    {                        
-                //        trackPosition.Value = Convert.ToInt32(data.SongPositionPercentage * 10);
-                //    }
+        //        //// Update the song position
+        //        //if (!songPositionChanging)
+        //        //{
+        //        //    // Do not go beyong 99% or the song might end before!
+        //        //    if (data.SongPositionPercentage <= 99)
+        //        //    {                        
+        //        //        trackPosition.Value = Convert.ToInt32(data.SongPositionPercentage * 10);
+        //        //    }
 
-                //    // Set time on seek control
-                //    lblSongPosition.Text = currentTime;
-                //    lblSongPercentage.Text = data.SongPositionPercentage.ToString("0.00") + " %";
-                //}
+        //        //    // Set time on seek control
+        //        //    lblSongPosition.Text = currentTime;
+        //        //    lblSongPercentage.Text = data.SongPositionPercentage.ToString("0.00") + " %";
+        //        //}
 
-            };
+        //    };
 
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }
-        }
+        //    // Check if invoking is necessary
+        //    if (InvokeRequired)
+        //    {
+        //        BeginInvoke(methodUIUpdate);
+        //    }
+        //    else
+        //    {
+        //        methodUIUpdate.Invoke();
+        //    }
+        //}
 
         #endregion
 

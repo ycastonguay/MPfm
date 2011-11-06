@@ -169,7 +169,7 @@ namespace MPfm.Library.PlayerV4
                 if (m_playlist != null && m_playlist.CurrentItem != null)
                 {
                     // Check if the repeat type is Song
-                    if (m_repeatType == MPfm.Library.RepeatType.Song)
+                    if (m_repeatType == RepeatType.Song)
                     {
                         // Force looping
                         m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
@@ -730,7 +730,7 @@ namespace MPfm.Library.PlayerV4
                 //AddEQ();
 
                 // Check if the repeat type is Song
-                if (m_repeatType == MPfm.Library.RepeatType.Song)
+                if (m_repeatType == RepeatType.Song)
                 {
                     // Force looping                    
                     m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
@@ -934,7 +934,7 @@ namespace MPfm.Library.PlayerV4
                     }
 
                     // Check if the repeat type is Song
-                    if (m_repeatType == MPfm.Library.RepeatType.Song)
+                    if (m_repeatType == RepeatType.Song)
                     {
                         // Force looping
                         m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
@@ -1244,7 +1244,7 @@ namespace MPfm.Library.PlayerV4
                 if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
                 {
                     // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
-                    if (RepeatType == MPfm.Library.RepeatType.Playlist)
+                    if (RepeatType == RepeatType.Playlist)
                     {                        
                         // Dispose channels
                         m_playlist.DisposeChannels();
@@ -1381,5 +1381,13 @@ namespace MPfm.Library.PlayerV4
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Defines the repeat types (off, playlist or song).
+    /// </summary>
+    public enum RepeatType
+    {
+        Off = 0, Playlist = 1, Song = 2
     }
 }

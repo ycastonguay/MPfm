@@ -33,7 +33,6 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.FMODWrapper;
-using MPfm.Library.Data;
 
 namespace MPfm.Library
 {
@@ -709,7 +708,7 @@ namespace MPfm.Library
         /// <param name="song">Song (from EF)</param>
         /// <param name="updateDatabase">Update database if true</param>
         /// <returns>Song with updated properties</returns>
-        public Song UpdateSongFromTags(Song song, bool updateDatabase)
+        public SongDTO UpdateSongFromTags(SongDTO song, bool updateDatabase)
         {
             //// Create temporary sound
             //MPfm.Sound.FMODWrapper.Sound sound = Player.SoundSystem.CreateSound(song.FilePath, false);

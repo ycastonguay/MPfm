@@ -65,11 +65,6 @@
   <ItemGroup>
     <Compile Include="Data\MPfmGateway.cs" />
     <Compile Include="Data\SQLiteGateway.cs" />
-    <Compile Include="Data\MPFM_EF.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MPFM_EF.edmx</DependentUpon>
-    </Compile>
     <Compile Include="DTO\ConvertDTO.cs" />
     <Compile Include="DTO\EqualizerDTO.cs" />
     <Compile Include="DTO\FolderDTO.cs" />
@@ -91,10 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Data\MPFM_EF.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MPFM_EF.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

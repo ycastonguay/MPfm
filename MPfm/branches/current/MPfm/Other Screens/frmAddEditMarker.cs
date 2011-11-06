@@ -133,53 +133,53 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Get PCM and PCM bytes values
-            long pcm = 0;
-            long.TryParse(lblPositionPCMValue.Text, out pcm);
-            long pcmBytes = 0;
-            long.TryParse(lblPositionPCMBytesValue.Text, out pcmBytes);
+            //// Get PCM and PCM bytes values
+            //long pcm = 0;
+            //long.TryParse(lblPositionPCMValue.Text, out pcm);
+            //long pcmBytes = 0;
+            //long.TryParse(lblPositionPCMBytesValue.Text, out pcmBytes);
 
-            // Create a new marker or fetch the existing marker from the database
-            MPfm.Library.Data.Marker marker = null;
-            if (m_mode == AddEditMarkerWindowMode.Add)
-            {
-                // Insert the new marker into the database
-                marker = new Library.Data.Marker();
-                marker.MarkerId = Guid.NewGuid().ToString();
-            }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
-            {
-                // Select the existing marker from the database
-                //marker = DataAccess.SelectMarker(m_markerId);
-            }
+            //// Create a new marker or fetch the existing marker from the database
+            //MPfm.Library.Data.Marker marker = null;
+            //if (m_mode == AddEditMarkerWindowMode.Add)
+            //{
+            //    // Insert the new marker into the database
+            //    marker = new Library.Data.Marker();
+            //    marker.MarkerId = Guid.NewGuid().ToString();
+            //}
+            //else if (m_mode == AddEditMarkerWindowMode.Edit)
+            //{
+            //    // Select the existing marker from the database
+            //    //marker = DataAccess.SelectMarker(m_markerId);
+            //}
 
-            // Set properties            
-            marker.SongId = m_song.SongId.ToString();
-            marker.Name = txtName.Text;
-            marker.Comments = txtComments.Text;
-            marker.Position = txtPosition.Text;
-            marker.PositionPCM = pcm;
-            marker.PositionPCMBytes = pcmBytes;
+            //// Set properties            
+            //marker.SongId = m_song.SongId.ToString();
+            //marker.Name = txtName.Text;
+            //marker.Comments = txtComments.Text;
+            //marker.Position = txtPosition.Text;
+            //marker.PositionPCM = pcm;
+            //marker.PositionPCMBytes = pcmBytes;
 
-            // Determine if an INSERT or an UPDATE is necessary
-            if (m_mode == AddEditMarkerWindowMode.Add)
-            {
-                // Insert marker
-                //DataAccess.InsertMarker(marker);
+            //// Determine if an INSERT or an UPDATE is necessary
+            //if (m_mode == AddEditMarkerWindowMode.Add)
+            //{
+            //    // Insert marker
+            //    //DataAccess.InsertMarker(marker);
 
-                // Refresh window as Edit Marker
-                m_markerId = new Guid(marker.MarkerId);
-                m_mode = AddEditMarkerWindowMode.Edit;
-                Initialize();
-            }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
-            {
-                // Update marker
-                //DataAccess.UpdateMarker(marker);
-            }
+            //    // Refresh window as Edit Marker
+            //    m_markerId = new Guid(marker.MarkerId);
+            //    m_mode = AddEditMarkerWindowMode.Edit;
+            //    Initialize();
+            //}
+            //else if (m_mode == AddEditMarkerWindowMode.Edit)
+            //{
+            //    // Update marker
+            //    //DataAccess.UpdateMarker(marker);
+            //}
 
-            // Refresh main window marker list
-            Main.RefreshMarkers();
+            //// Refresh main window marker list
+            //Main.RefreshMarkers();
         }
 
         /// <summary>
