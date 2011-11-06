@@ -66,6 +66,8 @@
     <Compile Include="Data\MPfmGateway.cs" />
     <Compile Include="Data\SQLiteGateway.cs" />
     <Compile Include="DTO\ConvertDTO.cs" />
+    <Compile Include="DTO\LoopDTO.cs" />
+    <Compile Include="DTO\MarkerDTO.cs" />
     <Compile Include="DTO\EqualizerDTO.cs" />
     <Compile Include="DTO\FolderDTO.cs" />
     <Compile Include="DTO\PlaylistSongDTO.cs" />
