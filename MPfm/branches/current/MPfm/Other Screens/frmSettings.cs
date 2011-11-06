@@ -463,6 +463,8 @@ namespace MPfm
             testSuccessful = false;            
         }
 
+        private PeakFile peakFile = null;
+
         /// <summary>
         /// Occurs when the user clicks on the Test audio configuration button.
         /// </summary>
@@ -470,24 +472,30 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestSound_Click(object sender, EventArgs e)
         {
-            MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
+            peakFile = new PeakFile();
+            peakFile.Test();
 
-            SongDTO newSong = new SongDTO();
-            newSong.SongId = Guid.NewGuid();
-            newSong.Title = " HAHAHA";
-            newSong.FilePath = @"C:\Test.wav";
-            newSong.Year = 2011;
 
-            gateway.InsertSong(newSong);
-            newSong.Time = "HIHIHI";
-            gateway.UpdateSong(newSong);
+            return;
+
+            //MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
+
+            //SongDTO newSong = new SongDTO();
+            //newSong.SongId = Guid.NewGuid();
+            //newSong.Title = " HAHAHA";
+            //newSong.FilePath = @"C:\Test.wav";
+            //newSong.Year = 2011;
+
+            //gateway.InsertSong(newSong);
+            //newSong.Time = "HIHIHI";
+            //gateway.UpdateSong(newSong);
             
 
-            List<SongDTO> songs = gateway.SelectSongs();
+            //List<SongDTO> songs = gateway.SelectSongs();
 
-            gateway.DeleteSong(newSong.SongId);
+            //gateway.DeleteSong(newSong.SongId);
 
-            songs = gateway.SelectSongs();      
+            //songs = gateway.SelectSongs();      
 
 
             //try
@@ -606,6 +614,14 @@ namespace MPfm
         }
 
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (peakFile != null)
+            {
+                peakFile.CancelGenerate();
+            }
+        }
 
     }
 

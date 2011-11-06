@@ -57,12 +57,12 @@ namespace MPfm
             // lblStatus
             // 
             this.lblStatus.AntiAliasingEnabled = true;
-            this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(4)))), ((int)(((byte)(4)))));
+            this.lblStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblStatus.CustomFontName = "TitilliumText22L Lt";
-            this.lblStatus.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.FontCollection = this.fontCollection;
             this.lblStatus.ForeColor = System.Drawing.Color.White;
-            this.lblStatus.Location = new System.Drawing.Point(8, 481);
+            this.lblStatus.Location = new System.Drawing.Point(5, 481);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(608, 22);
             this.lblStatus.TabIndex = 50;
@@ -87,7 +87,7 @@ namespace MPfm
             // lblVersion
             // 
             this.lblVersion.AntiAliasingEnabled = true;
-            this.lblVersion.BackColor = System.Drawing.Color.Black;
+            this.lblVersion.BackColor = System.Drawing.Color.Transparent;
             this.lblVersion.CustomFontName = "Droid Sans Mono";
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
             this.lblVersion.FontCollection = this.fontCollection;
@@ -101,7 +101,7 @@ namespace MPfm
             // 
             // pictureBackground
             // 
-            this.pictureBackground.Image = global::MPfm.Properties.Resources.MPFM_Splash_0_4;
+            this.pictureBackground.Image = global::MPfm.Properties.Resources.MPFM_Splash_0_5_01;
             this.pictureBackground.Location = new System.Drawing.Point(0, 0);
             this.pictureBackground.Name = "pictureBackground";
             this.pictureBackground.Size = new System.Drawing.Size(640, 504);

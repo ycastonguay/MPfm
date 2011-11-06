@@ -319,9 +319,9 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap MPFM_Splash_0_4 {
+        internal static System.Drawing.Bitmap MPFM_Splash_0_5_01 {
             get {
-                object obj = ResourceManager.GetObject("MPFM_Splash_0.4", resourceCulture);
+                object obj = ResourceManager.GetObject("MPFM_Splash_0.5.01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

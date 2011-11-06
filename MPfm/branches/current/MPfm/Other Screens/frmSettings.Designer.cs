@@ -28,17 +28,18 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabAudioSettings = new System.Windows.Forms.TabPage();
             this.Panel1 = new MPfm.WindowsControls.Panel();
-            this.lblOutputDriver = new MPfm.WindowsControls.Label();
+            this.button2 = new MPfm.WindowsControls.Button();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
+            this.lblOutputDriver = new MPfm.WindowsControls.Label();
             this.chkShowTray = new System.Windows.Forms.CheckBox();
             this.chkHideTray = new System.Windows.Forms.CheckBox();
             this.btnTestSound = new MPfm.WindowsControls.Button();
@@ -88,6 +89,7 @@ namespace MPfm
             // Panel1
             // 
             this.Panel1.AntiAliasingEnabled = true;
+            this.Panel1.Controls.Add(this.button2);
             this.Panel1.Controls.Add(this.lblOutputDriver);
             this.Panel1.Controls.Add(this.chkShowTray);
             this.Panel1.Controls.Add(this.chkHideTray);
@@ -116,6 +118,61 @@ namespace MPfm
             this.Panel1.Size = new System.Drawing.Size(500, 281);
             this.Panel1.TabIndex = 16;
             // 
+            // button2
+            // 
+            this.button2.AntiAliasingEnabled = true;
+            this.button2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.button2.BorderWidth = 1;
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.CustomFontName = "Junction";
+            this.button2.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.button2.DisabledFontColor = System.Drawing.Color.Silver;
+            this.button2.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.button2.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.FontCollection = this.fontCollection;
+            this.button2.FontColor = System.Drawing.Color.Black;
+            this.button2.GradientColor1 = System.Drawing.Color.LightGray;
+            this.button2.GradientColor2 = System.Drawing.Color.Gray;
+            this.button2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.button2.Image = global::MPfm.Properties.Resources.sound;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button2.Location = new System.Drawing.Point(286, 180);
+            this.button2.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button2.MouseOverFontColor = System.Drawing.Color.Black;
+            this.button2.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.button2.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(131, 40);
+            this.button2.TabIndex = 82;
+            this.button2.Text = "Stop";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // fontCollection
+            // 
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "Nobile";
+            customFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "TitilliumText22L Lt";
+            customFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont5.AssemblyPath = "MPfm.Fonts.dll";
+            customFont5.Name = "Museo Sans 500";
+            customFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
+            this.fontCollection.Fonts.Add(customFont5);
+            // 
             // lblOutputDriver
             // 
             this.lblOutputDriver.AntiAliasingEnabled = true;
@@ -128,29 +185,6 @@ namespace MPfm
             this.lblOutputDriver.Size = new System.Drawing.Size(89, 17);
             this.lblOutputDriver.TabIndex = 11;
             this.lblOutputDriver.Text = "Output device:";
-            // 
-            // fontCollection
-            // 
-            customFont11.AssemblyPath = "MPfm.Fonts.dll";
-            customFont11.Name = "LeagueGothic";
-            customFont11.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont12.AssemblyPath = "MPfm.Fonts.dll";
-            customFont12.Name = "Junction";
-            customFont12.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont13.AssemblyPath = "MPfm.Fonts.dll";
-            customFont13.Name = "Nobile";
-            customFont13.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont14.AssemblyPath = "MPfm.Fonts.dll";
-            customFont14.Name = "TitilliumText22L Lt";
-            customFont14.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont15.AssemblyPath = "MPfm.Fonts.dll";
-            customFont15.Name = "Museo Sans 500";
-            customFont15.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(customFont11);
-            this.fontCollection.Fonts.Add(customFont12);
-            this.fontCollection.Fonts.Add(customFont13);
-            this.fontCollection.Fonts.Add(customFont14);
-            this.fontCollection.Fonts.Add(customFont15);
             // 
             // chkShowTray
             // 
@@ -580,5 +614,6 @@ namespace MPfm
         private MPfm.WindowsControls.Panel Panel2;
         private MPfm.WindowsControls.Button btnRemoveFolder;
         private MPfm.WindowsControls.Button btnAddFolder;
+        private WindowsControls.Button button2;
     }
 }
