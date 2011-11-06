@@ -37,7 +37,7 @@ namespace MPfm.Library
         public string AlbumTitle { get; set; }
         public long? PlayCount { get; set; }
         public DateTime? LastPlayed { get; set; }
-        public string Year { get; set; }
+        public int? Year { get; set; }
         public long? TrackNumber { get; set; }
         public long? DiscNumber { get; set; }
         public long? TrackCount { get; set; }

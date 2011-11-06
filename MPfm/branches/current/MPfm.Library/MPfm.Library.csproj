@@ -63,7 +63,9 @@
     <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\MPfmGateway.cs" />
     <Compile Include="Data\DataAccess.cs" />
+    <Compile Include="Data\SQLiteGateway.cs" />
     <Compile Include="Data\MPFM_EF.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

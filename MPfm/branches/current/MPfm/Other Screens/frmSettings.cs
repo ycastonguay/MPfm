@@ -470,6 +470,10 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestSound_Click(object sender, EventArgs e)
         {
+            MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
+            List<SongDTO> songs = gateway.GetSongs();            
+
+
             //try
             //{               
             //    // Get driver

@@ -20,6 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.Linq;
+using System.Data.Objects;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using MPfm.Library.Data;
@@ -32,6 +37,83 @@ namespace MPfm.Library
     /// </summary>
     public static class ConvertDTO
     {
+        /// <summary>
+        /// Converts a DataTable to a list of SongDTOs.
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <returns>List of SongDTO</returns>
+        public static List<SongDTO> Songs(DataTable table)
+        {
+            // Create list
+            List<SongDTO> dtos = new List<SongDTO>();
+
+            // Loop through rows
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Create DTO
+                SongDTO dto = new SongDTO();
+
+                // Assign properties (strings)
+                dto.SongId = new Guid(table.Rows[a]["SongId"].ToString());
+                dto.Title = table.Rows[a]["Title"].ToString();
+                dto.FilePath = table.Rows[a]["FilePath"].ToString();
+                dto.ArtistName = table.Rows[a]["ArtistName"].ToString();
+                dto.AlbumTitle = table.Rows[a]["AlbumTitle"].ToString();
+                dto.Genre = table.Rows[a]["Genre"].ToString();
+                dto.SoundFormat = table.Rows[a]["SoundFormat"].ToString();
+                dto.Lyrics = table.Rows[a]["Lyrics"].ToString();
+                dto.Time = table.Rows[a]["Time"].ToString();
+
+                // Assign properties (integers)
+                int playCount = 0;
+                int.TryParse(table.Rows[a]["PlayCount"].ToString(), out playCount);
+                dto.PlayCount = playCount;
+
+                int year = 1900;
+                int.TryParse(table.Rows[a]["Year"].ToString(), out year);
+                dto.Year = year;
+
+                int discNumber = 0;
+                int.TryParse(table.Rows[a]["DiscNumber"].ToString(), out discNumber);
+                dto.DiscNumber = discNumber;
+
+                int trackNumber = 0;
+                int.TryParse(table.Rows[a]["TrackNumber"].ToString(), out trackNumber);
+                dto.TrackNumber = trackNumber;
+
+                int trackCount = 0;
+                int.TryParse(table.Rows[a]["TrackCount"].ToString(), out trackCount);
+                dto.TrackCount = trackCount;
+
+                int rating = 0;
+                int.TryParse(table.Rows[a]["Rating"].ToString(), out rating);
+                dto.Rating = rating;
+
+                int tempo = 0;
+                int.TryParse(table.Rows[a]["Tempo"].ToString(), out tempo);
+                dto.Tempo = tempo;
+
+                // Assign properties (datetimes)
+                DateTime lastPlayed = DateTime.MinValue;
+                DateTime.TryParse(table.Rows[a]["LastPlayed"].ToString(), out lastPlayed);
+                if(lastPlayed == DateTime.MinValue)
+                {
+                    dto.LastPlayed = null;
+                }
+                else
+                {
+                    dto.LastPlayed = lastPlayed;
+                }                                
+
+                // Add DTO to list
+                dtos.Add(dto);
+
+            }
+
+            // Return DTO
+            return dtos;
+        }
+
         /// <summary>
         /// Converts a Song entity from EF to SongDTO.
         /// </summary>
@@ -48,7 +130,9 @@ namespace MPfm.Library
             dto.AlbumTitle = song.AlbumTitle;
             dto.PlayCount = song.PlayCount;
             dto.LastPlayed = song.LastPlayed;
-            dto.Year = song.Year;
+            int year = 0;
+            int.TryParse(song.Year, out year);
+            dto.Year = year;
             dto.TrackNumber = song.TrackNumber;
             dto.DiscNumber = song.DiscNumber;
             dto.TrackCount = song.TrackCount;
