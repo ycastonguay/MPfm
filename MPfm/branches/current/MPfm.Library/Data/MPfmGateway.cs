@@ -50,10 +50,10 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Fetches all songs from the database.
+        /// Selects all songs from the database.
         /// </summary>
         /// <returns>List of SongDTO</returns>
-        public List<SongDTO> GetSongs()
+        public List<SongDTO> SelectSongs()
         {
             // Fetch data
             DataTable table = Select("SELECT * FROM Songs");
@@ -62,6 +62,24 @@ namespace MPfm.Library
             List<SongDTO> songs = ConvertDTO.Songs(table);
 
             return songs;
+        }
+
+        public SongDTO SelectSong(Guid songId)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Songs WHERE SongId = '" + songId.ToString() + "'");
+
+            // Convert to DTO
+            List<SongDTO> songs = ConvertDTO.Songs(table);
+
+            // Check results
+            if (songs.Count > 0)
+            {
+                // Return first result
+                return songs[0];
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -93,5 +111,196 @@ namespace MPfm.Library
             // Delete song
             Delete("Songs", "SongId", songId);
         }
+
+        public void DeleteSongs(string basePath)
+        {
+            Delete("Songs", "FilePath LIKE '" + basePath + "%'");
+        }
+
+        /// <summary>
+        /// Returns the distinct list of artist names from the database.        
+        /// </summary>        
+        /// <returns>List of distinct artist names</returns>
+        public List<string> SelectDistinctArtistNames()
+        {
+            return SelectDistinctArtistNames(FilterSoundFormat.All);
+        }
+
+        /// <summary>
+        /// Returns the distinct list of artist names from the database, using the sound format
+        /// filter passed in the soundFormat parameter.
+        /// </summary>
+        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <returns>List of distinct artist names</returns>
+        public List<string> SelectDistinctArtistNames(FilterSoundFormat soundFormat)
+        {
+            // Create list
+            List<string> artists = new List<string>();
+
+            // Set query
+            string sql = "SELECT DISTINCT ArtistName FROM Songs ORDER BY ArtistName";
+            if(soundFormat != FilterSoundFormat.All)
+            {
+                sql = "SELECT DISTINCT ArtistName FROM Songs WHERE SoundFormat = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
+            }
+
+            // Select distinct
+            DataTable table = Select(sql);
+
+            // Convert into a list of strings
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Add string to list
+                artists.Add(table.Rows[a][0].ToString());
+            }
+
+            return artists;
+        }
+
+        /// <summary>
+        /// Returns the distinct list of album titles per artist from the database.        
+        /// </summary>        
+        /// <returns>List of distinct album titles per artist</returns>
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles()
+        {
+            return SelectDistinctAlbumTitles(FilterSoundFormat.All);
+        }
+
+        /// <summary>
+        /// Returns the distinct list of album titles per artist from the database, using the sound format
+        /// filter passed in the soundFormat parameter.
+        /// </summary>
+        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <returns>List of distinct album titles per artist</returns>
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles(FilterSoundFormat soundFormat)
+        {
+            // Create dictionary
+            Dictionary<string, List<string>> albums = new Dictionary<string, List<string>>();
+
+            // Set query
+            string sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM Songs";
+            if (soundFormat != FilterSoundFormat.All)
+            {
+                sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM Songs WHERE SoundFormat = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
+            }
+
+            // Select distinct
+            DataTable table = Select(sql);
+
+            // Convert into a list of strings
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Get values
+                string artistName = table.Rows[a]["ArtistName"].ToString();
+                string albumTitle = table.Rows[a]["AlbumTitle"].ToString();
+
+                // Add value to dictionary
+                if (albums.ContainsKey(artistName))
+                {
+                    albums[artistName].Add(albumTitle);
+                }
+                else
+                {
+                    albums.Add(artistName, new List<string>() { albumTitle });
+                }
+            }            
+
+            return albums;
+        }
+
+        /// <summary>
+        /// Returns the distinct list of album titles with the path of at least one song of the album from the database, 
+        /// using the sound format filter passed in the soundFormat parameter. This is useful for displaying album art
+        /// for example (no need to return all songs from every album).
+        /// </summary>
+        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <returns>List of distinct album titles with file paths/returns>
+        public Dictionary<string, string> SelectDistinctAlbumTitlesWithFilePaths(FilterSoundFormat soundFormat)
+        {
+            // Create dictionary
+            Dictionary<string, string> albums = new Dictionary<string, string>();
+
+            // Set query
+            string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM Songs";
+            if (soundFormat != FilterSoundFormat.All)
+            {
+                sql = "SELECT DISTINCT AlbumTitle, FilePath FROM Songs WHERE SoundFormat = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
+            }
+
+            // Select distinct
+            DataTable table = Select(sql);
+
+            // Convert into a list of strings
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Get values                
+                string albumTitle = table.Rows[a]["AlbumTitle"].ToString();
+                string filePath = table.Rows[a]["FilePath"].ToString();
+
+                // Add item to dictionary
+                if (!albums.ContainsKey(albumTitle))
+                {
+                    albums.Add(albumTitle, filePath);
+                }
+            }
+
+            return albums;
+        }
+
+        /// <summary>
+        /// Updates the play count of a song and sets the last playback datetime.
+        /// </summary>
+        /// <param name="songId">SongId</param>
+        public void UpdateSongPlayCount(Guid songId)
+        {
+            // Get play count
+            SongDTO song = SelectSong(songId);
+
+            // Check if the song was found
+            if (song == null)
+            {
+                throw new Exception("Error; The song was not found!");
+            }
+
+            Execute("UPDATE Songs SET PlayCount = " + (song.PlayCount+1).ToString() + ", LastPlayed = " + DateTime.Now.ToString("yyyy-MM-dd HH:ss.fff"));
+        }
+
+        //public static void UpdateSongPlayCount(Guid songId)
+        //{
+        //    try
+        //    {
+        //        // Open the connection
+        //        using (MPFM_EF context = new MPFM_EF())
+        //        {
+        //            // Get song to modify
+        //            // For some strange reason if Guid is ToString() in the LINQ query it crashes
+        //            string stringSongId = songId.ToString();
+        //            Song songToModify = context.Songs.FirstOrDefault(x => x.SongId == stringSongId);
+
+        //            // Check if song is valid
+        //            if (songToModify != null)
+        //            {
+        //                // Set last played timestamp
+        //                songToModify.LastPlayed = DateTime.Now;
+
+        //                // Is there a counter?
+        //                if (songToModify.PlayCount == null)
+        //                {
+        //                    songToModify.PlayCount = 1;
+        //                }
+        //                else
+        //                {
+        //                    songToModify.PlayCount++;
+        //                }
+        //                context.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdateSong(): " + ex.Message);
+        //        throw ex;
+        //    }
+        //}
     }
 }

@@ -505,12 +505,12 @@ namespace MPfm.Library
         {
             try
             {
-                // Initialize library
-                if (initializeLibrary)
-                {
-                    Tracing.Log("Player -- Initializing library...");
-                    m_library = new Library();
-                }
+                //// Initialize library
+                //if (initializeLibrary)
+                //{
+                //    Tracing.Log("Player -- Initializing library...");
+                //    //m_library = new Library();
+                //}
 
                 // Initialize sound system
                 Tracing.Log("Player -- Initializing sound system...");

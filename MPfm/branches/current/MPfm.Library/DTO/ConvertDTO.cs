@@ -233,13 +233,14 @@ namespace MPfm.Library
                     PlaylistSongDTO playlistSongDTO = new PlaylistSongDTO();
                     playlistSongDTO.PlaylistSongId = new Guid(playlistSong.PlaylistSongId);
 
-                    // Get song from database                    
-                    Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
-                    if (song != null)
-                    {
-                        playlistSongDTO.Song = ConvertSong(song);
-                        dto.Songs.Add(playlistSongDTO);
-                    }
+                    //// Get song from database                    
+                    ////Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
+                    //Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
+                    //if (song != null)
+                    //{
+                    //    playlistSongDTO.Song = ConvertSong(song);
+                    //    dto.Songs.Add(playlistSongDTO);
+                    //}
                 }
             }
 

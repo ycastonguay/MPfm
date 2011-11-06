@@ -28,7 +28,8 @@ namespace TestControls
             //songGridView.Library = player.Library;
 
             // Load library
-            m_library = new Library();
+            string databaseFilePath = "";
+            m_library = new Library(databaseFilePath);
 
             comboDisplayType.SelectedItem = "SongGridView";
 
@@ -74,8 +75,8 @@ namespace TestControls
 
         private void txtSearchArtistName_TextChanged(object sender, EventArgs e)
         {
-            List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(txtSearchArtistName.Text, string.Empty, string.Empty, songGridView.OrderByFieldName, songGridView.OrderByAscending));
-            songGridView.ImportSongs(songs);
+            //List<SongDTO> songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs(txtSearchArtistName.Text, string.Empty, string.Empty, songGridView.OrderByFieldName, songGridView.OrderByAscending));
+            //songGridView.ImportSongs(songs);
         }
 
         private void lblDisplayDebugInformation_Click(object sender, EventArgs e)

@@ -42,7 +42,22 @@ namespace MPfm.Library
     /// It uses the DataAccess class to access the PMP database.
     /// </summary>
     public class Library
-    {   
+    {
+        /// <summary>
+        /// Private value for the Gateway property.
+        /// </summary>
+        private MPfmGateway m_gateway = null;
+        /// <summary>
+        /// Data access library.
+        /// </summary>
+        public MPfmGateway Gateway
+        {
+            get
+            {
+                return m_gateway;
+            }
+        }
+
         // Update library progress delegate/event
         public delegate void UpdateLibraryProgress(UpdateLibraryProgressData data);
         public event UpdateLibraryProgress OnUpdateLibraryProgress;
@@ -83,10 +98,20 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Constructs the Library class. Requires a pointer to an instance of a Player class.
+        /// Constructs the Library class using the specified database file path.
         /// </summary>                
-        public Library()
+        /// <param name="databaseFilePath">Database file path</param>
+        public Library(string databaseFilePath)
         {
+            // Check if file path exists
+            if (!File.Exists(databaseFilePath))
+            {
+                throw new Exception("Error: The file path doesn't exist!");
+            }
+
+            // Create gateway
+            m_gateway = new MPfmGateway(databaseFilePath);
+
             // Create worker process
             workerUpdateLibrary = new BackgroundWorker();
             workerUpdateLibrary.WorkerReportsProgress = true;
@@ -376,7 +401,8 @@ namespace MPfm.Library
         {
             // Refresh song cache
             Tracing.Log("MPfm.Library (Library) --  Refreshing song cache...");
-            m_songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs());
+            //m_songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs());
+            m_songs = m_gateway.SelectSongs();
         }        
 
         /// <summary>
@@ -385,7 +411,8 @@ namespace MPfm.Library
         public void RemoveBrokenSongs()
         {
             // Get all songs
-            List<Song> songs = DataAccess.SelectSongs();
+            //List<Song> songs = DataAccess.SelectSongs();
+            List<SongDTO> songs = m_gateway.SelectSongs();
 
             // For each song
             for(int a = 0; a < songs.Count; a++)
@@ -402,7 +429,8 @@ namespace MPfm.Library
                 {
                     Tracing.Log("Removing broken songs..." + songs[a].FilePath);
                     UpdateLibraryReportProgress("Removing broken songs...", songs[a].FilePath, (double)((double)a / (double)songs.Count) * 100);
-                    DataAccess.DeleteSong(new Guid(songs[a].SongId));
+                    //DataAccess.DeleteSong(new Guid(songs[a].SongId));
+                    m_gateway.DeleteSong(songs[a].SongId);
                 }
             }
         }   
@@ -543,8 +571,8 @@ namespace MPfm.Library
             }
 
             // Create song and set default properties
-            Song newSong = new Song();
-            newSong.SongId = Guid.NewGuid().ToString();
+            SongDTO newSong = new SongDTO();
+            newSong.SongId = Guid.NewGuid();
             newSong.FilePath = filePath;            
             newSong.PlayCount = 0;
             newSong.Rating = -1;
@@ -557,7 +585,7 @@ namespace MPfm.Library
             try
             {
                 // Update song properties using tags
-                newSong = UpdateSongFromTags(newSong, false);
+                //newSong = UpdateSongFromTags(newSong, false);
             }
             catch (Exception ex)
             {
@@ -588,7 +616,8 @@ namespace MPfm.Library
             try
             {
                 // Insert song into the database
-                DataAccess.InsertSong(newSong);
+                //DataAccess.InsertSong(newSong);
+                m_gateway.InsertSong(newSong);
             }
             catch (Exception ex)
             {
@@ -725,7 +754,8 @@ namespace MPfm.Library
         public void RemoveSongsFromLibrary(string folderPath)
         {
             // Simple: Just DELETE Songs WHERE FilePath LIKE 'Filepath%'
-            DataAccess.DeleteSongs(folderPath);
+            //DataAccess.DeleteSongs(folderPath);
+            m_gateway.DeleteSongs(folderPath);
         }
 
         #region Select (strings)
@@ -746,7 +776,8 @@ namespace MPfm.Library
         /// <returns>List of artist names</returns>
         public List<string> SelectArtistNames(FilterSoundFormat soundFormat)
         {
-            return DataAccess.SelectDistinctArtistNames(soundFormat);
+            //return DataAccess.SelectDistinctArtistNames(soundFormat);
+            return m_gateway.SelectDistinctArtistNames(soundFormat);
         }
 
         /// <summary>
@@ -818,7 +849,8 @@ namespace MPfm.Library
         /// <returns>List of album titles</returns>
         public Dictionary<string, List<string>> SelectAlbumTitles(FilterSoundFormat soundFormat)
         {
-            return DataAccess.SelectDistinctAlbumTitles(soundFormat);
+            //return DataAccess.SelectDistinctAlbumTitles(soundFormat);
+            return m_gateway.SelectDistinctAlbumTitles(soundFormat);
         }
 
         /// <summary>
@@ -839,7 +871,8 @@ namespace MPfm.Library
         /// <returns>List of album titles with file path</returns>
         public Dictionary<string, string> SelectAlbumTitlesWithFilePaths(FilterSoundFormat soundFormat)
         {
-            return DataAccess.SelectDistinctAlbumTitlesWithFilePaths(soundFormat);
+            //return DataAccess.SelectDistinctAlbumTitlesWithFilePaths(soundFormat);
+            return m_gateway.SelectDistinctAlbumTitlesWithFilePaths(soundFormat);
         }
 
         #endregion
@@ -1408,13 +1441,15 @@ namespace MPfm.Library
         public void UpdateSongPlayCount(Guid songId)
         {
             // Update play count in database
-            DataAccess.UpdateSongPlayCount(songId);
+            //DataAccess.UpdateSongPlayCount(songId);
+            m_gateway.UpdateSongPlayCount(songId);
 
             // Update play count in cache           
             //string strSongId = songId.ToString();
             SongDTO song = Songs.SingleOrDefault(x => x.SongId == songId);
             int indexOf = Songs.IndexOf(song);
-            Songs[indexOf] = ConvertDTO.ConvertSong(DataAccess.SelectSong(songId));
+            //Songs[indexOf] = ConvertDTO.ConvertSong(DataAccess.SelectSong(songId));
+            Songs[indexOf] = m_gateway.SelectSong(songId);
         }
     }
 

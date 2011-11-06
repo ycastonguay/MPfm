@@ -107,6 +107,23 @@ namespace MPfm.Library
             }
         }
 
+        protected int Execute(string sql)
+        {
+            // Open connection
+            OpenConnection();
+
+            // Create command
+            DbCommand command = m_factory.CreateCommand();
+            command.CommandText = sql;
+            command.Connection = m_connection;
+            int rows = command.ExecuteNonQuery();
+
+            // Close connection
+            CloseConnection();
+
+            return rows;
+        }
+
         /// <summary>
         /// Executes a select query and returns a DataTable object.
         /// </summary>
@@ -241,6 +258,11 @@ namespace MPfm.Library
 
             // Update row into database
             UpdateDataTable(table, baseQuery);
+        }
+
+        public void Delete(string tableName, string where)
+        {
+            Execute("DELETE " + tableName + " WHERE " + where);
         }
     }
 }

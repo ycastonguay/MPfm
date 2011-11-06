@@ -220,10 +220,10 @@ namespace MPfm
             //testSuccessful = false;
             //settingsTested = false;
 
-            //// Hide form
-            //this.Close();
-            //Main.BringToFront();
-            //Main.Focus();
+            // Hide form
+            this.Close();
+            Main.BringToFront();
+            Main.Focus();
         }
 
         #endregion
@@ -483,11 +483,11 @@ namespace MPfm
             gateway.UpdateSong(newSong);
             
 
-            List<SongDTO> songs = gateway.GetSongs();
+            List<SongDTO> songs = gateway.SelectSongs();
 
             gateway.DeleteSong(newSong.SongId);
 
-            songs = gateway.GetSongs();      
+            songs = gateway.SelectSongs();      
 
 
             //try
