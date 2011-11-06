@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Download - MPfm: Music Player for Musicians";
+    ViewBag.Description = "MPfm Download page (Installer, Package, Source Code)";
+    ViewBag.Keywords = "MPfm, Music Player, Music Player for Musicians, Download, Source Code, Installer, Package";
+}
+
+<h2>Download</h2>
+<p>
+    <i>Note: Downloads will be officially activated as soon as the license is approved.</i><br />
+</p>
+<h3>Requirements</h3>
+<p>
+    MPfm supports the following operating systems:
+</p>
+<ul class="code">       
+    <li>Microsoft Windows XP</li>
+    <li>Microsoft Windows Vista</li>
+    <li>Microsoft Windows 7</li>
+</ul>
+<p>
+    MPfm requires the Microsoft .NET Framework 3.5 SP1. To download this version of the .NET framework, click <a href="http://www.microsoft.com/downloads/en/details.aspx?familyid=ab99342f-5d1a-413d-8319-81da479ab0d7" title="Download Microsoft .NET Framework 3.5 SP1">here</a>.
+</p>
+<h3>Download MPfm</h3>
+<p>
+    You can download the latest stable version, which is recommended, or you can try the latest beta version to test the new features.
+</p>
+<p>
+    <b>Latest stable version (recommended)</b><br />
+    Version <b>0.4.4.9</b><br />       
+</p>
+<div class="code_ident">
+    <p>
+        Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.1.exe" title="Download MPfm Installer">MPfm 0.4.4.9 - Installer (exe)</a><br />
+        MD5 checksum: 73f48840b60ab6da68b03acd322445ee<br />
+    </p>
+    <p>
+        Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.1.zip" title="Download MPfm Package">MPfm 0.4.4.9 - Package (zip)</a><br />   
+        MD5 checksum: 73f48840b60ab6da68b03acd322445ee
+    </p>
+</div>
+<p>
+    <b>Latest beta version</b><br />
+    Version <b>0.4.5.0</b><br />    
+</p>
+<p class="code_ident">
+    Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.2.zip" title="Download MPfm Beta Package">MPfm 0.4.5.0 Beta - Package (zip)</a><br />
+    MD5 checksum: 73f48840b60ab6da68b03acd322445ee
+</p>
+<p>
+    Note: MD5 checksums can be verified using the WinMD5Free software, which can be downloaded 
+    <a href="http://www.winmd5.com/" title="Link to the WinMD5Free website">here</a>.
+</p>
+<h3>Download MPfm Source Code</h3>
+<p>
+    If you are a developer, you are probably interested to check how MPfm works under the hood.
+    Don't forget to read the <a href="/license" title="MPfm License">MPfm license</a> and the 
+    <a href="http://www.gnu.org/licenses/gpl.html" title="GPLv3 License">GPLv3 license</a> 
+    before releasing your modifications to the public!
+</p>
+<p>
+    <b>Source Code</b><br />
+    Version <b>0.4.4.9</b><br />
+</p>
+<div class="code_ident">
+    <p>
+        Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.1.zip" title="Download MPfm Source Code">MPfm 0.4.4.9 Source Code - Package (zip)</a>
+        <br />   
+        MD5 checksum: 73f48840b60ab6da68b03acd322445ee
+    </p>
+</div>
+<h3>Download Scan MP3 Headers</h3>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a[rel^="group"]').fancybox({
+            'transitionIn': 'none',
+            'transitionOut': 'none',
+            'titlePosition': 'over',
+            'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
+                return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+            }
+        });
+    });
+</script>
+<p>
+    <div id="scanmp3headers_screenshots">
+        <a rel="group_scanmp3headers" href="/Images/screenshots/scanmp3headers.png" title="Scan MP3 Headers"><img alt="" src="/Images/screenshots/scanmp3headers_t.png" /></a>
+    </div>
+    <div id="scanmp3headers_text">
+        Scan MP3 Headers is a free tool by the developer of MPfm which analyses your MP3 library and
+        makes a list of files that might be corrupted, that do not have the required headers for gapless playback,
+        and more. It works using TagLib# (also used in MPfm) and the MPfm Sound Library. It has the same system requirements as MPfm, 
+        but does not require a soundcard.
+    </div>
+</p>
+<p>
+    <b>Latest version</b><br />
+    Version <b>0.4.0.0</b><br />
+</p>
+<div class="code_ident">
+    <p>
+        Download: <a href="http://www.mp4m.org/files/scanmp3headers_0.4.0.0.zip" title="Download Scan MP3 Headers Package">ScanMP3Headers 0.4.0.0 - Package (zip)</a><br />   
+        MD5 checksum: 73f48840b60ab6da68b03acd322445ee
+    </p>
+</div>
+<h3>Change Log / Roadmap</h3>
+<p>
+    You can consult the <a href="http://www.mp4m.org/mantis/changelog_page.php" title="MPfm Change Log">change log</a> 
+    to see what bugs were fixed and what features 
+    were added to the latest stable version.
+</p>
+<p>
+    You can also consult the <a href="http://www.mp4m.org/mantis/roadmap_page.php" title="MPfm Roadmap">roadmap</a> 
+    to see what features will be implemented in the future.    
+</p>

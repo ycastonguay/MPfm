@@ -1,0 +1,104 @@
+MPfm: Music Player for Musicians
+Version 0.4.4.3 beta
+
+=================================================
+License Agreement
+=================================================
+
+This license has the following sections:
+
+> 1.0 - MPfm
+> 2.0 - Third-party Libraries
+>   2.1 - FMOD Sound System
+>   2.2 - SQLite
+>   2.3 - System.Data.SQLite
+>   2.4 - TagLib#
+>   2.5 - FamFamFam Silk Icons
+>   2.6 - Open Source Fonts
+> 3.0 - Other License Information
+>   3.1 - MP3
+>   3.2 - Background Images
+>   3.3 - mp4m.org / musicplayerformusicians.com
+
+=================================================
+1.0 - MPfm
+=================================================
+
+MPfm is freeware and can be freely distributed, as long as you distribute all the licences included in the original package. You must also reprint all the copyright and trademarks listed in the MPfm license. 
+
+MPfm is using the GNU General Public License 3.0 (GPLv3), which means the source code is public and modifications can be made by the community. However, you must release the source code of these modifications to the community. You cannot release a commercial product based on the MPfm source code. For more information, consult this page: http://www.gnu.org/licenses/gpl.html
+
+MPfm and the mp4m.org website are © 2011 Yanick Castonguay, except for FMOD (see copyright notices below).
+
+=================================================
+2.0 - Third-party Libraries
+=================================================
+
+MPfm is using the following third-party libraries:
+
+-------------------------------------------------
+2.1 - FMOD Sound System
+-------------------------------------------------
+FMOD Sound System is a multiplatform audio library for Windows. The FMOD library is © Firelight Technologies Pty, Ltd., 1994-2011. MPfm is not intended for commercial gain and therefore is using the FMOD Non-Commercial License. A copy of the FMOD license is distributed with MPfm and can be found in the application directory (FMOD_LICENSE.TXT). For more information about this license, go to http://www.fmod.org/index.php/sales.
+
+-------------------------------------------------
+2.2 - SQLite
+-------------------------------------------------
+SQLite is freeware and is released under the Public Domain license. For more information about the SQLite license, go to http://www.sqlite.org/copyright.html.
+
+-------------------------------------------------
+2.3 - System.Data.SQLite
+-------------------------------------------------
+System.Data.SQLite is freeware and is released under the Public Domain license. For more information about this library, go to http://sqlite.phxsoftware.com/.
+
+-------------------------------------------------
+2.4 - TagLib#
+-------------------------------------------------
+TagLib# (taglib-sharp) is released under the GNU Lesser General Public License 2.1 (LGPL). The LGPL license can be found at http://www.gnu.org/licenses/lgpl-2.1.html. A copy of this license is distributed with MPfm and can be found in the application directory (LGPL2.1.TXT). For more information about TagLib, go to http://weblog.savanne.be/tags/taglib-sharp.
+
+-------------------------------------------------
+2.5 - FamFamFam Silk Icons
+-------------------------------------------------
+The FamFamFam Silk icons are released under the Creative Commons Attribution 2.5 License. These icons have been created by Mark James. More information about the FamFamFam icon license can be found at http://www.famfamfam.com/lab/icons/silk/.
+
+-------------------------------------------------
+2.6 - Open Source Fonts
+-------------------------------------------------
+MPfm is embedding the following open source fonts in MPfm.Fonts.dll:
+
+- Junction (from The League of Moveable Type)
+- League Gothic (from The League of Moveable Type)
+- TitilliumText (from Font Squirrel)
+
+Junction is designed by Caroline Hadilaksono (http://www.theleagueofmoveabletype.com/members/2-caroline-hadilaksono). More information about this font can be found at http://www.theleagueofmoveabletype.com/fonts/1-junction.
+
+League Gothic is designed by The League of Moveable Type (http://www.theleagueofmoveabletype.com/). More information about that font can be found at http://www.theleagueofmoveabletype.com/fonts/7-league-gothic.
+
+TitilliumText is designed by the Accademia di Belle Arti Urbino (http://www.campivisivi.net/titillium/). More information about this font can be found at http://www.fontsquirrel.com/fonts/TitilliumText.
+
+In all cases, the fonts are released under the SIL Open Font License 1.1. A copy of this license is distributed with MPfm and can be found in the application directory (SIL_Open_Font_License_1.1.TXT).
+
+=================================================
+3.0 - Other License Information
+=================================================
+
+Here is more important information about the MPfm license:
+
+-------------------------------------------------
+3.1 - MP3
+-------------------------------------------------
+There currently is a gray area about MP3 licensing, depending on the country where you live in. Officially, all applications enabling MP3 decoding must pay a license to the MP3 copyright owner, Technicolor (http://www.mp3licensing.com/). This license is minimum $15,000 USD per year. However, MPfm is freeware and open source, which means it will always stay free and no profit will be made from any activity related to the application. Microsoft Windows already comes with a MP3 decoder built-in, and Microsoft has paid the license for all Windows copies. Thus, Technicolor does not enforce the patent for Windows freeware MP3 decoders such as MPfm (and other freeware players such as Foobar2k).
+
+A declaration from Thomson (older name for Technicolor) says that they will not charge a per unit royalty on freely distributed MP3 decoders. This declaration can be found here: http://www.heise.de/newsticker/meldung/Thomson-Keine-Lizenzgebuehren-fuer-freie-MP3-Decoder-58503.html.
+
+More information about MP3 licensing can be found at http://www.mp3licensing.com/.
+
+-------------------------------------------------
+3.2 - Background Images
+-------------------------------------------------
+The background images used on mp4m.org, on the MPfm splash screen and in the MPfm setup were taken from stock.xchng (http://www.sxc.hu/). Please consult their license for more information at http://www.sxc.hu/help/7_2.
+
+-------------------------------------------------
+3.3 - mp4m.org / musicplayerformusicians.com
+-------------------------------------------------
+The MPfm logo and the MPfm web site (http://www.mp4m.org and http://www.musicplayerformusicians.com) are © 2011 Yanick Castonguay. 
