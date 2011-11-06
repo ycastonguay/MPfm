@@ -267,14 +267,15 @@ namespace MPfm
         public void RefreshFolders()
         {
             // Get the list of folders from the database
-            List<Folder> folders = DataAccess.SelectFolders();
+            //List<Folder> folders = DataAccess.SelectFolders();
+            List<FolderDTO> folders = m_main.Library.Gateway.SelectFolders();
 
             // Check if the list is null
             if (folders != null)
             {
                 viewFolders.Items.Clear();
 
-                foreach (Folder folder in folders)
+                foreach (FolderDTO folder in folders)
                 {
                     ListViewItem item = new ListViewItem(folder.FolderPath);
                     item.Tag = folder.FolderId;
@@ -288,7 +289,7 @@ namespace MPfm
                         item.SubItems.Add(folder.LastUpdate.ToShortDateString());
                     }*/
 
-                    item.SubItems.Add(folder.Recursive.ToString());
+                    item.SubItems.Add(folder.IsRecursive.ToString());
 
                     viewFolders.Items.Add(item);
                 }
@@ -310,7 +311,8 @@ namespace MPfm
             if (dialogAddFolder.ShowDialog() == DialogResult.OK)
             {
                 // Check if folder already exists
-                Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
+                //Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
+                FolderDTO folder = m_main.Library.Gateway.SelectFolderByPath(dialogAddFolder.SelectedPath);
 
                 // Cancel if folder already exists
                 if (folder != null)
@@ -332,7 +334,8 @@ namespace MPfm
                 }
 
                 // Create new folder
-                DataAccess.InsertFolder(dialogAddFolder.SelectedPath, recursive);
+                //DataAccess.InsertFolder(dialogAddFolder.SelectedPath, recursive);
+                m_main.Library.Gateway.InsertFolder(dialogAddFolder.SelectedPath, recursive);
                 RefreshFolders();
 
                 //ArrayList list = db.GetFolderNewSongs(dialogAddFolder.SelectedPath);

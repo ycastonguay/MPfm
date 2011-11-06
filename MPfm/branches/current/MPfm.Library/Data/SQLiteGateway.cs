@@ -36,6 +36,10 @@ namespace MPfm.Library
     /// <summary>
     /// The SQLiteGateway class is a data adapter class which makes it easier to select, insert, update and delete
     /// data from the database.
+    ///
+    /// Notes: System.Data.SQLite doesn't like:    
+    /// - SingleOrDefault -- replaced with FirstOrDefault.
+    /// - compare database varchar to Guid.ToString() -- need to cast guid into string before using value in LIN
     /// </summary>
     public class SQLiteGateway
     {
@@ -243,26 +247,42 @@ namespace MPfm.Library
         /// <param name="id">DTO id</param>
         public void Delete(string tableName, string idFieldName, Guid id)
         {
-            // Get item to delete
-            string baseQuery = "SELECT * FROM " + tableName;
-            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
+            Execute("DELETE FROM " + tableName + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
 
-            // Check if the row was found
-            if (table.Rows.Count == 0)
-            {
-                throw new Exception("Could not find the item to delete (TableName: " + tableName + " | Id: " + id.ToString() + ")");
-            }
+            //// Get item to delete
+            //string baseQuery = "SELECT * FROM " + tableName;
+            //DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
 
-            // Delete row in DataTable
-            table.Rows[0].Delete();
+            //// Check if the row was found
+            //if (table.Rows.Count == 0)
+            //{
+            //    throw new Exception("Could not find the item to delete (TableName: " + tableName + " | Id: " + id.ToString() + ")");
+            //}
 
-            // Update row into database
-            UpdateDataTable(table, baseQuery);
+            //// Delete row in DataTable
+            //table.Rows[0].Delete();
+
+            //// Update row into database
+            //UpdateDataTable(table, baseQuery);
         }
 
+        /// <summary>
+        /// Deletes all rows from a database table.
+        /// </summary>
+        /// <param name="tableName">Database table name</param>
+        public void Delete(string tableName)
+        {
+            Execute("DELETE FROM " + tableName);
+        }
+
+        /// <summary>
+        /// Deletes all rows from a database table using the specified Where clause.
+        /// </summary>
+        /// <param name="tableName">Database table name</param>
+        /// <param name="where">Where clause</param>
         public void Delete(string tableName, string where)
         {
-            Execute("DELETE " + tableName + " WHERE " + where);
+            Execute("DELETE FROM " + tableName + " WHERE " + where);
         }
     }
 }

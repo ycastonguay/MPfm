@@ -226,10 +226,11 @@ namespace MPfm.Library
                 bool folderFound = false;
 
                 // Get the list of folders from the database
-                List<Folder> folders = DataAccess.SelectFolders();
+                //List<Folder> folders = DataAccess.SelectFolders();
+                List<FolderDTO> folders = m_gateway.SelectFolders();
 
                 // Search through folders if the base found can be found
-                foreach (Folder folder in folders)
+                foreach (FolderDTO folder in folders)
                 {
                     // Check if the base path is found in the configured path
                     if (folderPath.Contains(folder.FolderPath))
@@ -242,13 +243,14 @@ namespace MPfm.Library
 
                 // Check if the user has entered a folder deeper than those configured
                 // i.e. The user enters F:\FLAC when F:\FLAC\Brian Eno is configured
-                foreach (Folder folder in folders)
+                foreach (FolderDTO folder in folders)
                 {
                     // Check if the configured path is part of the specified path
                     if (folder.FolderPath.Contains(folderPath))
                     {
                         // Delete this configured folder
-                        DataAccess.DeleteFolder(new Guid(folder.FolderId));
+                        //DataAccess.DeleteFolder(new Guid(folder.FolderId));
+                        m_gateway.DeleteFolder(folder.FolderId);
                     }
                 }
 
@@ -256,7 +258,8 @@ namespace MPfm.Library
                 if (!folderFound)
                 {
                     // Add folder to database
-                    DataAccess.InsertFolder(folderPath, true);
+                    //DataAccess.InsertFolder(folderPath, true);
+                    m_gateway.InsertFolder(folderPath, true);
                 }
             }
 
@@ -448,14 +451,15 @@ namespace MPfm.Library
             UpdateLibraryReportProgress("Searching media files", "Searching media files in library folders");
 
             // Get registered folders            
-            List<Folder> folders = DataAccess.SelectFolders();
+            //List<Folder> folders = DataAccess.SelectFolders();
+            List<FolderDTO> folders = m_gateway.SelectFolders();
 
             // For each registered folder
-            foreach (Folder folder in folders)
+            foreach (FolderDTO folder in folders)
             {
                 // Search for media files in the folder
                 UpdateLibraryReportProgress("Searching for media files", "Searching for media files in library folder " + folder.FolderPath);
-                List<string> newSongs = SearchMediaFilesInFolders(folder.FolderPath, (bool)folder.Recursive);
+                List<string> newSongs = SearchMediaFilesInFolders(folder.FolderPath, (bool)folder.IsRecursive);
                 files.AddRange(newSongs);
             }
 

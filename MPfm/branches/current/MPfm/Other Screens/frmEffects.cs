@@ -143,10 +143,11 @@ namespace MPfm
             comboEQPreset.Items.Clear();
 
             // Select presets
-            List<Equalizer> eqs = DataAccess.SelectEqualizers();
+            //List<Equalizer> eqs = DataAccess.SelectEqualizers();
+            List<EqualizerDTO> eqs = m_main.Library.Gateway.SelectEqualizers();
 
             // For each EQ
-            foreach (Equalizer eq in eqs)
+            foreach (EqualizerDTO eq in eqs)
             {
                 // Add the preset
                 comboEQPreset.Items.Add(eq.Name);
@@ -340,14 +341,16 @@ namespace MPfm
         private void btnDeletePreset_Click(object sender, EventArgs e)
         {
             // Check if equalizer exists            
-            Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
+            //Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
+            EqualizerDTO equalizerExists = m_main.Library.Gateway.SelectEqualizer(txtEQPresetName.Text);
 
             if (equalizerExists != null)
             {
                 // Are you sure?
                 if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {                    
-                    DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
+                    //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
+                    m_main.Library.Gateway.DeleteEqualizer(equalizerExists.EqualizerId);
 
                     RefreshEQPresets();
                     ResetEQ();
@@ -371,34 +374,36 @@ namespace MPfm
             }
 
             // Build DTO
-            Equalizer eq = new Equalizer();
-            eq.Gain55Hz = (double)fader0.Value / 10;
-            eq.Gain77Hz = (double)fader1.Value / 10;
-            eq.Gain110Hz = (double)fader2.Value / 10;
-            eq.Gain156Hz = (double)fader3.Value / 10;
-            eq.Gain220Hz = (double)fader4.Value / 10;
-            eq.Gain311Hz = (double)fader5.Value / 10;
-            eq.Gain440Hz = (double)fader6.Value / 10;
-            eq.Gain622Hz = (double)fader7.Value / 10;
-            eq.Gain880Hz = (double)fader8.Value / 10;
-            eq.Gain1_2kHz = (double)fader9.Value / 10;
-            eq.Gain1_8kHz = (double)fader10.Value / 10;
-            eq.Gain2_5kHz = (double)fader11.Value / 10;
-            eq.Gain3_5kHz = (double)fader12.Value / 10;
-            eq.Gain5kHz = (double)fader13.Value / 10;
-            eq.Gain7kHz = (double)fader14.Value / 10;
-            eq.Gain10kHz = (double)fader15.Value / 10;
-            eq.Gain14kHz = (double)fader16.Value / 10;
-            eq.Gain20kHz = (double)fader17.Value / 10;
+            EqualizerDTO eq = new EqualizerDTO();
+            eq.Gain55Hz = (float)fader0.Value / 10;
+            eq.Gain77Hz = (float)fader1.Value / 10;
+            eq.Gain110Hz = (float)fader2.Value / 10;
+            eq.Gain156Hz = (float)fader3.Value / 10;
+            eq.Gain220Hz = (float)fader4.Value / 10;
+            eq.Gain311Hz = (float)fader5.Value / 10;
+            eq.Gain440Hz = (float)fader6.Value / 10;
+            eq.Gain622Hz = (float)fader7.Value / 10;
+            eq.Gain880Hz = (float)fader8.Value / 10;
+            eq.Gain1_2kHz = (float)fader9.Value / 10;
+            eq.Gain1_8kHz = (float)fader10.Value / 10;
+            eq.Gain2_5kHz = (float)fader11.Value / 10;
+            eq.Gain3_5kHz = (float)fader12.Value / 10;
+            eq.Gain5kHz = (float)fader13.Value / 10;
+            eq.Gain7kHz = (float)fader14.Value / 10;
+            eq.Gain10kHz = (float)fader15.Value / 10;
+            eq.Gain14kHz = (float)fader16.Value / 10;
+            eq.Gain20kHz = (float)fader17.Value / 10;
 
             eq.Name = txtEQPresetName.Text;
 
             // Check if equalizer exists            
-            Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
+            //EqualizerDTO equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
+            EqualizerDTO equalizerExists = m_main.Library.Gateway.SelectEqualizer(txtEQPresetName.Text);
 
             if (equalizerExists == null)
             {
-                DataAccess.InsertEqualizer(eq);
+                //DataAccess.InsertEqualizer(eq);
+                m_main.Library.Gateway.InsertEqualizer(eq);
             }
             else
             {
@@ -406,7 +411,8 @@ namespace MPfm
                 {
                     // Update ID and EQ
                     eq.EqualizerId = equalizerExists.EqualizerId;
-                    DataAccess.UpdateEqualizer(eq);
+                    //DataAccess.UpdateEqualizer(eq);
+                    m_main.Library.Gateway.UpdateEqualizer(eq);
                 }
             }
 
@@ -462,7 +468,8 @@ namespace MPfm
                 if (comboEQPreset.SelectedItem != null && !String.IsNullOrEmpty(comboEQPreset.SelectedItem.ToString()))
                 {
                     // Get equalizer                    
-                    Equalizer equalizer = DataAccess.SelectEqualizer(comboEQPreset.SelectedItem.ToString());
+                    //Equalizer equalizer = DataAccess.SelectEqualizer(comboEQPreset.SelectedItem.ToString());
+                    EqualizerDTO equalizer = m_main.Library.Gateway.SelectEqualizer(comboEQPreset.SelectedItem.ToString());
 
                     // Set values
                     txtEQPresetName.Text = equalizer.Name;

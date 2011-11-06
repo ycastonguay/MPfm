@@ -49,6 +49,8 @@ namespace MPfm.Library
         {
         }
 
+        #region Songs
+        
         /// <summary>
         /// Selects all songs from the database.
         /// </summary>
@@ -214,7 +216,7 @@ namespace MPfm.Library
         /// for example (no need to return all songs from every album).
         /// </summary>
         /// <param name="soundFormat">Sound Format Filter</param>
-        /// <returns>List of distinct album titles with file paths/returns>
+        /// <returns>List of distinct album titles with file paths</returns>
         public Dictionary<string, string> SelectDistinctAlbumTitlesWithFilePaths(FilterSoundFormat soundFormat)
         {
             // Create dictionary
@@ -265,42 +267,153 @@ namespace MPfm.Library
             Execute("UPDATE Songs SET PlayCount = " + (song.PlayCount+1).ToString() + ", LastPlayed = " + DateTime.Now.ToString("yyyy-MM-dd HH:ss.fff"));
         }
 
-        //public static void UpdateSongPlayCount(Guid songId)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Get song to modify
-        //            // For some strange reason if Guid is ToString() in the LINQ query it crashes
-        //            string stringSongId = songId.ToString();
-        //            Song songToModify = context.Songs.FirstOrDefault(x => x.SongId == stringSongId);
+        #endregion
 
-        //            // Check if song is valid
-        //            if (songToModify != null)
-        //            {
-        //                // Set last played timestamp
-        //                songToModify.LastPlayed = DateTime.Now;
+        #region Folders
 
-        //                // Is there a counter?
-        //                if (songToModify.PlayCount == null)
-        //                {
-        //                    songToModify.PlayCount = 1;
-        //                }
-        //                else
-        //                {
-        //                    songToModify.PlayCount++;
-        //                }
-        //                context.SaveChanges();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdateSong(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+        /// <summary>
+        /// Selects a folder from a path.
+        /// </summary>
+        /// <param name="path">Path to the folder</param>
+        /// <returns>Folder</returns>
+        public FolderDTO SelectFolderByPath(string path)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Folders WHERE FolderPath = '" + path + "'");
+            
+            // Convert to DTO
+            List<FolderDTO> folders = ConvertDTO.Folders(table);
+
+            // Check results
+            if (folders.Count > 0)
+            {
+                // Return first result
+                return folders[0];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Selects a folders.
+        /// </summary>        
+        /// <returns>List of folders</returns>
+        public List<FolderDTO> SelectFolders()
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Folders");
+
+            // Convert to DTO
+            List<FolderDTO> folders = ConvertDTO.Folders(table);
+
+            return folders;
+        }
+
+        /// <summary>
+        /// Inserts a folder in the database. Configuration for library location.
+        /// </summary>
+        /// <param name="folderPath">Path of the folder to add</param>
+        /// <param name="recursive">If resursive</param>
+        public void InsertFolder(string folderPath, bool recursive)
+        {
+            // Insert new folder
+            FolderDTO folder = new FolderDTO();
+            folder.FolderPath = folderPath;
+            folder.IsRecursive = recursive;
+            Insert("Folders", "FolderId", folder);
+        }
+
+        /// <summary>
+        /// Deletes a specific folder.
+        /// </summary>
+        /// <param name="folderId">FolderId</param>
+        public void DeleteFolder(Guid folderId)
+        {
+            // Delete folder
+            Delete("Folders", "FolderId", folderId);
+        }
+
+        /// <summary>
+        /// Deletes all folders.
+        /// </summary>
+        public void DeleteFolders()
+        {
+            // Delete all folders
+            Delete("Folders");
+        }
+
+        #endregion
+
+        #region Equalizers
+
+        /// <summary>
+        /// Select all EQ presets from the database.
+        /// </summary>
+        /// <returns>List of Presets</returns>
+        public List<EqualizerDTO> SelectEqualizers()
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Equalizers");
+
+            // Convert to DTO
+            List<EqualizerDTO> eqs = ConvertDTO.Equalizers(table);
+
+            return eqs;
+        }
+
+        /// <summary>
+        /// Selects an EQ preset from the database.
+        /// </summary>
+        /// <param name="name">EQ preset name</param>
+        /// <returns>EQ preset</returns>
+        public EqualizerDTO SelectEqualizer(string name)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Equalizers WHERE Name = '" + name + "'");
+
+            // Convert to DTO
+            List<EqualizerDTO> eqs = ConvertDTO.Equalizers(table);
+
+            // Check results
+            if (eqs.Count > 0)
+            {
+                // Return first result
+                return eqs[0];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Inserts a new EQ preset into the database.
+        /// </summary>
+        /// <param name="eq">EQ preset to insert</param>
+        public void InsertEqualizer(EqualizerDTO eq)
+        {
+            // Insert item
+            Insert("Equalizers", "EqualizerId", eq);
+        }
+
+        /// <summary>
+        /// Updates an existing EQ preset in the database.
+        /// </summary>
+        /// <param name="eq">EQ preset to update</param>
+        public void UpdateEqualizer(EqualizerDTO eq)
+        {
+            // Update item
+            Update("Equalizers", "EqualizerId", eq.EqualizerId, eq);
+        }
+
+        /// <summary>
+        /// Deletes an EQ preset from the database.
+        /// </summary>
+        /// <param name="equalizerId">EQ preset identifier</param>
+        public void DeleteEqualizer(Guid equalizerId)
+        {
+            // Delete item
+            Delete("Equalizers", "EqualizerId", equalizerId);
+        }
+
+        #endregion
     }
 }

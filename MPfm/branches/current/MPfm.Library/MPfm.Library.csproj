@@ -72,6 +72,8 @@
       <DependentUpon>MPFM_EF.edmx</DependentUpon>
     </Compile>
     <Compile Include="DTO\ConvertDTO.cs" />
+    <Compile Include="DTO\EqualizerDTO.cs" />
+    <Compile Include="DTO\FolderDTO.cs" />
     <Compile Include="DTO\PlaylistSongDTO.cs" />
     <Compile Include="DTO\PlaylistDTO.cs" />
     <Compile Include="DTO\SongDTO.cs" />
