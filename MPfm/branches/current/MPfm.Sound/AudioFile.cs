@@ -236,48 +236,6 @@ namespace MPfm.Sound
 
 		#endregion
 
-		#region Channel / Sound Objects
-
-		/// <summary>
-		/// Private value for the Channel property.
-		/// </summary>
-		private MPfm.Sound.FMODWrapper.Channel m_channel = null;
-		/// <summary>
-		/// Channel object used for playing this audio file.
-		/// </summary>
-		public MPfm.Sound.FMODWrapper.Channel Channel
-		{
-			get
-			{
-				return m_channel;
-			}
-			set
-			{
-				m_channel = value;
-			}
-		}
-
-		/// <summary>
-		/// Private value for the Sound property.
-		/// </summary>
-		private MPfm.Sound.FMODWrapper.Sound m_sound = null;
-		/// <summary>
-		/// Sound object used for playing this audio file.
-		/// </summary>
-		public MPfm.Sound.FMODWrapper.Sound Sound
-		{
-			get
-			{
-				return m_sound;
-			}
-			set
-			{
-				m_sound = value;
-			}
-		}
-
-		#endregion
-
 		/// <summary>
 		/// Default constructor for AudioFile. Requires the path to the audio file.
 		/// Will raise an exception if the file doesn't exists.

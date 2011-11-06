@@ -42,7 +42,6 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
 using MPfm.Library.PlayerV4;

@@ -32,7 +32,6 @@ using System.Reflection;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
-using MPfm.Sound.FMODWrapper;
 
 namespace MPfm.Library
 {

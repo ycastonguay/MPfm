@@ -30,7 +30,6 @@ using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
-using MPfm.Sound.FMODWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
 
@@ -46,8 +45,7 @@ namespace MPfm
         private bool settingsChanged = false;
         private bool settingsTested = false;
         private bool testSuccessful = false;
-        private string filePath = string.Empty;
-        private FMOD.OUTPUTTYPE outputType = FMOD.OUTPUTTYPE.UNKNOWN;
+        private string filePath = string.Empty;        
         private string outputDevice = string.Empty;
         
         private frmMain m_main = null;

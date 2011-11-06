@@ -233,7 +233,6 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lib\fmodex.dll" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
@@ -359,7 +358,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\Lib\fmodex.dll $(TargetDir)
+    <PostBuildEvent>copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)
 copy $(ProjectDir)\Lib\SQLite.Interop.dll $(TargetDir)
 copy $(ProjectDir)\Lib\System.Data.SQLite.dll $(TargetDir)
 copy $(ProjectDir)\Lib\System.Data.SQLite.Linq.dll $(TargetDir)</PostBuildEvent>
