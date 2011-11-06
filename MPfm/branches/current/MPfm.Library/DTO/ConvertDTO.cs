@@ -114,7 +114,15 @@ namespace MPfm.Library
             return dtos;
         }
 
-        public static void ToRow(ref DataRow row, SongDTO song)
+        public static void ToRow(ref DataRow row, object dto)
+        {
+            if (dto is SongDTO)
+            {
+                ToSongRow(ref row, (SongDTO)dto);
+            }
+        }
+
+        public static void ToSongRow(ref DataRow row, SongDTO song)
         {
             // Set row data
             row["SongId"] = song.SongId.ToString();

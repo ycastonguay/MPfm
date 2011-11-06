@@ -39,7 +39,7 @@ namespace MPfm.Library
     /// MPfm database.
     /// </summary>
     public class MPfmGateway : SQLiteGateway
-    {
+    {        
         /// <summary>
         /// Default constructor for the MPfmGateway class.
         /// </summary>
@@ -70,17 +70,8 @@ namespace MPfm.Library
         /// <param name="song">SongDTO to insert</param>
         public void InsertSong(SongDTO song)
         {
-            // Get empty result set
-            string baseQuery = "SELECT * FROM Songs";
-            DataTable table = Select(baseQuery + " WHERE SongId = ''");
-
-            // Add new row to data table
-            DataRow newRow = table.NewRow();
-            table.Rows.Add(newRow);
-            ConvertDTO.ToRow(ref newRow, song);
-
-            // Insert new row into database
-            UpdateDataTable(table, baseQuery);
+            // Insert song
+            Insert("Songs", "SongId", song);
         }
 
         /// <summary>
@@ -89,22 +80,8 @@ namespace MPfm.Library
         /// <param name="song">SongDTO to update</param>
         public void UpdateSong(SongDTO song)
         {
-            // Get empty result set
-            string baseQuery = "SELECT * FROM Songs";
-            DataTable table = Select(baseQuery + " WHERE SongId = '" + song.SongId.ToString() + "'");
-
-            // Check if the row was found
-            if (table.Rows.Count == 0)
-            {
-                throw new Exception("Could not find the song to update (SongId: " + song.SongId.ToString() + ")");
-            }
-
-            // Update row in DataTable
-            DataRow row = table.Rows[0];
-            ConvertDTO.ToRow(ref row, song);
-
-            // Update row into database
-            UpdateDataTable(table, baseQuery);
+            // Update song
+            Update("Songs", "SongId", song.SongId, song);
         }
 
         /// <summary>
@@ -113,21 +90,8 @@ namespace MPfm.Library
         /// <param name="songId">Song to delete</param>
         public void DeleteSong(Guid songId)
         {
-            // Get empty result set
-            string baseQuery = "SELECT * FROM Songs";
-            DataTable table = Select(baseQuery + " WHERE SongId = '" + songId.ToString() + "'");
-
-            // Check if the row was found
-            if (table.Rows.Count == 0)
-            {
-                throw new Exception("Could not find the song to delete (SongId: " + songId.ToString() + ")");
-            }
-
-            // Delete row in DataTable
-            table.Rows[0].Delete();
-
-            // Update row into database
-            UpdateDataTable(table, baseQuery);
+            // Delete song
+            Delete("Songs", "SongId", songId);
         }
     }
 }

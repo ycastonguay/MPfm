@@ -169,5 +169,78 @@ namespace MPfm.Library
             // Close connection
             CloseConnection();
         }
+
+        /// <summary>
+        /// Inserts an item into the database.
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="idFieldName">Id field name</param>
+        /// <param name="dto">DTO</param>
+        public void Insert(string tableName, string idFieldName, object dto)
+        {
+            // Get empty result set
+            string baseQuery = "SELECT * FROM " + tableName;
+            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
+
+            // Add new row to data table
+            DataRow newRow = table.NewRow();
+            table.Rows.Add(newRow);
+            ConvertDTO.ToRow(ref newRow, dto);
+
+            // Insert new row into database
+            UpdateDataTable(table, baseQuery);
+        }
+
+        /// <summary>
+        /// Updates an item in the database.
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="idFieldName">Id field name</param>
+        /// <param name="id">DTO id</param>
+        /// <param name="dto">DTO</param>
+        public void Update(string tableName, string idFieldName, Guid id, object dto)
+        {
+            // Get item to update
+            string baseQuery = "SELECT * FROM " + tableName;
+            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
+
+            // Check if the row was found
+            if (table.Rows.Count == 0)
+            {
+                throw new Exception("Could not find the item to update (TableName: " + tableName + " | Id: " + id.ToString() + ")");
+            }
+
+            // Update row in DataTable
+            DataRow row = table.Rows[0];
+            ConvertDTO.ToRow(ref row, dto);
+
+            // Update row into database
+            UpdateDataTable(table, baseQuery);
+        }
+
+        /// <summary>
+        /// Deletes an item from the database.
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="idFieldName">Id field name</param>
+        /// <param name="id">DTO id</param>
+        public void Delete(string tableName, string idFieldName, Guid id)
+        {
+            // Get item to delete
+            string baseQuery = "SELECT * FROM " + tableName;
+            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
+
+            // Check if the row was found
+            if (table.Rows.Count == 0)
+            {
+                throw new Exception("Could not find the item to delete (TableName: " + tableName + " | Id: " + id.ToString() + ")");
+            }
+
+            // Delete row in DataTable
+            table.Rows[0].Delete();
+
+            // Update row into database
+            UpdateDataTable(table, baseQuery);
+        }
     }
 }
