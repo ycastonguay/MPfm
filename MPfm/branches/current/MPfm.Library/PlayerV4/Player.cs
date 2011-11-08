@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using MPfm.Core;
@@ -49,7 +50,8 @@ namespace MPfm.Library.PlayerV4
         private Channel m_streamChannel = null;
         private int m_syncProcHandle;
         private int m_fxEQHandle;
-        private int m_flacPluginHandle = 0;        
+        private int m_flacPluginHandle = 0;
+        private Dictionary<int, string> m_plugins = null;
 
         #region Callbacks
         
@@ -494,20 +496,25 @@ namespace MPfm.Library.PlayerV4
             m_loops = new List<Loop>();            
 
             // Create timer
-            Tracing.Log("[PlayerV4.Initialize] Creating timer...");
+            Tracing.Log("Player.Initialize || Creating timer...");
             m_timerPlayer = new System.Timers.Timer();
             m_timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(m_timerPlayer_Elapsed);
             m_timerPlayer.Interval = 1000;
             m_timerPlayer.Enabled = false;
 
             // Load plugins
-            m_flacPluginHandle = Base.LoadFlacPlugin();
+            //m_plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
+            Tracing.Log("Player.Initialize || Loading plugins...");
+            m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");            
             Base.LoadFxPlugin();
 
             // Create default EQ
+            Tracing.Log("Player.Initialize || Creating default EQ preset...");
             m_currentEQPreset = new EQPreset();
 
             // Initialize sound system
+            Tracing.Log("Player.Initialize || Device: " + m_device.DriverType.ToString() + " // " + m_device.Name + " (id: " + m_device.Id.ToString() + ")");
+            Tracing.Log("Player.Initialize || Initializing device...");
             InitializeDevice(m_device);
         }
 
@@ -611,7 +618,8 @@ namespace MPfm.Library.PlayerV4
         {
             // Dispose plugins
             Base.FreeFxPlugin();
-            Base.FreeFlacPlugin(m_flacPluginHandle);
+            Base.FreePlugin(m_flacPluginHandle);
+            //Base.FreePluginDirectory(m_plugins);            
         }        
 
         /// <summary>

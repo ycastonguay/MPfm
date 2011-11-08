@@ -234,6 +234,21 @@ namespace MPfm.Sound
 		/// </summary>
 		public string AlbumTitle { get; set; }
 
+        /// <summary>
+        /// Genre.
+        /// </summary>
+        public string Genre { get; set; }
+
+        /// <summary>
+        /// Disc number.
+        /// </summary>
+        public uint DiscNumber { get; set; }
+
+        /// <summary>
+        /// Track number.
+        /// </summary>
+        public uint TrackNumber { get; set; }
+
 		#endregion
 
 		/// <summary>
@@ -296,6 +311,9 @@ namespace MPfm.Sound
 					ArtistName = fileMP3.Tag.FirstArtist;
 					AlbumTitle = fileMP3.Tag.Album;
 					Title = fileMP3.Tag.Title;
+                    Genre = fileMP3.Tag.FirstGenre;
+                    DiscNumber = fileMP3.Tag.Disc;
+                    TrackNumber = fileMP3.Tag.Track;
 
 					// Loop through codecs (usually just one)
 					foreach (TagLib.ICodec codec in fileMP3.Properties.Codecs)
@@ -344,6 +362,9 @@ namespace MPfm.Sound
 				ArtistName = fileFlac.Tag.FirstArtist;
 				AlbumTitle = fileFlac.Tag.Album;
 				Title = fileFlac.Tag.Title;
+                Genre = fileFlac.Tag.FirstGenre;
+                DiscNumber = fileFlac.Tag.Disc;
+                TrackNumber = fileFlac.Tag.Track;
 
 				// Loop through codecs (usually just one)
 				foreach (TagLib.ICodec codec in fileFlac.Properties.Codecs)
@@ -371,6 +392,9 @@ namespace MPfm.Sound
 				ArtistName = fileOgg.Tag.FirstArtist;
 				AlbumTitle = fileOgg.Tag.Album;
 				Title = fileOgg.Tag.Title;
+                Genre = fileOgg.Tag.FirstGenre;
+                DiscNumber = fileOgg.Tag.Disc;
+                TrackNumber = fileOgg.Tag.Track;                
 
 				// Loop through codecs (usually just one)
 				foreach (TagLib.ICodec codec in fileOgg.Properties.Codecs)

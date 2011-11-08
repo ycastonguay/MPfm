@@ -108,9 +108,11 @@ namespace MPfm.Library
             }
 
             // Create gateway
+            Tracing.Log("Library.Constructor || Initializing gateway...");
             m_gateway = new MPfmGateway(databaseFilePath);
 
             // Create worker process
+            Tracing.Log("Library.Constructor || Creating background worker...");
             workerUpdateLibrary = new BackgroundWorker();
             workerUpdateLibrary.WorkerReportsProgress = true;
             workerUpdateLibrary.WorkerSupportsCancellation = true;
@@ -118,6 +120,7 @@ namespace MPfm.Library
             workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);            
 
             // Refresh songs
+            Tracing.Log("Library.Constructor || Refreshing cache...");
             RefreshCache();
         }
 
@@ -588,7 +591,7 @@ namespace MPfm.Library
             try
             {
                 // Update song properties using tags
-                //newSong = UpdateSongFromTags(newSong, false);
+                newSong = UpdateSongFromTags(newSong, false);                
             }
             catch (Exception ex)
             {
@@ -618,84 +621,15 @@ namespace MPfm.Library
 
             try
             {
-                // Insert song into the database
-                //DataAccess.InsertSong(newSong);
+                // Insert song into the database                
                 m_gateway.InsertSong(newSong);
             }
             catch (Exception ex)
             {
-                Tracing.Log("MPfm.Library -- UpdateLibrary -- AddMP3ToLibrary() error -- Database insertion failed -- " + ex.Message + " -- " + ex.StackTrace);
+                Tracing.Log("MPfm.Library -- AddSoundFileToLibrary() error -- Database insertion failed -- " + ex.Message + " -- " + ex.StackTrace);
                 UpdateLibraryReportProgress("Adding media to the library", "Database insertion failed", percentCompleted, totalNumberOfFiles, currentFilePosition, "Could not add " + filePath + "; database insertion failed.", filePath, null, ex);
             }
         }
-
-        ///// <summary>
-        ///// Adds a FLAC media to the library, from a file path.
-        ///// </summary>
-        ///// <param name="filePath">Path to the song</param>
-        ///// <param name="percentCompleted">Percent completed value (for updating progress)</param>
-        ///// <param name="totalNumberOfFiles">Total number of files (for updating progress)</param>
-        ///// <param name="currentFilePosition">Current file position (for updating progress)</param>
-        //private void AddFLACToLibrary(string filePath, double percentCompleted, int totalNumberOfFiles, int currentFilePosition)
-        //{
-        //    // Check for cancel
-        //    if (CancelUpdateLibrary)
-        //    {
-        //        // Sends a cancel exception
-        //        throw new UpdateLibraryException();
-        //    }
-
-        //    // Create song and set default properties
-        //    Song newSong = new Song();
-        //    newSong.SongId = Guid.NewGuid().ToString();
-        //    newSong.FilePath = filePath;
-        //    newSong.SoundFormat = "FLAC";           
-        //    newSong.PlayCount = 0;
-        //    newSong.Rating = -1;
-        //    newSong.Tempo = 120;
-
-        //    try
-        //    {
-        //        // Update song properties using tags
-        //        newSong = UpdateSongFromTags(newSong, false);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library -- UpdateLibrary -- AddFLACToLibrary() error -- UpdateSongFromTags failed -- " + ex.Message + " -- " + ex.StackTrace);
-        //        UpdateLibraryReportProgress("Adding media to the library", "Error: " + ex.Message, percentCompleted, totalNumberOfFiles, currentFilePosition, "Error reading " + filePath + ".\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, filePath, null, ex);
-        //        return;
-        //    }
-
-        //    // If the song has no name, give filename as the name                
-        //    if (String.IsNullOrEmpty(newSong.Title))
-        //    {
-        //        newSong.Title = Path.GetFileNameWithoutExtension(filePath);
-        //    }
-        //    // If the artist has no name, give it "Unknown Artist"
-        //    if (String.IsNullOrEmpty(newSong.ArtistName))
-        //    {
-        //        newSong.ArtistName = "Unknown Artist";
-        //    }
-        //    // If the song has no album title, give it "Unknown Album"
-        //    if (String.IsNullOrEmpty(newSong.AlbumTitle))
-        //    {
-        //        newSong.AlbumTitle = "Unknown Album";
-        //    }
-
-        //    // Display update
-        //    UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = newSong.AlbumTitle, ArtistName = newSong.ArtistName, Cover = null, SongTitle = newSong.Title }, null);
-
-        //    try
-        //    {
-        //        // Insert song into the database
-        //        DataAccess.InsertSong(newSong);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library -- UpdateLibrary -- AddFLACToLibrary() error -- Database insertion failed -- " + ex.Message + " -- " + ex.StackTrace);
-        //        UpdateLibraryReportProgress("Adding media to the library", "Database insertion failed", percentCompleted, totalNumberOfFiles, currentFilePosition, "Could not add " + filePath + "; database insertion failed.", filePath, null, ex);
-        //    }
-        //}
 
         #endregion
 
@@ -709,43 +643,32 @@ namespace MPfm.Library
         /// <returns>Song with updated properties</returns>
         public SongDTO UpdateSongFromTags(SongDTO song, bool updateDatabase)
         {
-            //// Create temporary sound
-            //MPfm.Sound.FMODWrapper.Sound sound = Player.SoundSystem.CreateSound(song.FilePath, false);
+            // Create audio file
+            AudioFile audioFile = new AudioFile(song.FilePath);
 
-            //// Get tags
-            //Tags tags = sound.GetTags();
+            // Set song properties                            
+            song.ArtistName = audioFile.ArtistName;
+            song.AlbumTitle = audioFile.AlbumTitle;
+            song.Title = audioFile.Title;
+            song.Genre = audioFile.Genre;
+            song.Time = audioFile.Duration.Minutes.ToString("0") + ":" + audioFile.Duration.Seconds.ToString("00") + "." + audioFile.Duration.Milliseconds.ToString("000");
+            song.TrackNumber = audioFile.TrackNumber;
+            song.DiscNumber = audioFile.DiscNumber;
 
-            //// Set song properties                            
-            //song.ArtistName = tags.ArtistName;
-            //song.AlbumTitle = tags.AlbumTitle;
-            //song.Title = tags.Title;
-            //song.Genre = tags.Genre;
-            //song.Time = sound.Length;      
-
-            //long trackNumber = 0;
-            //long.TryParse(tags.TrackNumber, out trackNumber);
-            //song.TrackNumber = trackNumber;
-
-            //long discNumber = 0;
-            //long.TryParse(tags.DiscNumber, out discNumber);
-            //song.DiscNumber = discNumber;                             
-
-            //// Release sound
-            //sound.Release();
-
-            //try
-            //{
-            //    // Update song in database?
-            //    if (updateDatabase)
-            //    {
-            //        // Update song
-            //        DataAccess.UpdateSong(song);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+            // Update song in database?
+            if (updateDatabase)
+            {
+                try
+                {
+                    // Update song
+                    //DataAccess.UpdateSong(song);
+                    m_gateway.UpdateSong(song);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
 
             return song;
         }
@@ -1427,12 +1350,10 @@ namespace MPfm.Library
         /// </summary>
         public void ResetLibrary()
         {
-            // Reset library
-            //DataAccess.ResetLibrary();
+            // Reset library            
             m_gateway.ResetLibrary();
 
-            // Compact database
-            //DataAccess.CompactDatabase();
+            // Compact database            
             m_gateway.CompactDatabase();
 
             // Refresh cache

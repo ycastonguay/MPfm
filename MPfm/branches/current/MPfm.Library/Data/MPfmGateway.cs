@@ -58,7 +58,7 @@ namespace MPfm.Library
             Delete("Playlists");
             Delete("PlaylistSongs");
             Delete("Loops");
-            Delete("Markers");
+            //Delete("Markers");
         }
 
         #region Songs

@@ -953,11 +953,6 @@ namespace MPfm.WindowsControls
 
         #region Background Worker for Writing Peak Files
 
-        public void Stuffs(long position, float progress)
-        {
-
-        }
-
         /// <summary>
         /// Occurs when the background worker for generating the wave form for Markers & Loops has started its work.
         /// Decompresses an audio file (if needed) and extracts PCM data using FMOD. Generates peak information for wave form display.

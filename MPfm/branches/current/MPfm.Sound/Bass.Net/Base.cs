@@ -161,22 +161,34 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         #region Plugins
-
-        public static int LoadFlacPlugin()
+        
+        public static int LoadPlugin(string pluginFilePath)
         {
-            // Load plugins
-            string filePathFlacPlugin = Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath) + "\\bassflac.dll";
-            int pluginFlac = Bass.BASS_PluginLoad(filePathFlacPlugin);
-            if (pluginFlac == 0)
+            // Load plugins            
+            int plugin = Bass.BASS_PluginLoad(pluginFilePath);
+            if (plugin == 0)
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
             }
 
-            return pluginFlac;
+            return plugin;
         }
 
-        public static void FreeFlacPlugin(int handle)
+        public static Dictionary<int, string> LoadPluginDirectory(string directoryPath)
+        {
+            return Bass.BASS_PluginLoadDirectory(directoryPath);
+        }
+
+        public static void FreePluginDirectory(Dictionary<int, string> dictionary)
+        {
+            foreach (KeyValuePair<int, string> pair in dictionary)
+            {
+                FreePlugin(pair.Key);
+            }
+        }
+
+        public static void FreePlugin(int handle)
         {
             // Free Flac plugin
             if (!Bass.BASS_PluginFree(handle))

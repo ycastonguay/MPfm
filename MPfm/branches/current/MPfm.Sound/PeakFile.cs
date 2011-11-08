@@ -42,6 +42,9 @@ namespace MPfm.Sound
 
     public class PeakFile
     {
+        public delegate void ProcessData(float percentage);
+        public event ProcessData OnProcessData;
+
         private IDisposable m_subscription = null;
         private IDisposable m_subscription2 = null;
         private IDisposable m_subscription3 = null;
@@ -51,9 +54,7 @@ namespace MPfm.Sound
 
         public PeakFile()
         {
-            m_observable = GeneratePeakFile(@"E:\Mp3\Aphex Twin\Come to Daddy\02 Flim.mp3", @"C:\peak1.peak");
-            m_observable2 = GeneratePeakFile(@"E:\Mp3\Aphex Twin\Come to Daddy\05 To Cure A Weakling Child (Contour Regard).mp3", @"C:\peak2.peak");
-            m_observable3 = GeneratePeakFile(@"E:\Mp3\Aphex Twin\Come to Daddy\08 IZ-US.mp3", @"C:\peak3.peak");
+
         }
 
         /// <summary>
@@ -250,14 +251,27 @@ namespace MPfm.Sound
             return observable;
         }
 
-        public void Test()
+        public void Test(List<string> filePaths)
         {
-            // Start how many you want. 
-            m_subscription = m_observable.Subscribe(i => 
-                Console.WriteLine("1: " + i.PercentageDone.ToString()));
-            m_subscription2 = m_observable2.Subscribe(i => Console.WriteLine("2: " + i.PercentageDone.ToString()));
-            m_subscription3 = m_observable3.Subscribe(i => Console.WriteLine("3: " + i.PercentageDone.ToString()));            
-            
+            List<IObservable<PeakFileProgressData>> list = new List<IObservable<PeakFileProgressData>>();
+
+            for (int a = 0; a < filePaths.Count; a++)
+            {
+                list.Add(GeneratePeakFile(filePaths[a], @"C:\peak" + a.ToString() + ".peak"));
+            }
+
+            m_subscription = Observable.Merge(list).Subscribe(o => { 
+                if(OnProcessData != null)
+                {
+                    OnProcessData(o.PercentageDone);  
+                }
+            });
+            //// Start how many you want. 
+            //m_subscription = m_observable.Subscribe(i => 
+            //    Console.WriteLine("1: " + i.PercentageDone.ToString()));
+            //m_subscription2 = m_observable2.Subscribe(i => Console.WriteLine("2: " + i.PercentageDone.ToString()));
+            //m_subscription3 = m_observable3.Subscribe(i => Console.WriteLine("3: " + i.PercentageDone.ToString()));                                    
+
             //var o = Observable.CombineLatest()
             //    Observable.Start(() => { Console.WriteLine("stuff"); return "A"; }),
             //    Observable.Start(() => { Console.WriteLine("stuff"); return "B"; })
@@ -269,8 +283,8 @@ namespace MPfm.Sound
             if (m_subscription != null)
             {
                 m_subscription.Dispose();
-                m_subscription2.Dispose();
-                m_subscription3.Dispose();
+                //m_subscription2.Dispose();
+                //m_subscription3.Dispose();
             }
         }
 

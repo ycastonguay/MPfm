@@ -47,6 +47,7 @@ namespace MPfm
         private bool testSuccessful = false;
         private string filePath = string.Empty;        
         private string outputDevice = string.Empty;
+        private PeakFile m_peakFile = null;
         
         private frmMain m_main = null;
         /// <summary>
@@ -68,6 +69,28 @@ namespace MPfm
         {
             InitializeComponent();
             m_main = main;
+            m_peakFile = new PeakFile();
+            m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
+
+        }
+
+        public void m_peakFile_OnProcessData(float percentage)
+        {
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblOutputDriver.Text = percentage.ToString();
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }            
         }
 
         #region Form Events
@@ -433,18 +456,18 @@ namespace MPfm
         /// <param name="e">Arguments</param>
         private void btnResetLibrary_Click(object sender, EventArgs e)
         {
-            //// Confirm operation
-            //if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all songs from your library (they will not be deleted!)", "Reset Library", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
-            //{
-            //    // Stop the song if one is playing
-            //    Main.Player.Stop();
+            // Confirm operation
+            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all songs from your library (they will not be deleted!)", "Reset Library", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            {
+                // Stop the song if one is playing
+                Main.PlayerV4.Stop();
 
-            //    // Reset library
-            //    Main.Player.Library.ResetLibrary();
+                // Reset library
+                Main.Library.ResetLibrary();
 
-            //    // Refresh everything
-            //    Main.RefreshAll();
-            //}
+                // Refresh everything
+                Main.RefreshAll();
+            }
         }
 
         #endregion
@@ -461,9 +484,7 @@ namespace MPfm
             settingsChanged = true;
             settingsTested = false;
             testSuccessful = false;            
-        }
-
-        private PeakFile peakFile = null;
+        }        
 
         /// <summary>
         /// Occurs when the user clicks on the Test audio configuration button.
@@ -472,8 +493,11 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestSound_Click(object sender, EventArgs e)
         {
-            peakFile = new PeakFile();
-            peakFile.Test();
+            //peakFile = new PeakFile();
+
+            List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
+
+            m_peakFile.Test(filePaths);
 
 
             return;
@@ -617,9 +641,9 @@ namespace MPfm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (peakFile != null)
+            if (m_peakFile != null)
             {
-                peakFile.CancelGenerate();
+                m_peakFile.CancelGenerate();
             }
         }
 

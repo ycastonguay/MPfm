@@ -59,6 +59,7 @@ namespace MPfm
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.txtPath = new System.Windows.Forms.TextBox();
             this.tabs.SuspendLayout();
             this.tabAudioSettings.SuspendLayout();
             this.Panel1.SuspendLayout();
@@ -89,6 +90,7 @@ namespace MPfm
             // Panel1
             // 
             this.Panel1.AntiAliasingEnabled = true;
+            this.Panel1.Controls.Add(this.txtPath);
             this.Panel1.Controls.Add(this.button2);
             this.Panel1.Controls.Add(this.lblOutputDriver);
             this.Panel1.Controls.Add(this.chkShowTray);
@@ -558,6 +560,13 @@ namespace MPfm
             this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
             this.dialogOpenFile.Title = "Please select an audio file to play";
             // 
+            // txtPath
+            // 
+            this.txtPath.Location = new System.Drawing.Point(199, 133);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(287, 26);
+            this.txtPath.TabIndex = 83;
+            // 
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -615,5 +624,6 @@ namespace MPfm
         private MPfm.WindowsControls.Button btnRemoveFolder;
         private MPfm.WindowsControls.Button btnAddFolder;
         private WindowsControls.Button button2;
+        private System.Windows.Forms.TextBox txtPath;
     }
 }

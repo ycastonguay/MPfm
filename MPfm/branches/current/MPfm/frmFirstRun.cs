@@ -286,7 +286,7 @@ namespace MPfm
                 Tracing.Log("Creating test device...");
 
                 // Create the test device
-                int flacPluginHandle = Base.LoadFlacPlugin();
+                int flacPluginHandle = Base.LoadPlugin("bassflac.dll");
                 TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);
                 testDevice.Play(openFile.FileName);
 
@@ -300,7 +300,7 @@ namespace MPfm
                 Tracing.Log("User stops playback.");                
                 testDevice.Stop();
                 testDevice.Dispose();
-                Base.FreeFlacPlugin(flacPluginHandle);
+                Base.FreePlugin(flacPluginHandle);                
 
                 // The test is successful, enable Next button
                 btnNext.Enabled = true;
