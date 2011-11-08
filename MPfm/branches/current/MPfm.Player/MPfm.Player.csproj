@@ -41,17 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerV4\EQPreset.cs" />
-    <Compile Include="PlayerV4\EQPresetBand.cs" />
-    <Compile Include="PlayerV4\Events.cs" />
-    <Compile Include="PlayerV4\Loop.cs" />
-    <Compile Include="PlayerV4\Marker.cs" />
-    <Compile Include="PlayerV4\Player.cs" />
-    <Compile Include="PlayerV4\Playlist.cs" />
-    <Compile Include="PlayerV4\PlaylistItem.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core</Name>
@@ -67,6 +56,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Bass.Net.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EQPreset.cs" />
+    <Compile Include="EQPresetBand.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="Loop.cs" />
+    <Compile Include="Marker.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Playlist.cs" />
+    <Compile Include="PlaylistItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
