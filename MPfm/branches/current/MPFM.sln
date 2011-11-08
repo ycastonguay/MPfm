@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestControls", "TestControl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaybackEngineV4", "PlaybackEngineV3\PlaybackEngineV4.csproj", "{064ABDA7-31DC-495F-8214-ED2B13E05601}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Player", "MPfm.Player\MPfm.Player.csproj", "{FEB7497C-784C-4380-874F-46FD93C82BA1}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -111,6 +113,16 @@ Global
 		{064ABDA7-31DC-495F-8214-ED2B13E05601}.Release|Mixed Platforms.Build.0 = Release|x86
 		{064ABDA7-31DC-495F-8214-ED2B13E05601}.Release|x86.ActiveCfg = Release|x86
 		{064ABDA7-31DC-495F-8214-ED2B13E05601}.Release|x86.Build.0 = Release|x86
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

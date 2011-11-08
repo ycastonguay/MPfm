@@ -5,18 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</ProjectGuid>
+    <ProjectGuid>{FEB7497C-784C-4380-874F-46FD93C82BA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Library</RootNamespace>
-    <AssemblyName>MPfm.Library</AssemblyName>
+    <RootNamespace>MPfm.Player</RootNamespace>
+    <AssemblyName>MPfm.Player</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccProvider>SubversionScc</SccProvider>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\MPfm.Library.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,61 +32,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bass.Net, Version=2.4.8.0, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL" />
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SQLite, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MPfmGateway.cs" />
-    <Compile Include="SQLiteGateway.cs" />
-    <Compile Include="DTO\ConvertDTO.cs" />
-    <Compile Include="DTO\LoopDTO.cs" />
-    <Compile Include="DTO\MarkerDTO.cs" />
-    <Compile Include="DTO\EqualizerDTO.cs" />
-    <Compile Include="DTO\FolderDTO.cs" />
-    <Compile Include="DTO\PlaylistSongDTO.cs" />
-    <Compile Include="DTO\PlaylistDTO.cs" />
-    <Compile Include="DTO\SongDTO.cs" />
-    <Compile Include="Library.cs" />
+    <Compile Include="PlayerV4\EQPreset.cs" />
+    <Compile Include="PlayerV4\EQPresetBand.cs" />
+    <Compile Include="PlayerV4\Events.cs" />
+    <Compile Include="PlayerV4\Loop.cs" />
+    <Compile Include="PlayerV4\Marker.cs" />
+    <Compile Include="PlayerV4\Player.cs" />
+    <Compile Include="PlayerV4\Playlist.cs" />
+    <Compile Include="PlayerV4\PlaylistItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lib\Bass.Net.dll" />
-    <Content Include="Lib\SQLite.Interop.dll" />
-    <Content Include="Lib\System.Data.SQLite.dll" />
-    <Content Include="Lib\System.Data.SQLite.Linq.dll" />
-    <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\Bass.Net.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

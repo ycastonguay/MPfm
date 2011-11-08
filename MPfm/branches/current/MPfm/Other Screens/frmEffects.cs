@@ -27,7 +27,7 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 using MPfm.Library;
-using MPfm.Library.PlayerV4;
+using MPfm.Player.PlayerV4;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
