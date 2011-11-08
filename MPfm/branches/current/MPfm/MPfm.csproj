@@ -99,6 +99,7 @@
     <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DriverComboBoxItem.cs" />
     <Compile Include="Classes\MPFMConfig.cs" />
     <Compile Include="Classes\SongQuery.cs" />
     <Compile Include="Other Screens\frmAddEditLoop.cs">

@@ -37,8 +37,11 @@ namespace MPfm
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabAudioSettings = new System.Windows.Forms.TabPage();
             this.Panel1 = new MPfm.WindowsControls.Panel();
-            this.button2 = new MPfm.WindowsControls.Button();
+            this.label2 = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
+            this.btnStopPeak = new MPfm.WindowsControls.Button();
+            this.btnTestPeak = new MPfm.WindowsControls.Button();
+            this.txtPath = new System.Windows.Forms.TextBox();
             this.lblOutputDriver = new MPfm.WindowsControls.Label();
             this.chkShowTray = new System.Windows.Forms.CheckBox();
             this.chkHideTray = new System.Windows.Forms.CheckBox();
@@ -59,7 +62,6 @@ namespace MPfm
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.txtPath = new System.Windows.Forms.TextBox();
             this.tabs.SuspendLayout();
             this.tabAudioSettings.SuspendLayout();
             this.Panel1.SuspendLayout();
@@ -90,8 +92,10 @@ namespace MPfm
             // Panel1
             // 
             this.Panel1.AntiAliasingEnabled = true;
+            this.Panel1.Controls.Add(this.label2);
+            this.Panel1.Controls.Add(this.btnStopPeak);
+            this.Panel1.Controls.Add(this.btnTestPeak);
             this.Panel1.Controls.Add(this.txtPath);
-            this.Panel1.Controls.Add(this.button2);
             this.Panel1.Controls.Add(this.lblOutputDriver);
             this.Panel1.Controls.Add(this.chkShowTray);
             this.Panel1.Controls.Add(this.chkHideTray);
@@ -120,37 +124,18 @@ namespace MPfm
             this.Panel1.Size = new System.Drawing.Size(500, 281);
             this.Panel1.TabIndex = 16;
             // 
-            // button2
+            // label2
             // 
-            this.button2.AntiAliasingEnabled = true;
-            this.button2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.button2.BorderWidth = 1;
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.CustomFontName = "Junction";
-            this.button2.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.button2.DisabledFontColor = System.Drawing.Color.Silver;
-            this.button2.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.button2.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.FontCollection = this.fontCollection;
-            this.button2.FontColor = System.Drawing.Color.Black;
-            this.button2.GradientColor1 = System.Drawing.Color.LightGray;
-            this.button2.GradientColor2 = System.Drawing.Color.Gray;
-            this.button2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.button2.Image = global::MPfm.Properties.Resources.sound;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button2.Location = new System.Drawing.Point(286, 180);
-            this.button2.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button2.MouseOverFontColor = System.Drawing.Color.Black;
-            this.button2.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.button2.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(131, 40);
-            this.button2.TabIndex = 82;
-            this.button2.Text = "Stop";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.label2.AntiAliasingEnabled = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.CustomFontName = "Junction";
+            this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.FontCollection = this.fontCollection;
+            this.label2.Location = new System.Drawing.Point(232, 156);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(254, 17);
+            this.label2.TabIndex = 86;
+            this.label2.Text = "Audio file directory for peak file generation:";
             // 
             // fontCollection
             // 
@@ -175,6 +160,76 @@ namespace MPfm
             this.fontCollection.Fonts.Add(customFont4);
             this.fontCollection.Fonts.Add(customFont5);
             // 
+            // btnStopPeak
+            // 
+            this.btnStopPeak.AntiAliasingEnabled = true;
+            this.btnStopPeak.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnStopPeak.BorderWidth = 1;
+            this.btnStopPeak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStopPeak.CustomFontName = "Junction";
+            this.btnStopPeak.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnStopPeak.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnStopPeak.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnStopPeak.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnStopPeak.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStopPeak.FontCollection = this.fontCollection;
+            this.btnStopPeak.FontColor = System.Drawing.Color.Black;
+            this.btnStopPeak.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnStopPeak.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnStopPeak.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnStopPeak.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnStopPeak.Location = new System.Drawing.Point(392, 205);
+            this.btnStopPeak.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnStopPeak.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnStopPeak.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnStopPeak.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnStopPeak.Name = "btnStopPeak";
+            this.btnStopPeak.Size = new System.Drawing.Size(77, 23);
+            this.btnStopPeak.TabIndex = 85;
+            this.btnStopPeak.Text = "Stop Peak";
+            this.btnStopPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnStopPeak.UseVisualStyleBackColor = true;
+            this.btnStopPeak.Click += new System.EventHandler(this.btnStopPeak_Click);
+            // 
+            // btnTestPeak
+            // 
+            this.btnTestPeak.AntiAliasingEnabled = true;
+            this.btnTestPeak.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnTestPeak.BorderWidth = 1;
+            this.btnTestPeak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTestPeak.CustomFontName = "Junction";
+            this.btnTestPeak.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnTestPeak.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnTestPeak.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnTestPeak.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnTestPeak.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestPeak.FontCollection = this.fontCollection;
+            this.btnTestPeak.FontColor = System.Drawing.Color.Black;
+            this.btnTestPeak.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnTestPeak.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnTestPeak.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnTestPeak.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnTestPeak.Location = new System.Drawing.Point(309, 205);
+            this.btnTestPeak.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTestPeak.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnTestPeak.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnTestPeak.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnTestPeak.Name = "btnTestPeak";
+            this.btnTestPeak.Size = new System.Drawing.Size(77, 23);
+            this.btnTestPeak.TabIndex = 84;
+            this.btnTestPeak.Text = "Test Peak";
+            this.btnTestPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnTestPeak.UseVisualStyleBackColor = true;
+            this.btnTestPeak.Click += new System.EventHandler(this.btnTestPeak_Click);
+            // 
+            // txtPath
+            // 
+            this.txtPath.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPath.Location = new System.Drawing.Point(235, 178);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(251, 21);
+            this.txtPath.TabIndex = 83;
+            // 
             // lblOutputDriver
             // 
             this.lblOutputDriver.AntiAliasingEnabled = true;
@@ -182,7 +237,7 @@ namespace MPfm
             this.lblOutputDriver.CustomFontName = "Junction";
             this.lblOutputDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutputDriver.FontCollection = this.fontCollection;
-            this.lblOutputDriver.Location = new System.Drawing.Point(3, 36);
+            this.lblOutputDriver.Location = new System.Drawing.Point(3, 80);
             this.lblOutputDriver.Name = "lblOutputDriver";
             this.lblOutputDriver.Size = new System.Drawing.Size(89, 17);
             this.lblOutputDriver.TabIndex = 11;
@@ -257,13 +312,15 @@ namespace MPfm
             // 
             this.cboOutputDevices.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cboOutputDevices.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboOutputDevices.DisplayMember = "Name";
             this.cboOutputDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOutputDevices.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboOutputDevices.FormattingEnabled = true;
-            this.cboOutputDevices.Location = new System.Drawing.Point(6, 57);
+            this.cboOutputDevices.Location = new System.Drawing.Point(6, 101);
             this.cboOutputDevices.Name = "cboOutputDevices";
             this.cboOutputDevices.Size = new System.Drawing.Size(480, 23);
             this.cboOutputDevices.TabIndex = 9;
+            this.cboOutputDevices.ValueMember = "Id";
             this.cboOutputDevices.SelectedIndexChanged += new System.EventHandler(this.cboDriverOrOutputType_SelectedIndexChanged);
             // 
             // Label1
@@ -273,7 +330,7 @@ namespace MPfm
             this.Label1.CustomFontName = "Junction";
             this.Label1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label1.FontCollection = this.fontCollection;
-            this.Label1.Location = new System.Drawing.Point(3, 84);
+            this.Label1.Location = new System.Drawing.Point(3, 33);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(89, 17);
             this.Label1.TabIndex = 13;
@@ -283,15 +340,15 @@ namespace MPfm
             // 
             this.cboDrivers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cboDrivers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboDrivers.DisplayMember = "Description";
+            this.cboDrivers.DisplayMember = "Title";
             this.cboDrivers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDrivers.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboDrivers.FormattingEnabled = true;
-            this.cboDrivers.Location = new System.Drawing.Point(6, 104);
+            this.cboDrivers.Location = new System.Drawing.Point(6, 53);
             this.cboDrivers.Name = "cboDrivers";
             this.cboDrivers.Size = new System.Drawing.Size(480, 23);
             this.cboDrivers.TabIndex = 12;
-            this.cboDrivers.ValueMember = "FMODOutputType";
+            this.cboDrivers.ValueMember = "DriverType";
             this.cboDrivers.SelectedIndexChanged += new System.EventHandler(this.cboDriverOrOutputType_SelectedIndexChanged);
             // 
             // tabLibrary
@@ -560,13 +617,6 @@ namespace MPfm
             this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
             this.dialogOpenFile.Title = "Please select an audio file to play";
             // 
-            // txtPath
-            // 
-            this.txtPath.Location = new System.Drawing.Point(199, 133);
-            this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(287, 26);
-            this.txtPath.TabIndex = 83;
-            // 
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -623,7 +673,9 @@ namespace MPfm
         private MPfm.WindowsControls.Panel Panel2;
         private MPfm.WindowsControls.Button btnRemoveFolder;
         private MPfm.WindowsControls.Button btnAddFolder;
-        private WindowsControls.Button button2;
         private System.Windows.Forms.TextBox txtPath;
+        private WindowsControls.Button btnStopPeak;
+        private WindowsControls.Button btnTestPeak;
+        private WindowsControls.Label label2;
     }
 }

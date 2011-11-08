@@ -2676,24 +2676,28 @@ namespace MPfm
                 }
                 else if (result.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
                 {
-                    // For each playlist
-                    foreach (PlaylistDTO playlist in result.Playlists)
-                    {
-                        // Create tree node
-                        TreeNode nodePlaylist = new TreeNode();
-                        nodePlaylist.Text = playlist.PlaylistName;
-                        nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
-                        nodePlaylist.ImageIndex = 11;
-                        nodePlaylist.SelectedImageIndex = 11;
-
-                        // Add node to tree
-                        result.TreeNodeToUpdate.Nodes.Add(nodePlaylist);
-
-                        // If the form is initializing and setting the initial opened node from history...
-                        if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
+                    // Check result
+                    if (result.Playlists != null)
+                    {                    
+                        // For each playlist
+                        foreach (PlaylistDTO playlist in result.Playlists)
                         {
-                            // Set node as selected
-                            treeLibrary.SelectedNode = nodePlaylist;
+                            // Create tree node
+                            TreeNode nodePlaylist = new TreeNode();
+                            nodePlaylist.Text = playlist.PlaylistName;
+                            nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
+                            nodePlaylist.ImageIndex = 11;
+                            nodePlaylist.SelectedImageIndex = 11;
+
+                            // Add node to tree
+                            result.TreeNodeToUpdate.Nodes.Add(nodePlaylist);
+
+                            // If the form is initializing and setting the initial opened node from history...
+                            if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
+                            {
+                                // Set node as selected
+                                treeLibrary.SelectedNode = nodePlaylist;
+                            }
                         }
                     }
                 }

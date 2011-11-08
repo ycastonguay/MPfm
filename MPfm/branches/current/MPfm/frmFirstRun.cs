@@ -87,11 +87,20 @@ namespace MPfm
                 drivers.Add(driverWASAPI);
                 cboDrivers.DataSource = drivers;
 
-                // Set default value
+                // Set default value (DirectSound)
                 cboDrivers.SelectedIndex = 0;
 
-                // Get list of drivers (output types)
-                //cboDrivers.DataSource = MPfm.Sound.FMODWrapper.System.GetOutputTypes();
+                // Loop through DirectSound devices to get the default device
+                for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                {
+                    // Is this the default device?
+                    if (m_devicesDirectSound[a].IsDefault)
+                    {
+                        // Set default device and exit loop
+                        cboOutputDevices.SelectedIndex = a;
+                        break;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -192,14 +201,6 @@ namespace MPfm
 
                 // Find default device
                 Device defaultDevice = m_devicesDirectSound.FirstOrDefault(x => x.IsDefault);
-                //if (defaultDevice != null)
-                //{
-                //    lblDefaultValue.Text = "[" + defaultDevice.Id.ToString() + "] " + defaultDevice.Name;
-                //}
-                //else
-                //{
-                //    lblDefaultValue.Text = "Unknown";
-                //}
             }
             else if (driver.DriverType == DriverType.ASIO)
             {
@@ -208,14 +209,6 @@ namespace MPfm
 
                 // Find default device
                 Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);
-                //if (defaultDevice != null)
-                //{
-                //    lblDefaultValue.Text = "[" + defaultDevice.Id.ToString() + "] " + defaultDevice.Name;
-                //}
-                //else
-                //{
-                //    lblDefaultValue.Text = "Unknown";
-                //}
             }
             else if (driver.DriverType == DriverType.WASAPI)
             {
@@ -224,14 +217,6 @@ namespace MPfm
 
                 // Find default device
                 Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
-                //if (defaultDevice != null)
-                //{
-                //    lblDefaultValue.Text = "[" + defaultDevice.Id.ToString() + "] " + defaultDevice.Name;
-                //}
-                //else
-                //{
-                //    lblDefaultValue.Text = "Unknown";
-                //}
             }
 
             // The test is successful, enable Next button
@@ -282,24 +267,32 @@ namespace MPfm
                 Tracing.Log("Output Device Driver: " + device.Driver);
                 Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());                
 
+                // Load FLAC plugin
+                Tracing.Log("Loading FLAC plugin...");
+                int flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+
                 // Create test device
                 Tracing.Log("Creating test device...");
+                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);                
 
-                // Create the test device
-                int flacPluginHandle = Base.LoadPlugin("bassflac.dll");
-                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);
+                // Play sound file                
+                Tracing.Log("Starting playback...");
                 testDevice.Play(openFile.FileName);
-
-                // Play sound file
                 Tracing.Log("The audio file is playing...");
 
                 // Display info
                 MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Stop and dispose the device
-                Tracing.Log("User stops playback.");                
+                Tracing.Log("User stops playback.");
                 testDevice.Stop();
+
+                // Dispose test device
+                Tracing.Log("Disposing test device...");
                 testDevice.Dispose();
+
+                // Free FLAC plugin
+                Tracing.Log("Freeing FLAC plugin...");
                 Base.FreePlugin(flacPluginHandle);                
 
                 // The test is successful, enable Next button
@@ -321,14 +314,5 @@ namespace MPfm
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// This class represents a driver combo box item.
-    /// </summary>
-    public class DriverComboBoxItem
-    {
-        public DriverType DriverType { get; set; }
-        public string Title { get; set; }
     }
 }

@@ -26,12 +26,14 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
-using MPfm.Sound;
-using MPfm.WindowsControls;
 using MPfm.Library;
+using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
+using MPfm.WindowsControls;
 
 namespace MPfm
 {
@@ -46,8 +48,13 @@ namespace MPfm
         private bool settingsTested = false;
         private bool testSuccessful = false;
         private string filePath = string.Empty;        
-        private string outputDevice = string.Empty;
+        private List<Device> m_devices = null;
+        private List<Device> m_devicesDirectSound = null;
+        private List<Device> m_devicesASIO = null;
+        private List<Device> m_devicesWASAPI = null;
+        
         private PeakFile m_peakFile = null;
+
         
         private frmMain m_main = null;
         /// <summary>
@@ -69,6 +76,7 @@ namespace MPfm
         {
             InitializeComponent();
             m_main = main;
+
             m_peakFile = new PeakFile();
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
 
@@ -103,14 +111,31 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmSettings_Shown(object sender, EventArgs e)
         {
-            //// Refresh controls           
-            //cboOutputDevices.DataSource = Main.Player.SoundSystem.Drivers;
-            //cboDrivers.DataSource = Main.Player.SoundSystem.OutputTypes;
-            //RefreshFolders();
+            // Detect devices
+            m_devices = DeviceHelper.DetectOutputDevices();
+            m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
+            m_devicesASIO = m_devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
+            m_devicesWASAPI = m_devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
 
-            //// Load configuration
-            //LoadConfig();
-            //settingsChanged = false;            
+            // Update combo box
+            List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
+            DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default, recommended)" };
+            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required, supports VST plugins)" };
+            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Windows Vista/Windows 7 only)" };
+            drivers.Add(driverDirectSound);
+            drivers.Add(driverASIO);
+            drivers.Add(driverWASAPI);
+            cboDrivers.DataSource = drivers;
+
+            // Set default value
+            cboDrivers.SelectedIndex = 0;
+
+            // Refresh controls           
+            RefreshFolders();
+
+            // Load configuration
+            LoadConfig();
+            settingsChanged = false;            
         }
 
         #endregion
@@ -138,22 +163,21 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
-            //// Variables
-            //bool saveSettings = false;
+            // Variables
+            bool saveSettings = false;
 
-            //// Flow:
+            // Check if the settings have changed
+            if (!settingsChanged)
+            {
+                // Nothing has changed; just exit without warning
+                // HOWEVER: The user might have tested something, so the player might have been disposed. Add a flag for this.
+            }
 
-            //// 1) detect if settings have changed
-            //// 2) ask user if he wants to save settings. display if settings have been tested or not.
-            //// 3) save or skip save
+            // Flow:
 
-            //// Get new settings from controls
-            //FMOD.OUTPUTTYPE newOutputType = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
-            //string newOutputDevice = (string)cboOutputDevices.SelectedItem;
-
-            //// Get settings from player
-            //FMOD.OUTPUTTYPE playerOutputType = Main.Player.SoundSystem.GetOutputType();
-            //string playerOutputDevice = Main.Player.SoundSystem.Drivers[Main.Player.SoundSystem.GetDriver()];
+            // 1) detect if settings have changed
+            // 2) ask user if he wants to save settings. display if settings have been tested or not.
+            // 3) save or skip save
 
             //// Did the user change the settings?
             //if (newOutputType != playerOutputType || newOutputDevice != playerOutputDevice)
@@ -235,10 +259,10 @@ namespace MPfm
             //    Cursor.Current = Cursors.Default;
             //}
 
-            //// Reset flags
-            //settingsChanged = false;
-            //testSuccessful = false;
-            //settingsTested = false;
+            // Reset flags
+            settingsChanged = false;
+            testSuccessful = false;
+            settingsTested = false;
 
             // Hide form
             this.Close();
@@ -261,9 +285,49 @@ namespace MPfm
             cboOutputDevices.SelectedText = Main.Config.OutputDevice;
             cboDrivers.SelectedValue = Main.Config.Driver;            
 
-            // Load values for history (if the user applies something and then wants to cancel)
-            //outputType = Main.Config.Driver;
-            outputDevice = Main.Config.OutputDevice;
+            // Check driver
+            if (Main.Config.Driver == DriverType.DirectSound)
+            {
+                // Loop through devices
+                for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                {
+                    // Check if the device matches
+                    if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                    {
+                        // Set selected index
+                        cboOutputDevices.SelectedIndex = a;
+                        break;
+                    }
+                }
+            }
+            else if (Main.Config.Driver == DriverType.ASIO)
+            {
+                // Loop through devices
+                for (int a = 0; a < m_devicesASIO.Count; a++)
+                {
+                    // Check if the device matches
+                    if (m_devicesASIO[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                    {
+                        // Set selected index
+                        cboOutputDevices.SelectedIndex = a;
+                        break;
+                    }
+                }
+            }
+            else if (Main.Config.Driver == DriverType.WASAPI)
+            {
+                // Loop through devices
+                for (int a = 0; a < m_devicesWASAPI.Count; a++)
+                {
+                    // Check if the device matches
+                    if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                    {
+                        // Set selected index
+                        cboOutputDevices.SelectedIndex = a;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -374,56 +438,56 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnRemoveFolder_Click(object sender, EventArgs e)
         {
-            //// If no items are selected, return immediately
-            //if (viewFolders.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            // If no items are selected, return immediately
+            if (viewFolders.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
-            //// Get user confirmation
-            //if (MessageBox.Show("Are you sure you wish to remove the selected folders from your library?", "Removing folders from your library", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-            //{
-            //    return;
-            //}
+            // Get user confirmation
+            if (MessageBox.Show("Are you sure you wish to remove the selected folders from your library?", "Removing folders from your library", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            {
+                return;
+            }
 
-            //// Ask the user if he/she wants to remove the songs from his/her library
-            //bool removeSongsFromLibrary = false;
-            //DialogResult result = MessageBox.Show("Do you want to remove the songs of this folder from your library?", "Remove songs from library", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            //if (result == System.Windows.Forms.DialogResult.Yes)
-            //{
-            //    removeSongsFromLibrary = true;
-            //}
-            //else if (result == System.Windows.Forms.DialogResult.Cancel)
-            //{
-            //    return;
-            //}
+            // Ask the user if he/she wants to remove the songs from his/her library
+            bool removeSongsFromLibrary = false;
+            DialogResult result = MessageBox.Show("Do you want to remove the songs of this folder from your library?", "Remove songs from library", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                removeSongsFromLibrary = true;
+            }
+            else if (result == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
 
-            //// Delete selected folders
-            //foreach (ListViewItem item in viewFolders.SelectedItems)
-            //{
-            //    // Check if the tag is null
-            //    if (item.Tag != null)
-            //    {
-            //        // Get the folder id
-            //        Guid folderId = new Guid(item.Tag.ToString());
+            // Delete selected folders
+            foreach (ListViewItem item in viewFolders.SelectedItems)
+            {
+                // Check if the tag is null
+                if (item.Tag != null)
+                {
+                    // Get the folder id
+                    Guid folderId = new Guid(item.Tag.ToString());
 
-            //        // Remove songs that match the path
-            //        if (removeSongsFromLibrary)
-            //        {
-            //            Main.Player.Library.RemoveSongsFromLibrary(item.SubItems[0].Text);
-            //        }
+                    // Remove songs that match the path
+                    if (removeSongsFromLibrary)
+                    {
+                        Main.Library.RemoveSongsFromLibrary(item.SubItems[0].Text);
+                    }
 
-            //        // Delete the folder from the list of configured folders
-            //        DataAccess.DeleteFolder(folderId);
+                    // Delete the folder from the list of configured folders                    
+                    Main.Library.Gateway.DeleteFolder(folderId);
 
-            //        // Remove item from list view
-            //        item.Remove();
-            //    }
-            //}
+                    // Remove item from list view
+                    item.Remove();
+                }
+            }
 
-            //// Refresh cache
-            //Main.Player.Library.RefreshCache();
-            //Main.RefreshAll();
+            // Refresh cache
+            Main.Library.RefreshCache();
+            Main.RefreshAll();
         }
 
         /// <summary>
@@ -481,9 +545,39 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void cboDriverOrOutputType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Set flags
             settingsChanged = true;
             settingsTested = false;
-            testSuccessful = false;            
+            testSuccessful = false;
+
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            // Check driver type
+            if (driver.DriverType == DriverType.DirectSound)
+            {
+                // Set combo box data source
+                cboOutputDevices.DataSource = m_devicesDirectSound;
+
+                // Find default device
+                Device defaultDevice = m_devicesDirectSound.FirstOrDefault(x => x.IsDefault);
+            }
+            else if (driver.DriverType == DriverType.ASIO)
+            {
+                // Set combo box data source
+                cboOutputDevices.DataSource = m_devicesASIO;
+
+                // Find default device
+                Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);
+            }
+            else if (driver.DriverType == DriverType.WASAPI)
+            {
+                // Set combo box data source
+                cboOutputDevices.DataSource = m_devicesWASAPI;
+
+                // Find default device
+                Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
+            }
         }        
 
         /// <summary>
@@ -493,114 +587,82 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestSound_Click(object sender, EventArgs e)
         {
-            //peakFile = new PeakFile();
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
+            // Get selected device
+            Device device = (Device)cboOutputDevices.SelectedItem;
 
-            m_peakFile.Test(filePaths);
+            try
+            {
+                // Warn user if system is already playing a song
+                if (Main.PlayerV4.IsPlaying)
+                {
+                    // Display message box                    
+                    if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+                    {
+                        // The user cancelled
+                        return;
+                    }
 
+                    // Stop player
+                    Main.PlayerV4.Stop();
+                }
 
-            return;
+                // Log 
+                Tracing.Log("Starting audio settings test with the following settings: ");
+                Tracing.Log("Driver Type: " + driver.DriverType.ToString());
+                Tracing.Log("Output Device Id: " + device.Id);
+                Tracing.Log("Output Device Name: " + device.Name);
+                Tracing.Log("Output Device Driver: " + device.Driver);
+                Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
-            //MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
+                // Dispose player
+                Main.PlayerV4.Dispose();
 
-            //SongDTO newSong = new SongDTO();
-            //newSong.SongId = Guid.NewGuid();
-            //newSong.Title = " HAHAHA";
-            //newSong.FilePath = @"C:\Test.wav";
-            //newSong.Year = 2011;
+                // Create test device
+                Tracing.Log("Creating test device...");
 
-            //gateway.InsertSong(newSong);
-            //newSong.Time = "HIHIHI";
-            //gateway.UpdateSong(newSong);
-            
+                // Display the open file dialog (set filepath first)
+                Tracing.Log("User selects a file.");
+                dialogOpenFile.FileName = filePath;
+                if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                {
+                    return;
+                }
 
-            //List<SongDTO> songs = gateway.SelectSongs();
+                // Create test device
+                Tracing.Log("Creating test device...");
+                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);
 
-            //gateway.DeleteSong(newSong.SongId);
+                // Play sound file                
+                Tracing.Log("Starting playback...");
+                testDevice.Play(dialogOpenFile.FileName);
+                Tracing.Log("The audio file is playing...");
 
-            //songs = gateway.SelectSongs();      
+                // Display info
+                MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // Stop and dispose the device
+                Tracing.Log("User stops playback.");
+                testDevice.Stop();
 
-            //try
-            //{               
-            //    // Get driver
-            //    FMOD.OUTPUTTYPE outputType = FMOD.OUTPUTTYPE.UNKNOWN;
-            //    if (cboDrivers.SelectedItem != null && cboDrivers.SelectedValue != null)
-            //    {
-            //        outputType = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
-            //    }
+                // Dispose test device
+                Tracing.Log("Disposing test device...");
+                testDevice.Dispose();
 
-            //    // Check if parameters are valid
-            //    if (outputType == FMOD.OUTPUTTYPE.UNKNOWN || cboOutputDevices.SelectedIndex == -1)
-            //    {
-            //        return;
-            //    }
+                // The test is successful           
+                Tracing.Log("The audio settings test is successful!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "Error testing sound configuration!\nThis configuration will not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Tracing.Log("The audio settings test has failed!");
+                Tracing.Log("Exception message: " + ex.Message);
+                Tracing.Log("Stack trace: " + ex.StackTrace);
+            }
 
-            //    // Warn user if system is already playing a song
-            //    if (Main.Player.IsPlaying)
-            //    {
-            //        if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
-            //        {
-            //            // The user cancelled
-            //            return;
-            //        }
-            //    }
-
-            //    // This can't be done in a background thread. Display an hourglass mouse cursor
-            //    Cursor.Current = Cursors.WaitCursor;
-
-            //    // Log 
-            //    Tracing.Log("Starting audio settings test with the following settings: ");
-            //    Tracing.Log("Output Type: " + outputType.ToString());
-            //    Tracing.Log("Output Device: " + (string)cboOutputDevices.SelectedItem);      
-
-            //    // Set flag
-            //    settingsTested = true;
-
-            //    // Stop playback
-            //    Main.Stop();
-
-            //    // Reset player
-            //    Tracing.Log("Creating player...");
-            //    Main.ResetPlayer(outputType, (string)cboOutputDevices.SelectedItem, true, true);
-
-            //    // Reset cursor
-            //    Cursor.Current = Cursors.Default;
-
-            //    // Display the open file dialog (set filepath first)
-            //    Tracing.Log("User selects a file.");
-            //    dialogOpenFile.FileName = filePath;
-            //    if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            //    {
-            //        return;
-            //    }
-
-            //    // Play sound file
-            //    Tracing.Log("The audio file is playing...");
-            //    Main.Player.PlayFile(dialogOpenFile.FileName);
-
-            //    // Display info
-            //    MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            //    // Stop playback
-            //    Tracing.Log("User stops playback.");
-            //    Main.Player.Stop();
-
-            //    // Set flag
-            //    testSuccessful = true;
-            //    Tracing.Log("The audio settings test is successful!");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(this, "Error testing sound configuration!\nThis configuration will not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    Tracing.Log("The audio settings test has failed!");
-            //    Tracing.Log("Exception message: " + ex.Message);
-            //    Tracing.Log("Stack trace: " + ex.StackTrace);
-            //    testSuccessful = false;
-            //}
-
-            //Tracing.Log("End of audio settings test.");
+            Tracing.Log("End of audio settings test.");
         }
 
         #endregion
@@ -639,7 +701,14 @@ namespace MPfm
 
         #endregion
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnTestPeak_Click(object sender, EventArgs e)
+        {
+            List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
+
+            m_peakFile.Test(filePaths);
+        }
+
+        private void btnStopPeak_Click(object sender, EventArgs e)
         {
             if (m_peakFile != null)
             {
