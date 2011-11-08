@@ -160,6 +160,8 @@
     <Content Include="Images\screenshots\0.4.4.9\splash_t.png" />
     <Content Include="Images\screenshots\0.4.4.9\update_library.png" />
     <Content Include="Images\screenshots\0.4.4.9\update_library_t.png" />
+    <Content Include="Images\screenshots\PlaybackEngineV4Demo.png" />
+    <Content Include="Images\screenshots\PlaybackEngineV4Demo_t.png" />
     <Content Include="Images\screenshots\scanmp3headers.png" />
     <Content Include="Images\screenshots\scanmp3headers_t.png" />
     <Content Include="Images\slider_effects.png" />
