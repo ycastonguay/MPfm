@@ -37,7 +37,7 @@ namespace MPfm
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabAudioSettings = new System.Windows.Forms.TabPage();
             this.panelAudioSettings = new MPfm.WindowsControls.Panel();
-            this.label2 = new MPfm.WindowsControls.Label();
+            this.lblTest = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.btnStopPeak = new MPfm.WindowsControls.Button();
             this.btnTestPeak = new MPfm.WindowsControls.Button();
@@ -47,7 +47,7 @@ namespace MPfm
             this.chkHideTray = new System.Windows.Forms.CheckBox();
             this.btnTestSound = new MPfm.WindowsControls.Button();
             this.cboOutputDevices = new System.Windows.Forms.ComboBox();
-            this.Label1 = new MPfm.WindowsControls.Label();
+            this.lblDriver = new MPfm.WindowsControls.Label();
             this.cboDrivers = new System.Windows.Forms.ComboBox();
             this.tabLibrary = new System.Windows.Forms.TabPage();
             this.panelLibrary = new MPfm.WindowsControls.Panel();
@@ -94,7 +94,7 @@ namespace MPfm
             // panelAudioSettings
             // 
             this.panelAudioSettings.AntiAliasingEnabled = true;
-            this.panelAudioSettings.Controls.Add(this.label2);
+            this.panelAudioSettings.Controls.Add(this.lblTest);
             this.panelAudioSettings.Controls.Add(this.btnStopPeak);
             this.panelAudioSettings.Controls.Add(this.btnTestPeak);
             this.panelAudioSettings.Controls.Add(this.txtPath);
@@ -103,7 +103,7 @@ namespace MPfm
             this.panelAudioSettings.Controls.Add(this.chkHideTray);
             this.panelAudioSettings.Controls.Add(this.btnTestSound);
             this.panelAudioSettings.Controls.Add(this.cboOutputDevices);
-            this.panelAudioSettings.Controls.Add(this.Label1);
+            this.panelAudioSettings.Controls.Add(this.lblDriver);
             this.panelAudioSettings.Controls.Add(this.cboDrivers);
             this.panelAudioSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAudioSettings.ExpandedHeight = 200;
@@ -126,18 +126,18 @@ namespace MPfm
             this.panelAudioSettings.Size = new System.Drawing.Size(500, 281);
             this.panelAudioSettings.TabIndex = 16;
             // 
-            // label2
+            // lblTest
             // 
-            this.label2.AntiAliasingEnabled = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.CustomFontName = "Junction";
-            this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.FontCollection = this.fontCollection;
-            this.label2.Location = new System.Drawing.Point(232, 156);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(254, 17);
-            this.label2.TabIndex = 86;
-            this.label2.Text = "Audio file directory for peak file generation:";
+            this.lblTest.AntiAliasingEnabled = true;
+            this.lblTest.BackColor = System.Drawing.Color.Transparent;
+            this.lblTest.CustomFontName = "Junction";
+            this.lblTest.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTest.FontCollection = this.fontCollection;
+            this.lblTest.Location = new System.Drawing.Point(232, 156);
+            this.lblTest.Name = "lblTest";
+            this.lblTest.Size = new System.Drawing.Size(254, 17);
+            this.lblTest.TabIndex = 86;
+            this.lblTest.Text = "Audio file directory for peak file generation:";
             // 
             // fontCollection
             // 
@@ -326,18 +326,18 @@ namespace MPfm
             this.cboOutputDevices.ValueMember = "Id";
             this.cboOutputDevices.SelectedIndexChanged += new System.EventHandler(this.cboDriverOrOutputType_SelectedIndexChanged);
             // 
-            // Label1
+            // lblDriver
             // 
-            this.Label1.AntiAliasingEnabled = true;
-            this.Label1.BackColor = System.Drawing.Color.Transparent;
-            this.Label1.CustomFontName = "Junction";
-            this.Label1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label1.FontCollection = this.fontCollection;
-            this.Label1.Location = new System.Drawing.Point(3, 33);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(89, 17);
-            this.Label1.TabIndex = 13;
-            this.Label1.Text = "Driver:";
+            this.lblDriver.AntiAliasingEnabled = true;
+            this.lblDriver.BackColor = System.Drawing.Color.Transparent;
+            this.lblDriver.CustomFontName = "Junction";
+            this.lblDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDriver.FontCollection = this.fontCollection;
+            this.lblDriver.Location = new System.Drawing.Point(3, 33);
+            this.lblDriver.Name = "lblDriver";
+            this.lblDriver.Size = new System.Drawing.Size(89, 17);
+            this.lblDriver.TabIndex = 13;
+            this.lblDriver.Text = "Driver:";
             // 
             // cboDrivers
             // 
@@ -693,7 +693,7 @@ namespace MPfm
         private MPfm.WindowsControls.Button Button1;
         private System.Windows.Forms.CheckBox chkShowTray;
         private MPfm.WindowsControls.Label lblOutputDriver;
-        private MPfm.WindowsControls.Label Label1;
+        private MPfm.WindowsControls.Label lblDriver;
         private System.Windows.Forms.ComboBox cboDrivers;
         private MPfm.WindowsControls.Button btnTestSound;
         private System.Windows.Forms.OpenFileDialog dialogOpenFile;
@@ -704,7 +704,7 @@ namespace MPfm
         private System.Windows.Forms.TextBox txtPath;
         private WindowsControls.Button btnStopPeak;
         private WindowsControls.Button btnTestPeak;
-        private WindowsControls.Label label2;
+        private WindowsControls.Label lblTest;
         private WindowsControls.Panel panelBackground;
     }
 }

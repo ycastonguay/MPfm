@@ -78,17 +78,25 @@ namespace MPfm
             InitializeComponent();
             m_main = main;
 
-            m_peakFile = new PeakFile(1);
+            m_peakFile = new PeakFile(5);
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
+            m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
         }
 
-        public void m_peakFile_OnProcessData(float percentage)
+        void m_peakFile_OnProcessDone(PeakFileProgressDone data)
+        {
+            MessageBox.Show("DONE!!!!!");
+        }
+
+        public void m_peakFile_OnProcessData(PeakFileProgressData data)
         {
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
-                lblOutputDriver.Text = percentage.ToString();
+                lblOutputDriver.Text = data.PercentageDone.ToString();
+                lblDriver.Text = data.AudioFilePath;
+                lblTest.Text = data.ThreadNumber.ToString();
             };
 
             // Check if invoking is necessary

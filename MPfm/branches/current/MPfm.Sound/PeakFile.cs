@@ -79,9 +79,26 @@ namespace MPfm.Sound
             }
         }
 
-        // Process Data event
-        public delegate void ProcessData(float percentage);
+        /// <summary>
+        /// Delegate for the OnProcessData event.
+        /// </summary>
+        /// <param name="data">Peak file progress data</param>
+        public delegate void ProcessData(PeakFileProgressData data);
+
+        /// <summary>
+        /// Event called every 20 blocks when generating a peak file.
+        /// </summary>
         public event ProcessData OnProcessData;
+
+        /// <summary>
+        /// Delegate for the OnProcessDone event.
+        /// </summary>        
+        public delegate void ProcessDone(PeakFileProgressDone data);
+
+        /// <summary>
+        /// Event called when all the GeneratePeakFiles threads have completed their work.
+        /// </summary>
+        public event ProcessDone OnProcessDone;
 
         /// <summary>
         /// Private value for the IsGenerating property.
@@ -96,6 +113,22 @@ namespace MPfm.Sound
             {
                 return m_isGenerating;
             }
+        }
+
+        /// <summary>
+        /// Private value for the NumberOfThreadsRunning property.
+        /// </summary>
+        private int m_numberOfThreadsRunning = 0;
+        /// <summary>
+        /// Indicates the number of threads currently running.
+        /// </summary>
+        public int NumberOfThreadsRunning
+        {
+            get
+            {
+                return m_numberOfThreadsRunning;
+            }
+
         }
 
         /// <summary>
@@ -129,8 +162,9 @@ namespace MPfm.Sound
         /// </summary>
         /// <param name="audioFilePath">Audio file path</param>
         /// <param name="peakFilePath">Peak file path</param>
+        /// <param name="threadNumber">Thread number</param>
         /// <returns>Observable object with PeakFileProgressData</returns>
-        protected IObservable<PeakFileProgressData> GeneratePeakFileAsync(string audioFilePath, string peakFilePath)
+        protected IObservable<PeakFileProgressData> GeneratePeakFileAsync(string audioFilePath, string peakFilePath, int threadNumber)
         {
             // Declare variables         
             bool cancelled = false;
@@ -260,7 +294,10 @@ namespace MPfm.Sound
 
                                 // Report progress
                                 PeakFileProgressData progress = new PeakFileProgressData();
-                                progress.PercentageDone = ((float)bytesRead / (float)audioFileLength) * 100;
+                                progress.AudioFilePath = audioFilePath;
+                                progress.PeakFilePath = peakFilePath;
+                                progress.PercentageDone = (((float)bytesRead / (float)audioFileLength) / 2) * 100;
+                                progress.ThreadNumber = threadNumber;
                                 o.OnNext(progress);
                             }
                         }
@@ -328,8 +365,23 @@ namespace MPfm.Sound
                 // Check if there is more stuff to load
                 if (m_currentIndex >= m_filePaths.Count - 1)
                 {
-                    // There aren't any other peak files to generate; set flags
-                    m_isGenerating = false;
+                    // Decrement the number of threads running
+                    m_numberOfThreadsRunning--;
+
+                    // There might be multiple threads ending here, so make sure we don't raise the OnProgressDone more than once.
+                    if (m_numberOfThreadsRunning == 0)
+                    {
+                        // There aren't any other peak files to generate; set flags
+                        m_isGenerating = false;
+
+                        // Is an event binded to OnProcessDone?
+                        if (OnProcessDone != null)
+                        {
+                            // Raise event with data
+                            OnProcessDone(new PeakFileProgressDone());
+                        }
+                    }                    
+                    
                     return;
                 }
 
@@ -344,9 +396,9 @@ namespace MPfm.Sound
             {
                 // Is an event binded to OnProcessData?
                 if (OnProcessData != null)
-                {
+                {                    
                     // Raise event with data
-                    OnProcessData(o.PercentageDone);
+                    OnProcessData(o);
                 }
             }));
         }
@@ -388,10 +440,10 @@ namespace MPfm.Sound
             m_listSubscriptions = new List<IDisposable>();
 
             // Loop through file paths
-            foreach(KeyValuePair<string, string> filePath in filePaths)
-            {
+            for (int a = 0; a < filePaths.Count; a++)
+            {                
                 // Create IObservable for peak file
-                m_listObservables.Add(GeneratePeakFileAsync(filePath.Key, filePath.Value));
+                m_listObservables.Add(GeneratePeakFileAsync(filePaths.Keys.ElementAt(a), filePaths.Values.ElementAt(a), a));
             }
 
             // Determine how many files to process (do not start more threads than files to process!)
@@ -411,6 +463,9 @@ namespace MPfm.Sound
                 // Increment current index
                 m_currentIndex++;
             }
+
+            // Set the number of threads running
+            m_numberOfThreadsRunning = numberOfFilesToProcess;
 
             //m_subscription = Observable.Merge(list).Subscribe(o =>
             //{
@@ -542,7 +597,7 @@ namespace MPfm.Sound
                 // Validate number of blocks read
                 if (currentBlock < numberOfBlocks)
                 {
-                    throw new PeakFileCorruptedException("Error: The peak file is corrupted!", null);
+                    throw new PeakFileCorruptedException("Error: The peak file is corrupted (the number of blocks didn't match)!", null);
                 }
             }
             catch (Exception ex)
@@ -582,6 +637,13 @@ namespace MPfm.Sound
         /// Defines the current thread progress in percentage.
         /// </summary>
         public float PercentageDone { get; set; }        
+    }
+
+    /// <summary>
+    /// Defines the data used with the OnProcessDone event (actually nothing).
+    /// </summary>
+    public class PeakFileProgressDone
+    {
     }
 
     /// <summary>

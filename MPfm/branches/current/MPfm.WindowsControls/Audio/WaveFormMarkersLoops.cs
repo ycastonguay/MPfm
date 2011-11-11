@@ -51,6 +51,11 @@ namespace MPfm.WindowsControls
         #region Private variables
 
         /// <summary>
+        /// PeakFile instance used for generating and reading peak files.
+        /// </summary>
+        private PeakFile m_peakFile = null;
+
+        /// <summary>
         /// Background worker generating the wave form for display.
         /// </summary>
         private BackgroundWorker m_workerWaveForm = null;
@@ -621,6 +626,10 @@ namespace MPfm.WindowsControls
             // Set peak file directory
             m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
 
+            // Create PeakFile class instance 
+            m_peakFile = new PeakFile(1);
+            m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
+
             // Create background worker
             m_workerWaveForm = new BackgroundWorker();
             m_workerWaveForm.WorkerSupportsCancellation = true;            
@@ -650,6 +659,15 @@ namespace MPfm.WindowsControls
             horizontalScrollBar.OnValueChanged += new HScrollBar.ValueChanged(horizontalScrollBar_OnValueChanged);
             //horizontalScrollBar.Scroll += new ScrollEventHandler(horizontalScrollBar_Scroll);            
             this.Controls.Add(horizontalScrollBar);
+        }
+
+        /// <summary>
+        /// This event is called every 20 blocks during peak file generation.
+        /// </summary>
+        /// <param name="data">Peak file progress data</param>
+        protected void m_peakFile_OnProcessData(PeakFileProgressData data)
+        {
+            
         }
 
         /// <summary>
@@ -867,7 +885,7 @@ namespace MPfm.WindowsControls
             {
                 // Load peaks from file                
                 WaveDataHistory.Clear();
-                m_waveDataHistory = ReadPeakFile(peakFilePath);
+                m_waveDataHistory = m_peakFile.ReadPeakFile(peakFilePath);
                 needToRefreshBitmapCache = true;
                 Refresh();
                 return;
@@ -877,14 +895,18 @@ namespace MPfm.WindowsControls
             WaveDataHistory.Clear();
             m_isLoading = true;
 
-            // Build the background worker argument
-            WorkerWaveFormArgument arg = new WorkerWaveFormArgument();
-            arg.AudioFilePath = filePath;
-            arg.PeakFilePath = peakFilePath;
+            // Generate peak file
+            m_peakFile.GeneratePeakFile(filePath, peakFilePath);
 
-            // Start background worker and timer for updating progress
-            m_workerWaveForm.RunWorkerAsync(arg);
-            m_timer.Start();
+
+            //// Build the background worker argument
+            //WorkerWaveFormArgument arg = new WorkerWaveFormArgument();
+            //arg.AudioFilePath = filePath;
+            //arg.PeakFilePath = peakFilePath;
+
+            //// Start background worker and timer for updating progress
+            //m_workerWaveForm.RunWorkerAsync(arg);
+            //m_timer.Start();
         }
 
         /// <summary>
@@ -894,59 +916,6 @@ namespace MPfm.WindowsControls
         {
             // Cancel the operation asynchronously
             m_workerWaveForm.CancelAsync();
-        }
-
-        /// <summary>
-        /// Reads a peak file and returns a min/max peak list.
-        /// </summary>
-        /// <param name="fileName">Audio file path</param>
-        /// <returns>List of min/max peaks</returns>
-        public List<WaveDataMinMax> ReadPeakFile(string fileName)
-        {
-            // Declare variables 
-            FileStream fileStream = null;
-            GZipStream gzipStream = null;
-            BinaryReader binaryReader = null;
-            List<WaveDataMinMax> listMinMax = new List<WaveDataMinMax>();
-
-            try
-            {
-                // Create file stream
-                fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                // Open binary reader
-                binaryReader = new BinaryReader(fileStream);
-
-                // Create GZip stream
-                gzipStream = new GZipStream(fileStream, CompressionMode.Decompress);
-
-                // Loop through data
-                while (binaryReader.PeekChar() != -1)
-                {
-                    // Read peak information and add to list
-                    WaveDataMinMax peak = new WaveDataMinMax();
-                    peak.leftMin = (float)binaryReader.ReadDouble();
-                    peak.leftMax = (float)binaryReader.ReadDouble();
-                    peak.rightMin = (float)binaryReader.ReadDouble();
-                    peak.rightMax = (float)binaryReader.ReadDouble();
-                    peak.mixMin = (float)binaryReader.ReadDouble();
-                    peak.mixMax = (float)binaryReader.ReadDouble();
-                    listMinMax.Add(peak);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                // Close stream and reader
-                gzipStream.Close();
-                binaryReader.Close();
-                fileStream.Close();
-            }
-
-            return listMinMax;
         }
 
         #endregion
