@@ -51,7 +51,7 @@ namespace MPfm
         private List<Device> m_devices = null;
         private List<Device> m_devicesDirectSound = null;
         private List<Device> m_devicesASIO = null;
-        private List<Device> m_devicesWASAPI = null;
+        private List<Device> m_devicesWASAPI = null;        
         
         private PeakFile m_peakFile = null;
 
@@ -166,98 +166,140 @@ namespace MPfm
             // Variables
             bool saveSettings = false;
 
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            // Get selected device
+            Device device = (Device)cboOutputDevices.SelectedItem;            
+
             // Check if the settings have changed
-            if (!settingsChanged)
+            if (settingsChanged)
             {
+                // Compare the original configured values to make sure the settings have really changed
+                if(driver.DriverType != Main.Config.Driver ||
+                   device.Name.ToUpper() != Main.Config.OutputDevice.ToUpper())
+                {
+                    // Yes they have really changed!
+                    // Have the new settings been tested?
+                    if (!settingsTested)
+                    {
+                        // Warn user
+                        DialogResult dialogResult = MessageBox.Show(this, "Warning: The new audio configuration hasn't been tested. Saving an incompatible configuration WILL crash the application.\nTo reset the application configuration, you must edit the configuration file (MPfm.exe.config) and remove the appSettings node. This will display the First Run screen again.\n\nClick YES to save and apply the untested configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and test your new configuration.", "Warning: New audio configuration untested", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                        // Yes: Continue and save untested settings
+                        // No: Do not save new settings
+                        // Cancel: Go back and change settings
+                        if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            // Cancel 
+                            return;
+                        }
+                        else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            // Set save settings flag
+                            saveSettings = true;
+                        }
+                    }
+                    else if(settingsTested && !testSuccessful)
+                    {
+                        // The configuration has been tested but the audio test has failed
+                        MessageBox.Show("Error: You cannot apply an incompatible audio configuration because this will crash the application.\nPlease select a new audio configuration.", "Cannot apply an incompatible configuration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    else if (settingsTested && testSuccessful)
+                    {                        
+                        // Warn user
+                        DialogResult dialogResult = MessageBox.Show(this, "Are you sure you wish to save and apply this new audio configuration?\n\nClick YES to save and apply the new configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and change the configuration.", "New audio configuration validation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                        // Yes: Continue and save tested settings
+                        // No: Do not save new settings
+                        // Cancel: Go back and change settings
+                        if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            // Cancel 
+                            return;
+                        }
+                        else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            // Set save settings flag
+                            saveSettings = true;
+                        }
+                    }
+                }
+
+                // Ask user to save.
+
                 // Nothing has changed; just exit without warning
                 // HOWEVER: The user might have tested something, so the player might have been disposed. Add a flag for this.
             }
 
-            // Flow:
+            // Save new settings?
+            if (saveSettings)
+            {
+                // Save new configuration
+                SaveConfig();
 
-            // 1) detect if settings have changed
-            // 2) ask user if he wants to save settings. display if settings have been tested or not.
-            // 3) save or skip save
+                // Check if the device has been initialized
+                if (!Main.PlayerV4.IsDeviceInitialized)
+                {
+                    // Initialize new device
+                    Main.PlayerV4.InitializeDevice(device);
+                }
+            }
+            else
+            {
+                // Do not save settings; restore original configuration                
+                Device originalDevice = null;
+                if (Main.Config.Driver == DriverType.DirectSound)
+                {
+                    // Loop through devices
+                    for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                    {
+                        // Check if the device matches
+                        if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                        {
+                            // Set device
+                            originalDevice = m_devicesDirectSound[a];
+                            break;
+                        }
+                    }
+                }
+                else if (Main.Config.Driver == DriverType.ASIO)
+                {
+                    // Loop through devices
+                    for (int a = 0; a < m_devicesASIO.Count; a++)
+                    {
+                        // Check if the device matches
+                        if (m_devicesASIO[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                        {
+                            // Set device
+                            originalDevice = m_devicesASIO[a];
+                            break;
+                        }
+                    }
+                }
+                else if (Main.Config.Driver == DriverType.WASAPI)
+                {
+                    // Loop through devices
+                    for (int a = 0; a < m_devicesWASAPI.Count; a++)
+                    {
+                        // Check if the device matches
+                        if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                        {
+                            // Set device
+                            originalDevice = m_devicesWASAPI[a];
+                            break;
+                        }
+                    }
+                }
 
-            //// Did the user change the settings?
-            //if (newOutputType != playerOutputType || newOutputDevice != playerOutputDevice)
-            //{
-            //    // Yeah, the user changed the settings.
-            //    // Did the user test the new settings?
-            //    if (!settingsTested)
-            //    {
-            //        // Warn user
-            //        DialogResult dialogResult = MessageBox.Show(this, "Warning: The new audio settings haven't been tested. Saving an incompatible configuration WILL crash the application.\nTo reset the application configuration, you must edit the configuration file (MPfm.exe.config) and remove the appSettings node. This will display the First Run screen again.\n\nClick Yes to continue and save the untested configuration.\nClick No to exit the Settings window without saving the new configuration.\nClick Cancel to go back to the Settings window and test your new configuration.", "Warning: Audio settings untested", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-
-            //        // Yes: Continue and save untested settings
-            //        // No: Do not save new settings
-            //        // Cancel: Go back and change settings
-            //        if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-            //        {
-            //            // Cancel 
-            //            return;
-            //        }
-            //        else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-            //        {
-            //            // Set save settings flag
-            //            saveSettings = true;
-            //        }
-            //    }
-            //    // Did the user test the new settings and is trying to apply wrong configuration?
-            //    else if (settingsTested && !testSuccessful)
-            //    {
-            //        // Warn user
-            //        MessageBox.Show(this, "You cannot save audio settings that are compatible with your sound card!", "Error: Cannot save audio settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //        // Cancel 
-            //        return;
-            //    }
-            //    // The user tested the new settings
-            //    else if (settingsTested && testSuccessful)
-            //    {
-            //        // The user tested the configuration and we're happy to simply ask him or her to save the new audio settings
-            //        if (MessageBox.Show(this, "Do you want to save the new audio settings?", "Save audio settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
-            //        {
-            //            // Set save settings flag
-            //            saveSettings = true;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    // No, the control values match the values they were before entering the Settings window.
-
-            //    // However, did the user test a configuration that is different than the original?
-            //    if (playerOutputType != outputType || playerOutputDevice != outputDevice)
-            //    {
-            //        // Restore original configuration to player
-            //        Main.ResetPlayer(outputType, outputDevice, true, true);
-            //    }
-            //}
-
-            //// Save settings if the user confirmed the save
-            //if (saveSettings)
-            //{
-            //    // This can't be done in a background thread. Display an hourglass mouse cursor
-            //    Cursor.Current = Cursors.WaitCursor;
-
-            //    // Stop playback
-            //    Main.Stop();
-
-            //    // Save config
-            //    SaveConfig();
-
-            //    // Recreate player in main form
-            //    Main.ResetPlayer();
-
-            //    // Reset flags
-            //    testSuccessful = false;
-            //    settingsTested = false;
-            //    settingsChanged = false;
-
-            //    // Remove the hourglass
-            //    Cursor.Current = Cursors.Default;
-            //}
+                // Check if the device has been initialized
+                if (!Main.PlayerV4.IsDeviceInitialized)
+                {
+                    // Initialize new device
+                    Main.PlayerV4.InitializeDevice(originalDevice);
+                }
+            }
 
             // Reset flags
             settingsChanged = false;
@@ -272,7 +314,7 @@ namespace MPfm
 
         #endregion
 
-        #region Configuration
+        #region Configuration        
 
         /// <summary>
         /// Loads the form values based on configuration.
@@ -335,8 +377,15 @@ namespace MPfm
         /// </summary>
         private void SaveConfig()
         {
-            Main.Config.OutputDevice = (string)cboOutputDevices.SelectedItem;
-            //Main.Config.Driver = (FMOD.OUTPUTTYPE)cboDrivers.SelectedValue;
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            // Get selected device
+            Device device = (Device)cboOutputDevices.SelectedItem;
+
+            // Save config values
+            Main.Config.OutputDevice = device.Name;
+            Main.Config.Driver = driver.DriverType;
             Main.Config.HideTray = chkHideTray.Checked;
             Main.Config.ShowTray = chkShowTray.Checked;
         }
@@ -587,6 +636,10 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestSound_Click(object sender, EventArgs e)
         {
+            // Set flags
+            settingsTested = false;
+            testSuccessful = false;
+
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
@@ -617,8 +670,9 @@ namespace MPfm
                 Tracing.Log("Output Device Driver: " + device.Driver);
                 Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
-                // Dispose player
-                Main.PlayerV4.Dispose();
+                // Free device
+                //Main.PlayerV4.Dispose();
+                Main.PlayerV4.FreeDevice();
 
                 // Create test device
                 Tracing.Log("Creating test device...");
@@ -630,6 +684,9 @@ namespace MPfm
                 {
                     return;
                 }
+
+                // Set flags
+                settingsTested = true;
 
                 // Create test device
                 Tracing.Log("Creating test device...");
@@ -653,10 +710,14 @@ namespace MPfm
 
                 // The test is successful           
                 Tracing.Log("The audio settings test is successful!");
+
+                // Set flags
+                testSuccessful = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "Error testing sound configuration!\nThis configuration will not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Show error
+                MessageBox.Show(this, "Error testing sound configuration!\nThis audio configuration might not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("The audio settings test has failed!");
                 Tracing.Log("Exception message: " + ex.Message);
                 Tracing.Log("Stack trace: " + ex.StackTrace);
