@@ -26,6 +26,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -77,7 +78,7 @@ namespace MPfm
             InitializeComponent();
             m_main = main;
 
-            m_peakFile = new PeakFile();
+            m_peakFile = new PeakFile(1);
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
 
         }
@@ -764,16 +765,44 @@ namespace MPfm
 
         private void btnTestPeak_Click(object sender, EventArgs e)
         {
-            List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
+            try
+            {
+                string peakFileDirectory = @"D:\_peak\";
 
-            m_peakFile.Test(filePaths);
+                List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
+
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                foreach (string filePath in filePaths)
+                {
+                    // Extract file name from path
+                    //string fileName = Path.GetFileName(filePath);
+                    string peakFilePath = peakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+
+                    // Add dictionary value
+                    dictionary.Add(filePath, peakFilePath);
+                }
+
+                m_peakFile.GeneratePeakFiles(dictionary);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+            }
         }
 
         private void btnStopPeak_Click(object sender, EventArgs e)
         {
-            if (m_peakFile != null)
+            //m_peakFile.ReadPeakFile(@"D:\_peak\01 Natural Mystic_mp3.mpfmPeak");
+            //m_peakFile.ReadPeakFile(@"D:\_peak\03 Guiltiness_mp3.mpfmPeak");            
+            m_peakFile.ReadPeakFile(@"D:\_peak\E__Mp3_Bob Marley_Exodus_05 Exodus_mp3.mpfmPeak");
+
+            try
             {
-                m_peakFile.CancelGenerate();
+                m_peakFile.Cancel();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
             }
         }
 

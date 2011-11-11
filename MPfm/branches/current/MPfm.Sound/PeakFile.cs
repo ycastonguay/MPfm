@@ -37,24 +37,90 @@ using System.Reactive.Concurrency;
 
 namespace MPfm.Sound
 {
-    //public delegate void GeneratePeakFileProgressChangedEventHandler(GeneratePeakFileProgressChangedEventArgs e);
-    //public delegate void GeneratePeakFileCompletedEventHandler(object sender, GeneratePeakFileCompletedEventArgs e);
-
+    /// <summary>
+    /// The PeakFile class can generate peak files asynchronously using multiple threads with Reactive Extensions.
+    /// It is also cancellable. Use the ProcessData event to get the progress.
+    /// </summary>
     public class PeakFile
     {
+        /// <summary>
+        /// Defines the current peak file version. Used when reading peak files to make sure
+        /// the format is compatible.
+        /// </summary>
+        private string m_version = "1.00";
+
+        /// <summary>
+        /// Defines the list of IDisposables (subscriptions to IObservables).
+        /// </summary>
+        private List<IDisposable> m_listSubscriptions = null;
+
+        /// <summary>
+        /// List of IObservables using PeakFileProgressData to report the thread progress.
+        /// </summary>
+        private List<IObservable<PeakFileProgressData>> m_listObservables = null;
+
+        /// <summary>
+        /// Defines the current index in the list of files (in the FilePaths property).
+        /// </summary>
+        private int m_currentIndex = 0;
+
+        /// <summary>
+        /// Private value for the FilePaths property.
+        /// </summary>
+        private Dictionary<string, string> m_filePaths = null;
+        /// <summary>
+        /// Defines the audio and peak file paths to process.
+        /// </summary>
+        public Dictionary<string, string> FilePaths
+        {
+            get
+            {
+                return m_filePaths;
+            }
+        }
+
+        // Process Data event
         public delegate void ProcessData(float percentage);
         public event ProcessData OnProcessData;
 
-        private IDisposable m_subscription = null;
-        private IDisposable m_subscription2 = null;
-        private IDisposable m_subscription3 = null;
-        private IObservable<PeakFileProgressData> m_observable = null;
-        private IObservable<PeakFileProgressData> m_observable2 = null;
-        private IObservable<PeakFileProgressData> m_observable3 = null;
-
-        public PeakFile()
+        /// <summary>
+        /// Private value for the IsGenerating property.
+        /// </summary>
+        private bool m_isGenerating = false;
+        /// <summary>
+        /// Indicates if the class is currently generating peak files.
+        /// </summary>
+        public bool IsGenerating
         {
+            get
+            {
+                return m_isGenerating;
+            }
+        }
 
+        /// <summary>
+        /// Private value for the NumberOfThreads property.        
+        /// </summary>
+        private int m_numberOfThreads = 1;
+        /// <summary>
+        /// Defines the number of threads used for peak file generation.
+        /// </summary>
+        public int NumberOfThreads
+        {
+            get
+            {
+                return m_numberOfThreads;
+            }
+        }
+
+        /// <summary>
+        /// Default constructor for the PeakFile class.
+        /// </summary>
+        /// <param name="numberOfThreads">Defines the number of threads used for peak file generation</param>
+        public PeakFile(int numberOfThreads)
+        {
+            // Set private values
+            m_numberOfThreads = numberOfThreads;
         }
 
         /// <summary>
@@ -64,16 +130,15 @@ namespace MPfm.Sound
         /// <param name="audioFilePath">Audio file path</param>
         /// <param name="peakFilePath">Peak file path</param>
         /// <returns>Observable object with PeakFileProgressData</returns>
-        public IObservable<PeakFileProgressData> GeneratePeakFile(string audioFilePath, string peakFilePath)
+        protected IObservable<PeakFileProgressData> GeneratePeakFileAsync(string audioFilePath, string peakFilePath)
         {
             // Declare variables         
             bool cancelled = false;
             FileStream fileStream = null;
             BinaryWriter binaryWriter = null;
-            GZipStream gzipStream = null;
-            bool generatePeakFile = false;
-            int CHUNKSIZE = 0;
-            long length = 0;
+            GZipStream gzipStream = null;            
+            int chunkSize = 0;
+            long audioFileLength = 0;
             int read = 0;
             long bytesRead = 0;
             float[] floatLeft = null;
@@ -96,30 +161,45 @@ namespace MPfm.Sound
                         // Create a channel for decoding
                         Channel channelDecode = Channel.CreateFileStreamForDecoding(audioFilePath, true);
 
-                        // Get length
-                        length = channelDecode.GetLength();
+                        // Get audio file length
+                        audioFileLength = channelDecode.GetLength();
 
-                        // Check if peak file exists                
-                        if (!File.Exists(peakFilePath))
+                        // Check if peak file exists
+                        if (File.Exists(peakFilePath))                        
                         {
-                            // Set flag
-                            generatePeakFile = true;
-
-                            // Create peak file
-                            fileStream = new FileStream(peakFilePath, FileMode.Create, FileAccess.Write);
-                            binaryWriter = new BinaryWriter(fileStream);
-                            gzipStream = new GZipStream(fileStream, CompressionMode.Compress);
+                            // Delete peak file
+                            File.Delete(peakFilePath);
                         }
 
-                        // Write file header (30 characters)
-                        binaryWriter.Write("MPfm Peak File (version# 1.00)");
+                        // Create streams and binary writer
+                        fileStream = new FileStream(peakFilePath, FileMode.Create, FileAccess.Write);
+                        binaryWriter = new BinaryWriter(fileStream);
+                        gzipStream = new GZipStream(fileStream, CompressionMode.Compress);
 
                         // 4096 bytes for 16-bit PCM data
-                        CHUNKSIZE = 4096;
+                        chunkSize = 4096;
+
+                        // How many blocks will there be?                        
+                        double blocks = Math.Ceiling(((double)audioFileLength / (double)chunkSize) * 2) + 1;
+
+                        // Write file header (30 characters)
+                        
+                        // 000000000111111111122222222223
+                        // 123456789012345678901234567890
+                        // MPfm Peak File (version# 1.00)
+                        string version = "MPfm Peak File (version# " + m_version + ")";
+                        binaryWriter.Write(version);
+
+                        // Write audio file length
+                        binaryWriter.Write(audioFileLength);
+                        
+                        // Write chunk size and number of blocks
+                        binaryWriter.Write((Int32)chunkSize);
+                        binaryWriter.Write((Int32)blocks);                        
 
                         // Create buffer
-                        data = Marshal.AllocHGlobal(CHUNKSIZE);
-                        buffer = new byte[CHUNKSIZE];
+                        data = Marshal.AllocHGlobal(chunkSize);
+                        buffer = new byte[chunkSize];
 
                         // Loop through file using chunk size
                         int dataBlockRead = 0;
@@ -135,17 +215,17 @@ namespace MPfm.Sound
                             }
 
                             // Get data
-                            read = channelDecode.GetData(buffer, CHUNKSIZE);
+                            read = channelDecode.GetData(buffer, chunkSize);
 
                             // Increment bytes read
                             bytesRead += read;
 
                             // Create arrays for left and right channel
-                            floatLeft = new float[CHUNKSIZE / 2];
-                            floatRight = new float[CHUNKSIZE / 2];
+                            floatLeft = new float[chunkSize / 2];
+                            floatRight = new float[chunkSize / 2];
 
                             // Loop through sample data to split channels
-                            for (int a = 0; a < CHUNKSIZE; a++)
+                            for (int a = 0; a < chunkSize; a++)
                             {
                                 // Check if left or right channel
                                 if (a % 2 == 0)
@@ -163,17 +243,13 @@ namespace MPfm.Sound
                             // Calculate min/max
                             minMax = AudioTools.GetMinMaxFromWaveData(floatLeft, floatRight, false);                            
 
-                            // Write peak information to hard disk
-                            if (generatePeakFile)
-                            {
-                                // Write peak information
-                                binaryWriter.Write((double)minMax.leftMin);
-                                binaryWriter.Write((double)minMax.leftMax);
-                                binaryWriter.Write((double)minMax.rightMin);
-                                binaryWriter.Write((double)minMax.rightMax);
-                                binaryWriter.Write((double)minMax.mixMin);
-                                binaryWriter.Write((double)minMax.mixMax);
-                            }
+                            // Write peak information
+                            binaryWriter.Write((double)minMax.leftMin);
+                            binaryWriter.Write((double)minMax.leftMax);
+                            binaryWriter.Write((double)minMax.rightMin);
+                            binaryWriter.Write((double)minMax.rightMax);
+                            binaryWriter.Write((double)minMax.mixMin);
+                            binaryWriter.Write((double)minMax.mixMax);                            
 
                             // Update progress every 20 blocks
                             dataBlockRead += read;
@@ -184,11 +260,11 @@ namespace MPfm.Sound
 
                                 // Report progress
                                 PeakFileProgressData progress = new PeakFileProgressData();
-                                progress.PercentageDone = ((float)bytesRead / (float)length) * 100;
+                                progress.PercentageDone = ((float)bytesRead / (float)audioFileLength) * 100;
                                 o.OnNext(progress);
                             }
                         }
-                        while (read == CHUNKSIZE);
+                        while (read == chunkSize);
 
                         // Free channel
                         channelDecode.Free();
@@ -208,37 +284,26 @@ namespace MPfm.Sound
                     }
                     finally
                     {
-                        // Did we have to generate a peak file?
-                        if (generatePeakFile)
+                        // Close writer and stream
+                        gzipStream.Close();
+                        binaryWriter.Close();
+                        fileStream.Close();
+
+                        // Set nulls
+                        gzipStream = null;
+                        binaryWriter = null;
+                        fileStream = null;
+
+                        // If the operation was cancelled, delete the files
+                        if (cancelled)
                         {
-                            // Check if the operation was cancelled
-                            if (!cancelled)
+                            // Check if file exists
+                            if (File.Exists(peakFilePath))
                             {
-                                // Write closing string
-                                binaryWriter.Write("[EOF]");
+                                // Delete file
+                                File.Delete(peakFilePath);
                             }
-
-                            // Close writer and stream
-                            gzipStream.Close();
-                            binaryWriter.Close();
-                            fileStream.Close();
-
-                            // Set nulls
-                            gzipStream = null;
-                            binaryWriter = null;
-                            fileStream = null;
-
-                            // If the operation was cancelled, delete the files
-                            if (cancelled)
-                            {
-                                // Check if file exists
-                                if (File.Exists(peakFilePath))
-                                {
-                                    // Delete file
-                                    File.Delete(peakFilePath);
-                                }
-                            }
-                        }
+                        }                        
                     }
 
                     // Set completed
@@ -251,52 +316,310 @@ namespace MPfm.Sound
             return observable;
         }
 
-        public void Test(List<string> filePaths)
+        /// <summary>
+        /// Subscribe to a specific IObservable.
+        /// </summary>
+        /// <param name="index">File path index</param>
+        private void Subscribe(int index)
         {
-            List<IObservable<PeakFileProgressData>> list = new List<IObservable<PeakFileProgressData>>();
-
-            for (int a = 0; a < filePaths.Count; a++)
+            // Add subsription with Finally (executed when the thread ends)
+            m_listSubscriptions.Add(m_listObservables[index].Finally(() =>
             {
-                list.Add(GeneratePeakFile(filePaths[a], @"C:\peak" + a.ToString() + ".peak"));
-            }
-
-            m_subscription = Observable.Merge(list).Subscribe(o => { 
-                if(OnProcessData != null)
+                // Check if there is more stuff to load
+                if (m_currentIndex >= m_filePaths.Count - 1)
                 {
-                    OnProcessData(o.PercentageDone);  
+                    // There aren't any other peak files to generate; set flags
+                    m_isGenerating = false;
+                    return;
                 }
-            });
-            //// Start how many you want. 
-            //m_subscription = m_observable.Subscribe(i => 
-            //    Console.WriteLine("1: " + i.PercentageDone.ToString()));
-            //m_subscription2 = m_observable2.Subscribe(i => Console.WriteLine("2: " + i.PercentageDone.ToString()));
-            //m_subscription3 = m_observable3.Subscribe(i => Console.WriteLine("3: " + i.PercentageDone.ToString()));                                    
 
-            //var o = Observable.CombineLatest()
-            //    Observable.Start(() => { Console.WriteLine("stuff"); return "A"; }),
-            //    Observable.Start(() => { Console.WriteLine("stuff"); return "B"; })
-            //    ).Finally(() => Console.WriteLine("done"));
-        }
+                // Increment current index
+                m_currentIndex++;
 
-        public void CancelGenerate()
-        {
-            if (m_subscription != null)
+                // Load next thread
+                Subscribe(m_currentIndex);
+
+            // Subscribe to the IObservable (starts the thread)
+            }).Subscribe(o =>
             {
-                m_subscription.Dispose();
-                //m_subscription2.Dispose();
-                //m_subscription3.Dispose();
-            }
+                // Is an event binded to OnProcessData?
+                if (OnProcessData != null)
+                {
+                    // Raise event with data
+                    OnProcessData(o.PercentageDone);
+                }
+            }));
         }
 
-        public void ReadPeakFile(string peakFilePath)
+        /// <summary>
+        /// Generates a peak file.
+        /// </summary>
+        /// <param name="audioFilePath">Audio file path</param>
+        /// <param name="peakFilePath">Peak file path</param>
+        public void GeneratePeakFile(string audioFilePath, string peakFilePath)
+        {
+            // Create dictionary and call the GeneratePeakFiles method
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add(audioFilePath, peakFilePath);
+            GeneratePeakFiles(dictionary);
+        }
+
+        /// <summary>
+        /// Generates a list of peak files
+        /// </summary>
+        /// <param name="filePaths">Dictionary of audio file paths (key) and peak file paths (value)</param>
+        public void GeneratePeakFiles(Dictionary<string, string> filePaths)
+        {
+            // Check if the class is currently generating peak files
+            if (m_isGenerating)
+            {
+                throw new Exception("Error: The class is already generating peak files!");
+            }
+
+            // Set private values            
+            m_filePaths = filePaths;
+
+            // Set flags
+            m_isGenerating = true;
+            m_currentIndex = 0;
+
+            // Create lists
+            m_listObservables = new List<IObservable<PeakFileProgressData>>();
+            m_listSubscriptions = new List<IDisposable>();
+
+            // Loop through file paths
+            foreach(KeyValuePair<string, string> filePath in filePaths)
+            {
+                // Create IObservable for peak file
+                m_listObservables.Add(GeneratePeakFileAsync(filePath.Key, filePath.Value));
+            }
+
+            // Determine how many files to process (do not start more threads than files to process!)
+            int numberOfFilesToProcess = filePaths.Count;
+            if (filePaths.Count > NumberOfThreads)
+            {
+                // Set number of files to process to the number of threads
+                numberOfFilesToProcess = NumberOfThreads;
+            }
+            
+            // Loop through initial threads
+            for (int a = 0; a < numberOfFilesToProcess; a++)
+            {
+                // Subscribe
+                Subscribe(m_currentIndex);
+
+                // Increment current index
+                m_currentIndex++;
+            }
+
+            //m_subscription = Observable.Merge(list).Subscribe(o =>
+            //{
+            //    if (OnProcessData != null)
+            //    {
+            //        OnProcessData(o.PercentageDone);
+            //    }
+            //});
+        }
+
+        /// <summary>
+        /// Cancels the peak file generation.
+        /// </summary>
+        public void Cancel()
+        {
+            // Check if the subscriptions are valid
+            if (m_listSubscriptions == null || m_listSubscriptions.Count == 0)
+            {
+                throw new Exception("Error cancelling process: The subscription list is empty or doesn't exist!");
+            }
+
+            // Check if the class is currently generating peak files
+            if (!m_isGenerating)
+            {
+                throw new Exception("Error cancelling process: The class isn't generating any peak files!");
+            }
+
+            // Loop through subscriptions            
+            while(true)
+            {
+                try
+                {
+                    // Check if there is a subscription left
+                    if (m_listSubscriptions.Count == 0)
+                    {
+                        // Exit loop
+                        break;
+                    }
+
+                    // Dispose subscription and remove it from list
+                    m_listSubscriptions[0].Dispose();
+                    m_listSubscriptions.RemoveAt(0);                    
+                }
+                catch(Exception ex)
+                {
+                    // Throw exception and exit loop
+                    throw ex;                    
+                }
+            }
+
+            // CANNOT enumerate in a list that is currently modified.
+            //foreach (IDisposable subscription in m_listSubscriptions)
+            //{
+            //    try
+            //    {                    
+            //        subscription.Dispose();
+            //    }
+            //    catch(Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //}
+        }
+
+        /// <summary>
+        /// Reads a peak file and returns a min/max peak list.
+        /// </summary>
+        /// <param name="peakFilePath">Peak file path</param>
+        /// <returns>List of min/max peaks</returns>
+        public List<WaveDataMinMax> ReadPeakFile(string peakFilePath)
+        {
+            // Declare variables 
+            FileStream fileStream = null;
+            GZipStream gzipStream = null;
+            BinaryReader binaryReader = null;
+            List<WaveDataMinMax> listMinMax = new List<WaveDataMinMax>();
+            string fileHeader = null;
+            long audioFileLength = 0;
+            int chunkSize = 0;
+            int numberOfBlocks = 0;
+            int currentBlock = 0;
+
+            try
+            {
+                // Create file stream
+                fileStream = new FileStream(peakFilePath, FileMode.Open, FileAccess.Read);
+
+                // Open binary reader
+                binaryReader = new BinaryReader(fileStream);
+
+                // Create GZip stream
+                gzipStream = new GZipStream(fileStream, CompressionMode.Decompress);
+
+                // Read file header (30 characters) 
+                // Ex: MPfm Peak File (version# 1.00)                
+                fileHeader = new string(binaryReader.ReadChars(31));
+
+                // Extract version and validate
+                string version = fileHeader.Substring(fileHeader.Length - 5, 4);
+                if (version != m_version)
+                {
+                    throw new PeakFileFormatIncompatibleException("Error: The peak file format is not compatible. Expecting version " + m_version + " instead of version " + version + ".", null);
+                }
+
+                // Read audio file length
+                audioFileLength = binaryReader.ReadInt64();
+
+                // Read chunk size and number of blocks
+                chunkSize = binaryReader.ReadInt32();
+                numberOfBlocks = binaryReader.ReadInt32();
+
+                // Loop through data
+                while (binaryReader.PeekChar() != -1)
+                {
+                    // Increment block
+                    currentBlock++;
+
+                    // Read peak information and add to list
+                    WaveDataMinMax peak = new WaveDataMinMax();
+                    peak.leftMin = (float)binaryReader.ReadDouble();
+                    peak.leftMax = (float)binaryReader.ReadDouble();
+                    peak.rightMin = (float)binaryReader.ReadDouble();
+                    peak.rightMax = (float)binaryReader.ReadDouble();
+                    peak.mixMin = (float)binaryReader.ReadDouble();
+                    peak.mixMax = (float)binaryReader.ReadDouble();
+                    listMinMax.Add(peak);                    
+                }
+
+                // Validate number of blocks read
+                if (currentBlock < numberOfBlocks)
+                {
+                    throw new PeakFileCorruptedException("Error: The peak file is corrupted!", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new PeakFileCorruptedException("Error: The peak file is corrupted!", ex);
+            }
+            finally
+            {
+                // Close stream and reader
+                gzipStream.Close();
+                binaryReader.Close();
+                fileStream.Close();
+            }
+
+            return listMinMax;
+        }
+    }
+
+    /// <summary>
+    /// Defines the progress data used with the OnProcessData event.
+    /// </summary>
+    public class PeakFileProgressData
+    {
+        /// <summary>
+        /// Defines the audio file path to analyse in order to generate the peak file.
+        /// </summary>
+        public string AudioFilePath { get; set; }
+        /// <summary>
+        /// Defines the peak file path.
+        /// </summary>
+        public string PeakFilePath { get; set; }
+        /// <summary>
+        /// Defines the thread number currently reporting.
+        /// </summary>
+        public int ThreadNumber { get; set; }
+        /// <summary>
+        /// Defines the current thread progress in percentage.
+        /// </summary>
+        public float PercentageDone { get; set; }        
+    }
+
+    /// <summary>
+    /// This Exception class is raised when the peak file is corrupted.    
+    /// Related to the PeakFile class.
+    /// </summary>
+    public class PeakFileCorruptedException 
+        : Exception
+    {
+        /// <summary>
+        /// Default constructor for the PeakFileCorruptedException exception class.
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// /// <param name="innerException">Inner exception</param>
+        public PeakFileCorruptedException(string message, Exception innerException) 
+            : base(message, innerException)
         {
 
         }
     }
 
-    public class PeakFileProgressData
+    /// <summary>
+    /// This Exception class is raised when the peak file is incompatible.
+    /// Related to the PeakFile class.
+    /// </summary>
+    public class PeakFileFormatIncompatibleException
+        : Exception
     {
-        public float PercentageDone { get; set; }        
+        /// <summary>
+        /// Default constructor for the PeakFileFormatIncompatibleException exception class.
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="innerException">Inner exception</param>
+        public PeakFileFormatIncompatibleException(string message, Exception innerException) 
+            : base(message, innerException)
+        {
+
+        }
     }
 }
 
