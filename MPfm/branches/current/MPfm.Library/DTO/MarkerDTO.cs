@@ -31,6 +31,11 @@ namespace MPfm.Library
     public class MarkerDTO
     {
         public Guid MarkerId { get; set; }
+        public Guid SongId { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public int PositionBytes { get; set; }
+        public int PositionMS { get; set; }
 
         /// <summary>
         /// Default constructor for MarkerDTO.
@@ -39,6 +44,9 @@ namespace MPfm.Library
         {
             // Set default values
             MarkerId = Guid.NewGuid();
+            SongId = Guid.Empty;
+            PositionBytes = 0;
+            PositionMS = 0;
         }
     }
 }

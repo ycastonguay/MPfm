@@ -126,6 +126,10 @@ namespace MPfm.Library
             Delete("Songs", "SongId", songId);
         }
 
+        /// <summary>
+        /// Deletes songs from the database. 
+        /// </summary>
+        /// <param name="basePath">Base audio file path</param>
         public void DeleteSongs(string basePath)
         {
             Delete("Songs", "FilePath LIKE '" + basePath + "%'");
@@ -430,160 +434,89 @@ namespace MPfm.Library
 
         #region Markers
 
-        ///// <summary>
-        ///// Selects all markers from the database.
-        ///// </summary>
-        ///// <returns>List of markers</returns>
-        //public static List<Marker> SelectMarkers()
-        //{
-        //    List<Marker> markers = null;
+        /// <summary>
+        /// Selects all markers from the database.
+        /// </summary>
+        /// <returns>List of MarkerDTO</returns>
+        public List<MarkerDTO> SelectMarkers()
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Markers");
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            markers = context.Markers.ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectMarkers(): " + ex.Message);
-        //        throw ex;
-        //    }
+            // Convert to DTO
+            List<MarkerDTO> dtos = ConvertDTO.Markers(table);
 
-        //    return markers;
-        //}
+            return dtos;
+        }
 
-        ///// <summary>
-        ///// Selects markers of a specific song from the database.
-        ///// </summary>
-        ///// <param name="songId">Song identifier</param>
-        ///// <returns>List of markers</returns>
-        //public static List<Marker> SelectSongMarkers(Guid songId)
-        //{
-        //    List<Marker> markers = null;
+        /// <summary>
+        /// Selects song markers from the database.
+        /// </summary>
+        /// <param name="songId">Song Id</param>
+        /// <returns>List of MarkerDTO</returns>
+        public List<MarkerDTO> SelectSongMarkers(Guid songId)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Markers WHERE SongId = '" + songId.ToString() + "' ORDER BY PositionBytes");
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            string strSongId = songId.ToString();
-        //            markers = context.Markers.Where(x => x.SongId == strSongId).OrderBy(x => x.PositionPCM).ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectSongMarkers(): " + ex.Message);
-        //        throw ex;
-        //    }
+            // Convert to DTO
+            List<MarkerDTO> dtos = ConvertDTO.Markers(table);
 
-        //    return markers;
-        //}
+            return dtos;
+        }
 
-        ///// <summary>
-        ///// Selects a marker from the database by its identifier.
-        ///// </summary>
-        ///// <param name="markerId">Marker identifier</param>
-        ///// <returns>Marker</returns>
-        //public static Marker SelectMarker(Guid markerId)
-        //{
-        //    Marker marker = null;
+        /// <summary>
+        /// Selects a marker from the database.
+        /// </summary>
+        /// <param name="markerId">Marker Id</param>
+        /// <returns>MarkerDTO</returns>
+        public MarkerDTO SelectMarker(Guid markerId)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Markers WHERE MarkerId = '" + markerId.ToString() + "'");
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Convert to a list of strings
-        //            string strMarkerId = markerId.ToString();
-        //            marker = context.Markers.FirstOrDefault(m => m.MarkerId == strMarkerId);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectMarker(): " + ex.Message);
-        //        throw ex;
-        //    }
+            // Convert to DTO
+            List<MarkerDTO> dtos = ConvertDTO.Markers(table);
 
-        //    return marker;
-        //}
+            // Check results
+            if (dtos.Count > 0)
+            {
+                // Return first result
+                return dtos[0];
+            }
 
-        ///// <summary>
-        ///// Inserts a new marker into the database.
-        ///// </summary>
-        ///// <param name="marker">Marker to insert</param>
-        //public static void InsertMarker(Marker marker)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Add to database                    
-        //            context.AddToMarkers(marker);
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertMarker(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+            return null;
+        }
 
-        ///// <summary>
-        ///// Updates an existing marker in the database.
-        ///// </summary>
-        ///// <param name="marker">Marker to update</param>
-        //public static void UpdateMarker(Marker marker)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            Marker markerToModify = context.Markers.FirstOrDefault(m => m.MarkerId == marker.MarkerId);
-        //            if (markerToModify != null)
-        //            {
-        //                markerToModify.Name = marker.Name;
-        //                markerToModify.Position = marker.Position;
-        //                markerToModify.SongId = marker.SongId;
-        //                markerToModify.PositionPCM = marker.PositionPCM;
-        //                markerToModify.PositionPCMBytes = marker.PositionPCMBytes;
-        //                markerToModify.Comments = marker.Comments;
-        //                context.SaveChanges();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdateMarker(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+        /// <summary>
+        /// Inserts a new marker into the database.
+        /// </summary>
+        /// <param name="dto">MarkerDTO to insert</param>
+        public void InsertMarker(MarkerDTO dto)
+        {
+            // Insert song
+            Insert("Markers", "MarkerId", dto);
+        }
 
-        ///// <summary>
-        ///// Deletes a marker from the database.
-        ///// </summary>
-        ///// <param name="markerId">Marker identifier</param>
-        //public static void DeleteMarker(Guid markerId)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            ExecuteSql(context, "DELETE FROM Markers WHERE MarkerId = @MarkerId", new SQLiteParameter("MarkerId", markerId.ToString()));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in DeleteMarker(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+        /// <summary>
+        /// Updates an existing marker from the database.
+        /// </summary>
+        /// <param name="dto">MarkerDTO to update</param>
+        public void UpdateMarker(MarkerDTO dto)
+        {
+            // Update song
+            Update("Markers", "MarkerId", dto.MarkerId, dto);
+        }
+
+        /// <summary>
+        /// Deletes a marker from the database.
+        /// </summary>
+        /// <param name="markerId">Marker to delete</param>
+        public void DeleteMarker(Guid markerId)
+        {
+            // Delete song
+            Delete("Markers", "MarkerId", markerId);
+        }
 
         #endregion
 

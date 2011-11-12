@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
+using MPfm.Player.PlayerV4;
 using MPfm.Sound;
 using MPfm.WindowsControls;
 
@@ -41,8 +42,8 @@ namespace MPfm
         // Private variables
         private AddEditMarkerWindowMode m_mode = AddEditMarkerWindowMode.Add;
         private frmMain m_main = null;
-        private List<string> m_filePaths = null;
-        private SongDTO m_song = null;
+        private List<string> m_filePaths = null;        
+        private PlaylistItem m_playlistItem = null;
         private Guid m_markerId = Guid.Empty;
 
         /// <summary>
@@ -62,14 +63,14 @@ namespace MPfm
         /// </summary>
         /// <param name="main">Hook to the main window</param>
         /// <param name="mode">Window mode</param>
-        /// <param name="song">Song linked to the marker</param>
+        /// <param name="playlistItem">Playlist item linked to the marker</param>
         /// <param name="markerId">Identifier of the marker (if it exists)</param>
-        public frmAddEditMarker(frmMain main, AddEditMarkerWindowMode mode, SongDTO song, Guid markerId)
+        public frmAddEditMarker(frmMain main, AddEditMarkerWindowMode mode, PlaylistItem playlistItem, Guid markerId)
         {
             InitializeComponent();
             m_main = main;
             m_mode = mode;
-            m_song = song;
+            m_playlistItem = playlistItem;
             m_markerId = markerId;
 
             // Initialize controls
@@ -82,9 +83,9 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblArtistName.Text = m_song.ArtistName;
-            lblAlbumTitle.Text = m_song.AlbumTitle;
-            lblSongTitle.Text = m_song.Title;
+            lblArtistName.Text = m_playlistItem.AudioFile.ArtistName;
+            lblAlbumTitle.Text = m_playlistItem.AudioFile.AlbumTitle;
+            lblSongTitle.Text = m_playlistItem.AudioFile.Title;
 
             // Set labels depending on mode
             if (m_mode == AddEditMarkerWindowMode.Add)
@@ -98,21 +99,21 @@ namespace MPfm
                 panelEditMarker.Refresh();
                 Text = "Edit marker";
 
-                // Fetch marker from database
-                //MPfm.Library.Data.Marker marker = DataAccess.SelectMarker(m_markerId);
+                // Fetch marker from database                
+                MarkerDTO marker = Main.Library.SelectMarker(m_markerId);
 
-                //// Check if the marker was found
-                //if(marker == null)
-                //{
-                //    return;
-                //}
+                // Check if the marker was found
+                if(marker == null)
+                {
+                    return;
+                }
 
-                //// Update fields
-                //txtName.Text = marker.Name;
-                //txtComments.Text = marker.Comments;
-                //txtPosition.Text = marker.Position;
-                //lblPositionPCMValue.Text = marker.PositionPCM.ToString();
-                //lblPositionPCMBytesValue.Text = marker.PositionPCMBytes.ToString();
+                // Update fields
+                txtName.Text = marker.Name;
+                txtComments.Text = marker.Comments;
+                txtPosition.Text = marker.PositionMS.ToString();
+                lblPositionPCMValue.Text = marker.PositionMS.ToString();
+                lblPositionPCMBytesValue.Text = marker.PositionBytes.ToString();
             }
         }
 
@@ -190,16 +191,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPunchIn_Click(object sender, EventArgs e)
         {
-            //// Check if the player is currently playing
-            //if (!Main.Player.IsPlaying)
-            //{
-            //    return;
-            //}
+            // Check if the player is currently playing
+            if (!Main.PlayerV4.IsPlaying)
+            {
+                return;
+            }
 
-            //// Update controls
-            //txtPosition.Text = Main.Player.MainChannel.Position;
-            ////lblPositionPCMValue.Text = Main.Player.MainChannel.PositionSentencePCM.ToString();
-            ////lblPositionPCMBytesValue.Text = Main.Player.MainChannel.PositionSentencePCMBytes.ToString();            
+            // Get position
+            long positionBytes = Main.PlayerV4.Playlist.CurrentItem.Channel.GetPosition();
+            long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+            string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);                        
+
+            // Update controls
+            txtPosition.Text = position;
+            lblPositionPCMValue.Text = positionSamples.ToString();
+            lblPositionPCMBytesValue.Text = positionBytes.ToString();
         }
 
         /// <summary>
@@ -210,19 +216,16 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnGoTo_Click(object sender, EventArgs e)
         {
-            //// Check if the player is currently playing
-            //if (!Main.Player.IsPlaying)
-            //{
-            //    return;
-            //}
+            // Check if the player is currently playing
+            if (!Main.PlayerV4.IsPlaying)
+            {
+                return;
+            }
 
-            //// Set position
-            //uint position = 0;
-            //uint.TryParse(lblPositionPCMValue.Text, out position);            
-            //Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
-            
-            ////uint.TryParse(lblPositionMSValue.Text, out position);
-            ////Main.Player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_MS);
+            // Set position
+            uint position = 0;
+            uint.TryParse(lblPositionPCMBytesValue.Text, out position);            
+            Main.PlayerV4.SetPosition(position);
         }
 
         /// <summary>
@@ -275,14 +278,14 @@ namespace MPfm
             }
 
             // Get song length in MS
-            uint msTotal = ConvertAudio.ToMS(m_song.Time);
+            uint msTotal = ConvertAudio.ToMS(m_playlistItem.LengthString);
             uint msMarker = ConvertAudio.ToMS(txtPosition.Text);
 
             // Check if the position exceeds the song length
             if (msMarker > msTotal)
             {
                 isValid = false;
-                warningMessage = "The marker position cannot exceed the song length (" + m_song.Time + ").";
+                warningMessage = "The marker position cannot exceed the song length (" + m_playlistItem.LengthString + ").";
             }
 
             // Set warning

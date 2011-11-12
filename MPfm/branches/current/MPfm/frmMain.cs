@@ -856,10 +856,8 @@ namespace MPfm
             long positionBytes = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
             string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);
             long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-            //long positionMS = ConvertAudio.ToMS(positionSamples, 44100);
 
-            // Set UI
-            //lblCurrentTime.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);
+            // Set UI            
             lblCurrentTime.Text = position;
             lblTotalTime.Text = m_playerV4.Playlist.CurrentItem.LengthString;
             waveFormMarkersLoops.Position = positionBytes;
@@ -3275,13 +3273,13 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnAddMarker_Click(object sender, EventArgs e)
         {
-            //// Check if the wave data is loaded
-            //if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
-            //{
-            //    // Create window and show as dialog
-            //    formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.CurrentSong, Guid.Empty);
-            //    formAddEditMarker.ShowDialog(this);
-            //}
+            // Check if the wave data is loaded
+            if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
+            {
+                // Create window and show as dialog                
+                formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, PlayerV4.Playlist.CurrentItem, Guid.Empty);
+                formAddEditMarker.ShowDialog(this);
+            }
         }
 
         /// <summary>

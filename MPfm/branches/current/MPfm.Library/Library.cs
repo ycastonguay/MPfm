@@ -817,7 +817,7 @@ namespace MPfm.Library
             try
             {
                 // Get song
-                song = Songs.Where(s => s.SongId == songId).FirstOrDefault();
+                song = Songs.FirstOrDefault(s => s.SongId == songId);
             }
             catch (Exception ex)
             {
@@ -881,12 +881,6 @@ namespace MPfm.Library
         public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
         {
             return SelectSongs(soundFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
-        }
-
-        private static object GetPropertyValue(object obj, string property)
-        {
-            PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
-            return propertyInfo.GetValue(obj, null);
         }
 
         /// <summary>
@@ -1014,6 +1008,26 @@ namespace MPfm.Library
         //}
 
         #endregion
+
+        public MarkerDTO SelectMarker(Guid markerId)
+        {
+            // Declare variables
+            MarkerDTO dto = null;
+
+            try
+            {
+                // Get DTO
+                dto = Gateway.SelectMarker(markerId);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log(ex.Message + "\n" + ex.StackTrace);
+                throw ex;
+            }
+            
+            return dto;
+        }
+
 
         #region Generate Playlist
 
@@ -1376,6 +1390,18 @@ namespace MPfm.Library
             int indexOf = Songs.IndexOf(song);
             //Songs[indexOf] = ConvertDTO.ConvertSong(DataAccess.SelectSong(songId));
             Songs[indexOf] = m_gateway.SelectSong(songId);
+        }
+
+        /// <summary>
+        /// Fetches the property value of an object.
+        /// </summary>
+        /// <param name="obj">Object</param>
+        /// <param name="property">Property</param>
+        /// <returns>Value</returns>
+        private static object GetPropertyValue(object obj, string property)
+        {
+            PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
+            return propertyInfo.GetValue(obj, null);
         }
     }
 

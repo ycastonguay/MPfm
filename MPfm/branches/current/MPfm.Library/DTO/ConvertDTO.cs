@@ -258,6 +258,44 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Converts a DataTable to a list of MarkerDTOs.
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <returns>List of MarkerDTO</returns>
+        public static List<MarkerDTO> Markers(DataTable table)
+        {
+            // Create list
+            List<MarkerDTO> dtos = new List<MarkerDTO>();
+
+            // Loop through rows
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Create DTO
+                MarkerDTO dto = new MarkerDTO();
+
+                // Assign properties (strings)
+                dto.MarkerId = new Guid(table.Rows[a]["MarkerId"].ToString());
+                dto.SongId = new Guid(table.Rows[a]["SongId"].ToString());
+                dto.Name = table.Rows[a]["Name"].ToString();
+                dto.Comments = table.Rows[a]["Comments"].ToString();
+
+                int positionBytes = 0;
+                int.TryParse(table.Rows[a]["PositionBytes"].ToString(), out positionBytes);
+                dto.PositionBytes = positionBytes;
+
+                int positionMS = 0;
+                int.TryParse(table.Rows[a]["PositionMS"].ToString(), out positionMS);
+                dto.PositionMS = positionMS;
+
+                // Add DTO to list
+                dtos.Add(dto);
+            }
+
+            // Return DTO
+            return dtos;
+        }
+
+        /// <summary>
         /// Sets the values from a DTO into a DataRow.
         /// </summary>
         /// <param name="row">DataRow to set</param>
@@ -286,74 +324,91 @@ namespace MPfm.Library
         /// Sets the values of a DataRow in a Song DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="song">SongDTO</param>
-        public static void ToSongRow(ref DataRow row, SongDTO song)
+        /// <param name="dto">SongDTO</param>
+        public static void ToSongRow(ref DataRow row, SongDTO dto)
         {
             // Set row data
-            row["SongId"] = song.SongId.ToString();
-            row["Title"] = song.Title;
-            row["FilePath"] = song.FilePath;
-            row["ArtistName"] = song.ArtistName;
-            row["AlbumTitle"] = song.AlbumTitle;
-            row["Genre"] = song.Genre;
-            row["SoundFormat"] = song.SoundFormat;
-            row["Lyrics"] = song.Lyrics;
-            row["Time"] = song.Time;
+            row["SongId"] = dto.SongId.ToString();
+            row["Title"] = dto.Title;
+            row["FilePath"] = dto.FilePath;
+            row["ArtistName"] = dto.ArtistName;
+            row["AlbumTitle"] = dto.AlbumTitle;
+            row["Genre"] = dto.Genre;
+            row["SoundFormat"] = dto.SoundFormat;
+            row["Lyrics"] = dto.Lyrics;
+            row["Time"] = dto.Time;
 
-            AssignRowValue(ref row, "PlayCount", song.PlayCount);
-            AssignRowValue(ref row, "Year", song.Year);
-            AssignRowValue(ref row, "DiscNumber", song.DiscNumber);
-            AssignRowValue(ref row, "TrackNumber", song.TrackNumber);
-            AssignRowValue(ref row, "TrackCount", song.TrackCount);
-            AssignRowValue(ref row, "Rating", song.Rating);
-            AssignRowValue(ref row, "Tempo", song.Tempo);
-            AssignRowValue(ref row, "LastPlayed", song.LastPlayed);
+            AssignRowValue(ref row, "PlayCount", dto.PlayCount);
+            AssignRowValue(ref row, "Year", dto.Year);
+            AssignRowValue(ref row, "DiscNumber", dto.DiscNumber);
+            AssignRowValue(ref row, "TrackNumber", dto.TrackNumber);
+            AssignRowValue(ref row, "TrackCount", dto.TrackCount);
+            AssignRowValue(ref row, "Rating", dto.Rating);
+            AssignRowValue(ref row, "Tempo", dto.Tempo);
+            AssignRowValue(ref row, "LastPlayed", dto.LastPlayed);
         }
 
         /// <summary>
         /// Sets the values of a DataRow in a Folder DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="folder">FolderDTO</param>
-        public static void ToFolderRow(ref DataRow row, FolderDTO folder)
+        /// <param name="dto">FolderDTO</param>
+        public static void ToFolderRow(ref DataRow row, FolderDTO dto)
         {
             // Set row data
-            row["FolderId"] = folder.FolderId.ToString();
-            row["FolderPath"] = folder.FolderPath;
+            row["FolderId"] = dto.FolderId.ToString();
+            row["FolderPath"] = dto.FolderPath;
 
-            AssignRowValue(ref row, "LastUpdated", folder.LastUpdated);
-            AssignRowValue(ref row, "IsRecursive", folder.IsRecursive);
+            AssignRowValue(ref row, "LastUpdated", dto.LastUpdated);
+            AssignRowValue(ref row, "IsRecursive", dto.IsRecursive);
         }
 
         /// <summary>
         /// Sets the values of a DataRow in a Equalizer DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="equalizer">EqualizerDTO</param>
-        public static void ToEqualizerRow(ref DataRow row, EqualizerDTO equalizer)
+        /// <param name="dto">EqualizerDTO</param>
+        public static void ToEqualizerRow(ref DataRow row, EqualizerDTO dto)
         {
             // Set row data
-            row["EqualizerId"] = equalizer.EqualizerId.ToString();
-            row["Name"] = equalizer.Name;
+            row["EqualizerId"] = dto.EqualizerId.ToString();
+            row["Name"] = dto.Name;
 
-            AssignRowValue(ref row, "Gain55Hz", equalizer.Gain55Hz);
-            AssignRowValue(ref row, "Gain77Hz", equalizer.Gain77Hz);
-            AssignRowValue(ref row, "Gain110Hz", equalizer.Gain110Hz);
-            AssignRowValue(ref row, "Gain156Hz", equalizer.Gain156Hz);
-            AssignRowValue(ref row, "Gain220Hz", equalizer.Gain220Hz);
-            AssignRowValue(ref row, "Gain311Hz", equalizer.Gain311Hz);
-            AssignRowValue(ref row, "Gain440Hz", equalizer.Gain440Hz);
-            AssignRowValue(ref row, "Gain622Hz", equalizer.Gain622Hz);
-            AssignRowValue(ref row, "Gain880Hz", equalizer.Gain880Hz);
-            AssignRowValue(ref row, "Gain1_2kHz", equalizer.Gain1_2kHz);
-            AssignRowValue(ref row, "Gain1_8kHz", equalizer.Gain1_8kHz);
-            AssignRowValue(ref row, "Gain2_5kHz", equalizer.Gain2_5kHz);
-            AssignRowValue(ref row, "Gain3_5kHz", equalizer.Gain3_5kHz);
-            AssignRowValue(ref row, "Gain5kHz", equalizer.Gain5kHz);
-            AssignRowValue(ref row, "Gain7kHz", equalizer.Gain7kHz);
-            AssignRowValue(ref row, "Gain10kHz", equalizer.Gain10kHz);
-            AssignRowValue(ref row, "Gain14kHz", equalizer.Gain14kHz);
-            AssignRowValue(ref row, "Gain20kHz", equalizer.Gain20kHz);
+            AssignRowValue(ref row, "Gain55Hz", dto.Gain55Hz);
+            AssignRowValue(ref row, "Gain77Hz", dto.Gain77Hz);
+            AssignRowValue(ref row, "Gain110Hz", dto.Gain110Hz);
+            AssignRowValue(ref row, "Gain156Hz", dto.Gain156Hz);
+            AssignRowValue(ref row, "Gain220Hz", dto.Gain220Hz);
+            AssignRowValue(ref row, "Gain311Hz", dto.Gain311Hz);
+            AssignRowValue(ref row, "Gain440Hz", dto.Gain440Hz);
+            AssignRowValue(ref row, "Gain622Hz", dto.Gain622Hz);
+            AssignRowValue(ref row, "Gain880Hz", dto.Gain880Hz);
+            AssignRowValue(ref row, "Gain1_2kHz", dto.Gain1_2kHz);
+            AssignRowValue(ref row, "Gain1_8kHz", dto.Gain1_8kHz);
+            AssignRowValue(ref row, "Gain2_5kHz", dto.Gain2_5kHz);
+            AssignRowValue(ref row, "Gain3_5kHz", dto.Gain3_5kHz);
+            AssignRowValue(ref row, "Gain5kHz", dto.Gain5kHz);
+            AssignRowValue(ref row, "Gain7kHz", dto.Gain7kHz);
+            AssignRowValue(ref row, "Gain10kHz", dto.Gain10kHz);
+            AssignRowValue(ref row, "Gain14kHz", dto.Gain14kHz);
+            AssignRowValue(ref row, "Gain20kHz", dto.Gain20kHz);
+        }
+
+        /// <summary>
+        /// Sets the values of a DataRow in a Marker DataTable.
+        /// </summary>
+        /// <param name="row">DataRow to set</param>
+        /// <param name="marker">MarkerDTO</param>
+        public static void ToMarkerRow(ref DataRow row, MarkerDTO dto)
+        {
+            // Set row data
+            row["MarkerId"] = dto.MarkerId.ToString();
+            row["SongId"] = dto.SongId.ToString();
+            row["Name"] = dto.Name;
+            row["Comments"] = dto.Comments;
+
+            AssignRowValue(ref row, "PositionBytes", dto.PositionBytes);
+            AssignRowValue(ref row, "PositionMS", dto.PositionMS);
         }
 
         /// <summary>
