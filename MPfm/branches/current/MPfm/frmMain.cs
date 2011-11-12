@@ -322,7 +322,7 @@ namespace MPfm
                 }
 
                 // Create player
-                m_playerV4 = new MPfm.Player.PlayerV4.Player(device, 44100, 100, 10);
+                m_playerV4 = new MPfm.Player.PlayerV4.Player(device, 96000, 100, 10);
                 m_playerV4.OnSongFinished += new Player.PlayerV4.Player.SongFinished(m_playerV4_OnSongFinished);
                 m_playerV4.OnStreamCallbackCalled += new MPfm.Player.PlayerV4.Player.StreamCallbackCalled(m_playerV4_OnStreamCallbackCalled);
 
@@ -1549,7 +1549,7 @@ namespace MPfm
                 btnPause.Checked = false;
 
                 // Update song information                
-                RefreshSongInformation();
+                //RefreshSongInformation();
 
                 // Set the play icon in the song browser
                 RefreshSongBrowserPlayIcon(PlayerV4.Playlist.CurrentItem.Song.SongId);
@@ -1737,7 +1737,7 @@ namespace MPfm
 
                 // Set the song length for the Loops & Markers wave form display control
                 waveFormMarkersLoops.Position = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
-                waveFormMarkersLoops.Length = m_playerV4.Playlist.CurrentItem.Channel.GetLength(); ;                
+                waveFormMarkersLoops.Length = m_playerV4.Playlist.CurrentItem.Channel.GetLength();
 
                 // Load the wave form                
                 waveFormMarkersLoops.LoadWaveForm(m_playerV4.Playlist.CurrentItem.AudioFile.FilePath);
@@ -2081,7 +2081,10 @@ namespace MPfm
                     m_playerV4.Playlist.Clear();
                     m_playerV4.Playlist.AddItems(songs);
                     m_playerV4.Playlist.GoTo(currentSong.SongId);
-                    m_playerV4.Play();                    
+                    m_playerV4.Play();
+
+                    // Refresh song information
+                    RefreshSongInformation();
 
                     // Refresh controls after song playback
                     RefreshSongControls();

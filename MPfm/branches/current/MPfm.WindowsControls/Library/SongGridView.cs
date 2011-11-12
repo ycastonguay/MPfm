@@ -867,6 +867,7 @@ namespace MPfm.WindowsControls
                         SongGridViewBackgroundWorkerArgument arg = m_workerUpdateAlbumArtPile[a];
 
                         // Check if this album is still visible (cancel if it is out of display).     
+                        //if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
                         if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
                         {
                             indexToDelete = a;
@@ -949,22 +950,29 @@ namespace MPfm.WindowsControls
             // Get album art
             SongGridViewBackgroundWorkerResult result = (SongGridViewBackgroundWorkerResult)e.Result;
 
-            // Check if an image was found
-            if (result.AlbumArt != null)
-            {
-                // We found cover art! Add to cache and get out of the loop
-                m_imageCache.Add(new GridViewImageCache() { Key = result.Song.ArtistName + "_" + result.Song.AlbumTitle, Image = result.AlbumArt });
+            // Create cover art cache (even if the albumart is null, just to make sure the grid doesn't refetch the album art endlessly)
+            GridViewImageCache cache = new GridViewImageCache();
+            cache.Key = result.Song.ArtistName + "_" + result.Song.AlbumTitle;
+            cache.Image = result.AlbumArt;
 
-                // Check if the cache size has been reached
-                if (m_imageCache.Count > m_imageCacheSize)
+            // We found cover art! Add to cache and get out of the loop
+            m_imageCache.Add(cache);
+
+            // Check if the cache size has been reached
+            if (m_imageCache.Count > m_imageCacheSize)
+            {
+                // Check if the image needs to be disposed
+                if (m_imageCache[0].Image != null)
                 {
-                    // Remove the oldest item
+                    // Dispose image
                     Image imageTemp = m_imageCache[0].Image;
                     imageTemp.Dispose();
                     imageTemp = null;
-                    m_imageCache.RemoveAt(0);
                 }
-            }
+
+                // Remove the oldest item
+                m_imageCache.RemoveAt(0);
+            }            
 
             // Remove song from list
             int indexRemove = -1;
@@ -1391,7 +1399,7 @@ namespace MPfm.WindowsControls
                         //}
 
                         // Album art not found in cache; try to find an album cover in one of the file
-                        if (imageAlbumCover == null)
+                        if (cachedImage == null)
                         {
                             // Check if the album cover is already in the pile
                             bool albumCoverFound = false;

@@ -683,16 +683,25 @@ namespace MPfm.Player.PlayerV4
                     Stop();
                 }
 
-                // Load the first two channels
-                for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + 2; a++)
+                // How many channels are left?
+                int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;
+
+                // If there are more than 2, just limit to 2 for now. The other channels are loaded dynamically.
+                if (channelsToLoad > 2)
+                {
+                    channelsToLoad = 2;
+                }
+
+                // Load the current channel and the next channel if it exists
+                for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
                 {
                     // Load channel and audio file metadata
                     m_playlist.Items[a].Load();
                 }
 
-                // Create the streaming channel
+                // Create the streaming channel (set the frequency to the first file in the list)
                 m_streamProc = new STREAMPROC(StreamCallback);
-                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_mixerSampleRate, 2, true, m_streamProc);
+                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
 
                 // Check driver type
                 if (m_device.DriverType == DriverType.DirectSound)
