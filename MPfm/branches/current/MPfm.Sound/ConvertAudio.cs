@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MPfm.Core;
 
 namespace MPfm.Sound
 {
@@ -30,6 +31,22 @@ namespace MPfm.Sound
     /// </summary>
     public static class ConvertAudio
     {
+        /// <summary>
+        /// Converts a position in bytes to time string. Requires several parameters to work.
+        /// </summary>
+        /// <param name="positionBytes">Position (in bytes)</param>
+        /// <param name="bitsPerChannel">Bits per channel (ex: 16 for 16-bit)</param>
+        /// <param name="channelCount">Channel count (ex: 2 for stereo)</param>
+        /// <param name="sampleRate">Sample rate (ex: 44100 for 44100Hz)</param>
+        /// <returns>Position in time string (00:00.000)</returns>
+        public static string ToTimeString(long positionBytes, uint bitsPerChannel, int channelCount, uint sampleRate)
+        {
+            // Convert values
+            long positionSamples = ConvertAudio.ToPCM(positionBytes, bitsPerChannel, channelCount);
+            long positionMS = ConvertAudio.ToMS(positionSamples, sampleRate);
+            return Conversion.MillisecondsToTimeString((ulong)positionMS);
+        }
+
         /// <summary>
         /// Converts to the PCM (samples) format.
         /// </summary>

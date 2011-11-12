@@ -80,6 +80,17 @@ namespace MPfm.Sound
         }
 
         /// <summary>
+        /// Delegate for the OnProcessStarted event.
+        /// </summary>
+        /// <param name="data">Peak file progress started data</param>
+        public delegate void ProcessStarted(PeakFileStartedData data);
+
+        /// <summary>
+        /// Event called when a thread starts its work.
+        /// </summary>
+        public event ProcessStarted OnProcessStarted;
+
+        /// <summary>
         /// Delegate for the OnProcessData event.
         /// </summary>
         /// <param name="data">Peak file progress data</param>
@@ -93,7 +104,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Delegate for the OnProcessDone event.
         /// </summary>        
-        public delegate void ProcessDone(PeakFileProgressDone data);
+        public delegate void ProcessDone(PeakFileDoneData data);
 
         /// <summary>
         /// Event called when all the GeneratePeakFiles threads have completed their work.
@@ -128,7 +139,6 @@ namespace MPfm.Sound
             {
                 return m_numberOfThreadsRunning;
             }
-
         }
 
         /// <summary>
@@ -143,6 +153,27 @@ namespace MPfm.Sound
             get
             {
                 return m_numberOfThreads;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ProgressReportBlockInterval property.
+        /// </summary>
+        private int m_progressReportBlockInterval = 200;
+        /// <summary>
+        /// Defines when the OnProgressData event is called; it will be called
+        /// every x blocks (where x is ProgressReportBlockInterval). 
+        /// The default value is 20.
+        /// </summary>
+        public int ProgressReportBlockInterval
+        {
+            get
+            {
+                return m_progressReportBlockInterval;
+            }
+            set
+            {
+                m_progressReportBlockInterval = value;
             }
         }
 
@@ -172,14 +203,17 @@ namespace MPfm.Sound
             BinaryWriter binaryWriter = null;
             GZipStream gzipStream = null;            
             int chunkSize = 0;
+            int currentBlock = 0;
             long audioFileLength = 0;
             int read = 0;
             long bytesRead = 0;
             float[] floatLeft = null;
             float[] floatRight = null;
-            byte[] buffer = null;
+            //byte[] buffer = null;
+            float[] buffer = null;
             IntPtr data = new IntPtr(); // initialized properly later
             WaveDataMinMax minMax = null;
+            List<WaveDataMinMax> listMinMaxForProgressData = new List<WaveDataMinMax>();
 
             // Create observable
             IObservable<PeakFileProgressData> observable = Observable.Create<PeakFileProgressData>(o =>
@@ -216,9 +250,7 @@ namespace MPfm.Sound
                         // How many blocks will there be?                        
                         double blocks = Math.Ceiling(((double)audioFileLength / (double)chunkSize) * 2) + 1;
 
-                        // Write file header (30 characters)
-                        
-                        // 000000000111111111122222222223
+                        // Write file header (30 characters)                       
                         // 123456789012345678901234567890
                         // MPfm Peak File (version# 1.00)
                         string version = "MPfm Peak File (version# " + m_version + ")";
@@ -229,11 +261,24 @@ namespace MPfm.Sound
                         
                         // Write chunk size and number of blocks
                         binaryWriter.Write((Int32)chunkSize);
-                        binaryWriter.Write((Int32)blocks);                        
+                        binaryWriter.Write((Int32)blocks);                      
 
                         // Create buffer
                         data = Marshal.AllocHGlobal(chunkSize);
-                        buffer = new byte[chunkSize];
+                        //buffer = new byte[chunkSize];
+                        buffer = new float[chunkSize];
+
+                        // Report progress (started)
+                        PeakFileProgressData dataStarted = new PeakFileProgressData();
+                        dataStarted.AudioFilePath = audioFilePath;
+                        dataStarted.PeakFilePath = peakFilePath;
+                        dataStarted.PercentageDone = 0;
+                        dataStarted.ThreadNumber = threadNumber;
+                        dataStarted.Length = audioFileLength;
+                        dataStarted.CurrentBlock = 0;
+                        dataStarted.TotalBlocks = (Int32)blocks;
+                        dataStarted.MinMax = listMinMaxForProgressData;
+                        o.OnNext(dataStarted);
 
                         // Loop through file using chunk size
                         int dataBlockRead = 0;
@@ -274,8 +319,9 @@ namespace MPfm.Sound
                                 }
                             }
 
-                            // Calculate min/max
+                            // Calculate min/max and add it to the min/max list for event progress
                             minMax = AudioTools.GetMinMaxFromWaveData(floatLeft, floatRight, false);                            
+                            listMinMaxForProgressData.Add(minMax);
 
                             // Write peak information
                             binaryWriter.Write((double)minMax.leftMin);
@@ -283,23 +329,34 @@ namespace MPfm.Sound
                             binaryWriter.Write((double)minMax.rightMin);
                             binaryWriter.Write((double)minMax.rightMax);
                             binaryWriter.Write((double)minMax.mixMin);
-                            binaryWriter.Write((double)minMax.mixMax);                            
+                            binaryWriter.Write((double)minMax.mixMax);
 
-                            // Update progress every 20 blocks
+                            // Update progress every X blocks (m_progressReportBlockInterval) default = 20
                             dataBlockRead += read;
-                            if (dataBlockRead >= read * 20)
+                            if (dataBlockRead >= read * m_progressReportBlockInterval)
                             {
                                 // Reset flag
                                 dataBlockRead = 0;
 
                                 // Report progress
-                                PeakFileProgressData progress = new PeakFileProgressData();
-                                progress.AudioFilePath = audioFilePath;
-                                progress.PeakFilePath = peakFilePath;
-                                progress.PercentageDone = (((float)bytesRead / (float)audioFileLength) / 2) * 100;
-                                progress.ThreadNumber = threadNumber;
-                                o.OnNext(progress);
+                                PeakFileProgressData dataProgress = new PeakFileProgressData();
+                                dataProgress.AudioFilePath = audioFilePath;
+                                dataProgress.PeakFilePath = peakFilePath;
+                                dataProgress.PercentageDone = (((float)bytesRead / (float)audioFileLength) / 2) * 100;
+                                dataProgress.ThreadNumber = threadNumber;
+                                dataProgress.Length = audioFileLength;
+                                dataProgress.CurrentBlock = currentBlock;
+                                dataProgress.TotalBlocks = (Int32)blocks;
+                                dataProgress.MinMax = listMinMaxForProgressData;
+                                o.OnNext(dataProgress);
+
+                                // Reset min/max list
+                                //listMinMaxForProgressData.Clear();
+                                listMinMaxForProgressData = new List<WaveDataMinMax>();
                             }
+
+                            // Increment current block
+                            currentBlock++;
                         }
                         while (read == chunkSize);
 
@@ -378,7 +435,7 @@ namespace MPfm.Sound
                         if (OnProcessDone != null)
                         {
                             // Raise event with data
-                            OnProcessDone(new PeakFileProgressDone());
+                            OnProcessDone(new PeakFileDoneData());
                         }
                     }                    
                     
@@ -394,11 +451,27 @@ namespace MPfm.Sound
             // Subscribe to the IObservable (starts the thread)
             }).Subscribe(o =>
             {
-                // Is an event binded to OnProcessData?
-                if (OnProcessData != null)
-                {                    
-                    // Raise event with data
-                    OnProcessData(o);
+                // Check what percentage is done
+                if (o.PercentageDone == 0)
+                {
+                    // Is an event binded to OnProcessData?
+                    if (OnProcessStarted != null)
+                    {
+                        // Raise started event with file length
+                        PeakFileStartedData data = new PeakFileStartedData();
+                        data.Length = o.Length;
+                        data.TotalBlocks = o.TotalBlocks;
+                        OnProcessStarted(data);
+                    }
+                }
+                else
+                {
+                    // Is an event binded to OnProcessData?
+                    if (OnProcessData != null)
+                    {
+                        // Raise event with data
+                        OnProcessData(o);
+                    }
                 }
             }));
         }
@@ -595,7 +668,7 @@ namespace MPfm.Sound
                 }
 
                 // Validate number of blocks read
-                if (currentBlock < numberOfBlocks)
+                if (currentBlock < numberOfBlocks - 1)
                 {
                     throw new PeakFileCorruptedException("Error: The peak file is corrupted (the number of blocks didn't match)!", null);
                 }
@@ -614,6 +687,21 @@ namespace MPfm.Sound
 
             return listMinMax;
         }
+    }
+
+    /// <summary>
+    /// Defines the data used with the OnProcessStarted event.
+    /// </summary>
+    public class PeakFileStartedData
+    {
+        /// <summary>
+        /// Defines the audio file path length in bytes.
+        /// </summary>
+        public long Length { get; set; }
+        /// <summary>
+        /// Defines the total number of blocks to read.
+        /// </summary>
+        public int TotalBlocks { get; set; }
     }
 
     /// <summary>
@@ -636,13 +724,31 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the current thread progress in percentage.
         /// </summary>
-        public float PercentageDone { get; set; }        
+        public float PercentageDone { get; set; }
+        /// <summary>
+        /// Defines the audio file path length in bytes.
+        /// </summary>
+        public long Length { get; set; }
+        /// <summary>
+        /// Defines the current block to read.
+        /// </summary>
+        public int CurrentBlock { get; set; }
+        /// <summary>
+        /// Defines the total number of blocks to read.
+        /// </summary>
+        public int TotalBlocks { get; set; }
+
+        /// <summary>
+        /// Defines the list of min/max wave data values for waveform.
+        /// Useful for displaying the waveform generation in real-time.
+        /// </summary>
+        public List<WaveDataMinMax> MinMax { get; set; }
     }
 
     /// <summary>
     /// Defines the data used with the OnProcessDone event (actually nothing).
     /// </summary>
-    public class PeakFileProgressDone
+    public class PeakFileDoneData
     {
     }
 

@@ -1041,6 +1041,25 @@ namespace MPfm.Player.PlayerV4
         }
 
         /// <summary>
+        /// Sets the position of the currently playing channel.
+        /// </summary>
+        /// <param name="percentage">Position (in percentage)</param>
+        public void SetPosition(double percentage)
+        {
+            // Validate player
+            if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
+            {
+                return;
+            }
+            
+            // Calculate new position
+            long newPosition = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
+
+            // Set position
+            Playlist.CurrentItem.Channel.SetPosition(newPosition);
+        }
+
+        /// <summary>
         /// Go to a marker position.
         /// </summary>
         /// <param name="marker">Marker position</param>

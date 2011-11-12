@@ -831,11 +831,10 @@ namespace MPfm
             ////{
             ////    outputMeter.Refresh();
 
-            ////    if (!waveFormMarkersLoops.IsLoading)
-            ////    {
-            ////        waveFormMarkersLoops.Refresh();
-            ////    }
-            ////}
+            if (!waveFormMarkersLoops.IsLoading)
+            {
+                waveFormMarkersLoops.Refresh();
+            }            
         }
 
         /// <summary>
@@ -855,16 +854,21 @@ namespace MPfm
 
             // Get position
             long positionBytes = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
+            string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);
             long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-            long positionMS = ConvertAudio.ToMS(positionSamples, 44100);
+            //long positionMS = ConvertAudio.ToMS(positionSamples, 44100);
 
             // Set UI
-            lblCurrentTime.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);
+            //lblCurrentTime.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);
+            lblCurrentTime.Text = position;
             lblTotalTime.Text = m_playerV4.Playlist.CurrentItem.LengthString;
+            waveFormMarkersLoops.Position = positionBytes;
+            waveFormMarkersLoops.PositionTime = position;
 
             // Update the song position
             if (!songPositionChanging)
             {
+                // Get ratio
                 float ratio = (float)positionSamples / (float)m_playerV4.Playlist.CurrentItem.LengthSamples;
 
                 // Do not go beyong 99% or the song might end before!
@@ -874,7 +878,7 @@ namespace MPfm
                 }
 
                 // Set time on seek control
-                lblSongPosition.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                lblSongPosition.Text = position;
                 lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
             }
 
@@ -3243,11 +3247,14 @@ namespace MPfm
         /// <param name="data">Event Data</param>
         private void waveFormMarkersLoops_OnPositionChanged(PositionChangedData data)
         {
-            //// Check if data is valid
-            //if (data == null)
-            //{
-            //    return;
-            //}
+            // Check if data is valid
+            if (data == null)
+            {
+                return;
+            }
+
+            // Set new position
+            m_playerV4.SetPosition(data.Percentage);
 
             //// Set new position
             //uint newPosition = Player.SetPositionSentenceMS(data.Percentage);

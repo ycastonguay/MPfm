@@ -79,17 +79,23 @@ namespace MPfm
             m_main = main;
 
             m_peakFile = new PeakFile(5);
+            m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
             m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
         }
 
-        void m_peakFile_OnProcessDone(PeakFileProgressDone data)
+        protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
+        {
+            
+        }
+
+        protected void m_peakFile_OnProcessDone(PeakFileDoneData data)
         {
             MessageBox.Show("DONE!!!!!");
         }
 
-        public void m_peakFile_OnProcessData(PeakFileProgressData data)
+        protected void m_peakFile_OnProcessData(PeakFileProgressData data)
         {
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate

@@ -56,11 +56,6 @@ namespace MPfm.WindowsControls
         private PeakFile m_peakFile = null;
 
         /// <summary>
-        /// Background worker generating the wave form for display.
-        /// </summary>
-        private BackgroundWorker m_workerWaveForm = null;
-
-        /// <summary>
         /// Timer controlling the refresh for the loading and cursor display.
         /// </summary>
         private MPfm.Sound.Timer m_timer = null;
@@ -282,7 +277,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the current audio file position (in bytes).
         /// This needs to be set by the user in order to display the cursor 
-        /// (with the Length property).
+        /// (with the PositionTime and Length properties).
         /// </summary>
         public long Position
         {
@@ -296,11 +291,29 @@ namespace MPfm.WindowsControls
             }
         }
 
+        private string m_positionTime = "00:00.000";
+        /// <summary>
+        /// Defines the current audio file position (in time string, such as 00:00.000).
+        /// This needs to be set by the user in order to display the cursor 
+        /// (with the Position and Length properties).
+        /// </summary>
+        public string PositionTime
+        {
+            get
+            {
+                return m_positionTime;
+            }
+            set
+            {
+                m_positionTime = value;
+            }
+        }
+
         private long m_length = 0;
         /// <summary>
         /// Defines the current audio file length (in bytes).
         /// This needs to be set by the user in order to display the cursor 
-        /// (with the Position property).
+        /// (with the Position and PositionTime properties).
         /// </summary>
         public long Length
         {
@@ -628,13 +641,9 @@ namespace MPfm.WindowsControls
 
             // Create PeakFile class instance 
             m_peakFile = new PeakFile(1);
+            m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
-
-            // Create background worker
-            m_workerWaveForm = new BackgroundWorker();
-            m_workerWaveForm.WorkerSupportsCancellation = true;            
-            m_workerWaveForm.DoWork += new DoWorkEventHandler(m_workerWaveForm_DoWork);            
-            m_workerWaveForm.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_workerWaveForm_RunWorkerCompleted);
+            m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
             // Create timer for refresh
             m_timer = new Sound.Timer();
@@ -659,15 +668,6 @@ namespace MPfm.WindowsControls
             horizontalScrollBar.OnValueChanged += new HScrollBar.ValueChanged(horizontalScrollBar_OnValueChanged);
             //horizontalScrollBar.Scroll += new ScrollEventHandler(horizontalScrollBar_Scroll);            
             this.Controls.Add(horizontalScrollBar);
-        }
-
-        /// <summary>
-        /// This event is called every 20 blocks during peak file generation.
-        /// </summary>
-        /// <param name="data">Peak file progress data</param>
-        protected void m_peakFile_OnProcessData(PeakFileProgressData data)
-        {
-            
         }
 
         /// <summary>
@@ -843,25 +843,108 @@ namespace MPfm.WindowsControls
 
         #region Load Wave Form / Read+Write Peak Files Methods
 
+        protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
+        {
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                // Create history 
+                m_waveDataHistory = new List<WaveDataMinMax>((int)data.TotalBlocks);
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// This event is called every 20 blocks during peak file generation.
+        /// </summary>
+        /// <param name="data">Peak file progress data</param>
+        protected void m_peakFile_OnProcessData(PeakFileProgressData data)
+        {
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                // Add min/max data to history
+                //WaveDataHistory.AddRange(data.MinMax);
+
+                // Collection is being modified, so we can't iterate through it.
+                List<WaveDataMinMax> minMaxs = data.MinMax;
+
+                while (true)
+                {
+                    if (minMaxs.Count == 0)
+                    {
+                        break;
+                    }
+
+                    WaveDataHistory.Add(minMaxs[0]);
+                    minMaxs.RemoveAt(0);
+                }
+
+                // Set percentage done
+                m_percentageDone = data.PercentageDone;
+
+                // Refresh control
+                //Refresh();
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// This event is called when the peak file generation is done.
+        /// </summary>
+        /// <param name="data">Peak file done data</param>
+        protected void m_peakFile_OnProcessDone(PeakFileDoneData data)
+        {
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                // Stop timer
+                m_timer.Stop();
+                m_isLoading = false;
+
+                // Reset scrollbar
+                m_scrollX = 0;
+
+                // Do a last refresh
+                needToRefreshBitmapCache = true;
+                Refresh();
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }
+        }
+
         /// <summary>
         /// Load a new wave form into the control.
         /// </summary>
         /// <param name="filePath">File path of the audio file</param>
         public void LoadWaveForm(string filePath)
         {
-            // TODO: Add header to find out the version of the peak file.
-            //       Also add a length at the beginning or a marker at the end to determine if the peak file has 
-            //       been generated successfully (maybe it has been interrupted during generation).
-
-            // Check if a wave form is already loading
-            if (m_workerWaveForm.IsBusy)
-            {
-                return;
-
-                // Cancel the operation asynchronously
-                //m_workerWaveForm.CancelAsync();
-            }
-
             // Reset scroll
             m_scrollX = 0;
             horizontalScrollBar.Value = 0;
@@ -895,18 +978,9 @@ namespace MPfm.WindowsControls
             WaveDataHistory.Clear();
             m_isLoading = true;
 
-            // Generate peak file
+            // Generate peak file and start timer for updating progress
             m_peakFile.GeneratePeakFile(filePath, peakFilePath);
-
-
-            //// Build the background worker argument
-            //WorkerWaveFormArgument arg = new WorkerWaveFormArgument();
-            //arg.AudioFilePath = filePath;
-            //arg.PeakFilePath = peakFilePath;
-
-            //// Start background worker and timer for updating progress
-            //m_workerWaveForm.RunWorkerAsync(arg);
-            //m_timer.Start();
+            m_timer.Start();
         }
 
         /// <summary>
@@ -915,371 +989,8 @@ namespace MPfm.WindowsControls
         public void CancelWaveFormLoading()
         {
             // Cancel the operation asynchronously
-            m_workerWaveForm.CancelAsync();
-        }
-
-        #endregion
-
-        #region Background Worker for Writing Peak Files
-
-        /// <summary>
-        /// Occurs when the background worker for generating the wave form for Markers & Loops has started its work.
-        /// Decompresses an audio file (if needed) and extracts PCM data using FMOD. Generates peak information for wave form display.
-        /// Writes a peak file to the configured directory.        
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void m_workerWaveForm_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // Get argument
-            WorkerWaveFormArgument arg = (WorkerWaveFormArgument)e.Argument;
-
-            // Check if the argument is valid
-            if(arg == null)
-            {
-                return;
-            }
-
-            // Generate peak file
-            //PeakFile.GeneratePeakFile(arg.AudioFilePath, arg.PeakFilePath, Stuffs);
-
-            //// Declare variables
-            //FMOD.RESULT result = FMOD.RESULT.OK;
-            //FileStream fileStream = null;
-            //BinaryWriter binaryWriter = null;
-            //GZipStream gzipStream = null;
-            //bool generatePeakFile = false;
-            //int CHUNKSIZE = 0;
-            //uint length = 0;
-            //uint read = 0;
-            //uint bytesread = 0;
-            //Int16[] left16BitArray = null;
-            //Int16[] right16BitArray = null;
-            //Int32[] left32BitArray = null;
-            //Int32[] right32BitArray = null;
-            //float[] floatLeft = null;
-            //float[] floatRight = null;
-            //byte[] buffer = null;
-            //IntPtr data = new IntPtr(); // initialized properly later
-            //WaveDataMinMax minMax = null;
-
-            //try
-            //{
-            //    // Set current file directory
-            //    m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
-
-            //    // Get file name from argument
-            //    string fileName = (string)e.Argument;
-
-            //    // Create sound system with NOSOUND
-            //    MPfm.Sound.FMODWrapper.System soundSystem = new MPfm.Sound.FMODWrapper.System(FMOD.OUTPUTTYPE.NOSOUND, string.Empty);
-
-            //    // Create sound
-            //    MPfm.Sound.FMODWrapper.Sound sound = soundSystem.CreateSound(fileName, false);
-
-            //    // Get sound format; specifically bits per sample (changes the calculations later)
-            //    SoundFormat soundFormat = sound.GetSoundFormat();               
-
-            //    // Get the length of the file in PCM bytes               
-            //    sound.BaseSound.getLength(ref length, FMOD.TIMEUNIT.PCMBYTES);                
-
-            //    // Check if the folder for peak files exists
-            //    if (!Directory.Exists(PeakFileDirectory))
-            //    {
-            //        // Create directory
-            //        Directory.CreateDirectory(PeakFileDirectory);
-            //    }
-
-            //    // Generate the file name for the peak file by using the full path without special characters
-            //    string peakFilePath = PeakFileDirectory + fileName.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
-
-            //    // Check if peak file exists                
-            //    if(!File.Exists(peakFilePath))
-            //    {
-            //        // Set flag
-            //        generatePeakFile = true;
-
-            //        // Create peak file
-            //        fileStream = new FileStream(peakFilePath, FileMode.Create, FileAccess.Write);
-            //        binaryWriter = new BinaryWriter(fileStream);
-            //        gzipStream = new GZipStream(fileStream, CompressionMode.Compress);                   
-            //    }
-
-            //    // Check the bits per sample to determine what chunk size to get                
-            //    if (soundFormat.BitsPerSample == 16)
-            //    {
-            //        // 4096 bytes for 16-bit PCM data
-            //        CHUNKSIZE = 4096;
-
-            //        //int blockSize = 3 * channels * (sampleRate / 10);
-            //        //CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 10);
-            //    }
-            //    else if (soundFormat.BitsPerSample == 24)
-            //    {
-            //        //CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 10);
-            //        CHUNKSIZE = 3 * soundFormat.Channels * (soundFormat.Frequency / 100);
-            //    }
-
-            //    // Create buffer
-            //    data = Marshal.AllocHGlobal(CHUNKSIZE);
-            //    buffer = new byte[CHUNKSIZE];
-
-            //    // Loop through file using chunk size
-            //    do
-            //    {
-            //        // Check for cancel
-            //        if (m_workerWaveForm.CancellationPending)
-            //        {
-            //            return;
-            //        }
-
-            //        // Check the bits per sample
-            //        if (soundFormat.BitsPerSample == 16)
-            //        {
-            //            // Read data chunk (4096 bytes for 16-bit PCM data)
-            //            result = sound.BaseSound.readData(data, (uint)CHUNKSIZE, ref read);                        
-            //            Marshal.Copy(data, buffer, 0, CHUNKSIZE);
-            //            bytesread += read;
-
-            //            // Is freehglobal needed? it crashes after one use.
-            //            //Marshal.FreeHGlobal(data);
-
-            //            // The data we're reading is stored in bytes (8-bit); we must take two 8-bit values and convert them into a 16-bit value.
-            //            //
-            //            // The PCM data is stored by alternating left and right channel values. For a 16-bit file, this data for a sample looks like this:
-            //            // (8-bit left, high value)(8-bit left, low value)(8-bit right, high value)(8-bit right, low value)
-
-            //            // Loop through every sample (each sample has 4 8-bit words, so increment by 4 to store values in the 16-bit arrays)
-            //            left16BitArray = new Int16[buffer.Length / 4];
-            //            right16BitArray = new Int16[buffer.Length / 4];                        
-            //            for (int i = 0; i < buffer.Length; i = i + 4)
-            //            {
-            //                // Convert values to 16-bit
-            //                left16BitArray[i / 4] = BitConverter.ToInt16(buffer, i);
-            //                right16BitArray[i / 4] = BitConverter.ToInt16(buffer, i + 2); // alternate between left and right channel
-            //            }
-
-            //            // Convert the short arrays to float arrays (signed values)
-            //            // This will convert the -32768 to 32768 value range to -1 to 1 (useful for wave display) 
-            //            floatLeft = new float[left16BitArray.Length];
-            //            floatRight = new float[left16BitArray.Length];
-            //            for (int i = 0; i < left16BitArray.Length; i++)
-            //            {
-            //                // 16-bit data for unsigned values range from 0 to 65536.
-            //                floatLeft[i] = left16BitArray[i] / 65536.0f;
-            //                floatRight[i] = right16BitArray[i] / 65536.0f;                            
-            //            }
-            //        }
-            //        else if (soundFormat.BitsPerSample == 24)
-            //        {
-            //            // Read data chunk (4096 bytes for 16-bit PCM data)
-            //            result = sound.BaseSound.readData(data, (uint)CHUNKSIZE, ref read);                        
-            //            Marshal.Copy(data, buffer, 0, CHUNKSIZE);
-            //            bytesread += read;
-
-            //            // Is freehglobal needed? it crashes after one use.
-            //            //Marshal.FreeHGlobal(data);
-
-            //            // The data we're reading is stored in bytes (8-bit); we must take three 8-bit values and convert them into a 24-bit value.
-            //            // However, since there are no 24-bit variables, the values must be stored in a 32-bit array.
-            //            //
-            //            // The PCM data is stored by alternating left and right channel values. For a 24-bit file, this data for a sample looks like this:
-            //            // (8-bit left, value 1)(8-bit left, value 2)(8-bit left, value 3)(8-bit right, value 1)(8-bit right, value 2)(8-bit right, value 3)
-
-            //            // This article talks about converting 3 bytes into a 24-bit value, using a 32-bit variable.
-            //            // http://stackoverflow.com/questions/3345553/how-do-you-convert-3-bytes-into-a-24-bit-number-in-c
-
-            //            // Convert the byte array into a short (16-bit) array
-            //            // Loop through every sample (each sample has 6 8-bit words, so increment by 6 to store values in the 32-bit arrays)
-            //            left32BitArray = new Int32[buffer.Length / 6];
-            //            right32BitArray = new Int32[buffer.Length / 6];
-            //            for (int i = 0; i < buffer.Length; i = i + 6)
-            //            {
-            //                try
-            //                {
-            //                    // Create smaller array in order to add the 4th 8-bit value
-            //                    byte[] byteArrayLeft = new byte[4] { buffer[i], buffer[i + 1], buffer[i + 2], 0 };
-            //                    byte[] byteArrayRight = new byte[4] { buffer[i + 3], buffer[i + 4], buffer[i + 5], 0 };
-
-            //                    // Convert values to 32-bit variables
-            //                    left32BitArray[i / 6] = BitConverter.ToInt32(byteArrayLeft, 0);
-            //                    right32BitArray[i / 6] = BitConverter.ToInt32(byteArrayRight, 0);
-            //                }
-            //                catch (Exception ex)
-            //                {
-            //                    throw ex;
-            //                }
-            //            }
-
-            //            // Convert the short arrays to float arrays
-            //            floatLeft = new float[left32BitArray.Length];
-            //            floatRight = new float[left32BitArray.Length];
-            //            for (int i = 0; i < left32BitArray.Length; i++)
-            //            {
-            //                // 24-bit data for unsigned values range from 0 to 16777215.
-            //                floatLeft[i] = left32BitArray[i] / 16777215.0f;
-            //                floatRight[i] = right32BitArray[i] / 16777215.0f;                            
-            //            }
-            //        }
-
-            //        // Calculate min/max
-            //        minMax = AudioTools.GetMinMaxFromWaveData(floatLeft, floatRight, false);
-            //        WaveDataHistory.Add(minMax);
-
-            //        // Report progress
-            //        m_bytesRead = bytesread;
-            //        m_totalPCMBytes = length;
-            //        m_percentageDone = ((float)bytesread / (float)length) * 100;
-
-            //        // Write peak information to hard disk
-            //        if (generatePeakFile)
-            //        {
-            //            // Write peak information
-            //            binaryWriter.Write((double)minMax.leftMin);
-            //            binaryWriter.Write((double)minMax.leftMax);
-            //            binaryWriter.Write((double)minMax.rightMin);
-            //            binaryWriter.Write((double)minMax.rightMax);
-            //            binaryWriter.Write((double)minMax.mixMin);
-            //            binaryWriter.Write((double)minMax.mixMax);
-            //        }
-
-            //        //// Report progress
-            //        //WorkerWaveFormProgress progress = new WorkerWaveFormProgress();
-            //        //progress.BytesRead = bytesread;
-            //        //progress.TotalBytes = length;
-            //        //progress.PercentageDone = ((float)bytesread / (float)length) * 100;
-            //        //progress.WaveDataMinMax = minMax;
-            //        //m_workerWaveForm.ReportProgress(0, progress);
-
-            //        // TODO: GC Collect here?                    
-            //    }
-            //    while (result == FMOD.RESULT.OK && read == CHUNKSIZE);
-
-            //    // Release sound from memory
-            //    sound.Release();
-
-            //    // Close sound system and release from memory
-            //    soundSystem.Close();
-            //    soundSystem.Release();
-
-            //    // Set nulls for garbage collection               
-            //    sound = null;
-            //    soundSystem = null;
-            //    left16BitArray = null;
-            //    right16BitArray = null;
-            //    left32BitArray = null;
-            //    right32BitArray = null;
-            //    floatLeft = null;
-            //    floatRight = null;                
-            //    buffer = null;
-            //    minMax = null;
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Return exception
-            //    e.Result = ex;                
-            //}
-            //finally
-            //{
-            //    // Did we have to generate a peak file?
-            //    if (generatePeakFile)
-            //    {
-            //        // Close writer and stream
-            //        gzipStream.Close();
-            //        binaryWriter.Close();                   
-            //        fileStream.Close();
-
-            //        // Set nulls
-            //        gzipStream = null;
-            //        binaryWriter = null;
-            //        fileStream = null;
-            //    }
-            //}
-
-            //// Call garbage collector
-            ////GC.Collect();
-        }
-
-        /// <summary>
-        /// Occurs when the background worker for generating the wave form for Markers & Loops has finished its work.
-        /// Updates the wave form display.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void m_workerWaveForm_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            // Stop timer
-            m_timer.Stop();
-            m_isLoading = false;
-
-            // Reset scrollbar
-            m_scrollX = 0;
-            //horizontalScrollBar.Value = 0;
-
-            // Check if the result is an exception
-            if (e.Result is Exception)
-            {
-                // Cast into exception
-                Exception ex = (Exception)e.Result;
-
-                // Show dialog box
-                MessageBox.Show("An error has occured while reading the audio file to generate the peak file.\n\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error generating peak file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                return;
-            }
-
-            // Do a last refresh
-            needToRefreshBitmapCache = true;
-            Refresh();
-
-            //if (e.Cancelled)
-            //{
-            //    // Check if another call is pending
-            //    waveFormMarkersLoops.WaveDataHistory.Clear();
-            //    workerWaveFormMarkerLoops.RunWorkerAsync(dialogOpenFile.FileName);
-            //    timerWaveFormLoopsMarkers.Enabled = true;
-            //}
-
-            //waveFormMarkersLoops.IsLoading = false;
-            //timerWaveFormLoopsMarkers.Enabled = false;
-            //waveFormMarkersLoops.Refresh();
-        }
-
-        #endregion
-
-        #region Wave Data History
-
-        /// <summary>
-        /// Block of 10ms synchronized with timerelapsed on Player.
-        /// </summary>
-        /// <param name="waveDataLeft"></param>
-        /// <param name="waveDataRight"></param>
-        public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
-        {
-            AddToHistory(AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, false));
-        }
-
-        /// <summary>
-        /// Adds a min/max wave data structure to the history.
-        /// </summary>
-        /// <param name="data">Min/max wave data structure</param>
-        private void AddToHistory(WaveDataMinMax data)
-        {
-            // Add history
-            if (WaveDataHistory.Count == 0)
-            {
-                WaveDataHistory.Add(data);
-            }
-            else
-            {
-                WaveDataHistory.Insert(0, data);
-
-                // Trim history larger than the width to render
-                if (WaveDataHistory.Count > Width)
-                {
-                    WaveDataHistory.RemoveAt(WaveDataHistory.Count - 1);
-                }
-            }
+            //m_workerWaveForm.CancelAsync();
+            m_peakFile.Cancel();
         }
 
         #endregion
@@ -1764,6 +1475,13 @@ namespace MPfm.WindowsControls
                     float x = (ClientRectangle.Width / 2) - (sizeText.Width / 2);
                     float y = (ClientRectangle.Height / 2) - (sizeText.Height / 2);
 
+                    // Draw semi transparent background                    
+                    color = Color.FromArgb(175, 0, 0, 0);
+                    brush = new SolidBrush(color);
+                    g.FillRectangle(brush, new RectangleF(x - 3, y - 3, sizeText.Width + 4, sizeText.Height + 4));
+                    brush.Dispose();
+                    brush = null;
+
                     // Draw string
                     g.DrawString(loadingText, font, Brushes.White, new PointF(x, y));
 
@@ -1787,13 +1505,8 @@ namespace MPfm.WindowsControls
                     // Check if the time display needs to be drawn
                     if (DisplayCurrentPosition)
                     {
-                        // Convert milliseconds into time string
-                        
-                        //string timePosition = Conversion.MillisecondsToTimeString(CurrentPositionMS);
-                        string timePosition = "00:00:00";
-
                         // Measure string
-                        SizeF sizeText = g.MeasureString(timePosition, Font);
+                        SizeF sizeText = g.MeasureString(PositionTime, Font);
 
                         // Check if there's enough space at the left of the cursor to display the time
                         float x = 0;
@@ -1809,16 +1522,16 @@ namespace MPfm.WindowsControls
                         }
 
                         // Draw position background
-                        color = Color.FromArgb(175, CursorColor);
+                        color = Color.FromArgb(200, CursorColor);
                         brush = new SolidBrush(color);
                         g.FillRectangle(brush, new RectangleF(x, 0, sizeText.Width + 4, sizeText.Height + 4));
                         brush.Dispose();
                         brush = null;
 
                         // Draw text
-                        color = Color.FromArgb(200, Color.White);
+                        color = Color.FromArgb(255, Color.White);
                         brush = new SolidBrush(color);
-                        g.DrawString(timePosition, Font, brush, new PointF(x + 2, 2));
+                        g.DrawString(PositionTime, Font, brush, new PointF(x + 2, 2));
                         brush.Dispose();
                         brush = null;
                     }
@@ -2441,7 +2154,7 @@ namespace MPfm.WindowsControls
                     // Create data
                     PositionChangedData data = new PositionChangedData();
                     //data.Position = position;
-                    data.Percentage = percentageCursor;
+                    data.Percentage = percentageCursor * 100;
 
                     // Raise event
                     OnPositionChanged(data);
