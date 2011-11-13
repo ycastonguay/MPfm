@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -190,6 +190,7 @@ namespace MPfm
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitFirst)).BeginInit();
             this.splitFirst.Panel1.SuspendLayout();
             this.splitFirst.Panel2.SuspendLayout();
             this.splitFirst.SuspendLayout();
@@ -207,13 +208,16 @@ namespace MPfm
             this.panelTotalTime.SuspendLayout();
             this.panelCurrentTime.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitLoopsMarkersSongBrowser)).BeginInit();
             this.splitLoopsMarkersSongBrowser.Panel1.SuspendLayout();
             this.splitLoopsMarkersSongBrowser.Panel2.SuspendLayout();
             this.splitLoopsMarkersSongBrowser.SuspendLayout();
             this.panelLoopsMarkers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitWaveFormLoopsMarkers)).BeginInit();
             this.splitWaveFormLoopsMarkers.Panel1.SuspendLayout();
             this.splitWaveFormLoopsMarkers.Panel2.SuspendLayout();
             this.splitWaveFormLoopsMarkers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitLoopsMarkers)).BeginInit();
             this.splitLoopsMarkers.Panel1.SuspendLayout();
             this.splitLoopsMarkers.Panel2.SuspendLayout();
             this.splitLoopsMarkers.SuspendLayout();
@@ -725,22 +729,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "Droid Sans Mono";
-            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
+            customFont5.AssemblyPath = "MPfm.Fonts.dll";
+            customFont5.Name = "LeagueGothic";
+            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "Junction";
+            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "TitilliumText22L Lt";
+            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "Droid Sans Mono";
+            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont5);
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
             // 
             // treeLibrary
             // 
@@ -1357,7 +1361,7 @@ namespace MPfm
             this.lblTimeShifting.Name = "lblTimeShifting";
             this.lblTimeShifting.Size = new System.Drawing.Size(42, 12);
             this.lblTimeShifting.TabIndex = 30;
-            this.lblTimeShifting.Text = "100 %";
+            this.lblTimeShifting.Text = "0 %";
             this.lblTimeShifting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // linkResetTimeShifting
@@ -1393,14 +1397,13 @@ namespace MPfm
             this.trackTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
             this.trackTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackTimeShifting.Location = new System.Drawing.Point(0, 17);
-            this.trackTimeShifting.Maximum = 150;
-            this.trackTimeShifting.Minimum = 50;
+            this.trackTimeShifting.Maximum = 50;
+            this.trackTimeShifting.Minimum = -50;
             this.trackTimeShifting.Name = "trackTimeShifting";
             this.trackTimeShifting.Size = new System.Drawing.Size(100, 20);
             this.trackTimeShifting.StepSize = 5;
             this.trackTimeShifting.TabIndex = 32;
             this.trackTimeShifting.Text = "TrackBar1";
-            this.trackTimeShifting.Value = 100;
             this.trackTimeShifting.OnTrackBarValueChanged += new MPfm.WindowsControls.TrackBar.TrackBarValueChanged(this.trackTimeShiftingNew_OnTrackBarValueChanged);
             // 
             // panelSongPosition
@@ -1684,6 +1687,7 @@ namespace MPfm
             this.waveFormMarkersLoops.GradientColor1 = System.Drawing.Color.Black;
             this.waveFormMarkersLoops.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.waveFormMarkersLoops.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.waveFormMarkersLoops.Length = ((long)(0));
             this.waveFormMarkersLoops.Location = new System.Drawing.Point(0, 0);
             this.waveFormMarkersLoops.Name = "waveFormMarkersLoops";
             this.waveFormMarkersLoops.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
@@ -2582,6 +2586,7 @@ namespace MPfm
             this.toolStripMain.PerformLayout();
             this.splitFirst.Panel1.ResumeLayout(false);
             this.splitFirst.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitFirst)).EndInit();
             this.splitFirst.ResumeLayout(false);
             this.panelLibrary.ResumeLayout(false);
             this.menuLibrary.ResumeLayout(false);
@@ -2599,13 +2604,16 @@ namespace MPfm
             ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).EndInit();
             this.splitLoopsMarkersSongBrowser.Panel1.ResumeLayout(false);
             this.splitLoopsMarkersSongBrowser.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitLoopsMarkersSongBrowser)).EndInit();
             this.splitLoopsMarkersSongBrowser.ResumeLayout(false);
             this.panelLoopsMarkers.ResumeLayout(false);
             this.splitWaveFormLoopsMarkers.Panel1.ResumeLayout(false);
             this.splitWaveFormLoopsMarkers.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitWaveFormLoopsMarkers)).EndInit();
             this.splitWaveFormLoopsMarkers.ResumeLayout(false);
             this.splitLoopsMarkers.Panel1.ResumeLayout(false);
             this.splitLoopsMarkers.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitLoopsMarkers)).EndInit();
             this.splitLoopsMarkers.ResumeLayout(false);
             this.panelSongBrowser.ResumeLayout(false);
             this.panelSongBrowserToolbar.ResumeLayout(false);

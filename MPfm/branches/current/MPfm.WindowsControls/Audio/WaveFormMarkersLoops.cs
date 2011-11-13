@@ -51,6 +51,11 @@ namespace MPfm.WindowsControls
         #region Private variables
 
         /// <summary>
+        /// Defines the X position of the cursor.
+        /// </summary>
+        private float m_cursorX = 0.0f;
+
+        /// <summary>
         /// PeakFile instance used for generating and reading peak files.
         /// </summary>
         private PeakFile m_peakFile = null;
@@ -285,10 +290,6 @@ namespace MPfm.WindowsControls
             {
                 return m_position;
             }
-            set
-            {
-                m_position = value;
-            }
         }
 
         private string m_positionTime = "00:00.000";
@@ -302,10 +303,6 @@ namespace MPfm.WindowsControls
             get
             {
                 return m_positionTime;
-            }
-            set
-            {
-                m_positionTime = value;
             }
         }
 
@@ -1008,7 +1005,12 @@ namespace MPfm.WindowsControls
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
-                Refresh();
+                // Make sure the wave form is loading
+                if (m_isLoading)
+                {
+                    // Refresh the whole control
+                    Refresh();
+                }
             };
 
             // Check if invoking is necessary
@@ -1025,6 +1027,29 @@ namespace MPfm.WindowsControls
         #endregion
 
         #region Paint Events
+
+        /// <summary>
+        /// Sets the position of the cursor and invalidates the cursor area.
+        /// </summary>
+        /// <param name="positionBytes">Position (in bytes)</param>
+        /// <param name="positionTime">Position (in 00:00.000 string format)</param>
+        public void SetPosition(long positionBytes, string positionTime)
+        {
+            // Set position properties
+            m_position = positionBytes;
+            m_positionTime = positionTime;
+
+            // Make sure the peak file isn't generating
+            if (m_isLoading)
+            {
+                return;
+            }
+
+            // Invalidate part of the control and update
+            Rectangle rect = new Rectangle((int)m_cursorX - 50, 0, 100, ClientRectangle.Height);
+            Invalidate(rect);
+            Update();            
+        }
 
         /// <summary>
         /// Occurs when the control needs to be painted.
@@ -1418,6 +1443,9 @@ namespace MPfm.WindowsControls
                         xCursor = (positionPercentage * widthAvailable) - ScrollX;
                     }
                 }
+
+                // Set cursor X
+                m_cursorX = xCursor;
 
                 // Draw bitmap for control
                 Bitmap bmp = new Bitmap(Bounds.Width, Bounds.Height);

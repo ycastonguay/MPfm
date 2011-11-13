@@ -826,15 +826,6 @@ namespace MPfm
                 // Show distortion warning "LED"
                 picDistortionWarning.Visible = true;
             }
-
-            ////if (Player != null && Player.IsPlaying)
-            ////{
-            ////    outputMeter.Refresh();
-
-            if (!waveFormMarkersLoops.IsLoading)
-            {
-                waveFormMarkersLoops.Refresh();
-            }            
         }
 
         /// <summary>
@@ -853,15 +844,26 @@ namespace MPfm
             }
 
             // Get position
-            long positionBytes = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
-            string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);
+            //long positionBytes = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
+            long positionBytes = m_playerV4.GetPosition();
+
+            // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
+            float ratioPosition = (float)44100 / (float)m_playerV4.Playlist.CurrentItem.AudioFile.SampleRate;
+            positionBytes = (int)((float)positionBytes * ratioPosition);
+            
+            //string position = ConvertAudio.ToTimeString(positionBytes, (uint)m_playerV4.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)m_playerV4.Playlist.CurrentItem.Channel.SampleRate);
+            //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_playerV4.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
             long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+            long positionMS = (int)ConvertAudio.ToMS(positionSamples, 44100);
+            string position = Conversion.MillisecondsToTimeString((ulong)positionMS);
+            //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
 
             // Set UI            
             lblCurrentTime.Text = position;
             lblTotalTime.Text = m_playerV4.Playlist.CurrentItem.LengthString;
-            waveFormMarkersLoops.Position = positionBytes;
-            waveFormMarkersLoops.PositionTime = position;
+            //waveFormMarkersLoops.Position = positionBytes;
+            //waveFormMarkersLoops.PositionTime = position;
+            waveFormMarkersLoops.SetPosition(positionBytes, position);
 
             // Update the song position
             if (!songPositionChanging)
@@ -991,162 +993,6 @@ namespace MPfm
             }
 
         }
-
-        /// <summary>
-        /// Occurs when the Player has finished playing an audio file.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        private void m_player_OnSongFinished(SongFinishedData data)
-        {
-            //// If the initialization isn't finished, exit this event
-            //if (!IsInitDone)
-            //{
-            //    return;
-            //}
-
-            //// Invoke UI updates
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    // Need to update song information
-            //    if (data != null && data.NextSong != null)
-            //    {
-            //        // Refresh song information                    
-            //        RefreshSongInformation(data.NextSong.Song.FilePath);
-
-            //        // Set the play icon in the song browser
-            //        RefreshSongBrowserPlayIcon(data.NextSong.Song.SongId);
-
-            //        // Refresh play icon in playlist
-            //        formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
-
-            //        // Set next song in configuration                    
-            //        Config.SongQuerySongId = data.NextSong.Song.SongId.ToString();
-
-            //        // Refresh loops & markers
-            //        RefreshMarkers();
-            //        RefreshLoops();
-
-            //        // Refresh play count
-            //        SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == data.CurrentSong.Song.SongId);
-            //        if (item != null)
-            //        {
-            //            // Set updated data
-            //            SongDTO updatedSong = Player.Library.SelectSong(data.CurrentSong.Song.SongId);
-            //            item.Song = updatedSong;
-            //        }
-
-            //        Refresh();
-
-            //        //foreach (ListViewItem item in viewSongs.Items)
-            //        //{
-            //        //    // Get song from tag                        
-            //        //    SongDTO song = (SongDTO)item.Tag;
-
-            //        //    // If song is valid...
-            //        //    if (song != null && song.SongId == data.CurrentSong.Song.SongId)
-            //        //    {
-            //        //        // Get updated song
-            //        //        SongDTO updatedSong = Player.Library.SelectSong(song.SongId);
-            //        //        item.SubItems[6].Text = updatedSong.PlayCount.Value.ToString();
-            //        //        item.SubItems[7].Text = updatedSong.LastPlayed.ToString();
-            //        //        break;
-            //        //    }
-            //        //}                    
-            //    }
-            //};
-
-            //// Check if invoking is necessary
-            //if (InvokeRequired)
-            //{
-            //    BeginInvoke(methodUIUpdate);
-            //}
-            //else
-            //{
-            //    methodUIUpdate.Invoke();
-            //}
-        }       
-
-        ///// <summary>
-        ///// Occurs when the Player has played about 10ms of audio. This event
-        ///// refreshes the time display, output meter, wave form display, etc.
-        ///// </summary>
-        ///// <param name="data">Event data</param>
-        //private void m_player_OnTimerElapsed(TimerElapsedData data)
-        //{
-        //    if (!IsInitDone)
-        //    {
-        //        return;
-        //    }
-
-        //    // Invoke UI updates
-        //    MethodInvoker methodUIUpdate = delegate
-        //    {
-        //        //// Check if player is playing
-        //        //if (!Player.IsPlaying)
-        //        //{
-        //        //    // Nothing to update
-        //        //    return;
-        //        //}
-
-        //        //// debug
-        //        ////lblBitrateTitle.Text = data.Debug;
-        //        ////lblFrequencyTitle.Text = data.Debug2;
-        //        ////lblBitrateTitle.Text = Player.CurrentPlaylist.Position.ToString();
-
-        //        //// Update current time               
-        //        //string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
-        //        //lblCurrentTime.Text = currentTime;
-
-        //        ////lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
-
-        //        //// Update data for Loops & Markers wave form display
-        //        //waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
-        //        //waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;
-
-        //        //// Update wave form control
-        //        //formVisualizer.waveForm.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
-
-        //        //// Get minmax data from wave data
-        //        ////WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(data.WaveDataLeft, data.WaveDataRight, true);
-
-        //        //// Add raw wave data to control
-        //        //outputMeter.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
-
-        //        //// Get min max info from wave block
-        //        //if (AudioTools.CheckForDistortion(data.WaveDataLeft, data.WaveDataRight, true, 0.0f))
-        //        //{
-        //        //    // Show distortion warning "LED"
-        //        //    picDistortionWarning.Visible = true;
-        //        //}
-
-        //        ////double rms = System.Math.Sqrt(doubleSum / 256);
-
-        //        //// Update the song position
-        //        //if (!songPositionChanging)
-        //        //{
-        //        //    // Do not go beyong 99% or the song might end before!
-        //        //    if (data.SongPositionPercentage <= 99)
-        //        //    {                        
-        //        //        trackPosition.Value = Convert.ToInt32(data.SongPositionPercentage * 10);
-        //        //    }
-
-        //        //    // Set time on seek control
-        //        //    lblSongPosition.Text = currentTime;
-        //        //    lblSongPercentage.Text = data.SongPositionPercentage.ToString("0.00") + " %";
-        //        //}
-
-        //    };
-
-        //    // Check if invoking is necessary
-        //    if (InvokeRequired)
-        //    {
-        //        BeginInvoke(methodUIUpdate);
-        //    }
-        //    else
-        //    {
-        //        methodUIUpdate.Invoke();
-        //    }
-        //}
 
         #endregion
 
@@ -1736,7 +1582,7 @@ namespace MPfm
                 lblFrequency.Text = m_playerV4.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
 
                 // Set the song length for the Loops & Markers wave form display control
-                waveFormMarkersLoops.Position = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
+                //waveFormMarkersLoops.Position = m_playerV4.Playlist.CurrentItem.Channel.GetPosition();
                 waveFormMarkersLoops.Length = m_playerV4.Playlist.CurrentItem.Channel.GetLength();
 
                 // Load the wave form                
@@ -2213,11 +2059,11 @@ namespace MPfm
         /// <param name="e"></param>
         private void trackTimeShiftingNew_OnTrackBarValueChanged()
         {
-            //double multiplier = 1 / ((double)trackTimeShifting.Value / 100);
+            double multiplier = 1 / ((double)trackTimeShifting.Value / 100);
 
-            //lblTimeShifting.Text = trackTimeShifting.Value.ToString() + " %";
+            lblTimeShifting.Text = trackTimeShifting.Value.ToString() + " %";
 
-            //Player.TimeShifting = trackTimeShifting.Value;
+            PlayerV4.TimeShifting = trackTimeShifting.Value;
         }
 
 
@@ -2232,15 +2078,14 @@ namespace MPfm
             Config.Volume = faderVolume.Value;
         }
 
-
         /// <summary>
-        /// This button resets the time shifting value to 100%.
+        /// This button resets the time shifting value to 0%.
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
         private void linkResetTimeShifting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            trackTimeShifting.Value = 100;
+            trackTimeShifting.Value = 0;
         }
 
         /// <summary>
@@ -2250,14 +2095,14 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkEditSongMetadata_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //// Check for null
-            //if (Player.CurrentSong == null)
-            //{
-            //    return;
-            //}
+            // Check for null
+            if (!PlayerV4.IsPlaying)
+            {
+                return;
+            }
 
-            //// Open window
-            //EditSongMetadata(Player.CurrentSong.FilePath);
+            // Open window
+            EditSongMetadata(PlayerV4.Playlist.CurrentItem.FilePath);
         }
 
         /// <summary>
@@ -2299,10 +2144,11 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkSearchGuitarTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //if (Player.CurrentSong != null)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+guitar+tab");
-            //}
+            // Make sure the player is playing
+            if (PlayerV4 != null && PlayerV4.IsPlaying)
+            {
+                Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.Title) + "+guitar+tab");
+            }
         }
 
         /// <summary>
@@ -2313,10 +2159,11 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkSearchBassTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //if (Player.CurrentSong != null)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+bass+tab");
-            //}
+            // Make sure the player is playing
+            if (PlayerV4 != null && PlayerV4.IsPlaying)
+            {
+                Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.Title) + "+bass+tab");
+            }
         }
 
         /// <summary>
@@ -2327,10 +2174,11 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void linkSearchLyrics_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //if (Player.CurrentSong != null)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.CurrentSong.ArtistName) + "+" + HttpUtility.UrlEncode(Player.CurrentSong.Title) + "+lyrics");
-            //}
+            // Make sure the player is playing
+            if (PlayerV4 != null && PlayerV4.IsPlaying)
+            {
+                Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.Title) + "+lyrics");
+            }
         }
 
         /// <summary>
@@ -2341,10 +2189,11 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void picAlbum_MouseClick(object sender, MouseEventArgs e)
         {
-            //if (Player.CurrentSong != null)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + Player.CurrentSong.ArtistName + "+" + Player.CurrentSong.AlbumTitle + "+album+cover");
-            //}
+            // Make sure the player is playing
+            if (PlayerV4 != null && PlayerV4.IsPlaying)
+            {
+                Process.Start("http://www.google.ca/imghp?q=" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(PlayerV4.Playlist.CurrentItem.AudioFile.AlbumTitle));
+            }
         }
 
         #endregion  

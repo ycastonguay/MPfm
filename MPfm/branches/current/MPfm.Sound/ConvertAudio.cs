@@ -35,14 +35,14 @@ namespace MPfm.Sound
         /// Converts a position in bytes to time string. Requires several parameters to work.
         /// </summary>
         /// <param name="positionBytes">Position (in bytes)</param>
-        /// <param name="bitsPerChannel">Bits per channel (ex: 16 for 16-bit)</param>
+        /// <param name="bitsPerSample">Bits per sample (ex: 16 for 16-bit)</param>
         /// <param name="channelCount">Channel count (ex: 2 for stereo)</param>
         /// <param name="sampleRate">Sample rate (ex: 44100 for 44100Hz)</param>
         /// <returns>Position in time string (00:00.000)</returns>
-        public static string ToTimeString(long positionBytes, uint bitsPerChannel, int channelCount, uint sampleRate)
+        public static string ToTimeString(long positionBytes, uint bitsPerSample, int channelCount, uint sampleRate)
         {
             // Convert values
-            long positionSamples = ConvertAudio.ToPCM(positionBytes, bitsPerChannel, channelCount);
+            long positionSamples = ConvertAudio.ToPCM(positionBytes, bitsPerSample, channelCount);
             long positionMS = ConvertAudio.ToMS(positionSamples, sampleRate);
             return Conversion.MillisecondsToTimeString((ulong)positionMS);
         }
@@ -58,9 +58,9 @@ namespace MPfm.Sound
             return ms * (sampleRate / 1000);
         }
 
-        public static long ToPCM(long bytes, uint bitRate, int channelCount)
+        public static long ToPCM(long bytes, uint bitsPerSample, int channelCount)
         {
-            return bytes * 8 / bitRate / channelCount;
+            return bytes * 8 / bitsPerSample / channelCount;
         }
 
         /// <summary>

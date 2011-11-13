@@ -122,6 +122,35 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Private value for the SampleRate property.
+        /// </summary>
+        private int m_sampleRate = 0;
+        /// <summary>
+        /// Defines the sample rate used for the channel.
+        /// To fetch the "live" sample rate, use GetSampleRate().
+        /// To set the sample rate, use SetSampleRate(). This will also set this value.
+        /// </summary>
+        public int SampleRate
+        {
+            get
+            {
+                if (m_sampleRate == 0)
+                {
+                    try
+                    {
+                        m_sampleRate = GetSampleRate();
+                    }
+                    catch
+                    {
+                        // Leave to 0
+                    }
+                }
+
+                return m_sampleRate;
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -174,7 +203,7 @@ namespace MPfm.Sound.BassNetWrapper
             }
 
             // Return new channel instance
-            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint);
+            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency };
         }
 
         /// <summary>
@@ -338,6 +367,20 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error
                 Base.CheckForError();
             }
+        }
+
+        public int GetSampleRate()
+        {
+            float sampleRate = 0;
+            GetAttribute(BASSAttribute.BASS_ATTRIB_FREQ, ref sampleRate);
+            m_sampleRate = (int)sampleRate;
+            return m_sampleRate;
+        }
+
+        public void SetSampleRate(int sampleRate)
+        {
+            m_sampleRate = (int)sampleRate;
+            SetAttribute(BASSAttribute.BASS_ATTRIB_FREQ, (float)sampleRate);
         }
 
         /// <summary>

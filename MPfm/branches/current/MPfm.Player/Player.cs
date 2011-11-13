@@ -692,6 +692,12 @@ namespace MPfm.Player.PlayerV4
                     channelsToLoad = 2;
                 }
 
+                // Check for channels to load
+                if (channelsToLoad == 0)
+                {
+                    throw new Exception("Error in PlayerV4.Play: There aren't any channels to play!");
+                }
+
                 // Load the current channel and the next channel if it exists
                 for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
                 {
@@ -1031,6 +1037,22 @@ namespace MPfm.Player.PlayerV4
                 // Go to next audio file
                 GoTo(Playlist.CurrentItemIndex + 1);
             }            
+        }
+        
+        /// <summary>
+        /// Gets the position of the currently playing channel, in bytes.
+        /// </summary>
+        /// <returns>Position (in bytes)</returns>
+        public long GetPosition()
+        {
+            // Validate player
+            if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
+            {
+                return 0;
+            }
+
+            // Get position
+            return Playlist.CurrentItem.Channel.GetPosition();
         }
 
         /// <summary>

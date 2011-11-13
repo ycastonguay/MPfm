@@ -100,6 +100,22 @@ namespace MPfm.Sound
 			}
 		}
 
+        /// <summary>
+        /// Private value for the BitsPerSample property.
+        /// </summary>
+        private int m_bitsPerSample = 0;
+
+        /// <summary>
+        /// Audio bits per sample. Usually 16-bit or 24-bit.
+        /// </summary>
+        public int BitsPerSample
+        {
+            get
+            {
+                return m_bitsPerSample;
+            }
+        }
+
 		/// <summary>
 		/// Private value for the ChannelMode property.
 		/// </summary>
@@ -326,6 +342,7 @@ namespace MPfm.Sound
 						m_frameLength = header.AudioFrameLength;
 						m_audioLayer = header.AudioLayer;
 						m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = 16; // always 16-bit
 						m_channelMode = header.ChannelMode;
 						m_duration = header.Duration;
                         m_bitrate = header.AudioBitrate;
@@ -374,9 +391,10 @@ namespace MPfm.Sound
 
 					// Copy properties
 					m_bitrate = header.AudioBitrate;
-					m_audioChannels = header.AudioChannels;                                              
-					m_sampleRate = header.AudioSampleRate;                    
-					m_duration = header.Duration;                    
+					m_audioChannels = header.AudioChannels;
+					m_sampleRate = header.AudioSampleRate;
+                    m_bitsPerSample = header.BitsPerSample;
+					m_duration = header.Duration;
 				}
 			}
 			else if (m_fileType == AudioFileType.OGG)
@@ -413,6 +431,7 @@ namespace MPfm.Sound
 						m_bitrate = header.AudioBitrate;
 						m_audioChannels = header.AudioChannels;
 						m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = 16;
 						m_duration = header.Duration;
 					}
 				}
