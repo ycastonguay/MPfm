@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
+using MPfm.Player;
 
 namespace TestControls
 {

@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
+using MPfm.Player;
 using MPfm.Sound;
 using MPfm.WindowsControls;
 

@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Library;
+using MPfm.Player;
 
 namespace MPfm.WindowsControls
 {

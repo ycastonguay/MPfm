@@ -21,7 +21,6 @@
 
 using System;
 using MPfm.Core;
-using MPfm.Library;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;

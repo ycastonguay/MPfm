@@ -29,6 +29,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using MPfm.Core;
+using MPfm.Player;
 
 namespace MPfm.Library
 {

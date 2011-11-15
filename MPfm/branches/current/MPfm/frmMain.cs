@@ -44,6 +44,7 @@ using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
+using MPfm.Player;
 using MPfm.Player.PlayerV4;
 
 namespace MPfm

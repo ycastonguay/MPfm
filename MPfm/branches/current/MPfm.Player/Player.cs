@@ -27,7 +27,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using MPfm.Core;
-using MPfm.Library;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
@@ -1126,7 +1125,7 @@ namespace MPfm.Player.PlayerV4
         public void GoToMarker(Marker marker)
         {
             // Set current song position
-            Playlist.CurrentItem.Channel.SetPosition(marker.Position);
+            Playlist.CurrentItem.Channel.SetPosition(marker.PositionBytes);
         }
 
         /// <summary>
@@ -1137,10 +1136,10 @@ namespace MPfm.Player.PlayerV4
         {
             // Set loop sync proc            
             Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
-            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.Position, Playlist.CurrentItem.SyncProc);
+            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.PositionBytes, Playlist.CurrentItem.SyncProc);
 
             // Set current song position to marker A
-            Playlist.CurrentItem.Channel.SetPosition(loop.MarkerA.Position);
+            Playlist.CurrentItem.Channel.SetPosition(loop.MarkerA.PositionBytes);
 
             // Set current loop
             m_currentLoop = loop;
@@ -1541,7 +1540,7 @@ namespace MPfm.Player.PlayerV4
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
             // Set loop position
-            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.Position);
+            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.PositionBytes);
         }
 
         #endregion

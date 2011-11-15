@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Player;
 
 namespace MPfm.Library
 {

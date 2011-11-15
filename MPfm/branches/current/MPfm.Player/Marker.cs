@@ -18,25 +18,56 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace MPfm.Player.PlayerV4
 {
     /// <summary>
-    /// Defines a marker to be used with PlayerV4
+    /// Defines a Marker, which points to a specific position in an audio file.
+    /// Loops are made of two markers.
     /// </summary>
     public class Marker
     {
+        /// <summary>
+        /// Marker unique identifier (for database storage).
+        /// </summary>
+        public Guid MarkerId { get; set; }
+        /// <summary>
+        /// Relationship to the Song unique identifier (for database storage).
+        /// </summary>
+        public Guid SongId { get; set; }
+        /// <summary>
+        /// Name.
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Comments.
+        /// </summary>
         public string Comments { get; set; }
-        public long Position { get; set; }
+        /// <summary>
+        /// Position (in bytes).
+        /// </summary>
+        public long PositionBytes { get; set; }
+        /// <summary>
+        /// Position (in milliseconds).
+        /// </summary>
+        public int PositionMS { get; set; }
 
         /// <summary>
         /// Default constructor for the Marker class.
         /// </summary>
         public Marker()
         {
-            Position = 0;
+            // Set default values
+            MarkerId = Guid.NewGuid();
+            SongId = Guid.Empty;
             Name = string.Empty;
             Comments = string.Empty;
+            PositionBytes = 0;
+            PositionMS = 0;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using MPfm.Library;
+using MPfm.Player;
 
 namespace MPfm.WindowsControls
 {

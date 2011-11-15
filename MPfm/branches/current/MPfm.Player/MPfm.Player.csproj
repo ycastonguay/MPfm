@@ -45,10 +45,6 @@
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
-      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
-      <Name>MPfm.Library</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>
@@ -66,6 +62,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="PlaylistItem.cs" />
+    <Compile Include="SongDTO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

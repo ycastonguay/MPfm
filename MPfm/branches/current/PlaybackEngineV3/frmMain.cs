@@ -450,8 +450,8 @@ namespace PlaybackEngineV4
 
             // Create and start loop
             Loop loop = new Loop();
-            loop.MarkerA = new Marker() { Position = positionStart };
-            loop.MarkerB = new Marker() { Position = positionEnd };
+            loop.MarkerA = new Marker() { PositionBytes = positionStart };
+            loop.MarkerB = new Marker() { PositionBytes = positionEnd };
             player.StartLoop(loop);
 
             // Set button enable
