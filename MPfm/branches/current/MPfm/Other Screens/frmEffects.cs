@@ -160,24 +160,24 @@ namespace MPfm
         {
             comboEQPreset.SelectedItem = null;
             txtEQPresetName.Text = "";
-            fader9.Value = 0;
-            fader10.Value = 0;
-            fader15.Value = 0;
+            fader0.Value = 0;
+            fader1.Value = 0;
             fader2.Value = 0;
-            fader16.Value = 0;
             fader3.Value = 0;
-            fader11.Value = 0;
-            fader17.Value = 0;
             fader4.Value = 0;
-            fader12.Value = 0;
             fader5.Value = 0;
             fader6.Value = 0;
-            fader0.Value = 0;
-            fader13.Value = 0;
             fader7.Value = 0;
-            fader1.Value = 0;
-            fader14.Value = 0;
             fader8.Value = 0;
+            fader9.Value = 0;
+            fader10.Value = 0;
+            fader11.Value = 0;
+            fader12.Value = 0;
+            fader13.Value = 0;
+            fader14.Value = 0;
+            fader15.Value = 0;
+            fader16.Value = 0;
+            fader17.Value = 0;            
         }
 
         #endregion
@@ -427,19 +427,22 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
-        {           
-            // Set equalizer
-            if (m_main.PlayerV4.IsEQEnabled)
-            {
-                // Remove EQ
-                m_main.PlayerV4.RemoveEQ();
-            }
-            else
-            {
-                // Add EQ
-                EQPreset preset = GetEQPresetFromCurrentValues();
-                m_main.PlayerV4.AddEQ(preset);
-            }
+        {
+            // Bypass EQ
+            m_main.PlayerV4.BypassEQ();
+
+            //// Set equalizer
+            //if (m_main.PlayerV4.IsEQEnabled)
+            //{
+            //    // Remove EQ
+            //    m_main.PlayerV4.RemoveEQ();
+            //}
+            //else
+            //{
+            //    // Add EQ
+            //    EQPreset preset = GetEQPresetFromCurrentValues();
+            //    m_main.PlayerV4.AddEQ(preset);
+            //}
         }        
 
         /// <summary>
@@ -532,7 +535,7 @@ namespace MPfm
             MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
 
             float gain = (float)fader.Value / 10;            
-            m_main.PlayerV4.UpdateEQ(index, gain);
+            m_main.PlayerV4.UpdateEQBand(index, gain);
 
             // Update dB display
             string strDB = "";

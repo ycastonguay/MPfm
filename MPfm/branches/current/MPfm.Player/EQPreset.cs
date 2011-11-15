@@ -106,12 +106,12 @@ namespace MPfm.Player.PlayerV4
 
         }
 
-        public static void Load(string filePath)
+        public void Load(string filePath)
         {
 
         }
 
-        public static void Save(string filePath)
+        public void Save(string filePath)
         {
 
         }

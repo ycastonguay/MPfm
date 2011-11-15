@@ -395,6 +395,21 @@ namespace MPfm.Player.PlayerV4
             }
         }
 
+        /// <summary>
+        /// Private value for the IsEQBypassed property.
+        /// </summary>
+        private bool m_isEQBypassed = false;
+        /// <summary>
+        /// Indicates if the EQ is bypassed.
+        /// </summary>
+        public bool IsEQBypassed
+        {
+            get
+            {
+                return m_isEQBypassed;
+            }
+        }
+
         #region Loops and Markers
         
         /// <summary>
@@ -751,7 +766,14 @@ namespace MPfm.Player.PlayerV4
                 }
 
                 // Load 18-band equalizer
-                //AddEQ();
+                AddEQ(m_currentEQPreset);
+
+                // Check if EQ is bypassed
+                if (m_isEQBypassed)
+                {
+                    // Reset EQ
+                    ResetEQ();
+                }
 
                 // Check if the repeat type is Song
                 if (m_repeatType == RepeatType.Song)
@@ -900,6 +922,13 @@ namespace MPfm.Player.PlayerV4
             if (m_mainChannel == null)// || !m_isPlaying)
             {
                 return;
+            }
+
+            // Check if EQ is enabled
+            if (m_isEQEnabled)
+            {
+                // Remove EQ
+                RemoveEQ();
             }
 
             // Check driver type
@@ -1140,46 +1169,21 @@ namespace MPfm.Player.PlayerV4
         #region Other Methods (EQ)
 
         /// <summary>
-        /// Gets the parameters of an EQ band.
+        /// Adds the 18-band equalizer.
         /// </summary>
-        /// <param name="band">Band index</param>
-        /// <returns>EQ parameters</returns>
-        public BASS_BFX_PEAKEQ GetEQParams(int band)
+        /// <param name="preset">EQ preset to apply</param>
+        protected void AddEQ(EQPreset preset)
         {
-            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            eq.lBand = band;
-            Bass.BASS_FXGetParameters(m_fxEQHandle, eq);
-            
-            return eq;
-        }
-
-        /// <summary>
-        /// Updates the gain of an EQ band.
-        /// </summary>
-        /// <param name="band">Band index</param>
-        /// <param name="gain">Gain (in dB)</param>
-        public void UpdateEQ(int band, float gain)
-        {
-            BASS_BFX_PEAKEQ eq = GetEQParams(band);
-            eq.fGain = gain;
-            Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
-
-            // Set EQ preset too
-            m_currentEQPreset.Bands[band].Gain = gain;
-        }
-
-        public void AddEQ(EQPreset preset)
-        {
-            // Validate stuff
+            // Validate that the main channel exists
             if (m_mainChannel == null)
             {
-                return;
+                throw new Exception("Error adding EQ: The main channel doesn't exist!");
             }
 
             // Check if an handle already exists
-            if (m_fxEQHandle != 0)
+            if (m_fxEQHandle != 0 || m_isEQEnabled)
             {
-                throw new Exception("The equalizer already exists!");
+                throw new Exception("Error adding EQ: The equalizer already exists!");
             }
 
             // Load 18-band equalizer
@@ -1198,19 +1202,28 @@ namespace MPfm.Player.PlayerV4
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
                 Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
-                UpdateEQ(a, currentBand.Gain);
+                UpdateEQBand(a, currentBand.Gain);
             }
 
             // Set flags
             m_isEQEnabled = true;
         }
 
-        public void RemoveEQ()
+        /// <summary>
+        /// Removes the 18-band equalizer.
+        /// </summary>
+        protected void RemoveEQ()
         {
-            // Validate stuff
+            // Validate that the main channel exists
             if (m_mainChannel == null)
             {
-                return;
+                throw new Exception("Error removing EQ: The main channel doesn't exist!");
+            }
+
+            // Check if the EQ is enabled
+            if (!m_isEQEnabled)
+            {
+                throw new Exception("Error removing EQ: The EQ isn't activated!");
             }
 
             // Remove EQ
@@ -1220,15 +1233,107 @@ namespace MPfm.Player.PlayerV4
         }
 
         /// <summary>
+        /// Gets the parameters of an EQ band.
+        /// </summary>
+        /// <param name="band">Band index</param>
+        /// <returns>EQ parameters</returns>
+        public BASS_BFX_PEAKEQ GetEQParams(int band)
+        {
+            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
+            eq.lBand = band;
+            Bass.BASS_FXGetParameters(m_fxEQHandle, eq);
+            
+            return eq;
+        }
+
+        /// <summary>
+        /// Updates the gain of an EQ band.
+        /// </summary>
+        /// <param name="band">Band index</param>
+        /// <param name="gain">Gain (in dB)</param>
+        public void UpdateEQBand(int band, float gain)
+        {
+            BASS_BFX_PEAKEQ eq = GetEQParams(band);
+            eq.fGain = gain;
+            Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+
+            // Set EQ preset too
+            m_currentEQPreset.Bands[band].Gain = gain;
+        }
+
+        /// <summary>
+        /// Bypasses the 18-band equalizer.        
+        /// </summary>
+        public void BypassEQ()
+        {
+            // The problem is that we're recreating the main channel every time the playback of a playlist
+            // starts, and this changes the handle to the EQ effect. This means that bypassing the EQ
+            // when there is no playback does nothing.
+
+            // Reset flag
+            m_isEQBypassed = !m_isEQBypassed;
+
+            // Check if the main channel exists
+            if (m_mainChannel == null)
+            {
+                // Nothing to bypass
+                return;
+            }
+
+            // Check the new bypass state
+            if (m_isEQBypassed)
+            {
+                // Reset EQ
+                ResetEQ();
+            }
+            else
+            {
+                // Reapply current EQ preset
+                ApplyEQPreset(m_currentEQPreset);
+            }
+        }
+
+        /// <summary>
+        /// Applies a preset on the 18-band equalizer. 
+        /// The equalizer needs to be created using the AddEQ method.
+        /// </summary>
+        public void ApplyEQPreset(EQPreset preset)
+        {
+            // Load 18-band equalizer
+            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
+            m_currentEQPreset = preset;
+            for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
+            {
+                // Get current band
+                EQPresetBand currentBand = m_currentEQPreset.Bands[a];
+
+                // Set equalizer band properties
+                eq.lBand = a;
+                eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
+                eq.fCenter = currentBand.Center;
+                eq.fGain = currentBand.Gain;
+                eq.fQ = currentBand.Q;
+                Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+                UpdateEQBand(a, currentBand.Gain);
+            }
+        }
+
+        /// <summary>
         /// Resets the gain of every EQ band.
         /// </summary>
         public void ResetEQ()
         {
+            // Validate that the main channel exists
+            if (m_mainChannel == null)
+            {
+                throw new Exception("Error resetting EQ: The main channel doesn't exist!");
+            }
+
             // Loop through bands
             for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
             {
                 // Reset gain
-                UpdateEQ(a, 0.0f);
+                UpdateEQBand(a, 0.0f);
                 m_currentEQPreset.Bands[a].Gain = 0.0f;
             }
         }
