@@ -40,6 +40,16 @@ namespace MPfm.Player.PlayerV4
     public class EQPreset
     {
         /// <summary>
+        /// EQ preset unique identifier (for database storage).
+        /// </summary>
+        public Guid EQPresetId { get; set; }
+
+        /// <summary>
+        /// EQ preset name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Private value for the Bands property.
         /// </summary>
         private List<EQPresetBand> m_bands = null;
@@ -63,6 +73,10 @@ namespace MPfm.Player.PlayerV4
             LoadDefault();
         }
 
+        /// <summary>
+        /// Gets the list of default frequencies for each band of the 18-band equalizer.
+        /// </summary>
+        /// <returns>List of frequencies (18 bands)</returns>
         public static List<float> GetDefaultFreqs()
         {
             // Create default list of frequencies
@@ -89,10 +103,15 @@ namespace MPfm.Player.PlayerV4
             return freqs;
         }
 
+        /// <summary>
+        /// Loads the default EQ preset.
+        /// </summary>
         public void LoadDefault()
         {
             // Create default preset
             m_bands = new List<EQPresetBand>();
+            Name = "Default";
+            EQPresetId = Guid.NewGuid();
 
             // Create default list of frequencies
             List<float> freqs = GetDefaultFreqs();
@@ -106,11 +125,19 @@ namespace MPfm.Player.PlayerV4
 
         }
 
+        /// <summary>
+        /// Loads an EQ preset from file.
+        /// </summary>
+        /// <param name="filePath">EQ preset file path</param>
         public void Load(string filePath)
         {
 
         }
 
+        /// <summary>
+        /// Saves the current EQ preset to file.
+        /// </summary>
+        /// <param name="filePath">EQ preset file path</param>
         public void Save(string filePath)
         {
 

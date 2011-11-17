@@ -33,6 +33,7 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Player;
+using MPfm.Player.PlayerV4;
 
 namespace MPfm.Library
 {
@@ -1010,10 +1011,10 @@ namespace MPfm.Library
 
         #endregion
 
-        public MarkerDTO SelectMarker(Guid markerId)
+        public Marker SelectMarker(Guid markerId)
         {
             // Declare variables
-            MarkerDTO dto = null;
+            Marker dto = null;
 
             try
             {

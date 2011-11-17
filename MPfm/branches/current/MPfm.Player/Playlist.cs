@@ -21,6 +21,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MPfm.Sound;
 
 namespace MPfm.Player.PlayerV4
 {
@@ -117,18 +118,21 @@ namespace MPfm.Player.PlayerV4
         /// <param name="filePath">Audio file path</param>
         public void AddItem(string filePath)
         {
+            // Create audio file and read metadata
+            AudioFile audioFile = new AudioFile(filePath);
+
             // Add new playlist item at the end
-            Items.Add(new PlaylistItem(this, filePath));
+            Items.Add(new PlaylistItem(this, audioFile));
         }
 
         /// <summary>
         /// Adds an item at the end of the playlist.
         /// </summary>
-        /// <param name="song">SongDTO instance</param>
-        public void AddItem(SongDTO song)
+        /// <param name="audioFile">Audio file metadata</param>
+        public void AddItem(AudioFile audioFile)
         {
             // Add new playlist item at the end
-            Items.Add(new PlaylistItem(this, song.FilePath) { Song = song });
+            Items.Add(new PlaylistItem(this, audioFile));
         }
 
         /// <summary>
@@ -148,14 +152,14 @@ namespace MPfm.Player.PlayerV4
         /// <summary>
         /// Adds a list of items at the end of the playlist.
         /// </summary>
-        /// <param name="songs">List of SongDTO instances</param>
-        public void AddItems(List<SongDTO> songs)
+        /// <param name="audioFiles">List of AudioFile instances</param>
+        public void AddItems(List<AudioFile> audioFiles)
         {
             // Loop through file paths
-            foreach (SongDTO song in songs)
+            foreach (AudioFile audioFile in audioFiles)
             {
                 // Add item
-                AddItem(song);
+                AddItem(audioFile);
             }
         }
 
@@ -166,8 +170,11 @@ namespace MPfm.Player.PlayerV4
         /// <param name="index">The item will be inserted before this index</param>
         public void InsertItem(string filePath, int index)
         {
+            // Create audio file and read metadata
+            AudioFile audioFile = new AudioFile(filePath);
+
             // Add new playlist item at the specified index
-            Items.Insert(index, new PlaylistItem(this, filePath));
+            Items.Insert(index, new PlaylistItem(this, audioFile));
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
@@ -180,12 +187,12 @@ namespace MPfm.Player.PlayerV4
         /// <summary>
         /// Inserts an item at a specific location in the playlist.
         /// </summary>
-        /// <param name="song">SongDTO instance</param>
+        /// <param name="audioFile">Audio file</param>
         /// <param name="index">The item will be inserted before this index</param>
-        public void InsertItem(SongDTO song, int index)
+        public void InsertItem(AudioFile audioFile, int index)
         {
             // Add new playlist item at the specified index
-            Items.Insert(index, new PlaylistItem(this, song.FilePath) { Song = song });
+            Items.Insert(index, new PlaylistItem(this, audioFile));
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
@@ -232,9 +239,9 @@ namespace MPfm.Player.PlayerV4
         }
 
         /// <summary>
-        /// Go to a specific item index in the playlist.
+        /// Go to a specific item using the playlist item index.
         /// </summary>
-        /// <param name="index">Item index</param>
+        /// <param name="index">Playlist item index</param>
         public void GoTo(int index)
         {
             // Set index
@@ -243,25 +250,55 @@ namespace MPfm.Player.PlayerV4
         }
 
         /// <summary>
-        /// Go to a specific item index in the playlist.
+        /// Go to a specific item using the playlist item identifier.
         /// </summary>
-        /// <param name="index">Item index</param>
-        public void GoTo(Guid songId)
+        /// <param name="id">Playlist item identifier</param>
+        public void GoTo(Guid id)
         {
+            // Search for the playlist item by its id
             int index = -1;
             for (int a = 0; a < Items.Count; a++)
             {
-                if (Items[a].Song != null)
+                // Does the id match?
+                if (Items[a].Id == id)
                 {
-                    if (Items[a].Song.SongId == songId)
-                    {
-                        index = a;
-                    }
+                    // The item has been found, exit loop
+                    index = a;
+                    break;
+                }                
+            }
+
+            // Check if we have a valid item
+            if (index >= 0)
+            {
+                // Skip to this item
+                GoTo(index);
+            }
+        }
+
+        /// <summary>
+        /// Go to the first instance of the audio file path in the list.
+        /// </summary>
+        /// <param name="filePath">Audio file path</param>
+        public void GoTo(string filePath)
+        {
+            // Search for the playlist item by its id
+            int index = -1;
+            for (int a = 0; a < Items.Count; a++)
+            {
+                // Does the id match?
+                if (Items[a].AudioFile.FilePath == filePath)
+                {
+                    // The item has been found, exit loop
+                    index = a;
+                    break;
                 }
             }
 
+            // Check if we have a valid item
             if (index >= 0)
             {
+                // Skip to this item
                 GoTo(index);
             }
         }

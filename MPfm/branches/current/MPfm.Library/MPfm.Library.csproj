@@ -67,7 +67,6 @@
     <Compile Include="DTO\FolderDTO.cs" />
     <Compile Include="DTO\PlaylistSongDTO.cs" />
     <Compile Include="DTO\PlaylistDTO.cs" />
-    <Compile Include="DTO\SongDTO.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

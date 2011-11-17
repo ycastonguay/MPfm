@@ -242,6 +242,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config.xml" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />

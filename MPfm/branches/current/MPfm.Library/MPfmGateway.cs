@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using MPfm.Core;
 using MPfm.Player;
+using MPfm.Player.PlayerV4;
 
 namespace MPfm.Library
 {
@@ -366,14 +367,14 @@ namespace MPfm.Library
         /// <summary>
         /// Select all EQ presets from the database.
         /// </summary>
-        /// <returns>List of Presets</returns>
-        public List<EqualizerDTO> SelectEqualizers()
+        /// <returns>List of EQPresets</returns>
+        public List<EQPreset> SelectEQPresets()
         {
             // Fetch data
-            DataTable table = Select("SELECT * FROM Equalizers");
+            DataTable table = Select("SELECT * FROM EQPresets");
 
             // Convert to DTO
-            List<EqualizerDTO> eqs = ConvertDTO.Equalizers(table);
+            List<EQPreset> eqs = ConvertDTO.EQPresets(table);
 
             return eqs;
         }
@@ -382,14 +383,14 @@ namespace MPfm.Library
         /// Selects an EQ preset from the database.
         /// </summary>
         /// <param name="name">EQ preset name</param>
-        /// <returns>EQ preset</returns>
-        public EqualizerDTO SelectEqualizer(string name)
+        /// <returns>EQPreset</returns>
+        public EQPreset SelectEQPreset(string name)
         {
             // Fetch data
-            DataTable table = Select("SELECT * FROM Equalizers WHERE Name = '" + name + "'");
+            DataTable table = Select("SELECT * FROM EQPresets WHERE Name = '" + name + "'");
 
             // Convert to DTO
-            List<EqualizerDTO> eqs = ConvertDTO.Equalizers(table);
+            List<EQPreset> eqs = ConvertDTO.EQPresets(table);
 
             // Check results
             if (eqs.Count > 0)
@@ -405,30 +406,30 @@ namespace MPfm.Library
         /// Inserts a new EQ preset into the database.
         /// </summary>
         /// <param name="eq">EQ preset to insert</param>
-        public void InsertEqualizer(EqualizerDTO eq)
+        public void InsertEqualizer(EQPreset eq)
         {
             // Insert item
-            Insert("Equalizers", "EqualizerId", eq);
+            Insert("EQPresets", "EQPresetId", eq);
         }
 
         /// <summary>
         /// Updates an existing EQ preset in the database.
         /// </summary>
         /// <param name="eq">EQ preset to update</param>
-        public void UpdateEqualizer(EqualizerDTO eq)
+        public void UpdateEqualizer(EQPreset eq)
         {
             // Update item
-            Update("Equalizers", "EqualizerId", eq.EqualizerId, eq);
+            Update("EQPresets", "EQPresetId", eq.EQPresetId, eq);
         }
 
         /// <summary>
         /// Deletes an EQ preset from the database.
         /// </summary>
-        /// <param name="equalizerId">EQ preset identifier</param>
-        public void DeleteEqualizer(Guid equalizerId)
+        /// <param name="eqPresetId">EQ preset identifier</param>
+        public void DeleteEqualizer(Guid eqPresetId)
         {
             // Delete item
-            Delete("Equalizers", "EqualizerId", equalizerId);
+            Delete("EQPresets", "EQPresetId", eqPresetId);
         }
 
         #endregion
@@ -438,14 +439,14 @@ namespace MPfm.Library
         /// <summary>
         /// Selects all markers from the database.
         /// </summary>
-        /// <returns>List of MarkerDTO</returns>
-        public List<MarkerDTO> SelectMarkers()
+        /// <returns>List of Markers</returns>
+        public List<Marker> SelectMarkers()
         {
             // Fetch data
             DataTable table = Select("SELECT * FROM Markers");
 
             // Convert to DTO
-            List<MarkerDTO> dtos = ConvertDTO.Markers(table);
+            List<Marker> dtos = ConvertDTO.Markers(table);
 
             return dtos;
         }
@@ -454,14 +455,14 @@ namespace MPfm.Library
         /// Selects song markers from the database.
         /// </summary>
         /// <param name="songId">Song Id</param>
-        /// <returns>List of MarkerDTO</returns>
-        public List<MarkerDTO> SelectSongMarkers(Guid songId)
+        /// <returns>List of Markers</returns>
+        public List<Marker> SelectSongMarkers(Guid songId)
         {
             // Fetch data
             DataTable table = Select("SELECT * FROM Markers WHERE SongId = '" + songId.ToString() + "' ORDER BY PositionBytes");
 
             // Convert to DTO
-            List<MarkerDTO> dtos = ConvertDTO.Markers(table);
+            List<Marker> dtos = ConvertDTO.Markers(table);
 
             return dtos;
         }
@@ -470,14 +471,14 @@ namespace MPfm.Library
         /// Selects a marker from the database.
         /// </summary>
         /// <param name="markerId">Marker Id</param>
-        /// <returns>MarkerDTO</returns>
-        public MarkerDTO SelectMarker(Guid markerId)
+        /// <returns>Marker</returns>
+        public Marker SelectMarker(Guid markerId)
         {
             // Fetch data
             DataTable table = Select("SELECT * FROM Markers WHERE MarkerId = '" + markerId.ToString() + "'");
 
             // Convert to DTO
-            List<MarkerDTO> dtos = ConvertDTO.Markers(table);
+            List<Marker> dtos = ConvertDTO.Markers(table);
 
             // Check results
             if (dtos.Count > 0)
@@ -492,8 +493,8 @@ namespace MPfm.Library
         /// <summary>
         /// Inserts a new marker into the database.
         /// </summary>
-        /// <param name="dto">MarkerDTO to insert</param>
-        public void InsertMarker(MarkerDTO dto)
+        /// <param name="dto">Marker to insert</param>
+        public void InsertMarker(Marker dto)
         {
             // Insert song
             Insert("Markers", "MarkerId", dto);
@@ -502,8 +503,8 @@ namespace MPfm.Library
         /// <summary>
         /// Updates an existing marker from the database.
         /// </summary>
-        /// <param name="dto">MarkerDTO to update</param>
-        public void UpdateMarker(MarkerDTO dto)
+        /// <param name="dto">Marker to update</param>
+        public void UpdateMarker(Marker dto)
         {
             // Update song
             Update("Markers", "MarkerId", dto.MarkerId, dto);

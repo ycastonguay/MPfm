@@ -14,6 +14,11 @@ namespace MPfm.Sound
 	/// </summary>
 	public class AudioFile
 	{
+		/// <summary>
+		/// Unique identifier for reading and writing audio file metadata to the database.
+		/// </summary>
+		public Guid Id { get; set; }
+
 		#region File Information Properties
 		
 		/// <summary>
@@ -100,21 +105,21 @@ namespace MPfm.Sound
 			}
 		}
 
-        /// <summary>
-        /// Private value for the BitsPerSample property.
-        /// </summary>
-        private int m_bitsPerSample = 0;
+		/// <summary>
+		/// Private value for the BitsPerSample property.
+		/// </summary>
+		private int m_bitsPerSample = 0;
 
-        /// <summary>
-        /// Audio bits per sample. Usually 16-bit or 24-bit.
-        /// </summary>
-        public int BitsPerSample
-        {
-            get
-            {
-                return m_bitsPerSample;
-            }
-        }
+		/// <summary>
+		/// Audio bits per sample. Usually 16-bit or 24-bit.
+		/// </summary>
+		public int BitsPerSample
+		{
+			get
+			{
+				return m_bitsPerSample;
+			}
+		}
 
 		/// <summary>
 		/// Private value for the ChannelMode property.
@@ -250,20 +255,20 @@ namespace MPfm.Sound
 		/// </summary>
 		public string AlbumTitle { get; set; }
 
-        /// <summary>
-        /// Genre.
-        /// </summary>
-        public string Genre { get; set; }
+		/// <summary>
+		/// Genre.
+		/// </summary>
+		public string Genre { get; set; }
 
-        /// <summary>
-        /// Disc number.
-        /// </summary>
-        public uint DiscNumber { get; set; }
+		/// <summary>
+		/// Disc number.
+		/// </summary>
+		public uint DiscNumber { get; set; }
 
-        /// <summary>
-        /// Track number.
-        /// </summary>
-        public uint TrackNumber { get; set; }
+		/// <summary>
+		/// Track number.
+		/// </summary>
+		public uint TrackNumber { get; set; }
 
 		#endregion
 
@@ -273,6 +278,42 @@ namespace MPfm.Sound
 		/// </summary>
 		/// <param name="filePath">Full path to the audio file</param>
 		public AudioFile(string filePath)
+		{
+			Initialize(filePath, Guid.NewGuid(), true);
+		}
+
+		/// <summary>
+		/// Constructor for the AudioFile class. Requires the path to the audio file.
+		/// Will raise an exception if the file doesn't exists.
+		/// </summary>
+		/// <param name="filePath">Full path to the audio file</param>
+		/// <param name="id">Unique identifier for database storage (if needed)</param>
+		public AudioFile(string filePath, Guid id)
+		{
+			Initialize(filePath, id, true);
+		}
+
+		/// <summary>
+		/// Constructor for the AudioFile class. Requires the path to the audio file.
+		/// Will raise an exception if the file doesn't exists.
+		/// </summary>
+		/// <param name="filePath">Full path to the audio file</param>
+		/// <param name="id">Unique identifier for database storage (if needed)</param>
+		/// <param name="readMetadata">If true, the metadata will be refreshed by 
+		/// reading the audio file metadata (ex: ID3 tags)</param>
+		public AudioFile(string filePath, Guid id, bool readMetadata)
+		{
+			Initialize(filePath, id, readMetadata);
+		}
+
+		/// <summary>
+		/// Sets the initial properties and reads initial metadata.
+		/// </summary>
+		/// <param name="filePath">Audio file path</param>
+		/// <param name="id">Unique identifier for database (if needed)</param>
+		/// <param name="readMetadata">If true, the metadata will be refreshed by 
+		/// reading the audio file metadata (ex: ID3 tags)</param>
+		private void Initialize(string filePath, Guid id, bool readMetadata)
 		{
 			// Set file path
 			m_filePath = filePath;
@@ -302,8 +343,12 @@ namespace MPfm.Sound
 				m_fileType = AudioFileType.WAV;
 			}
 
-			// Read tags using TagLib# and binary reader
-			RefreshMetadata();
+			// Check if the metadata needs to be fetched
+			if (readMetadata)
+			{
+				// Read tags using TagLib# and binary reader
+				RefreshMetadata();
+			}
 		}
 
 		/// <summary>
@@ -327,9 +372,9 @@ namespace MPfm.Sound
 					ArtistName = fileMP3.Tag.FirstArtist;
 					AlbumTitle = fileMP3.Tag.Album;
 					Title = fileMP3.Tag.Title;
-                    Genre = fileMP3.Tag.FirstGenre;
-                    DiscNumber = fileMP3.Tag.Disc;
-                    TrackNumber = fileMP3.Tag.Track;
+					Genre = fileMP3.Tag.FirstGenre;
+					DiscNumber = fileMP3.Tag.Disc;
+					TrackNumber = fileMP3.Tag.Track;
 
 					// Loop through codecs (usually just one)
 					foreach (TagLib.ICodec codec in fileMP3.Properties.Codecs)
@@ -342,24 +387,24 @@ namespace MPfm.Sound
 						m_frameLength = header.AudioFrameLength;
 						m_audioLayer = header.AudioLayer;
 						m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = 16; // always 16-bit
+						m_bitsPerSample = 16; // always 16-bit
 						m_channelMode = header.ChannelMode;
 						m_duration = header.Duration;
-                        m_bitrate = header.AudioBitrate;
+						m_bitrate = header.AudioBitrate;
 					}
 
 					// Close TagLib file
 					fileMP3.Dispose();
 
-                    // Check if there's a Xing header
-                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
+					// Check if there's a Xing header
+					XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
 
-                    // Check if the read was successful
-                    if (xingHeader.Status == XingInfoHeaderStatus.Successful)
-                    {
-                        // Set property value
-                        m_xingInfoHeader = xingHeader;
-                    }
+					// Check if the read was successful
+					if (xingHeader.Status == XingInfoHeaderStatus.Successful)
+					{
+						// Set property value
+						m_xingInfoHeader = xingHeader;
+					}
 				}
 				catch (Exception ex)
 				{
@@ -379,9 +424,9 @@ namespace MPfm.Sound
 				ArtistName = fileFlac.Tag.FirstArtist;
 				AlbumTitle = fileFlac.Tag.Album;
 				Title = fileFlac.Tag.Title;
-                Genre = fileFlac.Tag.FirstGenre;
-                DiscNumber = fileFlac.Tag.Disc;
-                TrackNumber = fileFlac.Tag.Track;
+				Genre = fileFlac.Tag.FirstGenre;
+				DiscNumber = fileFlac.Tag.Disc;
+				TrackNumber = fileFlac.Tag.Track;
 
 				// Loop through codecs (usually just one)
 				foreach (TagLib.ICodec codec in fileFlac.Properties.Codecs)
@@ -393,7 +438,7 @@ namespace MPfm.Sound
 					m_bitrate = header.AudioBitrate;
 					m_audioChannels = header.AudioChannels;
 					m_sampleRate = header.AudioSampleRate;
-                    m_bitsPerSample = header.BitsPerSample;
+					m_bitsPerSample = header.BitsPerSample;
 					m_duration = header.Duration;
 				}
 			}
@@ -410,9 +455,9 @@ namespace MPfm.Sound
 				ArtistName = fileOgg.Tag.FirstArtist;
 				AlbumTitle = fileOgg.Tag.Album;
 				Title = fileOgg.Tag.Title;
-                Genre = fileOgg.Tag.FirstGenre;
-                DiscNumber = fileOgg.Tag.Disc;
-                TrackNumber = fileOgg.Tag.Track;                
+				Genre = fileOgg.Tag.FirstGenre;
+				DiscNumber = fileOgg.Tag.Disc;
+				TrackNumber = fileOgg.Tag.Track;                
 
 				// Loop through codecs (usually just one)
 				foreach (TagLib.ICodec codec in fileOgg.Properties.Codecs)
@@ -431,7 +476,7 @@ namespace MPfm.Sound
 						m_bitrate = header.AudioBitrate;
 						m_audioChannels = header.AudioChannels;
 						m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = 16;
+						m_bitsPerSample = 16;
 						m_duration = header.Duration;
 					}
 				}
@@ -501,15 +546,15 @@ namespace MPfm.Sound
 				// Check if at least one image was found
 				if (imageFiles.Count > 0)
 				{
-                    try
-                    {
-                        // Get image from file
-                        imageCover = Image.FromFile(imageFiles[0].FullName);
-                    }
-                    catch (Exception ex)
-                    {
-                        Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
-                    }
+					try
+					{
+						// Get image from file
+						imageCover = Image.FromFile(imageFiles[0].FullName);
+					}
+					catch (Exception ex)
+					{
+						Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
+					}
 				}
 			}
 

@@ -143,10 +143,10 @@ namespace MPfm
 
             // Select presets
             //List<Equalizer> eqs = DataAccess.SelectEqualizers();
-            List<EqualizerDTO> eqs = m_main.Library.Gateway.SelectEqualizers();
+            List<EQPreset> eqs = m_main.Library.Gateway.SelectEQPresets();
 
             // For each EQ
-            foreach (EqualizerDTO eq in eqs)
+            foreach (EQPreset eq in eqs)
             {
                 // Add the preset
                 comboEQPreset.Items.Add(eq.Name);
@@ -341,7 +341,7 @@ namespace MPfm
         {
             // Check if equalizer exists            
             //Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
-            EqualizerDTO equalizerExists = m_main.Library.Gateway.SelectEqualizer(txtEQPresetName.Text);
+            EQPreset equalizerExists = m_main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists != null)
             {
@@ -349,7 +349,7 @@ namespace MPfm
                 if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {                    
                     //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
-                    m_main.Library.Gateway.DeleteEqualizer(equalizerExists.EqualizerId);
+                    m_main.Library.Gateway.DeleteEqualizer(equalizerExists.EQPresetId);
 
                     RefreshEQPresets();
                     ResetEQ();
@@ -373,31 +373,31 @@ namespace MPfm
             }
 
             // Build DTO
-            EqualizerDTO eq = new EqualizerDTO();
-            eq.Gain55Hz = (float)fader0.Value / 10;
-            eq.Gain77Hz = (float)fader1.Value / 10;
-            eq.Gain110Hz = (float)fader2.Value / 10;
-            eq.Gain156Hz = (float)fader3.Value / 10;
-            eq.Gain220Hz = (float)fader4.Value / 10;
-            eq.Gain311Hz = (float)fader5.Value / 10;
-            eq.Gain440Hz = (float)fader6.Value / 10;
-            eq.Gain622Hz = (float)fader7.Value / 10;
-            eq.Gain880Hz = (float)fader8.Value / 10;
-            eq.Gain1_2kHz = (float)fader9.Value / 10;
-            eq.Gain1_8kHz = (float)fader10.Value / 10;
-            eq.Gain2_5kHz = (float)fader11.Value / 10;
-            eq.Gain3_5kHz = (float)fader12.Value / 10;
-            eq.Gain5kHz = (float)fader13.Value / 10;
-            eq.Gain7kHz = (float)fader14.Value / 10;
-            eq.Gain10kHz = (float)fader15.Value / 10;
-            eq.Gain14kHz = (float)fader16.Value / 10;
-            eq.Gain20kHz = (float)fader17.Value / 10;
+            EQPreset eq = new EQPreset();
+            eq.Bands[0].Gain = (float)fader0.Value / 10;
+            //eq.Gain77Hz = (float)fader1.Value / 10;
+            //eq.Gain110Hz = (float)fader2.Value / 10;
+            //eq.Gain156Hz = (float)fader3.Value / 10;
+            //eq.Gain220Hz = (float)fader4.Value / 10;
+            //eq.Gain311Hz = (float)fader5.Value / 10;
+            //eq.Gain440Hz = (float)fader6.Value / 10;
+            //eq.Gain622Hz = (float)fader7.Value / 10;
+            //eq.Gain880Hz = (float)fader8.Value / 10;
+            //eq.Gain1_2kHz = (float)fader9.Value / 10;
+            //eq.Gain1_8kHz = (float)fader10.Value / 10;
+            //eq.Gain2_5kHz = (float)fader11.Value / 10;
+            //eq.Gain3_5kHz = (float)fader12.Value / 10;
+            //eq.Gain5kHz = (float)fader13.Value / 10;
+            //eq.Gain7kHz = (float)fader14.Value / 10;
+            //eq.Gain10kHz = (float)fader15.Value / 10;
+            //eq.Gain14kHz = (float)fader16.Value / 10;
+            //eq.Gain20kHz = (float)fader17.Value / 10;
 
             eq.Name = txtEQPresetName.Text;
 
             // Check if equalizer exists            
             //EqualizerDTO equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
-            EqualizerDTO equalizerExists = m_main.Library.Gateway.SelectEqualizer(txtEQPresetName.Text);
+            EQPreset equalizerExists = m_main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists == null)
             {
@@ -409,7 +409,7 @@ namespace MPfm
                 if (MessageBox.Show("Are you sure you wish to overwrite the " + equalizerExists.Name + " equalizer preset?", "Overwrite equalizer preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     // Update ID and EQ
-                    eq.EqualizerId = equalizerExists.EqualizerId;
+                    eq.EQPresetId = equalizerExists.EQPresetId;
                     //DataAccess.UpdateEqualizer(eq);
                     m_main.Library.Gateway.UpdateEqualizer(eq);
                 }
@@ -471,28 +471,28 @@ namespace MPfm
                 {
                     // Get equalizer                    
                     //Equalizer equalizer = DataAccess.SelectEqualizer(comboEQPreset.SelectedItem.ToString());
-                    EqualizerDTO equalizer = m_main.Library.Gateway.SelectEqualizer(comboEQPreset.SelectedItem.ToString());
+                    EQPreset equalizer = m_main.Library.Gateway.SelectEQPreset(comboEQPreset.SelectedItem.ToString());
 
                     // Set values
                     txtEQPresetName.Text = equalizer.Name;
-                    fader0.Value = (Int32)(equalizer.Gain55Hz * 10);
-                    fader1.Value = (Int32)(equalizer.Gain77Hz * 10);
-                    fader2.Value = (Int32)(equalizer.Gain110Hz * 10);
-                    fader3.Value = (Int32)(equalizer.Gain156Hz * 10);
-                    fader4.Value = (Int32)(equalizer.Gain220Hz * 10);
-                    fader5.Value = (Int32)(equalizer.Gain311Hz * 10);
-                    fader6.Value = (Int32)(equalizer.Gain440Hz * 10);
-                    fader7.Value = (Int32)(equalizer.Gain622Hz * 10);
-                    fader8.Value = (Int32)(equalizer.Gain880Hz * 10);
-                    fader9.Value = (Int32)(equalizer.Gain1_2kHz * 10);
-                    fader10.Value = (Int32)(equalizer.Gain1_8kHz * 10);
-                    fader11.Value = (Int32)(equalizer.Gain2_5kHz * 10);
-                    fader12.Value = (Int32)(equalizer.Gain3_5kHz * 10);
-                    fader13.Value = (Int32)(equalizer.Gain5kHz * 10);
-                    fader14.Value = (Int32)(equalizer.Gain7kHz * 10);
-                    fader15.Value = (Int32)(equalizer.Gain10kHz * 10);
-                    fader16.Value = (Int32)(equalizer.Gain14kHz * 10);
-                    fader17.Value = (Int32)(equalizer.Gain20kHz * 10);
+                    fader0.Value = (Int32)(equalizer.Bands[0].Gain * 10);
+                    //fader1.Value = (Int32)(equalizer.Gain77Hz * 10);
+                    //fader2.Value = (Int32)(equalizer.Gain110Hz * 10);
+                    //fader3.Value = (Int32)(equalizer.Gain156Hz * 10);
+                    //fader4.Value = (Int32)(equalizer.Gain220Hz * 10);
+                    //fader5.Value = (Int32)(equalizer.Gain311Hz * 10);
+                    //fader6.Value = (Int32)(equalizer.Gain440Hz * 10);
+                    //fader7.Value = (Int32)(equalizer.Gain622Hz * 10);
+                    //fader8.Value = (Int32)(equalizer.Gain880Hz * 10);
+                    //fader9.Value = (Int32)(equalizer.Gain1_2kHz * 10);
+                    //fader10.Value = (Int32)(equalizer.Gain1_8kHz * 10);
+                    //fader11.Value = (Int32)(equalizer.Gain2_5kHz * 10);
+                    //fader12.Value = (Int32)(equalizer.Gain3_5kHz * 10);
+                    //fader13.Value = (Int32)(equalizer.Gain5kHz * 10);
+                    //fader14.Value = (Int32)(equalizer.Gain7kHz * 10);
+                    //fader15.Value = (Int32)(equalizer.Gain10kHz * 10);
+                    //fader16.Value = (Int32)(equalizer.Gain14kHz * 10);
+                    //fader17.Value = (Int32)(equalizer.Gain20kHz * 10);
 
                     // Set config                    
                     Main.Config.EQPreset = equalizer.Name;

@@ -100,7 +100,7 @@ namespace MPfm
                 Text = "Edit marker";
 
                 // Fetch marker from database                
-                MarkerDTO marker = Main.Library.SelectMarker(m_markerId);
+                Marker marker = Main.Library.SelectMarker(m_markerId);
 
                 // Check if the marker was found
                 if(marker == null)

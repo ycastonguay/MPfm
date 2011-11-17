@@ -805,69 +805,43 @@ namespace MPfm.Player.PlayerV4
         /// <param name="filePaths">List of audio file paths</param>
         public void PlayFiles(List<string> filePaths)
         {
-            // Check for null or empty list of file paths
-            if (filePaths == null || filePaths.Count == 0)
-            {
-                throw new Exception("There must be at least one file in the filePaths parameter.");
-            }
-
-            // Check if all file paths exist
-            Tracing.Log("[PlayerV4.PlayFiles] Playing a list of " + filePaths.Count.ToString() + " files.");
+            // Create instances of the AudioFile class, but do not read metadata right now
+            List<AudioFile> audioFiles = new List<AudioFile>();
             foreach (string filePath in filePaths)
             {
-                // Check if the file exists                
-                if (!File.Exists(filePath))
-                {
-                    // Throw exception
-                    throw new Exception("The file at " + filePath + " doesn't exist!");
-                }
+                // Create instance and add to list
+                AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), false);
+                audioFiles.Add(audioFile);
             }
 
-            // Check if the player is currently playing
-            if (m_isPlaying)
-            {
-                // Stop playback
-                Stop();
-            }
-
-            // Reset flags                
-            m_playlist.Clear();            
-
-            // Create playlist items
-            foreach (string filePath in filePaths)
-            {
-                // Add playlist item
-                m_playlist.AddItem(filePath);
-            }
-
-            // Set playlist to first item
-            m_playlist.First();
-          
-            // Start playback
-            Play();
+            // Call method
+            PlayFiles(audioFiles);
         }
 
         /// <summary>
-        /// Plays the list of songs specified in the songs parameter.
+        /// Plays the list of audio files specified in the audioFiles parameter.
+        /// The AudioFile instances can come from MPfm.Library (reading from database) or by
+        /// creating instances of the AudioFile class manually, which will read metadata from
+        /// audio files to fill the properties.
         /// </summary>
-        /// <param name="songs">List of songs</param>
-        public void PlaySongs(List<SongDTO> songs)
+        /// <param name="audioFiles">List of audio files</param>
+        public void PlayFiles(List<AudioFile> audioFiles)
         {
             // Check for null or empty list of file paths
-            if (songs == null || songs.Count == 0)
+            if (audioFiles == null || audioFiles.Count == 0)
             {
-                throw new Exception("There must be at least one song the songs parameter.");
+                throw new Exception("There must be at least one file in the audioFiles parameter.");
             }
 
             // Check if all file paths exist
-            Tracing.Log("[PlayerV4.PlaySongs] Playing a list of " + songs.Count.ToString() + " files.");
-            foreach (SongDTO song in songs)
+            Tracing.Log("[PlayerV4.PlayFiles] Playing a list of " + audioFiles.Count.ToString() + " files.");
+            foreach (AudioFile audioFile in audioFiles)
             {
                 // Check if the file exists                
-                if (!File.Exists(song.FilePath))
+                if (!File.Exists(audioFile.FilePath))
                 {
                     // Throw exception
-                    throw new Exception("The file at " + song.FilePath + " doesn't exist!");
+                    throw new Exception("The file at " + audioFile.FilePath + " doesn't exist!");
                 }
             }
 
@@ -882,18 +856,66 @@ namespace MPfm.Player.PlayerV4
             m_playlist.Clear();
 
             // Create playlist items
-            foreach (SongDTO song in songs)
+            foreach (AudioFile audioFile in audioFiles)
             {
                 // Add playlist item
-                m_playlist.AddItem(song);
+                m_playlist.AddItem(audioFile);
             }
 
             // Set playlist to first item
             m_playlist.First();
-
+          
             // Start playback
             Play();
         }
+
+        ///// <summary>
+        ///// Plays the list of songs specified in the songs parameter.
+        ///// </summary>
+        ///// <param name="songs">List of songs</param>
+        //public void PlaySongs(List<SongDTO> songs)
+        //{
+        //    // Check for null or empty list of file paths
+        //    if (songs == null || songs.Count == 0)
+        //    {
+        //        throw new Exception("There must be at least one song the songs parameter.");
+        //    }
+
+        //    // Check if all file paths exist
+        //    Tracing.Log("[PlayerV4.PlaySongs] Playing a list of " + songs.Count.ToString() + " files.");
+        //    foreach (SongDTO song in songs)
+        //    {
+        //        // Check if the file exists                
+        //        if (!File.Exists(song.FilePath))
+        //        {
+        //            // Throw exception
+        //            throw new Exception("The file at " + song.FilePath + " doesn't exist!");
+        //        }
+        //    }
+
+        //    // Check if the player is currently playing
+        //    if (m_isPlaying)
+        //    {
+        //        // Stop playback
+        //        Stop();
+        //    }
+
+        //    // Reset flags                
+        //    m_playlist.Clear();
+
+        //    // Create playlist items
+        //    foreach (SongDTO song in songs)
+        //    {
+        //        // Add playlist item
+        //        m_playlist.AddItem(song);
+        //    }
+
+        //    // Set playlist to first item
+        //    m_playlist.First();
+
+        //    // Start playback
+        //    Play();
+        //}
 
         /// <summary>
         /// Pauses the audio playback. Resumes the audio playback if it was paused.

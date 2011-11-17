@@ -18,25 +18,55 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace MPfm.Player.PlayerV4
 {
     /// <summary>
-    /// Defines a loop to be used with PlayerV4
+    /// Defines a Loop, which must be used with two Markers.
     /// </summary>
     public class Loop
-    {
+    {   
+        /// <summary>
+        /// Marker unique identifier (for database storage).
+        /// </summary>        
+        public Guid LoopId { get; set; }
+        /// <summary>
+        /// Relationship to the Song unique identifier (for database storage).
+        /// </summary>
+        public Guid SongId { get; set; }
+        /// <summary>
+        /// Loop name.
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Marker A (start position).
+        /// </summary>
         public Marker MarkerA { get; set; }
+        /// <summary>
+        /// Marker B (end position).
+        /// </summary>
         public Marker MarkerB { get; set; }
+        /// <summary>
+        /// Loop length (in bytes).
+        /// </summary>
+        public long Length { get; set; }
 
         /// <summary>
         /// Default constructor for the Loop class.
         /// </summary>
         public Loop()
         {
+            // Set default values
+            LoopId = Guid.NewGuid();
+            SongId = Guid.Empty;
             Name = string.Empty;
             MarkerA = null;
             MarkerB = null;
+            Length = 0;
         }
     }
 }

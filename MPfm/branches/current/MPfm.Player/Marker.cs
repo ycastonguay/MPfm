@@ -40,19 +40,19 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         public Guid SongId { get; set; }
         /// <summary>
-        /// Name.
+        /// Marker name.
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Comments.
+        /// Marker comments.
         /// </summary>
         public string Comments { get; set; }
         /// <summary>
-        /// Position (in bytes).
+        /// Marker position (in bytes).
         /// </summary>
         public long PositionBytes { get; set; }
         /// <summary>
-        /// Position (in milliseconds).
+        /// Marker position (in milliseconds).
         /// </summary>
         public int PositionMS { get; set; }
 

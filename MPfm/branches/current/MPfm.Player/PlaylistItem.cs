@@ -33,6 +33,22 @@ namespace MPfm.Player.PlayerV4
     public class PlaylistItem
     {
         /// <summary>
+        /// Private value for the Id property.
+        /// </summary>
+        private Guid m_id = Guid.Empty;
+        /// <summary>
+        /// Unique identifier for the playlist item (there might be the same 
+        /// audio file multiple times in the same playlist).
+        /// </summary>
+        public Guid Id
+        {
+            get
+            {
+                return m_id;
+            }
+        }
+
+        /// <summary>
         /// Pointer to the parent Playlist instance.
         /// </summary>
         private Playlist m_playlist = null;
@@ -126,25 +142,25 @@ namespace MPfm.Player.PlayerV4
             }
         }
 
-        /// <summary>
-        /// Private value for the Song property.
-        /// </summary>
-        private SongDTO m_song = null;
-        /// <summary>
-        /// SongDTO object from the Library class. 
-        /// Useful to keep the database version of the song around.
-        /// </summary>
-        public SongDTO Song
-        {
-            get
-            {
-                return m_song;
-            }
-            set
-            {
-                m_song = value;
-            }
-        }
+        ///// <summary>
+        ///// Private value for the Song property.
+        ///// </summary>
+        //private SongDTO m_song = null;
+        ///// <summary>
+        ///// SongDTO object from the Library class. 
+        ///// Useful to keep the database version of the song around.
+        ///// </summary>
+        //public SongDTO Song
+        //{
+        //    get
+        //    {
+        //        return m_song;
+        //    }
+        //    set
+        //    {
+        //        m_song = value;
+        //    }
+        //}
 
         /// <summary>
         /// Private value for the AudioFile property.
@@ -161,20 +177,20 @@ namespace MPfm.Player.PlayerV4
             }            
         }
 
-        /// <summary>
-        /// Private value for the FilePath property.
-        /// </summary>
-        private string m_filePath = string.Empty;
-        /// <summary>
-        /// File path to the audio file to play.
-        /// </summary>
-        public string FilePath
-        {
-            get
-            {
-                return m_filePath;
-            }
-        }
+        ///// <summary>
+        ///// Private value for the FilePath property.
+        ///// </summary>
+        //private string m_filePath = string.Empty;
+        ///// <summary>
+        ///// File path to the audio file to play.
+        ///// </summary>
+        //public string FilePath
+        //{
+        //    get
+        //    {
+        //        return m_filePath;
+        //    }
+        //}
 
         /// <summary>
         /// Private value for the IsLoaded property.
@@ -193,11 +209,16 @@ namespace MPfm.Player.PlayerV4
 
         /// <summary>
         /// Default constructor for the PlaylistItem class.
+        /// Requires a hook to a Playlist instance.
         /// </summary>
-        public PlaylistItem(Playlist playlist, string filePath)
+        /// <param name="playlist">Playlist</param>
+        /// <param name="audioFile">Audio file metadata</param>
+        public PlaylistItem(Playlist playlist, AudioFile audioFile)
         {
-            m_playlist = playlist;            
-            m_filePath = filePath;            
+            // Set properties
+            m_id = Guid.NewGuid();
+            m_playlist = playlist;
+            m_audioFile = audioFile;
         }
 
         /// <summary>
@@ -205,12 +226,8 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         public void Load()
         {
-            // Check if the metadata has already been loaded
-            if (m_audioFile == null)
-            {
-                // Load audio file metadata
-                m_audioFile = new AudioFile(m_filePath);
-            }
+            // Load audio file metadata
+            m_audioFile.RefreshMetadata();
 
             // Check if a channel already exists
             if (m_channel != null)
@@ -220,7 +237,7 @@ namespace MPfm.Player.PlayerV4
             }
 
             // Load channel
-            m_channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(m_filePath, true);
+            m_channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(m_audioFile.FilePath, true);
 
             // Load channel length
             m_lengthBytes = m_channel.GetLength();

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <general>
+    <key name="FirstRun" value="true" type="boolean" />
+    <key name="ShowTray" value="true" type="boolean" />
+  </general>
+  <audio>
+    <driver type="DirectSound" />
+    <device name="M-Audio" driver="DriverInfo" id="1" />
+    <mixer frequency="96000" volume="100" />
+  </audio>
+  <controls>
+    <songGridView>
+      <columns>
+        <column name="Test" orderBy="false" visible="true" order="0" />
+      </columns>
+      <query songId="" playlistId="" artistName="" albumTitle="" />      
+    </songGridView>
+  </controls>
+  <window>
+    <window name="Main" x="0" y="0" width="0" height="0" maximized="true">
+      <splitter name="1" value="0" />
+      <splitter name="2" value="0" />
+    </window>
+    <window name="Playlist" x="0" y="0" width="0" height="0" maximized="true" visible="true" />
+  </window>
+  <theme current="Default" />
+</configuration>

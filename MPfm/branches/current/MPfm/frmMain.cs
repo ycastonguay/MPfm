@@ -958,24 +958,28 @@ namespace MPfm
                 RefreshSongInformation();
 
                 // Set the play icon in the song browser
-                RefreshSongBrowserPlayIcon(m_playerV4.Playlist.CurrentItem.Song.SongId);
+                //RefreshSongBrowserPlayIcon(m_playerV4.Playlist.CurrentItem.Song.SongId);
+                RefreshSongBrowserPlayIcon(m_playerV4.Playlist.CurrentItem.AudioFile.Id);
 
                 // Refresh play icon in playlist
                 //formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
 
                 // Set next song in configuration                    
-                Config.SongQuerySongId = m_playerV4.Playlist.CurrentItem.Song.SongId.ToString();
+                //Config.SongQuerySongId = m_playerV4.Playlist.CurrentItem.Song.SongId.ToString();
+                Config.SongQuerySongId = m_playerV4.Playlist.CurrentItem.AudioFile.Id.ToString();
 
                 // Refresh loops & markers
                 RefreshMarkers();
                 RefreshLoops();
 
                 // Refresh play count
-                SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == m_playerV4.Playlist.CurrentItem.Song.SongId);
+                //SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == m_playerV4.Playlist.CurrentItem.Song.SongId);
+                SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == m_playerV4.Playlist.CurrentItem.AudioFile.Id);
                 if (item != null)
                 {
                     // Set updated data
-                    SongDTO updatedSong = Library.SelectSong(m_playerV4.Playlist.CurrentItem.Song.SongId);
+                    //SongDTO updatedSong = Library.SelectSong(m_playerV4.Playlist.CurrentItem.Song.SongId);
+                    SongDTO updatedSong = Library.SelectSong(m_playerV4.Playlist.CurrentItem.AudioFile.Id);
                     item.Song = updatedSong;
                 }
 
@@ -1399,7 +1403,8 @@ namespace MPfm
                 //RefreshSongInformation();
 
                 // Set the play icon in the song browser
-                RefreshSongBrowserPlayIcon(PlayerV4.Playlist.CurrentItem.Song.SongId);
+                //RefreshSongBrowserPlayIcon(PlayerV4.Playlist.CurrentItem.Song.SongId);
+                RefreshSongBrowserPlayIcon(PlayerV4.Playlist.CurrentItem.AudioFile.Id);
 
                 // Refresh playlist window
                 if (refreshPlaylistWindow)
@@ -1550,7 +1555,8 @@ namespace MPfm
                 try
                 {
                     // Update the album art in an another thread
-                    workerAlbumArt.RunWorkerAsync(m_playerV4.Playlist.CurrentItem.FilePath);
+                    //workerAlbumArt.RunWorkerAsync(m_playerV4.Playlist.CurrentItem.FilePath);
+                    workerAlbumArt.RunWorkerAsync(m_playerV4.Playlist.CurrentItem.AudioFile.FilePath);
                 }
                 catch
                 {
@@ -1574,11 +1580,11 @@ namespace MPfm
                 // Set metadata and file path labels
                 lblCurrentArtistName.Text = m_playerV4.Playlist.CurrentItem.AudioFile.ArtistName;
                 lblCurrentAlbumTitle.Text = m_playerV4.Playlist.CurrentItem.AudioFile.AlbumTitle;
-                lblCurrentSongTitle.Text = m_playerV4.Playlist.CurrentItem.AudioFile.Title;                
-                lblCurrentFilePath.Text = m_playerV4.Playlist.CurrentItem.FilePath;
+                lblCurrentSongTitle.Text = m_playerV4.Playlist.CurrentItem.AudioFile.Title;
+                lblCurrentFilePath.Text = m_playerV4.Playlist.CurrentItem.AudioFile.FilePath;
 
                 // Set format labels
-                lblSoundFormat.Text = Path.GetExtension(m_playerV4.Playlist.CurrentItem.FilePath).Replace(".", "").ToUpper();
+                lblSoundFormat.Text = Path.GetExtension(m_playerV4.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();
                 lblBitsPerSample.Text = m_playerV4.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
                 lblFrequency.Text = m_playerV4.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
 
@@ -1924,10 +1930,24 @@ namespace MPfm
                         //Player.PlayAll(FilterSoundFormat, currentSong.SongId);
                     }
 
+                    List<AudioFile> audioFiles = new List<AudioFile>();
+                    foreach (SongDTO song in songs)
+                    {
+                        AudioFile audioFile = new AudioFile(song.FilePath, song.SongId, false);
+                        audioFile.ArtistName = song.ArtistName;
+                        audioFile.AlbumTitle = song.AlbumTitle;
+                        audioFile.Title = song.Time;
+                        audioFile.TrackNumber = (uint)song.TrackNumber;
+                        audioFile.DiscNumber = (uint)song.DiscNumber;
+
+                        audioFiles.Add(audioFile);
+                    }
+
                     // Clear playlist and add songs
                     m_playerV4.Playlist.Clear();
-                    m_playerV4.Playlist.AddItems(songs);
-                    m_playerV4.Playlist.GoTo(currentSong.SongId);
+                    m_playerV4.Playlist.AddItems(audioFiles);
+                    //m_playerV4.Playlist.GoTo(currentSong.SongId);
+                    m_playerV4.Playlist.GoTo(currentSong.FilePath);
                     m_playerV4.Play();
 
                     // Refresh song information
@@ -2103,7 +2123,7 @@ namespace MPfm
             }
 
             // Open window
-            EditSongMetadata(PlayerV4.Playlist.CurrentItem.FilePath);
+            EditSongMetadata(PlayerV4.Playlist.CurrentItem.AudioFile.FilePath);
         }
 
         /// <summary>
