@@ -2551,30 +2551,30 @@ namespace MPfm
                 }
                 else if (result.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
                 {
-                    // Check result
-                    if (result.Playlists != null)
-                    {                    
-                        // For each playlist
-                        foreach (PlaylistDTO playlist in result.Playlists)
-                        {
-                            // Create tree node
-                            TreeNode nodePlaylist = new TreeNode();
-                            nodePlaylist.Text = playlist.PlaylistName;
-                            nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
-                            nodePlaylist.ImageIndex = 11;
-                            nodePlaylist.SelectedImageIndex = 11;
+                    //// Check result
+                    //if (result.Playlists != null)
+                    //{                    
+                    //    // For each playlist
+                    //    foreach (PlaylistDTO playlist in result.Playlists)
+                    //    {
+                    //        // Create tree node
+                    //        TreeNode nodePlaylist = new TreeNode();
+                    //        nodePlaylist.Text = playlist.PlaylistName;
+                    //        nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
+                    //        nodePlaylist.ImageIndex = 11;
+                    //        nodePlaylist.SelectedImageIndex = 11;
 
-                            // Add node to tree
-                            result.TreeNodeToUpdate.Nodes.Add(nodePlaylist);
+                    //        // Add node to tree
+                    //        result.TreeNodeToUpdate.Nodes.Add(nodePlaylist);
 
-                            // If the form is initializing and setting the initial opened node from history...
-                            if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
-                            {
-                                // Set node as selected
-                                treeLibrary.SelectedNode = nodePlaylist;
-                            }
-                        }
-                    }
+                    //        // If the form is initializing and setting the initial opened node from history...
+                    //        if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
+                    //        {
+                    //            // Set node as selected
+                    //            treeLibrary.SelectedNode = nodePlaylist;
+                    //        }
+                    //    }
+                    //}
                 }
 
                 // Expand the updated node
@@ -3838,7 +3838,7 @@ namespace MPfm
         public string ArtistName { get; set; }
         public List<string> Albums { get; set; }
         public List<string> Artists { get; set; }
-        public List<PlaylistDTO> Playlists { get; set; }
+        //public List<PlaylistDTO> Playlists { get; set; }
         // Key = ArtistName -- Values = albums
         public Dictionary<string, List<string>> AllAlbums { get; set; }
     }

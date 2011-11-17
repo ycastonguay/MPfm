@@ -14,10 +14,21 @@ namespace MPfm.Sound
 	/// </summary>
 	public class AudioFile
 	{
+        /// <summary>
+        /// Private value for the Id property.
+        /// </summary>
+        private Guid m_id = Guid.Empty;
+
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
-		public Guid Id { get; set; }
+		public Guid Id
+        {
+            get
+            {
+                return m_id;
+            }
+        }
 
 		#region File Information Properties
 		
@@ -238,9 +249,36 @@ namespace MPfm.Sound
 
 		#endregion
 
-		#region ID3v1/ID3v2 (MP3) and VorbisComment (FLAC, OGG) Properties
-		
-		/// <summary>
+        #region Other Properties
+        
+        /// <summary>
+        /// Defines the number of times the audio file has been played.
+        /// </summary>
+        public int PlayCount { get; set; }
+
+        /// <summary>
+        /// Defines the last time the audio file has been played.
+        /// Null if the audio file has never been played.
+        /// </summary>
+        public DateTime? LastPlayed { get; set; }
+
+        /// <summary>
+        /// Defines the rating of the audio file, from 1 to 5. 
+        /// 0 means no rating.
+        /// </summary>
+        public int Rating { get; set; }
+
+        /// <summary>
+        /// Defines the audio file tempo. 
+        /// 0 means no tempo found.
+        /// </summary>
+        public int Tempo { get; set; }        
+
+        #endregion
+
+        #region ID3v1/ID3v2 (MP3) and VorbisComment (FLAC, OGG) Properties
+
+        /// <summary>
 		/// Song title.
 		/// </summary>
 		public string Title { get; set; }
@@ -269,6 +307,21 @@ namespace MPfm.Sound
 		/// Track number.
 		/// </summary>
 		public uint TrackNumber { get; set; }
+
+        /// <summary>
+        /// Track number.
+        /// </summary>
+        public uint TrackCount { get; set; }
+
+        /// <summary>
+        /// Production year.
+        /// </summary>
+        public uint Year { get; set; }
+
+        /// <summary>
+        /// Song lyrics.
+        /// </summary>
+        public string Lyrics { get; set; }
 
 		#endregion
 
@@ -375,6 +428,9 @@ namespace MPfm.Sound
 					Genre = fileMP3.Tag.FirstGenre;
 					DiscNumber = fileMP3.Tag.Disc;
 					TrackNumber = fileMP3.Tag.Track;
+                    TrackCount = fileMP3.Tag.TrackCount;
+                    Lyrics = fileMP3.Tag.Lyrics;
+                    Year = fileMP3.Tag.Year;
 
 					// Loop through codecs (usually just one)
 					foreach (TagLib.ICodec codec in fileMP3.Properties.Codecs)
@@ -427,6 +483,9 @@ namespace MPfm.Sound
 				Genre = fileFlac.Tag.FirstGenre;
 				DiscNumber = fileFlac.Tag.Disc;
 				TrackNumber = fileFlac.Tag.Track;
+                TrackCount = fileFlac.Tag.TrackCount;
+                Lyrics = fileFlac.Tag.Lyrics;
+                Year = fileFlac.Tag.Year;
 
 				// Loop through codecs (usually just one)
 				foreach (TagLib.ICodec codec in fileFlac.Properties.Codecs)
@@ -457,7 +516,10 @@ namespace MPfm.Sound
 				Title = fileOgg.Tag.Title;
 				Genre = fileOgg.Tag.FirstGenre;
 				DiscNumber = fileOgg.Tag.Disc;
-				TrackNumber = fileOgg.Tag.Track;                
+				TrackNumber = fileOgg.Tag.Track;
+                TrackCount = fileOgg.Tag.TrackCount;
+                Lyrics = fileOgg.Tag.Lyrics;
+                Year = fileOgg.Tag.Year;                
 
 				// Loop through codecs (usually just one)
 				foreach (TagLib.ICodec codec in fileOgg.Properties.Codecs)

@@ -5,15 +5,17 @@ using System.Linq;
 using System.Text;
 using MPfm.Library;
 using MPfm.Player;
+using MPfm.Sound;
 
 namespace MPfm.WindowsControls
 {
     public class SongGridViewItem
     {
-        public string Title { get; set; }        
+        //public string Title { get; set; }        
         public bool IsSelected { get; set; }
         public bool IsMouseOverItem { get; set; }
         public SongDTO Song { get; set; }
+        //public AudioFile AudioFile { get; set; }
 
         /// <summary>
         /// Default constructor for GridViewSongItem.

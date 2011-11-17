@@ -1033,116 +1033,116 @@ namespace MPfm.Library
 
         #region Generate Playlist
 
-        /// <summary>
-        /// Generates a playlist containing all songs from the library.
-        /// </summary>
-        /// <param name="soundFormat">Sound format filter</param>        
-        /// <returns>Playlist</returns>
-        public PlaylistDTO GeneratePlaylistAll(FilterSoundFormat soundFormat)
-        {
-            // Create playlist
-            PlaylistDTO playlist = new PlaylistDTO();            
-            playlist.PlaylistName = "All songs";
-            playlist.PlaylistType = PlaylistType.All;
+        ///// <summary>
+        ///// Generates a playlist containing all songs from the library.
+        ///// </summary>
+        ///// <param name="soundFormat">Sound format filter</param>        
+        ///// <returns>Playlist</returns>
+        //public PlaylistDTO GeneratePlaylistAll(FilterSoundFormat soundFormat)
+        //{
+        //    // Create playlist
+        //    PlaylistDTO playlist = new PlaylistDTO();            
+        //    playlist.PlaylistName = "All songs";
+        //    playlist.PlaylistType = PlaylistType.All;
 
-            // Get songs for this artist
-            List<SongDTO> songs = SelectSongs(soundFormat);
+        //    // Get songs for this artist
+        //    List<SongDTO> songs = SelectSongs(soundFormat);
 
-            // Transform songs into playlist songs
-            foreach (SongDTO song in songs)
-            {
-                // Create playlist song
-                PlaylistSongDTO playlistSong = new PlaylistSongDTO();
-                //playlistSong.PlaylistId = playlist.PlaylistId;
-                playlistSong.Song = song;
+        //    // Transform songs into playlist songs
+        //    foreach (SongDTO song in songs)
+        //    {
+        //        // Create playlist song
+        //        PlaylistSongDTO playlistSong = new PlaylistSongDTO();
+        //        //playlistSong.PlaylistId = playlist.PlaylistId;
+        //        playlistSong.Song = song;
 
-                // Add playlist song to list
-                playlist.Songs.Add(playlistSong);
-            }
+        //        // Add playlist song to list
+        //        playlist.Songs.Add(playlistSong);
+        //    }
 
-            // Set first song
-            if (playlist.Songs.Count > 0)
-            {
-                playlist.CurrentSong = playlist.Songs[0];
-            }
+        //    // Set first song
+        //    if (playlist.Songs.Count > 0)
+        //    {
+        //        playlist.CurrentSong = playlist.Songs[0];
+        //    }
 
-            return playlist;
-        }
+        //    return playlist;
+        //}
 
-        /// <summary>
-        /// Generates a playlist containing all songs from a specific artist.
-        /// </summary>
-        /// <param name="soundFormat">Sound format filter</param>
-        /// <param name="artistName">Artist name</param>
-        /// <returns>Playlist</returns>
-        public PlaylistDTO GeneratePlaylistFromArtist(FilterSoundFormat soundFormat, string artistName)
-        {
-            // Create playlist
-            PlaylistDTO playlist = new PlaylistDTO();
-            playlist.PlaylistName = "All songs from " + artistName;
-            playlist.PlaylistType = PlaylistType.Artist;           
+        ///// <summary>
+        ///// Generates a playlist containing all songs from a specific artist.
+        ///// </summary>
+        ///// <param name="soundFormat">Sound format filter</param>
+        ///// <param name="artistName">Artist name</param>
+        ///// <returns>Playlist</returns>
+        //public PlaylistDTO GeneratePlaylistFromArtist(FilterSoundFormat soundFormat, string artistName)
+        //{
+        //    // Create playlist
+        //    PlaylistDTO playlist = new PlaylistDTO();
+        //    playlist.PlaylistName = "All songs from " + artistName;
+        //    playlist.PlaylistType = PlaylistType.Artist;           
 
-            // Get songs for this artist
-            List<SongDTO> songs = SelectSongs(soundFormat, string.Empty, true, artistName);
+        //    // Get songs for this artist
+        //    List<SongDTO> songs = SelectSongs(soundFormat, string.Empty, true, artistName);
 
-            // Transform songs into playlist songs
-            foreach (SongDTO song in songs)
-            {
-                // Create playlist song
-                PlaylistSongDTO playlistSong = new PlaylistSongDTO();
-                //playlistSong.PlaylistId = playlist.PlaylistId;
-                playlistSong.Song = song;
+        //    // Transform songs into playlist songs
+        //    foreach (SongDTO song in songs)
+        //    {
+        //        // Create playlist song
+        //        PlaylistSongDTO playlistSong = new PlaylistSongDTO();
+        //        //playlistSong.PlaylistId = playlist.PlaylistId;
+        //        playlistSong.Song = song;
 
-                // Add playlist song to list
-                playlist.Songs.Add(playlistSong);
-            }
+        //        // Add playlist song to list
+        //        playlist.Songs.Add(playlistSong);
+        //    }
 
-            // Set first song
-            if (playlist.Songs.Count > 0)
-            {
-                playlist.CurrentSong = playlist.Songs[0];
-            }
+        //    // Set first song
+        //    if (playlist.Songs.Count > 0)
+        //    {
+        //        playlist.CurrentSong = playlist.Songs[0];
+        //    }
 
-            return playlist;           
-        }
+        //    return playlist;           
+        //}
 
-        /// <summary>
-        /// Generates a playlist containing all songs from a specific album.
-        /// </summary>
-        /// <param name="soundFormat">Sound format filter</param>
-        /// <param name="artistName">Artist name</param>
-        /// <param name="albumTitle">Album title</param>
-        /// <returns>Playlist</returns>
-        public PlaylistDTO GeneratePlaylistFromAlbum(FilterSoundFormat soundFormat, string artistName, string albumTitle)
-        {
-            // Create playlist
-            PlaylistDTO playlist = new PlaylistDTO();
-            playlist.PlaylistName = "All songs from " + artistName + "'s " + albumTitle;
-            playlist.PlaylistType = PlaylistType.Album;
+        ///// <summary>
+        ///// Generates a playlist containing all songs from a specific album.
+        ///// </summary>
+        ///// <param name="soundFormat">Sound format filter</param>
+        ///// <param name="artistName">Artist name</param>
+        ///// <param name="albumTitle">Album title</param>
+        ///// <returns>Playlist</returns>
+        //public PlaylistDTO GeneratePlaylistFromAlbum(FilterSoundFormat soundFormat, string artistName, string albumTitle)
+        //{
+        //    // Create playlist
+        //    PlaylistDTO playlist = new PlaylistDTO();
+        //    playlist.PlaylistName = "All songs from " + artistName + "'s " + albumTitle;
+        //    playlist.PlaylistType = PlaylistType.Album;
 
-            // Get songs for this artist
-            List<SongDTO> songs = SelectSongs(soundFormat, string.Empty, true, artistName, albumTitle);
+        //    // Get songs for this artist
+        //    List<SongDTO> songs = SelectSongs(soundFormat, string.Empty, true, artistName, albumTitle);
 
-            // Transform songs into playlist songs
-            foreach (SongDTO song in songs)
-            {
-                // Create playlist song
-                PlaylistSongDTO playlistSong = new PlaylistSongDTO();
-                //playlistSong.PlaylistId = playlist.PlaylistId;
-                playlistSong.Song = song;
+        //    // Transform songs into playlist songs
+        //    foreach (SongDTO song in songs)
+        //    {
+        //        // Create playlist song
+        //        PlaylistSongDTO playlistSong = new PlaylistSongDTO();
+        //        //playlistSong.PlaylistId = playlist.PlaylistId;
+        //        playlistSong.Song = song;
 
-                // Add playlist song to list
-                playlist.Songs.Add(playlistSong);
-            }
+        //        // Add playlist song to list
+        //        playlist.Songs.Add(playlistSong);
+        //    }
 
-            // Set first song
-            if (playlist.Songs.Count > 0)
-            {
-                playlist.CurrentSong = playlist.Songs[0];
-            }
+        //    // Set first song
+        //    if (playlist.Songs.Count > 0)
+        //    {
+        //        playlist.CurrentSong = playlist.Songs[0];
+        //    }
 
-            return playlist;
-        }
+        //    return playlist;
+        //}
 
         #endregion
 
