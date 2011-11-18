@@ -458,14 +458,14 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Selects song markers from the database.
+        /// Selects markers related to an audio file from the database.
         /// </summary>
-        /// <param name="songId">Song Id</param>
+        /// <param name="audioFileId">AudioFile identifier</param>
         /// <returns>List of Markers</returns>
-        public List<Marker> SelectSongMarkers(Guid songId)
+        public List<Marker> SelectMarkers(Guid audioFileId)
         {
             // Fetch data
-            DataTable table = Select("SELECT * FROM Markers WHERE SongId = '" + songId.ToString() + "' ORDER BY PositionBytes");
+            DataTable table = Select("SELECT * FROM Markers WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY PositionBytes");
 
             // Convert to DTO
             List<Marker> dtos = ConvertLibrary.Markers(table);

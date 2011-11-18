@@ -948,26 +948,6 @@ namespace MPfm.Library
 
         #endregion
 
-        public Marker SelectMarker(Guid markerId)
-        {
-            // Declare variables
-            Marker dto = null;
-
-            try
-            {
-                // Get DTO
-                dto = Gateway.SelectMarker(markerId);
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log(ex.Message + "\n" + ex.StackTrace);
-                throw ex;
-            }
-            
-            return dto;
-        }
-
-
         #region Generate Playlist
 
         ///// <summary>

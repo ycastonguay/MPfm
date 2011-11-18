@@ -1625,38 +1625,38 @@ namespace MPfm
         /// </summary>
         public void RefreshMarkers()
         {
-            //// Clear items
-            //viewMarkers.Items.Clear();
+            // Clear items
+            viewMarkers.Items.Clear();
 
-            //// Set marker buttons
-            //btnEditMarker.Enabled = false;
-            //btnRemoveMarker.Enabled = false;
-            //btnGoToMarker.Enabled = false;
+            // Set marker buttons
+            btnEditMarker.Enabled = false;
+            btnRemoveMarker.Enabled = false;
+            btnGoToMarker.Enabled = false;
 
-            //// Check if a song is currently playing
-            //if (Player.CurrentSong == null)
-            //{
-            //    // Reset buttons
-            //    btnAddMarker.Enabled = false;
-            //    return;
-            //}
+            // Check if a song is currently playing
+            if (!Player.IsPlaying)
+            {
+                // Reset buttons
+                btnAddMarker.Enabled = false;
+                return;
+            }
 
-            //// Set button
-            //btnAddMarker.Enabled = true;
-            
-            //// Fetch markers from database
-            //List<MPfm.Library.Data.Marker> markers = DataAccess.SelectSongMarkers(Player.CurrentSong.SongId);
+            // Set button
+            btnAddMarker.Enabled = true;
 
-            //// Update grid view
-            //foreach (MPfm.Library.Data.Marker marker in markers)
-            //{
-            //    // Create grid view item
-            //    ListViewItem item = viewMarkers.Items.Add(marker.Name);
-            //    item.Tag = marker.MarkerId;
-            //    item.SubItems.Add(marker.Position);
-            //    item.SubItems.Add(marker.Comments);
-            //    item.SubItems.Add(marker.PositionPCM.ToString());
-            //}
+            // Fetch markers from database
+            List<Marker> markers = Library.Gateway.SelectMarkers(Player.Playlist.CurrentItem.AudioFile.Id);
+
+            // Update grid view
+            foreach (Marker marker in markers)
+            {
+                // Create grid view item
+                ListViewItem item = viewMarkers.Items.Add(marker.Name);
+                item.Tag = marker.MarkerId;
+                item.SubItems.Add(marker.Position);
+                item.SubItems.Add(marker.Comments);
+                item.SubItems.Add(marker.PositionBytes.ToString());
+            }
         }
 
         /// <summary>
@@ -3086,7 +3086,7 @@ namespace MPfm
             if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
             {
                 // Create window and show as dialog                
-                formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.Playlist.CurrentItem, Guid.Empty);
+                formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.Playlist.CurrentItem.AudioFile, Guid.Empty);
                 formAddEditMarker.ShowDialog(this);
             }
         }
@@ -3099,18 +3099,18 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnEditMarker_Click(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
-            //// Get selected markerId
-            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+            // Get selected markerId
+            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
-            //// Create window and show as dialog
-            //formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit, Player.CurrentSong, markerId);
-            //formAddEditMarker.ShowDialog(this);
+            // Create window and show as dialog
+            formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit, Player.Playlist.CurrentItem.AudioFile, markerId);
+            formAddEditMarker.ShowDialog(this);
         }
 
         /// <summary>
@@ -3134,7 +3134,7 @@ namespace MPfm
                 Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
                 // Remove marker and refresh list                
-                //DataAccess.DeleteMarker(markerId);
+                Library.Gateway.DeleteMarker(markerId);
                 RefreshMarkers();
             }
         }
@@ -3147,21 +3147,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnGoToMarker_Click(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
-            //// Get selected markerId
-            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+            // Get selected markerId
+            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
-            //// Get PCM position
-            //uint position = 0;
-            //uint.TryParse(viewMarkers.SelectedItems[0].SubItems[2].Text, out position);
+            // Get PCM position
+            uint position = 0;
+            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
 
-            //// Set player position
-            //m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            // Set player position            
+            m_player.SetPosition(position);
         }
 
         /// <summary>
@@ -3172,21 +3172,21 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void viewMarkers_DoubleClick(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            // Check if an item is selected
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
-            //// Get selected markerId
-            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
+            // Get selected markerId
+            Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
-            //// Get PCM position
-            //uint position = 0;
-            //uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
+            // Get PCM position
+            uint position = 0;
+            uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
 
-            //// Set player position
-            //m_player.MainChannel.SetPosition(position, FMOD.TIMEUNIT.SENTENCE_PCM);
+            // Set player position            
+            m_player.SetPosition(position);
         }
 
         /// <summary>

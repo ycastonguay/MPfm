@@ -36,9 +36,9 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         public Guid MarkerId { get; set; }
         /// <summary>
-        /// Relationship to the Song unique identifier (for database storage).
+        /// Relationship to the AudioFile unique identifier (for database storage).
         /// </summary>
-        public Guid SongId { get; set; }
+        public Guid AudioFileId { get; set; }
         /// <summary>
         /// Marker name.
         /// </summary>
@@ -48,13 +48,17 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         public string Comments { get; set; }
         /// <summary>
+        /// Marker position (in 0:00.000 string format).
+        /// </summary>
+        public string Position { get; set; }
+        /// <summary>
         /// Marker position (in bytes).
         /// </summary>
         public long PositionBytes { get; set; }
         /// <summary>
-        /// Marker position (in milliseconds).
+        /// Marker position (in samples).
         /// </summary>
-        public int PositionMS { get; set; }
+        public int PositionSamples { get; set; }
 
         /// <summary>
         /// Default constructor for the Marker class.
@@ -63,11 +67,12 @@ namespace MPfm.Player.PlayerV4
         {
             // Set default values
             MarkerId = Guid.NewGuid();
-            SongId = Guid.Empty;
+            AudioFileId = Guid.Empty;
             Name = string.Empty;
             Comments = string.Empty;
+            Position = "0:00.000";
             PositionBytes = 0;
-            PositionMS = 0;
+            PositionSamples = 0;
         }
     }
 }

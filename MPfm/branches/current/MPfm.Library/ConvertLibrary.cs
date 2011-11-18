@@ -217,17 +217,18 @@ namespace MPfm.Library
 
                 // Assign properties (strings)
                 dto.MarkerId = new Guid(table.Rows[a]["MarkerId"].ToString());
-                dto.SongId = new Guid(table.Rows[a]["SongId"].ToString());
+                dto.AudioFileId = new Guid(table.Rows[a]["AudioFileId"].ToString());
                 dto.Name = table.Rows[a]["Name"].ToString();
                 dto.Comments = table.Rows[a]["Comments"].ToString();
+                dto.Position = table.Rows[a]["Position"].ToString();
 
                 int positionBytes = 0;
                 int.TryParse(table.Rows[a]["PositionBytes"].ToString(), out positionBytes);
                 dto.PositionBytes = positionBytes;
 
-                int positionMS = 0;
-                int.TryParse(table.Rows[a]["PositionMS"].ToString(), out positionMS);
-                dto.PositionMS = positionMS;
+                int positionSamples = 0;
+                int.TryParse(table.Rows[a]["PositionSamples"].ToString(), out positionSamples);
+                dto.PositionSamples = positionSamples;
 
                 // Add DTO to list
                 dtos.Add(dto);
@@ -259,6 +260,11 @@ namespace MPfm.Library
             {
                 // Convert values
                 ToEQPresetRow(ref row, (EQPreset)dto);
+            }
+            else if (dto is Marker)
+            {
+                // Convert values
+                ToMarkerRow(ref row, (Marker)dto);
             }
         }
 
@@ -333,12 +339,13 @@ namespace MPfm.Library
         {
             // Set row data
             row["MarkerId"] = dto.MarkerId.ToString();
-            row["SongId"] = dto.SongId.ToString();
+            row["AudioFileId"] = dto.AudioFileId.ToString();
             row["Name"] = dto.Name;
             row["Comments"] = dto.Comments;
+            row["Position"] = dto.Position;
 
             AssignRowValue(ref row, "PositionBytes", dto.PositionBytes);
-            AssignRowValue(ref row, "PositionMS", dto.PositionMS);
+            AssignRowValue(ref row, "PositionSamples", dto.PositionSamples);
         }
 
         /// <summary>
