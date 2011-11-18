@@ -2229,8 +2229,7 @@ namespace MPfm
             this.viewSongs2.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             this.viewSongs2.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
             this.viewSongs2.Location = new System.Drawing.Point(0, 47);
-            this.viewSongs2.Name = "viewSongs2";
-            this.viewSongs2.NowPlayingSongId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.Name = "viewSongs2";            
             this.viewSongs2.OrderByAscending = true;
             this.viewSongs2.OrderByFieldName = "";
             this.viewSongs2.Size = new System.Drawing.Size(792, 171);

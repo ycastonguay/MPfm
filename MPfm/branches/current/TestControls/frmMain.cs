@@ -49,7 +49,7 @@ namespace TestControls
             }
             comboStandardFontName.SelectedItem = "Tahoma";
 
-            songGridView.ImportSongs(m_library.SelectSongs(FilterSoundFormat.MP3));
+            songGridView.ImportAudioFiles(m_library.SelectAudioFiles(FilterSoundFormat.MP3));
 
             // Set initial query
 

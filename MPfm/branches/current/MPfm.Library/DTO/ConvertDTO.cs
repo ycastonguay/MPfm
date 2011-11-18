@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 using MPfm.Player;
 using MPfm.Player.PlayerV4;
+using MPfm.Sound;
 
 namespace MPfm.Library
 {
@@ -39,51 +40,55 @@ namespace MPfm.Library
     public static class ConvertDTO
     {
         /// <summary>
-        /// Converts a DataTable to a list of SongDTOs.
+        /// Converts a DataTable to a list of AudioFiles.
+        /// Note: Not all the metadata will be present because not all fields
+        /// are saved in the database. You need to call RefreshMetadata to refresh
+        /// the metadata from the file.
         /// </summary>
         /// <param name="table">DataTable</param>
-        /// <returns>List of SongDTO</returns>
-        public static List<SongDTO> Songs(DataTable table)
-        {
+        /// <returns>List of AudioFiles</returns>
+        public static List<AudioFile> AudioFiles(DataTable table)
+        { 
             // Create list
-            List<SongDTO> dtos = new List<SongDTO>();
+            List<AudioFile> dtos = new List<AudioFile>();
 
             // Loop through rows
             for (int a = 0; a < table.Rows.Count; a++)
             {
-                // Create DTO
-                SongDTO dto = new SongDTO();
+                // Get file path and id
+                string filePath = table.Rows[a]["FilePath"].ToString();
+                Guid id = new Guid(table.Rows[a]["AudioFileId"].ToString());
 
-                // Assign properties (strings)
-                dto.SongId = new Guid(table.Rows[a]["SongId"].ToString());
-                dto.Title = table.Rows[a]["Title"].ToString();
-                dto.FilePath = table.Rows[a]["FilePath"].ToString();
+                // Create audio file
+                AudioFile dto = new AudioFile(filePath, id, false);
+
+                // Assign properties (strings)                
+                dto.Title = table.Rows[a]["Title"].ToString();                
                 dto.ArtistName = table.Rows[a]["ArtistName"].ToString();
                 dto.AlbumTitle = table.Rows[a]["AlbumTitle"].ToString();
-                dto.Genre = table.Rows[a]["Genre"].ToString();
-                dto.SoundFormat = table.Rows[a]["SoundFormat"].ToString();
+                dto.Genre = table.Rows[a]["Genre"].ToString();                
                 dto.Lyrics = table.Rows[a]["Lyrics"].ToString();
-                dto.Time = table.Rows[a]["Time"].ToString();
+                dto.Length = table.Rows[a]["Length"].ToString();
 
                 // Assign properties (integers)
                 int playCount = 0;
                 int.TryParse(table.Rows[a]["PlayCount"].ToString(), out playCount);
                 dto.PlayCount = playCount;
 
-                int year = 1900;
-                int.TryParse(table.Rows[a]["Year"].ToString(), out year);
+                uint year = 1900;
+                uint.TryParse(table.Rows[a]["Year"].ToString(), out year);
                 dto.Year = year;
 
-                int discNumber = 0;
-                int.TryParse(table.Rows[a]["DiscNumber"].ToString(), out discNumber);
+                uint discNumber = 0;
+                uint.TryParse(table.Rows[a]["DiscNumber"].ToString(), out discNumber);
                 dto.DiscNumber = discNumber;
 
-                int trackNumber = 0;
-                int.TryParse(table.Rows[a]["TrackNumber"].ToString(), out trackNumber);
+                uint trackNumber = 0;
+                uint.TryParse(table.Rows[a]["TrackNumber"].ToString(), out trackNumber);
                 dto.TrackNumber = trackNumber;
 
-                int trackCount = 0;
-                int.TryParse(table.Rows[a]["TrackCount"].ToString(), out trackCount);
+                uint trackCount = 0;
+                uint.TryParse(table.Rows[a]["TrackCount"].ToString(), out trackCount);
                 dto.TrackCount = trackCount;
 
                 int rating = 0;
@@ -305,10 +310,10 @@ namespace MPfm.Library
         public static void ToRow(ref DataRow row, object dto)
         {
             // Check what type of DTO
-            if (dto is SongDTO)
+            if (dto is AudioFile)
             {
                 // Convert values
-                ToSongRow(ref row, (SongDTO)dto);
+                ToAudioFileRow(ref row, (AudioFile)dto);
             }
             else if (dto is FolderDTO)
             {
@@ -323,22 +328,22 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Sets the values of a DataRow in a Song DataTable.
+        /// Sets the values of a DataRow in a AudioFile DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="dto">SongDTO</param>
-        public static void ToSongRow(ref DataRow row, SongDTO dto)
+        /// <param name="dto">AudioFile</param>
+        public static void ToAudioFileRow(ref DataRow row, AudioFile dto)
         {
             // Set row data
-            row["SongId"] = dto.SongId.ToString();
+            row["AudioFileId"] = dto.Id.ToString();
             row["Title"] = dto.Title;
             row["FilePath"] = dto.FilePath;
             row["ArtistName"] = dto.ArtistName;
             row["AlbumTitle"] = dto.AlbumTitle;
             row["Genre"] = dto.Genre;
-            row["SoundFormat"] = dto.SoundFormat;
+            row["FileType"] = dto.FileType.ToString();
             row["Lyrics"] = dto.Lyrics;
-            row["Time"] = dto.Time;
+            row["Length"] = dto.Length;
 
             AssignRowValue(ref row, "PlayCount", dto.PlayCount);
             AssignRowValue(ref row, "Year", dto.Year);

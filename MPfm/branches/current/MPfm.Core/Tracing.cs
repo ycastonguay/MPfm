@@ -42,6 +42,20 @@ namespace MPfm.Core
         }
 
         /// <summary>
+        /// Logs an exception and its inner exception if available to configured trace listeners.
+        /// </summary>
+        /// <param name="ex">Exception</param>
+        public static void Log(Exception ex)
+        {
+            Trace.WriteLine("Error occured: " + ex.Message + "\n" + ex.StackTrace);
+
+            if (ex.InnerException != null)
+            {
+                Trace.WriteLine("Inner exception: " + ex.InnerException.Message + "\n" + ex.InnerException.StackTrace);
+            }
+        }
+
+        /// <summary>
         /// Logs the message to configured trace listeners (without time stamp)
         /// </summary>
         /// <param name="message"></param>

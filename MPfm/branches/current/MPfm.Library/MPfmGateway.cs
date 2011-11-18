@@ -31,6 +31,7 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Player;
 using MPfm.Player.PlayerV4;
+using MPfm.Sound;
 
 namespace MPfm.Library
 {
@@ -56,7 +57,7 @@ namespace MPfm.Library
         public void ResetLibrary()
         {
             // Delete all table content
-            Delete("Songs");
+            Delete("AudioFiles");
             Delete("Playlists");
             Delete("PlaylistSongs");
             Delete("Loops");
@@ -66,75 +67,80 @@ namespace MPfm.Library
         #region Songs
         
         /// <summary>
-        /// Selects all songs from the database.
+        /// Selects all audio files from the database.
         /// </summary>
-        /// <returns>List of SongDTO</returns>
-        public List<SongDTO> SelectSongs()
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles()
         {
             // Fetch data
-            DataTable table = Select("SELECT * FROM Songs");
+            DataTable table = Select("SELECT * FROM AudioFiles");
 
-            // Convert to DTO
-            List<SongDTO> songs = ConvertDTO.Songs(table);
+            // Convert object
+            List<AudioFile> audioFiles = ConvertDTO.AudioFiles(table);
 
-            return songs;
+            return audioFiles;
         }
 
-        public SongDTO SelectSong(Guid songId)
+        /// <summary>
+        /// Selects a specific audio file from the database by its identifier.
+        /// </summary>
+        /// <param name="audioFileId">Audio file unique identifier</param>
+        /// <returns>AudioFile</returns>
+        public AudioFile SelectAudioFile(Guid audioFileId)
         {
             // Fetch data
-            DataTable table = Select("SELECT * FROM Songs WHERE SongId = '" + songId.ToString() + "'");
+            DataTable table = Select("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
 
             // Convert to DTO
-            List<SongDTO> songs = ConvertDTO.Songs(table);
+            List<AudioFile> audioFiles = ConvertDTO.AudioFiles(table);
 
             // Check results
-            if (songs.Count > 0)
+            if (audioFiles.Count > 0)
             {
                 // Return first result
-                return songs[0];
+                return audioFiles[0];
             }
 
             return null;
         }
 
         /// <summary>
-        /// Inserts a new song into the database.
+        /// Inserts a new audio file into the database.
         /// </summary>
-        /// <param name="song">SongDTO to insert</param>
-        public void InsertSong(SongDTO song)
+        /// <param name="audioFile">AudioFile to insert</param>
+        public void InsertAudioFile(AudioFile audioFile)
         {
             // Insert song
-            Insert("Songs", "SongId", song);
+            Insert("AudioFiles", "AudioFileId", audioFile);
         }
 
         /// <summary>
-        /// Updates a new song into the database.
+        /// Updates an existing audio file to the database.
         /// </summary>
-        /// <param name="song">SongDTO to update</param>
-        public void UpdateSong(SongDTO song)
+        /// <param name="audioFile">AudioFile to update</param>
+        public void UpdateAudioFile(AudioFile audioFile)
         {
             // Update song
-            Update("Songs", "SongId", song.SongId, song);
+            Update("AudioFiles", "AudioFileId", audioFile.Id, audioFile);
         }
 
         /// <summary>
-        /// Deletes a song from the database.
+        /// Deletes an audio file from the database.
         /// </summary>
-        /// <param name="songId">Song to delete</param>
-        public void DeleteSong(Guid songId)
+        /// <param name="audioFileId">AudioFile to delete</param>
+        public void DeleteAudioFile(Guid audioFileId)
         {
             // Delete song
-            Delete("Songs", "SongId", songId);
+            Delete("AudioFiles", "AudioFileId", audioFileId);
         }
 
         /// <summary>
-        /// Deletes songs from the database. 
+        /// Deletes audio files from the database based on their file path.
         /// </summary>
         /// <param name="basePath">Base audio file path</param>
-        public void DeleteSongs(string basePath)
+        public void DeleteAudioFiles(string basePath)
         {
-            Delete("Songs", "FilePath LIKE '" + basePath + "%'");
+            Delete("AudioFiles", "FilePath LIKE '" + basePath + "%'");
         }
 
         /// <summary>
@@ -158,10 +164,10 @@ namespace MPfm.Library
             List<string> artists = new List<string>();
 
             // Set query
-            string sql = "SELECT DISTINCT ArtistName FROM Songs ORDER BY ArtistName";
+            string sql = "SELECT DISTINCT ArtistName FROM AudioFiles ORDER BY ArtistName";
             if(soundFormat != FilterSoundFormat.All)
             {
-                sql = "SELECT DISTINCT ArtistName FROM Songs WHERE SoundFormat = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
+                sql = "SELECT DISTINCT ArtistName FROM AudioFiles WHERE FileType = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
             }
 
             // Select distinct
@@ -198,10 +204,10 @@ namespace MPfm.Library
             Dictionary<string, List<string>> albums = new Dictionary<string, List<string>>();
 
             // Set query
-            string sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM Songs";
+            string sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles";
             if (soundFormat != FilterSoundFormat.All)
             {
-                sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM Songs WHERE SoundFormat = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
+                sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles WHERE FileType = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
             }
 
             // Select distinct
@@ -241,10 +247,10 @@ namespace MPfm.Library
             Dictionary<string, string> albums = new Dictionary<string, string>();
 
             // Set query
-            string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM Songs";
+            string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles";
             if (soundFormat != FilterSoundFormat.All)
             {
-                sql = "SELECT DISTINCT AlbumTitle, FilePath FROM Songs WHERE SoundFormat = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
+                sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles WHERE FileType = '" + soundFormat.ToString() + "' ORDER BY ArtistName";
             }
 
             // Select distinct
@@ -268,21 +274,21 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Updates the play count of a song and sets the last playback datetime.
+        /// Updates the play count of an audio file and sets the last playback datetime.
         /// </summary>
-        /// <param name="songId">SongId</param>
-        public void UpdateSongPlayCount(Guid songId)
+        /// <param name="audioFileId">AudioFile identifier</param>
+        public void UpdatePlayCount(Guid audioFileId)
         {
             // Get play count
-            SongDTO song = SelectSong(songId);
+            AudioFile audioFile = SelectAudioFile(audioFileId);
 
-            // Check if the song was found
-            if (song == null)
+            // Check if the audiofile was found
+            if (audioFile == null)
             {
-                throw new Exception("Error; The song was not found!");
+                throw new Exception("Error; The audiofile was not found!");
             }
 
-            Execute("UPDATE Songs SET PlayCount = " + (song.PlayCount+1).ToString() + ", LastPlayed = " + DateTime.Now.ToString("yyyy-MM-dd HH:ss.fff"));
+            Execute("UPDATE AudioFiles SET PlayCount = " + (audioFile.PlayCount + 1).ToString() + ", LastPlayed = " + DateTime.Now.ToString("yyyy-MM-dd HH:ss.fff"));
         }
 
         #endregion

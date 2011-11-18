@@ -738,17 +738,23 @@ namespace MPfm.WindowsControls
 
         #region Settings Properties
         
-        private Guid m_nowPlayingSongId = Guid.Empty;
+        /// <summary>
+        /// Private value for the NowPlayingAudioFileId property.
+        /// </summary>
+        private Guid m_nowPlayingAudioFileId = Guid.Empty;
+        /// <summary>
+        /// Defines the currently playing audio file identifier.
+        /// </summary>
         [Browsable(false)]
-        public Guid NowPlayingSongId
+        public Guid NowPlayingAudioFileId
         {
             get
             {
-                return m_nowPlayingSongId;
+                return m_nowPlayingAudioFileId;
             }
             set
             {
-                m_nowPlayingSongId = value;
+                m_nowPlayingAudioFileId = value;
             }
         }
 
@@ -917,7 +923,7 @@ namespace MPfm.WindowsControls
 
             // Create result
             SongGridViewBackgroundWorkerResult result = new SongGridViewBackgroundWorkerResult();
-            result.Song = arg.Song;
+            result.AudioFile = arg.AudioFile;
 
             // Check if this album is still visible (cancel if it is out of display).     
             if (arg.LineIndex < m_startLineNumber || arg.LineIndex > m_startLineNumber + m_numberOfLinesToDraw + m_preloadLinesAlbumCover)
@@ -928,7 +934,7 @@ namespace MPfm.WindowsControls
             }
 
             // Extract image from file
-            Image imageAlbumCover = AudioFile.ExtractImageForAudioFile(arg.Song.FilePath);
+            Image imageAlbumCover = AudioFile.ExtractImageForAudioFile(arg.AudioFile.FilePath);
 
             // Set album art in return data            
             result.AlbumArt = imageAlbumCover;
@@ -953,7 +959,7 @@ namespace MPfm.WindowsControls
 
             // Create cover art cache (even if the albumart is null, just to make sure the grid doesn't refetch the album art endlessly)
             GridViewImageCache cache = new GridViewImageCache();
-            cache.Key = result.Song.ArtistName + "_" + result.Song.AlbumTitle;
+            cache.Key = result.AudioFile.ArtistName + "_" + result.AudioFile.AlbumTitle;
             cache.Image = result.AlbumArt;
 
             // We found cover art! Add to cache and get out of the loop
@@ -979,7 +985,7 @@ namespace MPfm.WindowsControls
             int indexRemove = -1;
             for (int a = 0; a < m_workerUpdateAlbumArtPile.Count; a++)
             {
-                if (m_workerUpdateAlbumArtPile[a].Song.FilePath.ToUpper() == result.Song.FilePath.ToUpper())
+                if (m_workerUpdateAlbumArtPile[a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
                 {
                     indexRemove = a;
                 }
@@ -1019,18 +1025,18 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Imports songs as SongGridViewItems.
+        /// Imports audio files as SongGridViewItems.
         /// </summary>
-        /// <param name="songs">List of SongDTO</param>
-        public void ImportSongs(List<SongDTO> songs)
+        /// <param name="audioFiles">List of AudioFiles</param>
+        public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
             // Create list of items
             m_items = new List<SongGridViewItem>();
-            foreach (SongDTO song in songs)
+            foreach (AudioFile audioFile in audioFiles)
             {
                 // Create item and add to list
                 SongGridViewItem item = new SongGridViewItem();
-                item.Song = song;
+                item.AudioFile = audioFile;
                 m_items.Add(item);
             }
 
@@ -1167,7 +1173,7 @@ namespace MPfm.WindowsControls
                 GridViewSongColumn columnSongNowPlaying = new GridViewSongColumn(string.Empty, string.Empty, true, 1);
                 GridViewSongColumn columnSongTrackNumber = new GridViewSongColumn("Tr#", "TrackNumber", true, 2);
                 GridViewSongColumn columnSongTitle = new GridViewSongColumn("Song Title", "Title", true, 3);
-                GridViewSongColumn columnSongLength = new GridViewSongColumn("Length", "Time", true, 4);
+                GridViewSongColumn columnSongLength = new GridViewSongColumn("Length", "Length", true, 4);
                 GridViewSongColumn columnSongArtistName = new GridViewSongColumn("Artist Name", "ArtistName", true, 5);
                 GridViewSongColumn columnSongAlbumTitle = new GridViewSongColumn("Album Title", "AlbumTitle", true, 6);
                 GridViewSongColumn columnSongPlayCount = new GridViewSongColumn("Play Count", "PlayCount", true, 7);
@@ -1257,9 +1263,8 @@ namespace MPfm.WindowsControls
             // Loop through lines
             for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
             {
-                // Get song
-                //SongDTO song = ((GridViewSongItem)m_items[a]).Song;
-                SongDTO song = m_items[a].Song;
+                // Get audio file
+                AudioFile audioFile = m_items[a].AudioFile;
 
                 // Calculate Y offset (compensate for scrollbar position)
                 offsetY = (a * m_songCache.LineHeight) - m_vScrollBar.Value + m_songCache.LineHeight;
@@ -1277,7 +1282,7 @@ namespace MPfm.WindowsControls
 
                 // Set rectangle
                 Rectangle rectBackground = new Rectangle(m_columns[0].Width - m_hScrollBar.Value, offsetY, lineBackgroundWidth, m_songCache.LineHeight);
-                if (song.SongId == m_nowPlayingSongId)
+                if (audioFile.Id == m_nowPlayingAudioFileId)
                 {
                     // Now playing color
                     brushGradient = new LinearGradientBrush(rectBackground, LineNowPlayingColor1, LineNowPlayingColor2, 90);
@@ -1304,21 +1309,20 @@ namespace MPfm.WindowsControls
                 #region Album Cover Zone
 
                 // Check for an album title change (or the last item of the grid)
-                if (currentAlbumTitle != song.AlbumTitle)
+                if (currentAlbumTitle != audioFile.AlbumTitle)
                 {
                     // Set the new current album title
-                    currentAlbumTitle = song.AlbumTitle;
+                    currentAlbumTitle = audioFile.AlbumTitle;
 
                     // For displaying the album cover, we need to know how many songs of the same album are bundled together
                     // Start by getting the start index
                     for (int b = a; b > 0; b--)
                     {
-                        // Get song
-                        //SongDTO previousSong = ((GridViewSongItem)m_items[b]).Song;
-                        SongDTO previousSong = m_items[b].Song;
+                        // Get audio file
+                        AudioFile previousAudioFile = m_items[b].AudioFile;
 
                         // Check if the album title matches
-                        if (previousSong.AlbumTitle != song.AlbumTitle)
+                        if (previousAudioFile.AlbumTitle != audioFile.AlbumTitle)
                         {
                             // Set album cover start index (+1 because the last song was the sound found in the previous loop iteration)
                             albumCoverStartIndex = b + 1;
@@ -1328,12 +1332,11 @@ namespace MPfm.WindowsControls
                     // Find the end index
                     for (int b = a + 1; b < m_items.Count; b++)
                     {
-                        // Get song
-                        //SongDTO nextSong = ((GridViewSongItem)m_items[b]).Song;
-                        SongDTO nextSong = m_items[b].Song;
+                        // Get audio file
+                        AudioFile nextAudioFile = m_items[b].AudioFile;
 
                         // If the album title is different, this means we found the next album title
-                        if (nextSong.AlbumTitle != song.AlbumTitle)
+                        if (nextAudioFile.AlbumTitle != audioFile.AlbumTitle)
                         {
                             // Set album cover end index (-1 because the last song was the song found in the previous loop iteration)
                             albumCoverEndIndex = b - 1;
@@ -1375,7 +1378,7 @@ namespace MPfm.WindowsControls
 
                         // Try to extract image from cache
                         Image imageAlbumCover = null;
-                        GridViewImageCache cachedImage = m_imageCache.FirstOrDefault(x => x.Key == song.ArtistName + "_" + song.AlbumTitle);
+                        GridViewImageCache cachedImage = m_imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
                         if (cachedImage != null)
                         {
                             // Set image
@@ -1407,7 +1410,7 @@ namespace MPfm.WindowsControls
                             foreach (SongGridViewBackgroundWorkerArgument arg in m_workerUpdateAlbumArtPile)
                             {
                                 // Match by file path
-                                if (arg.Song.FilePath.ToUpper() == song.FilePath.ToUpper())
+                                if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
                                 {
                                     // We found the album cover
                                     albumCoverFound = true;
@@ -1419,7 +1422,7 @@ namespace MPfm.WindowsControls
                             {
                                 // Add item to update album art worker pile
                                 SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
-                                arg.Song = song;
+                                arg.AudioFile = audioFile;
                                 arg.LineIndex = a;
                                 m_workerUpdateAlbumArtPile.Add(arg);
                             }
@@ -1506,7 +1509,7 @@ namespace MPfm.WindowsControls
                             stringFormat.Trimming = StringTrimming.EllipsisCharacter;
 
                             // Measure strings
-                            sizeArtistName = g.MeasureString(song.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
+                            sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
                             sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText - (int)sizeArtistName.Width, stringFormat);
 
                             // Display artist name at full width first, then album name
@@ -1524,7 +1527,7 @@ namespace MPfm.WindowsControls
                                 stringFormat.Trimming = StringTrimming.EllipsisWord;
 
                                 // Measure strings
-                                sizeArtistName = g.MeasureString(song.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
+                                sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
                                 sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
 
                                 // Display the album title at the top of the zome
@@ -1539,7 +1542,7 @@ namespace MPfm.WindowsControls
                                 stringFormat.Trimming = StringTrimming.EllipsisWord;
 
                                 // Measure strings
-                                sizeArtistName = g.MeasureString(song.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
+                                sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
                                 sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
 
                                 // If there's only two lines, display text on only two lines
@@ -1561,7 +1564,7 @@ namespace MPfm.WindowsControls
                                     float widthRemainingForText = m_columns[0].Width - m_padding - heightWithPadding;
 
                                     // Measure strings
-                                    sizeArtistName = g.MeasureString(song.ArtistName, fontDefaultBold, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
+                                    sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
                                     sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
 
                                     // Try to center the cover art + padding + max text width
@@ -1629,7 +1632,7 @@ namespace MPfm.WindowsControls
                         }
 
                         // Check if this is the artist name column (set font to bold)
-                        g.DrawString(song.ArtistName, fontDefaultBold, Brushes.White, rectArtistNameText, stringFormat);
+                        g.DrawString(audioFile.ArtistName, fontDefaultBold, Brushes.White, rectArtistNameText, stringFormat);
                         g.DrawString(currentAlbumTitle, fontDefault, Brushes.White, rectAlbumTitleText, stringFormat);
 
                         // Draw horizontal line to distinguish albums
@@ -1679,7 +1682,7 @@ namespace MPfm.WindowsControls
                     GridViewSongColumn column = m_songCache.ActiveColumns[b];
 
                     // Get property through reflection
-                    PropertyInfo propertyInfo = song.GetType().GetProperty(column.FieldName);
+                    PropertyInfo propertyInfo = audioFile.GetType().GetProperty(column.FieldName);
                     if (propertyInfo != null)
                     {
                         // Get property value
@@ -1690,14 +1693,14 @@ namespace MPfm.WindowsControls
                             if (propertyInfo.PropertyType.FullName == "System.String")
                             {
                                 // Try to get the value
-                                value = propertyInfo.GetValue(song, null).ToString();
+                                value = propertyInfo.GetValue(audioFile, null).ToString();
                             }
                             // Nullable Int64
                             else if (propertyInfo.PropertyType.FullName.Contains("Int64") &&
                                     propertyInfo.PropertyType.FullName.Contains("Nullable"))
                             {
                                 // Try to get the value
-                                long? longValue = (long?)propertyInfo.GetValue(song, null);
+                                long? longValue = (long?)propertyInfo.GetValue(audioFile, null);
 
                                 // Check if null
                                 if (longValue.HasValue)
@@ -1711,7 +1714,7 @@ namespace MPfm.WindowsControls
                                     propertyInfo.PropertyType.FullName.Contains("Nullable"))
                             {
                                 // Try to get the value
-                                DateTime? dateTimeValue = (DateTime?)propertyInfo.GetValue(song, null);
+                                DateTime? dateTimeValue = (DateTime?)propertyInfo.GetValue(audioFile, null);
 
                                 // Check if null
                                 if (dateTimeValue.HasValue)
@@ -1719,6 +1722,14 @@ namespace MPfm.WindowsControls
                                     // Render to string
                                     value = dateTimeValue.Value.ToShortDateString() + " " + dateTimeValue.Value.ToShortTimeString();
                                 }
+                            }
+                            else if(propertyInfo.PropertyType.FullName.Contains("System.UInt32"))
+                            {
+                                // Try to get the value
+                                uint uintValue = (uint)propertyInfo.GetValue(audioFile, null);
+                                
+                                // Render to string
+                                value = uintValue.ToString();
                             }
                             else
                             {
@@ -1770,7 +1781,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Draw now playing icon
-                if (song.SongId == m_nowPlayingSongId)
+                if (audioFile.Id == m_nowPlayingAudioFileId)
                 {
                     // Which size is the minimum? Width or height?                    
                     int availableWidthHeight = m_columns[1].Width - 4;
@@ -2409,7 +2420,7 @@ namespace MPfm.WindowsControls
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
 
             // Keep original songId in case the now playing value is set before invalidating the older value
-            Guid originalSongId = m_nowPlayingSongId;
+            Guid originalSongId = m_nowPlayingAudioFileId;
 
             // Loop through visible lines
             for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
@@ -2418,12 +2429,12 @@ namespace MPfm.WindowsControls
                 if (m_items[a].IsMouseOverItem)
                 {
                     // Set this item as the new now playing
-                    m_nowPlayingSongId = m_items[a].Song.SongId;
+                    m_nowPlayingAudioFileId = m_items[a].AudioFile.Id;
 
                     // Invalidate region
                     Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((a - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
                 }
-                else if (m_items[a].Song.SongId == originalSongId)
+                else if (m_items[a].AudioFile.Id == originalSongId)
                 {
                     // Invalidate region
                     Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((a - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
@@ -2622,8 +2633,8 @@ namespace MPfm.WindowsControls
             // Put new mouse over flag
             for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
             {
-                // Get song
-                SongDTO song = m_items[a].Song;
+                // Get audio file
+                AudioFile audioFile = m_items[a].AudioFile;                
 
                 // Calculate offset
                 offsetY = (a * m_songCache.LineHeight) - m_vScrollBar.Value + m_songCache.LineHeight;
@@ -2881,13 +2892,13 @@ namespace MPfm.WindowsControls
 
     public class SongGridViewBackgroundWorkerResult
     {
-        public SongDTO Song { get; set; }
+        public AudioFile AudioFile { get; set; }
         public Image AlbumArt { get; set; }
     }
 
     public class SongGridViewBackgroundWorkerArgument
     {
-        public SongDTO Song { get; set; }
+        public AudioFile AudioFile { get; set; }
         public int LineIndex { get; set; }        
     }
 

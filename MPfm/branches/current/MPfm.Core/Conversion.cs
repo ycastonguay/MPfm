@@ -171,10 +171,10 @@ namespace MPfm.Core
 
         /// <summary>
         /// The MillisecondsToTimeString static functions converts a time in milliseconds into a string 
-        /// displaying the time in the following format: 00:00.000
+        /// displaying the time in the following format: 0:00.000
         /// </summary>
         /// <param name="time">Milliseconds value to convert</param>
-        /// <returns>A string displaying the time (00:00.000)</returns>
+        /// <returns>A string displaying the time (0:00.000)</returns>
         public static string MillisecondsToTimeString(ulong time)
         {
             ulong pos = time;
@@ -184,37 +184,35 @@ namespace MPfm.Core
             string timeString = "";
 
             // Minutes
-            //while (pos > 60000)
-            //{
-            //    minutes++;
-            //    pos -= 60000;
-            //}
             if (pos > 60000)
             {
                 minutes = (int) pos /  60000;
                 pos %= 60000;
             }
 
-
             // Seconds
-            //while (pos > 1000)
-            //{
-            //    seconds++;
-            //    pos -= 1000;
-            //}
             if (pos > 1000)
             {
                 seconds = (int) pos / 1000;
                 pos %= 1000;
             }
 
+            // Milliseconds
             milliseconds = Convert.ToInt32(pos);
 
-            timeString += minutes.ToString() + ":";
-            timeString += seconds.ToString("00") + ".";
-            timeString += milliseconds.ToString("000");
-
+            // Convert to string and return
+            timeString = minutes.ToString("0") + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000"); ;
             return timeString;
+        }
+
+        /// <summary>
+        /// Converts a TimeSpan to a time string (0:00.000 format).
+        /// </summary>
+        /// <param name="timeSpan">TimeSpan</param>
+        /// <returns>Time string</returns>
+        public static string TimeSpanToTimeString(TimeSpan timeSpan)
+        {
+            return timeSpan.Minutes.ToString("0") + ":" + timeSpan.Seconds.ToString("00") + "." + timeSpan.Milliseconds.ToString("000");
         }
 
         /// <summary>

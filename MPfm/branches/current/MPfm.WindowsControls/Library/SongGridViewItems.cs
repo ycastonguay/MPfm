@@ -11,11 +11,9 @@ namespace MPfm.WindowsControls
 {
     public class SongGridViewItem
     {
-        //public string Title { get; set; }        
         public bool IsSelected { get; set; }
         public bool IsMouseOverItem { get; set; }
-        public SongDTO Song { get; set; }
-        //public AudioFile AudioFile { get; set; }
+        public AudioFile AudioFile { get; set; }        
 
         /// <summary>
         /// Default constructor for GridViewSongItem.
@@ -25,6 +23,7 @@ namespace MPfm.WindowsControls
             // Set default values
             IsSelected = false;
             IsMouseOverItem = false;
+            AudioFile = null;
         }
     }
 

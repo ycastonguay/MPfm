@@ -974,13 +974,14 @@ namespace MPfm
 
                 // Refresh play count
                 //SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == m_playerV4.Playlist.CurrentItem.Song.SongId);
-                SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == m_playerV4.Playlist.CurrentItem.AudioFile.Id);
+                SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_playerV4.Playlist.CurrentItem.AudioFile.Id);
                 if (item != null)
                 {
                     // Set updated data
                     //SongDTO updatedSong = Library.SelectSong(m_playerV4.Playlist.CurrentItem.Song.SongId);
-                    SongDTO updatedSong = Library.SelectSong(m_playerV4.Playlist.CurrentItem.AudioFile.Id);
-                    item.Song = updatedSong;
+                    //SongDTO updatedSong = Library.SelectSong(m_playerV4.Playlist.CurrentItem.AudioFile.Id);
+                    AudioFile updatedAudioFile = Library.SelectAudioFile(m_playerV4.Playlist.CurrentItem.AudioFile.Id);
+                    item.AudioFile = updatedAudioFile;
                 }
 
                 // Refresh icon
@@ -1444,14 +1445,14 @@ namespace MPfm
 
         /// <summary>
         /// Updates the play icon in the Song Browser. Sets the icon to the
-        /// specified song in the newSongId parameter. If the Guid is empty,
+        /// specified audio file in the newAudioFileId parameter. If the Guid is empty,
         /// the icon will be removed.
         /// </summary>
-        /// <param name="newSongId">Song identifier</param>
-        public void RefreshSongBrowserPlayIcon(Guid newSongId)
+        /// <param name="newAudioFileId">AudioFile identifier</param>
+        public void RefreshSongBrowserPlayIcon(Guid newAudioFileId)
         {
             // Set currently playing song
-            viewSongs2.NowPlayingSongId = newSongId;
+            viewSongs2.NowPlayingAudioFileId = newAudioFileId;
             viewSongs2.Refresh();
         }
 
@@ -1489,60 +1490,60 @@ namespace MPfm
         /// <param name="query">Query for Song Browser</param>
         public void RefreshSongBrowser(SongQuery query)
         {
-            // Create the list of songs for the browser
-            List<SongDTO> songs = null;
+            // Create the list of audio files for the browser
+            List<AudioFile> audioFiles = null;
             string orderBy = viewSongs2.OrderByFieldName;
             bool orderByAscending = viewSongs2.OrderByAscending;
 
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                songs = Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
+                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                songs = Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
+                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
             }
             else if (query.Type == SongQueryType.Playlist)
             {
-                //songs = Library.SelectSongs(query.PlaylistId);
+                //songs = Library.SelectAudioFiles(query.PlaylistId);
             }
             else if (query.Type == SongQueryType.All)
             {
-                songs = Library.SelectSongs(FilterSoundFormat, orderBy, orderByAscending);
+                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending);
             }
             else if (query.Type == SongQueryType.None)
             {
-                songs = new List<SongDTO>();
+                audioFiles = new List<AudioFile>();
             }
 
             // Filter songs by media type
             if (comboSoundFormat.Text.ToLower() == "mp3")
-            {
-                songs = songs.Where(x => x.SoundFormat == "MP3").ToList();
+            {                
+                audioFiles = audioFiles.Where(x => x.FileType == AudioFileType.MP3).ToList();
             }
             else if (comboSoundFormat.Text.ToLower() == "flac")
             {
-                songs = songs.Where(x => x.SoundFormat == "FLAC").ToList();
+                audioFiles = audioFiles.Where(x => x.FileType == AudioFileType.FLAC).ToList();
             }
             else if (comboSoundFormat.Text.ToLower() == "ogg")
             {
-                songs = songs.Where(x => x.SoundFormat == "OGG").ToList();
+                audioFiles = audioFiles.Where(x => x.FileType == AudioFileType.OGG).ToList();
             }
 
             // Clear view
             //viewSongs.Items.Clear();
             //viewSongs.Groups.Clear();
 
-            // Make sure the song list is valid
+            // Make sure the audio file list is valid
             int a = 0;
-            if (songs == null)
+            if (audioFiles == null)
             {
                 return;
             }
 
-            // Import list of songs into song grid view
-            viewSongs2.ImportSongs(songs);            
+            // Import list of audio files into grid view
+            viewSongs2.ImportAudioFiles(audioFiles);            
         }
 
         /// <summary>
@@ -1898,24 +1899,24 @@ namespace MPfm
 
             try
             {
-                // Get the song from the tag of the selected item                
-                SongDTO currentSong = viewSongs2.SelectedItems[0].Song;
+                // Get the audio file from the tag of the selected item
+                AudioFile currentAudioFile = viewSongs2.SelectedItems[0].AudioFile;
 
-                // Check if song is null
-                if (currentSong != null)
+                // Check if audio file is null
+                if (currentAudioFile != null)
                 {
                     // Set playback depending on the query in the song browser
-                    List<SongDTO> songs = null;
+                    List<AudioFile> audioFiles = null;
                     if (QuerySongBrowser.Type == SongQueryType.Album)
                     {
                         // Generate an artist/album playlist and start playback
-                        songs = Library.SelectSongs(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle);
+                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle);
                         //Player.PlayAlbum(FilterSoundFormat, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle, currentSong.SongId);
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.Artist)
                     {
                         // Generate an artist playlist and start playback                                                                        
-                        songs = Library.SelectSongs(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName);
+                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName);
                         //Player.PlayArtist(FilterSoundFormat, QuerySongBrowser.ArtistName, currentSong.SongId);
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.Playlist)
@@ -1926,28 +1927,28 @@ namespace MPfm
                     else if (QuerySongBrowser.Type == SongQueryType.All)
                     {
                         // Generate a playlist with all the library and start playaback
-                        songs = Library.SelectSongs(FilterSoundFormat);
+                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat);
                         //Player.PlayAll(FilterSoundFormat, currentSong.SongId);
                     }
 
-                    List<AudioFile> audioFiles = new List<AudioFile>();
-                    foreach (SongDTO song in songs)
-                    {
-                        AudioFile audioFile = new AudioFile(song.FilePath, song.SongId, false);
-                        audioFile.ArtistName = song.ArtistName;
-                        audioFile.AlbumTitle = song.AlbumTitle;
-                        audioFile.Title = song.Time;
-                        audioFile.TrackNumber = (uint)song.TrackNumber;
-                        audioFile.DiscNumber = (uint)song.DiscNumber;
+                    //List<AudioFile> audioFiles = new List<AudioFile>();
+                    //foreach (SongDTO song in songs)
+                    //{
+                    //    AudioFile audioFile = new AudioFile(song.FilePath, song.SongId, false);
+                    //    audioFile.ArtistName = song.ArtistName;
+                    //    audioFile.AlbumTitle = song.AlbumTitle;
+                    //    audioFile.Title = song.Time;
+                    //    audioFile.TrackNumber = (uint)song.TrackNumber;
+                    //    audioFile.DiscNumber = (uint)song.DiscNumber;
 
-                        audioFiles.Add(audioFile);
-                    }
+                    //    audioFiles.Add(audioFile);
+                    //}
 
                     // Clear playlist and add songs
                     m_playerV4.Playlist.Clear();
                     m_playerV4.Playlist.AddItems(audioFiles);
                     //m_playerV4.Playlist.GoTo(currentSong.SongId);
-                    m_playerV4.Playlist.GoTo(currentSong.FilePath);
+                    m_playerV4.Playlist.GoTo(currentAudioFile.FilePath);
                     m_playerV4.Play();
 
                     // Refresh song information
@@ -2300,7 +2301,7 @@ namespace MPfm
             // Set selected song in config
             if (viewSongs2.SelectedItems.Count > 0)
             {                
-                Config.SongQuerySongId = viewSongs2.SelectedItems[0].Song.SongId.ToString();
+                Config.SongQuerySongId = viewSongs2.SelectedItems[0].AudioFile.Id.ToString();
             }
         }
 
@@ -2350,15 +2351,15 @@ namespace MPfm
                 return;
             }
 
-            // Get song from item metadata (check for null)
-            SongDTO song = viewSongs2.SelectedItems[0].Song;
-            if (song == null)
+            // Get audio file from item metadata (check for null)
+            AudioFile audioFile = viewSongs2.SelectedItems[0].AudioFile;
+            if (audioFile == null)
             {
                 return;
             }
 
             // Open window
-            EditSongMetadata(song.FilePath);
+            EditSongMetadata(audioFile.FilePath);
         }
 
         #endregion
@@ -3519,290 +3520,16 @@ namespace MPfm
 
         #endregion
 
+        /// <summary>
+        /// Occurs when the user clicks on one of the columns of the song gridview.
+        /// </summary>
+        /// <param name="data">Event data</param>
         private void viewSongs2_OnColumnClick(SongGridViewColumnClickData data)
         {
-
-
+            // Refresh browser
             RefreshSongBrowser();
         }
     }
-
-    #region Legacy
-
-    #region Bookmarks (legacy)
-
-    //public void RefreshBookmarks()
-    //{
-    //    //List<BookmarkDTO> bookmarks = null;
-
-    //    //bookmarks = db.SelectBookmarksBySong(currentSong.SongId);
-
-    //    //viewBookmarks.Items.Clear();
-
-    //    //if (bookmarks != null)
-    //    //{
-    //    //    foreach (BookmarkDTO bookmark in bookmarks)
-    //    //    {
-    //    //        ListViewItem item = new ListViewItem(bookmark.Name);
-    //    //        item.Tag = bookmark.BookmarkId.ToString();
-    //    //        item.SubItems.Add(bookmark.Time);
-    //    //        item.SubItems.Add(bookmark.AbsoluteTime.ToString() + " ms");
-    //    //        item.SubItems.Add(bookmark.Comments);
-
-    //    //        viewBookmarks.Items.Add(item);
-    //    //    }
-    //    //}
-    //}
-
-    //private void EditBookmark()
-    //{
-    //    //if(viewBookmarks.SelectedItems.Count == 0)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //BookmarkDTO bookmark = db.SelectBookmark(Convert.ToInt32(viewBookmarks.SelectedItems[0].Tag));
-
-    //    //if (bookmark == null)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //formEditBookmark.SetEditingMode(true);
-    //    //formEditBookmark.LoadBookmark(bookmark);
-    //    //formEditBookmark.Show();
-    //}
-
-    //public void GoToSelectedBookmark()
-    //{
-    //    //BookmarkDTO bookmark = null;
-
-    //    //if (viewBookmarks.SelectedItems.Count > 0)
-    //    //{
-    //    //    bookmark = db.SelectBookmark(Convert.ToInt32(viewBookmarks.SelectedItems[0].Tag));
-
-    //    //    if (bookmark != null)
-    //    //    {
-    //    //        if (soundSystem.MainChannel.IsInitialized && soundSystem.MainChannel.IsPlaying)
-    //    //        {
-    //    //            soundSystem.MainChannel.PositionAbsoluteMilliseconds = (uint)bookmark.AbsoluteTime;
-    //    //        }
-    //    //    }
-    //    //}
-    //}
-
-    //private void DeleteSelectedBookmarks()
-    //{
-    //    //if (viewBookmarks.SelectedItems.Count == 0)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //if (MessageBox.Show("Are you sure you wish to delete the selected bookmark(s)?", "Deleting selected bookmark(s)", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //foreach (ListViewItem item in viewBookmarks.SelectedItems)
-    //    //{
-    //    //    db.DeleteBookmark(Convert.ToInt32(item.Tag));                
-    //    //}
-
-    //    //RefreshBookmarks();
-    //    //RefreshBookmarksToolbar();
-    //}
-
-    //private void SetTime()
-    //{
-    //    //BookmarkDTO bookmark = null;
-
-    //    //if (viewBookmarks.SelectedItems.Count > 0)
-    //    //{
-    //    //    bookmark = db.SelectBookmark(Convert.ToInt32(viewBookmarks.SelectedItems[0].Tag));
-
-    //    //    if (bookmark != null)
-    //    //    {
-    //    //        bookmark.AbsoluteTime = Convert.ToInt32(soundSystem.MainChannel.PositionAbsoluteMilliseconds);
-    //    //        bookmark.Time = soundSystem.MainChannel.Position;
-    //    //        db.UpdateBookmark(bookmark);
-
-    //    //        viewBookmarks.SelectedItems[0].SubItems[1].Text = bookmark.Time;
-    //    //        viewBookmarks.SelectedItems[0].SubItems[2].Text = bookmark.AbsoluteTime.ToString() + " ms";
-    //    //    }
-    //    //}
-    //}
-
-    #endregion
-
-    #region Tabs and Lyrics (legacy)
-
-    //private void btnAddTab_Click(object sender, EventArgs e)
-    //{
-    //    //formEditTab.SetEditingMode(false);
-    //    //formEditTab.Show(this);
-    //}
-
-    //private void btnEditTab_Click(object sender, EventArgs e)
-    //{
-    //    EditTab();
-    //}
-
-    //private void miEditTab_Click(object sender, EventArgs e)
-    //{
-    //    EditTab();
-    //}
-
-    //private void viewTabs_MouseDoubleClick(object sender, MouseEventArgs e)
-    //{
-    //    EditTab();
-    //}
-
-    //private void EditTab()
-    //{
-    //    //if (viewTabs.SelectedItems.Count == 0)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //TabDTO tab = db.SelectTab(Convert.ToInt32(viewTabs.SelectedItems[0].Tag));
-
-    //    //if (tab == null)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //formEditTab.SetEditingMode(true);
-    //    //formEditTab.LoadTab(tab);
-    //    //formEditTab.Show(this);
-    //}
-
-    //private void btnShowTab_Click(object sender, EventArgs e)
-    //{
-
-    //}
-
-    //public void RefreshTabs()
-    //{
-    //    //List<TabDTO> tabs = null;
-
-    //    //tabs = db.SelectTabsBySong(currentSong.SongId);
-
-    //    //viewTabs.Items.Clear();
-
-    //    //if (tabs != null)
-    //    //{
-    //    //    foreach (TabDTO tab in tabs)
-    //    //    {
-    //    //        ListViewItem item = new ListViewItem(tab.TabName);
-    //    //        item.Tag = tab.TabId.ToString();
-
-    //    //        if (tab.TabType == 1)
-    //    //        {
-    //    //            item.SubItems.Add("Guitar Tab");
-    //    //        }
-    //    //        else if (tab.TabType == 2)
-    //    //        {
-    //    //            item.SubItems.Add("Bass Tab");
-    //    //        }
-    //    //        else if (tab.TabType == 3)
-    //    //        {
-    //    //            item.SubItems.Add("Drum Tab");
-    //    //        }
-    //    //        else
-    //    //        {
-    //    //            item.SubItems.Add("Lyrics");
-    //    //        }
-
-    //    //        item.ImageIndex = 9;
-
-    //    //        viewTabs.Items.Add(item);
-    //    //    }
-    //    //}
-    //}
-
-    //public void RefreshTabsToolbar()
-    //{
-    //    //bool enabled = true;
-    //    //if (viewTabs.SelectedIndices.Count == 0)
-    //    //{
-    //    //    enabled = false;
-    //    //}
-
-    //    //btnEditTab.Enabled = enabled;
-    //    //btnDeleteTab.Enabled = enabled;
-    //}
-
-    //private void viewTabs_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    RefreshTabsToolbar();               
-    //}
-
-    //private void miDeleteTab_Click(object sender, EventArgs e)
-    //{
-    //    DeleteSelectedTabs();
-    //}
-
-    //private void btnDeleteTab_Click(object sender, EventArgs e)
-    //{
-    //    DeleteSelectedTabs();
-    //}
-
-    //private void DeleteSelectedTabs()
-    //{
-    //    //if (viewTabs.SelectedItems.Count == 0)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //if (MessageBox.Show("Are you sure you wish to delete the selected tab(s)?", "Deleting selected tab(s)", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-    //    //{
-    //    //    return;
-    //    //}
-
-    //    //foreach (ListViewItem item in viewTabs.SelectedItems)
-    //    //{
-    //    //    db.DeleteTab(Convert.ToInt32(item.Tag));
-    //    //}
-
-    //    //RefreshTabs();
-    //    //RefreshTabsToolbar();
-    //}
-
-    //private void menuTabs_Opening(object sender, CancelEventArgs e)
-    //{
-    //    //if (viewTabs.SelectedItems.Count == 0)
-    //    //{
-    //    //    e.Cancel = true;
-    //    //}
-    //}
-
-    #endregion
-
-    #region Loops (legacy)
-
-    //private void btnAddLoop_Click(object sender, EventArgs e)
-    //{
-    //    //formEditLoop.SetEditingMode(false);
-    //    //formEditLoop.Show(this);
-    //}
-
-    //private void btnEditLoop_Click(object sender, EventArgs e)
-    //{
-
-    //}
-
-    //private void btnDeleteLoop_Click(object sender, EventArgs e)
-    //{
-
-    //}
-
-    //public void RefreshLoops()
-    //{
-    //}
-
-    #endregion
-
-    #endregion
 
     #region Classes and enums
 

@@ -62,7 +62,6 @@
     <Compile Include="Player.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="PlaylistItem.cs" />
-    <Compile Include="SongDTO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -42,7 +42,7 @@ namespace MPfm
         // Private variables
         private AddEditLoopWindowMode m_mode = AddEditLoopWindowMode.Add;
         private frmMain m_main = null;        
-        private SongDTO m_song = null;
+        private AudioFile m_audioFile = null;
         private Guid m_loopId = Guid.Empty;
         //private List<MPfm.Library.Data.Marker> m_markers = null;
         private uint m_loopLengthMS = 0;
@@ -66,14 +66,14 @@ namespace MPfm
         /// </summary>
         /// <param name="main">Hook to the main window</param>
         /// <param name="mode">Window mode</param>
-        /// <param name="song">Song linked to the marker</param>
+        /// <param name="audioFile">AudioFile linked to the marker</param>
         /// <param name="loopId">Identifier of the loop (if it exists)</param>
-        public frmAddEditLoop(frmMain main, AddEditLoopWindowMode mode, SongDTO song, Guid loopId)
+        public frmAddEditLoop(frmMain main, AddEditLoopWindowMode mode, AudioFile audioFile, Guid loopId)
         {
             InitializeComponent();
             m_main = main;
             m_mode = mode;
-            m_song = song;
+            m_audioFile = audioFile;
             m_loopId = loopId;
 
             // Initialize controls
@@ -86,9 +86,9 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblArtistName.Text = m_song.ArtistName;
-            lblAlbumTitle.Text = m_song.AlbumTitle;
-            lblSongTitle.Text = m_song.Title;
+            lblArtistName.Text = m_audioFile.ArtistName;
+            lblAlbumTitle.Text = m_audioFile.AlbumTitle;
+            lblSongTitle.Text = m_audioFile.Title;
 
             // Refresh markers
             RefreshMarkers();

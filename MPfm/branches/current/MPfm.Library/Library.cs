@@ -85,15 +85,18 @@ namespace MPfm.Library
             }
         }
 
-        private List<SongDTO> m_songs = null;
         /// <summary>
-        /// Local cache of the song library.
+        /// Private value for the AudioFiles property.
         /// </summary>
-        public List<SongDTO> Songs
+        private List<AudioFile> m_audioFiles = null;
+        /// <summary>
+        /// Local cache of the audio file library.
+        /// </summary>
+        public List<AudioFile> AudioFiles
         {
             get
             {
-                return m_songs;
+                return m_audioFiles;
             }
         }
 
@@ -307,7 +310,7 @@ namespace MPfm.Library
                 {
                     // Remove broken songs from the library
                     UpdateLibraryReportProgress("Checking for broken file paths", "Checking if songs have been deleted on your hard disk but not removed from the library...");
-                    RemoveBrokenSongs();
+                    RemoveAudioFilesWithBrokenFilePaths();
 
                     // Cancel thread if necessary
                     if (CancelUpdateLibrary) throw new UpdateLibraryException();
@@ -333,13 +336,13 @@ namespace MPfm.Library
 
                 // Make a list of file names
                 List<string> filePaths = new List<string>();
-                foreach (SongDTO song in Songs)
+                foreach (AudioFile audioFile in AudioFiles)
                 {
-                    filePaths.Add(song.FilePath);
+                    filePaths.Add(audioFile.FilePath);
                 }
 
                 // Compare list of files from database with list of files found on hard disk
-                List<string> soundFilesToUpdate = mediaFiles.Except(filePaths).ToList();
+                List<string> audioFilesToUpdate = mediaFiles.Except(filePaths).ToList();
 
                 // Cancel thread if necessary
                 if (CancelUpdateLibrary) throw new UpdateLibraryException();
@@ -347,7 +350,7 @@ namespace MPfm.Library
                 // Add new media (if media found!)
                 if (mediaFiles.Count > 0)
                 {
-                    AddSoundFilesToLibrary(soundFilesToUpdate);
+                    AddAudioFilesToLibrary(audioFilesToUpdate);
                 }
 
                 // Cancel thread if necessary
@@ -402,42 +405,41 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Refreshes the song cache with the database values.
+        /// Refreshes the audio file cache from the database.
         /// </summary>
         public void RefreshCache()
         {
-            // Refresh song cache
-            Tracing.Log("MPfm.Library (Library) --  Refreshing song cache...");
-            //m_songs = ConvertDTO.ConvertSongs(DataAccess.SelectSongs());
-            m_songs = m_gateway.SelectSongs();
+            // Refresh audio file cache
+            Tracing.Log("MPfm.Library (Library) --  Refreshing audio file cache...");            
+            m_audioFiles = m_gateway.SelectAudioFiles();
         }        
 
         /// <summary>
-        /// Removes the songs that do not exist anymore on the hard drive.
+        /// Removes the audio files that do not exist anymore on the hard drive.
         /// </summary>
-        public void RemoveBrokenSongs()
+        public void RemoveAudioFilesWithBrokenFilePaths()
         {
-            // Get all songs
-            //List<Song> songs = DataAccess.SelectSongs();
-            List<SongDTO> songs = m_gateway.SelectSongs();
+            // Get all audio files
+            List<AudioFile> audioFiles = m_gateway.SelectAudioFiles();
 
-            // For each song
-            for(int a = 0; a < songs.Count; a++)
+            // For each audio file
+            for(int a = 0; a < audioFiles.Count; a++)
             {
-                // Check for cancel
+                // Check for cancel[
                 if (CancelUpdateLibrary)
                 {
                     // Sends a cancel exception
                     throw new UpdateLibraryException();
                 }
 
-                // If the file doesn't exist, delete the song
-                if (!File.Exists(songs[a].FilePath))
+                // If the file doesn't exist, delete the audio file from the database
+                if (!File.Exists(audioFiles[a].FilePath))
                 {
-                    Tracing.Log("Removing broken songs..." + songs[a].FilePath);
-                    UpdateLibraryReportProgress("Removing broken songs...", songs[a].FilePath, (double)((double)a / (double)songs.Count) * 100);
+                    Tracing.Log("Removing audio files that do not exist anymore on the hard drive..." + audioFiles[a].FilePath);
+                    UpdateLibraryReportProgress("Removing audio files that do not exist anymore on the hard drive...", audioFiles[a].FilePath, (double)((double)a / (double)audioFiles.Count) * 100);
                     //DataAccess.DeleteSong(new Guid(songs[a].SongId));
-                    m_gateway.DeleteSong(songs[a].SongId);
+                    //m_gateway.DeleteSong(songs[a].SongId);
+                    m_gateway.DeleteAudioFile(audioFiles[a].Id);
                 }
             }
         }   
@@ -537,15 +539,17 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Adds sound files into the library. Must specify the list of files to add
-        /// using the soundFiles parameter.
+        /// Adds audio files into the library. Must specify the list of files to add
+        /// using the filePaths parameter.
         /// </summary>
-        /// <param name="soundFiles">List of sound file paths to add</param>        
-        public void AddSoundFilesToLibrary(List<string> soundFiles)
+        /// <param name="filePaths">List of audio files to add</param>        
+        public void AddAudioFilesToLibrary(List<string> filePaths)
         {
+            // Declare variables
             int addNewFilesCount = 0;
 
-            foreach (string file in soundFiles)
+            // Loop through files
+            foreach (string file in filePaths)
             {
                 // Check for cancel
                 if (CancelUpdateLibrary)
@@ -555,80 +559,55 @@ namespace MPfm.Library
                 }
 
                 addNewFilesCount++;
-                double percentCompleted = ((double)addNewFilesCount / (double)soundFiles.Count) * 100;
+                double percentCompleted = ((double)addNewFilesCount / (double)filePaths.Count) * 100;
 
-                // Add MP3 to the library
-                AddSoundFileToLibrary(file, percentCompleted, soundFiles.Count, addNewFilesCount);
+                // Add audio file to the library
+                AddAudioFileToLibrary(file, percentCompleted, filePaths.Count, addNewFilesCount);
             }
         }
 
         /// <summary>
-        /// Adds a sound file to the library. Supports MP3, FLAC and OGG sound files.
+        /// Adds an audio file to the library. Supports MP3, FLAC and OGG sound files.
         /// </summary>
-        /// <param name="filePath">Sound file path</param>
+        /// <param name="filePath">Audio file path</param>
         /// <param name="percentCompleted">Percent completed value (for updating progress)</param>
         /// <param name="totalNumberOfFiles">Total number of files (for updating progress)</param>
         /// <param name="currentFilePosition">Current file position (for updating progress)</param>
-        private void AddSoundFileToLibrary(string filePath, double percentCompleted, int totalNumberOfFiles, int currentFilePosition)
-        {                
+        private void AddAudioFileToLibrary(string filePath, double percentCompleted, int totalNumberOfFiles, int currentFilePosition)
+        {    
+            // Declare variables
+            AudioFile audioFile = null;
+
             // Check for cancel
             if (CancelUpdateLibrary)
             {
                 // Sends a cancel exception
                 throw new UpdateLibraryException();
             }
-
-            // Create song and set default properties
-            SongDTO newSong = new SongDTO();
-            newSong.SongId = Guid.NewGuid();
-            newSong.FilePath = filePath;            
-            newSong.PlayCount = 0;
-            newSong.Rating = -1;
-            newSong.Tempo = 120;
-
-            // Get the format of the file using the file extension
-            string extension = Path.GetExtension(filePath).ToUpper();                        
-            newSong.SoundFormat = extension.Replace(".", "");
-
+                        
             try
             {
-                // Update song properties using tags
-                newSong = UpdateSongFromTags(newSong, false);                
+                // Get audio file metadata
+                audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
             }
             catch (Exception ex)
             {
-                Tracing.Log("MPfm.Library -- UpdateLibrary -- AddSoundFileToLibrary() error -- UpdateSongFromTags failed -- " + ex.Message + " -- " + ex.StackTrace);
-                UpdateLibraryReportProgress("Adding media to the library", "Error: " + ex.Message, percentCompleted, totalNumberOfFiles, currentFilePosition, "Error reading " + filePath + ".\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, filePath, null, ex);
-                return;
-            }
-
-            // If the song has no name, give filename as the name                
-            if (String.IsNullOrEmpty(newSong.Title))
-            {
-                newSong.Title = Path.GetFileNameWithoutExtension(filePath);
-            }
-            // If the artist has no name, give it "Unknown Artist"
-            if (String.IsNullOrEmpty(newSong.ArtistName))
-            {
-                newSong.ArtistName = "Unknown Artist";
-            }
-            // If the song has no album title, give it "Unknown Album"
-            if (String.IsNullOrEmpty(newSong.AlbumTitle))
-            {
-                newSong.AlbumTitle = "Unknown Album";
+                Tracing.Log("MPfm.Library -- AddAudioFileToLibrary() error -- Metadata read failed -- " + ex.Message + " -- " + ex.StackTrace);
+                UpdateLibraryReportProgress("Adding media to the library", "Metadata read failed", percentCompleted, totalNumberOfFiles, currentFilePosition, "Could not add " + filePath + "; metadata read failed.", filePath, null, ex);
             }
 
             // Display update
-            UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = newSong.AlbumTitle, ArtistName = newSong.ArtistName, Cover = null, SongTitle = newSong.Title }, null);
+            UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
 
             try
             {
                 // Insert song into the database                
-                m_gateway.InsertSong(newSong);
+                //m_gateway.InsertSong(newSong);
+                m_gateway.InsertAudioFile(audioFile);
             }
             catch (Exception ex)
             {
-                Tracing.Log("MPfm.Library -- AddSoundFileToLibrary() error -- Database insertion failed -- " + ex.Message + " -- " + ex.StackTrace);
+                Tracing.Log("MPfm.Library -- AddAudioFileToLibrary() error -- Database insertion failed -- " + ex.Message + " -- " + ex.StackTrace);
                 UpdateLibraryReportProgress("Adding media to the library", "Database insertion failed", percentCompleted, totalNumberOfFiles, currentFilePosition, "Could not add " + filePath + "; database insertion failed.", filePath, null, ex);
             }
         }
@@ -636,54 +615,13 @@ namespace MPfm.Library
         #endregion
 
         /// <summary>
-        /// Updates song properties based on the file tags. Reads the tags using TagLib#. If this
-        /// fails, MPfm uses the FMOD tagging system. If you want to update the database, set
-        /// updateDatabase to true.
-        /// </summary>
-        /// <param name="song">Song (from EF)</param>
-        /// <param name="updateDatabase">Update database if true</param>
-        /// <returns>Song with updated properties</returns>
-        public SongDTO UpdateSongFromTags(SongDTO song, bool updateDatabase)
-        {
-            // Create audio file
-            AudioFile audioFile = new AudioFile(song.FilePath);
-
-            // Set song properties                            
-            song.ArtistName = audioFile.ArtistName;
-            song.AlbumTitle = audioFile.AlbumTitle;
-            song.Title = audioFile.Title;
-            song.Genre = audioFile.Genre;
-            song.Time = audioFile.Duration.Minutes.ToString("0") + ":" + audioFile.Duration.Seconds.ToString("00") + "." + audioFile.Duration.Milliseconds.ToString("000");
-            song.TrackNumber = audioFile.TrackNumber;
-            song.DiscNumber = audioFile.DiscNumber;
-
-            // Update song in database?
-            if (updateDatabase)
-            {
-                try
-                {
-                    // Update song
-                    //DataAccess.UpdateSong(song);
-                    m_gateway.UpdateSong(song);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-
-            return song;
-        }
-
-        /// <summary>
         /// Removes the songs in the library that match the path passed in parameter.        
         /// </summary>
         /// <param name="folderPath">Folder path</param>
         public void RemoveSongsFromLibrary(string folderPath)
         {
-            // Simple: Just DELETE Songs WHERE FilePath LIKE 'Filepath%'
-            //DataAccess.DeleteSongs(folderPath);
-            m_gateway.DeleteSongs(folderPath);
+            // Delete audio files based on path            
+            m_gateway.DeleteAudioFiles(folderPath);
         }
 
         #region Select (strings)
@@ -721,8 +659,8 @@ namespace MPfm.Library
         /// <summary>
         /// Returns the unique album titles of a specific artist in the library, using the filter passed in the soundFormat parameter.
         /// </summary>
-        /// <param name="artistName">Artist name</param>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="artistName">Artist Name</param>
+        /// <param name="soundFormat">AudioFileType filter</param>
         /// <returns>List of album titles</returns>        
         public List<string> SelectArtistAlbumTitles(string artistName, FilterSoundFormat soundFormat)
         {
@@ -731,17 +669,31 @@ namespace MPfm.Library
             try
             {
                 // Basic request
-                IEnumerable<SongDTO> querySongs = from s in Songs
-                                                  select s;
+                IEnumerable<AudioFile> queryAudioFiles = from s in AudioFiles
+                                                         select s;
 
                 // Do we have to filter by sound format?
                 if (soundFormat != FilterSoundFormat.All)
                 {
-                    querySongs = querySongs.Where(x => x.SoundFormat == soundFormat.ToString());
+                    // Get file type
+                    AudioFileType fileType = AudioFileType.Unknown;
+                    if (soundFormat == FilterSoundFormat.FLAC)
+                    {
+                        fileType = AudioFileType.FLAC;
+                    }
+                    else if (soundFormat == FilterSoundFormat.MP3)
+                    {
+                        fileType = AudioFileType.MP3;
+                    }
+                    else if (soundFormat == FilterSoundFormat.OGG)
+                    {
+                        fileType = AudioFileType.OGG;
+                    }
+                    queryAudioFiles = queryAudioFiles.Where(x => x.FileType == fileType);
                 }
 
                 // Query: get all albums from artist from the Songs table
-                var query = from song in querySongs
+                var query = from song in queryAudioFiles
                             orderby song.AlbumTitle
                             where song.ArtistName == artistName
                             select song.AlbumTitle;
@@ -805,84 +757,82 @@ namespace MPfm.Library
 
         #endregion
 
-        #region Select (songs)
+        #region Select (AudioFile)
 
         /// <summary>
-        /// Selects a song from the cache using its identifier.
+        /// Selects an audio file from the cache using its identifier.
         /// </summary>
-        /// <param name="songId">Song Identifier</param>
-        /// <returns>Song (SongDTO)</returns>
-        public SongDTO SelectSong(Guid songId)
+        /// <param name="audioFileId">AudioFile identifier</param>
+        /// <returns>AudioFile</returns>
+        public AudioFile SelectAudioFile(Guid audioFileId)
         {
-            SongDTO song = null;
+            // Declare variables
+            AudioFile audioFile = null;
 
             try
             {
-                // Get song
-                song = Songs.FirstOrDefault(s => s.SongId == songId);
+                // Get audio file
+                audioFile = AudioFiles.FirstOrDefault(s => s.Id == audioFileId);
             }
             catch (Exception ex)
             {
-                Tracing.Log("MPfm.Library (Library) --  Error in SelectSong(): " + ex.Message);
+                Tracing.Log(ex);
                 throw ex;
             }
 
-            //return ConvertDTO.ConvertSong(song);
-            return song;
+            return audioFile;
         }
 
         /// <summary>
-        /// Selects all the songs from the song cache.
+        /// Selects all the audio files from the cache.
         /// </summary>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs()
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles()
         {
-            return SelectSongs(FilterSoundFormat.All, string.Empty, true, string.Empty, string.Empty, string.Empty);
+            return SelectAudioFiles(FilterSoundFormat.All, string.Empty, true, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
-        /// Selects the songs from the song cache, filtered by the sound format passed in parameter.
-        /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat)
-        {
-            return SelectSongs(soundFormat, string.Empty, true, string.Empty, string.Empty, string.Empty);
-        }
-
-        /// <summary>
-        /// Selects the songs from the song cache, filtered by the sound format passed in parameter.
+        /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
         /// <param name="soundFormat">Sound Format Filter</param>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending)
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat)
         {
-            return SelectSongs(soundFormat, orderBy, orderByAscending, string.Empty, string.Empty, string.Empty);
+            return SelectAudioFiles(soundFormat, string.Empty, true, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
-        /// Selects the songs from the song cache, filtered by the sound format and artist
-        /// name passed in parameter.
+        /// Selects audio files from the cache, filtered by parameters.
+        /// </summary>
+        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending)
+        {
+            return SelectAudioFiles(soundFormat, orderBy, orderByAscending, string.Empty, string.Empty, string.Empty);
+        }
+
+        /// <summary>
+        /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
         /// <param name="soundFormat">Sound Format Filter</param>
         /// <param name="artistName">Artist Name</param>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName)
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName)
         {
-            return SelectSongs(soundFormat, orderBy, orderByAscending, artistName, string.Empty, string.Empty);
+            return SelectAudioFiles(soundFormat, orderBy, orderByAscending, artistName, string.Empty, string.Empty);
         }
 
         /// <summary>
-        /// Selects the songs from the song cache, filtered by the sound format, artist name
-        /// and album title passed in parameter.
+        /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
         /// <param name="soundFormat">Sound Format Filter</param>
         /// <param name="artistName">Artist Name</param>
         /// <param name="albumTitle">Album Title</param>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
         {
-            return SelectSongs(soundFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
+            return SelectAudioFiles(soundFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
         }
 
         /// <summary>
@@ -893,23 +843,23 @@ namespace MPfm.Library
         /// <param name="artistName">Artist Name</param>
         /// <param name="albumTitle">Album Title</param>
         /// <param name="songTitle">Song Title</param>
-        /// <returns>List of songs</returns>
-        public List<SongDTO> SelectSongs(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string songTitle)
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string songTitle)
         {
             // Create variables
-            List<SongDTO> songs = null;
+            List<AudioFile> audioFiles = null;
 
             try
             {
-                IEnumerable<SongDTO> querySongs = null;
+                IEnumerable<AudioFile> queryAudioFiles = null;
 
                 // Check for default order by (ignore ascending)
                 if (String.IsNullOrEmpty(orderBy))
                 {
                     // Set query
-                    querySongs = from s in Songs
-                                 orderby s.ArtistName, s.AlbumTitle, s.DiscNumber, s.TrackNumber
-                                 select s;
+                    queryAudioFiles = from s in AudioFiles
+                                      orderby s.ArtistName, s.AlbumTitle, s.DiscNumber, s.TrackNumber
+                                      select s;
                 }
                 else
                 {
@@ -917,16 +867,16 @@ namespace MPfm.Library
                     if (orderByAscending)
                     {
                         // Set query
-                        querySongs = from s in Songs
-                                     orderby GetPropertyValue(s, orderBy)
-                                     select s;
+                        queryAudioFiles = from s in AudioFiles
+                                          orderby GetPropertyValue(s, orderBy)
+                                          select s;
                     }
                     else
                     {
                         // Set query
-                        querySongs = from s in Songs
-                                     orderby GetPropertyValue(s, orderBy) descending
-                                     select s;                        
+                        queryAudioFiles = from s in AudioFiles
+                                          orderby GetPropertyValue(s, orderBy) descending
+                                          select s;                        
                     }
                 }
 
@@ -934,27 +884,41 @@ namespace MPfm.Library
                 if (!String.IsNullOrEmpty(artistName))
                 {
                     // Add the artist condition to the query
-                    querySongs = querySongs.Where(s => s.ArtistName == artistName);                    
+                    queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName == artistName);                    
                 }
 
                 // Check if albumTitle is null
                 if (!String.IsNullOrEmpty(albumTitle))
                 {
                     // Add the artist condition to the query
-                    querySongs = querySongs.Where(s => s.AlbumTitle == albumTitle);                    
+                    queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == albumTitle);                    
                 }
 
                 // Check if songTitle is null
                 if (!String.IsNullOrEmpty(songTitle))
                 {
                     // Add the artist condition to the query
-                    querySongs = querySongs.Where(s => s.Title == songTitle);                    
+                    queryAudioFiles = queryAudioFiles.Where(s => s.Title == songTitle);                    
                 }
 
                 // Check for media filter
                 if (soundFormat != FilterSoundFormat.All)
                 {
-                    querySongs = querySongs.Where(s => s.SoundFormat == soundFormat.ToString());
+                    // Get file type
+                    AudioFileType fileType = AudioFileType.Unknown;
+                    if (soundFormat == FilterSoundFormat.FLAC)
+                    {
+                        fileType = AudioFileType.FLAC;
+                    }
+                    else if (soundFormat == FilterSoundFormat.MP3)
+                    {
+                        fileType = AudioFileType.MP3;
+                    }
+                    else if (soundFormat == FilterSoundFormat.OGG)
+                    {
+                        fileType = AudioFileType.OGG;
+                    }
+                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == fileType);
                 }
 
                 //// Check for default order by
@@ -970,44 +934,17 @@ namespace MPfm.Library
                 //}
 
                 // Execute query
-                songs = querySongs.ToList();
+                audioFiles = queryAudioFiles.ToList();
             }
             catch (Exception ex)
             {
-                Tracing.Log("MPfm.Library (Library) --  Error in SelectSongs(): " + ex.Message);
+                Tracing.Log(ex);
                 throw ex;
             }
 
             //return ConvertDTO.ConvertSongs(songs);
-            return songs;
+            return audioFiles;
         }
-
-        ///// <summary>
-        ///// Selects the songs from a specific playlist.
-        ///// </summary>
-        ///// <returns>List of songs</returns>
-        //public List<SongDTO> SelectSongs(Guid playlistId)
-        //{
-        //    // Create variables
-        //    List<SongDTO> dtos = new List<SongDTO>();
-
-        //    // Fetch playlist songs from the database
-        //    List<PlaylistSong> playlistSongs = DataAccess.SelectPlaylistSongs(playlistId);
-
-        //    // Loop through playlist songs
-        //    foreach (PlaylistSong playlistSong in playlistSongs)
-        //    {
-        //        // Fetch the song from the cache
-        //        Guid songId = new Guid(playlistSong.SongId);
-        //        SongDTO song = Songs.FirstOrDefault(x => x.SongId == songId);
-
-        //        // Convert to DTO and add to collection
-        //        //SongDTO dto = ConvertDTO.ConvertSong(song);
-        //        dtos.Add(song);
-        //    }
-
-        //    return dtos;
-        //}
 
         #endregion
 
@@ -1377,21 +1314,26 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Updates the play count of a song into the database.
+        /// Updates the play count of an audio file into the database.
         /// </summary>
-        /// <param name="songId">Song Identifier</param>
-        public void UpdateSongPlayCount(Guid songId)
+        /// <param name="audioFileId">AudioFile identifier</param>
+        public void UpdateAudioFilePlayCount(Guid audioFileId)
         {
-            // Update play count in database
-            //DataAccess.UpdateSongPlayCount(songId);
-            m_gateway.UpdateSongPlayCount(songId);
+            // Update play count in database            
+            m_gateway.UpdatePlayCount(audioFileId);
 
-            // Update play count in cache           
-            //string strSongId = songId.ToString();
-            SongDTO song = Songs.SingleOrDefault(x => x.SongId == songId);
-            int indexOf = Songs.IndexOf(song);
-            //Songs[indexOf] = ConvertDTO.ConvertSong(DataAccess.SelectSong(songId));
-            Songs[indexOf] = m_gateway.SelectSong(songId);
+            // Update play count in cache                  
+            AudioFile audioFile = m_audioFiles.SingleOrDefault(x => x.Id == audioFileId);
+            if (audioFile != null)
+            {
+                audioFile = m_gateway.SelectAudioFile(audioFile.Id);
+            }
+
+            ////string strSongId = songId.ToString();
+            //SongDTO song = Songs.SingleOrDefault(x => x.SongId == songId);
+            //int indexOf = Songs.IndexOf(song);
+            ////Songs[indexOf] = ConvertDTO.ConvertSong(DataAccess.SelectSong(songId));
+            //Songs[indexOf] = m_gateway.SelectSong(songId);
         }
 
         /// <summary>

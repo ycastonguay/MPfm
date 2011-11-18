@@ -406,8 +406,7 @@
             this.songGridView.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             this.songGridView.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
             this.songGridView.Location = new System.Drawing.Point(0, 173);
-            this.songGridView.Name = "songGridView";
-            this.songGridView.NowPlayingSongId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.songGridView.Name = "songGridView";            
             this.songGridView.OrderByAscending = true;
             this.songGridView.OrderByFieldName = "";            
             this.songGridView.Size = new System.Drawing.Size(936, 300);
