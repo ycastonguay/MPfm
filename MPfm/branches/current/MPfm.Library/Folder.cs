@@ -28,17 +28,32 @@ namespace MPfm.Library
     /// <summary>
     /// Defines a folder containing audio files.
     /// </summary>
-    public class FolderDTO
+    public class Folder
     {
+        /// <summary>
+        /// Unique identifier for the folder.
+        /// </summary>
         public Guid FolderId { get; set; }
+        
+        /// <summary>
+        /// Folder path.
+        /// </summary>
         public string FolderPath { get; set; }
+
+        /// <summary>
+        /// Nullable DateTime indicating the last time the folder was updated.
+        /// </summary>
         public DateTime? LastUpdated { get; set; }
+
+        /// <summary>
+        /// Indicates if the library should look into the directory recursively.
+        /// </summary>
         public bool IsRecursive { get; set; }
 
         /// <summary>
-        /// Default constructor for FolderDTO.
+        /// Default constructor for the Folder class.
         /// </summary>
-        public FolderDTO()
+        public Folder()
         {
             // Set default values
             FolderId = Guid.NewGuid();

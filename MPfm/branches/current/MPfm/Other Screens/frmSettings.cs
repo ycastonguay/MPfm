@@ -416,14 +416,14 @@ namespace MPfm
         {
             // Get the list of folders from the database
             //List<Folder> folders = DataAccess.SelectFolders();
-            List<FolderDTO> folders = m_main.Library.Gateway.SelectFolders();
+            List<Folder> folders = m_main.Library.Gateway.SelectFolders();
 
             // Check if the list is null
             if (folders != null)
             {
                 viewFolders.Items.Clear();
 
-                foreach (FolderDTO folder in folders)
+                foreach (Folder folder in folders)
                 {
                     ListViewItem item = new ListViewItem(folder.FolderPath);
                     item.Tag = folder.FolderId;
@@ -460,7 +460,7 @@ namespace MPfm
             {
                 // Check if folder already exists
                 //Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
-                FolderDTO folder = m_main.Library.Gateway.SelectFolderByPath(dialogAddFolder.SelectedPath);
+                Folder folder = m_main.Library.Gateway.SelectFolderByPath(dialogAddFolder.SelectedPath);
 
                 // Cancel if folder already exists
                 if (folder != null)

@@ -372,31 +372,29 @@ namespace MPfm
                 return;
             }
 
-            // Build DTO
+            // Build preset
             EQPreset eq = new EQPreset();
-            eq.Bands[0].Gain = (float)fader0.Value / 10;
-            //eq.Gain77Hz = (float)fader1.Value / 10;
-            //eq.Gain110Hz = (float)fader2.Value / 10;
-            //eq.Gain156Hz = (float)fader3.Value / 10;
-            //eq.Gain220Hz = (float)fader4.Value / 10;
-            //eq.Gain311Hz = (float)fader5.Value / 10;
-            //eq.Gain440Hz = (float)fader6.Value / 10;
-            //eq.Gain622Hz = (float)fader7.Value / 10;
-            //eq.Gain880Hz = (float)fader8.Value / 10;
-            //eq.Gain1_2kHz = (float)fader9.Value / 10;
-            //eq.Gain1_8kHz = (float)fader10.Value / 10;
-            //eq.Gain2_5kHz = (float)fader11.Value / 10;
-            //eq.Gain3_5kHz = (float)fader12.Value / 10;
-            //eq.Gain5kHz = (float)fader13.Value / 10;
-            //eq.Gain7kHz = (float)fader14.Value / 10;
-            //eq.Gain10kHz = (float)fader15.Value / 10;
-            //eq.Gain14kHz = (float)fader16.Value / 10;
-            //eq.Gain20kHz = (float)fader17.Value / 10;
-
             eq.Name = txtEQPresetName.Text;
+            eq.Bands[0].Gain = (float)fader0.Value / 10;
+            eq.Bands[1].Gain = (float)fader1.Value / 10;
+            eq.Bands[2].Gain = (float)fader2.Value / 10;
+            eq.Bands[3].Gain = (float)fader3.Value / 10;
+            eq.Bands[4].Gain = (float)fader4.Value / 10;
+            eq.Bands[5].Gain = (float)fader5.Value / 10;
+            eq.Bands[6].Gain = (float)fader6.Value / 10;
+            eq.Bands[7].Gain = (float)fader7.Value / 10;
+            eq.Bands[8].Gain = (float)fader8.Value / 10;
+            eq.Bands[9].Gain = (float)fader9.Value / 10;
+            eq.Bands[10].Gain = (float)fader10.Value / 10;
+            eq.Bands[11].Gain = (float)fader11.Value / 10;
+            eq.Bands[12].Gain = (float)fader12.Value / 10;
+            eq.Bands[13].Gain = (float)fader13.Value / 10;
+            eq.Bands[14].Gain = (float)fader14.Value / 10;
+            eq.Bands[15].Gain = (float)fader15.Value / 10;
+            eq.Bands[16].Gain = (float)fader16.Value / 10;
+            eq.Bands[17].Gain = (float)fader17.Value / 10;            
 
-            // Check if equalizer exists            
-            //EqualizerDTO equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
+            // Check if equalizer exists                        
             EQPreset equalizerExists = m_main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists == null)
@@ -409,8 +407,7 @@ namespace MPfm
                 if (MessageBox.Show("Are you sure you wish to overwrite the " + equalizerExists.Name + " equalizer preset?", "Overwrite equalizer preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     // Update ID and EQ
-                    eq.EQPresetId = equalizerExists.EQPresetId;
-                    //DataAccess.UpdateEqualizer(eq);
+                    eq.EQPresetId = equalizerExists.EQPresetId;                    
                     m_main.Library.Gateway.UpdateEqualizer(eq);
                 }
             }
@@ -470,29 +467,28 @@ namespace MPfm
                 if (comboEQPreset.SelectedItem != null && !String.IsNullOrEmpty(comboEQPreset.SelectedItem.ToString()))
                 {
                     // Get equalizer                    
-                    //Equalizer equalizer = DataAccess.SelectEqualizer(comboEQPreset.SelectedItem.ToString());
                     EQPreset equalizer = m_main.Library.Gateway.SelectEQPreset(comboEQPreset.SelectedItem.ToString());
 
                     // Set values
                     txtEQPresetName.Text = equalizer.Name;
                     fader0.Value = (Int32)(equalizer.Bands[0].Gain * 10);
-                    //fader1.Value = (Int32)(equalizer.Gain77Hz * 10);
-                    //fader2.Value = (Int32)(equalizer.Gain110Hz * 10);
-                    //fader3.Value = (Int32)(equalizer.Gain156Hz * 10);
-                    //fader4.Value = (Int32)(equalizer.Gain220Hz * 10);
-                    //fader5.Value = (Int32)(equalizer.Gain311Hz * 10);
-                    //fader6.Value = (Int32)(equalizer.Gain440Hz * 10);
-                    //fader7.Value = (Int32)(equalizer.Gain622Hz * 10);
-                    //fader8.Value = (Int32)(equalizer.Gain880Hz * 10);
-                    //fader9.Value = (Int32)(equalizer.Gain1_2kHz * 10);
-                    //fader10.Value = (Int32)(equalizer.Gain1_8kHz * 10);
-                    //fader11.Value = (Int32)(equalizer.Gain2_5kHz * 10);
-                    //fader12.Value = (Int32)(equalizer.Gain3_5kHz * 10);
-                    //fader13.Value = (Int32)(equalizer.Gain5kHz * 10);
-                    //fader14.Value = (Int32)(equalizer.Gain7kHz * 10);
-                    //fader15.Value = (Int32)(equalizer.Gain10kHz * 10);
-                    //fader16.Value = (Int32)(equalizer.Gain14kHz * 10);
-                    //fader17.Value = (Int32)(equalizer.Gain20kHz * 10);
+                    fader1.Value = (Int32)(equalizer.Bands[1].Gain * 10);
+                    fader2.Value = (Int32)(equalizer.Bands[2].Gain * 10);
+                    fader3.Value = (Int32)(equalizer.Bands[3].Gain * 10);
+                    fader4.Value = (Int32)(equalizer.Bands[4].Gain * 10);
+                    fader5.Value = (Int32)(equalizer.Bands[5].Gain * 10);
+                    fader6.Value = (Int32)(equalizer.Bands[6].Gain * 10);
+                    fader7.Value = (Int32)(equalizer.Bands[7].Gain * 10);
+                    fader8.Value = (Int32)(equalizer.Bands[8].Gain * 10);
+                    fader9.Value = (Int32)(equalizer.Bands[9].Gain * 10);
+                    fader10.Value = (Int32)(equalizer.Bands[10].Gain * 10);
+                    fader11.Value = (Int32)(equalizer.Bands[11].Gain * 10);
+                    fader12.Value = (Int32)(equalizer.Bands[12].Gain * 10);
+                    fader13.Value = (Int32)(equalizer.Bands[13].Gain * 10);
+                    fader14.Value = (Int32)(equalizer.Bands[14].Gain * 10);
+                    fader15.Value = (Int32)(equalizer.Bands[15].Gain * 10);
+                    fader16.Value = (Int32)(equalizer.Bands[16].Gain * 10);
+                    fader17.Value = (Int32)(equalizer.Bands[17].Gain * 10);
 
                     // Set config                    
                     Main.Config.EQPreset = equalizer.Name;
@@ -548,51 +544,6 @@ namespace MPfm
                 strDB = gain.ToString("0.0") + " dB";
             }
             label.Text = strDB;
-
-            //// Default gain: 0 dB
-            //double gainParameter = 1;
-
-            //// Since the track resolution top is 30 and the min is -30, divide by 10 to get actual dB.
-            //float trackValue = ((float)fader.Value) / 10;
-
-            //// 10 power dB            
-            ////gainParameter = Math.Pow(10, trackValue / 10);
-            //gainParameter = Math.Pow(10, trackValue / 20);
-            ////gainParameter = Math.Pow(10, trackValue);
-
-            //// FMOD_DSP_PARAMEQ_GAIN
-            //// Frequency Gain. 0.05 to 3.0. Default = 1.0 (no gain)
-            ////
-            //// Fader value range: -30 to 30. 0 = no gain.
-            ////
-            //// My tests: Gain parameter of 2 is a LOT louder.
-
-            ////gainParameter = ratio;
-
-
-            //label.Text = gainParameter.ToString("0.00");
-            
-
-            //try
-            //{
-            //    // Set EQ gain
-            //    PropertyInfo propEQ = Main.Player.GetType().GetProperty("ParamEQ" + hertz);
-
-            //    if (propEQ != null)
-            //    {
-            //        object obj = propEQ.GetValue(Main.Player, null);
-
-            //        if (obj != null)
-            //        {
-            //            ParamEQDSP dsp = (ParamEQDSP)obj;
-            //            dsp.SetGain((float)gainParameter);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Ignore for the moment
-            //}
         }
 
         #endregion

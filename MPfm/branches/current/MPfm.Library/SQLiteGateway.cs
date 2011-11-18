@@ -220,7 +220,7 @@ namespace MPfm.Library
             // Add new row to data table
             DataRow newRow = table.NewRow();
             table.Rows.Add(newRow);
-            ConvertDTO.ToRow(ref newRow, dto);
+            ConvertLibrary.ToRow(ref newRow, dto);
 
             // Insert new row into database
             UpdateDataTable(table, baseQuery);
@@ -247,7 +247,7 @@ namespace MPfm.Library
 
             // Update row in DataTable
             DataRow row = table.Rows[0];
-            ConvertDTO.ToRow(ref row, dto);
+            ConvertLibrary.ToRow(ref row, dto);
 
             // Update row into database
             UpdateDataTable(table, baseQuery);

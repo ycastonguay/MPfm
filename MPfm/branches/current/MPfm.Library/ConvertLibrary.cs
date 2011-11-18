@@ -34,10 +34,9 @@ using MPfm.Sound;
 namespace MPfm.Library
 {
     /// <summary>
-    /// This static class converts entities from Entity Framework into DTOs (Data
-    /// Transfer Objects)
+    /// This static class converts classes from different libraries into DataTables and back into classes.    
     /// </summary>
-    public static class ConvertDTO
+    public static class ConvertLibrary
     {
         /// <summary>
         /// Converts a DataTable to a list of AudioFiles.
@@ -125,16 +124,16 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="table">DataTable</param>
         /// <returns>List of FolderDTO</returns>
-        public static List<FolderDTO> Folders(DataTable table)
+        public static List<Folder> Folders(DataTable table)
         {
             // Create list
-            List<FolderDTO> dtos = new List<FolderDTO>();
+            List<Folder> dtos = new List<Folder>();
 
             // Loop through rows
             for (int a = 0; a < table.Rows.Count; a++)
             {
                 // Create DTO
-                FolderDTO dto = new FolderDTO();
+                Folder dto = new Folder();
 
                 // Assign properties (strings)
                 dto.FolderId = new Guid(table.Rows[a]["FolderId"].ToString());
@@ -184,77 +183,13 @@ namespace MPfm.Library
                 dto.EQPresetId = new Guid(table.Rows[a]["EQPresetId"].ToString());
                 dto.Name = table.Rows[a]["Name"].ToString();
 
-                float gain0 = 0.0f;
-                float.TryParse(table.Rows[a]["Gain0"].ToString(), out gain0);
-                dto.Bands[0].Gain = gain0;
-
-                //float gain77Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain77Hz"].ToString(), out gain77Hz);
-                //dto.Gain77Hz = gain77Hz;
-
-                //float gain110Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain110Hz"].ToString(), out gain110Hz);
-                //dto.Gain110Hz = gain110Hz;
-
-                //float gain156Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain156Hz"].ToString(), out gain156Hz);
-                //dto.Gain156Hz = gain156Hz;
-
-                //float gain220Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain220Hz"].ToString(), out gain220Hz);
-                //dto.Gain220Hz = gain220Hz;
-
-                //float gain311Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain311Hz"].ToString(), out gain311Hz);
-                //dto.Gain311Hz = gain311Hz;
-
-                //float gain440Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain440Hz"].ToString(), out gain440Hz);
-                //dto.Gain440Hz = gain440Hz;
-
-                //float gain622Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain622Hz"].ToString(), out gain622Hz);
-                //dto.Gain622Hz = gain622Hz;
-
-                //float gain880Hz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain880Hz"].ToString(), out gain880Hz);
-                //dto.Gain880Hz = gain880Hz;
-
-                //float gain1_2kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain1_2kHz"].ToString(), out gain1_2kHz);
-                //dto.Gain1_2kHz = gain1_2kHz;
-
-                //float gain1_8kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain1_8kHz"].ToString(), out gain1_8kHz);
-                //dto.Gain1_8kHz = gain1_8kHz;
-
-                //float gain2_5kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain2_5kHz"].ToString(), out gain2_5kHz);
-                //dto.Gain2_5kHz = gain2_5kHz;
-
-                //float gain3_5kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain3_5kHz"].ToString(), out gain3_5kHz);
-                //dto.Gain3_5kHz = gain3_5kHz;
-
-                //float gain5kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain5kHz"].ToString(), out gain5kHz);
-                //dto.Gain5kHz = gain5kHz;
-
-                //float gain7kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain7kHz"].ToString(), out gain7kHz);
-                //dto.Gain7kHz = gain7kHz;
-
-                //float gain10kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain10kHz"].ToString(), out gain10kHz);
-                //dto.Gain10kHz = gain10kHz;
-
-                //float gain14kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain14kHz"].ToString(), out gain14kHz);
-                //dto.Gain14kHz = gain14kHz;
-
-                //float gain20kHz = 0.0f;
-                //float.TryParse(table.Rows[a]["Gain20kHz"].ToString(), out gain20kHz);
-                //dto.Gain20kHz = gain20kHz;
+                // Loop through 18 bands
+                for (int b = 0; b < 18; b++)
+                {
+                    float gain = 0.0f;
+                    float.TryParse(table.Rows[a]["Gain" + b.ToString()].ToString(), out gain);
+                    dto.Bands[b].Gain = gain;
+                }
 
                 // Add DTO to list
                 dtos.Add(dto);
@@ -315,10 +250,10 @@ namespace MPfm.Library
                 // Convert values
                 ToAudioFileRow(ref row, (AudioFile)dto);
             }
-            else if (dto is FolderDTO)
+            else if (dto is Folder)
             {
                 // Convert values
-                ToFolderRow(ref row, (FolderDTO)dto);
+                ToFolderRow(ref row, (Folder)dto);
             }
             else if (dto is EQPreset)
             {
@@ -360,7 +295,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="row">DataRow to set</param>
         /// <param name="dto">FolderDTO</param>
-        public static void ToFolderRow(ref DataRow row, FolderDTO dto)
+        public static void ToFolderRow(ref DataRow row, Folder dto)
         {
             // Set row data
             row["FolderId"] = dto.FolderId.ToString();
@@ -381,24 +316,12 @@ namespace MPfm.Library
             row["EQPresetId"] = dto.EQPresetId.ToString();
             row["Name"] = dto.Name;
 
-            AssignRowValue(ref row, "Gain0", dto.Bands[0].Gain);
-            //AssignRowValue(ref row, "Gain77Hz", dto.Gain77Hz);
-            //AssignRowValue(ref row, "Gain110Hz", dto.Gain110Hz);
-            //AssignRowValue(ref row, "Gain156Hz", dto.Gain156Hz);
-            //AssignRowValue(ref row, "Gain220Hz", dto.Gain220Hz);
-            //AssignRowValue(ref row, "Gain311Hz", dto.Gain311Hz);
-            //AssignRowValue(ref row, "Gain440Hz", dto.Gain440Hz);
-            //AssignRowValue(ref row, "Gain622Hz", dto.Gain622Hz);
-            //AssignRowValue(ref row, "Gain880Hz", dto.Gain880Hz);
-            //AssignRowValue(ref row, "Gain1_2kHz", dto.Gain1_2kHz);
-            //AssignRowValue(ref row, "Gain1_8kHz", dto.Gain1_8kHz);
-            //AssignRowValue(ref row, "Gain2_5kHz", dto.Gain2_5kHz);
-            //AssignRowValue(ref row, "Gain3_5kHz", dto.Gain3_5kHz);
-            //AssignRowValue(ref row, "Gain5kHz", dto.Gain5kHz);
-            //AssignRowValue(ref row, "Gain7kHz", dto.Gain7kHz);
-            //AssignRowValue(ref row, "Gain10kHz", dto.Gain10kHz);
-            //AssignRowValue(ref row, "Gain14kHz", dto.Gain14kHz);
-            //AssignRowValue(ref row, "Gain20kHz", dto.Gain20kHz);
+            // Loop through bands
+            for (int a = 0; a < 18; a++)
+            {
+                // Assign row value
+                AssignRowValue(ref row, "Gain" + a.ToString(), dto.Bands[a].Gain);
+            }                
         }
 
         /// <summary>

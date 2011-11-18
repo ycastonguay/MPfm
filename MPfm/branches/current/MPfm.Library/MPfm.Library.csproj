@@ -60,13 +60,8 @@
   <ItemGroup>
     <Compile Include="MPfmGateway.cs" />
     <Compile Include="SQLiteGateway.cs" />
-    <Compile Include="DTO\ConvertDTO.cs" />
-    <Compile Include="DTO\LoopDTO.cs" />
-    <Compile Include="DTO\MarkerDTO.cs" />
-    <Compile Include="DTO\EqualizerDTO.cs" />
-    <Compile Include="DTO\FolderDTO.cs" />
-    <Compile Include="DTO\PlaylistSongDTO.cs" />
-    <Compile Include="DTO\PlaylistDTO.cs" />
+    <Compile Include="ConvertLibrary.cs" />
+    <Compile Include="Folder.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

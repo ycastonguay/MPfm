@@ -76,7 +76,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM AudioFiles");
 
             // Convert object
-            List<AudioFile> audioFiles = ConvertDTO.AudioFiles(table);
+            List<AudioFile> audioFiles = ConvertLibrary.AudioFiles(table);
 
             return audioFiles;
         }
@@ -92,7 +92,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
 
             // Convert to DTO
-            List<AudioFile> audioFiles = ConvertDTO.AudioFiles(table);
+            List<AudioFile> audioFiles = ConvertLibrary.AudioFiles(table);
 
             // Check results
             if (audioFiles.Count > 0)
@@ -300,13 +300,13 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="path">Path to the folder</param>
         /// <returns>Folder</returns>
-        public FolderDTO SelectFolderByPath(string path)
+        public Folder SelectFolderByPath(string path)
         {
             // Fetch data
             DataTable table = Select("SELECT * FROM Folders WHERE FolderPath = '" + path + "'");
             
             // Convert to DTO
-            List<FolderDTO> folders = ConvertDTO.Folders(table);
+            List<Folder> folders = ConvertLibrary.Folders(table);
 
             // Check results
             if (folders.Count > 0)
@@ -322,13 +322,13 @@ namespace MPfm.Library
         /// Selects a folders.
         /// </summary>        
         /// <returns>List of folders</returns>
-        public List<FolderDTO> SelectFolders()
+        public List<Folder> SelectFolders()
         {
             // Fetch data
             DataTable table = Select("SELECT * FROM Folders");
 
             // Convert to DTO
-            List<FolderDTO> folders = ConvertDTO.Folders(table);
+            List<Folder> folders = ConvertLibrary.Folders(table);
 
             return folders;
         }
@@ -341,7 +341,7 @@ namespace MPfm.Library
         public void InsertFolder(string folderPath, bool recursive)
         {
             // Insert new folder
-            FolderDTO folder = new FolderDTO();
+            Folder folder = new Folder();
             folder.FolderPath = folderPath;
             folder.IsRecursive = recursive;
             Insert("Folders", "FolderId", folder);
@@ -380,7 +380,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM EQPresets");
 
             // Convert to DTO
-            List<EQPreset> eqs = ConvertDTO.EQPresets(table);
+            List<EQPreset> eqs = ConvertLibrary.EQPresets(table);
 
             return eqs;
         }
@@ -396,7 +396,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM EQPresets WHERE Name = '" + name + "'");
 
             // Convert to DTO
-            List<EQPreset> eqs = ConvertDTO.EQPresets(table);
+            List<EQPreset> eqs = ConvertLibrary.EQPresets(table);
 
             // Check results
             if (eqs.Count > 0)
@@ -452,7 +452,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM Markers");
 
             // Convert to DTO
-            List<Marker> dtos = ConvertDTO.Markers(table);
+            List<Marker> dtos = ConvertLibrary.Markers(table);
 
             return dtos;
         }
@@ -468,7 +468,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM Markers WHERE SongId = '" + songId.ToString() + "' ORDER BY PositionBytes");
 
             // Convert to DTO
-            List<Marker> dtos = ConvertDTO.Markers(table);
+            List<Marker> dtos = ConvertLibrary.Markers(table);
 
             return dtos;
         }
@@ -484,7 +484,7 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM Markers WHERE MarkerId = '" + markerId.ToString() + "'");
 
             // Convert to DTO
-            List<Marker> dtos = ConvertDTO.Markers(table);
+            List<Marker> dtos = ConvertLibrary.Markers(table);
 
             // Check results
             if (dtos.Count > 0)
