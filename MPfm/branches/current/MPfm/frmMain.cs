@@ -974,15 +974,13 @@ namespace MPfm
                 // Refresh song information                    
                 RefreshSongInformation();
 
-                // Set the play icon in the song browser
-                //RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.Song.SongId);
+                // Set the play icon in the song browser                
                 RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
 
                 // Refresh play icon in playlist
                 //formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
 
-                // Set next song in configuration                    
-                //Config.SongQuerySongId = m_player.Playlist.CurrentItem.Song.SongId.ToString();
+                // Set next song in configuration                                    
                 Config.SongQuerySongId = m_player.Playlist.CurrentItem.AudioFile.Id.ToString();
 
                 // Refresh loops & markers
@@ -990,13 +988,10 @@ namespace MPfm
                 RefreshLoops();
 
                 // Refresh play count
-                //SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.Song.SongId == m_player.Playlist.CurrentItem.Song.SongId);
                 SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
                 if (item != null)
                 {
                     // Set updated data
-                    //SongDTO updatedSong = Library.SelectSong(m_player.Playlist.CurrentItem.Song.SongId);
-                    //SongDTO updatedSong = Library.SelectSong(m_player.Playlist.CurrentItem.AudioFile.Id);
                     AudioFile updatedAudioFile = Library.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
                     item.AudioFile = updatedAudioFile;
                 }
@@ -1923,14 +1918,12 @@ namespace MPfm
                     if (QuerySongBrowser.Type == SongQueryType.Album)
                     {
                         // Generate an artist/album playlist and start playback
-                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle);
-                        //Player.PlayAlbum(FilterSoundFormat, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle, currentSong.SongId);
+                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle);                        
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.Artist)
                     {
                         // Generate an artist playlist and start playback                                                                        
-                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName);
-                        //Player.PlayArtist(FilterSoundFormat, QuerySongBrowser.ArtistName, currentSong.SongId);
+                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName);                        
                     }
                     else if (QuerySongBrowser.Type == SongQueryType.Playlist)
                     {
@@ -1940,27 +1933,12 @@ namespace MPfm
                     else if (QuerySongBrowser.Type == SongQueryType.All)
                     {
                         // Generate a playlist with all the library and start playaback
-                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat);
-                        //Player.PlayAll(FilterSoundFormat, currentSong.SongId);
+                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat);                        
                     }
-
-                    //List<AudioFile> audioFiles = new List<AudioFile>();
-                    //foreach (SongDTO song in songs)
-                    //{
-                    //    AudioFile audioFile = new AudioFile(song.FilePath, song.SongId, false);
-                    //    audioFile.ArtistName = song.ArtistName;
-                    //    audioFile.AlbumTitle = song.AlbumTitle;
-                    //    audioFile.Title = song.Time;
-                    //    audioFile.TrackNumber = (uint)song.TrackNumber;
-                    //    audioFile.DiscNumber = (uint)song.DiscNumber;
-
-                    //    audioFiles.Add(audioFile);
-                    //}
 
                     // Clear playlist and add songs
                     m_player.Playlist.Clear();
-                    m_player.Playlist.AddItems(audioFiles);
-                    //m_player.Playlist.GoTo(currentSong.SongId);
+                    m_player.Playlist.AddItems(audioFiles);                    
                     m_player.Playlist.GoTo(currentAudioFile.FilePath);
                     m_player.Play();
 
@@ -1994,9 +1972,8 @@ namespace MPfm
                 return;
             }
 
-            // Stop song, wait a little
+            // Stop song
             m_player.Stop();
-            //System.Threading.Thread.Sleep(100);
 
             // Refresh controls
             btnAddMarker.Enabled = false;
@@ -2151,10 +2128,6 @@ namespace MPfm
             m_player.Volume = (float)faderVolume.Value / 100;
             lblVolume.Text = faderVolume.Value.ToString() + " %";
             Config.Volume = faderVolume.Value;
-
-            //Player.Volume = faderVolume.Value;
-            //lblVolume.Text = faderVolume.Value.ToString() + " %";
-            //Config.Volume = faderVolume.Value;
         }
 
         /// <summary>
@@ -2261,39 +2234,10 @@ namespace MPfm
             }
         }
 
-        ///// <summary>
-        ///// Occurs when the user changes the selection on the Song Browser.
-        ///// </summary>
-        ///// <param name="sender">Event Sender</param>
-        ///// <param name="e">Event Arguments</param>
-        //private void viewSongs_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    // Check if a selection has been made
-        //    bool enabled = true;
-        //    if (viewSongs2.SelectedIndices.Count == 0)
-        //    {
-        //        enabled = false;
-        //    }
-
-        //    // Set buttons
-        //    if (btnPlaySelectedSong.Enabled != enabled)
-        //        btnPlaySelectedSong.Enabled = enabled;
-        //    if (btnEditSongMetadata.Enabled != enabled)
-        //        btnEditSongMetadata.Enabled = enabled;
-        //    if (btnAddSongToPlaylist.Enabled != enabled)
-        //        btnAddSongToPlaylist.Enabled = enabled;
-
-        //    // Set selected song in config
-        //    if (viewSongs.SelectedIndices.Count > 0)
-        //    {
-        //        SongDTO song = (SongDTO)viewSongs.SelectedItems[0].Tag;
-        //        if (song != null)
-        //        {
-        //            Config.SongQuerySongId = song.SongId.ToString();
-        //        }
-        //    }
-        //}
-
+        /// <summary>
+        /// Occurs when the user changes the selection on the Song Browser.
+        /// </summary>
+        /// <param name="data">Event data</param>
         private void viewSongs2_OnSelectedIndexChanged(SongGridViewSelectedIndexChangedData data)
         {
             // Check if a selection has been made
@@ -2319,33 +2263,11 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user tries to change the width of a column of the Song Browser.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void viewSongs_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            if (e.ColumnIndex > 0)
-            {
-                e.Cancel = false;
-            }
-            else
-            {
-                e.Cancel = true;
-            }
-        }
-
-        /// <summary>
         /// Occurs when the user double clicks on an item of the Song Browser.
         /// Plays the selected song query.
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
-        private void viewSongs_DoubleClick(object sender, EventArgs e)
-        {
-            PlaySelectedSongQuery();
-        }
-
         private void viewSongs2_DoubleClick(object sender, EventArgs e)
         {
             PlaySelectedSongQuery();

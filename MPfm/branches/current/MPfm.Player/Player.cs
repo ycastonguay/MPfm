@@ -869,54 +869,6 @@ namespace MPfm.Player.PlayerV4
             Play();
         }
 
-        ///// <summary>
-        ///// Plays the list of songs specified in the songs parameter.
-        ///// </summary>
-        ///// <param name="songs">List of songs</param>
-        //public void PlaySongs(List<SongDTO> songs)
-        //{
-        //    // Check for null or empty list of file paths
-        //    if (songs == null || songs.Count == 0)
-        //    {
-        //        throw new Exception("There must be at least one song the songs parameter.");
-        //    }
-
-        //    // Check if all file paths exist
-        //    Tracing.Log("[PlayerV4.PlaySongs] Playing a list of " + songs.Count.ToString() + " files.");
-        //    foreach (SongDTO song in songs)
-        //    {
-        //        // Check if the file exists                
-        //        if (!File.Exists(song.FilePath))
-        //        {
-        //            // Throw exception
-        //            throw new Exception("The file at " + song.FilePath + " doesn't exist!");
-        //        }
-        //    }
-
-        //    // Check if the player is currently playing
-        //    if (m_isPlaying)
-        //    {
-        //        // Stop playback
-        //        Stop();
-        //    }
-
-        //    // Reset flags                
-        //    m_playlist.Clear();
-
-        //    // Create playlist items
-        //    foreach (SongDTO song in songs)
-        //    {
-        //        // Add playlist item
-        //        m_playlist.AddItem(song);
-        //    }
-
-        //    // Set playlist to first item
-        //    m_playlist.First();
-
-        //    // Start playback
-        //    Play();
-        //}
-
         /// <summary>
         /// Pauses the audio playback. Resumes the audio playback if it was paused.
         /// </summary>
@@ -1566,13 +1518,5 @@ namespace MPfm.Player.PlayerV4
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// Defines the repeat types (off, playlist or song).
-    /// </summary>
-    public enum RepeatType
-    {
-        Off = 0, Playlist = 1, Song = 2
     }
 }

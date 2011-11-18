@@ -39,10 +39,29 @@ namespace MPfm.Player.PlayerV4
     /// </summary>
     public class EQPresetBand
     {
+        /// <summary>
+        /// Defines on which BASS channel the effect will be applied (default: all channels).
+        /// </summary>
         public BASSFXChan FXChannel { get; set; }
+
+        /// <summary>
+        /// Bandwidth.
+        /// </summary>
         public float Bandwidth { get; set; }
+
+        /// <summary>
+        /// Center (frequency in Hz).
+        /// </summary>
         public float Center { get; set; }
+
+        /// <summary>
+        /// Gain (in dB).
+        /// </summary>
         public float Gain { get; set; }
+
+        /// <summary>
+        /// Q (bell width).
+        /// </summary>
         public float Q { get; set; }
 
         /// <summary>

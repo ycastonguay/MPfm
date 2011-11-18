@@ -54,6 +54,7 @@
     <Content Include="Lib\Bass.Net.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RepeatType.cs" />
     <Compile Include="EQPreset.cs" />
     <Compile Include="EQPresetBand.cs" />
     <Compile Include="Events.cs" />

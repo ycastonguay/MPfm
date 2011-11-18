@@ -58,6 +58,13 @@ namespace MPfm.Sound
             return ms * (sampleRate / 1000);
         }
 
+        /// <summary>
+        /// Converts to the PCM (samples) format.
+        /// </summary>
+        /// <param name="bytes">Value (in bytes)</param>
+        /// <param name="bitsPerSample">Bits per sample (ex: 16-bit)</param>
+        /// <param name="channelCount">Number of channels</param>
+        /// <returns>PCM (samples)</returns>
         public static long ToPCM(long bytes, uint bitsPerSample, int channelCount)
         {
             return bytes * 8 / bitsPerSample / channelCount;
