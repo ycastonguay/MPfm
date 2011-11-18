@@ -1,5 +1,5 @@
 ﻿//
-// FolderDTO.cs: Data transfer object representing a folder;
+// Folder.cs: Class representing a folder containing audio files.
 //
 // Copyright © 2011 Yanick Castonguay
 //

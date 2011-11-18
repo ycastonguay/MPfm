@@ -81,16 +81,16 @@
     <Compile Include="AudioFile.cs" />
     <Compile Include="AudioTools.cs" />
     <Compile Include="Bass.Net\Channel.cs" />
+    <Compile Include="Bass.Net\ChannelType.cs" />
+    <Compile Include="Bass.Net\DriverType.cs" />
     <Compile Include="Bass.Net\TestDevice.cs" />
     <Compile Include="Bass.Net\DeviceHelper.cs" />
     <Compile Include="Bass.Net\Device.cs" />
     <Compile Include="Bass.Net\Exception.cs" />
     <Compile Include="Bass.Net\Base.cs" />
     <Compile Include="ConvertAudio.cs" />
-    <Compile Include="Driver.cs" />
     <Compile Include="PeakFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Timer.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
   </ItemGroup>
   <ItemGroup>

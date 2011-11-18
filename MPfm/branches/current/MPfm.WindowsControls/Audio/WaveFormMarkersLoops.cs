@@ -63,7 +63,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Timer controlling the refresh for the loading and cursor display.
         /// </summary>
-        private MPfm.Sound.Timer m_timer = null;
+        private Timer m_timer = null;
 
         // Animation
         private int animResolution = 256;
@@ -643,8 +643,8 @@ namespace MPfm.WindowsControls
             m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
             // Create timer for refresh
-            m_timer = new Sound.Timer();
-            m_timer.Period = 500;
+            m_timer = new Timer();
+            m_timer.Interval = 500;
             m_timer.Tick += new EventHandler(m_timer_Tick);
 
             // Set control styles

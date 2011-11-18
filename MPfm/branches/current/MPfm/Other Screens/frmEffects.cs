@@ -65,7 +65,7 @@ namespace MPfm
             //LoadConfig();
 
             // Set UI values
-            chkEQOn.Checked = m_main.PlayerV4.IsEQEnabled;
+            chkEQOn.Checked = m_main.Player.IsEQEnabled;
 
         }
 
@@ -426,7 +426,7 @@ namespace MPfm
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
         {
             // Bypass EQ
-            m_main.PlayerV4.BypassEQ();
+            m_main.Player.BypassEQ();
 
             //// Set equalizer
             //if (m_main.PlayerV4.IsEQEnabled)
@@ -531,7 +531,7 @@ namespace MPfm
             MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
 
             float gain = (float)fader.Value / 10;            
-            m_main.PlayerV4.UpdateEQBand(index, gain);
+            m_main.Player.UpdateEQBand(index, gain);
 
             // Update dB display
             string strDB = "";

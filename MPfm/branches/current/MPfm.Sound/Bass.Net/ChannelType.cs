@@ -1,6 +1,5 @@
 ﻿//
-// Exception.cs: This file contains the Exception class which is part of the
-//               BASS.NET wrapper.
+// ChannelType.cs: Enumeration defining the channel type.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -20,16 +19,17 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace MPfm.Sound.BassNetWrapper
 {
-    public class BassNetWrapperException : Exception
+    /// <summary>
+    /// Defines the type of channel.
+    /// </summary>
+    public enum ChannelType
     {
-        public BassNetWrapperException(string message) 
-            : base("An error has occured in Bass.Net: " + message)
-        {            
-        }
+        Playback = 0, FX = 1, Decode = 2, Memory = 3
     }
 }

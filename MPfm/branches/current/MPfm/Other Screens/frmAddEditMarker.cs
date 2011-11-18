@@ -192,13 +192,13 @@ namespace MPfm
         private void btnPunchIn_Click(object sender, EventArgs e)
         {
             // Check if the player is currently playing
-            if (!Main.PlayerV4.IsPlaying)
+            if (!Main.Player.IsPlaying)
             {
                 return;
             }
 
             // Get position
-            long positionBytes = Main.PlayerV4.Playlist.CurrentItem.Channel.GetPosition();
+            long positionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
             long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
             string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);                        
 
@@ -217,7 +217,7 @@ namespace MPfm
         private void btnGoTo_Click(object sender, EventArgs e)
         {
             // Check if the player is currently playing
-            if (!Main.PlayerV4.IsPlaying)
+            if (!Main.Player.IsPlaying)
             {
                 return;
             }
@@ -225,7 +225,7 @@ namespace MPfm
             // Set position
             uint position = 0;
             uint.TryParse(lblPositionPCMBytesValue.Text, out position);            
-            Main.PlayerV4.SetPosition(position);
+            Main.Player.SetPosition(position);
         }
 
         /// <summary>

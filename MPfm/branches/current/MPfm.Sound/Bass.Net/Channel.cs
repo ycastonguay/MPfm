@@ -275,6 +275,8 @@ namespace MPfm.Sound.BassNetWrapper
 
         #endregion
 
+        #region Free / Active Status
+        
         /// <summary>
         /// Frees the stream.
         /// </summary>
@@ -289,39 +291,6 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         /// <summary>
-        /// Gets data from the channel/stream buffer.
-        /// </summary>
-        /// <param name="buffer">Buffer to receive data</param>
-        /// <param name="length">Data length</param>
-        /// <returns>GetData return value</returns>
-        public int GetData(byte[] buffer, int length)
-        {
-            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
-        }
-
-        /// <summary>
-        /// Gets data from the channel/stream buffer.
-        /// </summary>
-        /// <param name="buffer">Buffer to receive data</param>
-        /// <param name="length">Data length</param>
-        /// <returns>GetData return value</returns>
-        public int GetData(IntPtr buffer, int length)
-        {
-            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
-        }
-
-        /// <summary>
-        /// Gets data from the channel/stream buffer.
-        /// </summary>
-        /// <param name="buffer">Buffer to receive data</param>
-        /// <param name="length">Data length</param>
-        /// <returns>GetData return value</returns>
-        public int GetData(float[] buffer, int length)
-        {
-            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
-        }
-
-        /// <summary>
         /// Indicates if the channel/stream is currently active or stopped.
         /// </summary>
         /// <returns>BASSActive structure</returns>
@@ -329,26 +298,66 @@ namespace MPfm.Sound.BassNetWrapper
         {
             return Bass.BASS_ChannelIsActive(m_handle);
         }
-        
+
+        #endregion
+
+        #region Playback
+
         /// <summary>
-        /// Sets the "tempo" of a track (for time shifting).
+        /// Starts the playback of a channel.
         /// </summary>
-        /// <param name="tempo">Tempo (TODO: Add measure)</param>
-        public void SetTempo(float tempo)
+        /// <param name="restart">Restart playback from the beginning</param>
+        public void Play(bool restart)
         {
-            // Set value
-            if (!Bass.BASS_ChannelSetAttribute(m_handle, BASSAttribute.BASS_ATTRIB_TEMPO, tempo))
+            // Start playback
+            if (!Bass.BASS_ChannelPlay(m_handle, restart))
             {
                 // Check for error
                 Base.CheckForError();
             }
         }
 
+        /// <summary>
+        /// Stops the playback of a channel.
+        /// </summary>
+        public void Stop()
+        {
+            // Stop playback
+            if (!Bass.BASS_ChannelStop(m_handle))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }
+
+        /// <summary>
+        /// Pauses the playback of a channel
+        /// </summary>
+        /// <returns>True if the operation was successful</returns>
+        public bool Pause()
+        {
+            return Bass.BASS_ChannelPause(m_handle);
+        }
+
+        #endregion
+
+        #region Effects
+
+        /// <summary>
+        /// Sets an effect on the current channel.
+        /// </summary>
+        /// <param name="type">Effect type</param>
+        /// <param name="priority">Effect priority</param>
+        /// <returns>Effect handle</returns>
         public int SetFX(BASSFXType type, int priority)
         {
             return Bass.BASS_ChannelSetFX(m_handle, type, priority);
         }
 
+        /// <summary>
+        /// Removes an effect from the current channel.
+        /// </summary>
+        /// <param name="handleFX">Effect handle</param>
         public void RemoveFX(int handleFX)
         {
             // Remove FX
@@ -359,6 +368,10 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Resets the settings of an effect on the current channel.
+        /// </summary>
+        /// <param name="handleFX">Effect handle</param>
         public void ResetFX(int handleFX)
         {
             // Remove FX
@@ -369,6 +382,29 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        #endregion
+
+        #region Tempo / SampleRate
+
+        /// <summary>
+        /// Sets the "tempo" of the current channel (for time shifting).
+        /// Note: needs to be an FX channel.
+        /// </summary>
+        /// <param name="tempo">Tempo (in BPM)</param>
+        public void SetTempo(float tempo)
+        {
+            // Set value
+            if (!Bass.BASS_ChannelSetAttribute(m_handle, BASSAttribute.BASS_ATTRIB_TEMPO, tempo))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }
+
+        /// <summary>
+        /// Returns the sample rate of the current channel.
+        /// </summary>
+        /// <returns>Sample rate (in Hz)</returns>
         public int GetSampleRate()
         {
             float sampleRate = 0;
@@ -377,12 +413,20 @@ namespace MPfm.Sound.BassNetWrapper
             return m_sampleRate;
         }
 
+        /// <summary>
+        /// Sets the sample rate of the current channel.
+        /// </summary>
+        /// <param name="sampleRate">Sample rate (in Hz)</param>
         public void SetSampleRate(int sampleRate)
         {
             m_sampleRate = (int)sampleRate;
             SetAttribute(BASSAttribute.BASS_ATTRIB_FREQ, (float)sampleRate);
         }
 
+        #endregion
+
+        #region Position / Length
+        
         /// <summary>
         /// Gets the length of the channel in bytes.
         /// </summary>
@@ -442,6 +486,94 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        #endregion
+
+        #region Flags / Attributes
+
+        /// <summary>
+        /// Gets an attribute value of the current channel (specified in the attribute property).
+        /// Returns the attribute value in the value property.
+        /// </summary>
+        /// <param name="attribute">Channel attribute</param>
+        /// <param name="value">Value</param>
+        public void GetAttribute(BASSAttribute attribute, ref float value)
+        {
+            // Get attribute value
+            if (!Bass.BASS_ChannelGetAttribute(m_handle, attribute, ref value))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }
+
+        /// <summary>
+        /// Sets an attribute value of the current channel (specified in the attribute property).
+        /// </summary>
+        /// <param name="attribute">Channel attribute</param>
+        /// <param name="value">Value</param>
+        public void SetAttribute(BASSAttribute attribute, float value)
+        {
+            // Set attribute value
+            if (!Bass.BASS_ChannelSetAttribute(m_handle, attribute, value))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }        
+
+        /// <summary>
+        /// Sets a flag on the current channel (specified in the flags property).
+        /// </summary>
+        /// <param name="flags">Flags</param>
+        /// <param name="mask">Mask</param>
+        /// <returns>Flag</returns>
+        public BASSFlag SetFlags(BASSFlag flags, BASSFlag mask)
+        {
+            // Set flags
+            return Bass.BASS_ChannelFlags(m_handle, flags, mask);
+        }
+
+        #endregion
+
+        #region Data
+
+        /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
+        public int GetData(byte[] buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
+        }
+
+        /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
+        public int GetData(IntPtr buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
+        }
+
+        /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
+        public int GetData(float[] buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(m_handle, buffer, length);
+        }
+
+        #endregion
+
+        #region Synchronization Callbacks
+
         /// <summary>
         /// Sets a synchronization callback.
         /// </summary>
@@ -462,89 +594,36 @@ namespace MPfm.Sound.BassNetWrapper
         {
             // Remove the sync callback
             if (!Bass.BASS_ChannelRemoveSync(m_handle, syncHandle))
-            {                
-                // Check for error
-                Base.CheckForError();                
-            }
-        }
-
-        public void GetAttribute(BASSAttribute attribute, ref float value)
-        {
-            // Get attribute value
-            if (!Bass.BASS_ChannelGetAttribute(m_handle, attribute, ref value))
             {
                 // Check for error
                 Base.CheckForError();
             }
         }
 
-        public void SetAttribute(BASSAttribute attribute, float value)
-        {
-            // Set attribute value
-            if (!Bass.BASS_ChannelSetAttribute(m_handle, attribute, value))
-            {
-                // Check for error
-                Base.CheckForError();
-            }
-        }
+        #endregion
 
-        public BASSFlag SetFlags(BASSFlag flags, BASSFlag mask)
-        {
-            return Bass.BASS_ChannelFlags(m_handle, flags, mask);
-        }
+        #region Conversion
 
+        /// <summary>
+        /// Converts milliseconds into bytes using the current channel properties.
+        /// </summary>
+        /// <param name="position">Position (in milliseconds)</param>
+        /// <returns>Position (in bytes)</returns>
         public long Seconds2Bytes2(double position)
         {
             return Bass.BASS_ChannelSeconds2Bytes(m_handle, position);
         }
 
+        /// <summary>
+        /// Converts bytes into milliseconds using the current channel properties.
+        /// </summary>
+        /// <param name="position">Position (in bytes)</param>
+        /// <returns>Position (in milliseconds)</returns>
         public double Bytes2Seconds(long position)
         {
             return Bass.BASS_ChannelBytes2Seconds(m_handle, position);
         }
 
-        /// <summary>
-        /// Starts the playback of a channel.
-        /// </summary>
-        /// <param name="restart">Restart playback from the beginning</param>
-        public void Play(bool restart)
-        {
-            // Start playback
-            if (!Bass.BASS_ChannelPlay(m_handle, restart))
-            {
-                // Check for error
-                Base.CheckForError();
-            }
-        }
-
-        /// <summary>
-        /// Stops the playback of a channel.
-        /// </summary>
-        public void Stop()
-        {
-            // Stop playback
-            if (!Bass.BASS_ChannelStop(m_handle))
-            {
-                // Check for error
-                Base.CheckForError();
-            }
-        }
-
-        /// <summary>
-        /// Pauses the playback of a channel
-        /// </summary>
-        /// <returns>True if the operation was successful</returns>
-        public bool Pause()
-        {
-            return Bass.BASS_ChannelPause(m_handle);
-        }
-    }
-
-    /// <summary>
-    /// Defines the type of channel.
-    /// </summary>
-    public enum ChannelType
-    {
-        Playback = 0, FX = 1, Decode = 2, Memory = 3
+        #endregion
     }
 }

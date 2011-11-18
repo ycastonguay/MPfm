@@ -1,5 +1,5 @@
 ﻿//
-// ConvertDTO.cs: Converts DataTable and DataRow from and to DTOs.
+// ConvertLibrary.cs: Converts DataTable and DataRow from and to objects.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -34,7 +34,7 @@ using MPfm.Sound;
 namespace MPfm.Library
 {
     /// <summary>
-    /// This static class converts classes from different libraries into DataTables and back into classes.    
+    /// This static class converts objects from different libraries into DataTables and back into objects.    
     /// </summary>
     public static class ConvertLibrary
     {

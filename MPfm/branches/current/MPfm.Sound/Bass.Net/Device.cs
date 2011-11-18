@@ -39,10 +39,29 @@ namespace MPfm.Sound.BassNetWrapper
     /// </summary>
     public class Device
     {
+        /// <summary>
+        /// Defines the driver type (DirectSound, ASIO or WASAPI).
+        /// </summary>
         public DriverType DriverType { get; set; }
+
+        /// <summary>
+        /// True if the device is the default device for this driver type.
+        /// </summary>
         public bool IsDefault { get; set; }
+
+        /// <summary>
+        /// Device id (needed for initialization).
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Device name.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Device driver identifier.
+        /// </summary>
         public string Driver { get; set; }
 
         /// <summary>
@@ -50,6 +69,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// </summary>
         public Device()
         {
+            // Set default values
             DriverType = BassNetWrapper.DriverType.DirectSound;
             IsDefault = true;
             Id = -1; // default id for default device in BASS

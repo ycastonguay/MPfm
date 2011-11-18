@@ -1,4 +1,24 @@
-﻿using System;
+﻿//
+// AudioFile.cs: This class contains metadata for audio files.
+//
+// Copyright © 2011 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,8 +29,9 @@ using MPfm.Core;
 namespace MPfm.Sound
 {
 	/// <summary>
-	/// The AudioFile class contains the properties and tags
-	/// of an audio file type.
+	/// The AudioFile class contains the metadata of an audio file.
+	/// It can refresh the metadata by reading the tags inside the audio file or from
+	/// the database (using MPfm.Library).
 	/// </summary>
 	public class AudioFile
 	{
@@ -224,12 +245,12 @@ namespace MPfm.Sound
 		{
 			get
 			{
-                return m_length;
+				return m_length;
 			}
-            set
-            {
-                m_length = value;
-            }
+			set
+			{
+				m_length = value;
+			}
 		}
 
 		/// <summary>
@@ -450,8 +471,8 @@ namespace MPfm.Sound
 						m_sampleRate = header.AudioSampleRate;
 						m_bitsPerSample = 16; // always 16-bit
 						m_channelMode = header.ChannelMode;
-                        m_bitrate = header.AudioBitrate;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+						m_bitrate = header.AudioBitrate;
+						m_length = Conversion.TimeSpanToTimeString(header.Duration);
 					}
 
 					// Close TagLib file
@@ -503,7 +524,7 @@ namespace MPfm.Sound
 					m_audioChannels = header.AudioChannels;
 					m_sampleRate = header.AudioSampleRate;
 					m_bitsPerSample = header.BitsPerSample;
-                    m_length = header.Duration.ToString("mm:ss.fff");
+					m_length = header.Duration.ToString("mm:ss.fff");
 				}
 			}
 			else if (m_fileType == AudioFileType.OGG)
@@ -544,7 +565,7 @@ namespace MPfm.Sound
 						m_audioChannels = header.AudioChannels;
 						m_sampleRate = header.AudioSampleRate;
 						m_bitsPerSample = 16;
-                        m_length = header.Duration.ToString("mm:ss.fff");
+						m_length = header.Duration.ToString("mm:ss.fff");
 					}
 				}
 			}
@@ -568,83 +589,83 @@ namespace MPfm.Sound
 			}
 		}
 
-		public static Image ExtractImageForAudioFile(string filePath)
-		{
-			// Declare variables
-			Image imageCover = null;
+        public static Image ExtractImageForAudioFile(string filePath)
+        {
+            // Declare variables
+            Image imageCover = null;
 
-			// Check if the file exists
-			if (!File.Exists(filePath))
-			{
-				return null;
-			}
+            // Check if the file exists
+            if (!File.Exists(filePath))
+            {
+                return null;
+            }
 
-			// Check the file extension
-			string extension = Path.GetExtension(filePath).ToUpper();
-			if (extension == ".MP3")
-			{
-				try
-				{
-					// Get tags using TagLib
-					TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath);
+            // Check the file extension
+            string extension = Path.GetExtension(filePath).ToUpper();
+            if (extension == ".MP3")
+            {
+                try
+                {
+                    // Get tags using TagLib
+                    TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath);
 
-					// Can we get the image from the ID3 tags?
-					if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
-					{
-						// Get image from ID3 tags
-						ImageConverter ic = new ImageConverter();
-						imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
-					}
-				}
-				catch
-				{
-					// Do nothing, try to get an image from another method
-				}
-			}
-			else if (extension == ".FLAC")
-			{
+                    // Can we get the image from the ID3 tags?
+                    if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+                    {
+                        // Get image from ID3 tags
+                        ImageConverter ic = new ImageConverter();
+                        imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
+                    }
+                }
+                catch
+                {
+                    // Do nothing, try to get an image from another method
+                }
+            }
+            else if (extension == ".FLAC")
+            {
 
-			}
-			else if (extension == ".OGG")
-			{
+            }
+            else if (extension == ".OGG")
+            {
 
-			}
+            }
 
-			// Check if the image was found using TagLib
-			if (imageCover == null)
-			{
-				// Check in the same folder for an image representing the album cover
-				string folderPath = Path.GetDirectoryName(filePath);
+            // Check if the image was found using TagLib
+            if (imageCover == null)
+            {
+                // Check in the same folder for an image representing the album cover
+                string folderPath = Path.GetDirectoryName(filePath);
 
-				// Get the directory information
-				DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);
+                // Get the directory information
+                DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);
 
-				// Try to find image files 
-				List<FileInfo> imageFiles = new List<FileInfo>();
-				imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.JPG").ToList());
-				imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.PNG").ToList());
-				imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.GIF").ToList());
-				imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.JPG").ToList());
-				imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.PNG").ToList());
-				imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.GIF").ToList());
+                // Try to find image files 
+                List<FileInfo> imageFiles = new List<FileInfo>();
+                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.JPG").ToList());
+                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.PNG").ToList());
+                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.GIF").ToList());
+                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.JPG").ToList());
+                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.PNG").ToList());
+                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.GIF").ToList());
 
-				// Check if at least one image was found
-				if (imageFiles.Count > 0)
-				{
-					try
-					{
-						// Get image from file
-						imageCover = Image.FromFile(imageFiles[0].FullName);
-					}
-					catch (Exception ex)
-					{
-						Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
-					}
-				}
-			}
+                // Check if at least one image was found
+                if (imageFiles.Count > 0)
+                {
+                    try
+                    {
+                        // Get image from file
+                        imageCover = Image.FromFile(imageFiles[0].FullName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
+                    }
+                }
+            }
 
-			return imageCover;
-		}
+            return imageCover;
+        }
 	}
 
 	/// <summary>

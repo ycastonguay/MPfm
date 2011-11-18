@@ -1,6 +1,6 @@
 ﻿//
-// System.cs: This file contains the System class which is part of the
-//            BASS.NET wrapper.
+// Base.cs: This file contains the Base class which is part of the
+//          BASS.NET wrapper. It only contains static methods.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -36,23 +36,44 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Sound.BassNetWrapper
 {
+    /// <summary>
+    /// The Base class contains methods for initializing audio devices,
+    /// creating stream, and more. All methods are static.
+    /// </summary>
     public static class Base
     {
-        public static Double LevelToDB_16Bit(double level)
-        {
-            return Utils.LevelToDB(level, 65535);
-        }
-
+        #region BASS.NET Registration
+        
+        /// <summary>
+        /// Registers the BASS.NET library using the email and registration key.
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <param name="registrationKey">Registration key</param>
         public static void Register(string email, string registrationKey)
         {
+            // Set registration information
             BassNet.Registration(email, registrationKey);
         }
 
+        #endregion
+
+        #region Initialize/Free Devices
+
+        /// <summary>
+        /// Initializes the default DirectSound device at 44100 Hz.
+        /// </summary>
         public static void Init()
         {
             Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT);
         }
 
+        /// <summary>
+        /// Initializes a DirectSound device by its identifier, using the specified sample rate (frequency) 
+        /// and initialization flags. To get the deviceId, use the DeviceHelper class.
+        /// </summary>
+        /// <param name="deviceId">Device identifier</param>
+        /// <param name="frequency">Sample rate (in Hz)</param>
+        /// <param name="init">Intiailization flags</param>
         public static void Init(int deviceId, int frequency, BASSInit init)
         {
             // Initialize system
@@ -63,11 +84,22 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Initializes the default ASIO device at 44100 Hz. 
+        /// </summary>
         public static void InitASIO()
         {
             InitASIO(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
         }
 
+        /// <summary>
+        /// Initializes an ASIO device by its identifier, using the specified sample rate (frequency) 
+        /// and initialization flags. To get the deviceId, use the DeviceHelper class.
+        /// </summary>
+        /// <param name="deviceId">Device identifier</param>
+        /// <param name="frequency">Sample rate (in Hz)</param>
+        /// <param name="init">Intiailization flags</param>
+        /// <param name="asioInit">ASIO initialization flags</param>
         public static void InitASIO(int deviceId, int frequency, BASSInit init, BASSASIOInit asioInit)
         {
             // Initialize base device
@@ -85,11 +117,23 @@ namespace MPfm.Sound.BassNetWrapper
             }   
         }
 
+        /// <summary>
+        /// Initializes the default WASAPI device at 44100 Hz. Requires a data callback.
+        /// </summary>
+        /// <param name="proc">WASAPI data callback</param>
         public static void InitWASAPI(WASAPIPROC proc)
         {
             InitWASAPI(-1, 44100, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, proc);
         }
 
+        /// <summary>
+        /// Initializes a WASAPI device by its identifier, using the specified sample rate (frequency) 
+        /// and initialization flags. To get the deviceId, use the DeviceHelper class. Requires a data callback.
+        /// </summary>
+        /// <param name="deviceId">Device identifier</param>
+        /// <param name="frequency">Sample rate (in Hz)</param>
+        /// <param name="init">Intiailization flags</param>
+        /// <param name="asioInit">ASIO initialization flags</param>
         public static void InitWASAPI(int deviceId, int frequency, int channels, BASSInit init, 
             BASSWASAPIInit wasapiInit, float buffer, float period, WASAPIPROC proc)
         {
@@ -108,6 +152,9 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Free all devices.
+        /// </summary>
         public static void Free()
         {
             // Free system
@@ -118,11 +165,25 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        #endregion
+
+        #region Configuration/Information
+        
+        /// <summary>
+        /// Gets a BASS configuration value.
+        /// </summary>
+        /// <param name="option">BASS option</param>
+        /// <returns>Value (integer)</returns>
         public static int GetConfig(BASSConfig option)
         {
             return Bass.BASS_GetConfig(option);
         }
 
+        /// <summary>
+        /// Sets a BASS configuration value.
+        /// </summary>
+        /// <param name="option">BASS option</param>
+        /// <param name="value">Value (integer)</param>
         public static void SetConfig(BASSConfig option, int value)
         {
             // Set configuration value
@@ -133,6 +194,10 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Gets the BASS information.
+        /// </summary>
+        /// <returns>BASS_INFO structure</returns>
         public static BASS_INFO GetInfo()
         {
             BASS_INFO info = new BASS_INFO();
@@ -145,11 +210,25 @@ namespace MPfm.Sound.BassNetWrapper
             return info;
         }
 
+        #endregion
+
+        #region Master Volume
+        
+        /// <summary>
+        /// Gets the device master volume of the default device.
+        /// This is the same value as the volume fader in the Windows tray.
+        /// </summary>
+        /// <returns>Volume</returns>
         public static float GetVolume()
         {
             return Bass.BASS_GetVolume();
         }
 
+        /// <summary>
+        /// Sets the master volume of the default device.
+        /// This sets the volume fader value in the Windows tray.
+        /// </summary>
+        /// <param name="volume">Volume</param>
         public static void SetVolume(float volume)
         {
             // Set volume
@@ -160,8 +239,15 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        #endregion
+
         #region Plugins
-        
+
+        /// <summary>
+        /// Loads a specific BASS plugin.
+        /// </summary>
+        /// <param name="pluginFilePath">Plugin file path</param>
+        /// <returns>Plugin handle</returns>
         public static int LoadPlugin(string pluginFilePath)
         {
             // Load plugins            
@@ -175,19 +261,34 @@ namespace MPfm.Sound.BassNetWrapper
             return plugin;
         }
 
+        /// <summary>
+        /// Loads all the BASS plugins in the directory path.
+        /// </summary>
+        /// <param name="directoryPath">Directory path</param>
+        /// <returns>Dictionary of plugin handles and plugin file paths</returns>
         public static Dictionary<int, string> LoadPluginDirectory(string directoryPath)
         {
             return Bass.BASS_PluginLoadDirectory(directoryPath);
         }
 
+        /// <summary>
+        /// Frees all the BASS plugins from the directory path.
+        /// </summary>
+        /// <param name="dictionary">Dictionary of plugin handles and plugin file paths</param>
         public static void FreePluginDirectory(Dictionary<int, string> dictionary)
         {
+            // Loop through handles
             foreach (KeyValuePair<int, string> pair in dictionary)
             {
+                // Free plugin
                 FreePlugin(pair.Key);
             }
         }
 
+        /// <summary>
+        /// Frees a BASS plugin.
+        /// </summary>
+        /// <param name="handle">Plugin handle</param>
         public static void FreePlugin(int handle)
         {
             // Free Flac plugin
@@ -198,6 +299,9 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Loads the BASS FX plugin.
+        /// </summary>
         public static void LoadFxPlugin()
         {
             //// Load plugins           
@@ -219,6 +323,9 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }
 
+        /// <summary>
+        /// Frees the BASS FX plugin.
+        /// </summary>
         public static void FreeFxPlugin()
         {
             // Free FX plugin
@@ -231,18 +338,39 @@ namespace MPfm.Sound.BassNetWrapper
 
         #endregion
 
+        #region Conversion
+
+        /// <summary>
+        /// Converts a channel level to dB.
+        /// </summary>
+        /// <param name="level">Channel level</param>
+        /// <returns>Level in dB</returns>
+        public static Double LevelToDB_16Bit(double level)
+        {
+            return Utils.LevelToDB(level, 65535);
+        }
+
+        #endregion
+
+        #region Error Management
+        
+        /// <summary>
+        /// Checks for an error inside BASS.NET. Throws an exception with the
+        /// BASS error code if an error is found.
+        /// </summary>
         public static void CheckForError()
         {
+            // Get error code
             Un4seen.Bass.BASSError error = Bass.BASS_ErrorGetCode();
+
+            // Check if there is an error
             if(error != BASSError.BASS_OK)
             {
-                throw new Exception("An error has occured in BassNetWrapper: " + error.ToString());
+                // Throw exception
+                throw new BassNetWrapperException(error.ToString());
             }
         }
-    }
 
-    public enum DriverType
-    {
-        DirectSound = 0, ASIO = 1, WASAPI = 2
+        #endregion
     }
 }

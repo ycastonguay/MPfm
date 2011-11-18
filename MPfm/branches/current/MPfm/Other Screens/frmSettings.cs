@@ -255,10 +255,10 @@ namespace MPfm
                 SaveConfig();
 
                 // Check if the device has been initialized
-                if (!Main.PlayerV4.IsDeviceInitialized)
+                if (!Main.Player.IsDeviceInitialized)
                 {
                     // Initialize new device
-                    Main.PlayerV4.InitializeDevice(device);
+                    Main.Player.InitializeDevice(device);
                 }
             }
             else
@@ -309,10 +309,10 @@ namespace MPfm
                 }
 
                 // Check if the device has been initialized
-                if (!Main.PlayerV4.IsDeviceInitialized)
+                if (!Main.Player.IsDeviceInitialized)
                 {
                     // Initialize new device
-                    Main.PlayerV4.InitializeDevice(originalDevice);
+                    Main.Player.InitializeDevice(originalDevice);
                 }
             }
 
@@ -588,7 +588,7 @@ namespace MPfm
             if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all songs from your library (they will not be deleted!)", "Reset Library", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
                 // Stop the song if one is playing
-                Main.PlayerV4.Stop();
+                Main.Player.Stop();
 
                 // Reset library
                 Main.Library.ResetLibrary();
@@ -664,7 +664,7 @@ namespace MPfm
             try
             {
                 // Warn user if system is already playing a song
-                if (Main.PlayerV4.IsPlaying)
+                if (Main.Player.IsPlaying)
                 {
                     // Display message box                    
                     if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
@@ -674,7 +674,7 @@ namespace MPfm
                     }
 
                     // Stop player
-                    Main.PlayerV4.Stop();
+                    Main.Player.Stop();
                 }
 
                 // Log 
@@ -685,9 +685,8 @@ namespace MPfm
                 Tracing.Log("Output Device Driver: " + device.Driver);
                 Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
-                // Free device
-                //Main.PlayerV4.Dispose();
-                Main.PlayerV4.FreeDevice();
+                // Free device                
+                Main.Player.FreeDevice();
 
                 // Create test device
                 Tracing.Log("Creating test device...");

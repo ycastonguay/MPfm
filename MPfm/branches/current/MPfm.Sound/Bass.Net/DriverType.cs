@@ -1,6 +1,5 @@
 ﻿//
-// Exception.cs: This file contains the Exception class which is part of the
-//               BASS.NET wrapper.
+// DriverType.cs: Enumeration defining the driver type.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -20,16 +19,17 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace MPfm.Sound.BassNetWrapper
 {
-    public class BassNetWrapperException : Exception
+    /// <summary>
+    /// Defines the driver type (DirectSound, ASIO or WASAPI).
+    /// </summary>
+    public enum DriverType
     {
-        public BassNetWrapperException(string message) 
-            : base("An error has occured in Bass.Net: " + message)
-        {            
-        }
+        DirectSound = 0, ASIO = 1, WASAPI = 2
     }
 }
