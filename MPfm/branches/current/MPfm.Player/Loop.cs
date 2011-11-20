@@ -35,13 +35,17 @@ namespace MPfm.Player.PlayerV4
         /// </summary>        
         public Guid LoopId { get; set; }
         /// <summary>
-        /// Relationship to the Song unique identifier (for database storage).
+        /// Relationship to the AudioFile unique identifier (for database storage).
         /// </summary>
-        public Guid SongId { get; set; }
+        public Guid AudioFileId { get; set; }
         /// <summary>
         /// Loop name.
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Loop comments.
+        /// </summary>
+        public string Comments { get; set; }
         /// <summary>
         /// Marker A (start position).
         /// </summary>
@@ -51,9 +55,17 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         public Marker MarkerB { get; set; }
         /// <summary>
+        /// Loop length (in 0:00.000 string format).
+        /// </summary>
+        public string Length { get; set; }
+        /// <summary>
         /// Loop length (in bytes).
         /// </summary>
-        public long Length { get; set; }
+        public long LengthBytes { get; set; }
+        /// <summary>
+        /// Loop length (in samples).
+        /// </summary>
+        public uint LengthSamples { get; set; }
 
         /// <summary>
         /// Default constructor for the Loop class.
@@ -62,11 +74,13 @@ namespace MPfm.Player.PlayerV4
         {
             // Set default values
             LoopId = Guid.NewGuid();
-            SongId = Guid.Empty;
+            AudioFileId = Guid.Empty;
             Name = string.Empty;
             MarkerA = null;
             MarkerB = null;
-            Length = 0;
+            Length = "0:00.000";
+            LengthBytes = 0;
+            LengthSamples = 0;
         }
     }
 }

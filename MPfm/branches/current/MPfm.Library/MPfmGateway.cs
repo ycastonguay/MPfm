@@ -502,7 +502,7 @@ namespace MPfm.Library
         /// <param name="dto">Marker to insert</param>
         public void InsertMarker(Marker dto)
         {
-            // Insert song
+            // Insert marker
             Insert("Markers", "MarkerId", dto);
         }
 
@@ -512,7 +512,7 @@ namespace MPfm.Library
         /// <param name="dto">Marker to update</param>
         public void UpdateMarker(Marker dto)
         {
-            // Update song
+            // Update marker
             Update("Markers", "MarkerId", dto.MarkerId, dto);
         }
 
@@ -522,7 +522,7 @@ namespace MPfm.Library
         /// <param name="markerId">Marker to delete</param>
         public void DeleteMarker(Guid markerId)
         {
-            // Delete song
+            // Delete marker
             Delete("Markers", "MarkerId", markerId);
         }
 
@@ -530,159 +530,109 @@ namespace MPfm.Library
 
         #region Loops
 
-        ///// <summary>
-        ///// Selects all loops from the database.
-        ///// </summary>
-        ///// <returns>List of loops</returns>
-        //public static List<Loop> SelectLoops()
-        //{
-        //    List<Loop> loops = null;
+        /// <summary>
+        /// Selects all loops from the database.
+        /// </summary>
+        /// <returns>List of Loops</returns>
+        public List<Loop> SelectLoops()
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Loops");
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            loops = context.Loops.ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectLoops(): " + ex.Message);
-        //        throw ex;
-        //    }
+            // Convert to Loop list
+            List<Loop> loops = ConvertLibrary.Loops(table);
 
-        //    return loops;
-        //}
+            // Loop through loops (lols)
+            foreach (Loop loop in loops)
+            {
+                // Load markers
+                loop.MarkerA = SelectMarker(loop.MarkerA.MarkerId);
+                loop.MarkerB = SelectMarker(loop.MarkerB.MarkerId);
+            }
 
-        ///// <summary>
-        ///// Selects loops of a specific song from the database.
-        ///// </summary>
-        ///// <param name="songId">Song identifier</param>
-        ///// <returns>List of markers</returns>
-        //public static List<Loop> SelectSongLoops(Guid songId)
-        //{
-        //    List<Loop> loops = null;
+            return loops;
+        }
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            string strSongId = songId.ToString();
-        //            loops = context.Loops.Where(m => m.SongId == strSongId).ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectSongLoops(): " + ex.Message);
-        //        throw ex;
-        //    }
+        /// <summary>
+        /// Selects loops related to an audio file from the database.
+        /// </summary>
+        /// <param name="audioFileId">AudioFile identifier</param>
+        /// <returns>List of Loops</returns>
+        public List<Loop> SelectLoops(Guid audioFileId)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Loops WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
 
-        //    return loops;
-        //}
+            // Convert to Loop list
+            List<Loop> loops = ConvertLibrary.Loops(table);
 
-        ///// <summary>
-        ///// Selects a loop from the database by its identifier.
-        ///// </summary>
-        ///// <param name="loopId">Loop identifier</param>
-        ///// <returns>Marker</returns>
-        //public static Loop SelectLoop(Guid loopId)
-        //{
-        //    Loop loop = null;
+            // Loop through loops (lols)
+            foreach (Loop loop in loops)
+            {
+                // Load markers
+                loop.MarkerA = SelectMarker(loop.MarkerA.MarkerId);
+                loop.MarkerB = SelectMarker(loop.MarkerB.MarkerId);
+            }
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Convert to a list of strings
-        //            string strLoopId = loopId.ToString();
-        //            loop = context.Loops.FirstOrDefault(m => m.LoopId == strLoopId);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectLoop(): " + ex.Message);
-        //        throw ex;
-        //    }
+            return loops;
+        }
 
-        //    return loop;
-        //}
+        /// <summary>
+        /// Selects a loop from the database.
+        /// </summary>
+        /// <param name="loopId">Loop identifier</param>
+        /// <returns>Loop</returns>
+        public Loop SelectLoop(Guid loopId)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
 
-        ///// <summary>
-        ///// Inserts a new loop into the database.
-        ///// </summary>
-        ///// <param name="loop">Loop to insert</param>
-        //public static void InsertLoop(Loop loop)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Add to database                    
-        //            context.AddToLoops(loop);
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertLoop(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+            // Convert to Loop list
+            List<Loop> loops = ConvertLibrary.Loops(table);                        
 
-        ///// <summary>
-        ///// Updates an existing loop in the database.
-        ///// </summary>
-        ///// <param name="loop">Loop to update</param>
-        //public static void UpdateLoop(Loop loop)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            Loop loopToModify = context.Loops.FirstOrDefault(m => m.LoopId == loop.LoopId);
-        //            if (loopToModify != null)
-        //            {
-        //                loopToModify.Name = loop.Name;
-        //                loopToModify.MarkerAId = loop.MarkerAId;
-        //                loopToModify.MarkerBId = loop.MarkerBId;
-        //                loopToModify.SongId = loop.SongId;
-        //                loopToModify.Length = loop.Length;
-        //                context.SaveChanges();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdateLoop(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+            // Check results
+            if (loops.Count > 0)
+            {
+                // Load markers
+                loops[0].MarkerA = SelectMarker(loops[0].MarkerA.MarkerId);
+                loops[0].MarkerB = SelectMarker(loops[0].MarkerB.MarkerId);
 
-        ///// <summary>
-        ///// Deletes a loop from the database.
-        ///// </summary>
-        ///// <param name="loopId">Loop identifier</param>
-        //public static void DeleteLoop(Guid loopId)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            ExecuteSql(context, "DELETE FROM Loops WHERE LoopId = @LoopId", new SQLiteParameter("LoopId", loopId.ToString()));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in DeleteLoop(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+                // Return first result
+                return loops[0];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Inserts a new loop into the database.
+        /// </summary>
+        /// <param name="dto">Loop to insert</param>
+        public void InsertLoop(Loop dto)
+        {
+            // Insert loop
+            Insert("Loops", "LoopId", dto);
+        }
+
+        /// <summary>
+        /// Updates an existing loop from the database.
+        /// </summary>
+        /// <param name="dto">Loop to update</param>
+        public void UpdateLoop(Loop dto)
+        {
+            // Update loop
+            Update("Loops", "LoopId", dto.LoopId, dto);
+        }
+
+        /// <summary>
+        /// Deletes a loop from the database.
+        /// </summary>
+        /// <param name="loopId">Loop to delete</param>
+        public void DeleteLoop(Guid loopId)
+        {
+            // Delete loop
+            Delete("Loops", "LoopId", loopId);
+        }
 
         #endregion
 

@@ -1108,6 +1108,9 @@ namespace MPfm.Player.PlayerV4
         /// <param name="loop">Loop to apply</param>
         public void StartLoop(Loop loop)
         {
+            loop.MarkerA.PositionBytes *= 2;
+            loop.MarkerB.PositionBytes *= 2;
+
             // Set loop sync proc            
             Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
             Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.PositionBytes, Playlist.CurrentItem.SyncProc);

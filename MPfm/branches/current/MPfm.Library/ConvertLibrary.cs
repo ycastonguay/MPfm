@@ -226,9 +226,54 @@ namespace MPfm.Library
                 int.TryParse(table.Rows[a]["PositionBytes"].ToString(), out positionBytes);
                 dto.PositionBytes = positionBytes;
 
-                int positionSamples = 0;
-                int.TryParse(table.Rows[a]["PositionSamples"].ToString(), out positionSamples);
+                uint positionSamples = 0;
+                uint.TryParse(table.Rows[a]["PositionSamples"].ToString(), out positionSamples);
                 dto.PositionSamples = positionSamples;
+
+                // Add DTO to list
+                dtos.Add(dto);
+            }
+
+            // Return DTO
+            return dtos;
+        }
+
+        /// <summary>
+        /// Converts a DataTable to a list of Loops.
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <returns>List of Loops</returns>
+        public static List<Loop> Loops(DataTable table)
+        {
+            // Create list
+            List<Loop> dtos = new List<Loop>();
+
+            // Loop through rows
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Create DTO
+                Loop dto = new Loop();
+
+                // Assign properties (strings)
+                dto.LoopId = new Guid(table.Rows[a]["LoopId"].ToString());
+                dto.AudioFileId = new Guid(table.Rows[a]["AudioFileId"].ToString());
+                dto.Name = table.Rows[a]["Name"].ToString();
+                dto.Comments = table.Rows[a]["Comments"].ToString();
+                dto.Length = table.Rows[a]["Length"].ToString();
+
+                int lengthBytes = 0;
+                int.TryParse(table.Rows[a]["LengthBytes"].ToString(), out lengthBytes);
+                dto.LengthBytes = lengthBytes;
+
+                uint lengthSamples = 0;
+                uint.TryParse(table.Rows[a]["LengthSamples"].ToString(), out lengthSamples);
+                dto.LengthSamples = lengthSamples;
+
+                dto.MarkerA = new Marker();
+                dto.MarkerA.MarkerId = new Guid(table.Rows[a]["MarkerAId"].ToString());
+
+                dto.MarkerB = new Marker();
+                dto.MarkerB.MarkerId = new Guid(table.Rows[a]["MarkerBId"].ToString());
 
                 // Add DTO to list
                 dtos.Add(dto);
@@ -265,6 +310,11 @@ namespace MPfm.Library
             {
                 // Convert values
                 ToMarkerRow(ref row, (Marker)dto);
+            }
+            else if (dto is Loop)
+            {
+                // Convert values
+                ToLoopRow(ref row, (Loop)dto);
             }
         }
 
@@ -346,6 +396,27 @@ namespace MPfm.Library
 
             AssignRowValue(ref row, "PositionBytes", dto.PositionBytes);
             AssignRowValue(ref row, "PositionSamples", dto.PositionSamples);
+        }
+
+        /// <summary>
+        /// Sets the values of a DataRow in a Loop DataTable.
+        /// </summary>
+        /// <param name="row">DataRow to set</param>
+        /// <param name="loop">Loop</param>
+        public static void ToLoopRow(ref DataRow row, Loop dto)
+        {
+            // Set row data
+            row["LoopId"] = dto.LoopId.ToString();
+            row["AudioFileId"] = dto.AudioFileId.ToString();
+            row["Name"] = dto.Name;
+            row["Comments"] = dto.Comments;
+            row["Length"] = dto.Length;
+
+            row["MarkerAId"] = dto.MarkerA.MarkerId;
+            row["MarkerBId"] = dto.MarkerB.MarkerId;
+
+            AssignRowValue(ref row, "LengthBytes", dto.LengthBytes);
+            AssignRowValue(ref row, "LengthSamples", dto.LengthSamples);
         }
 
         /// <summary>

@@ -26,8 +26,10 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
+using MPfm.Player.PlayerV4;
 using MPfm.Sound;
 using MPfm.WindowsControls;
 
@@ -44,7 +46,7 @@ namespace MPfm
         private frmMain m_main = null;        
         private AudioFile m_audioFile = null;
         private Guid m_loopId = Guid.Empty;
-        //private List<MPfm.Library.Data.Marker> m_markers = null;
+        private List<Marker> m_markers = null;
         private uint m_loopLengthMS = 0;
         private uint m_loopLengthPCM = 0;
         private uint m_loopLengthPCMBytes = 0;
@@ -126,15 +128,15 @@ namespace MPfm
         /// </summary>
         public void RefreshMarkers()
         {
-            //// Fetch markers from database
-            //m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
+            // Fetch markers from database
+            m_markers = Main.Library.Gateway.SelectMarkers(m_main.Player.Playlist.CurrentItem.AudioFile.Id);
 
-            //// Set combo box items for A
-            //comboMarkerA.DataSource = m_markers;
+            // Set combo box items for A
+            comboMarkerA.DataSource = m_markers;
 
-            //// Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
-            //m_markers = DataAccess.SelectSongMarkers(m_main.Player.CurrentSong.SongId);
-            //comboMarkerB.DataSource = m_markers;  
+            // Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
+            m_markers = Main.Library.Gateway.SelectMarkers(m_main.Player.Playlist.CurrentItem.AudioFile.Id);
+            comboMarkerB.DataSource = m_markers;  
         }
 
         /// <summary>
@@ -147,6 +149,7 @@ namespace MPfm
             // Hide the form
             this.Close();
         }
+
         /// <summary>
         /// Occurs when the user clicks on the "Save" button.
         /// </summary>
@@ -154,54 +157,56 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //// Get loop length
-            //int length = 0;
-            //int.TryParse(lblLoopLengthValue.Text, out length);
+            // Get loop length
+            int length = 0;
+            int.TryParse(lblLoopLengthValue.Text, out length);
 
-            //// Get selected markers
-            //MPfm.Library.Data.Marker markerA = (MPfm.Library.Data.Marker)comboMarkerA.SelectedItem;
-            //MPfm.Library.Data.Marker markerB = (MPfm.Library.Data.Marker)comboMarkerB.SelectedItem;
+            // Get selected markers
+            Marker markerA = (Marker)comboMarkerA.SelectedItem;
+            Marker markerB = (Marker)comboMarkerB.SelectedItem;
 
-            //// Create a new loop or fetch the existing loop from the database
-            //MPfm.Library.Data.Loop loop = null;
-            //if (m_mode == AddEditLoopWindowMode.Add)
-            //{
-            //    // Insert the new marker into the database
-            //    loop = new Library.Data.Loop();
-            //    loop.LoopId = Guid.NewGuid().ToString();
-            //}
-            //else if (m_mode == AddEditLoopWindowMode.Edit)
-            //{
-            //    // Select the existing marker from the database
-            //    //loop = DataAccess.SelectLoop(m_loopId);
-            //}
+            // Create a new loop or fetch the existing loop from the database
+            Loop loop = null;
+            if (m_mode == AddEditLoopWindowMode.Add)
+            {
+                // Insert the new loop into the database
+                loop = new Loop();
+                loop.LoopId = Guid.NewGuid();
+            }
+            else if (m_mode == AddEditLoopWindowMode.Edit)
+            {
+                // Select the existing loop from the database
+                loop = Main.Library.Gateway.SelectLoop(m_loopId);
+            }
 
-            //// Set properties    
-            //loop.Name = txtName.Text;
-            //loop.SongId = m_song.SongId.ToString();
-            //loop.MarkerAId = markerA.MarkerId;
-            //loop.MarkerBId = markerB.MarkerId;
-            //loop.Length = m_loopLengthMS;
+            // Set properties    
+            loop.Name = txtName.Text;
+            loop.AudioFileId = m_audioFile.Id;
+            loop.MarkerA = markerA;
+            loop.MarkerB = markerB;
+            loop.Length = Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
+            loop.LengthBytes = m_loopLengthPCMBytes;
+            loop.LengthSamples = m_loopLengthPCM;
 
-            //// Determine if an INSERT or an UPDATE is necessary
-            //if (m_mode == AddEditLoopWindowMode.Add)
-            //{
-            //    // Insert marker
-            //    //DataAccess.InsertLoop(loop);
+            // Determine if an INSERT or an UPDATE is necessary
+            if (m_mode == AddEditLoopWindowMode.Add)
+            {
+                // Insert loop
+                Main.Library.Gateway.InsertLoop(loop);
 
-            //    // Refresh window as Edit Marker
-            //    m_loopId = new Guid(loop.LoopId);
-            //    m_mode = AddEditLoopWindowMode.Edit;
-            //    Initialize();
-            //}
-            //else if (m_mode == AddEditLoopWindowMode.Edit)
-            //{
-            //    // Update marker
-            //    //DataAccess.UpdateLoop(loop);
-            //}
+                // Refresh window as Edit Loop
+                m_loopId = loop.LoopId;
+                m_mode = AddEditLoopWindowMode.Edit;
+                Initialize();
+            }
+            else if (m_mode == AddEditLoopWindowMode.Edit)
+            {
+                // Update loop
+                Main.Library.Gateway.UpdateLoop(loop);
+            }
 
-            //// Refresh main window marker list
-            //Main.RefreshLoops();
+            // Refresh main window loop list
+            Main.RefreshLoops();
         }
 
         /// <summary>
@@ -223,12 +228,12 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void comboMarkerA_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //// Get marker and display position
-            //MPfm.Library.Data.Marker marker = (MPfm.Library.Data.Marker)comboMarkerA.SelectedItem;
-            //lblMarkerAPosition.Text = marker.Position;
+            // Get marker and display position
+            Marker marker = (Marker)comboMarkerA.SelectedItem;
+            lblMarkerAPosition.Text = marker.Position;
 
-            //// Validate form
-            //ValidateForm();
+            // Validate form
+            ValidateForm();
         }
 
         /// <summary>
@@ -238,12 +243,12 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void comboMarkerB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //// Get marker and display position
-            //MPfm.Library.Data.Marker marker = (MPfm.Library.Data.Marker)comboMarkerB.SelectedItem;
-            //lblMarkerBPosition.Text = marker.Position;
+            // Get marker and display position
+            Marker marker = (Marker)comboMarkerB.SelectedItem;
+            lblMarkerBPosition.Text = marker.Position;
 
-            //// Validate form
-            //ValidateForm();
+            // Validate form
+            ValidateForm();
         }
 
         /// <summary>

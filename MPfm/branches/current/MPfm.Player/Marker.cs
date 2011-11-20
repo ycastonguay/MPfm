@@ -58,7 +58,7 @@ namespace MPfm.Player.PlayerV4
         /// <summary>
         /// Marker position (in samples).
         /// </summary>
-        public int PositionSamples { get; set; }
+        public uint PositionSamples { get; set; }
 
         /// <summary>
         /// Default constructor for the Marker class.
