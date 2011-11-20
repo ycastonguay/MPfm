@@ -1423,9 +1423,9 @@ namespace MPfm
                 // Enable/disable buttons
                 btnStop.Enabled = true;
                 btnPause.Enabled = true;
-                btnNextSong.Enabled = true;
-                btnPreviousSong.Enabled = true;
                 btnPlay.Enabled = false;
+                btnNextSong.Enabled = (Player.Playlist.CurrentItemIndex < Player.Playlist.Items.Count - 1) ? true : false;
+                btnPreviousSong.Enabled = (Player.Playlist.CurrentItemIndex == 0) ? false : true;
 
                 // Mantis 0000042
                 // Reset the pause button icon
@@ -1629,16 +1629,6 @@ namespace MPfm
 
                 // Load the wave form                
                 waveFormMarkersLoops.LoadWaveForm(m_player.Playlist.CurrentItem.AudioFile.FilePath);
-
-                //// Update wave form loops & markers control
-                //waveFormMarkersLoops.WaveDataHistory.Clear();               
-                //if (workerWaveFormMarkerLoops.IsBusy)
-                //{
-                //    workerWaveFormMarkerLoops.CancelAsync();
-                //}
-                //workerWaveFormMarkerLoops.RunWorkerAsync(filePath);
-                //waveFormMarkersLoops.IsLoading = true;
-                //timerWaveFormLoopsMarkers.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -2003,6 +1993,13 @@ namespace MPfm
             if(m_player == null || m_player.Playlist == null || !m_player.IsPlaying)
             {
                 return;
+            }
+
+            // Check if a wave form is generating
+            if (waveFormMarkersLoops.IsLoading)
+            {
+                // Cancel loading
+                waveFormMarkersLoops.CancelWaveFormLoading();
             }
 
             // Stop song

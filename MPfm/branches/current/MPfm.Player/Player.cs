@@ -1185,7 +1185,7 @@ namespace MPfm.Player.PlayerV4
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
                 Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
-                UpdateEQBand(a, currentBand.Gain);
+                UpdateEQBand(a, currentBand.Gain, true);
             }
 
             // Set flags
@@ -1234,14 +1234,19 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         /// <param name="band">Band index</param>
         /// <param name="gain">Gain (in dB)</param>
-        public void UpdateEQBand(int band, float gain)
+        /// <param name="setCurrentEQPresetValue">If true, the current EQ preset value will be updated</param>
+        public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
         {
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
             Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
 
-            // Set EQ preset too
-            m_currentEQPreset.Bands[band].Gain = gain;
+            // Set EQ preset value too?
+            if (setCurrentEQPresetValue)
+            {
+                // Set EQ preset value
+                m_currentEQPreset.Bands[band].Gain = gain;
+            }
         }
 
         /// <summary>
@@ -1297,7 +1302,7 @@ namespace MPfm.Player.PlayerV4
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
                 Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
-                UpdateEQBand(a, currentBand.Gain);
+                UpdateEQBand(a, currentBand.Gain, true);
             }
         }
 
@@ -1316,8 +1321,8 @@ namespace MPfm.Player.PlayerV4
             for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
             {
                 // Reset gain
-                UpdateEQBand(a, 0.0f);
-                m_currentEQPreset.Bands[a].Gain = 0.0f;
+                UpdateEQBand(a, 0.0f, false);
+                //m_currentEQPreset.Bands[a].Gain = 0.0f;
             }
         }
 

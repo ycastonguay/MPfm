@@ -483,7 +483,7 @@ namespace PlaybackEngineV4
         {
             float gain = 0.0f;
             float.TryParse(txtEQGain.Text, out gain);
-            player.UpdateEQBand(comboEQBands.SelectedIndex, gain);
+            player.UpdateEQBand(comboEQBands.SelectedIndex, gain, true);
         }
 
         /// <summary>

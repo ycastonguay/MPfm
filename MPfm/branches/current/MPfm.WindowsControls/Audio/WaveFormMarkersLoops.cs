@@ -947,6 +947,17 @@ namespace MPfm.WindowsControls
             horizontalScrollBar.Value = 0;
             horizontalScrollBar.Visible = false;
 
+            // Check if a wave form is already generating
+            if (m_isLoading)
+            {
+                // Cancel wave form generation
+                if (m_peakFile.IsGenerating)
+                {
+                    // Cancel operation
+                    m_peakFile.Cancel();
+                }
+            }
+
             // Check if the peak file exists                            
             m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
             
@@ -960,19 +971,44 @@ namespace MPfm.WindowsControls
             // Build peak file path
             string peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
 
-            // Check if the peak file exists
+            // Clear history
+            WaveDataHistory.Clear();
+
+            // Check if the peak file exists; try to read file
+            bool readFile = false;
             if(File.Exists(peakFilePath))
             {
-                // Load peaks from file                
-                WaveDataHistory.Clear();
-                m_waveDataHistory = m_peakFile.ReadPeakFile(peakFilePath);
-                needToRefreshBitmapCache = true;
-                Refresh();
-                return;
+                readFile = true;
+            }
+
+            try
+            {
+                // Do we have to read the peak file?
+                if (readFile)
+                {
+                    // Load peaks from file
+                    m_waveDataHistory = m_peakFile.ReadPeakFile(peakFilePath);
+
+                    // Refresh control
+                    needToRefreshBitmapCache = true;
+                    Refresh();
+                    return;
+                }
+            }
+            catch (PeakFileCorruptedException ex)
+            {
+                // Continue on to regenerate the file instead
+            }
+            catch (PeakFileFormatIncompatibleException ex)
+            {
+                // Continue on to regenerate the file instead
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             // Set flags
-            WaveDataHistory.Clear();
             m_isLoading = true;
 
             // Generate peak file and start timer for updating progress
@@ -985,8 +1021,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         public void CancelWaveFormLoading()
         {
-            // Cancel the operation asynchronously
-            //m_workerWaveForm.CancelAsync();
+            // Cancel the operation asynchronously            
             m_peakFile.Cancel();
         }
 

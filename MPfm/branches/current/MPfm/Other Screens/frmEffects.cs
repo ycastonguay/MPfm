@@ -531,7 +531,7 @@ namespace MPfm
             MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
 
             float gain = (float)fader.Value / 10;            
-            m_main.Player.UpdateEQBand(index, gain);
+            m_main.Player.UpdateEQBand(index, gain, true);
 
             // Update dB display
             string strDB = "";
