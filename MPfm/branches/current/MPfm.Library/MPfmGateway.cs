@@ -59,7 +59,7 @@ namespace MPfm.Library
             // Delete all table content
             Delete("AudioFiles");
             Delete("Playlists");
-            Delete("PlaylistSongs");
+            Delete("PlaylistItems");
             Delete("Loops");
             Delete("Markers");
         }

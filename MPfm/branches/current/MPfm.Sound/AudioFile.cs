@@ -397,12 +397,6 @@ namespace MPfm.Sound
 			m_filePath = filePath;
 			m_id = id;
 
-			// Check if the file exists
-			if (!File.Exists(filePath))
-			{
-				throw new Exception("The file at " + filePath + " doesn't exists!");
-			}
-
 			// Set file type based on file extension
 			string fileExtension = Path.GetExtension(filePath).ToUpper();
 			if (fileExtension == ".MP3")
@@ -425,6 +419,12 @@ namespace MPfm.Sound
 			// Check if the metadata needs to be fetched
 			if (readMetadata)
 			{
+                // Check if the file exists
+                if (!File.Exists(filePath))
+                {
+                    throw new Exception("The file at " + filePath + " doesn't exists!");
+                }
+
 				// Read tags using TagLib# and binary reader
 				RefreshMetadata();
 			}
@@ -524,7 +524,7 @@ namespace MPfm.Sound
 					m_audioChannels = header.AudioChannels;
 					m_sampleRate = header.AudioSampleRate;
 					m_bitsPerSample = header.BitsPerSample;
-					m_length = header.Duration.ToString("mm:ss.fff");
+                    m_length = Conversion.TimeSpanToTimeString(header.Duration);
 				}
 			}
 			else if (m_fileType == AudioFileType.OGG)
@@ -565,7 +565,7 @@ namespace MPfm.Sound
 						m_audioChannels = header.AudioChannels;
 						m_sampleRate = header.AudioSampleRate;
 						m_bitsPerSample = 16;
-						m_length = header.Duration.ToString("mm:ss.fff");
+                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
 					}
 				}
 			}
