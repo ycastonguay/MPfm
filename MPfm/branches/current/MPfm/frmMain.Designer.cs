@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -733,22 +733,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "Droid Sans Mono";
-            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
+            customFont5.AssemblyPath = "MPfm.Fonts.dll";
+            customFont5.Name = "LeagueGothic";
+            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "Junction";
+            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "TitilliumText22L Lt";
+            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "Droid Sans Mono";
+            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont5);
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
             // 
             // treeLibrary
             // 
@@ -1625,7 +1625,7 @@ namespace MPfm
             this.splitLoopsMarkersSongBrowser.Panel2.Controls.Add(this.panelSongBrowser);
             this.splitLoopsMarkersSongBrowser.Panel2MinSize = 22;
             this.splitLoopsMarkersSongBrowser.Size = new System.Drawing.Size(792, 444);
-            this.splitLoopsMarkersSongBrowser.SplitterDistance = 222;
+            this.splitLoopsMarkersSongBrowser.SplitterDistance = 154;
             this.splitLoopsMarkersSongBrowser.TabIndex = 27;
             // 
             // panelLoopsMarkers
@@ -1652,7 +1652,7 @@ namespace MPfm
             this.panelLoopsMarkers.HeaderTitle = "Loops & Markers";
             this.panelLoopsMarkers.Location = new System.Drawing.Point(0, 0);
             this.panelLoopsMarkers.Name = "panelLoopsMarkers";
-            this.panelLoopsMarkers.Size = new System.Drawing.Size(792, 222);
+            this.panelLoopsMarkers.Size = new System.Drawing.Size(792, 154);
             this.panelLoopsMarkers.TabIndex = 23;
             this.panelLoopsMarkers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panelLoopsMarkers_MouseDoubleClick);
             // 
@@ -1672,8 +1672,8 @@ namespace MPfm
             // splitWaveFormLoopsMarkers.Panel2
             // 
             this.splitWaveFormLoopsMarkers.Panel2.Controls.Add(this.splitLoopsMarkers);
-            this.splitWaveFormLoopsMarkers.Size = new System.Drawing.Size(792, 200);
-            this.splitWaveFormLoopsMarkers.SplitterDistance = 56;
+            this.splitWaveFormLoopsMarkers.Size = new System.Drawing.Size(792, 132);
+            this.splitWaveFormLoopsMarkers.SplitterDistance = 47;
             this.splitWaveFormLoopsMarkers.TabIndex = 76;
             // 
             // waveFormMarkersLoops
@@ -1696,7 +1696,7 @@ namespace MPfm
             this.waveFormMarkersLoops.Name = "waveFormMarkersLoops";
             this.waveFormMarkersLoops.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
     "s\\om-0gycd01\\Peak Files\\";
-            this.waveFormMarkersLoops.Size = new System.Drawing.Size(792, 56);
+            this.waveFormMarkersLoops.Size = new System.Drawing.Size(792, 47);
             this.waveFormMarkersLoops.TabIndex = 75;
             this.waveFormMarkersLoops.WaveFormColor = System.Drawing.Color.Yellow;
             this.waveFormMarkersLoops.Zoom = 100F;
@@ -1728,13 +1728,14 @@ namespace MPfm
             this.splitLoopsMarkers.Panel2.Controls.Add(this.btnEditMarker);
             this.splitLoopsMarkers.Panel2.Controls.Add(this.btnAddMarker);
             this.splitLoopsMarkers.Panel2.Controls.Add(this.viewMarkers);
-            this.splitLoopsMarkers.Size = new System.Drawing.Size(792, 140);
+            this.splitLoopsMarkers.Size = new System.Drawing.Size(792, 81);
             this.splitLoopsMarkers.SplitterDistance = 395;
             this.splitLoopsMarkers.TabIndex = 74;
             // 
             // btnStopLoop
             // 
             this.btnStopLoop.AntiAliasingEnabled = true;
+            this.btnStopLoop.BackColor = System.Drawing.Color.Silver;
             this.btnStopLoop.BorderColor = System.Drawing.Color.Gray;
             this.btnStopLoop.BorderWidth = 1;
             this.btnStopLoop.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1752,8 +1753,8 @@ namespace MPfm
             this.btnStopLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnStopLoop.Image = global::MPfm.Properties.Resources.control_stop;
             this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStopLoop.Location = new System.Drawing.Point(49, 16);
-            this.btnStopLoop.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnStopLoop.Location = new System.Drawing.Point(93, 0);
+            this.btnStopLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnStopLoop.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnStopLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnStopLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1762,12 +1763,13 @@ namespace MPfm
             this.btnStopLoop.TabIndex = 80;
             this.btnStopLoop.Text = "Stop";
             this.btnStopLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnStopLoop.UseVisualStyleBackColor = true;
+            this.btnStopLoop.UseVisualStyleBackColor = false;
             this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
             // 
             // btnEditLoop
             // 
             this.btnEditLoop.AntiAliasingEnabled = true;
+            this.btnEditLoop.BackColor = System.Drawing.Color.Silver;
             this.btnEditLoop.BorderColor = System.Drawing.Color.Gray;
             this.btnEditLoop.BorderWidth = 1;
             this.btnEditLoop.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1785,8 +1787,8 @@ namespace MPfm
             this.btnEditLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnEditLoop.Image = global::MPfm.Properties.Resources.pencil;
             this.btnEditLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditLoop.Location = new System.Drawing.Point(149, 16);
-            this.btnEditLoop.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnEditLoop.Location = new System.Drawing.Point(193, 0);
+            this.btnEditLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnEditLoop.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnEditLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnEditLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1795,12 +1797,13 @@ namespace MPfm
             this.btnEditLoop.TabIndex = 79;
             this.btnEditLoop.Text = "Edit";
             this.btnEditLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditLoop.UseVisualStyleBackColor = true;
+            this.btnEditLoop.UseVisualStyleBackColor = false;
             this.btnEditLoop.Click += new System.EventHandler(this.btnEditLoop_Click);
             // 
             // btnPlayLoop
             // 
             this.btnPlayLoop.AntiAliasingEnabled = true;
+            this.btnPlayLoop.BackColor = System.Drawing.Color.Silver;
             this.btnPlayLoop.BorderColor = System.Drawing.Color.Gray;
             this.btnPlayLoop.BorderWidth = 1;
             this.btnPlayLoop.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1818,8 +1821,8 @@ namespace MPfm
             this.btnPlayLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnPlayLoop.Image = global::MPfm.Properties.Resources.control_play;
             this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPlayLoop.Location = new System.Drawing.Point(0, 16);
-            this.btnPlayLoop.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnPlayLoop.Location = new System.Drawing.Point(44, 0);
+            this.btnPlayLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnPlayLoop.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnPlayLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnPlayLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1828,7 +1831,7 @@ namespace MPfm
             this.btnPlayLoop.TabIndex = 78;
             this.btnPlayLoop.Text = "Play";
             this.btnPlayLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnPlayLoop.UseVisualStyleBackColor = true;
+            this.btnPlayLoop.UseVisualStyleBackColor = false;
             this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
             // 
             // lblLoops
@@ -1839,16 +1842,17 @@ namespace MPfm
             this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblLoops.FontCollection = this.fontCollection;
             this.lblLoops.ForeColor = System.Drawing.Color.Black;
-            this.lblLoops.Location = new System.Drawing.Point(0, 0);
+            this.lblLoops.Location = new System.Drawing.Point(0, 1);
             this.lblLoops.Name = "lblLoops";
-            this.lblLoops.Size = new System.Drawing.Size(392, 14);
+            this.lblLoops.Size = new System.Drawing.Size(45, 14);
             this.lblLoops.TabIndex = 75;
-            this.lblLoops.Text = "Loops :";
+            this.lblLoops.Text = "Loops";
             this.lblLoops.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnRemoveLoop
             // 
             this.btnRemoveLoop.AntiAliasingEnabled = true;
+            this.btnRemoveLoop.BackColor = System.Drawing.Color.Silver;
             this.btnRemoveLoop.BorderColor = System.Drawing.Color.Gray;
             this.btnRemoveLoop.BorderWidth = 1;
             this.btnRemoveLoop.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1866,8 +1870,8 @@ namespace MPfm
             this.btnRemoveLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRemoveLoop.Image = global::MPfm.Properties.Resources.delete;
             this.btnRemoveLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveLoop.Location = new System.Drawing.Point(198, 16);
-            this.btnRemoveLoop.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnRemoveLoop.Location = new System.Drawing.Point(242, 0);
+            this.btnRemoveLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnRemoveLoop.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRemoveLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnRemoveLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1876,12 +1880,13 @@ namespace MPfm
             this.btnRemoveLoop.TabIndex = 77;
             this.btnRemoveLoop.Text = "Remove";
             this.btnRemoveLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRemoveLoop.UseVisualStyleBackColor = true;
+            this.btnRemoveLoop.UseVisualStyleBackColor = false;
             this.btnRemoveLoop.Click += new System.EventHandler(this.btnRemoveLoop_Click);
             // 
             // btnAddLoop
             // 
             this.btnAddLoop.AntiAliasingEnabled = true;
+            this.btnAddLoop.BackColor = System.Drawing.Color.Silver;
             this.btnAddLoop.BorderColor = System.Drawing.Color.Gray;
             this.btnAddLoop.BorderWidth = 1;
             this.btnAddLoop.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1899,8 +1904,8 @@ namespace MPfm
             this.btnAddLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnAddLoop.Image = global::MPfm.Properties.Resources.add;
             this.btnAddLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddLoop.Location = new System.Drawing.Point(100, 16);
-            this.btnAddLoop.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnAddLoop.Location = new System.Drawing.Point(144, 0);
+            this.btnAddLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnAddLoop.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnAddLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnAddLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1909,7 +1914,7 @@ namespace MPfm
             this.btnAddLoop.TabIndex = 76;
             this.btnAddLoop.Text = "Add";
             this.btnAddLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAddLoop.UseVisualStyleBackColor = true;
+            this.btnAddLoop.UseVisualStyleBackColor = false;
             this.btnAddLoop.Click += new System.EventHandler(this.btnAddLoop_Click);
             // 
             // viewLoops
@@ -1940,10 +1945,10 @@ namespace MPfm
             this.viewLoops.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.viewLoops.HeaderHeight = 0;
             this.viewLoops.HideSelection = false;
-            this.viewLoops.Location = new System.Drawing.Point(0, 37);
+            this.viewLoops.Location = new System.Drawing.Point(0, 20);
             this.viewLoops.Name = "viewLoops";
             this.viewLoops.SelectedColor = System.Drawing.Color.DarkGray;
-            this.viewLoops.Size = new System.Drawing.Size(393, 103);
+            this.viewLoops.Size = new System.Drawing.Size(393, 61);
             this.viewLoops.SmallImageList = this.imageList;
             this.viewLoops.TabIndex = 74;
             this.viewLoops.UseCompatibleStateImageBehavior = false;
@@ -1979,6 +1984,7 @@ namespace MPfm
             // btnGoToMarker
             // 
             this.btnGoToMarker.AntiAliasingEnabled = true;
+            this.btnGoToMarker.BackColor = System.Drawing.Color.Silver;
             this.btnGoToMarker.BorderColor = System.Drawing.Color.Gray;
             this.btnGoToMarker.BorderWidth = 1;
             this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1996,8 +2002,8 @@ namespace MPfm
             this.btnGoToMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnGoToMarker.Image = global::MPfm.Properties.Resources.arrow_right;
             this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGoToMarker.Location = new System.Drawing.Point(163, 16);
-            this.btnGoToMarker.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnGoToMarker.Location = new System.Drawing.Point(219, 0);
+            this.btnGoToMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnGoToMarker.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnGoToMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnGoToMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2006,12 +2012,13 @@ namespace MPfm
             this.btnGoToMarker.TabIndex = 75;
             this.btnGoToMarker.Text = "Go to";
             this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGoToMarker.UseVisualStyleBackColor = true;
+            this.btnGoToMarker.UseVisualStyleBackColor = false;
             this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
             // 
             // btnRemoveMarker
             // 
             this.btnRemoveMarker.AntiAliasingEnabled = true;
+            this.btnRemoveMarker.BackColor = System.Drawing.Color.Silver;
             this.btnRemoveMarker.BorderColor = System.Drawing.Color.Gray;
             this.btnRemoveMarker.BorderWidth = 1;
             this.btnRemoveMarker.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -2029,8 +2036,8 @@ namespace MPfm
             this.btnRemoveMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRemoveMarker.Image = global::MPfm.Properties.Resources.delete;
             this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveMarker.Location = new System.Drawing.Point(96, 16);
-            this.btnRemoveMarker.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnRemoveMarker.Location = new System.Drawing.Point(152, 0);
+            this.btnRemoveMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnRemoveMarker.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRemoveMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnRemoveMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2039,7 +2046,7 @@ namespace MPfm
             this.btnRemoveMarker.TabIndex = 74;
             this.btnRemoveMarker.Text = "Remove";
             this.btnRemoveMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRemoveMarker.UseVisualStyleBackColor = true;
+            this.btnRemoveMarker.UseVisualStyleBackColor = false;
             this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
             // 
             // lblMarkers
@@ -2050,16 +2057,17 @@ namespace MPfm
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblMarkers.FontCollection = this.fontCollection;
             this.lblMarkers.ForeColor = System.Drawing.Color.Black;
-            this.lblMarkers.Location = new System.Drawing.Point(0, 0);
+            this.lblMarkers.Location = new System.Drawing.Point(0, 1);
             this.lblMarkers.Name = "lblMarkers";
-            this.lblMarkers.Size = new System.Drawing.Size(302, 14);
+            this.lblMarkers.Size = new System.Drawing.Size(50, 14);
             this.lblMarkers.TabIndex = 71;
-            this.lblMarkers.Text = "Markers :";
+            this.lblMarkers.Text = "Markers";
             this.lblMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnEditMarker
             // 
             this.btnEditMarker.AntiAliasingEnabled = true;
+            this.btnEditMarker.BackColor = System.Drawing.Color.Silver;
             this.btnEditMarker.BorderColor = System.Drawing.Color.Gray;
             this.btnEditMarker.BorderWidth = 1;
             this.btnEditMarker.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -2077,8 +2085,8 @@ namespace MPfm
             this.btnEditMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnEditMarker.Image = global::MPfm.Properties.Resources.pencil;
             this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditMarker.Location = new System.Drawing.Point(49, 16);
-            this.btnEditMarker.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnEditMarker.Location = new System.Drawing.Point(105, 0);
+            this.btnEditMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnEditMarker.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnEditMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnEditMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2087,12 +2095,13 @@ namespace MPfm
             this.btnEditMarker.TabIndex = 73;
             this.btnEditMarker.Text = "Edit";
             this.btnEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditMarker.UseVisualStyleBackColor = true;
+            this.btnEditMarker.UseVisualStyleBackColor = false;
             this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
             // 
             // btnAddMarker
             // 
             this.btnAddMarker.AntiAliasingEnabled = true;
+            this.btnAddMarker.BackColor = System.Drawing.Color.Silver;
             this.btnAddMarker.BorderColor = System.Drawing.Color.Gray;
             this.btnAddMarker.BorderWidth = 1;
             this.btnAddMarker.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -2110,8 +2119,8 @@ namespace MPfm
             this.btnAddMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnAddMarker.Image = global::MPfm.Properties.Resources.add;
             this.btnAddMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddMarker.Location = new System.Drawing.Point(0, 16);
-            this.btnAddMarker.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnAddMarker.Location = new System.Drawing.Point(56, 0);
+            this.btnAddMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
             this.btnAddMarker.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnAddMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnAddMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2120,7 +2129,7 @@ namespace MPfm
             this.btnAddMarker.TabIndex = 72;
             this.btnAddMarker.Text = "Add";
             this.btnAddMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAddMarker.UseVisualStyleBackColor = true;
+            this.btnAddMarker.UseVisualStyleBackColor = false;
             this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
             // 
             // viewMarkers
@@ -2149,10 +2158,10 @@ namespace MPfm
             this.viewMarkers.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.viewMarkers.HeaderHeight = 0;
             this.viewMarkers.HideSelection = false;
-            this.viewMarkers.Location = new System.Drawing.Point(0, 37);
+            this.viewMarkers.Location = new System.Drawing.Point(0, 20);
             this.viewMarkers.Name = "viewMarkers";
             this.viewMarkers.SelectedColor = System.Drawing.Color.DarkGray;
-            this.viewMarkers.Size = new System.Drawing.Size(393, 103);
+            this.viewMarkers.Size = new System.Drawing.Size(393, 61);
             this.viewMarkers.TabIndex = 70;
             this.viewMarkers.UseCompatibleStateImageBehavior = false;
             this.viewMarkers.View = System.Windows.Forms.View.Details;
@@ -2199,7 +2208,7 @@ namespace MPfm
             this.panelSongBrowser.HeaderTitle = "Song Browser";
             this.panelSongBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelSongBrowser.Name = "panelSongBrowser";
-            this.panelSongBrowser.Size = new System.Drawing.Size(792, 218);
+            this.panelSongBrowser.Size = new System.Drawing.Size(792, 286);
             this.panelSongBrowser.TabIndex = 25;
             // 
             // viewSongs2
@@ -2232,12 +2241,12 @@ namespace MPfm
             this.viewSongs2.LineNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
             this.viewSongs2.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             this.viewSongs2.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
-            this.viewSongs2.Location = new System.Drawing.Point(0, 47);
+            this.viewSongs2.Location = new System.Drawing.Point(0, 48);
             this.viewSongs2.Name = "viewSongs2";
             this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.viewSongs2.OrderByAscending = true;
             this.viewSongs2.OrderByFieldName = "";
-            this.viewSongs2.Size = new System.Drawing.Size(792, 171);
+            this.viewSongs2.Size = new System.Drawing.Size(792, 239);
             this.viewSongs2.TabIndex = 74;
             this.viewSongs2.Text = "songGridView1";
             this.viewSongs2.OnSelectedIndexChanged += new MPfm.WindowsControls.SongGridView.SelectedIndexChanged(this.viewSongs2_OnSelectedIndexChanged);
