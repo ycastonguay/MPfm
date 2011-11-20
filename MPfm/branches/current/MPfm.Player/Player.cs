@@ -938,6 +938,13 @@ namespace MPfm.Player.PlayerV4
         /// <param name="index">Song index</param>
         public void GoTo(int index)
         {
+            // Stop current loop if it exists
+            if(m_currentLoop != null)
+            {
+                // Stop loop
+                StopLoop();
+            }
+
             // Make sure index is in the list
             if (index <= Playlist.Items.Count - 1)
             {
@@ -1108,12 +1115,9 @@ namespace MPfm.Player.PlayerV4
         /// <param name="loop">Loop to apply</param>
         public void StartLoop(Loop loop)
         {
-            loop.MarkerA.PositionBytes *= 2;
-            loop.MarkerB.PositionBytes *= 2;
-
             // Set loop sync proc            
             Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
-            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.PositionBytes, Playlist.CurrentItem.SyncProc);
+            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.PositionBytes * 2, Playlist.CurrentItem.SyncProc);
 
             // Set current song position to marker A
             Playlist.CurrentItem.Channel.SetPosition(loop.MarkerA.PositionBytes);
@@ -1348,8 +1352,22 @@ namespace MPfm.Player.PlayerV4
                     m_timerPlayer.Start();
                 }
 
+                // Check if a loop is enabled
+                if (m_currentLoop != null)
+                {
+                    // Get current position
+                    long position = m_playlist.CurrentItem.Channel.GetPosition();
+
+                    // Check if the position is lower than the first marker, or if the position is after the second marker
+                    if (position < m_currentLoop.MarkerA.PositionBytes || position > m_currentLoop.MarkerB.PositionBytes)
+                    {
+                        // Set position to first marker
+                        m_playlist.CurrentItem.Channel.SetPosition(m_currentLoop.MarkerA.PositionBytes);
+                    }
+                }
+
                 // Get data from the current channel since it is running                
-                int returns = m_playlist.CurrentItem.Channel.GetData(buffer, length);  
+                int data = m_playlist.CurrentItem.Channel.GetData(buffer, length);  
               
                 //float[] stuff = new float[length];
                 //int returns2 = m_playlist.CurrentItem.Channel.GetData(stuff, length);
@@ -1376,10 +1394,13 @@ namespace MPfm.Player.PlayerV4
                 //    OnStreamCallbackCalled(data);
                 //}
 
-                return returns;
+                return data;
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
+                // Clear current loop
+                m_currentLoop = null;
+
                 // Check if this is the last item to play
                 if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
                 {
@@ -1413,6 +1434,19 @@ namespace MPfm.Player.PlayerV4
                         // Raise song end event (if an event is subscribed)
                         if (OnSongFinished != null)
                         {
+                            // Check if EQ is enabled
+                            if (m_isEQEnabled)
+                            {
+                                // Remove EQ
+                                RemoveEQ();
+                            }
+
+                            // Dispose channels
+                            m_playlist.DisposeChannels();
+                            
+                            // Set flag
+                            m_isPlaying = false;
+
                             // Create data
                             SongFinishedData data = new SongFinishedData();
                             data.IsPlaybackStopped = true;
@@ -1517,7 +1551,7 @@ namespace MPfm.Player.PlayerV4
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
             // Set loop position
-            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.PositionBytes);
+            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.PositionBytes * 2);
         }
 
         #endregion

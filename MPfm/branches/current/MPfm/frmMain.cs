@@ -971,33 +971,45 @@ namespace MPfm
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
-                // Refresh song information                    
-                RefreshSongInformation();
-
-                // Set the play icon in the song browser                
-                RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
-
-                // Refresh play icon in playlist
-                //formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
-
-                // Set next song in configuration                                    
-                Config.SongQuerySongId = m_player.Playlist.CurrentItem.AudioFile.Id.ToString();
-
-                // Refresh loops & markers
-                RefreshMarkers();
-                RefreshLoops();
-
-                // Refresh play count
-                SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
-                if (item != null)
+                // Check if this was the last song
+                if (data.IsPlaybackStopped)
                 {
-                    // Set updated data
-                    AudioFile updatedAudioFile = Library.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
-                    item.AudioFile = updatedAudioFile;
+                    // Refresh controls
+                    btnAddMarker.Enabled = false;
+                    waveFormMarkersLoops.Clear();
+                    RefreshSongControls();
+                    RefreshMarkers();
+                    RefreshLoops();
+                    formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
                 }
+                else
+                {
 
-                // Refresh icon
-                viewSongs2.Refresh();
+                    // Refresh song information                    
+                    RefreshSongInformation();
+
+                    // Set the play icon in the song browser                
+                    RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
+
+                    // Refresh play icon in playlist
+                    //formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
+
+                    // Set next song in configuration                                    
+                    Config.SongQuerySongId = m_player.Playlist.CurrentItem.AudioFile.Id.ToString();
+
+                    // Refresh loops & markers
+                    RefreshMarkers();
+                    RefreshLoops();
+
+                    // Refresh play count
+                    SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
+                    if (item != null)
+                    {
+                        // Set updated data
+                        AudioFile updatedAudioFile = Library.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+                        item.AudioFile = updatedAudioFile;
+                    }
+                }
             };
 
             // Check if invoking is necessary
@@ -1408,6 +1420,13 @@ namespace MPfm
             // Is the player playing?
             if (Player.IsPlaying)
             {
+                // Enable/disable buttons
+                btnStop.Enabled = true;
+                btnPause.Enabled = true;
+                btnNextSong.Enabled = true;
+                btnPreviousSong.Enabled = true;
+                btnPlay.Enabled = false;
+
                 // Mantis 0000042
                 // Reset the pause button icon
                 btnPause.Checked = false;
@@ -1424,6 +1443,13 @@ namespace MPfm
             }
             else
             {
+                // Enable/disable buttons
+                btnStop.Enabled = false;
+                btnPause.Enabled = false;
+                btnNextSong.Enabled = false;
+                btnPreviousSong.Enabled = false;
+                btnPlay.Enabled = true;
+
                 // Nothing is playing, then display "stop" song information                
                 lblCurrentArtistName.Text = string.Empty;
                 lblCurrentAlbumTitle.Text = string.Empty;

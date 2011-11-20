@@ -109,17 +109,18 @@ namespace MPfm
 
                 // Fetch loop from database
                 //MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(m_loopId);
+                Loop loop = Main.Library.Gateway.SelectLoop(m_loopId);
 
-                //// Check if the loop was found
-                //if (loop == null)
-                //{
-                //    return;
-                //}
+                // Check if the loop was found
+                if (loop == null)
+                {
+                    return;
+                }
 
-                //// Update fields
-                //txtName.Text = loop.Name;
-                //comboMarkerA.SelectedValue = loop.MarkerAId;
-                //comboMarkerB.SelectedValue = loop.MarkerBId;
+                // Update fields
+                txtName.Text = loop.Name;
+                comboMarkerA.SelectedValue = loop.MarkerA.MarkerId;
+                comboMarkerB.SelectedValue = loop.MarkerB.MarkerId;
             }
         }
 

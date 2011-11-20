@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -565,6 +565,7 @@ namespace MPfm
             // 
             // btnPause
             // 
+            this.btnPause.Enabled = false;
             this.btnPause.Image = global::MPfm.Properties.Resources.control_pause;
             this.btnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPause.Name = "btnPause";
@@ -575,6 +576,7 @@ namespace MPfm
             // 
             // btnStop
             // 
+            this.btnStop.Enabled = false;
             this.btnStop.Image = global::MPfm.Properties.Resources.control_stop;
             this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStop.Name = "btnStop";
@@ -585,6 +587,7 @@ namespace MPfm
             // 
             // btnPreviousSong
             // 
+            this.btnPreviousSong.Enabled = false;
             this.btnPreviousSong.Image = global::MPfm.Properties.Resources.control_start;
             this.btnPreviousSong.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPreviousSong.Name = "btnPreviousSong";
@@ -595,6 +598,7 @@ namespace MPfm
             // 
             // btnNextSong
             // 
+            this.btnNextSong.Enabled = false;
             this.btnNextSong.Image = global::MPfm.Properties.Resources.control_end;
             this.btnNextSong.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNextSong.Name = "btnNextSong";
@@ -729,22 +733,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "LeagueGothic";
-            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont6.AssemblyPath = "MPfm.Fonts.dll";
-            customFont6.Name = "Junction";
-            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont7.AssemblyPath = "MPfm.Fonts.dll";
-            customFont7.Name = "TitilliumText22L Lt";
-            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont8.AssemblyPath = "MPfm.Fonts.dll";
-            customFont8.Name = "Droid Sans Mono";
-            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont5);
-            this.fontCollection.Fonts.Add(customFont6);
-            this.fontCollection.Fonts.Add(customFont7);
-            this.fontCollection.Fonts.Add(customFont8);
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
             // 
             // treeLibrary
             // 
@@ -2229,7 +2233,8 @@ namespace MPfm
             this.viewSongs2.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             this.viewSongs2.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
             this.viewSongs2.Location = new System.Drawing.Point(0, 47);
-            this.viewSongs2.Name = "viewSongs2";            
+            this.viewSongs2.Name = "viewSongs2";
+            this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.viewSongs2.OrderByAscending = true;
             this.viewSongs2.OrderByFieldName = "";
             this.viewSongs2.Size = new System.Drawing.Size(792, 171);
