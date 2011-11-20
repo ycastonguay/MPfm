@@ -2370,6 +2370,15 @@ namespace MPfm.WindowsControls
                         // Invalidate region
                         Invalidate();
                     }
+                    // Check if CTRL is held
+                    else if ((Control.ModifierKeys & Keys.Control) != 0)
+                    {
+                        // Invert selection
+                        m_items[a].IsSelected = !m_items[a].IsSelected;
+
+                        // Invalidate region
+                        Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((a - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
+                    }
                     else
                     {
                         // Set this item as the new selected item

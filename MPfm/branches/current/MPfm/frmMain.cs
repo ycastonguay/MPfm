@@ -1045,6 +1045,20 @@ namespace MPfm
             // Close player if not null
             if (m_player != null)
             {
+                // Stop playback if necessary
+                if (m_player.IsPlaying)
+                {
+                    // Stop playback
+                    m_player.Stop();
+                }
+
+                // Check if a wave form is generating
+                if (waveFormMarkersLoops.IsLoading)
+                {
+                    // Cancel loading
+                    waveFormMarkersLoops.CancelWaveFormLoading();
+                }
+
                 // Release the sound system from memory
                 m_player.Dispose();
             }
