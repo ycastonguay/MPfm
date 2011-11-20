@@ -454,10 +454,6 @@ namespace MPfm.Player.PlayerV4
             {
                 return m_currentLoop;
             }
-            set
-            {
-                m_currentLoop = value;
-            }
         }
 
         #endregion
@@ -693,6 +689,13 @@ namespace MPfm.Player.PlayerV4
                 // Check if the player is currently playing
                 if (m_isPlaying)
                 {
+                    // Check if a loop is active
+                    if (m_currentLoop != null)
+                    {
+                        // Stop loop
+                        StopLoop();
+                    }
+
                     // Stop playback
                     Stop();
                 }

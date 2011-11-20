@@ -1933,6 +1933,13 @@ namespace MPfm
 
             try
             {
+                // Check if a song is playing
+                if (Player.IsPlaying)
+                { 
+                    // Stop playback
+                    Player.Stop();
+                }
+
                 // Get the audio file from the tag of the selected item
                 AudioFile currentAudioFile = viewSongs2.SelectedItems[0].AudioFile;
 
@@ -3382,7 +3389,6 @@ namespace MPfm
             }
 
             // Reset loop
-            //Player.CurrentLoop = null;
             Player.StopLoop();
 
             // Refresh loops
@@ -3456,8 +3462,8 @@ namespace MPfm
                 return;
             }
 
-            // Set current loop in player
-            Player.CurrentLoop = loop;
+            // Set current loop in player            
+            Player.StartLoop(loop);
 
             // Set currently playing loop icon
             for (int a = 0; a < viewLoops.Items.Count; a++)
