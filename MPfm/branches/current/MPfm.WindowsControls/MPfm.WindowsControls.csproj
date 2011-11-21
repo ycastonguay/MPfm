@@ -100,13 +100,16 @@
       <DependentUpon>AlbumView.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\AlbumViewItems.cs" />
+    <Compile Include="Library\SongGridViewCache.cs" />
+    <Compile Include="Library\SongGridViewColumn.cs" />
+    <Compile Include="Library\SongGridViewItem.cs" />
     <Compile Include="Library\SongGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Library\SongGridView.Designer.cs">
       <DependentUpon>SongGridView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\SongGridViewItems.cs" />
+    <Compile Include="Library\SongGridViewImageCache.cs" />
     <Compile Include="Misc\HScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>

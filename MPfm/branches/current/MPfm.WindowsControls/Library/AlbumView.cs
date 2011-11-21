@@ -513,9 +513,8 @@ namespace MPfm.WindowsControls
             }
         }
 
-        // Must replace to a list to do pushing
-        //private Dictionary<string, Image> m_imageCache = new Dictionary<string, Image>();
-        private List<GridViewImageCache> m_imageCache = new List<GridViewImageCache>();
+        // Must replace to a list to do pushing        
+        private List<SongGridViewImageCache> m_imageCache = new List<SongGridViewImageCache>();
         private int m_imageCacheSize = 10;
         public int ImageCacheSize
         {

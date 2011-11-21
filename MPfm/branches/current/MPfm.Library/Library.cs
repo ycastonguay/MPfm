@@ -364,8 +364,7 @@ namespace MPfm.Library
                 if (CancelUpdateLibrary) throw new UpdateLibraryException();
 
                 // Compact database
-                UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);
-                //DataAccess.CompactDatabase();
+                UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);                
                 m_gateway.CompactDatabase();
             }
             catch (UpdateLibraryException ex)

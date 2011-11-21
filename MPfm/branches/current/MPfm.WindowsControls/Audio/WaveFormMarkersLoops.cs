@@ -1799,8 +1799,7 @@ namespace MPfm.WindowsControls
 
                     if (isMouseOverToolbar)
                     {
-                        // Variables
-                        int alpha = 0;
+                        // Variables                        
                         Color colorOverlay = Color.FromArgb(200, 75, 75, 75);
                         Color colorOverlaySelected = Color.FromArgb(200, 125, 125, 125);
                         Image imgPointer = MPfm.WindowsControls.Properties.Resources.pointer;

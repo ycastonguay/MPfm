@@ -1,6 +1,6 @@
 ﻿//
-// GridView.cs: This list view control is based on the System.Windows.Forms.ListView control.
-//              It adds custom flickerless redrawing and other features.
+// SongGridView.cs: This custom control is a grid view displaying songs from the 
+//                  user library. It can be used to display playlist contents.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -38,13 +38,15 @@ using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Library;
 using MPfm.Player;
+using MPfm.Player.PlayerV4;
 
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This grid control displays the MPfm library.
+    /// This custom grid view control displays the MPfm library.
     /// </summary>
-    public partial class SongGridView : System.Windows.Forms.Control, IMessageFilter
+    public partial class SongGridView 
+        : System.Windows.Forms.Control, IMessageFilter
     {
         #region Private Variables
 
@@ -57,11 +59,11 @@ namespace MPfm.WindowsControls
         private BackgroundWorker m_workerUpdateAlbumArt = null;
         public List<SongGridViewBackgroundWorkerArgument> m_workerUpdateAlbumArtPile = null;
         private System.Windows.Forms.Timer m_timerUpdateAlbumArt = null;
-        private List<string> m_currentlyVisibleAlbumArt = null;
+        //private List<string> m_currentlyVisibleAlbumArt = null;
 
         // Cache        
-        private GridViewSongCache m_songCache = null;
-        private List<GridViewImageCache> m_imageCache = new List<GridViewImageCache>();        
+        private SongGridViewCache m_songCache = null;
+        private List<SongGridViewImageCache> m_imageCache = new List<SongGridViewImageCache>();        
 
         // Private variables used for mouse events
         public int m_startLineNumber = 0;
@@ -600,27 +602,16 @@ namespace MPfm.WindowsControls
 
         #endregion
 
-        #region Other Properties (Library, Items, Columns, etc.)
-        
-        ///// <summary>
-        ///// Private value for the Library property.
-        ///// </summary>
-        //private MPfm.Library.Library m_library = null;
-        ///// <summary>
-        ///// Hook to the MPfm Library object.
-        ///// </summary>
-        //[Browsable(false)]
-        //public MPfm.Library.Library Library
-        //{
-        //    get
-        //    {
-        //        return m_library;
-        //    }
-        //    set
-        //    {
-        //        m_library = value;
-        //    }
-        //}
+        #region Other Properties (Items, Columns, etc.)
+
+        private Playlist m_playlist = null;
+        public Playlist Playlist
+        {
+            get
+            {
+                return m_playlist;
+            }
+        }
 
         /// <summary>
         /// Private value for the Items property.
@@ -659,12 +650,12 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the Columns property.
         /// </summary>
-        private List<GridViewSongColumn> m_columns = null;
+        private List<SongGridViewColumn> m_columns = null;
         /// <summary>
         /// List of grid view columns.
         /// </summary>
         [Browsable(false)]
-        public List<GridViewSongColumn> Columns
+        public List<SongGridViewColumn> Columns
         {
             get
             {
@@ -676,32 +667,13 @@ namespace MPfm.WindowsControls
 
         #region Filter / OrderBy Properties
 
-        // TODO: REPLACE THIS BY A DATASOURCE/DATABIND INSTEAD. LET THE USER CONTROL THE QUERY!
-
-        //private string m_searchArtistName = string.Empty;
-        //public string SearchArtistName
-        //{
-        //    get
-        //    {
-        //        return m_searchArtistName;
-        //    }
-        //    set
-        //    {
-        //        m_searchArtistName = value;
-
-        //        // Invalidate item list and cache
-        //        m_items = null;
-        //        m_songCache = null;
-
-        //        // Refresh control
-        //        Refresh();
-        //    }
-        //}
-
         /// <summary>
         /// Private value for the OrderByFieldName property.
         /// </summary>
         private string m_orderByFieldName = string.Empty;
+        /// <summary>
+        /// Indicates which field should be used for ordering songs.
+        /// </summary>
         public string OrderByFieldName
         {
             get
@@ -721,7 +693,13 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the OrderByAscending property.
+        /// </summary>
         private bool m_orderByAscending = true;
+        /// <summary>
+        /// Indicates if the order should be ascending (true) or descending (false).
+        /// </summary>
         public bool OrderByAscending
         {
             get
@@ -758,7 +736,13 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the DisplayDebugInformation property.
+        /// </summary>
         private bool m_displayDebugInformation = false;
+        /// <summary>
+        /// If true, the debug information will be shown over the first column.
+        /// </summary>
         public bool DisplayDebugInformation
         {
             get
@@ -771,8 +755,13 @@ namespace MPfm.WindowsControls
             }
         }
 
-        // Must replace to a list to do pushing                
+        /// <summary>
+        /// Private value for the ImageCacheSize property.
+        /// </summary>             
         private int m_imageCacheSize = 10;
+        /// <summary>
+        /// Defines the size of the album art image cache (10 by default).
+        /// </summary>
         public int ImageCacheSize
         {
             get
@@ -787,7 +776,14 @@ namespace MPfm.WindowsControls
 
         #endregion
 
-        private ContextMenuStrip m_contextMenuStrip = null;        
+        /// <summary>
+        /// Private value for the ContextMenuStrip property.
+        /// </summary>
+        private ContextMenuStrip m_contextMenuStrip = null; 
+        /// <summary>
+        /// ContextMenuStrip related to the grid. This context menu
+        /// opens when the user right clicks an item.
+        /// </summary>
         [Category("Misc"), Browsable(true), Description("Stuff.")]   
         public ContextMenuStrip ContextMenuStrip
         {
@@ -958,7 +954,7 @@ namespace MPfm.WindowsControls
             SongGridViewBackgroundWorkerResult result = (SongGridViewBackgroundWorkerResult)e.Result;
 
             // Create cover art cache (even if the albumart is null, just to make sure the grid doesn't refetch the album art endlessly)
-            GridViewImageCache cache = new GridViewImageCache();
+            SongGridViewImageCache cache = new SongGridViewImageCache();
             cache.Key = result.AudioFile.ArtistName + "_" + result.AudioFile.AlbumTitle;
             cache.Image = result.AlbumArt;
 
@@ -1169,15 +1165,15 @@ namespace MPfm.WindowsControls
             if (m_columns == null)
             {
                 // Create columns
-                GridViewSongColumn columnSongAlbumCover = new GridViewSongColumn(string.Empty, string.Empty, true, 0);
-                GridViewSongColumn columnSongNowPlaying = new GridViewSongColumn(string.Empty, string.Empty, true, 1);
-                GridViewSongColumn columnSongTrackNumber = new GridViewSongColumn("Tr#", "TrackNumber", true, 2);
-                GridViewSongColumn columnSongTitle = new GridViewSongColumn("Song Title", "Title", true, 3);
-                GridViewSongColumn columnSongLength = new GridViewSongColumn("Length", "Length", true, 4);
-                GridViewSongColumn columnSongArtistName = new GridViewSongColumn("Artist Name", "ArtistName", true, 5);
-                GridViewSongColumn columnSongAlbumTitle = new GridViewSongColumn("Album Title", "AlbumTitle", true, 6);
-                GridViewSongColumn columnSongPlayCount = new GridViewSongColumn("Play Count", "PlayCount", true, 7);
-                GridViewSongColumn columnSongLastPlayed = new GridViewSongColumn("Last Played", "LastPlayed", true, 8);
+                SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn(string.Empty, string.Empty, true, 0);
+                SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn(string.Empty, string.Empty, true, 1);
+                SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "TrackNumber", true, 2);
+                SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 3);
+                SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 4);
+                SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 5);
+                SongGridViewColumn columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 6);
+                SongGridViewColumn columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 7);
+                SongGridViewColumn columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 8);
 
                 // Set additional flags
                 columnSongAlbumCover.CanBeReordered = false;
@@ -1196,7 +1192,7 @@ namespace MPfm.WindowsControls
                 columnSongPlayCount.Width = 80;
 
                 // Add columns to list
-                m_columns = new List<GridViewSongColumn>();
+                m_columns = new List<SongGridViewColumn>();
                 m_columns.Add(columnSongAlbumCover);
                 m_columns.Add(columnSongNowPlaying);
                 m_columns.Add(columnSongTrackNumber);
@@ -1378,7 +1374,7 @@ namespace MPfm.WindowsControls
 
                         // Try to extract image from cache
                         Image imageAlbumCover = null;
-                        GridViewImageCache cachedImage = m_imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
+                        SongGridViewImageCache cachedImage = m_imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
                         if (cachedImage != null)
                         {
                             // Set image
@@ -1679,7 +1675,7 @@ namespace MPfm.WindowsControls
                 for (int b = 2; b < m_songCache.ActiveColumns.Count; b++)
                 {
                     // Get current column
-                    GridViewSongColumn column = m_songCache.ActiveColumns[b];
+                    SongGridViewColumn column = m_songCache.ActiveColumns[b];
 
                     // Get property through reflection
                     PropertyInfo propertyInfo = audioFile.GetType().GetProperty(column.FieldName);
@@ -1838,7 +1834,7 @@ namespace MPfm.WindowsControls
             for (int b = 0; b < m_songCache.ActiveColumns.Count; b++)
             {
                 // Get current column
-                GridViewSongColumn column = m_songCache.ActiveColumns[b];
+                SongGridViewColumn column = m_songCache.ActiveColumns[b];
 
                 // The last column always take the remaining width
                 int columnWidth = column.Width;
@@ -2131,7 +2127,7 @@ namespace MPfm.WindowsControls
             }
 
             // Loop through columns
-            foreach (GridViewSongColumn column in m_songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
             {
                 // Check if the mouse pointer is over the column limit
                 if (column.IsMouseCursorOverColumnLimit && column.CanBeResized)
@@ -2172,7 +2168,7 @@ namespace MPfm.WindowsControls
             }
 
             // Loop through columns
-            foreach (GridViewSongColumn column in m_songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
             {
                 // Reset flags
                 column.IsUserResizingColumn = false;
@@ -2224,7 +2220,7 @@ namespace MPfm.WindowsControls
             }
 
             // Check if the user is resizing a column
-            GridViewSongColumn columnResizing = m_columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
+            SongGridViewColumn columnResizing = m_columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
 
             // Calculate scrollbar offset Y
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
@@ -2239,7 +2235,7 @@ namespace MPfm.WindowsControls
                 for (int a = 0; a < m_columns.Count; a++)
                 {
                     // Get current column
-                    GridViewSongColumn column = m_columns[a];
+                    SongGridViewColumn column = m_columns[a];
 
                     // Check if the mouse pointer is over this column
                     if (e.X >= offsetX && e.X <= offsetX + column.Width)
@@ -2473,7 +2469,7 @@ namespace MPfm.WindowsControls
             }
 
             // Check if the user is currently resizing a column (loop through columns)
-            foreach (GridViewSongColumn column in m_songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
             {
                 // Check if the user is currently resizing this column
                 if (column.IsUserResizingColumn)
@@ -2534,7 +2530,7 @@ namespace MPfm.WindowsControls
             // Check if the cursor needs to be changed            
             int offsetX = 0;
             bool mousePointerIsOverColumnLimit = false;
-            foreach (GridViewSongColumn column in m_songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
             {
                 // Increment offset by the column width
                 offsetX += column.Width;
@@ -2599,7 +2595,7 @@ namespace MPfm.WindowsControls
                 for (int a = 0; a < m_columns.Count; a++)
                 {
                     // Get current column
-                    GridViewSongColumn column = m_columns[a];
+                    SongGridViewColumn column = m_columns[a];
 
                     // Check if the mouse pointer is over this column
                     if (e.X >= columnOffsetX - m_hScrollBar.Value && e.X <= columnOffsetX + column.Width - m_hScrollBar.Value)
@@ -2746,7 +2742,7 @@ namespace MPfm.WindowsControls
             }
 
             // Create cache
-            m_songCache = new GridViewSongCache();
+            m_songCache = new SongGridViewCache();
 
             // Get active columns and order them
             m_songCache.ActiveColumns = m_columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
