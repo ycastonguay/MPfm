@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MPfm - Playback Engine V4")]
-[assembly: AssemblyDescription("Prototype screen used for testing the MPfm Playback Engine V4.")]
+[assembly: AssemblyTitle("MPfm Player Demo")]
+[assembly: AssemblyDescription("Demo application used for testing the MPfm Player.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MPfm - Playback Engine V4")]
+[assembly: AssemblyCompany("Yanick Castonguay")]
+[assembly: AssemblyProduct("MPfm (Music Player for Musicians)")]
 [assembly: AssemblyCopyright("Copyright © 2011 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

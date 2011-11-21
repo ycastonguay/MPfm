@@ -239,6 +239,13 @@ namespace MPfm.WindowsControls
             return path; 
         }
 
+        /// <summary>
+        /// Creates a cursor from bitmap.
+        /// </summary>
+        /// <param name="bmp">Bitmap</param>
+        /// <param name="xHotSpot">Hot spot (x)</param>
+        /// <param name="yHotSpot">Hot spot (y)</param>
+        /// <returns>Cursor</returns>
         public static Cursor CreateCursor(Bitmap bmp, int xHotSpot, int yHotSpot)
         {
             Win32.IconInfo tmp = new Win32.IconInfo();
