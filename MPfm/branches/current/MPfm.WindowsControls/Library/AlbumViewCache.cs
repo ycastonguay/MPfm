@@ -1,5 +1,5 @@
 ﻿//
-// SongGridViewImageCache.cs: Album art cache for the song grid view control.
+// AlbumViewCache.cs: General cache for the SongGridView control.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -24,24 +24,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
 
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// Album art cache for the song grid view control.
+    /// General cache for the AlbumView control.
     /// </summary>
-    public class SongGridViewImageCache
+    public class AlbumViewCache
     {
-        /// <summary>
-        /// Cache key.
-        /// </summary>
-        public string Key { get; set; }
-
-        /// <summary>
-        /// Cache image (album art).
-        /// </summary>
-        public Image Image { get; set; }
+        public int IconHeightWithPadding { get; set; }
+        public int NumberOfIconsWidth { get; set; }
+        public int NumberOfIconsHeight { get; set; }
+        public int TotalMargin { get; set; }
+        public int Margin { get; set; }
+        public int TotalNumberOfLines { get; set; }
+        public int TotalHeight { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿//
-// GridView.cs: This list view control is based on the System.Windows.Forms.ListView control.
-//              It adds custom flickerless redrawing and other features.
+// AlbumView.cs: This custom control displays the albums contained in a MPfm library.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -41,7 +40,7 @@ using MPfm.Library;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This grid control displays the MPfm library.
+    /// This custom control displays the albums contained in a MPfm library.
     /// </summary>
     public partial class AlbumView : System.Windows.Forms.Control, IMessageFilter
     {
@@ -533,7 +532,7 @@ namespace MPfm.WindowsControls
         private System.Windows.Forms.HScrollBar m_hScrollBar = null;
 
         // Create cache by display type
-        private GridViewAlbumCache m_albumCache = null;
+        private AlbumViewCache m_albumCache = null;
 
         // Private members for Song display type
         private int m_startLineNumber = 0;
@@ -705,7 +704,7 @@ namespace MPfm.WindowsControls
             if (m_albumCache == null)
             {
                 // Create cache data
-                m_albumCache = new GridViewAlbumCache();
+                m_albumCache = new AlbumViewCache();
 
                 // Check how many icons fit in width and height
                 m_albumCache.IconHeightWithPadding = m_iconSize + (m_padding * 2);

@@ -1,6 +1,5 @@
 ﻿//
-// SongGridView.cs: This custom control is a grid view displaying songs from the 
-//                  user library. It can be used to display playlist contents.
+// SongGridViewCache.cs: General cache for the SongGridView control.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -31,7 +30,7 @@ using MPfm.Sound;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// General cache for the song grid view control.
+    /// General cache for the SongGridView control.
     /// Contains data which doesn't need to be calculated for every
     /// control refresh, such as the line height, scrollbar offset, etc.
     /// </summary>

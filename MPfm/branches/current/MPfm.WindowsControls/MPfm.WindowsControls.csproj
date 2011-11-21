@@ -99,7 +99,8 @@
     <Compile Include="Library\AlbumView.Designer.cs">
       <DependentUpon>AlbumView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\AlbumViewItems.cs" />
+    <Compile Include="Library\AlbumViewItem.cs" />
+    <Compile Include="Library\AlbumViewCache.cs" />
     <Compile Include="Library\SongGridViewCache.cs" />
     <Compile Include="Library\SongGridViewColumn.cs" />
     <Compile Include="Library\SongGridViewItem.cs" />

@@ -1,5 +1,5 @@
 ﻿//
-// SongGridViewImageCache.cs: Album art cache for the song grid view control.
+// AlbumViewItem.cs: Item for the AlbumView control.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -24,24 +24,27 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
 
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// Album art cache for the song grid view control.
+    /// Item for the AlbumView control.
     /// </summary>
-    public class SongGridViewImageCache
+    public class AlbumViewItem
     {
-        /// <summary>
-        /// Cache key.
-        /// </summary>
-        public string Key { get; set; }
+        public string Title { get; set; }
+        public string FilePath { get; set; }
+        public bool IsSelected { get; set; }
+        public bool IsMouseOverItem { get; set; }        
 
         /// <summary>
-        /// Cache image (album art).
+        /// Default constructor for GridViewSongItem.
         /// </summary>
-        public Image Image { get; set; }
+        public AlbumViewItem()
+        {
+            // Set default values
+            IsSelected = false;
+            IsMouseOverItem = false;
+        }
     }
 }
