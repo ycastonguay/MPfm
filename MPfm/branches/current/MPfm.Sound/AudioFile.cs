@@ -333,6 +333,28 @@ namespace MPfm.Sound
 		/// </summary>
 		public uint TrackNumber { get; set; }
 
+        /// <summary>
+        /// Returns the disc and track number in string format.
+        /// If the disc number is zero, it will return the track number (ex: 10).
+        /// If the disc number is higher than zero, it will return the disc number
+        /// and the track number separated by a comma (ex: 1.10).
+        /// </summary>
+        public string DiscTrackNumber
+        {
+            get
+            {
+                // Is there a disc number?
+                if (DiscNumber == 0)
+                {
+                    // Return track number
+                    return TrackNumber.ToString();
+                }
+
+                // Return disc number and track number
+                return DiscNumber.ToString() + "." + TrackNumber.ToString();
+            }
+        }
+
 		/// <summary>
 		/// Track number.
 		/// </summary>

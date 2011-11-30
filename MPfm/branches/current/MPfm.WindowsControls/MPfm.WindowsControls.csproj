@@ -90,9 +90,6 @@
     <Compile Include="Fonts\FontCollection.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Labels\TimeLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Library\AlbumView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -101,6 +98,7 @@
     </Compile>
     <Compile Include="Library\AlbumViewItem.cs" />
     <Compile Include="Library\AlbumViewCache.cs" />
+    <Compile Include="Library\SongGridViewMode.cs" />
     <Compile Include="Library\SongGridViewCache.cs" />
     <Compile Include="Library\SongGridViewColumn.cs" />
     <Compile Include="Library\SongGridViewItem.cs" />
@@ -112,9 +110,6 @@
     </Compile>
     <Compile Include="Library\SongGridViewImageCache.cs" />
     <Compile Include="Misc\HScrollBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Misc\ProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Misc\ListBox.cs">
@@ -140,9 +135,6 @@
     </Compile>
     <Compile Include="Views\ReorderListView.Designer.cs">
       <DependentUpon>ReorderListView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TreeView.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\ListView.cs">
       <SubType>Component</SubType>

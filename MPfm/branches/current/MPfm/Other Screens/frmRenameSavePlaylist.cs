@@ -84,35 +84,35 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            ////// Check if name is already taken
-            ////if (DataAccess.PlaylistExists(txtName.Text))
-            ////{
-            ////    // Show message box and cancel the form close
-            ////    MessageBox.Show("A playlist named \"" + txtName.Text + "\" already exists in the database!\nPlease select another name.", "Playlist already exists in database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            ////    return;
-            ////}
-
-            //// Check window mode
-            //if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
+            //// Check if name is already taken
+            //if (DataAccess.PlaylistExists(txtName.Text))
             //{
-            //    // Rename playlist and reset its id (save AS)
-            //    Main.Player.CurrentPlaylist.PlaylistName = txtName.Text;
-            //    Main.Player.CurrentPlaylist.PlaylistId = Guid.NewGuid();
-            //}
-            //else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
-            //{
-            //    // Rename playlist
-            //    Main.Player.CurrentPlaylist.PlaylistName = txtName.Text;                
+            //    // Show message box and cancel the form close
+            //    MessageBox.Show("A playlist named \"" + txtName.Text + "\" already exists in the database!\nPlease select another name.", "Playlist already exists in database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
             //}
 
-            //// Set result
-            //this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            // Check window mode
+            if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
+            {
+                // Rename playlist and reset its id (save AS)
+                Main.Player.Playlist.Name = txtName.Text;
+                Main.Player.Playlist.Id = Guid.NewGuid();
+            }
+            else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
+            {
+                // Rename playlist
+                Main.Player.Playlist.Name = txtName.Text;
+            }
 
-            //// Refresh the window title
-            //Main.formPlaylist.RefreshTitle();
+            // Set result
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
-            //// Close form
-            //this.Close();          
+            // Refresh the window title
+            Main.formPlaylist.RefreshTitle();
+
+            // Close form
+            this.Close();          
         }
 
         /// <summary>

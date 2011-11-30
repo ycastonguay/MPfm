@@ -23,10 +23,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MPfm.WindowsControls;
 using MPfm.Library;
+using MPfm.Player.PlayerV4;
+using MPfm.Sound;
+using MPfm.WindowsControls;
 
 namespace MPfm
 {
@@ -60,7 +63,7 @@ namespace MPfm
             InitializeComponent();
 
             m_main = main;
-            this.viewSongs.ItemsReordered += new MPfm.WindowsControls.ReorderListView.ItemsReorderedHandler(viewSongs_ItemsReordered);
+            //this.viewSongs.ItemsReordered += new MPfm.WindowsControls.ReorderListView.ItemsReorderedHandler(viewSongs_ItemsReordered);
 
             //formRenameSavePlaylist = new frmRenameSavePlaylist(this, RenameSavePlaylistWindowMode.RenamePlaylist);
         }
@@ -207,6 +210,8 @@ namespace MPfm
         /// </summary>
         public void RefreshTitle()
         {
+            this.Text = Main.Player.Playlist.Name;
+
             //// Set form title depending on playlist type
             //if (Main.Player.CurrentPlaylist.PlaylistType == PlaylistType.Custom)
             //{
@@ -228,20 +233,23 @@ namespace MPfm
         /// </summary>
         public void RefreshPlaylist()
         {
-            //// If the form isn't visible, just don't refresh
-            //if (!Visible)
-            //{
-            //    return;
-            //}
+            // If the form isn't visible, just don't refresh
+            if (!Visible)
+            {
+                return;
+            }
 
             //// Remove all items from grid
             //viewSongs.Items.Clear();
 
-            //// Make sure the playlist is valid
-            //if (Main.Player.CurrentPlaylist == null)
-            //{
-            //    return;
-            //}
+            // Make sure the playlist is valid
+            if (Main.Player.Playlist == null)
+            {
+                return;
+            }
+
+            // Import songs into the control
+            viewSongs2.ImportPlaylist(Main.Player.Playlist);
 
             //// Make sure the list of songs is valid and non empty
             //if (Main.Player.CurrentPlaylist.Songs == null)
@@ -316,45 +324,19 @@ namespace MPfm
             //viewSongs.Items.AddRange(lvItems);
             //viewSongs.EndUpdate();
 
-            //// Refresh window title
-            //RefreshTitle();
+            // Refresh window title
+            RefreshTitle();
         }
 
         /// <summary>
-        /// Refreshes the play icon in the ListView displaying the songs in the current playlist.
+        /// Refreshes the play icon in the SongGridView displaying playlist items.
         /// </summary>
-        /// <param name="newPlaylistSongId">Song Identifier of the new song</param>
-        public void RefreshPlaylistPlayIcon(Guid newPlaylistSongId)
+        /// <param name="newPlaylistItemId">Playlist item identifier</param>
+        public void RefreshPlaylistPlayIcon(Guid newPlaylistItemId)
         {
-            // Set the play icon in the song browser
-            //foreach (ListViewItem item in viewSongs.Items)
-            for (int a = 0; a < viewSongs.Items.Count; a++)
-            {
-                // Get item
-                ListViewItem item = viewSongs.Items[a];
-
-                // Find out if the next song is the current item
-                string songId = (string)item.Tag;
-                if (songId == newPlaylistSongId.ToString())
-                {
-                    // Set the play icon
-                    viewSongs.SelectedItems.Clear();
-                    viewSongs.EnsureVisible(a);
-                    item.Selected = true;
-                    item.ImageIndex = 0;
-                }
-                else
-                {
-                    // Clear the play icon if set
-                    if (item.ImageIndex != -1)
-                    {
-                        item.ImageIndex = -1;
-                    }
-                }
-            }
-
-            // Force repaint
-            viewSongs.Refresh();
+            // Set currently playing song
+            viewSongs2.NowPlayingPlaylistItemId = newPlaylistItemId;
+            viewSongs2.Refresh();
         }
 
         #endregion
@@ -368,26 +350,29 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnNewPlaylist_Click(object sender, EventArgs e)
         {
-            //// Check if the playlist has at least one item
-            //if (viewSongs.Items.Count > 0)
-            //{
-            //    // Warn user
-            //    if (MessageBox.Show("Are you sure you wish to create a new playlist?\nYou will lose the contents of the current playlist. This will also stop playback.", "Create a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
-            //    {
-            //        // The user said no; exit method
-            //        return;
-            //    }
-            //}
+            // Check if the playlist has at least one item
+            if (viewSongs2.Items.Count > 0)
+            {
+                // Warn user
+                if (MessageBox.Show("Are you sure you wish to create a new playlist?\nYou will lose the contents of the current playlist. This will also stop playback.", "Create a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+                {
+                    // The user said no; exit method
+                    return;
+                }
+            }
 
-            //// Stop playback
-            //Main.Stop();
+            // Is the player running?
+            if (Main.Player.IsPlaying)
+            {
+                // Stop playback
+                Main.Stop();
+            }
 
-            //// Empty current playlist
-            //Main.Player.CurrentPlaylist.Songs.Clear();
-            //Main.Player.CurrentPlaylist.PlaylistName = "Empty playlist";
+            // Empty current playlist
+            Main.Player.Playlist.Clear();            
 
-            //// Refresh playlist
-            //RefreshPlaylist();
+            // Refresh playlist
+            RefreshPlaylist();
         }
 
         /// <summary>
@@ -474,25 +459,25 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnRenamePlaylist_Click(object sender, EventArgs e)
         {
-            //// Create window
-            //formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
+            // Create window
+            formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
 
-            //// Set window location
-            //formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
-            //formRenameSavePlaylist.txtName.Text = Main.Player.CurrentPlaylist.PlaylistName;
+            // Set window location
+            formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
+            formRenameSavePlaylist.txtName.Text = Main.Player.Playlist.Name;
 
-            //// Show Save Playlist dialog
-            //if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    // Set playlist type 
-            //    Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
+            // Show Save Playlist dialog
+            if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                // Set playlist type 
+                //Main.Player.Playlist.PlaylistType = PlaylistType.Custom;
 
-            //    // Refresh the window title
-            //    RefreshTitle();
+                // Refresh the window title
+                RefreshTitle();
 
-            //    // Refresh the playlists node in the Artist/Album browser
-            //    Main.RefreshTreeLibraryPlaylists();
-            //}
+                // Refresh the playlists node in the Artist/Album browser
+                Main.RefreshTreeLibraryPlaylists();
+            }
         }
 
         /// <summary>
@@ -502,55 +487,52 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnRemoveSongs_Click(object sender, EventArgs e)
         {
-            //// Create a list of songs to remove
-            ////List<Guid> removedSongs = new List<Guid>();
+            // Create a list of songs to remove
+            //List<Guid> removedSongs = new List<Guid>();
 
-            //// Check if there is at least one item selected
-            //if (viewSongs.SelectedItems.Count > 0)
-            //{
-            //    // Go through list view items
-            //    foreach (ListViewItem item in viewSongs.SelectedItems)
-            //    {
-            //        // Get the current playlist song Id
-            //        Guid currentPlaylistSongId = new Guid(item.Tag.ToString());
+            // Check if there is at least one item selected
+            if (viewSongs2.SelectedItems.Count > 0)
+            {
+                // Go through list view items (use a while loop so we can remove items from a collection we are iterating through)
+                while (true)
+                {
+                    // Are there selected items left?
+                    if (viewSongs2.SelectedItems.Count == 0)
+                    {
+                        // Exit loop
+                        break;
+                    }
 
-            //        // Check if the selected song is playing
-            //        if (Main.Player.CurrentPlaylist != null && 
-            //            Main.Player.CurrentPlaylist.CurrentSong != null &&
-            //            currentPlaylistSongId == Main.Player.CurrentPlaylist.CurrentSong.PlaylistSongId)
-            //        {
-            //            // Warn the user
-            //            MessageBox.Show("You cannot remove the current song from the playlist!", "Error removing song from playlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            // Add the song to the list of ids to remove
-            //            //removedSongs.Add(currentSongId);
+                    // Get item
+                    SongGridViewItem item = viewSongs2.SelectedItems[0];
 
-            //            // Find the playlist song in the current playlist
-            //            foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-            //            {
-            //                // Is this the good playlist song?
-            //                if (playlistSong.PlaylistSongId == currentPlaylistSongId)
-            //                {
-            //                    Main.Player.CurrentPlaylist.Songs.Remove(playlistSong);
-            //                    break;
-            //                }
-            //            }
+                    // Check if the selected song is playing
+                    if (item.PlaylistItemId == Main.Player.Playlist.CurrentItem.Id)
+                    {
+                        // Warn the user
+                        MessageBox.Show("You cannot remove the current song from the playlist!", "Error removing song from playlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        break;
+                    }
 
-            //            // Remove item from list view
-            //            item.Remove();
-            //        }
-            //    }
+                    // Remove playlist item
+                    PlaylistItem playlistItem = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == item.PlaylistItemId);
+                    Main.Player.Playlist.Items.Remove(playlistItem);
 
-            //    // Set playlist as modified
-            //    Main.Player.CurrentPlaylist.PlaylistModified = true;
-            //    Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
+                    // Remove grid view item
+                    viewSongs2.Items.Remove(item);
+                }
 
-            //    // Refresh the window title
-            //    RefreshTitle();
-            //}
+                // Set playlist as modified
+                //Main.Player.CurrentPlaylist.PlaylistModified = true;
+                //Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
+
+                // Refresh the window title
+                RefreshTitle();
+
+                // Refresh grid view
+                viewSongs2.InvalidateSongCache();
+                viewSongs2.Refresh();
+            }
         }
 
         #endregion
@@ -560,7 +542,7 @@ namespace MPfm
         private void menuPlaylist_Opening(object sender, CancelEventArgs e)
         {
             // Check if at least one item is selected
-            if (viewSongs.SelectedItems.Count == 0)
+            if (viewSongs2.SelectedItems.Count == 0)
             {
                 // Do not display the contextual menu
                 e.Cancel = true;
@@ -574,5 +556,38 @@ namespace MPfm
 
         #endregion
 
+        /// <summary>
+        /// Occurs when the user double clicks on one of the item in the playlist song view.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void viewSongs2_DoubleClick(object sender, EventArgs e)
+        {
+            // Make sure there is a selected item
+            if (viewSongs2.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Get the playlist item identifier from the selected item
+            Guid playlistItemId = viewSongs2.SelectedItems[0].PlaylistItemId;
+            PlaylistItem item = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == playlistItemId);
+            int index = Main.Player.Playlist.Items.IndexOf(item);
+
+            // Check if the player is playing
+            if (Main.Player.IsPlaying)
+            {
+                // Skip to new song
+                Main.Player.GoTo(index);
+            }
+            else
+            {
+                // Set playlist index
+                Main.Player.Playlist.GoTo(index);
+
+                // Start playback
+                Main.Play();
+            }
+        }
     }
 }

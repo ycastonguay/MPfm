@@ -20,11 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using MPfm.Library;
-using MPfm.Player;
 using MPfm.Sound;
 
 namespace MPfm.WindowsControls
@@ -34,6 +31,11 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class SongGridViewItem
     {
+        /// <summary>
+        /// Defines the associated playlist item identifier.
+        /// </summary>
+        public Guid PlaylistItemId { get; set; }
+
         /// <summary>
         /// Indicates if the item is currently selected.
         /// </summary>
@@ -55,6 +57,7 @@ namespace MPfm.WindowsControls
         public SongGridViewItem()
         {
             // Set default values
+            PlaylistItemId = Guid.Empty;
             IsSelected = false;
             IsMouseOverItem = false;
             AudioFile = null;

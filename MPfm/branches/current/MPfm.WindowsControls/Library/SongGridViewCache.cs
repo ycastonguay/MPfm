@@ -20,12 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
 
 namespace MPfm.WindowsControls
 {

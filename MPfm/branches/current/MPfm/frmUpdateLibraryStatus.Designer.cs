@@ -50,7 +50,7 @@ namespace MPfm
             this.picAlbum = new System.Windows.Forms.PictureBox();
             this.panelLog = new MPfm.WindowsControls.Panel();
             this.lbLog = new MPfm.WindowsControls.ListBox();
-            this.progressBar = new MPfm.WindowsControls.ProgressBar();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblMessage = new MPfm.WindowsControls.Label();
             this.lblTitle = new MPfm.WindowsControls.Label();
             this.panelMain.SuspendLayout();
@@ -452,6 +452,6 @@ namespace MPfm
         private System.ComponentModel.BackgroundWorker workerTimer;
         private System.Windows.Forms.SaveFileDialog saveLogDialog;
         private MPfm.WindowsControls.FontCollection fontCollection;
-        private WindowsControls.ProgressBar progressBar;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }

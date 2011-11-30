@@ -30,29 +30,25 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPlaylist));
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.toolPlaylist = new MPfm.WindowsControls.ToolStrip();
-            this.btnNewPlaylist = new System.Windows.Forms.ToolStripButton();
-            this.btnSavePlaylist = new System.Windows.Forms.ToolStripButton();
-            this.btnSavePlaylistAs = new System.Windows.Forms.ToolStripButton();
-            this.btnRenamePlaylist = new System.Windows.Forms.ToolStripButton();
-            this.btnRemoveSongs = new System.Windows.Forms.ToolStripButton();
-            this.btnClose = new System.Windows.Forms.ToolStripButton();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.viewSongs = new MPfm.WindowsControls.ReorderListView();
-            this.columnPlaylistSongPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongTrackNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongArtistName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongAlbumTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongPlayCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnPlaylistSongLastPlayed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaylistPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miPlaylistRemoveSongs = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolPlaylist.SuspendLayout();
+            this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
+            this.btnClose = new MPfm.WindowsControls.Button();
+            this.fontCollection = new MPfm.WindowsControls.FontCollection();
+            this.btnRemoveSongs = new MPfm.WindowsControls.Button();
+            this.btnRenamePlaylist = new MPfm.WindowsControls.Button();
+            this.btnSavePlaylistAs = new MPfm.WindowsControls.Button();
+            this.btnSavePlaylist = new MPfm.WindowsControls.Button();
+            this.btnNewPlaylist = new MPfm.WindowsControls.Button();
+            this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
             this.menuPlaylist.SuspendLayout();
+            this.panelSongBrowserToolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageList
@@ -60,167 +56,6 @@ namespace MPfm
             this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList.Images.SetKeyName(0, "bullet_go.png");
-            // 
-            // toolPlaylist
-            // 
-            this.toolPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolPlaylist.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNewPlaylist,
-            this.btnSavePlaylist,
-            this.btnSavePlaylistAs,
-            this.btnRenamePlaylist,
-            this.btnRemoveSongs,
-            this.btnClose});
-            this.toolPlaylist.Location = new System.Drawing.Point(0, 0);
-            this.toolPlaylist.Name = "toolPlaylist";
-            this.toolPlaylist.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolPlaylist.Size = new System.Drawing.Size(982, 25);
-            this.toolPlaylist.TabIndex = 21;
-            this.toolPlaylist.Text = "toolStrip3";
-            // 
-            // btnNewPlaylist
-            // 
-            this.btnNewPlaylist.Image = global::MPfm.Properties.Resources.page_white_text;
-            this.btnNewPlaylist.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNewPlaylist.Name = "btnNewPlaylist";
-            this.btnNewPlaylist.Size = new System.Drawing.Size(86, 22);
-            this.btnNewPlaylist.Text = "New playlist";
-            this.btnNewPlaylist.ToolTipText = "New playlist";
-            this.btnNewPlaylist.Click += new System.EventHandler(this.btnNewPlaylist_Click);
-            // 
-            // btnSavePlaylist
-            // 
-            this.btnSavePlaylist.Image = global::MPfm.Properties.Resources.disk;
-            this.btnSavePlaylist.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSavePlaylist.Name = "btnSavePlaylist";
-            this.btnSavePlaylist.Size = new System.Drawing.Size(88, 22);
-            this.btnSavePlaylist.Text = "Save playlist";
-            this.btnSavePlaylist.Click += new System.EventHandler(this.btnSavePlaylist_Click);
-            // 
-            // btnSavePlaylistAs
-            // 
-            this.btnSavePlaylistAs.Image = global::MPfm.Properties.Resources.disk_multiple;
-            this.btnSavePlaylistAs.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSavePlaylistAs.Name = "btnSavePlaylistAs";
-            this.btnSavePlaylistAs.Size = new System.Drawing.Size(112, 22);
-            this.btnSavePlaylistAs.Text = "Save playlist as...";
-            this.btnSavePlaylistAs.Click += new System.EventHandler(this.btnSavePlaylistAs_Click);
-            // 
-            // btnRenamePlaylist
-            // 
-            this.btnRenamePlaylist.Image = global::MPfm.Properties.Resources.textfield_rename;
-            this.btnRenamePlaylist.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRenamePlaylist.Name = "btnRenamePlaylist";
-            this.btnRenamePlaylist.Size = new System.Drawing.Size(102, 22);
-            this.btnRenamePlaylist.Text = "Rename playlist";
-            this.btnRenamePlaylist.Click += new System.EventHandler(this.btnRenamePlaylist_Click);
-            // 
-            // btnRemoveSongs
-            // 
-            this.btnRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
-            this.btnRemoveSongs.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRemoveSongs.Name = "btnRemoveSongs";
-            this.btnRemoveSongs.Size = new System.Drawing.Size(107, 22);
-            this.btnRemoveSongs.Text = "Remove song(s)";
-            this.btnRemoveSongs.Click += new System.EventHandler(this.btnRemoveSongs_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
-            this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(54, 22);
-            this.btnClose.Text = "Close";
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 476);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip1.Size = new System.Drawing.Size(982, 22);
-            this.statusStrip1.TabIndex = 22;
-            this.statusStrip1.Text = "0 song(s)";
-            // 
-            // viewSongs
-            // 
-            this.viewSongs.AllowDrop = true;
-            this.viewSongs.AllowRowReorder = true;
-            this.viewSongs.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.viewSongs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnPlaylistSongPlayIcon,
-            this.columnPlaylistSongTrackNumber,
-            this.columnPlaylistSongTitle,
-            this.columnPlaylistSongLength,
-            this.columnPlaylistSongArtistName,
-            this.columnPlaylistSongAlbumTitle,
-            this.columnPlaylistSongPlayCount,
-            this.columnPlaylistSongLastPlayed});
-            this.viewSongs.ContextMenuStrip = this.menuPlaylist;
-            this.viewSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs.FontCollection = null;
-            this.viewSongs.FullRowSelect = true;
-            this.viewSongs.GradientColor1 = System.Drawing.Color.LightGray;
-            this.viewSongs.GradientColor2 = System.Drawing.Color.Gray;
-            this.viewSongs.GridLines = true;
-            this.viewSongs.HeaderForeColor = System.Drawing.Color.Black;
-            this.viewSongs.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.viewSongs.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.viewSongs.HeaderHeight = 0;
-            this.viewSongs.HideSelection = false;
-            this.viewSongs.Location = new System.Drawing.Point(0, 25);
-            this.viewSongs.Name = "viewSongs";
-            this.viewSongs.SelectedColor = System.Drawing.Color.DarkGray;
-            this.viewSongs.Size = new System.Drawing.Size(982, 451);
-            this.viewSongs.SmallImageList = this.imageList;
-            this.viewSongs.TabIndex = 11;
-            this.viewSongs.UseCompatibleStateImageBehavior = false;
-            this.viewSongs.View = System.Windows.Forms.View.Details;
-            this.viewSongs.ItemsReordered += new MPfm.WindowsControls.ReorderListView.ItemsReorderedHandler(this.viewSongs_ItemsReordered);
-            this.viewSongs.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.viewSongs_MouseDoubleClick);
-            // 
-            // columnPlaylistSongPlayIcon
-            // 
-            this.columnPlaylistSongPlayIcon.Text = "";
-            this.columnPlaylistSongPlayIcon.Width = 21;
-            // 
-            // columnPlaylistSongTrackNumber
-            // 
-            this.columnPlaylistSongTrackNumber.Text = "Tr #";
-            this.columnPlaylistSongTrackNumber.Width = 35;
-            // 
-            // columnPlaylistSongTitle
-            // 
-            this.columnPlaylistSongTitle.Text = "Title";
-            this.columnPlaylistSongTitle.Width = 234;
-            // 
-            // columnPlaylistSongLength
-            // 
-            this.columnPlaylistSongLength.Text = "Length";
-            this.columnPlaylistSongLength.Width = 80;
-            // 
-            // columnPlaylistSongArtistName
-            // 
-            this.columnPlaylistSongArtistName.Text = "Artist Name";
-            this.columnPlaylistSongArtistName.Width = 198;
-            // 
-            // columnPlaylistSongAlbumTitle
-            // 
-            this.columnPlaylistSongAlbumTitle.Text = "Album Title";
-            this.columnPlaylistSongAlbumTitle.Width = 216;
-            // 
-            // columnPlaylistSongPlayCount
-            // 
-            this.columnPlaylistSongPlayCount.Text = "Play Count";
-            this.columnPlaylistSongPlayCount.Width = 68;
-            // 
-            // columnPlaylistSongLastPlayed
-            // 
-            this.columnPlaylistSongLastPlayed.Text = "Last Played";
-            this.columnPlaylistSongLastPlayed.Width = 161;
             // 
             // menuPlaylist
             // 
@@ -248,13 +83,300 @@ namespace MPfm
             this.miPlaylistRemoveSongs.Text = "Remove song(s)";
             this.miPlaylistRemoveSongs.Click += new System.EventHandler(this.btnRemoveSongs_Click);
             // 
+            // panelSongBrowserToolbar
+            // 
+            this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSongBrowserToolbar.AntiAliasingEnabled = true;
+            this.panelSongBrowserToolbar.Controls.Add(this.btnClose);
+            this.panelSongBrowserToolbar.Controls.Add(this.btnRemoveSongs);
+            this.panelSongBrowserToolbar.Controls.Add(this.btnRenamePlaylist);
+            this.panelSongBrowserToolbar.Controls.Add(this.btnSavePlaylistAs);
+            this.panelSongBrowserToolbar.Controls.Add(this.btnSavePlaylist);
+            this.panelSongBrowserToolbar.Controls.Add(this.btnNewPlaylist);
+            this.panelSongBrowserToolbar.ExpandedHeight = 25;
+            this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSongBrowserToolbar.FontCollection = null;
+            this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
+            this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelSongBrowserToolbar.HeaderCustomFontName = "Junction";
+            this.panelSongBrowserToolbar.HeaderExpandable = false;
+            this.panelSongBrowserToolbar.HeaderExpanded = true;
+            this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
+            this.panelSongBrowserToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.panelSongBrowserToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelSongBrowserToolbar.HeaderHeight = 0;
+            this.panelSongBrowserToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panelSongBrowserToolbar.Location = new System.Drawing.Point(0, 0);
+            this.panelSongBrowserToolbar.Name = "panelSongBrowserToolbar";
+            this.panelSongBrowserToolbar.Size = new System.Drawing.Size(807, 25);
+            this.panelSongBrowserToolbar.TabIndex = 74;
+            // 
+            // btnClose
+            // 
+            this.btnClose.AntiAliasingEnabled = true;
+            this.btnClose.BorderColor = System.Drawing.Color.DimGray;
+            this.btnClose.BorderWidth = 1;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.CustomFontName = "Junction";
+            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnClose.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnClose.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.FontCollection = this.fontCollection;
+            this.btnClose.FontColor = System.Drawing.Color.Black;
+            this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
+            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClose.Location = new System.Drawing.Point(532, 0);
+            this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(58, 25);
+            this.btnClose.TabIndex = 73;
+            this.btnClose.Text = "Close";
+            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // fontCollection
+            // 
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
+            // 
+            // btnRemoveSongs
+            // 
+            this.btnRemoveSongs.AntiAliasingEnabled = true;
+            this.btnRemoveSongs.BorderColor = System.Drawing.Color.DimGray;
+            this.btnRemoveSongs.BorderWidth = 1;
+            this.btnRemoveSongs.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemoveSongs.CustomFontName = "Junction";
+            this.btnRemoveSongs.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnRemoveSongs.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnRemoveSongs.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnRemoveSongs.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnRemoveSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveSongs.FontCollection = this.fontCollection;
+            this.btnRemoveSongs.FontColor = System.Drawing.Color.Black;
+            this.btnRemoveSongs.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnRemoveSongs.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnRemoveSongs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
+            this.btnRemoveSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveSongs.Location = new System.Drawing.Point(420, 0);
+            this.btnRemoveSongs.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnRemoveSongs.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnRemoveSongs.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnRemoveSongs.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnRemoveSongs.Name = "btnRemoveSongs";
+            this.btnRemoveSongs.Size = new System.Drawing.Size(113, 25);
+            this.btnRemoveSongs.TabIndex = 72;
+            this.btnRemoveSongs.Text = "Remove song(s)";
+            this.btnRemoveSongs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRemoveSongs.UseVisualStyleBackColor = true;
+            this.btnRemoveSongs.Click += new System.EventHandler(this.btnRemoveSongs_Click);
+            // 
+            // btnRenamePlaylist
+            // 
+            this.btnRenamePlaylist.AntiAliasingEnabled = true;
+            this.btnRenamePlaylist.BorderColor = System.Drawing.Color.DimGray;
+            this.btnRenamePlaylist.BorderWidth = 1;
+            this.btnRenamePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRenamePlaylist.CustomFontName = "Junction";
+            this.btnRenamePlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnRenamePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnRenamePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnRenamePlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnRenamePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRenamePlaylist.FontCollection = this.fontCollection;
+            this.btnRenamePlaylist.FontColor = System.Drawing.Color.Black;
+            this.btnRenamePlaylist.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnRenamePlaylist.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnRenamePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnRenamePlaylist.Image = global::MPfm.Properties.Resources.textfield_rename;
+            this.btnRenamePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRenamePlaylist.Location = new System.Drawing.Point(305, 0);
+            this.btnRenamePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnRenamePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnRenamePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnRenamePlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnRenamePlaylist.Name = "btnRenamePlaylist";
+            this.btnRenamePlaylist.Size = new System.Drawing.Size(116, 25);
+            this.btnRenamePlaylist.TabIndex = 71;
+            this.btnRenamePlaylist.Text = "Rename playlist";
+            this.btnRenamePlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRenamePlaylist.UseVisualStyleBackColor = true;
+            this.btnRenamePlaylist.Click += new System.EventHandler(this.btnRenamePlaylist_Click);
+            // 
+            // btnSavePlaylistAs
+            // 
+            this.btnSavePlaylistAs.AntiAliasingEnabled = true;
+            this.btnSavePlaylistAs.BorderColor = System.Drawing.Color.DimGray;
+            this.btnSavePlaylistAs.BorderWidth = 1;
+            this.btnSavePlaylistAs.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSavePlaylistAs.CustomFontName = "Junction";
+            this.btnSavePlaylistAs.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnSavePlaylistAs.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnSavePlaylistAs.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnSavePlaylistAs.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnSavePlaylistAs.Enabled = false;
+            this.btnSavePlaylistAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSavePlaylistAs.FontCollection = this.fontCollection;
+            this.btnSavePlaylistAs.FontColor = System.Drawing.Color.Black;
+            this.btnSavePlaylistAs.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnSavePlaylistAs.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnSavePlaylistAs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnSavePlaylistAs.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSavePlaylistAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSavePlaylistAs.Location = new System.Drawing.Point(186, 0);
+            this.btnSavePlaylistAs.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnSavePlaylistAs.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnSavePlaylistAs.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnSavePlaylistAs.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnSavePlaylistAs.Name = "btnSavePlaylistAs";
+            this.btnSavePlaylistAs.Size = new System.Drawing.Size(120, 25);
+            this.btnSavePlaylistAs.TabIndex = 70;
+            this.btnSavePlaylistAs.Text = "Save playlist as...";
+            this.btnSavePlaylistAs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSavePlaylistAs.UseVisualStyleBackColor = true;
+            this.btnSavePlaylistAs.Click += new System.EventHandler(this.btnSavePlaylistAs_Click);
+            // 
+            // btnSavePlaylist
+            // 
+            this.btnSavePlaylist.AntiAliasingEnabled = true;
+            this.btnSavePlaylist.BorderColor = System.Drawing.Color.DimGray;
+            this.btnSavePlaylist.BorderWidth = 1;
+            this.btnSavePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSavePlaylist.CustomFontName = "Junction";
+            this.btnSavePlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnSavePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnSavePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnSavePlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnSavePlaylist.Enabled = false;
+            this.btnSavePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSavePlaylist.FontCollection = this.fontCollection;
+            this.btnSavePlaylist.FontColor = System.Drawing.Color.Black;
+            this.btnSavePlaylist.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnSavePlaylist.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnSavePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnSavePlaylist.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSavePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSavePlaylist.Location = new System.Drawing.Point(92, 0);
+            this.btnSavePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnSavePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnSavePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnSavePlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnSavePlaylist.Name = "btnSavePlaylist";
+            this.btnSavePlaylist.Size = new System.Drawing.Size(95, 25);
+            this.btnSavePlaylist.TabIndex = 69;
+            this.btnSavePlaylist.Text = "Save playlist";
+            this.btnSavePlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSavePlaylist.UseVisualStyleBackColor = true;
+            this.btnSavePlaylist.Click += new System.EventHandler(this.btnSavePlaylist_Click);
+            // 
+            // btnNewPlaylist
+            // 
+            this.btnNewPlaylist.AntiAliasingEnabled = true;
+            this.btnNewPlaylist.BorderColor = System.Drawing.Color.DimGray;
+            this.btnNewPlaylist.BorderWidth = 1;
+            this.btnNewPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNewPlaylist.CustomFontName = "Junction";
+            this.btnNewPlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnNewPlaylist.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnNewPlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnNewPlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnNewPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewPlaylist.FontCollection = this.fontCollection;
+            this.btnNewPlaylist.FontColor = System.Drawing.Color.Black;
+            this.btnNewPlaylist.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnNewPlaylist.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnNewPlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnNewPlaylist.Image = global::MPfm.Properties.Resources.page_white_text;
+            this.btnNewPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewPlaylist.Location = new System.Drawing.Point(0, 0);
+            this.btnNewPlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnNewPlaylist.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnNewPlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnNewPlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnNewPlaylist.Name = "btnNewPlaylist";
+            this.btnNewPlaylist.Size = new System.Drawing.Size(93, 25);
+            this.btnNewPlaylist.TabIndex = 68;
+            this.btnNewPlaylist.Text = "New playlist";
+            this.btnNewPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNewPlaylist.UseVisualStyleBackColor = true;
+            this.btnNewPlaylist.Click += new System.EventHandler(this.btnNewPlaylist_Click);
+            // 
+            // viewSongs2
+            // 
+            this.viewSongs2.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.viewSongs2.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.viewSongs2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewSongs2.AntiAliasingEnabled = true;
+            this.viewSongs2.CanMoveColumns = false;
+            this.viewSongs2.CanChangeOrderBy = false;
+            this.viewSongs2.CanReorderItems = true;
+            this.viewSongs2.CanResizeColumns = true;
+            this.viewSongs2.ContextMenuStrip = this.menuPlaylist;
+            this.viewSongs2.CustomFontName = "Junction";
+            this.viewSongs2.DisplayDebugInformation = false;
+            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewSongs2.FontCollection = this.fontCollection;
+            this.viewSongs2.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.viewSongs2.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.viewSongs2.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.viewSongs2.HeaderHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.viewSongs2.HeaderHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this.viewSongs2.IconNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this.viewSongs2.IconNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
+            this.viewSongs2.ImageCacheSize = 10;
+            this.viewSongs2.LineColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            this.viewSongs2.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.viewSongs2.LineForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.viewSongs2.LineHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.viewSongs2.LineHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.viewSongs2.LineNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
+            this.viewSongs2.LineNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
+            this.viewSongs2.LineSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.viewSongs2.LineSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(185)))), ((int)(((byte)(185)))));
+            this.viewSongs2.Location = new System.Drawing.Point(0, 25);
+            this.viewSongs2.Name = "viewSongs2";
+            this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.OrderByAscending = true;
+            this.viewSongs2.OrderByFieldName = "";
+            this.viewSongs2.Size = new System.Drawing.Size(807, 328);
+            this.viewSongs2.TabIndex = 75;
+            this.viewSongs2.Text = "songGridView1";
+            this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
+            // 
             // frmPlaylist
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(982, 498);
-            this.Controls.Add(this.viewSongs);
-            this.Controls.Add(this.toolPlaylist);
-            this.Controls.Add(this.statusStrip1);
+            this.ClientSize = new System.Drawing.Size(807, 354);
+            this.Controls.Add(this.viewSongs2);
+            this.Controls.Add(this.panelSongBrowserToolbar);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
@@ -264,36 +386,26 @@ namespace MPfm
             this.Text = "Playlist";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPlaylist_FormClosing);
             this.Shown += new System.EventHandler(this.frmPlaylist_Shown);
-            this.toolPlaylist.ResumeLayout(false);
-            this.toolPlaylist.PerformLayout();
             this.menuPlaylist.ResumeLayout(false);
+            this.panelSongBrowserToolbar.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongPlayIcon;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongTitle;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongLength;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongArtistName;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongAlbumTitle;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongPlayCount;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongLastPlayed;
-        private MPfm.WindowsControls.ToolStrip toolPlaylist;
-        private System.Windows.Forms.ToolStripButton btnSavePlaylistAs;
-        private System.Windows.Forms.ToolStripButton btnRemoveSongs;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        public MPfm.WindowsControls.ReorderListView viewSongs;
         private System.Windows.Forms.ImageList imageList;
-        private System.Windows.Forms.ToolStripButton btnClose;
-        private System.Windows.Forms.ToolStripButton btnSavePlaylist;
         private System.Windows.Forms.ContextMenuStrip menuPlaylist;
         private System.Windows.Forms.ToolStripMenuItem miPlaylistPlaySong;
         private System.Windows.Forms.ToolStripMenuItem miPlaylistRemoveSongs;
-        private System.Windows.Forms.ToolStripButton btnNewPlaylist;
-        private System.Windows.Forms.ToolStripButton btnRenamePlaylist;
-        private System.Windows.Forms.ColumnHeader columnPlaylistSongTrackNumber;
+        private WindowsControls.Panel panelSongBrowserToolbar;
+        private WindowsControls.Button btnNewPlaylist;
+        private WindowsControls.SongGridView viewSongs2;
+        private WindowsControls.Button btnClose;
+        private WindowsControls.Button btnRemoveSongs;
+        private WindowsControls.Button btnRenamePlaylist;
+        private WindowsControls.Button btnSavePlaylistAs;
+        private WindowsControls.Button btnSavePlaylist;
+        private WindowsControls.FontCollection fontCollection;
     }
 }

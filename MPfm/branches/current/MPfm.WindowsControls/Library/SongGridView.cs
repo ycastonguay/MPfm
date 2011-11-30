@@ -50,6 +50,9 @@ namespace MPfm.WindowsControls
     {
         #region Private Variables
 
+        // Mode
+        private SongGridViewMode m_mode = SongGridViewMode.AudioFile;
+
         // Controls
         private System.Windows.Forms.VScrollBar m_vScrollBar = null;
         private System.Windows.Forms.HScrollBar m_hScrollBar = null;
@@ -78,7 +81,7 @@ namespace MPfm.WindowsControls
         // Animation timer and counter for currently playing song
         private int m_timerAnimationNowPlayingCount = 0;
         private Rectangle m_rectNowPlaying = new Rectangle(0, 0, 1, 1);
-        private System.Windows.Forms.Timer m_timerAnimationNowPlaying = null;
+        private System.Windows.Forms.Timer m_timerAnimationNowPlaying = null;               
 
         #endregion
 
@@ -604,15 +607,6 @@ namespace MPfm.WindowsControls
 
         #region Other Properties (Items, Columns, etc.)
 
-        private Playlist m_playlist = null;
-        public Playlist Playlist
-        {
-            get
-            {
-                return m_playlist;
-            }
-        }
-
         /// <summary>
         /// Private value for the Items property.
         /// </summary>
@@ -660,6 +654,47 @@ namespace MPfm.WindowsControls
             get
             {
                 return m_columns;
+            }
+        }
+
+
+        /// <summary>
+        /// Private value for the NowPlayingAudioFileId property.
+        /// </summary>
+        private Guid m_nowPlayingAudioFileId = Guid.Empty;
+        /// <summary>
+        /// Defines the currently playing audio file identifier.
+        /// </summary>
+        [Browsable(false)]
+        public Guid NowPlayingAudioFileId
+        {
+            get
+            {
+                return m_nowPlayingAudioFileId;
+            }
+            set
+            {
+                m_nowPlayingAudioFileId = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the NowPlayingPlaylistItemId property.
+        /// </summary>
+        private Guid m_nowPlayingPlaylistItemId = Guid.Empty;
+        /// <summary>
+        /// Defines the currently playing playlist item identifier.
+        /// </summary>
+        [Browsable(false)]
+        public Guid NowPlayingPlaylistItemId
+        {
+            get
+            {
+                return m_nowPlayingPlaylistItemId;
+            }
+            set
+            {
+                m_nowPlayingPlaylistItemId = value;
             }
         }
 
@@ -715,26 +750,6 @@ namespace MPfm.WindowsControls
         #endregion
 
         #region Settings Properties
-        
-        /// <summary>
-        /// Private value for the NowPlayingAudioFileId property.
-        /// </summary>
-        private Guid m_nowPlayingAudioFileId = Guid.Empty;
-        /// <summary>
-        /// Defines the currently playing audio file identifier.
-        /// </summary>
-        [Browsable(false)]
-        public Guid NowPlayingAudioFileId
-        {
-            get
-            {
-                return m_nowPlayingAudioFileId;
-            }
-            set
-            {
-                m_nowPlayingAudioFileId = value;
-            }
-        }
 
         /// <summary>
         /// Private value for the DisplayDebugInformation property.
@@ -752,6 +767,82 @@ namespace MPfm.WindowsControls
             set
             {
                 m_displayDebugInformation = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the CanResizeColumns property.
+        /// </summary>
+        private bool m_canResizeColumns = true;
+        /// <summary>
+        /// Indicates if the user can resize the columns or not.
+        /// </summary>
+        public bool CanResizeColumns
+        {
+            get
+            {
+                return m_canResizeColumns;
+            }
+            set
+            {
+                m_canResizeColumns = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the CanMoveColumns property.
+        /// </summary>
+        private bool m_canMoveColumns = true;
+        /// <summary>
+        /// Indicates if the user can move the columns or not.
+        /// </summary>
+        public bool CanMoveColumns
+        {
+            get
+            {
+                return m_canMoveColumns;
+            }
+            set
+            {
+                m_canMoveColumns = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the CanChangeOrderBy property.
+        /// </summary>
+        private bool m_canChangeOrderBy = true;
+        /// <summary>
+        /// Indicates if the user can change the order by or not.
+        /// </summary>
+        public bool CanChangeOrderBy
+        {
+            get
+            {
+                return m_canChangeOrderBy;
+            }
+            set
+            {
+                m_canChangeOrderBy = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the CanReorderItems property.
+        /// </summary>
+        private bool m_canReorderItems = true;
+        /// <summary>
+        /// Indicates if the user can reorder the items or not.
+        /// </summary>
+        public bool CanReorderItems
+        {
+            get
+            {
+                return m_canReorderItems;
+            }
+            set
+            {
+                m_canReorderItems = value;
             }
         }
 
@@ -1026,6 +1117,9 @@ namespace MPfm.WindowsControls
         /// <param name="audioFiles">List of AudioFiles</param>
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
+            // Set mode
+            m_mode = SongGridViewMode.AudioFile;
+
             // Create list of items
             m_items = new List<SongGridViewItem>();
             foreach (AudioFile audioFile in audioFiles)
@@ -1033,6 +1127,35 @@ namespace MPfm.WindowsControls
                 // Create item and add to list
                 SongGridViewItem item = new SongGridViewItem();
                 item.AudioFile = audioFile;
+                item.PlaylistItemId = Guid.NewGuid();
+                m_items.Add(item);
+            }
+
+            // Reset scrollbar position
+            m_vScrollBar.Value = 0;
+            m_songCache = null;
+
+            // Refresh control
+            Refresh();
+        }
+
+        /// <summary>
+        /// Imports playlist items as SongGridViewItems.
+        /// </summary>
+        /// <param name="playlist">Playlist</param>
+        public void ImportPlaylist(Playlist playlist)
+        {
+            // Set mode
+            m_mode = SongGridViewMode.Playlist;
+
+            // Create list of items
+            m_items = new List<SongGridViewItem>();
+            foreach (PlaylistItem playlistItem in playlist.Items)
+            {
+                // Create item and add to list
+                SongGridViewItem item = new SongGridViewItem();
+                item.AudioFile = playlistItem.AudioFile;
+                item.PlaylistItemId = playlistItem.Id;
                 m_items.Add(item);
             }
 
@@ -1167,7 +1290,7 @@ namespace MPfm.WindowsControls
                 // Create columns
                 SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn(string.Empty, string.Empty, true, 0);
                 SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn(string.Empty, string.Empty, true, 1);
-                SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "TrackNumber", true, 2);
+                SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 2);
                 SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 3);
                 SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 4);
                 SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 5);
@@ -1277,8 +1400,11 @@ namespace MPfm.WindowsControls
                 }
 
                 // Set rectangle
-                Rectangle rectBackground = new Rectangle(m_columns[0].Width - m_hScrollBar.Value, offsetY, lineBackgroundWidth, m_songCache.LineHeight);
-                if (audioFile.Id == m_nowPlayingAudioFileId)
+                Rectangle rectBackground = new Rectangle(m_columns[0].Width - m_hScrollBar.Value, offsetY, lineBackgroundWidth, m_songCache.LineHeight);                
+                
+                // Check conditions to determine background color
+                if ((m_mode == SongGridViewMode.AudioFile && audioFile.Id == m_nowPlayingAudioFileId) || 
+                    (m_mode == SongGridViewMode.Playlist && m_items[a].PlaylistItemId == m_nowPlayingPlaylistItemId))
                 {
                     // Now playing color
                     brushGradient = new LinearGradientBrush(rectBackground, LineNowPlayingColor1, LineNowPlayingColor2, 90);
@@ -1758,7 +1884,7 @@ namespace MPfm.WindowsControls
 
                         // Check if this is the artist name column
                         brush = new SolidBrush(LineForeColor);
-                        if (column.FieldName == "ArtistName" || column.FieldName == "TrackNumber")
+                        if (column.FieldName == "ArtistName" || column.FieldName == "DiscTrackNumber")
                         {
                             // Use bold for artist name
                             g.DrawString(value, fontDefaultBold, brush, rect, stringFormat);
@@ -1777,7 +1903,8 @@ namespace MPfm.WindowsControls
                 }
 
                 // Draw now playing icon
-                if (audioFile.Id == m_nowPlayingAudioFileId)
+                if ((m_mode == SongGridViewMode.AudioFile && audioFile.Id == m_nowPlayingAudioFileId) ||
+                    (m_mode == SongGridViewMode.Playlist && m_items[a].PlaylistItemId == m_nowPlayingPlaylistItemId))
                 {
                     // Which size is the minimum? Width or height?                    
                     int availableWidthHeight = m_columns[1].Width - 4;
@@ -2129,8 +2256,8 @@ namespace MPfm.WindowsControls
             // Loop through columns
             foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
             {
-                // Check if the mouse pointer is over the column limit
-                if (column.IsMouseCursorOverColumnLimit && column.CanBeResized)
+                // Check for resizing column
+                if (column.IsMouseCursorOverColumnLimit && column.CanBeResized && CanResizeColumns)
                 {
                     // Set resizing column flag
                     column.IsUserResizingColumn = true;
@@ -2139,7 +2266,8 @@ namespace MPfm.WindowsControls
                     m_dragOriginalColumnWidth = column.Width;
                 }
 
-                if (column.IsMouseOverColumnHeader && column.CanBeMoved)
+                // Check for moving column
+                if (column.IsMouseOverColumnHeader && column.CanBeMoved && CanMoveColumns)
                 {
                     // Set resizing column flag
                     column.IsUserMovingColumn = true;
@@ -2225,10 +2353,11 @@ namespace MPfm.WindowsControls
             // Calculate scrollbar offset Y
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
 
-            // Check if the user has clicked on the header, and the user isn't resizing a column
+            // Check if the user has clicked on the header (for orderBy)
             if (e.Y >= 0 &&
                 e.Y <= m_songCache.LineHeight &&
-                columnResizing == null)
+                columnResizing == null &&
+                CanChangeOrderBy)
             {
                 // Check on what column the user has clicked
                 int offsetX = 0;
@@ -2425,7 +2554,19 @@ namespace MPfm.WindowsControls
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
 
             // Keep original songId in case the now playing value is set before invalidating the older value
-            Guid originalSongId = m_nowPlayingAudioFileId;
+            Guid originalId = Guid.Empty;
+
+            // Check mode
+            if (m_mode == SongGridViewMode.AudioFile)
+            {
+                // Set original id
+                originalId = m_nowPlayingAudioFileId;
+            }
+            else if (m_mode == SongGridViewMode.Playlist)
+            {
+                // Set original id
+                originalId = m_nowPlayingPlaylistItemId;
+            }
 
             // Loop through visible lines
             for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
@@ -2435,11 +2576,17 @@ namespace MPfm.WindowsControls
                 {
                     // Set this item as the new now playing
                     m_nowPlayingAudioFileId = m_items[a].AudioFile.Id;
+                    m_nowPlayingPlaylistItemId = m_items[a].PlaylistItemId;
 
                     // Invalidate region
                     Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((a - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
                 }
-                else if (m_items[a].AudioFile.Id == originalSongId)
+                else if (m_mode == SongGridViewMode.AudioFile && m_items[a].AudioFile.Id == originalId)
+                {
+                    // Invalidate region
+                    Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((a - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
+                }
+                else if (m_mode == SongGridViewMode.Playlist && m_items[a].PlaylistItemId == originalId)
                 {
                     // Invalidate region
                     Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((a - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
@@ -2733,7 +2880,7 @@ namespace MPfm.WindowsControls
         /// Creates a cache of values used for rendering the song grid view.
         /// Also sets scrollbar position, height, value, maximum, etc.
         /// </summary>
-        private void InvalidateSongCache()
+        public void InvalidateSongCache()
         {
             // Check if columns have been created
             if (m_columns == null || m_columns.Count == 0)

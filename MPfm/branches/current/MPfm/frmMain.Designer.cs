@@ -86,7 +86,7 @@ namespace MPfm
             this.panelLibrary = new MPfm.WindowsControls.Panel();
             this.lblFilterBySoundFormat = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
-            this.treeLibrary = new MPfm.WindowsControls.TreeView();
+            this.treeLibrary = new System.Windows.Forms.TreeView();
             this.menuLibrary = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miTreeLibraryPlaySongs = new System.Windows.Forms.ToolStripMenuItem();
             this.miTreeLibraryAddSongsToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
@@ -755,21 +755,14 @@ namespace MPfm
             this.treeLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeLibrary.AntiAliasingEnabled = true;
             this.treeLibrary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.treeLibrary.ContextMenuStrip = this.menuLibrary;
-            this.treeLibrary.CustomFontName = "Avenir";
             this.treeLibrary.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeLibrary.FontCollection = this.fontCollection;
-            this.treeLibrary.GradientColor1 = System.Drawing.Color.LightGray;
-            this.treeLibrary.GradientColor2 = System.Drawing.Color.Gray;
-            this.treeLibrary.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.treeLibrary.HideSelection = false;
             this.treeLibrary.ImageIndex = 0;
             this.treeLibrary.ImageList = this.imageList;
             this.treeLibrary.Location = new System.Drawing.Point(3, 53);
             this.treeLibrary.Name = "treeLibrary";
-            this.treeLibrary.SelectedColor = System.Drawing.Color.DarkGray;
             this.treeLibrary.SelectedImageIndex = 0;
             this.treeLibrary.Size = new System.Drawing.Size(200, 578);
             this.treeLibrary.TabIndex = 3;
@@ -1710,7 +1703,7 @@ namespace MPfm
             // 
             // splitLoopsMarkers.Panel1
             // 
-            this.splitLoopsMarkers.Panel1.BackColor = System.Drawing.Color.DarkGray;
+            this.splitLoopsMarkers.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.splitLoopsMarkers.Panel1.Controls.Add(this.btnStopLoop);
             this.splitLoopsMarkers.Panel1.Controls.Add(this.btnEditLoop);
             this.splitLoopsMarkers.Panel1.Controls.Add(this.btnPlayLoop);
@@ -1718,10 +1711,11 @@ namespace MPfm
             this.splitLoopsMarkers.Panel1.Controls.Add(this.btnRemoveLoop);
             this.splitLoopsMarkers.Panel1.Controls.Add(this.btnAddLoop);
             this.splitLoopsMarkers.Panel1.Controls.Add(this.viewLoops);
+            this.splitLoopsMarkers.Panel1.ForeColor = System.Drawing.Color.White;
             // 
             // splitLoopsMarkers.Panel2
             // 
-            this.splitLoopsMarkers.Panel2.BackColor = System.Drawing.Color.DarkGray;
+            this.splitLoopsMarkers.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.splitLoopsMarkers.Panel2.Controls.Add(this.btnGoToMarker);
             this.splitLoopsMarkers.Panel2.Controls.Add(this.btnRemoveMarker);
             this.splitLoopsMarkers.Panel2.Controls.Add(this.lblMarkers);
@@ -1841,7 +1835,7 @@ namespace MPfm
             this.lblLoops.CustomFontName = "Junction";
             this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblLoops.FontCollection = this.fontCollection;
-            this.lblLoops.ForeColor = System.Drawing.Color.Black;
+            this.lblLoops.ForeColor = System.Drawing.Color.White;
             this.lblLoops.Location = new System.Drawing.Point(0, 1);
             this.lblLoops.Name = "lblLoops";
             this.lblLoops.Size = new System.Drawing.Size(45, 14);
@@ -2056,7 +2050,7 @@ namespace MPfm
             this.lblMarkers.CustomFontName = "Junction";
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblMarkers.FontCollection = this.fontCollection;
-            this.lblMarkers.ForeColor = System.Drawing.Color.Black;
+            this.lblMarkers.ForeColor = System.Drawing.Color.White;
             this.lblMarkers.Location = new System.Drawing.Point(0, 1);
             this.lblMarkers.Name = "lblMarkers";
             this.lblMarkers.Size = new System.Drawing.Size(50, 14);
@@ -2219,6 +2213,10 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.viewSongs2.AntiAliasingEnabled = true;
+            this.viewSongs2.CanChangeOrderBy = true;
+            this.viewSongs2.CanMoveColumns = true;
+            this.viewSongs2.CanReorderItems = false;
+            this.viewSongs2.CanResizeColumns = true;
             this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;
             this.viewSongs2.CustomFontName = "Junction";
             this.viewSongs2.DisplayDebugInformation = false;
@@ -2244,6 +2242,7 @@ namespace MPfm
             this.viewSongs2.Location = new System.Drawing.Point(0, 48);
             this.viewSongs2.Name = "viewSongs2";
             this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.viewSongs2.OrderByAscending = true;
             this.viewSongs2.OrderByFieldName = "";
             this.viewSongs2.Size = new System.Drawing.Size(792, 239);
@@ -2655,7 +2654,7 @@ namespace MPfm
         private System.Windows.Forms.ToolStripButton btnNextSong;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.SplitContainer splitFirst;
-        private MPfm.WindowsControls.TreeView treeLibrary;
+        private System.Windows.Forms.TreeView treeLibrary;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.OpenFileDialog dialogAddFiles;
         private System.Windows.Forms.ImageList imageList;

@@ -142,26 +142,6 @@ namespace MPfm.Player.PlayerV4
             }
         }
 
-        ///// <summary>
-        ///// Private value for the Song property.
-        ///// </summary>
-        //private SongDTO m_song = null;
-        ///// <summary>
-        ///// SongDTO object from the Library class. 
-        ///// Useful to keep the database version of the song around.
-        ///// </summary>
-        //public SongDTO Song
-        //{
-        //    get
-        //    {
-        //        return m_song;
-        //    }
-        //    set
-        //    {
-        //        m_song = value;
-        //    }
-        //}
-
         /// <summary>
         /// Private value for the AudioFile property.
         /// </summary>
@@ -176,21 +156,6 @@ namespace MPfm.Player.PlayerV4
                 return m_audioFile;
             }            
         }
-
-        ///// <summary>
-        ///// Private value for the FilePath property.
-        ///// </summary>
-        //private string m_filePath = string.Empty;
-        ///// <summary>
-        ///// File path to the audio file to play.
-        ///// </summary>
-        //public string FilePath
-        //{
-        //    get
-        //    {
-        //        return m_filePath;
-        //    }
-        //}
 
         /// <summary>
         /// Private value for the IsLoaded property.
@@ -245,12 +210,8 @@ namespace MPfm.Player.PlayerV4
             // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
             float ratio = (float)44100 / (float)m_audioFile.SampleRate;
             m_lengthBytes = (int)((float)m_lengthBytes * ratio);
-
-            //m_lengthSamples = ConvertAudio.ToPCM(m_lengthBytes, (uint)m_audioFile.BitsPerSample, 2);
-            //m_lengthMilliseconds = (int)ConvertAudio.ToMS(m_lengthSamples, (uint)m_audioFile.SampleRate);
             m_lengthSamples = ConvertAudio.ToPCM(m_lengthBytes, 16, 2);
             m_lengthMilliseconds = (int)ConvertAudio.ToMS(m_lengthSamples, 44100);
-
             m_lengthString = Conversion.MillisecondsToTimeString((ulong)m_lengthMilliseconds);
 
             // Set flag

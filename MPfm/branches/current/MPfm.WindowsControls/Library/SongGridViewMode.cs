@@ -1,5 +1,5 @@
 ﻿//
-// SongGridViewImageCache.cs: Album art cache for the song grid view control.
+// SongGridViewMode.cs: Defines the modes for the SongGridView control.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -20,25 +20,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// Album art cache for the song grid view control.
+    /// Defines the modes for the SongGridView control.
     /// </summary>
-    public class SongGridViewImageCache
+    public enum SongGridViewMode
     {
         /// <summary>
-        /// Cache key.
+        /// Takes the NowPlayingAudioFileId property for the currently playing item.
         /// </summary>
-        public string Key { get; set; }
-
+        AudioFile = 0, 
         /// <summary>
-        /// Cache image (album art).
+        /// Tales the NowPlayingPlaylistItemId property for the currently playing item.
         /// </summary>
-        public Image Image { get; set; }
+        Playlist = 1
     }
 }

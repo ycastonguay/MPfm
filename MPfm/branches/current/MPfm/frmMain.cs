@@ -666,15 +666,15 @@ namespace MPfm
 
                 formPlaylist.Visible = Config.PlaylistVisible;
 
-                // Load playlist column widths
-                formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
-                formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
-                formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
-                formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
-                formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
-                formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
-                formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
-                formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
+                //// Load playlist column widths
+                //formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
+                //formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
+                //formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
+                //formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
+                //formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
+                //formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
+                //formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
+                //formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
             }
         }
 
@@ -722,15 +722,15 @@ namespace MPfm
                 }
                 Config.PlaylistMaximized = isMaximized;
 
-                // Save playlist column widths
-                Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
-                Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
-                Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
-                Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
-                Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
-                Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
-                Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
-                Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
+                //// Save playlist column widths
+                //Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
+                //Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
+                //Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
+                //Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
+                //Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
+                //Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
+                //Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
+                //Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
             }
         }
 
@@ -992,7 +992,7 @@ namespace MPfm
                     RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
 
                     // Refresh play icon in playlist
-                    //formPlaylist.RefreshPlaylistPlayIcon(data.NextSong.PlaylistSongId);
+                    formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
 
                     // Set next song in configuration                                    
                     Config.SongQuerySongId = m_player.Playlist.CurrentItem.AudioFile.Id.ToString();
@@ -1216,6 +1216,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnPlay_Click(object sender, EventArgs e)
         {
+            // Start playback of currently selected item
             PlaySelectedSongQuery();            
         }
 
@@ -1453,7 +1454,9 @@ namespace MPfm
                 {
                     formPlaylist.RefreshPlaylist();
                 }
-                //formPlaylist.RefreshPlaylistPlayIcon(Player.CurrentSong.SongId);
+
+                // Refresh playlist icon
+                formPlaylist.RefreshPlaylistPlayIcon(Player.Playlist.CurrentItem.Id);
             }
             else
             {
@@ -1787,10 +1790,10 @@ namespace MPfm
             nodeAllPlaylists.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.AllPlaylists, new SongQuery(SongQueryType.None));
             nodeAllPlaylists.Nodes.Add("dummy", "dummy");
 
-            nodeRecentlyPlayed = new TreeNode("Recently Played");
-            nodeRecentlyPlayed.ImageIndex = 18;
-            nodeRecentlyPlayed.SelectedImageIndex = 18;
-            nodeRecentlyPlayed.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.RecentlyPlayed, new SongQuery());
+            //nodeRecentlyPlayed = new TreeNode("Recently Played");
+            //nodeRecentlyPlayed.ImageIndex = 18;
+            //nodeRecentlyPlayed.SelectedImageIndex = 18;
+            //nodeRecentlyPlayed.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.RecentlyPlayed, new SongQuery());
 
             //if (this.currentSongBrowserQueryType == "RecentlyPlayed")
             //{
@@ -1801,8 +1804,8 @@ namespace MPfm
             treeLibrary.Nodes.Add(nodeAllSongs);
             treeLibrary.Nodes.Add(nodeAllArtists);
             treeLibrary.Nodes.Add(nodeAllAlbums);
-            treeLibrary.Nodes.Add(nodeAllPlaylists);
-            treeLibrary.Nodes.Add(nodeRecentlyPlayed);
+            //treeLibrary.Nodes.Add(nodeAllPlaylists);
+            //treeLibrary.Nodes.Add(nodeRecentlyPlayed);
 
             // Set selected node
             treeLibrary.SelectedNode = selectedNode;
@@ -1916,18 +1919,93 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Plays the selected song query in the Song Browser. Refreshes UI controls.
+        /// Starts playback from the current playlist item.
         /// </summary>
-        public void PlaySelectedSongQuery()
+        public void Play()
         {
-            PlaySelectedSongQuery(false, 0);
-        } 
+            // Start playback
+            m_player.Play();
+
+            // Refresh song information
+            RefreshSongInformation();
+
+            // Refresh controls after song playback
+            RefreshSongControls();
+
+            // Refresh loop and marker controls
+            RefreshMarkers();
+            RefreshLoops();
+
+            // Refresh playlist window
+            formPlaylist.RefreshPlaylist();
+
+            // Set marker/loops buttons
+            btnAddMarker.Enabled = true;
+            btnAddLoop.Enabled = true;  
+        }
 
         /// <summary>
         /// Plays the selected song query in the Song Browser. The playback can be paused to seeked to a specific 
         /// position before playing. Refreshes UI controls.
         /// </summary>
-        private void PlaySelectedSongQuery(bool paused, int position)
+        public void Play(SongQuery query, Guid audioFileId)
+        {
+            try
+            {
+                // Check if a song is playing
+                if (Player.IsPlaying)
+                {
+                    // Stop playback
+                    Player.Stop();
+                }
+
+                // Set playback depending on the query in the song browser
+                List<AudioFile> audioFiles = null;
+                if (query.Type == SongQueryType.Album)
+                {
+                    // Generate an artist/album playlist and start playback
+                    audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
+                }
+                else if (query.Type == SongQueryType.Artist)
+                {
+                    // Generate an artist playlist and start playback                                                                        
+                    audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, query.ArtistName);                        
+                }
+                else if (query.Type == SongQueryType.Playlist)
+                {
+                    // Play playlist
+                    //Player.PlayPlaylist(QuerySongBrowser.PlaylistId);
+                }
+                else if (query.Type == SongQueryType.All)
+                {
+                    // Generate a playlist with all the library and start playback
+                    audioFiles = Library.SelectAudioFiles(FilterSoundFormat);                        
+                }
+
+                // Clear playlist and add songs
+                m_player.Playlist.Clear();
+                m_player.Playlist.AddItems(audioFiles);
+
+                // Set initial item
+                if (audioFileId != Guid.Empty)
+                {
+                    // Set current item
+                    m_player.Playlist.GoTo(audioFileId);
+                }
+
+                // Start playback
+                Play();                             
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error has occured while loading audio files:\n" + ex.Message, "An error has occured while loading audio files.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Plays the selected song query in the Song Browser. Refreshes UI controls.
+        /// </summary>
+        public void PlaySelectedSongQuery()
         {
             // Make sure there is a selected song
             if (viewSongs2.SelectedItems.Count == 0)
@@ -1935,68 +2013,9 @@ namespace MPfm
                 return;
             }
 
-            try
-            {
-                // Check if a song is playing
-                if (Player.IsPlaying)
-                { 
-                    // Stop playback
-                    Player.Stop();
-                }
-
-                // Get the audio file from the tag of the selected item
-                AudioFile currentAudioFile = viewSongs2.SelectedItems[0].AudioFile;
-
-                // Check if audio file is null
-                if (currentAudioFile != null)
-                {
-                    // Set playback depending on the query in the song browser
-                    List<AudioFile> audioFiles = null;
-                    if (QuerySongBrowser.Type == SongQueryType.Album)
-                    {
-                        // Generate an artist/album playlist and start playback
-                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName, QuerySongBrowser.AlbumTitle);                        
-                    }
-                    else if (QuerySongBrowser.Type == SongQueryType.Artist)
-                    {
-                        // Generate an artist playlist and start playback                                                                        
-                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, QuerySongBrowser.ArtistName);                        
-                    }
-                    else if (QuerySongBrowser.Type == SongQueryType.Playlist)
-                    {
-                        // Play playlist
-                        //Player.PlayPlaylist(QuerySongBrowser.PlaylistId);
-                    }
-                    else if (QuerySongBrowser.Type == SongQueryType.All)
-                    {
-                        // Generate a playlist with all the library and start playaback
-                        audioFiles = Library.SelectAudioFiles(FilterSoundFormat);                        
-                    }
-
-                    // Clear playlist and add songs
-                    m_player.Playlist.Clear();
-                    m_player.Playlist.AddItems(audioFiles);                    
-                    m_player.Playlist.GoTo(currentAudioFile.FilePath);
-                    m_player.Play();
-
-                    // Refresh song information
-                    RefreshSongInformation();
-
-                    // Refresh controls after song playback
-                    RefreshSongControls();
-
-                    // Refresh loop and marker controls
-                    RefreshMarkers();
-                    RefreshLoops();
-                    btnAddMarker.Enabled = true;
-                    btnAddLoop.Enabled = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error has occured while loading audio files:\n" + ex.Message, "An error has occured while loading audio files.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+            // Play selected song
+            Play(QuerySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
+        } 
 
         /// <summary>
         /// Stops playback and refreshes UI controls.
@@ -2314,6 +2333,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void viewSongs2_DoubleClick(object sender, EventArgs e)
         {
+            // Start playback of currently selected item
             PlaySelectedSongQuery();
         }
 

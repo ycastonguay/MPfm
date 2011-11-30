@@ -30,6 +30,8 @@ namespace MPfm.Player.PlayerV4
     /// </summary>
     public class Playlist
     {
+        #region Properties
+        
         /// <summary>
         /// Private value for the Items property.
         /// </summary>
@@ -60,6 +62,9 @@ namespace MPfm.Player.PlayerV4
             }
         }
 
+        /// <summary>
+        /// Private value for the CurrentItem property.
+        /// </summary>
         private PlaylistItem m_currentItem = null;
         /// <summary>
         /// Returns the current item.
@@ -73,19 +78,39 @@ namespace MPfm.Player.PlayerV4
         }
 
         /// <summary>
+        /// Playlist identifier.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Playlist name.
+        /// </summary>
+        public string Name { get; set; }
+
+        #endregion
+
+        #region Constructors
+        
+        /// <summary>
         /// Default constructor for the Playlist class.
         /// </summary>
         public Playlist()
         {
             m_items = new List<PlaylistItem>();
             m_currentItemIndex = 0;
+            Name = "Empty playlist";
+            Id = Guid.NewGuid();
         }
+
+        #endregion
 
         /// <summary>
         /// Clears the playlist.
         /// </summary>
         public void Clear()
         {
+            Name = "Empty playlist";
+            Id = Guid.NewGuid();
             m_items = new List<PlaylistItem>();
             m_currentItemIndex = 0;
             m_currentItem = null;
@@ -260,7 +285,7 @@ namespace MPfm.Player.PlayerV4
             for (int a = 0; a < Items.Count; a++)
             {
                 // Does the id match?
-                if (Items[a].Id == id)
+                if (Items[a].Id == id || Items[a].AudioFile.Id == id)
                 {
                     // The item has been found, exit loop
                     index = a;
