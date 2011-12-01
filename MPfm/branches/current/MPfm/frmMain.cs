@@ -3042,13 +3042,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(txtSearch.Text))
-            {
-                //btnSearch.Enabled = false;
-                return;
-            }
 
-            //btnSearch.Enabled = true;
         }
 
         /// <summary>
@@ -3058,25 +3052,25 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnAddSongToPlaylist_Click(object sender, EventArgs e)
         {
-            //// Loop through selected items
-            //for (int a = 0; a < viewSongs2.SelectedItems.Count; a++)
-            //{
-            //    // Get the song from the tag of the item
-            //    SongDTO currentSong = viewSongs2.SelectedItems[a].Song;
+            // Loop through selected items
+            for (int a = 0; a < viewSongs2.SelectedItems.Count; a++)
+            {
+                // Get the song from the tag of the item
+                AudioFile audioFile = viewSongs2.SelectedItems[a].AudioFile;
 
-            //    // Check for null
-            //    if (currentSong != null)
-            //    {
-            //        // Add to playlist
-            //        Player.AddSongToPlaylist(currentSong.SongId);
-            //    }
-            //}
+                // Check for null
+                if (audioFile != null)
+                {
+                    // Add to playlist                    
+                    m_player.Playlist.AddItem(audioFile.FilePath);
+                }
+            }
 
-            //// Refresh playlists (if there was at least one selected item)
-            //if (viewSongs2.SelectedItems.Count > 0)
-            //{
-            //    formPlaylist.RefreshPlaylist();
-            //}
+            // Refresh playlists (if there was at least one selected item)
+            if (viewSongs2.SelectedItems.Count > 0)
+            {
+                formPlaylist.RefreshPlaylist();
+            }
         }  
 
         /// <summary>

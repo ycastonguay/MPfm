@@ -138,6 +138,20 @@ namespace MPfm.Player.PlayerV4
         }
 
         /// <summary>
+        /// Updates the current item if the private value is null and
+        /// there is more than one item in the list.
+        /// </summary>
+        private void UpdateCurrentItem()
+        {
+            // Check if there is at least one item but no current item set
+            if (m_currentItem == null && m_items.Count > 0)
+            {
+                // Set current item to the first in the list
+                m_currentItem = m_items[0];
+            }
+        }
+
+        /// <summary>
         /// Adds an item at the end of the playlist.
         /// </summary>
         /// <param name="filePath">Audio file path</param>
@@ -148,6 +162,9 @@ namespace MPfm.Player.PlayerV4
 
             // Add new playlist item at the end
             Items.Add(new PlaylistItem(this, audioFile));
+
+            // Update current item
+            UpdateCurrentItem();
         }
 
         /// <summary>
@@ -158,6 +175,9 @@ namespace MPfm.Player.PlayerV4
         {
             // Add new playlist item at the end
             Items.Add(new PlaylistItem(this, audioFile));
+
+            // Update current item
+            UpdateCurrentItem();
         }
 
         /// <summary>
@@ -207,6 +227,9 @@ namespace MPfm.Player.PlayerV4
                 // Increment index
                 m_currentItemIndex++;
             }
+
+            // Update current item
+            UpdateCurrentItem();
         }
 
         /// <summary>
@@ -225,6 +248,9 @@ namespace MPfm.Player.PlayerV4
                 // Increment index
                 m_currentItemIndex++;
             }
+
+            // Update current item
+            UpdateCurrentItem();
         }
 
         /// <summary>
