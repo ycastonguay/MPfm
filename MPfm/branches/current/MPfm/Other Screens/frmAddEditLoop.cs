@@ -48,8 +48,10 @@ namespace MPfm
         private Guid m_loopId = Guid.Empty;
         private List<Marker> m_markers = null;
         private uint m_loopLengthMS = 0;
-        private uint m_loopLengthPCM = 0;
-        private uint m_loopLengthPCMBytes = 0;
+        private uint m_loopLengthBytes = 0;
+        private uint m_loopLengthSamples = 0;        
+        private long m_startPositionBytes = 0;
+        private long m_endPositionBytes = 0;
 
         /// <summary>
         /// Hook to the main form.
@@ -88,9 +90,7 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblArtistName.Text = m_audioFile.ArtistName;
-            lblAlbumTitle.Text = m_audioFile.AlbumTitle;
-            lblSongTitle.Text = m_audioFile.Title;
+            lblSongValue.Text = m_audioFile.Title + " (" + m_audioFile.ArtistName + ")";
 
             // Refresh markers
             RefreshMarkers();
@@ -107,8 +107,7 @@ namespace MPfm
                 panelEditLoop.Refresh();
                 Text = "Edit loop";
 
-                // Fetch loop from database
-                //MPfm.Library.Data.Loop loop = DataAccess.SelectLoop(m_loopId);
+                // Fetch loop from database                
                 Loop loop = Main.Library.Gateway.SelectLoop(m_loopId);
 
                 // Check if the loop was found
@@ -119,9 +118,17 @@ namespace MPfm
 
                 // Update fields
                 txtName.Text = loop.Name;
-                comboMarkerA.SelectedValue = loop.MarkerA.MarkerId;
-                comboMarkerB.SelectedValue = loop.MarkerB.MarkerId;
+                txtStartPosition.Text = loop.StartPosition;
+                txtEndPosition.Text = loop.EndPosition;
+                m_startPositionBytes = loop.StartPositionBytes;
+                m_endPositionBytes = loop.EndPositionBytes;
             }
+
+            // Validate form
+            ValidateForm();
+
+            // Check if a marker matches
+            CheckForRelatedPositionMarkers();
         }
 
         /// <summary>
@@ -131,13 +138,15 @@ namespace MPfm
         {
             // Fetch markers from database
             m_markers = Main.Library.Gateway.SelectMarkers(m_main.Player.Playlist.CurrentItem.AudioFile.Id);
+            m_markers.Insert(0, new Marker());
 
             // Set combo box items for A
-            comboMarkerA.DataSource = m_markers;
+            comboStartPositionMarker.DataSource = m_markers;
 
             // Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
             m_markers = Main.Library.Gateway.SelectMarkers(m_main.Player.Playlist.CurrentItem.AudioFile.Id);
-            comboMarkerB.DataSource = m_markers;  
+            m_markers.Insert(0, new Marker());
+            comboEndPositionMarker.DataSource = m_markers;  
         }
 
         /// <summary>
@@ -162,10 +171,6 @@ namespace MPfm
             int length = 0;
             int.TryParse(lblLoopLengthValue.Text, out length);
 
-            // Get selected markers
-            Marker markerA = (Marker)comboMarkerA.SelectedItem;
-            Marker markerB = (Marker)comboMarkerB.SelectedItem;
-
             // Create a new loop or fetch the existing loop from the database
             Loop loop = null;
             if (m_mode == AddEditLoopWindowMode.Add)
@@ -183,11 +188,13 @@ namespace MPfm
             // Set properties    
             loop.Name = txtName.Text;
             loop.AudioFileId = m_audioFile.Id;
-            loop.MarkerA = markerA;
-            loop.MarkerB = markerB;
             loop.Length = Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
-            loop.LengthBytes = m_loopLengthPCMBytes;
-            loop.LengthSamples = m_loopLengthPCM;
+            loop.LengthBytes = m_loopLengthBytes;
+            loop.LengthSamples = m_loopLengthSamples;
+            loop.StartPosition = txtStartPosition.Text;
+            loop.StartPositionBytes = (uint)m_startPositionBytes;            
+            loop.EndPosition = txtEndPosition.Text;
+            loop.EndPositionBytes = (uint)m_endPositionBytes;
 
             // Determine if an INSERT or an UPDATE is necessary
             if (m_mode == AddEditLoopWindowMode.Add)
@@ -223,30 +230,32 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user changes the marker A selection.
+        /// Occurs when the user changes the start position marker selection.
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
-        private void comboMarkerA_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboStartPositionMarker_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get marker and display position
-            Marker marker = (Marker)comboMarkerA.SelectedItem;
-            lblMarkerAPosition.Text = marker.Position;
+            Marker marker = (Marker)comboStartPositionMarker.SelectedItem;
+            txtStartPosition.Text = marker.Position;
+            m_startPositionBytes = marker.PositionBytes;
 
             // Validate form
             ValidateForm();
         }
 
         /// <summary>
-        /// Occurs when the user changes the marker B selection.
+        /// Occurs when the user changes the end position marker selection.
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
-        private void comboMarkerB_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboEndPositionMarker_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get marker and display position
-            Marker marker = (Marker)comboMarkerB.SelectedItem;
-            lblMarkerBPosition.Text = marker.Position;
+            Marker marker = (Marker)comboEndPositionMarker.SelectedItem;
+            txtEndPosition.Text = marker.Position;
+            m_endPositionBytes = marker.PositionBytes;
 
             // Validate form
             ValidateForm();
@@ -259,7 +268,7 @@ namespace MPfm
         {
             // Declare variables
             bool isValid = true;
-            string warningMessage = string.Empty;
+            string warningMessage = string.Empty;            
 
             // Check if name is empty
             if (String.IsNullOrEmpty(txtName.Text))
@@ -268,37 +277,23 @@ namespace MPfm
                 warningMessage = "The loop must have a valid name.";                
             }
 
-            // Check if the loop length is negative or zero
-            if (String.IsNullOrEmpty(lblMarkerAPosition.Text) ||
-                String.IsNullOrEmpty(lblMarkerBPosition.Text))
+            // Valiudate loop length
+            if (m_endPositionBytes <= m_startPositionBytes)
             {
                 isValid = false;
                 warningMessage = "The loop length must be positive.";
             }
             else
             {
-                // Get delta ms
-                uint msMarkerA = ConvertAudio.ToMS(lblMarkerAPosition.Text);
-                uint msMarkerB = ConvertAudio.ToMS(lblMarkerBPosition.Text);
+                // Convert values                
+                m_loopLengthBytes = (uint)(m_endPositionBytes - m_startPositionBytes);
+                m_loopLengthSamples = (uint)ConvertAudio.ToPCM((long)m_loopLengthBytes, 16, 2);
+                m_loopLengthMS = (uint)ConvertAudio.ToMS((long)m_loopLengthSamples, 44100);
 
-                // Check if the loop length is negative or zero
-                if (msMarkerB < msMarkerA || msMarkerA == msMarkerB)
-                {
-                    isValid = false;
-                    warningMessage = "The loop length must be positive.";
-                }
-                else
-                {
-                    // Convert values
-                    m_loopLengthMS = msMarkerB - msMarkerA;
-                    m_loopLengthPCM = ConvertAudio.ToPCM(m_loopLengthMS, 44100);
-                    m_loopLengthPCMBytes = ConvertAudio.ToPCMBytes(m_loopLengthPCM, 16, 2);
-
-                    // Update loop length
-                    lblLoopLengthValue.Text = MPfm.Core.Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
-                    lblLoopLengthPCMValue.Text = m_loopLengthPCM.ToString();
-                    lblLoopLengthPCMBytesValue.Text = m_loopLengthPCMBytes.ToString();
-                }
+                // Update loop length
+                lblLoopLengthValue.Text = MPfm.Core.Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
+                lblLoopLengthPCMBytesValue.Text = m_loopLengthBytes.ToString();
+                lblLoopLengthPCMValue.Text = m_loopLengthSamples.ToString();                
             }
 
             // Set warning
@@ -307,6 +302,148 @@ namespace MPfm
 
             // Enable/disable save button
             btnSave.Enabled = isValid;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Punch in" button in the Start Position section.
+        /// Sets the start position to the current playback position.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnStartPositionPunchIn_Click(object sender, EventArgs e)
+        {
+            // Check if the player is currently playing
+            if (!Main.Player.IsPlaying)
+            {
+                return;
+            }
+
+            // Get position
+            m_startPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
+            string position = ConvertAudio.ToTimeString(m_startPositionBytes, 16, 2, 44100);
+
+            // Update controls
+            txtStartPosition.Text = position;
+
+            // Check if a marker matches
+            CheckForRelatedPositionMarkers();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Punch in" button in the End Position section.
+        /// Sets the end position to the current playback position.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEndPositionPunchIn_Click(object sender, EventArgs e)
+        {
+            // Check if the player is currently playing
+            if (!Main.Player.IsPlaying)
+            {
+                return;
+            }
+
+            // Get position
+            m_endPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
+            string position = ConvertAudio.ToTimeString(m_endPositionBytes, 16, 2, 44100);
+
+            // Update controls
+            txtEndPosition.Text = position;
+
+            // Check if a marker matches
+            CheckForRelatedPositionMarkers();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Go to" button in the Start Position section.
+        /// Sets the player position to the loop start position.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnStartPositionGoTo_Click(object sender, EventArgs e)
+        {
+            // Check if the player is currently playing
+            if (!Main.Player.IsPlaying)
+            {
+                return;
+            }
+
+            // Set position            
+            Main.Player.SetPosition(m_startPositionBytes);
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Go to" button in the End Position section.
+        /// Sets the player position to the loop end position.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEndPositionGoTo_Click(object sender, EventArgs e)
+        {
+            // Check if the player is currently playing
+            if (!Main.Player.IsPlaying)
+            {
+                return;
+            }
+
+            // Set position            
+            Main.Player.SetPosition(m_endPositionBytes);
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the start position textbox.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void txtStartPosition_TextChanged(object sender, EventArgs e)
+        {
+            // Check if a marker matches
+            CheckForRelatedPositionMarkers();
+
+            // Validate form
+            ValidateForm();
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the end position textbox.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void txtEndPosition_TextChanged(object sender, EventArgs e)
+        {
+            // Check if a marker matches
+            CheckForRelatedPositionMarkers();
+
+            // Validate form
+            ValidateForm();
+        }
+
+        /// <summary>
+        /// Finds any related marker based on the start or end position.
+        /// </summary>
+        public void CheckForRelatedPositionMarkers()
+        {
+            // Loop through markers to check if the position matches
+            foreach (Marker marker in m_markers)
+            {
+                // Skip any unnamed markers
+                if (!String.IsNullOrEmpty(marker.Name))
+                {
+                    // Check if the start position matches
+                    if (marker.PositionBytes == m_startPositionBytes)
+                    {
+                        // Set start position selected item
+                        comboStartPositionMarker.SelectedItem = marker;
+                    }
+
+                    // Check if the end position matches
+                    if (marker.PositionBytes == m_endPositionBytes)
+                    {
+                        // Set end position selected item
+                        comboEndPositionMarker.SelectedItem = marker;
+                    }
+                }
+            }
         }
     }
 

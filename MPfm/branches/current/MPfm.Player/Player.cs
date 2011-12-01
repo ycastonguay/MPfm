@@ -1120,10 +1120,10 @@ namespace MPfm.Player.PlayerV4
         {
             // Set loop sync proc            
             Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
-            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.MarkerB.PositionBytes * 2, Playlist.CurrentItem.SyncProc);
+            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
 
             // Set current song position to marker A
-            Playlist.CurrentItem.Channel.SetPosition(loop.MarkerA.PositionBytes);
+            Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
 
             // Set current loop
             m_currentLoop = loop;
@@ -1366,11 +1366,11 @@ namespace MPfm.Player.PlayerV4
                     // Get current position
                     long position = m_playlist.CurrentItem.Channel.GetPosition();
 
-                    // Check if the position is lower than the first marker, or if the position is after the second marker
-                    if (position < m_currentLoop.MarkerA.PositionBytes || position > m_currentLoop.MarkerB.PositionBytes)
+                    // Check if the position is lower than the start position, or if the position is after the end position
+                    if (position < m_currentLoop.StartPositionBytes || position > m_currentLoop.EndPositionBytes)
                     {
-                        // Set position to first marker
-                        m_playlist.CurrentItem.Channel.SetPosition(m_currentLoop.MarkerA.PositionBytes);
+                        // Set position to start position
+                        m_playlist.CurrentItem.Channel.SetPosition(m_currentLoop.StartPositionBytes);
                     }
                 }
 
@@ -1559,7 +1559,7 @@ namespace MPfm.Player.PlayerV4
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
             // Set loop position
-            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.MarkerA.PositionBytes * 2);
+            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.StartPositionBytes * 2);
         }
 
         #endregion

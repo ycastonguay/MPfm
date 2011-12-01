@@ -88,8 +88,12 @@ namespace MPfm.Sound
             WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, convertNegativeToPositive);
 
             // Convert values into decibels
-            float dbLeft = ConvertRawWaveValueToDecibels(minMax.leftMax);
-            float dbRight = ConvertRawWaveValueToDecibels(minMax.rightMax);
+            //float dbLeft = ConvertRawWaveValueToDecibels(minMax.leftMax);
+            //float dbRight = ConvertRawWaveValueToDecibels(minMax.rightMax);
+            int peakL = (int)Math.Round(32767f * minMax.leftMax) & 0xFFFF;
+            int peakR = (int)Math.Round(32767f * minMax.rightMax) & 0xFFFF;
+            float dbLeft = (float)Base.LevelToDB_16Bit(peakL);
+            float dbRight = (float)Base.LevelToDB_16Bit(peakR);           
 
             // Check if the max peak reaches or goes past the threshold (left channel)
             if (dbLeft >= distortionThreshold)
@@ -165,7 +169,7 @@ namespace MPfm.Sound
             ///////// 1- Find the max peak in the last 1000ms, and its position in the array
 
             // 1- Find the *TRUE* max peak in the last 1000ms, and its position in the array
-            PeakInfo peakMax = GetMaxdBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType);            
+            PeakInfo peakMax = GetPeakInfo(history, bufferSizeToAnalyse, channelType);            
 
             // 2- Find the *TRUE* min peak following the max peak and its position in the array
             PeakInfo peakMin = GetMindBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType, peakMax.position);
@@ -291,12 +295,12 @@ namespace MPfm.Sound
             return new PeakInfo() { peak = peak, position = indexOf };
         }
 
-        public static float GetMaxdBPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
+        public static float GetPeak(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
-            return GetMaxdBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType).peak;
+            return GetPeakInfo(history, bufferSizeToAnalyse, channelType).peak;
         }
 
-        public static PeakInfo GetMaxdBPeakFromWaveDataMaxHistoryWithInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
+        public static PeakInfo GetPeakInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
             // Declare variables
             float dbCurrent = 0.0f;            
@@ -517,35 +521,6 @@ namespace MPfm.Sound
         {
             return 20.0f * (float)Math.Log10(rawValue);
         }
-
-        /// <summary>
-        /// Adds a 64-bit value to a 64-bit word. The second value (hi2/lo2) will
-        /// be added to the first value (hi1/lo1). Taken from FMOD source code.
-        /// </summary>
-        /// <param name="hi1">First value (high)</param>
-        /// <param name="lo1">First value (low)</param>
-        /// <param name="hi2">Second value (high)</param>
-        /// <param name="lo2">Second value (low)</param>
-        public static void FMOD_64BIT_ADD(ref uint hi1, ref uint lo1, uint hi2, uint lo2)
-        {
-            hi1 += (uint)((hi2) + ((((lo1) + (lo2)) < (lo1)) ? 1 : 0));
-            lo1 += (lo2);
-        }
-
-        /// <summary>
-        /// Substracts a 64-bit value to a 64-bit word. The second value (hi2/lo2) will
-        /// be substracted from the first value (hi1/lo1). Taken from FMOD source code.
-        /// </summary>
-        /// <param name="hi1">First value (high)</param>
-        /// <param name="lo1">First value (low)</param>
-        /// <param name="hi2">Second value (high)</param>
-        /// <param name="lo2">Second value (low)</param>
-        public static void FMOD_64BIT_SUB(ref uint hi1, ref uint lo1, uint hi2, uint lo2)
-        {
-            hi1 -= (uint)((hi2) + ((((lo1) - (lo2)) > (lo1)) ? 1 : 0));
-            lo1 -= (lo2);
-        }
-
 
         /// <summary>
         /// Searches recursively for audio files in a folder. The file extensions must be specified

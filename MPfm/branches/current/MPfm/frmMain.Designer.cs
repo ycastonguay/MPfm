@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -146,8 +146,8 @@ namespace MPfm
             this.columnLoopPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnLoopMarkerA = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnLoopMarkerB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnLoopStartPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnLoopEndPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnGoToMarker = new MPfm.WindowsControls.Button();
             this.btnRemoveMarker = new MPfm.WindowsControls.Button();
             this.lblMarkers = new MPfm.WindowsControls.Label();
@@ -733,22 +733,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "LeagueGothic";
-            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont6.AssemblyPath = "MPfm.Fonts.dll";
-            customFont6.Name = "Junction";
-            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont7.AssemblyPath = "MPfm.Fonts.dll";
-            customFont7.Name = "TitilliumText22L Lt";
-            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont8.AssemblyPath = "MPfm.Fonts.dll";
-            customFont8.Name = "Droid Sans Mono";
-            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont5);
-            this.fontCollection.Fonts.Add(customFont6);
-            this.fontCollection.Fonts.Add(customFont7);
-            this.fontCollection.Fonts.Add(customFont8);
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
             // 
             // treeLibrary
             // 
@@ -1924,8 +1924,8 @@ namespace MPfm
             this.columnLoopPlayIcon,
             this.columnLoopName,
             this.columnLoopLength,
-            this.columnLoopMarkerA,
-            this.columnLoopMarkerB});
+            this.columnLoopStartPosition,
+            this.columnLoopEndPosition});
             this.viewLoops.CustomFontName = null;
             this.viewLoops.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewLoops.FontCollection = null;
@@ -1965,15 +1965,15 @@ namespace MPfm
             this.columnLoopLength.Text = "Length";
             this.columnLoopLength.Width = 63;
             // 
-            // columnLoopMarkerA
+            // columnLoopStartPosition
             // 
-            this.columnLoopMarkerA.Text = "Marker A";
-            this.columnLoopMarkerA.Width = 82;
+            this.columnLoopStartPosition.Text = "Start Position";
+            this.columnLoopStartPosition.Width = 82;
             // 
-            // columnLoopMarkerB
+            // columnLoopEndPosition
             // 
-            this.columnLoopMarkerB.Text = "Marker B";
-            this.columnLoopMarkerB.Width = 72;
+            this.columnLoopEndPosition.Text = "End Position";
+            this.columnLoopEndPosition.Width = 72;
             // 
             // btnGoToMarker
             // 
@@ -2771,14 +2771,14 @@ namespace MPfm
         private System.Windows.Forms.ColumnHeader columnLoopPlayIcon;
         private System.Windows.Forms.ColumnHeader columnLoopName;
         private System.Windows.Forms.ColumnHeader columnLoopLength;
-        private System.Windows.Forms.ColumnHeader columnLoopMarkerA;
+        private System.Windows.Forms.ColumnHeader columnLoopStartPosition;
         public WindowsControls.WaveFormMarkersLoops waveFormMarkersLoops;
         private System.Windows.Forms.SplitContainer splitWaveFormLoopsMarkers;
         private WindowsControls.Button btnEditLoop;
         private WindowsControls.Button btnPlayLoop;
         private WindowsControls.Button btnRemoveMarker;
         private WindowsControls.Button btnStopLoop;
-        private System.Windows.Forms.ColumnHeader columnLoopMarkerB;
+        private System.Windows.Forms.ColumnHeader columnLoopEndPosition;
         private WindowsControls.Panel panelSongBrowser;
         private WindowsControls.Panel panelSongBrowserToolbar;
         private System.Windows.Forms.TextBox txtSearch;

@@ -47,13 +47,29 @@ namespace MPfm.Player.PlayerV4
         /// </summary>
         public string Comments { get; set; }
         /// <summary>
-        /// Marker A (start position).
+        /// Start position (in 0:00.000 string format).
         /// </summary>
-        public Marker MarkerA { get; set; }
+        public string StartPosition { get; set; }
         /// <summary>
-        /// Marker B (end position).
+        /// Start position (in bytes).
         /// </summary>
-        public Marker MarkerB { get; set; }
+        public uint StartPositionBytes { get; set; }
+        /// <summary>
+        /// Start position (in samples).
+        /// </summary>
+        public uint StartPositionSamples { get; set; }
+        /// <summary>
+        /// End position (in 0:00.000 string format).
+        /// </summary>
+        public string EndPosition { get; set; }
+        /// <summary>
+        /// End position (in bytes).
+        /// </summary>
+        public uint EndPositionBytes { get; set; }
+        /// <summary>
+        /// End position (in samples).
+        /// </summary>
+        public uint EndPositionSamples { get; set; }
         /// <summary>
         /// Loop length (in 0:00.000 string format).
         /// </summary>
@@ -61,7 +77,7 @@ namespace MPfm.Player.PlayerV4
         /// <summary>
         /// Loop length (in bytes).
         /// </summary>
-        public long LengthBytes { get; set; }
+        public uint LengthBytes { get; set; }
         /// <summary>
         /// Loop length (in samples).
         /// </summary>
@@ -76,8 +92,12 @@ namespace MPfm.Player.PlayerV4
             LoopId = Guid.NewGuid();
             AudioFileId = Guid.Empty;
             Name = string.Empty;
-            MarkerA = null;
-            MarkerB = null;
+            StartPosition = "0:00.000";
+            StartPositionBytes = 0;
+            StartPositionSamples = 0;
+            EndPosition = "0:00.000";
+            StartPositionBytes = 0;
+            StartPositionSamples = 0;
             Length = "0:00.000";
             LengthBytes = 0;
             LengthSamples = 0;

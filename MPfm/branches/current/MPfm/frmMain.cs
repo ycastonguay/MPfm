@@ -823,23 +823,23 @@ namespace MPfm
                 }
             }
 
-            // limit the maximum peak levels to +6bB = 65535 = 0xFFFF
-            // the peak levels will be int values, where 32767 = 0dB
-            // and a float value of 1.0 also represents 0db.
-            peakL = (int)Math.Round(32767f * maxL) & 0xFFFF;
-            peakR = (int)Math.Round(32767f * maxR) & 0xFFFF;
+            //// limit the maximum peak levels to +6bB = 65535 = 0xFFFF
+            //// the peak levels will be int values, where 32767 = 0dB
+            //// and a float value of 1.0 also represents 0db.
+            //peakL = (int)Math.Round(32767f * maxL) & 0xFFFF;
+            //peakR = (int)Math.Round(32767f * maxR) & 0xFFFF;
 
-            // convert the level to dB
-            double dBlevelL = Base.LevelToDB_16Bit(peakL);
-            double dBlevelR = Base.LevelToDB_16Bit(peakR);
+            //// convert the level to dB
+            //double dBlevelL = Base.LevelToDB_16Bit(peakL);
+            //double dBlevelR = Base.LevelToDB_16Bit(peakR);
 
-            lblBitsPerSampleTitle.Text = dBlevelL.ToString("0.000");
+            //lblBitsPerSampleTitle.Text = dBlevelL.ToString("0.000");
 
             outputMeter.AddWaveDataBlock(left, right);
             outputMeter.Refresh();
 
             // Get min max info from wave block
-            if (AudioTools.CheckForDistortion(left, right, true, 0.0f))
+            if (AudioTools.CheckForDistortion(left, right, true, -3.0f))
             {
                 // Show distortion warning "LED"
                 picDistortionWarning.Visible = true;
@@ -1730,13 +1730,9 @@ namespace MPfm
                 item.SubItems.Add(loop.Name);
                 item.SubItems.Add(loop.Length);
 
-                // Find the markers
-                //Marker markerA = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerA.MarkerId);
-                //Marker markerB = markers.FirstOrDefault(x => x.MarkerId == loop.MarkerB.m);
-
                 // Update marker subitems
-                item.SubItems.Add(loop.MarkerA.Position);
-                item.SubItems.Add(loop.MarkerB.Position);
+                item.SubItems.Add(loop.StartPosition);
+                item.SubItems.Add(loop.EndPosition);
 
                 // Check if this is the currently playing loop
                 if (Player.CurrentLoop != null && Player.CurrentLoop.Name == loop.Name)
@@ -3294,13 +3290,13 @@ namespace MPfm
                 return;
             }
 
-            // Check if there are at least two markers
-            if (viewMarkers.Items.Count < 2)
-            {
-                // Display message
-                MessageBox.Show("You must add at least two markers before adding a loop.", "Error adding loop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //// Check if there are at least two markers
+            //if (viewMarkers.Items.Count < 2)
+            //{
+            //    // Display message
+            //    MessageBox.Show("You must add at least two markers before adding a loop.", "Error adding loop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
 
             // Create window and show as dialog
             formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.Playlist.CurrentItem.AudioFile, Guid.Empty);

@@ -542,14 +542,6 @@ namespace MPfm.Library
             // Convert to Loop list
             List<Loop> loops = ConvertLibrary.Loops(table);
 
-            // Loop through loops (lols)
-            foreach (Loop loop in loops)
-            {
-                // Load markers
-                loop.MarkerA = SelectMarker(loop.MarkerA.MarkerId);
-                loop.MarkerB = SelectMarker(loop.MarkerB.MarkerId);
-            }
-
             return loops;
         }
 
@@ -566,14 +558,6 @@ namespace MPfm.Library
             // Convert to Loop list
             List<Loop> loops = ConvertLibrary.Loops(table);
 
-            // Loop through loops (lols)
-            foreach (Loop loop in loops)
-            {
-                // Load markers
-                loop.MarkerA = SelectMarker(loop.MarkerA.MarkerId);
-                loop.MarkerB = SelectMarker(loop.MarkerB.MarkerId);
-            }
-
             return loops;
         }
 
@@ -588,15 +572,11 @@ namespace MPfm.Library
             DataTable table = Select("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
 
             // Convert to Loop list
-            List<Loop> loops = ConvertLibrary.Loops(table);                        
+            List<Loop> loops = ConvertLibrary.Loops(table);
 
             // Check results
             if (loops.Count > 0)
             {
-                // Load markers
-                loops[0].MarkerA = SelectMarker(loops[0].MarkerA.MarkerId);
-                loops[0].MarkerB = SelectMarker(loops[0].MarkerB.MarkerId);
-
                 // Return first result
                 return loops[0];
             }

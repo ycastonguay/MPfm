@@ -260,20 +260,32 @@ namespace MPfm.Library
                 dto.Name = table.Rows[a]["Name"].ToString();
                 dto.Comments = table.Rows[a]["Comments"].ToString();
                 dto.Length = table.Rows[a]["Length"].ToString();
+                dto.StartPosition = table.Rows[a]["StartPosition"].ToString();
+                dto.EndPosition = table.Rows[a]["EndPosition"].ToString();
 
-                int lengthBytes = 0;
-                int.TryParse(table.Rows[a]["LengthBytes"].ToString(), out lengthBytes);
+                uint lengthBytes = 0;
+                uint.TryParse(table.Rows[a]["LengthBytes"].ToString(), out lengthBytes);
                 dto.LengthBytes = lengthBytes;
 
                 uint lengthSamples = 0;
                 uint.TryParse(table.Rows[a]["LengthSamples"].ToString(), out lengthSamples);
                 dto.LengthSamples = lengthSamples;
 
-                dto.MarkerA = new Marker();
-                dto.MarkerA.MarkerId = new Guid(table.Rows[a]["MarkerAId"].ToString());
+                uint startPositionBytes = 0;
+                uint.TryParse(table.Rows[a]["StartPositionBytes"].ToString(), out startPositionBytes);
+                dto.StartPositionBytes = startPositionBytes;
 
-                dto.MarkerB = new Marker();
-                dto.MarkerB.MarkerId = new Guid(table.Rows[a]["MarkerBId"].ToString());
+                uint startPositionSamples = 0;
+                uint.TryParse(table.Rows[a]["StartPositionSamples"].ToString(), out startPositionSamples);
+                dto.StartPositionSamples = startPositionSamples;
+
+                uint endPositionBytes = 0;
+                uint.TryParse(table.Rows[a]["EndPositionBytes"].ToString(), out endPositionBytes);
+                dto.EndPositionBytes = endPositionBytes;
+
+                uint endPositionSamples = 0;
+                uint.TryParse(table.Rows[a]["EndPositionSamples"].ToString(), out endPositionSamples);
+                dto.EndPositionSamples = endPositionSamples;
 
                 // Add DTO to list
                 dtos.Add(dto);
@@ -411,12 +423,15 @@ namespace MPfm.Library
             row["Name"] = dto.Name;
             row["Comments"] = dto.Comments;
             row["Length"] = dto.Length;
-
-            row["MarkerAId"] = dto.MarkerA.MarkerId;
-            row["MarkerBId"] = dto.MarkerB.MarkerId;
+            row["StartPosition"] = dto.StartPosition;
+            row["EndPosition"] = dto.EndPosition;
 
             AssignRowValue(ref row, "LengthBytes", dto.LengthBytes);
             AssignRowValue(ref row, "LengthSamples", dto.LengthSamples);
+            AssignRowValue(ref row, "StartPositionBytes", dto.StartPositionBytes);
+            AssignRowValue(ref row, "StartPositionSamples", dto.StartPositionSamples);
+            AssignRowValue(ref row, "EndPositionBytes", dto.EndPositionBytes);
+            AssignRowValue(ref row, "EndPositionSamples", dto.EndPositionSamples);
         }
 
         /// <summary>

@@ -83,9 +83,7 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblArtistName.Text = m_audioFile.ArtistName;
-            lblAlbumTitle.Text = m_audioFile.AlbumTitle;
-            lblSongTitle.Text = m_audioFile.Title;
+            lblSongValue.Text = m_audioFile.Title + " (" + m_audioFile.ArtistName + ")";
 
             // Set labels depending on mode
             if (m_mode == AddEditMarkerWindowMode.Add)
@@ -210,7 +208,7 @@ namespace MPfm
 
         /// <summary>
         /// Occurs when the user clicks on the "Go to" button.
-        /// Sets the player position t the current marker position.
+        /// Sets the player position to the current marker position.
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>

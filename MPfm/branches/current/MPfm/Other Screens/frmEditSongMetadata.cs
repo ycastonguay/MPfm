@@ -26,6 +26,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using MPfm.Sound;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -66,10 +67,11 @@ namespace MPfm
             if (filePaths.Count > 0)
             {
                 // Get TagLib information
-                TagLib.File file = TagLib.File.Create(filePaths[0]);
+                //TagLib.File file = TagLib.File.Create(filePaths[0]);
+                AudioFile audioFile = new AudioFile(filePaths[0]);
 
                 // Update property grid
-                propertyGridTags.SelectedObject = file.Tag;
+                propertyGridTags.SelectedObject = audioFile;
                 lblEditing.Text = "Editing " + filePaths[0];
             }
         }
@@ -84,6 +86,7 @@ namespace MPfm
             // Hide the form
             this.Close();
         }
+
         /// <summary>
         /// Occurs when the user clicks on the "Save" button.
         /// </summary>

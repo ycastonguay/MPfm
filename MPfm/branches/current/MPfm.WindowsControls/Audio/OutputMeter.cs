@@ -31,6 +31,7 @@ using System.Text;
 using System.Windows.Forms;
 using MPfm.WindowsControls;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.WindowsControls
 {
@@ -489,10 +490,12 @@ namespace MPfm.WindowsControls
                 // at 10ms refresh, get last value.
                 float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
                 float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
+                //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
+                //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
                 // Get peak for the last 1000ms
-                float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Left);
-                float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
+                float peakLeftDB = AudioTools.GetPeak(WaveDataHistory, 100, MPfm.Sound.ChannelType.Left);
+                float peakRightDB = AudioTools.GetPeak(WaveDataHistory, 100, MPfm.Sound.ChannelType.Right);
 
                 // Set the dB range to display (-100 to +10dB)
                 float dbRangeToDisplay = 110;
@@ -521,7 +524,7 @@ namespace MPfm.WindowsControls
                 //
 
                 // Get the VU value from audio tools
-                float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
+                float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, MPfm.Sound.ChannelType.Left);
 
                 // Calculate bar height
                 float barHeight = maxLeftDB + 100;
@@ -539,7 +542,7 @@ namespace MPfm.WindowsControls
                 // Create linear gradient brush covering the bar
                 RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
                 LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, MeterGradientColor1, MeterGradientColor2, LinearGradientMode.Vertical);
-                if (maxLeftDB >= 0)
+                if (maxLeftDB >= 0.2f)
                 {
                     brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
                 }
@@ -556,7 +559,7 @@ namespace MPfm.WindowsControls
                 pen = null;
 
                 // Draw number of db      
-                string strDB = peakLeftDB.ToString("00.0");
+                string strDB = peakLeftDB.ToString("00.0");                
                 //string strDB = vuLeft.ToString("00.0");
                 if (maxLeftDB == -100.0f)
                 {
@@ -590,7 +593,7 @@ namespace MPfm.WindowsControls
                 // Create linear gradient brush covering the bar
                 rectGrad = new RectangleF(barWidth, 110, barWidth, height);
                 brushBar = new LinearGradientBrush(rectGrad, MeterGradientColor1, MeterGradientColor2, LinearGradientMode.Vertical);
-                if (maxRightDB >= 0)
+                if (maxRightDB >= 0.2f)
                 {
                     brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
                 }

@@ -443,15 +443,15 @@ namespace PlaybackEngineV4
         private void btnPlayLoop_Click(object sender, EventArgs e)
         {
             // Get values
-            long positionStart = 0;
-            long.TryParse(txtLoopStart.Text, out positionStart);
-            long positionEnd = 0;
-            long.TryParse(txtLoopEnd.Text, out positionEnd);
+            uint positionStart = 0;
+            uint.TryParse(txtLoopStart.Text, out positionStart);
+            uint positionEnd = 0;
+            uint.TryParse(txtLoopEnd.Text, out positionEnd);
 
             // Create and start loop
             Loop loop = new Loop();
-            loop.MarkerA = new Marker() { PositionBytes = positionStart };
-            loop.MarkerB = new Marker() { PositionBytes = positionEnd };
+            loop.StartPositionBytes = positionStart;
+            loop.EndPositionBytes = positionEnd;
             player.StartLoop(loop);
 
             // Set button enable
