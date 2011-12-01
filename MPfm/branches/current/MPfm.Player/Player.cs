@@ -700,6 +700,9 @@ namespace MPfm.Player.PlayerV4
                     Stop();
                 }
 
+                // Make sure there are no current loops                 
+                m_currentLoop = null;
+
                 // How many channels are left?
                 int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;
 
@@ -931,6 +934,9 @@ namespace MPfm.Player.PlayerV4
                 m_playlist.DisposeChannels();
             }
 
+            // Clear current loop
+            m_currentLoop = null;
+
             // Set flag
             m_isPlaying = false;
         }
@@ -947,6 +953,9 @@ namespace MPfm.Player.PlayerV4
                 // Stop loop
                 StopLoop();
             }
+
+            // Clear loop
+            m_currentLoop = null;
 
             // Make sure index is in the list
             if (index <= Playlist.Items.Count - 1)
