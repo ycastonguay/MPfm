@@ -2338,6 +2338,10 @@ namespace MPfm.WindowsControls
         {
             // Set scroll value
             m_scrollX = horizontalScrollBar.Value;
+
+            // Invalidate control and refresh
+            Invalidate();
+            Refresh();
         }
 
         #endregion

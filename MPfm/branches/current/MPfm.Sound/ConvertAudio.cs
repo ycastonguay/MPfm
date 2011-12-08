@@ -1,5 +1,6 @@
 ﻿//
-// ConvertAudioPosition.cs: Static class for converting audio position values.
+// ConvertAudio.cs: Static helper class for converting audio position
+//                  into different formats.
 //
 // Copyright © 2011 Yanick Castonguay
 //

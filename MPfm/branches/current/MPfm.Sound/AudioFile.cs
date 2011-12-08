@@ -253,26 +253,100 @@ namespace MPfm.Sound
 			}
 		}
 
-		/// <summary>
-		/// Private value for the XingInfoHeader property.
-		/// </summary>
-		private XingInfoHeaderData m_xingInfoHeader = null;
+        #endregion
 
-		/// <summary>
-		/// Xing/Info header information (only for MP3 files). Null if the Xing header
-		/// information doesn't exist. The Xing header appears on VBR and ABR files, and
-		/// the Info header appears on the CBR files. However, they're actually the same 
-		/// type of header. This data structure contains useful information for gapless playback.
-		/// </summary>
-		public XingInfoHeaderData XingInfoHeader
-		{
-			get
-			{
-				return m_xingInfoHeader;
-			}
-		}
+        #region MP3 Properties
 
-		#endregion
+        /// <summary>
+        /// Private value for the MP3HeaderType property.
+        /// </summary>
+        private string m_MP3HeaderType = string.Empty;
+
+        /// <summary>
+        /// Indicates the type of header for the MP3 file.
+        /// The XING header is found on MP3 files encoded using LAME and VBR/ABR settings.
+        /// The INFO header is found on MP3 files encoded using LAME and CBR settings.
+        /// Both headers are in fact the same.
+        /// </summary>
+        public string MP3HeaderType
+        {
+            get
+            {
+                return m_MP3HeaderType;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the MP3EncoderVersion property.
+        /// </summary>
+        private string m_MP3EncoderVersion = string.Empty;
+
+        /// <summary>
+        /// MP3 Encoder version.
+        /// Ex: LAME3.98
+        /// </summary>        
+        public string MP3EncoderVersion
+        {
+            get
+            {
+                return m_MP3EncoderVersion;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the MP3EncoderDelay property.
+        /// </summary>
+        private int? m_MP3EncoderDelay = null;
+
+        /// <summary>
+        /// MP3 Encoder delay.
+        /// Ex: 576
+        /// </summary>
+        public int? MP3EncoderDelay
+        {
+            get
+            {
+                return m_MP3EncoderDelay;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the MP3EncoderDelay property.
+        /// </summary>
+        private int? m_MP3EncoderPadding = null;
+
+        /// <summary>
+        /// MP3 Encoder padding.
+        /// Ex: 1800
+        /// </summary>
+        public int? MP3EncoderPadding
+        {
+            get
+            {
+                return m_MP3EncoderPadding;
+            }
+        }
+
+        ///// <summary>
+        ///// Private value for the XingInfoHeader property.
+        ///// </summary>
+        //private XingInfoHeaderData m_xingInfoHeader = null;
+
+        ///// <summary>
+        ///// Xing/Info header information (only for MP3 files). Null if the Xing header
+        ///// information doesn't exist. The Xing header appears on VBR and ABR files, and
+        ///// the Info header appears on the CBR files. However, they're actually the same 
+        ///// type of header. This data structure contains useful information for gapless playback.
+        ///// </summary>
+        //public XingInfoHeaderData XingInfoHeader
+        //{
+        //    get
+        //    {
+        //        return m_xingInfoHeader;
+        //    }
+        //}
+
+        #endregion		
 
 		#region Other Properties
 		
@@ -507,7 +581,11 @@ namespace MPfm.Sound
 					if (xingHeader.Status == XingInfoHeaderStatus.Successful)
 					{
 						// Set property value
-						m_xingInfoHeader = xingHeader;
+						//m_xingInfoHeader = xingHeader;
+                        m_MP3EncoderDelay = xingHeader.EncoderDelay;
+                        m_MP3EncoderPadding = xingHeader.EncoderPadding;
+                        m_MP3EncoderVersion = xingHeader.EncoderVersion;
+                        m_MP3HeaderType = xingHeader.HeaderType;
 					}
 				}
 				catch (Exception ex)
