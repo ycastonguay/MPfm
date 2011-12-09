@@ -115,6 +115,16 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Inserts new audio files into the database.
+        /// </summary>
+        /// <param name="audioFiles">List of AudioFiles to insert</param>
+        public void InsertAudioFiles(List<AudioFile> audioFiles)
+        {
+            // Insert song
+            Insert("AudioFiles", "AudioFileId", audioFiles);
+        }
+
+        /// <summary>
         /// Updates an existing audio file to the database.
         /// </summary>
         /// <param name="audioFile">AudioFile to update</param>

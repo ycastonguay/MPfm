@@ -951,7 +951,7 @@ namespace MPfm.WindowsControls
             if (m_isLoading)
             {
                 // Cancel wave form generation
-                if (m_peakFile.IsGenerating)
+                if (m_peakFile.IsProcessing)
                 {
                     // Cancel operation
                     m_peakFile.Cancel();

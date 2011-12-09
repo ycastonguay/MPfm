@@ -42,10 +42,24 @@ namespace MPfm.Library
     /// </summary>
     public class SQLiteGateway
     {
-        // Private variables
-        private string m_databaseFilePath = string.Empty;
+        // Private variables        
         private DbProviderFactory m_factory = null;
         private DbConnection m_connection = null;
+
+        /// <summary>
+        /// Private value for the DatabaseFilePath property.
+        /// </summary>
+        private string m_databaseFilePath = string.Empty;
+        /// <summary>
+        /// Database file path.
+        /// </summary>
+        public string DatabaseFilePath
+        {
+            get
+            {
+                return m_databaseFilePath;
+            }
+        }
 
         /// <summary>
         /// Default constructor for the SQLiteGateway class.
@@ -69,7 +83,8 @@ namespace MPfm.Library
             if (m_connection != null && m_connection.State != ConnectionState.Closed)
             {
                 // Throw exception
-                throw new Exception("Cannot open database connection; the connection is already opened!");
+                //throw new Exception("Cannot open database connection; the connection is already opened!");
+                return;
             }
 
             try
@@ -95,7 +110,8 @@ namespace MPfm.Library
             if (m_connection == null || m_connection.State == ConnectionState.Closed)
             {
                 // Throw exception
-                throw new Exception("Cannot close database connection; the connection isn't opened!");
+                //throw new Exception("Cannot close database connection; the connection isn't opened!");
+                return;
             }
 
             try
@@ -210,7 +226,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="tableName">Table name</param>
         /// <param name="idFieldName">Id field name</param>
-        /// <param name="dto">DTO</param>
+        /// <param name="dto">Object</param>
         protected void Insert(string tableName, string idFieldName, object dto)
         {
             // Get empty result set
@@ -221,6 +237,31 @@ namespace MPfm.Library
             DataRow newRow = table.NewRow();
             table.Rows.Add(newRow);
             ConvertLibrary.ToRow(ref newRow, dto);
+
+            // Insert new row into database
+            UpdateDataTable(table, baseQuery);
+        }
+
+        /// <summary>
+        /// Inserts an item into the database.
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="idFieldName">Id field name</param>
+        /// <param name="dtos">List of objects</param>
+        protected void Insert(string tableName, string idFieldName, List<object> dtos)
+        {
+            // Get empty result set
+            string baseQuery = "SELECT * FROM " + tableName;
+            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
+            
+            // Loop through objects
+            foreach (object dto in dtos)
+            {
+                // Add new row to data table
+                DataRow newRow = table.NewRow();
+                table.Rows.Add(newRow);
+                ConvertLibrary.ToRow(ref newRow, dto);
+            }
 
             // Insert new row into database
             UpdateDataTable(table, baseQuery);

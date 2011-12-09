@@ -55,6 +55,7 @@ namespace MPfm
         private List<Device> m_devicesWASAPI = null;        
         
         private PeakFile m_peakFile = null;
+        private ImportAudioFiles m_importAudioFiles = null;
 
         
         private frmMain m_main = null;
@@ -83,16 +84,59 @@ namespace MPfm
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
             m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
+            m_importAudioFiles = new ImportAudioFiles(5, Main.Library.Gateway.DatabaseFilePath);
+            m_importAudioFiles.OnProcessData += new ImportAudioFiles.ProcessData(m_importAudioFiles_OnProcessData);
+            m_importAudioFiles.OnProcessDone += new ImportAudioFiles.ProcessDone(m_importAudioFiles_OnProcessDone);
+
+        }
+
+        protected void m_importAudioFiles_OnProcessData(ImportAudioFilesProgressData data)
+        {
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblOutputDriver.Text = data.PercentageDone.ToString();
+                lblDriver.Text = data.AudioFile.FilePath;
+                lblTest.Text = data.ThreadNumber.ToString();
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }    
+        }
+
+        protected void m_importAudioFiles_OnProcessDone(ImportAudioFilesDoneData data)
+        {
+            // Invoke UI updates
+            MethodInvoker methodUIUpdate = delegate
+            {
+                // Refresh everything
+                lblOutputDriver.Text = "DONE";
+                Main.Library.RefreshCache();
+                Main.RefreshAll();
+            };
+
+            // Check if invoking is necessary
+            if (InvokeRequired)
+            {
+                BeginInvoke(methodUIUpdate);
+            }
+            else
+            {
+                methodUIUpdate.Invoke();
+            }  
+
         }
 
         protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
         {
             
-        }
-
-        protected void m_peakFile_OnProcessDone(PeakFileDoneData data)
-        {
-            MessageBox.Show("DONE!!!!!");
         }
 
         protected void m_peakFile_OnProcessData(PeakFileProgressData data)
@@ -114,6 +158,11 @@ namespace MPfm
             {
                 methodUIUpdate.Invoke();
             }            
+        }
+
+        protected void m_peakFile_OnProcessDone(PeakFileDoneData data)
+        {
+            MessageBox.Show("DONE!!!!!");
         }
 
         #region Form Events
@@ -780,22 +829,26 @@ namespace MPfm
         {
             try
             {
-                string peakFileDirectory = @"D:\_peak\";
+                //string peakFileDirectory = @"D:\_peak\";
+
+                //List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
+
+                //Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                //foreach (string filePath in filePaths)
+                //{
+                //    // Extract file name from path
+                //    //string fileName = Path.GetFileName(filePath);
+                //    string peakFilePath = peakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+
+                //    // Add dictionary value
+                //    dictionary.Add(filePath, peakFilePath);
+                //}
+
+                //m_peakFile.GeneratePeakFiles(dictionary);
 
                 List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
 
-                Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                foreach (string filePath in filePaths)
-                {
-                    // Extract file name from path
-                    //string fileName = Path.GetFileName(filePath);
-                    string peakFilePath = peakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
-
-                    // Add dictionary value
-                    dictionary.Add(filePath, peakFilePath);
-                }
-
-                m_peakFile.GeneratePeakFiles(dictionary);
+                m_importAudioFiles.Import(filePaths);
             }
             catch (Exception ex)
             {
@@ -807,11 +860,12 @@ namespace MPfm
         {
             //m_peakFile.ReadPeakFile(@"D:\_peak\01 Natural Mystic_mp3.mpfmPeak");
             //m_peakFile.ReadPeakFile(@"D:\_peak\03 Guiltiness_mp3.mpfmPeak");            
-            m_peakFile.ReadPeakFile(@"D:\_peak\E__Mp3_Bob Marley_Exodus_05 Exodus_mp3.mpfmPeak");
+            //m_peakFile.ReadPeakFile(@"D:\_peak\E__Mp3_Bob Marley_Exodus_05 Exodus_mp3.mpfmPeak");
 
             try
             {
-                m_peakFile.Cancel();
+                //m_peakFile.Cancel();
+                m_importAudioFiles.Cancel();
             }
             catch (Exception ex)
             {

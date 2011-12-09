@@ -26,6 +26,7 @@ using System.Linq;
 using System.IO;
 using System.IO.Compression;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading;
@@ -33,7 +34,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using MPfm.Sound.BassNetWrapper;
-using System.Reactive.Concurrency;
 
 namespace MPfm.Sound
 {
@@ -69,7 +69,8 @@ namespace MPfm.Sound
         /// </summary>
         private Dictionary<string, string> m_filePaths = null;
         /// <summary>
-        /// Defines the audio and peak file paths to process.
+        /// Dictionary defining the audio (key) and peak (value) file paths to process.
+        /// Can be updated in real-time (insert new items at the end of the list!).
         /// </summary>
         public Dictionary<string, string> FilePaths
         {
@@ -82,7 +83,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Delegate for the OnProcessStarted event.
         /// </summary>
-        /// <param name="data">Peak file progress started data</param>
+        /// <param name="data">Event data</param>
         public delegate void ProcessStarted(PeakFileStartedData data);
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Delegate for the OnProcessData event.
         /// </summary>
-        /// <param name="data">Peak file progress data</param>
+        /// <param name="data">Event data</param>
         public delegate void ProcessData(PeakFileProgressData data);
 
         /// <summary>
@@ -104,6 +105,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Delegate for the OnProcessDone event.
         /// </summary>        
+        /// <param name="data">Event data</param>
         public delegate void ProcessDone(PeakFileDoneData data);
 
         /// <summary>
@@ -112,17 +114,17 @@ namespace MPfm.Sound
         public event ProcessDone OnProcessDone;
 
         /// <summary>
-        /// Private value for the IsGenerating property.
+        /// Private value for the IsProcessing property.
         /// </summary>
-        private bool m_isGenerating = false;
+        private bool m_isProcessing = false;
         /// <summary>
         /// Indicates if the class is currently generating peak files.
         /// </summary>
-        public bool IsGenerating
+        public bool IsProcessing
         {
             get
             {
-                return m_isGenerating;
+                return m_isProcessing;
             }
         }
 
@@ -429,7 +431,7 @@ namespace MPfm.Sound
                     if (m_numberOfThreadsRunning == 0)
                     {
                         // There aren't any other peak files to generate; set flags
-                        m_isGenerating = false;
+                        m_isProcessing = false;
 
                         // Is an event binded to OnProcessDone?
                         if (OnProcessDone != null)
@@ -495,17 +497,17 @@ namespace MPfm.Sound
         /// <param name="filePaths">Dictionary of audio file paths (key) and peak file paths (value)</param>
         public void GeneratePeakFiles(Dictionary<string, string> filePaths)
         {
-            // Check if the class is currently generating peak files
-            if (m_isGenerating)
+            // Check there are active threads
+            if (m_isProcessing)
             {
-                throw new Exception("Error: The class is already generating peak files!");
+                throw new Exception("Error: The process cannot be restarted when there are currently active threads!");
             }
 
             // Set private values            
             m_filePaths = filePaths;
 
             // Set flags
-            m_isGenerating = true;
+            m_isProcessing = true;
             m_currentIndex = 0;
 
             // Create lists
@@ -560,10 +562,10 @@ namespace MPfm.Sound
                 throw new Exception("Error cancelling process: The subscription list is empty or doesn't exist!");
             }
 
-            // Check if the class is currently generating peak files
-            if (!m_isGenerating)
+            // Check if the class is currently processing data
+            if (!m_isProcessing)
             {
-                throw new Exception("Error cancelling process: The class isn't generating any peak files!");
+                throw new Exception("Error cancelling process: There are no currently active threads!");
             }
 
             // Loop through subscriptions            
