@@ -60,7 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MPfmGateway.cs" />
-    <Compile Include="ImportAudioFiles.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryDoneData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibrary.cs" />
     <Compile Include="SQLiteGateway.cs" />
     <Compile Include="ConvertLibrary.cs" />
     <Compile Include="Folder.cs" />

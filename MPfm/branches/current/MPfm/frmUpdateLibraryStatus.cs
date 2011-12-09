@@ -300,7 +300,7 @@ namespace MPfm
         /// Fires when the update library process sends a progress changed message.
         /// </summary>
         /// <param name="data">Update data</param>
-        private void Library_OnUpdateLibraryProgress(UpdateLibraryProgressData data)
+        private void Library_OnUpdateLibraryProgress(OldUpdateLibraryProgressData data)
         {                         
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate

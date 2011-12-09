@@ -1,6 +1,8 @@
 ﻿//
-// ImportAudioFiles.cs: This class scans the metadata of audio files and imports them
-//                      into the database. Supports multi-threading through Reactive Extensions.
+// UpdateLibrary.cs: The UpdateLibrary class scans the metadata of audio files and 
+//                   imports them into the database. It also cleans up the database, 
+//                   searches for broken file paths, and more. Supports multi-threading 
+//                   through Reactive Extensions. It is also cancellable. 
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -37,11 +39,11 @@ using MPfm.Sound;
 namespace MPfm.Library
 {
     /// <summary>
-    /// The ImportAudioFiles class scans the metadata of audio files and imports them into the database. 
-    /// Supports multi-threading through Reactive Extensions. It is also cancellable. 
-    /// Use the ProcessFile event to get the progress.
+    /// The UpdateLibrary class scans the metadata of audio files and imports them into the database.
+    /// It also cleans up the database, searches for broken file paths, and more.
+    /// Supports multi-threading through Reactive Extensions. It is also cancellable.     
     /// </summary>
-    public class ImportAudioFiles
+    public class UpdateLibrary
     {
         /// <summary>
         /// Defines the list of IDisposables (subscriptions to IObservables).
@@ -49,14 +51,36 @@ namespace MPfm.Library
         private List<IDisposable> m_listSubscriptions = null;
 
         /// <summary>
-        /// List of IObservables of AudioFiles.
+        /// List of IObservables of UpdateLibraryProgressData.
         /// </summary>
-        private List<IObservable<AudioFile>> m_listObservables = null;
+        private List<IObservable<UpdateLibraryProgressData>> m_listObservables = null;
 
         /// <summary>
         /// Defines the current index in the list of files (in the FilePaths property).
         /// </summary>
         private int m_currentIndex = 0;
+
+        /// <summary>
+        /// Delegate for the OnProcessData event.
+        /// </summary>
+        /// <param name="data">Event data</param>
+        public delegate void ProcessData(UpdateLibraryProgressData data);
+
+        /// <summary>
+        /// Event called every 20 blocks when generating a peak file.
+        /// </summary>
+        public event ProcessData OnProcessData;
+
+        /// <summary>
+        /// Delegate for the OnProcessDone event.
+        /// </summary>
+        /// <param name="data">Event data</param>
+        public delegate void ProcessDone(UpdateLibraryDoneData data);
+
+        /// <summary>
+        /// Event called when all the GeneratePeakFiles threads have completed their work.
+        /// </summary>
+        public event ProcessDone OnProcessDone;
 
         /// <summary>
         /// Private value for the FilePaths property.
@@ -73,28 +97,6 @@ namespace MPfm.Library
                 return m_filePaths;
             }
         }
-
-        /// <summary>
-        /// Delegate for the OnProcessData event.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        public delegate void ProcessData(ImportAudioFilesProgressData data);
-
-        /// <summary>
-        /// Event called every 20 blocks when generating a peak file.
-        /// </summary>
-        public event ProcessData OnProcessData;
-
-        /// <summary>
-        /// Delegate for the OnProcessDone event.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        public delegate void ProcessDone(ImportAudioFilesDoneData data);
-
-        /// <summary>
-        /// Event called when all the GeneratePeakFiles threads have completed their work.
-        /// </summary>
-        public event ProcessDone OnProcessDone;
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.
@@ -178,11 +180,11 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Default constructor for the ImportAudioFiles class.
+        /// Default constructor for the UpdateLibrary class.
         /// </summary>
         /// <param name="numberOfThreads">Defines the number of threads used for scanning audio file metadata</param>
         /// <param name="databaseFilePath">MPfm database file path</param>
-        public ImportAudioFiles(int numberOfThreads, string databaseFilePath)
+        public UpdateLibrary(int numberOfThreads, string databaseFilePath)
         {
             // Set private values
             m_numberOfThreads = numberOfThreads;
@@ -194,15 +196,15 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="audioFilePath">Audio file path</param>
         /// <param name="threadNumber">Thread number</param>
-        /// <returns>Observable object with AudioFile</returns>
-        protected IObservable<AudioFile> ScanMetadataAsync(string audioFilePath, int threadNumber)
+        /// <returns>UpdateLibraryProgressData</returns>
+        protected IObservable<UpdateLibraryProgressData> ScanMetadataAsync(string audioFilePath, int threadNumber)
         {
             // Declare variables         
             bool cancelled = false;
-            AudioFile audioFile = null;
+            UpdateLibraryProgressData data = null;
 
             // Create observable
-            IObservable<AudioFile> observable = Observable.Create<AudioFile>(o =>
+            IObservable<UpdateLibraryProgressData> observable = Observable.Create<UpdateLibraryProgressData>(o =>
             {
                 // Declare cancel token
                 var cancel = new CancellationDisposable();
@@ -210,19 +212,23 @@ namespace MPfm.Library
                 // Schedule operation in a new thread
                 Scheduler.NewThread.Schedule(() =>
                 {
+                    // Create data
+                    data = new UpdateLibraryProgressData();
+                    data.FilePath = audioFilePath;
+
                     try
                     {
                         // Read audio file metadata
-                        audioFile = new AudioFile(audioFilePath);
+                        data.AudioFile = new AudioFile(audioFilePath);
                     }
                     catch (Exception ex)
                     {
                         // Create exception
-                        ImportAudioFilesException exception = new ImportAudioFilesException("There was an error while reading the audio file metadata.", ex);
+                        data.Exception = new UpdateLibraryException("There was an error while reading the audio file metadata.", ex);
                     }
 
                     // Send progress and set completed
-                    o.OnNext(audioFile);
+                    o.OnNext(data);
                     o.OnCompleted();
                 });
 
@@ -257,10 +263,10 @@ namespace MPfm.Library
                         if (OnProcessDone != null)
                         {
                             // Raise event with data
-                            OnProcessDone(new ImportAudioFilesDoneData());
+                            OnProcessDone(new UpdateLibraryDoneData());
                         }
-                    }                    
-                    
+                    }
+
                     return;
                 }
 
@@ -270,7 +276,7 @@ namespace MPfm.Library
                 // Load next thread
                 Subscribe(m_currentIndex);
 
-            // Subscribe to the IObservable (starts the thread)
+                // Subscribe to the IObservable (starts the thread)
             }).Subscribe(o =>
             {
                 // ACCUMULER DANS UNE LISTE PIS FAIRE UNE TRANSACTION DANS LA BD
@@ -297,11 +303,12 @@ namespace MPfm.Library
                 if (OnProcessData != null)
                 {
                     // Raise event with data
-                    ImportAudioFilesProgressData data = new ImportAudioFilesProgressData();
-                    data.AudioFile = o;
-                    data.ThreadNumber = index;
-                    data.PercentageDone = 0;
-                    OnProcessData(data);
+                    //ImportAudioFilesProgressData data = new ImportAudioFilesProgressData();
+                    //data.AudioFile = o;
+                    //data.ThreadNumber = index;
+                    //data.PercentageDone = 0;
+                    //OnProcessData(data);
+                    OnProcessData(o);
                 }
 
             }));
@@ -340,7 +347,7 @@ namespace MPfm.Library
             m_currentIndex = 0;
 
             // Create lists
-            m_listObservables = new List<IObservable<AudioFile>>();
+            m_listObservables = new List<IObservable<UpdateLibraryProgressData>>();
             m_listSubscriptions = new List<IDisposable>();
 
             // Loop through file paths
@@ -390,7 +397,7 @@ namespace MPfm.Library
             }
 
             // Loop through subscriptions            
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -403,74 +410,14 @@ namespace MPfm.Library
 
                     // Dispose subscription and remove it from list
                     m_listSubscriptions[0].Dispose();
-                    m_listSubscriptions.RemoveAt(0);                    
+                    m_listSubscriptions.RemoveAt(0);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     // Throw exception and exit loop
-                    throw ex;                    
+                    throw ex;
                 }
             }
-        }
-    }
-
-    /// <summary>
-    /// Defines the progress data used with the OnProcessData event.
-    /// </summary>
-    public class ImportAudioFilesProgressData
-    {
-        /// <summary>
-        /// Audio file metadata. Null if the process has failed.
-        /// </summary>
-        public AudioFile AudioFile { get; set; }
-        /// <summary>
-        /// Exception when the metadata cannot be read. Null when successful.
-        /// </summary>
-        public ImportAudioFilesException Exception { get; set; }
-        /// <summary>
-        /// Percentage done based on the file list length.
-        /// </summary>
-        public float PercentageDone { get; set; }
-        /// <summary>
-        /// Thread number.
-        /// </summary>
-        public int ThreadNumber { get; set; }
-
-        /// <summary>
-        /// Default constructor for the ImportAudioFilesProgressData clas.
-        /// </summary>
-        public ImportAudioFilesProgressData()
-        {
-            AudioFile = null;
-            Exception = null;
-            PercentageDone = 0;
-            ThreadNumber = 0;
-        }
-    }
-
-    /// <summary>
-    /// Defines the data used with the OnProcessDone event (actually nothing).
-    /// </summary>
-    public class ImportAudioFilesDoneData
-    {
-    }
-
-    /// <summary>
-    /// This Exception class is raised when...
-    /// Related to the ScanMetadata class.
-    /// </summary>
-    public class ImportAudioFilesException 
-        : Exception
-    {
-        /// <summary>
-        /// Default constructor for the ImportAudioFilesException exception class.
-        /// </summary>
-        /// <param name="message">Exception message</param>
-        /// /// <param name="innerException">Inner exception</param>
-        public ImportAudioFilesException(string message, Exception innerException) 
-            : base(message, innerException)
-        {
-
         }
     }
 }

@@ -55,7 +55,7 @@ namespace MPfm
         private List<Device> m_devicesWASAPI = null;        
         
         private PeakFile m_peakFile = null;
-        private ImportAudioFiles m_importAudioFiles = null;
+        //private UpdateLibrary m_updateLibrary = null;
 
         
         private frmMain m_main = null;
@@ -84,55 +84,62 @@ namespace MPfm
             m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
             m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
-            m_importAudioFiles = new ImportAudioFiles(5, Main.Library.Gateway.DatabaseFilePath);
-            m_importAudioFiles.OnProcessData += new ImportAudioFiles.ProcessData(m_importAudioFiles_OnProcessData);
-            m_importAudioFiles.OnProcessDone += new ImportAudioFiles.ProcessDone(m_importAudioFiles_OnProcessDone);
+            //m_updateLibrary = new UpdateLibrary(5, Main.Library.Gateway.DatabaseFilePath);
+            //m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
+            //m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
 
         }
 
-        protected void m_importAudioFiles_OnProcessData(ImportAudioFilesProgressData data)
-        {
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                lblOutputDriver.Text = data.PercentageDone.ToString();
-                lblDriver.Text = data.AudioFile.FilePath;
-                lblTest.Text = data.ThreadNumber.ToString();
-            };
+        //protected void m_importAudioFiles_OnProcessData(ImportAudioFilesProgressData data)
+        //{
+        //    // Invoke UI updates
+        //    MethodInvoker methodUIUpdate = delegate
+        //    {
+        //        if (data.Exception != null)
+        //        {
+        //            MessageBox.Show(data.FilePath + "\n" + data.Exception.Message + "\n" + data.Exception.InnerException.StackTrace);
+        //        }
+        //        else
+        //        {
+        //            lblOutputDriver.Text = data.PercentageDone.ToString();
+        //            lblDriver.Text = data.AudioFile.FilePath;
+        //            lblTest.Text = data.ThreadNumber.ToString();
+        //        }
+        //    };
 
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }    
-        }
+        //    // Check if invoking is necessary
+        //    if (InvokeRequired)
+        //    {
+        //        BeginInvoke(methodUIUpdate);
+        //    }
+        //    else
+        //    {
+        //        methodUIUpdate.Invoke();
+        //    }    
+        //}
 
-        protected void m_importAudioFiles_OnProcessDone(ImportAudioFilesDoneData data)
-        {
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                // Refresh everything
-                lblOutputDriver.Text = "DONE";
-                Main.Library.RefreshCache();
-                Main.RefreshAll();
-            };
+        //protected void m_importAudioFiles_OnProcessDone(ImportAudioFilesDoneData data)
+        //{
+        //    // Invoke UI updates
+        //    MethodInvoker methodUIUpdate = delegate
+        //    {
+        //        // Refresh everything
+        //        lblOutputDriver.Text = "DONE";
+        //        Main.Library.RefreshCache();
+        //        Main.RefreshAll();
+        //    };
 
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }  
+        //    // Check if invoking is necessary
+        //    if (InvokeRequired)
+        //    {
+        //        BeginInvoke(methodUIUpdate);
+        //    }
+        //    else
+        //    {
+        //        methodUIUpdate.Invoke();
+        //    }  
 
-        }
+        //}
 
         protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
         {
@@ -848,7 +855,7 @@ namespace MPfm
 
                 List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
 
-                m_importAudioFiles.Import(filePaths);
+                //m_updateLibrary.Import(filePaths);
             }
             catch (Exception ex)
             {
@@ -865,7 +872,7 @@ namespace MPfm
             try
             {
                 //m_peakFile.Cancel();
-                m_importAudioFiles.Cancel();
+                //m_updateLibrary.Cancel();
             }
             catch (Exception ex)
             {
