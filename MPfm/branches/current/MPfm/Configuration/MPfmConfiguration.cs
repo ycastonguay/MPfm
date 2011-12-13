@@ -1,5 +1,5 @@
 ﻿//
-// CustomConfig.cs: Custom XML configuration framework for MPfm.
+// MPfmConfiguration.cs: Custom XML configuration framework for MPfm.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -29,16 +29,24 @@ using MPfm.Sound;
 
 namespace MPfm
 {
-    //Configurator config = new Configurator(string.Empty);            
-    // config.General.FirstRun
-    // config.Audio.Device (Device object) -- need a ToXML() method
-
-    public class CustomConfig
+    /// <summary>
+    /// Custom XML configuration framework for MPfm.
+    /// </summary>
+    public class MPfmConfiguration
     {
+        /// <summary>
+        /// Configuration file path.
+        /// </summary>
         private string m_filePath = string.Empty;
 
-        private AudioSection m_audioSection = null;
-        public AudioSection Audio
+        /// <summary>
+        /// Private value for the Audio property.
+        /// </summary>
+        private AudioConfigurationSection m_audioSection = null;
+        /// <summary>
+        /// Audio configuration section.
+        /// </summary>
+        public AudioConfigurationSection Audio
         {
             get
             {
@@ -46,8 +54,14 @@ namespace MPfm
             }
         }
 
-        private ControlsSection m_controlsSection = null;
-        public ControlsSection Controls
+        /// <summary>
+        /// Private value for the Controls property.
+        /// </summary>
+        private ControlsConfigurationSection m_controlsSection = null;
+        /// <summary>
+        /// Controls configuration section.
+        /// </summary>
+        public ControlsConfigurationSection Controls
         {
             get
             {
@@ -55,19 +69,28 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// XML document used for loading and saving configuration to file.
+        /// </summary>
         private XDocument m_document = null;
 
-        public CustomConfig(string filePath)
+        /// <summary>
+        /// Default constructor for the MPfmConfiguration class.
+        /// Requires the file path to the configuration file.
+        /// </summary>
+        /// <param name="filePath">Configuration file path</param>
+        public MPfmConfiguration(string filePath)
         {
             // Set private values
             m_filePath = filePath;
-
-            //MPfm.Core.XMLHelper.TryParse<int>("", int.TryParse);
 
             // Create XML document
             m_document = new XDocument();
         }
 
+        /// <summary>
+        /// Clears the configuration and sets default values.
+        /// </summary>
         public void Clear()
         {
             // Set default values            
@@ -94,8 +117,9 @@ namespace MPfm
             XElement elementAudioDevice = elementAudio.Element("device");
             XElement elementAudioMixer = elementAudio.Element("mixer");            
 
-            // Create audio section
-            m_audioSection = new AudioSection();
+            // Create sections
+            m_audioSection = new AudioConfigurationSection();
+            m_controlsSection = new ControlsConfigurationSection();
 
             // Check if this XML element was found
             if (elementAudioDriver != null)
@@ -135,92 +159,14 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Saves configuration to file.
+        /// </summary>
         public void Save()
         {
 
         }
     }
 
-    public class AudioSection
-    {
-        public MPfm.Sound.BassNetWrapper.DriverType DriverType { get; set; }
 
-        private AudioSectionDevice m_device = null;
-        public AudioSectionDevice Device
-        {
-            get
-            {
-                return m_device;
-            }
-        }
-
-        private AudioSectionMixer m_mixer = null;
-        public AudioSectionMixer Mixer
-        {
-            get
-            {
-                return m_mixer;
-            }
-        }
-
-        public AudioSection()
-        {
-            m_device = new AudioSectionDevice();
-            m_mixer = new AudioSectionMixer();
-        }
-    }
-
-    public class AudioSectionDevice
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class AudioSectionMixer
-    {
-        public int Frequency { get; set; }
-        public int Volume { get; set; }
-    }
-
-    public class ControlsSection
-    {
-        private ControlsSectionSongGridView m_songGridView = null;
-        public ControlsSectionSongGridView SongGridView
-        {
-            get
-            {
-                return m_songGridView;
-            }
-        }
-
-        public ControlsSection()
-        {
-            m_songGridView = new ControlsSectionSongGridView();
-        }
-    }
-
-    public class ControlsSectionSongGridView
-    {
-        private List<ControlsSectionSongGridViewColumn> m_columns = null;
-        public List<ControlsSectionSongGridViewColumn> Columns
-        {
-            get
-            {
-                return m_columns;
-            }
-        }
-
-        public ControlsSectionSongGridView()
-        {
-            m_columns = new List<ControlsSectionSongGridViewColumn>();
-        }
-    }
-
-    public class ControlsSectionSongGridViewColumn
-    {
-        public string Name { get; set; }
-        public int Order { get; set; }
-        public bool OrderBy { get; set; }
-        public bool Visible { get; set; }
-    }
 }

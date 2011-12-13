@@ -835,7 +835,7 @@ namespace MPfm
         {
             try
             {
-                CustomConfig cfg = new CustomConfig(@"D:\Code\MPfm\Branches\Current\MPfm\Config.xml");
+                MPfmConfiguration cfg = new MPfmConfiguration(@"D:\Code\MPfm\Branches\Current\MPfm\Config.xml");
                 cfg.Clear();
                 cfg.Load();
 

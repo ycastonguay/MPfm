@@ -103,7 +103,9 @@
     <Compile Include="Classes\DriverComboBoxItem.cs" />
     <Compile Include="Classes\MPFMConfig.cs" />
     <Compile Include="Classes\SongQuery.cs" />
-    <Compile Include="Configuration\CustomConfig.cs" />
+    <Compile Include="Configuration\AudioConfigurationSection.cs" />
+    <Compile Include="Configuration\ControlsConfigurationSection.cs" />
+    <Compile Include="Configuration\MPfmConfiguration.cs" />
     <Compile Include="Other Screens\frmAddEditLoop.cs">
       <SubType>Form</SubType>
     </Compile>
