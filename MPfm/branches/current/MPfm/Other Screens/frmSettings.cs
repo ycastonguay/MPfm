@@ -835,6 +835,12 @@ namespace MPfm
         {
             try
             {
+                CustomConfig cfg = new CustomConfig(@"D:\Code\MPfm\Branches\Current\MPfm\Config.xml");
+                cfg.Clear();
+                cfg.Load();
+
+                return;
+
                 //string peakFileDirectory = @"D:\_peak\";
 
                 //List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");

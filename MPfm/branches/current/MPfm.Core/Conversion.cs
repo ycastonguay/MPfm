@@ -278,6 +278,52 @@ namespace MPfm.Core
         {
             return (double)absolutems / 1000 % 60;
         }
+
+        /// <summary>
+        /// Parses a string and converts the value into a specific type.
+        /// Inspired from a post on Stack Overflow: 
+        /// http://stackoverflow.com/questions/569249/methodinfo-invoke-with-out-parameter
+        /// </summary>
+        /// <typeparam name="T">Type to convert to</typeparam>
+        /// <param name="input">Input string</param>
+        /// <returns>Value (default value if failed)</returns>
+        public static T TryParse<T>(string input)
+        {
+            // Get the type of generic
+            var type = typeof(T);
+
+            // Get the default value
+            var temp = default(T);
+
+            // Set the list of parameters for TryParse
+            object[] parameters = new object[]
+            {
+                input,
+                temp
+            };
+
+            // Get the TryParse method info
+            var method = type.GetMethod(
+                "TryParse",                
+                new[]
+            {
+                typeof (string),
+                Type.GetType(string.Format("{0}&", type.FullName))
+            });
+
+            // Invoke the TryParse method
+            bool success = (bool)method.Invoke(null, parameters);
+
+            // If successful...
+            if (success)
+            {
+                // Return the value
+                return (T)parameters[1];
+            }
+
+            // Return the default value
+            return default(T);
+        }
 	}
 
     [StructLayout(LayoutKind.Explicit)]

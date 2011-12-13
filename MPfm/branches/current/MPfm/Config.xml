@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <general>
-    <key name="FirstRun" value="true" type="boolean" />
-    <key name="ShowTray" value="true" type="boolean" />
+    <key type="boolean" name="FirstRun" value="true" />
+    <key type="boolean" name="ShowTray" value="true" />
   </general>
   <audio>
     <driver type="DirectSound" />
