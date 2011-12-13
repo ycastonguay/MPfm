@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MPfmGateway.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryStep.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryDoneData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />

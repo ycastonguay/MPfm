@@ -43,6 +43,10 @@ namespace MPfm.Library
     public class UpdateLibraryProgressData
     {
         /// <summary>
+        /// Defines the current step in the Update Library process.
+        /// </summary>
+        public UpdateLibraryStep Step { get; set; }
+        /// <summary>
         /// Audio file path to read.
         /// </summary>
         public string FilePath { get; set; }
@@ -68,6 +72,7 @@ namespace MPfm.Library
         /// </summary>
         public UpdateLibraryProgressData()
         {
+            Step = 0;
             FilePath = string.Empty;
             AudioFile = null;
             Exception = null;

@@ -22,6 +22,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -215,6 +216,7 @@ namespace MPfm.Library
                     // Create data
                     data = new UpdateLibraryProgressData();
                     data.FilePath = audioFilePath;
+                    data.ThreadNumber = threadNumber;
 
                     try
                     {
@@ -279,59 +281,91 @@ namespace MPfm.Library
                 // Subscribe to the IObservable (starts the thread)
             }).Subscribe(o =>
             {
-                // ACCUMULER DANS UNE LISTE PIS FAIRE UNE TRANSACTION DANS LA BD
-
-                //lock (m_audioFilesToInsert)
-                //{
-                //    //if (m_audioFilesToInsert == null)
-                //    //{
-                //    //    m_audioFilesToInsert = new List<AudioFile>();
-                //    //}
-
-                //    //m_audioFilesToInsert.Add(o);
-
-                //    //if (m_audioFilesToInsert.Count > 20)
-                //    //{
-                //    //    m_audioFilesToInsert.Clear();
-                //    //    // This is where we INSERT THE STUFF INTO THE DATABASE!
-                //    //    //MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
-                //    //    //gateway.InsertAudioFiles(m_audioFilesToInsert);                        
-                //    //}
-                //}
-
-                // Is an event binded to OnProcessData?
-                if (OnProcessData != null)
+                try
                 {
-                    // Raise event with data
-                    //ImportAudioFilesProgressData data = new ImportAudioFilesProgressData();
-                    //data.AudioFile = o;
-                    //data.ThreadNumber = index;
-                    //data.PercentageDone = 0;
-                    //OnProcessData(data);
-                    OnProcessData(o);
+                    lock (thisLock)
+                    {
+                        // Check if the metadata was fetched successfully
+                        if (o.Exception == null)
+                        {
+                            // Insert into list
+                            m_audioFilesToInsert.Add(o.AudioFile);
+
+                            //lock (m_audioFilesToInsert)
+                            //{
+                            //    m_audioFilesToInsert.Add(o.AudioFile);
+                            //}
+                        }
+
+                        //lock (m_audioFilesToInsert)
+                        //{
+
+
+                        // Desfois ca rentre dans cette methode la a 21 elements au lieu de 20. un autre thread est deja la
+
+                        if (m_audioFilesToInsert.Count >= 20)
+                        {
+                            MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
+                            //List<AudioFile> stuff = m_audioFilesToInsert.GetCache();
+                            gateway.InsertAudioFiles(m_audioFilesToInsert);
+                            m_audioFilesToInsert.Clear();
+                            //m_audioFilesToInsert = new BlockingCollection<AudioFile>();
+                        }
+                        //}
+                    }
+
+                    // Is an event binded to OnProcessData?
+                    if (OnProcessData != null)
+                    {
+                        // Raise event with data
+                        //ImportAudioFilesProgressData data = new ImportAudioFilesProgressData();
+                        //data.AudioFile = o;
+                        //data.ThreadNumber = index;
+                        //data.PercentageDone = 0;
+                        //OnProcessData(data);
+                        OnProcessData(o);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
 
             }));
         }
 
-        private List<AudioFile> m_audioFilesToInsert = null;
+        private Object thisLock = new Object();
+        private List<AudioFile> m_audioFilesToInsert = new List<AudioFile>();
+        //private BlockingCollection<AudioFile> m_audioFilesToInsert = new BlockingCollection<AudioFile>();
+        //private SynchronizedList<AudioFile> m_audioFilesToInsert = new SynchronizedList<AudioFile>();
 
         /// <summary>
-        /// Imports metadata from an audio file into the database.
+        /// This is the main method for updating the library.
         /// </summary>
-        /// <param name="audioFilePath">Audio file path</param>        
-        public void Import(string audioFilePath)
+        public void Update()
         {
-            // Create list and call ImportAudioFiles
-            List<string> filePaths = new List<string>() { audioFilePath };
-            Import(filePaths);
+            // Fetch the list of folders to import
+
+        }
+
+        /// <summary>
+        /// Imports audio file metadata from a specific folder path into the database.
+        /// </summary>
+        /// <param name="folderPath">Folder path</param>        
+        public void ImportFolder(string folderPath)
+        {
+            // Search recursively and import files
+            List<string> filePaths = AudioTools.SearchAudioFilesRecursive(folderPath, "MP3;FLAC;OGG");
+
+            // Import new files
+            ImportFiles(filePaths);
         }
 
         /// <summary>
         /// Imports metadata from a list of audio files into the database.
         /// </summary>
         /// <param name="filePaths">List of audio file paths</param>
-        public void Import(List<string> filePaths)
+        public void ImportFiles(List<string> filePaths)
         {
             // Check there are active threads
             if (m_isProcessing)
@@ -417,6 +451,100 @@ namespace MPfm.Library
                     // Throw exception and exit loop
                     throw ex;
                 }
+            }
+        }
+    }
+
+    public class SynchronizedList<T>
+    {
+        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+        private List<T> cache = new List<T>();        
+
+        public SynchronizedList()
+        {
+
+        }
+
+        public void Add(T item)
+        {
+            cacheLock.EnterWriteLock();
+            try
+            {
+                cache.Add(item);
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
+        }
+
+        public T Get(int index)
+        {
+            cacheLock.EnterReadLock();
+            try
+            {
+                return cache[index];
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
+            }
+        }
+
+        public List<T> GetCache()
+        {
+            cacheLock.EnterReadLock();
+            try
+            {
+                List<T> list = new List<T>();
+                foreach (T item in cache)
+                {
+                    list.Add(item);
+                }
+                return list;
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
+            }
+        }
+
+        public void Delete(int index)
+        {
+            cacheLock.EnterWriteLock();
+            try
+            {
+                cache.RemoveAt(index);
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
+        }
+
+        public void Clear()
+        {
+            cacheLock.EnterWriteLock();
+            try
+            {
+                cache.Clear();
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
+        }
+
+        public int Count()
+        {
+            cacheLock.EnterReadLock();
+            try
+            {
+                return cache.Count;
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
             }
         }
     }

@@ -139,9 +139,10 @@ namespace MPfm.Library
                 dto.FolderId = new Guid(table.Rows[a]["FolderId"].ToString());
                 dto.FolderPath = table.Rows[a]["FolderPath"].ToString();
 
-                bool isRecursive = false;
-                bool.TryParse(table.Rows[a]["IsRecursive"].ToString(), out isRecursive);
-                dto.IsRecursive = isRecursive;
+                // Bug fix: for some reason, SQLite returns 0 or 1 instead of true/false for binary fields.                
+                int isRecursive = 0;
+                int.TryParse(table.Rows[a]["IsRecursive"].ToString(), out isRecursive);
+                dto.IsRecursive = (isRecursive == 1) ? true : false;
 
                 // Assign properties (datetimes)
                 DateTime lastUpdated = DateTime.MinValue;

@@ -222,6 +222,51 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Updates a DataTable into the database using a transaction (useful for insert/update/delete).
+        /// </summary>
+        /// <param name="table">DataTable to update</param>
+        /// <param name="sql">Base query to select item to update/insert/delete</param>
+        protected void UpdateDataTableTransaction(DataTable table, string sql)
+        {
+            // Open connection
+            OpenConnection();
+
+            // Create transaction
+            DbTransaction transaction = m_connection.BeginTransaction();
+
+            // Create command
+            DbCommand command = m_factory.CreateCommand();
+            command.CommandText = sql;
+            command.Connection = m_connection;            
+
+            // Create adapter
+            DbDataAdapter adapter = m_factory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+
+            // Create command builder
+            DbCommandBuilder builder = m_factory.CreateCommandBuilder();
+            builder.DataAdapter = adapter;
+
+            // Get the insert, update and delete commands
+            adapter.InsertCommand = builder.GetInsertCommand();
+            adapter.UpdateCommand = builder.GetUpdateCommand();
+            adapter.DeleteCommand = builder.GetDeleteCommand();
+
+            adapter.Update(table);
+
+            transaction.Commit();
+
+            // Dispose stuff            
+            adapter.Dispose();
+            builder.Dispose();
+            command.Dispose();
+            transaction.Dispose();            
+
+            // Close connection
+            CloseConnection();
+        }
+
+        /// <summary>
         /// Inserts an item into the database.
         /// </summary>
         /// <param name="tableName">Table name</param>
@@ -237,31 +282,6 @@ namespace MPfm.Library
             DataRow newRow = table.NewRow();
             table.Rows.Add(newRow);
             ConvertLibrary.ToRow(ref newRow, dto);
-
-            // Insert new row into database
-            UpdateDataTable(table, baseQuery);
-        }
-
-        /// <summary>
-        /// Inserts an item into the database.
-        /// </summary>
-        /// <param name="tableName">Table name</param>
-        /// <param name="idFieldName">Id field name</param>
-        /// <param name="dtos">List of objects</param>
-        protected void Insert(string tableName, string idFieldName, List<object> dtos)
-        {
-            // Get empty result set
-            string baseQuery = "SELECT * FROM " + tableName;
-            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
-            
-            // Loop through objects
-            foreach (object dto in dtos)
-            {
-                // Add new row to data table
-                DataRow newRow = table.NewRow();
-                table.Rows.Add(newRow);
-                ConvertLibrary.ToRow(ref newRow, dto);
-            }
 
             // Insert new row into database
             UpdateDataTable(table, baseQuery);

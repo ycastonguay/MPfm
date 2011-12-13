@@ -593,6 +593,7 @@ namespace MPfm.Library
             {
                 Tracing.Log("MPfm.Library -- AddAudioFileToLibrary() error -- Metadata read failed -- " + ex.Message + " -- " + ex.StackTrace);
                 UpdateLibraryReportProgress("Adding media to the library", "Metadata read failed", percentCompleted, totalNumberOfFiles, currentFilePosition, "Could not add " + filePath + "; metadata read failed.", filePath, null, ex);
+                return;
             }
 
             // Display update

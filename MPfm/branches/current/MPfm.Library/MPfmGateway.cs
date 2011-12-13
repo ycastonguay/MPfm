@@ -121,7 +121,25 @@ namespace MPfm.Library
         public void InsertAudioFiles(List<AudioFile> audioFiles)
         {
             // Insert song
-            Insert("AudioFiles", "AudioFileId", audioFiles);
+            //Insert("AudioFiles", "AudioFileId", audioFiles);
+            string tableName = "AudioFiles";
+            string idFieldName = "AudioFileId";
+
+            // Get empty result set
+            string baseQuery = "SELECT * FROM " + tableName;
+            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
+
+            // Loop through objects
+            foreach (AudioFile audioFile in audioFiles)
+            {
+                // Add new row to data table
+                DataRow newRow = table.NewRow();
+                table.Rows.Add(newRow);
+                ConvertLibrary.ToRow(ref newRow, audioFile);
+            }
+
+            // Insert new row into database
+            UpdateDataTableTransaction(table, baseQuery);
         }
 
         /// <summary>
