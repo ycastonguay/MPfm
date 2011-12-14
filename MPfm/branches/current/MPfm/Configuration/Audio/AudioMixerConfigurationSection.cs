@@ -36,13 +36,21 @@ namespace MPfm
     public class AudioMixerConfigurationSection
     {
         /// <summary>
-        /// Mixer frequency (sample rate) in Hz.
+        /// Mixer frequency (sample rate) in Hz (default: 44100Hz).
         /// </summary>
         public int Frequency { get; set; }
         /// <summary>
         /// Mixer volume in percentage (0-100).
         /// </summary>
         public int Volume { get; set; }
+        /// <summary>
+        /// Mixer buffer size (default: 100ms).
+        /// </summary>
+        public int BufferSize { get; set; }
+        /// <summary>
+        /// Mixer update period (default: 10ms).
+        /// </summary>
+        public int UpdatePeriod { get; set; }
 
         /// <summary>
         /// Default constructor for the AudioMixerConfigurationSection class.
@@ -52,6 +60,9 @@ namespace MPfm
             // Set default values
             Frequency = 44100;
             Volume = 85;
+            BufferSize = 100;
+            UpdatePeriod = 10;
+
         }
     }
 }

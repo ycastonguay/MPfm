@@ -10,7 +10,7 @@
   <audio>
     <driver type="DirectSound" />
     <device name="M-Audio" driver="DriverInfo" id="1" />
-    <mixer frequency="96000" volume="100" />
+    <mixer frequency="96000" bufferSize="100" updatePeriod="10" volume="100" />
     <eq enabled="true" preset="Rock" />
   </audio>
   <controls>

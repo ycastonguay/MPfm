@@ -727,7 +727,7 @@ namespace MPfm.Player.PlayerV4
 
                 // Create the streaming channel (set the frequency to the first file in the list)
                 m_streamProc = new STREAMPROC(StreamCallback);
-                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
+                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);                
 
                 // Check driver type
                 if (m_device.DriverType == DriverType.DirectSound)

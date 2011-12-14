@@ -308,7 +308,7 @@ namespace MPfm
                 }
 
                 // Create player
-                m_player = new MPfm.Player.PlayerV4.Player(device, 96000, 100, 10);
+                m_player = new MPfm.Player.PlayerV4.Player(device, Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod);
                 m_player.OnSongFinished += new Player.PlayerV4.Player.SongFinished(m_player_OnSongFinished);
                 m_player.OnStreamCallbackCalled += new MPfm.Player.PlayerV4.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
 

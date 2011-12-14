@@ -60,14 +60,13 @@ namespace MPfm
             // Create main window
             WindowConfiguration windowMain = new WindowConfiguration();
             windowMain.Name = "Main";
-            windowMain.Width = 800;
-            windowMain.Height = 600;
+            windowMain.Width = 1000;
+            windowMain.Height = 750;
 
             // Create playlist window
             WindowConfiguration windowPlaylist = new WindowConfiguration();
             windowPlaylist.Name = "Playlist";
-            windowPlaylist.Width = 800;
-            windowPlaylist.Height = 600;
+            windowPlaylist.Visible = false;            
 
             // Add windows to list
             m_windows.Add(windowMain);

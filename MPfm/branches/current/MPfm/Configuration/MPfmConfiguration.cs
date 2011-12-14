@@ -224,7 +224,9 @@ namespace MPfm
                 {
                     // Get values
                     m_audioSection.Mixer.Frequency = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "frequency");
-                    m_audioSection.Mixer.Volume = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "volume");
+                    m_audioSection.Mixer.Volume = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "volume");                    
+                    m_audioSection.Mixer.BufferSize = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "bufferSize");
+                    m_audioSection.Mixer.UpdatePeriod = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "updatePeriod");
                 }
                 // Check if this XML element was found
                 if (elementAudioEQ != null)
@@ -441,6 +443,8 @@ namespace MPfm
             elementAudioDevice.Add(XMLHelper.NewAttribute("id", m_audioSection.Device.Id));
             elementAudioMixer.Add(XMLHelper.NewAttribute("frequency", m_audioSection.Mixer.Frequency));
             elementAudioMixer.Add(XMLHelper.NewAttribute("volume", m_audioSection.Mixer.Volume));
+            elementAudioMixer.Add(XMLHelper.NewAttribute("bufferSize", m_audioSection.Mixer.BufferSize));
+            elementAudioMixer.Add(XMLHelper.NewAttribute("updatePeriod", m_audioSection.Mixer.UpdatePeriod));
             elementAudioEQ.Add(XMLHelper.NewAttribute("enabled", m_audioSection.EQ.Enabled));
             elementAudioEQ.Add(XMLHelper.NewAttribute("preset", m_audioSection.EQ.Preset));
 
