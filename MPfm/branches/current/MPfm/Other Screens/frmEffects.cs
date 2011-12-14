@@ -108,8 +108,8 @@ namespace MPfm
         /// </summary>
         private void LoadConfig()
         {
-            chkEQOn.Checked = Main.Config.EQOn;
-            comboEQPreset.SelectedItem = Main.Config.EQPreset;
+            chkEQOn.Checked = Main.Config.Audio.EQ.Enabled;
+            comboEQPreset.SelectedItem = Main.Config.Audio.EQ.Preset;
         }
 
         /// <summary>
@@ -117,15 +117,15 @@ namespace MPfm
         /// </summary>
         private void SaveConfig()
         {
-            Main.Config.EQOn = chkEQOn.Checked;
+            Main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
 
             if (comboEQPreset.SelectedItem != null)
             {
-                Main.Config.EQPreset = comboEQPreset.SelectedItem.ToString();
+                Main.Config.Audio.EQ.Preset = comboEQPreset.SelectedItem.ToString();
             }
             else
             {
-                Main.Config.EQPreset = string.Empty;
+                Main.Config.Audio.EQ.Preset = string.Empty;
             }
         }
 
@@ -491,7 +491,7 @@ namespace MPfm
                     fader17.Value = (Int32)(equalizer.Bands[17].Gain * 10);
 
                     // Set config                    
-                    Main.Config.EQPreset = equalizer.Name;
+                    Main.Config.Audio.EQ.Preset = equalizer.Name;
                 }
             }
             catch (Exception ex)

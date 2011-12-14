@@ -57,21 +57,21 @@ namespace MPfm
             // Create list
             m_windows = new List<WindowConfiguration>();
 
-            // Create main window
-            WindowConfiguration windowMain = new WindowConfiguration();
-            windowMain.Name = "Main";
-            windowMain.Width = 800;
-            windowMain.Height = 600;
+            //// Create main window
+            //WindowConfiguration windowMain = new WindowConfiguration();
+            //windowMain.Name = "Main";
+            //windowMain.Width = 800;
+            //windowMain.Height = 600;
 
-            // Create playlist window
-            WindowConfiguration windowPlaylist = new WindowConfiguration();
-            windowPlaylist.Name = "Playlist";
-            windowPlaylist.Width = 800;
-            windowPlaylist.Height = 600;
+            //// Create playlist window
+            //WindowConfiguration windowPlaylist = new WindowConfiguration();
+            //windowPlaylist.Name = "Playlist";
+            //windowPlaylist.Width = 800;
+            //windowPlaylist.Height = 600;
 
-            // Add windows to list
-            m_windows.Add(windowMain);
-            m_windows.Add(windowPlaylist);
+            //// Add windows to list
+            //m_windows.Add(windowMain);
+            //m_windows.Add(windowPlaylist);
         }
     }
 }

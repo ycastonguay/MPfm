@@ -41,7 +41,7 @@ namespace MPfm
         /// Defines the type of query.
         /// </summary>
         public SongQueryType Type { get; set; }
-
+        
         /// <summary>
         /// Defines the artist name for the query.
         /// </summary>

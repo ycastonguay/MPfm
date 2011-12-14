@@ -175,8 +175,8 @@ namespace MPfm
             Device device = (Device)cboOutputDevices.SelectedItem;
 
             // Save configuration            
-            Main.Config.OutputDevice = device.Name;
-            Main.Config.Driver = driver.DriverType;
+            Main.Config.Audio.Device = device;
+            Main.Config.Audio.DriverType = driver.DriverType;
 
             // Close wizard
             DialogResult = System.Windows.Forms.DialogResult.OK;

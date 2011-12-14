@@ -74,5 +74,27 @@ namespace MPfm.Core
 
             return string.Empty;
         }
+
+        /// <summary>
+        /// Returns a new attribute. If the value is null, the value is changed
+        /// to string.Empty (XAttribute doesn't support null values!).
+        /// </summary>
+        /// <param name="name">Attribute name</param>
+        /// <param name="value">Attribute value</param>
+        /// <returns>Attribute object</returns>
+        public static XAttribute NewAttribute(string name, object value)
+        {
+            // Create attribute
+            XAttribute attribute = new XAttribute(name, string.Empty);
+
+            // Check if value is null
+            if (value != null)
+            {
+                // Set value
+                attribute.SetValue(value);
+            }
+
+            return attribute;
+        }
     }
 }

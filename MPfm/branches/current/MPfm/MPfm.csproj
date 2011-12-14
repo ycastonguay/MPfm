@@ -104,7 +104,6 @@
     <Compile Include="Classes\MPFMConfig.cs" />
     <Compile Include="Classes\SongQuery.cs" />
     <Compile Include="Configuration\Audio\AudioConfigurationSection.cs" />
-    <Compile Include="Configuration\Audio\AudioDeviceConfigurationSection.cs" />
     <Compile Include="Configuration\Audio\AudioMixerConfigurationSection.cs" />
     <Compile Include="Configuration\Audio\AudioEQConfigurationSection.cs" />
     <Compile Include="Configuration\Controls\ControlsSongGridViewConfigurationSection.cs" />

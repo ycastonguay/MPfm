@@ -26,6 +26,7 @@ using System.Xml;
 using System.Xml.Linq;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm
 {
@@ -43,15 +44,19 @@ namespace MPfm
         /// <summary>
         /// Private value for the Device property.
         /// </summary>
-        private AudioDeviceConfigurationSection m_device = null;
+        private Device m_device = null;
         /// <summary>
-        /// Device section (name, id, etc.).
+        /// Output device (name, id, etc.).
         /// </summary>
-        public AudioDeviceConfigurationSection Device
+        public Device Device
         {
             get
             {
                 return m_device;
+            }
+            set
+            {
+                m_device = value;
             }
         }
 
@@ -91,7 +96,7 @@ namespace MPfm
         public AudioConfigurationSection()
         {
             // Create sections
-            m_device = new AudioDeviceConfigurationSection();
+            m_device = new Device();
             m_mixer = new AudioMixerConfigurationSection();
             m_eq = new AudioEQConfigurationSection();
         }

@@ -127,11 +127,11 @@ namespace MPfm
         /// <summary>
         /// Private value for the Config property.
         /// </summary>
-        private MPFMConfig m_config = null;
+        private MPfmConfiguration m_config = null;
         /// <summary>
         /// This contains the configuration values for MPfm.
         /// </summary>
-        public MPFMConfig Config
+        public MPfmConfiguration Config
         {
             get
             {
@@ -204,56 +204,20 @@ namespace MPfm
                 Tracing.Log("Loading configuration...");
                 frmSplash.SetStatus("Loading configuration...");
 
-                // Get config
-                m_config = new MPFMConfig();                
+                // Create configuration with default settings
+                m_config = new MPfmConfiguration("config.xml");
+
+                // Check if the configuration file exists
+                if (File.Exists("config.xml"))
+                {
+                    // Load configuration values
+                    m_config.Load();
+                }
 
                 // Get assembly version
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 string title = "MPfm: Music Player for Musicians";
                 this.Text = title + " - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-                //// Verify if the database path is in the configuration file 
-                //bool databaseFileFound = false;
-                //string connectionString = string.Empty;
-                //if (m_config.Config.ConnectionStrings.ConnectionStrings.Count > 0)
-                //{
-                //    // Loop through connection strings
-                //    foreach (ConnectionStringSettings connectionStringSetting in m_config.Config.ConnectionStrings.ConnectionStrings)
-                //    {
-                //        // Check for connection string name
-                //        if (connectionStringSetting.Name.ToUpper() == "MPFM_EF")
-                //        {
-                //            // Set connection string
-                //            connectionString = connectionStringSetting.ConnectionString;                            
-                //        }
-                //    }
-                //}
-
-                //// If a connection string was found, check if the file exists
-                //if (!String.IsNullOrEmpty(connectionString))
-                //{
-                //    // Extract file path
-                //    string[] stuff = Regex.Split(connectionString.ToUpper(), "\"DATA SOURCE=");
-                //    if (stuff.Length == 2)
-                //    {
-                //        // Get file path
-                //        string filePath = stuff[1].Replace("\"", "");
-
-                //        try
-                //        {
-                //            // Check if the database file exists
-                //            if (File.Exists(filePath))
-                //            {
-                //                // We found the database file!
-                //                databaseFileFound = true;
-                //            }
-                //        }
-                //        catch
-                //        {
-                //            // Do nothing; the database file found flag is already false
-                //        }
-                //    }
-                //}
 
                 //// Check if the database file was found
                 //if(!databaseFileFound)
@@ -284,7 +248,8 @@ namespace MPfm
             }
 
             // Check if it's the first time the user runs the application
-            if (Config.FirstRun)
+            if (Config.GetKeyValueGeneric<bool>("FirstRun") == null ||
+                Config.GetKeyValueGeneric<bool>("FirstRun") == true)
             {
                 // Display the first run wizard
                 frmFirstRun formFirstRun = new frmFirstRun(this);
@@ -300,8 +265,11 @@ namespace MPfm
                 else
                 {
                     // Wizard is done: set first run to false
-                    Config.FirstRun = false;
+                    Config.SetKeyValue<bool>("FirstRun", false);
                 }
+
+                // Save initial configuration
+                Config.Save();
             }
             
             // Create player
@@ -312,8 +280,8 @@ namespace MPfm
                 frmSplash.SetStatus("Loading player...");
                 
                 // Get configuration values
-                DriverType driverType = Config.Driver;
-                string deviceName = Config.OutputDevice;                
+                DriverType driverType = Config.Audio.DriverType;
+                string deviceName = Config.Audio.Device.Name;
 
                 // Check configured driver type
                 if (driverType == DriverType.DirectSound)
@@ -425,7 +393,12 @@ namespace MPfm
             QuerySongBrowser = new SongQuery();
 
             // Get media type filter configuration and set media type before refreshing the tree library
-            comboSoundFormat.SelectedItem = Config.FilterSoundFormat;
+            string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
+            if (String.IsNullOrEmpty(filterSoundFormat))
+            {
+                filterSoundFormat = FilterSoundFormat.MP3.ToString();
+            }
+            comboSoundFormat.SelectedItem = filterSoundFormat;
             RefreshTreeLibrary();
 
             //RefreshPlayControls();
@@ -452,20 +425,20 @@ namespace MPfm
             InitCurrentSongId = Guid.Empty;
 
             // Set volume
-            faderVolume.Value = Config.Volume;
+            faderVolume.Value = Config.Audio.Mixer.Volume;
 
             // Set tray options
-            notifyIcon.Visible = Config.ShowTray;
+            //notifyIcon.Visible = Config.ShowTray;
 
             // Set EQ options           
             // (automatic)
 
             // Set query if available
-            string queryArtistName = Config.SongQueryArtistName;
-            string queryAlbumTitle = Config.SongQueryAlbumTitle;
-            string queryPlaylistId = Config.SongQueryPlaylistId;
-            string querySongId = Config.SongQuerySongId;
-            string currentNodeType = Config.CurrentNodeType;
+            string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
+            string queryAlbumTitle = Config.Controls.SongGridView.Query.AlbumTitle;
+            string queryPlaylistId = Config.Controls.SongGridView.Query.PlaylistId.ToString();
+            string querySongId = Config.Controls.SongGridView.Query.AudioFileId.ToString();
+            string currentNodeType = Config.Controls.SongGridView.Query.NodeType.ToString();
 
             // Set Init current song Id
             if (!string.IsNullOrEmpty(querySongId))
@@ -581,101 +554,101 @@ namespace MPfm
         /// </summary>
         public void LoadWindowConfiguration()
         {
-            if (!Config.KeyExists(MPFMConfig.Key_WindowX))
-            {
-                // No configuration for window position; center window in screen
-                StartPosition = FormStartPosition.CenterScreen;
-                return;
-            }
-            else
-            {
-                int x = 0;
-                int y = 0;
+            //if (!Config.KeyExists(MPFMConfig.Key_WindowX))
+            //{
+            //    // No configuration for window position; center window in screen
+            //    StartPosition = FormStartPosition.CenterScreen;
+            //    return;
+            //}
+            //else
+            //{
+            //    int x = 0;
+            //    int y = 0;
 
-                // Make sure the window X isn't negative
-                if (Config.WindowX < 0)
-                {
-                    x = 0;
-                }
-                else
-                {
-                    x = Config.WindowX;
-                }
-                // Make sure the window Y isn't negative
-                if (Config.WindowY < 0)
-                {
-                    y = 0;
-                }
-                else
-                {
-                    y = Config.WindowY;
-                }
+            //    // Make sure the window X isn't negative
+            //    if (Config.WindowX < 0)
+            //    {
+            //        x = 0;
+            //    }
+            //    else
+            //    {
+            //        x = Config.WindowX;
+            //    }
+            //    // Make sure the window Y isn't negative
+            //    if (Config.WindowY < 0)
+            //    {
+            //        y = 0;
+            //    }
+            //    else
+            //    {
+            //        y = Config.WindowY;
+            //    }
 
-                Location = new Point(x, y);
-            }
+            //    Location = new Point(x, y);
+            //}
            
-            Width = Config.WindowWidth;
-            Height = Config.WindowHeight;
+            //Width = Config.WindowWidth;
+            //Height = Config.WindowHeight;
 
-            if (Config.WindowMaximized)
-            {
-                WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                WindowState = FormWindowState.Normal;
-            }
+            //if (Config.WindowMaximized)
+            //{
+            //    WindowState = FormWindowState.Maximized;
+            //}
+            //else
+            //{
+            //    WindowState = FormWindowState.Normal;
+            //}
 
-            splitFirst.SplitterDistance = Config.WindowSplitterDistance;
+            //splitFirst.SplitterDistance = Config.WindowSplitterDistance;
 
-            //// Load song browser column widths
-            //viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
-            //viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
-            //viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
-            //viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
-            //viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
-            //viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
-            //viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
-            //viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
+            ////// Load song browser column widths
+            ////viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
+            ////viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
+            ////viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
+            ////viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
+            ////viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
+            ////viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
+            ////viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
+            ////viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
 
-            if (formPlaylist != null)
-            {
-                // Load playlist window position and size
-                if (!Config.KeyExists(MPFMConfig.Key_PlaylistX))
-                {
-                    // No configuration for window position; center window in screen
-                    formPlaylist.StartPosition = FormStartPosition.CenterScreen;
-                    return;
-                }
-                else
-                {
-                    formPlaylist.Location = new Point(Config.PlaylistX, Config.PlaylistY);
-                }
+            //if (formPlaylist != null)
+            //{
+            //    // Load playlist window position and size
+            //    if (!Config.KeyExists(MPFMConfig.Key_PlaylistX))
+            //    {
+            //        // No configuration for window position; center window in screen
+            //        formPlaylist.StartPosition = FormStartPosition.CenterScreen;
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        formPlaylist.Location = new Point(Config.PlaylistX, Config.PlaylistY);
+            //    }
 
-                formPlaylist.Width = Config.PlaylistWidth;
-                formPlaylist.Height = Config.PlaylistHeight;
+            //    formPlaylist.Width = Config.PlaylistWidth;
+            //    formPlaylist.Height = Config.PlaylistHeight;
 
-                if (Config.PlaylistMaximized)
-                {
-                    formPlaylist.WindowState = FormWindowState.Maximized;
-                }
-                else
-                {
-                    formPlaylist.WindowState = FormWindowState.Normal;
-                }
+            //    if (Config.PlaylistMaximized)
+            //    {
+            //        formPlaylist.WindowState = FormWindowState.Maximized;
+            //    }
+            //    else
+            //    {
+            //        formPlaylist.WindowState = FormWindowState.Normal;
+            //    }
 
-                formPlaylist.Visible = Config.PlaylistVisible;
+            //    formPlaylist.Visible = Config.PlaylistVisible;
 
-                //// Load playlist column widths
-                //formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
-                //formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
-                //formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
-                //formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
-                //formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
-                //formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
-                //formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
-                //formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
-            }
+            //    //// Load playlist column widths
+            //    //formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
+            //    //formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
+            //    //formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
+            //    //formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
+            //    //formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
+            //    //formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
+            //    //formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
+            //    //formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
+            //}
         }
 
         /// <summary>
@@ -683,55 +656,55 @@ namespace MPfm
         /// </summary>
         public void SaveWindowConfiguration()
         {
-            // Save window position and size
-            Config.WindowX = Location.X;
-            Config.WindowY = Location.Y;
-            Config.WindowWidth = Width;
-            Config.WindowHeight = Height;
-            Config.WindowSplitterDistance = splitFirst.SplitterDistance;
+            //// Save window position and size
+            //Config.WindowX = Location.X;
+            //Config.WindowY = Location.Y;
+            //Config.WindowWidth = Width;
+            //Config.WindowHeight = Height;
+            //Config.WindowSplitterDistance = splitFirst.SplitterDistance;
 
-            bool isMaximized = false;
-            if (WindowState == FormWindowState.Maximized)
-            {
-                isMaximized = true;
-            }
-            Config.WindowMaximized = isMaximized;
+            //bool isMaximized = false;
+            //if (WindowState == FormWindowState.Maximized)
+            //{
+            //    isMaximized = true;
+            //}
+            //Config.WindowMaximized = isMaximized;
 
-            //// Save song browser column widths
-            //Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
-            //Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
-            //Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
-            //Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
-            //Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
-            //Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
-            //Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
-            //Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
+            ////// Save song browser column widths
+            ////Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
+            ////Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
+            ////Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
+            ////Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
+            ////Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
+            ////Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
+            ////Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
+            ////Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
 
-            // Save playlist window position and size
-            if (formPlaylist != null)
-            {
-                Config.PlaylistX = formPlaylist.Location.X;
-                Config.PlaylistY = formPlaylist.Location.Y;
-                Config.PlaylistWidth = formPlaylist.Width;
-                Config.PlaylistHeight = formPlaylist.Height;
-                Config.PlaylistVisible = formPlaylist.Visible;
+            //// Save playlist window position and size
+            //if (formPlaylist != null)
+            //{
+            //    Config.PlaylistX = formPlaylist.Location.X;
+            //    Config.PlaylistY = formPlaylist.Location.Y;
+            //    Config.PlaylistWidth = formPlaylist.Width;
+            //    Config.PlaylistHeight = formPlaylist.Height;
+            //    Config.PlaylistVisible = formPlaylist.Visible;
 
-                if (formPlaylist.WindowState == FormWindowState.Maximized)
-                {
-                    isMaximized = true;
-                }
-                Config.PlaylistMaximized = isMaximized;
+            //    if (formPlaylist.WindowState == FormWindowState.Maximized)
+            //    {
+            //        isMaximized = true;
+            //    }
+            //    Config.PlaylistMaximized = isMaximized;
 
-                //// Save playlist column widths
-                //Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
-                //Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
-                //Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
-                //Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
-                //Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
-                //Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
-                //Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
-                //Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
-            }
+            //    //// Save playlist column widths
+            //    //Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
+            //    //Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
+            //    //Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
+            //    //Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
+            //    //Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
+            //    //Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
+            //    //Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
+            //    //Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
+            //}
         }
 
         /// <summary>
@@ -995,7 +968,7 @@ namespace MPfm
                     formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
 
                     // Set next song in configuration                                    
-                    Config.SongQuerySongId = m_player.Playlist.CurrentItem.AudioFile.Id.ToString();
+                    Config.Controls.SongGridView.Query.AudioFileId = m_player.Playlist.CurrentItem.AudioFile.Id;
 
                     // Refresh loops & markers
                     RefreshMarkers();
@@ -1527,9 +1500,18 @@ namespace MPfm
             QuerySongBrowser = metadata.Query;
 
             // Set config
-            Config.SongQueryArtistName = QuerySongBrowser.ArtistName;
-            Config.SongQueryAlbumTitle = QuerySongBrowser.AlbumTitle;
-            Config.SongQueryPlaylistId = QuerySongBrowser.PlaylistId.ToString();
+            Config.Controls.SongGridView.Query.ArtistName = QuerySongBrowser.ArtistName;
+            Config.Controls.SongGridView.Query.AlbumTitle = QuerySongBrowser.AlbumTitle;
+            Config.Controls.SongGridView.Query.PlaylistId = QuerySongBrowser.PlaylistId;
+
+            try
+            {
+                Config.Save();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             // Refresh song browser
             RefreshSongBrowser(QuerySongBrowser);
@@ -2146,7 +2128,7 @@ namespace MPfm
         private void trackVolume_MouseUp(object sender, MouseEventArgs e)
         {
             //Config["Volume"] = trackVolume.Value.ToString();
-            Config.Volume = faderVolume.Value;
+            Config.Audio.Mixer.Volume = faderVolume.Value;
         }
 
         /// <summary>
@@ -2186,7 +2168,7 @@ namespace MPfm
             // Set volume and update label            
             m_player.Volume = (float)faderVolume.Value / 100;
             lblVolume.Text = faderVolume.Value.ToString() + " %";
-            Config.Volume = faderVolume.Value;
+            Config.Audio.Mixer.Volume = faderVolume.Value;
         }
 
         /// <summary>
@@ -2317,7 +2299,7 @@ namespace MPfm
             // Set selected song in config
             if (viewSongs2.SelectedItems.Count > 0)
             {                
-                Config.SongQuerySongId = viewSongs2.SelectedItems[0].AudioFile.Id.ToString();
+                Config.Controls.SongGridView.Query.AudioFileId = viewSongs2.SelectedItems[0].AudioFile.Id;
             }
         }
 
@@ -2691,16 +2673,16 @@ namespace MPfm
             //if (e.Action == TreeViewAction.ByMouse || e.Action == TreeViewAction.Unknown)
             if (e.Action == TreeViewAction.ByMouse)
             {
-                // Refresh song browser
-                RefreshSongBrowser();
-
                 // Set current tree node type in config
                 TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)e.Node.Tag;
-
                 if (metadata != null)
                 {
-                    Config.CurrentNodeType = metadata.NodeType.ToString();
+                    // Set node type
+                    Config.Controls.SongGridView.Query.NodeType = metadata.NodeType;
                 }
+
+                // Refresh song browser
+                RefreshSongBrowser();
             }
         }
 
@@ -2971,7 +2953,8 @@ namespace MPfm
             if (IsInitDone)
             {
                 // Set configuration                
-                Config.FilterSoundFormat = FilterSoundFormat.ToString();
+                Config.SetKeyValue("FilterSoundFormat", FilterSoundFormat.ToString());
+                Config.Save();
 
                 // Refresh all controls
                 RefreshAll();

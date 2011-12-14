@@ -246,8 +246,8 @@ namespace MPfm
             if (settingsChanged)
             {
                 // Compare the original configured values to make sure the settings have really changed
-                if(driver.DriverType != Main.Config.Driver ||
-                   device.Name.ToUpper() != Main.Config.OutputDevice.ToUpper())
+                if(driver.DriverType != Main.Config.Audio.DriverType ||
+                   device.Name.ToUpper() != Main.Config.Audio.Device.Name.ToUpper())
                 {
                     // Yes they have really changed!
                     // Have the new settings been tested?
@@ -320,13 +320,13 @@ namespace MPfm
             {
                 // Do not save settings; restore original configuration                
                 Device originalDevice = null;
-                if (Main.Config.Driver == DriverType.DirectSound)
+                if (Main.Config.Audio.DriverType == DriverType.DirectSound)
                 {
                     // Loop through devices
                     for (int a = 0; a < m_devicesDirectSound.Count; a++)
                     {
                         // Check if the device matches
-                        if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                        if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                         {
                             // Set device
                             originalDevice = m_devicesDirectSound[a];
@@ -334,13 +334,13 @@ namespace MPfm
                         }
                     }
                 }
-                else if (Main.Config.Driver == DriverType.ASIO)
+                else if (Main.Config.Audio.DriverType == DriverType.ASIO)
                 {
                     // Loop through devices
                     for (int a = 0; a < m_devicesASIO.Count; a++)
                     {
                         // Check if the device matches
-                        if (m_devicesASIO[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                        if (m_devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                         {
                             // Set device
                             originalDevice = m_devicesASIO[a];
@@ -348,13 +348,13 @@ namespace MPfm
                         }
                     }
                 }
-                else if (Main.Config.Driver == DriverType.WASAPI)
+                else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
                 {
                     // Loop through devices
                     for (int a = 0; a < m_devicesWASAPI.Count; a++)
                     {
                         // Check if the device matches
-                        if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                        if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                         {
                             // Set device
                             originalDevice = m_devicesWASAPI[a];
@@ -392,19 +392,19 @@ namespace MPfm
         private void LoadConfig()
         {
             // Load values into controls
-            chkHideTray.Checked = Main.Config.HideTray;
-            chkShowTray.Checked = Main.Config.ShowTray;
-            cboOutputDevices.SelectedText = Main.Config.OutputDevice;
-            cboDrivers.SelectedValue = Main.Config.Driver;            
+            //chkHideTray.Checked = Main.Config.HideTray;
+            //chkShowTray.Checked = Main.Config.ShowTray;
+            cboOutputDevices.SelectedText = Main.Config.Audio.Device.Name;
+            cboDrivers.SelectedValue = Main.Config.Audio.DriverType;            
 
             // Check driver
-            if (Main.Config.Driver == DriverType.DirectSound)
+            if (Main.Config.Audio.DriverType == DriverType.DirectSound)
             {
                 // Loop through devices
                 for (int a = 0; a < m_devicesDirectSound.Count; a++)
                 {
                     // Check if the device matches
-                    if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                    if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                     {
                         // Set selected index
                         cboOutputDevices.SelectedIndex = a;
@@ -412,13 +412,13 @@ namespace MPfm
                     }
                 }
             }
-            else if (Main.Config.Driver == DriverType.ASIO)
+            else if (Main.Config.Audio.DriverType == DriverType.ASIO)
             {
                 // Loop through devices
                 for (int a = 0; a < m_devicesASIO.Count; a++)
                 {
                     // Check if the device matches
-                    if (m_devicesASIO[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                    if (m_devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                     {
                         // Set selected index
                         cboOutputDevices.SelectedIndex = a;
@@ -426,13 +426,13 @@ namespace MPfm
                     }
                 }
             }
-            else if (Main.Config.Driver == DriverType.WASAPI)
+            else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
             {
                 // Loop through devices
                 for (int a = 0; a < m_devicesWASAPI.Count; a++)
                 {
                     // Check if the device matches
-                    if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.OutputDevice.ToUpper())
+                    if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                     {
                         // Set selected index
                         cboOutputDevices.SelectedIndex = a;
@@ -454,10 +454,10 @@ namespace MPfm
             Device device = (Device)cboOutputDevices.SelectedItem;
 
             // Save config values
-            Main.Config.OutputDevice = device.Name;
-            Main.Config.Driver = driver.DriverType;
-            Main.Config.HideTray = chkHideTray.Checked;
-            Main.Config.ShowTray = chkShowTray.Checked;
+            Main.Config.Audio.Device.Name = device.Name;
+            Main.Config.Audio.DriverType = driver.DriverType;
+            //Main.Config.HideTray = chkHideTray.Checked;
+            //Main.Config.ShowTray = chkShowTray.Checked;
         }
 
         #endregion

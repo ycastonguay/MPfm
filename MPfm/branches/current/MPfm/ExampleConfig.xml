@@ -18,7 +18,7 @@
       <columns>
         <column fieldName="Test" order="0" width="0" visible="true" />
       </columns>
-      <query audioFileId="" playlistId="" artistName="" albumTitle="" />      
+      <query nodeType="all" audioFileId="" playlistId="" artistName="" albumTitle="" />      
     </songGridView>
     <playlistGridView>
       <columns>
