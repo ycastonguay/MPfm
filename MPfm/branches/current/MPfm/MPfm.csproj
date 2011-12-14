@@ -113,6 +113,8 @@
     <Compile Include="Configuration\General\GeneralConfigurationKeyValue.cs" />
     <Compile Include="Configuration\General\GeneralConfigurationSection.cs" />
     <Compile Include="Configuration\MPfmConfiguration.cs" />
+    <Compile Include="Configuration\Windows\WindowConfiguration.cs" />
+    <Compile Include="Configuration\Windows\WindowsConfigurationSection.cs" />
     <Compile Include="Other Screens\frmAddEditLoop.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,7 +255,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config.xml">
+    <Content Include="ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Lib\SQLite.Interop.dll" />

@@ -26,6 +26,7 @@ using System.Xml;
 using System.Xml.Linq;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.WindowsControls;
 
 namespace MPfm
 {
@@ -85,6 +86,21 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Private value for the Windows property.
+        /// </summary>
+        private WindowsConfigurationSection m_windowsSection = null;
+        /// <summary>
+        /// Windows configuration section.
+        /// </summary>
+        public WindowsConfigurationSection Windows
+        {
+            get
+            {
+                return m_windowsSection;
+            }
+        }
+
+        /// <summary>
         /// XML document used for loading and saving configuration to file.
         /// </summary>
         private XDocument m_document = null;
@@ -109,9 +125,10 @@ namespace MPfm
         public void Clear()
         {
             // Create sections
-            m_audioSection = new AudioConfigurationSection();
-            m_controlsSection = new ControlsConfigurationSection();
             m_generalSection = new GeneralConfigurationSection();
+            m_audioSection = new AudioConfigurationSection();
+            m_controlsSection = new ControlsConfigurationSection();            
+            m_windowsSection = new WindowsConfigurationSection();
         }
 
         /// <summary>
@@ -134,6 +151,9 @@ namespace MPfm
                 throw new Exception("Error reading configuration file: The configuration node was not found!");
             }
 
+            // *************************************************************************
+            // GENERAL SECTION
+
             // Read General node
             XElement elementGeneral = elementConfig.Element("general");
 
@@ -153,9 +173,10 @@ namespace MPfm
                     keyValue.Value = XMLHelper.GetAttributeValue(elementKeyValue, "value");
                     m_generalSection.KeyValues.Add(keyValue);
                 }
-            }            
+            }
 
-            #region Audio
+            // *************************************************************************
+            // AUDIO SECTION
             
             // Read Audio node
             XElement elementAudio = elementConfig.Element("audio");
@@ -212,8 +233,106 @@ namespace MPfm
                 }
             }
 
-            #endregion
+            // *************************************************************************
+            // CONTROLS SECTION
 
+            // Read Controls node
+            XElement elementControls = elementConfig.Element("controls");
+
+            // Check if node was found
+            if (elementControls != null)
+            {
+                // Read subnodes
+                XElement elementSongGridView = elementControls.Element("songGridView");
+                XElement elementPlaylistGridView = elementControls.Element("playlistGridView");
+
+                // Check if this XML element was found
+                if (elementSongGridView != null)
+                {
+                    // Read subnodes
+                    XElement elementSongGridViewQuery = elementSongGridView.Element("query");
+                    XElement elementSongGridViewColumns = elementSongGridView.Element("columns");
+
+                    // Check if this XML element was found
+                    if (elementSongGridViewQuery != null)
+                    {
+                        // Get query
+                        m_controlsSection.SongGridView.Query.AudioFileId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "audioFileId");
+                        m_controlsSection.SongGridView.Query.PlaylistId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "playlistId");
+                        m_controlsSection.SongGridView.Query.ArtistName = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "artistName");
+                        m_controlsSection.SongGridView.Query.AlbumTitle = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "albumTitle");
+                    }
+                    // Check if this XML element was found
+                    if (elementSongGridViewColumns != null)
+                    {
+                        // Get column list                                
+                        List<XElement> elementsColumns = elementSongGridViewColumns.Elements("column").ToList();
+
+                        // Loop through columns
+                        foreach (XElement elementColumn in elementsColumns)
+                        {
+                            // Create column and add to list
+                            SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"));
+                            column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
+                            column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
+                            column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
+                            m_controlsSection.SongGridView.Columns.Add(column);
+                        }
+                    }
+                }
+                // Check if this XML element was found
+                if (elementPlaylistGridView != null)
+                {
+                    // Read subnodes                    
+                    XElement elementSongGridViewColumns = elementSongGridView.Element("columns");
+
+                    // Check if this XML element was found
+                    if (elementSongGridViewColumns != null)
+                    {
+                        // Get column list                                
+                        List<XElement> elementsColumns = elementSongGridViewColumns.Elements("column").ToList();
+
+                        // Loop through columns
+                        foreach (XElement elementColumn in elementsColumns)
+                        {
+                            // Create column and add to list                                                        
+                            SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"));
+                            column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
+                            column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
+                            column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
+                            m_controlsSection.SongGridView.Columns.Add(column);
+                        }
+                    }
+                }
+            }
+
+            // *************************************************************************
+            // WINDOWS SECTION
+
+            // Read Windows node
+            XElement elementWindows = elementConfig.Element("windows");
+
+            // Check if node was found
+            if (elementWindows != null)
+            {
+                // Get window list                                
+                List<XElement> elementsWindows = elementWindows.Elements("window").ToList();
+
+                // Loop through key/value pairs
+                foreach (XElement elementWindow in elementsWindows)
+                {
+                    // Create new window configuration
+                    WindowConfiguration window = new WindowConfiguration();
+                    window.Name = XMLHelper.GetAttributeValue(elementWindow, "name");
+                    window.X = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "x");
+                    window.Y = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "y");
+                    window.Width = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "width");
+                    window.Height = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "height");
+                    window.Maximized = XMLHelper.GetAttributeValueGeneric<bool>(elementWindow, "maximized");
+                    window.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementWindow, "visible");
+                    m_windowsSection.Windows.Add(window);
+                }
+            }
         }
 
         /// <summary>
@@ -249,8 +368,9 @@ namespace MPfm
             // Create main node
             XElement elementConfiguration = new XElement("configuration");
 
-            #region General
-            
+            // *************************************************************************
+            // GENERAL SECTION
+
             //<general>
             //    <key type="boolean" name="FirstRun" value="true" />
             //</general>
@@ -271,9 +391,8 @@ namespace MPfm
                 elementGeneral.Add(elementKeyValue);
             }
 
-            #endregion
-
-            #region Audio
+            // *************************************************************************
+            // AUDIO SECTION
 
             //<audio>
             //    <driver type="DirectSound" />
@@ -304,11 +423,98 @@ namespace MPfm
             elementAudio.Add(elementAudioMixer);
             elementAudio.Add(elementAudioEQ);
 
-            #endregion
+            // *************************************************************************
+            // CONTROLS SECTION
+
+            //<controls>
+            //  <songGridView>
+            //    <columns>
+            //      <column fieldName="Test" order="0" width="0" visible="true" />
+            //    </columns>
+            //    <query audioFileId="" playlistId="" artistName="" albumTitle="" />      
+            //  </songGridView>
+            //  <playlistGridView>
+            //    <columns>
+            //      <column fieldName="Test" order="0" width="0" visible="true" />
+            //    </columns>      
+            //  </playlistGridView>
+            //</controls>
+
+            // Create nodes
+            XElement elementControls = new XElement("controls");            
+            XElement elementControlsSongGridView = new XElement("songGridView");
+            XElement elementControlsSongGridViewColumns = new XElement("columns");
+            XElement elementControlsSongGridViewQuery = new XElement("query");
+            XElement elementControlsPlaylistGridView = new XElement("playlistGridView");
+            XElement elementControlsPlaylistGridViewColumns = new XElement("columns");
+
+            // Song browser query
+            elementControlsSongGridViewQuery.Add(new XAttribute("audioFileId", m_controlsSection.SongGridView.Query.AudioFileId.ToString()));
+            elementControlsSongGridViewQuery.Add(new XAttribute("playlistId", m_controlsSection.SongGridView.Query.PlaylistId.ToString()));
+            elementControlsSongGridViewQuery.Add(new XAttribute("artistName", m_controlsSection.SongGridView.Query.ArtistName));
+            elementControlsSongGridViewQuery.Add(new XAttribute("albumTitle", m_controlsSection.SongGridView.Query.AlbumTitle));
+
+            // Loop through song browser columns            
+            foreach (SongGridViewColumn column in m_controlsSection.SongGridView.Columns.OrderBy(x => x.Order))
+            {
+                // Create node
+                XElement elementColumn = new XElement("column");                
+                elementColumn.Add(new XAttribute("fieldName", column.FieldName));
+                elementColumn.Add(new XAttribute("order", column.Order));
+                elementColumn.Add(new XAttribute("width", column.Width));
+                elementColumn.Add(new XAttribute("visible", column.Visible));
+                elementControlsSongGridViewColumns.Add(elementColumn);
+            }
+
+            // Loop through playlist browser columns            
+            foreach (SongGridViewColumn column in m_controlsSection.PlaylistGridView.Columns.OrderBy(x => x.Order))
+            {
+                // Create node
+                XElement elementColumn = new XElement("column");                
+                elementColumn.Add(new XAttribute("fieldName", column.FieldName));
+                elementColumn.Add(new XAttribute("order", column.Order));
+                elementColumn.Add(new XAttribute("width", column.Width));
+                elementColumn.Add(new XAttribute("visible", column.Visible));
+                elementControlsSongGridViewColumns.Add(elementColumn);
+            }
+            
+            // Add nodes            
+            elementControlsSongGridView.Add(elementControlsSongGridViewQuery);
+            elementControlsSongGridView.Add(elementControlsSongGridViewColumns);
+            elementControlsPlaylistGridView.Add(elementControlsPlaylistGridViewColumns);
+            elementControls.Add(elementControlsSongGridView);
+            elementControls.Add(elementControlsPlaylistGridView);
+
+            // *************************************************************************
+            // WINDOWS SECTION
+
+            //<windows>            
+            //    <window name="Playlist" x="0" y="0" width="0" height="0" maximized="true" visible="true" />
+            //</windows>
+
+            // Create nodes
+            XElement elementWindows = new XElement("windows");
+
+            // Loop through windows
+            foreach (WindowConfiguration window in m_windowsSection.Windows)
+            {
+                // Add node
+                XElement elementWindow = new XElement("window");
+                elementWindow.Add(new XAttribute("name", window.Name));
+                elementWindow.Add(new XAttribute("x", window.X));
+                elementWindow.Add(new XAttribute("y", window.Y));
+                elementWindow.Add(new XAttribute("width", window.Width));
+                elementWindow.Add(new XAttribute("height", window.Height));
+                elementWindow.Add(new XAttribute("maximized", window.Maximized));
+                elementWindow.Add(new XAttribute("visible", window.Visible));
+                elementWindows.Add(elementWindow);
+            }
 
             // Add nodes to main node
             elementConfiguration.Add(elementGeneral);
             elementConfiguration.Add(elementAudio);
+            elementConfiguration.Add(elementControls);
+            elementConfiguration.Add(elementWindows);
             m_document.Add(elementConfiguration);
         }
     }

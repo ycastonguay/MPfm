@@ -2790,7 +2790,7 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private WindowsControls.Button btnGoToMarker;
-        private WindowsControls.SongGridView viewSongs2;        
+        public WindowsControls.SongGridView viewSongs2;        
     }
 }
 

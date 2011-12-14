@@ -5,6 +5,7 @@
     <key type="System.Boolean" name="ShowTray" value="true" />
     <key type="System.Int32" name="Splitter1Distance" value="235" />
     <key type="System.Int32" name="Splitter2Distance" value="235" />
+    <key type="System.String" name="CurrentTheme" value="Default" />
   </general>
   <audio>
     <driver type="DirectSound" />
@@ -15,13 +16,13 @@
   <controls>
     <songGridView>
       <columns>
-        <column name="Test" orderBy="false" visible="true" order="0" />
+        <column fieldName="Test" order="0" width="0" visible="true" />
       </columns>
       <query audioFileId="" playlistId="" artistName="" albumTitle="" />      
     </songGridView>
     <playlistGridView>
       <columns>
-        <column name="Test" orderBy="false" visible="true" order="0" />
+        <column fieldName="Test" order="0" width="0" visible="true" />
       </columns>      
     </playlistGridView>
   </controls>
@@ -29,5 +30,4 @@
     <window name="Main" x="0" y="0" width="0" height="0" maximized="true" />    
     <window name="Playlist" x="0" y="0" width="0" height="0" maximized="true" visible="true" />
   </windows>
-  <theme current="Default" />
 </configuration>
