@@ -838,7 +838,11 @@ namespace MPfm
                 MPfmConfiguration cfg = new MPfmConfiguration(@"D:\Code\MPfm\Branches\Current\MPfm\Config.xml");
                 cfg.Clear();
                 cfg.Load();
-
+                cfg.Audio.Mixer.Frequency = 44100;
+                cfg.General.KeyValues.Add(new GeneralConfigurationKeyValue() { Name = "Test", Value = "hahaha", ValueType = typeof(string) });
+                cfg.General.KeyValues.Add(new GeneralConfigurationKeyValue() { Name = "Test2", Value = 22, ValueType = typeof(Int32) });
+                cfg.General.KeyValues.Add(new GeneralConfigurationKeyValue() { Name = "Test3", Value = 100.33003f, ValueType = typeof(float) });
+                cfg.Save(@"C:\_\config.xml");
                 return;
 
                 //string peakFileDirectory = @"D:\_peak\";

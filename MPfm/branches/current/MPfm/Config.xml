@@ -1,28 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <general>
-    <key type="boolean" name="FirstRun" value="true" />
-    <key type="boolean" name="ShowTray" value="true" />
+    <key type="System.Boolean" name="FirstRun" value="true" />
+    <key type="System.Boolean" name="ShowTray" value="true" />
+    <key type="System.Int32" name="Splitter1Distance" value="235" />
+    <key type="System.Int32" name="Splitter2Distance" value="235" />
   </general>
   <audio>
     <driver type="DirectSound" />
     <device name="M-Audio" driver="DriverInfo" id="1" />
     <mixer frequency="96000" volume="100" />
+    <eq enabled="true" preset="Rock" />
   </audio>
   <controls>
     <songGridView>
       <columns>
         <column name="Test" orderBy="false" visible="true" order="0" />
       </columns>
-      <query songId="" playlistId="" artistName="" albumTitle="" />      
+      <query audioFileId="" playlistId="" artistName="" albumTitle="" />      
     </songGridView>
+    <playlistGridView>
+      <columns>
+        <column name="Test" orderBy="false" visible="true" order="0" />
+      </columns>      
+    </playlistGridView>
   </controls>
-  <window>
-    <window name="Main" x="0" y="0" width="0" height="0" maximized="true">
-      <splitter name="1" value="0" />
-      <splitter name="2" value="0" />
-    </window>
+  <windows>
+    <window name="Main" x="0" y="0" width="0" height="0" maximized="true" />    
     <window name="Playlist" x="0" y="0" width="0" height="0" maximized="true" visible="true" />
-  </window>
+  </windows>
   <theme current="Default" />
 </configuration>

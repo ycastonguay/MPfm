@@ -71,24 +71,29 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Private value for the EQ property.
+        /// </summary>
+        private AudioEQConfigurationSection m_eq = null;
+        /// <summary>
+        /// EQ (equalizer) section (enabled, preset, etc.).
+        /// </summary>
+        public AudioEQConfigurationSection EQ
+        {
+            get
+            {
+                return m_eq;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the AudioConfigurationSection class.
         /// </summary>
         public AudioConfigurationSection()
         {
+            // Create sections
             m_device = new AudioDeviceConfigurationSection();
             m_mixer = new AudioMixerConfigurationSection();
+            m_eq = new AudioEQConfigurationSection();
         }
-    }
-
-    public class AudioDeviceConfigurationSection
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class AudioMixerConfigurationSection
-    {
-        public int Frequency { get; set; }
-        public int Volume { get; set; }
     }
 }

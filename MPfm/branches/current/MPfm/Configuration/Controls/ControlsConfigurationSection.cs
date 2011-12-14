@@ -39,8 +39,11 @@ namespace MPfm
         /// <summary>
         /// Private value for the SongGridView property.
         /// </summary>
-        private ControlsSectionSongGridView m_songGridView = null;
-        public ControlsSectionSongGridView SongGridView
+        private ControlsSongGridViewConfigurationSection m_songGridView = null;
+        /// <summary>
+        /// Settings related to the SongGridView control (Song Browser).
+        /// </summary>
+        public ControlsSongGridViewConfigurationSection SongGridView
         {
             get
             {
@@ -49,36 +52,28 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Private value for the PlaylistGridView property.
+        /// </summary>
+        private ControlsSongGridViewConfigurationSection m_playlistGridView = null;
+        /// <summary>
+        /// Settings related to the SongGridView control (Playlist Browser).
+        /// </summary>
+        public ControlsSongGridViewConfigurationSection PlaylistGridView
+        {
+            get
+            {
+                return m_playlistGridView;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the ControlsConfigurationSection class.
         /// </summary>
         public ControlsConfigurationSection()
         {
-            m_songGridView = new ControlsSectionSongGridView();
+            // Create sections
+            m_songGridView = new ControlsSongGridViewConfigurationSection();
+            m_playlistGridView = new ControlsSongGridViewConfigurationSection();
         }
-    }
-
-    public class ControlsSectionSongGridView
-    {
-        private List<ControlsSectionSongGridViewColumn> m_columns = null;
-        public List<ControlsSectionSongGridViewColumn> Columns
-        {
-            get
-            {
-                return m_columns;
-            }
-        }
-
-        public ControlsSectionSongGridView()
-        {
-            m_columns = new List<ControlsSectionSongGridViewColumn>();
-        }
-    }
-
-    public class ControlsSectionSongGridViewColumn
-    {
-        public string Name { get; set; }
-        public int Order { get; set; }
-        public bool OrderBy { get; set; }
-        public bool Visible { get; set; }
     }
 }

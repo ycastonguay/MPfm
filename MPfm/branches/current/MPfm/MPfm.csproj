@@ -103,8 +103,15 @@
     <Compile Include="Classes\DriverComboBoxItem.cs" />
     <Compile Include="Classes\MPFMConfig.cs" />
     <Compile Include="Classes\SongQuery.cs" />
-    <Compile Include="Configuration\AudioConfigurationSection.cs" />
-    <Compile Include="Configuration\ControlsConfigurationSection.cs" />
+    <Compile Include="Configuration\Audio\AudioConfigurationSection.cs" />
+    <Compile Include="Configuration\Audio\AudioDeviceConfigurationSection.cs" />
+    <Compile Include="Configuration\Audio\AudioMixerConfigurationSection.cs" />
+    <Compile Include="Configuration\Audio\AudioEQConfigurationSection.cs" />
+    <Compile Include="Configuration\Controls\ControlsSongGridViewConfigurationSection.cs" />
+    <Compile Include="Configuration\Controls\ControlsConfigurationSection.cs" />
+    <Compile Include="Configuration\Controls\ControlsSongGridViewQueryConfigurationSection.cs" />
+    <Compile Include="Configuration\General\GeneralConfigurationKeyValue.cs" />
+    <Compile Include="Configuration\General\GeneralConfigurationSection.cs" />
     <Compile Include="Configuration\MPfmConfiguration.cs" />
     <Compile Include="Other Screens\frmAddEditLoop.cs">
       <SubType>Form</SubType>
@@ -246,7 +253,9 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config.xml" />
+    <Content Include="Config.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
