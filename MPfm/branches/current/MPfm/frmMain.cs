@@ -332,7 +332,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the player.\nYou can remove the appSettings node from MPFM.exe.config to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the player.\nYou can delete the config.xml file in the MPfm application folder to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application
@@ -366,7 +366,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the UI.\nYou can remove the appSettings node from MPFM.exe.config to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing UI!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the UI.\nYou can delete the config.xml file in the MPfm application folder to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing UI!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("UI error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
 
                 // Exit application
@@ -391,6 +391,13 @@ namespace MPfm
 
             // Reset song query
             QuerySongBrowser = new SongQuery();
+
+            // Get query if available
+            string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
+            string queryAlbumTitle = Config.Controls.SongGridView.Query.AlbumTitle;
+            string queryPlaylistId = Config.Controls.SongGridView.Query.PlaylistId.ToString();
+            string querySongId = Config.Controls.SongGridView.Query.AudioFileId.ToString();
+            string currentNodeType = Config.Controls.SongGridView.Query.NodeType.ToString();
 
             // Get media type filter configuration and set media type before refreshing the tree library
             string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
@@ -433,12 +440,7 @@ namespace MPfm
             // Set EQ options           
             // (automatic)
 
-            // Set query if available
-            string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
-            string queryAlbumTitle = Config.Controls.SongGridView.Query.AlbumTitle;
-            string queryPlaylistId = Config.Controls.SongGridView.Query.PlaylistId.ToString();
-            string querySongId = Config.Controls.SongGridView.Query.AudioFileId.ToString();
-            string currentNodeType = Config.Controls.SongGridView.Query.NodeType.ToString();
+
 
             // Set Init current song Id
             if (!string.IsNullOrEmpty(querySongId))

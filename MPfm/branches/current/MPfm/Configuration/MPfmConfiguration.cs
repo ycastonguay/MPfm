@@ -258,11 +258,16 @@ namespace MPfm
                     // Check if this XML element was found
                     if (elementSongGridViewQuery != null)
                     {
-                        // Get query
+                        // Get node type
+                        TreeLibraryNodeType nodeType;
+                        Enum.TryParse<TreeLibraryNodeType>(XMLHelper.GetAttributeValue(elementSongGridViewQuery, "type"), out nodeType);
+                        m_controlsSection.SongGridView.Query.NodeType = nodeType;
+
+                        // Set other query properties
                         m_controlsSection.SongGridView.Query.AudioFileId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "audioFileId");
                         m_controlsSection.SongGridView.Query.PlaylistId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "playlistId");
                         m_controlsSection.SongGridView.Query.ArtistName = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "artistName");
-                        m_controlsSection.SongGridView.Query.AlbumTitle = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "albumTitle");
+                        m_controlsSection.SongGridView.Query.AlbumTitle = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "albumTitle");                        
                     }
                     // Check if this XML element was found
                     if (elementSongGridViewColumns != null)
@@ -467,7 +472,7 @@ namespace MPfm
             XElement elementControlsPlaylistGridViewColumns = new XElement("columns");
 
             // Song browser query
-            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("nodeType", m_controlsSection.SongGridView.Query.NodeType.ToString()));
+            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("type", m_controlsSection.SongGridView.Query.NodeType.ToString()));
             elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("audioFileId", m_controlsSection.SongGridView.Query.AudioFileId.ToString()));
             elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("playlistId", m_controlsSection.SongGridView.Query.PlaylistId.ToString()));
             elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("artistName", m_controlsSection.SongGridView.Query.ArtistName));
