@@ -101,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DriverComboBoxItem.cs" />
-    <Compile Include="Classes\MPFMConfig.cs" />
     <Compile Include="Classes\SongQuery.cs" />
     <Compile Include="Configuration\Audio\AudioConfigurationSection.cs" />
     <Compile Include="Configuration\Audio\AudioMixerConfigurationSection.cs" />
@@ -254,7 +253,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ExampleConfig.xml">
+    <Content Include="Configuration\ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Lib\SQLite.Interop.dll" />

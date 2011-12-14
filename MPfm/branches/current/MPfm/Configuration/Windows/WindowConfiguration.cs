@@ -39,6 +39,10 @@ namespace MPfm
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// Defines if the window should use the default position.
+        /// </summary>
+        public bool UseDefaultPosition { get; set; }
+        /// <summary>
         /// Window X position.
         /// </summary>
         public int X { get; set; }
@@ -68,8 +72,9 @@ namespace MPfm
         /// </summary>
         public WindowConfiguration()
         {
-            // Set default values
+            // Set default values            
             Name = string.Empty;
+            UseDefaultPosition = true;
             X = 0;
             Y = 0;
             Width = 100;

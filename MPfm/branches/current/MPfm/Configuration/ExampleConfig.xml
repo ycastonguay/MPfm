@@ -27,7 +27,7 @@
     </playlistGridView>
   </controls>
   <windows>
-    <window name="Main" x="0" y="0" width="0" height="0" maximized="true" />    
-    <window name="Playlist" x="0" y="0" width="0" height="0" maximized="true" visible="true" />
+    <window name="Main" useDefaultPosition="false" x="0" y="0" width="0" height="0" maximized="true" />    
+    <window name="Playlist" useDefaultPosition="false" x="0" y="0" width="0" height="0" maximized="true" visible="true" />
   </windows>
 </configuration>

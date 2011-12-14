@@ -408,19 +408,6 @@ namespace MPfm
             comboSoundFormat.SelectedItem = filterSoundFormat;
             RefreshTreeLibrary();
 
-            //RefreshPlayControls();
-
-            //if (config.GetBoolean("PlaylistVisible"))
-            //{
-            //    btnPlaylist.Checked = true;
-            //    formPlaylist.Show(this);
-            //}            
-
-            //if (currentSong != null)
-            //{
-            //    //PlayCurrentSong(true, config.GetInteger("CurrentSongPosition"));
-            //}
-
             Tracing.Log("Applying configuration...");
             frmSplash.SetStatus("Applying configuration...");
 
@@ -436,11 +423,6 @@ namespace MPfm
 
             // Set tray options
             //notifyIcon.Visible = Config.ShowTray;
-
-            // Set EQ options           
-            // (automatic)
-
-
 
             // Set Init current song Id
             if (!string.IsNullOrEmpty(querySongId))
@@ -522,7 +504,7 @@ namespace MPfm
             }
             else if (currentNodeType == "Album")
             {
-
+                currentNodeType = "AllSongs";
             }
             else if (currentNodeType == "ArtistAlbum")
             {
@@ -556,101 +538,110 @@ namespace MPfm
         /// </summary>
         public void LoadWindowConfiguration()
         {
-            //if (!Config.KeyExists(MPFMConfig.Key_WindowX))
-            //{
-            //    // No configuration for window position; center window in screen
-            //    StartPosition = FormStartPosition.CenterScreen;
-            //    return;
-            //}
-            //else
-            //{
-            //    int x = 0;
-            //    int y = 0;
+            // Main window
+            WindowConfiguration windowMain = Config.Windows.Windows.FirstOrDefault(x => x.Name.ToUpper() == "MAIN");
+            if(windowMain != null)
+            {
+                // Check if the window needs to use the default position (center screen)
+                if(windowMain.UseDefaultPosition)
+                {
+                    // No configuration for window position; center window in screen
+                    StartPosition = FormStartPosition.CenterScreen;
+                }
+                else
+                {
+                    int x = 0;
+                    int y = 0;
 
-            //    // Make sure the window X isn't negative
-            //    if (Config.WindowX < 0)
-            //    {
-            //        x = 0;
-            //    }
-            //    else
-            //    {
-            //        x = Config.WindowX;
-            //    }
-            //    // Make sure the window Y isn't negative
-            //    if (Config.WindowY < 0)
-            //    {
-            //        y = 0;
-            //    }
-            //    else
-            //    {
-            //        y = Config.WindowY;
-            //    }
+                    // Make sure the window X isn't negative
+                    if (windowMain.X < 0)
+                    {
+                        x = 0;
+                    }
+                    else
+                    {
+                        x = windowMain.X;
+                    }
+                    // Make sure the window Y isn't negative
+                    if (windowMain.Y < 0)
+                    {
+                        y = 0;
+                    }
+                    else
+                    {
+                        y = windowMain.Y;
+                    }
 
-            //    Location = new Point(x, y);
-            //}
-           
-            //Width = Config.WindowWidth;
-            //Height = Config.WindowHeight;
+                    Location = new Point(x, y);
+                }
 
-            //if (Config.WindowMaximized)
-            //{
-            //    WindowState = FormWindowState.Maximized;
-            //}
-            //else
-            //{
-            //    WindowState = FormWindowState.Normal;
-            //}
+                // Set size
+                Width = windowMain.Width;
+                Height = windowMain.Height;
 
-            //splitFirst.SplitterDistance = Config.WindowSplitterDistance;
+                // Set maximized state
+                if (windowMain.Maximized)
+                {
+                    WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    WindowState = FormWindowState.Normal;
+                }
 
-            ////// Load song browser column widths
-            ////viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
-            ////viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
-            ////viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
-            ////viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
-            ////viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
-            ////viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
-            ////viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
-            ////viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
+                // Set splitter distance
+                splitFirst.SplitterDistance = Config.GetKeyValueGeneric<int>("WindowSplitterDistance") ?? 175;
 
-            //if (formPlaylist != null)
-            //{
-            //    // Load playlist window position and size
-            //    if (!Config.KeyExists(MPFMConfig.Key_PlaylistX))
-            //    {
-            //        // No configuration for window position; center window in screen
-            //        formPlaylist.StartPosition = FormStartPosition.CenterScreen;
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        formPlaylist.Location = new Point(Config.PlaylistX, Config.PlaylistY);
-            //    }
+                //// Load song browser column widths
+                //viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
+                //viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
+                //viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
+                //viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
+                //viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
+                //viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
+                //viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
+                //viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
+            }           
 
-            //    formPlaylist.Width = Config.PlaylistWidth;
-            //    formPlaylist.Height = Config.PlaylistHeight;
+            // Playlist window
+            WindowConfiguration windowPlaylist = Config.Windows.Windows.FirstOrDefault(x => x.Name.ToUpper() == "PLAYLIST");            
+            if (formPlaylist != null && windowPlaylist != null)
+            {
+                // Check if the window needs to use the default position (center screen)
+                if (windowPlaylist.UseDefaultPosition)
+                {
+                    // No configuration for window position; center window in screen
+                    formPlaylist.StartPosition = FormStartPosition.CenterScreen;                    
+                }
+                else
+                {
+                    formPlaylist.Location = new Point(windowPlaylist.X, windowPlaylist.Y);
+                }
 
-            //    if (Config.PlaylistMaximized)
-            //    {
-            //        formPlaylist.WindowState = FormWindowState.Maximized;
-            //    }
-            //    else
-            //    {
-            //        formPlaylist.WindowState = FormWindowState.Normal;
-            //    }
+                formPlaylist.Width = windowPlaylist.Width;
+                formPlaylist.Height = windowPlaylist.Height;
 
-            //    formPlaylist.Visible = Config.PlaylistVisible;
+                if (windowPlaylist.Maximized)
+                {
+                    formPlaylist.WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    formPlaylist.WindowState = FormWindowState.Normal;
+                }
 
-            //    //// Load playlist column widths
-            //    //formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
-            //    //formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
-            //    //formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
-            //    //formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
-            //    //formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
-            //    //formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
-            //    //formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
-            //    //formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
-            //}
+                formPlaylist.Visible = windowPlaylist.Visible;
+
+                //// Load playlist column widths
+                //formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
+                //formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
+                //formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
+                //formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
+                //formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
+                //formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
+                //formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
+                //formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
+            }
         }
 
         /// <summary>
@@ -658,55 +649,74 @@ namespace MPfm
         /// </summary>
         public void SaveWindowConfiguration()
         {
-            //// Save window position and size
-            //Config.WindowX = Location.X;
-            //Config.WindowY = Location.Y;
-            //Config.WindowWidth = Width;
-            //Config.WindowHeight = Height;
-            //Config.WindowSplitterDistance = splitFirst.SplitterDistance;
+            // Save window position and size
+            WindowConfiguration windowMain = Config.Windows.Windows.FirstOrDefault(x => x.Name.ToUpper() == "MAIN");
+            if(windowMain != null)
+            {
+                // Set position and size
+                windowMain.X = Location.X;
+                windowMain.Y = Location.Y;
+                windowMain.Width = Width;
+                windowMain.Height = Height;
+                windowMain.UseDefaultPosition = false;
 
-            //bool isMaximized = false;
-            //if (WindowState == FormWindowState.Maximized)
-            //{
-            //    isMaximized = true;
-            //}
-            //Config.WindowMaximized = isMaximized;
+                // Set maximized and visible
+                bool isMaximized = false;
+                if (WindowState == FormWindowState.Maximized)
+                {
+                    isMaximized = true;
+                }
+                windowMain.Maximized = isMaximized;
+                windowMain.Visible = true;
 
-            ////// Save song browser column widths
-            ////Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
-            ////Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
-            ////Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
-            ////Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
-            ////Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
-            ////Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
-            ////Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
-            ////Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
+                // Set splitter position
+                Config.SetKeyValue<int>("WindowSplitterDistance", splitFirst.SplitterDistance);
 
-            //// Save playlist window position and size
-            //if (formPlaylist != null)
-            //{
-            //    Config.PlaylistX = formPlaylist.Location.X;
-            //    Config.PlaylistY = formPlaylist.Location.Y;
-            //    Config.PlaylistWidth = formPlaylist.Width;
-            //    Config.PlaylistHeight = formPlaylist.Height;
-            //    Config.PlaylistVisible = formPlaylist.Visible;
+                //// Save song browser column widths
+                //Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
+                //Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
+                //Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
+                //Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
+                //Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
+                //Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
+                //Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
+                //Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
+            }
 
-            //    if (formPlaylist.WindowState == FormWindowState.Maximized)
-            //    {
-            //        isMaximized = true;
-            //    }
-            //    Config.PlaylistMaximized = isMaximized;
+            // Save playlist window position and size
+            if (formPlaylist != null)
+            {
+                WindowConfiguration windowPlaylist = Config.Windows.Windows.FirstOrDefault(x => x.Name.ToUpper() == "PLAYLIST");
+                if (windowPlaylist != null)
+                {
+                    windowPlaylist.X = formPlaylist.Location.X;
+                    windowPlaylist.Y = formPlaylist.Location.Y;
+                    windowPlaylist.Width = formPlaylist.Width;
+                    windowPlaylist.Height = formPlaylist.Height;
+                    windowPlaylist.Visible = formPlaylist.Visible;
+                    windowPlaylist.UseDefaultPosition = false;
 
-            //    //// Save playlist column widths
-            //    //Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
-            //    //Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
-            //    //Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
-            //    //Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
-            //    //Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
-            //    //Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
-            //    //Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
-            //    //Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
-            //}
+                    bool isMaximized = false;
+                    if (formPlaylist.WindowState == FormWindowState.Maximized)
+                    {
+                        isMaximized = true;
+                    }
+                    windowPlaylist.Maximized = isMaximized;
+
+                    //// Save playlist column widths
+                    //Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
+                    //Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
+                    //Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
+                    //Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
+                    //Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
+                    //Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
+                    //Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
+                    //Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
+                }
+            }
+
+            // Save configuration
+            Config.Save();
         }
 
         /// <summary>
@@ -2171,6 +2181,7 @@ namespace MPfm
             m_player.Volume = (float)faderVolume.Value / 100;
             lblVolume.Text = faderVolume.Value.ToString() + " %";
             Config.Audio.Mixer.Volume = faderVolume.Value;
+            Config.Save();
         }
 
         /// <summary>

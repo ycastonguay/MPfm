@@ -39,8 +39,6 @@ namespace MPfm
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddSongToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.miRemoveSong = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -232,11 +230,9 @@ namespace MPfm
             this.miPlaySong,
             this.miEditSong,
             this.miAddSongToPlaylist,
-            this.miRemoveSong,
-            this.toolStripMenuItem2,
-            this.toolStripSeparator8});
+            this.miRemoveSong});
             this.menuSongBrowser.Name = "menuSongBrowser";
-            this.menuSongBrowser.Size = new System.Drawing.Size(217, 120);
+            this.menuSongBrowser.Size = new System.Drawing.Size(217, 114);
             this.menuSongBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.menuSongBrowser_Opening);
             // 
             // miPlaySong
@@ -271,18 +267,6 @@ namespace MPfm
             this.miRemoveSong.Size = new System.Drawing.Size(216, 22);
             this.miRemoveSong.Text = "Remove songs from library";
             this.miRemoveSong.Visible = false;
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.CheckOnClick = true;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(216, 22);
-            this.toolStripMenuItem2.Text = "toolStripMenuItem2";
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
             // 
             // imageList
             // 
@@ -2787,8 +2771,6 @@ namespace MPfm
         private WindowsControls.Button btnAddSongToPlaylist;
         private WindowsControls.Button btnEditSongMetadata;
         private System.Windows.Forms.SplitContainer splitLoopsMarkersSongBrowser;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private WindowsControls.Button btnGoToMarker;
         public WindowsControls.SongGridView viewSongs2;        
     }

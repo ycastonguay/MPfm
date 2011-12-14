@@ -62,11 +62,7 @@ namespace MPfm
             m_main = main;
 
             RefreshEQPresets();
-            //LoadConfig();
-
-            // Set UI values
-            chkEQOn.Checked = m_main.Player.IsEQEnabled;
-
+            LoadConfig();
         }
 
         #region Close Events
@@ -107,9 +103,18 @@ namespace MPfm
         /// Loads the form values based on configuration.
         /// </summary>
         private void LoadConfig()
-        {
+        {   
+            // Set UI values
             chkEQOn.Checked = Main.Config.Audio.EQ.Enabled;
             comboEQPreset.SelectedItem = Main.Config.Audio.EQ.Preset;
+
+            // Set player EQ
+            if (Main.Config.Audio.EQ.Enabled && !String.IsNullOrEmpty(Main.Config.Audio.EQ.Preset))
+            {
+                // Set preset
+                SetPreset(Main.Config.Audio.EQ.Preset);
+            }
+            
         }
 
         /// <summary>
@@ -428,6 +433,10 @@ namespace MPfm
             // Bypass EQ
             m_main.Player.BypassEQ();
 
+            // Set configuration and save
+            m_main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
+            m_main.Config.Save();
+
             //// Set equalizer
             //if (m_main.PlayerV4.IsEQEnabled)
             //{
@@ -455,6 +464,37 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Sets an equalizer preset.
+        /// </summary>
+        /// <param name="name">Preset name</param>
+        private void SetPreset(string name)
+        {
+            // Get equalizer                    
+            EQPreset equalizer = m_main.Library.Gateway.SelectEQPreset(name);
+
+            // Set values
+            txtEQPresetName.Text = equalizer.Name;
+            fader0.Value = (Int32)(equalizer.Bands[0].Gain * 10);
+            fader1.Value = (Int32)(equalizer.Bands[1].Gain * 10);
+            fader2.Value = (Int32)(equalizer.Bands[2].Gain * 10);
+            fader3.Value = (Int32)(equalizer.Bands[3].Gain * 10);
+            fader4.Value = (Int32)(equalizer.Bands[4].Gain * 10);
+            fader5.Value = (Int32)(equalizer.Bands[5].Gain * 10);
+            fader6.Value = (Int32)(equalizer.Bands[6].Gain * 10);
+            fader7.Value = (Int32)(equalizer.Bands[7].Gain * 10);
+            fader8.Value = (Int32)(equalizer.Bands[8].Gain * 10);
+            fader9.Value = (Int32)(equalizer.Bands[9].Gain * 10);
+            fader10.Value = (Int32)(equalizer.Bands[10].Gain * 10);
+            fader11.Value = (Int32)(equalizer.Bands[11].Gain * 10);
+            fader12.Value = (Int32)(equalizer.Bands[12].Gain * 10);
+            fader13.Value = (Int32)(equalizer.Bands[13].Gain * 10);
+            fader14.Value = (Int32)(equalizer.Bands[14].Gain * 10);
+            fader15.Value = (Int32)(equalizer.Bands[15].Gain * 10);
+            fader16.Value = (Int32)(equalizer.Bands[16].Gain * 10);
+            fader17.Value = (Int32)(equalizer.Bands[17].Gain * 10);
+        }
+
+        /// <summary>
         /// Occurs when the user changes the selected preset. Updates the EQ values.
         /// </summary>
         /// <param name="sender"></param>
@@ -466,32 +506,12 @@ namespace MPfm
                 // Check if selection is valid
                 if (comboEQPreset.SelectedItem != null && !String.IsNullOrEmpty(comboEQPreset.SelectedItem.ToString()))
                 {
-                    // Get equalizer                    
-                    EQPreset equalizer = m_main.Library.Gateway.SelectEQPreset(comboEQPreset.SelectedItem.ToString());
-
-                    // Set values
-                    txtEQPresetName.Text = equalizer.Name;
-                    fader0.Value = (Int32)(equalizer.Bands[0].Gain * 10);
-                    fader1.Value = (Int32)(equalizer.Bands[1].Gain * 10);
-                    fader2.Value = (Int32)(equalizer.Bands[2].Gain * 10);
-                    fader3.Value = (Int32)(equalizer.Bands[3].Gain * 10);
-                    fader4.Value = (Int32)(equalizer.Bands[4].Gain * 10);
-                    fader5.Value = (Int32)(equalizer.Bands[5].Gain * 10);
-                    fader6.Value = (Int32)(equalizer.Bands[6].Gain * 10);
-                    fader7.Value = (Int32)(equalizer.Bands[7].Gain * 10);
-                    fader8.Value = (Int32)(equalizer.Bands[8].Gain * 10);
-                    fader9.Value = (Int32)(equalizer.Bands[9].Gain * 10);
-                    fader10.Value = (Int32)(equalizer.Bands[10].Gain * 10);
-                    fader11.Value = (Int32)(equalizer.Bands[11].Gain * 10);
-                    fader12.Value = (Int32)(equalizer.Bands[12].Gain * 10);
-                    fader13.Value = (Int32)(equalizer.Bands[13].Gain * 10);
-                    fader14.Value = (Int32)(equalizer.Bands[14].Gain * 10);
-                    fader15.Value = (Int32)(equalizer.Bands[15].Gain * 10);
-                    fader16.Value = (Int32)(equalizer.Bands[16].Gain * 10);
-                    fader17.Value = (Int32)(equalizer.Bands[17].Gain * 10);
+                    // Set preset
+                    SetPreset(comboEQPreset.SelectedItem.ToString());
 
                     // Set config                    
-                    Main.Config.Audio.EQ.Preset = equalizer.Name;
+                    Main.Config.Audio.EQ.Preset = comboEQPreset.SelectedItem.ToString();
+                    Main.Config.Save();
                 }
             }
             catch (Exception ex)

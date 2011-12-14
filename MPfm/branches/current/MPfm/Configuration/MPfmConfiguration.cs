@@ -322,6 +322,9 @@ namespace MPfm
             // Check if node was found
             if (elementWindows != null)
             {
+                // Reset window list
+                m_windowsSection.Windows.Clear();
+
                 // Get window list                                
                 List<XElement> elementsWindows = elementWindows.Elements("window").ToList();
 
@@ -331,6 +334,7 @@ namespace MPfm
                     // Create new window configuration
                     WindowConfiguration window = new WindowConfiguration();
                     window.Name = XMLHelper.GetAttributeValue(elementWindow, "name");
+                    window.UseDefaultPosition = XMLHelper.GetAttributeValueGeneric<bool>(elementWindow, "useDefaultPosition");
                     window.X = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "x");
                     window.Y = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "y");
                     window.Width = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "width");
@@ -525,6 +529,7 @@ namespace MPfm
                 // Add node
                 XElement elementWindow = new XElement("window");
                 elementWindow.Add(XMLHelper.NewAttribute("name", window.Name));
+                elementWindow.Add(XMLHelper.NewAttribute("useDefaultPosition", window.UseDefaultPosition));
                 elementWindow.Add(XMLHelper.NewAttribute("x", window.X));
                 elementWindow.Add(XMLHelper.NewAttribute("y", window.Y));
                 elementWindow.Add(XMLHelper.NewAttribute("width", window.Width));
