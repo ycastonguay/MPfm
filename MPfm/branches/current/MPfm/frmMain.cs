@@ -198,10 +198,10 @@ namespace MPfm
             try
             {                               
                 // Register BASS.NET with key      
-                Tracing.Log("Registering BASS.NET...");
+                Tracing.Log("Main form init -- Registering BASS.NET...");
                 Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");
 
-                Tracing.Log("Loading configuration...");
+                Tracing.Log("Main form init -- Loading configuration...");
                 frmSplash.SetStatus("Loading configuration...");
 
                 // Create configuration with default settings
@@ -276,7 +276,7 @@ namespace MPfm
             try
             {
                 Device device = null;
-                Tracing.Log("Loading player...");
+                Tracing.Log("Main form init -- Loading player...");
                 frmSplash.SetStatus("Loading player...");
                 
                 // Get configuration values
@@ -319,7 +319,7 @@ namespace MPfm
                 m_timerSongPosition.Enabled = true;
 
                 // Load library
-                Tracing.Log("Loading library...");
+                Tracing.Log("Main form init -- Loading library...");
                 frmSplash.SetStatus("Loading library...");
                 string databaseFilePath = AppDomain.CurrentDomain.BaseDirectory + "MPfm.db";
                 m_library = new Library.Library(databaseFilePath);
@@ -333,7 +333,7 @@ namespace MPfm
                 // Display message box with error
                 this.TopMost = true;
                 MessageBox.Show("There was an error while initializing the player.\nYou can delete the config.xml file in the MPfm application folder to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Tracing.Log("Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
+                Tracing.Log("Main form init -- Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application
                 Application.Exit();
@@ -343,19 +343,19 @@ namespace MPfm
             // Load UI
             try
             {
-                Tracing.Log("Loading UI...");
+                Tracing.Log("Main form init -- Loading UI...");
                 frmSplash.SetStatus("Loading UI...");
 
-                Tracing.Log("Loading UI - Effects...");
+                Tracing.Log("Main form init -- Loading UI - Effects...");
                 formEffects = new frmEffects(this);
 
-                Tracing.Log("Loading UI - Settings...");
+                Tracing.Log("Main form init -- Loading UI - Settings...");
                 formSettings = new frmSettings(this);
 
-                Tracing.Log("Loading UI - Playlist...");
+                Tracing.Log("Main form init -- Loading UI - Playlist...");
                 formPlaylist = new frmPlaylist(this);
 
-                Tracing.Log("Loading UI - Visualizer...");
+                Tracing.Log("Main form init -- Loading UI - Visualizer...");
                 formVisualizer = new frmVisualizer(this);
             }
             catch (Exception ex)
@@ -383,7 +383,7 @@ namespace MPfm
             lblSoundFormat.Text = "";
             lblFrequency.Text = "";
 
-            Tracing.Log("Refreshing library cache...");
+            Tracing.Log("Main form init -- Refreshing library cache...");
             frmSplash.SetStatus("Refreshing library cache...");
 
             // Load window configuration (position, size, column sizes, etc.)
@@ -408,7 +408,7 @@ namespace MPfm
             comboSoundFormat.SelectedItem = filterSoundFormat;
             RefreshTreeLibrary();
 
-            Tracing.Log("Applying configuration...");
+            Tracing.Log("Main form init -- Applying configuration...");
             frmSplash.SetStatus("Applying configuration...");
 
             // Reset init settings
@@ -727,7 +727,7 @@ namespace MPfm
             // Set initialization boolean
             IsInitDone = true;
 
-            Tracing.Log("Initialization successful!");
+            Tracing.Log("Main form init -- Initialization successful!");
             frmSplash.SetStatus("Initialization successful!");
 
             this.BringToFront();
@@ -1021,7 +1021,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Tracing.Log("Closing MPfm...");
+            Tracing.Log("Main form -- Closing MPfm...");
 
             // Save configuration
             SaveWindowConfiguration();

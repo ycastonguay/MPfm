@@ -68,7 +68,7 @@ namespace MPfm.Library
         public SQLiteGateway(string databaseFilePath)
         {
             // Initialize factory
-            Tracing.Log("SQLiteGateway.Constructor || Initializing database factory (" + databaseFilePath + ")...");
+            Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");
             m_factory = DbProviderFactories.GetFactory("System.Data.SQLite");
             m_databaseFilePath = databaseFilePath;
         }

@@ -73,6 +73,14 @@ namespace MPfm
             {
                 // Detect devices
                 m_devices = DeviceHelper.DetectOutputDevices();
+
+                // Output to log
+                for(int a = 0; a < m_devices.Count; a++)
+                {                    
+                    Tracing.Log("FirstRun -- Detected device " + (a+1).ToString() + "/" + m_devices.Count.ToString() + ": " + m_devices[a].DriverType.ToString() + " (Id: " + m_devices[a].Id.ToString() + " Name: " + m_devices[a].Name + ")");
+                }
+
+                // Separate devices 
                 m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
                 m_devicesASIO = m_devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
                 m_devicesWASAPI = m_devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();

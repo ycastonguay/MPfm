@@ -765,7 +765,7 @@ namespace MPfm.Sound
         /// Default constructor for the PeakFileCorruptedException exception class.
         /// </summary>
         /// <param name="message">Exception message</param>
-        /// /// <param name="innerException">Inner exception</param>
+        /// <param name="innerException">Inner exception</param>
         public PeakFileCorruptedException(string message, Exception innerException) 
             : base(message, innerException)
         {

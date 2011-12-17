@@ -113,11 +113,11 @@ namespace MPfm.Library
             }
 
             // Create gateway
-            Tracing.Log("Library.Constructor || Initializing gateway...");
+            Tracing.Log("Library init -- Initializing gateway...");
             m_gateway = new MPfmGateway(databaseFilePath);
 
             // Create worker process
-            Tracing.Log("Library.Constructor || Creating background worker...");
+            Tracing.Log("Library init -- Creating background worker...");
             workerUpdateLibrary = new BackgroundWorker();
             workerUpdateLibrary.WorkerReportsProgress = true;
             workerUpdateLibrary.WorkerSupportsCancellation = true;
@@ -125,7 +125,7 @@ namespace MPfm.Library
             workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);            
 
             // Refresh songs
-            Tracing.Log("Library.Constructor || Refreshing cache...");
+            Tracing.Log("Library init -- Refreshing cache...");
             RefreshCache();
         }
 
@@ -409,7 +409,7 @@ namespace MPfm.Library
         public void RefreshCache()
         {
             // Refresh audio file cache
-            Tracing.Log("MPfm.Library (Library) --  Refreshing audio file cache...");            
+            Tracing.Log("Library --  Refreshing audio file cache...");            
             m_audioFiles = m_gateway.SelectAudioFiles();
         }        
 

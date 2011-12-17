@@ -495,7 +495,7 @@ namespace MPfm.Player.PlayerV4
         /// <param name="updatePeriod">Update period (default: 10 ms)</param> 
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
         {
-            // Initialize system using specified values
+            // Initialize system using specified values            
             m_device = device;
             m_mixerSampleRate = mixerSampleRate;
             m_bufferSize = bufferSize;
@@ -507,7 +507,7 @@ namespace MPfm.Player.PlayerV4
             m_loops = new List<Loop>();            
 
             // Create timer
-            Tracing.Log("Player.Initialize || Creating timer...");
+            Tracing.Log("Player init -- Creating timer...");
             m_timerPlayer = new System.Timers.Timer();
             m_timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(m_timerPlayer_Elapsed);
             m_timerPlayer.Interval = 1000;
@@ -515,17 +515,17 @@ namespace MPfm.Player.PlayerV4
 
             // Load plugins
             //m_plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
-            Tracing.Log("Player.Initialize || Loading plugins...");
-            m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");            
+            Tracing.Log("Player init -- Loading FLAC plugin...");
+            m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+            Tracing.Log("Player init -- Loading FX plugin...");
             Base.LoadFxPlugin();
 
             // Create default EQ
-            Tracing.Log("Player.Initialize || Creating default EQ preset...");
+            Tracing.Log("Player init -- Creating default EQ preset...");
             m_currentEQPreset = new EQPreset();
 
-            // Initialize sound system
-            Tracing.Log("Player.Initialize || Device: " + m_device.DriverType.ToString() + " // " + m_device.Name + " (id: " + m_device.Id.ToString() + ")");
-            Tracing.Log("Player.Initialize || Initializing device...");
+            // Initialize sound system            
+            Tracing.Log("Player init -- Initializing device at " + m_mixerSampleRate.ToString() + " Hz (DriverType: " + m_device.DriverType.ToString() + " Id: " + m_device.Id.ToString() + " Name: " + m_device.Name + ")");            
             InitializeDevice(m_device);
         }
 
@@ -550,7 +550,7 @@ namespace MPfm.Player.PlayerV4
             // Check driver type
             if (m_device.DriverType == DriverType.DirectSound)
             {
-                // Initialize sound system
+                // Initialize sound system                
                 Base.Init(m_device.Id, m_mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT);
             }
             else if (m_device.DriverType == DriverType.ASIO)
@@ -686,25 +686,27 @@ namespace MPfm.Player.PlayerV4
         {
             try
             {
-                // Check if the player is currently playing
+                // Check if the player is currently playing                
                 if (m_isPlaying)
                 {
                     // Check if a loop is active
                     if (m_currentLoop != null)
                     {
                         // Stop loop
+                        Tracing.Log("Player.Play -- Stopping current loop...");
                         StopLoop();
                     }
 
                     // Stop playback
+                    Tracing.Log("Player.Play -- Stopping playback...");
                     Stop();
                 }
 
                 // Make sure there are no current loops                 
                 m_currentLoop = null;
 
-                // How many channels are left?
-                int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;
+                // How many channels are left?                
+                int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;                
 
                 // If there are more than 2, just limit to 2 for now. The other channels are loaded dynamically.
                 if (channelsToLoad > 2)
@@ -725,40 +727,103 @@ namespace MPfm.Player.PlayerV4
                     m_playlist.Items[a].Load();
                 }
 
-                // Create the streaming channel (set the frequency to the first file in the list)
-                m_streamProc = new STREAMPROC(StreamCallback);
-                m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);                
+                try
+                {
+                    // Create the streaming channel (set the frequency to the first file in the list)
+                    Tracing.Log("Player.Play -- Creating streaming channel at " + m_playlist.CurrentItem.AudioFile.SampleRate + " Hz using floating point...");
+                    m_streamProc = new STREAMPROC(StreamCallback);                
+                    m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
+                }
+                catch(Exception ex)
+                {
+                    // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
+                    PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel.", ex);
+                    newEx.Decode = true;
+                    newEx.UseFloatingPoint = true;
+                    newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                    throw newEx;
+                }
 
                 // Check driver type
                 if (m_device.DriverType == DriverType.DirectSound)
                 {
-                    // Create main channel
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false, false);
+                    try
+                    {
+                        // Create main channel
+                        Tracing.Log("Player.Play -- Creating DirectSound time shifting channel (decode = false, floating-point = false)...");
+                        m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false, false);
+                    }
+                    catch (Exception ex)
+                    {   
+                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
+                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
+                        newEx.UseFloatingPoint = true;
+                        newEx.UseTimeShifting = true;
+                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        throw newEx;
+                    }
                 }
                 else if (m_device.DriverType == DriverType.ASIO)
                 {
-                    // Create main channel
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
+                    try
+                    {
+                        // Create main channel
+                        Tracing.Log("Player.Play -- Creating ASIO time shifting channel...");
+                        m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
+                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
+                        newEx.DriverType = DriverType.ASIO;
+                        newEx.UseFloatingPoint = true;
+                        newEx.UseTimeShifting = true;
+                        newEx.Decode = true;
+                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        throw newEx;  
+                    }
 
                     // Create callback
                     m_asioProc = new ASIOPROC(AsioCallback);
 
-                    // Create channel
-                    BassAsio.BASS_ASIO_ChannelEnable(false, 0, m_asioProc, new IntPtr(m_mainChannel.Handle));
-                    BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
+                    try
+                    {
+                        // Enable and join channels (for stereo output
+                        Tracing.Log("Player.Play -- Enabling ASIO channels...");
+                        BassAsio.BASS_ASIO_ChannelEnable(false, 0, m_asioProc, new IntPtr(m_mainChannel.Handle));
+                        Tracing.Log("Player.Play -- Joining ASIO channels...");
+                        BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
+                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to enable or join ASIO channels.", ex);
+                        newEx.DriverType = DriverType.ASIO;
+                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        throw newEx;
+                    }
 
                     // Start playback
-                    //m_mainChannel.Play(false);
+                    Tracing.Log("Player.Play -- Starting ASIO buffering...");
                     if (!BassAsio.BASS_ASIO_Start(0))
                     {
-                        // Get error
+                        // Get BASS error
                         BASSError error = Bass.BASS_ErrorGetCode();
-                        throw new Exception("[PlayerV4.PlayFiles] Error playing files in ASIO: " + error.ToString());
+
+                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
+                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the ASIO channel (" + error.ToString() + ").", null);
+                        newEx.DriverType = DriverType.ASIO;
+                        newEx.UseFloatingPoint = true;
+                        newEx.UseTimeShifting = true;
+                        newEx.Decode = true;
+                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        throw newEx;                        
                     }
                 }
                 else if (m_device.DriverType == DriverType.WASAPI)
                 {
                     // Create main channel
+                    Tracing.Log("Player.Play -- Creating WASAPI time shifting channel...");
                     m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
 
                     // Start playback
@@ -771,12 +836,14 @@ namespace MPfm.Player.PlayerV4
                 }
 
                 // Load 18-band equalizer
+                Tracing.Log("Player.Play -- Creating equalizer...");
                 AddEQ(m_currentEQPreset);
 
                 // Check if EQ is bypassed
                 if (m_isEQBypassed)
                 {
                     // Reset EQ
+                    Tracing.Log("Player.Play -- Equalizer is bypassed; resetting EQ...");
                     ResetEQ();
                 }
 
@@ -795,6 +862,7 @@ namespace MPfm.Player.PlayerV4
                 if (m_device.DriverType == DriverType.DirectSound)
                 {
                     // Start playback
+                    Tracing.Log("Player.Play -- Starting DirectSound playback...");
                     m_mainChannel.Play(false);
                 }
             }
@@ -1573,4 +1641,5 @@ namespace MPfm.Player.PlayerV4
 
         #endregion
     }
+
 }
