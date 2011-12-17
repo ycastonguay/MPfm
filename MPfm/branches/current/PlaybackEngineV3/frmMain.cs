@@ -205,7 +205,7 @@ namespace PlaybackEngineV4
         /// Occurs when the current song has finished playing.
         /// </summary>
         /// <param name="data">Song Finished Data</param>
-        protected void playerV4_OnSongFinished(MPfm.Player.SongFinishedData data)
+        protected void playerV4_OnSongFinished(MPfm.Player.PlayerAudioFileFinishedData data)
         {
             // Check if playlist exists
             if (player.Playlist == null || player.Playlist.CurrentItem == null)

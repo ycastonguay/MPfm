@@ -68,7 +68,7 @@ namespace MPfm.Player
         /// Delegate method for the OnSongFinished event.
         /// </summary>
         /// <param name="data">OnSongFinished data</param>
-        public delegate void SongFinished(SongFinishedData data);
+        public delegate void SongFinished(PlayerAudioFileFinishedData data);
         /// <summary>
         /// The OnSongFinished event is triggered when a song has finished playing.
         /// </summary>
@@ -78,7 +78,7 @@ namespace MPfm.Player
         /// Delegate method for the OnStreamCallbackCalled event.
         /// </summary>
         /// <param name="data">OnStreamCallbackCalled data</param>
-        public delegate void StreamCallbackCalled(StreamCallbackData data);
+        public delegate void StreamCallbackCalled(PlayerStreamCallbackData data);
         /// <summary>
         /// The OnStreamCallbackCalled event is triggered when the stream callback has been called and
         /// must return data.
@@ -1088,7 +1088,7 @@ namespace MPfm.Player
                     if (OnSongFinished != null)
                     {
                         // Create data
-                        SongFinishedData data = new SongFinishedData();
+                        PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
                         data.IsPlaybackStopped = false;
 
                         // Raise event
@@ -1505,7 +1505,7 @@ namespace MPfm.Player
                         if (OnSongFinished != null)
                         {
                             // Create data
-                            SongFinishedData data = new SongFinishedData();
+                            PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
                             data.IsPlaybackStopped = false;
 
                             // Raise event
@@ -1534,7 +1534,7 @@ namespace MPfm.Player
                             m_isPlaying = false;
 
                             // Create data
-                            SongFinishedData data = new SongFinishedData();
+                            PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
                             data.IsPlaybackStopped = true;
 
                             // Raise event
@@ -1553,7 +1553,7 @@ namespace MPfm.Player
                 if (OnSongFinished != null)
                 {
                     // Create data
-                    SongFinishedData data = new SongFinishedData();
+                    PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
                     data.IsPlaybackStopped = false;
 
                     // Raise event
@@ -1568,7 +1568,7 @@ namespace MPfm.Player
             if (OnSongFinished != null)
             {
                 // Create data
-                SongFinishedData data = new SongFinishedData();
+                PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
                 data.IsPlaybackStopped = true;
 
                 // Raise event

@@ -1,5 +1,5 @@
 ﻿//
-// Events.cs: This file contains the miscellaneous classes used for the PlayerV4 events.
+// PlayerStreamCallbackData.cs: Defines the data structure for the stream callback event.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -24,31 +24,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using MPfm.Core;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using Un4seen.Bass;
-using Un4seen.Bass.AddOn.Flac;
-using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Player
 {
     /// <summary>
-    /// Defines the data structure for the end-of-song event.
-    /// </summary>
-    public class SongFinishedData
-    {
-        /// <summary>
-        /// Defines if the playback was stopped after the song was finished.
-        /// i.e. if the RepeatType is off and the playlist is over, this property will be true.
-        /// </summary>
-        public bool IsPlaybackStopped { get; set; }
-    }
-
-    /// <summary>
-    /// Defines the data structure for the stream callback data.
-    /// </summary>
-    public class StreamCallbackData
+    /// Defines the data structure for the stream callback event.
+    /// Related to the Player class.
+    /// </summary> 
+    public class PlayerStreamCallbackData
     {
         public byte[] Data { get; set; }
         public float[] Data2 { get; set; }

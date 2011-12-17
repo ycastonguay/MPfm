@@ -738,7 +738,7 @@ namespace MPfm
 
         #region Player Events
 
-        public void m_player_OnStreamCallbackCalled(Player.StreamCallbackData data)
+        public void m_player_OnStreamCallbackCalled(Player.PlayerStreamCallbackData data)
         {
             // Check for valid objects
             if (m_player == null || !m_player.IsPlaying ||
@@ -944,7 +944,7 @@ namespace MPfm
         /// Updates the UI.
         /// </summary>
         /// <param name="data">Song finished data</param>
-        public void m_player_OnSongFinished(Player.SongFinishedData data)
+        public void m_player_OnSongFinished(Player.PlayerAudioFileFinishedData data)
         {
             // If the initialization isn't finished, exit this event
             if (!IsInitDone)
