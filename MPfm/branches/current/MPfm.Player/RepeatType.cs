@@ -23,7 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Player
 {
     /// <summary>
     /// Defines the repeat types (off, playlist or song).

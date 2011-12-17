@@ -40,7 +40,7 @@ using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Library;
-using MPfm.Player.PlayerV4;
+using MPfm.Player;
 
 namespace PlaybackEngineV4
 {
@@ -50,7 +50,7 @@ namespace PlaybackEngineV4
     public partial class frmMain : Form
     {
         // Private variables        
-        public MPfm.Player.PlayerV4.Player player = null;
+        public Player player = null;
         private List<string> soundFiles = null;
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
@@ -154,9 +154,9 @@ namespace PlaybackEngineV4
 
                 // Load player using configuration values
                 Tracing.Log("Initializing player...");
-                player = new MPfm.Player.PlayerV4.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod);
+                player = new MPfm.Player.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod);
                 player.UpdateThreads = m_configData.updateThreads;
-                player.OnSongFinished += new MPfm.Player.PlayerV4.Player.SongFinished(playerV4_OnSongFinished);
+                player.OnSongFinished += new MPfm.Player.Player.SongFinished(playerV4_OnSongFinished);
                 
                 // Refresh status bar
                 Tracing.Log("Refreshing UI...");
@@ -205,7 +205,7 @@ namespace PlaybackEngineV4
         /// Occurs when the current song has finished playing.
         /// </summary>
         /// <param name="data">Song Finished Data</param>
-        protected void playerV4_OnSongFinished(MPfm.Player.PlayerV4.SongFinishedData data)
+        protected void playerV4_OnSongFinished(MPfm.Player.SongFinishedData data)
         {
             // Check if playlist exists
             if (player.Playlist == null || player.Playlist.CurrentItem == null)

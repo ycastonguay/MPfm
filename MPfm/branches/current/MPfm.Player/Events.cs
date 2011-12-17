@@ -31,7 +31,7 @@ using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
-namespace MPfm.Player.PlayerV4
+namespace MPfm.Player
 {
     /// <summary>
     /// Defines the data structure for the end-of-song event.

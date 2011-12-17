@@ -29,7 +29,6 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
-using MPfm.Player.PlayerV4;
 using MPfm.Sound;
 using MPfm.WindowsControls;
 

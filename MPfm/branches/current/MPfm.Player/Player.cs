@@ -1,6 +1,5 @@
 ﻿//
-// PlayerV4.cs: This class is used for playing songs, sound files, gapless sequences
-//              and more.
+// Player.cs: The Player class manages audio playback.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -35,11 +34,11 @@ using Un4seen.BassWasapi;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
-namespace MPfm.Player.PlayerV4
+namespace MPfm.Player
 {
     /// <summary>
-    /// This is the main Player class which manages audio playback and the audio library.
-    /// This is the MPfm Playback Engine V4.
+    /// The Player class manages audio playback through playlists and supports
+    /// multiple driver types and devices.
     /// </summary>
     public class Player
     {
@@ -495,14 +494,14 @@ namespace MPfm.Player.PlayerV4
         /// <param name="updatePeriod">Update period (default: 10 ms)</param> 
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
         {
-            // Initialize system using specified values            
+            // Initialize system using specified values
             m_device = device;
             m_mixerSampleRate = mixerSampleRate;
             m_bufferSize = bufferSize;
             m_updatePeriod = updatePeriod;
 
             // Create lists            
-            m_playlist = new PlayerV4.Playlist();
+            m_playlist = new Playlist();
             m_markers = new List<Marker>();
             m_loops = new List<Loop>();            
 
@@ -524,8 +523,8 @@ namespace MPfm.Player.PlayerV4
             Tracing.Log("Player init -- Creating default EQ preset...");
             m_currentEQPreset = new EQPreset();
 
-            // Initialize sound system            
-            Tracing.Log("Player init -- Initializing device at " + m_mixerSampleRate.ToString() + " Hz (DriverType: " + m_device.DriverType.ToString() + " Id: " + m_device.Id.ToString() + " Name: " + m_device.Name + ")");            
+            // Initialize sound system
+            Tracing.Log("Player init -- Initializing device,,,");
             InitializeDevice(m_device);
         }
 
@@ -546,6 +545,8 @@ namespace MPfm.Player.PlayerV4
         {
             // Set properties
             m_device = device;
+
+            Tracing.Log("Player -- Initializing device (SampleRate: " + m_mixerSampleRate.ToString() + " Hz, DriverType: " + m_device.DriverType.ToString() + ", Id: " + m_device.Id.ToString() + ", Name: " + m_device.Name + ", BufferSize: " + m_bufferSize.ToString() + ", UpdatePeriod: " + m_updatePeriod.ToString() + ")");
 
             // Check driver type
             if (m_device.DriverType == DriverType.DirectSound)
@@ -717,7 +718,7 @@ namespace MPfm.Player.PlayerV4
                 // Check for channels to load
                 if (channelsToLoad == 0)
                 {
-                    throw new Exception("Error in PlayerV4.Play: There aren't any channels to play!");
+                    throw new Exception("Error in Player.Play: There aren't any channels to play!");
                 }
 
                 // Load the current channel and the next channel if it exists
@@ -730,7 +731,7 @@ namespace MPfm.Player.PlayerV4
                 try
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
-                    Tracing.Log("Player.Play -- Creating streaming channel at " + m_playlist.CurrentItem.AudioFile.SampleRate + " Hz using floating point...");
+                    Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + m_playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
                     m_streamProc = new STREAMPROC(StreamCallback);                
                     m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
                 }
@@ -750,7 +751,7 @@ namespace MPfm.Player.PlayerV4
                     try
                     {
                         // Create main channel
-                        Tracing.Log("Player.Play -- Creating DirectSound time shifting channel (decode = false, floating-point = false)...");
+                        Tracing.Log("Player.Play -- Creating time shifting channel (DriverType: DirectSound, Decode: false, FloatingPoint: false)...");
                         m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false, false);
                     }
                     catch (Exception ex)
@@ -836,7 +837,7 @@ namespace MPfm.Player.PlayerV4
                 }
 
                 // Load 18-band equalizer
-                Tracing.Log("Player.Play -- Creating equalizer...");
+                Tracing.Log("Player.Play -- Creating equalizer (Preset: " + m_currentEQPreset + ")...");
                 AddEQ(m_currentEQPreset);
 
                 // Check if EQ is bypassed

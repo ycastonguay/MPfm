@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MPfm.Player.PlayerV4
+namespace MPfm.Player
 {
     /// <summary>
     /// Defines a Loop, which must be used with two Markers.

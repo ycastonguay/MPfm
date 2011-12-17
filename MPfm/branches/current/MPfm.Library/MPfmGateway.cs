@@ -30,7 +30,6 @@ using System.Linq;
 using System.Text;
 using MPfm.Core;
 using MPfm.Player;
-using MPfm.Player.PlayerV4;
 using MPfm.Sound;
 
 namespace MPfm.Library

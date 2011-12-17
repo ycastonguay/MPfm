@@ -45,7 +45,6 @@ using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
 using MPfm.Player;
-using MPfm.Player.PlayerV4;
 
 namespace MPfm
 {
@@ -112,11 +111,11 @@ namespace MPfm
         /// <summary>
         /// Private value for the Player property.
         /// </summary>
-        private MPfm.Player.PlayerV4.Player m_player = null;
+        private MPfm.Player.Player m_player = null;
         /// <summary>
         /// This is the playback engine for MPfm.
         /// </summary>
-        public MPfm.Player.PlayerV4.Player Player
+        public MPfm.Player.Player Player
         {
             get
             {
@@ -308,9 +307,9 @@ namespace MPfm
                 }
 
                 // Create player
-                m_player = new MPfm.Player.PlayerV4.Player(device, Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod);
-                m_player.OnSongFinished += new Player.PlayerV4.Player.SongFinished(m_player_OnSongFinished);
-                m_player.OnStreamCallbackCalled += new MPfm.Player.PlayerV4.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
+                m_player = new MPfm.Player.Player(device, Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod);
+                m_player.OnSongFinished += new Player.Player.SongFinished(m_player_OnSongFinished);
+                m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
 
                 // Create timer
                 m_timerSongPosition = new System.Windows.Forms.Timer();
@@ -739,7 +738,7 @@ namespace MPfm
 
         #region Player Events
 
-        public void m_player_OnStreamCallbackCalled(Player.PlayerV4.StreamCallbackData data)
+        public void m_player_OnStreamCallbackCalled(Player.StreamCallbackData data)
         {
             // Check for valid objects
             if (m_player == null || !m_player.IsPlaying ||
@@ -945,7 +944,7 @@ namespace MPfm
         /// Updates the UI.
         /// </summary>
         /// <param name="data">Song finished data</param>
-        public void m_player_OnSongFinished(Player.PlayerV4.SongFinishedData data)
+        public void m_player_OnSongFinished(Player.SongFinishedData data)
         {
             // If the initialization isn't finished, exit this event
             if (!IsInitDone)
