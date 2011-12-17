@@ -43,9 +43,9 @@
             // 
             // waveForm
             // 
-            this.waveForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.waveForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.waveForm.BorderColor = System.Drawing.Color.Black;
             this.waveForm.BorderWidth = 1;
             this.waveForm.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
@@ -74,11 +74,12 @@
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.FontCollection = this.fontCollection;
             this.lblError.ForeColor = System.Drawing.Color.Black;
-            this.lblError.Location = new System.Drawing.Point(-2, 1);
+            this.lblError.Location = new System.Drawing.Point(0, 1);
             this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(383, 16);
+            this.lblError.Size = new System.Drawing.Size(673, 20);
             this.lblError.TabIndex = 79;
-            this.lblError.Text = "Options here (TimerInterval, DisplayType, etc.)";
+            this.lblError.Text = "The visualizer will be back in a future version, due to migration from another au" +
+    "dio library to the BASS audio library.";
             // 
             // fontCollection
             // 

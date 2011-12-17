@@ -63,7 +63,12 @@ namespace MPfm.Sound.BassNetWrapper
                     device.DriverType = DriverType.DirectSound;
                     device.Name = devicesDirectSound[a].name;
                     device.Driver = devicesDirectSound[a].driver;
-                    devices.Add(device);
+
+                    // If the driver name is No Sound, don't add it to the list of devices
+                    if (device.Name.ToUpper() != "NO SOUND")
+                    {
+                        devices.Add(device);
+                    }                    
                 }
             }
 

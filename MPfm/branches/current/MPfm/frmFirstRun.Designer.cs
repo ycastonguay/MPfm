@@ -328,7 +328,7 @@
             this.Label6.Size = new System.Drawing.Size(583, 20);
             this.Label6.TabIndex = 84;
             this.Label6.Text = "The ASIO and WASAPI (Windows Audio Session API) drivers are also available for te" +
-    "sting (Beta for now).";
+    "sting (EXPERIMENTAL).";
             // 
             // Label7
             // 
