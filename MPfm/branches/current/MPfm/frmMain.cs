@@ -339,9 +339,8 @@ namespace MPfm
 
                 // Load library
                 Tracing.Log("Main form init -- Loading library...");
-                frmSplash.SetStatus("Loading library...");
-                string databaseFilePath = AppDomain.CurrentDomain.BaseDirectory + "MPfm.db";
-                m_library = new Library.Library(databaseFilePath);
+                frmSplash.SetStatus("Loading library...");                
+                m_library = new Library.Library(m_databaseFilePath);
             }
             catch (Exception ex)
             {
