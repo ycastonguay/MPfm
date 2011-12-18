@@ -60,8 +60,21 @@ namespace MPfm
         private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
 
-        // Application data file paths
+        /// <summary>
+        /// Private value for the ApplicationDataFolderPath property.
+        /// </summary>
         private string m_applicationDataFolderPath = string.Empty;
+        /// <summary>
+        /// Indicates the application data folder path.
+        /// </summary>
+        public string ApplicationDataFolderPath
+        {
+            get
+            {
+                return m_applicationDataFolderPath;
+            }
+        }
+
         private string m_configurationFilePath = string.Empty;
         private string m_databaseFilePath = string.Empty;
         private string m_logFilePath = string.Empty;        
@@ -352,7 +365,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the player.\nYou can delete the config.xml file in the MPfm application folder to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the player.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Main form init -- Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application
@@ -386,7 +399,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the UI.\nYou can delete the config.xml file in the MPfm application folder to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing UI!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the UI.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("UI error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
 
                 // Exit application

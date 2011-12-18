@@ -254,7 +254,7 @@ namespace MPfm
                     if (!settingsTested)
                     {
                         // Warn user
-                        DialogResult dialogResult = MessageBox.Show(this, "Warning: The new audio configuration hasn't been tested. Saving an incompatible configuration WILL crash the application.\nTo reset the application configuration, you must delete the configuration file (config.xml) in the MPfm application folder. This will display the First Run screen again.\n\nClick YES to save and apply the untested configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and test your new configuration.", "Warning: New audio configuration untested", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                        DialogResult dialogResult = MessageBox.Show(this, "Warning: The new audio configuration hasn't been tested. Saving an incompatible configuration WILL crash the application.\nTo reset the application configuration, you must delete the MPfm configuration file (MPfm.Configuration.xml) in the MPfm application data folder (" + Main.ApplicationDataFolderPath + "). This will display the First Run screen again.\n\nClick YES to save and apply the untested configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and test your new configuration.", "Warning: New audio configuration untested", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
 
                         // Yes: Continue and save untested settings
                         // No: Do not save new settings
