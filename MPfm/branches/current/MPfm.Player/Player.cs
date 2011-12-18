@@ -869,7 +869,7 @@ namespace MPfm.Player
             }
             catch (Exception ex)
             {
-                Tracing.Log("Error in PlayerV4.PlayFiles: " + ex.Message + "\n" + ex.StackTrace);
+                Tracing.Log("Player.Play error: " + ex.Message + "\n" + ex.StackTrace);
                 throw ex;
             }
         }
@@ -909,7 +909,7 @@ namespace MPfm.Player
             }
 
             // Check if all file paths exist
-            Tracing.Log("[PlayerV4.PlayFiles] Playing a list of " + audioFiles.Count.ToString() + " files.");
+            Tracing.Log("Player.PlayFiles -- Playing a list of " + audioFiles.Count.ToString() + " files.");
             foreach (AudioFile audioFile in audioFiles)
             {
                 // Check if the file exists                
@@ -965,7 +965,7 @@ namespace MPfm.Player
         /// Stops the audio playback and frees the resources used by the playback engine.
         /// </summary>
         public void Stop()
-        {            
+        {
             // Check if the main channel exists, and make sure the player is playing
             if (m_mainChannel == null)// || !m_isPlaying)
             {
@@ -1016,11 +1016,16 @@ namespace MPfm.Player
         /// <param name="index">Song index</param>
         public void GoTo(int index)
         {
-            // Stop current loop if it exists
-            if(m_currentLoop != null)
+            // Check if the player is currently playing                
+            if (m_isPlaying)
             {
-                // Stop loop
-                StopLoop();
+                // Check if a loop is active
+                if (m_currentLoop != null)
+                {
+                    // Stop loop
+                    Tracing.Log("Player.GoTo -- Stopping current loop...");
+                    StopLoop();
+                }
             }
 
             // Clear loop
@@ -1030,20 +1035,24 @@ namespace MPfm.Player
             if (index <= Playlist.Items.Count - 1)
             {
                 // Stop playback
+                Tracing.Log("Player.GoTo -- Stopping playback...");
                 Stop();
 
                 // Set index
+                Tracing.Log("Player.GoTo -- Setting playlist index to " + index.ToString() + "...");
                 Playlist.GoTo(index);
 
                 try
                 {
                     // Load current item
+                    Tracing.Log("Player.GoTo -- Loading item index " + index.ToString() + "...");
                     Playlist.Items[index].Load();
 
                     // Load the next item, if it exists
                     if (Playlist.CurrentItemIndex + 1 < Playlist.Items.Count)
                     {
                         // Load next item
+                        Tracing.Log("Player.GoTo -- Loading item index " + (index+1).ToString() + "...");
                         Playlist.Items[index+1].Load();
                     }
 
@@ -1051,38 +1060,50 @@ namespace MPfm.Player
                     if (m_repeatType == RepeatType.Song)
                     {
                         // Force looping
+                        Tracing.Log("Player.GoTo -- Set BASS_SAMPLE_LOOP...");
                         m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     }
 
-                    if (m_device.DriverType == DriverType.ASIO)
+                    try
                     {
-                        // Start playback
-                        if (!BassAsio.BASS_ASIO_Start(0))
+                        // Start playback depending on driver type
+                        if (m_device.DriverType == DriverType.DirectSound)
                         {
-                            // Get error
-                            BASSError error = Bass.BASS_ErrorGetCode();
-                            throw new Exception("[PlayerV4.GoTo] Error playing files in ASIO: " + error.ToString());
+                            // Start playback
+                            m_mainChannel.Play(false);
+                        }
+                        else if (m_device.DriverType == DriverType.ASIO)
+                        {
+                            // Start playback
+                            if (!BassAsio.BASS_ASIO_Start(0))
+                            {
+                                // Get error
+                                BASSError error = Bass.BASS_ErrorGetCode();
+                                throw new Exception("Error playing files in ASIO: " + error.ToString());
+                            }
+                        }
+                        else if (m_device.DriverType == DriverType.WASAPI)
+                        {
+                            // Start playback
+                            if (!BassWasapi.BASS_WASAPI_Start())
+                            {
+                                // Get error
+                                BASSError error = Bass.BASS_ErrorGetCode();
+                                throw new Exception("Error playing files in WASAPI: " + error.ToString());
+                            }
                         }
                     }
-                    else if (m_device.DriverType == DriverType.WASAPI)
+                    catch (Exception ex)
                     {
-                        // Start playback
-                        if (!BassWasapi.BASS_WASAPI_Start())
-                        {
-                            // Get error
-                            BASSError error = Bass.BASS_ErrorGetCode();
-                            throw new Exception("[PlayerV4.GoTo] Error playing files in WASAPI: " + error.ToString());
-                        }
+                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
+                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to start the playback (" + ex.Message.ToString() + ").", ex);
+                        newEx.DriverType = m_device.DriverType;                        
+                        throw newEx;   
                     }
 
-                    // Start playback
+                    // Set flags
                     m_isPlaying = true;
                     m_isPaused = false;
-
-                    if (m_device.DriverType == DriverType.DirectSound)
-                    {
-                        m_mainChannel.Play(false);
-                    }
 
                     // Raise song end event (if an event is subscribed)
                     if (OnSongFinished != null)
@@ -1097,7 +1118,7 @@ namespace MPfm.Player
                 }
                 catch (Exception ex)
                 {
-                    Tracing.Log("Error in PlayerV4.GoTo: " + ex.Message + "\n" + ex.StackTrace);
+                    Tracing.Log("Player.GoTo error: " + ex.Message + "\n" + ex.StackTrace);
                     throw ex;
                 }
             }   
@@ -1170,7 +1191,7 @@ namespace MPfm.Player
             // Validate player
             if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
             {
-                return;
+                throw new Exception("Error: The playlist has no current item!");
             }
             
             // Calculate new position
@@ -1196,15 +1217,22 @@ namespace MPfm.Player
         /// <param name="loop">Loop to apply</param>
         public void StartLoop(Loop loop)
         {
-            // Set loop sync proc            
-            Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
-            Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
+            try
+            {
+                // Set loop sync proc 
+                Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
+                Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
 
-            // Set current song position to marker A
-            Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
+                // Set current song position to marker A
+                Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
 
-            // Set current loop
-            m_currentLoop = loop;
+                // Set current loop
+                m_currentLoop = loop;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -1212,17 +1240,26 @@ namespace MPfm.Player
         /// </summary>
         public void StopLoop()
         {
-            // Make sure there is a loop to stop
-            if (m_currentLoop == null)
+            try
             {
-                return;
+                // Make sure there is a loop to stop
+                if (m_currentLoop == null)
+                {
+                    return;
+                }
+
+                // Remove sync proc
+                Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
             }
-
-            // Remove sync proc
-            Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
-
-            // Stop loop and release
-            m_currentLoop = null;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                // Release loop
+                m_currentLoop = null;
+            }
         }
 
         #endregion
