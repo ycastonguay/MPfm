@@ -68,16 +68,35 @@ namespace MPfm
         {
             m_main = main;
             InitializeComponent();
-            
+        }
+
+        /// <summary>
+        /// Occurs when the form is ready to load.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void frmFirstRun_Load(object sender, EventArgs e)
+        {
             try
             {
                 // Detect devices
                 m_devices = DeviceHelper.DetectOutputDevices();
 
+                // Check if at least one device has been found
+                if (m_devices.Count == 0)
+                {
+                    // Display warning to user
+                    MessageBox.Show("Error: No valid audio devices have been found!", "No audio devices found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // Close window and application
+                    Close();
+                    Application.Exit();
+                }
+
                 // Output to log
-                for(int a = 0; a < m_devices.Count; a++)
-                {                    
-                    Tracing.Log("FirstRun -- Detected device " + (a+1).ToString() + "/" + m_devices.Count.ToString() + ": " + m_devices[a].DriverType.ToString() + " (Id: " + m_devices[a].Id.ToString() + " Name: " + m_devices[a].Name + ")");
+                for (int a = 0; a < m_devices.Count; a++)
+                {
+                    Tracing.Log("FirstRun -- Detected device " + (a + 1).ToString() + "/" + m_devices.Count.ToString() + ": " + m_devices[a].DriverType.ToString() + " (Id: " + m_devices[a].Id.ToString() + " Name: " + m_devices[a].Name + ")");
                 }
 
                 // Separate devices 
@@ -118,6 +137,7 @@ namespace MPfm
                 sbError.AppendLine("Stack trace: \n" + ex.StackTrace);
                 txtError.Text = sbError.ToString();
                 panelError.Visible = true;
+                throw ex;
             }
         }
 

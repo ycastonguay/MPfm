@@ -183,6 +183,7 @@ namespace MPfm
                 if (!Directory.Exists(m_applicationDataFolderPath))
                 {
                     // Create directory                    
+                    frmSplash.SetStatus("Creating application data folder...");
                     Directory.CreateDirectory(m_applicationDataFolderPath);
                 }
 
@@ -252,6 +253,7 @@ namespace MPfm
                     if (!File.Exists(m_databaseFilePath))
                     {                    
                         // Create database file
+                        frmSplash.SetStatus("Creating database file...");
                         MPfm.Library.Library.CreateDatabaseFile(m_databaseFilePath);
                     }
                 }

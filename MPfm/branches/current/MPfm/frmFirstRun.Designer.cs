@@ -654,6 +654,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CustomTextBox Disabled";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.frmFirstRun_Load);
             this.panelWelcome.ResumeLayout(false);
             this.Panel1.ResumeLayout(false);
             this.panelError.ResumeLayout(false);
