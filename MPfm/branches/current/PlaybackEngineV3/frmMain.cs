@@ -156,7 +156,7 @@ namespace PlaybackEngineV4
                 Tracing.Log("Initializing player...");
                 player = new MPfm.Player.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod);
                 player.UpdateThreads = m_configData.updateThreads;
-                player.OnSongFinished += new MPfm.Player.Player.SongFinished(playerV4_OnSongFinished);
+                player.OnSongFinished += new MPfm.Player.Player.SongFinished(player_OnSongFinished);
                 
                 // Refresh status bar
                 Tracing.Log("Refreshing UI...");
@@ -205,7 +205,7 @@ namespace PlaybackEngineV4
         /// Occurs when the current song has finished playing.
         /// </summary>
         /// <param name="data">Song Finished Data</param>
-        protected void playerV4_OnSongFinished(MPfm.Player.PlayerAudioFileFinishedData data)
+        protected void player_OnSongFinished(MPfm.Player.PlayerAudioFileFinishedData data)
         {
             // Check if playlist exists
             if (player.Playlist == null || player.Playlist.CurrentItem == null)
@@ -558,7 +558,7 @@ namespace PlaybackEngineV4
                 lblCurrentLength.Text = BytesToTime(m_currentSongLength);
                 lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
 
-                //long length = playerV4.CurrentSubChannel.FileProperties.LastBlockPosition - playerV4.CurrentSubChannel.FileProperties.FirstBlockPosition;
+                //long length = player.CurrentSubChannel.FileProperties.LastBlockPosition - player.CurrentSubChannel.FileProperties.FirstBlockPosition;
             }
 
             if (!isSongPositionChanging)

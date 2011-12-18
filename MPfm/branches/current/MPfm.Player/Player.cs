@@ -462,7 +462,7 @@ namespace MPfm.Player
         #region Constructors, Initialization/Dispose
 
         /// <summary>
-        /// Default constructor for the PlayerV4 class. Initializes the player using the default
+        /// Default constructor for the Player class. Initializes the player using the default
         /// values (see property comments).
         /// </summary>
         public Player()
@@ -472,7 +472,7 @@ namespace MPfm.Player
         }
 
         /// <summary>
-        /// Constructor for the PlayerV4 class which requires the mixer sample rate value to be passed
+        /// Constructor for the Player class which requires the mixer sample rate value to be passed
         /// in parameter.
         /// </summary>
         /// <param name="device">Device output</param>
@@ -635,8 +635,7 @@ namespace MPfm.Player
         }        
 
         /// <summary>
-        /// Disposes the PlayerV4 class. 
-        /// Closes the resources to the main audio system and its plugins.
+        /// Disposes the current device and the audio plugins.
         /// </summary>
         public void Dispose()
         {
@@ -832,7 +831,7 @@ namespace MPfm.Player
                     {
                         // Get error
                         BASSError error = Bass.BASS_ErrorGetCode();
-                        throw new Exception("[PlayerV4.PlayFiles] Error playing files in WASAPI: " + error.ToString());
+                        throw new Exception("Player.Play error: Error playing files in WASAPI: " + error.ToString());
                     }
                 }
 
@@ -969,13 +968,14 @@ namespace MPfm.Player
             // Check if the main channel exists, and make sure the player is playing
             if (m_mainChannel == null)// || !m_isPlaying)
             {
-                return;
+                throw new Exception("Player.Stop error: The main channel is null!");
             }
 
             // Check if EQ is enabled
             if (m_isEQEnabled)
             {
                 // Remove EQ
+                Tracing.Log("Player.Stop -- Removing equalizer...");
                 RemoveEQ();
             }
 
@@ -983,16 +983,19 @@ namespace MPfm.Player
             if (m_device.DriverType == DriverType.DirectSound)
             {
                 // Stop main channel
+                Tracing.Log("Player.Stop -- Stopping DirectSound channel...");
                 m_mainChannel.Stop();
             }
             else if (m_device.DriverType == DriverType.ASIO)
             {
                 // Stop playback
+                Tracing.Log("Player.Stop -- Stopping ASIO playback...");
                 BassAsio.BASS_ASIO_Stop();
             }
             else if (m_device.DriverType == DriverType.WASAPI)
             {
                 // Stop playback
+                Tracing.Log("Player.Stop -- Stopping WASAPI playback...");
                 BassWasapi.BASS_WASAPI_Stop(false);
             }
 
@@ -1000,13 +1003,12 @@ namespace MPfm.Player
             if (m_playlist != null && m_playlist.CurrentItem != null)
             {
                 // Dispose channels
+                Tracing.Log("Player.Stop -- Disposing channels...");
                 m_playlist.DisposeChannels();
             }
 
-            // Clear current loop
+            // Set flags
             m_currentLoop = null;
-
-            // Set flag
             m_isPlaying = false;
         }
 
@@ -1070,11 +1072,13 @@ namespace MPfm.Player
                         if (m_device.DriverType == DriverType.DirectSound)
                         {
                             // Start playback
+                            Tracing.Log("Player.GoTo -- Starting DirectSound playback...");
                             m_mainChannel.Play(false);
                         }
                         else if (m_device.DriverType == DriverType.ASIO)
                         {
                             // Start playback
+                            Tracing.Log("Player.GoTo -- Starting ASIO playback...");
                             if (!BassAsio.BASS_ASIO_Start(0))
                             {
                                 // Get error
@@ -1085,6 +1089,7 @@ namespace MPfm.Player
                         else if (m_device.DriverType == DriverType.WASAPI)
                         {
                             // Start playback
+                            Tracing.Log("Player.GoTo -- Starting WASAPI playback...");
                             if (!BassWasapi.BASS_WASAPI_Start())
                             {
                                 // Get error
@@ -1219,11 +1224,13 @@ namespace MPfm.Player
         {
             try
             {
-                // Set loop sync proc 
+                // Set loop sync proc
+                Tracing.Log("Player.StartLoop -- Setting sync...");
                 Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
                 Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
 
                 // Set current song position to marker A
+                Tracing.Log("Player.StartLoop -- Setting start position...");
                 Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
 
                 // Set current loop
@@ -1245,10 +1252,11 @@ namespace MPfm.Player
                 // Make sure there is a loop to stop
                 if (m_currentLoop == null)
                 {
-                    return;
+                    throw new Exception("The current loop is null!");
                 }
 
                 // Remove sync proc
+                Tracing.Log("Player.StopLoop -- Removing sync...");
                 Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
             }
             catch (Exception ex)

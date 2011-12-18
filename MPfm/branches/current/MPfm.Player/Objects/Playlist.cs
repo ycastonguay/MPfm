@@ -1,5 +1,5 @@
 ﻿//
-// Playlist.cs: This file contains the class defining a playlist to be used with PlayerV4.
+// Playlist.cs: This file contains the class defining a playlist to be used with the Player.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -26,7 +26,7 @@ using MPfm.Sound;
 namespace MPfm.Player
 {
     /// <summary>
-    /// Defines a playlist to be used with PlayerV4
+    /// Defines a playlist to be used with the Player.
     /// </summary>
     public class Playlist
     {

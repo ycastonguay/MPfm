@@ -35,7 +35,7 @@ using Un4seen.Bass.AddOn.Fx;
 namespace MPfm.Player
 {
     /// <summary>
-    /// Defines a 18-band equalizer preset for PlayerV4 using BASS FX.
+    /// Defines a 18-band equalizer preset for the Player using BASS FX.
     /// </summary>
     public class EQPreset
     {
@@ -65,7 +65,7 @@ namespace MPfm.Player
         }
 
         /// <summary>
-        /// Default constructor for the PlayerV4EQPreset class.
+        /// Default constructor for the EQPreset class.
         /// </summary>
         public EQPreset()
         {

@@ -1,5 +1,5 @@
 ﻿//
-// Marker.cs: This file contains the class defining a marker to be used with PlayerV4.
+// Marker.cs: This file contains the class defining a marker to be used with the Player.
 //
 // Copyright © 2011 Yanick Castonguay
 //

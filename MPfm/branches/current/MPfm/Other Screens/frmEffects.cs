@@ -438,16 +438,16 @@ namespace MPfm
             m_main.Config.Save();
 
             //// Set equalizer
-            //if (m_main.PlayerV4.IsEQEnabled)
+            //if (m_main.Player.IsEQEnabled)
             //{
             //    // Remove EQ
-            //    m_main.PlayerV4.RemoveEQ();
+            //    m_main.Player.RemoveEQ();
             //}
             //else
             //{
             //    // Add EQ
             //    EQPreset preset = GetEQPresetFromCurrentValues();
-            //    m_main.PlayerV4.AddEQ(preset);
+            //    m_main.Player.AddEQ(preset);
             //}
         }        
 

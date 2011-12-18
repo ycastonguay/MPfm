@@ -65,7 +65,7 @@ namespace MPfm.Player
         public float Q { get; set; }
 
         /// <summary>
-        /// Default constructor for the PlayerV4EQPresetBand class.
+        /// Default constructor for the EQPresetBand class.
         /// Sets the default values for an equalizer band.
         /// </summary>
         public EQPresetBand()
@@ -75,7 +75,7 @@ namespace MPfm.Player
         }
 
         /// <summary>
-        /// Default constructor for the PlayerV4EQPresetBand class.
+        /// Default constructor for the EQPresetBand class.
         /// Sets the default values for an equalizer band.
         /// </summary>
         /// <param name="center">Equalizer center (in Hz)</param>

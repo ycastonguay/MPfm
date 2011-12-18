@@ -35,7 +35,7 @@ using Un4seen.Bass.AddOn.Fx;
 namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
-    /// Defines an audio device that can be used with PlayerV4.
+    /// Defines an audio device that can be used with the Player.
     /// </summary>
     public class Device
     {
