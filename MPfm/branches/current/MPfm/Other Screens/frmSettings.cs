@@ -643,7 +643,11 @@ namespace MPfm
             if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all songs from your library (they will not be deleted!)", "Reset Library", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
                 // Stop the song if one is playing
-                Main.Player.Stop();
+                if (Main.Player.IsPlaying)
+                {
+                    // Stop playback
+                    Main.Player.Stop();
+                }
 
                 // Reset library
                 Main.Library.ResetLibrary();

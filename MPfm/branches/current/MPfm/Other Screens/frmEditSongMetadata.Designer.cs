@@ -28,11 +28,11 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             this.propertyGridTags = new System.Windows.Forms.PropertyGrid();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
@@ -58,7 +58,7 @@ namespace MPfm
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.AntiAliasingEnabled = true;
-            this.btnClose.BorderColor = System.Drawing.Color.Black;
+            this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.CustomFontName = "Junction";
@@ -74,8 +74,8 @@ namespace MPfm
             this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnClose.Location = new System.Drawing.Point(528, 433);
-            this.btnClose.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnClose.Location = new System.Drawing.Point(530, 433);
+            this.btnClose.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -89,26 +89,26 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "Nobile";
-            customFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "TitilliumText22L Lt";
-            customFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "Museo Sans 500";
-            customFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
+            customFont11.AssemblyPath = "MPfm.Fonts.dll";
+            customFont11.Name = "LeagueGothic";
+            customFont11.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont12.AssemblyPath = "MPfm.Fonts.dll";
+            customFont12.Name = "Junction";
+            customFont12.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont13.AssemblyPath = "MPfm.Fonts.dll";
+            customFont13.Name = "Nobile";
+            customFont13.ResourceName = "MPfm.Fonts.nobile.ttf";
+            customFont14.AssemblyPath = "MPfm.Fonts.dll";
+            customFont14.Name = "TitilliumText22L Lt";
+            customFont14.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont15.AssemblyPath = "MPfm.Fonts.dll";
+            customFont15.Name = "Museo Sans 500";
+            customFont15.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
+            this.fontCollection.Fonts.Add(customFont11);
+            this.fontCollection.Fonts.Add(customFont12);
+            this.fontCollection.Fonts.Add(customFont13);
+            this.fontCollection.Fonts.Add(customFont14);
+            this.fontCollection.Fonts.Add(customFont15);
             // 
             // panelEditSongMetadata
             // 
@@ -157,7 +157,7 @@ namespace MPfm
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.AntiAliasingEnabled = true;
-            this.btnSave.BorderColor = System.Drawing.Color.Black;
+            this.btnSave.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnSave.BorderWidth = 1;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.CustomFontName = "Junction";
@@ -173,8 +173,8 @@ namespace MPfm
             this.btnSave.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSave.Image = global::MPfm.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSave.Location = new System.Drawing.Point(430, 433);
-            this.btnSave.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnSave.Location = new System.Drawing.Point(432, 433);
+            this.btnSave.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.btnSave.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSave.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnSave.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -184,7 +184,6 @@ namespace MPfm
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Visible = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // frmEditSongMetadata

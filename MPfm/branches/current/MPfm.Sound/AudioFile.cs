@@ -689,6 +689,71 @@ namespace MPfm.Sound
 			}
 		}
 
+        /// <summary>
+        /// Saves the metadata associated with this audio file from its properties.
+        /// </summary>
+        public void SaveMetadata()
+        {
+            // Check what is the type of the audio file
+            if (m_fileType == AudioFileType.MP3)
+            {                
+                // Create a more specific type of class for MP3 files
+                TagLib.Mpeg.AudioFile fileMP3 = new TagLib.Mpeg.AudioFile(m_filePath);
+
+                // Copy tags
+                fileMP3.Tag.AlbumArtists = new string[] { ArtistName };
+                fileMP3.Tag.Album = AlbumTitle;
+                fileMP3.Tag.Title = Title;
+                fileMP3.Tag.Genres = new string[] { Genre };
+                fileMP3.Tag.Disc = DiscNumber;
+                fileMP3.Tag.Track = TrackNumber;
+                fileMP3.Tag.TrackCount = TrackCount;
+                fileMP3.Tag.Lyrics = Lyrics;
+                fileMP3.Tag.Year = Year;
+
+                // Save metadeata
+                fileMP3.Save();
+            }
+            else if (m_fileType == AudioFileType.FLAC)
+            {
+                // Read VorbisComment in FLAC file
+                TagLib.Flac.File fileFlac = new TagLib.Flac.File(m_filePath);
+
+                // Copy tags
+                fileFlac.Tag.AlbumArtists = new string[] { ArtistName };
+                fileFlac.Tag.Album = AlbumTitle;
+                fileFlac.Tag.Title = Title;
+                fileFlac.Tag.Genres = new string[] { Genre };
+                fileFlac.Tag.Disc = DiscNumber;
+                fileFlac.Tag.Track = TrackNumber;
+                fileFlac.Tag.TrackCount = TrackCount;
+                fileFlac.Tag.Lyrics = Lyrics;
+                fileFlac.Tag.Year = Year;
+
+                // Save metadeata
+                fileFlac.Save();
+            }
+            else if (m_fileType == AudioFileType.OGG)
+            {
+                // Read VorbisComment in FLAC file
+                TagLib.Ogg.File fileOgg = new TagLib.Ogg.File(m_filePath);
+
+                // Copy tags
+                fileOgg.Tag.AlbumArtists = new string[] { ArtistName };
+                fileOgg.Tag.Album = AlbumTitle;
+                fileOgg.Tag.Title = Title;
+                fileOgg.Tag.Genres = new string[] { Genre };
+                fileOgg.Tag.Disc = DiscNumber;
+                fileOgg.Tag.Track = TrackNumber;
+                fileOgg.Tag.TrackCount = TrackCount;
+                fileOgg.Tag.Lyrics = Lyrics;
+                fileOgg.Tag.Year = Year;
+
+                // Save metadeata
+                fileOgg.Save();
+            }
+        }
+
         public static Image ExtractImageForAudioFile(string filePath)
         {
             // Declare variables
