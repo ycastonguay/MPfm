@@ -364,7 +364,7 @@ namespace MPfm
         public void Save(string filePath)
         {
             // Refresh XML document from configuration values
-            RefreshXML();
+            RefreshXML();            
 
             // Save configuration to file
             m_document.Save(filePath);            

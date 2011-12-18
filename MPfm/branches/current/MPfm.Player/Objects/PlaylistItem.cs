@@ -229,7 +229,7 @@ namespace MPfm.Player
                 // Check if the channel is in use
                 if (m_channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
                 {
-                    // Stop and free channel
+                    // Stop and free channel                    
                     m_channel.Stop();
                     m_channel.Free();
                     m_channel = null;

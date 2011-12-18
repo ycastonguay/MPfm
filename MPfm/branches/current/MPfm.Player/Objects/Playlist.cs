@@ -124,7 +124,7 @@ namespace MPfm.Player
             // Free current channel
             if (m_currentItem.Channel != null)
             {
-                // Stop and free channel
+                // Stop and free channel                
                 m_currentItem.Dispose();
                 m_currentItem = null;
             }

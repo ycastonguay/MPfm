@@ -75,6 +75,7 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
     <Content Include="Lib\Bass.Net.dll" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />

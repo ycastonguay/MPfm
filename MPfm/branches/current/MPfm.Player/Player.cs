@@ -983,7 +983,7 @@ namespace MPfm.Player
             if (m_device.DriverType == DriverType.DirectSound)
             {
                 // Stop main channel
-                Tracing.Log("Player.Stop -- Stopping DirectSound channel...");
+                Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
                 m_mainChannel.Stop();
             }
             else if (m_device.DriverType == DriverType.ASIO)
@@ -1039,6 +1039,10 @@ namespace MPfm.Player
                 // Stop playback
                 Tracing.Log("Player.GoTo -- Stopping playback...");
                 Stop();
+
+                //// Set position to 0
+                //// http://www.un4seen.com/forum/?topic=12508.0;hl=clear+stream
+                //SetPosition((long)0);
 
                 // Set index
                 Tracing.Log("Player.GoTo -- Setting playlist index to " + index.ToString() + "...");

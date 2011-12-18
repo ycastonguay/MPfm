@@ -50,6 +50,11 @@ namespace MPfm.Library
         {
         }
 
+        public void ExecuteSQL(string sql)
+        {
+            Execute(sql);
+        }
+
         /// <summary>
         /// Resets the library.
         /// </summary>

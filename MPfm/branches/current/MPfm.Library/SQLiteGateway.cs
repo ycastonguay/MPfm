@@ -74,6 +74,15 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Creates a new database file.
+        /// </summary>
+        public static void CreateDatabaseFile(string databaseFilePath)
+        {
+            // Create new database file
+            SQLiteConnection.CreateFile(databaseFilePath);            
+        }
+
+        /// <summary>
         /// Opens the database connection. 
         /// Raises an exception if the connection cannot be opened.
         /// </summary>

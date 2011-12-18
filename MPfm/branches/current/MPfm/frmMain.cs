@@ -56,10 +56,15 @@ namespace MPfm
     {
         #region Properties
 
-        // Tracing
-        private string fileTracingName = "MPfm.log";
+        // Tracing        
         private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
+
+        // Application data file paths
+        private string m_applicationDataFolderPath = string.Empty;
+        private string m_configurationFilePath = string.Empty;
+        private string m_databaseFilePath = string.Empty;
+        private string m_logFilePath = string.Empty;        
 
         // Initialisation
         public bool IsInitDone { get; set; }        
@@ -160,85 +165,100 @@ namespace MPfm
             // Set initialization boolean
             IsInitDone = false;
 
-            // Initialize tracing
-            frmSplash.SetStatus("Initializing tracing...");
-            
-            // Check if trace file exists
-            if (!File.Exists(fileTracingName))
-            {
-                // Create file
-                fileTracing = File.Create(fileTracingName);
-            }
-            else
-            {
-                try
-                {
-                    // Open file
-                    fileTracing = File.Open(fileTracingName, FileMode.Append);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-                
-            // Configure trace
-            textTraceListener = new TextWriterTraceListener(fileTracing);
-            Trace.Listeners.Add(textTraceListener);
-
-            // Start log
-            Tracing.LogWithoutTimeStamp("");
-            Tracing.LogWithoutTimeStamp("******************************************************************************");
-            Tracing.LogWithoutTimeStamp("MPfm: Music Player for Musicians - Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Tracing.LogWithoutTimeStamp("Started at: " + DateTime.Now.ToString());
-            Tracing.LogWithoutTimeStamp("");
-
             // Load configuration
             try
-            {                               
-                // Register BASS.NET with key      
+            {
+                // Get assembly version
+                Assembly assembly = Assembly.GetExecutingAssembly();
+
+                // Set form title                
+                this.Text = "MPfm: Music Player for Musicians - " + assembly.GetName().Version.ToString();
+
+                // Get application data folder path
+                // Vista/Windows7: C:\Users\%username%\AppData\Roaming\
+                // XP: C:\Documents and Settings\%username%\Application Data\
+                m_applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
+
+                // Check if the folder exists
+                if (!Directory.Exists(m_applicationDataFolderPath))
+                {
+                    // Create directory                    
+                    Directory.CreateDirectory(m_applicationDataFolderPath);
+                }
+
+                // Set paths
+                m_configurationFilePath = m_applicationDataFolderPath + "\\MPfm.Configuration.xml";
+                m_databaseFilePath = m_applicationDataFolderPath + "\\MPfm.Database.db";
+                m_logFilePath = m_applicationDataFolderPath + "\\MPfm.Log.txt";
+
+                // Initialize tracing
+                frmSplash.SetStatus("Main form init -- Initializing tracing...");
+            
+                // Check if trace file exists
+                if (!File.Exists(m_logFilePath))
+                {
+                    // Create file
+                    fileTracing = File.Create(m_logFilePath);
+                }
+                else
+                {
+                    try
+                    {
+                        // Open file
+                        fileTracing = File.Open(m_logFilePath, FileMode.Append);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                
+                // Configure trace
+                textTraceListener = new TextWriterTraceListener(fileTracing);
+                Trace.Listeners.Add(textTraceListener);
+
+                // Start log
+                Tracing.LogWithoutTimeStamp("");
+                Tracing.LogWithoutTimeStamp("******************************************************************************");
+                Tracing.LogWithoutTimeStamp("MPfm: Music Player for Musicians - Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                Tracing.LogWithoutTimeStamp("Started at: " + DateTime.Now.ToString());
+                Tracing.LogWithoutTimeStamp("");
+
+                // Output paths
+                Tracing.Log("Main form init -- Application data folder: " + m_applicationDataFolderPath);
+                Tracing.Log("Main form init -- Configuration file path: " + m_configurationFilePath);
+                Tracing.Log("Main form init -- Database file path: " + m_databaseFilePath);                
+                Tracing.Log("Main form init -- Log file path: " + m_logFilePath);                
+
+                // Register BASS.NET with key
                 Tracing.Log("Main form init -- Registering BASS.NET...");
                 Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");
-
+               
+                // Create configuration with default settings\
                 Tracing.Log("Main form init -- Loading configuration...");
-                frmSplash.SetStatus("Loading configuration...");
-
-                // Create configuration with default settings
-                m_config = new MPfmConfiguration("config.xml");
+                frmSplash.SetStatus("Loading configuration...");                
+                m_config = new MPfmConfiguration(m_configurationFilePath);
 
                 // Check if the configuration file exists
-                if (File.Exists("config.xml"))
+                if (File.Exists(m_configurationFilePath))
                 {
                     // Load configuration values
                     m_config.Load();
                 }
 
-                // Get assembly version
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                string title = "MPfm: Music Player for Musicians";
-                this.Text = title + " - " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-                //// Check if the database file was found
-                //if(!databaseFileFound)
-                //{
-                //    // Ask user if he/she wants to create a new database file, or to point to another one
-                //    frmSplash.HideSplash();
-                //    MessageBox.Show("The database file was not found. Check the database file path in the MPfm.exe.config file.", "Error: Could not find database file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                //    //DialogResult resultDatabaseFile = MessageBox.Show(this, "Error: The database file was not found.\n\nTo create a new database, click on the Yes button.\nTo select an existing database, click on the No button.\nTo exit the application, click on the Cancel button.", "Error: Database file not found", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
-                //    //if (resultDatabaseFile == System.Windows.Forms.DialogResult.Yes)
-                //    //{
-
-                //    //}
-                    
-                //    // Actually... show the Select database or create a new one in the 2nd part of the first run window.
-
-                //    // Create a new database from script... is that possible? 
-
-                //    //dialogOpenFile.ShowDialog();
-                //    Application.Exit();
-                //}
-
+                try
+                {
+                    // Check if the database file exists
+                    if (!File.Exists(m_databaseFilePath))
+                    {                    
+                        // Create database file
+                        MPfm.Library.Library.CreateDatabaseFile(m_databaseFilePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error initializing MPfm: Could not create database file!", ex);
+                }
             }
             catch (Exception ex)
             {

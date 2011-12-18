@@ -128,6 +128,58 @@ namespace MPfm.Library
             RefreshCache();
         }
 
+        /// <summary>
+        /// Creates the MPfm database file at the specified location.
+        /// Executes the SQL needed to create the tables and basic entries.
+        /// </summary>
+        /// <param name="databaseFilePath">Database file path</param>
+        public static void CreateDatabaseFile(string databaseFilePath)
+        {
+            // Create database file
+            SQLiteGateway.CreateDatabaseFile(databaseFilePath);
+
+            // Create gateway
+            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
+            
+            // Get SQL
+            string sql = GetCreateDatabaseSQL();
+
+            // Remove the header comments
+            string[] sqlSplitHeader = sql.Split(new string[] { "--*/" }, StringSplitOptions.None);
+
+            // Split statements
+            string[] sqlSplit = sqlSplitHeader[1].Split(new string[] { "/**/" }, StringSplitOptions.None);
+
+            // Loop through statements
+            foreach (string sqlStatement in sqlSplit)
+            {
+                // Execute create script
+                gateway.ExecuteSQL(sqlStatement);
+            }
+        }
+
+        /// <summary>
+        /// Returns the SQL to execute to create the tables and basic entries.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetCreateDatabaseSQL()
+        {
+            // Declare variables
+            string sql = string.Empty;
+
+            // Fetch SQL
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MPfm.Library.Scripts.CreateDatabase.sql"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    // Read text
+                    sql = reader.ReadToEnd();
+                }
+            }           
+
+            return sql;
+        }
+
         #region Update Library
 
         #region Report progress
