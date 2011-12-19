@@ -75,6 +75,21 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Private value for the PeakFileFolderPath property.
+        /// </summary>
+        private string m_peakFileFolderPath = string.Empty;
+        /// <summary>
+        /// Indicates the peak file folder path.
+        /// </summary>
+        public string PeakFileFolderPath
+        {
+            get
+            {
+                return m_peakFileFolderPath;
+            }
+        }
+
         private string m_configurationFilePath = string.Empty;
         private string m_databaseFilePath = string.Empty;
         private string m_logFilePath = string.Empty;        
@@ -191,6 +206,7 @@ namespace MPfm
                 // Vista/Windows7: C:\Users\%username%\AppData\Roaming\
                 // XP: C:\Documents and Settings\%username%\Application Data\
                 m_applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
+                m_peakFileFolderPath = m_applicationDataFolderPath + "\\Peak Files";
 
                 // Check if the folder exists
                 if (!Directory.Exists(m_applicationDataFolderPath))
@@ -200,10 +216,21 @@ namespace MPfm
                     Directory.CreateDirectory(m_applicationDataFolderPath);
                 }
 
+                // Check if the peak folder exists
+                if (!Directory.Exists(m_peakFileFolderPath))
+                {
+                    // Create directory                    
+                    frmSplash.SetStatus("Creating peak file folder...");
+                    Directory.CreateDirectory(m_peakFileFolderPath);
+                }
+
                 // Set paths
                 m_configurationFilePath = m_applicationDataFolderPath + "\\MPfm.Configuration.xml";
                 m_databaseFilePath = m_applicationDataFolderPath + "\\MPfm.Database.db";
                 m_logFilePath = m_applicationDataFolderPath + "\\MPfm.Log.txt";
+
+                // Set control paths
+                waveFormMarkersLoops.PeakFileDirectory = m_peakFileFolderPath + "\\";
 
                 // Initialize tracing
                 frmSplash.SetStatus("Main form init -- Initializing tracing...");

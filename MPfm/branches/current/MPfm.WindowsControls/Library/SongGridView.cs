@@ -287,90 +287,6 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the LineHoverColor1 property.
-        /// </summary>
-        private Color m_lineHoverColor1 = Color.FromArgb(235, 235, 235);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the line background gradient when the mouse cursor is over the line.")]
-        public Color LineHoverColor1
-        {
-            get
-            {
-                return m_lineHoverColor1;
-            }
-            set
-            {
-                m_lineHoverColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineHoverColor2 property.
-        /// </summary>
-        private Color m_lineHoverColor2 = Color.FromArgb(255, 255, 255);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the line background gradient when the mouse cursor is over the line.")]
-        public Color LineHoverColor2
-        {
-            get
-            {
-                return m_lineHoverColor2;
-            }
-            set
-            {
-                m_lineHoverColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineSelectedColor1 property.
-        /// </summary>
-        private Color m_lineSelectedColor1 = Color.FromArgb(165, 165, 165);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the line background gradient when the line is selected.")]
-        public Color LineSelectedColor1
-        {
-            get
-            {
-                return m_lineSelectedColor1;
-            }
-            set
-            {
-                m_lineSelectedColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineSelectedColor2 property.
-        /// </summary>
-        private Color m_lineSelectedColor2 = Color.FromArgb(185, 185, 185);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the line background gradient when the line is selected.")]
-        public Color LineSelectedColor2
-        {
-            get
-            {
-                return m_lineSelectedColor2;
-            }
-            set
-            {
-                m_lineSelectedColor2 = value;
-            }
-        }
-
-        /// <summary>
         /// Private value for the LineNowPlayingColor1 property.
         /// </summary>
         private Color m_lineNowPlayingColor1 = Color.FromArgb(135, 235, 135);
@@ -1239,6 +1155,8 @@ namespace MPfm.WindowsControls
             Pen pen = null;
             SolidBrush brush = null;
             LinearGradientBrush brushGradient = null;
+            Color colorNowPlaying1 = LineNowPlayingColor1;
+            Color colorNowPlaying2 = LineNowPlayingColor2;
             int offsetX = 0;
             int offsetY = 0;
             int albumCoverStartIndex = 0;
@@ -1401,28 +1319,61 @@ namespace MPfm.WindowsControls
                 // Set rectangle
                 Rectangle rectBackground = new Rectangle(m_columns[0].Width - m_hScrollBar.Value, offsetY, lineBackgroundWidth, m_songCache.LineHeight);                
                 
+                // Set default line background color
+                Color colorBackground1 = LineColor1;
+                Color colorBackground2 = LineColor2;
+
                 // Check conditions to determine background color
                 if ((m_mode == SongGridViewMode.AudioFile && audioFile.Id == m_nowPlayingAudioFileId) || 
                     (m_mode == SongGridViewMode.Playlist && m_items[a].PlaylistItemId == m_nowPlayingPlaylistItemId))
                 {
-                    // Now playing color
-                    brushGradient = new LinearGradientBrush(rectBackground, LineNowPlayingColor1, LineNowPlayingColor2, 90);
+                    // Set color             
+                    colorBackground1 = LineNowPlayingColor1;
+                    colorBackground2 = LineNowPlayingColor2;
                 }
-                else if (m_items[a].IsSelected)
+
+                // Check if item is selected
+
+                if (m_items[a].IsSelected)
                 {
-                    // Selected color
-                    brushGradient = new LinearGradientBrush(rectBackground, LineSelectedColor1, LineSelectedColor2, 90);
+                    // Use darker color
+                    int diff = 40;
+                    colorBackground1 = Color.FromArgb(255,
+                        (colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff,
+                        (colorBackground1.G - diff < 0) ? 0 : colorBackground1.G - diff,
+                        (colorBackground1.B - diff < 0) ? 0 : colorBackground1.B - diff);
+                    colorBackground2 = Color.FromArgb(255,
+                        (colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff,
+                        (colorBackground2.G - diff < 0) ? 0 : colorBackground2.G - diff,
+                        (colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff);
                 }
-                else if (m_items[a].IsMouseOverItem)
+
+                if (m_items[a].IsMouseOverItem)
                 {
-                    // Mouse over color
-                    brushGradient = new LinearGradientBrush(rectBackground, LineHoverColor1, LineHoverColor2, 90);
+                    // Use lighter color
+                    int diff = 20;
+                    colorBackground1 = Color.FromArgb(255,
+                        (colorBackground1.R + diff > 255) ? 255 : colorBackground1.R + diff,
+                        (colorBackground1.G + diff > 255) ? 255 : colorBackground1.G + diff,
+                        (colorBackground1.B + diff > 255) ? 255 : colorBackground1.B + diff);
+                    colorBackground2 = Color.FromArgb(255,
+                        (colorBackground2.R + diff > 255) ? 255 : colorBackground2.R + diff,
+                        (colorBackground2.G + diff > 255) ? 255 : colorBackground2.G + diff,
+                        (colorBackground2.B + diff > 255) ? 255 : colorBackground2.B + diff);
                 }
-                else
+
+                // Check conditions to determine background color
+                if ((m_mode == SongGridViewMode.AudioFile && audioFile.Id == m_nowPlayingAudioFileId) ||
+                    (m_mode == SongGridViewMode.Playlist && m_items[a].PlaylistItemId == m_nowPlayingPlaylistItemId))
                 {
-                    // Default color
-                    brushGradient = new LinearGradientBrush(rectBackground, LineColor1, LineColor2, 90);
+                    // Set color             
+                    colorNowPlaying1 = colorBackground1;
+                    colorNowPlaying2 = colorBackground2;
                 }
+
+                // Create gradient
+                brushGradient = new LinearGradientBrush(rectBackground, colorBackground1, colorBackground2, 90);
+
                 g.FillRectangle(brushGradient, rectBackground);
                 brushGradient.Dispose();
                 brushGradient = null;
@@ -1934,7 +1885,7 @@ namespace MPfm.WindowsControls
 
                     // Draw inner circle
                     rect = new Rectangle((int)iconNowPlayingX + 4, (int)iconNowPlayingY + 4, availableWidthHeight - 8, availableWidthHeight - 8);
-                    brush = new SolidBrush(LineNowPlayingColor1);
+                    brush = new SolidBrush(colorNowPlaying1);
                     g.FillEllipse(brush, rect);
                     brush.Dispose();
                     brush = null;
@@ -2332,6 +2283,13 @@ namespace MPfm.WindowsControls
             if (m_columns == null || m_songCache == null)
             {
                 return;
+            }
+
+            // Make sure the control is focused
+            if (!Focused)
+            {
+                // Set control focus
+                Focus();
             }
 
             // Show context menu strip if the button click is right and not the album art column

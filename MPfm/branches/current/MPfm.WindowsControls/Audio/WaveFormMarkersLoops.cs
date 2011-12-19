@@ -959,14 +959,14 @@ namespace MPfm.WindowsControls
             }
 
             // Check if the peak file exists                            
-            m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
+            //m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
             
-            // Check if the folder for peak files exists
-            if (!Directory.Exists(PeakFileDirectory))
-            {
-                // Create directory
-                Directory.CreateDirectory(PeakFileDirectory);
-            }
+            //// Check if the folder for peak files exists
+            //if (!Directory.Exists(PeakFileDirectory))
+            //{
+            //    // Create directory
+            //    Directory.CreateDirectory(PeakFileDirectory);
+            //}
 
             // Build peak file path
             string peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
