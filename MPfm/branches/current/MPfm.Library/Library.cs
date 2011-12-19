@@ -282,8 +282,7 @@ namespace MPfm.Library
                 // Check if the folder is already part of a configured folder
                 bool folderFound = false;
 
-                // Get the list of folders from the database
-                //List<Folder> folders = DataAccess.SelectFolders();
+                // Get the list of folders from the database                
                 List<Folder> folders = m_gateway.SelectFolders();
 
                 // Search through folders if the base found can be found
@@ -305,8 +304,7 @@ namespace MPfm.Library
                     // Check if the configured path is part of the specified path
                     if (folder.FolderPath.Contains(folderPath))
                     {
-                        // Delete this configured folder
-                        //DataAccess.DeleteFolder(new Guid(folder.FolderId));
+                        // Delete this configured folder                        
                         m_gateway.DeleteFolder(folder.FolderId);
                     }
                 }
@@ -314,8 +312,7 @@ namespace MPfm.Library
                 // Add the folder to the list of configured folders
                 if (!folderFound)
                 {
-                    // Add folder to database
-                    //DataAccess.InsertFolder(folderPath, true);
+                    // Add folder to database                    
                     m_gateway.InsertFolder(folderPath, true);
                 }
             }
@@ -893,9 +890,9 @@ namespace MPfm.Library
         /// <param name="soundFormat">Sound Format Filter</param>
         /// <param name="artistName">Artist Name</param>
         /// <param name="albumTitle">Album Title</param>
-        /// <param name="songTitle">Song Title</param>
+        /// <param name="searchTerms">Search terms</param>
         /// <returns>List of AudioFiles</returns>
-        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string songTitle)
+        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
         {
             // Create variables
             List<AudioFile> audioFiles = null;
@@ -945,11 +942,20 @@ namespace MPfm.Library
                     queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == albumTitle);                    
                 }
 
-                // Check if songTitle is null
-                if (!String.IsNullOrEmpty(songTitle))
+                // Check if searchTerms is null
+                if (!String.IsNullOrEmpty(searchTerms))
                 {
-                    // Add the artist condition to the query
-                    queryAudioFiles = queryAudioFiles.Where(s => s.Title == songTitle);                    
+                    // Split search terms
+                    string[] searchTermsSplit = searchTerms.Split(new string[] { " " }, StringSplitOptions.None);
+                    
+                    // Loop through search terms
+                    foreach (string searchTerm in searchTermsSplit)
+                    {
+                        // Add the artist condition to the query
+                        queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName.ToUpper().Contains(searchTerm.ToUpper()) ||
+                                                                     s.AlbumTitle.ToUpper().Contains(searchTerm.ToUpper()) ||
+                                                                     s.Title.ToUpper().Contains(searchTerm.ToUpper()));
+                    }
                 }
 
                 // Check for media filter

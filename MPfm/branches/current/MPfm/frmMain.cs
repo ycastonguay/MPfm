@@ -1596,11 +1596,11 @@ namespace MPfm
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle);
+                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName);
+                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.Playlist)
             {
@@ -1608,7 +1608,7 @@ namespace MPfm
             }
             else if (query.Type == SongQueryType.All)
             {
-                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending);
+                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -3091,7 +3091,8 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-
+            // Refresh song browser
+            RefreshSongBrowser();
         }
 
         /// <summary>
