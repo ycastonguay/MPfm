@@ -1143,25 +1143,45 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void miFileOpenAudioFile_Click(object sender, EventArgs e)
         {
-            //// Display dialog
-            //if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            //{
-            //    // The user has cancelled the operation
-            //    return;
-            //}
+            // Display dialog
+            if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                // The user has cancelled the operation
+                return;
+            }
 
-            //// MISSING: Update play controls with total length, bitrate, frequency, etc.
-            //// Doesn't seem to crash already, that's good news. Output Meter and song position works.
+            // Check if the playback needs to be stopped
+            if (Player.IsPlaying)
+            {
+                // Stop playback
+                Player.Stop();
+            }
 
-            //// Get the song info
-            //RefreshSongInformation(dialogOpenFile.FileName);
+            // Remove play icon on song browser and playlist
+            RefreshSongBrowserPlayIcon(Guid.Empty);
+            formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
 
-            //// Remove play icon on song browser and playlist
-            //RefreshSongBrowserPlayIcon(Guid.Empty);
-            //formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
+            // Add items to playlist
+            Player.Playlist.Clear();
+            Player.Playlist.AddItems(new List<string>(dialogOpenFile.FileNames));
+            Player.Playlist.First();
 
-            //// Play the audio file
-            //Player.PlayFile(dialogOpenFile.FileName);
+            // Start playback
+            Player.Play();
+
+            // Get the song info
+            RefreshSongInformation();
+
+            // Refresh controls after song playback
+            RefreshSongControls();
+
+            // Refresh loop and marker controls
+            RefreshMarkers();
+            RefreshLoops();
+
+            // Make sure the user cannot add markers and loops
+            btnAddLoop.Enabled = false;
+            btnAddMarker.Enabled = false;
         }
 
         /// <summary>

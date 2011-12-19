@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -232,7 +232,7 @@ namespace MPfm
             this.miAddSongToPlaylist,
             this.miRemoveSong});
             this.menuSongBrowser.Name = "menuSongBrowser";
-            this.menuSongBrowser.Size = new System.Drawing.Size(217, 114);
+            this.menuSongBrowser.Size = new System.Drawing.Size(217, 92);
             this.menuSongBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.menuSongBrowser_Opening);
             // 
             // miPlaySong
@@ -353,7 +353,7 @@ namespace MPfm
             this.miFileOpenAudioFile.Image = global::MPfm.Properties.Resources.folder_page;
             this.miFileOpenAudioFile.Name = "miFileOpenAudioFile";
             this.miFileOpenAudioFile.Size = new System.Drawing.Size(187, 22);
-            this.miFileOpenAudioFile.Text = "&Open an audio file...";
+            this.miFileOpenAudioFile.Text = "&Open audio file(s)...";
             this.miFileOpenAudioFile.Click += new System.EventHandler(this.miFileOpenAudioFile_Click);
             // 
             // toolStripSeparator10
@@ -717,22 +717,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "Droid Sans Mono";
-            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
+            customFont5.AssemblyPath = "MPfm.Fonts.dll";
+            customFont5.Name = "LeagueGothic";
+            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "Junction";
+            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "TitilliumText22L Lt";
+            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "Droid Sans Mono";
+            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont5);
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
             // 
             // treeLibrary
             // 
@@ -2555,7 +2555,8 @@ namespace MPfm
             // dialogOpenFile
             // 
             this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
-            this.dialogOpenFile.Title = "Select an audio file to play";
+            this.dialogOpenFile.Multiselect = true;
+            this.dialogOpenFile.Title = "Select audio file(s) to play";
             // 
             // frmMain
             // 
