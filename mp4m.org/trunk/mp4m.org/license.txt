@@ -10,6 +10,7 @@ License Agreement
 This license has the following sections:
 
 > 1.0 - MPfm
+> 1.1 - BASS/BASS.NET GPLv3 Exception
 > 2.0 - Third-party Libraries
 >   2.1 - BASS
 >   2.2 - BASS.NET
@@ -35,7 +36,7 @@ EXCEPTION: This distribution of MPfm may be linked against the BASS and BASS.NET
 
 MPfm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with MPfm (GPL-3.0.TXT). If not, see <http://www.gnu.org/licenses/>.
 
 -------------------------------------------------
 1.1 - BASS/BASS.NET GPLv3 Exception
@@ -49,7 +50,7 @@ The "BASS/BASS.NET GPLv3 Exception" section consists of the "1.1.1 Definitions" 
 
 "MPfm" means the MPfm: Music Player for Musicians software licensed under version 3 of the GNU General Public License (collectively, "GPL"), or a work based on such software and licensed under the GPL.
 
-"BASS" means the BASS multiplatform audio library for Windows, Mac, Linux and other devices. The BASS library is Copyright © 2003-2011 Un4seen Developments. The BASS library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it does not generate money through sales, advertising, etc. For more information about the BASS license, go to http://www.un4seen.com/bass.html#license.
+"BASS" means the BASS multiplatform audio library for Windows, Mac, Linux and other devices. The BASS library is Copyright © 1999-2011 Un4seen Developments. The BASS library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it does not generate money through sales, advertising, etc. For more information about the BASS license, go to http://www.un4seen.com/bass.html#license.
 
 "BASS.NET" means the .NET framework wrapper for the BASS audio library. The BASS.NET library is Copyright © 2005-2011 radio42. The BASS.NET library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it does not generate money through sales, advertising, etc. For more information about the BASS.NET license, go to http://bass.radio42.com/index.html.
 
@@ -71,7 +72,7 @@ MPfm is using the following third-party libraries:
 2.1 - BASS
 -------------------------------------------------
 
-BASS is a multiplatform audio library for Windows, Mac, Linux and other devices. The BASS library is Copyright © 2003-2011 Un4seen Developments. The BASS library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it does not generate money through sales, advertising, etc. This distribution of MPfm meets this requirement since it is released under the GPLv3 license and qualifies as free software. However, the use of the BASS library requires an exception to the GPLv3 license, which makes MPfm not fully GNU compliant.
+BASS is a multiplatform audio library for Windows, Mac, Linux and other devices. The BASS library is Copyright © 1999-2011 Un4seen Developments. The BASS library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it does not generate money through sales, advertising, etc. This distribution of MPfm meets this requirement since it is released under the GPLv3 license and qualifies as free software. However, the use of the BASS library requires an exception to the GPLv3 license, which makes MPfm not fully GNU compliant.
 
 If you wish to use the MPfm source code in commercial projects, you are *REQUIRED* to contact Un4seen Developments and purchase the license that fits your needs.
 
@@ -122,6 +123,7 @@ MPfm is embedding the following open source fonts in MPfm.Fonts.dll:
 - Junction (from The League of Moveable Type)
 - League Gothic (from The League of Moveable Type)
 - TitilliumText (from Font Squirrel)
+- Droid Sans Mono (from Ascender Corporation)
 
 Junction is designed by Caroline Hadilaksono (http://www.theleagueofmoveabletype.com/members/2-caroline-hadilaksono). More information about this font can be found at http://www.theleagueofmoveabletype.com/fonts/1-junction.
 
@@ -129,7 +131,11 @@ League Gothic is designed by The League of Moveable Type (http://www.theleagueof
 
 TitilliumText is designed by the Accademia di Belle Arti Urbino (http://www.campivisivi.net/titillium/). More information about this font can be found at http://www.fontsquirrel.com/fonts/TitilliumText.
 
-In all cases, the fonts are released under the SIL Open Font License 1.1. A copy of this license is distributed with MPfm and can be found in the application directory (SIL_Open_Font_License_1.1.TXT).
+Droid Sans Mono is designed by Steve Matteson of the Ascender Corporation (http://www.droidfonts.com/). More information about this font can be found at http://www.droidfonts.com/licensing.
+
+The Junction, League Gothic and TitilliumText fonts are released under the SIL Open Font License 1.1. A copy of this license is distributed with MPfm and can be found in the application directory (SIL_OPEN_FONT_LICENSE_1.1.TXT).
+
+The Droid Sans Mono font is released under the Apache License 2.0. A copy of this license is distributed with MPfm and can be found in the application directory (APACHE_LICENSE_2.0.TXT).
 
 =================================================
 3.0 - Other License Information
@@ -141,7 +147,7 @@ Here is more important information about the MPfm license:
 3.1 - MP3
 -------------------------------------------------
 
-Officially, all applications decoding MP3 files must pay a license to the MP3 copyright owner, Technicolor (http://www.mp3licensing.com/). However, this distribution of MPfm is released under the GPLv3 license, which means it is available free of charge, its source code is also available for anyone to download, and its copyright owner is not making money with this product.
+Officially, all applications decoding MP3 files must pay a license to the MP3 copyright owner, Technicolor (http://www.mp3licensing.com/). However, this distribution of MPfm is released under the GPLv3 license and is available free of charge. The MPfm source code is available for anyone to download on SourceForge.Net. This means its copyright owner is not making money with this product.
 
 Microsoft Windows also comes with a built-in MP3 decoder, and Microsoft is paying the license for all Windows copies. Thus, Technicolor does not enforce the patent for Windows freeware MP3 decoders such as MPfm (and other freeware players such as Foobar2k).
 
