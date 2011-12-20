@@ -1,8 +1,6 @@
 MPfm: Music Player for Musicians
 Version 0.5.0.3 beta
 
-MPfm is freeware and can be freely distributed, as long as you distribute all the licences included in the original package. You must also reprint all the copyright and trademarks listed in the MPfm license. 
-
 =================================================
 License Agreement
 =================================================
@@ -27,6 +25,8 @@ This license has the following sections:
 =================================================
 1.0 - MPfm
 =================================================
+
+MPfm is freeware and can be freely distributed, as long as you distribute all the licences included in the original package. You must also reprint all the copyright and trademarks listed in the MPfm license. 
 
 MPfm: Music Player for Musicians and the mp4m.org website are Copyright © 2011 Yanick Castonguay, except for the BASS and BASS.NET libraries (see copyright notices below).
 
@@ -153,7 +153,7 @@ Microsoft Windows also comes with a built-in MP3 decoder, and Microsoft is payin
 
 A declaration from Thomson (acquired later by Technicolor) says that they will not charge a per unit royalty on freely distributed MP3 decoders. This declaration can be found here: http://www.heise.de/newsticker/meldung/Thomson-Keine-Lizenzgebuehren-fuer-freie-MP3-Decoder-58503.html.
 
-However, if you wish to release a commercial product using the MPfm source code, you are *REQUIRED* to contact Technicolor to pay the due royalties. The MPfm copyright owner is *NOT RESPONSIBLE* for any royalties involving audio file formats.
+However, if you wish to release a commercial product using the MPfm source code, you are *REQUIRED* to contact Technicolor to pay the due royalties. The MPfm copyright owner is *NOT RESPONSIBLE* for any royalties involving audio file formats for commercial use of this source code.
 
 More information about MP3 licensing can be found at http://www.mp3licensing.com/.
 
