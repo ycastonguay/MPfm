@@ -204,7 +204,8 @@ namespace MPfm
             RefreshFolders();
 
             // Load configuration
-            LoadConfig();
+            LoadAudioConfig();
+            LoadGeneralConfig();
             settingsChanged = false;            
         }
 
@@ -307,7 +308,7 @@ namespace MPfm
             if (saveSettings)
             {
                 // Save new configuration
-                SaveConfig();
+                SaveAudioConfig();
 
                 // Check if the device has been initialized
                 if (!Main.Player.IsDeviceInitialized)
@@ -387,9 +388,9 @@ namespace MPfm
         #region Configuration
 
         /// <summary>
-        /// Loads the form values based on configuration.
+        /// Loads the audio settings from the configuration file.
         /// </summary>
-        private void LoadConfig()
+        private void LoadAudioConfig()
         {
             // Load values into controls
             //chkHideTray.Checked = Main.Config.HideTray;
@@ -443,9 +444,9 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Saves the form values in the configuration file.
+        /// Saves the audio settings to the configuration file.
         /// </summary>
-        private void SaveConfig()
+        private void SaveAudioConfig()
         {
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
@@ -453,11 +454,32 @@ namespace MPfm
             // Get selected device
             Device device = (Device)cboOutputDevices.SelectedItem;
 
-            // Save config values
+            // Save configuration values
             Main.Config.Audio.Device.Name = device.Name;
             Main.Config.Audio.DriverType = driver.DriverType;
-            //Main.Config.HideTray = chkHideTray.Checked;
-            //Main.Config.ShowTray = chkShowTray.Checked;
+        }
+
+        /// <summary>
+        /// Loads the general settings from the configuration file.
+        /// </summary>
+        private void LoadGeneralConfig()
+        {
+            // Load tray options
+            bool? hideTray = Main.Config.GetKeyValueGeneric<bool>("HideTray");
+            bool? showTray = Main.Config.GetKeyValueGeneric<bool>("ShowTray");
+            chkShowTray.Checked = (showTray.HasValue) ? showTray.Value : false;
+            chkHideTray.Checked = (hideTray.HasValue) ? hideTray.Value : false;
+            chkHideTray.Enabled = chkShowTray.Enabled;
+        }
+
+        /// <summary>
+        /// Saves the general settings to the configuration file.
+        /// </summary>
+        private void SaveGeneralConfig()
+        {
+            // Save configuration values
+            Main.Config.SetKeyValue<bool>("HideTray", chkHideTray.Checked);
+            Main.Config.SetKeyValue<bool>("ShowTray", chkShowTray.Checked);
         }
 
         #endregion
@@ -812,6 +834,7 @@ namespace MPfm
         {
             settingsChanged = true;
 
+            // Enable checkboxes depending on value
             if (chkShowTray.Checked)
             {
                 chkHideTray.Enabled = true;
@@ -821,6 +844,12 @@ namespace MPfm
                 chkHideTray.Enabled = false;
                 chkHideTray.Checked = false;
             }
+
+            // Set tray icon visibility
+            Main.notifyIcon.Visible = chkShowTray.Checked;
+
+            // Save settings
+            SaveGeneralConfig();
         }
 
         /// <summary>
@@ -831,6 +860,9 @@ namespace MPfm
         private void chkHideTray_CheckedChanged(object sender, EventArgs e)
         {
             settingsChanged = true;
+
+            // Save settings
+            SaveGeneralConfig();
         }
 
         #endregion
@@ -899,6 +931,20 @@ namespace MPfm
             }
         }
 
+        private void lblShowTray_Click(object sender, EventArgs e)
+        {
+            // Set opposite value
+            chkShowTray.Checked = !chkShowTray.Checked;
+        }
+
+        private void lblHideTray_Click(object sender, EventArgs e)
+        {
+            // Set opposite value
+            if (chkHideTray.Enabled)
+            {
+                chkHideTray.Checked = !chkHideTray.Checked;
+            }
+        }
     }
 
 }

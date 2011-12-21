@@ -438,6 +438,13 @@ namespace MPfm.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap user {
+            get {
+                object obj = ResourceManager.GetObject("user", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap vcard {
             get {
                 object obj = ResourceManager.GetObject("vcard", resourceCulture);

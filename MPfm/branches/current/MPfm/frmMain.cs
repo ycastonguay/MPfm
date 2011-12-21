@@ -471,6 +471,9 @@ namespace MPfm
             Tracing.Log("Main form init -- Applying configuration...");
             frmSplash.SetStatus("Applying configuration...");
 
+            // Set tray settings
+            notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
+
             // Reset init settings
             InitOpenNodeAlbum = string.Empty;
             InitOpenNodeArtist = string.Empty;
@@ -923,6 +926,7 @@ namespace MPfm
 
             // Set UI            
             lblCurrentTime.Text = position;
+            miTraySongPosition.Text = position;
             lblTotalTime.Text = m_player.Playlist.CurrentItem.LengthString;
             //waveFormMarkersLoops.Position = positionBytes;
             //waveFormMarkersLoops.PositionTime = position;
@@ -1081,6 +1085,19 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (e.CloseReason == CloseReason.FormOwnerClosing ||
+                e.CloseReason == CloseReason.UserClosing)
+            {
+                // Check configuration values
+                if (Config.GetKeyValueGeneric<bool>("ShowTray") == true &&
+                    Config.GetKeyValueGeneric<bool>("HideTray") == true)
+                {
+                    e.Cancel = true;
+                    this.Hide();
+                    return;
+                }
+            }
+
             Tracing.Log("Main form -- Closing MPfm...");
 
             // Save configuration
@@ -1708,6 +1725,11 @@ namespace MPfm
                 lblCurrentAlbumTitle.Text = m_player.Playlist.CurrentItem.AudioFile.AlbumTitle;
                 lblCurrentSongTitle.Text = m_player.Playlist.CurrentItem.AudioFile.Title;
                 lblCurrentFilePath.Text = m_player.Playlist.CurrentItem.AudioFile.FilePath;
+
+                // Set tray menu metadata
+                miTrayArtistName.Text = m_player.Playlist.CurrentItem.AudioFile.ArtistName;
+                miTrayAlbumTitle.Text = m_player.Playlist.CurrentItem.AudioFile.AlbumTitle;
+                miTraySongTitle.Text = m_player.Playlist.CurrentItem.AudioFile.Title;
 
                 // Set format labels
                 lblSoundFormat.Text = Path.GetExtension(m_player.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();

@@ -542,10 +542,10 @@ namespace MPfm.WindowsControls
                 // Create linear gradient brush covering the bar
                 RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
                 LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, MeterGradientColor1, MeterGradientColor2, LinearGradientMode.Vertical);
-                if (maxLeftDB >= 0.2f)
-                {
-                    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
-                }
+                //if (maxLeftDB >= 0.2f)
+                //{
+                //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
+                //}
 
                 // Draw rectangle and dispose objects
                 g.FillRectangle(brushBar, rect);
@@ -593,10 +593,10 @@ namespace MPfm.WindowsControls
                 // Create linear gradient brush covering the bar
                 rectGrad = new RectangleF(barWidth, 110, barWidth, height);
                 brushBar = new LinearGradientBrush(rectGrad, MeterGradientColor1, MeterGradientColor2, LinearGradientMode.Vertical);
-                if (maxRightDB >= 0.2f)
-                {
-                    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
-                }
+                //if (maxRightDB >= 0.2f)
+                //{
+                //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
+                //}
 
                 // Draw rectangle and dispose objects
                 g.FillRectangle(brushBar, rect);

@@ -37,8 +37,9 @@ namespace MPfm
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabAudioSettings = new System.Windows.Forms.TabPage();
             this.panelAudioSettings = new MPfm.WindowsControls.Panel();
-            this.lblTest = new MPfm.WindowsControls.Label();
+            this.lblShowTray = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
+            this.lblTest = new MPfm.WindowsControls.Label();
             this.btnStopPeak = new MPfm.WindowsControls.Button();
             this.btnTestPeak = new MPfm.WindowsControls.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
@@ -63,6 +64,7 @@ namespace MPfm
             this.btnClose = new MPfm.WindowsControls.Button();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.panelBackground = new MPfm.WindowsControls.Panel();
+            this.lblHideTray = new MPfm.WindowsControls.Label();
             this.tabs.SuspendLayout();
             this.tabAudioSettings.SuspendLayout();
             this.panelAudioSettings.SuspendLayout();
@@ -94,6 +96,8 @@ namespace MPfm
             // panelAudioSettings
             // 
             this.panelAudioSettings.AntiAliasingEnabled = true;
+            this.panelAudioSettings.Controls.Add(this.lblHideTray);
+            this.panelAudioSettings.Controls.Add(this.lblShowTray);
             this.panelAudioSettings.Controls.Add(this.lblTest);
             this.panelAudioSettings.Controls.Add(this.btnStopPeak);
             this.panelAudioSettings.Controls.Add(this.btnTestPeak);
@@ -126,19 +130,19 @@ namespace MPfm
             this.panelAudioSettings.Size = new System.Drawing.Size(500, 281);
             this.panelAudioSettings.TabIndex = 16;
             // 
-            // lblTest
+            // lblShowTray
             // 
-            this.lblTest.AntiAliasingEnabled = true;
-            this.lblTest.BackColor = System.Drawing.Color.Transparent;
-            this.lblTest.CustomFontName = "Junction";
-            this.lblTest.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTest.FontCollection = this.fontCollection;
-            this.lblTest.Location = new System.Drawing.Point(232, 156);
-            this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(254, 17);
-            this.lblTest.TabIndex = 86;
-            this.lblTest.Text = "Audio file directory for peak file generation:";
-            this.lblTest.Visible = false;
+            this.lblShowTray.AntiAliasingEnabled = true;
+            this.lblShowTray.BackColor = System.Drawing.Color.Transparent;
+            this.lblShowTray.CustomFontName = "Junction";
+            this.lblShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShowTray.FontCollection = this.fontCollection;
+            this.lblShowTray.Location = new System.Drawing.Point(21, 179);
+            this.lblShowTray.Name = "lblShowTray";
+            this.lblShowTray.Size = new System.Drawing.Size(208, 17);
+            this.lblShowTray.TabIndex = 87;
+            this.lblShowTray.Text = "Show MPfm in the system tray";
+            this.lblShowTray.Click += new System.EventHandler(this.lblShowTray_Click);
             // 
             // fontCollection
             // 
@@ -162,6 +166,20 @@ namespace MPfm
             this.fontCollection.Fonts.Add(customFont3);
             this.fontCollection.Fonts.Add(customFont4);
             this.fontCollection.Fonts.Add(customFont5);
+            // 
+            // lblTest
+            // 
+            this.lblTest.AntiAliasingEnabled = true;
+            this.lblTest.BackColor = System.Drawing.Color.Transparent;
+            this.lblTest.CustomFontName = "Junction";
+            this.lblTest.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTest.FontCollection = this.fontCollection;
+            this.lblTest.Location = new System.Drawing.Point(232, 156);
+            this.lblTest.Name = "lblTest";
+            this.lblTest.Size = new System.Drawing.Size(254, 17);
+            this.lblTest.TabIndex = 86;
+            this.lblTest.Text = "Audio file directory for peak file generation:";
+            this.lblTest.Visible = false;
             // 
             // btnStopPeak
             // 
@@ -257,13 +275,11 @@ namespace MPfm
             this.chkShowTray.Checked = true;
             this.chkShowTray.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkShowTray.Location = new System.Drawing.Point(5, 180);
+            this.chkShowTray.Location = new System.Drawing.Point(6, 183);
             this.chkShowTray.Name = "chkShowTray";
-            this.chkShowTray.Size = new System.Drawing.Size(183, 19);
+            this.chkShowTray.Size = new System.Drawing.Size(15, 14);
             this.chkShowTray.TabIndex = 10;
-            this.chkShowTray.Text = "Show PMP in the system tray";
             this.chkShowTray.UseVisualStyleBackColor = false;
-            this.chkShowTray.Visible = false;
             this.chkShowTray.CheckedChanged += new System.EventHandler(this.chkShowTray_CheckedChanged);
             // 
             // chkHideTray
@@ -274,13 +290,11 @@ namespace MPfm
             this.chkHideTray.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkHideTray.Enabled = false;
             this.chkHideTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkHideTray.Location = new System.Drawing.Point(5, 201);
+            this.chkHideTray.Location = new System.Drawing.Point(6, 204);
             this.chkHideTray.Name = "chkHideTray";
-            this.chkHideTray.Size = new System.Drawing.Size(251, 19);
+            this.chkHideTray.Size = new System.Drawing.Size(15, 14);
             this.chkHideTray.TabIndex = 6;
-            this.chkHideTray.Text = "Hide PMP in the system tray when closed";
             this.chkHideTray.UseVisualStyleBackColor = false;
-            this.chkHideTray.Visible = false;
             this.chkHideTray.CheckedChanged += new System.EventHandler(this.chkHideTray_CheckedChanged);
             // 
             // btnTestSound
@@ -649,6 +663,20 @@ namespace MPfm
             this.panelBackground.Size = new System.Drawing.Size(508, 362);
             this.panelBackground.TabIndex = 63;
             // 
+            // lblHideTray
+            // 
+            this.lblHideTray.AntiAliasingEnabled = true;
+            this.lblHideTray.BackColor = System.Drawing.Color.Transparent;
+            this.lblHideTray.CustomFontName = "Junction";
+            this.lblHideTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHideTray.FontCollection = this.fontCollection;
+            this.lblHideTray.Location = new System.Drawing.Point(21, 200);
+            this.lblHideTray.Name = "lblHideTray";
+            this.lblHideTray.Size = new System.Drawing.Size(254, 17);
+            this.lblHideTray.TabIndex = 88;
+            this.lblHideTray.Text = "Hide MPfm in the system tray when closed";
+            this.lblHideTray.Click += new System.EventHandler(this.lblHideTray_Click);
+            // 
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -710,5 +738,7 @@ namespace MPfm
         private WindowsControls.Button btnTestPeak;
         private WindowsControls.Label lblTest;
         private WindowsControls.Panel panelBackground;
+        private WindowsControls.Label lblShowTray;
+        private WindowsControls.Label lblHideTray;
     }
 }

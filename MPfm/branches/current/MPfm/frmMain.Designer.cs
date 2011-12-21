@@ -30,55 +30,28 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
-            this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
-            this.miAddSongToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.miRemoveSong = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.miFileAddFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.miFileAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.miFileOpenAudioFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.miFileUpdateLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.miFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.miWindowsPlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.miWindowsEffects = new System.Windows.Forms.ToolStripMenuItem();
-            this.miWindowsVisualizer = new System.Windows.Forms.ToolStripMenuItem();
-            this.miWindowsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.miHelpWebsite = new System.Windows.Forms.ToolStripMenuItem();
-            this.miHelpReportBug = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.miHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.sacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.toolStripMain = new MPfm.WindowsControls.ToolStrip();
-            this.btnUpdateLibrary = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPlay = new System.Windows.Forms.ToolStripButton();
-            this.btnPause = new System.Windows.Forms.ToolStripButton();
-            this.btnStop = new System.Windows.Forms.ToolStripButton();
-            this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
-            this.btnNextSong = new System.Windows.Forms.ToolStripButton();
-            this.btnRepeat = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPlaylist = new System.Windows.Forms.ToolStripButton();
-            this.btnEffects = new System.Windows.Forms.ToolStripButton();
-            this.btnVisualizer = new System.Windows.Forms.ToolStripButton();
-            this.btnSettings = new System.Windows.Forms.ToolStripButton();
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.splitFirst = new System.Windows.Forms.SplitContainer();
             this.panelLibrary = new MPfm.WindowsControls.Panel();
@@ -86,10 +59,6 @@ namespace MPfm
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.treeLibrary = new System.Windows.Forms.TreeView();
             this.menuLibrary = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miTreeLibraryPlaySongs = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTreeLibraryAddSongsToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTreeLibraryRemoveSongsFromLibrary = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTreeLibraryDeletePlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.comboSoundFormat = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panelCurrentSong = new MPfm.WindowsControls.Panel();
@@ -111,7 +80,6 @@ namespace MPfm
             this.lblCurrentAlbumTitle = new MPfm.WindowsControls.LinkLabel();
             this.lblCurrentArtistName = new MPfm.WindowsControls.LinkLabel();
             this.panelVolume = new MPfm.WindowsControls.Panel();
-            this.picDistortionWarning = new System.Windows.Forms.PictureBox();
             this.outputMeter = new MPfm.WindowsControls.OutputMeter();
             this.faderVolume = new MPfm.WindowsControls.VolumeFader();
             this.lblVolume = new MPfm.WindowsControls.Label();
@@ -128,29 +96,19 @@ namespace MPfm
             this.panelCurrentTime = new MPfm.WindowsControls.Panel();
             this.lblCurrentTime = new MPfm.WindowsControls.Label();
             this.lblCurrentSongTitle = new MPfm.WindowsControls.Label();
-            this.picAlbum = new System.Windows.Forms.PictureBox();
             this.splitLoopsMarkersSongBrowser = new System.Windows.Forms.SplitContainer();
             this.panelLoopsMarkers = new MPfm.WindowsControls.Panel();
             this.splitWaveFormLoopsMarkers = new System.Windows.Forms.SplitContainer();
             this.waveFormMarkersLoops = new MPfm.WindowsControls.WaveFormMarkersLoops();
             this.splitLoopsMarkers = new System.Windows.Forms.SplitContainer();
-            this.btnStopLoop = new MPfm.WindowsControls.Button();
-            this.btnEditLoop = new MPfm.WindowsControls.Button();
-            this.btnPlayLoop = new MPfm.WindowsControls.Button();
             this.lblLoops = new MPfm.WindowsControls.Label();
-            this.btnRemoveLoop = new MPfm.WindowsControls.Button();
-            this.btnAddLoop = new MPfm.WindowsControls.Button();
             this.viewLoops = new MPfm.WindowsControls.ReorderListView();
             this.columnLoopPlayIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopStartPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLoopEndPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnGoToMarker = new MPfm.WindowsControls.Button();
-            this.btnRemoveMarker = new MPfm.WindowsControls.Button();
             this.lblMarkers = new MPfm.WindowsControls.Label();
-            this.btnEditMarker = new MPfm.WindowsControls.Button();
-            this.btnAddMarker = new MPfm.WindowsControls.Button();
             this.viewMarkers = new MPfm.WindowsControls.ReorderListView();
             this.columnMarkerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnMarkerPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -160,31 +118,73 @@ namespace MPfm
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label1 = new MPfm.WindowsControls.Label();
-            this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
-            this.btnAddSongToPlaylist = new MPfm.WindowsControls.Button();
-            this.btnEditSongMetadata = new MPfm.WindowsControls.Button();
             this.imageListSongBrowser = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miTrayArtist = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTrayAlbum = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTraySongName = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTraySongStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.dialogAddFiles = new System.Windows.Forms.OpenFileDialog();
+            this.workerTreeLibrary = new System.ComponentModel.BackgroundWorker();
+            this.timerUpdateOutputMeter = new System.Windows.Forms.Timer(this.components);
+            this.workerAlbumArt = new System.ComponentModel.BackgroundWorker();
+            this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.miTreeLibraryPlaySongs = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTreeLibraryAddSongsToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTreeLibraryRemoveSongsFromLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTreeLibraryDeletePlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.picDistortionWarning = new System.Windows.Forms.PictureBox();
+            this.picAlbum = new System.Windows.Forms.PictureBox();
+            this.btnStopLoop = new MPfm.WindowsControls.Button();
+            this.btnEditLoop = new MPfm.WindowsControls.Button();
+            this.btnPlayLoop = new MPfm.WindowsControls.Button();
+            this.btnRemoveLoop = new MPfm.WindowsControls.Button();
+            this.btnAddLoop = new MPfm.WindowsControls.Button();
+            this.btnGoToMarker = new MPfm.WindowsControls.Button();
+            this.btnRemoveMarker = new MPfm.WindowsControls.Button();
+            this.btnEditMarker = new MPfm.WindowsControls.Button();
+            this.btnAddMarker = new MPfm.WindowsControls.Button();
+            this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
+            this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAddSongToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRemoveSong = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
+            this.btnAddSongToPlaylist = new MPfm.WindowsControls.Button();
+            this.btnEditSongMetadata = new MPfm.WindowsControls.Button();
+            this.btnUpdateLibrary = new System.Windows.Forms.ToolStripButton();
+            this.btnPlay = new System.Windows.Forms.ToolStripButton();
+            this.btnPause = new System.Windows.Forms.ToolStripButton();
+            this.btnStop = new System.Windows.Forms.ToolStripButton();
+            this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
+            this.btnNextSong = new System.Windows.Forms.ToolStripButton();
+            this.btnRepeat = new System.Windows.Forms.ToolStripButton();
+            this.btnPlaylist = new System.Windows.Forms.ToolStripButton();
+            this.btnEffects = new System.Windows.Forms.ToolStripButton();
+            this.btnVisualizer = new System.Windows.Forms.ToolStripButton();
+            this.btnSettings = new System.Windows.Forms.ToolStripButton();
+            this.miFileAddFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.miFileAddFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.miFileOpenAudioFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.miFileUpdateLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.miFileExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.miWindowsPlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.miWindowsEffects = new System.Windows.Forms.ToolStripMenuItem();
+            this.miWindowsVisualizer = new System.Windows.Forms.ToolStripMenuItem();
+            this.miWindowsSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.miHelpWebsite = new System.Windows.Forms.ToolStripMenuItem();
+            this.miHelpReportBug = new System.Windows.Forms.ToolStripMenuItem();
+            this.miHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTrayArtistName = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTrayAlbumTitle = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTraySongTitle = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTraySongPosition = new System.Windows.Forms.ToolStripMenuItem();
             this.miTrayPlay = new System.Windows.Forms.ToolStripMenuItem();
             this.miTrayPause = new System.Windows.Forms.ToolStripMenuItem();
             this.miTrayStop = new System.Windows.Forms.ToolStripMenuItem();
             this.miTrayPreviousSong = new System.Windows.Forms.ToolStripMenuItem();
             this.miTrayNextSong = new System.Windows.Forms.ToolStripMenuItem();
             this.miTrayRepeat = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.miTrayShowPMP = new System.Windows.Forms.ToolStripMenuItem();
-            this.miTrayExitPMP = new System.Windows.Forms.ToolStripMenuItem();
-            this.dialogAddFiles = new System.Windows.Forms.OpenFileDialog();
-            this.workerTreeLibrary = new System.ComponentModel.BackgroundWorker();
-            this.timerUpdateOutputMeter = new System.Windows.Forms.Timer(this.components);
-            this.workerAlbumArt = new System.ComponentModel.BackgroundWorker();
-            this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.miTrayShowMPfm = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTrayExitMPfm = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -200,12 +200,10 @@ namespace MPfm
             this.panelInformation.SuspendLayout();
             this.panelActions.SuspendLayout();
             this.panelVolume.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picDistortionWarning)).BeginInit();
             this.panelTimeShifting.SuspendLayout();
             this.panelSongPosition.SuspendLayout();
             this.panelTotalTime.SuspendLayout();
             this.panelCurrentTime.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitLoopsMarkersSongBrowser)).BeginInit();
             this.splitLoopsMarkersSongBrowser.Panel1.SuspendLayout();
             this.splitLoopsMarkersSongBrowser.Panel2.SuspendLayout();
@@ -222,6 +220,8 @@ namespace MPfm
             this.panelSongBrowser.SuspendLayout();
             this.panelSongBrowserToolbar.SuspendLayout();
             this.menuTray.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picDistortionWarning)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).BeginInit();
             this.SuspendLayout();
             // 
             // menuSongBrowser
@@ -234,39 +234,6 @@ namespace MPfm
             this.menuSongBrowser.Name = "menuSongBrowser";
             this.menuSongBrowser.Size = new System.Drawing.Size(217, 92);
             this.menuSongBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.menuSongBrowser_Opening);
-            // 
-            // miPlaySong
-            // 
-            this.miPlaySong.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.miPlaySong.Image = global::MPfm.Properties.Resources.control_play;
-            this.miPlaySong.Name = "miPlaySong";
-            this.miPlaySong.Size = new System.Drawing.Size(216, 22);
-            this.miPlaySong.Text = "Play selected song(s)";
-            this.miPlaySong.Click += new System.EventHandler(this.btnPlay_Click);
-            // 
-            // miEditSong
-            // 
-            this.miEditSong.Image = global::MPfm.Properties.Resources.information;
-            this.miEditSong.Name = "miEditSong";
-            this.miEditSong.Size = new System.Drawing.Size(216, 22);
-            this.miEditSong.Text = "Edit song metadata";
-            this.miEditSong.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
-            // 
-            // miAddSongToPlaylist
-            // 
-            this.miAddSongToPlaylist.Image = global::MPfm.Properties.Resources.add;
-            this.miAddSongToPlaylist.Name = "miAddSongToPlaylist";
-            this.miAddSongToPlaylist.Size = new System.Drawing.Size(216, 22);
-            this.miAddSongToPlaylist.Text = "Add song(s) to playlist";
-            this.miAddSongToPlaylist.Click += new System.EventHandler(this.btnAddSongToPlaylist_Click);
-            // 
-            // miRemoveSong
-            // 
-            this.miRemoveSong.Image = global::MPfm.Properties.Resources.delete;
-            this.miRemoveSong.Name = "miRemoveSong";
-            this.miRemoveSong.Size = new System.Drawing.Size(216, 22);
-            this.miRemoveSong.Text = "Remove songs from library";
-            this.miRemoveSong.Visible = false;
             // 
             // imageList
             // 
@@ -327,60 +294,20 @@ namespace MPfm
             this.fileToolStripMenuItem1.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem1.Text = "&File";
             // 
-            // miFileAddFile
-            // 
-            this.miFileAddFile.Image = global::MPfm.Properties.Resources.page_white_add;
-            this.miFileAddFile.Name = "miFileAddFile";
-            this.miFileAddFile.Size = new System.Drawing.Size(187, 22);
-            this.miFileAddFile.Text = "Add &file(s) to library...";
-            this.miFileAddFile.Click += new System.EventHandler(this.miFileAddFile_Click);
-            // 
-            // miFileAddFolder
-            // 
-            this.miFileAddFolder.Image = global::MPfm.Properties.Resources.folder_add;
-            this.miFileAddFolder.Name = "miFileAddFolder";
-            this.miFileAddFolder.Size = new System.Drawing.Size(187, 22);
-            this.miFileAddFolder.Text = "Add a f&older to library...";
-            this.miFileAddFolder.Click += new System.EventHandler(this.miFileAddFolder_Click);
-            // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(184, 6);
-            // 
-            // miFileOpenAudioFile
-            // 
-            this.miFileOpenAudioFile.Image = global::MPfm.Properties.Resources.folder_page;
-            this.miFileOpenAudioFile.Name = "miFileOpenAudioFile";
-            this.miFileOpenAudioFile.Size = new System.Drawing.Size(187, 22);
-            this.miFileOpenAudioFile.Text = "&Open audio file(s)...";
-            this.miFileOpenAudioFile.Click += new System.EventHandler(this.miFileOpenAudioFile_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
             this.toolStripSeparator10.Size = new System.Drawing.Size(184, 6);
             // 
-            // miFileUpdateLibrary
-            // 
-            this.miFileUpdateLibrary.Image = global::MPfm.Properties.Resources.database_gear;
-            this.miFileUpdateLibrary.Name = "miFileUpdateLibrary";
-            this.miFileUpdateLibrary.Size = new System.Drawing.Size(187, 22);
-            this.miFileUpdateLibrary.Text = "&Update Library";
-            this.miFileUpdateLibrary.Click += new System.EventHandler(this.btnUpdateLibrary_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(184, 6);
-            // 
-            // miFileExit
-            // 
-            this.miFileExit.Image = global::MPfm.Properties.Resources.door_in;
-            this.miFileExit.Name = "miFileExit";
-            this.miFileExit.Size = new System.Drawing.Size(187, 22);
-            this.miFileExit.Text = "&Exit";
-            this.miFileExit.Click += new System.EventHandler(this.miFileExit_Click);
             // 
             // windowsToolStripMenuItem
             // 
@@ -393,38 +320,6 @@ namespace MPfm
             this.windowsToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.windowsToolStripMenuItem.Text = "&Windows";
             // 
-            // miWindowsPlaylist
-            // 
-            this.miWindowsPlaylist.Image = global::MPfm.Properties.Resources.application_view_detail;
-            this.miWindowsPlaylist.Name = "miWindowsPlaylist";
-            this.miWindowsPlaylist.Size = new System.Drawing.Size(122, 22);
-            this.miWindowsPlaylist.Text = "&Playlist";
-            this.miWindowsPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
-            // 
-            // miWindowsEffects
-            // 
-            this.miWindowsEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
-            this.miWindowsEffects.Name = "miWindowsEffects";
-            this.miWindowsEffects.Size = new System.Drawing.Size(122, 22);
-            this.miWindowsEffects.Text = "&Effects";
-            this.miWindowsEffects.Click += new System.EventHandler(this.btnEffects_Click);
-            // 
-            // miWindowsVisualizer
-            // 
-            this.miWindowsVisualizer.Image = global::MPfm.Properties.Resources.chart_line;
-            this.miWindowsVisualizer.Name = "miWindowsVisualizer";
-            this.miWindowsVisualizer.Size = new System.Drawing.Size(122, 22);
-            this.miWindowsVisualizer.Text = "&Visualizer";
-            this.miWindowsVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
-            // 
-            // miWindowsSettings
-            // 
-            this.miWindowsSettings.Image = global::MPfm.Properties.Resources.wrench;
-            this.miWindowsSettings.Name = "miWindowsSettings";
-            this.miWindowsSettings.Size = new System.Drawing.Size(122, 22);
-            this.miWindowsSettings.Text = "&Settings";
-            this.miWindowsSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -436,34 +331,10 @@ namespace MPfm
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
-            // miHelpWebsite
-            // 
-            this.miHelpWebsite.Image = global::MPfm.Properties.Resources.world;
-            this.miHelpWebsite.Name = "miHelpWebsite";
-            this.miHelpWebsite.Size = new System.Drawing.Size(198, 22);
-            this.miHelpWebsite.Text = "Go to the MPfm website...";
-            this.miHelpWebsite.Click += new System.EventHandler(this.miHelpWebsite_Click);
-            // 
-            // miHelpReportBug
-            // 
-            this.miHelpReportBug.Image = global::MPfm.Properties.Resources.bug;
-            this.miHelpReportBug.Name = "miHelpReportBug";
-            this.miHelpReportBug.Size = new System.Drawing.Size(198, 22);
-            this.miHelpReportBug.Text = "Report a bug...";
-            this.miHelpReportBug.Click += new System.EventHandler(this.miHelpReportBug_Click);
-            // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(195, 6);
-            // 
-            // miHelpAbout
-            // 
-            this.miHelpAbout.Image = global::MPfm.Properties.Resources.vcard;
-            this.miHelpAbout.Name = "miHelpAbout";
-            this.miHelpAbout.Size = new System.Drawing.Size(198, 22);
-            this.miHelpAbout.Text = "&About MPfm...";
-            this.miHelpAbout.Click += new System.EventHandler(this.miHelpAbout_Click);
             // 
             // toolStripSeparator1
             // 
@@ -522,129 +393,15 @@ namespace MPfm
             this.toolStripMain.TabIndex = 18;
             this.toolStripMain.Text = "toolStrip1";
             // 
-            // btnUpdateLibrary
-            // 
-            this.btnUpdateLibrary.Image = global::MPfm.Properties.Resources.database_gear;
-            this.btnUpdateLibrary.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUpdateLibrary.Name = "btnUpdateLibrary";
-            this.btnUpdateLibrary.Size = new System.Drawing.Size(82, 34);
-            this.btnUpdateLibrary.Text = "Update Library";
-            this.btnUpdateLibrary.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnUpdateLibrary.Click += new System.EventHandler(this.btnUpdateLibrary_Click);
-            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 37);
             // 
-            // btnPlay
-            // 
-            this.btnPlay.Image = global::MPfm.Properties.Resources.control_play;
-            this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(31, 34);
-            this.btnPlay.Text = "Play";
-            this.btnPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
-            // 
-            // btnPause
-            // 
-            this.btnPause.Enabled = false;
-            this.btnPause.Image = global::MPfm.Properties.Resources.control_pause;
-            this.btnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(41, 34);
-            this.btnPause.Text = "Pause";
-            this.btnPause.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Enabled = false;
-            this.btnStop.Image = global::MPfm.Properties.Resources.control_stop;
-            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(33, 34);
-            this.btnStop.Text = "Stop";
-            this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // btnPreviousSong
-            // 
-            this.btnPreviousSong.Enabled = false;
-            this.btnPreviousSong.Image = global::MPfm.Properties.Resources.control_start;
-            this.btnPreviousSong.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPreviousSong.Name = "btnPreviousSong";
-            this.btnPreviousSong.Size = new System.Drawing.Size(81, 34);
-            this.btnPreviousSong.Text = "Previous Song";
-            this.btnPreviousSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnPreviousSong.Click += new System.EventHandler(this.btnPreviousSong_Click);
-            // 
-            // btnNextSong
-            // 
-            this.btnNextSong.Enabled = false;
-            this.btnNextSong.Image = global::MPfm.Properties.Resources.control_end;
-            this.btnNextSong.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNextSong.Name = "btnNextSong";
-            this.btnNextSong.Size = new System.Drawing.Size(61, 34);
-            this.btnNextSong.Text = "Next Song";
-            this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
-            // 
-            // btnRepeat
-            // 
-            this.btnRepeat.Image = global::MPfm.Properties.Resources.control_repeat;
-            this.btnRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRepeat.Name = "btnRepeat";
-            this.btnRepeat.Size = new System.Drawing.Size(72, 34);
-            this.btnRepeat.Text = "Repeat (Off)";
-            this.btnRepeat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
-            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 37);
-            // 
-            // btnPlaylist
-            // 
-            this.btnPlaylist.Image = global::MPfm.Properties.Resources.application_view_detail;
-            this.btnPlaylist.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPlaylist.Name = "btnPlaylist";
-            this.btnPlaylist.Size = new System.Drawing.Size(44, 34);
-            this.btnPlaylist.Text = "Playlist";
-            this.btnPlaylist.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
-            // 
-            // btnEffects
-            // 
-            this.btnEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
-            this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEffects.Name = "btnEffects";
-            this.btnEffects.Size = new System.Drawing.Size(46, 34);
-            this.btnEffects.Text = "Effects";
-            this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
-            // 
-            // btnVisualizer
-            // 
-            this.btnVisualizer.Image = global::MPfm.Properties.Resources.chart_line;
-            this.btnVisualizer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnVisualizer.Name = "btnVisualizer";
-            this.btnVisualizer.Size = new System.Drawing.Size(59, 34);
-            this.btnVisualizer.Text = "Visualizer";
-            this.btnVisualizer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.Image = global::MPfm.Properties.Resources.wrench;
-            this.btnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(50, 34);
-            this.btnSettings.Text = "Settings";
-            this.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // dialogAddFolder
             // 
@@ -717,22 +474,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "LeagueGothic";
-            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont6.AssemblyPath = "MPfm.Fonts.dll";
-            customFont6.Name = "Junction";
-            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont7.AssemblyPath = "MPfm.Fonts.dll";
-            customFont7.Name = "TitilliumText22L Lt";
-            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont8.AssemblyPath = "MPfm.Fonts.dll";
-            customFont8.Name = "Droid Sans Mono";
-            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont5);
-            this.fontCollection.Fonts.Add(customFont6);
-            this.fontCollection.Fonts.Add(customFont7);
-            this.fontCollection.Fonts.Add(customFont8);
+            customFont1.AssemblyPath = "MPfm.Fonts.dll";
+            customFont1.Name = "LeagueGothic";
+            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont2.AssemblyPath = "MPfm.Fonts.dll";
+            customFont2.Name = "Junction";
+            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont3.AssemblyPath = "MPfm.Fonts.dll";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont4.AssemblyPath = "MPfm.Fonts.dll";
+            customFont4.Name = "Droid Sans Mono";
+            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont1);
+            this.fontCollection.Fonts.Add(customFont2);
+            this.fontCollection.Fonts.Add(customFont3);
+            this.fontCollection.Fonts.Add(customFont4);
             // 
             // treeLibrary
             // 
@@ -766,39 +523,6 @@ namespace MPfm
             this.menuLibrary.Name = "menuLibrary";
             this.menuLibrary.Size = new System.Drawing.Size(186, 92);
             this.menuLibrary.Opening += new System.ComponentModel.CancelEventHandler(this.menuLibrary_Opening);
-            // 
-            // miTreeLibraryPlaySongs
-            // 
-            this.miTreeLibraryPlaySongs.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.miTreeLibraryPlaySongs.Image = global::MPfm.Properties.Resources.control_play;
-            this.miTreeLibraryPlaySongs.Name = "miTreeLibraryPlaySongs";
-            this.miTreeLibraryPlaySongs.Size = new System.Drawing.Size(185, 22);
-            this.miTreeLibraryPlaySongs.Text = "Play selected songs";
-            this.miTreeLibraryPlaySongs.Click += new System.EventHandler(this.miTreeLibraryPlaySongs_Click);
-            // 
-            // miTreeLibraryAddSongsToPlaylist
-            // 
-            this.miTreeLibraryAddSongsToPlaylist.Image = global::MPfm.Properties.Resources.add;
-            this.miTreeLibraryAddSongsToPlaylist.Name = "miTreeLibraryAddSongsToPlaylist";
-            this.miTreeLibraryAddSongsToPlaylist.Size = new System.Drawing.Size(185, 22);
-            this.miTreeLibraryAddSongsToPlaylist.Text = "Add songs to playlist";
-            this.miTreeLibraryAddSongsToPlaylist.Click += new System.EventHandler(this.miTreeLibraryAddSongsToPlaylist_Click);
-            // 
-            // miTreeLibraryRemoveSongsFromLibrary
-            // 
-            this.miTreeLibraryRemoveSongsFromLibrary.Image = global::MPfm.Properties.Resources.delete;
-            this.miTreeLibraryRemoveSongsFromLibrary.Name = "miTreeLibraryRemoveSongsFromLibrary";
-            this.miTreeLibraryRemoveSongsFromLibrary.Size = new System.Drawing.Size(185, 22);
-            this.miTreeLibraryRemoveSongsFromLibrary.Text = "Remove from library";
-            this.miTreeLibraryRemoveSongsFromLibrary.Visible = false;
-            // 
-            // miTreeLibraryDeletePlaylist
-            // 
-            this.miTreeLibraryDeletePlaylist.Image = global::MPfm.Properties.Resources.delete;
-            this.miTreeLibraryDeletePlaylist.Name = "miTreeLibraryDeletePlaylist";
-            this.miTreeLibraryDeletePlaylist.Size = new System.Drawing.Size(185, 22);
-            this.miTreeLibraryDeletePlaylist.Text = "Delete playlist";
-            this.miTreeLibraryDeletePlaylist.Click += new System.EventHandler(this.miTreeLibraryDeletePlaylist_Click);
             // 
             // comboSoundFormat
             // 
@@ -1223,17 +947,6 @@ namespace MPfm
             this.panelVolume.Size = new System.Drawing.Size(78, 153);
             this.panelVolume.TabIndex = 56;
             // 
-            // picDistortionWarning
-            // 
-            this.picDistortionWarning.BackColor = System.Drawing.Color.Red;
-            this.picDistortionWarning.Location = new System.Drawing.Point(29, 19);
-            this.picDistortionWarning.Name = "picDistortionWarning";
-            this.picDistortionWarning.Size = new System.Drawing.Size(44, 6);
-            this.picDistortionWarning.TabIndex = 69;
-            this.picDistortionWarning.TabStop = false;
-            this.picDistortionWarning.Visible = false;
-            this.picDistortionWarning.Click += new System.EventHandler(this.picDistortionWarning_Click);
-            // 
             // outputMeter
             // 
             this.outputMeter.BorderColor = System.Drawing.Color.Empty;
@@ -1572,18 +1285,6 @@ namespace MPfm
             this.lblCurrentSongTitle.Text = "Song Title";
             this.lblCurrentSongTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // picAlbum
-            // 
-            this.picAlbum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(58)))), ((int)(((byte)(58)))));
-            this.picAlbum.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picAlbum.ImageLocation = "";
-            this.picAlbum.Location = new System.Drawing.Point(1, -1);
-            this.picAlbum.Name = "picAlbum";
-            this.picAlbum.Size = new System.Drawing.Size(155, 155);
-            this.picAlbum.TabIndex = 27;
-            this.picAlbum.TabStop = false;
-            this.picAlbum.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picAlbum_MouseClick);
-            // 
             // splitLoopsMarkersSongBrowser
             // 
             this.splitLoopsMarkersSongBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1710,108 +1411,6 @@ namespace MPfm
             this.splitLoopsMarkers.SplitterDistance = 395;
             this.splitLoopsMarkers.TabIndex = 74;
             // 
-            // btnStopLoop
-            // 
-            this.btnStopLoop.AntiAliasingEnabled = true;
-            this.btnStopLoop.BackColor = System.Drawing.Color.Silver;
-            this.btnStopLoop.BorderColor = System.Drawing.Color.Gray;
-            this.btnStopLoop.BorderWidth = 1;
-            this.btnStopLoop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStopLoop.CustomFontName = "Junction";
-            this.btnStopLoop.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnStopLoop.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnStopLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnStopLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnStopLoop.Enabled = false;
-            this.btnStopLoop.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnStopLoop.FontCollection = this.fontCollection;
-            this.btnStopLoop.FontColor = System.Drawing.Color.Black;
-            this.btnStopLoop.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnStopLoop.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnStopLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStopLoop.Image = global::MPfm.Properties.Resources.control_stop;
-            this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStopLoop.Location = new System.Drawing.Point(93, 0);
-            this.btnStopLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnStopLoop.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnStopLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnStopLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnStopLoop.Name = "btnStopLoop";
-            this.btnStopLoop.Size = new System.Drawing.Size(52, 20);
-            this.btnStopLoop.TabIndex = 80;
-            this.btnStopLoop.Text = "Stop";
-            this.btnStopLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnStopLoop.UseVisualStyleBackColor = false;
-            this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
-            // 
-            // btnEditLoop
-            // 
-            this.btnEditLoop.AntiAliasingEnabled = true;
-            this.btnEditLoop.BackColor = System.Drawing.Color.Silver;
-            this.btnEditLoop.BorderColor = System.Drawing.Color.Gray;
-            this.btnEditLoop.BorderWidth = 1;
-            this.btnEditLoop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditLoop.CustomFontName = "Junction";
-            this.btnEditLoop.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnEditLoop.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnEditLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnEditLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnEditLoop.Enabled = false;
-            this.btnEditLoop.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnEditLoop.FontCollection = this.fontCollection;
-            this.btnEditLoop.FontColor = System.Drawing.Color.Black;
-            this.btnEditLoop.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnEditLoop.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnEditLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEditLoop.Image = global::MPfm.Properties.Resources.pencil;
-            this.btnEditLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditLoop.Location = new System.Drawing.Point(193, 0);
-            this.btnEditLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnEditLoop.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnEditLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnEditLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnEditLoop.Name = "btnEditLoop";
-            this.btnEditLoop.Size = new System.Drawing.Size(50, 20);
-            this.btnEditLoop.TabIndex = 79;
-            this.btnEditLoop.Text = "Edit";
-            this.btnEditLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditLoop.UseVisualStyleBackColor = false;
-            this.btnEditLoop.Click += new System.EventHandler(this.btnEditLoop_Click);
-            // 
-            // btnPlayLoop
-            // 
-            this.btnPlayLoop.AntiAliasingEnabled = true;
-            this.btnPlayLoop.BackColor = System.Drawing.Color.Silver;
-            this.btnPlayLoop.BorderColor = System.Drawing.Color.Gray;
-            this.btnPlayLoop.BorderWidth = 1;
-            this.btnPlayLoop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPlayLoop.CustomFontName = "Junction";
-            this.btnPlayLoop.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnPlayLoop.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnPlayLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnPlayLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnPlayLoop.Enabled = false;
-            this.btnPlayLoop.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnPlayLoop.FontCollection = this.fontCollection;
-            this.btnPlayLoop.FontColor = System.Drawing.Color.Black;
-            this.btnPlayLoop.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnPlayLoop.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnPlayLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnPlayLoop.Image = global::MPfm.Properties.Resources.control_play;
-            this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPlayLoop.Location = new System.Drawing.Point(44, 0);
-            this.btnPlayLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnPlayLoop.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnPlayLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnPlayLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnPlayLoop.Name = "btnPlayLoop";
-            this.btnPlayLoop.Size = new System.Drawing.Size(50, 20);
-            this.btnPlayLoop.TabIndex = 78;
-            this.btnPlayLoop.Text = "Play";
-            this.btnPlayLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnPlayLoop.UseVisualStyleBackColor = false;
-            this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
-            // 
             // lblLoops
             // 
             this.lblLoops.AntiAliasingEnabled = true;
@@ -1826,74 +1425,6 @@ namespace MPfm
             this.lblLoops.TabIndex = 75;
             this.lblLoops.Text = "Loops";
             this.lblLoops.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnRemoveLoop
-            // 
-            this.btnRemoveLoop.AntiAliasingEnabled = true;
-            this.btnRemoveLoop.BackColor = System.Drawing.Color.Silver;
-            this.btnRemoveLoop.BorderColor = System.Drawing.Color.Gray;
-            this.btnRemoveLoop.BorderWidth = 1;
-            this.btnRemoveLoop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemoveLoop.CustomFontName = "Junction";
-            this.btnRemoveLoop.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnRemoveLoop.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnRemoveLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnRemoveLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnRemoveLoop.Enabled = false;
-            this.btnRemoveLoop.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnRemoveLoop.FontCollection = this.fontCollection;
-            this.btnRemoveLoop.FontColor = System.Drawing.Color.Black;
-            this.btnRemoveLoop.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnRemoveLoop.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnRemoveLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnRemoveLoop.Image = global::MPfm.Properties.Resources.delete;
-            this.btnRemoveLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveLoop.Location = new System.Drawing.Point(242, 0);
-            this.btnRemoveLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnRemoveLoop.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnRemoveLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnRemoveLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnRemoveLoop.Name = "btnRemoveLoop";
-            this.btnRemoveLoop.Size = new System.Drawing.Size(68, 20);
-            this.btnRemoveLoop.TabIndex = 77;
-            this.btnRemoveLoop.Text = "Remove";
-            this.btnRemoveLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRemoveLoop.UseVisualStyleBackColor = false;
-            this.btnRemoveLoop.Click += new System.EventHandler(this.btnRemoveLoop_Click);
-            // 
-            // btnAddLoop
-            // 
-            this.btnAddLoop.AntiAliasingEnabled = true;
-            this.btnAddLoop.BackColor = System.Drawing.Color.Silver;
-            this.btnAddLoop.BorderColor = System.Drawing.Color.Gray;
-            this.btnAddLoop.BorderWidth = 1;
-            this.btnAddLoop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddLoop.CustomFontName = "Junction";
-            this.btnAddLoop.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnAddLoop.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnAddLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnAddLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnAddLoop.Enabled = false;
-            this.btnAddLoop.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnAddLoop.FontCollection = this.fontCollection;
-            this.btnAddLoop.FontColor = System.Drawing.Color.Black;
-            this.btnAddLoop.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnAddLoop.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnAddLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAddLoop.Image = global::MPfm.Properties.Resources.add;
-            this.btnAddLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddLoop.Location = new System.Drawing.Point(144, 0);
-            this.btnAddLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddLoop.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnAddLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnAddLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnAddLoop.Name = "btnAddLoop";
-            this.btnAddLoop.Size = new System.Drawing.Size(50, 20);
-            this.btnAddLoop.TabIndex = 76;
-            this.btnAddLoop.Text = "Add";
-            this.btnAddLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAddLoop.UseVisualStyleBackColor = false;
-            this.btnAddLoop.Click += new System.EventHandler(this.btnAddLoop_Click);
             // 
             // viewLoops
             // 
@@ -1959,74 +1490,6 @@ namespace MPfm
             this.columnLoopEndPosition.Text = "End Position";
             this.columnLoopEndPosition.Width = 72;
             // 
-            // btnGoToMarker
-            // 
-            this.btnGoToMarker.AntiAliasingEnabled = true;
-            this.btnGoToMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnGoToMarker.BorderColor = System.Drawing.Color.Gray;
-            this.btnGoToMarker.BorderWidth = 1;
-            this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGoToMarker.CustomFontName = "Junction";
-            this.btnGoToMarker.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnGoToMarker.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnGoToMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnGoToMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnGoToMarker.Enabled = false;
-            this.btnGoToMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnGoToMarker.FontCollection = this.fontCollection;
-            this.btnGoToMarker.FontColor = System.Drawing.Color.Black;
-            this.btnGoToMarker.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnGoToMarker.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnGoToMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnGoToMarker.Image = global::MPfm.Properties.Resources.arrow_right;
-            this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGoToMarker.Location = new System.Drawing.Point(219, 0);
-            this.btnGoToMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnGoToMarker.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnGoToMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnGoToMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnGoToMarker.Name = "btnGoToMarker";
-            this.btnGoToMarker.Size = new System.Drawing.Size(54, 20);
-            this.btnGoToMarker.TabIndex = 75;
-            this.btnGoToMarker.Text = "Go to";
-            this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGoToMarker.UseVisualStyleBackColor = false;
-            this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
-            // 
-            // btnRemoveMarker
-            // 
-            this.btnRemoveMarker.AntiAliasingEnabled = true;
-            this.btnRemoveMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnRemoveMarker.BorderColor = System.Drawing.Color.Gray;
-            this.btnRemoveMarker.BorderWidth = 1;
-            this.btnRemoveMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemoveMarker.CustomFontName = "Junction";
-            this.btnRemoveMarker.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnRemoveMarker.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnRemoveMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnRemoveMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnRemoveMarker.Enabled = false;
-            this.btnRemoveMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnRemoveMarker.FontCollection = this.fontCollection;
-            this.btnRemoveMarker.FontColor = System.Drawing.Color.Black;
-            this.btnRemoveMarker.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnRemoveMarker.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnRemoveMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnRemoveMarker.Image = global::MPfm.Properties.Resources.delete;
-            this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveMarker.Location = new System.Drawing.Point(152, 0);
-            this.btnRemoveMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnRemoveMarker.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnRemoveMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnRemoveMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnRemoveMarker.Name = "btnRemoveMarker";
-            this.btnRemoveMarker.Size = new System.Drawing.Size(68, 20);
-            this.btnRemoveMarker.TabIndex = 74;
-            this.btnRemoveMarker.Text = "Remove";
-            this.btnRemoveMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRemoveMarker.UseVisualStyleBackColor = false;
-            this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
-            // 
             // lblMarkers
             // 
             this.lblMarkers.AntiAliasingEnabled = true;
@@ -2041,74 +1504,6 @@ namespace MPfm
             this.lblMarkers.TabIndex = 71;
             this.lblMarkers.Text = "Markers";
             this.lblMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnEditMarker
-            // 
-            this.btnEditMarker.AntiAliasingEnabled = true;
-            this.btnEditMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnEditMarker.BorderColor = System.Drawing.Color.Gray;
-            this.btnEditMarker.BorderWidth = 1;
-            this.btnEditMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditMarker.CustomFontName = "Junction";
-            this.btnEditMarker.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnEditMarker.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnEditMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnEditMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnEditMarker.Enabled = false;
-            this.btnEditMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnEditMarker.FontCollection = this.fontCollection;
-            this.btnEditMarker.FontColor = System.Drawing.Color.Black;
-            this.btnEditMarker.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnEditMarker.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnEditMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEditMarker.Image = global::MPfm.Properties.Resources.pencil;
-            this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditMarker.Location = new System.Drawing.Point(105, 0);
-            this.btnEditMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnEditMarker.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnEditMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnEditMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnEditMarker.Name = "btnEditMarker";
-            this.btnEditMarker.Size = new System.Drawing.Size(48, 20);
-            this.btnEditMarker.TabIndex = 73;
-            this.btnEditMarker.Text = "Edit";
-            this.btnEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditMarker.UseVisualStyleBackColor = false;
-            this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
-            // 
-            // btnAddMarker
-            // 
-            this.btnAddMarker.AntiAliasingEnabled = true;
-            this.btnAddMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnAddMarker.BorderColor = System.Drawing.Color.Gray;
-            this.btnAddMarker.BorderWidth = 1;
-            this.btnAddMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddMarker.CustomFontName = "Junction";
-            this.btnAddMarker.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnAddMarker.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnAddMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnAddMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnAddMarker.Enabled = false;
-            this.btnAddMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnAddMarker.FontCollection = this.fontCollection;
-            this.btnAddMarker.FontColor = System.Drawing.Color.Black;
-            this.btnAddMarker.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnAddMarker.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnAddMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAddMarker.Image = global::MPfm.Properties.Resources.add;
-            this.btnAddMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddMarker.Location = new System.Drawing.Point(56, 0);
-            this.btnAddMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddMarker.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnAddMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnAddMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnAddMarker.Name = "btnAddMarker";
-            this.btnAddMarker.Size = new System.Drawing.Size(50, 20);
-            this.btnAddMarker.TabIndex = 72;
-            this.btnAddMarker.Text = "Add";
-            this.btnAddMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAddMarker.UseVisualStyleBackColor = false;
-            this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
             // 
             // viewMarkers
             // 
@@ -2286,6 +1681,475 @@ namespace MPfm
             this.label1.Text = "Search for :";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // imageListSongBrowser
+            // 
+            this.imageListSongBrowser.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSongBrowser.ImageStream")));
+            this.imageListSongBrowser.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListSongBrowser.Images.SetKeyName(0, "bullet_go.png");
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.BalloonTipText = "MPfm";
+            this.notifyIcon.BalloonTipTitle = "MPfm: Music Player for Musicians";
+            this.notifyIcon.ContextMenuStrip = this.menuTray;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "MPfm: Music Player for Musicians";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // menuTray
+            // 
+            this.menuTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miTrayArtistName,
+            this.miTrayAlbumTitle,
+            this.miTraySongTitle,
+            this.miTraySongPosition,
+            this.toolStripSeparator7,
+            this.miTrayPlay,
+            this.miTrayPause,
+            this.miTrayStop,
+            this.miTrayPreviousSong,
+            this.miTrayNextSong,
+            this.miTrayRepeat,
+            this.toolStripSeparator4,
+            this.miTrayShowMPfm,
+            this.miTrayExitMPfm});
+            this.menuTray.Name = "menuSongBrowser";
+            this.menuTray.Size = new System.Drawing.Size(178, 280);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(174, 6);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(174, 6);
+            // 
+            // dialogAddFiles
+            // 
+            this.dialogAddFiles.Filter = "Audio files (*.mp3,*.flac,*.ogg)|*.mp3;*.flac;*.ogg";
+            this.dialogAddFiles.Multiselect = true;
+            this.dialogAddFiles.Title = "Add file(s) to library";
+            // 
+            // workerTreeLibrary
+            // 
+            this.workerTreeLibrary.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerTreeLibrary_DoWork);
+            this.workerTreeLibrary.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerTreeLibrary_RunWorkerCompleted);
+            // 
+            // timerUpdateOutputMeter
+            // 
+            this.timerUpdateOutputMeter.Enabled = true;
+            this.timerUpdateOutputMeter.Interval = 10;
+            this.timerUpdateOutputMeter.Tick += new System.EventHandler(this.timerUpdateOutputMeter_Tick);
+            // 
+            // workerAlbumArt
+            // 
+            this.workerAlbumArt.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerAlbumArt_DoWork);
+            this.workerAlbumArt.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerAlbumArt_RunWorkerCompleted);
+            // 
+            // dialogOpenFile
+            // 
+            this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
+            this.dialogOpenFile.Multiselect = true;
+            this.dialogOpenFile.Title = "Select audio file(s) to play";
+            // 
+            // miTreeLibraryPlaySongs
+            // 
+            this.miTreeLibraryPlaySongs.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.miTreeLibraryPlaySongs.Image = global::MPfm.Properties.Resources.control_play;
+            this.miTreeLibraryPlaySongs.Name = "miTreeLibraryPlaySongs";
+            this.miTreeLibraryPlaySongs.Size = new System.Drawing.Size(185, 22);
+            this.miTreeLibraryPlaySongs.Text = "Play selected songs";
+            this.miTreeLibraryPlaySongs.Click += new System.EventHandler(this.miTreeLibraryPlaySongs_Click);
+            // 
+            // miTreeLibraryAddSongsToPlaylist
+            // 
+            this.miTreeLibraryAddSongsToPlaylist.Image = global::MPfm.Properties.Resources.add;
+            this.miTreeLibraryAddSongsToPlaylist.Name = "miTreeLibraryAddSongsToPlaylist";
+            this.miTreeLibraryAddSongsToPlaylist.Size = new System.Drawing.Size(185, 22);
+            this.miTreeLibraryAddSongsToPlaylist.Text = "Add songs to playlist";
+            this.miTreeLibraryAddSongsToPlaylist.Click += new System.EventHandler(this.miTreeLibraryAddSongsToPlaylist_Click);
+            // 
+            // miTreeLibraryRemoveSongsFromLibrary
+            // 
+            this.miTreeLibraryRemoveSongsFromLibrary.Image = global::MPfm.Properties.Resources.delete;
+            this.miTreeLibraryRemoveSongsFromLibrary.Name = "miTreeLibraryRemoveSongsFromLibrary";
+            this.miTreeLibraryRemoveSongsFromLibrary.Size = new System.Drawing.Size(185, 22);
+            this.miTreeLibraryRemoveSongsFromLibrary.Text = "Remove from library";
+            this.miTreeLibraryRemoveSongsFromLibrary.Visible = false;
+            // 
+            // miTreeLibraryDeletePlaylist
+            // 
+            this.miTreeLibraryDeletePlaylist.Image = global::MPfm.Properties.Resources.delete;
+            this.miTreeLibraryDeletePlaylist.Name = "miTreeLibraryDeletePlaylist";
+            this.miTreeLibraryDeletePlaylist.Size = new System.Drawing.Size(185, 22);
+            this.miTreeLibraryDeletePlaylist.Text = "Delete playlist";
+            this.miTreeLibraryDeletePlaylist.Click += new System.EventHandler(this.miTreeLibraryDeletePlaylist_Click);
+            // 
+            // picDistortionWarning
+            // 
+            this.picDistortionWarning.BackColor = System.Drawing.Color.Red;
+            this.picDistortionWarning.Location = new System.Drawing.Point(29, 19);
+            this.picDistortionWarning.Name = "picDistortionWarning";
+            this.picDistortionWarning.Size = new System.Drawing.Size(44, 6);
+            this.picDistortionWarning.TabIndex = 69;
+            this.picDistortionWarning.TabStop = false;
+            this.picDistortionWarning.Visible = false;
+            this.picDistortionWarning.Click += new System.EventHandler(this.picDistortionWarning_Click);
+            // 
+            // picAlbum
+            // 
+            this.picAlbum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(58)))), ((int)(((byte)(58)))));
+            this.picAlbum.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picAlbum.ImageLocation = "";
+            this.picAlbum.Location = new System.Drawing.Point(1, -1);
+            this.picAlbum.Name = "picAlbum";
+            this.picAlbum.Size = new System.Drawing.Size(155, 155);
+            this.picAlbum.TabIndex = 27;
+            this.picAlbum.TabStop = false;
+            this.picAlbum.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picAlbum_MouseClick);
+            // 
+            // btnStopLoop
+            // 
+            this.btnStopLoop.AntiAliasingEnabled = true;
+            this.btnStopLoop.BackColor = System.Drawing.Color.Silver;
+            this.btnStopLoop.BorderColor = System.Drawing.Color.Gray;
+            this.btnStopLoop.BorderWidth = 1;
+            this.btnStopLoop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStopLoop.CustomFontName = "Junction";
+            this.btnStopLoop.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnStopLoop.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnStopLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnStopLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnStopLoop.Enabled = false;
+            this.btnStopLoop.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnStopLoop.FontCollection = this.fontCollection;
+            this.btnStopLoop.FontColor = System.Drawing.Color.Black;
+            this.btnStopLoop.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnStopLoop.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnStopLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnStopLoop.Image = global::MPfm.Properties.Resources.control_stop;
+            this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStopLoop.Location = new System.Drawing.Point(93, 0);
+            this.btnStopLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnStopLoop.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnStopLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnStopLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnStopLoop.Name = "btnStopLoop";
+            this.btnStopLoop.Size = new System.Drawing.Size(52, 20);
+            this.btnStopLoop.TabIndex = 80;
+            this.btnStopLoop.Text = "Stop";
+            this.btnStopLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnStopLoop.UseVisualStyleBackColor = false;
+            this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
+            // 
+            // btnEditLoop
+            // 
+            this.btnEditLoop.AntiAliasingEnabled = true;
+            this.btnEditLoop.BackColor = System.Drawing.Color.Silver;
+            this.btnEditLoop.BorderColor = System.Drawing.Color.Gray;
+            this.btnEditLoop.BorderWidth = 1;
+            this.btnEditLoop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditLoop.CustomFontName = "Junction";
+            this.btnEditLoop.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnEditLoop.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnEditLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnEditLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnEditLoop.Enabled = false;
+            this.btnEditLoop.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnEditLoop.FontCollection = this.fontCollection;
+            this.btnEditLoop.FontColor = System.Drawing.Color.Black;
+            this.btnEditLoop.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnEditLoop.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnEditLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnEditLoop.Image = global::MPfm.Properties.Resources.pencil;
+            this.btnEditLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditLoop.Location = new System.Drawing.Point(193, 0);
+            this.btnEditLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnEditLoop.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnEditLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnEditLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnEditLoop.Name = "btnEditLoop";
+            this.btnEditLoop.Size = new System.Drawing.Size(50, 20);
+            this.btnEditLoop.TabIndex = 79;
+            this.btnEditLoop.Text = "Edit";
+            this.btnEditLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditLoop.UseVisualStyleBackColor = false;
+            this.btnEditLoop.Click += new System.EventHandler(this.btnEditLoop_Click);
+            // 
+            // btnPlayLoop
+            // 
+            this.btnPlayLoop.AntiAliasingEnabled = true;
+            this.btnPlayLoop.BackColor = System.Drawing.Color.Silver;
+            this.btnPlayLoop.BorderColor = System.Drawing.Color.Gray;
+            this.btnPlayLoop.BorderWidth = 1;
+            this.btnPlayLoop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPlayLoop.CustomFontName = "Junction";
+            this.btnPlayLoop.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnPlayLoop.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnPlayLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnPlayLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnPlayLoop.Enabled = false;
+            this.btnPlayLoop.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnPlayLoop.FontCollection = this.fontCollection;
+            this.btnPlayLoop.FontColor = System.Drawing.Color.Black;
+            this.btnPlayLoop.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnPlayLoop.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnPlayLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnPlayLoop.Image = global::MPfm.Properties.Resources.control_play;
+            this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPlayLoop.Location = new System.Drawing.Point(44, 0);
+            this.btnPlayLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnPlayLoop.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnPlayLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnPlayLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnPlayLoop.Name = "btnPlayLoop";
+            this.btnPlayLoop.Size = new System.Drawing.Size(50, 20);
+            this.btnPlayLoop.TabIndex = 78;
+            this.btnPlayLoop.Text = "Play";
+            this.btnPlayLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPlayLoop.UseVisualStyleBackColor = false;
+            this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
+            // 
+            // btnRemoveLoop
+            // 
+            this.btnRemoveLoop.AntiAliasingEnabled = true;
+            this.btnRemoveLoop.BackColor = System.Drawing.Color.Silver;
+            this.btnRemoveLoop.BorderColor = System.Drawing.Color.Gray;
+            this.btnRemoveLoop.BorderWidth = 1;
+            this.btnRemoveLoop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemoveLoop.CustomFontName = "Junction";
+            this.btnRemoveLoop.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnRemoveLoop.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnRemoveLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnRemoveLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnRemoveLoop.Enabled = false;
+            this.btnRemoveLoop.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnRemoveLoop.FontCollection = this.fontCollection;
+            this.btnRemoveLoop.FontColor = System.Drawing.Color.Black;
+            this.btnRemoveLoop.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnRemoveLoop.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnRemoveLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnRemoveLoop.Image = global::MPfm.Properties.Resources.delete;
+            this.btnRemoveLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveLoop.Location = new System.Drawing.Point(242, 0);
+            this.btnRemoveLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnRemoveLoop.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnRemoveLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnRemoveLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnRemoveLoop.Name = "btnRemoveLoop";
+            this.btnRemoveLoop.Size = new System.Drawing.Size(68, 20);
+            this.btnRemoveLoop.TabIndex = 77;
+            this.btnRemoveLoop.Text = "Remove";
+            this.btnRemoveLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRemoveLoop.UseVisualStyleBackColor = false;
+            this.btnRemoveLoop.Click += new System.EventHandler(this.btnRemoveLoop_Click);
+            // 
+            // btnAddLoop
+            // 
+            this.btnAddLoop.AntiAliasingEnabled = true;
+            this.btnAddLoop.BackColor = System.Drawing.Color.Silver;
+            this.btnAddLoop.BorderColor = System.Drawing.Color.Gray;
+            this.btnAddLoop.BorderWidth = 1;
+            this.btnAddLoop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddLoop.CustomFontName = "Junction";
+            this.btnAddLoop.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnAddLoop.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnAddLoop.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnAddLoop.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnAddLoop.Enabled = false;
+            this.btnAddLoop.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnAddLoop.FontCollection = this.fontCollection;
+            this.btnAddLoop.FontColor = System.Drawing.Color.Black;
+            this.btnAddLoop.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnAddLoop.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnAddLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnAddLoop.Image = global::MPfm.Properties.Resources.add;
+            this.btnAddLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddLoop.Location = new System.Drawing.Point(144, 0);
+            this.btnAddLoop.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnAddLoop.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnAddLoop.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnAddLoop.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnAddLoop.Name = "btnAddLoop";
+            this.btnAddLoop.Size = new System.Drawing.Size(50, 20);
+            this.btnAddLoop.TabIndex = 76;
+            this.btnAddLoop.Text = "Add";
+            this.btnAddLoop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddLoop.UseVisualStyleBackColor = false;
+            this.btnAddLoop.Click += new System.EventHandler(this.btnAddLoop_Click);
+            // 
+            // btnGoToMarker
+            // 
+            this.btnGoToMarker.AntiAliasingEnabled = true;
+            this.btnGoToMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnGoToMarker.BorderColor = System.Drawing.Color.Gray;
+            this.btnGoToMarker.BorderWidth = 1;
+            this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGoToMarker.CustomFontName = "Junction";
+            this.btnGoToMarker.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnGoToMarker.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnGoToMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnGoToMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnGoToMarker.Enabled = false;
+            this.btnGoToMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnGoToMarker.FontCollection = this.fontCollection;
+            this.btnGoToMarker.FontColor = System.Drawing.Color.Black;
+            this.btnGoToMarker.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnGoToMarker.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnGoToMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnGoToMarker.Image = global::MPfm.Properties.Resources.arrow_right;
+            this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGoToMarker.Location = new System.Drawing.Point(219, 0);
+            this.btnGoToMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnGoToMarker.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnGoToMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnGoToMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnGoToMarker.Name = "btnGoToMarker";
+            this.btnGoToMarker.Size = new System.Drawing.Size(54, 20);
+            this.btnGoToMarker.TabIndex = 75;
+            this.btnGoToMarker.Text = "Go to";
+            this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGoToMarker.UseVisualStyleBackColor = false;
+            this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
+            // 
+            // btnRemoveMarker
+            // 
+            this.btnRemoveMarker.AntiAliasingEnabled = true;
+            this.btnRemoveMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnRemoveMarker.BorderColor = System.Drawing.Color.Gray;
+            this.btnRemoveMarker.BorderWidth = 1;
+            this.btnRemoveMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemoveMarker.CustomFontName = "Junction";
+            this.btnRemoveMarker.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnRemoveMarker.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnRemoveMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnRemoveMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnRemoveMarker.Enabled = false;
+            this.btnRemoveMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnRemoveMarker.FontCollection = this.fontCollection;
+            this.btnRemoveMarker.FontColor = System.Drawing.Color.Black;
+            this.btnRemoveMarker.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnRemoveMarker.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnRemoveMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnRemoveMarker.Image = global::MPfm.Properties.Resources.delete;
+            this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveMarker.Location = new System.Drawing.Point(152, 0);
+            this.btnRemoveMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnRemoveMarker.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnRemoveMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnRemoveMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnRemoveMarker.Name = "btnRemoveMarker";
+            this.btnRemoveMarker.Size = new System.Drawing.Size(68, 20);
+            this.btnRemoveMarker.TabIndex = 74;
+            this.btnRemoveMarker.Text = "Remove";
+            this.btnRemoveMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRemoveMarker.UseVisualStyleBackColor = false;
+            this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
+            // 
+            // btnEditMarker
+            // 
+            this.btnEditMarker.AntiAliasingEnabled = true;
+            this.btnEditMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnEditMarker.BorderColor = System.Drawing.Color.Gray;
+            this.btnEditMarker.BorderWidth = 1;
+            this.btnEditMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditMarker.CustomFontName = "Junction";
+            this.btnEditMarker.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnEditMarker.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnEditMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnEditMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnEditMarker.Enabled = false;
+            this.btnEditMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnEditMarker.FontCollection = this.fontCollection;
+            this.btnEditMarker.FontColor = System.Drawing.Color.Black;
+            this.btnEditMarker.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnEditMarker.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnEditMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnEditMarker.Image = global::MPfm.Properties.Resources.pencil;
+            this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditMarker.Location = new System.Drawing.Point(105, 0);
+            this.btnEditMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnEditMarker.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnEditMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnEditMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnEditMarker.Name = "btnEditMarker";
+            this.btnEditMarker.Size = new System.Drawing.Size(48, 20);
+            this.btnEditMarker.TabIndex = 73;
+            this.btnEditMarker.Text = "Edit";
+            this.btnEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditMarker.UseVisualStyleBackColor = false;
+            this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
+            // 
+            // btnAddMarker
+            // 
+            this.btnAddMarker.AntiAliasingEnabled = true;
+            this.btnAddMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnAddMarker.BorderColor = System.Drawing.Color.Gray;
+            this.btnAddMarker.BorderWidth = 1;
+            this.btnAddMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddMarker.CustomFontName = "Junction";
+            this.btnAddMarker.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnAddMarker.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnAddMarker.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnAddMarker.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnAddMarker.Enabled = false;
+            this.btnAddMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnAddMarker.FontCollection = this.fontCollection;
+            this.btnAddMarker.FontColor = System.Drawing.Color.Black;
+            this.btnAddMarker.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnAddMarker.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnAddMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnAddMarker.Image = global::MPfm.Properties.Resources.add;
+            this.btnAddMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddMarker.Location = new System.Drawing.Point(56, 0);
+            this.btnAddMarker.MouseOverBorderColor = System.Drawing.Color.DarkGray;
+            this.btnAddMarker.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnAddMarker.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnAddMarker.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnAddMarker.Name = "btnAddMarker";
+            this.btnAddMarker.Size = new System.Drawing.Size(50, 20);
+            this.btnAddMarker.TabIndex = 72;
+            this.btnAddMarker.Text = "Add";
+            this.btnAddMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddMarker.UseVisualStyleBackColor = false;
+            this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
+            // 
+            // miPlaySong
+            // 
+            this.miPlaySong.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.miPlaySong.Image = global::MPfm.Properties.Resources.control_play;
+            this.miPlaySong.Name = "miPlaySong";
+            this.miPlaySong.Size = new System.Drawing.Size(216, 22);
+            this.miPlaySong.Text = "Play selected song(s)";
+            this.miPlaySong.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
+            // miEditSong
+            // 
+            this.miEditSong.Image = global::MPfm.Properties.Resources.information;
+            this.miEditSong.Name = "miEditSong";
+            this.miEditSong.Size = new System.Drawing.Size(216, 22);
+            this.miEditSong.Text = "Edit song metadata";
+            this.miEditSong.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
+            // 
+            // miAddSongToPlaylist
+            // 
+            this.miAddSongToPlaylist.Image = global::MPfm.Properties.Resources.add;
+            this.miAddSongToPlaylist.Name = "miAddSongToPlaylist";
+            this.miAddSongToPlaylist.Size = new System.Drawing.Size(216, 22);
+            this.miAddSongToPlaylist.Text = "Add song(s) to playlist";
+            this.miAddSongToPlaylist.Click += new System.EventHandler(this.btnAddSongToPlaylist_Click);
+            // 
+            // miRemoveSong
+            // 
+            this.miRemoveSong.Image = global::MPfm.Properties.Resources.delete;
+            this.miRemoveSong.Name = "miRemoveSong";
+            this.miRemoveSong.Size = new System.Drawing.Size(216, 22);
+            this.miRemoveSong.Text = "Remove songs from library";
+            this.miRemoveSong.Visible = false;
+            // 
             // btnPlaySelectedSong
             // 
             this.btnPlaySelectedSong.AntiAliasingEnabled = true;
@@ -2382,81 +2246,251 @@ namespace MPfm
             this.btnEditSongMetadata.UseVisualStyleBackColor = true;
             this.btnEditSongMetadata.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
             // 
-            // imageListSongBrowser
+            // btnUpdateLibrary
             // 
-            this.imageListSongBrowser.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSongBrowser.ImageStream")));
-            this.imageListSongBrowser.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListSongBrowser.Images.SetKeyName(0, "bullet_go.png");
+            this.btnUpdateLibrary.Image = global::MPfm.Properties.Resources.database_gear;
+            this.btnUpdateLibrary.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUpdateLibrary.Name = "btnUpdateLibrary";
+            this.btnUpdateLibrary.Size = new System.Drawing.Size(82, 34);
+            this.btnUpdateLibrary.Text = "Update Library";
+            this.btnUpdateLibrary.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnUpdateLibrary.Click += new System.EventHandler(this.btnUpdateLibrary_Click);
             // 
-            // notifyIcon
+            // btnPlay
             // 
-            this.notifyIcon.BalloonTipText = "PMP";
-            this.notifyIcon.BalloonTipTitle = "PMP";
-            this.notifyIcon.ContextMenuStrip = this.menuTray;
-            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "PMP - Pimp Music Player";
-            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            this.btnPlay.Image = global::MPfm.Properties.Resources.control_play;
+            this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(31, 34);
+            this.btnPlay.Text = "Play";
+            this.btnPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
-            // menuTray
+            // btnPause
             // 
-            this.menuTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miTrayArtist,
-            this.miTrayAlbum,
-            this.miTraySongName,
-            this.miTraySongStatus,
-            this.toolStripSeparator7,
-            this.miTrayPlay,
-            this.miTrayPause,
-            this.miTrayStop,
-            this.miTrayPreviousSong,
-            this.miTrayNextSong,
-            this.miTrayRepeat,
-            this.toolStripSeparator4,
-            this.miTrayShowPMP,
-            this.miTrayExitPMP});
-            this.menuTray.Name = "menuSongBrowser";
-            this.menuTray.Size = new System.Drawing.Size(178, 280);
+            this.btnPause.Enabled = false;
+            this.btnPause.Image = global::MPfm.Properties.Resources.control_pause;
+            this.btnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(41, 34);
+            this.btnPause.Text = "Pause";
+            this.btnPause.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
-            // miTrayArtist
+            // btnStop
             // 
-            this.miTrayArtist.Enabled = false;
-            this.miTrayArtist.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.miTrayArtist.Image = global::MPfm.Properties.Resources.star;
-            this.miTrayArtist.Name = "miTrayArtist";
-            this.miTrayArtist.Size = new System.Drawing.Size(177, 22);
-            this.miTrayArtist.Text = "Artist";
+            this.btnStop.Enabled = false;
+            this.btnStop.Image = global::MPfm.Properties.Resources.control_stop;
+            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(33, 34);
+            this.btnStop.Text = "Stop";
+            this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // miTrayAlbum
+            // btnPreviousSong
             // 
-            this.miTrayAlbum.Enabled = false;
-            this.miTrayAlbum.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.miTrayAlbum.Image = global::MPfm.Properties.Resources.cd;
-            this.miTrayAlbum.Name = "miTrayAlbum";
-            this.miTrayAlbum.Size = new System.Drawing.Size(177, 22);
-            this.miTrayAlbum.Text = "Album";
+            this.btnPreviousSong.Enabled = false;
+            this.btnPreviousSong.Image = global::MPfm.Properties.Resources.control_start;
+            this.btnPreviousSong.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPreviousSong.Name = "btnPreviousSong";
+            this.btnPreviousSong.Size = new System.Drawing.Size(81, 34);
+            this.btnPreviousSong.Text = "Previous Song";
+            this.btnPreviousSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPreviousSong.Click += new System.EventHandler(this.btnPreviousSong_Click);
             // 
-            // miTraySongName
+            // btnNextSong
             // 
-            this.miTraySongName.Enabled = false;
-            this.miTraySongName.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.miTraySongName.Image = global::MPfm.Properties.Resources.music;
-            this.miTraySongName.Name = "miTraySongName";
-            this.miTraySongName.Size = new System.Drawing.Size(177, 22);
-            this.miTraySongName.Text = "Song";
+            this.btnNextSong.Enabled = false;
+            this.btnNextSong.Image = global::MPfm.Properties.Resources.control_end;
+            this.btnNextSong.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNextSong.Name = "btnNextSong";
+            this.btnNextSong.Size = new System.Drawing.Size(61, 34);
+            this.btnNextSong.Text = "Next Song";
+            this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
             // 
-            // miTraySongStatus
+            // btnRepeat
             // 
-            this.miTraySongStatus.Enabled = false;
-            this.miTraySongStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.miTraySongStatus.Image = global::MPfm.Properties.Resources.time;
-            this.miTraySongStatus.Name = "miTraySongStatus";
-            this.miTraySongStatus.Size = new System.Drawing.Size(177, 22);
-            this.miTraySongStatus.Text = "[ 0:00.00 / 0:00.00 ]";
+            this.btnRepeat.Image = global::MPfm.Properties.Resources.control_repeat;
+            this.btnRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRepeat.Name = "btnRepeat";
+            this.btnRepeat.Size = new System.Drawing.Size(72, 34);
+            this.btnRepeat.Text = "Repeat (Off)";
+            this.btnRepeat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
             // 
-            // toolStripSeparator7
+            // btnPlaylist
             // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(174, 6);
+            this.btnPlaylist.Image = global::MPfm.Properties.Resources.application_view_detail;
+            this.btnPlaylist.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPlaylist.Name = "btnPlaylist";
+            this.btnPlaylist.Size = new System.Drawing.Size(44, 34);
+            this.btnPlaylist.Text = "Playlist";
+            this.btnPlaylist.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
+            // 
+            // btnEffects
+            // 
+            this.btnEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
+            this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEffects.Name = "btnEffects";
+            this.btnEffects.Size = new System.Drawing.Size(46, 34);
+            this.btnEffects.Text = "Effects";
+            this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
+            // 
+            // btnVisualizer
+            // 
+            this.btnVisualizer.Image = global::MPfm.Properties.Resources.chart_line;
+            this.btnVisualizer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnVisualizer.Name = "btnVisualizer";
+            this.btnVisualizer.Size = new System.Drawing.Size(59, 34);
+            this.btnVisualizer.Text = "Visualizer";
+            this.btnVisualizer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Image = global::MPfm.Properties.Resources.wrench;
+            this.btnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(50, 34);
+            this.btnSettings.Text = "Settings";
+            this.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // miFileAddFile
+            // 
+            this.miFileAddFile.Image = global::MPfm.Properties.Resources.page_white_add;
+            this.miFileAddFile.Name = "miFileAddFile";
+            this.miFileAddFile.Size = new System.Drawing.Size(187, 22);
+            this.miFileAddFile.Text = "Add &file(s) to library...";
+            this.miFileAddFile.Click += new System.EventHandler(this.miFileAddFile_Click);
+            // 
+            // miFileAddFolder
+            // 
+            this.miFileAddFolder.Image = global::MPfm.Properties.Resources.folder_add;
+            this.miFileAddFolder.Name = "miFileAddFolder";
+            this.miFileAddFolder.Size = new System.Drawing.Size(187, 22);
+            this.miFileAddFolder.Text = "Add a f&older to library...";
+            this.miFileAddFolder.Click += new System.EventHandler(this.miFileAddFolder_Click);
+            // 
+            // miFileOpenAudioFile
+            // 
+            this.miFileOpenAudioFile.Image = global::MPfm.Properties.Resources.folder_page;
+            this.miFileOpenAudioFile.Name = "miFileOpenAudioFile";
+            this.miFileOpenAudioFile.Size = new System.Drawing.Size(187, 22);
+            this.miFileOpenAudioFile.Text = "&Open audio file(s)...";
+            this.miFileOpenAudioFile.Click += new System.EventHandler(this.miFileOpenAudioFile_Click);
+            // 
+            // miFileUpdateLibrary
+            // 
+            this.miFileUpdateLibrary.Image = global::MPfm.Properties.Resources.database_gear;
+            this.miFileUpdateLibrary.Name = "miFileUpdateLibrary";
+            this.miFileUpdateLibrary.Size = new System.Drawing.Size(187, 22);
+            this.miFileUpdateLibrary.Text = "&Update Library";
+            this.miFileUpdateLibrary.Click += new System.EventHandler(this.btnUpdateLibrary_Click);
+            // 
+            // miFileExit
+            // 
+            this.miFileExit.Image = global::MPfm.Properties.Resources.door_in;
+            this.miFileExit.Name = "miFileExit";
+            this.miFileExit.Size = new System.Drawing.Size(187, 22);
+            this.miFileExit.Text = "&Exit";
+            this.miFileExit.Click += new System.EventHandler(this.miFileExit_Click);
+            // 
+            // miWindowsPlaylist
+            // 
+            this.miWindowsPlaylist.Image = global::MPfm.Properties.Resources.application_view_detail;
+            this.miWindowsPlaylist.Name = "miWindowsPlaylist";
+            this.miWindowsPlaylist.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsPlaylist.Text = "&Playlist";
+            this.miWindowsPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
+            // 
+            // miWindowsEffects
+            // 
+            this.miWindowsEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
+            this.miWindowsEffects.Name = "miWindowsEffects";
+            this.miWindowsEffects.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsEffects.Text = "&Effects";
+            this.miWindowsEffects.Click += new System.EventHandler(this.btnEffects_Click);
+            // 
+            // miWindowsVisualizer
+            // 
+            this.miWindowsVisualizer.Image = global::MPfm.Properties.Resources.chart_line;
+            this.miWindowsVisualizer.Name = "miWindowsVisualizer";
+            this.miWindowsVisualizer.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsVisualizer.Text = "&Visualizer";
+            this.miWindowsVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
+            // 
+            // miWindowsSettings
+            // 
+            this.miWindowsSettings.Image = global::MPfm.Properties.Resources.wrench;
+            this.miWindowsSettings.Name = "miWindowsSettings";
+            this.miWindowsSettings.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsSettings.Text = "&Settings";
+            this.miWindowsSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // miHelpWebsite
+            // 
+            this.miHelpWebsite.Image = global::MPfm.Properties.Resources.world;
+            this.miHelpWebsite.Name = "miHelpWebsite";
+            this.miHelpWebsite.Size = new System.Drawing.Size(198, 22);
+            this.miHelpWebsite.Text = "Go to the MPfm website...";
+            this.miHelpWebsite.Click += new System.EventHandler(this.miHelpWebsite_Click);
+            // 
+            // miHelpReportBug
+            // 
+            this.miHelpReportBug.Image = global::MPfm.Properties.Resources.bug;
+            this.miHelpReportBug.Name = "miHelpReportBug";
+            this.miHelpReportBug.Size = new System.Drawing.Size(198, 22);
+            this.miHelpReportBug.Text = "Report a bug...";
+            this.miHelpReportBug.Click += new System.EventHandler(this.miHelpReportBug_Click);
+            // 
+            // miHelpAbout
+            // 
+            this.miHelpAbout.Image = global::MPfm.Properties.Resources.vcard;
+            this.miHelpAbout.Name = "miHelpAbout";
+            this.miHelpAbout.Size = new System.Drawing.Size(198, 22);
+            this.miHelpAbout.Text = "&About MPfm...";
+            this.miHelpAbout.Click += new System.EventHandler(this.miHelpAbout_Click);
+            // 
+            // miTrayArtistName
+            // 
+            this.miTrayArtistName.Enabled = false;
+            this.miTrayArtistName.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.miTrayArtistName.Image = global::MPfm.Properties.Resources.user;
+            this.miTrayArtistName.Name = "miTrayArtistName";
+            this.miTrayArtistName.Size = new System.Drawing.Size(177, 22);
+            this.miTrayArtistName.Text = "Artist Name";
+            // 
+            // miTrayAlbumTitle
+            // 
+            this.miTrayAlbumTitle.Enabled = false;
+            this.miTrayAlbumTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.miTrayAlbumTitle.Image = global::MPfm.Properties.Resources.cd;
+            this.miTrayAlbumTitle.Name = "miTrayAlbumTitle";
+            this.miTrayAlbumTitle.Size = new System.Drawing.Size(177, 22);
+            this.miTrayAlbumTitle.Text = "Album Title";
+            // 
+            // miTraySongTitle
+            // 
+            this.miTraySongTitle.Enabled = false;
+            this.miTraySongTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.miTraySongTitle.Image = global::MPfm.Properties.Resources.music;
+            this.miTraySongTitle.Name = "miTraySongTitle";
+            this.miTraySongTitle.Size = new System.Drawing.Size(177, 22);
+            this.miTraySongTitle.Text = "Song Title";
+            // 
+            // miTraySongPosition
+            // 
+            this.miTraySongPosition.Enabled = false;
+            this.miTraySongPosition.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.miTraySongPosition.Image = global::MPfm.Properties.Resources.time;
+            this.miTraySongPosition.Name = "miTraySongPosition";
+            this.miTraySongPosition.Size = new System.Drawing.Size(177, 22);
+            this.miTraySongPosition.Text = "[ 0:00.00 / 0:00.00 ]";
             // 
             // miTrayPlay
             // 
@@ -2505,55 +2539,22 @@ namespace MPfm
             this.miTrayRepeat.Text = "Repeat (Off)";
             this.miTrayRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
             // 
-            // toolStripSeparator4
+            // miTrayShowMPfm
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(174, 6);
+            this.miTrayShowMPfm.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.miTrayShowMPfm.Image = global::MPfm.Properties.Resources.image;
+            this.miTrayShowMPfm.Name = "miTrayShowMPfm";
+            this.miTrayShowMPfm.Size = new System.Drawing.Size(177, 22);
+            this.miTrayShowMPfm.Text = "Show MPfm";
+            this.miTrayShowMPfm.Click += new System.EventHandler(this.miTrayShowApplication_Click);
             // 
-            // miTrayShowPMP
+            // miTrayExitMPfm
             // 
-            this.miTrayShowPMP.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.miTrayShowPMP.Image = global::MPfm.Properties.Resources.image;
-            this.miTrayShowPMP.Name = "miTrayShowPMP";
-            this.miTrayShowPMP.Size = new System.Drawing.Size(177, 22);
-            this.miTrayShowPMP.Text = "Show PMP";
-            this.miTrayShowPMP.Click += new System.EventHandler(this.miTrayShowApplication_Click);
-            // 
-            // miTrayExitPMP
-            // 
-            this.miTrayExitPMP.Image = global::MPfm.Properties.Resources.door_in;
-            this.miTrayExitPMP.Name = "miTrayExitPMP";
-            this.miTrayExitPMP.Size = new System.Drawing.Size(177, 22);
-            this.miTrayExitPMP.Text = "&Exit PMP";
-            this.miTrayExitPMP.Click += new System.EventHandler(this.miFileExit_Click);
-            // 
-            // dialogAddFiles
-            // 
-            this.dialogAddFiles.Filter = "Audio files (*.mp3,*.flac,*.ogg)|*.mp3;*.flac;*.ogg";
-            this.dialogAddFiles.Multiselect = true;
-            this.dialogAddFiles.Title = "Add file(s) to library";
-            // 
-            // workerTreeLibrary
-            // 
-            this.workerTreeLibrary.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerTreeLibrary_DoWork);
-            this.workerTreeLibrary.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerTreeLibrary_RunWorkerCompleted);
-            // 
-            // timerUpdateOutputMeter
-            // 
-            this.timerUpdateOutputMeter.Enabled = true;
-            this.timerUpdateOutputMeter.Interval = 10;
-            this.timerUpdateOutputMeter.Tick += new System.EventHandler(this.timerUpdateOutputMeter_Tick);
-            // 
-            // workerAlbumArt
-            // 
-            this.workerAlbumArt.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerAlbumArt_DoWork);
-            this.workerAlbumArt.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerAlbumArt_RunWorkerCompleted);
-            // 
-            // dialogOpenFile
-            // 
-            this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
-            this.dialogOpenFile.Multiselect = true;
-            this.dialogOpenFile.Title = "Select audio file(s) to play";
+            this.miTrayExitMPfm.Image = global::MPfm.Properties.Resources.door_in;
+            this.miTrayExitMPfm.Name = "miTrayExitMPfm";
+            this.miTrayExitMPfm.Size = new System.Drawing.Size(177, 22);
+            this.miTrayExitMPfm.Text = "&Exit MPfm";
+            this.miTrayExitMPfm.Click += new System.EventHandler(this.miFileExit_Click);
             // 
             // frmMain
             // 
@@ -2590,12 +2591,10 @@ namespace MPfm
             this.panelInformation.ResumeLayout(false);
             this.panelActions.ResumeLayout(false);
             this.panelVolume.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picDistortionWarning)).EndInit();
             this.panelTimeShifting.ResumeLayout(false);
             this.panelSongPosition.ResumeLayout(false);
             this.panelTotalTime.ResumeLayout(false);
             this.panelCurrentTime.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).EndInit();
             this.splitLoopsMarkersSongBrowser.Panel1.ResumeLayout(false);
             this.splitLoopsMarkersSongBrowser.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitLoopsMarkersSongBrowser)).EndInit();
@@ -2613,6 +2612,8 @@ namespace MPfm
             this.panelSongBrowserToolbar.ResumeLayout(false);
             this.panelSongBrowserToolbar.PerformLayout();
             this.menuTray.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picDistortionWarning)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2637,7 +2638,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.SplitContainer splitFirst;
         private System.Windows.Forms.TreeView treeLibrary;
-        private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.OpenFileDialog dialogAddFiles;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.ContextMenuStrip menuSongBrowser;
@@ -2654,21 +2654,21 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem miTreeLibraryRemoveSongsFromLibrary;
         private System.Windows.Forms.ToolStripMenuItem miTreeLibraryPlaySongs;
         private System.Windows.Forms.ContextMenuStrip menuTray;
-        private System.Windows.Forms.ToolStripMenuItem miTrayShowPMP;
+        private System.Windows.Forms.ToolStripMenuItem miTrayShowMPfm;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem miTrayPlay;
         private System.Windows.Forms.ToolStripMenuItem miTrayPause;
         private System.Windows.Forms.ToolStripMenuItem miTrayStop;
         private System.Windows.Forms.ToolStripMenuItem miTrayPreviousSong;
         private System.Windows.Forms.ToolStripMenuItem miTrayNextSong;
-        private System.Windows.Forms.ToolStripMenuItem miTrayArtist;
-        private System.Windows.Forms.ToolStripMenuItem miTraySongName;
-        private System.Windows.Forms.ToolStripMenuItem miTraySongStatus;
+        private System.Windows.Forms.ToolStripMenuItem miTrayArtistName;
+        private System.Windows.Forms.ToolStripMenuItem miTraySongTitle;
+        private System.Windows.Forms.ToolStripMenuItem miTraySongPosition;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton btnRepeat;
         private System.Windows.Forms.ToolStripMenuItem miTrayRepeat;
-        private System.Windows.Forms.ToolStripMenuItem miTrayAlbum;
-        private System.Windows.Forms.ToolStripMenuItem miTrayExitPMP;
+        private System.Windows.Forms.ToolStripMenuItem miTrayAlbumTitle;
+        private System.Windows.Forms.ToolStripMenuItem miTrayExitMPfm;
         private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem miWindowsEffects;
         private System.Windows.Forms.ToolStripMenuItem miWindowsSettings;
@@ -2770,7 +2770,8 @@ namespace MPfm
         private WindowsControls.Button btnEditSongMetadata;
         private System.Windows.Forms.SplitContainer splitLoopsMarkersSongBrowser;
         private WindowsControls.Button btnGoToMarker;
-        public WindowsControls.SongGridView viewSongs2;        
+        public WindowsControls.SongGridView viewSongs2;
+        public System.Windows.Forms.NotifyIcon notifyIcon;        
     }
 }
 
