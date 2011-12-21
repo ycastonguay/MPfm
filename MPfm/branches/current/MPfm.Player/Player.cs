@@ -31,6 +31,7 @@ using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
 using Un4seen.BassAsio;
 using Un4seen.BassWasapi;
+using Un4seen.Bass.AddOn.Ape;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
@@ -50,6 +51,7 @@ namespace MPfm.Player
         private int m_syncProcHandle;
         private int m_fxEQHandle;
         private int m_flacPluginHandle = 0;
+        private int m_apePluginHandle = 0;
         private Dictionary<int, string> m_plugins = null;
 
         #region Callbacks
@@ -516,6 +518,7 @@ namespace MPfm.Player
             //m_plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
             Tracing.Log("Player init -- Loading FLAC plugin...");
             m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+            m_apePluginHandle = Base.LoadPlugin("bass_ape.dll");
             Tracing.Log("Player init -- Loading FX plugin...");
             Base.LoadFxPlugin();
 
@@ -630,6 +633,7 @@ namespace MPfm.Player
         {
             // Dispose plugins
             Base.FreeFxPlugin();
+            Base.FreePlugin(m_apePluginHandle);
             Base.FreePlugin(m_flacPluginHandle);
             //Base.FreePluginDirectory(m_plugins);            
         }        

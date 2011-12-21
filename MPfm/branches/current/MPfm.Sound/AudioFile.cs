@@ -511,6 +511,10 @@ namespace MPfm.Sound
 			{
 				m_fileType = AudioFileType.WAV;
 			}
+            else if (fileExtension == ".APE")
+            {
+                m_fileType = AudioFileType.APE;
+            }
 
 			// Check if the metadata needs to be fetched
 			if (readMetadata)
@@ -537,25 +541,17 @@ namespace MPfm.Sound
 				try
 				{
 					// Create a more specific type of class for MP3 files
-					TagLib.Mpeg.AudioFile fileMP3 = new TagLib.Mpeg.AudioFile(m_filePath);
+					TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(m_filePath);
 
 					// Get the position of the first and last block
-					m_firstBlockPosition = fileMP3.InvariantStartPosition;
-					m_lastBlockPosition = fileMP3.InvariantEndPosition;
+					m_firstBlockPosition = file.InvariantStartPosition;
+					m_lastBlockPosition = file.InvariantEndPosition;
 
 					// Copy tags
-					ArtistName = fileMP3.Tag.FirstArtist;
-					AlbumTitle = fileMP3.Tag.Album;
-					Title = fileMP3.Tag.Title;
-					Genre = fileMP3.Tag.FirstGenre;
-					DiscNumber = fileMP3.Tag.Disc;
-					TrackNumber = fileMP3.Tag.Track;
-					TrackCount = fileMP3.Tag.TrackCount;
-					Lyrics = fileMP3.Tag.Lyrics;
-					Year = fileMP3.Tag.Year;
+                    FillProperties(file.Tag);
 
 					// Loop through codecs (usually just one)
-					foreach (TagLib.ICodec codec in fileMP3.Properties.Codecs)
+					foreach (TagLib.ICodec codec in file.Properties.Codecs)
 					{
 						// Convert codec into a header 
 						TagLib.Mpeg.AudioHeader header = (TagLib.Mpeg.AudioHeader)codec;
@@ -572,7 +568,7 @@ namespace MPfm.Sound
 					}
 
 					// Close TagLib file
-					fileMP3.Dispose();
+					file.Dispose();
 
 					// Check if there's a Xing header
 					XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
@@ -596,25 +592,17 @@ namespace MPfm.Sound
 			else if(m_fileType == AudioFileType.FLAC)
 			{
 				// Read VorbisComment in FLAC file
-				TagLib.Flac.File fileFlac = new TagLib.Flac.File(m_filePath);
+				TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
 
 				// Get the position of the first and last block
-				m_firstBlockPosition = fileFlac.InvariantStartPosition;
-				m_lastBlockPosition = fileFlac.InvariantEndPosition;
+				m_firstBlockPosition = file.InvariantStartPosition;
+				m_lastBlockPosition = file.InvariantEndPosition;
 
 				// Copy tags
-				ArtistName = fileFlac.Tag.FirstArtist;
-				AlbumTitle = fileFlac.Tag.Album;
-				Title = fileFlac.Tag.Title;
-				Genre = fileFlac.Tag.FirstGenre;
-				DiscNumber = fileFlac.Tag.Disc;
-				TrackNumber = fileFlac.Tag.Track;
-				TrackCount = fileFlac.Tag.TrackCount;
-				Lyrics = fileFlac.Tag.Lyrics;
-				Year = fileFlac.Tag.Year;
+                FillProperties(file.Tag);
 
 				// Loop through codecs (usually just one)
-				foreach (TagLib.ICodec codec in fileFlac.Properties.Codecs)
+				foreach (TagLib.ICodec codec in file.Properties.Codecs)
 				{
 					// Convert codec into a header 
 					TagLib.Flac.StreamHeader header = (TagLib.Flac.StreamHeader)codec;
@@ -630,25 +618,17 @@ namespace MPfm.Sound
 			else if (m_fileType == AudioFileType.OGG)
 			{
 				// Read VorbisComment in FLAC file
-				TagLib.Ogg.File fileOgg = new TagLib.Ogg.File(m_filePath);
+				TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
 
 				// Get the position of the first and last block
-				m_firstBlockPosition = fileOgg.InvariantStartPosition;
-				m_lastBlockPosition = fileOgg.InvariantEndPosition;
+				m_firstBlockPosition = file.InvariantStartPosition;
+				m_lastBlockPosition = file.InvariantEndPosition;                
 
 				// Copy tags
-				ArtistName = fileOgg.Tag.FirstArtist;
-				AlbumTitle = fileOgg.Tag.Album;
-				Title = fileOgg.Tag.Title;
-				Genre = fileOgg.Tag.FirstGenre;
-				DiscNumber = fileOgg.Tag.Disc;
-				TrackNumber = fileOgg.Tag.Track;
-				TrackCount = fileOgg.Tag.TrackCount;
-				Lyrics = fileOgg.Tag.Lyrics;
-				Year = fileOgg.Tag.Year;                
+                FillProperties(file.Tag);
 
 				// Loop through codecs (usually just one)
-				foreach (TagLib.ICodec codec in fileOgg.Properties.Codecs)
+				foreach (TagLib.ICodec codec in file.Properties.Codecs)
 				{
 					// Check what kind of codec is used 
 					if (codec is TagLib.Ogg.Codecs.Theora)
@@ -669,6 +649,36 @@ namespace MPfm.Sound
 					}
 				}
 			}
+            else if (m_fileType == AudioFileType.APE)
+            {
+                // Read VorbisComment in FLAC file
+                TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
+
+                // Get the position of the first and last block
+                m_firstBlockPosition = file.InvariantStartPosition;
+                m_lastBlockPosition = file.InvariantEndPosition;
+
+                // Copy tags
+                FillProperties(file.Tag);
+
+                // Loop through codecs (usually just one)
+                foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                {
+                    // Check what kind of codec is used 
+                    if (codec is TagLib.Ape.StreamHeader)
+                    {
+                        // Convert codec into a header 
+                        TagLib.Ape.StreamHeader header = (TagLib.Ape.StreamHeader)codec;
+
+                        // Copy properties
+                        m_bitrate = header.AudioBitrate;
+                        m_audioChannels = header.AudioChannels;
+                        m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = 16;
+                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    }
+                }
+            }
 
 			// If the song has no name, give filename as the name                
 			if (String.IsNullOrEmpty(Title))
@@ -690,6 +700,23 @@ namespace MPfm.Sound
 		}
 
         /// <summary>
+        /// Fills the AudioFile properties from the TagLib values.
+        /// </summary>
+        /// <param name="tag">TagLib tag structure</param>
+        private void FillProperties(TagLib.Tag tag)
+        {
+            ArtistName = tag.FirstArtist;
+            AlbumTitle = tag.Album;
+            Title = tag.Title;
+            Genre = tag.FirstGenre;
+            DiscNumber = tag.Disc;
+            TrackNumber = tag.Track;
+            TrackCount = tag.TrackCount;
+            Lyrics = tag.Lyrics;
+            Year = tag.Year;        
+        }
+
+        /// <summary>
         /// Saves the metadata associated with this audio file from its properties.
         /// </summary>
         public void SaveMetadata()
@@ -698,59 +725,78 @@ namespace MPfm.Sound
             if (m_fileType == AudioFileType.MP3)
             {                
                 // Create a more specific type of class for MP3 files
-                TagLib.Mpeg.AudioFile fileMP3 = new TagLib.Mpeg.AudioFile(m_filePath);
+                TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(m_filePath);
 
                 // Copy tags
-                fileMP3.Tag.AlbumArtists = new string[] { ArtistName };
-                fileMP3.Tag.Album = AlbumTitle;
-                fileMP3.Tag.Title = Title;
-                fileMP3.Tag.Genres = new string[] { Genre };
-                fileMP3.Tag.Disc = DiscNumber;
-                fileMP3.Tag.Track = TrackNumber;
-                fileMP3.Tag.TrackCount = TrackCount;
-                fileMP3.Tag.Lyrics = Lyrics;
-                fileMP3.Tag.Year = Year;
+                file.Tag.AlbumArtists = new string[] { ArtistName };
+                file.Tag.Album = AlbumTitle;
+                file.Tag.Title = Title;
+                file.Tag.Genres = new string[] { Genre };
+                file.Tag.Disc = DiscNumber;
+                file.Tag.Track = TrackNumber;
+                file.Tag.TrackCount = TrackCount;
+                file.Tag.Lyrics = Lyrics;
+                file.Tag.Year = Year;
 
-                // Save metadeata
-                fileMP3.Save();
+                // Save metadata
+                file.Save();
             }
             else if (m_fileType == AudioFileType.FLAC)
             {
                 // Read VorbisComment in FLAC file
-                TagLib.Flac.File fileFlac = new TagLib.Flac.File(m_filePath);
+                TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
 
                 // Copy tags
-                fileFlac.Tag.AlbumArtists = new string[] { ArtistName };
-                fileFlac.Tag.Album = AlbumTitle;
-                fileFlac.Tag.Title = Title;
-                fileFlac.Tag.Genres = new string[] { Genre };
-                fileFlac.Tag.Disc = DiscNumber;
-                fileFlac.Tag.Track = TrackNumber;
-                fileFlac.Tag.TrackCount = TrackCount;
-                fileFlac.Tag.Lyrics = Lyrics;
-                fileFlac.Tag.Year = Year;
+                file.Tag.AlbumArtists = new string[] { ArtistName };
+                file.Tag.Album = AlbumTitle;
+                file.Tag.Title = Title;
+                file.Tag.Genres = new string[] { Genre };
+                file.Tag.Disc = DiscNumber;
+                file.Tag.Track = TrackNumber;
+                file.Tag.TrackCount = TrackCount;
+                file.Tag.Lyrics = Lyrics;
+                file.Tag.Year = Year;
 
-                // Save metadeata
-                fileFlac.Save();
+                // Save metadata
+                file.Save();
             }
             else if (m_fileType == AudioFileType.OGG)
             {
                 // Read VorbisComment in FLAC file
-                TagLib.Ogg.File fileOgg = new TagLib.Ogg.File(m_filePath);
+                TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
 
                 // Copy tags
-                fileOgg.Tag.AlbumArtists = new string[] { ArtistName };
-                fileOgg.Tag.Album = AlbumTitle;
-                fileOgg.Tag.Title = Title;
-                fileOgg.Tag.Genres = new string[] { Genre };
-                fileOgg.Tag.Disc = DiscNumber;
-                fileOgg.Tag.Track = TrackNumber;
-                fileOgg.Tag.TrackCount = TrackCount;
-                fileOgg.Tag.Lyrics = Lyrics;
-                fileOgg.Tag.Year = Year;
+                file.Tag.AlbumArtists = new string[] { ArtistName };
+                file.Tag.Album = AlbumTitle;
+                file.Tag.Title = Title;
+                file.Tag.Genres = new string[] { Genre };
+                file.Tag.Disc = DiscNumber;
+                file.Tag.Track = TrackNumber;
+                file.Tag.TrackCount = TrackCount;
+                file.Tag.Lyrics = Lyrics;
+                file.Tag.Year = Year;
 
-                // Save metadeata
-                fileOgg.Save();
+                // Save metadata
+                file.Save();
+            }
+            else if (m_fileType == AudioFileType.APE)
+            {
+                // Read VorbisComment in FLAC file
+                TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
+
+                // Copy tags
+                file.Tag.AlbumArtists = new string[] { ArtistName };
+                file.Tag.Album = AlbumTitle;
+                file.Tag.Title = Title;
+                file.Tag.Genres = new string[] { Genre };
+                file.Tag.Disc = DiscNumber;
+                file.Tag.Track = TrackNumber;
+                file.Tag.TrackCount = TrackCount;
+                file.Tag.Lyrics = Lyrics;
+                file.Tag.Year = Year;
+
+                // Save metadata
+                file.Save();
             }
         }
 
@@ -838,7 +884,7 @@ namespace MPfm.Sound
 	/// </summary>
 	public enum AudioFileType
 	{
-		FLAC = 0, WAV = 1, MP3 = 2, OGG = 3, Unknown = 4
+		Unknown = 0, FLAC = 1, WAV = 2, MP3 = 3, OGG = 4, APE = 5
 	}
 }
 

@@ -3063,6 +3063,10 @@ namespace MPfm
             {
                 FilterSoundFormat = FilterSoundFormat.OGG;
             }
+            else if (comboSoundFormat.Text == "APE")
+            {
+                FilterSoundFormat = FilterSoundFormat.APE;
+            }
 
             // Check if init is done
             if (IsInitDone)

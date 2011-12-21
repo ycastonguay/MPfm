@@ -571,6 +571,7 @@ namespace MPfm.Library
             extensionsSupported.Add("*.MP3");
             extensionsSupported.Add("*.OGG");
             extensionsSupported.Add("*.FLAC");
+            extensionsSupported.Add("*.APE");
 
             // For each extension supported
             foreach (string extension in extensionsSupported)
@@ -974,6 +975,10 @@ namespace MPfm.Library
                     else if (soundFormat == FilterSoundFormat.OGG)
                     {
                         fileType = AudioFileType.OGG;
+                    }
+                    else if (soundFormat == FilterSoundFormat.APE)
+                    {
+                        fileType = AudioFileType.APE;
                     }
                     queryAudioFiles = queryAudioFiles.Where(s => s.FileType == fileType);
                 }
@@ -1459,7 +1464,7 @@ namespace MPfm.Library
     /// </summary>
     public enum FilterSoundFormat
     {
-        All = 0, MP3 = 1, FLAC = 2, OGG = 3
+        All = 0, MP3 = 1, FLAC = 2, OGG = 3, APE = 4
     }
 
     /// <summary>
