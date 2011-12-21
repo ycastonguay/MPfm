@@ -5,9 +5,6 @@
 }
 
 <h2>Download</h2>
-<p>
-    <i>Note: Downloads will be officially activated as soon as the license is approved.</i><br />
-</p>
 <h3>Requirements</h3>
 <p>
     MPfm supports the following operating systems:
@@ -31,110 +28,19 @@
 </ul>
 <h3>Download MPfm</h3>
 <p>
-    You can download the latest stable version, which is recommended, or you can try the latest beta version to test the new features.
+    To download the latest version directly from <b>Sourceforge.net</b>, click <a href="http://sourceforge.net/projects/mp4m/files/latest/download" title="Download latest version MPfm">here</a>.
 </p>
 <p>
-    <b>Latest stable version (recommended)</b><br />
-    Version <b>0.4.5.1</b><br />       
-</p>
-<div class="code_ident">
-    <p>
-        Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.1.exe" title="Download MPfm Installer">MPfm 0.4.5.1 - Installer (exe)</a><br />
-        MD5 checksum: 73f48840b60ab6da68b03acd322445ee<br />
-    </p>
-</div>
-<p>
-    <b>Latest beta version</b><br />
-    Version <b>0.5.0.0</b><br />    
-</p>
-<p class="code_ident">
-    Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.2.zip" title="Download MPfm Beta Package">MPfm 0.5.0.0 Beta - Package (zip)</a><br />
-    MD5 checksum: 73f48840b60ab6da68b03acd322445ee
-</p>
-<p>
-    Note: MD5 checksums can be verified using the WinMD5Free software, which can be downloaded 
-    <a href="http://www.winmd5.com/" title="Link to the WinMD5Free website">here</a>.
+    You can also download any archived version from the
+    <a href="http://sourceforge.net/projects/mp4m/" title="MPfm Sourceforge.net Home Page">Sourceforge.net MPfm project page</a>.
 </p>
 <h3>Download MPfm Source Code</h3>
 <p>
-    If you are a developer, you are probably interested to check how MPfm works under the hood. You can download the source code and modify the application
-    if you want! However, if you want to release your modifications to the public, please read the <a href="/license" title="MPfm License">MPfm license</a> 
-    and the <a href="http://www.gnu.org/licenses/gpl.html" title="GPLv3 License">GPLv3 license</a>.
+    The MPfm source code can be downloaded from the 
+    <a href="http://sourceforge.net/projects/mp4m/files/Releases/" title="MPfm Sourceforge.net Files">Files</a>
+    section of the MPfm project page on <b>Sourceforge.net</b>.
 </p>
 <p>
-    You can also use MPfm components in your project if you wish. You can re-use the MPfm player, library, or even the custom Windows Forms controls! Your application 
-    needs to support the <b>.NET Framework 4.0</b> using <b>Microsoft Visual Studio 2010</b>. In order to do so, download the source code package, and add a reference 
-    to the following assemblies in your project (depending on what you want to use):
-</p>    
-<ul class="code">       
-    <li><b>MPfm.Core</b><br />
-        Useful methods for all kinds of projects.
-    </li>
-    <li><b>MPfm.Sound</b><br />
-        Bass.NET wrapper, TagLib# wrapper, AudioTools class for calculating audio data, PeakFile class for peak file reading/writing, TestDevice class to test audio devices, etc.
-    </li>    
-    <li><b>MPfm.Library</b><br />
-        Player and Library classes with all their dependencies.
-    </li>
-    <li><b>MPfm.WindowsControls</b><br />
-        Custom Windows Forms controls such as Label, LinkLabel, Button, Panel, ScrollBar, SongGridView, WaveFormDisplay, etc.
-    </li>
-</ul>
-<p>
-    Alternatively, you can also add the MPfm components to your project by adding a reference to the <b>MPfm NuGet packages</b>, which will be available soon.
+    For more information about using the MPfm source code in your own project, go to the 
+    <a href="/developers" title="MPfm Developers Page">Developers</a> page.
 </p>
-    <div class="download_screenshots">
-        <a rel="group_scanmp3headers" href="/Images/screenshots/PlaybackEngineV4Demo.png" title="Playback Engine V4 Demo"><img alt="" src="/Images/screenshots/PlaybackEngineV4Demo_t.png" /></a>
-    </div>    
-
-<p>
-    <b>Note</b>: You can find a <b>demo application</b> of the Player component in the PlaybackEngineV4 folder of the Source Code package. The demo application
-    has the same features as MPfm, without the eye candy! This makes it easier to learn the Player component and use it in your own project. You can also read
-    the <b>.CHM help file</b> inside the source code package.
-</p>
-<p>
-    <b>Source Code</b><br />
-    Version <b>0.4.4.9</b><br />
-</p>
-<div class="code_ident">
-    <p>
-        Download: <a href="http://www.mp4m.org/files/mpfm_0.4.3.1.zip" title="Download MPfm Source Code">MPfm 0.4.4.9 Source Code - Package (zip)</a>
-        <br />   
-        MD5 checksum: 73f48840b60ab6da68b03acd322445ee
-    </p>
-</div>
-
-<h3>Download Scan MP3 Headers</h3>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('a[rel^="group"]').fancybox({
-            'transitionIn': 'none',
-            'transitionOut': 'none',
-            'titlePosition': 'over',
-            'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
-                return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
-            }
-        });
-    });
-</script>
-<p>
-    <div class="download_screenshots">
-        <a rel="group_scanmp3headers" href="/Images/screenshots/scanmp3headers.png" title="Scan MP3 Headers"><img alt="" src="/Images/screenshots/scanmp3headers_t.png" /></a>
-    </div>
-    <div>
-        Scan MP3 Headers is a free tool by the developer of MPfm which analyses your MP3 library and
-        makes a list of files that might be corrupted, that do not have the required headers for gapless playback,
-        and more. It works using TagLib# (also used in MPfm) and the MPfm Sound Library. It has the same system requirements as MPfm, 
-        but does not require a soundcard.
-    </div>
-</p>
-<p>
-    <b>Latest version</b><br />
-    Version <b>0.4.0.0</b><br />
-</p>
-<div class="code_ident">
-    <p>
-        Download: <a href="http://www.mp4m.org/files/scanmp3headers_0.4.0.0.zip" title="Download Scan MP3 Headers Package">ScanMP3Headers 0.4.0.0 - Package (zip)</a><br />   
-        MD5 checksum: 73f48840b60ab6da68b03acd322445ee
-    </p>
-</div>

@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Developers - MPfm: Music Player for Musicians";
+    ViewBag.Description = "MPfm Developers page detailing information on how to use the MPfm source code in other projects.";
+    ViewBag.Keywords = "MPfm, Music Player, Music Player for Musicians, Developers, Source Code";
+}
+
+<h2>Developers</h2>
+<h3>MPfm Source Code</h3>
+<p>
+    The GPLv3 license allows you to copy and distribute the original MPfm source code without permission. It also allows you to modify
+    the MPfm source code for your own private use, and you are not required to release the modified source code to the public. However, if
+    you wish to modify the MPfm source code and release it to the public, you are <b>required</b> to release the modified source code 
+    to the community.
+</p>
+<p>
+    For more information about the GPLv3 license, click <a href="http://www.gnu.org/licenses/gpl.html" title="GPLv3 License">here</a>.
+</p>
+<h3>Commercial Use</h3>
+<p>
+    You are allowed to use the MPfm source code in a commercial project. However, as the MPfm license states clearly, you are required to acquire the following
+    licenses:
+<ul class="code">       
+    <li><b>BASS</b><br />
+        This is the base audio library MPfm uses for audio file playback (including decoding and streaming). Click 
+        <a href="http://www.un4seen.com/bass.html#license" title="BASS License">here</a> for more information on how to acquire a commercial BASS license.
+    </li>
+    <li><b>BASS.NET</b><br />
+        This is the BASS .NET wrapper MPfm uses to interact with the BASS audio library. Click 
+        <a href="http://bass.radio42.com/index.html" title="BASS.NET License">here</a> for more information on how to acquire a commercial BASS license.
+    </li>
+</ul>
+</p>
+<p>
+    You also need to pay any royalties related to proprietary audio file formats, such as MP3.
+    For more information, check the <a href="/license" title="MPfm License">MPfm license</a>.
+</p>
+<h3>MPfm Components</h3>
+<p>
+    You are also allowed to use the MPfm components in your project if you wish. This means you don't have to release the source code of 
+    your application; you must only release the modified MPfm components source code. The MPfm components include the player, library, custom controls, and more.
+    MPfm components require the <b>.NET Framework 4.0</b>.
+</p>
+<p>    
+    To add a MPfm component to your project, download the source code package, and add a reference to the following assemblies in your project 
+    (depending on what you want to use):
+</p> 
+<ul class="code">       
+    <li><b>MPfm.Core</b><br />
+        Useful methods for all kinds of projects.
+    </li>
+    <li><b>MPfm.Sound</b><br />
+        Bass.NET wrapper, TagLib# wrapper, AudioTools class for calculating audio data, PeakFile class for peak file reading/writing, TestDevice class to test audio devices, etc.
+    </li>    
+    <li><b>MPfm.Player</b><br />
+        Player classes with all their dependencies.
+    </li>
+    <li><b>MPfm.Library</b><br />
+        Library classes with all their dependencies.
+    </li>
+    <li><b>MPfm.WindowsControls</b><br />
+        Custom Windows Forms controls such as Label, LinkLabel, Button, Panel, ScrollBar, SongGridView, WaveFormDisplay, etc.
+    </li>
+</ul>
+<p>
+    Alternatively, you can also add the MPfm components to your project by adding a reference to the <b>MPfm NuGet packages</b>, which will be available soon.
+</p>
+<p>
+    <b>Note</b>: You can find a <b>demo application</b> of the Player component in the PlaybackEngineV4 folder of the Source Code package. The demo application
+    has the same features as MPfm, without the eye candy! This makes it easier to learn the Player component and use it in your own project. You can also read
+    the <b>.CHM help file</b> inside the source code package.
+</p>
+<h3>BASS.NET Key</h3>
+<p>
+    In order to use the BASS.NET audio library in your own project, you will require to register a key from the 
+    <a href="http://bass.radio42.com/index.html" title="BASS.NET Web Site">BASS.NET web site</a>. 
+    You are forbidden to release any source code with a BASS.NET key. This is why the MPfm source code package does not ship with a valid
+    BASS.NET key, but the binary package does.
+</p>
+<h3>Releasing an Application Using MPfm Components</h3>
+<p>
+    You <b>must</b> repackage the MPfm license including all its dependencies with your application, and add the copyright notices as stated in the
+    <a href="/license" title="MPfm License">MPfm license</a>. You <b>must</b> release any modified MPfm source code with your application.
+</p>

@@ -298,3 +298,8 @@ p a:hover
     float: left;
     padding-right: 10px;
 }
+
+.footerSeparator
+{
+    color: #666666;
+}

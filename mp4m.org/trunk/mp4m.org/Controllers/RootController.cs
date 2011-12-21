@@ -49,5 +49,10 @@ namespace mp4m.org.Controllers
         {
             return View();
         }
+
+        public ActionResult Developers()
+        {
+            return View();
+        }
     }
 }
