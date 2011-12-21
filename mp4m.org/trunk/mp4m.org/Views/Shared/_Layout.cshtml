@@ -14,6 +14,21 @@
     <meta name="title" content="@ViewBag.Title" />
     <meta name="description" content="@ViewBag.Description" />
     <meta name="keywords" content="@ViewBag.Keywords" />
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-27849695-1']);
+        _gaq.push(['_setDomainName', 'mp4m.org']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
 </head>
 <body>
     <div id="container">
@@ -29,7 +44,14 @@
                 <a href="/developers">Developers</a>
                 <a href="/support">Support</a>                                
             </div>
-            <div id="header_bottomtile"></div>
+            <div id="header_bottomtile">
+                <div class="facebook">                    
+                    Follow us on <a href="http://www.facebook.com/pages/MPfm-Music-Player-for-Musicians/162671573835061" title="MPfm Facebook Page">Facebook</a><br />
+                </div>
+                <div class="twitter">
+                    Follow us on <a href="http://www.twitter.com/ycastonguay" title="MPfm Twitter Page">Twitter</a>
+                </div>                
+            </div>
             <div id="header_thirdparty">
                 <div style="text-align:center; width:354px; margin-left:auto; margin-right:auto;">
                     <img id="imageMapLibrairies" src="/Images/header_3rdparty.jpg" usemap="#mapLibrairies" alt="" />

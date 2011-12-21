@@ -303,3 +303,83 @@ p a:hover
 {
     color: #666666;
 }
+
+/* Facebook and Twitter links */
+
+.facebook
+{
+    position: absolute;    
+    padding: 6px 2px 6px 0px;
+    top: 4px;
+    right: 0;    
+}
+
+.facebook a
+{
+    padding: 2px 4px 2px 4px;
+    color: White;
+	background-color: #3b5998;
+	font-weight: bold;
+	text-decoration: none;	
+}
+
+.facebook a:visited
+{    
+	padding: 2px 4px 2px 4px;	
+	color: White;		
+	text-decoration: none;
+}
+
+.facebook a:active
+{
+	padding: 2px 4px 2px 4px;
+	color: White;	
+	text-decoration: none;
+}
+
+.facebook a:hover
+{
+	padding: 2px 4px 2px 4px;
+	color: White;
+	background-color: #647db3;
+	text-decoration: none;
+}
+
+.twitter
+{
+    position: absolute;    
+    padding: 6px 2px 6px 0px;
+    top: 27px;
+    right: 0;    
+}
+
+.twitter a
+{
+    padding: 2px 4px 2px 4px;
+    color: White;
+	background-color: #111111;
+	font-weight: bold;
+	text-decoration: none;	
+}
+
+.twitter a:visited
+{    
+	padding: 2px 4px 2px 4px;	
+	color: White;		
+	text-decoration: none;
+}
+
+.twitter a:active
+{
+	padding: 2px 4px 2px 4px;
+	color: White;	
+	text-decoration: none;
+}
+
+.twitter a:hover
+{
+	padding: 2px 4px 2px 4px;
+	color: White;
+	background-color: #444444;
+	text-decoration: none;
+}
