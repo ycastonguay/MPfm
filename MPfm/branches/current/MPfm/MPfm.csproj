@@ -254,7 +254,7 @@
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
     <Content Include="MPFM.ico" />
-    <None Include="Resources\MPFM_Splash_0.5.0.01.png" />
+    <None Include="Resources\MPFM_Splash_0.5.0.3.png" />
     <None Include="Resources\error.png" />
     <None Include="Resources\time1.png" />
     <None Include="Resources\shape_align_middle.png" />
