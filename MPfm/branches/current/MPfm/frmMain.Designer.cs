@@ -30,10 +30,10 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -717,22 +717,22 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "LeagueGothic";
-            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont6.AssemblyPath = "MPfm.Fonts.dll";
-            customFont6.Name = "Junction";
-            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont7.AssemblyPath = "MPfm.Fonts.dll";
-            customFont7.Name = "TitilliumText22L Lt";
-            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont8.AssemblyPath = "MPfm.Fonts.dll";
-            customFont8.Name = "Droid Sans Mono";
-            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont5);
-            this.fontCollection.Fonts.Add(customFont6);
-            this.fontCollection.Fonts.Add(customFont7);
-            this.fontCollection.Fonts.Add(customFont8);
+            customFont9.AssemblyPath = "MPfm.Fonts.dll";
+            customFont9.Name = "LeagueGothic";
+            customFont9.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont10.AssemblyPath = "MPfm.Fonts.dll";
+            customFont10.Name = "Junction";
+            customFont10.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont11.AssemblyPath = "MPfm.Fonts.dll";
+            customFont11.Name = "TitilliumText22L Lt";
+            customFont11.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont12.AssemblyPath = "MPfm.Fonts.dll";
+            customFont12.Name = "Droid Sans Mono";
+            customFont12.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont9);
+            this.fontCollection.Fonts.Add(customFont10);
+            this.fontCollection.Fonts.Add(customFont11);
+            this.fontCollection.Fonts.Add(customFont12);
             // 
             // treeLibrary
             // 
@@ -2417,7 +2417,7 @@ namespace MPfm
             this.miTrayShowMPfm,
             this.miTrayExitMPfm});
             this.menuTray.Name = "menuSongBrowser";
-            this.menuTray.Size = new System.Drawing.Size(178, 280);
+            this.menuTray.Size = new System.Drawing.Size(192, 302);
             // 
             // miTrayArtistName
             // 
@@ -2452,8 +2452,8 @@ namespace MPfm
             this.miTraySongPosition.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.miTraySongPosition.Image = global::MPfm.Properties.Resources.time;
             this.miTraySongPosition.Name = "miTraySongPosition";
-            this.miTraySongPosition.Size = new System.Drawing.Size(177, 22);
-            this.miTraySongPosition.Text = "[ 0:00.00 / 0:00.00 ]";
+            this.miTraySongPosition.Size = new System.Drawing.Size(191, 22);
+            this.miTraySongPosition.Text = "[ 0:00.000 / 0:00.000 ]";
             // 
             // toolStripSeparator7
             // 

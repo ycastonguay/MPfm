@@ -926,7 +926,7 @@ namespace MPfm
 
             // Set UI            
             lblCurrentTime.Text = position;
-            miTraySongPosition.Text = position;
+            miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
             lblTotalTime.Text = m_player.Playlist.CurrentItem.LengthString;
             //waveFormMarkersLoops.Position = positionBytes;
             //waveFormMarkersLoops.PositionTime = position;
