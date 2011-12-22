@@ -49,10 +49,16 @@ namespace MPfm.Player
         private System.Timers.Timer m_timerPlayer = null;
         private Channel m_streamChannel = null;
         private int m_syncProcHandle;
-        private int m_fxEQHandle;
-        private int m_flacPluginHandle = 0;
-        private int m_apePluginHandle = 0;
         private Dictionary<int, string> m_plugins = null;
+
+        // Plugin handles
+        private int m_fxEQHandle;        
+        private int m_apePluginHandle = 0;
+        private int m_flacPluginHandle = 0;
+        private int m_mpcPluginHandle = 0;
+        private int m_ofrPluginHandle = 0;
+        private int m_ttaPluginHandle = 0;
+        private int m_wvPluginHandle = 0;
 
         #region Callbacks
         
@@ -516,9 +522,14 @@ namespace MPfm.Player
 
             // Load plugins
             //m_plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
-            Tracing.Log("Player init -- Loading FLAC plugin...");
-            m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+            Tracing.Log("Player init -- Loading FLAC plugin...");            
             m_apePluginHandle = Base.LoadPlugin("bass_ape.dll");
+            m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+            m_mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
+            //m_ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
+            m_ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
+            m_wvPluginHandle = Base.LoadPlugin("basswv.dll");
+
             Tracing.Log("Player init -- Loading FX plugin...");
             Base.LoadFxPlugin();
 
@@ -635,6 +646,10 @@ namespace MPfm.Player
             Base.FreeFxPlugin();
             Base.FreePlugin(m_apePluginHandle);
             Base.FreePlugin(m_flacPluginHandle);
+            Base.FreePlugin(m_mpcPluginHandle);
+            //Base.FreePlugin(m_ofrPluginHandle);
+            Base.FreePlugin(m_ttaPluginHandle);
+            Base.FreePlugin(m_wvPluginHandle);
             //Base.FreePluginDirectory(m_plugins);            
         }        
 
@@ -741,7 +756,7 @@ namespace MPfm.Player
                 catch(Exception ex)
                 {
                     // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                    PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel.", ex);
+                    PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel (" + ex.Message + ").", ex);
                     newEx.Decode = true;
                     newEx.UseFloatingPoint = true;
                     newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;

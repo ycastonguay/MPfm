@@ -29,6 +29,7 @@ using MPfm.Core;
 using MPfm.Sound;
 using Un4seen.Bass;
 using Un4seen.BassAsio;
+using Un4seen.Bass.AddOn.Mpc;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 
@@ -196,6 +197,7 @@ namespace MPfm.Sound.BassNetWrapper
 
             // Create file stream
             int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
+
             if (handle == 0)
             {
                 // Check for error

@@ -494,27 +494,10 @@ namespace MPfm.Sound
 			m_id = id;
 
 			// Set file type based on file extension
-			string fileExtension = Path.GetExtension(filePath).ToUpper();
-			if (fileExtension == ".MP3")
-			{
-                m_fileType = AudioFileFormat.MP3;
-			}
-			else if (fileExtension == ".FLAC")
-			{
-                m_fileType = AudioFileFormat.FLAC;
-			}
-			else if (fileExtension == ".OGG")
-			{
-                m_fileType = AudioFileFormat.OGG;
-			}
-			else if (fileExtension == ".WAV")
-			{
-                m_fileType = AudioFileFormat.WAV;
-			}
-            else if (fileExtension == ".APE")
-            {
-                m_fileType = AudioFileFormat.APE;
-            }
+            string fileExtension = Path.GetExtension(filePath).ToUpper().Replace(".", "");
+            AudioFileFormat audioFileFormat = AudioFileFormat.Unknown;
+            Enum.TryParse<AudioFileFormat>(fileExtension, out audioFileFormat);
+            m_fileType = audioFileFormat;
 
 			// Check if the metadata needs to be fetched
 			if (readMetadata)
@@ -651,7 +634,10 @@ namespace MPfm.Sound
 			}
             else if (m_fileType == AudioFileFormat.APE)
             {
-                // Read VorbisComment in FLAC file
+                // Monkey's Audio (APE) supports APEv2 tags.
+                // http://en.wikipedia.org/wiki/Monkey's_Audio
+
+                // Get TagLib APE
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
 
                 // Get the position of the first and last block
@@ -678,6 +664,95 @@ namespace MPfm.Sound
                         m_length = Conversion.TimeSpanToTimeString(header.Duration);
                     }
                 }
+            }
+            else if (m_fileType == AudioFileFormat.MPC)
+            {
+                // TagLib does not seem to work...
+                // MusePack (MPC) supports APEv2 tags.
+                // http://en.wikipedia.org/wiki/Musepack
+
+                //// Read VorbisComment in FLAC file              
+  
+                // TAGLIB DOES NOT WORK WITH SV8 (stream version 8)
+                //TagLib.MusePack.File file = new TagLib.MusePack.File(m_filePath);
+
+                m_audioChannels = 2;
+                m_sampleRate = 44100;
+                m_bitsPerSample = 16;
+
+
+                //// Get the position of the first and last block
+                //m_firstBlockPosition = file.InvariantStartPosition;
+                //m_lastBlockPosition = file.InvariantEndPosition;
+
+                //// Copy tags
+                //FillProperties(file.Tag);
+
+                //// Loop through codecs (usually just one)
+                //foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                //{
+                //    // Check what kind of codec is used 
+                //    if (codec is TagLib.Ape.StreamHeader)
+                //    {
+                //        // Convert codec into a header 
+                //        TagLib.Ape.StreamHeader header = (TagLib.Ape.StreamHeader)codec;
+
+                //        // Copy properties
+                //        m_bitrate = header.AudioBitrate;
+                //        m_audioChannels = header.AudioChannels;
+                //        m_sampleRate = header.AudioSampleRate;
+                //        m_bitsPerSample = 16;
+                //        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                //    }
+                //}
+            }
+            else if (m_fileType == AudioFileFormat.OFR)
+            {
+                // TagLib does not support OFR files...
+                // OptimFROG (OFR) supports APEv2 tags.
+                // http://en.wikipedia.org/wiki/OptimFROG
+            }
+            else if (m_fileType == AudioFileFormat.WV)
+            {
+                // WavPack supports APEv2 and ID3v1 tags.
+                // http://www.wavpack.com/wavpack_doc.html
+
+                // Read WavPack tags
+                TagLib.WavPack.File file = new TagLib.WavPack.File(m_filePath);
+
+                // Get the position of the first and last block
+                m_firstBlockPosition = file.InvariantStartPosition;
+                m_lastBlockPosition = file.InvariantEndPosition;
+
+                // Copy tags
+                FillProperties(file.Tag);
+
+                // Loop through codecs (usually just one)
+                foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                {
+                    // Check what kind of codec is used 
+                    if (codec is TagLib.WavPack.StreamHeader)
+                    {
+                        // Convert codec into a header 
+                        TagLib.WavPack.StreamHeader header = (TagLib.WavPack.StreamHeader)codec;
+
+                        // Copy properties
+                        m_bitrate = header.AudioBitrate;
+                        m_audioChannels = header.AudioChannels;
+                        m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = 16;
+                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    }
+                }
+            }
+            else if (m_fileType == AudioFileFormat.TTA)
+            {
+                // The True Audio (TTA) format supports ID3v1, ID3v2 and APEv2 tags.
+                // http://en.wikipedia.org/wiki/TTA_(codec)
+
+                m_audioChannels = 2;
+                m_sampleRate = 44100;
+                m_bitsPerSample = 16;
             }
 
 			// If the song has no name, give filename as the name                

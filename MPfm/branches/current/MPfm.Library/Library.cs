@@ -566,12 +566,18 @@ namespace MPfm.Library
                 }
             }
 
-            // Hardcode list of supported extensions
+            // Populate list of supported extensions
             List<string> extensionsSupported = new List<string>();
-            extensionsSupported.Add("*.MP3");
-            extensionsSupported.Add("*.OGG");
-            extensionsSupported.Add("*.FLAC");
-            extensionsSupported.Add("*.APE");
+            Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));            
+            foreach (AudioFileFormat audioFileFormat in audioFileFormats)
+            {
+                // Check if the item is not unknown
+                if (audioFileFormat != AudioFileFormat.Unknown && audioFileFormat != AudioFileFormat.All)
+                {
+                    // Add format
+                    extensionsSupported.Add("*." + audioFileFormat.ToString());                    
+                }
+            }
 
             // For each extension supported
             foreach (string extension in extensionsSupported)
