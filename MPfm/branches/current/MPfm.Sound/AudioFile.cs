@@ -72,12 +72,12 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Private value for the FileType property.
 		/// </summary>
-		private AudioFileType m_fileType = AudioFileType.Unknown;
+        private AudioFileFormat m_fileType = AudioFileFormat.Unknown;
 
 		/// <summary>
 		/// Type of audio file (FLAC, MP3, etc.)
 		/// </summary>
-		public AudioFileType FileType
+        public AudioFileFormat FileType
 		{
 			get
 			{
@@ -497,23 +497,23 @@ namespace MPfm.Sound
 			string fileExtension = Path.GetExtension(filePath).ToUpper();
 			if (fileExtension == ".MP3")
 			{
-				m_fileType = AudioFileType.MP3;
+                m_fileType = AudioFileFormat.MP3;
 			}
 			else if (fileExtension == ".FLAC")
 			{
-				m_fileType = AudioFileType.FLAC;
+                m_fileType = AudioFileFormat.FLAC;
 			}
 			else if (fileExtension == ".OGG")
 			{
-				m_fileType = AudioFileType.OGG;
+                m_fileType = AudioFileFormat.OGG;
 			}
 			else if (fileExtension == ".WAV")
 			{
-				m_fileType = AudioFileType.WAV;
+                m_fileType = AudioFileFormat.WAV;
 			}
             else if (fileExtension == ".APE")
             {
-                m_fileType = AudioFileType.APE;
+                m_fileType = AudioFileFormat.APE;
             }
 
 			// Check if the metadata needs to be fetched
@@ -536,7 +536,7 @@ namespace MPfm.Sound
 		public void RefreshMetadata()
 		{
 			// Check what is the type of the audio file
-			if (m_fileType == AudioFileType.MP3)
+            if (m_fileType == AudioFileFormat.MP3)
 			{
 				try
 				{
@@ -589,7 +589,7 @@ namespace MPfm.Sound
 					throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
 				}
 			}
-			else if(m_fileType == AudioFileType.FLAC)
+            else if (m_fileType == AudioFileFormat.FLAC)
 			{
 				// Read VorbisComment in FLAC file
 				TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
@@ -615,7 +615,7 @@ namespace MPfm.Sound
                     m_length = Conversion.TimeSpanToTimeString(header.Duration);
 				}
 			}
-			else if (m_fileType == AudioFileType.OGG)
+            else if (m_fileType == AudioFileFormat.OGG)
 			{
 				// Read VorbisComment in FLAC file
 				TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
@@ -649,7 +649,7 @@ namespace MPfm.Sound
 					}
 				}
 			}
-            else if (m_fileType == AudioFileType.APE)
+            else if (m_fileType == AudioFileFormat.APE)
             {
                 // Read VorbisComment in FLAC file
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
@@ -722,7 +722,7 @@ namespace MPfm.Sound
         public void SaveMetadata()
         {
             // Check what is the type of the audio file
-            if (m_fileType == AudioFileType.MP3)
+            if (m_fileType == AudioFileFormat.MP3)
             {                
                 // Create a more specific type of class for MP3 files
                 TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(m_filePath);
@@ -741,7 +741,7 @@ namespace MPfm.Sound
                 // Save metadata
                 file.Save();
             }
-            else if (m_fileType == AudioFileType.FLAC)
+            else if (m_fileType == AudioFileFormat.FLAC)
             {
                 // Read VorbisComment in FLAC file
                 TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
@@ -760,7 +760,7 @@ namespace MPfm.Sound
                 // Save metadata
                 file.Save();
             }
-            else if (m_fileType == AudioFileType.OGG)
+            else if (m_fileType == AudioFileFormat.OGG)
             {
                 // Read VorbisComment in FLAC file
                 TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
@@ -779,7 +779,7 @@ namespace MPfm.Sound
                 // Save metadata
                 file.Save();
             }
-            else if (m_fileType == AudioFileType.APE)
+            else if (m_fileType == AudioFileFormat.APE)
             {
                 // Read VorbisComment in FLAC file
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
@@ -877,14 +877,6 @@ namespace MPfm.Sound
 
             return imageCover;
         }
-	}
-
-	/// <summary>
-	/// Defines the types of audio files supported by MPfm.
-	/// </summary>
-	public enum AudioFileType
-	{
-		Unknown = 0, FLAC = 1, WAV = 2, MP3 = 3, OGG = 4, APE = 5
 	}
 }
 

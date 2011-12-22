@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
 using MPfm.Player;
+using MPfm.Sound;
 
 namespace TestControls
 {
@@ -49,7 +50,7 @@ namespace TestControls
             }
             comboStandardFontName.SelectedItem = "Tahoma";
 
-            songGridView.ImportAudioFiles(m_library.SelectAudioFiles(FilterSoundFormat.MP3));
+            songGridView.ImportAudioFiles(m_library.SelectAudioFiles(AudioFileFormat.MP3));
 
             // Set initial query
 

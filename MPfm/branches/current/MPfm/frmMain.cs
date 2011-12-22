@@ -102,7 +102,7 @@ namespace MPfm
         public Guid InitOpenNodePlaylistId { get; set; }
         public Guid InitCurrentSongId { get; set; }
 
-        public FilterSoundFormat FilterSoundFormat { get; set; }
+        public AudioFileFormat FilterAudioFileFormat { get; set; }
         public bool songPositionChanging = false;
         public SongQuery QuerySongBrowser { get; set; }
 
@@ -463,7 +463,7 @@ namespace MPfm
             string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
             if (String.IsNullOrEmpty(filterSoundFormat))
             {
-                filterSoundFormat = FilterSoundFormat.MP3.ToString();
+                filterSoundFormat = AudioFileFormat.MP3.ToString();
             }
             comboSoundFormat.SelectedItem = filterSoundFormat;
             RefreshTreeLibrary();
@@ -1643,11 +1643,11 @@ namespace MPfm
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.Playlist)
             {
@@ -1655,7 +1655,7 @@ namespace MPfm
             }
             else if (query.Type == SongQueryType.All)
             {
-                audioFiles = Library.SelectAudioFiles(FilterSoundFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -1664,16 +1664,16 @@ namespace MPfm
 
             // Filter songs by media type
             if (comboSoundFormat.Text.ToLower() == "mp3")
-            {                
-                audioFiles = audioFiles.Where(x => x.FileType == AudioFileType.MP3).ToList();
+            {
+                audioFiles = audioFiles.Where(x => x.FileType == AudioFileFormat.MP3).ToList();
             }
             else if (comboSoundFormat.Text.ToLower() == "flac")
             {
-                audioFiles = audioFiles.Where(x => x.FileType == AudioFileType.FLAC).ToList();
+                audioFiles = audioFiles.Where(x => x.FileType == AudioFileFormat.FLAC).ToList();
             }
             else if (comboSoundFormat.Text.ToLower() == "ogg")
             {
-                audioFiles = audioFiles.Where(x => x.FileType == AudioFileType.OGG).ToList();
+                audioFiles = audioFiles.Where(x => x.FileType == AudioFileFormat.OGG).ToList();
             }
 
             // Clear view
@@ -2059,12 +2059,12 @@ namespace MPfm
                 if (query.Type == SongQueryType.Album)
                 {
                     // Generate an artist/album playlist and start playback
-                    audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
+                    audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
                 }
                 else if (query.Type == SongQueryType.Artist)
                 {
                     // Generate an artist playlist and start playback                                                                        
-                    audioFiles = Library.SelectAudioFiles(FilterSoundFormat, string.Empty, true, query.ArtistName);                        
+                    audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, string.Empty, true, query.ArtistName);                        
                 }
                 else if (query.Type == SongQueryType.Playlist)
                 {
@@ -2074,7 +2074,7 @@ namespace MPfm
                 else if (query.Type == SongQueryType.All)
                 {
                     // Generate a playlist with all the library and start playback
-                    audioFiles = Library.SelectAudioFiles(FilterSoundFormat);                        
+                    audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat);                        
                 }
 
                 // Clear playlist and add songs
@@ -2484,17 +2484,17 @@ namespace MPfm
             if (args.OperationType == WorkerTreeLibraryOperationType.GetArtistAlbums)
             {
                 // Select all albums from artist
-                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, FilterSoundFormat);
+                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, FilterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetArtists)
             {
                 // Select all artists
-                result.Artists = Library.SelectArtistNames(FilterSoundFormat);
+                result.Artists = Library.SelectArtistNames(FilterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetAlbums)
             {
                 // Select all albums
-                result.AllAlbums = Library.SelectAlbumTitles(FilterSoundFormat);
+                result.AllAlbums = Library.SelectAlbumTitles(FilterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
             {
@@ -3053,33 +3053,23 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void comboSoundFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Set filter media type
-            if (comboSoundFormat.Text == "FLAC")
-            {
-                FilterSoundFormat = FilterSoundFormat.FLAC;
-            }
-            else if (comboSoundFormat.Text == "MP3")
-            {
-                FilterSoundFormat = FilterSoundFormat.MP3;
-            }
-            else if (comboSoundFormat.Text == "OGG")
-            {
-                FilterSoundFormat = FilterSoundFormat.OGG;
-            }
-            else if (comboSoundFormat.Text == "APE")
-            {
-                FilterSoundFormat = FilterSoundFormat.APE;
-            }
+            // Get audio file format
+            AudioFileFormat audioFileFormat = AudioFileFormat.Unknown;
+            Enum.TryParse<AudioFileFormat>(comboSoundFormat.Text, out audioFileFormat);
+
+            // Set filter
+            FilterAudioFileFormat = audioFileFormat;
 
             // Check if init is done
             if (IsInitDone)
             {
                 // Set configuration                
-                Config.SetKeyValue("FilterSoundFormat", FilterSoundFormat.ToString());
+                Config.SetKeyValue("FilterSoundFormat", audioFileFormat.ToString());
                 Config.Save();
 
                 // Refresh all controls
                 RefreshAll();
+
             }
         }
 

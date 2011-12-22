@@ -681,18 +681,17 @@ namespace MPfm.Library
         /// <returns>List of artist names</returns>
         public List<string> SelectArtistNames()
         {
-            return SelectArtistNames(FilterSoundFormat.All);
+            return SelectArtistNames(AudioFileFormat.Unknown);
         }
 
         /// <summary>
         /// Returns the unique artist names in the library, using the filter passed in the soundFormat parameter.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <returns>List of artist names</returns>
-        public List<string> SelectArtistNames(FilterSoundFormat soundFormat)
+        public List<string> SelectArtistNames(AudioFileFormat audioFileFormat)
         {
-            //return DataAccess.SelectDistinctArtistNames(soundFormat);
-            return m_gateway.SelectDistinctArtistNames(soundFormat);
+            return m_gateway.SelectDistinctArtistNames(audioFileFormat);
         }
 
         /// <summary>
@@ -702,16 +701,16 @@ namespace MPfm.Library
         /// <returns>List of album titles</returns>    
         public List<string> SelectArtistAlbumTitles(string artistName)
         {
-            return SelectArtistAlbumTitles(artistName, FilterSoundFormat.All);
+            return SelectArtistAlbumTitles(artistName, AudioFileFormat.Unknown);
         }
 
         /// <summary>
         /// Returns the unique album titles of a specific artist in the library, using the filter passed in the soundFormat parameter.
         /// </summary>
         /// <param name="artistName">Artist Name</param>
-        /// <param name="soundFormat">AudioFileType filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <returns>List of album titles</returns>        
-        public List<string> SelectArtistAlbumTitles(string artistName, FilterSoundFormat soundFormat)
+        public List<string> SelectArtistAlbumTitles(string artistName, AudioFileFormat audioFileFormat)
         {
             List<string> albums = null;
 
@@ -722,23 +721,10 @@ namespace MPfm.Library
                                                          select s;
 
                 // Do we have to filter by sound format?
-                if (soundFormat != FilterSoundFormat.All)
+                if (audioFileFormat != AudioFileFormat.Unknown)
                 {
-                    // Get file type
-                    AudioFileType fileType = AudioFileType.Unknown;
-                    if (soundFormat == FilterSoundFormat.FLAC)
-                    {
-                        fileType = AudioFileType.FLAC;
-                    }
-                    else if (soundFormat == FilterSoundFormat.MP3)
-                    {
-                        fileType = AudioFileType.MP3;
-                    }
-                    else if (soundFormat == FilterSoundFormat.OGG)
-                    {
-                        fileType = AudioFileType.OGG;
-                    }
-                    queryAudioFiles = queryAudioFiles.Where(x => x.FileType == fileType);
+                    // Set filter
+                    queryAudioFiles = queryAudioFiles.Where(x => x.FileType == audioFileFormat);
                 }
 
                 // Query: get all albums from artist from the Songs table
@@ -768,18 +754,17 @@ namespace MPfm.Library
         /// <returns>List of album titles</returns>
         public Dictionary<string, List<string>> SelectAlbumTitles()
         {
-            return SelectAlbumTitles(FilterSoundFormat.All);
+            return SelectAlbumTitles(AudioFileFormat.Unknown);
         }
 
         /// <summary>
         /// Returns a list of distinct album titles, using the filter passed in the soundFormat parameter.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <returns>List of album titles</returns>
-        public Dictionary<string, List<string>> SelectAlbumTitles(FilterSoundFormat soundFormat)
+        public Dictionary<string, List<string>> SelectAlbumTitles(AudioFileFormat audioFileFormat)
         {
-            //return DataAccess.SelectDistinctAlbumTitles(soundFormat);
-            return m_gateway.SelectDistinctAlbumTitles(soundFormat);
+            return m_gateway.SelectDistinctAlbumTitles(audioFileFormat);
         }
 
         /// <summary>
@@ -789,19 +774,18 @@ namespace MPfm.Library
         /// <returns>List of album titles with file path</returns>
         public Dictionary<string, string> SelectAlbumTitlesWithFilePaths()
         {
-            return SelectAlbumTitlesWithFilePaths(FilterSoundFormat.All);
+            return SelectAlbumTitlesWithFilePaths(AudioFileFormat.Unknown);
         }
 
         /// <summary>
         /// Returns a list of distinct album titles with the file path of one of the audio files
         /// of the album, using the filter passed in the soundFormat parameter.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <returns>List of album titles with file path</returns>
-        public Dictionary<string, string> SelectAlbumTitlesWithFilePaths(FilterSoundFormat soundFormat)
+        public Dictionary<string, string> SelectAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
         {
-            //return DataAccess.SelectDistinctAlbumTitlesWithFilePaths(soundFormat);
-            return m_gateway.SelectDistinctAlbumTitlesWithFilePaths(soundFormat);
+            return m_gateway.SelectDistinctAlbumTitlesWithFilePaths(audioFileFormat);
         }
 
         #endregion
@@ -838,62 +822,62 @@ namespace MPfm.Library
         /// <returns>List of AudioFiles</returns>
         public List<AudioFile> SelectAudioFiles()
         {
-            return SelectAudioFiles(FilterSoundFormat.All, string.Empty, true, string.Empty, string.Empty, string.Empty);
+            return SelectAudioFiles(AudioFileFormat.Unknown, string.Empty, true, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
         /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <returns>List of AudioFiles</returns>
-        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat)
+        public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat)
         {
-            return SelectAudioFiles(soundFormat, string.Empty, true, string.Empty, string.Empty, string.Empty);
+            return SelectAudioFiles(audioFileFormat, string.Empty, true, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
         /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <returns>List of AudioFiles</returns>
-        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending)
+        public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending)
         {
-            return SelectAudioFiles(soundFormat, orderBy, orderByAscending, string.Empty, string.Empty, string.Empty);
+            return SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>
         /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <param name="artistName">Artist Name</param>
         /// <returns>List of AudioFiles</returns>
-        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName)
+        public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName)
         {
-            return SelectAudioFiles(soundFormat, orderBy, orderByAscending, artistName, string.Empty, string.Empty);
+            return SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, string.Empty, string.Empty);
         }
 
         /// <summary>
         /// Selects audio files from the cache, filtered by parameters.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <param name="artistName">Artist Name</param>
         /// <param name="albumTitle">Album Title</param>
         /// <returns>List of AudioFiles</returns>
-        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
+        public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
         {
-            return SelectAudioFiles(soundFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
+            return SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
         }
 
         /// <summary>
         /// Selects the songs from the song cache, filtered by the sound format, artist name,
         /// album title and song title passed in parameter.
         /// </summary>
-        /// <param name="soundFormat">Sound Format Filter</param>
+        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
         /// <param name="artistName">Artist Name</param>
         /// <param name="albumTitle">Album Title</param>
         /// <param name="searchTerms">Search terms</param>
         /// <returns>List of AudioFiles</returns>
-        public List<AudioFile> SelectAudioFiles(FilterSoundFormat soundFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
+        public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
         {
             // Create variables
             List<AudioFile> audioFiles = null;
@@ -959,28 +943,11 @@ namespace MPfm.Library
                     }
                 }
 
-                // Check for media filter
-                if (soundFormat != FilterSoundFormat.All)
+                // Check for audio file format filter
+                if (audioFileFormat != AudioFileFormat.Unknown)
                 {
-                    // Get file type
-                    AudioFileType fileType = AudioFileType.Unknown;
-                    if (soundFormat == FilterSoundFormat.FLAC)
-                    {
-                        fileType = AudioFileType.FLAC;
-                    }
-                    else if (soundFormat == FilterSoundFormat.MP3)
-                    {
-                        fileType = AudioFileType.MP3;
-                    }
-                    else if (soundFormat == FilterSoundFormat.OGG)
-                    {
-                        fileType = AudioFileType.OGG;
-                    }
-                    else if (soundFormat == FilterSoundFormat.APE)
-                    {
-                        fileType = AudioFileType.APE;
-                    }
-                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == fileType);
+                    // Set filter
+                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == audioFileFormat);
                 }
 
                 //// Check for default order by
@@ -1457,14 +1424,6 @@ namespace MPfm.Library
             FilePaths = new List<string>();
             FolderPath = string.Empty;
         }
-    }
-
-    /// <summary>
-    /// Defines the type of sound formats.
-    /// </summary>
-    public enum FilterSoundFormat
-    {
-        All = 0, MP3 = 1, FLAC = 2, OGG = 3, APE = 4
     }
 
     /// <summary>
