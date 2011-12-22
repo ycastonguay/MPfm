@@ -463,17 +463,22 @@ namespace MPfm
             string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
             
             // Populate the supported formats
-            Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
             comboSoundFormat.Items.Clear();
-            foreach (AudioFileFormat audioFileFormat in audioFileFormats)
-            {
-                // Check if the item is not unknown
-                if (audioFileFormat != AudioFileFormat.Unknown)
-                {
-                    // Add item to combo box
-                    comboSoundFormat.Items.Add(audioFileFormat.ToString());
-                }
-            }
+            comboSoundFormat.Items.Add("MP3");
+            comboSoundFormat.Items.Add("FLAC");
+            comboSoundFormat.Items.Add("OGG");
+            comboSoundFormat.Items.Add("APE");            
+            //Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
+            
+            //foreach (AudioFileFormat audioFileFormat in audioFileFormats)
+            //{
+            //    // Check if the item is not unknown
+            //    if (audioFileFormat != AudioFileFormat.Unknown && audioFileFormat != AudioFileFormat.All)
+            //    {
+            //        // Add item to combo box
+            //        comboSoundFormat.Items.Add(audioFileFormat.ToString());
+            //    }
+            //}
 
             // Check if the configuration is null or empty
             if (String.IsNullOrEmpty(filterSoundFormat))

@@ -48,6 +48,7 @@ namespace MPfm.WindowsControls
 
         public int mouseDownThumbX = 0;
         public int mouseDownX = 0;
+        public int originalValue = 0;
 
         private int thumbDraggingOffsetX = 0;
         private bool isUserDraggingThumb = false;
@@ -345,14 +346,12 @@ namespace MPfm.WindowsControls
             // Call paint background
             base.OnPaintBackground(pe);
 
-
             // Render scrollbar main background
             Rectangle rect = new Rectangle(14, Height - 14, Width - 28, 14);
             brushGradient = new LinearGradientBrush(rect, Color.FromArgb(150, 75, 75, 75), Color.FromArgb(255, 100, 100, 100), 90.0f);
             g.FillRectangle(brushGradient, rect);
             brushGradient.Dispose();
             brushGradient = null;
-
 
             // ----------------------------------
             // Left Handle
@@ -495,8 +494,6 @@ namespace MPfm.WindowsControls
             g.DrawLine(pen, new PointF(x - 4, 4), new PointF(x - 4, Height - 4));
             pen.Dispose();
             pen = null;
-
-            g.DrawString(Value.ToString() + "/" + Maximum.ToString(), Font, Brushes.White, new Point(16, 1));
         }
 
         #endregion
@@ -573,25 +570,21 @@ namespace MPfm.WindowsControls
                 needToRefresh = true;
             }
 
-            // Drag the thumb
+            // Is the user dragging the thumb?
             if (isMouseLeftButtonDown && isUserDraggingThumb)
             {
-                //float thumbWidth = ((float)LargeChange / (float)Maximum) * (Width - 28);
-                //float ratio = (float)(Value + Minimum) / (float)Maximum;
-                //int thumbX = (int)(ratio * (Width - 28 - thumbWidth)) + 14;
-
-                // Calculate the value per pixel (to set the correct value later)                
+                // Find the value per pixel
                 int valueRange = Maximum - Minimum;
                 int availableWidth = Width - 28 - rectScrollBarThumb.Width;
                 float valuePerPixel = (float)valueRange / (float)availableWidth;
-                               
-                // Calculate the location 
-                int mouseX = e.Location.X - 14;                
-                int realX = mouseX - mouseDownThumbX;
-                float realCanadianValues = valuePerPixel * realX;
-                float ratio = (float)realCanadianValues / (float)availableWidth;                
-                int value = (int)(ratio * valueRange);
 
+                // Find the delta
+                int delta = e.Location.X - mouseDownX;
+
+                // Set new value
+                int value = originalValue + (int)(((float)delta * valuePerPixel));
+
+                // Set min/max
                 if (value < Minimum)
                 {
                     value = Minimum;
@@ -601,6 +594,7 @@ namespace MPfm.WindowsControls
                     value = Maximum;
                 }
 
+                // Set value
                 if (value != Value)
                 {
                     Value = value;
@@ -660,6 +654,7 @@ namespace MPfm.WindowsControls
             isMouseLeftButtonDown = true;            
             mouseDownThumbX = e.Location.X - rectScrollBarThumb.X;
             mouseDownX = e.Location.X;
+            originalValue = Value;
 
             // Check if the user has clicked on one of the handles (i.e. small change)
             if (e.Location.X <= 14)
