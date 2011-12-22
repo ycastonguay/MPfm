@@ -461,11 +461,31 @@ namespace MPfm
 
             // Get media type filter configuration and set media type before refreshing the tree library
             string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
+            
+            // Populate the supported formats
+            Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
+            comboSoundFormat.Items.Clear();
+            foreach (AudioFileFormat audioFileFormat in audioFileFormats)
+            {
+                // Check if the item is not unknown
+                if (audioFileFormat != AudioFileFormat.Unknown)
+                {
+                    // Add item to combo box
+                    comboSoundFormat.Items.Add(audioFileFormat.ToString());
+                }
+            }
+
+            // Check if the configuration is null or empty
             if (String.IsNullOrEmpty(filterSoundFormat))
             {
+                // Set MP3 filter by default
                 filterSoundFormat = AudioFileFormat.MP3.ToString();
             }
+
+            // Set combo box selected item
             comboSoundFormat.SelectedItem = filterSoundFormat;
+
+            // Refresh tree library
             RefreshTreeLibrary();
 
             Tracing.Log("Main form init -- Applying configuration...");
