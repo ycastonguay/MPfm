@@ -31,54 +31,58 @@ namespace MPfm.Sound
 	public enum AudioFileFormat
 	{
         /// <summary>
-        /// Unknown audio file format.
+        /// Every audio file format (useful for library queries).
         /// </summary>
-		Unknown = 0, 
+		All = 0, 
+        /// <summary>
+        /// Unknown file format.
+        /// </summary>
+        Unknown = 1,
         /// <summary>
         /// FLAC lossless audio codec.
         /// For more information, consult http://flac.sourceforge.net/.
         /// </summary>
-        FLAC = 1, 
+        FLAC = 2, 
         /// <summary>
         /// WAV uncompressed audio codec.
         /// For more information, consult http://en.wikipedia.org/wiki/WAV.
         /// </summary>
-        WAV = 2, 
+        WAV = 3, 
         /// <summary>
         /// MP3 lossy audio codec. Requires royalty payments for commercial applications.
         /// For more information, consult http://mp3licensing.com/.
         /// </summary>
-        MP3 = 3, 
+        MP3 = 4, 
         /// <summary>
         /// OGG Vorbis lossy audio codec.
         /// For more information. consult http://www.vorbis.com/.
         /// </summary>
-        OGG = 4,
+        OGG = 5,
         /// <summary>
         /// APE (Monkey's Audio) lossless audio codec.
         /// For more information, consult http://www.monkeysaudio.com/.
         /// </summary>
-        APE = 5, 
+        APE = 6, 
         /// <summary>
         /// MPC (MusePack) lossy audio codec.
         /// For more information, consult http://www.musepack.net/.
         /// </summary>
-        MPC = 6, 
+        MPC = 7, 
         /// <summary>
         /// WV (WavPack) lossless audio codec.
         /// For more information, consult http://www.wavpack.com/.
         /// </summary>
-        WV = 7, 
+        WV = 8, 
         /// <summary>
         /// OFR (OptimFROG) lossless audio codec.
         /// For more information, consult http://www.losslessaudio.org/.
         /// </summary>
-        OFR = 8, 
+        OFR = 9, 
         /// <summary>
         /// TTA (True Audio) lossy audio codec.
         /// For more information, consult http://en.true-audio.com/.
         /// </summary>
-        TTA = 9
+        TTA = 10
 	}
 }
 

@@ -181,14 +181,14 @@ namespace MPfm.Library
         /// <returns>List of distinct artist names</returns>
         public List<string> SelectDistinctArtistNames()
         {
-            return SelectDistinctArtistNames(AudioFileFormat.Unknown);
+            return SelectDistinctArtistNames(AudioFileFormat.All);
         }
 
         /// <summary>
         /// Returns the distinct list of artist names from the database, using the sound format
         /// filter passed in the soundFormat parameter.
         /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip this filter)</param>
+        /// <param name="audioFileFormat">Audio file format filter</param>
         /// <returns>List of distinct artist names</returns>
         public List<string> SelectDistinctArtistNames(AudioFileFormat audioFileFormat)
         {
@@ -199,7 +199,7 @@ namespace MPfm.Library
             string sql = "SELECT DISTINCT ArtistName FROM AudioFiles ORDER BY ArtistName";
 
             // Check for audio file format filter
-            if (audioFileFormat != AudioFileFormat.Unknown)
+            if (audioFileFormat != AudioFileFormat.All)
             {
                 sql = "SELECT DISTINCT ArtistName FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
             }
@@ -223,14 +223,14 @@ namespace MPfm.Library
         /// <returns>List of distinct album titles per artist</returns>
         public Dictionary<string, List<string>> SelectDistinctAlbumTitles()
         {
-            return SelectDistinctAlbumTitles(AudioFileFormat.Unknown);
+            return SelectDistinctAlbumTitles(AudioFileFormat.All);
         }
 
         /// <summary>
         /// Returns the distinct list of album titles per artist from the database, using the sound format
         /// filter passed in the soundFormat parameter.
         /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
+        /// <param name="audioFileFormat">Audio file format filter</param>
         /// <returns>List of distinct album titles per artist</returns>
         public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat)
         {
@@ -239,7 +239,7 @@ namespace MPfm.Library
 
             // Set query
             string sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles";
-            if (audioFileFormat != AudioFileFormat.Unknown)
+            if (audioFileFormat != AudioFileFormat.All)
             {
                 sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
             }
@@ -282,7 +282,7 @@ namespace MPfm.Library
 
             // Set query
             string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles";
-            if (audioFileFormat != AudioFileFormat.Unknown)
+            if (audioFileFormat != AudioFileFormat.All)
             {
                 sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
             }
