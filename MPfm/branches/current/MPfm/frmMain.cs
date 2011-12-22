@@ -1219,6 +1219,9 @@ namespace MPfm
             // Refresh controls after song playback
             RefreshSongControls();
 
+            // Refresh playlist
+            formPlaylist.RefreshPlaylist();
+
             // Refresh loop and marker controls
             RefreshMarkers();
             RefreshLoops();

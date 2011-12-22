@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
-    <Content Include="Lib\Bass.Net.dll" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />

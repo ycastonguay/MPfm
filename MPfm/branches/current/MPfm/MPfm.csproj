@@ -249,10 +249,6 @@
     <Content Include="Configuration\ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Lib\SQLite.Interop.dll" />
-    <Content Include="Lib\System.Data.SQLite.dll" />
-    <Content Include="Lib\System.Data.SQLite.Linq.dll" />
-    <Content Include="Lib\taglib-sharp.dll" />
     <Content Include="MPFM.ico" />
     <Content Include="MPfm_SmallOnly.ico" />
     <None Include="Resources\user.png" />
@@ -378,12 +374,15 @@
       <Name>MPfm.WindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)
-copy $(ProjectDir)\Lib\SQLite.Interop.dll $(TargetDir)
-copy $(ProjectDir)\Lib\System.Data.SQLite.dll $(TargetDir)
-copy $(ProjectDir)\Lib\System.Data.SQLite.Linq.dll $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>rem copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)
+rem copy $(ProjectDir)\Lib\SQLite.Interop.dll $(TargetDir)
+rem copy $(ProjectDir)\Lib\System.Data.SQLite.dll $(TargetDir)
+rem copy $(ProjectDir)\Lib\System.Data.SQLite.Linq.dll $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -233,15 +233,6 @@ namespace MPfm
         /// </summary>
         public void RefreshPlaylist()
         {
-            // If the form isn't visible, just don't refresh
-            if (!Visible)
-            {
-                return;
-            }
-
-            //// Remove all items from grid
-            //viewSongs.Items.Clear();
-
             // Make sure the playlist is valid
             if (Main.Player.Playlist == null)
             {
@@ -250,79 +241,6 @@ namespace MPfm
 
             // Import songs into the control
             viewSongs2.ImportPlaylist(Main.Player.Playlist);
-
-            //// Make sure the list of songs is valid and non empty
-            //if (Main.Player.CurrentPlaylist.Songs == null)
-            //{
-            //    return;
-            //}
-
-            //// Create array
-            //ListViewItem[] lvItems = new ListViewItem[Main.Player.CurrentPlaylist.Songs.Count];
-            //int a = 0;
-
-            //// Loop through playlist songs
-            //foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-            //{
-            //    // Create item
-            //    ListViewItem item = new ListViewItem(playlistSong.PlaylistSongId.ToString());
-            //    item.Tag = playlistSong.PlaylistSongId.ToString();
-
-            //    // Format the track number with the disc number if available
-            //    if (playlistSong.Song.DiscNumber == null || playlistSong.Song.DiscNumber.Value == 0)
-            //    {
-            //        // Display the track number
-            //        item.SubItems.Add(playlistSong.Song.TrackNumber.ToString());
-            //    }
-            //    else
-            //    {
-            //        // Display the track number with the disc number (disc.track: i.e. 1.1, 1.2, 2.1, 2.2, etc.)
-            //        item.SubItems.Add(playlistSong.Song.DiscNumber.ToString() + "." + playlistSong.Song.TrackNumber.ToString());
-            //    }
-
-            //    item.SubItems.Add(playlistSong.Song.Title);
-            //    item.SubItems.Add(playlistSong.Song.Time);
-            //    item.SubItems.Add(playlistSong.Song.ArtistName);
-            //    item.SubItems.Add(playlistSong.Song.AlbumTitle);
-
-            //    // Play count
-            //    if (playlistSong.Song.PlayCount == 0)
-            //    {
-            //        item.SubItems.Add("");
-            //    }
-            //    else
-            //    {
-            //        item.SubItems.Add(playlistSong.Song.PlayCount.ToString());
-            //    }
-
-            //    // Last played
-            //    if (playlistSong.Song.LastPlayed == DateTime.MinValue)
-            //    {
-            //        item.SubItems.Add("");
-            //    }
-            //    else
-            //    {
-            //        item.SubItems.Add(playlistSong.Song.LastPlayed.ToString());
-            //    }
-
-            //    // Check if a play icon needs to be shown
-            //    if (Main.Player.CurrentPlaylist != null && 
-            //        Main.Player.CurrentPlaylist.CurrentSong != null &&
-            //        Main.Player.CurrentPlaylist.CurrentSong.PlaylistSongId == playlistSong.PlaylistSongId)
-            //    {
-            //        item.Selected = true;
-            //        item.ImageIndex = 0;
-            //    }
-
-            //    //viewSongs.Items.Add(item);
-            //    lvItems[a] = item;
-            //    a++;
-            //}
-
-            //// Update list view
-            //viewSongs.BeginUpdate();
-            //viewSongs.Items.AddRange(lvItems);
-            //viewSongs.EndUpdate();
 
             // Refresh window title
             RefreshTitle();
