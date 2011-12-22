@@ -45,8 +45,7 @@ namespace MPfm.WindowsControls
         private bool isMouseOverThumb = false;
         private bool isMouseOverLeftHandle = false;
         private bool isMouseOverRightHandle = false;
-
-        public int mouseDownThumbX = 0;
+        
         public int mouseDownX = 0;
         public int originalValue = 0;
 
@@ -652,7 +651,6 @@ namespace MPfm.WindowsControls
 
             // Set flags
             isMouseLeftButtonDown = true;            
-            mouseDownThumbX = e.Location.X - rectScrollBarThumb.X;
             mouseDownX = e.Location.X;
             originalValue = Value;
 

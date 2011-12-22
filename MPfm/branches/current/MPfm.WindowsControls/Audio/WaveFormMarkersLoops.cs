@@ -1011,6 +1011,9 @@ namespace MPfm.WindowsControls
             // Set flags
             m_isLoading = true;
 
+            // Reset zoom
+            m_zoom = 100;
+
             // Generate peak file and start timer for updating progress
             m_peakFile.GeneratePeakFile(filePath, peakFilePath);
             m_timer.Start();

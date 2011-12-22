@@ -439,7 +439,7 @@ namespace MPfm
             lblCurrentArtistName.Text = "";
             lblCurrentSongTitle.Text = "";
             lblCurrentFilePath.Text = "";
-            lblBitsPerSample.Text = "";
+            lblBitrate.Text = "";
             lblSoundFormat.Text = "";
             lblFrequency.Text = "";
 
@@ -950,9 +950,9 @@ namespace MPfm
             //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
 
             // Set UI            
-            lblCurrentTime.Text = position;
+            lblCurrentPosition.Text = position;
             miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
-            lblTotalTime.Text = m_player.Playlist.CurrentItem.LengthString;
+            lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
             //waveFormMarkersLoops.Position = positionBytes;
             //waveFormMarkersLoops.PositionTime = position;
             waveFormMarkersLoops.SetPosition(positionBytes, position);
@@ -1582,10 +1582,10 @@ namespace MPfm
                 lblCurrentAlbumTitle.Text = string.Empty;
                 lblCurrentSongTitle.Text = string.Empty;
                 lblCurrentFilePath.Text = string.Empty;
-                lblCurrentTime.Text = "0:00.000";
-                lblTotalTime.Text = "0:00.000";
+                lblCurrentPosition.Text = "0:00.000";
+                lblLength.Text = "0:00.000";
                 lblSoundFormat.Text = string.Empty;
-                lblBitsPerSample.Text = string.Empty;
+                lblBitrate.Text = string.Empty;
                 lblFrequency.Text = string.Empty;
                 picAlbum.Image = null;
                 btnPause.Checked = false;
@@ -1761,7 +1761,7 @@ namespace MPfm
 
                 // Set format labels
                 lblSoundFormat.Text = Path.GetExtension(m_player.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();
-                lblBitsPerSample.Text = m_player.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
+                lblBitrate.Text = m_player.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
                 lblFrequency.Text = m_player.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
 
                 // Set the song length for the Loops & Markers wave form display control
