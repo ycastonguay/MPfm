@@ -370,7 +370,7 @@ namespace MPfm
 
                 // Create player
                 m_player = new MPfm.Player.Player(device, Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod);
-                m_player.OnSongFinished += new Player.Player.SongFinished(m_player_OnSongFinished);
+                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnSongFinished);
                 m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
 
                 // Create timer
@@ -853,8 +853,6 @@ namespace MPfm
                 return;
             }
 
-            int peakL = 0;
-            int peakR = 0;
             float maxL = 0f;
             float maxR = 0f;
 
@@ -963,7 +961,7 @@ namespace MPfm
                 // Get ratio
                 float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
 
-                // Do not go beyong 99% or the song might end before!
+                // Do not go beyong 99% or the song might end before! (TODO: replace this WEAK condition)
                 if (ratio <= 0.99f)
                 {
                     trackPosition.Value = Convert.ToInt32(ratio * 1000);
@@ -1034,7 +1032,7 @@ namespace MPfm
         /// Updates the UI.
         /// </summary>
         /// <param name="data">Song finished data</param>
-        public void m_player_OnSongFinished(Player.PlayerAudioFileFinishedData data)
+        public void m_player_OnSongFinished(Player.PlayerPlaylistIndexChangedData data)
         {
             // If the initialization isn't finished, exit this event
             if (!IsInitDone)
@@ -1044,7 +1042,10 @@ namespace MPfm
 
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
-            {
+            {                
+                // Update play count
+                //Library.UpdateAudioFilePlayCount(m_player.Playlist.CurrentItem.AudioFile.Id);
+
                 // Check if this was the last song
                 if (data.IsPlaybackStopped)
                 {

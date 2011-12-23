@@ -25,19 +25,40 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using MPfm.Sound;
 
 namespace MPfm.Player
 {
     /// <summary>
-    /// Defines the data structure for the event when the audio file has finished playing.
+    /// Defines the data structure for the event when the playlist index changes (i.e. when an audio file
+    /// starts to play).
     /// Related to the Player class.
     /// </summary>
-    public class PlayerAudioFileFinishedData
+    public class PlayerPlaylistIndexChangedData
     {
         /// <summary>
-        /// Defines if the playback was stopped after the song was finished.
+        /// Defines if the playback was stopped after the audio file has finished playing.
         /// i.e. if the RepeatType is off and the playlist is over, this property will be true.
         /// </summary>
         public bool IsPlaybackStopped { get; set; }
+        /// <summary>
+        /// Defines the audio file that just ended.
+        /// </summary>
+        public AudioFile AudioFileEnded { get; set; }
+        /// <summary>
+        /// Defines the audio file that just started. Might be null if the playback has stopped.
+        /// </summary>
+        public AudioFile AudioFileStarted { get; set; }
+
+        /// <summary>
+        /// Default constructor for the PlayerPlaylistIndexChangedData class.
+        /// </summary>
+        public PlayerPlaylistIndexChangedData()
+        {
+            // Set default values
+            IsPlaybackStopped = false;
+            AudioFileEnded = null;
+            AudioFileStarted = null;
+        }
     }
 }

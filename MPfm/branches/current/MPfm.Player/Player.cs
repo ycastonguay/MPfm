@@ -73,14 +73,15 @@ namespace MPfm.Player
         #region Events
         
         /// <summary>
-        /// Delegate method for the OnSongFinished event.
+        /// Delegate method for the OnPlaylistIndexChanged event.
         /// </summary>
-        /// <param name="data">OnSongFinished data</param>
-        public delegate void SongFinished(PlayerAudioFileFinishedData data);
+        /// <param name="data">OnPlaylistIndexChanged data</param>
+        public delegate void PlaylistIndexChanged(PlayerPlaylistIndexChangedData data);
         /// <summary>
-        /// The OnSongFinished event is triggered when a song has finished playing.
+        /// The OnPlaylistIndexChanged event is triggered when the playlist index changes (i.e. when an audio file
+        /// starts to play).
         /// </summary>
-        public event SongFinished OnSongFinished;
+        public event PlaylistIndexChanged OnPlaylistIndexChanged;
 
         /// <summary>
         /// Delegate method for the OnStreamCallbackCalled event.
@@ -1073,6 +1074,9 @@ namespace MPfm.Player
                     Tracing.Log("Player.GoTo -- Loading item index " + index.ToString() + "...");
                     Playlist.Items[index].Load();
 
+                    // Get audio file
+                    AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
+
                     // Load the next item, if it exists
                     if (Playlist.CurrentItemIndex + 1 < Playlist.Items.Count)
                     {
@@ -1133,15 +1137,16 @@ namespace MPfm.Player
                     m_isPlaying = true;
                     m_isPaused = false;
 
-                    // Raise song end event (if an event is subscribed)
-                    if (OnSongFinished != null)
+                    // Raise audio file finished event (if an event is subscribed)
+                    if (OnPlaylistIndexChanged != null)
                     {
                         // Create data
-                        PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
+                        PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                         data.IsPlaybackStopped = false;
+                        data.AudioFileStarted = audioFileStarted;
 
                         // Raise event
-                        OnSongFinished(data);
+                        OnPlaylistIndexChanged(data);
                     }
                 }
                 catch (Exception ex)
@@ -1567,17 +1572,23 @@ namespace MPfm.Player
                         // Restart playback from the first item
                         Playlist.First();
                         Playlist.Items[0].Load();
-                        Playlist.Items[1].Load();
+
+                        // Load second item if it exists
+                        if (Playlist.Items.Count > 1)
+                        {
+                            Playlist.Items[1].Load();
+                        }
 
                         // Raise song end event (if an event is subscribed)
-                        if (OnSongFinished != null)
+                        if (OnPlaylistIndexChanged != null)
                         {
                             // Create data
-                            PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
+                            PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                             data.IsPlaybackStopped = false;
+                            data.AudioFileStarted = Playlist.Items[0].AudioFile;
 
                             // Raise event
-                            OnSongFinished(data);
+                            OnPlaylistIndexChanged(data);
                         }
 
                         // Return data from the new channel                        
@@ -1586,7 +1597,7 @@ namespace MPfm.Player
                     else
                     {
                         // Raise song end event (if an event is subscribed)
-                        if (OnSongFinished != null)
+                        if (OnPlaylistIndexChanged != null)
                         {
                             // Check if EQ is enabled
                             if (m_isEQEnabled)
@@ -1602,11 +1613,11 @@ namespace MPfm.Player
                             m_isPlaying = false;
 
                             // Create data
-                            PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
+                            PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                             data.IsPlaybackStopped = true;
 
                             // Raise event
-                            OnSongFinished(data);
+                            OnPlaylistIndexChanged(data);
                         }
                     }
 
@@ -1618,14 +1629,16 @@ namespace MPfm.Player
                 Playlist.Next();
 
                 // Raise song end event (if an event is subscribed)
-                if (OnSongFinished != null)
+                if (OnPlaylistIndexChanged != null)
                 {
                     // Create data
-                    PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
+                    PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                     data.IsPlaybackStopped = false;
+                    data.AudioFileEnded = Playlist.Items[Playlist.CurrentItemIndex - 1].AudioFile;
+                    data.AudioFileStarted = Playlist.CurrentItem.AudioFile;
 
                     // Raise event
-                    OnSongFinished(data);
+                    OnPlaylistIndexChanged(data);
                 }
 
                 // Return data from the new channel
@@ -1633,14 +1646,14 @@ namespace MPfm.Player
             }
 
             // Raise song end event (if an event is subscribed)
-            if (OnSongFinished != null)
+            if (OnPlaylistIndexChanged != null)
             {
                 // Create data
-                PlayerAudioFileFinishedData data = new PlayerAudioFileFinishedData();
+                PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                 data.IsPlaybackStopped = true;
 
                 // Raise event
-                OnSongFinished(data);
+                OnPlaylistIndexChanged(data);
             }
 
             // Return end-of-channel
