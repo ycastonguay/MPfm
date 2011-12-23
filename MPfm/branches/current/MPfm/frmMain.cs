@@ -370,7 +370,7 @@ namespace MPfm
 
                 // Create player
                 m_player = new MPfm.Player.Player(device, Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod);
-                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnSongFinished);
+                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
                 m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
 
                 // Create timer
@@ -1028,11 +1028,11 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the player has finished playing a song.
+        /// Occurs when the playlist has changed index (when the a song starts/ends).
         /// Updates the UI.
         /// </summary>
-        /// <param name="data">Song finished data</param>
-        public void m_player_OnSongFinished(Player.PlayerPlaylistIndexChangedData data)
+        /// <param name="data">Event data</param>
+        public void m_player_OnPlaylistIndexChanged(Player.PlayerPlaylistIndexChangedData data)
         {
             // If the initialization isn't finished, exit this event
             if (!IsInitDone)
@@ -1043,9 +1043,6 @@ namespace MPfm
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {                
-                // Update play count
-                //Library.UpdateAudioFilePlayCount(m_player.Playlist.CurrentItem.AudioFile.Id);
-
                 // Check if this was the last song
                 if (data.IsPlaybackStopped)
                 {
@@ -1059,7 +1056,6 @@ namespace MPfm
                 }
                 else
                 {
-
                     // Refresh song information                    
                     RefreshSongInformation();
 
@@ -1076,6 +1072,9 @@ namespace MPfm
                     RefreshMarkers();
                     RefreshLoops();
 
+                    // Update the new song in the database (in case the metadata has changed)
+                    Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
+
                     // Refresh play count
                     SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
                     if (item != null)
@@ -1085,6 +1084,9 @@ namespace MPfm
                         item.AudioFile = updatedAudioFile;
                     }
                 }
+
+                // Update play count
+                //Library.UpdateAudioFilePlayCount(m_player.Playlist.CurrentItem.AudioFile.Id);
             };
 
             // Check if invoking is necessary
@@ -2062,7 +2064,10 @@ namespace MPfm
 
             // Set marker/loops buttons
             btnAddMarker.Enabled = true;
-            btnAddLoop.Enabled = true;  
+            btnAddLoop.Enabled = true;
+
+            // Update the first audio file in the database (in case the metadata has changed)
+            Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
         }
 
         /// <summary>

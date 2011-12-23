@@ -56,7 +56,7 @@ namespace MPfm.Player
         public PlayerPlaylistIndexChangedData()
         {
             // Set default values
-            IsPlaybackStopped = false;
+            IsPlaybackStopped = false;            
             AudioFileEnded = null;
             AudioFileStarted = null;
         }

@@ -60,7 +60,7 @@
     <Compile Include="Objects\RepeatType.cs" />
     <Compile Include="Objects\EQPreset.cs" />
     <Compile Include="Objects\EQPresetBand.cs" />
-    <Compile Include="Events\PlayerAudioFileFinishedData.cs" />
+    <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
