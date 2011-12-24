@@ -159,6 +159,28 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Executes a scalar SQL query and returns the query value.
+        /// </summary>
+        /// <param name="sql">SQL query</param>
+        /// <returns>Scalar query value</returns>
+        protected object ExecuteScalar(string sql)
+        {
+            // Open connection
+            OpenConnection();
+
+            // Create command
+            DbCommand command = m_factory.CreateCommand();
+            command.CommandText = sql;
+            command.Connection = m_connection;
+            object obj = command.ExecuteScalar();
+
+            // Close connection
+            CloseConnection();
+
+            return obj;
+        }
+
+        /// <summary>
         /// Compacts the database.
         /// </summary>
         public void CompactDatabase()

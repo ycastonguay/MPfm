@@ -934,6 +934,29 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Selects a setting by its name.
+        /// </summary>
+        /// <param name="name">Setting name</param>
+        /// <returns>Setting object</returns>
+        public Setting SelectSetting(string name)
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Settings WHERE SettingName = '" + name + "'");
+
+            // Convert to list
+            List<Setting> settings = ConvertLibrary.Settings(table);
+
+            // Check results
+            if (settings.Count > 0)
+            {
+                // Return first result
+                return settings[0];
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Inserts a new setting into the database.
         /// </summary>
         /// <param name="name">Setting name</param>
@@ -988,10 +1011,35 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="audioFileId">Audio file identifier</param>
         /// <returns>Play count</returns>
-        public int GetAudioFilePlayCount(Guid audioFileId)
+        public int GetAudioFilePlayCountFromHistory(Guid audioFileId)
         {
+            // Declare variables
             int playCount = 0;
 
+            // Execute scalar query
+            string query = "SELECT COUNT(*) FROM History WHERE AudioFileId = '" + audioFileId.ToString() + "'";
+            object value = ExecuteScalar(query);
+
+            // Check value for null
+            if (value == DBNull.Value)
+            {
+                // No play count
+                return 0;
+            }
+            else
+            {                
+                try
+                {
+                    // Try to cast into an integer       
+                    playCount = (int)value;
+                }
+                catch (Exception ex)
+                {
+                    // Return no play count
+                    return 0;
+                }
+            }
+            
             return playCount;
         }
 
@@ -1001,9 +1049,39 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="audioFileId">Audio file identifier</param>
         /// <returns>Nullable date/time</returns>
-        public DateTime? GetAudioFileLastPlayed(Guid audioFileId)
+        public DateTime? GetAudioFileLastPlayedFromHistory(Guid audioFileId)
         {
+            // Declare variables
             DateTime? lastPlayed = null;
+
+            // Execute scalar query
+            string query = "SELECT TOP 1 FROM History WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY EventDateTime";
+            object value = ExecuteScalar(query);
+
+            // Check value for null
+            if (value == DBNull.Value)
+            {
+                // No last played value
+                return null;
+            }
+            else
+            {
+                try
+                {
+                    // Try to cast into a DateTime       
+                    DateTime valueDateTime;
+                    bool success = DateTime.TryParse(value.ToString(), out valueDateTime);
+                    if (success)
+                    {
+                        lastPlayed = valueDateTime;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // No last played value
+                    return null;
+                }
+            }
 
             return lastPlayed;
         }

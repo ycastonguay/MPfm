@@ -42,6 +42,11 @@ namespace MPfm.Library
     /// </summary>
     public class Library
     {
+        // Background worker for update library process
+        private BackgroundWorker workerUpdateLibrary = null;
+
+        #region Events
+        
         // Update library progress delegate/event
         public delegate void UpdateLibraryProgress(OldUpdateLibraryProgressData data);
         public event UpdateLibraryProgress OnUpdateLibraryProgress;
@@ -50,8 +55,41 @@ namespace MPfm.Library
         public delegate void UpdateLibraryFinished(UpdateLibraryFinishedData data);
         public event UpdateLibraryFinished OnUpdateLibraryFinished;
 
-        // Background worker for update library process
-        private BackgroundWorker workerUpdateLibrary = null;
+        #endregion        
+        
+        #region Properties
+
+        /// <summary>
+        /// Private value for the DatabaseVersionMajor property.
+        /// </summary>
+        private int m_databaseVersionMajor = 1;
+        /// <summary>
+        /// Indicates what database major version is expected. Useful to update the database structure.
+        /// Needs to be used with the DatabaseVersionMinor property.
+        /// </summary>
+        public int DatabaseVersionMajor
+        {
+            get
+            {
+                return m_databaseVersionMajor;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the DatabaseVersionMinor property.
+        /// </summary>
+        private int m_databaseVersionMinor = 1;
+        /// <summary>
+        /// Indicates what database minor version is expected. Useful to update the database structure.
+        /// Needs to be used with the DatabaseVersionMajor property.
+        /// </summary>
+        public int DatabaseVersionMinor
+        {
+            get
+            {
+                return m_databaseVersionMinor;
+            }
+        }
 
         /// <summary>
         /// Private value for the Gateway property.
@@ -102,8 +140,10 @@ namespace MPfm.Library
             }
         }
 
+        #endregion
+
         #region Constructor
-        
+
         /// <summary>
         /// Constructs the Library class using the specified database file path.
         /// </summary>                
@@ -137,9 +177,86 @@ namespace MPfm.Library
 
         #region Database Script Creation/Update
 
-        public void CheckIfDatabaseNeedsToBeUpdated()
+        /// <summary>
+        /// Checks if the library database structure needs to be updated by comparing
+        /// the database version in the Settings table to the expected database version for this
+        /// version of MPfm.Library.dll. If the versions don't match, the database structure will
+        /// be updated by running the appropriate migration scripts in the right order.
+        /// </summary>
+        public void CheckIfDatabaseVersionNeedsToBeUpdated()
         {
-            
+            // Declare variables
+            int currentMajor = 1;
+            int currentMinor = 0;            
+
+            // Get setting
+            Tracing.Log("Main form init -- Fetching database version...");
+            Setting settingDatabaseVersion = Gateway.SelectSetting("DatabaseVersion");
+
+            // Check if setting is null
+            if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
+            {
+                // Yes, this is 1.00 (there was no Setting entry)
+            }
+            else
+            {
+                // Extract major/minor
+                string[] currentVersionSplit = settingDatabaseVersion.SettingValue.Split('.');
+
+                // Check integrity of the setting value (should be split in 2)
+                if(currentVersionSplit.Length != 2)
+                {
+                    throw new Exception("Error fetching database version; the setting value is invalid!");
+                }
+
+                int.TryParse(currentVersionSplit[0], out currentMajor);
+                int.TryParse(currentVersionSplit[1], out currentMinor);
+            }
+
+            Tracing.Log("Main form init -- Database version is " + currentMajor.ToString() + "." + currentMinor.ToString("00"));
+
+            // Check database version
+            if (DatabaseVersionMajor != currentMajor || DatabaseVersionMinor != currentMinor)
+            {
+                // Loop through versions to update (only minor versions for now)
+                for (int minor = currentMinor; minor < DatabaseVersionMinor; minor++)
+                {        
+                    string sql = string.Empty;
+                    string scriptFileName = "MPfm.Library.Scripts.1." + minor.ToString("00") + "-1." + (minor + 1).ToString("00") + ".sql";
+
+                    try
+                    {
+                        // Get the update script for this version
+                        Tracing.Log("Main form init -- Getting database update script (" + scriptFileName + ")...");
+                        sql = GetEmbeddedSQLScript(scriptFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error getting update script (" + scriptFileName + ")!", ex);
+                    }
+
+                    // Remove the header comments
+                    string[] sqlSplitHeader = sql.Split(new string[] { "--*/" }, StringSplitOptions.None);
+
+                    // Split statements
+                    string[] sqlSplit = sqlSplitHeader[1].Split(new string[] { "/**/" }, StringSplitOptions.None);
+
+                    try
+                    {
+                        // Loop through statements
+                        for(int a = 0; a < sqlSplit.Length; a++)
+                        {
+                            // Execute create script
+                            Tracing.Log("Main form init -- Executing database update script statement " + (a+1).ToString() + " (" + scriptFileName + ")...");
+                            Gateway.ExecuteSQL(sqlSplit[a]);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error executing the update script (" + scriptFileName + ")!", ex);
+                    }
+                }
+            }
         }
 
         /// <summary>

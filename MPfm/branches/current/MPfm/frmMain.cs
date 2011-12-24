@@ -378,11 +378,6 @@ namespace MPfm
                 m_timerSongPosition.Interval = 10;
                 m_timerSongPosition.Tick += new EventHandler(m_timerSongPosition_Tick);
                 m_timerSongPosition.Enabled = true;
-
-                // Load library
-                Tracing.Log("Main form init -- Loading library...");
-                frmSplash.SetStatus("Loading library...");                
-                m_library = new Library.Library(m_databaseFilePath);
             }
             catch (Exception ex)
             {
@@ -394,6 +389,39 @@ namespace MPfm
                 this.TopMost = true;
                 MessageBox.Show("There was an error while initializing the player.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Main form init -- Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
+                
+                // Exit application
+                Application.Exit();
+                return;
+            }
+
+            try
+            {
+                // Load library
+                Tracing.Log("Main form init -- Loading library...");
+                frmSplash.SetStatus("Loading library...");                
+                m_library = new Library.Library(m_databaseFilePath);
+
+                try
+                {
+                    // Check if the database needs to be updated
+                    m_library.CheckIfDatabaseVersionNeedsToBeUpdated();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error updating the MPfm database!", ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Set error in splash and hide splash
+                frmSplash.SetStatus("Error initializing library!");
+                frmSplash.HideSplash();
+
+                // Display message box with error
+                this.TopMost = true;
+                MessageBox.Show("There was an error while initializing the library.\nYou can delete the MPfm.Database.db file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Tracing.Log("Main form init -- Library init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application
                 Application.Exit();
