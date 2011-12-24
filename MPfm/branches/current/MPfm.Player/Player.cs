@@ -1599,6 +1599,9 @@ namespace MPfm.Player
                         // Raise song end event (if an event is subscribed)
                         if (OnPlaylistIndexChanged != null)
                         {
+                            // Keep current item in memory
+                            AudioFile audioFile = m_playlist.CurrentItem.AudioFile;
+
                             // Check if EQ is enabled
                             if (m_isEQEnabled)
                             {
@@ -1614,6 +1617,7 @@ namespace MPfm.Player
 
                             // Create data
                             PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
+                            data.AudioFileEnded = audioFile;
                             data.IsPlaybackStopped = true;
 
                             // Raise event
