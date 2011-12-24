@@ -1073,13 +1073,14 @@ namespace MPfm
             MethodInvoker methodUIUpdate = delegate
             {
                 // Try to get file from database
-                AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+                AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(data.AudioFileEnded.Id);
 
                 // Check if this was the last song
                 if (data.IsPlaybackStopped)
                 {
                     // Refresh controls
                     btnAddMarker.Enabled = false;
+                    m_timerSongPosition.Enabled = false;
                     waveFormMarkersLoops.Clear();
                     RefreshSongControls();
                     RefreshMarkers();
