@@ -174,10 +174,17 @@ namespace MPfm.WindowsControls
                     // 700% == 14
                     // 800% == 16
 
+                    // Scale the scrollbar X value accordingly
                     float factor = (zoomDelta / 100) * 2;
 
-                    // Scale the scroll x
-                    m_scrollX = factor * ScrollX;
+                    float scrollX = factor * ScrollX;
+                    if (scrollX > horizontalScrollBar.Maximum)
+                    {
+                        scrollX = horizontalScrollBar.Maximum;
+                    }
+
+                    // Set value
+                    m_scrollX = scrollX;
                 }
                 // Check if the value is negative
                 else if (zoomDelta < 0)
@@ -1938,8 +1945,8 @@ namespace MPfm.WindowsControls
                     }
 
                     //g.FillRectangle(Brushes.Black, new Rectangle(0, Height - 20, 100, 20)); 
-                    //g.DrawString("CursorX: " + m_cursorX.ToString("0"), Font, Brushes.White, new Point(0, Height - 20));
-                    //g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.White, new Point(0, (Height / 2) - 6));
+                    g.DrawString("CursorX: " + m_cursorX.ToString("0"), Font, Brushes.Blue, new Point(0, Height - 20));
+                    g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.Blue, new Point(0, (Height / 2) - 6));
 
                     //g.DrawString(CurrentPosition.ToString() + " / " + TotalBytes.ToString(), Font, Brushes.White, new Point(1, 1));
                     //g.DrawString(positionPercentage.ToString(), Font, Brushes.White, new Point(1, 20));
