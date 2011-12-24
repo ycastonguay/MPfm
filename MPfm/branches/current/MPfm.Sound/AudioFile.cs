@@ -754,6 +754,36 @@ namespace MPfm.Sound
                 m_sampleRate = 44100;
                 m_bitsPerSample = 16;
             }
+            else if (m_fileType == AudioFileFormat.WAV)
+            {
+                // Get WAV file
+                TagLib.Riff.File file = new TagLib.Riff.File(m_filePath);
+
+                // Get the position of the first and last block
+                m_firstBlockPosition = file.InvariantStartPosition;
+                m_lastBlockPosition = file.InvariantEndPosition;
+
+                // Copy tags
+                FillProperties(file.Tag);
+
+                // Loop through codecs (usually just one)
+                foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                {
+                    // Check what kind of codec is used 
+                    if (codec is TagLib.Riff.WaveFormatEx)
+                    {
+                        // Convert codec into a header 
+                        TagLib.Riff.WaveFormatEx header = (TagLib.Riff.WaveFormatEx)codec;
+
+                        // Copy properties
+                        m_bitrate = header.AudioBitrate;
+                        m_audioChannels = header.AudioChannels;
+                        m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = 16;
+                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    }
+                }
+            }
 
 			// If the song has no name, give filename as the name                
 			if (String.IsNullOrEmpty(Title))
