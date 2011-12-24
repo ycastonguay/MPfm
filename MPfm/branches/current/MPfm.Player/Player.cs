@@ -1048,6 +1048,10 @@ namespace MPfm.Player
                     Tracing.Log("Player.GoTo -- Stopping current loop...");
                     StopLoop();
                 }
+
+                // Stop playback
+                Tracing.Log("Player.GoTo -- Stopping playback...");
+                Stop();
             }
 
             // Clear loop
@@ -1056,10 +1060,6 @@ namespace MPfm.Player
             // Make sure index is in the list
             if (index <= Playlist.Items.Count - 1)
             {
-                // Stop playback
-                Tracing.Log("Player.GoTo -- Stopping playback...");
-                Stop();
-
                 //// Set position to 0
                 //// http://www.un4seen.com/forum/?topic=12508.0;hl=clear+stream
                 //SetPosition((long)0);

@@ -961,99 +961,52 @@ namespace MPfm
                 return;
             }
 
-            // Get position
-            //long positionBytes = m_player.Playlist.CurrentItem.Channel.GetPosition();
-            long positionBytes = m_player.GetPosition();
-
-            // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
-            float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
-            positionBytes = (int)((float)positionBytes * ratioPosition);
-            
-            //string position = ConvertAudio.ToTimeString(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)m_player.Playlist.CurrentItem.Channel.SampleRate);
-            //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-            long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-            long positionMS = (int)ConvertAudio.ToMS(positionSamples, 44100);
-            string position = Conversion.MillisecondsToTimeString((ulong)positionMS);
-            //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-
-            // Set UI            
-            lblCurrentPosition.Text = position;
-            miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
-            lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
-            //waveFormMarkersLoops.Position = positionBytes;
-            //waveFormMarkersLoops.PositionTime = position;
-            waveFormMarkersLoops.SetPosition(positionBytes, position);
-
-            // Update the song position
-            if (!songPositionChanging)
+            try
             {
-                // Get ratio
-                float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
+                // Get position
+                //long positionBytes = m_player.Playlist.CurrentItem.Channel.GetPosition();
+                long positionBytes = m_player.GetPosition();
 
-                // Do not go beyong 99% or the song might end before! (TODO: replace this WEAK condition)
-                if (ratio <= 0.99f)
+                // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
+                float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
+                positionBytes = (int)((float)positionBytes * ratioPosition);
+
+                //string position = ConvertAudio.ToTimeString(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)m_player.Playlist.CurrentItem.Channel.SampleRate);
+                //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+                long positionMS = (int)ConvertAudio.ToMS(positionSamples, 44100);
+                string position = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+
+                // Set UI            
+                lblCurrentPosition.Text = position;
+                miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
+                lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
+                //waveFormMarkersLoops.Position = positionBytes;
+                //waveFormMarkersLoops.PositionTime = position;
+                waveFormMarkersLoops.SetPosition(positionBytes, position);
+
+                // Update the song position
+                if (!songPositionChanging)
                 {
-                    trackPosition.Value = Convert.ToInt32(ratio * 1000);
+                    // Get ratio
+                    float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
+
+                    // Do not go beyong 99% or the song might end before! (TODO: replace this WEAK condition)
+                    if (ratio <= 0.99f)
+                    {
+                        trackPosition.Value = Convert.ToInt32(ratio * 1000);
+                    }
+
+                    // Set time on seek control
+                    lblSongPosition.Text = position;
+                    lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
                 }
-
-                // Set time on seek control
-                lblSongPosition.Text = position;
-                lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
             }
-
-            //// Check if player is playing
-            //if (!Player.IsPlaying)
-            //{
-            //    // Nothing to update
-            //    return;
-            //}
-
-            //// debug
-            ////lblBitrateTitle.Text = data.Debug;
-            ////lblFrequencyTitle.Text = data.Debug2;
-            ////lblBitrateTitle.Text = Player.CurrentPlaylist.Position.ToString();
-
-            //// Update current time               
-            //string currentTime = Conversion.MillisecondsToTimeString(data.SongPositionMilliseconds);
-            //lblCurrentTime.Text = currentTime;
-
-            ////lblBitsPerSampleTitle.Text = Player.SoundSystem.NumberOfChannelsPlaying.ToString();
-
-            //// Update data for Loops & Markers wave form display
-            //waveFormMarkersLoops.CurrentPositionPCMBytes = data.SongPositionSentencePCMBytes;
-            //waveFormMarkersLoops.CurrentPositionMS = data.SongPositionMilliseconds;
-
-            //// Update wave form control
-            //formVisualizer.waveForm.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
-
-            //// Get minmax data from wave data
-            ////WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(data.WaveDataLeft, data.WaveDataRight, true);
-
-            //// Add raw wave data to control
-            //outputMeter.AddWaveDataBlock(data.WaveDataLeft, data.WaveDataRight);
-
-            //// Get min max info from wave block
-            //if (AudioTools.CheckForDistortion(data.WaveDataLeft, data.WaveDataRight, true, 0.0f))
-            //{
-            //    // Show distortion warning "LED"
-            //    picDistortionWarning.Visible = true;
-            //}
-
-            ////double rms = System.Math.Sqrt(doubleSum / 256);
-
-            //// Update the song position
-            //if (!songPositionChanging)
-            //{
-            //    // Do not go beyong 99% or the song might end before!
-            //    if (data.SongPositionPercentage <= 99)
-            //    {                        
-            //        trackPosition.Value = Convert.ToInt32(data.SongPositionPercentage * 10);
-            //    }
-
-            //    // Set time on seek control
-            //    lblSongPosition.Text = currentTime;
-            //    lblSongPercentage.Text = data.SongPositionPercentage.ToString("0.00") + " %";
-            //}
+            catch (Exception ex)
+            {
+                // Just don't do anything, this might be because the playlist items are now gone.
+            }
         }
 
         /// <summary>
@@ -1063,6 +1016,9 @@ namespace MPfm
         /// <param name="data">Event data</param>
         public void m_player_OnPlaylistIndexChanged(Player.PlayerPlaylistIndexChangedData data)
         {
+            // Declare variables
+            AudioFile audioFileDatabase = null;
+
             // If the initialization isn't finished, exit this event
             if (!IsInitDone)
             {
@@ -1072,8 +1028,12 @@ namespace MPfm
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
-                // Try to get file from database
-                AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(data.AudioFileEnded.Id);
+                // Check if the event data is null
+                if (data.AudioFileEnded != null)
+                {
+                    // Get audio file from database
+                    audioFileDatabase = Library.Gateway.SelectAudioFile(data.AudioFileEnded.Id);
+                }
 
                 // Check if this was the last song
                 if (data.IsPlaybackStopped)
@@ -1297,6 +1257,9 @@ namespace MPfm
             // Refresh loop and marker controls
             RefreshMarkers();
             RefreshLoops();
+
+            // Start timer
+            m_timerSongPosition.Enabled = true;
 
             // Make sure the user cannot add markers and loops
             btnAddLoop.Enabled = false;
@@ -2110,8 +2073,16 @@ namespace MPfm
             btnAddMarker.Enabled = true;
             btnAddLoop.Enabled = true;
 
-            // Update the first audio file in the database (in case the metadata has changed)
-            Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
+            // Start song position timer
+            m_timerSongPosition.Enabled = true;
+
+            // Check if the audio file exists in the database
+            AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+            if(audioFileDatabase != null)
+            {
+                // Update the first audio file in the database (in case the metadata has changed)
+                Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
+            }
         }
 
         /// <summary>
