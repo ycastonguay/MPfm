@@ -117,7 +117,7 @@ namespace MPfm.WindowsControls
             }
         }
 
-        private bool m_autoScrollWithCursor = true;
+        private bool m_autoScrollWithCursor = false;
         /// <summary>
         /// Defines if the cursor needs to automatically scroll the waveform
         /// (when zoom is over 100%).
@@ -534,6 +534,7 @@ namespace MPfm.WindowsControls
 
             menuItemMouseInteractionTypeSelect = (ToolStripMenuItem)menuStrip.Items.Add("Select");            
             menuItemMouseInteractionTypeSelect.Checked = false;
+            menuItemMouseInteractionTypeSelect.Visible = false;
             menuItemMouseInteractionTypeSelect.Image = MPfm.WindowsControls.Properties.Resources.select;
             menuItemMouseInteractionTypeSelect.Tag = WaveFormMouseInteractionType.Select;
             menuItemMouseInteractionTypeSelect.Click += new EventHandler(menuItemMouseInteractionType_Click);
@@ -552,11 +553,13 @@ namespace MPfm.WindowsControls
 
             // Create separator
             ToolStripSeparator menuItemSeparator = new ToolStripSeparator();
+            menuItemSeparator.Visible = false;
             menuStrip.Items.Add(menuItemSeparator);
 
             // Create Auto Scroll with Cursor menu item
             menuItemCreateMarkerAtThisPosition = (ToolStripMenuItem)menuStrip.Items.Add("Create marker at this position");
             menuItemCreateMarkerAtThisPosition.Image = MPfm.WindowsControls.Properties.Resources.flag_red;
+            menuItemCreateMarkerAtThisPosition.Visible = false;
             menuItemCreateMarkerAtThisPosition.Click += new EventHandler(menuItemCreateMarkerAtThisPosition_Click);
 
             // Create separator
@@ -572,12 +575,14 @@ namespace MPfm.WindowsControls
             // Create Auto Scroll with Cursor menu item
             menuItemAutoScrollWithCursor = (ToolStripMenuItem)menuStrip.Items.Add("Auto scroll with cursor");
             menuItemAutoScrollWithCursor.CheckOnClick = true;
-            menuItemAutoScrollWithCursor.Checked = true;
+            menuItemAutoScrollWithCursor.Checked = m_autoScrollWithCursor;
+            menuItemAutoScrollWithCursor.Visible = false;
             menuItemAutoScrollWithCursor.Click += new EventHandler(menuItemAutoScrollWithCursor_Click);
             
             // Create Zoom menu item
             menuItemZoom = (ToolStripMenuItem)menuStrip.Items.Add("Zoom");
             menuItemZoom.Image = MPfm.WindowsControls.Properties.Resources.zoom;
+            menuItemZoom.Visible = false;
 
             menuItemZoom1600 = (ToolStripMenuItem)menuItemZoom.DropDownItems.Add("1600%");
             menuItemZoom1600.Checked = false;
