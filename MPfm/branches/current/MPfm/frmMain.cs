@@ -1071,7 +1071,10 @@ namespace MPfm
 
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
-            {                
+            {
+                // Try to get file from database
+                AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+
                 // Check if this was the last song
                 if (data.IsPlaybackStopped)
                 {
@@ -1100,22 +1103,26 @@ namespace MPfm
                     // Refresh loops & markers
                     RefreshMarkers();
                     RefreshLoops();
-
-                    // Update the new song in the database (in case the metadata has changed)
-                    Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
-
-                    // Refresh play count
-                    SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
-                    if (item != null)
+                    
+                    // Make sure the file exists in the database                    
+                    if (audioFileDatabase != null)
                     {
-                        // Set updated data
-                        AudioFile updatedAudioFile = Library.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
-                        item.AudioFile = updatedAudioFile;
+                        // Update the new song in the database (in case the metadata has changed)
+                        Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
+
+                        // Refresh play count
+                        SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
+                        if (item != null)
+                        {
+                            // Set updated data
+                            AudioFile updatedAudioFile = Library.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+                            item.AudioFile = updatedAudioFile;
+                        }
                     }
                 }
 
                 // Check if the event data contains an audio file that has just ended
-                if (data.AudioFileEnded != null)
+                if (data.AudioFileEnded != null && audioFileDatabase != null)
                 {
                     // Update play count
                     Library.UpdateAudioFilePlayCount(data.AudioFileEnded.Id);                    

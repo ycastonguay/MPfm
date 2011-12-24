@@ -1492,10 +1492,14 @@ namespace MPfm.Library
             {
                 // Fetch audio file from database
                 AudioFile audioFileDatabase = m_gateway.SelectAudioFile(audioFile.Id);
-
-                // Set properties
-                audioFile.PlayCount = audioFileDatabase.PlayCount;
-                audioFile.LastPlayed = audioFileDatabase.LastPlayed;
+                
+                // Is the audio file in the database?
+                if (audioFileDatabase != null)
+                {
+                    // Set properties
+                    audioFile.PlayCount = audioFileDatabase.PlayCount;
+                    audioFile.LastPlayed = audioFileDatabase.LastPlayed;
+                }
             }
         }
 
