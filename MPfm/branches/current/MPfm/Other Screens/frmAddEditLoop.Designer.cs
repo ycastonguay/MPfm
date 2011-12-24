@@ -52,7 +52,7 @@ namespace MPfm
             this.lblLoopLengthPCMBytes = new MPfm.WindowsControls.Label();
             this.lblLoopLengthPCMValue = new MPfm.WindowsControls.Label();
             this.lblLoopLengthPCM = new MPfm.WindowsControls.Label();
-            this.waveForm = new MPfm.WindowsControls.WaveFormMarkersLoops();
+            this.waveForm = new MPfm.WindowsControls.WaveFormDisplay();
             this.lblLoopLengthValue = new MPfm.WindowsControls.Label();
             this.lblLoopLength = new MPfm.WindowsControls.Label();
             this.comboStartPositionMarker = new System.Windows.Forms.ComboBox();
@@ -705,7 +705,7 @@ namespace MPfm
         private WindowsControls.Panel panelWarning;
         private System.Windows.Forms.PictureBox pictureBox1;
         private WindowsControls.Label lblWarning;
-        public WindowsControls.WaveFormMarkersLoops waveForm;
+        public WindowsControls.WaveFormDisplay waveForm;
         private WindowsControls.Label lblLoopLengthPCMBytesValue;
         private WindowsControls.Label lblLoopLengthPCMBytes;
         private WindowsControls.Label lblLoopLengthPCMValue;

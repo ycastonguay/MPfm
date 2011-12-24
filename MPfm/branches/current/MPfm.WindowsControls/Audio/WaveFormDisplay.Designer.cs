@@ -1,6 +1,6 @@
 ﻿namespace MPfm.WindowsControls
 {
-    partial class WaveFormMarkersLoops
+    partial class WaveFormDisplay
     {
         /// <summary>
         /// Required designer variable.

@@ -132,7 +132,7 @@ namespace MPfm
             this.splitLoopsMarkersSongBrowser = new System.Windows.Forms.SplitContainer();
             this.panelLoopsMarkers = new MPfm.WindowsControls.Panel();
             this.splitWaveFormLoopsMarkers = new System.Windows.Forms.SplitContainer();
-            this.waveFormMarkersLoops = new MPfm.WindowsControls.WaveFormMarkersLoops();
+            this.waveFormMarkersLoops = new MPfm.WindowsControls.WaveFormDisplay();
             this.splitLoopsMarkers = new System.Windows.Forms.SplitContainer();
             this.btnStopLoop = new MPfm.WindowsControls.Button();
             this.btnEditLoop = new MPfm.WindowsControls.Button();
@@ -1673,7 +1673,7 @@ namespace MPfm
             this.waveFormMarkersLoops.TabIndex = 75;
             this.waveFormMarkersLoops.WaveFormColor = System.Drawing.Color.Yellow;
             this.waveFormMarkersLoops.Zoom = 100F;
-            this.waveFormMarkersLoops.OnPositionChanged += new MPfm.WindowsControls.WaveFormMarkersLoops.PositionChanged(this.waveFormMarkersLoops_OnPositionChanged);
+            this.waveFormMarkersLoops.OnPositionChanged += new MPfm.WindowsControls.WaveFormDisplay.PositionChanged(this.waveFormMarkersLoops_OnPositionChanged);
             // 
             // splitLoopsMarkers
             // 
@@ -2750,7 +2750,7 @@ namespace MPfm
         private System.Windows.Forms.ColumnHeader columnLoopName;
         private System.Windows.Forms.ColumnHeader columnLoopLength;
         private System.Windows.Forms.ColumnHeader columnLoopStartPosition;
-        public WindowsControls.WaveFormMarkersLoops waveFormMarkersLoops;
+        public WindowsControls.WaveFormDisplay waveFormMarkersLoops;
         private System.Windows.Forms.SplitContainer splitWaveFormLoopsMarkers;
         private WindowsControls.Button btnEditLoop;
         private WindowsControls.Button btnPlayLoop;

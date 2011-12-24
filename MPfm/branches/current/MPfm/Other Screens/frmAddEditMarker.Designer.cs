@@ -39,7 +39,7 @@ namespace MPfm
             this.lblComments = new MPfm.WindowsControls.Label();
             this.lblPositionMSValue = new MPfm.WindowsControls.Label();
             this.lblPositionMS = new MPfm.WindowsControls.Label();
-            this.waveForm = new MPfm.WindowsControls.WaveFormMarkersLoops();
+            this.waveForm = new MPfm.WindowsControls.WaveFormDisplay();
             this.panelWarning = new MPfm.WindowsControls.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblWarning = new MPfm.WindowsControls.Label();
@@ -567,7 +567,7 @@ namespace MPfm
         private WindowsControls.Panel panelWarning;
         private System.Windows.Forms.PictureBox pictureBox1;
         private WindowsControls.Label lblWarning;
-        public WindowsControls.WaveFormMarkersLoops waveForm;
+        public WindowsControls.WaveFormDisplay waveForm;
         private WindowsControls.Label lblPositionMSValue;
         private WindowsControls.Label lblPositionMS;
         private System.Windows.Forms.TextBox txtComments;

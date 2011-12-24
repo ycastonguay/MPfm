@@ -1,8 +1,8 @@
 ﻿//
-// WaveFormMarkersLoops.cs: This control displays the wave form of an audio file, extracted using readData. 
-//                          Supports background loading of the wave form. This control is used in the 
-//                          Loops & Markers panel of MPfm.
-//                          The control appearance can be changed using the public properties.
+// WaveFormDisplay.cs: This control displays the wave form of an audio file, extracted using readData. 
+//                     Supports background loading of the wave form. This control is used in the 
+//                     Loops & Markers panel of MPfm.
+//                     The control appearance can be changed using the public properties.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -46,7 +46,7 @@ namespace MPfm.WindowsControls
     /// This wave form display control takes raw audio data and displays the current wave form of mono or stereo channels.
     /// The control appearance can be changed using the public properties.
     /// </summary>
-    public partial class WaveFormMarkersLoops : Control
+    public partial class WaveFormDisplay : Control
     {
         #region Private variables
 
@@ -508,9 +508,9 @@ namespace MPfm.WindowsControls
         #region Constructor
         
         /// <summary>
-        /// Default constructor for WaveFormMarkersLoops.
+        /// Default constructor for the WaveFormDisplay class.
         /// </summary>
-        public WaveFormMarkersLoops() 
+        public WaveFormDisplay() 
             : base()
         {
             #region Contextual Menu

@@ -73,11 +73,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\WaveFormMarkersLoops.cs">
+    <Compile Include="Audio\WaveFormDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Audio\WaveFormMarkersLoops.Designer.cs">
-      <DependentUpon>WaveFormMarkersLoops.cs</DependentUpon>
+    <Compile Include="Audio\WaveFormDisplay.Designer.cs">
+      <DependentUpon>WaveFormDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Buttons-Toolbars\TrackBar.cs">
       <SubType>Component</SubType>
