@@ -837,7 +837,7 @@ namespace MPfm.Sound
             }
             else if (m_fileType == AudioFileFormat.OGG)
             {
-                // Read VorbisComment in FLAC file
+                // Read VorbisComment in OGG file
                 TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
 
                 // Copy tags
@@ -856,8 +856,27 @@ namespace MPfm.Sound
             }
             else if (m_fileType == AudioFileFormat.APE)
             {
-                // Read VorbisComment in FLAC file
+                // Read APE tag in APE file
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
+
+                // Copy tags
+                file.Tag.AlbumArtists = new string[] { ArtistName };
+                file.Tag.Album = AlbumTitle;
+                file.Tag.Title = Title;
+                file.Tag.Genres = new string[] { Genre };
+                file.Tag.Disc = DiscNumber;
+                file.Tag.Track = TrackNumber;
+                file.Tag.TrackCount = TrackCount;
+                file.Tag.Lyrics = Lyrics;
+                file.Tag.Year = Year;
+
+                // Save metadata
+                file.Save();
+            }
+            else if (m_fileType == AudioFileFormat.WV)
+            {
+                // Read APEv2/ID3v1 tag in WV file
+                TagLib.WavPack.File file = new TagLib.WavPack.File(m_filePath);
 
                 // Copy tags
                 file.Tag.AlbumArtists = new string[] { ArtistName };

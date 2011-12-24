@@ -707,16 +707,26 @@ namespace MPfm.Library
 
             // Populate list of supported extensions
             List<string> extensionsSupported = new List<string>();
-            Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));            
-            foreach (AudioFileFormat audioFileFormat in audioFileFormats)
-            {
-                // Check if the item is not unknown
-                if (audioFileFormat != AudioFileFormat.Unknown && audioFileFormat != AudioFileFormat.All)
-                {
-                    // Add format
-                    extensionsSupported.Add("*." + audioFileFormat.ToString());                    
-                }
-            }
+            extensionsSupported.Add("*.WAV");
+            extensionsSupported.Add("*.MP3");
+            extensionsSupported.Add("*.FLAC");
+            extensionsSupported.Add("*.OGG");
+            extensionsSupported.Add("*.APE");
+            extensionsSupported.Add("*.WV");
+
+
+            //// Populate list of supported extensions
+            //List<string> extensionsSupported = new List<string>();
+            //Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));            
+            //foreach (AudioFileFormat audioFileFormat in audioFileFormats)
+            //{
+            //    // Check if the item is not unknown
+            //    if (audioFileFormat != AudioFileFormat.Unknown && audioFileFormat != AudioFileFormat.All)
+            //    {
+            //        // Add format
+            //        extensionsSupported.Add("*." + audioFileFormat.ToString());                    
+            //    }
+            //}
 
             // For each extension supported
             foreach (string extension in extensionsSupported)
@@ -760,7 +770,7 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Adds an audio file to the library. Supports MP3, FLAC and OGG sound files.
+        /// Adds an audio file to the library.
         /// </summary>
         /// <param name="filePath">Audio file path</param>
         /// <param name="percentCompleted">Percent completed value (for updating progress)</param>
