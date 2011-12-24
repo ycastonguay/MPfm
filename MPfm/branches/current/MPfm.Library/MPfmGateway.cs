@@ -68,7 +68,7 @@ namespace MPfm.Library
             Delete("Markers");
         }
 
-        #region Songs
+        #region Audio Files
         
         /// <summary>
         /// Selects all audio files from the database.
@@ -324,7 +324,7 @@ namespace MPfm.Library
 
             //string lastPlayed = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss.fff");
             string lastPlayed = DateTime.Now.ToString();
-            Execute("UPDATE AudioFiles SET PlayCount = " + (audioFile.PlayCount + 1).ToString() + ", LastPlayed = " + lastPlayed + " WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+            Execute("UPDATE AudioFiles SET PlayCount = " + (audioFile.PlayCount + 1).ToString() + ", LastPlayed = date('now') + ' ' + time('now') WHERE AudioFileId = '" + audioFileId.ToString() + "'");
         }
 
         #endregion
@@ -820,7 +820,7 @@ namespace MPfm.Library
 
         #endregion
 
-        #region Playlist songs
+        #region Playlist Items
 
         //public static List<PlaylistSong> SelectPlaylistSongs(Guid playlistId)
         //{
@@ -913,6 +913,131 @@ namespace MPfm.Library
         //        throw ex;
         //    }
         //}
+
+        #endregion
+
+        #region Settings
+
+        /// <summary>
+        /// Selects all settings.
+        /// </summary>        
+        /// <returns>List of settings</returns>
+        public List<Setting> SelectSettings()
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM Settings");
+
+            // Convert to DTO
+            List<Setting> dtos = ConvertLibrary.Settings(table);
+
+            return dtos;
+        }
+
+        /// <summary>
+        /// Inserts a new setting into the database.
+        /// </summary>
+        /// <param name="name">Setting name</param>
+        /// <param name="value">Setting value</param>
+        public void InsertSetting(string name, string value)
+        {
+            // Create setting
+            Setting setting = new Setting();
+            setting.SettingName = name;
+            setting.SettingValue = value;
+
+            // Insert setting
+            InsertSetting(setting);
+        }
+
+        /// <summary>
+        /// Inserts a new setting into the database.
+        /// </summary>
+        /// <param name="dto">Setting to insert</param>
+        public void InsertSetting(Setting dto)
+        {
+            // Insert setting
+            Insert("Settings", "SettingId", dto);
+        }
+
+        /// <summary>
+        /// Updates an existing setting from the database.
+        /// </summary>
+        /// <param name="dto">Setting to update</param>
+        public void UpdateSetting(Setting dto)
+        {
+            // Update setting
+            Update("Settings", "SettingId", dto.SettingId, dto);
+        }
+
+        /// <summary>
+        /// Deletes a setting from the database.
+        /// </summary>
+        /// <param name="settingId">Setting to delete</param>
+        public void DeleteSetting(Guid settingId)
+        {
+            // Delete loop
+            Delete("Settings", "SettingId", settingId);
+        }
+
+        #endregion
+
+        #region History
+
+        /// <summary>
+        /// Returns the number of times the audio file has been played.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        /// <returns>Play count</returns>
+        public int GetAudioFilePlayCount(Guid audioFileId)
+        {
+            int playCount = 0;
+
+            return playCount;
+        }
+
+        /// <summary>
+        /// Returns the last time the audio file has been played.
+        /// The value is null if the file has never been played.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        /// <returns>Nullable date/time</returns>
+        public DateTime? GetAudioFileLastPlayed(Guid audioFileId)
+        {
+            DateTime? lastPlayed = null;
+
+            return lastPlayed;
+        }
+
+        /// <summary>
+        /// Inserts an history item into the database using the current datetime.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        public void InsertHistory(Guid audioFileId)
+        {
+            // Create history object
+            History history = new History();
+            history.AudioFileId = audioFileId;
+            history.EventDateTime = DateTime.Now;
+
+            // Insert history            
+            Insert("History", "HistoryId", history);
+        }
+
+        /// <summary>
+        /// Inserts an history item into the database.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        /// <param name="eventDateTime">Event date/time</param>
+        public void InsertHistory(Guid audioFileId, DateTime eventDateTime)
+        {
+            // Create history object
+            History history = new History();
+            history.AudioFileId = audioFileId;
+            history.EventDateTime = eventDateTime;
+
+            // Insert history            
+            Insert("History", "HistoryId", history);
+        }
 
         #endregion
 

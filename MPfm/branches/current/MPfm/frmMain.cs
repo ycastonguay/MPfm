@@ -1085,8 +1085,12 @@ namespace MPfm
                     }
                 }
 
-                // Update play count
-                //Library.UpdateAudioFilePlayCount(m_player.Playlist.CurrentItem.AudioFile.Id);
+                // Check if the event data contains an audio file that has just ended
+                if (data.AudioFileEnded != null)
+                {
+                    // Update play count
+                    Library.UpdateAudioFilePlayCount(data.AudioFileEnded.Id);
+                }
             };
 
             // Check if invoking is necessary

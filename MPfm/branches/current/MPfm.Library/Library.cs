@@ -42,6 +42,17 @@ namespace MPfm.Library
     /// </summary>
     public class Library
     {
+        // Update library progress delegate/event
+        public delegate void UpdateLibraryProgress(OldUpdateLibraryProgressData data);
+        public event UpdateLibraryProgress OnUpdateLibraryProgress;
+
+        // Update library finished delegate/event
+        public delegate void UpdateLibraryFinished(UpdateLibraryFinishedData data);
+        public event UpdateLibraryFinished OnUpdateLibraryFinished;
+
+        // Background worker for update library process
+        private BackgroundWorker workerUpdateLibrary = null;
+
         /// <summary>
         /// Private value for the Gateway property.
         /// </summary>
@@ -57,17 +68,9 @@ namespace MPfm.Library
             }
         }
 
-        // Update library progress delegate/event
-        public delegate void UpdateLibraryProgress(OldUpdateLibraryProgressData data);
-        public event UpdateLibraryProgress OnUpdateLibraryProgress;
-
-        // Update library finished delegate/event
-        public delegate void UpdateLibraryFinished(UpdateLibraryFinishedData data);
-        public event UpdateLibraryFinished OnUpdateLibraryFinished;
-
-        // Background worker for update library process
-        private BackgroundWorker workerUpdateLibrary = null;
-
+        /// <summary>
+        /// Private value for the CancelUpdateLibrary property.
+        /// </summary>
         private bool m_cancelUpdateLibrary = false;
         /// <summary>
         /// When true, cancels an update library process if running.
@@ -99,6 +102,8 @@ namespace MPfm.Library
             }
         }
 
+        #region Constructor
+        
         /// <summary>
         /// Constructs the Library class using the specified database file path.
         /// </summary>                
@@ -128,6 +133,15 @@ namespace MPfm.Library
             RefreshCache();
         }
 
+        #endregion
+
+        #region Database Script Creation/Update
+
+        public void CheckIfDatabaseNeedsToBeUpdated()
+        {
+            
+        }
+
         /// <summary>
         /// Creates the MPfm database file at the specified location.
         /// Executes the SQL needed to create the tables and basic entries.
@@ -142,7 +156,7 @@ namespace MPfm.Library
             MPfmGateway gateway = new MPfmGateway(databaseFilePath);
             
             // Get SQL
-            string sql = GetCreateDatabaseSQL();
+            string sql = GetEmbeddedSQLScript("MPfm.Library.Scripts.CreateDatabase.sql");
 
             // Remove the header comments
             string[] sqlSplitHeader = sql.Split(new string[] { "--*/" }, StringSplitOptions.None);
@@ -159,16 +173,18 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Returns the SQL to execute to create the tables and basic entries.
+        /// Returns an embedded SQL script file from the assembly.
         /// </summary>
-        /// <returns></returns>
-        public static string GetCreateDatabaseSQL()
+        /// <param name="fileName">Embedded SQL script file name (fully qualified)
+        /// ex: MPfm.Library.Scripts.CreateDatabase.sql</param>
+        /// <returns>SQL script (in string format)</returns>
+        public static string GetEmbeddedSQLScript(string fileName)
         {
             // Declare variables
             string sql = string.Empty;
 
             // Fetch SQL
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MPfm.Library.Scripts.CreateDatabase.sql"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(fileName))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
@@ -179,6 +195,8 @@ namespace MPfm.Library
 
             return sql;
         }
+
+        #endregion
 
         #region Update Library
 

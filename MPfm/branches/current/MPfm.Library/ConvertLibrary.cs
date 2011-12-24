@@ -119,10 +119,10 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Converts a DataTable to a list of FolderDTOs.
+        /// Converts a DataTable to a list of Folders.
         /// </summary>
         /// <param name="table">DataTable</param>
-        /// <returns>List of FolderDTO</returns>
+        /// <returns>List of Folders</returns>
         public static List<Folder> Folders(DataTable table)
         {
             // Create list
@@ -296,6 +296,35 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Converts a DataTable to a list of Settings.
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <returns>List of Settings</returns>
+        public static List<Setting> Settings(DataTable table)
+        {
+            // Create list
+            List<Setting> dtos = new List<Setting>();
+
+            // Loop through rows
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Create DTO
+                Setting dto = new Setting();
+
+                // Assign properties (strings)
+                dto.SettingId = new Guid(table.Rows[a]["SettingId"].ToString());
+                dto.SettingName = table.Rows[a]["SettingName"].ToString();
+                dto.SettingValue = table.Rows[a]["SettingValue"].ToString();
+
+                // Add DTO to list
+                dtos.Add(dto);
+            }
+
+            // Return DTO
+            return dtos;
+        }
+
+        /// <summary>
         /// Sets the values from a DTO into a DataRow.
         /// </summary>
         /// <param name="row">DataRow to set</param>
@@ -327,6 +356,11 @@ namespace MPfm.Library
             {
                 // Convert values
                 ToLoopRow(ref row, (Loop)dto);
+            }
+            else if (dto is Setting)
+            {
+                // Convert values
+                ToSettingRow(ref row, (Setting)dto);
             }
         }
 
@@ -362,7 +396,7 @@ namespace MPfm.Library
         /// Sets the values of a DataRow in a Folder DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="dto">FolderDTO</param>
+        /// <param name="dto">Folder</param>
         public static void ToFolderRow(ref DataRow row, Folder dto)
         {
             // Set row data
@@ -435,6 +469,19 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Sets the values of a DataRow in a Settings DataTable.
+        /// </summary>
+        /// <param name="row">DataRow to set</param>
+        /// <param name="dto">Setting</param>
+        public static void ToSettingRow(ref DataRow row, Setting dto)
+        {
+            // Set row data
+            row["SettingId"] = dto.SettingId.ToString();
+            row["SettingName"] = dto.SettingName;
+            row["SettingValue"] = dto.SettingValue;
+        }
+
+        /// <summary>
         /// Sets the value of a field in a DataRow.
         /// </summary>
         /// <param name="row">DataRow to set</param>
@@ -451,46 +498,5 @@ namespace MPfm.Library
                 row[field] = value;
             }
         }
-
-        ///// <summary>
-        ///// Converts a Playlist entity from EF to PlaylistDTO. Also converts the playlist
-        ///// songs into a list of PlaylistSongDTO.
-        ///// </summary>
-        ///// <param name="playlist">Playlist (EF)</param>
-        ///// <param name="playlistSongs">Playlist songs (EF)</param>
-        ///// <returns>Playlist (DTO)</returns>
-        //public static PlaylistDTO ConvertPlaylist(Playlist playlist, List<PlaylistSong> playlistSongs)
-        //{
-        //    // Create DTO
-        //    PlaylistDTO dto = new PlaylistDTO();
-        //    dto.PlaylistId = new Guid(playlist.PlaylistId);
-        //    dto.PlaylistName = playlist.PlaylistName;
-        //    dto.PlaylistType = PlaylistType.Custom;
-        //    dto.PlaylistModified = false;
-        //    dto.CurrentSong = null;
-
-        //    // Convert playlist songs 
-        //    if (playlistSongs != null)
-        //    {
-        //        // Loop through playlist songs
-        //        foreach (PlaylistSong playlistSong in playlistSongs)
-        //        {
-        //            // Create DTO
-        //            PlaylistSongDTO playlistSongDTO = new PlaylistSongDTO();
-        //            playlistSongDTO.PlaylistSongId = new Guid(playlistSong.PlaylistSongId);
-
-        //            //// Get song from database                    
-        //            ////Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
-        //            //Song song = DataAccess.SelectSong(new Guid(playlistSong.SongId));
-        //            //if (song != null)
-        //            //{
-        //            //    playlistSongDTO.Song = ConvertSong(song);
-        //            //    dto.Songs.Add(playlistSongDTO);
-        //            //}
-        //        }
-        //    }
-
-        //    return dto;
-        //}
     }
 }

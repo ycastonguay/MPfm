@@ -1,5 +1,5 @@
 ﻿//
-// Folder.cs: Class representing a folder containing audio files.
+// Folder.cs: Object representing a folder containing audio files.
 //
 // Copyright © 2011 Yanick Castonguay
 //
