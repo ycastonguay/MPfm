@@ -99,7 +99,7 @@ namespace MPfm.Library
 
                 // Assign properties (datetimes)
                 DateTime lastPlayed = DateTime.MinValue;
-                DateTime.TryParse(table.Rows[a]["LastPlayed"].ToString(), out lastPlayed);
+                DateTime.TryParse(table.Rows[a]["LastPlayedDateTime"].ToString(), out lastPlayed);
                 if(lastPlayed == DateTime.MinValue)
                 {
                     dto.LastPlayed = null;
@@ -389,7 +389,7 @@ namespace MPfm.Library
             AssignRowValue(ref row, "TrackCount", dto.TrackCount);
             AssignRowValue(ref row, "Rating", dto.Rating);
             AssignRowValue(ref row, "Tempo", dto.Tempo);
-            AssignRowValue(ref row, "LastPlayed", dto.LastPlayed);
+            AssignRowValue(ref row, "LastPlayedDateTime", dto.LastPlayed);
         }
 
         /// <summary>

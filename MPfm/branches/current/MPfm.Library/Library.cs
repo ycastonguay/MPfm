@@ -62,12 +62,12 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the DatabaseVersionMajor property.
         /// </summary>
-        private int m_databaseVersionMajor = 1;
+        private static int m_databaseVersionMajor = 1;
         /// <summary>
         /// Indicates what database major version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMinor property.
         /// </summary>
-        public int DatabaseVersionMajor
+        public static int DatabaseVersionMajor
         {
             get
             {
@@ -78,12 +78,12 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the DatabaseVersionMinor property.
         /// </summary>
-        private int m_databaseVersionMinor = 1;
+        private static int m_databaseVersionMinor = 1;
         /// <summary>
         /// Indicates what database minor version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMajor property.
         /// </summary>
-        public int DatabaseVersionMinor
+        public static int DatabaseVersionMinor
         {
             get
             {
@@ -183,15 +183,19 @@ namespace MPfm.Library
         /// version of MPfm.Library.dll. If the versions don't match, the database structure will
         /// be updated by running the appropriate migration scripts in the right order.
         /// </summary>
-        public void CheckIfDatabaseVersionNeedsToBeUpdated()
+        /// <param name="databaseFilePath">Database file path</param>
+        public static void CheckIfDatabaseVersionNeedsToBeUpdated(string databaseFilePath)
         {
             // Declare variables
             int currentMajor = 1;
-            int currentMinor = 0;            
+            int currentMinor = 0;
+
+            // Create gateway
+            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
 
             // Get setting
             Tracing.Log("Main form init -- Fetching database version...");
-            Setting settingDatabaseVersion = Gateway.SelectSetting("DatabaseVersion");
+            Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
 
             // Check if setting is null
             if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
@@ -248,7 +252,7 @@ namespace MPfm.Library
                         {
                             // Execute create script
                             Tracing.Log("Main form init -- Executing database update script statement " + (a+1).ToString() + " (" + scriptFileName + ")...");
-                            Gateway.ExecuteSQL(sqlSplit[a]);
+                            gateway.ExecuteSQL(sqlSplit[a]);
                         }
                     }
                     catch (Exception ex)
@@ -1476,14 +1480,13 @@ namespace MPfm.Library
             AudioFile audioFile = m_audioFiles.SingleOrDefault(x => x.Id == audioFileId);
             if (audioFile != null)
             {
-                audioFile = m_gateway.SelectAudioFile(audioFile.Id);
-            }
+                // Fetch audio file from database
+                AudioFile audioFileDatabase = m_gateway.SelectAudioFile(audioFile.Id);
 
-            ////string strSongId = songId.ToString();
-            //SongDTO song = Songs.SingleOrDefault(x => x.SongId == songId);
-            //int indexOf = Songs.IndexOf(song);
-            ////Songs[indexOf] = ConvertDTO.ConvertSong(DataAccess.SelectSong(songId));
-            //Songs[indexOf] = m_gateway.SelectSong(songId);
+                // Set properties
+                audioFile.PlayCount = audioFileDatabase.PlayCount;
+                audioFile.LastPlayed = audioFileDatabase.LastPlayed;
+            }
         }
 
         /// <summary>

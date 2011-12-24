@@ -301,6 +301,16 @@ namespace MPfm
                 {
                     throw new Exception("Error initializing MPfm: Could not create database file!", ex);
                 }
+
+                try
+                {
+                    // Check if the database needs to be updated
+                    MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(m_databaseFilePath);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
+                }
             }
             catch (Exception ex)
             {
@@ -401,16 +411,6 @@ namespace MPfm
                 Tracing.Log("Main form init -- Loading library...");
                 frmSplash.SetStatus("Loading library...");                
                 m_library = new Library.Library(m_databaseFilePath);
-
-                try
-                {
-                    // Check if the database needs to be updated
-                    m_library.CheckIfDatabaseVersionNeedsToBeUpdated();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error updating the MPfm database!", ex);
-                }
             }
             catch (Exception ex)
             {
@@ -1056,7 +1056,7 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the playlist has changed index (when the a song starts/ends).
+        /// Occurs when the playlist has changed index (when the an audio file starts/ends).
         /// Updates the UI.
         /// </summary>
         /// <param name="data">Event data</param>
@@ -1117,7 +1117,10 @@ namespace MPfm
                 if (data.AudioFileEnded != null)
                 {
                     // Update play count
-                    Library.UpdateAudioFilePlayCount(data.AudioFileEnded.Id);
+                    Library.UpdateAudioFilePlayCount(data.AudioFileEnded.Id);                    
+
+                    // Update the song grid view
+                    viewSongs2.UpdateAudioFileLine(data.AudioFileEnded.Id);
                 }
             };
 

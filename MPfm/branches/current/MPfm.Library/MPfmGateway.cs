@@ -322,9 +322,8 @@ namespace MPfm.Library
                 throw new Exception("Error; The audiofile was not found!");
             }
 
-            //string lastPlayed = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss.fff");
-            string lastPlayed = DateTime.Now.ToString();
-            Execute("UPDATE AudioFiles SET PlayCount = " + (audioFile.PlayCount + 1).ToString() + ", LastPlayed = date('now') + ' ' + time('now') WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+            string lastPlayed = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");            
+            Execute("UPDATE AudioFiles SET PlayCount = " + (audioFile.PlayCount + 1).ToString() + ", LastPlayedDateTime = '" + lastPlayed + "' WHERE AudioFileId = '" + audioFileId.ToString() + "'");
         }
 
         #endregion

@@ -1087,6 +1087,31 @@ namespace MPfm.WindowsControls
         #region Paint Events
 
         /// <summary>
+        /// Update a specific line (if visible) by its audio file unique identifier.
+        /// </summary>
+        /// <param name="audioFileId">Audio file unique identifier</param>
+        public void UpdateAudioFileLine(Guid audioFileId)
+        {
+            // Find the position of the line            
+            for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
+            {
+                // Calculate offset
+                int offsetY = (a * m_songCache.LineHeight) - m_vScrollBar.Value + m_songCache.LineHeight;
+
+                // Check if the line matches
+                if (m_items[a].AudioFile.Id == audioFileId)
+                {
+                    // Invalidate this line
+                    Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, offsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
+
+                    // Update and exit loop
+                    Update();
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Occurs when the kernel sends message to the control.
         /// Intercepts WM_ERASEBKGND and cancels the message to prevent flickering.
         /// </summary>
@@ -1113,8 +1138,6 @@ namespace MPfm.WindowsControls
             }
 
             // Draw bitmap for control
-            //Bitmap bmp = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
-            //Graphics g = Graphics.FromImage(bmp);
             Graphics g = e.Graphics;
 
             // Set text anti-aliasing to ClearType (best looking AA)
@@ -1124,21 +1147,7 @@ namespace MPfm.WindowsControls
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             // Paint songs
-            PaintSongs(ref g);
-
-            //g.DrawString(m_count.ToString(), Font, Brushes.Blue, new Point(20, 20));
-
-            //SolidBrush brush = new SolidBrush(Color.FromArgb(155, 255, 0, 0));
-            //g.FillRectangle(brush, g.ClipBounds);
-            //brush.Dispose();
-            //brush = null;
-
-            // Draw bitmap on control
-            //e.Graphics.DrawImage(bmp, 0, 0, ClientRectangle, GraphicsUnit.Pixel);
-            //bmp.Dispose();
-            //bmp = null;
-            //g.Dispose();
-            //g = null;               
+            PaintSongs(ref g);         
 
             base.OnPaint(e);
         }
@@ -1802,6 +1811,14 @@ namespace MPfm.WindowsControls
                                 
                                 // Render to string
                                 value = uintValue.ToString();
+                            }
+                            else if (propertyInfo.PropertyType.FullName.Contains("System.Int32"))
+                            {
+                                // Try to get the value
+                                int intValue = (int)propertyInfo.GetValue(audioFile, null);
+
+                                // Render to string
+                                value = intValue.ToString();
                             }
                             else
                             {
@@ -2950,13 +2967,6 @@ namespace MPfm.WindowsControls
                 m_vScrollBar.SmallChange = m_songCache.LineHeight;
                 m_vScrollBar.LargeChange = 1 + realLargeChange;
             }
-
-            //// Check if the horizontal scrollbar is visible
-            //if (m_hScrollBar.Visible)
-            //{
-            //    lastLineHeight -= m_hScrollBar.Height;
-            //}
-
 
             // Calculate the scrollbar offset Y
             m_songCache.ScrollBarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
