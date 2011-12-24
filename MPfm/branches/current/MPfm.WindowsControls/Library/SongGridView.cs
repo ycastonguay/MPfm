@@ -1844,7 +1844,7 @@ namespace MPfm.WindowsControls
                         }
 
                         // Display text
-                        rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_padding / 2), columnWidth, m_songCache.LineHeight - m_padding);
+                        rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_padding / 2), m_songCache.ActiveColumns[b].Width, m_songCache.LineHeight - m_padding);
                         //rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_padding / 2), columnWidth, m_songCache.LineHeight - (m_padding / 2));
                         stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         stringFormat.Alignment = StringAlignment.Near;
@@ -1956,7 +1956,7 @@ namespace MPfm.WindowsControls
 
                 // Display title
                 //Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_padding / 2, columnWidth, m_songCache.LineHeight - (m_padding / 2));
-                Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_padding / 2, columnWidth, m_songCache.LineHeight - m_padding);
+                Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_padding / 2, m_songCache.ActiveColumns[b].Width, m_songCache.LineHeight - m_padding);
                 stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                 brush = new SolidBrush(HeaderForeColor);
                 g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
@@ -2004,16 +2004,16 @@ namespace MPfm.WindowsControls
                     if (m_orderByAscending)
                     {
                         // Create points for ascending
-                        ptTriangle[0] = new PointF(offsetX + columnWidth - triangleWidthHeight - (triangleWidthHeight / 2) - m_hScrollBar.Value, trianglePadding);
-                        ptTriangle[1] = new PointF(offsetX + columnWidth - triangleWidthHeight - m_hScrollBar.Value, m_songCache.LineHeight - trianglePadding);
-                        ptTriangle[2] = new PointF(offsetX + columnWidth - triangleWidthHeight - triangleWidthHeight - m_hScrollBar.Value, m_songCache.LineHeight - trianglePadding);
+                        ptTriangle[0] = new PointF(offsetX + m_songCache.ActiveColumns[b].Width - triangleWidthHeight - (triangleWidthHeight / 2) - m_hScrollBar.Value, trianglePadding);
+                        ptTriangle[1] = new PointF(offsetX + m_songCache.ActiveColumns[b].Width - triangleWidthHeight - m_hScrollBar.Value, m_songCache.LineHeight - trianglePadding);
+                        ptTriangle[2] = new PointF(offsetX + m_songCache.ActiveColumns[b].Width - triangleWidthHeight - triangleWidthHeight - m_hScrollBar.Value, m_songCache.LineHeight - trianglePadding);
                     }
                     else
                     {
                         // Create points for descending
-                        ptTriangle[0] = new PointF(offsetX + columnWidth - triangleWidthHeight - (triangleWidthHeight / 2) - m_hScrollBar.Value, m_songCache.LineHeight - trianglePadding);
-                        ptTriangle[1] = new PointF(offsetX + columnWidth - triangleWidthHeight - m_hScrollBar.Value, trianglePadding);
-                        ptTriangle[2] = new PointF(offsetX + columnWidth - triangleWidthHeight - triangleWidthHeight - m_hScrollBar.Value, trianglePadding);
+                        ptTriangle[0] = new PointF(offsetX + m_songCache.ActiveColumns[b].Width - triangleWidthHeight - (triangleWidthHeight / 2) - m_hScrollBar.Value, m_songCache.LineHeight - trianglePadding);
+                        ptTriangle[1] = new PointF(offsetX + m_songCache.ActiveColumns[b].Width - triangleWidthHeight - m_hScrollBar.Value, trianglePadding);
+                        ptTriangle[2] = new PointF(offsetX + m_songCache.ActiveColumns[b].Width - triangleWidthHeight - triangleWidthHeight - m_hScrollBar.Value, trianglePadding);
                     }
 
                     // Draw triangle

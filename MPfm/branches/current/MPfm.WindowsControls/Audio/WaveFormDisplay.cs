@@ -1945,8 +1945,8 @@ namespace MPfm.WindowsControls
                     }
 
                     //g.FillRectangle(Brushes.Black, new Rectangle(0, Height - 20, 100, 20)); 
-                    g.DrawString("CursorX: " + m_cursorX.ToString("0"), Font, Brushes.Blue, new Point(0, Height - 20));
-                    g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.Blue, new Point(0, (Height / 2) - 6));
+                    //g.DrawString("CursorX: " + m_cursorX.ToString("0"), Font, Brushes.Blue, new Point(0, Height - 20));
+                    //g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.Blue, new Point(0, (Height / 2) - 6));
 
                     //g.DrawString(CurrentPosition.ToString() + " / " + TotalBytes.ToString(), Font, Brushes.White, new Point(1, 1));
                     //g.DrawString(positionPercentage.ToString(), Font, Brushes.White, new Point(1, 20));
