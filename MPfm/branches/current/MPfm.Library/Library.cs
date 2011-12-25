@@ -78,7 +78,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the DatabaseVersionMinor property.
         /// </summary>
-        private static int m_databaseVersionMinor = 1;
+        private static int m_databaseVersionMinor = 2;
         /// <summary>
         /// Indicates what database minor version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMajor property.
