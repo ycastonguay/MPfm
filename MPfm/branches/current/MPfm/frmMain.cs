@@ -1237,10 +1237,22 @@ namespace MPfm
             RefreshSongBrowserPlayIcon(Guid.Empty);
             formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
 
-            // Add items to playlist
-            Player.Playlist.Clear();
-            Player.Playlist.AddItems(new List<string>(dialogOpenFile.FileNames));
-            Player.Playlist.First();
+            // Determine if this is a playlist file or an audio file
+            if (dialogOpenFile.FileName.ToUpper().Contains(".M3U") ||
+                dialogOpenFile.FileName.ToUpper().Contains(".M3U8") ||
+                dialogOpenFile.FileName.ToUpper().Contains(".PLS") ||
+                dialogOpenFile.FileName.ToUpper().Contains(".XSPF"))
+            {
+                // Load playlist
+                formPlaylist.LoadPlaylist(dialogOpenFile.FileName);
+            }
+            else
+            {
+                // Add items to playlist
+                Player.Playlist.Clear();
+                Player.Playlist.AddItems(new List<string>(dialogOpenFile.FileNames));
+                Player.Playlist.First();
+            }
 
             // Start playback
             Player.Play();

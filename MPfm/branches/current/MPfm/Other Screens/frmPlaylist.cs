@@ -322,7 +322,17 @@ namespace MPfm
             }
 
             // Load playlist
-            List<string> audioFilePaths = PlaylistTools.LoadPlaylist(dialogLoadPlaylist.FileName);
+            LoadPlaylist(dialogLoadPlaylist.FileName);
+        }
+
+        /// <summary>
+        /// Loads a playlist.
+        /// </summary>
+        /// <param name="playlistFilePath">Playlist file path</param>
+        public void LoadPlaylist(string playlistFilePath)
+        {
+            // Load playlist
+            List<string> audioFilePaths = PlaylistTools.LoadPlaylist(playlistFilePath);
 
             // Check if the playlist is empty
             if (audioFilePaths == null || audioFilePaths.Count == 0)
@@ -337,6 +347,9 @@ namespace MPfm
 
             // Load new items into playlist
             Main.Player.Playlist.AddItems(audioFilePaths);
+
+            // Set first item
+            Main.Player.Playlist.First();
 
             // Refresh view
             RefreshPlaylist();
