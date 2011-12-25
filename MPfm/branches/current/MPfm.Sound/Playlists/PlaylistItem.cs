@@ -25,7 +25,7 @@ using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
 
-namespace MPfm.Player
+namespace MPfm.Sound
 {
     /// <summary>
     /// Defines a playlist item to be used with the Player.

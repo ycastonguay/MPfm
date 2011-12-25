@@ -23,7 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MPfm.Sound;
 
-namespace MPfm.Player
+namespace MPfm.Sound
 {
     /// <summary>
     /// Defines a playlist to be used with the Player.

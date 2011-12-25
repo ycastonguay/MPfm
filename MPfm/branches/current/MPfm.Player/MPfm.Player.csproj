@@ -64,8 +64,6 @@
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="Objects\Playlist.cs" />
-    <Compile Include="Objects\PlaylistItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
