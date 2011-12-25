@@ -30,23 +30,26 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPlaylist));
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.menuPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaylistPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miPlaylistRemoveSongs = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
-            this.btnClose = new MPfm.WindowsControls.Button();
+            this.btnLoadPlaylist = new MPfm.WindowsControls.Button();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
+            this.btnClose = new MPfm.WindowsControls.Button();
             this.btnRemoveSongs = new MPfm.WindowsControls.Button();
             this.btnRenamePlaylist = new MPfm.WindowsControls.Button();
             this.btnSavePlaylistAs = new MPfm.WindowsControls.Button();
             this.btnSavePlaylist = new MPfm.WindowsControls.Button();
             this.btnNewPlaylist = new MPfm.WindowsControls.Button();
             this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
+            this.dialogLoadPlaylist = new System.Windows.Forms.OpenFileDialog();
+            this.dialogSavePlaylist = new System.Windows.Forms.SaveFileDialog();
             this.menuPlaylist.SuspendLayout();
             this.panelSongBrowserToolbar.SuspendLayout();
             this.SuspendLayout();
@@ -88,6 +91,7 @@ namespace MPfm
             this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongBrowserToolbar.AntiAliasingEnabled = true;
+            this.panelSongBrowserToolbar.Controls.Add(this.btnLoadPlaylist);
             this.panelSongBrowserToolbar.Controls.Add(this.btnClose);
             this.panelSongBrowserToolbar.Controls.Add(this.btnRemoveSongs);
             this.panelSongBrowserToolbar.Controls.Add(this.btnRenamePlaylist);
@@ -113,6 +117,57 @@ namespace MPfm
             this.panelSongBrowserToolbar.Size = new System.Drawing.Size(807, 25);
             this.panelSongBrowserToolbar.TabIndex = 74;
             // 
+            // btnLoadPlaylist
+            // 
+            this.btnLoadPlaylist.AntiAliasingEnabled = true;
+            this.btnLoadPlaylist.BorderColor = System.Drawing.Color.DimGray;
+            this.btnLoadPlaylist.BorderWidth = 1;
+            this.btnLoadPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLoadPlaylist.CustomFontName = "Junction";
+            this.btnLoadPlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnLoadPlaylist.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnLoadPlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnLoadPlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnLoadPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadPlaylist.FontCollection = this.fontCollection;
+            this.btnLoadPlaylist.FontColor = System.Drawing.Color.Black;
+            this.btnLoadPlaylist.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnLoadPlaylist.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnLoadPlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnLoadPlaylist.Image = global::MPfm.Properties.Resources.folder_page;
+            this.btnLoadPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLoadPlaylist.Location = new System.Drawing.Point(92, 0);
+            this.btnLoadPlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnLoadPlaylist.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnLoadPlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnLoadPlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnLoadPlaylist.Name = "btnLoadPlaylist";
+            this.btnLoadPlaylist.Size = new System.Drawing.Size(95, 25);
+            this.btnLoadPlaylist.TabIndex = 74;
+            this.btnLoadPlaylist.Text = "Load playlist";
+            this.btnLoadPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLoadPlaylist.UseVisualStyleBackColor = true;
+            this.btnLoadPlaylist.Click += new System.EventHandler(this.btnLoadPlaylist_Click);
+            // 
+            // fontCollection
+            // 
+            customFont5.AssemblyPath = "MPfm.Fonts.dll";
+            customFont5.Name = "LeagueGothic";
+            customFont5.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            customFont6.AssemblyPath = "MPfm.Fonts.dll";
+            customFont6.Name = "Junction";
+            customFont6.ResourceName = "MPfm.Fonts.Junction.ttf";
+            customFont7.AssemblyPath = "MPfm.Fonts.dll";
+            customFont7.Name = "TitilliumText22L Lt";
+            customFont7.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            customFont8.AssemblyPath = "MPfm.Fonts.dll";
+            customFont8.Name = "Droid Sans Mono";
+            customFont8.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(customFont5);
+            this.fontCollection.Fonts.Add(customFont6);
+            this.fontCollection.Fonts.Add(customFont7);
+            this.fontCollection.Fonts.Add(customFont8);
+            // 
             // btnClose
             // 
             this.btnClose.AntiAliasingEnabled = true;
@@ -132,7 +187,7 @@ namespace MPfm
             this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(532, 0);
+            this.btnClose.Location = new System.Drawing.Point(626, 0);
             this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -144,25 +199,6 @@ namespace MPfm
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // fontCollection
-            // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "Droid Sans Mono";
-            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
             // 
             // btnRemoveSongs
             // 
@@ -183,7 +219,7 @@ namespace MPfm
             this.btnRemoveSongs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
             this.btnRemoveSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveSongs.Location = new System.Drawing.Point(420, 0);
+            this.btnRemoveSongs.Location = new System.Drawing.Point(514, 0);
             this.btnRemoveSongs.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnRemoveSongs.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRemoveSongs.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -215,7 +251,7 @@ namespace MPfm
             this.btnRenamePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRenamePlaylist.Image = global::MPfm.Properties.Resources.textfield_rename;
             this.btnRenamePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRenamePlaylist.Location = new System.Drawing.Point(305, 0);
+            this.btnRenamePlaylist.Location = new System.Drawing.Point(399, 0);
             this.btnRenamePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnRenamePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRenamePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -239,7 +275,6 @@ namespace MPfm
             this.btnSavePlaylistAs.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnSavePlaylistAs.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnSavePlaylistAs.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnSavePlaylistAs.Enabled = false;
             this.btnSavePlaylistAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSavePlaylistAs.FontCollection = this.fontCollection;
             this.btnSavePlaylistAs.FontColor = System.Drawing.Color.Black;
@@ -248,7 +283,7 @@ namespace MPfm
             this.btnSavePlaylistAs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSavePlaylistAs.Image = global::MPfm.Properties.Resources.disk;
             this.btnSavePlaylistAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSavePlaylistAs.Location = new System.Drawing.Point(186, 0);
+            this.btnSavePlaylistAs.Location = new System.Drawing.Point(280, 0);
             this.btnSavePlaylistAs.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnSavePlaylistAs.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSavePlaylistAs.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -272,7 +307,6 @@ namespace MPfm
             this.btnSavePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnSavePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnSavePlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnSavePlaylist.Enabled = false;
             this.btnSavePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSavePlaylist.FontCollection = this.fontCollection;
             this.btnSavePlaylist.FontColor = System.Drawing.Color.Black;
@@ -281,7 +315,7 @@ namespace MPfm
             this.btnSavePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSavePlaylist.Image = global::MPfm.Properties.Resources.disk;
             this.btnSavePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSavePlaylist.Location = new System.Drawing.Point(92, 0);
+            this.btnSavePlaylist.Location = new System.Drawing.Point(186, 0);
             this.btnSavePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnSavePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSavePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -334,8 +368,8 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.viewSongs2.AntiAliasingEnabled = true;
-            this.viewSongs2.CanMoveColumns = false;
             this.viewSongs2.CanChangeOrderBy = false;
+            this.viewSongs2.CanMoveColumns = false;
             this.viewSongs2.CanReorderItems = true;
             this.viewSongs2.CanResizeColumns = true;
             this.viewSongs2.ContextMenuStrip = this.menuPlaylist;
@@ -367,12 +401,22 @@ namespace MPfm
             this.viewSongs2.Text = "songGridView1";
             this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
             // 
+            // dialogLoadPlaylist
+            // 
+            this.dialogLoadPlaylist.Filter = "Playlist files (*.m3u,*.m3u8,*.pls,*.xspf)|*.m3u;*.m3u8;*.pls;*.xspf";
+            this.dialogLoadPlaylist.Title = "Please select the playlist to load";
+            // 
+            // dialogSavePlaylist
+            // 
+            this.dialogSavePlaylist.Filter = "Playlist files (*.m3u,*.m3u8,*.pls,*.xspf)|*.m3u;*.m3u8;*.pls;*.xspf";
+            this.dialogSavePlaylist.Title = "Please select a file path for the playlist";
+            // 
             // frmPlaylist
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(807, 354);
-            this.Controls.Add(this.viewSongs2);
             this.Controls.Add(this.panelSongBrowserToolbar);
+            this.Controls.Add(this.viewSongs2);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
@@ -403,5 +447,8 @@ namespace MPfm
         private WindowsControls.Button btnSavePlaylistAs;
         private WindowsControls.Button btnSavePlaylist;
         private WindowsControls.FontCollection fontCollection;
+        private WindowsControls.Button btnLoadPlaylist;
+        private System.Windows.Forms.OpenFileDialog dialogLoadPlaylist;
+        private System.Windows.Forms.SaveFileDialog dialogSavePlaylist;
     }
 }

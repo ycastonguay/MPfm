@@ -294,6 +294,55 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Occurs when the user clicks on the "Load playlist" button.
+        /// </summary>
+        /// <param name="sender">Event Sender</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnLoadPlaylist_Click(object sender, EventArgs e)
+        {
+            // Display the open playlist file dialog
+            if (dialogLoadPlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                // The user has canceled the operation
+                return;
+            }
+
+            // Check if the player is playing
+            if(Main.Player.IsPlaying)
+            {
+                // Warn user
+                if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+                {
+                    // The user said no; exit method
+                    return;
+                }
+
+                // Stop playback
+                Main.Stop();
+            }
+
+            // Load playlist
+            List<string> audioFilePaths = PlaylistTools.LoadPlaylist(dialogLoadPlaylist.FileName);
+
+            // Check if the playlist is empty
+            if (audioFilePaths == null || audioFilePaths.Count == 0)
+            {
+                // Display error
+                MessageBox.Show("Error: The playlist is empty or does not contain any valid audio file paths!", "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Clear current playlist
+            Main.Player.Playlist.Clear();
+
+            // Load new items into playlist
+            Main.Player.Playlist.AddItems(audioFilePaths);
+
+            // Refresh view
+            RefreshPlaylist();
+        }
+
+        /// <summary>
         /// Occurs when the user clicks on the "Save playlist" button.
         /// </summary>
         /// <param name="sender">Event Sender</param>
@@ -325,6 +374,39 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSavePlaylistAs_Click(object sender, EventArgs e)
         {
+            // Check if the playlist is empty
+            if (Main.Player.Playlist.Items.Count == 0)
+            {
+                // Display error
+                MessageBox.Show("Error: You cannot save an empty playlist!", "Error saving playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Display dialog
+            if (dialogSavePlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                // The user has cancelled the operation
+                return;
+            }
+
+            // Determine what format the user has chosen
+            if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
+            {
+
+            }
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
+            {
+
+            }
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
+            {
+
+            }
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
+            {
+
+            }
+
             //// Popup window                
             //formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.SavePlaylist);
 

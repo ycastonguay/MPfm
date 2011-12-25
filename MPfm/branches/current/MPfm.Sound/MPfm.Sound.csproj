@@ -90,6 +90,8 @@
     <Compile Include="Bass.Net\Base.cs" />
     <Compile Include="ConvertAudio.cs" />
     <Compile Include="AudioFileFormat.cs" />
+    <Compile Include="PlaylistTools.cs" />
+    <Compile Include="PlaylistFileFormat.cs" />
     <Compile Include="PeakFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />

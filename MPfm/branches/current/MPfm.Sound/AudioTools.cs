@@ -1,5 +1,5 @@
 ﻿//
-// AudioTools.cs: This class contains useful methods for treating raw sound data
+// AudioTools.cs: This static class contains useful methods for treating raw sound data
 //                for display in output meters for example.
 //
 // Copyright © 2011 Yanick Castonguay

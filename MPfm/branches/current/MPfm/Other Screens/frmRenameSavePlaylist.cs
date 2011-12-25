@@ -96,8 +96,7 @@ namespace MPfm
             if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
             {
                 // Rename playlist and reset its id (save AS)
-                Main.Player.Playlist.Name = txtName.Text;
-                Main.Player.Playlist.Id = Guid.NewGuid();
+                Main.Player.Playlist.Name = txtName.Text;                
             }
             else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
             {

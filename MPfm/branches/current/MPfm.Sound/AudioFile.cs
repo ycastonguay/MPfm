@@ -25,6 +25,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using MPfm.Core;
+using Un4seen.Bass.AddOn.Tags;
 
 namespace MPfm.Sound
 {
@@ -637,6 +638,7 @@ namespace MPfm.Sound
                 // Monkey's Audio (APE) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Monkey's_Audio
 
+
                 // Get TagLib APE
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
 
@@ -670,6 +672,11 @@ namespace MPfm.Sound
                 // TagLib does not seem to work...
                 // MusePack (MPC) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Musepack
+
+                // BASS.NET doesn't support it either! 
+                //TAG_INFO tags = BassTags.BASS_TAG_GetFromFile(m_filePath);
+
+
 
                 //// Read VorbisComment in FLAC file              
   

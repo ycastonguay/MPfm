@@ -713,6 +713,7 @@ namespace MPfm.Library
             extensionsSupported.Add("*.OGG");
             extensionsSupported.Add("*.APE");
             extensionsSupported.Add("*.WV");
+            //extensionsSupported.Add("*.MPC");
 
 
             //// Populate list of supported extensions

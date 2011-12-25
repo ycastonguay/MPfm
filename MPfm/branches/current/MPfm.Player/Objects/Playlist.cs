@@ -78,14 +78,19 @@ namespace MPfm.Player
         }
 
         /// <summary>
-        /// Playlist identifier.
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
         /// Playlist name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Playlist file path.
+        /// </summary>
+        public string FilePath { get; set; }
+
+        /// <summary>
+        /// Playlist format.
+        /// </summary>
+        public PlaylistFileFormat Format { get; set; }
 
         #endregion
 
@@ -98,8 +103,9 @@ namespace MPfm.Player
         {
             m_items = new List<PlaylistItem>();
             m_currentItemIndex = 0;
-            Name = "Empty playlist";
-            Id = Guid.NewGuid();
+            Name = "Empty playlist";            
+            FilePath = string.Empty;
+            Format = PlaylistFileFormat.Unknown;
         }
 
         #endregion
@@ -110,10 +116,11 @@ namespace MPfm.Player
         public void Clear()
         {
             Name = "Empty playlist";
-            Id = Guid.NewGuid();
+            FilePath = string.Empty;
+            Format = PlaylistFileFormat.Unknown;
             m_items = new List<PlaylistItem>();
             m_currentItemIndex = 0;
-            m_currentItem = null;
+            m_currentItem = null;            
         }
 
         /// <summary>
@@ -186,12 +193,60 @@ namespace MPfm.Player
         /// <param name="filePaths">List of audio file paths</param>
         public void AddItems(List<string> filePaths)
         {
-            // Loop through file paths
-            foreach (string filePath in filePaths)
+            // Declare variables
+            AudioFile audioFile = null;
+            int numberOfFilesToReadMetadata = filePaths.Count;
+
+            //// Limit the number of files to read metadata to 2
+            //if (filePaths.Count > 2)
+            //{
+            //    numberOfFilesToReadMetadata = 2;
+            //}
+            //else
+            //{
+            //    numberOfFilesToReadMetadata = filePaths.Count;
+            //}
+
+            // Loop through items
+            for (int a = 0; a < filePaths.Count; a++)
             {
-                // Add item
-                AddItem(filePath);
+                //// Check if metadata needs to be read
+                //if (a < numberOfFilesToReadMetadata)
+                //{
+                //    // Create audio file and read metadata
+                //    audioFile = new AudioFile(filePaths[a]);
+                //}
+                //else
+                //{
+                //    audioFile = null;
+                //}
+
+                bool addItem = false;
+
+                try
+                {
+                    // Create audio file and read metadata
+                    audioFile = new AudioFile(filePaths[a]);
+
+                    // Set flag
+                    addItem = true;
+                }
+                catch (Exception ex)
+                {
+                    // Skip this item
+                    addItem = false;
+                }                
+
+                // Make sure the item needs to be added
+                if (addItem)
+                {
+                    // Add new playlist item at the end
+                    Items.Add(new PlaylistItem(this, audioFile));
+                }
             }
+
+            // Update current item
+            UpdateCurrentItem();
         }
 
         /// <summary>
