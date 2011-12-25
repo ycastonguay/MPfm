@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library;
@@ -61,11 +62,7 @@ namespace MPfm
         public frmPlaylist(frmMain main)
         {
             InitializeComponent();
-
             m_main = main;
-            //this.viewSongs.ItemsReordered += new MPfm.WindowsControls.ReorderListView.ItemsReorderedHandler(viewSongs_ItemsReordered);
-
-            //formRenameSavePlaylist = new frmRenameSavePlaylist(this, RenameSavePlaylistWindowMode.RenamePlaylist);
         }
 
         /// <summary>
@@ -210,22 +207,15 @@ namespace MPfm
         /// </summary>
         public void RefreshTitle()
         {
-            this.Text = Main.Player.Playlist.Name;
-
-            //// Set form title depending on playlist type
-            //if (Main.Player.CurrentPlaylist.PlaylistType == PlaylistType.Custom)
-            //{
-            //    this.Text = "[Custom] - " + Main.Player.CurrentPlaylist.PlaylistName;
-            //}
-            //else
-            //{
-            //    this.Text = "[Auto] - " + Main.Player.CurrentPlaylist.PlaylistName;
-            //}
-
-            //if (Main.Player.CurrentPlaylist.PlaylistModified)
-            //{
-            //    Text = "*" + Text;
-            //}
+            // Display playlist file path in form title if available
+            if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
+            {
+                this.Text = Main.Player.Playlist.Name + " (" + Main.Player.Playlist.FilePath + ")";
+            }
+            else
+            {
+                this.Text = Main.Player.Playlist.Name;
+            }
         }
 
         /// <summary>
@@ -331,25 +321,8 @@ namespace MPfm
         /// <param name="playlistFilePath">Playlist file path</param>
         public void LoadPlaylist(string playlistFilePath)
         {
-            // Load playlist
-            List<string> audioFilePaths = PlaylistTools.LoadPlaylist(playlistFilePath);
-
-            // Check if the playlist is empty
-            if (audioFilePaths == null || audioFilePaths.Count == 0)
-            {
-                // Display error
-                MessageBox.Show("Error: The playlist is empty or does not contain any valid audio file paths!", "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             // Clear current playlist
-            Main.Player.Playlist.Clear();
-
-            // Load new items into playlist
-            Main.Player.Playlist.AddItems(audioFilePaths);
-
-            // Set first item
-            Main.Player.Playlist.First();
+            Main.Player.Playlist.LoadPlaylist(playlistFilePath);
 
             // Refresh view
             RefreshPlaylist();
@@ -362,21 +335,25 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnSavePlaylist_Click(object sender, EventArgs e)
         {
-            //// Save playlist
-            //Cursor.Current = Cursors.WaitCursor;
-            //Main.Player.Library.SavePlaylist(Main.Player.CurrentPlaylist);            
-
-            //// Set modified flag
-            //Main.Player.CurrentPlaylist.PlaylistModified = false;
-
-            //// Refresh the window title
-            //RefreshTitle();
-
-            //// Refresh the playlists node in the Artist/Album browser
-            //Main.RefreshTreeLibraryPlaylists();
-
-            //// Reset cursor
-            //Cursor.Current = Cursors.Default;
+            // Check if playlist file is valid
+            if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
+            {
+                // Check if file exists
+                if (File.Exists(Main.Player.Playlist.FilePath))
+                {
+                    // Warn user is he wants to save
+                    if(MessageBox.Show("Warning: The playlist file already exists. Do you wish to overwrite this file?", "The playlist file already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        // The user wants to save
+                        SavePlaylist(Main.Player.Playlist.FilePath);
+                    }
+                }
+            }
+            else
+            {
+                // Ask user for file path
+                SavePlaylistAs();
+            }
         }
 
         /// <summary>
@@ -386,6 +363,11 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         private void btnSavePlaylistAs_Click(object sender, EventArgs e)
+        {
+            SavePlaylistAs();
+        }
+
+        public void SavePlaylistAs()
         {
             // Check if the playlist is empty
             if (Main.Player.Playlist.Items.Count == 0)
@@ -402,8 +384,17 @@ namespace MPfm
                 return;
             }
 
+            // Save playlist
+            SavePlaylist(dialogSavePlaylist.FileName);
+        }
+
+        public void SavePlaylist(string playlistFilePath)
+        {
             // Change cursor
             Cursor.Current = Cursors.WaitCursor;
+
+            // Set playlist file path
+            Main.Player.Playlist.FilePath = playlistFilePath;
 
             // Determine what format the user has chosen
             if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
@@ -429,6 +420,9 @@ namespace MPfm
 
             // Change cursor
             Cursor.Current = Cursors.Default;
+
+            // Refresh title
+            RefreshTitle();
         }
 
         /// <summary>

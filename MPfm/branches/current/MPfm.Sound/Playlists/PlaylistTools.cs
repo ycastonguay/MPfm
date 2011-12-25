@@ -34,55 +34,7 @@ namespace MPfm.Sound
     /// This static class contains useful methods for loading and saving playlists.
     /// </summary>
     public static class PlaylistTools
-    {     
-        public static List<string> LoadPlaylist(string filePath)
-        {
-            // Declare variables
-            List<string> files = new List<string>();
-            PlaylistFileFormat format = PlaylistFileFormat.Unknown;
-
-            // Determine the playlist format
-            if (filePath.ToUpper().Contains(".M3U"))
-            {
-                // Set format
-                format = PlaylistFileFormat.M3U;
-
-                // Load playlist file
-                files = LoadM3UPlaylist(filePath);
-            }
-            else if (filePath.ToUpper().Contains(".M3U8"))
-            {
-                // Set format
-                format = PlaylistFileFormat.M3U8;
-
-                // Load playlist file
-                files = LoadM3UPlaylist(filePath);
-            }
-            else if (filePath.ToUpper().Contains(".PLS"))
-            {
-                // Set format
-                format = PlaylistFileFormat.PLS;
-
-                // Load playlist file
-                files = LoadPLSPlaylist(filePath);
-            }
-            else if (filePath.ToUpper().Contains(".XSPF"))
-            {
-                // Set format
-                format = PlaylistFileFormat.XSPF;
-
-                // Load playlist file
-                files = LoadXSPFPlaylist(filePath);
-            }
-            else if (filePath.ToUpper().Contains(".ASX"))
-            {
-                // Set format
-                format = PlaylistFileFormat.ASX;
-            }
-
-            return files;
-        }
-
+    {
         #region M3U/M3U8
         
         /// <summary>

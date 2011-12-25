@@ -111,6 +111,75 @@ namespace MPfm.Sound
         #endregion
 
         /// <summary>
+        /// Loads a playlist (from any of the following formats: M3U, M3U8, PLS and XSPF).
+        /// </summary>
+        /// <param name="filePath">Playlist file path</param>
+        /// <returns>Playlist</returns>
+        public void LoadPlaylist(string filePath)
+        {
+            // Declare variables
+            List<string> files = new List<string>();            
+
+            // Determine the playlist format
+            if (filePath.ToUpper().Contains(".M3U"))
+            {
+                // Set format
+                Format = PlaylistFileFormat.M3U;
+
+                // Load playlist file
+                files = PlaylistTools.LoadM3UPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".M3U8"))
+            {
+                // Set format
+                Format = PlaylistFileFormat.M3U8;
+
+                // Load playlist file
+                files = PlaylistTools.LoadM3UPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".PLS"))
+            {
+                // Set format
+                Format = PlaylistFileFormat.PLS;
+
+                // Load playlist file
+                files = PlaylistTools.LoadPLSPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".XSPF"))
+            {
+                // Set format
+                Format = PlaylistFileFormat.XSPF;
+
+                // Load playlist file
+                files = PlaylistTools.LoadXSPFPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".ASX"))
+            {
+                // Set format
+                Format = PlaylistFileFormat.ASX;
+            }
+
+            // Check if the playlist is empty
+            if (files == null || files.Count == 0)
+            {
+                // Display error
+                throw new Exception("Error: The playlist is empty or does not contain any valid audio file paths!");                
+            }
+
+            // Clear current playlist
+            Clear();
+
+            // Set properties
+            FilePath = filePath;
+
+            // Add files to playlist
+            AddItems(files);
+
+            // Set first item
+            First();
+        }
+
+        /// <summary>
         /// Clears the playlist.
         /// </summary>
         public void Clear()
