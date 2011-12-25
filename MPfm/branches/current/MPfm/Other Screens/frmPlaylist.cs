@@ -389,66 +389,33 @@ namespace MPfm
                 return;
             }
 
+            // Change cursor
+            Cursor.Current = Cursors.WaitCursor;
+
             // Determine what format the user has chosen
             if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
             {
-
+                // Save playlist
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
             {
-
+                // Save playlist
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
             {
-
+                // Save playlist
+                PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
             {
-
+                // Save playlist
+                PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
             }
 
-            //// Popup window                
-            //formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.SavePlaylist);
-
-            //// Set window location
-            //formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
-            //formRenameSavePlaylist.txtName.Text = Main.Player.CurrentPlaylist.PlaylistName;
-
-            //// Show Save Playlist dialog
-            //if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    // First, change all ids to make sure items are unique
-            //    Cursor.Current = Cursors.WaitCursor;
-
-            //    // Change the playlist Id
-            //    Main.Player.CurrentPlaylist.PlaylistId = Guid.NewGuid();
-
-            //    // Change the playlist songs ids
-            //    foreach (PlaylistSongDTO playlistSong in Main.Player.CurrentPlaylist.Songs)
-            //    {
-            //        playlistSong.PlaylistSongId = Guid.NewGuid();
-            //    }
-
-            //    // Save playlist
-            //    Main.Player.Library.SavePlaylist(Main.Player.CurrentPlaylist);
-            //}
-            //else
-            //{
-            //    // The user has cancelled
-            //    return;
-            //}
-
-            //// Set modified flag
-            //Main.Player.CurrentPlaylist.PlaylistModified = false;
-
-            //// Refresh the window title
-            //RefreshTitle();
-
-            //// Refresh the playlists node in the Artist/Album browser
-            //Main.RefreshTreeLibraryPlaylists();
-
-            //// Reset cursor
-            //Cursor.Current = Cursors.Default;
+            // Change cursor
+            Cursor.Current = Cursors.Default;
         }
 
         /// <summary>
