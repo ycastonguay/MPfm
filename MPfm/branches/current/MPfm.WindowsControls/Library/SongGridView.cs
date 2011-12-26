@@ -113,113 +113,27 @@ namespace MPfm.WindowsControls
         
         #region Theme Properties
 
+        /// <summary>
+        /// Private value for the Theme property.
+        /// </summary>
+        private SongGridViewTheme m_theme = null;
+        /// <summary>
+        /// Defines the current theme used for rendering the control.
+        /// </summary>
+        public SongGridViewTheme Theme
+        {
+            get
+            {
+                return m_theme;
+            }
+            set
+            {
+                m_theme = value;
+            }
+        }
+
         #region Header
 
-        /// <summary>
-        /// Private value for the HeaderColor1 property.
-        /// </summary>
-        private Color m_headerColor1 = Color.FromArgb(165, 165, 165);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the header background gradient.")]
-        public Color HeaderColor1
-        {
-            get
-            {
-                return m_headerColor1;
-            }
-            set
-            {
-                m_headerColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderColor2 property.
-        /// </summary>
-        private Color m_headerColor2 = Color.FromArgb(195, 195, 195);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the header background gradient.")]
-        public Color HeaderColor2
-        {
-            get
-            {
-                return m_headerColor2;
-            }
-            set
-            {
-                m_headerColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderHoverColor1 property.
-        /// </summary>
-        private Color m_headerHoverColor1 = Color.FromArgb(145, 145, 145);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the header background gradient when the mouse cursor is over the header.")]
-        public Color HeaderHoverColor1
-        {
-            get
-            {
-                return m_headerHoverColor1;
-            }
-            set
-            {
-                m_headerHoverColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderHoverColor2 property.
-        /// </summary>
-        private Color m_headerHoverColor2 = Color.FromArgb(175, 175, 175);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the header background gradient when the mouse cursor is over the header.")]
-        public Color HeaderHoverColor2
-        {
-            get
-            {
-                return m_headerHoverColor2;
-            }
-            set
-            {
-                m_headerHoverColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderForeColor property.
-        /// </summary>
-        private Color m_headerForeColor = Color.FromArgb(60, 60, 60);
-        /// <summary>
-        /// Fore font color used in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Theme"), Browsable(true), Description("Fore color used when drawing the header font and other glyphs (such as the orderby icon).")]
-        public Color HeaderForeColor
-        {
-            get
-            {
-                return m_headerForeColor;
-            }
-            set
-            {
-                m_headerForeColor = value;
-            }
-        }
 
         /// <summary>
         /// Private value for the HeaderCustomFontName property.
@@ -245,225 +159,27 @@ namespace MPfm.WindowsControls
 
         #endregion
 
-        #region Line
-
-        /// <summary>
-        /// Private value for the LineColor1 property.
-        /// </summary>
-        private Color m_lineColor1 = Color.FromArgb(215, 215, 215);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the line background gradient.")]
-        public Color LineColor1
-        {
-            get
-            {
-                return m_lineColor1;
-            }
-            set
-            {
-                m_lineColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineColor2 property.
-        /// </summary>
-        private Color m_lineColor2 = Color.FromArgb(235, 235, 235);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the line background gradient.")]
-        public Color LineColor2
-        {
-            get
-            {
-                return m_lineColor2;
-            }
-            set
-            {
-                m_lineColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineNowPlayingColor1 property.
-        /// </summary>
-        private Color m_lineNowPlayingColor1 = Color.FromArgb(135, 235, 135);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the line background gradient when the line is now playing.")]
-        public Color LineNowPlayingColor1
-        {
-            get
-            {
-                return m_lineNowPlayingColor1;
-            }
-            set
-            {
-                m_lineNowPlayingColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineNowPlayingColor2 property.
-        /// </summary>
-        private Color m_lineNowPlayingColor2 = Color.FromArgb(155, 255, 155);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the line background gradient when the line is now playing.")]
-        public Color LineNowPlayingColor2
-        {
-            get
-            {
-                return m_lineNowPlayingColor2;
-            }
-            set
-            {
-                m_lineNowPlayingColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineForeColor property.
-        /// </summary>
-        private Color m_lineForeColor = Color.FromArgb(0, 0, 0);
-        /// <summary>
-        /// Fore font color used in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Theme"), Browsable(true), Description("Fore color used when drawing the line font.")]
-        public Color LineForeColor
-        {
-            get
-            {
-                return m_lineForeColor;
-            }
-            set
-            {
-                m_lineForeColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the IconNowPlayingColor1 property.
-        /// </summary>
-        private Color m_iconNowPlayingColor1 = Color.FromArgb(250, 200, 250);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the animated icon displaying the currently playing song.")]
-        public Color IconNowPlayingColor1
-        {
-            get
-            {
-                return m_iconNowPlayingColor1;
-            }
-            set
-            {
-                m_iconNowPlayingColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the IconNowPlayingColor2 property.
-        /// </summary>
-        private Color m_iconNowPlayingColor2 = Color.FromArgb(25, 150, 25);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the animated icon displaying the currently playing song.")]
-        public Color IconNowPlayingColor2
-        {
-            get
-            {
-                return m_iconNowPlayingColor2;
-            }
-            set
-            {
-                m_iconNowPlayingColor2 = value;
-            }
-        }
-
-        #endregion
-
-        #region Album Covers
-
-        /// <summary>
-        /// Private value for the AlbumCoverBackgroundColor1 property.
-        /// </summary>
-        private Color m_albumCoverBackgroundColor1 = Color.FromArgb(55, 55, 55);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("First color of the album cover background gradient.")]
-        public Color AlbumCoverBackgroundColor1
-        {
-            get
-            {
-                return m_albumCoverBackgroundColor1;
-            }
-            set
-            {
-                m_albumCoverBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the AlbumCoverBackgroundColor2 property.
-        /// </summary>
-        private Color m_albumCoverBackgroundColor2 = Color.FromArgb(75, 75, 75);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Second color of the album cover background gradient.")]
-        public Color AlbumCoverBackgroundColor2
-        {
-            get
-            {
-                return m_albumCoverBackgroundColor2;
-            }
-            set
-            {
-                m_albumCoverBackgroundColor2 = value;
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Private value for the Padding property.
-        /// </summary>
-        private int m_padding = 6;
-        /// <summary>
-        /// Padding used around text and album covers (in pixels).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Padding used around text and album covers (in pixels).")]        
-        public int Padding
-        {
-            get
-            {
-                return m_padding;
-            }
-            set
-            {
-                m_padding = value;
-                m_songCache = null;
-            }
-        }
+        ///// <summary>
+        ///// Private value for the Padding property.
+        ///// </summary>
+        //private int m_padding = 6;
+        ///// <summary>
+        ///// Padding used around text and album covers (in pixels).
+        ///// </summary>
+        //[RefreshProperties(RefreshProperties.Repaint)]
+        //[Category("Theme"), Browsable(true), Description("Padding used around text and album covers (in pixels).")]        
+        //public int Padding
+        //{
+        //    get
+        //    {
+        //        return m_padding;
+        //    }
+        //    set
+        //    {
+        //        m_padding = value;
+        //        m_songCache = null;
+        //    }
+        //}
 
         #endregion
 
@@ -819,6 +535,9 @@ namespace MPfm.WindowsControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                        ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
+            // Create default theme
+            m_theme = new SongGridViewTheme();
+
             // Create timer for animation
             m_timerAnimationNowPlaying = new System.Windows.Forms.Timer();
             m_timerAnimationNowPlaying.Interval = 50;
@@ -852,7 +571,66 @@ namespace MPfm.WindowsControls
             m_timerUpdateAlbumArt = new System.Windows.Forms.Timer();
             m_timerUpdateAlbumArt.Interval = 10;
             m_timerUpdateAlbumArt.Tick += new EventHandler(m_timerUpdateAlbumArt_Tick);
-            m_timerUpdateAlbumArt.Enabled = true;            
+            m_timerUpdateAlbumArt.Enabled = true;
+
+            // Create columns
+            SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
+            SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
+            SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
+            SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
+            SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 4);
+            SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 5);
+            SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 6);
+            SongGridViewColumn columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 7);
+            SongGridViewColumn columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 8);
+            SongGridViewColumn columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 9);
+
+            // Set visible column titles
+            columnSongAlbumCover.IsHeaderTitleVisible = false;
+            columnSongNowPlaying.IsHeaderTitleVisible = false;
+
+            // Set additional flags
+            columnSongAlbumCover.CanBeReordered = false;
+            columnSongNowPlaying.CanBeReordered = false;
+            columnSongNowPlaying.CanBeResized = false;
+
+            // Set default widths
+            columnSongAlbumCover.Width = 200;
+            columnSongNowPlaying.Width = 20;
+            columnSongFileType.Width = 40;
+            columnSongTrackNumber.Width = 30;
+            columnSongTitle.Width = 200;
+            columnSongLength.Width = 70;
+            columnSongArtistName.Width = 140;
+            columnSongAlbumTitle.Width = 140;
+            columnSongPlayCount.Width = 50;
+            columnSongLastPlayed.Width = 80;
+
+            // Add columns to list
+            m_columns = new List<SongGridViewColumn>();
+            m_columns.Add(columnSongAlbumCover);
+            m_columns.Add(columnSongNowPlaying);
+            m_columns.Add(columnSongFileType);
+            m_columns.Add(columnSongTrackNumber);
+            m_columns.Add(columnSongTitle);
+            m_columns.Add(columnSongLength);
+            m_columns.Add(columnSongArtistName);
+            m_columns.Add(columnSongAlbumTitle);
+            m_columns.Add(columnSongPlayCount);
+            m_columns.Add(columnSongLastPlayed);
+
+            // Create contextual menu
+            m_menuColumns = new System.Windows.Forms.ContextMenuStrip();
+
+            // Loop through columns
+            foreach (SongGridViewColumn column in m_columns)
+            {
+                // Add menu item                               
+                ToolStripMenuItem menuItem = (ToolStripMenuItem)m_menuColumns.Items.Add(column.Title);
+                menuItem.Tag = column.Title;
+                menuItem.Checked = column.Visible;
+                menuItem.Click += new EventHandler(menuItemColumns_Click);
+            }
         }
 
         /// <summary>
@@ -1169,8 +947,8 @@ namespace MPfm.WindowsControls
             Pen pen = null;
             SolidBrush brush = null;
             LinearGradientBrush brushGradient = null;
-            Color colorNowPlaying1 = LineNowPlayingColor1;
-            Color colorNowPlaying2 = LineNowPlayingColor2;
+            Color colorNowPlaying1 = m_theme.LineNowPlayingColor1;
+            Color colorNowPlaying2 = m_theme.LineNowPlayingColor2;
             int offsetX = 0;
             int offsetY = 0;
             int albumCoverStartIndex = 0;
@@ -1213,69 +991,6 @@ namespace MPfm.WindowsControls
             {
                 // Do not do anything.
                 return;
-            }            
-
-            // Check if columns exist
-            if (m_columns == null)
-            {
-                // Create columns
-                SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
-                SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
-                SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
-                SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
-                SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 4);
-                SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 5);
-                SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 6);
-                SongGridViewColumn columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 7);
-                SongGridViewColumn columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 8);
-                SongGridViewColumn columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 9);
-
-                // Set visible column titles
-                columnSongAlbumCover.IsHeaderTitleVisible = false;
-                columnSongNowPlaying.IsHeaderTitleVisible = false;
-
-                // Set additional flags
-                columnSongAlbumCover.CanBeReordered = false;
-                columnSongNowPlaying.CanBeReordered = false;
-                columnSongNowPlaying.CanBeResized = false;
-
-                // Set default widths
-                columnSongAlbumCover.Width = 200;
-                columnSongNowPlaying.Width = 20;
-                columnSongFileType.Width = 40;
-                columnSongTrackNumber.Width = 30;
-                columnSongTitle.Width = 200;
-                columnSongLength.Width = 70;
-                columnSongArtistName.Width = 140;
-                columnSongAlbumTitle.Width = 140;
-                columnSongPlayCount.Width = 50;
-                columnSongLastPlayed.Width = 80;
-
-                // Add columns to list
-                m_columns = new List<SongGridViewColumn>();
-                m_columns.Add(columnSongAlbumCover);
-                m_columns.Add(columnSongNowPlaying);
-                m_columns.Add(columnSongFileType);
-                m_columns.Add(columnSongTrackNumber);                
-                m_columns.Add(columnSongTitle);
-                m_columns.Add(columnSongLength);
-                m_columns.Add(columnSongArtistName);
-                m_columns.Add(columnSongAlbumTitle);
-                m_columns.Add(columnSongPlayCount);
-                m_columns.Add(columnSongLastPlayed);
-
-                // Create contextual menu
-                m_menuColumns = new System.Windows.Forms.ContextMenuStrip();                
-
-                // Loop through columns
-                foreach (SongGridViewColumn column in m_columns)
-                {
-                    // Add menu item                               
-                    ToolStripMenuItem menuItem = (ToolStripMenuItem)m_menuColumns.Items.Add(column.Title);
-                    menuItem.Tag = column.Title;
-                    menuItem.Checked = column.Visible;
-                    menuItem.Click += new EventHandler(menuItemColumns_Click);
-                }
             }
 
             // Check if a cache exists, or if the cache needs to be refreshed
@@ -1333,16 +1048,16 @@ namespace MPfm.WindowsControls
                 Rectangle rectBackground = new Rectangle(albumArtColumnWidth - m_hScrollBar.Value, offsetY, lineBackgroundWidth, m_songCache.LineHeight);                
                 
                 // Set default line background color
-                Color colorBackground1 = LineColor1;
-                Color colorBackground2 = LineColor2;
+                Color colorBackground1 = m_theme.LineColor1;
+                Color colorBackground2 = m_theme.LineColor2;
 
                 // Check conditions to determine background color
                 if ((m_mode == SongGridViewMode.AudioFile && audioFile.Id == m_nowPlayingAudioFileId) || 
                     (m_mode == SongGridViewMode.Playlist && m_items[a].PlaylistItemId == m_nowPlayingPlaylistItemId))
                 {
                     // Set color             
-                    colorBackground1 = LineNowPlayingColor1;
-                    colorBackground2 = LineNowPlayingColor2;
+                    colorBackground1 = m_theme.LineNowPlayingColor1;
+                    colorBackground2 = m_theme.LineNowPlayingColor2;
                 }
 
                 // Check if item is selected
@@ -1428,7 +1143,7 @@ namespace MPfm.WindowsControls
                                 nowPlayingSongFound = true;
 
                                 // Draw outer circle
-                                brushGradient = new LinearGradientBrush(m_rectNowPlaying, Color.FromArgb(50, IconNowPlayingColor1.R, IconNowPlayingColor1.G, IconNowPlayingColor1.B), IconNowPlayingColor2, m_timerAnimationNowPlayingCount % 360);
+                                brushGradient = new LinearGradientBrush(m_rectNowPlaying, Color.FromArgb(50, m_theme.IconNowPlayingColor1.R, m_theme.IconNowPlayingColor1.G, m_theme.IconNowPlayingColor1.B), m_theme.IconNowPlayingColor2, m_timerAnimationNowPlayingCount % 360);
                                 g.FillEllipse(brushGradient, m_rectNowPlaying);
                                 brushGradient.Dispose();
                                 brushGradient = null;
@@ -1495,10 +1210,10 @@ namespace MPfm.WindowsControls
                                 // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
                                 int albumCoverZoneHeight = (albumCoverEndIndex + 1 - albumCoverStartIndex) * m_songCache.LineHeight;
 
-                                int heightWithPadding = albumCoverZoneHeight - (m_padding * 2);
-                                if (heightWithPadding > m_songCache.ActiveColumns[0].Width - (m_padding * 2))
+                                int heightWithPadding = albumCoverZoneHeight - (m_theme.Padding * 2);
+                                if (heightWithPadding > m_songCache.ActiveColumns[0].Width - (m_theme.Padding * 2))
                                 {
-                                    heightWithPadding = m_songCache.ActiveColumns[0].Width - (m_padding * 2);
+                                    heightWithPadding = m_songCache.ActiveColumns[0].Width - (m_theme.Padding * 2);
                                 }
 
                                 // Make sure the height is at least zero (not necessary to draw anything!)
@@ -1506,7 +1221,7 @@ namespace MPfm.WindowsControls
                                 {
                                     // Draw album cover background
                                     Rectangle rectAlbumCover = new Rectangle(0 - m_hScrollBar.Value, y, m_songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
-                                    brushGradient = new LinearGradientBrush(rectAlbumCover, AlbumCoverBackgroundColor1, AlbumCoverBackgroundColor2, 90);
+                                    brushGradient = new LinearGradientBrush(rectAlbumCover, m_theme.AlbumCoverBackgroundColor1, m_theme.AlbumCoverBackgroundColor2, 90);
                                     g.FillRectangle(brushGradient, rectAlbumCover);
                                     brushGradient.Dispose();
                                     brushGradient = null;
@@ -1547,7 +1262,7 @@ namespace MPfm.WindowsControls
                                     }
 
                                     // Measure available width for text
-                                    int widthAvailableForText = m_columns[0].Width - (m_padding * 2);
+                                    int widthAvailableForText = m_columns[0].Width - (m_theme.Padding * 2);
 
                                     // Display titles depending on if an album art was found
                                     RectangleF rectAlbumCoverArt = new RectangleF();
@@ -1569,8 +1284,8 @@ namespace MPfm.WindowsControls
                                         sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText - (int)sizeArtistName.Width, stringFormat);
 
                                         // Display artist name at full width first, then album name
-                                        rectArtistNameText = new RectangleF(m_padding - m_hScrollBar.Value, y + (m_padding / 2), widthAvailableForText, m_songCache.LineHeight);
-                                        rectAlbumTitleText = new RectangleF(m_padding - m_hScrollBar.Value + sizeArtistName.Width + m_padding, y + (m_padding / 2), widthAvailableForText - sizeArtistName.Width, m_songCache.LineHeight);
+                                        rectArtistNameText = new RectangleF(m_theme.Padding - m_hScrollBar.Value, y + (m_theme.Padding / 2), widthAvailableForText, m_songCache.LineHeight);
+                                        rectAlbumTitleText = new RectangleF(m_theme.Padding - m_hScrollBar.Value + sizeArtistName.Width + m_theme.Padding, y + (m_theme.Padding / 2), widthAvailableForText - sizeArtistName.Width, m_songCache.LineHeight);
                                     }
                                     else
                                     {
@@ -1587,8 +1302,8 @@ namespace MPfm.WindowsControls
                                             sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
 
                                             // Display the album title at the top of the zome
-                                            rectArtistNameText = new RectangleF(m_padding - m_hScrollBar.Value, y + m_padding, widthAvailableForText, heightWithPadding);
-                                            rectAlbumTitleText = new RectangleF(m_padding - m_hScrollBar.Value, y + m_padding + sizeArtistName.Height, widthAvailableForText, heightWithPadding);
+                                            rectArtistNameText = new RectangleF(m_theme.Padding - m_hScrollBar.Value, y + m_theme.Padding, widthAvailableForText, heightWithPadding);
+                                            rectAlbumTitleText = new RectangleF(m_theme.Padding - m_hScrollBar.Value, y + m_theme.Padding + sizeArtistName.Height, widthAvailableForText, heightWithPadding);
                                         }
                                         else
                                         {
@@ -1617,7 +1332,7 @@ namespace MPfm.WindowsControls
                                                 stringFormat.Alignment = StringAlignment.Near;
                                                 stringFormat.Trimming = StringTrimming.EllipsisWord;
 
-                                                float widthRemainingForText = m_columns[0].Width - m_padding - heightWithPadding;
+                                                float widthRemainingForText = m_columns[0].Width - m_theme.Padding - heightWithPadding;
 
                                                 // Measure strings
                                                 sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
@@ -1633,28 +1348,28 @@ namespace MPfm.WindowsControls
 
                                                 useAlbumArtOverlay = true;
 
-                                                float albumCoverX = (m_columns[0].Width - heightWithPadding - m_padding - m_padding - maxWidth) / 2;
+                                                float albumCoverX = (m_columns[0].Width - heightWithPadding - m_theme.Padding - m_theme.Padding - maxWidth) / 2;
                                                 float artistNameY = (albumCoverZoneHeight - sizeArtistName.Height - sizeAlbumTitle.Height) / 2;
 
                                                 // Display the album title at the top of the zome
-                                                rectArtistNameText = new RectangleF(albumCoverX + heightWithPadding + m_padding - m_hScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
-                                                rectAlbumTitleText = new RectangleF(albumCoverX + heightWithPadding + m_padding - m_hScrollBar.Value, y + artistNameY + sizeArtistName.Height, widthRemainingForText, heightWithPadding);
+                                                rectArtistNameText = new RectangleF(albumCoverX + heightWithPadding + m_theme.Padding - m_hScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
+                                                rectAlbumTitleText = new RectangleF(albumCoverX + heightWithPadding + m_theme.Padding - m_hScrollBar.Value, y + artistNameY + sizeArtistName.Height, widthRemainingForText, heightWithPadding);
 
                                                 // Set cover art rectangle
-                                                rectAlbumCoverArt = new RectangleF(albumCoverX - m_hScrollBar.Value, y + m_padding, heightWithPadding, heightWithPadding);
+                                                rectAlbumCoverArt = new RectangleF(albumCoverX - m_hScrollBar.Value, y + m_theme.Padding, heightWithPadding, heightWithPadding);
                                             }
                                             // 7 and more lines
                                             else
                                             {
                                                 // Display artist name at the top of the album cover; display album title at the bottom of the album cover
-                                                rectArtistNameText = new RectangleF(((m_columns[0].Width - sizeArtistName.Width) / 2) - m_hScrollBar.Value, y + (m_padding * 2), widthAvailableForText, heightWithPadding);
+                                                rectArtistNameText = new RectangleF(((m_columns[0].Width - sizeArtistName.Width) / 2) - m_hScrollBar.Value, y + (m_theme.Padding * 2), widthAvailableForText, heightWithPadding);
                                                 rectAlbumTitleText = new RectangleF(((m_columns[0].Width - sizeAlbumTitle.Width) / 2) - m_hScrollBar.Value, y + heightWithPadding - sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
 
                                                 // Draw background overlay behind text
                                                 useAlbumArtOverlay = true;
 
                                                 // Try to horizontally center the album cover if it's not taking the whole width (less padding)
-                                                float albumCoverX = m_padding;
+                                                float albumCoverX = m_theme.Padding;
                                                 if (m_columns[0].Width > heightWithPadding)
                                                 {
                                                     // Get position
@@ -1662,7 +1377,7 @@ namespace MPfm.WindowsControls
                                                 }
 
                                                 // Set cover art rectangle
-                                                rectAlbumCoverArt = new RectangleF(albumCoverX, y + m_padding, heightWithPadding, heightWithPadding);
+                                                rectAlbumCoverArt = new RectangleF(albumCoverX, y + m_theme.Padding, heightWithPadding, heightWithPadding);
                                             }
 
                                         }
@@ -1678,8 +1393,8 @@ namespace MPfm.WindowsControls
                                     if (useAlbumArtOverlay)
                                     {
                                         // Draw artist name and album title background
-                                        RectangleF rectArtistNameBackground = new RectangleF(rectArtistNameText.X - (m_padding / 2), rectArtistNameText.Y - (m_padding / 2), sizeArtistName.Width + m_padding, sizeArtistName.Height + m_padding);
-                                        RectangleF rectAlbumTitleBackground = new RectangleF(rectAlbumTitleText.X - (m_padding / 2), rectAlbumTitleText.Y - (m_padding / 2), sizeAlbumTitle.Width + m_padding, sizeAlbumTitle.Height + m_padding);
+                                        RectangleF rectArtistNameBackground = new RectangleF(rectArtistNameText.X - (m_theme.Padding / 2), rectArtistNameText.Y - (m_theme.Padding / 2), sizeArtistName.Width + m_theme.Padding, sizeArtistName.Height + m_theme.Padding);
+                                        RectangleF rectAlbumTitleBackground = new RectangleF(rectAlbumTitleText.X - (m_theme.Padding / 2), rectAlbumTitleText.Y - (m_theme.Padding / 2), sizeAlbumTitle.Width + m_theme.Padding, sizeAlbumTitle.Height + m_theme.Padding);
                                         brush = new SolidBrush(Color.FromArgb(190, 0, 0, 0));
                                         g.FillRectangle(brush, rectArtistNameBackground);
                                         g.FillRectangle(brush, rectAlbumTitleBackground);
@@ -1693,7 +1408,7 @@ namespace MPfm.WindowsControls
 
                                     // Draw horizontal line to distinguish albums
                                     // Part 1: Draw line over grid
-                                    pen = new Pen(AlbumCoverBackgroundColor1);
+                                    pen = new Pen(m_theme.AlbumCoverBackgroundColor1);
                                     g.DrawLine(pen, new Point(m_columns[0].Width, y), new Point(ClientRectangle.Width, y));
                                     pen.Dispose();
                                     pen = null;
@@ -1792,12 +1507,12 @@ namespace MPfm.WindowsControls
                                 }
 
                                 // Display text
-                                rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_padding / 2), m_songCache.ActiveColumns[b].Width, m_songCache.LineHeight - m_padding);
+                                rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_theme.Padding / 2), m_songCache.ActiveColumns[b].Width, m_songCache.LineHeight - m_theme.Padding);
                                 stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                                 stringFormat.Alignment = StringAlignment.Near;
 
                                 // Check if this is the artist name column
-                                brush = new SolidBrush(LineForeColor);
+                                brush = new SolidBrush(m_theme.LineForeColor);
                                 if (column.FieldName == "ArtistName" || column.FieldName == "DiscTrackNumber")
                                 {
                                     // Use bold for artist name
@@ -1828,7 +1543,7 @@ namespace MPfm.WindowsControls
 
             // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
             Rectangle rectBackgroundHeader = new Rectangle(0, -1, ClientRectangle.Width, m_songCache.LineHeight + 1);
-            brushGradient = new LinearGradientBrush(rectBackgroundHeader, HeaderColor1, HeaderColor2, 90);
+            brushGradient = new LinearGradientBrush(rectBackgroundHeader, m_theme.HeaderColor1, m_theme.HeaderColor2, 90);
             g.FillRectangle(brushGradient, rectBackgroundHeader);
             brushGradient.Dispose();
             brushGradient = null;
@@ -1859,10 +1574,9 @@ namespace MPfm.WindowsControls
                     // Check if mouse is over this column header
                     if (column.IsMouseOverColumnHeader)
                     {
-                        // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
-                        //rect = new Rectangle(offsetX - m_hScrollBar.Value, -1, columnWidth, m_songCache.LineHeight + 1);
+                        // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
                         rect = new Rectangle(offsetX - m_hScrollBar.Value, -1, column.Width, m_songCache.LineHeight + 1);
-                        brushGradient = new LinearGradientBrush(rect, HeaderHoverColor1, HeaderHoverColor2, 90);
+                        brushGradient = new LinearGradientBrush(rect, m_theme.HeaderHoverColor1, m_theme.HeaderHoverColor2, 90);
                         g.FillRectangle(brushGradient, rect);
                         brushGradient.Dispose();
                         brushGradient = null;
@@ -1872,9 +1586,9 @@ namespace MPfm.WindowsControls
                     if (m_songCache.ActiveColumns[b].IsHeaderTitleVisible)
                     {
                         // Display title                
-                        Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_padding / 2, column.Width, m_songCache.LineHeight - m_padding);
+                        Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_theme.Padding / 2, column.Width, m_songCache.LineHeight - m_theme.Padding);
                         stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-                        brush = new SolidBrush(HeaderForeColor);
+                        brush = new SolidBrush(m_theme.HeaderForeColor);
                         g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
                         brush.Dispose();
                         brush = null;
@@ -1918,7 +1632,7 @@ namespace MPfm.WindowsControls
                         }
 
                         // Draw triangle
-                        pen = new Pen(HeaderForeColor);
+                        pen = new Pen(m_theme.HeaderForeColor);
                         g.DrawPolygon(pen, ptTriangle);
                         pen.Dispose();
                         pen = null;
@@ -2825,7 +2539,7 @@ namespace MPfm.WindowsControls
         public void InvalidateSongCache()
         {
             // Check if columns have been created
-            if (m_columns == null || m_columns.Count == 0)
+            if (m_columns == null || m_columns.Count == 0 || m_items == null)
             {
                 return;
             }
@@ -2856,7 +2570,7 @@ namespace MPfm.WindowsControls
             bmpTemp = null;
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
-            m_songCache.LineHeight = (int)sizeFont.Height + m_padding;
+            m_songCache.LineHeight = (int)sizeFont.Height + m_theme.Padding;
             m_songCache.TotalHeight = m_songCache.LineHeight * m_items.Count;
 
             // Check if the total active columns width exceed the width available in the control

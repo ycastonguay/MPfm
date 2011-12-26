@@ -78,15 +78,58 @@ namespace MPfm
             InitializeComponent();
             m_main = main;
 
-            m_peakFile = new PeakFile(5);
-            m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
-            m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
-            m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
+            //m_peakFile = new PeakFile(5);
+            //m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
+            //m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
+            //m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
             //m_updateLibrary = new UpdateLibrary(5, Main.Library.Gateway.DatabaseFilePath);
             //m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
             //m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
+        }
 
+        /// <summary>
+        /// Occurs when the form has loaded.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void frmSettings_Load(object sender, EventArgs e)
+        {
+            List<string> controls = new List<string>();
+            controls.Add("Main.SongBrowser");
+            controls.Add("Playlist.SongBrowser");
+            comboThemeControl.Items.Clear();
+            foreach (string control in controls)
+            {
+                comboThemeControl.Items.Add(control);
+            }
+            comboThemeControl.SelectedIndex = 0;
+
+            // Load sample data into grid
+            List<AudioFile> audioFiles = new List<AudioFile>();
+            for (int a = 0; a < 20; a++)
+            {
+                // Create audio file
+                AudioFile audioFile = new AudioFile(@"file://", Guid.NewGuid(), false);
+                audioFile.TrackNumber = (uint)a + 1;
+                audioFile.Length = "10:23.450";
+                audioFile.ArtistName = "Artist Name";
+                audioFile.AlbumTitle = "Album Title";
+                audioFile.Title = "Song Title #" + (a + 1).ToString();
+
+                // Add to list
+                audioFiles.Add(audioFile);
+            }          
+
+            // Set now playing song
+            songBrowser.NowPlayingAudioFileId = audioFiles[0].Id;
+
+            // Load into control
+            songBrowser.ImportAudioFiles(audioFiles);
+            propertyGridTheme.SelectedObject = songBrowser.Theme;
+
+            // Set column widths
+            songBrowser.Columns[0].Width = 100;
         }
 
         protected void m_importAudioFiles_OnProcessData(UpdateLibraryProgressData data)
@@ -1000,6 +1043,16 @@ namespace MPfm
             {
                 MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
             }
+        }
+
+        private void propertyGridTheme_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            // Get theme
+            SongGridViewTheme theme = (SongGridViewTheme)propertyGridTheme.SelectedObject;
+
+            // Refresh theme
+            songBrowser.Theme = theme;
+            songBrowser.Refresh();
         }
     }
 

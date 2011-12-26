@@ -65,7 +65,7 @@ namespace TestControls
         private void trackPadding_OnTrackBarValueChanged()
         {
             lblPadding.Text = "Padding: " + trackPadding.Value.ToString() + " px";
-            songGridView.Padding = trackPadding.Value;
+            songGridView.Theme.Padding = trackPadding.Value;
             songGridView.Refresh();
         }
 

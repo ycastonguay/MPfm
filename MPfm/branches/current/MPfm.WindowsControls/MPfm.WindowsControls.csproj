@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Library\AlbumViewItem.cs" />
     <Compile Include="Library\AlbumViewCache.cs" />
+    <Compile Include="Library\SongGridViewTheme.cs" />
     <Compile Include="Library\SongGridViewMode.cs" />
     <Compile Include="Library\SongGridViewCache.cs" />
     <Compile Include="Library\SongGridViewColumn.cs" />
