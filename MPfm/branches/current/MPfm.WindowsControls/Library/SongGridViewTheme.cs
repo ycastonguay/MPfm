@@ -30,6 +30,7 @@ namespace MPfm.WindowsControls
     /// <summary>
     /// Theme object for the SongGridView control.
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SongGridViewTheme
     {
         #region Header
@@ -349,7 +350,7 @@ namespace MPfm.WindowsControls
         /// Padding used around text and album covers (in pixels).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Other"), Browsable(true), Description("Padding used around text and album covers (in pixels).")]
+        [Category("General"), Browsable(true), Description("Padding used around text and album covers (in pixels).")]
         public int Padding
         {
             get
@@ -369,6 +370,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the font used in the control.
         /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("General"), Browsable(true), Description("Font used to render the control.")]
         public CustomFont Font
         {
             get
@@ -386,17 +389,11 @@ namespace MPfm.WindowsControls
         /// </summary>
         public SongGridViewTheme()
         {
-            // Set default values            
+            // Set default values
+            m_font = new CustomFont();
+            m_font.EmbeddedFontName = "Junction";
+            m_font.Size = 8;
+            m_font.UseEmbeddedFont = true;
         }
-    }
-
-    public class ThemeFont
-    {
-        public string FontName { get; set; }
-        public bool IsFontEmbedded { get; set; }
-        public bool IsBold { get; set; }
-        public bool IsItalic { get; set; }
-        public bool IsUnderlined { get; set; }
-
     }
 }

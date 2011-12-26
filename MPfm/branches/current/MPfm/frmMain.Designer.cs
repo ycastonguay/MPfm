@@ -2336,17 +2336,14 @@ namespace MPfm
             // 
             this.viewSongs2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewSongs2.AntiAliasingEnabled = true;
+            | System.Windows.Forms.AnchorStyles.Right)));            
             this.viewSongs2.CanChangeOrderBy = true;
             this.viewSongs2.CanMoveColumns = true;
             this.viewSongs2.CanReorderItems = false;
             this.viewSongs2.CanResizeColumns = true;
-            this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;
-            this.viewSongs2.CustomFontName = "Junction";
+            this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;            
             this.viewSongs2.DisplayDebugInformation = false;
             this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs2.FontCollection = this.fontCollection;
             this.viewSongs2.ImageCacheSize = 10;
             this.viewSongs2.Location = new System.Drawing.Point(0, 48);
             this.viewSongs2.Name = "viewSongs2";
@@ -2359,13 +2356,13 @@ namespace MPfm
             this.viewSongs2.Text = "songGridView1";
             songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             songGridViewTheme1.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
-            customFont19.EmbeddedFontName = "";
+            customFont19.EmbeddedFontName = "Junction";
             customFont19.IsBold = false;
             customFont19.IsItalic = false;
             customFont19.IsUnderline = false;
             customFont19.Size = 8;
             customFont19.StandardFontName = "Arial";
-            customFont19.UseEmbeddedFont = false;
+            customFont19.UseEmbeddedFont = true;
             songGridViewTheme1.Font = customFont19;
             songGridViewTheme1.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             songGridViewTheme1.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));

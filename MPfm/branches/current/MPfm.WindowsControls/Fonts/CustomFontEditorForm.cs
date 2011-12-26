@@ -35,6 +35,8 @@ namespace MPfm.WindowsControls
     /// </summary>
     public partial class CustomFontEditorForm : Form
     {
+        // Private variables
+        private bool m_formLoaded = false;
         private InstalledFontCollection m_fonts = null;
         private EmbeddedFontCollection m_embeddedFonts = null;
 
@@ -110,9 +112,7 @@ namespace MPfm.WindowsControls
                     comboCustomFontName.SelectedItem = embeddedFont;
                     break;
                 }
-            }
-
-            
+            }            
 
             // Set initial values
             radioUseCustomFont.Checked = CustomFont.UseEmbeddedFont;
@@ -120,10 +120,17 @@ namespace MPfm.WindowsControls
             trackFontSize.Value = CustomFont.Size;
             chkIsBold.Checked = CustomFont.IsBold;
             chkIsItalic.Checked = CustomFont.IsItalic;
-            chkIsUnderline.Checked = CustomFont.IsUnderline;            
-           
+            chkIsUnderline.Checked = CustomFont.IsUnderline;
+
+            // Refresh preview
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
+
             // Set text
             Text = "Edit font";
+
+            // Set flags
+            m_formLoaded = true;
         }
 
         /// <summary>
@@ -157,6 +164,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void comboCustomFontName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Get embedded font
             EmbeddedFont font = (EmbeddedFont)comboCustomFontName.SelectedItem;
 
@@ -173,6 +186,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void comboStandardFontName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Set preview font
             string font = (comboStandardFontName.Items.Count > 0) ? comboStandardFontName.Items[comboStandardFontName.SelectedIndex].ToString() : "";
 
@@ -193,6 +212,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void radioUseCustomFont_CheckedChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Set control enable
             radioUseStandardFont.Checked = !radioUseCustomFont.Checked;
             comboStandardFontName.Enabled = radioUseStandardFont.Checked;
@@ -211,6 +236,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void radioUseStandardFont_CheckedChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Set control enable
             radioUseCustomFont.Checked = !radioUseStandardFont.Checked;
             comboStandardFontName.Enabled = radioUseStandardFont.Checked;
@@ -229,6 +260,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void trackFontSize_Scroll(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Update label
             lblFontSize.Text = "Font Size: " + trackFontSize.Value.ToString() + " pt";
 
@@ -245,6 +282,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void chkIsBold_CheckedChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Set bold
             CustomFont.IsBold = chkIsBold.Checked;
             lblPreview.CustomFont = CustomFont;
@@ -258,6 +301,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void chkIsItalic_CheckedChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Set italic
             CustomFont.IsItalic = chkIsItalic.Checked;
             lblPreview.CustomFont = CustomFont;
@@ -271,6 +320,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         private void chkIsUnderline_CheckedChanged(object sender, EventArgs e)
         {
+            // Check if the form is loading
+            if (!m_formLoaded)
+            {
+                return;
+            }
+
             // Set underline
             CustomFont.IsUnderline = chkIsUnderline.Checked;
             lblPreview.CustomFont = CustomFont;

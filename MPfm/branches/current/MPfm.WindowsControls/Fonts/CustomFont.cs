@@ -168,6 +168,25 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the UseAntiAliasing property.
+        /// </summary>
+        private bool m_useAntiAliasing = true;
+        /// <summary>
+        /// Defines if the font should use anti-aliasing.
+        /// </summary>
+        public bool UseAntiAliasing
+        {
+            get
+            {
+                return m_useAntiAliasing;
+            }
+            set
+            {
+                m_useAntiAliasing = value;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for CustomFont.
         /// </summary>
         public CustomFont()

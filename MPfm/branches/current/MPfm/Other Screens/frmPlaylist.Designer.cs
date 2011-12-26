@@ -364,17 +364,14 @@ namespace MPfm
             // 
             this.viewSongs2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewSongs2.AntiAliasingEnabled = true;
+            | System.Windows.Forms.AnchorStyles.Right)));            
             this.viewSongs2.CanChangeOrderBy = false;
             this.viewSongs2.CanMoveColumns = false;
             this.viewSongs2.CanReorderItems = true;
             this.viewSongs2.CanResizeColumns = true;
-            this.viewSongs2.ContextMenuStrip = this.menuPlaylist;
-            this.viewSongs2.CustomFontName = "Junction";
+            this.viewSongs2.ContextMenuStrip = this.menuPlaylist;            
             this.viewSongs2.DisplayDebugInformation = false;
-            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs2.FontCollection = this.fontCollection;            
+            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.viewSongs2.ImageCacheSize = 10;
             this.viewSongs2.Location = new System.Drawing.Point(0, 25);
             this.viewSongs2.Name = "viewSongs2";

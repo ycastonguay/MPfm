@@ -126,6 +126,7 @@ namespace MPfm
             songBrowser.NowPlayingAudioFileId = audioFiles[0].Id;
 
             // Load into control
+            songBrowser.Theme = Main.viewSongs2.Theme;
             songBrowser.ImportAudioFiles(audioFiles);
             propertyGridTheme.SelectedObject = songBrowser.Theme;
 
@@ -1053,6 +1054,7 @@ namespace MPfm
 
             // Refresh theme
             songBrowser.Theme = theme;
+            songBrowser.InvalidateSongCache();
             songBrowser.Refresh();
         }
     }

@@ -620,17 +620,14 @@ namespace MPfm
             this.splitContainer1.TabIndex = 101;
             // 
             // songBrowser
-            // 
-            this.songBrowser.AntiAliasingEnabled = true;
+            //             
             this.songBrowser.CanChangeOrderBy = false;
             this.songBrowser.CanMoveColumns = false;
             this.songBrowser.CanReorderItems = true;
-            this.songBrowser.CanResizeColumns = true;
-            this.songBrowser.CustomFontName = "Junction";
+            this.songBrowser.CanResizeColumns = true;            
             this.songBrowser.DisplayDebugInformation = false;
             this.songBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.songBrowser.FontCollection = this.fontCollection;
+            this.songBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.songBrowser.ImageCacheSize = 10;
             this.songBrowser.Location = new System.Drawing.Point(0, 0);
             this.songBrowser.Name = "songBrowser";

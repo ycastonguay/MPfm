@@ -136,23 +136,23 @@ namespace TestControls
 
         private void ReassignFont()
         {
-            if (radioUseCustomFont.Checked)
-            {
-                songGridView.CustomFontName = comboCustomFontName.SelectedItem.ToString();
-            }
-            else
-            {
-                try
-                {
-                    songGridView.Font = new Font(comboStandardFontName.SelectedItem.ToString(), Font.Size, Font.Style);
-                }
-                catch (Exception ex)
-                {
-                    // Replace by default font
-                    songGridView.Font = new Font("Tahoma", Font.Size, Font.Style);
-                }
-                songGridView.CustomFontName = string.Empty;
-            }
+            //if (radioUseCustomFont.Checked)
+            //{
+            //    songGridView.CustomFontName = comboCustomFontName.SelectedItem.ToString();
+            //}
+            //else
+            //{
+            //    try
+            //    {
+            //        songGridView.Font = new Font(comboStandardFontName.SelectedItem.ToString(), Font.Size, Font.Style);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Replace by default font
+            //        songGridView.Font = new Font("Tahoma", Font.Size, Font.Style);
+            //    }
+            //    songGridView.CustomFontName = string.Empty;
+            //}
 
             songGridView.Refresh();
         }

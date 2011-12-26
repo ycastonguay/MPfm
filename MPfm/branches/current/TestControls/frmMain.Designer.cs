@@ -370,12 +370,9 @@
             // 
             this.songGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.songGridView.AntiAliasingEnabled = true;
-            this.songGridView.ContextMenuStrip = this.contextMenuStrip1;
-            this.songGridView.CustomFontName = "Junction";
-            this.songGridView.DisplayDebugInformation = false;
-            this.songGridView.FontCollection = this.fontCollection;            
+            | System.Windows.Forms.AnchorStyles.Right)));            
+            this.songGridView.ContextMenuStrip = this.contextMenuStrip1;            
+            this.songGridView.DisplayDebugInformation = false;            
             this.songGridView.ImageCacheSize = 10;            
             this.songGridView.Location = new System.Drawing.Point(0, 173);
             this.songGridView.Name = "songGridView";            

@@ -111,8 +111,6 @@ namespace MPfm.WindowsControls
 
         #region Properties
         
-        #region Theme Properties
-
         /// <summary>
         /// Private value for the Theme property.
         /// </summary>
@@ -131,113 +129,6 @@ namespace MPfm.WindowsControls
                 m_theme = value;
             }
         }
-
-        #region Header
-
-
-        /// <summary>
-        /// Private value for the HeaderCustomFontName property.
-        /// </summary>
-        private string m_headerCustomFontName = "";
-        /// <summary>
-        /// Name of the embedded font for the header (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Theme"), Browsable(true), Description("Name of the embedded font for the header (as written in the Name property of a CustomFont).")]
-        public string HeaderCustomFontName
-        {
-            get
-            {
-                return m_headerCustomFontName;
-            }
-            set
-            {
-                m_headerCustomFontName = value;
-            }
-        }
-
-        #endregion
-
-        ///// <summary>
-        ///// Private value for the Padding property.
-        ///// </summary>
-        //private int m_padding = 6;
-        ///// <summary>
-        ///// Padding used around text and album covers (in pixels).
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[Category("Theme"), Browsable(true), Description("Padding used around text and album covers (in pixels).")]        
-        //public int Padding
-        //{
-        //    get
-        //    {
-        //        return m_padding;
-        //    }
-        //    set
-        //    {
-        //        m_padding = value;
-        //        m_songCache = null;
-        //    }
-        //}
-
-        #endregion
-
-        #region Font Properties
-
-        /// <summary>
-        /// Pointer to the embedded font collection.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        /// <summary>
-        /// Private value for the AntiAliasingEnabled property.
-        /// </summary>
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
-        {
-            get
-            {
-                return m_antiAliasingEnabled;
-            }
-            set
-            {
-                m_antiAliasingEnabled = value;
-            }
-        }
-
-        /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
-
-        /// <summary>
-        /// Overrides the Font property to invalidate the cache when updating the font.
-        /// </summary>
-        public override Font Font
-        {
-            get
-            {
-                return base.Font;
-            }
-            set
-            {
-                base.Font = value;
-                m_songCache = null;
-            }
-        }
-
-        #endregion
 
         #region Other Properties (Items, Columns, Menus, etc.)
 
@@ -957,21 +848,60 @@ namespace MPfm.WindowsControls
             //bool regenerateItems = true;
             bool nowPlayingSongFound = false;
 
-            // Load custom font
-            Font fontDefault = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Regular);
-            Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
+            //// Load custom font
+            //Font fontDefault = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Regular);
+            //Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
+            Font fontDefault = null;
+            Font fontDefaultBold = null;
 
-            // Load default fonts if custom fonts were not found
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (m_theme.Font.UseEmbeddedFont && !String.IsNullOrEmpty(m_theme.Font.EmbeddedFontName))
+            {
+                try
+                {
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                    // Get embedded fonts
+                    fontDefault = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle());
+                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    fontDefault = this.Font;
+                    fontDefaultBold = new Font(this.Font, FontStyle.Bold);
+                }
+            }
+
+            // Check if font is null
             if (fontDefault == null)
             {
-                // Load default font
-                fontDefault = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Regular);
+                try
+                {
+                    // Try to get standard font
+                    fontDefault = new Font(m_theme.Font.StandardFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle());
+                    fontDefaultBold = new Font(m_theme.Font.StandardFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    fontDefault = this.Font;
+                    fontDefaultBold = new Font(this.Font, FontStyle.Bold);
+                }
             }
-            if (fontDefaultBold == null)
-            {
-                // Load default font
-                fontDefaultBold = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Bold);
-            }
+
+            //// Load default fonts if custom fonts were not found
+            //if (fontDefault == null)
+            //{
+            //    // Load default font
+            //    fontDefault = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Regular);
+            //}
+            //if (fontDefaultBold == null)
+            //{
+            //    // Load default font
+            //    fontDefaultBold = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Bold);
+            //}
 
             // Set string format
             StringFormat stringFormat = new StringFormat();
@@ -1507,7 +1437,7 @@ namespace MPfm.WindowsControls
                                 }
 
                                 // Display text
-                                rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_theme.Padding / 2), m_songCache.ActiveColumns[b].Width, m_songCache.LineHeight - m_theme.Padding);
+                                rect = new Rectangle(offsetX - m_hScrollBar.Value, offsetY + (m_theme.Padding / 2), m_songCache.ActiveColumns[b].Width, m_songCache.LineHeight - m_theme.Padding + 2);
                                 stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                                 stringFormat.Alignment = StringAlignment.Near;
 
@@ -1586,7 +1516,7 @@ namespace MPfm.WindowsControls
                     if (m_songCache.ActiveColumns[b].IsHeaderTitleVisible)
                     {
                         // Display title                
-                        Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_theme.Padding / 2, column.Width, m_songCache.LineHeight - m_theme.Padding);
+                        Rectangle rectTitle = new Rectangle(offsetX - m_hScrollBar.Value, m_theme.Padding / 2, column.Width, m_songCache.LineHeight - m_theme.Padding + 2);
                         stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         brush = new SolidBrush(m_theme.HeaderForeColor);
                         g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
@@ -2551,14 +2481,48 @@ namespace MPfm.WindowsControls
             m_songCache.ActiveColumns = m_columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
 
             // Load custom font
-            Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
+            //Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
+            Font fontDefaultBold = null;
 
-            // Load default fonts if custom fonts were not found
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (m_theme.Font.UseEmbeddedFont && !String.IsNullOrEmpty(m_theme.Font.EmbeddedFontName))
+            {
+                try
+                {
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                    // Get embedded fonts                    
+                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead                    
+                    fontDefaultBold = new Font(this.Font, FontStyle.Bold);
+                }
+            }
+
+            // Check if font is null
             if (fontDefaultBold == null)
             {
-                // Load default font
-                fontDefaultBold = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Bold);
+                try
+                {
+                    // Try to get standard font                    
+                    fontDefaultBold = new Font(m_theme.Font.StandardFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead                    
+                    fontDefaultBold = new Font(this.Font, FontStyle.Bold);
+                }
             }
+
+            //// Load default fonts if custom fonts were not found
+            //if (fontDefaultBold == null)
+            //{
+            //    // Load default font
+            //    fontDefaultBold = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Bold);
+            //}
 
             // Create temporary bitmap/graphics objects to measure a string (to determine line height)
             Bitmap bmpTemp = new Bitmap(200, 100);
