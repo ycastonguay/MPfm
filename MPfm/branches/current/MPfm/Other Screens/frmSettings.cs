@@ -246,10 +246,10 @@ namespace MPfm
             // Check if the settings have changed
             if (settingsChanged)
             {
-                // Compare the original configured values to make sure the settings have really changed
-                if(driver.DriverType != Main.Config.Audio.DriverType ||
-                   device.Name.ToUpper() != Main.Config.Audio.Device.Name.ToUpper())
-                {
+                //// Compare the original configured values to make sure the settings have really changed
+                //if(driver.DriverType != Main.Config.Audio.DriverType ||
+                //   device.Name.ToUpper() != Main.Config.Audio.Device.Name.ToUpper())
+                //{
                     // Yes they have really changed!
                     // Have the new settings been tested?
                     if (!settingsTested)
@@ -296,7 +296,7 @@ namespace MPfm
                             saveSettings = true;
                         }
                     }
-                }
+                //}
 
                 // Ask user to save.
 
@@ -393,10 +393,11 @@ namespace MPfm
         private void LoadAudioConfig()
         {
             // Load values into controls
-            //chkHideTray.Checked = Main.Config.HideTray;
-            //chkShowTray.Checked = Main.Config.ShowTray;
             cboOutputDevices.SelectedText = Main.Config.Audio.Device.Name;
-            cboDrivers.SelectedValue = Main.Config.Audio.DriverType;            
+            cboDrivers.SelectedValue = Main.Config.Audio.DriverType;
+            txtMixerSampleRate.Value = Main.Config.Audio.Mixer.Frequency;
+            txtBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
+            txtUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
 
             // Check driver
             if (Main.Config.Audio.DriverType == DriverType.DirectSound)
@@ -457,6 +458,10 @@ namespace MPfm
             // Save configuration values
             Main.Config.Audio.Device.Name = device.Name;
             Main.Config.Audio.DriverType = driver.DriverType;
+            Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
+            Main.Config.Audio.Mixer.BufferSize = (int)txtBufferSize.Value;
+            Main.Config.Audio.Mixer.UpdatePeriod = (int)txtUpdatePeriod.Value;
+            
         }
 
         /// <summary>
@@ -867,6 +872,72 @@ namespace MPfm
 
         #endregion
 
+        /// <summary>
+        /// Occurs when the user clicks on the "Display MPfm in system tray" label.
+        /// Triggers the related checkbox.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblShowTray_Click(object sender, EventArgs e)
+        {
+            // Set opposite value
+            chkShowTray.Checked = !chkShowTray.Checked;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Hide MPfm in system tray" label.
+        /// Triggers the related checkbox.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblHideTray_Click(object sender, EventArgs e)
+        {
+            // Set opposite value
+            if (chkHideTray.Enabled)
+            {
+                chkHideTray.Checked = !chkHideTray.Checked;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the mixer sample rate value changes.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void txtMixerSampleRate_ValueChanged(object sender, EventArgs e)
+        {
+            // Set flags
+            settingsChanged = true;
+            settingsTested = false;
+            testSuccessful = false;
+        }
+
+        /// <summary>
+        /// Occurs when the buffer size value changes.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void txtBufferSize_ValueChanged(object sender, EventArgs e)
+        {
+            // Set flags
+            settingsChanged = true;
+            settingsTested = false;
+            testSuccessful = false;
+        }
+
+        /// <summary>
+        /// Occurs when the update period value changes.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void txtUpdatePeriod_ValueChanged(object sender, EventArgs e)
+        {
+            // Set flags
+            settingsChanged = true;
+            settingsTested = false;
+            testSuccessful = false;
+        }
+
         private void btnTestPeak_Click(object sender, EventArgs e)
         {
             try
@@ -928,21 +999,6 @@ namespace MPfm
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-            }
-        }
-
-        private void lblShowTray_Click(object sender, EventArgs e)
-        {
-            // Set opposite value
-            chkShowTray.Checked = !chkShowTray.Checked;
-        }
-
-        private void lblHideTray_Click(object sender, EventArgs e)
-        {
-            // Set opposite value
-            if (chkHideTray.Enabled)
-            {
-                chkHideTray.Checked = !chkHideTray.Checked;
             }
         }
     }

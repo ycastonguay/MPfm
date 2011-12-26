@@ -37,21 +37,14 @@ namespace MPfm
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabAudioSettings = new System.Windows.Forms.TabPage();
             this.panelAudioSettings = new MPfm.WindowsControls.Panel();
-            this.lblShowTray = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
-            this.lblTest = new MPfm.WindowsControls.Label();
-            this.btnStopPeak = new MPfm.WindowsControls.Button();
-            this.btnTestPeak = new MPfm.WindowsControls.Button();
-            this.txtPath = new System.Windows.Forms.TextBox();
             this.lblOutputDriver = new MPfm.WindowsControls.Label();
-            this.chkShowTray = new System.Windows.Forms.CheckBox();
-            this.chkHideTray = new System.Windows.Forms.CheckBox();
             this.btnTestSound = new MPfm.WindowsControls.Button();
             this.cboOutputDevices = new System.Windows.Forms.ComboBox();
             this.lblDriver = new MPfm.WindowsControls.Label();
             this.cboDrivers = new System.Windows.Forms.ComboBox();
             this.tabLibrary = new System.Windows.Forms.TabPage();
-            this.panelLibrary = new MPfm.WindowsControls.Panel();
+            this.panelLibrarySettings = new MPfm.WindowsControls.Panel();
             this.btnRemoveFolder = new MPfm.WindowsControls.Button();
             this.viewFolders = new MPfm.WindowsControls.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -64,17 +57,41 @@ namespace MPfm
             this.btnClose = new MPfm.WindowsControls.Button();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.panelBackground = new MPfm.WindowsControls.Panel();
+            this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.panelGeneralSettings = new MPfm.WindowsControls.Panel();
             this.lblHideTray = new MPfm.WindowsControls.Label();
+            this.lblShowTray = new MPfm.WindowsControls.Label();
+            this.chkShowTray = new System.Windows.Forms.CheckBox();
+            this.chkHideTray = new System.Windows.Forms.CheckBox();
+            this.lblTest = new MPfm.WindowsControls.Label();
+            this.btnStopPeak = new MPfm.WindowsControls.Button();
+            this.btnTestPeak = new MPfm.WindowsControls.Button();
+            this.txtPath = new System.Windows.Forms.TextBox();
+            this.lblMixerSampleRate = new MPfm.WindowsControls.Label();
+            this.lblBufferSize = new MPfm.WindowsControls.Label();
+            this.lblUpdatePeriod = new MPfm.WindowsControls.Label();
+            this.txtUpdatePeriod = new System.Windows.Forms.NumericUpDown();
+            this.lblUpdatePeriodUnit = new MPfm.WindowsControls.Label();
+            this.lblBufferSizeUnit = new MPfm.WindowsControls.Label();
+            this.txtBufferSize = new System.Windows.Forms.NumericUpDown();
+            this.lblMixerSampleRateUnit = new MPfm.WindowsControls.Label();
+            this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
             this.tabs.SuspendLayout();
             this.tabAudioSettings.SuspendLayout();
             this.panelAudioSettings.SuspendLayout();
             this.tabLibrary.SuspendLayout();
-            this.panelLibrary.SuspendLayout();
+            this.panelLibrarySettings.SuspendLayout();
             this.panelBackground.SuspendLayout();
+            this.tabGeneral.SuspendLayout();
+            this.panelGeneralSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpdatePeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBufferSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
             this.SuspendLayout();
             // 
             // tabs
             // 
+            this.tabs.Controls.Add(this.tabGeneral);
             this.tabs.Controls.Add(this.tabAudioSettings);
             this.tabs.Controls.Add(this.tabLibrary);
             this.tabs.Location = new System.Drawing.Point(0, 0);
@@ -90,21 +107,22 @@ namespace MPfm
             this.tabAudioSettings.Name = "tabAudioSettings";
             this.tabAudioSettings.Size = new System.Drawing.Size(500, 281);
             this.tabAudioSettings.TabIndex = 2;
-            this.tabAudioSettings.Text = "Audio Settings";
+            this.tabAudioSettings.Text = "Audio";
             this.tabAudioSettings.UseVisualStyleBackColor = true;
             // 
             // panelAudioSettings
             // 
             this.panelAudioSettings.AntiAliasingEnabled = true;
-            this.panelAudioSettings.Controls.Add(this.lblHideTray);
-            this.panelAudioSettings.Controls.Add(this.lblShowTray);
-            this.panelAudioSettings.Controls.Add(this.lblTest);
-            this.panelAudioSettings.Controls.Add(this.btnStopPeak);
-            this.panelAudioSettings.Controls.Add(this.btnTestPeak);
-            this.panelAudioSettings.Controls.Add(this.txtPath);
+            this.panelAudioSettings.Controls.Add(this.lblMixerSampleRateUnit);
+            this.panelAudioSettings.Controls.Add(this.txtMixerSampleRate);
+            this.panelAudioSettings.Controls.Add(this.lblBufferSizeUnit);
+            this.panelAudioSettings.Controls.Add(this.txtBufferSize);
+            this.panelAudioSettings.Controls.Add(this.lblUpdatePeriodUnit);
+            this.panelAudioSettings.Controls.Add(this.txtUpdatePeriod);
+            this.panelAudioSettings.Controls.Add(this.lblUpdatePeriod);
+            this.panelAudioSettings.Controls.Add(this.lblBufferSize);
+            this.panelAudioSettings.Controls.Add(this.lblMixerSampleRate);
             this.panelAudioSettings.Controls.Add(this.lblOutputDriver);
-            this.panelAudioSettings.Controls.Add(this.chkShowTray);
-            this.panelAudioSettings.Controls.Add(this.chkHideTray);
             this.panelAudioSettings.Controls.Add(this.btnTestSound);
             this.panelAudioSettings.Controls.Add(this.cboOutputDevices);
             this.panelAudioSettings.Controls.Add(this.lblDriver);
@@ -130,20 +148,6 @@ namespace MPfm
             this.panelAudioSettings.Size = new System.Drawing.Size(500, 281);
             this.panelAudioSettings.TabIndex = 16;
             // 
-            // lblShowTray
-            // 
-            this.lblShowTray.AntiAliasingEnabled = true;
-            this.lblShowTray.BackColor = System.Drawing.Color.Transparent;
-            this.lblShowTray.CustomFontName = "Junction";
-            this.lblShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShowTray.FontCollection = this.fontCollection;
-            this.lblShowTray.Location = new System.Drawing.Point(21, 179);
-            this.lblShowTray.Name = "lblShowTray";
-            this.lblShowTray.Size = new System.Drawing.Size(208, 17);
-            this.lblShowTray.TabIndex = 87;
-            this.lblShowTray.Text = "Show MPfm in the system tray";
-            this.lblShowTray.Click += new System.EventHandler(this.lblShowTray_Click);
-            // 
             // fontCollection
             // 
             customFont1.AssemblyPath = "MPfm.Fonts.dll";
@@ -167,94 +171,6 @@ namespace MPfm
             this.fontCollection.Fonts.Add(customFont4);
             this.fontCollection.Fonts.Add(customFont5);
             // 
-            // lblTest
-            // 
-            this.lblTest.AntiAliasingEnabled = true;
-            this.lblTest.BackColor = System.Drawing.Color.Transparent;
-            this.lblTest.CustomFontName = "Junction";
-            this.lblTest.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTest.FontCollection = this.fontCollection;
-            this.lblTest.Location = new System.Drawing.Point(232, 156);
-            this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(254, 17);
-            this.lblTest.TabIndex = 86;
-            this.lblTest.Text = "Audio file directory for peak file generation:";
-            this.lblTest.Visible = false;
-            // 
-            // btnStopPeak
-            // 
-            this.btnStopPeak.AntiAliasingEnabled = true;
-            this.btnStopPeak.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.btnStopPeak.BorderWidth = 1;
-            this.btnStopPeak.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStopPeak.CustomFontName = "Junction";
-            this.btnStopPeak.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnStopPeak.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnStopPeak.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnStopPeak.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnStopPeak.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStopPeak.FontCollection = this.fontCollection;
-            this.btnStopPeak.FontColor = System.Drawing.Color.Black;
-            this.btnStopPeak.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnStopPeak.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnStopPeak.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStopPeak.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnStopPeak.Location = new System.Drawing.Point(392, 205);
-            this.btnStopPeak.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnStopPeak.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnStopPeak.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnStopPeak.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnStopPeak.Name = "btnStopPeak";
-            this.btnStopPeak.Size = new System.Drawing.Size(77, 23);
-            this.btnStopPeak.TabIndex = 85;
-            this.btnStopPeak.Text = "Stop Peak";
-            this.btnStopPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnStopPeak.UseVisualStyleBackColor = true;
-            this.btnStopPeak.Visible = false;
-            this.btnStopPeak.Click += new System.EventHandler(this.btnStopPeak_Click);
-            // 
-            // btnTestPeak
-            // 
-            this.btnTestPeak.AntiAliasingEnabled = true;
-            this.btnTestPeak.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.btnTestPeak.BorderWidth = 1;
-            this.btnTestPeak.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTestPeak.CustomFontName = "Junction";
-            this.btnTestPeak.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnTestPeak.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnTestPeak.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnTestPeak.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnTestPeak.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestPeak.FontCollection = this.fontCollection;
-            this.btnTestPeak.FontColor = System.Drawing.Color.Black;
-            this.btnTestPeak.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnTestPeak.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnTestPeak.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnTestPeak.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTestPeak.Location = new System.Drawing.Point(309, 205);
-            this.btnTestPeak.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnTestPeak.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnTestPeak.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnTestPeak.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnTestPeak.Name = "btnTestPeak";
-            this.btnTestPeak.Size = new System.Drawing.Size(77, 23);
-            this.btnTestPeak.TabIndex = 84;
-            this.btnTestPeak.Text = "Test Peak";
-            this.btnTestPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTestPeak.UseVisualStyleBackColor = true;
-            this.btnTestPeak.Visible = false;
-            this.btnTestPeak.Click += new System.EventHandler(this.btnTestPeak_Click);
-            // 
-            // txtPath
-            // 
-            this.txtPath.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPath.Location = new System.Drawing.Point(235, 178);
-            this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(251, 21);
-            this.txtPath.TabIndex = 83;
-            this.txtPath.Text = "E:\\Mp3\\Bob Marley\\Exodus\\";
-            this.txtPath.Visible = false;
-            // 
             // lblOutputDriver
             // 
             this.lblOutputDriver.AntiAliasingEnabled = true;
@@ -267,35 +183,6 @@ namespace MPfm
             this.lblOutputDriver.Size = new System.Drawing.Size(89, 17);
             this.lblOutputDriver.TabIndex = 11;
             this.lblOutputDriver.Text = "Output device:";
-            // 
-            // chkShowTray
-            // 
-            this.chkShowTray.AutoSize = true;
-            this.chkShowTray.BackColor = System.Drawing.Color.Transparent;
-            this.chkShowTray.Checked = true;
-            this.chkShowTray.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkShowTray.Location = new System.Drawing.Point(6, 183);
-            this.chkShowTray.Name = "chkShowTray";
-            this.chkShowTray.Size = new System.Drawing.Size(15, 14);
-            this.chkShowTray.TabIndex = 10;
-            this.chkShowTray.UseVisualStyleBackColor = false;
-            this.chkShowTray.CheckedChanged += new System.EventHandler(this.chkShowTray_CheckedChanged);
-            // 
-            // chkHideTray
-            // 
-            this.chkHideTray.AutoSize = true;
-            this.chkHideTray.BackColor = System.Drawing.Color.Transparent;
-            this.chkHideTray.Checked = true;
-            this.chkHideTray.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHideTray.Enabled = false;
-            this.chkHideTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkHideTray.Location = new System.Drawing.Point(6, 204);
-            this.chkHideTray.Name = "chkHideTray";
-            this.chkHideTray.Size = new System.Drawing.Size(15, 14);
-            this.chkHideTray.TabIndex = 6;
-            this.chkHideTray.UseVisualStyleBackColor = false;
-            this.chkHideTray.CheckedChanged += new System.EventHandler(this.chkHideTray_CheckedChanged);
             // 
             // btnTestSound
             // 
@@ -316,7 +203,7 @@ namespace MPfm
             this.btnTestSound.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnTestSound.Image = global::MPfm.Properties.Resources.sound;
             this.btnTestSound.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTestSound.Location = new System.Drawing.Point(6, 133);
+            this.btnTestSound.Location = new System.Drawing.Point(6, 179);
             this.btnTestSound.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.btnTestSound.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnTestSound.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -374,7 +261,7 @@ namespace MPfm
             // 
             // tabLibrary
             // 
-            this.tabLibrary.Controls.Add(this.panelLibrary);
+            this.tabLibrary.Controls.Add(this.panelLibrarySettings);
             this.tabLibrary.Location = new System.Drawing.Point(4, 24);
             this.tabLibrary.Name = "tabLibrary";
             this.tabLibrary.Size = new System.Drawing.Size(500, 281);
@@ -382,35 +269,35 @@ namespace MPfm
             this.tabLibrary.Text = "Library";
             this.tabLibrary.UseVisualStyleBackColor = true;
             // 
-            // panelLibrary
+            // panelLibrarySettings
             // 
-            this.panelLibrary.AntiAliasingEnabled = true;
-            this.panelLibrary.Controls.Add(this.btnRemoveFolder);
-            this.panelLibrary.Controls.Add(this.viewFolders);
-            this.panelLibrary.Controls.Add(this.btnAddFolder);
-            this.panelLibrary.Controls.Add(this.Button1);
-            this.panelLibrary.Controls.Add(this.lblFoldersTitle);
-            this.panelLibrary.Controls.Add(this.btnResetLibrary);
-            this.panelLibrary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLibrary.ExpandedHeight = 200;
-            this.panelLibrary.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelLibrary.FontCollection = this.fontCollection;
-            this.panelLibrary.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelLibrary.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelLibrary.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLibrary.HeaderCustomFontName = "TitilliumText22L Lt";
-            this.panelLibrary.HeaderExpandable = false;
-            this.panelLibrary.HeaderExpanded = true;
-            this.panelLibrary.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelLibrary.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelLibrary.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panelLibrary.HeaderHeight = 30;
-            this.panelLibrary.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelLibrary.HeaderTitle = "Library";
-            this.panelLibrary.Location = new System.Drawing.Point(0, 0);
-            this.panelLibrary.Name = "panelLibrary";
-            this.panelLibrary.Size = new System.Drawing.Size(500, 281);
-            this.panelLibrary.TabIndex = 17;
+            this.panelLibrarySettings.AntiAliasingEnabled = true;
+            this.panelLibrarySettings.Controls.Add(this.btnRemoveFolder);
+            this.panelLibrarySettings.Controls.Add(this.viewFolders);
+            this.panelLibrarySettings.Controls.Add(this.btnAddFolder);
+            this.panelLibrarySettings.Controls.Add(this.Button1);
+            this.panelLibrarySettings.Controls.Add(this.lblFoldersTitle);
+            this.panelLibrarySettings.Controls.Add(this.btnResetLibrary);
+            this.panelLibrarySettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLibrarySettings.ExpandedHeight = 200;
+            this.panelLibrarySettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelLibrarySettings.FontCollection = this.fontCollection;
+            this.panelLibrarySettings.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelLibrarySettings.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelLibrarySettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelLibrarySettings.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelLibrarySettings.HeaderExpandable = false;
+            this.panelLibrarySettings.HeaderExpanded = true;
+            this.panelLibrarySettings.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelLibrarySettings.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelLibrarySettings.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelLibrarySettings.HeaderHeight = 30;
+            this.panelLibrarySettings.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelLibrarySettings.HeaderTitle = "Library Settings";
+            this.panelLibrarySettings.Location = new System.Drawing.Point(0, 0);
+            this.panelLibrarySettings.Name = "panelLibrarySettings";
+            this.panelLibrarySettings.Size = new System.Drawing.Size(500, 281);
+            this.panelLibrarySettings.TabIndex = 17;
             // 
             // btnRemoveFolder
             // 
@@ -663,6 +550,48 @@ namespace MPfm
             this.panelBackground.Size = new System.Drawing.Size(508, 362);
             this.panelBackground.TabIndex = 63;
             // 
+            // tabGeneral
+            // 
+            this.tabGeneral.Controls.Add(this.panelGeneralSettings);
+            this.tabGeneral.Location = new System.Drawing.Point(4, 24);
+            this.tabGeneral.Name = "tabGeneral";
+            this.tabGeneral.Size = new System.Drawing.Size(500, 281);
+            this.tabGeneral.TabIndex = 3;
+            this.tabGeneral.Text = "General";
+            this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // panelGeneralSettings
+            // 
+            this.panelGeneralSettings.AntiAliasingEnabled = true;
+            this.panelGeneralSettings.Controls.Add(this.lblTest);
+            this.panelGeneralSettings.Controls.Add(this.btnStopPeak);
+            this.panelGeneralSettings.Controls.Add(this.btnTestPeak);
+            this.panelGeneralSettings.Controls.Add(this.txtPath);
+            this.panelGeneralSettings.Controls.Add(this.lblHideTray);
+            this.panelGeneralSettings.Controls.Add(this.lblShowTray);
+            this.panelGeneralSettings.Controls.Add(this.chkShowTray);
+            this.panelGeneralSettings.Controls.Add(this.chkHideTray);
+            this.panelGeneralSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelGeneralSettings.ExpandedHeight = 200;
+            this.panelGeneralSettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelGeneralSettings.FontCollection = this.fontCollection;
+            this.panelGeneralSettings.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelGeneralSettings.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelGeneralSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelGeneralSettings.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelGeneralSettings.HeaderExpandable = false;
+            this.panelGeneralSettings.HeaderExpanded = true;
+            this.panelGeneralSettings.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelGeneralSettings.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelGeneralSettings.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelGeneralSettings.HeaderHeight = 30;
+            this.panelGeneralSettings.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelGeneralSettings.HeaderTitle = "General Settings";
+            this.panelGeneralSettings.Location = new System.Drawing.Point(0, 0);
+            this.panelGeneralSettings.Name = "panelGeneralSettings";
+            this.panelGeneralSettings.Size = new System.Drawing.Size(500, 281);
+            this.panelGeneralSettings.TabIndex = 17;
+            // 
             // lblHideTray
             // 
             this.lblHideTray.AntiAliasingEnabled = true;
@@ -670,12 +599,281 @@ namespace MPfm
             this.lblHideTray.CustomFontName = "Junction";
             this.lblHideTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHideTray.FontCollection = this.fontCollection;
-            this.lblHideTray.Location = new System.Drawing.Point(21, 200);
+            this.lblHideTray.Location = new System.Drawing.Point(20, 57);
             this.lblHideTray.Name = "lblHideTray";
             this.lblHideTray.Size = new System.Drawing.Size(254, 17);
-            this.lblHideTray.TabIndex = 88;
+            this.lblHideTray.TabIndex = 92;
             this.lblHideTray.Text = "Hide MPfm in the system tray when closed";
             this.lblHideTray.Click += new System.EventHandler(this.lblHideTray_Click);
+            // 
+            // lblShowTray
+            // 
+            this.lblShowTray.AntiAliasingEnabled = true;
+            this.lblShowTray.BackColor = System.Drawing.Color.Transparent;
+            this.lblShowTray.CustomFontName = "Junction";
+            this.lblShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShowTray.FontCollection = this.fontCollection;
+            this.lblShowTray.Location = new System.Drawing.Point(20, 36);
+            this.lblShowTray.Name = "lblShowTray";
+            this.lblShowTray.Size = new System.Drawing.Size(208, 17);
+            this.lblShowTray.TabIndex = 91;
+            this.lblShowTray.Text = "Show MPfm in the system tray";
+            this.lblShowTray.Click += new System.EventHandler(this.lblShowTray_Click);
+            // 
+            // chkShowTray
+            // 
+            this.chkShowTray.AutoSize = true;
+            this.chkShowTray.BackColor = System.Drawing.Color.Transparent;
+            this.chkShowTray.Checked = true;
+            this.chkShowTray.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkShowTray.Location = new System.Drawing.Point(5, 40);
+            this.chkShowTray.Name = "chkShowTray";
+            this.chkShowTray.Size = new System.Drawing.Size(15, 14);
+            this.chkShowTray.TabIndex = 90;
+            this.chkShowTray.UseVisualStyleBackColor = false;
+            this.chkShowTray.CheckedChanged += new System.EventHandler(this.chkShowTray_CheckedChanged);
+            // 
+            // chkHideTray
+            // 
+            this.chkHideTray.AutoSize = true;
+            this.chkHideTray.BackColor = System.Drawing.Color.Transparent;
+            this.chkHideTray.Checked = true;
+            this.chkHideTray.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkHideTray.Enabled = false;
+            this.chkHideTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkHideTray.Location = new System.Drawing.Point(5, 61);
+            this.chkHideTray.Name = "chkHideTray";
+            this.chkHideTray.Size = new System.Drawing.Size(15, 14);
+            this.chkHideTray.TabIndex = 89;
+            this.chkHideTray.UseVisualStyleBackColor = false;
+            this.chkHideTray.CheckedChanged += new System.EventHandler(this.chkHideTray_CheckedChanged);
+            // 
+            // lblTest
+            // 
+            this.lblTest.AntiAliasingEnabled = true;
+            this.lblTest.BackColor = System.Drawing.Color.Transparent;
+            this.lblTest.CustomFontName = "Junction";
+            this.lblTest.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTest.FontCollection = this.fontCollection;
+            this.lblTest.Location = new System.Drawing.Point(8, 130);
+            this.lblTest.Name = "lblTest";
+            this.lblTest.Size = new System.Drawing.Size(254, 17);
+            this.lblTest.TabIndex = 96;
+            this.lblTest.Text = "Audio file directory for peak file generation:";
+            this.lblTest.Visible = false;
+            // 
+            // btnStopPeak
+            // 
+            this.btnStopPeak.AntiAliasingEnabled = true;
+            this.btnStopPeak.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnStopPeak.BorderWidth = 1;
+            this.btnStopPeak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStopPeak.CustomFontName = "Junction";
+            this.btnStopPeak.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnStopPeak.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnStopPeak.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnStopPeak.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnStopPeak.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStopPeak.FontCollection = this.fontCollection;
+            this.btnStopPeak.FontColor = System.Drawing.Color.Black;
+            this.btnStopPeak.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnStopPeak.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnStopPeak.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnStopPeak.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnStopPeak.Location = new System.Drawing.Point(168, 179);
+            this.btnStopPeak.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnStopPeak.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnStopPeak.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnStopPeak.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnStopPeak.Name = "btnStopPeak";
+            this.btnStopPeak.Size = new System.Drawing.Size(77, 23);
+            this.btnStopPeak.TabIndex = 95;
+            this.btnStopPeak.Text = "Stop Peak";
+            this.btnStopPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnStopPeak.UseVisualStyleBackColor = true;
+            this.btnStopPeak.Visible = false;
+            // 
+            // btnTestPeak
+            // 
+            this.btnTestPeak.AntiAliasingEnabled = true;
+            this.btnTestPeak.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnTestPeak.BorderWidth = 1;
+            this.btnTestPeak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTestPeak.CustomFontName = "Junction";
+            this.btnTestPeak.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnTestPeak.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnTestPeak.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnTestPeak.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnTestPeak.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestPeak.FontCollection = this.fontCollection;
+            this.btnTestPeak.FontColor = System.Drawing.Color.Black;
+            this.btnTestPeak.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnTestPeak.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnTestPeak.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnTestPeak.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnTestPeak.Location = new System.Drawing.Point(85, 179);
+            this.btnTestPeak.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTestPeak.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnTestPeak.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnTestPeak.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnTestPeak.Name = "btnTestPeak";
+            this.btnTestPeak.Size = new System.Drawing.Size(77, 23);
+            this.btnTestPeak.TabIndex = 94;
+            this.btnTestPeak.Text = "Test Peak";
+            this.btnTestPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnTestPeak.UseVisualStyleBackColor = true;
+            this.btnTestPeak.Visible = false;
+            // 
+            // txtPath
+            // 
+            this.txtPath.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPath.Location = new System.Drawing.Point(11, 152);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(251, 21);
+            this.txtPath.TabIndex = 93;
+            this.txtPath.Text = "E:\\Mp3\\Bob Marley\\Exodus\\";
+            this.txtPath.Visible = false;
+            // 
+            // lblMixerSampleRate
+            // 
+            this.lblMixerSampleRate.AntiAliasingEnabled = true;
+            this.lblMixerSampleRate.BackColor = System.Drawing.Color.Transparent;
+            this.lblMixerSampleRate.CustomFontName = "Junction";
+            this.lblMixerSampleRate.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMixerSampleRate.FontCollection = this.fontCollection;
+            this.lblMixerSampleRate.Location = new System.Drawing.Point(3, 127);
+            this.lblMixerSampleRate.Name = "lblMixerSampleRate";
+            this.lblMixerSampleRate.Size = new System.Drawing.Size(106, 17);
+            this.lblMixerSampleRate.TabIndex = 82;
+            this.lblMixerSampleRate.Text = "Mixer sample rate:";
+            // 
+            // lblBufferSize
+            // 
+            this.lblBufferSize.AntiAliasingEnabled = true;
+            this.lblBufferSize.BackColor = System.Drawing.Color.Transparent;
+            this.lblBufferSize.CustomFontName = "Junction";
+            this.lblBufferSize.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBufferSize.FontCollection = this.fontCollection;
+            this.lblBufferSize.Location = new System.Drawing.Point(122, 127);
+            this.lblBufferSize.Name = "lblBufferSize";
+            this.lblBufferSize.Size = new System.Drawing.Size(106, 17);
+            this.lblBufferSize.TabIndex = 84;
+            this.lblBufferSize.Text = "Buffer size:";
+            // 
+            // lblUpdatePeriod
+            // 
+            this.lblUpdatePeriod.AntiAliasingEnabled = true;
+            this.lblUpdatePeriod.BackColor = System.Drawing.Color.Transparent;
+            this.lblUpdatePeriod.CustomFontName = "Junction";
+            this.lblUpdatePeriod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUpdatePeriod.FontCollection = this.fontCollection;
+            this.lblUpdatePeriod.Location = new System.Drawing.Point(223, 127);
+            this.lblUpdatePeriod.Name = "lblUpdatePeriod";
+            this.lblUpdatePeriod.Size = new System.Drawing.Size(106, 17);
+            this.lblUpdatePeriod.TabIndex = 86;
+            this.lblUpdatePeriod.Text = "Update period:";
+            // 
+            // txtUpdatePeriod
+            // 
+            this.txtUpdatePeriod.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUpdatePeriod.Location = new System.Drawing.Point(226, 146);
+            this.txtUpdatePeriod.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.txtUpdatePeriod.Name = "txtUpdatePeriod";
+            this.txtUpdatePeriod.Size = new System.Drawing.Size(41, 23);
+            this.txtUpdatePeriod.TabIndex = 88;
+            this.txtUpdatePeriod.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.txtUpdatePeriod.ValueChanged += new System.EventHandler(this.txtUpdatePeriod_ValueChanged);
+            // 
+            // lblUpdatePeriodUnit
+            // 
+            this.lblUpdatePeriodUnit.AntiAliasingEnabled = true;
+            this.lblUpdatePeriodUnit.BackColor = System.Drawing.Color.Transparent;
+            this.lblUpdatePeriodUnit.CustomFontName = "Junction";
+            this.lblUpdatePeriodUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUpdatePeriodUnit.FontCollection = this.fontCollection;
+            this.lblUpdatePeriodUnit.Location = new System.Drawing.Point(269, 146);
+            this.lblUpdatePeriodUnit.Name = "lblUpdatePeriodUnit";
+            this.lblUpdatePeriodUnit.Size = new System.Drawing.Size(39, 17);
+            this.lblUpdatePeriodUnit.TabIndex = 89;
+            this.lblUpdatePeriodUnit.Text = "ms";
+            // 
+            // lblBufferSizeUnit
+            // 
+            this.lblBufferSizeUnit.AntiAliasingEnabled = true;
+            this.lblBufferSizeUnit.BackColor = System.Drawing.Color.Transparent;
+            this.lblBufferSizeUnit.CustomFontName = "Junction";
+            this.lblBufferSizeUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBufferSizeUnit.FontCollection = this.fontCollection;
+            this.lblBufferSizeUnit.Location = new System.Drawing.Point(175, 146);
+            this.lblBufferSizeUnit.Name = "lblBufferSizeUnit";
+            this.lblBufferSizeUnit.Size = new System.Drawing.Size(39, 17);
+            this.lblBufferSizeUnit.TabIndex = 91;
+            this.lblBufferSizeUnit.Text = "ms";
+            // 
+            // txtBufferSize
+            // 
+            this.txtBufferSize.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBufferSize.Location = new System.Drawing.Point(125, 146);
+            this.txtBufferSize.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.txtBufferSize.Name = "txtBufferSize";
+            this.txtBufferSize.Size = new System.Drawing.Size(48, 23);
+            this.txtBufferSize.TabIndex = 90;
+            this.txtBufferSize.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.txtBufferSize.ValueChanged += new System.EventHandler(this.txtBufferSize_ValueChanged);
+            // 
+            // lblMixerSampleRateUnit
+            // 
+            this.lblMixerSampleRateUnit.AntiAliasingEnabled = true;
+            this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
+            this.lblMixerSampleRateUnit.CustomFontName = "Junction";
+            this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMixerSampleRateUnit.FontCollection = this.fontCollection;
+            this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(70, 146);
+            this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";
+            this.lblMixerSampleRateUnit.Size = new System.Drawing.Size(39, 17);
+            this.lblMixerSampleRateUnit.TabIndex = 93;
+            this.lblMixerSampleRateUnit.Text = "Hz";
+            // 
+            // txtMixerSampleRate
+            // 
+            this.txtMixerSampleRate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMixerSampleRate.Location = new System.Drawing.Point(6, 146);
+            this.txtMixerSampleRate.Maximum = new decimal(new int[] {
+            96000,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.Minimum = new decimal(new int[] {
+            44100,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.Name = "txtMixerSampleRate";
+            this.txtMixerSampleRate.Size = new System.Drawing.Size(62, 23);
+            this.txtMixerSampleRate.TabIndex = 92;
+            this.txtMixerSampleRate.Value = new decimal(new int[] {
+            44100,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.ValueChanged += new System.EventHandler(this.txtMixerSampleRate_ValueChanged);
             // 
             // frmSettings
             // 
@@ -699,10 +897,15 @@ namespace MPfm
             this.tabs.ResumeLayout(false);
             this.tabAudioSettings.ResumeLayout(false);
             this.panelAudioSettings.ResumeLayout(false);
-            this.panelAudioSettings.PerformLayout();
             this.tabLibrary.ResumeLayout(false);
-            this.panelLibrary.ResumeLayout(false);
+            this.panelLibrarySettings.ResumeLayout(false);
             this.panelBackground.ResumeLayout(false);
+            this.tabGeneral.ResumeLayout(false);
+            this.panelGeneralSettings.ResumeLayout(false);
+            this.panelGeneralSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpdatePeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBufferSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -719,26 +922,37 @@ namespace MPfm
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ComboBox cboOutputDevices;
-        private System.Windows.Forms.CheckBox chkHideTray;
         private MPfm.WindowsControls.Button btnResetLibrary;
         private MPfm.WindowsControls.Button btnClose;
         private MPfm.WindowsControls.Button Button1;
-        private System.Windows.Forms.CheckBox chkShowTray;
         private MPfm.WindowsControls.Label lblOutputDriver;
         private MPfm.WindowsControls.Label lblDriver;
         private System.Windows.Forms.ComboBox cboDrivers;
         private MPfm.WindowsControls.Button btnTestSound;
         private System.Windows.Forms.OpenFileDialog dialogOpenFile;
         private MPfm.WindowsControls.Panel panelAudioSettings;
-        private MPfm.WindowsControls.Panel panelLibrary;
+        private MPfm.WindowsControls.Panel panelLibrarySettings;
         private MPfm.WindowsControls.Button btnRemoveFolder;
         private MPfm.WindowsControls.Button btnAddFolder;
-        private System.Windows.Forms.TextBox txtPath;
+        private WindowsControls.Panel panelBackground;
+        private System.Windows.Forms.TabPage tabGeneral;
+        private WindowsControls.Panel panelGeneralSettings;
+        private WindowsControls.Label lblTest;
         private WindowsControls.Button btnStopPeak;
         private WindowsControls.Button btnTestPeak;
-        private WindowsControls.Label lblTest;
-        private WindowsControls.Panel panelBackground;
-        private WindowsControls.Label lblShowTray;
+        private System.Windows.Forms.TextBox txtPath;
         private WindowsControls.Label lblHideTray;
+        private WindowsControls.Label lblShowTray;
+        private System.Windows.Forms.CheckBox chkShowTray;
+        private System.Windows.Forms.CheckBox chkHideTray;
+        private WindowsControls.Label lblMixerSampleRate;
+        private WindowsControls.Label lblBufferSize;
+        private WindowsControls.Label lblUpdatePeriod;
+        private System.Windows.Forms.NumericUpDown txtUpdatePeriod;
+        private WindowsControls.Label lblUpdatePeriodUnit;
+        private WindowsControls.Label lblMixerSampleRateUnit;
+        private System.Windows.Forms.NumericUpDown txtMixerSampleRate;
+        private WindowsControls.Label lblBufferSizeUnit;
+        private System.Windows.Forms.NumericUpDown txtBufferSize;
     }
 }
