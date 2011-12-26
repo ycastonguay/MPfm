@@ -128,7 +128,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABW
-        XwAAAk1TRnQBSQFMAgEBFwEAAZwBBAGcAQQBEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        XwAAAk1TRnQBSQFMAgEBFwEAAaQBBAGkAQQBEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABYAMAAQEBAAEgBgABYJIAQP/AAAT/A4EB/wPxAf8DgQH/A4EB/wOBAf8DqQH/A6QB/wOgAf8DpAH/
         A4EB/wOBAf8DgQH/A7gB/wOGAf8DgQH/YAADBwEJXAAE/wOBAf8D7gH/A4EB/wOBAf8DiQH/A5gB/wOB
         Af8DgQH/A4EB/wOkAf8DgQH/A4EB/wOBAf8DwgH/A4EB/1wAA1kB9QOBAf8DGAEhWAAE/wOBAf8DxQH/
@@ -549,11 +549,11 @@
   <metadata name="dialogAddFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>21, 57</value>
   </metadata>
-  <metadata name="fontCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>708, 54</value>
-  </metadata>
   <metadata name="menuLibrary.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>193, 17</value>
+  </metadata>
+  <metadata name="fontCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>708, 54</value>
   </metadata>
   <metadata name="imageListSongBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>442, 54</value>
@@ -563,7 +563,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADU
-        AQAAAk1TRnQBSQFMAwEBAAFEAQMBRAEDARABAAEQAQAE/wERAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        AQAAAk1TRnQBSQFMAwEBAAFMAQMBTAEDARABAAEQAQAE/wERAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
         ARADAAEBAQABEAYAAQj/ACMAAVkBZ3wAAQEBFgHgAQ0BNwFfegABAQEaAYgBLgECARoBFgFbcAABRAEq
         AUMBJgMiAR4BZwEuARABSwGIATIBAgEaARYBW24AAWUBLgEyAVcBMQFTAREBUwERAU8BzQFCARABSwGJ
         ATIBAgEWARUBW2wAAWYCMgFXAe0BRgHtAUYBzAFCAcwBQgHMAUIBEAFPAYcBLgEAARJsAAGGATYBMgFb

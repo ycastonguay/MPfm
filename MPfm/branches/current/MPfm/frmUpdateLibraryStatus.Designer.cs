@@ -28,19 +28,27 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.EmbeddedFont customFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibraryStatus));
             this.workerUpdateLibrary = new System.ComponentModel.BackgroundWorker();
             this.workerTimer = new System.ComponentModel.BackgroundWorker();
             this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelMain = new MPfm.WindowsControls.Panel();
             this.lblEstimatedTimeLeft = new MPfm.WindowsControls.Label();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lblTimeElapsed = new MPfm.WindowsControls.Label();
             this.linkSaveLog = new MPfm.WindowsControls.LinkLabel();
+            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lblSongTitle = new MPfm.WindowsControls.Label();
             this.lblAlbum = new MPfm.WindowsControls.Label();
             this.lblArtist = new MPfm.WindowsControls.Label();
@@ -120,8 +128,16 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEstimatedTimeLeft.AntiAliasingEnabled = true;
             this.lblEstimatedTimeLeft.BackColor = System.Drawing.Color.Transparent;
+            customFont1.EmbeddedFontName = "Junction";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 8;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseEmbeddedFont = true;
+            this.lblEstimatedTimeLeft.CustomFont = customFont1;
             this.lblEstimatedTimeLeft.CustomFontName = "Junction";
-            this.lblEstimatedTimeLeft.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
+            this.lblEstimatedTimeLeft.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEstimatedTimeLeft.ForeColor = System.Drawing.Color.LightGray;
             this.lblEstimatedTimeLeft.Location = new System.Drawing.Point(508, 187);
             this.lblEstimatedTimeLeft.Name = "lblEstimatedTimeLeft";
@@ -130,31 +146,20 @@ namespace MPfm
             this.lblEstimatedTimeLeft.Text = "Estimated time left :";
             this.lblEstimatedTimeLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // fontCollection
-            // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "Droid Sans Mono";
-            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            // 
             // lblTimeElapsed
             // 
             this.lblTimeElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTimeElapsed.AntiAliasingEnabled = true;
             this.lblTimeElapsed.BackColor = System.Drawing.Color.Transparent;
+            customFont2.EmbeddedFontName = "Junction";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 8;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseEmbeddedFont = true;
+            this.lblTimeElapsed.CustomFont = customFont2;
             this.lblTimeElapsed.CustomFontName = "Junction";
             this.lblTimeElapsed.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeElapsed.ForeColor = System.Drawing.Color.LightGray;
@@ -184,10 +189,37 @@ namespace MPfm
             this.linkSaveLog.Visible = false;
             this.linkSaveLog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSaveLog_LinkClicked);
             // 
+            // fontCollection
+            // 
+            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont1.Name = "LeagueGothic";
+            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont2.Name = "Junction";
+            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont3.Name = "TitilliumText22L Lt";
+            embeddedFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont4.Name = "Droid Sans Mono";
+            embeddedFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(embeddedFont1);
+            this.fontCollection.Fonts.Add(embeddedFont2);
+            this.fontCollection.Fonts.Add(embeddedFont3);
+            this.fontCollection.Fonts.Add(embeddedFont4);
+            // 
             // lblSongTitle
             // 
             this.lblSongTitle.AntiAliasingEnabled = true;
             this.lblSongTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont3.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont3.IsBold = false;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 11;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseEmbeddedFont = true;
+            this.lblSongTitle.CustomFont = customFont3;
             this.lblSongTitle.CustomFontName = "TitilliumText22L Lt";
             this.lblSongTitle.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongTitle.ForeColor = System.Drawing.Color.Gray;
@@ -202,6 +234,14 @@ namespace MPfm
             // 
             this.lblAlbum.AntiAliasingEnabled = true;
             this.lblAlbum.BackColor = System.Drawing.Color.Transparent;
+            customFont4.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont4.IsBold = false;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 11;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseEmbeddedFont = true;
+            this.lblAlbum.CustomFont = customFont4;
             this.lblAlbum.CustomFontName = "TitilliumText22L Lt";
             this.lblAlbum.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAlbum.ForeColor = System.Drawing.Color.LightGray;
@@ -216,6 +256,14 @@ namespace MPfm
             // 
             this.lblArtist.AntiAliasingEnabled = true;
             this.lblArtist.BackColor = System.Drawing.Color.Transparent;
+            customFont5.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont5.IsBold = true;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 12;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseEmbeddedFont = true;
+            this.lblArtist.CustomFont = customFont5;
             this.lblArtist.CustomFontName = "TitilliumText22L Lt";
             this.lblArtist.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblArtist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
@@ -297,6 +345,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblProgress.AntiAliasingEnabled = true;
             this.lblProgress.BackColor = System.Drawing.Color.Transparent;
+            customFont6.EmbeddedFontName = "Junction";
+            customFont6.IsBold = false;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 9;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseEmbeddedFont = true;
+            this.lblProgress.CustomFont = customFont6;
             this.lblProgress.CustomFontName = "Junction";
             this.lblProgress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProgress.ForeColor = System.Drawing.Color.White;
@@ -376,6 +432,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMessage.AntiAliasingEnabled = true;
             this.lblMessage.BackColor = System.Drawing.Color.Transparent;
+            customFont7.EmbeddedFontName = "Junction";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 8;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseEmbeddedFont = true;
+            this.lblMessage.CustomFont = customFont7;
             this.lblMessage.CustomFontName = "Junction";
             this.lblMessage.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.White;
@@ -390,6 +454,14 @@ namespace MPfm
             // 
             this.lblTitle.AntiAliasingEnabled = true;
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont8.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 12;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseEmbeddedFont = true;
+            this.lblTitle.CustomFont = customFont8;
             this.lblTitle.CustomFontName = "TitilliumText22L Lt";
             this.lblTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.LightGray;

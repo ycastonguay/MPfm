@@ -29,9 +29,11 @@ namespace MPfm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            MPfm.WindowsControls.EmbeddedFont customFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont3 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSplash));
             this.timerUpdateGUI = new System.Windows.Forms.Timer(this.components);
             this.timerFading = new System.Windows.Forms.Timer(this.components);
@@ -58,8 +60,16 @@ namespace MPfm
             // 
             this.lblStatus.AntiAliasingEnabled = true;
             this.lblStatus.BackColor = System.Drawing.Color.Transparent;
+            customFont1.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 9;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseEmbeddedFont = true;
+            this.lblStatus.CustomFont = customFont1;
             this.lblStatus.CustomFontName = "TitilliumText22L Lt";
-            this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
+            this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.White;
             this.lblStatus.Location = new System.Drawing.Point(5, 481);
             this.lblStatus.Name = "lblStatus";
@@ -70,23 +80,31 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "Junction";
-            customFont1.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "TitilliumText22L Lt";
-            customFont2.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "Droid Sans Mono";
-            customFont3.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
+            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont1.Name = "Junction";
+            embeddedFont1.ResourceName = "MPfm.Fonts.Junction.ttf";
+            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont2.Name = "TitilliumText22L Lt";
+            embeddedFont2.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont3.Name = "Droid Sans Mono";
+            embeddedFont3.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(embeddedFont1);
+            this.fontCollection.Fonts.Add(embeddedFont2);
+            this.fontCollection.Fonts.Add(embeddedFont3);
             // 
             // lblVersion
             // 
             this.lblVersion.AntiAliasingEnabled = true;
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
+            customFont2.EmbeddedFontName = "Droid Sans Mono";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 9;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseEmbeddedFont = true;
+            this.lblVersion.CustomFont = customFont2;
             this.lblVersion.CustomFontName = "Droid Sans Mono";
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
             this.lblVersion.ForeColor = System.Drawing.Color.White;

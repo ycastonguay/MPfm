@@ -30,10 +30,31 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            MPfm.WindowsControls.EmbeddedFont customFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
+            MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +104,6 @@ namespace MPfm
             this.splitFirst = new System.Windows.Forms.SplitContainer();
             this.panelLibrary = new MPfm.WindowsControls.Panel();
             this.lblFilterBySoundFormat = new MPfm.WindowsControls.Label();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.treeLibrary = new System.Windows.Forms.TreeView();
             this.menuLibrary = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miTreeLibraryPlaySongs = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,6 +111,7 @@ namespace MPfm
             this.miTreeLibraryRemoveSongsFromLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.miTreeLibraryDeletePlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.comboSoundFormat = new System.Windows.Forms.ComboBox();
+            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panelCurrentSong = new MPfm.WindowsControls.Panel();
             this.panelCurrentSongChild = new MPfm.WindowsControls.Panel();
@@ -704,6 +725,14 @@ namespace MPfm
             // 
             this.lblFilterBySoundFormat.AntiAliasingEnabled = true;
             this.lblFilterBySoundFormat.BackColor = System.Drawing.Color.Transparent;
+            customFont1.EmbeddedFontName = "Junction";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 8;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseEmbeddedFont = true;
+            this.lblFilterBySoundFormat.CustomFont = customFont1;
             this.lblFilterBySoundFormat.CustomFontName = "Junction";
             this.lblFilterBySoundFormat.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFilterBySoundFormat.ForeColor = System.Drawing.Color.White;
@@ -713,25 +742,6 @@ namespace MPfm
             this.lblFilterBySoundFormat.TabIndex = 61;
             this.lblFilterBySoundFormat.Text = "Filter by Sound Format:";
             this.lblFilterBySoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // fontCollection
-            // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "TitilliumText22L Lt";
-            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "Droid Sans Mono";
-            customFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
             // 
             // treeLibrary
             // 
@@ -814,6 +824,25 @@ namespace MPfm
             this.comboSoundFormat.TabIndex = 28;
             this.comboSoundFormat.SelectedIndexChanged += new System.EventHandler(this.comboSoundFormat_SelectedIndexChanged);
             // 
+            // fontCollection
+            // 
+            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont1.Name = "LeagueGothic";
+            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont2.Name = "Junction";
+            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont3.Name = "TitilliumText22L Lt";
+            embeddedFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont4.Name = "Droid Sans Mono";
+            embeddedFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
+            this.fontCollection.Fonts.Add(embeddedFont1);
+            this.fontCollection.Fonts.Add(embeddedFont2);
+            this.fontCollection.Fonts.Add(embeddedFont3);
+            this.fontCollection.Fonts.Add(embeddedFont4);
+            // 
             // tableLayoutPanel
             // 
             this.tableLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
@@ -895,6 +924,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentFilePath.AntiAliasingEnabled = true;
             this.lblCurrentFilePath.BackColor = System.Drawing.Color.Transparent;
+            customFont2.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 8;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseEmbeddedFont = true;
+            this.lblCurrentFilePath.CustomFont = customFont2;
             this.lblCurrentFilePath.CustomFontName = "TitilliumText22L Lt";
             this.lblCurrentFilePath.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentFilePath.ForeColor = System.Drawing.Color.Gray;
@@ -941,6 +978,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFrequency.AntiAliasingEnabled = true;
             this.lblFrequency.BackColor = System.Drawing.Color.Transparent;
+            customFont3.EmbeddedFontName = "Droid Sans Mono";
+            customFont3.IsBold = false;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 7;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseEmbeddedFont = true;
+            this.lblFrequency.CustomFont = customFont3;
             this.lblFrequency.CustomFontName = "Droid Sans Mono";
             this.lblFrequency.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFrequency.ForeColor = System.Drawing.Color.White;
@@ -957,6 +1002,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFrequencyTitle.AntiAliasingEnabled = true;
             this.lblFrequencyTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont4.EmbeddedFontName = "Junction";
+            customFont4.IsBold = false;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 7;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseEmbeddedFont = true;
+            this.lblFrequencyTitle.CustomFont = customFont4;
             this.lblFrequencyTitle.CustomFontName = "Junction";
             this.lblFrequencyTitle.Font = new System.Drawing.Font("Arial", 7F);
             this.lblFrequencyTitle.ForeColor = System.Drawing.Color.Silver;
@@ -973,6 +1026,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBitrate.AntiAliasingEnabled = true;
             this.lblBitrate.BackColor = System.Drawing.Color.Transparent;
+            customFont5.EmbeddedFontName = "Droid Sans Mono";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 7;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseEmbeddedFont = true;
+            this.lblBitrate.CustomFont = customFont5;
             this.lblBitrate.CustomFontName = "Droid Sans Mono";
             this.lblBitrate.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBitrate.ForeColor = System.Drawing.Color.White;
@@ -989,6 +1050,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBitrateTitle.AntiAliasingEnabled = true;
             this.lblBitrateTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont6.EmbeddedFontName = "Junction";
+            customFont6.IsBold = false;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 7;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseEmbeddedFont = true;
+            this.lblBitrateTitle.CustomFont = customFont6;
             this.lblBitrateTitle.CustomFontName = "Junction";
             this.lblBitrateTitle.Font = new System.Drawing.Font("Arial", 7F);
             this.lblBitrateTitle.ForeColor = System.Drawing.Color.Silver;
@@ -1005,6 +1074,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSoundFormat.AntiAliasingEnabled = true;
             this.lblSoundFormat.BackColor = System.Drawing.Color.Transparent;
+            customFont7.EmbeddedFontName = "Droid Sans Mono";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 7;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseEmbeddedFont = true;
+            this.lblSoundFormat.CustomFont = customFont7;
             this.lblSoundFormat.CustomFontName = "Droid Sans Mono";
             this.lblSoundFormat.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSoundFormat.ForeColor = System.Drawing.Color.White;
@@ -1021,6 +1098,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSoundFormatTitle.AntiAliasingEnabled = true;
             this.lblSoundFormatTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont8.EmbeddedFontName = "Junction";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 7;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseEmbeddedFont = true;
+            this.lblSoundFormatTitle.CustomFont = customFont8;
             this.lblSoundFormatTitle.CustomFontName = "Junction";
             this.lblSoundFormatTitle.Font = new System.Drawing.Font("Arial", 7F);
             this.lblSoundFormatTitle.ForeColor = System.Drawing.Color.Silver;
@@ -1066,6 +1151,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSearchWeb.AntiAliasingEnabled = true;
             this.lblSearchWeb.BackColor = System.Drawing.Color.Transparent;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 7;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseEmbeddedFont = true;
+            this.lblSearchWeb.CustomFont = customFont9;
             this.lblSearchWeb.CustomFontName = "Junction";
             this.lblSearchWeb.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSearchWeb.ForeColor = System.Drawing.Color.Silver;
@@ -1279,6 +1372,14 @@ namespace MPfm
             this.lblVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVolume.AntiAliasingEnabled = true;
             this.lblVolume.BackColor = System.Drawing.Color.Transparent;
+            customFont10.EmbeddedFontName = "Droid Sans Mono";
+            customFont10.IsBold = false;
+            customFont10.IsItalic = false;
+            customFont10.IsUnderline = false;
+            customFont10.Size = 8;
+            customFont10.StandardFontName = "Arial";
+            customFont10.UseEmbeddedFont = true;
+            this.lblVolume.CustomFont = customFont10;
             this.lblVolume.CustomFontName = "Droid Sans Mono";
             this.lblVolume.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVolume.ForeColor = System.Drawing.Color.White;
@@ -1320,6 +1421,14 @@ namespace MPfm
             // 
             this.lblTimeShifting.AntiAliasingEnabled = true;
             this.lblTimeShifting.BackColor = System.Drawing.Color.Transparent;
+            customFont11.EmbeddedFontName = "Droid Sans Mono";
+            customFont11.IsBold = false;
+            customFont11.IsItalic = false;
+            customFont11.IsUnderline = false;
+            customFont11.Size = 7;
+            customFont11.StandardFontName = "Arial";
+            customFont11.UseEmbeddedFont = true;
+            this.lblTimeShifting.CustomFont = customFont11;
             this.lblTimeShifting.CustomFontName = "Droid Sans Mono";
             this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeShifting.ForeColor = System.Drawing.Color.White;
@@ -1405,6 +1514,14 @@ namespace MPfm
             this.lblSongPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSongPercentage.AntiAliasingEnabled = true;
             this.lblSongPercentage.BackColor = System.Drawing.Color.Transparent;
+            customFont12.EmbeddedFontName = "Droid Sans Mono";
+            customFont12.IsBold = false;
+            customFont12.IsItalic = false;
+            customFont12.IsUnderline = false;
+            customFont12.Size = 7;
+            customFont12.StandardFontName = "Arial";
+            customFont12.UseEmbeddedFont = true;
+            this.lblSongPercentage.CustomFont = customFont12;
             this.lblSongPercentage.CustomFontName = "Droid Sans Mono";
             this.lblSongPercentage.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPercentage.ForeColor = System.Drawing.Color.White;
@@ -1421,6 +1538,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSongPosition.AntiAliasingEnabled = true;
             this.lblSongPosition.BackColor = System.Drawing.Color.Transparent;
+            customFont13.EmbeddedFontName = "Droid Sans Mono";
+            customFont13.IsBold = false;
+            customFont13.IsItalic = false;
+            customFont13.IsUnderline = false;
+            customFont13.Size = 7;
+            customFont13.StandardFontName = "Arial";
+            customFont13.UseEmbeddedFont = true;
+            this.lblSongPosition.CustomFont = customFont13;
             this.lblSongPosition.CustomFontName = "Droid Sans Mono";
             this.lblSongPosition.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPosition.ForeColor = System.Drawing.Color.White;
@@ -1488,6 +1613,14 @@ namespace MPfm
             // 
             this.lblLength.AntiAliasingEnabled = true;
             this.lblLength.BackColor = System.Drawing.Color.Transparent;
+            customFont14.EmbeddedFontName = "Droid Sans Mono";
+            customFont14.IsBold = false;
+            customFont14.IsItalic = false;
+            customFont14.IsUnderline = false;
+            customFont14.Size = 10;
+            customFont14.StandardFontName = "Arial";
+            customFont14.UseEmbeddedFont = true;
+            this.lblLength.CustomFont = customFont14;
             this.lblLength.CustomFontName = "Droid Sans Mono";
             this.lblLength.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLength.ForeColor = System.Drawing.Color.White;
@@ -1526,6 +1659,14 @@ namespace MPfm
             // 
             this.lblCurrentPosition.AntiAliasingEnabled = true;
             this.lblCurrentPosition.BackColor = System.Drawing.Color.Transparent;
+            customFont15.EmbeddedFontName = "Droid Sans Mono";
+            customFont15.IsBold = false;
+            customFont15.IsItalic = false;
+            customFont15.IsUnderline = false;
+            customFont15.Size = 10;
+            customFont15.StandardFontName = "Arial";
+            customFont15.UseEmbeddedFont = true;
+            this.lblCurrentPosition.CustomFont = customFont15;
             this.lblCurrentPosition.CustomFontName = "Droid Sans Mono";
             this.lblCurrentPosition.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentPosition.ForeColor = System.Drawing.Color.White;
@@ -1542,6 +1683,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentSongTitle.AntiAliasingEnabled = true;
             this.lblCurrentSongTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont16.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont16.IsBold = false;
+            customFont16.IsItalic = false;
+            customFont16.IsUnderline = false;
+            customFont16.Size = 12;
+            customFont16.StandardFontName = "Arial";
+            customFont16.UseEmbeddedFont = true;
+            this.lblCurrentSongTitle.CustomFont = customFont16;
             this.lblCurrentSongTitle.CustomFontName = "TitilliumText22L Lt";
             this.lblCurrentSongTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentSongTitle.ForeColor = System.Drawing.Color.Gray;
@@ -1796,6 +1945,14 @@ namespace MPfm
             // 
             this.lblLoops.AntiAliasingEnabled = true;
             this.lblLoops.BackColor = System.Drawing.Color.Transparent;
+            customFont17.EmbeddedFontName = "Junction";
+            customFont17.IsBold = true;
+            customFont17.IsItalic = false;
+            customFont17.IsUnderline = false;
+            customFont17.Size = 8;
+            customFont17.StandardFontName = "Arial";
+            customFont17.UseEmbeddedFont = true;
+            this.lblLoops.CustomFont = customFont17;
             this.lblLoops.CustomFontName = "Junction";
             this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblLoops.ForeColor = System.Drawing.Color.White;
@@ -2010,6 +2167,14 @@ namespace MPfm
             // 
             this.lblMarkers.AntiAliasingEnabled = true;
             this.lblMarkers.BackColor = System.Drawing.Color.Transparent;
+            customFont18.EmbeddedFontName = "Junction";
+            customFont18.IsBold = true;
+            customFont18.IsItalic = false;
+            customFont18.IsUnderline = false;
+            customFont18.Size = 8;
+            customFont18.StandardFontName = "Arial";
+            customFont18.UseEmbeddedFont = true;
+            this.lblMarkers.CustomFont = customFont18;
             this.lblMarkers.CustomFontName = "Junction";
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblMarkers.ForeColor = System.Drawing.Color.White;
@@ -2181,7 +2346,7 @@ namespace MPfm
             this.viewSongs2.CustomFontName = "Junction";
             this.viewSongs2.DisplayDebugInformation = false;
             this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs2.FontCollection = this.fontCollection;            
+            this.viewSongs2.FontCollection = this.fontCollection;
             this.viewSongs2.ImageCacheSize = 10;
             this.viewSongs2.Location = new System.Drawing.Point(0, 48);
             this.viewSongs2.Name = "viewSongs2";
@@ -2192,6 +2357,30 @@ namespace MPfm
             this.viewSongs2.Size = new System.Drawing.Size(792, 239);
             this.viewSongs2.TabIndex = 74;
             this.viewSongs2.Text = "songGridView1";
+            songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            songGridViewTheme1.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            customFont19.EmbeddedFontName = "";
+            customFont19.IsBold = false;
+            customFont19.IsItalic = false;
+            customFont19.IsUnderline = false;
+            customFont19.Size = 8;
+            customFont19.StandardFontName = "Arial";
+            customFont19.UseEmbeddedFont = false;
+            songGridViewTheme1.Font = customFont19;
+            songGridViewTheme1.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            songGridViewTheme1.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            songGridViewTheme1.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            songGridViewTheme1.HeaderHoverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            songGridViewTheme1.HeaderHoverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            songGridViewTheme1.IconNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            songGridViewTheme1.IconNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
+            songGridViewTheme1.LineColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            songGridViewTheme1.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            songGridViewTheme1.LineForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            songGridViewTheme1.LineNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
+            songGridViewTheme1.LineNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
+            songGridViewTheme1.Padding = 6;
+            this.viewSongs2.Theme = songGridViewTheme1;
             this.viewSongs2.OnSelectedIndexChanged += new MPfm.WindowsControls.SongGridView.SelectedIndexChanged(this.viewSongs2_OnSelectedIndexChanged);
             this.viewSongs2.OnColumnClick += new MPfm.WindowsControls.SongGridView.ColumnClick(this.viewSongs2_OnColumnClick);
             this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
@@ -2239,6 +2428,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AntiAliasingEnabled = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
+            customFont20.EmbeddedFontName = "Junction";
+            customFont20.IsBold = false;
+            customFont20.IsItalic = false;
+            customFont20.IsUnderline = false;
+            customFont20.Size = 8;
+            customFont20.StandardFontName = "Arial";
+            customFont20.UseEmbeddedFont = true;
+            this.label1.CustomFont = customFont20;
             this.label1.CustomFontName = "Junction";
             this.label1.Font = new System.Drawing.Font("Arial", 8F);
             this.label1.ForeColor = System.Drawing.Color.Black;
@@ -2379,7 +2576,7 @@ namespace MPfm
             this.miTrayShowMPfm,
             this.miTrayExitMPfm});
             this.menuTray.Name = "menuSongBrowser";
-            this.menuTray.Size = new System.Drawing.Size(192, 302);
+            this.menuTray.Size = new System.Drawing.Size(192, 280);
             // 
             // miTrayArtistName
             // 
@@ -2387,7 +2584,7 @@ namespace MPfm
             this.miTrayArtistName.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.miTrayArtistName.Image = global::MPfm.Properties.Resources.user;
             this.miTrayArtistName.Name = "miTrayArtistName";
-            this.miTrayArtistName.Size = new System.Drawing.Size(177, 22);
+            this.miTrayArtistName.Size = new System.Drawing.Size(191, 22);
             this.miTrayArtistName.Text = "Artist Name";
             // 
             // miTrayAlbumTitle
@@ -2396,7 +2593,7 @@ namespace MPfm
             this.miTrayAlbumTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.miTrayAlbumTitle.Image = global::MPfm.Properties.Resources.cd;
             this.miTrayAlbumTitle.Name = "miTrayAlbumTitle";
-            this.miTrayAlbumTitle.Size = new System.Drawing.Size(177, 22);
+            this.miTrayAlbumTitle.Size = new System.Drawing.Size(191, 22);
             this.miTrayAlbumTitle.Text = "Album Title";
             // 
             // miTraySongTitle
@@ -2405,7 +2602,7 @@ namespace MPfm
             this.miTraySongTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.miTraySongTitle.Image = global::MPfm.Properties.Resources.music;
             this.miTraySongTitle.Name = "miTraySongTitle";
-            this.miTraySongTitle.Size = new System.Drawing.Size(177, 22);
+            this.miTraySongTitle.Size = new System.Drawing.Size(191, 22);
             this.miTraySongTitle.Text = "Song Title";
             // 
             // miTraySongPosition
@@ -2420,20 +2617,20 @@ namespace MPfm
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(174, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(188, 6);
             // 
             // miTrayPlay
             // 
             this.miTrayPlay.Image = global::MPfm.Properties.Resources.control_play;
             this.miTrayPlay.Name = "miTrayPlay";
-            this.miTrayPlay.Size = new System.Drawing.Size(177, 22);
+            this.miTrayPlay.Size = new System.Drawing.Size(191, 22);
             this.miTrayPlay.Text = "Play";
             // 
             // miTrayPause
             // 
             this.miTrayPause.Image = global::MPfm.Properties.Resources.control_pause;
             this.miTrayPause.Name = "miTrayPause";
-            this.miTrayPause.Size = new System.Drawing.Size(177, 22);
+            this.miTrayPause.Size = new System.Drawing.Size(191, 22);
             this.miTrayPause.Text = "Pause";
             this.miTrayPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
@@ -2441,7 +2638,7 @@ namespace MPfm
             // 
             this.miTrayStop.Image = global::MPfm.Properties.Resources.control_stop;
             this.miTrayStop.Name = "miTrayStop";
-            this.miTrayStop.Size = new System.Drawing.Size(177, 22);
+            this.miTrayStop.Size = new System.Drawing.Size(191, 22);
             this.miTrayStop.Text = "Stop";
             this.miTrayStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
@@ -2449,7 +2646,7 @@ namespace MPfm
             // 
             this.miTrayPreviousSong.Image = global::MPfm.Properties.Resources.control_start;
             this.miTrayPreviousSong.Name = "miTrayPreviousSong";
-            this.miTrayPreviousSong.Size = new System.Drawing.Size(177, 22);
+            this.miTrayPreviousSong.Size = new System.Drawing.Size(191, 22);
             this.miTrayPreviousSong.Text = "Previous Song";
             this.miTrayPreviousSong.Click += new System.EventHandler(this.btnPreviousSong_Click);
             // 
@@ -2457,7 +2654,7 @@ namespace MPfm
             // 
             this.miTrayNextSong.Image = global::MPfm.Properties.Resources.control_end;
             this.miTrayNextSong.Name = "miTrayNextSong";
-            this.miTrayNextSong.Size = new System.Drawing.Size(177, 22);
+            this.miTrayNextSong.Size = new System.Drawing.Size(191, 22);
             this.miTrayNextSong.Text = "Next Song";
             this.miTrayNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
             // 
@@ -2465,21 +2662,21 @@ namespace MPfm
             // 
             this.miTrayRepeat.Image = global::MPfm.Properties.Resources.control_repeat;
             this.miTrayRepeat.Name = "miTrayRepeat";
-            this.miTrayRepeat.Size = new System.Drawing.Size(177, 22);
+            this.miTrayRepeat.Size = new System.Drawing.Size(191, 22);
             this.miTrayRepeat.Text = "Repeat (Off)";
             this.miTrayRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(174, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(188, 6);
             // 
             // miTrayShowMPfm
             // 
             this.miTrayShowMPfm.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.miTrayShowMPfm.Image = global::MPfm.Properties.Resources.image;
             this.miTrayShowMPfm.Name = "miTrayShowMPfm";
-            this.miTrayShowMPfm.Size = new System.Drawing.Size(177, 22);
+            this.miTrayShowMPfm.Size = new System.Drawing.Size(191, 22);
             this.miTrayShowMPfm.Text = "Show MPfm";
             this.miTrayShowMPfm.Click += new System.EventHandler(this.miTrayShowApplication_Click);
             // 
@@ -2487,7 +2684,7 @@ namespace MPfm
             // 
             this.miTrayExitMPfm.Image = global::MPfm.Properties.Resources.door_in;
             this.miTrayExitMPfm.Name = "miTrayExitMPfm";
-            this.miTrayExitMPfm.Size = new System.Drawing.Size(177, 22);
+            this.miTrayExitMPfm.Size = new System.Drawing.Size(191, 22);
             this.miTrayExitMPfm.Text = "&Exit MPfm";
             this.miTrayExitMPfm.Click += new System.EventHandler(this.miFileExit_Click);
             // 

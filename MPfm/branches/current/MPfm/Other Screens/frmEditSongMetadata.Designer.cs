@@ -28,11 +28,12 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.EmbeddedFont customFont11 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont12 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont13 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont14 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont15 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             this.propertyGridTags = new System.Windows.Forms.PropertyGrid();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
@@ -89,26 +90,26 @@ namespace MPfm
             // 
             // fontCollection
             // 
-            customFont11.AssemblyPath = "MPfm.Fonts.dll";
-            customFont11.Name = "LeagueGothic";
-            customFont11.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont12.AssemblyPath = "MPfm.Fonts.dll";
-            customFont12.Name = "Junction";
-            customFont12.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont13.AssemblyPath = "MPfm.Fonts.dll";
-            customFont13.Name = "Nobile";
-            customFont13.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont14.AssemblyPath = "MPfm.Fonts.dll";
-            customFont14.Name = "TitilliumText22L Lt";
-            customFont14.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont15.AssemblyPath = "MPfm.Fonts.dll";
-            customFont15.Name = "Museo Sans 500";
-            customFont15.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(customFont11);
-            this.fontCollection.Fonts.Add(customFont12);
-            this.fontCollection.Fonts.Add(customFont13);
-            this.fontCollection.Fonts.Add(customFont14);
-            this.fontCollection.Fonts.Add(customFont15);
+            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont1.Name = "LeagueGothic";
+            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont2.Name = "Junction";
+            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont3.Name = "Nobile";
+            embeddedFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
+            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont4.Name = "TitilliumText22L Lt";
+            embeddedFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            embeddedFont5.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont5.Name = "Museo Sans 500";
+            embeddedFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
+            this.fontCollection.Fonts.Add(embeddedFont1);
+            this.fontCollection.Fonts.Add(embeddedFont2);
+            this.fontCollection.Fonts.Add(embeddedFont3);
+            this.fontCollection.Fonts.Add(embeddedFont4);
+            this.fontCollection.Fonts.Add(embeddedFont5);
             // 
             // panelEditSongMetadata
             // 
@@ -144,6 +145,14 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEditing.AntiAliasingEnabled = true;
             this.lblEditing.BackColor = System.Drawing.Color.Transparent;
+            customFont1.EmbeddedFontName = "Junction";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 8;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseEmbeddedFont = true;
+            this.lblEditing.CustomFont = customFont1;
             this.lblEditing.CustomFontName = "Junction";
             this.lblEditing.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEditing.Location = new System.Drawing.Point(3, 32);

@@ -28,10 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.EmbeddedFont customFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont customFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFirstRun));
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lblName = new MPfm.WindowsControls.Label();
@@ -68,27 +82,35 @@
             // 
             // fontCollection
             // 
-            customFont1.AssemblyPath = "MPfm.Fonts.dll";
-            customFont1.Name = "LeagueGothic";
-            customFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            customFont2.AssemblyPath = "MPfm.Fonts.dll";
-            customFont2.Name = "Junction";
-            customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "Nobile";
-            customFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "TitilliumText22L Lt";
-            customFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            this.fontCollection.Fonts.Add(customFont1);
-            this.fontCollection.Fonts.Add(customFont2);
-            this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
+            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont1.Name = "LeagueGothic";
+            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
+            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont2.Name = "Junction";
+            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
+            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont3.Name = "Nobile";
+            embeddedFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
+            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
+            embeddedFont4.Name = "TitilliumText22L Lt";
+            embeddedFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
+            this.fontCollection.Fonts.Add(embeddedFont1);
+            this.fontCollection.Fonts.Add(embeddedFont2);
+            this.fontCollection.Fonts.Add(embeddedFont3);
+            this.fontCollection.Fonts.Add(embeddedFont4);
             // 
             // lblName
             // 
             this.lblName.AntiAliasingEnabled = true;
             this.lblName.BackColor = System.Drawing.Color.Transparent;
+            customFont1.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 18;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseEmbeddedFont = true;
+            this.lblName.CustomFont = customFont1;
             this.lblName.CustomFontName = "TitilliumText22L Lt";
             this.lblName.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.Location = new System.Drawing.Point(12, 32);
@@ -101,6 +123,14 @@
             // 
             this.Label1.AntiAliasingEnabled = true;
             this.Label1.BackColor = System.Drawing.Color.Transparent;
+            customFont2.EmbeddedFontName = "Junction";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 10;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseEmbeddedFont = true;
+            this.Label1.CustomFont = customFont2;
             this.Label1.CustomFontName = "Junction";
             this.Label1.Font = new System.Drawing.Font("MingLiU", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label1.ForeColor = System.Drawing.Color.Gainsboro;
@@ -156,8 +186,16 @@
             // 
             this.label11.AntiAliasingEnabled = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
+            customFont3.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont3.IsBold = true;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 10;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseEmbeddedFont = true;
+            this.label11.CustomFont = customFont3;
             this.label11.CustomFontName = "TitilliumText22L Lt";
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(13, 301);
             this.label11.Name = "label11";
@@ -169,6 +207,14 @@
             // 
             this.label12.AntiAliasingEnabled = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
+            customFont4.EmbeddedFontName = "Junction";
+            customFont4.IsBold = false;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 9;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseEmbeddedFont = true;
+            this.label12.CustomFont = customFont4;
             this.label12.CustomFontName = "Junction";
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.White;
@@ -182,6 +228,14 @@
             // 
             this.label2.AntiAliasingEnabled = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
+            customFont5.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont5.IsBold = true;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 10;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseEmbeddedFont = true;
+            this.label2.CustomFont = customFont5;
             this.label2.CustomFontName = "TitilliumText22L Lt";
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
@@ -195,6 +249,14 @@
             // 
             this.label3.AntiAliasingEnabled = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
+            customFont6.EmbeddedFontName = "Junction";
+            customFont6.IsBold = false;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 9;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseEmbeddedFont = true;
+            this.label3.CustomFont = customFont6;
             this.label3.CustomFontName = "Junction";
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
@@ -208,6 +270,14 @@
             // 
             this.label10.AntiAliasingEnabled = true;
             this.label10.BackColor = System.Drawing.Color.Transparent;
+            customFont7.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont7.IsBold = true;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 10;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseEmbeddedFont = true;
+            this.label10.CustomFont = customFont7;
             this.label10.CustomFontName = "TitilliumText22L Lt";
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.White;
@@ -221,6 +291,14 @@
             // 
             this.Label9.AntiAliasingEnabled = true;
             this.Label9.BackColor = System.Drawing.Color.Transparent;
+            customFont8.EmbeddedFontName = "Junction";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 9;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseEmbeddedFont = true;
+            this.Label9.CustomFont = customFont8;
             this.Label9.CustomFontName = "Junction";
             this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label9.ForeColor = System.Drawing.Color.White;
@@ -296,6 +374,14 @@
             // 
             this.Label5.AntiAliasingEnabled = true;
             this.Label5.BackColor = System.Drawing.Color.Transparent;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseEmbeddedFont = true;
+            this.Label5.CustomFont = customFont9;
             this.Label5.CustomFontName = "Junction";
             this.Label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label5.ForeColor = System.Drawing.Color.Black;
@@ -310,6 +396,14 @@
             // 
             this.Label6.AntiAliasingEnabled = true;
             this.Label6.BackColor = System.Drawing.Color.Transparent;
+            customFont10.EmbeddedFontName = "Junction";
+            customFont10.IsBold = false;
+            customFont10.IsItalic = false;
+            customFont10.IsUnderline = false;
+            customFont10.Size = 8;
+            customFont10.StandardFontName = "Arial";
+            customFont10.UseEmbeddedFont = true;
+            this.Label6.CustomFont = customFont10;
             this.Label6.CustomFontName = "Junction";
             this.Label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label6.ForeColor = System.Drawing.Color.Black;
@@ -324,6 +418,14 @@
             // 
             this.Label7.AntiAliasingEnabled = true;
             this.Label7.BackColor = System.Drawing.Color.Transparent;
+            customFont11.EmbeddedFontName = "Junction";
+            customFont11.IsBold = false;
+            customFont11.IsItalic = false;
+            customFont11.IsUnderline = false;
+            customFont11.Size = 8;
+            customFont11.StandardFontName = "Arial";
+            customFont11.UseEmbeddedFont = true;
+            this.Label7.CustomFont = customFont11;
             this.Label7.CustomFontName = "Junction";
             this.Label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label7.ForeColor = System.Drawing.Color.Black;
@@ -338,6 +440,14 @@
             // 
             this.Label8.AntiAliasingEnabled = true;
             this.Label8.BackColor = System.Drawing.Color.Transparent;
+            customFont12.EmbeddedFontName = "Junction";
+            customFont12.IsBold = false;
+            customFont12.IsItalic = false;
+            customFont12.IsUnderline = false;
+            customFont12.Size = 9;
+            customFont12.StandardFontName = "Arial";
+            customFont12.UseEmbeddedFont = true;
+            this.Label8.CustomFont = customFont12;
             this.Label8.CustomFontName = "Junction";
             this.Label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label8.ForeColor = System.Drawing.Color.LightGray;
@@ -352,6 +462,14 @@
             // 
             this.Label4.AntiAliasingEnabled = true;
             this.Label4.BackColor = System.Drawing.Color.Transparent;
+            customFont13.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont13.IsBold = true;
+            customFont13.IsItalic = false;
+            customFont13.IsUnderline = false;
+            customFont13.Size = 12;
+            customFont13.StandardFontName = "Arial";
+            customFont13.UseEmbeddedFont = true;
+            this.Label4.CustomFont = customFont13;
             this.Label4.CustomFontName = "TitilliumText22L Lt";
             this.Label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label4.ForeColor = System.Drawing.Color.White;
@@ -540,6 +658,14 @@
             // 
             this.lblError.AntiAliasingEnabled = true;
             this.lblError.BackColor = System.Drawing.Color.Transparent;
+            customFont14.EmbeddedFontName = "";
+            customFont14.IsBold = false;
+            customFont14.IsItalic = false;
+            customFont14.IsUnderline = false;
+            customFont14.Size = 8;
+            customFont14.StandardFontName = "Arial";
+            customFont14.UseEmbeddedFont = false;
+            this.lblError.CustomFont = customFont14;
             this.lblError.CustomFontName = "Avenir";
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.LightGray;

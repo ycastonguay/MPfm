@@ -729,13 +729,13 @@ namespace MPfm
             // 
             this.lblMixerSampleRateUnit.AntiAliasingEnabled = true;
             this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont8.EmbeddedFontName = "";
-            customFont8.IsBold = false;
+            customFont8.EmbeddedFontName = "Junction";
+            customFont8.IsBold = true;
             customFont8.IsItalic = false;
             customFont8.IsUnderline = false;
-            customFont8.Size = 8;
+            customFont8.Size = 9;
             customFont8.StandardFontName = "Arial";
-            customFont8.UseEmbeddedFont = false;
+            customFont8.UseEmbeddedFont = true;
             this.lblMixerSampleRateUnit.CustomFont = customFont8;
             this.lblMixerSampleRateUnit.CustomFontName = "Junction";
             this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -773,13 +773,13 @@ namespace MPfm
             // 
             this.lblBufferSizeUnit.AntiAliasingEnabled = true;
             this.lblBufferSizeUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont9.EmbeddedFontName = "";
-            customFont9.IsBold = false;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = true;
             customFont9.IsItalic = false;
             customFont9.IsUnderline = false;
-            customFont9.Size = 8;
+            customFont9.Size = 9;
             customFont9.StandardFontName = "Arial";
-            customFont9.UseEmbeddedFont = false;
+            customFont9.UseEmbeddedFont = true;
             this.lblBufferSizeUnit.CustomFont = customFont9;
             this.lblBufferSizeUnit.CustomFontName = "Junction";
             this.lblBufferSizeUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -812,13 +812,13 @@ namespace MPfm
             // 
             this.lblUpdatePeriodUnit.AntiAliasingEnabled = true;
             this.lblUpdatePeriodUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont10.EmbeddedFontName = "";
-            customFont10.IsBold = false;
+            customFont10.EmbeddedFontName = "Junction";
+            customFont10.IsBold = true;
             customFont10.IsItalic = false;
             customFont10.IsUnderline = false;
-            customFont10.Size = 8;
+            customFont10.Size = 9;
             customFont10.StandardFontName = "Arial";
-            customFont10.UseEmbeddedFont = false;
+            customFont10.UseEmbeddedFont = true;
             this.lblUpdatePeriodUnit.CustomFont = customFont10;
             this.lblUpdatePeriodUnit.CustomFontName = "Junction";
             this.lblUpdatePeriodUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -851,13 +851,13 @@ namespace MPfm
             // 
             this.lblUpdatePeriod.AntiAliasingEnabled = true;
             this.lblUpdatePeriod.BackColor = System.Drawing.Color.Transparent;
-            customFont11.EmbeddedFontName = "";
+            customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
             customFont11.IsUnderline = false;
             customFont11.Size = 8;
             customFont11.StandardFontName = "Arial";
-            customFont11.UseEmbeddedFont = false;
+            customFont11.UseEmbeddedFont = true;
             this.lblUpdatePeriod.CustomFont = customFont11;
             this.lblUpdatePeriod.CustomFontName = "Junction";
             this.lblUpdatePeriod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -871,13 +871,13 @@ namespace MPfm
             // 
             this.lblBufferSize.AntiAliasingEnabled = true;
             this.lblBufferSize.BackColor = System.Drawing.Color.Transparent;
-            customFont12.EmbeddedFontName = "";
+            customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
             customFont12.IsUnderline = false;
             customFont12.Size = 8;
             customFont12.StandardFontName = "Arial";
-            customFont12.UseEmbeddedFont = false;
+            customFont12.UseEmbeddedFont = true;
             this.lblBufferSize.CustomFont = customFont12;
             this.lblBufferSize.CustomFontName = "Junction";
             this.lblBufferSize.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -891,13 +891,13 @@ namespace MPfm
             // 
             this.lblMixerSampleRate.AntiAliasingEnabled = true;
             this.lblMixerSampleRate.BackColor = System.Drawing.Color.Transparent;
-            customFont13.EmbeddedFontName = "";
+            customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
             customFont13.IsItalic = false;
             customFont13.IsUnderline = false;
             customFont13.Size = 8;
             customFont13.StandardFontName = "Arial";
-            customFont13.UseEmbeddedFont = false;
+            customFont13.UseEmbeddedFont = true;
             this.lblMixerSampleRate.CustomFont = customFont13;
             this.lblMixerSampleRate.CustomFontName = "Junction";
             this.lblMixerSampleRate.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -911,13 +911,13 @@ namespace MPfm
             // 
             this.lblOutputDriver.AntiAliasingEnabled = true;
             this.lblOutputDriver.BackColor = System.Drawing.Color.Transparent;
-            customFont14.EmbeddedFontName = "";
+            customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
             customFont14.IsItalic = false;
             customFont14.IsUnderline = false;
             customFont14.Size = 8;
             customFont14.StandardFontName = "Arial";
-            customFont14.UseEmbeddedFont = false;
+            customFont14.UseEmbeddedFont = true;
             this.lblOutputDriver.CustomFont = customFont14;
             this.lblOutputDriver.CustomFontName = "Junction";
             this.lblOutputDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -980,13 +980,13 @@ namespace MPfm
             // 
             this.lblDriver.AntiAliasingEnabled = true;
             this.lblDriver.BackColor = System.Drawing.Color.Transparent;
-            customFont15.EmbeddedFontName = "";
+            customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = false;
             customFont15.IsItalic = false;
             customFont15.IsUnderline = false;
             customFont15.Size = 8;
             customFont15.StandardFontName = "Arial";
-            customFont15.UseEmbeddedFont = false;
+            customFont15.UseEmbeddedFont = true;
             this.lblDriver.CustomFont = customFont15;
             this.lblDriver.CustomFontName = "Junction";
             this.lblDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1050,7 +1050,7 @@ namespace MPfm
             this.panelLibrarySettings.HeaderTitle = "Library Settings";
             this.panelLibrarySettings.Location = new System.Drawing.Point(0, 0);
             this.panelLibrarySettings.Name = "panelLibrarySettings";
-            this.panelLibrarySettings.Size = new System.Drawing.Size(501, 281);
+            this.panelLibrarySettings.Size = new System.Drawing.Size(631, 350);
             this.panelLibrarySettings.TabIndex = 17;
             // 
             // btnRemoveFolder
@@ -1113,7 +1113,7 @@ namespace MPfm
             this.viewFolders.Name = "viewFolders";
             this.viewFolders.OwnerDraw = true;
             this.viewFolders.SelectedColor = System.Drawing.Color.Gray;
-            this.viewFolders.Size = new System.Drawing.Size(488, 130);
+            this.viewFolders.Size = new System.Drawing.Size(618, 130);
             this.viewFolders.TabIndex = 23;
             this.viewFolders.UseCompatibleStateImageBehavior = false;
             this.viewFolders.View = System.Windows.Forms.View.Details;
@@ -1198,13 +1198,13 @@ namespace MPfm
             // 
             this.lblFoldersTitle.AntiAliasingEnabled = true;
             this.lblFoldersTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont16.EmbeddedFontName = "";
+            customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
             customFont16.IsItalic = false;
             customFont16.IsUnderline = false;
             customFont16.Size = 8;
             customFont16.StandardFontName = "Arial";
-            customFont16.UseEmbeddedFont = false;
+            customFont16.UseEmbeddedFont = true;
             this.lblFoldersTitle.CustomFont = customFont16;
             this.lblFoldersTitle.CustomFontName = "Junction";
             this.lblFoldersTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
