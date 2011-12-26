@@ -1860,7 +1860,8 @@ namespace MPfm.WindowsControls
                     if (column.IsMouseOverColumnHeader)
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
-                        rect = new Rectangle(offsetX - m_hScrollBar.Value, -1, columnWidth, m_songCache.LineHeight + 1);
+                        //rect = new Rectangle(offsetX - m_hScrollBar.Value, -1, columnWidth, m_songCache.LineHeight + 1);
+                        rect = new Rectangle(offsetX - m_hScrollBar.Value, -1, column.Width, m_songCache.LineHeight + 1);
                         brushGradient = new LinearGradientBrush(rect, HeaderHoverColor1, HeaderHoverColor2, 90);
                         g.FillRectangle(brushGradient, rect);
                         brushGradient.Dispose();

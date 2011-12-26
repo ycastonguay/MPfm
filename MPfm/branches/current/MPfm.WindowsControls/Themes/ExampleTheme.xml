@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <controls>
+    <control name="Main.SongGridView" >
+      <general>
+        <key type="System.Int32" name="Padding" value="10" />
+      </general>
+      <gradients>
+        <gradient type="" name="" direction="" />
+      </gradients>
+      <colors>
+        <color propertyName="HeaderForeColor" r="" g="" b="" a="" />
+      </colors>
+      <fonts>
+        <font propertyName="CustomFont" embedded="true" />
+      </fonts>
+    </control>
+  </controls>
+</configuration>
