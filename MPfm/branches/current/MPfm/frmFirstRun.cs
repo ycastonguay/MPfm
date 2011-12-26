@@ -205,6 +205,7 @@ namespace MPfm
             // Save configuration            
             Main.Config.Audio.Device = device;
             Main.Config.Audio.DriverType = driver.DriverType;
+            Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
 
             // Close wizard
             DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -301,7 +302,7 @@ namespace MPfm
 
                 // Create test device
                 Tracing.Log("Creating test device...");
-                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, 44100);                
+                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, (int)txtMixerSampleRate.Value);                
 
                 // Play sound file                
                 Tracing.Log("Starting playback...");

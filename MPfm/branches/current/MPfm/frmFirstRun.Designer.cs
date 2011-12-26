@@ -34,9 +34,6 @@
             MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
@@ -46,24 +43,28 @@
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFirstRun));
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
-            this.lblName = new MPfm.WindowsControls.Label();
-            this.Label1 = new MPfm.WindowsControls.Label();
+            this.lblWelcome = new MPfm.WindowsControls.Label();
+            this.lblWelcomeText = new MPfm.WindowsControls.Label();
             this.panelWelcome = new MPfm.WindowsControls.Panel();
-            this.label11 = new MPfm.WindowsControls.Label();
-            this.label12 = new MPfm.WindowsControls.Label();
-            this.label2 = new MPfm.WindowsControls.Label();
-            this.label3 = new MPfm.WindowsControls.Label();
-            this.label10 = new MPfm.WindowsControls.Label();
-            this.Label9 = new MPfm.WindowsControls.Label();
+            this.lbl1_2 = new MPfm.WindowsControls.Label();
+            this.lbl1_2_text = new MPfm.WindowsControls.Label();
+            this.lbl1_1 = new MPfm.WindowsControls.Label();
+            this.lbl1_1_text = new MPfm.WindowsControls.Label();
+            this.lbl1_4 = new MPfm.WindowsControls.Label();
+            this.lbl1_4_text = new MPfm.WindowsControls.Label();
             this.btnTestAudioSettings = new MPfm.WindowsControls.Button();
             this.Panel1 = new MPfm.WindowsControls.Panel();
-            this.Label5 = new MPfm.WindowsControls.Label();
-            this.Label6 = new MPfm.WindowsControls.Label();
-            this.Label7 = new MPfm.WindowsControls.Label();
-            this.Label8 = new MPfm.WindowsControls.Label();
-            this.Label4 = new MPfm.WindowsControls.Label();
+            this.lblNote1 = new MPfm.WindowsControls.Label();
+            this.lblNote2 = new MPfm.WindowsControls.Label();
+            this.lblAudioSettingsText = new MPfm.WindowsControls.Label();
+            this.lblAudioSettings = new MPfm.WindowsControls.Label();
             this.cboOutputDevices = new System.Windows.Forms.ComboBox();
             this.cboDrivers = new System.Windows.Forms.ComboBox();
             this.panelError = new MPfm.WindowsControls.Panel();
@@ -75,9 +76,14 @@
             this.btnNext = new MPfm.WindowsControls.Button();
             this.btnCancelWizard = new MPfm.WindowsControls.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
+            this.lbl1_3 = new MPfm.WindowsControls.Label();
+            this.lbl1_3_text = new MPfm.WindowsControls.Label();
+            this.lblMixerSampleRateUnit = new MPfm.WindowsControls.Label();
+            this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
             this.panelWelcome.SuspendLayout();
             this.Panel1.SuspendLayout();
             this.panelError.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
             this.SuspendLayout();
             // 
             // fontCollection
@@ -99,46 +105,48 @@
             this.fontCollection.Fonts.Add(embeddedFont3);
             this.fontCollection.Fonts.Add(embeddedFont4);
             // 
-            // lblName
+            // lblWelcome
             // 
-            this.lblName.AntiAliasingEnabled = true;
-            this.lblName.BackColor = System.Drawing.Color.Transparent;
+            this.lblWelcome.AntiAliasingEnabled = true;
+            this.lblWelcome.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "TitilliumText22L Lt";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
             customFont1.IsUnderline = false;
             customFont1.Size = 18;
             customFont1.StandardFontName = "Arial";
+            customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
-            this.lblName.CustomFont = customFont1;
-            this.lblName.CustomFontName = "TitilliumText22L Lt";
-            this.lblName.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(12, 32);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(264, 32);
-            this.lblName.TabIndex = 74;
-            this.lblName.Text = "Welcome to MPfm!";
+            this.lblWelcome.CustomFont = customFont1;
+            this.lblWelcome.CustomFontName = "TitilliumText22L Lt";
+            this.lblWelcome.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.Location = new System.Drawing.Point(12, 32);
+            this.lblWelcome.Name = "lblWelcome";
+            this.lblWelcome.Size = new System.Drawing.Size(264, 32);
+            this.lblWelcome.TabIndex = 74;
+            this.lblWelcome.Text = "Welcome to MPfm!";
             // 
-            // Label1
+            // lblWelcomeText
             // 
-            this.Label1.AntiAliasingEnabled = true;
-            this.Label1.BackColor = System.Drawing.Color.Transparent;
+            this.lblWelcomeText.AntiAliasingEnabled = true;
+            this.lblWelcomeText.BackColor = System.Drawing.Color.Transparent;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
             customFont2.IsUnderline = false;
             customFont2.Size = 10;
             customFont2.StandardFontName = "Arial";
+            customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
-            this.Label1.CustomFont = customFont2;
-            this.Label1.CustomFontName = "Junction";
-            this.Label1.Font = new System.Drawing.Font("MingLiU", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label1.ForeColor = System.Drawing.Color.Gainsboro;
-            this.Label1.Location = new System.Drawing.Point(13, 64);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(469, 26);
-            this.Label1.TabIndex = 75;
-            this.Label1.Text = "This wizard will help you set your initial configuration.";
+            this.lblWelcomeText.CustomFont = customFont2;
+            this.lblWelcomeText.CustomFontName = "Junction";
+            this.lblWelcomeText.Font = new System.Drawing.Font("MingLiU", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcomeText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblWelcomeText.Location = new System.Drawing.Point(13, 64);
+            this.lblWelcomeText.Name = "lblWelcomeText";
+            this.lblWelcomeText.Size = new System.Drawing.Size(469, 26);
+            this.lblWelcomeText.TabIndex = 75;
+            this.lblWelcomeText.Text = "This wizard will help you set your initial configuration.";
             // 
             // panelWelcome
             // 
@@ -146,20 +154,24 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelWelcome.AntiAliasingEnabled = true;
-            this.panelWelcome.Controls.Add(this.label11);
-            this.panelWelcome.Controls.Add(this.label12);
-            this.panelWelcome.Controls.Add(this.label2);
-            this.panelWelcome.Controls.Add(this.label3);
-            this.panelWelcome.Controls.Add(this.label10);
-            this.panelWelcome.Controls.Add(this.Label9);
+            this.panelWelcome.Controls.Add(this.lblMixerSampleRateUnit);
+            this.panelWelcome.Controls.Add(this.txtMixerSampleRate);
+            this.panelWelcome.Controls.Add(this.lbl1_3);
+            this.panelWelcome.Controls.Add(this.lbl1_3_text);
+            this.panelWelcome.Controls.Add(this.lbl1_2);
+            this.panelWelcome.Controls.Add(this.lbl1_2_text);
+            this.panelWelcome.Controls.Add(this.lbl1_1);
+            this.panelWelcome.Controls.Add(this.lbl1_1_text);
+            this.panelWelcome.Controls.Add(this.lbl1_4);
+            this.panelWelcome.Controls.Add(this.lbl1_4_text);
             this.panelWelcome.Controls.Add(this.btnTestAudioSettings);
             this.panelWelcome.Controls.Add(this.Panel1);
-            this.panelWelcome.Controls.Add(this.Label8);
-            this.panelWelcome.Controls.Add(this.Label4);
+            this.panelWelcome.Controls.Add(this.lblAudioSettingsText);
+            this.panelWelcome.Controls.Add(this.lblAudioSettings);
             this.panelWelcome.Controls.Add(this.cboOutputDevices);
             this.panelWelcome.Controls.Add(this.cboDrivers);
-            this.panelWelcome.Controls.Add(this.Label1);
-            this.panelWelcome.Controls.Add(this.lblName);
+            this.panelWelcome.Controls.Add(this.lblWelcomeText);
+            this.panelWelcome.Controls.Add(this.lblWelcome);
             this.panelWelcome.ExpandedHeight = 200;
             this.panelWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelWelcome.FontCollection = this.fontCollection;
@@ -178,135 +190,141 @@
             this.panelWelcome.HeaderTitle = "MPfm Initial Configuration Wizard";
             this.panelWelcome.Location = new System.Drawing.Point(0, 0);
             this.panelWelcome.Name = "panelWelcome";
-            this.panelWelcome.Size = new System.Drawing.Size(620, 430);
+            this.panelWelcome.Size = new System.Drawing.Size(620, 448);
             this.panelWelcome.TabIndex = 77;
             this.panelWelcome.Text = "CustomTextBox Disabled";
             // 
-            // label11
+            // lbl1_2
             // 
-            this.label11.AntiAliasingEnabled = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            customFont3.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont3.IsBold = true;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 10;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseEmbeddedFont = true;
-            this.label11.CustomFont = customFont3;
-            this.label11.CustomFontName = "TitilliumText22L Lt";
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(13, 301);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(18, 20);
-            this.label11.TabIndex = 93;
-            this.label11.Text = "2.";
-            // 
-            // label12
-            // 
-            this.label12.AntiAliasingEnabled = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 9;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseEmbeddedFont = true;
-            this.label12.CustomFont = customFont4;
-            this.label12.CustomFontName = "Junction";
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(28, 301);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(257, 20);
-            this.label12.TabIndex = 92;
-            this.label12.Text = "Please select an output device :";
-            // 
-            // label2
-            // 
-            this.label2.AntiAliasingEnabled = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            customFont5.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont5.IsBold = true;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 10;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseEmbeddedFont = true;
-            this.label2.CustomFont = customFont5;
-            this.label2.CustomFontName = "TitilliumText22L Lt";
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(14, 145);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(18, 20);
-            this.label2.TabIndex = 91;
-            this.label2.Text = "1.";
-            // 
-            // label3
-            // 
-            this.label3.AntiAliasingEnabled = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            customFont6.EmbeddedFontName = "Junction";
-            customFont6.IsBold = false;
+            this.lbl1_2.AntiAliasingEnabled = true;
+            this.lbl1_2.BackColor = System.Drawing.Color.Transparent;
+            customFont6.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont6.IsBold = true;
             customFont6.IsItalic = false;
             customFont6.IsUnderline = false;
-            customFont6.Size = 9;
+            customFont6.Size = 10;
             customFont6.StandardFontName = "Arial";
+            customFont6.UseAntiAliasing = true;
             customFont6.UseEmbeddedFont = true;
-            this.label3.CustomFont = customFont6;
-            this.label3.CustomFontName = "Junction";
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(29, 145);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(195, 20);
-            this.label3.TabIndex = 90;
-            this.label3.Text = "Please select a driver :";
+            this.lbl1_2.CustomFont = customFont6;
+            this.lbl1_2.CustomFontName = "TitilliumText22L Lt";
+            this.lbl1_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_2.ForeColor = System.Drawing.Color.White;
+            this.lbl1_2.Location = new System.Drawing.Point(13, 273);
+            this.lbl1_2.Name = "lbl1_2";
+            this.lbl1_2.Size = new System.Drawing.Size(18, 20);
+            this.lbl1_2.TabIndex = 93;
+            this.lbl1_2.Text = "2.";
             // 
-            // label10
+            // lbl1_2_text
             // 
-            this.label10.AntiAliasingEnabled = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            customFont7.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont7.IsBold = true;
+            this.lbl1_2_text.AntiAliasingEnabled = true;
+            this.lbl1_2_text.BackColor = System.Drawing.Color.Transparent;
+            customFont7.EmbeddedFontName = "Junction";
+            customFont7.IsBold = false;
             customFont7.IsItalic = false;
             customFont7.IsUnderline = false;
-            customFont7.Size = 10;
+            customFont7.Size = 9;
             customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
-            this.label10.CustomFont = customFont7;
-            this.label10.CustomFontName = "TitilliumText22L Lt";
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(14, 353);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(18, 20);
-            this.label10.TabIndex = 89;
-            this.label10.Text = "3.";
+            this.lbl1_2_text.CustomFont = customFont7;
+            this.lbl1_2_text.CustomFontName = "Junction";
+            this.lbl1_2_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_2_text.ForeColor = System.Drawing.Color.White;
+            this.lbl1_2_text.Location = new System.Drawing.Point(28, 273);
+            this.lbl1_2_text.Name = "lbl1_2_text";
+            this.lbl1_2_text.Size = new System.Drawing.Size(257, 20);
+            this.lbl1_2_text.TabIndex = 92;
+            this.lbl1_2_text.Text = "Please select an output device :";
             // 
-            // Label9
+            // lbl1_1
             // 
-            this.Label9.AntiAliasingEnabled = true;
-            this.Label9.BackColor = System.Drawing.Color.Transparent;
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
+            this.lbl1_1.AntiAliasingEnabled = true;
+            this.lbl1_1.BackColor = System.Drawing.Color.Transparent;
+            customFont8.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont8.IsBold = true;
             customFont8.IsItalic = false;
             customFont8.IsUnderline = false;
-            customFont8.Size = 9;
+            customFont8.Size = 10;
             customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
             customFont8.UseEmbeddedFont = true;
-            this.Label9.CustomFont = customFont8;
-            this.Label9.CustomFontName = "Junction";
-            this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label9.ForeColor = System.Drawing.Color.White;
-            this.Label9.Location = new System.Drawing.Point(29, 353);
-            this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(416, 20);
-            this.Label9.TabIndex = 88;
-            this.Label9.Text = "Test the selected audio settings by clicking this button :";
+            this.lbl1_1.CustomFont = customFont8;
+            this.lbl1_1.CustomFontName = "TitilliumText22L Lt";
+            this.lbl1_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_1.ForeColor = System.Drawing.Color.White;
+            this.lbl1_1.Location = new System.Drawing.Point(14, 141);
+            this.lbl1_1.Name = "lbl1_1";
+            this.lbl1_1.Size = new System.Drawing.Size(18, 20);
+            this.lbl1_1.TabIndex = 91;
+            this.lbl1_1.Text = "1.";
+            // 
+            // lbl1_1_text
+            // 
+            this.lbl1_1_text.AntiAliasingEnabled = true;
+            this.lbl1_1_text.BackColor = System.Drawing.Color.Transparent;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 9;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = true;
+            this.lbl1_1_text.CustomFont = customFont9;
+            this.lbl1_1_text.CustomFontName = "Junction";
+            this.lbl1_1_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_1_text.ForeColor = System.Drawing.Color.White;
+            this.lbl1_1_text.Location = new System.Drawing.Point(29, 141);
+            this.lbl1_1_text.Name = "lbl1_1_text";
+            this.lbl1_1_text.Size = new System.Drawing.Size(195, 20);
+            this.lbl1_1_text.TabIndex = 90;
+            this.lbl1_1_text.Text = "Please select a driver :";
+            // 
+            // lbl1_4
+            // 
+            this.lbl1_4.AntiAliasingEnabled = true;
+            this.lbl1_4.BackColor = System.Drawing.Color.Transparent;
+            customFont10.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont10.IsBold = true;
+            customFont10.IsItalic = false;
+            customFont10.IsUnderline = false;
+            customFont10.Size = 10;
+            customFont10.StandardFontName = "Arial";
+            customFont10.UseAntiAliasing = true;
+            customFont10.UseEmbeddedFont = true;
+            this.lbl1_4.CustomFont = customFont10;
+            this.lbl1_4.CustomFontName = "TitilliumText22L Lt";
+            this.lbl1_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_4.ForeColor = System.Drawing.Color.White;
+            this.lbl1_4.Location = new System.Drawing.Point(14, 373);
+            this.lbl1_4.Name = "lbl1_4";
+            this.lbl1_4.Size = new System.Drawing.Size(18, 20);
+            this.lbl1_4.TabIndex = 89;
+            this.lbl1_4.Text = "4.";
+            // 
+            // lbl1_4_text
+            // 
+            this.lbl1_4_text.AntiAliasingEnabled = true;
+            this.lbl1_4_text.BackColor = System.Drawing.Color.Transparent;
+            customFont11.EmbeddedFontName = "Junction";
+            customFont11.IsBold = false;
+            customFont11.IsItalic = false;
+            customFont11.IsUnderline = false;
+            customFont11.Size = 9;
+            customFont11.StandardFontName = "Arial";
+            customFont11.UseAntiAliasing = true;
+            customFont11.UseEmbeddedFont = true;
+            this.lbl1_4_text.CustomFont = customFont11;
+            this.lbl1_4_text.CustomFontName = "Junction";
+            this.lbl1_4_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_4_text.ForeColor = System.Drawing.Color.White;
+            this.lbl1_4_text.Location = new System.Drawing.Point(29, 373);
+            this.lbl1_4_text.Name = "lbl1_4_text";
+            this.lbl1_4_text.Size = new System.Drawing.Size(416, 20);
+            this.lbl1_4_text.TabIndex = 88;
+            this.lbl1_4_text.Text = "Test the selected audio settings by clicking this button :";
             // 
             // btnTestAudioSettings
             // 
@@ -327,7 +345,7 @@
             this.btnTestAudioSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnTestAudioSettings.Image = global::MPfm.Properties.Resources.sound;
             this.btnTestAudioSettings.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTestAudioSettings.Location = new System.Drawing.Point(16, 378);
+            this.btnTestAudioSettings.Location = new System.Drawing.Point(16, 398);
             this.btnTestAudioSettings.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnTestAudioSettings.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnTestAudioSettings.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -345,9 +363,8 @@
             this.Panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel1.AntiAliasingEnabled = true;
-            this.Panel1.Controls.Add(this.Label5);
-            this.Panel1.Controls.Add(this.Label6);
-            this.Panel1.Controls.Add(this.Label7);
+            this.Panel1.Controls.Add(this.lblNote1);
+            this.Panel1.Controls.Add(this.lblNote2);
             this.Panel1.ExpandedHeight = 200;
             this.Panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Panel1.FontCollection = this.fontCollection;
@@ -364,120 +381,102 @@
             this.Panel1.HeaderHeight = 22;
             this.Panel1.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.Panel1.HeaderTitle = "Note :";
-            this.Panel1.Location = new System.Drawing.Point(16, 198);
+            this.Panel1.Location = new System.Drawing.Point(16, 194);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(591, 99);
+            this.Panel1.Size = new System.Drawing.Size(591, 75);
             this.Panel1.TabIndex = 87;
             this.Panel1.Text = "CustomTextBox Disabled";
             // 
-            // Label5
+            // lblNote1
             // 
-            this.Label5.AntiAliasingEnabled = true;
-            this.Label5.BackColor = System.Drawing.Color.Transparent;
-            customFont9.EmbeddedFontName = "Junction";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 8;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseEmbeddedFont = true;
-            this.Label5.CustomFont = customFont9;
-            this.Label5.CustomFontName = "Junction";
-            this.Label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label5.ForeColor = System.Drawing.Color.Black;
-            this.Label5.Location = new System.Drawing.Point(5, 29);
-            this.Label5.Name = "Label5";
-            this.Label5.Size = new System.Drawing.Size(583, 20);
-            this.Label5.TabIndex = 83;
-            this.Label5.Text = "The recommended driver for Windows XP, Windows Vista, Windows 7 and Windows 8 is " +
-    "DirectSound.";
-            // 
-            // Label6
-            // 
-            this.Label6.AntiAliasingEnabled = true;
-            this.Label6.BackColor = System.Drawing.Color.Transparent;
-            customFont10.EmbeddedFontName = "Junction";
-            customFont10.IsBold = false;
-            customFont10.IsItalic = false;
-            customFont10.IsUnderline = false;
-            customFont10.Size = 8;
-            customFont10.StandardFontName = "Arial";
-            customFont10.UseEmbeddedFont = true;
-            this.Label6.CustomFont = customFont10;
-            this.Label6.CustomFontName = "Junction";
-            this.Label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label6.ForeColor = System.Drawing.Color.Black;
-            this.Label6.Location = new System.Drawing.Point(5, 48);
-            this.Label6.Name = "Label6";
-            this.Label6.Size = new System.Drawing.Size(583, 20);
-            this.Label6.TabIndex = 84;
-            this.Label6.Text = "The ASIO and WASAPI (Windows Audio Session API) drivers are also available for te" +
-    "sting (EXPERIMENTAL).";
-            // 
-            // Label7
-            // 
-            this.Label7.AntiAliasingEnabled = true;
-            this.Label7.BackColor = System.Drawing.Color.Transparent;
-            customFont11.EmbeddedFontName = "Junction";
-            customFont11.IsBold = false;
-            customFont11.IsItalic = false;
-            customFont11.IsUnderline = false;
-            customFont11.Size = 8;
-            customFont11.StandardFontName = "Arial";
-            customFont11.UseEmbeddedFont = true;
-            this.Label7.CustomFont = customFont11;
-            this.Label7.CustomFontName = "Junction";
-            this.Label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label7.ForeColor = System.Drawing.Color.Black;
-            this.Label7.Location = new System.Drawing.Point(6, 67);
-            this.Label7.Name = "Label7";
-            this.Label7.Size = new System.Drawing.Size(582, 20);
-            this.Label7.TabIndex = 85;
-            this.Label7.Text = "Note: The ASIO driver will work better if you have a low latency sound card with " +
-    "a true ASIO driver.";
-            // 
-            // Label8
-            // 
-            this.Label8.AntiAliasingEnabled = true;
-            this.Label8.BackColor = System.Drawing.Color.Transparent;
+            this.lblNote1.AntiAliasingEnabled = true;
+            this.lblNote1.BackColor = System.Drawing.Color.Transparent;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
             customFont12.IsUnderline = false;
-            customFont12.Size = 9;
+            customFont12.Size = 8;
             customFont12.StandardFontName = "Arial";
+            customFont12.UseAntiAliasing = true;
             customFont12.UseEmbeddedFont = true;
-            this.Label8.CustomFont = customFont12;
-            this.Label8.CustomFontName = "Junction";
-            this.Label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label8.ForeColor = System.Drawing.Color.LightGray;
-            this.Label8.Location = new System.Drawing.Point(13, 115);
-            this.Label8.Name = "Label8";
-            this.Label8.Size = new System.Drawing.Size(601, 20);
-            this.Label8.TabIndex = 86;
-            this.Label8.Text = "You must select a driver and an output device. The default settings for your OS h" +
-    "ave been selected.";
+            this.lblNote1.CustomFont = customFont12;
+            this.lblNote1.CustomFontName = "Junction";
+            this.lblNote1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNote1.ForeColor = System.Drawing.Color.Black;
+            this.lblNote1.Location = new System.Drawing.Point(5, 29);
+            this.lblNote1.Name = "lblNote1";
+            this.lblNote1.Size = new System.Drawing.Size(583, 20);
+            this.lblNote1.TabIndex = 83;
+            this.lblNote1.Text = "The recommended driver for Windows XP, Windows Vista, Windows 7 and Windows 8 is " +
+    "DirectSound.";
             // 
-            // Label4
+            // lblNote2
             // 
-            this.Label4.AntiAliasingEnabled = true;
-            this.Label4.BackColor = System.Drawing.Color.Transparent;
-            customFont13.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont13.IsBold = true;
+            this.lblNote2.AntiAliasingEnabled = true;
+            this.lblNote2.BackColor = System.Drawing.Color.Transparent;
+            customFont13.EmbeddedFontName = "Junction";
+            customFont13.IsBold = false;
             customFont13.IsItalic = false;
             customFont13.IsUnderline = false;
-            customFont13.Size = 12;
+            customFont13.Size = 8;
             customFont13.StandardFontName = "Arial";
+            customFont13.UseAntiAliasing = true;
             customFont13.UseEmbeddedFont = true;
-            this.Label4.CustomFont = customFont13;
-            this.Label4.CustomFontName = "TitilliumText22L Lt";
-            this.Label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label4.ForeColor = System.Drawing.Color.White;
-            this.Label4.Location = new System.Drawing.Point(13, 92);
-            this.Label4.Name = "Label4";
-            this.Label4.Size = new System.Drawing.Size(211, 26);
-            this.Label4.TabIndex = 82;
-            this.Label4.Text = "Audio settings";
+            this.lblNote2.CustomFont = customFont13;
+            this.lblNote2.CustomFontName = "Junction";
+            this.lblNote2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNote2.ForeColor = System.Drawing.Color.Black;
+            this.lblNote2.Location = new System.Drawing.Point(5, 48);
+            this.lblNote2.Name = "lblNote2";
+            this.lblNote2.Size = new System.Drawing.Size(583, 20);
+            this.lblNote2.TabIndex = 84;
+            this.lblNote2.Text = "The ASIO and WASAPI (Windows Audio Session API) drivers are available for testing" +
+    " only.";
+            // 
+            // lblAudioSettingsText
+            // 
+            this.lblAudioSettingsText.AntiAliasingEnabled = true;
+            this.lblAudioSettingsText.BackColor = System.Drawing.Color.Transparent;
+            customFont14.EmbeddedFontName = "Junction";
+            customFont14.IsBold = false;
+            customFont14.IsItalic = false;
+            customFont14.IsUnderline = false;
+            customFont14.Size = 9;
+            customFont14.StandardFontName = "Arial";
+            customFont14.UseAntiAliasing = true;
+            customFont14.UseEmbeddedFont = true;
+            this.lblAudioSettingsText.CustomFont = customFont14;
+            this.lblAudioSettingsText.CustomFontName = "Junction";
+            this.lblAudioSettingsText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAudioSettingsText.ForeColor = System.Drawing.Color.LightGray;
+            this.lblAudioSettingsText.Location = new System.Drawing.Point(13, 115);
+            this.lblAudioSettingsText.Name = "lblAudioSettingsText";
+            this.lblAudioSettingsText.Size = new System.Drawing.Size(601, 20);
+            this.lblAudioSettingsText.TabIndex = 86;
+            this.lblAudioSettingsText.Text = "You must select a driver and an output device. The default settings for your OS h" +
+    "ave been selected.";
+            // 
+            // lblAudioSettings
+            // 
+            this.lblAudioSettings.AntiAliasingEnabled = true;
+            this.lblAudioSettings.BackColor = System.Drawing.Color.Transparent;
+            customFont15.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont15.IsBold = true;
+            customFont15.IsItalic = false;
+            customFont15.IsUnderline = false;
+            customFont15.Size = 12;
+            customFont15.StandardFontName = "Arial";
+            customFont15.UseAntiAliasing = true;
+            customFont15.UseEmbeddedFont = true;
+            this.lblAudioSettings.CustomFont = customFont15;
+            this.lblAudioSettings.CustomFontName = "TitilliumText22L Lt";
+            this.lblAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAudioSettings.ForeColor = System.Drawing.Color.White;
+            this.lblAudioSettings.Location = new System.Drawing.Point(13, 92);
+            this.lblAudioSettings.Name = "lblAudioSettings";
+            this.lblAudioSettings.Size = new System.Drawing.Size(211, 26);
+            this.lblAudioSettings.TabIndex = 82;
+            this.lblAudioSettings.Text = "Audio settings";
             // 
             // cboOutputDevices
             // 
@@ -488,7 +487,7 @@
             this.cboOutputDevices.DisplayMember = "Name";
             this.cboOutputDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOutputDevices.FormattingEnabled = true;
-            this.cboOutputDevices.Location = new System.Drawing.Point(16, 325);
+            this.cboOutputDevices.Location = new System.Drawing.Point(16, 297);
             this.cboOutputDevices.Name = "cboOutputDevices";
             this.cboOutputDevices.Size = new System.Drawing.Size(591, 23);
             this.cboOutputDevices.TabIndex = 81;
@@ -504,7 +503,7 @@
             this.cboDrivers.DisplayMember = "Title";
             this.cboDrivers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDrivers.FormattingEnabled = true;
-            this.cboDrivers.Location = new System.Drawing.Point(16, 168);
+            this.cboDrivers.Location = new System.Drawing.Point(16, 164);
             this.cboDrivers.Name = "cboDrivers";
             this.cboDrivers.Size = new System.Drawing.Size(591, 23);
             this.cboDrivers.TabIndex = 77;
@@ -658,14 +657,15 @@
             // 
             this.lblError.AntiAliasingEnabled = true;
             this.lblError.BackColor = System.Drawing.Color.Transparent;
-            customFont14.EmbeddedFontName = "";
-            customFont14.IsBold = false;
-            customFont14.IsItalic = false;
-            customFont14.IsUnderline = false;
-            customFont14.Size = 8;
-            customFont14.StandardFontName = "Arial";
-            customFont14.UseEmbeddedFont = false;
-            this.lblError.CustomFont = customFont14;
+            customFont16.EmbeddedFontName = "";
+            customFont16.IsBold = false;
+            customFont16.IsItalic = false;
+            customFont16.IsUnderline = false;
+            customFont16.Size = 8;
+            customFont16.StandardFontName = "Arial";
+            customFont16.UseAntiAliasing = true;
+            customFont16.UseEmbeddedFont = false;
+            this.lblError.CustomFont = customFont16;
             this.lblError.CustomFontName = "Avenir";
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.LightGray;
@@ -696,7 +696,7 @@
             this.btnNext.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnNext.Image = global::MPfm.Properties.Resources.arrow_right;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnNext.Location = new System.Drawing.Point(447, 436);
+            this.btnNext.Location = new System.Drawing.Point(447, 454);
             this.btnNext.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnNext.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnNext.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -729,7 +729,7 @@
             this.btnCancelWizard.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnCancelWizard.Image = global::MPfm.Properties.Resources.door_in;
             this.btnCancelWizard.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCancelWizard.Location = new System.Drawing.Point(296, 436);
+            this.btnCancelWizard.Location = new System.Drawing.Point(296, 454);
             this.btnCancelWizard.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnCancelWizard.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnCancelWizard.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -747,11 +747,99 @@
             this.openFile.Filter = "Audio files (*.mp3, *.flac, *.ogg, *.wav)|*.mp3;*.flac;*.ogg;*.wav";
             this.openFile.Title = "Please select an audio file to play";
             // 
+            // lbl1_3
+            // 
+            this.lbl1_3.AntiAliasingEnabled = true;
+            this.lbl1_3.BackColor = System.Drawing.Color.Transparent;
+            customFont4.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont4.IsBold = true;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 10;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
+            customFont4.UseEmbeddedFont = true;
+            this.lbl1_3.CustomFont = customFont4;
+            this.lbl1_3.CustomFontName = "TitilliumText22L Lt";
+            this.lbl1_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_3.ForeColor = System.Drawing.Color.White;
+            this.lbl1_3.Location = new System.Drawing.Point(13, 323);
+            this.lbl1_3.Name = "lbl1_3";
+            this.lbl1_3.Size = new System.Drawing.Size(18, 20);
+            this.lbl1_3.TabIndex = 95;
+            this.lbl1_3.Text = "3.";
+            // 
+            // lbl1_3_text
+            // 
+            this.lbl1_3_text.AntiAliasingEnabled = true;
+            this.lbl1_3_text.BackColor = System.Drawing.Color.Transparent;
+            customFont5.EmbeddedFontName = "Junction";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 9;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
+            customFont5.UseEmbeddedFont = true;
+            this.lbl1_3_text.CustomFont = customFont5;
+            this.lbl1_3_text.CustomFontName = "Junction";
+            this.lbl1_3_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_3_text.ForeColor = System.Drawing.Color.White;
+            this.lbl1_3_text.Location = new System.Drawing.Point(28, 323);
+            this.lbl1_3_text.Name = "lbl1_3_text";
+            this.lbl1_3_text.Size = new System.Drawing.Size(257, 20);
+            this.lbl1_3_text.TabIndex = 94;
+            this.lbl1_3_text.Text = "Please select a mixer sample rate :";
+            // 
+            // lblMixerSampleRateUnit
+            // 
+            this.lblMixerSampleRateUnit.AntiAliasingEnabled = true;
+            this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
+            customFont3.EmbeddedFontName = "Junction";
+            customFont3.IsBold = true;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 9;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
+            customFont3.UseEmbeddedFont = true;
+            this.lblMixerSampleRateUnit.CustomFont = customFont3;
+            this.lblMixerSampleRateUnit.CustomFontName = "Junction";
+            this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(80, 346);
+            this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";
+            this.lblMixerSampleRateUnit.Size = new System.Drawing.Size(39, 17);
+            this.lblMixerSampleRateUnit.TabIndex = 97;
+            this.lblMixerSampleRateUnit.Text = "Hz";
+            // 
+            // txtMixerSampleRate
+            // 
+            this.txtMixerSampleRate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMixerSampleRate.Location = new System.Drawing.Point(16, 346);
+            this.txtMixerSampleRate.Maximum = new decimal(new int[] {
+            96000,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.Minimum = new decimal(new int[] {
+            44100,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.Name = "txtMixerSampleRate";
+            this.txtMixerSampleRate.Size = new System.Drawing.Size(62, 23);
+            this.txtMixerSampleRate.TabIndex = 96;
+            this.txtMixerSampleRate.Value = new decimal(new int[] {
+            44100,
+            0,
+            0,
+            0});
+            // 
             // frmFirstRun
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(620, 485);
+            this.ClientSize = new System.Drawing.Size(620, 503);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancelWizard);
             this.Controls.Add(this.panelWelcome);
@@ -770,6 +858,7 @@
             this.panelWelcome.ResumeLayout(false);
             this.Panel1.ResumeLayout(false);
             this.panelError.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -777,9 +866,9 @@
         #endregion
 
         private MPfm.WindowsControls.FontCollection fontCollection;
-        private MPfm.WindowsControls.Label lblName;
+        private MPfm.WindowsControls.Label lblWelcome;
         private MPfm.WindowsControls.Button btnNext;
-        private MPfm.WindowsControls.Label Label1;
+        private MPfm.WindowsControls.Label lblWelcomeText;
         private MPfm.WindowsControls.Panel panelWelcome;
         private System.Windows.Forms.ComboBox cboDrivers;
         private MPfm.WindowsControls.Panel panelError;
@@ -791,18 +880,21 @@
         private MPfm.WindowsControls.Button btnCancelWizard;
         private System.Windows.Forms.ComboBox cboOutputDevices;
         private MPfm.WindowsControls.Panel Panel1;
-        private MPfm.WindowsControls.Label Label5;
-        private MPfm.WindowsControls.Label Label6;
-        private MPfm.WindowsControls.Label Label7;
-        private MPfm.WindowsControls.Label Label8;
-        private MPfm.WindowsControls.Label Label4;
-        private MPfm.WindowsControls.Label Label9;
+        private MPfm.WindowsControls.Label lblNote1;
+        private MPfm.WindowsControls.Label lblNote2;
+        private MPfm.WindowsControls.Label lblAudioSettingsText;
+        private MPfm.WindowsControls.Label lblAudioSettings;
+        private MPfm.WindowsControls.Label lbl1_4_text;
         private MPfm.WindowsControls.Button btnTestAudioSettings;
         private System.Windows.Forms.OpenFileDialog openFile;
-        private MPfm.WindowsControls.Label label10;
-        private MPfm.WindowsControls.Label label11;
-        private MPfm.WindowsControls.Label label12;
-        private MPfm.WindowsControls.Label label2;
-        private MPfm.WindowsControls.Label label3;
+        private MPfm.WindowsControls.Label lbl1_4;
+        private MPfm.WindowsControls.Label lbl1_2;
+        private MPfm.WindowsControls.Label lbl1_2_text;
+        private MPfm.WindowsControls.Label lbl1_1;
+        private MPfm.WindowsControls.Label lbl1_1_text;
+        private WindowsControls.Label lbl1_3;
+        private WindowsControls.Label lbl1_3_text;
+        private WindowsControls.Label lblMixerSampleRateUnit;
+        private System.Windows.Forms.NumericUpDown txtMixerSampleRate;
     }
 }
