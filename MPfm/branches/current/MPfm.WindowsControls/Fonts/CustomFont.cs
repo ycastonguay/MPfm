@@ -1,5 +1,5 @@
 //
-// CustomFont.cs: This class represents an embeddable font.
+// CustomFont.cs: This object represents a custom font (standard or embedded font).
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -21,64 +21,131 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Design;
 using System.Text;
 
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This class represents an embeddable font.
+    /// This object represents a custom font (standard or embedded font).
     /// </summary>
+    [Editor(typeof(CustomFontEditor), typeof(UITypeEditor))]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class CustomFont
     {
-        private string m_name = "";
         /// <summary>
-        /// Font name.
-        /// Example: LeagueGothic
+        /// Private value for the IsBold property.
         /// </summary>
-        public string Name
+        private bool m_isBold = false;
+        /// <summary>
+        /// Defines if the font uses bold.
+        /// </summary>
+        public bool IsBold
         {
             get
             {
-                return m_name;
+                return m_isBold;
             }
             set
             {
-                m_name = value;
+                m_isBold = value;
             }
         }
 
-        private string m_resourceName = "";
         /// <summary>
-        /// Assembly resource namespace.
-        /// Example: MPfm.Fonts.LeagueGothic.ttf
+        /// Private value for the IsItalic property.
         /// </summary>
-        public string ResourceName
+        private bool m_isItalic = false;
+        /// <summary>
+        /// Defines if the font uses italic.
+        /// </summary>
+        public bool IsItalic
         {
             get
             {
-                return m_resourceName;
+                return m_isItalic;
             }
             set
             {
-                m_resourceName = value;
+                m_isItalic = value;
             }
         }
 
-        private string m_assemblyPath = "";
         /// <summary>
-        /// Assembly path containing the embedded font. 
-        /// Example: MPfm.Fonts.dll
+        /// Private value for the IsUnderline property.
         /// </summary>
-        public string AssemblyPath
+        private bool m_isUnderline = false;
+        /// <summary>
+        /// Defines if the font uses underline.
+        /// </summary>
+        public bool IsUnderline
         {
             get
             {
-                return m_assemblyPath;
+                return m_isUnderline;
             }
             set
             {
-                m_assemblyPath = value;
+                m_isUnderline = value;
             }
+        }
+
+        /// <summary>
+        /// Private value for the FontName property.
+        /// </summary>
+        private string m_fontName = null;
+        /// <summary>
+        /// Defines the standard font face name.
+        /// </summary>
+        public string FontName
+        {
+            get
+            {
+                return m_fontName;
+            }
+            set
+            {
+                m_fontName = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the FontSize property.
+        /// </summary>
+        private int m_fontSize = 8;
+        /// <summary>
+        /// Defines the font size (in points).
+        /// </summary>
+        public int FontSize
+        {
+            get
+            {
+                return m_fontSize;
+            }
+            set
+            {
+                m_fontSize = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the EmbeddedFont property.
+        /// </summary>
+        private EmbeddedFont m_embeddedFont = null;
+        /// <summary>
+        /// Defines an embedded font.
+        /// </summary>
+        public EmbeddedFont EmbeddedFont
+        {
+            get
+            {
+                return m_embeddedFont;
+            }
+            set
+            {
+                m_embeddedFont = value;
+            }            
         }
 
         /// <summary>

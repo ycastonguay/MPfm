@@ -83,10 +83,17 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Fonts\CustomFont.cs" />
+    <Compile Include="Fonts\CustomFontEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fonts\CustomFontEditorForm.Designer.cs">
+      <DependentUpon>CustomFontEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fonts\EmbeddedFont.cs" />
     <Compile Include="Buttons-Toolbars\Button.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Fonts\CustomFontCollection.cs" />
+    <Compile Include="Fonts\EmbeddedFontCollection.cs" />
     <Compile Include="Fonts\FontCollection.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -98,6 +105,7 @@
     </Compile>
     <Compile Include="Library\AlbumViewItem.cs" />
     <Compile Include="Library\AlbumViewCache.cs" />
+    <Compile Include="Fonts\CustomFontEditor.cs" />
     <Compile Include="Library\SongGridViewTheme.cs" />
     <Compile Include="Library\SongGridViewMode.cs" />
     <Compile Include="Library\SongGridViewCache.cs" />
@@ -166,6 +174,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Fonts\CustomFontEditorForm.resx">
+      <DependentUpon>CustomFontEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>

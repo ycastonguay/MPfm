@@ -28,12 +28,11 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.EmbeddedFont customFont1 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont customFont2 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont customFont3 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
+            MPfm.WindowsControls.CustomFont fontExtended1 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
@@ -84,6 +83,13 @@ namespace MPfm
             this.btnClose = new MPfm.WindowsControls.Button();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.panelBackground = new MPfm.WindowsControls.Panel();
+            this.button2 = new MPfm.WindowsControls.Button();
+            this.button3 = new MPfm.WindowsControls.Button();
+            this.button4 = new MPfm.WindowsControls.Button();
+            this.label1 = new MPfm.WindowsControls.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label2 = new MPfm.WindowsControls.Label();
             this.tabs.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.panelGeneralSettings.SuspendLayout();
@@ -183,19 +189,11 @@ namespace MPfm
             customFont2.Name = "Junction";
             customFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
             customFont3.AssemblyPath = "MPfm.Fonts.dll";
-            customFont3.Name = "Nobile";
-            customFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            customFont4.AssemblyPath = "MPfm.Fonts.dll";
-            customFont4.Name = "TitilliumText22L Lt";
-            customFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            customFont5.AssemblyPath = "MPfm.Fonts.dll";
-            customFont5.Name = "Museo Sans 500";
-            customFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
+            customFont3.Name = "TitilliumText22L Lt";
+            customFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
             this.fontCollection.Fonts.Add(customFont1);
             this.fontCollection.Fonts.Add(customFont2);
             this.fontCollection.Fonts.Add(customFont3);
-            this.fontCollection.Fonts.Add(customFont4);
-            this.fontCollection.Fonts.Add(customFont5);
             // 
             // btnStopPeak
             // 
@@ -339,6 +337,15 @@ namespace MPfm
             // panelTheme
             // 
             this.panelTheme.AntiAliasingEnabled = true;
+            this.panelTheme.Controls.Add(this.comboThemeControl);
+            this.panelTheme.Controls.Add(this.textBox2);
+            this.panelTheme.Controls.Add(this.lblFilterBySoundFormat);
+            this.panelTheme.Controls.Add(this.label2);
+            this.panelTheme.Controls.Add(this.textBox1);
+            this.panelTheme.Controls.Add(this.label1);
+            this.panelTheme.Controls.Add(this.button4);
+            this.panelTheme.Controls.Add(this.button3);
+            this.panelTheme.Controls.Add(this.button2);
             this.panelTheme.Controls.Add(this.splitContainer1);
             this.panelTheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTheme.ExpandedHeight = 200;
@@ -366,19 +373,17 @@ namespace MPfm
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(2, 32);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 84);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.comboThemeControl);
             this.splitContainer1.Panel1.Controls.Add(this.songBrowser);
-            this.splitContainer1.Panel1.Controls.Add(this.lblFilterBySoundFormat);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGridTheme);
-            this.splitContainer1.Size = new System.Drawing.Size(629, 315);
+            this.splitContainer1.Size = new System.Drawing.Size(631, 263);
             this.splitContainer1.SplitterDistance = 276;
             this.splitContainer1.TabIndex = 101;
             // 
@@ -395,7 +400,7 @@ namespace MPfm
             this.comboThemeControl.Items.AddRange(new object[] {
             "Main.SongBrowser",
             "Playlist.SongBrowser"});
-            this.comboThemeControl.Location = new System.Drawing.Point(56, 3);
+            this.comboThemeControl.Location = new System.Drawing.Point(333, 56);
             this.comboThemeControl.Name = "comboThemeControl";
             this.comboThemeControl.Size = new System.Drawing.Size(216, 22);
             this.comboThemeControl.TabIndex = 99;
@@ -403,9 +408,6 @@ namespace MPfm
             // 
             // songBrowser
             // 
-            this.songBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.songBrowser.AntiAliasingEnabled = true;
             this.songBrowser.CanChangeOrderBy = false;
             this.songBrowser.CanMoveColumns = false;
@@ -413,18 +415,21 @@ namespace MPfm
             this.songBrowser.CanResizeColumns = true;
             this.songBrowser.CustomFontName = "Junction";
             this.songBrowser.DisplayDebugInformation = false;
+            this.songBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.songBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.songBrowser.FontCollection = this.fontCollection;
             this.songBrowser.ImageCacheSize = 10;
-            this.songBrowser.Location = new System.Drawing.Point(0, 31);
+            this.songBrowser.Location = new System.Drawing.Point(0, 0);
             this.songBrowser.Name = "songBrowser";
             this.songBrowser.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.songBrowser.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.songBrowser.OrderByAscending = true;
             this.songBrowser.OrderByFieldName = "";
-            this.songBrowser.Size = new System.Drawing.Size(274, 284);
+            this.songBrowser.Size = new System.Drawing.Size(276, 263);
             this.songBrowser.TabIndex = 98;
             this.songBrowser.Text = "songGridView1";
+            songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            songGridViewTheme1.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
             songGridViewTheme1.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             songGridViewTheme1.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             songGridViewTheme1.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
@@ -448,7 +453,7 @@ namespace MPfm
             this.lblFilterBySoundFormat.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFilterBySoundFormat.FontCollection = this.fontCollection;
             this.lblFilterBySoundFormat.ForeColor = System.Drawing.Color.Black;
-            this.lblFilterBySoundFormat.Location = new System.Drawing.Point(1, 7);
+            this.lblFilterBySoundFormat.Location = new System.Drawing.Point(278, 59);
             this.lblFilterBySoundFormat.Name = "lblFilterBySoundFormat";
             this.lblFilterBySoundFormat.Size = new System.Drawing.Size(56, 14);
             this.lblFilterBySoundFormat.TabIndex = 100;
@@ -461,7 +466,7 @@ namespace MPfm
             this.propertyGridTheme.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.propertyGridTheme.Location = new System.Drawing.Point(0, 0);
             this.propertyGridTheme.Name = "propertyGridTheme";
-            this.propertyGridTheme.Size = new System.Drawing.Size(349, 315);
+            this.propertyGridTheme.Size = new System.Drawing.Size(351, 263);
             this.propertyGridTheme.TabIndex = 97;
             this.propertyGridTheme.ToolbarVisible = false;
             this.propertyGridTheme.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridTheme_PropertyValueChanged);
@@ -1040,6 +1045,147 @@ namespace MPfm
             this.panelBackground.Size = new System.Drawing.Size(639, 431);
             this.panelBackground.TabIndex = 63;
             // 
+            // button2
+            // 
+            this.button2.AntiAliasingEnabled = true;
+            this.button2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.button2.BorderWidth = 1;
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.CustomFontName = "Junction";
+            this.button2.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.button2.DisabledFontColor = System.Drawing.Color.Gray;
+            this.button2.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.button2.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.button2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.FontCollection = this.fontCollection;
+            this.button2.FontColor = System.Drawing.Color.Black;
+            this.button2.GradientColor1 = System.Drawing.Color.LightGray;
+            this.button2.GradientColor2 = System.Drawing.Color.Gray;
+            this.button2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.button2.Image = global::MPfm.Properties.Resources.page_white_text;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(0, 30);
+            this.button2.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.button2.MouseOverFontColor = System.Drawing.Color.Black;
+            this.button2.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.button2.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(89, 24);
+            this.button2.TabIndex = 63;
+            this.button2.Text = "New theme";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.AntiAliasingEnabled = true;
+            this.button3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.button3.BorderWidth = 1;
+            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button3.CustomFontName = "Junction";
+            this.button3.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.button3.DisabledFontColor = System.Drawing.Color.Gray;
+            this.button3.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.button3.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.button3.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.FontCollection = this.fontCollection;
+            this.button3.FontColor = System.Drawing.Color.Black;
+            this.button3.GradientColor1 = System.Drawing.Color.LightGray;
+            this.button3.GradientColor2 = System.Drawing.Color.Gray;
+            this.button3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.button3.Image = global::MPfm.Properties.Resources.disk;
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button3.Location = new System.Drawing.Point(180, 30);
+            this.button3.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.button3.MouseOverFontColor = System.Drawing.Color.Black;
+            this.button3.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.button3.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(93, 24);
+            this.button3.TabIndex = 102;
+            this.button3.Text = "Save theme";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.AntiAliasingEnabled = true;
+            this.button4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.button4.BorderWidth = 1;
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button4.CustomFontName = "Junction";
+            this.button4.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.button4.DisabledFontColor = System.Drawing.Color.Gray;
+            this.button4.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.button4.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.button4.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.FontCollection = this.fontCollection;
+            this.button4.FontColor = System.Drawing.Color.Black;
+            this.button4.GradientColor1 = System.Drawing.Color.LightGray;
+            this.button4.GradientColor2 = System.Drawing.Color.Gray;
+            this.button4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.button4.Image = global::MPfm.Properties.Resources.folder_page;
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(88, 30);
+            this.button4.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.button4.MouseOverFontColor = System.Drawing.Color.Black;
+            this.button4.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.button4.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(93, 24);
+            this.button4.TabIndex = 103;
+            this.button4.Text = "Load theme";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AntiAliasingEnabled = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.CustomFontName = "Junction";
+            this.label1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.FontCollection = this.fontCollection;
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(1, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 14);
+            this.label1.TabIndex = 104;
+            this.label1.Text = "Name :";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(48, 56);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(227, 22);
+            this.textBox1.TabIndex = 105;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(342, 32);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(160, 22);
+            this.textBox2.TabIndex = 107;
+            this.textBox2.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AntiAliasingEnabled = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.CustomFontName = "Junction";
+            this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.FontCollection = this.fontCollection;
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(289, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 14);
+            this.label2.TabIndex = 106;
+            this.label2.Text = "Author :";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label2.Visible = false;
+            // 
             // frmSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1067,6 +1213,7 @@ namespace MPfm
             this.panelGeneralSettings.PerformLayout();
             this.tabTheme.ResumeLayout(false);
             this.panelTheme.ResumeLayout(false);
+            this.panelTheme.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -1134,5 +1281,12 @@ namespace MPfm
         private System.Windows.Forms.ComboBox comboThemeControl;
         private WindowsControls.Label lblFilterBySoundFormat;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private WindowsControls.Button button2;
+        private WindowsControls.Button button4;
+        private WindowsControls.Button button3;
+        private System.Windows.Forms.TextBox textBox1;
+        private WindowsControls.Label label1;
+        private System.Windows.Forms.TextBox textBox2;
+        private WindowsControls.Label label2;
     }
 }

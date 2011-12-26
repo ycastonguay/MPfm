@@ -46,14 +46,14 @@ namespace MPfm.WindowsControls
             //fonts = new PrivateFontCollection();            
         }
 
-        private CustomFontCollection m_fontCollection = new CustomFontCollection();
+        private EmbeddedFontCollection m_fontCollection = new EmbeddedFontCollection();
         /// <summary>
         /// List of embedded fonts.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Category("Configuration"), Browsable(true), Description("Font collection to display custom fonts")]        
-        public CustomFontCollection Fonts
+        [Category("Configuration"), Browsable(true), Description("Font collection to display custom fonts")]
+        public EmbeddedFontCollection Fonts
         {
             get
             {

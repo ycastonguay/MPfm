@@ -28,11 +28,11 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont23 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont25 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.EmbeddedFont customFont21 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont customFont22 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont customFont23 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont customFont24 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.EmbeddedFont customFont25 = new MPfm.WindowsControls.EmbeddedFont();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.panelEditMarker = new MPfm.WindowsControls.Panel();
             this.txtComments = new System.Windows.Forms.TextBox();

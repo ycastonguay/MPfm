@@ -362,6 +362,19 @@ namespace MPfm.WindowsControls
             }
         }
 
+        private CustomFont m_fontTest = new CustomFont();
+        public CustomFont FontTest
+        {
+            get
+            {
+                return m_fontTest;
+            }
+            set
+            {
+                m_fontTest = value;
+            }
+        }
+
         /// <summary>
         /// Default constructor for the SongGridViewTheme class.
         /// </summary>

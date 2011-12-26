@@ -1,6 +1,5 @@
 ﻿//
-// CustomFontCollection.cs: This class represents a list of embeddable fonts.
-//                          It is based on an ArrayList.
+// EmbeddedFontCollection.cs: This is a list of embeddable fonts.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -33,18 +32,17 @@ using System.Windows.Forms;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This class represents a list of embeddable fonts.
-    /// It is based on an ArrayList.
+    /// This is a list of embeddable fonts.
     /// </summary>
-    public class CustomFontCollection : ArrayList
+    public class EmbeddedFontCollection : ArrayList
     {
         // Private variables
         public PrivateFontCollection fonts = null;
 
         /// <summary>
-        /// Default constructor for CustomFontCollection.
+        /// Default constructor for EmbeddedFontCollection.
         /// </summary>
-        public CustomFontCollection()
+        public EmbeddedFontCollection()
         {
             fonts = new PrivateFontCollection();
         }
@@ -54,11 +52,11 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="index">Index</param>
         /// <returns>Font</returns>
-        public CustomFont this[int index]
+        public EmbeddedFont this[int index]
         {
             get
             {
-                return (CustomFont)base[index];
+                return (EmbeddedFont)base[index];
             }
             set
             {
@@ -80,7 +78,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="value">Font</param>
         /// <returns>New index</returns>
-        public int Add(CustomFont value)
+        public int Add(EmbeddedFont value)
         {
             AddFontFromResource(value.ResourceName, Application.StartupPath + "\\" + value.AssemblyPath);
             return base.Add(value);
@@ -91,7 +89,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="item">Font</param>
         /// <returns>True if font is found</returns>
-        public bool Contains(CustomFont item)
+        public bool Contains(EmbeddedFont item)
         {
             return base.Contains(item);
         }
@@ -101,7 +99,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="value">Font</param>
         /// <returns>Index</returns>
-        public int IndexOf(CustomFont value)
+        public int IndexOf(EmbeddedFont value)
         {
             return base.IndexOf(value);
         }
@@ -110,7 +108,7 @@ namespace MPfm.WindowsControls
         /// Removes a font from the collection.
         /// </summary>
         /// <param name="obj">Font</param>
-        public void Remove(CustomFont obj)
+        public void Remove(EmbeddedFont obj)
         {
             base.Remove(obj);
         }
