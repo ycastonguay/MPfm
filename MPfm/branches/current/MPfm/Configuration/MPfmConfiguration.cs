@@ -281,7 +281,7 @@ namespace MPfm
                         foreach (XElement elementColumn in elementsColumns)
                         {
                             // Create column and add to list
-                            SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"));
+                            SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"), true, 0);
                             column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
                             column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
                             column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
@@ -305,7 +305,7 @@ namespace MPfm
                         foreach (XElement elementColumn in elementsColumns)
                         {
                             // Create column and add to list                                                        
-                            SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"));
+                            SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"), true, 0);
                             column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
                             column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
                             column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");

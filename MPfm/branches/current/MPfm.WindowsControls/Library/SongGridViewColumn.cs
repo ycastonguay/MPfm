@@ -95,26 +95,9 @@ namespace MPfm.WindowsControls
         public bool IsUserMovingColumn { get; set; }
 
         /// <summary>
-        /// Constructor for the SongGridViewColumn class.
+        /// Indicates if the header title should be visible or not.
         /// </summary>
-        /// <param name="title">Column title</param>
-        /// <param name="fieldName">Column field title (AudioFile)</param>
-        public SongGridViewColumn(string title, string fieldName)
-        {
-            // Set properties
-            Title = title;
-            FieldName = fieldName;
-            Visible = false;
-            Order = -1;
-            Width = 100;
-            CanBeResized = true;
-            CanBeReordered = true;
-            CanBeMoved = true;
-            IsMouseOverColumnHeader = false;
-            IsMouseCursorOverColumnLimit = false;
-            IsUserResizingColumn = false;
-            IsUserMovingColumn = false;
-        }
+        public bool IsHeaderTitleVisible { get; set; }
 
         /// <summary>
         /// Constructor for the SongGridViewColumn class.
@@ -138,6 +121,7 @@ namespace MPfm.WindowsControls
             IsMouseCursorOverColumnLimit = false;
             IsUserResizingColumn = false;
             IsUserMovingColumn = false;
+            IsHeaderTitleVisible = true;
         }
     }
 }

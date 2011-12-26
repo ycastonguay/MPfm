@@ -106,113 +106,6 @@ namespace MPfm.WindowsControls
 
         #endregion
 
-        #region Other Properties
-        
-        private float m_scrollX = 0;
-        public float ScrollX
-        {
-            get
-            {
-                return m_scrollX;
-            }
-        }
-
-        private bool m_autoScrollWithCursor = false;
-        /// <summary>
-        /// Defines if the cursor needs to automatically scroll the waveform
-        /// (when zoom is over 100%).
-        /// </summary>
-        public bool AutoScrollWithCursor
-        {
-            get
-            {
-                return m_autoScrollWithCursor;
-            }
-            set
-            {
-                m_autoScrollWithCursor = value;
-            }
-        }
-
-        private float m_zoom = 100;
-        /// <summary>
-        /// Defines the zoom for the wave form display (in percentage).
-        /// </summary>
-        public float Zoom
-        {
-            get
-            {
-                return m_zoom;
-            }
-            set
-            {                               
-                // Check what is the factor between the two zooms (i.e. 100% to 200% = 2)
-                float zoomDelta = value - m_zoom;
-
-                // Check if the zoom level hasn't changed
-                if (zoomDelta == 0)
-                {
-                    // Do nothing
-                    return;
-                }
-
-                // Check if the new zoom is 100% 
-                if (value == 100)
-                {
-                    // Reset scroll X
-                    m_scrollX = 0;
-                } 
-                // Check if the value is positive
-                else if (zoomDelta > 0)
-                {
-                    // 100% == 2
-                    // 200% == 4
-                    // 300% == 6
-                    // 400% == 8
-                    // 500% == 10
-                    // 600% == 12
-                    // 700% == 14
-                    // 800% == 16
-
-                    // Scale the scrollbar X value accordingly
-                    float factor = (zoomDelta / 100) * 2;
-
-                    float scrollX = factor * ScrollX;
-                    if (scrollX > horizontalScrollBar.Maximum)
-                    {
-                        scrollX = horizontalScrollBar.Maximum;
-                    }
-
-                    // Set value
-                    m_scrollX = scrollX;
-                }
-                // Check if the value is negative
-                else if (zoomDelta < 0)
-                {
-                    // -500% == 0.5
-                    // -400% == 0.5
-                    // -300% == 0.125
-                    // -200% == 0.25
-                    // -100% == 0.5
-
-                    // -100% = 2 (half)
-                    // -200% = 3 (third)
-                    float factors = -(zoomDelta / 100) + 1;
-
-                    // Scale the scroll x
-                    m_scrollX = ScrollX / factors;
-                }
-
-                // Set zoom value
-                m_zoom = value;
-
-                // Set scrollbar value
-                horizontalScrollBar.m_value = (int)m_scrollX;
-            }
-        }
-
-        #endregion
-
         #region Properties
         
         #region Font Properties
@@ -235,10 +128,16 @@ namespace MPfm.WindowsControls
 
         #region Border Properties
 
+        /// <summary>
+        /// Defines the border color.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Border"), Browsable(true), Description("The color of the border")]
         public Color BorderColor { get; set; }
 
+        /// <summary>
+        /// Defines the border width.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Border"), Browsable(true), Description("The width of the border")]
         public int BorderWidth { get; set; }
@@ -260,6 +159,9 @@ namespace MPfm.WindowsControls
         [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
         public Color GradientColor2 { get; set; }
 
+        /// <summary>
+        /// Defines the gradient mode used when painting the background gradient.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Background"), Browsable(true), Description("Gradient mode")]
         public LinearGradientMode GradientMode { get; set; }
@@ -268,6 +170,9 @@ namespace MPfm.WindowsControls
 
         #region Properties (File / Song Information)
 
+        /// <summary>
+        /// Private value for the PeakFileDirectory property.
+        /// </summary>
         private string m_peakFileDirectory;
         /// <summary>
         /// Directory where the peak files are located.
@@ -285,6 +190,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the Position property.
+        /// </summary>
         private long m_position = 0;
         /// <summary>
         /// Defines the current audio file position (in bytes).
@@ -299,6 +207,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the PositionTime property.
+        /// </summary>
         private string m_positionTime = "00:00.000";
         /// <summary>
         /// Defines the current audio file position (in time string, such as 00:00.000).
@@ -313,6 +224,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the Length property.
+        /// </summary>
         private long m_length = 0;
         /// <summary>
         /// Defines the current audio file length (in bytes).
@@ -369,6 +283,9 @@ namespace MPfm.WindowsControls
 
         #region Properties (Wave Data History)
 
+        /// <summary>
+        /// Private value for the IsLoading property.
+        /// </summary>
         private bool m_isLoading = false;
         /// <summary>
         /// Indicates if the wave form history data is currently loading. This will display a shadow over 
@@ -382,6 +299,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the BytesRead property.
+        /// </summary>
         private uint m_bytesRead = 0;
         /// <summary>
         /// Defines the number of bytes read when loading wave data history.        
@@ -394,6 +314,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the PercentageDone property.
+        /// </summary>
         private float m_percentageDone = 0;
         /// <summary>
         /// Defines the percentage of the wave form generation done.
@@ -406,6 +329,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the WaveDataHistory property.
+        /// </summary>
         private List<WaveDataMinMax> m_waveDataHistory = null;
         /// <summary>
         /// Array containing an history of min and max peaks of the audio file.
@@ -421,7 +347,10 @@ namespace MPfm.WindowsControls
         #endregion
 
         #region Properties (Wave Form Display)
-        
+
+        /// <summary>
+        /// Private value for the DisplayType property.
+        /// </summary>
         private WaveFormDisplayType m_displayType = WaveFormDisplayType.Stereo;
         /// <summary>
         /// Wave form display type (left channel, right channel or stereo).
@@ -440,6 +369,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the WaveFormColor property.
+        /// </summary>
         private Color m_waveFormColor = Color.Green;
         /// <summary>
         /// Color used when drawing the wave form.
@@ -458,6 +390,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the CursorColor property.
+        /// </summary>
         private Color m_cursorColor = Color.White;
         /// <summary>
         /// Color used when drawing the current song position cursor over the wave form.
@@ -478,8 +413,130 @@ namespace MPfm.WindowsControls
 
         #endregion
 
-        // Wave form cache
+        #region Other Properties
+
+        /// <summary>
+        /// Private value for the ScrollX property.
+        /// </summary>
+        private float m_scrollX = 0;
+        /// <summary>
+        /// Defines the current scrollbar value.
+        /// </summary>
+        public float ScrollX
+        {
+            get
+            {
+                return m_scrollX;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the AutoScrollWithCursor property.
+        /// </summary>
+        private bool m_autoScrollWithCursor = false;
+        /// <summary>
+        /// Defines if the cursor needs to automatically scroll the waveform
+        /// (when zoom is over 100%).
+        /// </summary>
+        public bool AutoScrollWithCursor
+        {
+            get
+            {
+                return m_autoScrollWithCursor;
+            }
+            set
+            {
+                m_autoScrollWithCursor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Zoom property.
+        /// </summary>
+        private float m_zoom = 100;
+        /// <summary>
+        /// Defines the zoom for the wave form display (in percentage).
+        /// </summary>
+        public float Zoom
+        {
+            get
+            {
+                return m_zoom;
+            }
+            set
+            {
+                // Check what is the factor between the two zooms (i.e. 100% to 200% = 2)
+                float zoomDelta = value - m_zoom;
+
+                // Check if the zoom level hasn't changed
+                if (zoomDelta == 0)
+                {
+                    // Do nothing
+                    return;
+                }
+
+                // Check if the new zoom is 100% 
+                if (value == 100)
+                {
+                    // Reset scroll X
+                    m_scrollX = 0;
+                }
+                // Check if the value is positive
+                else if (zoomDelta > 0)
+                {
+                    // 100% == 2
+                    // 200% == 4
+                    // 300% == 6
+                    // 400% == 8
+                    // 500% == 10
+                    // 600% == 12
+                    // 700% == 14
+                    // 800% == 16
+
+                    // Scale the scrollbar X value accordingly
+                    float factor = (zoomDelta / 100) * 2;
+
+                    float scrollX = factor * ScrollX;
+                    if (scrollX > horizontalScrollBar.Maximum)
+                    {
+                        scrollX = horizontalScrollBar.Maximum;
+                    }
+
+                    // Set value
+                    m_scrollX = scrollX;
+                }
+                // Check if the value is negative
+                else if (zoomDelta < 0)
+                {
+                    // -500% == 0.5
+                    // -400% == 0.5
+                    // -300% == 0.125
+                    // -200% == 0.25
+                    // -100% == 0.5
+
+                    // -100% = 2 (half)
+                    // -200% = 3 (third)
+                    float factors = -(zoomDelta / 100) + 1;
+
+                    // Scale the scroll x
+                    m_scrollX = ScrollX / factors;
+                }
+
+                // Set zoom value
+                m_zoom = value;
+
+                // Set scrollbar value
+                horizontalScrollBar.m_value = (int)m_scrollX;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BitmapWaveForm property.
+        /// </summary>
         private Bitmap m_bitmapWaveForm = null;
+        /// <summary>
+        /// Wave form bitmap cache.
+        /// </summary>
         public Bitmap BitmapWaveForm
         {
             get
@@ -488,7 +545,13 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the MouseInteractionType property.
+        /// </summary>
         private WaveFormMouseInteractionType m_mouseInteractionType = WaveFormMouseInteractionType.Pointer;
+        /// <summary>
+        /// Defines the current mouse interaction type (pointer, select, zoom in, zoom out, etc.).
+        /// </summary>
         public WaveFormMouseInteractionType MouseInteractionType
         {
             get
@@ -497,7 +560,13 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the DisplayCurrentPosition property.
+        /// </summary>
         private bool m_displayCurrentPosition = true;
+        /// <summary>
+        /// Defines if the current song poisition should be displayed over the wave form.
+        /// </summary>
         public bool DisplayCurrentPosition
         {
             get
@@ -509,6 +578,8 @@ namespace MPfm.WindowsControls
                 m_displayCurrentPosition = value;
             }
         }
+
+        #endregion
 
         #endregion               
 
