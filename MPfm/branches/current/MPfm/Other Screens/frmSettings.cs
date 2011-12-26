@@ -78,6 +78,7 @@ namespace MPfm
             InitializeComponent();
             m_main = main;
 
+
             //m_peakFile = new PeakFile(5);
             //m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
             //m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);

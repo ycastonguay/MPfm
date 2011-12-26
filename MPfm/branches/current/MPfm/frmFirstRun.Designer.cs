@@ -91,7 +91,6 @@
             this.lblName.BackColor = System.Drawing.Color.Transparent;
             this.lblName.CustomFontName = "TitilliumText22L Lt";
             this.lblName.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.FontCollection = this.fontCollection;
             this.lblName.Location = new System.Drawing.Point(12, 32);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(264, 32);
@@ -104,7 +103,6 @@
             this.Label1.BackColor = System.Drawing.Color.Transparent;
             this.Label1.CustomFontName = "Junction";
             this.Label1.Font = new System.Drawing.Font("MingLiU", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label1.FontCollection = this.fontCollection;
             this.Label1.ForeColor = System.Drawing.Color.Gainsboro;
             this.Label1.Location = new System.Drawing.Point(13, 64);
             this.Label1.Name = "Label1";
@@ -159,8 +157,7 @@
             this.label11.AntiAliasingEnabled = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.CustomFontName = "TitilliumText22L Lt";
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.FontCollection = this.fontCollection;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(13, 301);
             this.label11.Name = "label11";
@@ -174,7 +171,6 @@
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.CustomFontName = "Junction";
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.FontCollection = this.fontCollection;
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(28, 301);
             this.label12.Name = "label12";
@@ -188,7 +184,6 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.CustomFontName = "TitilliumText22L Lt";
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.FontCollection = this.fontCollection;
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(14, 145);
             this.label2.Name = "label2";
@@ -202,7 +197,6 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.CustomFontName = "Junction";
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.FontCollection = this.fontCollection;
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(29, 145);
             this.label3.Name = "label3";
@@ -216,7 +210,6 @@
             this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.CustomFontName = "TitilliumText22L Lt";
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.FontCollection = this.fontCollection;
             this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(14, 353);
             this.label10.Name = "label10";
@@ -230,7 +223,6 @@
             this.Label9.BackColor = System.Drawing.Color.Transparent;
             this.Label9.CustomFontName = "Junction";
             this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label9.FontCollection = this.fontCollection;
             this.Label9.ForeColor = System.Drawing.Color.White;
             this.Label9.Location = new System.Drawing.Point(29, 353);
             this.Label9.Name = "Label9";
@@ -306,7 +298,6 @@
             this.Label5.BackColor = System.Drawing.Color.Transparent;
             this.Label5.CustomFontName = "Junction";
             this.Label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label5.FontCollection = this.fontCollection;
             this.Label5.ForeColor = System.Drawing.Color.Black;
             this.Label5.Location = new System.Drawing.Point(5, 29);
             this.Label5.Name = "Label5";
@@ -321,7 +312,6 @@
             this.Label6.BackColor = System.Drawing.Color.Transparent;
             this.Label6.CustomFontName = "Junction";
             this.Label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label6.FontCollection = this.fontCollection;
             this.Label6.ForeColor = System.Drawing.Color.Black;
             this.Label6.Location = new System.Drawing.Point(5, 48);
             this.Label6.Name = "Label6";
@@ -336,7 +326,6 @@
             this.Label7.BackColor = System.Drawing.Color.Transparent;
             this.Label7.CustomFontName = "Junction";
             this.Label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label7.FontCollection = this.fontCollection;
             this.Label7.ForeColor = System.Drawing.Color.Black;
             this.Label7.Location = new System.Drawing.Point(6, 67);
             this.Label7.Name = "Label7";
@@ -351,7 +340,6 @@
             this.Label8.BackColor = System.Drawing.Color.Transparent;
             this.Label8.CustomFontName = "Junction";
             this.Label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label8.FontCollection = this.fontCollection;
             this.Label8.ForeColor = System.Drawing.Color.LightGray;
             this.Label8.Location = new System.Drawing.Point(13, 115);
             this.Label8.Name = "Label8";
@@ -366,7 +354,6 @@
             this.Label4.BackColor = System.Drawing.Color.Transparent;
             this.Label4.CustomFontName = "TitilliumText22L Lt";
             this.Label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label4.FontCollection = this.fontCollection;
             this.Label4.ForeColor = System.Drawing.Color.White;
             this.Label4.Location = new System.Drawing.Point(13, 92);
             this.Label4.Name = "Label4";
@@ -555,7 +542,6 @@
             this.lblError.BackColor = System.Drawing.Color.Transparent;
             this.lblError.CustomFontName = "Avenir";
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.FontCollection = this.fontCollection;
             this.lblError.ForeColor = System.Drawing.Color.LightGray;
             this.lblError.Location = new System.Drawing.Point(3, 25);
             this.lblError.Name = "lblError";

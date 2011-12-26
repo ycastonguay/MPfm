@@ -47,12 +47,8 @@ namespace MPfm.WindowsControls
         public string CustomFontName { get; set; }
 
         /// <summary>
-        /// Pointer to the embedded font collection.
+        /// Private value for the AntiAliasingEnabled property.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
         private bool m_antiAliasingEnabled = true;
         /// <summary>
         /// Use anti-aliasing when drawing the embedded font.
@@ -74,12 +70,38 @@ namespace MPfm.WindowsControls
         #endregion
 
         /// <summary>
+        /// Private value for the CustomFont property.
+        /// </summary>
+        private CustomFont m_customFont = null;
+        /// <summary>
+        /// Defines the font to be used for rendering the control.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
+        {
+            get
+            {
+                return m_customFont;
+            }
+            set
+            {
+                m_customFont = value;
+                Refresh();
+            }
+        }
+
+        /// <summary>
         /// Default constructor for Label.
         /// </summary>
         public Label()
-        {            
+        {
+            // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);        
+            
+            // Set default font
+            m_customFont = new CustomFont();
         }
 
         #region Paint Events
@@ -106,22 +128,39 @@ namespace MPfm.WindowsControls
                 }
 
                 // Create custom font
-                Font font = this.Font;
-                try
+                Font font = null;
+     
+                // Make sure the embedded font name needs to be loaded and is valid
+                if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
                 {
-                    if (FontCollection != null && CustomFontName.Length > 0)
+                    try
                     {
-                        FontFamily family = FontCollection.GetFontFamily(CustomFontName);
+                        // Get embedded font collection
+                        EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
-                        if (family != null)
-                        {
-                            font = new Font(family, Font.Size, Font.Style);
-                        }
+                        // Get embedded font
+                        font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    }
+                    catch (Exception ex)
+                    {
+                        // Use default font instead
+                        font = this.Font;
                     }
                 }
-                catch (Exception ex)
+
+                // Check if font is null
+                if (font == null)
                 {
-                    throw ex;
+                    try
+                    {
+                        // Try to get standard font
+                        font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    }
+                    catch (Exception ex)
+                    {
+                        // Use default font instead
+                        font = this.Font;
+                    }
                 }
 
                 // Call paint background
@@ -130,44 +169,59 @@ namespace MPfm.WindowsControls
                 // Measure string            
                 SizeF sizeString = g.MeasureString(this.Text, font);
 
+                // Check for auto size
+                if (AutoSize)
+                {
+                    // TODO: Reisze control
+                }
+
                 // Create brush
-                SolidBrush brushFont = new SolidBrush(ForeColor);
+                SolidBrush brushFont = new SolidBrush(ForeColor);                
 
                 // Draw string depending on alignment
                 if (TextAlign == ContentAlignment.BottomLeft)
                 {
+                    // Bottom left
                     g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
                 }
                 else if (this.TextAlign == ContentAlignment.BottomCenter)
                 {
+                    // Bottom center
                     g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
                 }
                 else if (this.TextAlign == ContentAlignment.BottomRight)
                 {
+                    // Bottom right
                     g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
                 }
                 else if (this.TextAlign == ContentAlignment.MiddleLeft)
                 {
+                    // Middle left
                     g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
                 }
                 else if (this.TextAlign == ContentAlignment.MiddleCenter)
                 {
+                    // Middle center
                     g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
                 }
                 else if (this.TextAlign == ContentAlignment.MiddleRight)
                 {
+                    // Middle right
                     g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
                 }
                 else if (this.TextAlign == ContentAlignment.TopLeft)
                 {
+                    // Top left
                     g.DrawString(Text, font, brushFont, 2, 2);
                 }
                 else if (this.TextAlign == ContentAlignment.TopCenter)
                 {
+                    // Top center
                     g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
                 }
                 else if (this.TextAlign == ContentAlignment.TopRight)
                 {
+                    // Top right
                     g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
                 }
 
@@ -178,6 +232,7 @@ namespace MPfm.WindowsControls
                 // Dispose font if necessary
                 if (font != null && font != this.Font)
                 {
+                    // Dispose font
                     font.Dispose();
                     font = null;
                 }

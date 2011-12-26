@@ -72,7 +72,6 @@
             this.lblError.BackColor = System.Drawing.Color.Transparent;
             this.lblError.CustomFontName = "Junction";
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.FontCollection = this.fontCollection;
             this.lblError.ForeColor = System.Drawing.Color.Black;
             this.lblError.Location = new System.Drawing.Point(0, 1);
             this.lblError.Name = "lblError";

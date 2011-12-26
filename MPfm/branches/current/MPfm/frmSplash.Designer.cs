@@ -59,8 +59,7 @@ namespace MPfm
             this.lblStatus.AntiAliasingEnabled = true;
             this.lblStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblStatus.CustomFontName = "TitilliumText22L Lt";
-            this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.FontCollection = this.fontCollection;
+            this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.lblStatus.ForeColor = System.Drawing.Color.White;
             this.lblStatus.Location = new System.Drawing.Point(5, 481);
             this.lblStatus.Name = "lblStatus";
@@ -90,7 +89,6 @@ namespace MPfm
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
             this.lblVersion.CustomFontName = "Droid Sans Mono";
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
-            this.lblVersion.FontCollection = this.fontCollection;
             this.lblVersion.ForeColor = System.Drawing.Color.White;
             this.lblVersion.Location = new System.Drawing.Point(7, 8);
             this.lblVersion.Name = "lblVersion";

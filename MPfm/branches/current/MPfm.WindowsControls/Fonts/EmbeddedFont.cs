@@ -27,7 +27,7 @@ namespace MPfm.WindowsControls
 {
     /// <summary>
     /// This object represents an embeddable font.
-    /// </summary>
+    /// </summary>    
     public class EmbeddedFont
     {
         /// <summary>

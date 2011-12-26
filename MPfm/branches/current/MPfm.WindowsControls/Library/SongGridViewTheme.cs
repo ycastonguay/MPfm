@@ -362,16 +362,22 @@ namespace MPfm.WindowsControls
             }
         }
 
-        private CustomFont m_fontTest = new CustomFont();
-        public CustomFont FontTest
+        /// <summary>
+        /// Private value for the Font property.
+        /// </summary>
+        private CustomFont m_font = new CustomFont();
+        /// <summary>
+        /// Defines the font used in the control.
+        /// </summary>
+        public CustomFont Font
         {
             get
             {
-                return m_fontTest;
+                return m_font;
             }
             set
             {
-                m_fontTest = value;
+                m_font = value;
             }
         }
 
@@ -380,7 +386,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         public SongGridViewTheme()
         {
-            // Set default values
+            // Set default values            
         }
     }
 

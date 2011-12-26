@@ -146,7 +146,6 @@ namespace MPfm
             this.lblEditing.BackColor = System.Drawing.Color.Transparent;
             this.lblEditing.CustomFontName = "Junction";
             this.lblEditing.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditing.FontCollection = this.fontCollection;
             this.lblEditing.Location = new System.Drawing.Point(3, 32);
             this.lblEditing.Name = "lblEditing";
             this.lblEditing.Size = new System.Drawing.Size(626, 17);

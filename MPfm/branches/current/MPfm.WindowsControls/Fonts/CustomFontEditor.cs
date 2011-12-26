@@ -44,7 +44,7 @@ namespace MPfm.WindowsControls
         {
             return UITypeEditorEditStyle.Modal;
         }
-
+       
         /// <summary>
         /// Triggers the Edit window.
         /// </summary>
@@ -66,19 +66,30 @@ namespace MPfm.WindowsControls
                 // Open form
                 using (CustomFontEditorForm form = new CustomFontEditorForm())
                 {
+                    // Instance a new font (or if the user cancels the form, it will STILL change the font values)
+                    CustomFont newFont = new CustomFont();
+                    newFont.EmbeddedFontName = font.EmbeddedFontName;
+                    newFont.StandardFontName = font.StandardFontName;
+                    newFont.Size = font.Size;
+                    newFont.IsBold = font.IsBold;
+                    newFont.IsItalic = font.IsItalic;
+                    newFont.IsUnderline = font.IsUnderline;
+                    newFont.UseEmbeddedFont = font.UseEmbeddedFont;
+
                     // Set form text
-                    form.Text = font.FontName;
+                    form.CustomFont = newFont;
 
                     // Show form
-                    if (svc.ShowDialog(form) == DialogResult.OK)
+                    DialogResult result = svc.ShowDialog(form);
+                    if(result == DialogResult.OK)
                     {
                         // The form has ended with OK; set value
-                        font.FontName = form.Text;
+                        font = form.CustomFont;                        
                     }
                 }
             }
 
-            return value;
+            return font;
         }
     }
 }

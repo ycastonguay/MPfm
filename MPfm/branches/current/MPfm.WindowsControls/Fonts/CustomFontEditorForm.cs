@@ -35,16 +35,25 @@ namespace MPfm.WindowsControls
     /// </summary>
     public partial class CustomFontEditorForm : Form
     {
-        private FontCollection m_fontCollection = null;
-        public FontCollection FontCollection
+        private InstalledFontCollection m_fonts = null;
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
+        /// <summary>
+        /// Private value for the CustomFont property.
+        /// </summary>
+        private CustomFont m_customFont = null;
+        /// <summary>
+        /// Defines the font to be modified.
+        /// </summary>
+        public CustomFont CustomFont
         {
             get
             {
-                return m_fontCollection;
+                return m_customFont;
             }
             set
             {
-                m_fontCollection = value;
+                m_customFont = value;
             }
         }
 
@@ -56,82 +65,216 @@ namespace MPfm.WindowsControls
             // Initialize components
             InitializeComponent();
 
-            // Create font collection
-            m_fontCollection = new FontCollection();
-
-            // Add fonts
-            EmbeddedFont font = new EmbeddedFont();
-            font.AssemblyPath = "MPfm.Fonts.dll";
-            font.Name = "LeagueGothic";
-            font.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            m_fontCollection.Fonts.Add(font);
-
-            font = new EmbeddedFont();
-            font.AssemblyPath = "MPfm.Fonts.dll";
-            font.Name = "Junction";
-            font.ResourceName = "MPfm.Fonts.Junction.ttf";
-            m_fontCollection.Fonts.Add(font);
+            // Create default font
+            m_customFont = new WindowsControls.CustomFont();         
         }
 
-        private void FontEditorForm_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when the form is ready to load.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void CustomFontEditorForm_Load(object sender, EventArgs e)
         {
-            // Set font collection
-            lblPreview.FontCollection = m_fontCollection;
-            lblPreview.CustomFontName = "Junction";
+            // Get list of embedded fonts
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+            comboCustomFontName.DataSource = m_embeddedFonts;
 
-            // Get list of installed fonts
-            InstalledFontCollection fonts = new InstalledFontCollection();
-            for (int a = 0; a < fonts.Families.Length; a++)
+            // Get list of standard fonts
+            m_fonts = new InstalledFontCollection();
+            for (int a = 0; a < m_fonts.Families.Length; a++)
             {
-                comboStandardFontName.Items.Add(fonts.Families[a].Name);
+                // Make sure the regular style is available
+                if (m_fonts.Families[a].IsStyleAvailable(FontStyle.Regular))
+                {
+                    // Add font
+                    int index = comboStandardFontName.Items.Add(m_fonts.Families[a].Name);
+
+                    // Check if the font name matches
+                    if (CustomFont.StandardFontName.ToUpper() == m_fonts.Families[a].Name.ToUpper())
+                    {
+                        // Set selected index
+                        comboStandardFontName.SelectedIndex = index;
+                    }
+                    
+                }
+            }            
+
+            // Loop through embedded fonts
+            foreach (EmbeddedFont embeddedFont in m_embeddedFonts)
+            {
+                // Check if the name matches
+                if (embeddedFont.Name.ToUpper() == CustomFont.EmbeddedFontName.ToUpper())
+                {
+                    // Set combo box item
+                    comboCustomFontName.SelectedItem = embeddedFont;
+                    break;
+                }
             }
 
+            
+
+            // Set initial values
+            radioUseCustomFont.Checked = CustomFont.UseEmbeddedFont;
+            lblFontSize.Text = "Font Size: " + CustomFont.Size.ToString() + " pt";
+            trackFontSize.Value = CustomFont.Size;
+            chkIsBold.Checked = CustomFont.IsBold;
+            chkIsItalic.Checked = CustomFont.IsItalic;
+            chkIsUnderline.Checked = CustomFont.IsUnderline;            
+           
             // Set text
             Text = "Edit font";
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when the user clicks on the OK button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnOK_Click(object sender, EventArgs e)
         {
+            // Set result and close form
+            DialogResult = System.Windows.Forms.DialogResult.OK;
+            Close();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Cancel button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // Close window
+            DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
         }
 
+        /// <summary>
+        /// Occurs when the user changes the embedded font name in the combo box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void comboCustomFontName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Get embedded font
+            EmbeddedFont font = (EmbeddedFont)comboCustomFontName.SelectedItem;
 
+            // Set preview font            
+            CustomFont.EmbeddedFontName = font.Name;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
         }
 
+        /// <summary>
+        /// Occurs when the user changes the standard font name in the combo box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void comboStandardFontName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Set preview font
+            string font = (comboStandardFontName.Items.Count > 0) ? comboStandardFontName.Items[comboStandardFontName.SelectedIndex].ToString() : "";
 
+            // Make sure font isn't empty
+            if (!String.IsNullOrEmpty(font))
+            {
+                // Set font properties
+                CustomFont.StandardFontName = font;
+                lblPreview.CustomFont = CustomFont;
+                lblPreview.Refresh();
+            }
         }
 
-        private void lblUseCustomFont_Click(object sender, EventArgs e)
-        {
-            radioUseCustomFont.Checked = true;
-        }
-
-        private void lblUseStandardFont_Click(object sender, EventArgs e)
-        {
-            radioUseStandardFont.Checked = true;
-        }
-
+        /// <summary>
+        /// Occurs when the user clicks on the Use custom font radio button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void radioUseCustomFont_CheckedChanged(object sender, EventArgs e)
         {
+            // Set control enable
             radioUseStandardFont.Checked = !radioUseCustomFont.Checked;
             comboStandardFontName.Enabled = radioUseStandardFont.Checked;
             comboCustomFontName.Enabled = radioUseCustomFont.Checked;
+
+            // Set font properties
+            CustomFont.UseEmbeddedFont = radioUseCustomFont.Checked;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
         }
 
+        /// <summary>
+        /// Occurs when the user clicks on the Use standard font radio button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void radioUseStandardFont_CheckedChanged(object sender, EventArgs e)
         {
+            // Set control enable
             radioUseCustomFont.Checked = !radioUseStandardFont.Checked;
             comboStandardFontName.Enabled = radioUseStandardFont.Checked;
             comboCustomFontName.Enabled = radioUseCustomFont.Checked;
+
+            // Set font properties
+            CustomFont.UseEmbeddedFont = radioUseCustomFont.Checked;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
         }
 
-        private void trackFontSize_OnTrackBarValueChanged()
+        /// <summary>
+        /// Occurs when the user changes the font size using the track bar.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void trackFontSize_Scroll(object sender, EventArgs e)
         {
+            // Update label
             lblFontSize.Text = "Font Size: " + trackFontSize.Value.ToString() + " pt";
+
+            // Update font            
+            CustomFont.Size = trackFontSize.Value;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Bold check box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkIsBold_CheckedChanged(object sender, EventArgs e)
+        {
+            // Set bold
+            CustomFont.IsBold = chkIsBold.Checked;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Italic check box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkIsItalic_CheckedChanged(object sender, EventArgs e)
+        {
+            // Set italic
+            CustomFont.IsItalic = chkIsItalic.Checked;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Underline check box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkIsUnderline_CheckedChanged(object sender, EventArgs e)
+        {
+            // Set underline
+            CustomFont.IsUnderline = chkIsUnderline.Checked;
+            lblPreview.CustomFont = CustomFont;
+            lblPreview.Refresh();
         }
     }
 }

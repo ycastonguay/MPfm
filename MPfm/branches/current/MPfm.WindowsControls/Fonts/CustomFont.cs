@@ -44,7 +44,7 @@ namespace MPfm.WindowsControls
         public bool IsBold
         {
             get
-            {
+            {                
                 return m_isBold;
             }
             set
@@ -92,60 +92,79 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the FontName property.
+        /// Private value for the Size property.
         /// </summary>
-        private string m_fontName = null;
-        /// <summary>
-        /// Defines the standard font face name.
-        /// </summary>
-        public string FontName
-        {
-            get
-            {
-                return m_fontName;
-            }
-            set
-            {
-                m_fontName = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the FontSize property.
-        /// </summary>
-        private int m_fontSize = 8;
+        private int m_size = 8;
         /// <summary>
         /// Defines the font size (in points).
         /// </summary>
-        public int FontSize
+        public int Size
         {
             get
             {
-                return m_fontSize;
+                return m_size;
             }
             set
             {
-                m_fontSize = value;
+                m_size = value;
             }
         }
 
         /// <summary>
-        /// Private value for the EmbeddedFont property.
+        /// Private value for the StandardFontName property.
         /// </summary>
-        private EmbeddedFont m_embeddedFont = null;
+        private string m_standardFontName = "Arial";
         /// <summary>
-        /// Defines an embedded font.
+        /// Defines the standard font face name.
         /// </summary>
-        public EmbeddedFont EmbeddedFont
+        public string StandardFontName
         {
             get
             {
-                return m_embeddedFont;
+                return m_standardFontName;
             }
             set
             {
-                m_embeddedFont = value;
-            }            
+                m_standardFontName = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the EmbeddedFontName property.
+        /// </summary>
+        private string m_embeddedFontName = string.Empty;
+        /// <summary>
+        /// Defines the embedded font name.
+        /// </summary>
+        public string EmbeddedFontName
+        {
+            get
+            {
+                return m_embeddedFontName;
+            }
+            set
+            {
+                m_embeddedFontName = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the UseEmbeddedFont property.
+        /// </summary>
+        private bool m_useEmbeddedFont = false;
+        /// <summary>
+        /// Defines if the font should use the embedded font.
+        /// </summary>
+        public bool UseEmbeddedFont
+        {
+            get
+            {
+                return m_useEmbeddedFont;
+            }
+            set
+            {
+                m_useEmbeddedFont = value;
+            }
         }
 
         /// <summary>
@@ -153,6 +172,35 @@ namespace MPfm.WindowsControls
         /// </summary>
         public CustomFont()
         {
+        }
+
+        /// <summary>
+        /// Returns a FontStyle structure with the IsBold, IsItalic and IsUnderline property values.
+        /// </summary>
+        /// <returns>FontStyle</returns>
+        public FontStyle ToFontStyle()
+        {
+            // Set default value
+            FontStyle style = FontStyle.Regular;            
+
+            // Check for styles
+            if (IsBold)
+            {
+                // Add bold
+                style |= FontStyle.Bold;
+            }
+            if (IsItalic)
+            {
+                // Add bold
+                style |= FontStyle.Italic;
+            }
+            if (IsUnderline)
+            {
+                // Add bold
+                style |= FontStyle.Underline;
+            }
+
+            return style;
         }
     }
 }

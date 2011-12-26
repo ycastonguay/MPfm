@@ -706,7 +706,6 @@ namespace MPfm
             this.lblFilterBySoundFormat.BackColor = System.Drawing.Color.Transparent;
             this.lblFilterBySoundFormat.CustomFontName = "Junction";
             this.lblFilterBySoundFormat.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFilterBySoundFormat.FontCollection = this.fontCollection;
             this.lblFilterBySoundFormat.ForeColor = System.Drawing.Color.White;
             this.lblFilterBySoundFormat.Location = new System.Drawing.Point(2, 29);
             this.lblFilterBySoundFormat.Name = "lblFilterBySoundFormat";
@@ -898,7 +897,6 @@ namespace MPfm
             this.lblCurrentFilePath.BackColor = System.Drawing.Color.Transparent;
             this.lblCurrentFilePath.CustomFontName = "TitilliumText22L Lt";
             this.lblCurrentFilePath.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentFilePath.FontCollection = this.fontCollection;
             this.lblCurrentFilePath.ForeColor = System.Drawing.Color.Gray;
             this.lblCurrentFilePath.Location = new System.Drawing.Point(160, 77);
             this.lblCurrentFilePath.Name = "lblCurrentFilePath";
@@ -945,7 +943,6 @@ namespace MPfm
             this.lblFrequency.BackColor = System.Drawing.Color.Transparent;
             this.lblFrequency.CustomFontName = "Droid Sans Mono";
             this.lblFrequency.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFrequency.FontCollection = this.fontCollection;
             this.lblFrequency.ForeColor = System.Drawing.Color.White;
             this.lblFrequency.Location = new System.Drawing.Point(4, 59);
             this.lblFrequency.Name = "lblFrequency";
@@ -962,7 +959,6 @@ namespace MPfm
             this.lblFrequencyTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblFrequencyTitle.CustomFontName = "Junction";
             this.lblFrequencyTitle.Font = new System.Drawing.Font("Arial", 7F);
-            this.lblFrequencyTitle.FontCollection = this.fontCollection;
             this.lblFrequencyTitle.ForeColor = System.Drawing.Color.Silver;
             this.lblFrequencyTitle.Location = new System.Drawing.Point(4, 46);
             this.lblFrequencyTitle.Name = "lblFrequencyTitle";
@@ -979,7 +975,6 @@ namespace MPfm
             this.lblBitrate.BackColor = System.Drawing.Color.Transparent;
             this.lblBitrate.CustomFontName = "Droid Sans Mono";
             this.lblBitrate.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBitrate.FontCollection = this.fontCollection;
             this.lblBitrate.ForeColor = System.Drawing.Color.White;
             this.lblBitrate.Location = new System.Drawing.Point(4, 84);
             this.lblBitrate.Name = "lblBitrate";
@@ -996,7 +991,6 @@ namespace MPfm
             this.lblBitrateTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblBitrateTitle.CustomFontName = "Junction";
             this.lblBitrateTitle.Font = new System.Drawing.Font("Arial", 7F);
-            this.lblBitrateTitle.FontCollection = this.fontCollection;
             this.lblBitrateTitle.ForeColor = System.Drawing.Color.Silver;
             this.lblBitrateTitle.Location = new System.Drawing.Point(4, 71);
             this.lblBitrateTitle.Name = "lblBitrateTitle";
@@ -1013,7 +1007,6 @@ namespace MPfm
             this.lblSoundFormat.BackColor = System.Drawing.Color.Transparent;
             this.lblSoundFormat.CustomFontName = "Droid Sans Mono";
             this.lblSoundFormat.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSoundFormat.FontCollection = this.fontCollection;
             this.lblSoundFormat.ForeColor = System.Drawing.Color.White;
             this.lblSoundFormat.Location = new System.Drawing.Point(4, 33);
             this.lblSoundFormat.Name = "lblSoundFormat";
@@ -1030,7 +1023,6 @@ namespace MPfm
             this.lblSoundFormatTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblSoundFormatTitle.CustomFontName = "Junction";
             this.lblSoundFormatTitle.Font = new System.Drawing.Font("Arial", 7F);
-            this.lblSoundFormatTitle.FontCollection = this.fontCollection;
             this.lblSoundFormatTitle.ForeColor = System.Drawing.Color.Silver;
             this.lblSoundFormatTitle.Location = new System.Drawing.Point(4, 21);
             this.lblSoundFormatTitle.Name = "lblSoundFormatTitle";
@@ -1076,7 +1068,6 @@ namespace MPfm
             this.lblSearchWeb.BackColor = System.Drawing.Color.Transparent;
             this.lblSearchWeb.CustomFontName = "Junction";
             this.lblSearchWeb.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearchWeb.FontCollection = this.fontCollection;
             this.lblSearchWeb.ForeColor = System.Drawing.Color.Silver;
             this.lblSearchWeb.Location = new System.Drawing.Point(1, 38);
             this.lblSearchWeb.Name = "lblSearchWeb";
@@ -1290,7 +1281,6 @@ namespace MPfm
             this.lblVolume.BackColor = System.Drawing.Color.Transparent;
             this.lblVolume.CustomFontName = "Droid Sans Mono";
             this.lblVolume.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolume.FontCollection = this.fontCollection;
             this.lblVolume.ForeColor = System.Drawing.Color.White;
             this.lblVolume.Location = new System.Drawing.Point(4, 139);
             this.lblVolume.Name = "lblVolume";
@@ -1332,7 +1322,6 @@ namespace MPfm
             this.lblTimeShifting.BackColor = System.Drawing.Color.Transparent;
             this.lblTimeShifting.CustomFontName = "Droid Sans Mono";
             this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTimeShifting.FontCollection = this.fontCollection;
             this.lblTimeShifting.ForeColor = System.Drawing.Color.White;
             this.lblTimeShifting.Location = new System.Drawing.Point(57, 36);
             this.lblTimeShifting.Name = "lblTimeShifting";
@@ -1418,7 +1407,6 @@ namespace MPfm
             this.lblSongPercentage.BackColor = System.Drawing.Color.Transparent;
             this.lblSongPercentage.CustomFontName = "Droid Sans Mono";
             this.lblSongPercentage.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongPercentage.FontCollection = this.fontCollection;
             this.lblSongPercentage.ForeColor = System.Drawing.Color.White;
             this.lblSongPercentage.Location = new System.Drawing.Point(215, 36);
             this.lblSongPercentage.Name = "lblSongPercentage";
@@ -1435,7 +1423,6 @@ namespace MPfm
             this.lblSongPosition.BackColor = System.Drawing.Color.Transparent;
             this.lblSongPosition.CustomFontName = "Droid Sans Mono";
             this.lblSongPosition.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongPosition.FontCollection = this.fontCollection;
             this.lblSongPosition.ForeColor = System.Drawing.Color.White;
             this.lblSongPosition.Location = new System.Drawing.Point(4, 36);
             this.lblSongPosition.Name = "lblSongPosition";
@@ -1503,7 +1490,6 @@ namespace MPfm
             this.lblLength.BackColor = System.Drawing.Color.Transparent;
             this.lblLength.CustomFontName = "Droid Sans Mono";
             this.lblLength.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLength.FontCollection = this.fontCollection;
             this.lblLength.ForeColor = System.Drawing.Color.White;
             this.lblLength.Location = new System.Drawing.Point(0, 22);
             this.lblLength.Name = "lblLength";
@@ -1542,7 +1528,6 @@ namespace MPfm
             this.lblCurrentPosition.BackColor = System.Drawing.Color.Transparent;
             this.lblCurrentPosition.CustomFontName = "Droid Sans Mono";
             this.lblCurrentPosition.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPosition.FontCollection = this.fontCollection;
             this.lblCurrentPosition.ForeColor = System.Drawing.Color.White;
             this.lblCurrentPosition.Location = new System.Drawing.Point(0, 22);
             this.lblCurrentPosition.Name = "lblCurrentPosition";
@@ -1559,7 +1544,6 @@ namespace MPfm
             this.lblCurrentSongTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblCurrentSongTitle.CustomFontName = "TitilliumText22L Lt";
             this.lblCurrentSongTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentSongTitle.FontCollection = this.fontCollection;
             this.lblCurrentSongTitle.ForeColor = System.Drawing.Color.Gray;
             this.lblCurrentSongTitle.Location = new System.Drawing.Point(158, 55);
             this.lblCurrentSongTitle.Name = "lblCurrentSongTitle";
@@ -1814,7 +1798,6 @@ namespace MPfm
             this.lblLoops.BackColor = System.Drawing.Color.Transparent;
             this.lblLoops.CustomFontName = "Junction";
             this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.lblLoops.FontCollection = this.fontCollection;
             this.lblLoops.ForeColor = System.Drawing.Color.White;
             this.lblLoops.Location = new System.Drawing.Point(0, 1);
             this.lblLoops.Name = "lblLoops";
@@ -2029,7 +2012,6 @@ namespace MPfm
             this.lblMarkers.BackColor = System.Drawing.Color.Transparent;
             this.lblMarkers.CustomFontName = "Junction";
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.lblMarkers.FontCollection = this.fontCollection;
             this.lblMarkers.ForeColor = System.Drawing.Color.White;
             this.lblMarkers.Location = new System.Drawing.Point(0, 1);
             this.lblMarkers.Name = "lblMarkers";
@@ -2259,7 +2241,6 @@ namespace MPfm
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.CustomFontName = "Junction";
             this.label1.Font = new System.Drawing.Font("Arial", 8F);
-            this.label1.FontCollection = this.fontCollection;
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(430, 6);
             this.label1.Name = "label1";

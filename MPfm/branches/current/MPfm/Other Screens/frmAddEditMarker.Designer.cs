@@ -148,7 +148,6 @@ namespace MPfm
             this.lblComments.BackColor = System.Drawing.Color.Transparent;
             this.lblComments.CustomFontName = "Junction";
             this.lblComments.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComments.FontCollection = this.fontCollection;
             this.lblComments.Location = new System.Drawing.Point(3, 254);
             this.lblComments.Name = "lblComments";
             this.lblComments.Size = new System.Drawing.Size(587, 17);
@@ -161,7 +160,6 @@ namespace MPfm
             this.lblPositionMSValue.BackColor = System.Drawing.Color.Transparent;
             this.lblPositionMSValue.CustomFontName = "";
             this.lblPositionMSValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionMSValue.FontCollection = this.fontCollection;
             this.lblPositionMSValue.Location = new System.Drawing.Point(279, 150);
             this.lblPositionMSValue.Name = "lblPositionMSValue";
             this.lblPositionMSValue.Size = new System.Drawing.Size(89, 17);
@@ -174,7 +172,6 @@ namespace MPfm
             this.lblPositionMS.BackColor = System.Drawing.Color.Transparent;
             this.lblPositionMS.CustomFontName = "Junction";
             this.lblPositionMS.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionMS.FontCollection = this.fontCollection;
             this.lblPositionMS.Location = new System.Drawing.Point(279, 134);
             this.lblPositionMS.Name = "lblPositionMS";
             this.lblPositionMS.Size = new System.Drawing.Size(89, 17);
@@ -253,7 +250,6 @@ namespace MPfm
             this.lblWarning.BackColor = System.Drawing.Color.Transparent;
             this.lblWarning.CustomFontName = "Junction";
             this.lblWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWarning.FontCollection = this.fontCollection;
             this.lblWarning.Location = new System.Drawing.Point(24, 20);
             this.lblWarning.Name = "lblWarning";
             this.lblWarning.Size = new System.Drawing.Size(338, 17);
@@ -268,7 +264,6 @@ namespace MPfm
             this.lblSongValue.BackColor = System.Drawing.Color.Transparent;
             this.lblSongValue.CustomFontName = "Junction";
             this.lblSongValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongValue.FontCollection = this.fontCollection;
             this.lblSongValue.Location = new System.Drawing.Point(3, 50);
             this.lblSongValue.Name = "lblSongValue";
             this.lblSongValue.Size = new System.Drawing.Size(534, 17);
@@ -282,8 +277,7 @@ namespace MPfm
             this.lblSong.AntiAliasingEnabled = true;
             this.lblSong.BackColor = System.Drawing.Color.Transparent;
             this.lblSong.CustomFontName = "Junction";
-            this.lblSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSong.FontCollection = this.fontCollection;
+            this.lblSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.lblSong.Location = new System.Drawing.Point(3, 34);
             this.lblSong.Name = "lblSong";
             this.lblSong.Size = new System.Drawing.Size(37, 19);
@@ -296,7 +290,6 @@ namespace MPfm
             this.lblPositionPCMBytesValue.BackColor = System.Drawing.Color.Transparent;
             this.lblPositionPCMBytesValue.CustomFontName = "";
             this.lblPositionPCMBytesValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionPCMBytesValue.FontCollection = this.fontCollection;
             this.lblPositionPCMBytesValue.Location = new System.Drawing.Point(481, 150);
             this.lblPositionPCMBytesValue.Name = "lblPositionPCMBytesValue";
             this.lblPositionPCMBytesValue.Size = new System.Drawing.Size(89, 17);
@@ -309,7 +302,6 @@ namespace MPfm
             this.lblPositionPCMBytes.BackColor = System.Drawing.Color.Transparent;
             this.lblPositionPCMBytes.CustomFontName = "Junction";
             this.lblPositionPCMBytes.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionPCMBytes.FontCollection = this.fontCollection;
             this.lblPositionPCMBytes.Location = new System.Drawing.Point(481, 134);
             this.lblPositionPCMBytes.Name = "lblPositionPCMBytes";
             this.lblPositionPCMBytes.Size = new System.Drawing.Size(107, 17);
@@ -386,7 +378,6 @@ namespace MPfm
             this.lblPositionPCMValue.BackColor = System.Drawing.Color.Transparent;
             this.lblPositionPCMValue.CustomFontName = "";
             this.lblPositionPCMValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionPCMValue.FontCollection = this.fontCollection;
             this.lblPositionPCMValue.Location = new System.Drawing.Point(374, 150);
             this.lblPositionPCMValue.Name = "lblPositionPCMValue";
             this.lblPositionPCMValue.Size = new System.Drawing.Size(89, 17);
@@ -399,7 +390,6 @@ namespace MPfm
             this.lblPositionPCM.BackColor = System.Drawing.Color.Transparent;
             this.lblPositionPCM.CustomFontName = "Junction";
             this.lblPositionPCM.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionPCM.FontCollection = this.fontCollection;
             this.lblPositionPCM.Location = new System.Drawing.Point(374, 134);
             this.lblPositionPCM.Name = "lblPositionPCM";
             this.lblPositionPCM.Size = new System.Drawing.Size(101, 17);
@@ -414,7 +404,6 @@ namespace MPfm
             this.lblPosition.BackColor = System.Drawing.Color.Transparent;
             this.lblPosition.CustomFontName = "Junction";
             this.lblPosition.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPosition.FontCollection = this.fontCollection;
             this.lblPosition.Location = new System.Drawing.Point(3, 115);
             this.lblPosition.Name = "lblPosition";
             this.lblPosition.Size = new System.Drawing.Size(587, 17);
@@ -451,7 +440,6 @@ namespace MPfm
             this.lblName.BackColor = System.Drawing.Color.Transparent;
             this.lblName.CustomFontName = "Junction";
             this.lblName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.FontCollection = this.fontCollection;
             this.lblName.Location = new System.Drawing.Point(3, 69);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(587, 17);

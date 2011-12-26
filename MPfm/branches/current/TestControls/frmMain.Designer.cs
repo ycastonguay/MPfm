@@ -194,7 +194,6 @@
             // 
             this.lblUseStandardFont.AntiAliasingEnabled = true;
             this.lblUseStandardFont.CustomFontName = "Junction";
-            this.lblUseStandardFont.FontCollection = this.fontCollection;
             this.lblUseStandardFont.Location = new System.Drawing.Point(306, 19);
             this.lblUseStandardFont.Name = "lblUseStandardFont";
             this.lblUseStandardFont.Size = new System.Drawing.Size(107, 18);
@@ -230,7 +229,6 @@
             this.label5.AntiAliasingEnabled = true;
             this.label5.CustomFontName = "Junction";
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.FontCollection = this.fontCollection;
             this.label5.Location = new System.Drawing.Point(6, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 18);
@@ -241,7 +239,6 @@
             // 
             this.label4.AntiAliasingEnabled = true;
             this.label4.CustomFontName = "Junction";
-            this.label4.FontCollection = this.fontCollection;
             this.label4.Location = new System.Drawing.Point(6, 19);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 18);
@@ -252,7 +249,6 @@
             // 
             this.lblUseCustomFont.AntiAliasingEnabled = true;
             this.lblUseCustomFont.CustomFontName = "Junction";
-            this.lblUseCustomFont.FontCollection = this.fontCollection;
             this.lblUseCustomFont.Location = new System.Drawing.Point(174, 19);
             this.lblUseCustomFont.Name = "lblUseCustomFont";
             this.lblUseCustomFont.Size = new System.Drawing.Size(100, 18);
@@ -264,7 +260,6 @@
             // 
             this.lblFontSize.AntiAliasingEnabled = true;
             this.lblFontSize.CustomFontName = "Junction";
-            this.lblFontSize.FontCollection = this.fontCollection;
             this.lblFontSize.Location = new System.Drawing.Point(418, 19);
             this.lblFontSize.Name = "lblFontSize";
             this.lblFontSize.Size = new System.Drawing.Size(100, 18);
@@ -299,7 +294,6 @@
             // 
             this.lblPadding.AntiAliasingEnabled = true;
             this.lblPadding.CustomFontName = "Junction";
-            this.lblPadding.FontCollection = this.fontCollection;
             this.lblPadding.Location = new System.Drawing.Point(4, 19);
             this.lblPadding.Name = "lblPadding";
             this.lblPadding.Size = new System.Drawing.Size(100, 18);
@@ -334,7 +328,6 @@
             this.label1.AntiAliasingEnabled = true;
             this.label1.CustomFontName = "Junction";
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.FontCollection = this.fontCollection;
             this.label1.Location = new System.Drawing.Point(183, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(138, 18);
@@ -346,7 +339,6 @@
             this.label3.AntiAliasingEnabled = true;
             this.label3.CustomFontName = "Junction";
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.FontCollection = this.fontCollection;
             this.label3.Location = new System.Drawing.Point(3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(138, 18);
@@ -357,7 +349,6 @@
             // 
             this.label2.AntiAliasingEnabled = true;
             this.label2.CustomFontName = "Junction";
-            this.label2.FontCollection = this.fontCollection;
             this.label2.Location = new System.Drawing.Point(183, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(153, 18);
@@ -368,7 +359,6 @@
             // 
             this.lblDisplayDebugInformation.AntiAliasingEnabled = true;
             this.lblDisplayDebugInformation.CustomFontName = "Junction";
-            this.lblDisplayDebugInformation.FontCollection = this.fontCollection;
             this.lblDisplayDebugInformation.Location = new System.Drawing.Point(22, 70);
             this.lblDisplayDebugInformation.Name = "lblDisplayDebugInformation";
             this.lblDisplayDebugInformation.Size = new System.Drawing.Size(153, 18);

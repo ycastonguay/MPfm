@@ -44,8 +44,7 @@ namespace MPfm
             // 
             this.lblName.AntiAliasingEnabled = true;
             this.lblName.BackColor = System.Drawing.Color.Transparent;
-            this.lblName.CustomFontName = "Junction";
-            this.lblName.FontCollection = this.fontCollection;
+            this.lblName.CustomFontName = "Junction";            
             this.lblName.Location = new System.Drawing.Point(3, 3);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(89, 17);

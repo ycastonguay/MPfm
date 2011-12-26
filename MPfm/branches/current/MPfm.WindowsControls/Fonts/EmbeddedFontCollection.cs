@@ -172,8 +172,6 @@ namespace MPfm.WindowsControls
         /// <returns>Font Family</returns>
         public FontFamily GetFontFamily(string familyName)
         {
-            //FontFamily family = null;
-
             foreach (FontFamily family in fonts.Families)
             {
                 if (familyName == family.Name)

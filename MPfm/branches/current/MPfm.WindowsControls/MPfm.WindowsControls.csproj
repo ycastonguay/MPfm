@@ -97,6 +97,7 @@
     <Compile Include="Fonts\FontCollection.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Fonts\EmbeddedFontHelper.cs" />
     <Compile Include="Library\AlbumView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -204,6 +205,10 @@
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Fonts\MPfm.Fonts.csproj">
+      <Project>{26C7DCD4-92B1-4A75-BE4E-4BF34B9C5F1F}</Project>
+      <Name>MPfm.Fonts</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
       <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>

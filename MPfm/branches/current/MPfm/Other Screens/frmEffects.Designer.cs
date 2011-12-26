@@ -124,7 +124,6 @@ namespace MPfm
             this.lblGain17.BackColor = System.Drawing.Color.Transparent;
             this.lblGain17.CustomFontName = "Museo Sans 500";
             this.lblGain17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain17.FontCollection = this.fontCollection;
             this.lblGain17.ForeColor = System.Drawing.Color.White;
             this.lblGain17.Location = new System.Drawing.Point(753, 423);
             this.lblGain17.Name = "lblGain17";
@@ -162,7 +161,6 @@ namespace MPfm
             this.lbl17.BackColor = System.Drawing.Color.Transparent;
             this.lbl17.CustomFontName = "Museo Sans 500";
             this.lbl17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl17.FontCollection = this.fontCollection;
             this.lbl17.ForeColor = System.Drawing.Color.White;
             this.lbl17.Location = new System.Drawing.Point(753, 404);
             this.lbl17.Name = "lbl17";
@@ -177,7 +175,6 @@ namespace MPfm
             this.lblGain16.BackColor = System.Drawing.Color.Transparent;
             this.lblGain16.CustomFontName = "Museo Sans 500";
             this.lblGain16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain16.FontCollection = this.fontCollection;
             this.lblGain16.ForeColor = System.Drawing.Color.White;
             this.lblGain16.Location = new System.Drawing.Point(709, 423);
             this.lblGain16.Name = "lblGain16";
@@ -191,8 +188,7 @@ namespace MPfm
             this.lbl16.AntiAliasingEnabled = true;
             this.lbl16.BackColor = System.Drawing.Color.Transparent;
             this.lbl16.CustomFontName = "Museo Sans 500";
-            this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl16.FontCollection = this.fontCollection;
+            this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.lbl16.ForeColor = System.Drawing.Color.White;
             this.lbl16.Location = new System.Drawing.Point(709, 404);
             this.lbl16.Name = "lbl16";
@@ -207,7 +203,6 @@ namespace MPfm
             this.lblGain15.BackColor = System.Drawing.Color.Transparent;
             this.lblGain15.CustomFontName = "Museo Sans 500";
             this.lblGain15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain15.FontCollection = this.fontCollection;
             this.lblGain15.ForeColor = System.Drawing.Color.White;
             this.lblGain15.Location = new System.Drawing.Point(665, 423);
             this.lblGain15.Name = "lblGain15";
@@ -222,7 +217,6 @@ namespace MPfm
             this.lbl15.BackColor = System.Drawing.Color.Transparent;
             this.lbl15.CustomFontName = "Museo Sans 500";
             this.lbl15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl15.FontCollection = this.fontCollection;
             this.lbl15.ForeColor = System.Drawing.Color.White;
             this.lbl15.Location = new System.Drawing.Point(665, 404);
             this.lbl15.Name = "lbl15";
@@ -237,7 +231,6 @@ namespace MPfm
             this.lblGain14.BackColor = System.Drawing.Color.Transparent;
             this.lblGain14.CustomFontName = "Museo Sans 500";
             this.lblGain14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain14.FontCollection = this.fontCollection;
             this.lblGain14.ForeColor = System.Drawing.Color.White;
             this.lblGain14.Location = new System.Drawing.Point(621, 423);
             this.lblGain14.Name = "lblGain14";
@@ -252,7 +245,6 @@ namespace MPfm
             this.lbl14.BackColor = System.Drawing.Color.Transparent;
             this.lbl14.CustomFontName = "Museo Sans 500";
             this.lbl14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl14.FontCollection = this.fontCollection;
             this.lbl14.ForeColor = System.Drawing.Color.White;
             this.lbl14.Location = new System.Drawing.Point(621, 404);
             this.lbl14.Name = "lbl14";
@@ -267,7 +259,6 @@ namespace MPfm
             this.lblGain13.BackColor = System.Drawing.Color.Transparent;
             this.lblGain13.CustomFontName = "Museo Sans 500";
             this.lblGain13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain13.FontCollection = this.fontCollection;
             this.lblGain13.ForeColor = System.Drawing.Color.White;
             this.lblGain13.Location = new System.Drawing.Point(577, 423);
             this.lblGain13.Name = "lblGain13";
@@ -282,7 +273,6 @@ namespace MPfm
             this.lbl13.BackColor = System.Drawing.Color.Transparent;
             this.lbl13.CustomFontName = "Museo Sans 500";
             this.lbl13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl13.FontCollection = this.fontCollection;
             this.lbl13.ForeColor = System.Drawing.Color.White;
             this.lbl13.Location = new System.Drawing.Point(577, 404);
             this.lbl13.Name = "lbl13";
@@ -297,7 +287,6 @@ namespace MPfm
             this.lblGain12.BackColor = System.Drawing.Color.Transparent;
             this.lblGain12.CustomFontName = "Museo Sans 500";
             this.lblGain12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain12.FontCollection = this.fontCollection;
             this.lblGain12.ForeColor = System.Drawing.Color.White;
             this.lblGain12.Location = new System.Drawing.Point(533, 423);
             this.lblGain12.Name = "lblGain12";
@@ -312,7 +301,6 @@ namespace MPfm
             this.lbl12.BackColor = System.Drawing.Color.Transparent;
             this.lbl12.CustomFontName = "Museo Sans 500";
             this.lbl12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl12.FontCollection = this.fontCollection;
             this.lbl12.ForeColor = System.Drawing.Color.White;
             this.lbl12.Location = new System.Drawing.Point(533, 404);
             this.lbl12.Name = "lbl12";
@@ -327,7 +315,6 @@ namespace MPfm
             this.lblGain11.BackColor = System.Drawing.Color.Transparent;
             this.lblGain11.CustomFontName = "Museo Sans 500";
             this.lblGain11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain11.FontCollection = this.fontCollection;
             this.lblGain11.ForeColor = System.Drawing.Color.White;
             this.lblGain11.Location = new System.Drawing.Point(489, 423);
             this.lblGain11.Name = "lblGain11";
@@ -342,7 +329,6 @@ namespace MPfm
             this.lbl11.BackColor = System.Drawing.Color.Transparent;
             this.lbl11.CustomFontName = "Museo Sans 500";
             this.lbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl11.FontCollection = this.fontCollection;
             this.lbl11.ForeColor = System.Drawing.Color.White;
             this.lbl11.Location = new System.Drawing.Point(489, 404);
             this.lbl11.Name = "lbl11";
@@ -357,7 +343,6 @@ namespace MPfm
             this.lblGain10.BackColor = System.Drawing.Color.Transparent;
             this.lblGain10.CustomFontName = "Museo Sans 500";
             this.lblGain10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain10.FontCollection = this.fontCollection;
             this.lblGain10.ForeColor = System.Drawing.Color.White;
             this.lblGain10.Location = new System.Drawing.Point(445, 423);
             this.lblGain10.Name = "lblGain10";
@@ -372,7 +357,6 @@ namespace MPfm
             this.lbl10.BackColor = System.Drawing.Color.Transparent;
             this.lbl10.CustomFontName = "Museo Sans 500";
             this.lbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl10.FontCollection = this.fontCollection;
             this.lbl10.ForeColor = System.Drawing.Color.White;
             this.lbl10.Location = new System.Drawing.Point(445, 404);
             this.lbl10.Name = "lbl10";
@@ -387,7 +371,6 @@ namespace MPfm
             this.lblGain9.BackColor = System.Drawing.Color.Transparent;
             this.lblGain9.CustomFontName = "Museo Sans 500";
             this.lblGain9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain9.FontCollection = this.fontCollection;
             this.lblGain9.ForeColor = System.Drawing.Color.White;
             this.lblGain9.Location = new System.Drawing.Point(401, 423);
             this.lblGain9.Name = "lblGain9";
@@ -402,7 +385,6 @@ namespace MPfm
             this.lbl9.BackColor = System.Drawing.Color.Transparent;
             this.lbl9.CustomFontName = "Museo Sans 500";
             this.lbl9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl9.FontCollection = this.fontCollection;
             this.lbl9.ForeColor = System.Drawing.Color.White;
             this.lbl9.Location = new System.Drawing.Point(401, 404);
             this.lbl9.Name = "lbl9";
@@ -417,7 +399,6 @@ namespace MPfm
             this.lblGain8.BackColor = System.Drawing.Color.Transparent;
             this.lblGain8.CustomFontName = "Museo Sans 500";
             this.lblGain8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain8.FontCollection = this.fontCollection;
             this.lblGain8.ForeColor = System.Drawing.Color.White;
             this.lblGain8.Location = new System.Drawing.Point(357, 423);
             this.lblGain8.Name = "lblGain8";
@@ -432,7 +413,6 @@ namespace MPfm
             this.lbl8.BackColor = System.Drawing.Color.Transparent;
             this.lbl8.CustomFontName = "Museo Sans 500";
             this.lbl8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl8.FontCollection = this.fontCollection;
             this.lbl8.ForeColor = System.Drawing.Color.White;
             this.lbl8.Location = new System.Drawing.Point(357, 404);
             this.lbl8.Name = "lbl8";
@@ -447,7 +427,6 @@ namespace MPfm
             this.lblGain7.BackColor = System.Drawing.Color.Transparent;
             this.lblGain7.CustomFontName = "Museo Sans 500";
             this.lblGain7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain7.FontCollection = this.fontCollection;
             this.lblGain7.ForeColor = System.Drawing.Color.White;
             this.lblGain7.Location = new System.Drawing.Point(313, 423);
             this.lblGain7.Name = "lblGain7";
@@ -462,7 +441,6 @@ namespace MPfm
             this.lbl7.BackColor = System.Drawing.Color.Transparent;
             this.lbl7.CustomFontName = "Museo Sans 500";
             this.lbl7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl7.FontCollection = this.fontCollection;
             this.lbl7.ForeColor = System.Drawing.Color.White;
             this.lbl7.Location = new System.Drawing.Point(313, 404);
             this.lbl7.Name = "lbl7";
@@ -477,7 +455,6 @@ namespace MPfm
             this.lblGain6.BackColor = System.Drawing.Color.Transparent;
             this.lblGain6.CustomFontName = "Museo Sans 500";
             this.lblGain6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain6.FontCollection = this.fontCollection;
             this.lblGain6.ForeColor = System.Drawing.Color.White;
             this.lblGain6.Location = new System.Drawing.Point(269, 423);
             this.lblGain6.Name = "lblGain6";
@@ -492,7 +469,6 @@ namespace MPfm
             this.lbl6.BackColor = System.Drawing.Color.Transparent;
             this.lbl6.CustomFontName = "Museo Sans 500";
             this.lbl6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl6.FontCollection = this.fontCollection;
             this.lbl6.ForeColor = System.Drawing.Color.White;
             this.lbl6.Location = new System.Drawing.Point(269, 404);
             this.lbl6.Name = "lbl6";
@@ -507,7 +483,6 @@ namespace MPfm
             this.lblGain5.BackColor = System.Drawing.Color.Transparent;
             this.lblGain5.CustomFontName = "Museo Sans 500";
             this.lblGain5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain5.FontCollection = this.fontCollection;
             this.lblGain5.ForeColor = System.Drawing.Color.White;
             this.lblGain5.Location = new System.Drawing.Point(225, 423);
             this.lblGain5.Name = "lblGain5";
@@ -522,7 +497,6 @@ namespace MPfm
             this.lbl5.BackColor = System.Drawing.Color.Transparent;
             this.lbl5.CustomFontName = "Museo Sans 500";
             this.lbl5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl5.FontCollection = this.fontCollection;
             this.lbl5.ForeColor = System.Drawing.Color.White;
             this.lbl5.Location = new System.Drawing.Point(225, 404);
             this.lbl5.Name = "lbl5";
@@ -537,7 +511,6 @@ namespace MPfm
             this.lblGain4.BackColor = System.Drawing.Color.Transparent;
             this.lblGain4.CustomFontName = "Museo Sans 500";
             this.lblGain4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain4.FontCollection = this.fontCollection;
             this.lblGain4.ForeColor = System.Drawing.Color.White;
             this.lblGain4.Location = new System.Drawing.Point(181, 423);
             this.lblGain4.Name = "lblGain4";
@@ -552,7 +525,6 @@ namespace MPfm
             this.lbl4.BackColor = System.Drawing.Color.Transparent;
             this.lbl4.CustomFontName = "Museo Sans 500";
             this.lbl4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl4.FontCollection = this.fontCollection;
             this.lbl4.ForeColor = System.Drawing.Color.White;
             this.lbl4.Location = new System.Drawing.Point(181, 404);
             this.lbl4.Name = "lbl4";
@@ -567,7 +539,6 @@ namespace MPfm
             this.lblGain3.BackColor = System.Drawing.Color.Transparent;
             this.lblGain3.CustomFontName = "Museo Sans 500";
             this.lblGain3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain3.FontCollection = this.fontCollection;
             this.lblGain3.ForeColor = System.Drawing.Color.White;
             this.lblGain3.Location = new System.Drawing.Point(137, 423);
             this.lblGain3.Name = "lblGain3";
@@ -582,7 +553,6 @@ namespace MPfm
             this.lbl3.BackColor = System.Drawing.Color.Transparent;
             this.lbl3.CustomFontName = "Museo Sans 500";
             this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl3.FontCollection = this.fontCollection;
             this.lbl3.ForeColor = System.Drawing.Color.White;
             this.lbl3.Location = new System.Drawing.Point(137, 404);
             this.lbl3.Name = "lbl3";
@@ -597,7 +567,6 @@ namespace MPfm
             this.lblGain2.BackColor = System.Drawing.Color.Transparent;
             this.lblGain2.CustomFontName = "Museo Sans 500";
             this.lblGain2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain2.FontCollection = this.fontCollection;
             this.lblGain2.ForeColor = System.Drawing.Color.White;
             this.lblGain2.Location = new System.Drawing.Point(93, 423);
             this.lblGain2.Name = "lblGain2";
@@ -612,7 +581,6 @@ namespace MPfm
             this.lbl2.BackColor = System.Drawing.Color.Transparent;
             this.lbl2.CustomFontName = "Museo Sans 500";
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl2.FontCollection = this.fontCollection;
             this.lbl2.ForeColor = System.Drawing.Color.White;
             this.lbl2.Location = new System.Drawing.Point(93, 404);
             this.lbl2.Name = "lbl2";
@@ -627,7 +595,6 @@ namespace MPfm
             this.lblGain1.BackColor = System.Drawing.Color.Transparent;
             this.lblGain1.CustomFontName = "Museo Sans 500";
             this.lblGain1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain1.FontCollection = this.fontCollection;
             this.lblGain1.ForeColor = System.Drawing.Color.White;
             this.lblGain1.Location = new System.Drawing.Point(49, 423);
             this.lblGain1.Name = "lblGain1";
@@ -642,7 +609,6 @@ namespace MPfm
             this.lbl1.BackColor = System.Drawing.Color.Transparent;
             this.lbl1.CustomFontName = "Museo Sans 500";
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1.FontCollection = this.fontCollection;
             this.lbl1.ForeColor = System.Drawing.Color.White;
             this.lbl1.Location = new System.Drawing.Point(49, 404);
             this.lbl1.Name = "lbl1";
@@ -657,7 +623,6 @@ namespace MPfm
             this.lblGain0.BackColor = System.Drawing.Color.Transparent;
             this.lblGain0.CustomFontName = "Museo Sans 500";
             this.lblGain0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGain0.FontCollection = this.fontCollection;
             this.lblGain0.ForeColor = System.Drawing.Color.White;
             this.lblGain0.Location = new System.Drawing.Point(6, 423);
             this.lblGain0.Name = "lblGain0";
@@ -672,7 +637,6 @@ namespace MPfm
             this.lbl0.BackColor = System.Drawing.Color.Transparent;
             this.lbl0.CustomFontName = "Museo Sans 500";
             this.lbl0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl0.FontCollection = this.fontCollection;
             this.lbl0.ForeColor = System.Drawing.Color.White;
             this.lbl0.Location = new System.Drawing.Point(6, 404);
             this.lbl0.Name = "lbl0";
@@ -686,7 +650,6 @@ namespace MPfm
             this.lbl0dB.AntiAliasingEnabled = true;
             this.lbl0dB.BackColor = System.Drawing.Color.Transparent;
             this.lbl0dB.CustomFontName = "Museo Sans 500";
-            this.lbl0dB.FontCollection = this.fontCollection;
             this.lbl0dB.ForeColor = System.Drawing.Color.White;
             this.lbl0dB.Location = new System.Drawing.Point(800, 211);
             this.lbl0dB.Name = "lbl0dB";
@@ -700,7 +663,6 @@ namespace MPfm
             this.lbl_6dB.AntiAliasingEnabled = true;
             this.lbl_6dB.BackColor = System.Drawing.Color.Transparent;
             this.lbl_6dB.CustomFontName = "Museo Sans 500";
-            this.lbl_6dB.FontCollection = this.fontCollection;
             this.lbl_6dB.ForeColor = System.Drawing.Color.White;
             this.lbl_6dB.Location = new System.Drawing.Point(800, 382);
             this.lbl_6dB.Name = "lbl_6dB";
@@ -714,7 +676,6 @@ namespace MPfm
             this.lbl6dB.AntiAliasingEnabled = true;
             this.lbl6dB.BackColor = System.Drawing.Color.Transparent;
             this.lbl6dB.CustomFontName = "Museo Sans 500";
-            this.lbl6dB.FontCollection = this.fontCollection;
             this.lbl6dB.ForeColor = System.Drawing.Color.White;
             this.lbl6dB.Location = new System.Drawing.Point(800, 28);
             this.lbl6dB.Name = "lbl6dB";
@@ -1360,7 +1321,6 @@ namespace MPfm
             this.lblEQOn.BackColor = System.Drawing.Color.Transparent;
             this.lblEQOn.CustomFontName = "Junction";
             this.lblEQOn.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQOn.FontCollection = this.fontCollection;
             this.lblEQOn.ForeColor = System.Drawing.Color.White;
             this.lblEQOn.Location = new System.Drawing.Point(18, 48);
             this.lblEQOn.Name = "lblEQOn";
@@ -1488,7 +1448,6 @@ namespace MPfm
             this.lblEQChanged.BackColor = System.Drawing.Color.Transparent;
             this.lblEQChanged.CustomFontName = "NeuzeitS";
             this.lblEQChanged.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQChanged.FontCollection = this.fontCollection;
             this.lblEQChanged.ForeColor = System.Drawing.Color.White;
             this.lblEQChanged.Location = new System.Drawing.Point(4, 323);
             this.lblEQChanged.Name = "lblEQChanged";
@@ -1577,7 +1536,6 @@ namespace MPfm
             this.lblEQName.BackColor = System.Drawing.Color.Transparent;
             this.lblEQName.CustomFontName = "Junction";
             this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQName.FontCollection = this.fontCollection;
             this.lblEQName.ForeColor = System.Drawing.Color.White;
             this.lblEQName.Location = new System.Drawing.Point(4, 21);
             this.lblEQName.Name = "lblEQName";
@@ -1633,7 +1591,6 @@ namespace MPfm
             this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
             this.lblEQQ.CustomFontName = "Junction";
             this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQQ.FontCollection = null;
             this.lblEQQ.ForeColor = System.Drawing.Color.White;
             this.lblEQQ.Location = new System.Drawing.Point(4, 62);
             this.lblEQQ.Name = "lblEQQ";
@@ -1650,7 +1607,6 @@ namespace MPfm
             this.lblEQBandwidth.BackColor = System.Drawing.Color.Transparent;
             this.lblEQBandwidth.CustomFontName = "Junction";
             this.lblEQBandwidth.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQBandwidth.FontCollection = null;
             this.lblEQBandwidth.ForeColor = System.Drawing.Color.White;
             this.lblEQBandwidth.Location = new System.Drawing.Point(4, 103);
             this.lblEQBandwidth.Name = "lblEQBandwidth";

@@ -121,8 +121,7 @@ namespace MPfm
             this.lblEstimatedTimeLeft.AntiAliasingEnabled = true;
             this.lblEstimatedTimeLeft.BackColor = System.Drawing.Color.Transparent;
             this.lblEstimatedTimeLeft.CustomFontName = "Junction";
-            this.lblEstimatedTimeLeft.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEstimatedTimeLeft.FontCollection = this.fontCollection;
+            this.lblEstimatedTimeLeft.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));            
             this.lblEstimatedTimeLeft.ForeColor = System.Drawing.Color.LightGray;
             this.lblEstimatedTimeLeft.Location = new System.Drawing.Point(508, 187);
             this.lblEstimatedTimeLeft.Name = "lblEstimatedTimeLeft";
@@ -158,7 +157,6 @@ namespace MPfm
             this.lblTimeElapsed.BackColor = System.Drawing.Color.Transparent;
             this.lblTimeElapsed.CustomFontName = "Junction";
             this.lblTimeElapsed.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTimeElapsed.FontCollection = this.fontCollection;
             this.lblTimeElapsed.ForeColor = System.Drawing.Color.LightGray;
             this.lblTimeElapsed.Location = new System.Drawing.Point(15, 187);
             this.lblTimeElapsed.Name = "lblTimeElapsed";
@@ -192,7 +190,6 @@ namespace MPfm
             this.lblSongTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblSongTitle.CustomFontName = "TitilliumText22L Lt";
             this.lblSongTitle.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongTitle.FontCollection = this.fontCollection;
             this.lblSongTitle.ForeColor = System.Drawing.Color.Gray;
             this.lblSongTitle.Location = new System.Drawing.Point(94, 123);
             this.lblSongTitle.Name = "lblSongTitle";
@@ -207,7 +204,6 @@ namespace MPfm
             this.lblAlbum.BackColor = System.Drawing.Color.Transparent;
             this.lblAlbum.CustomFontName = "TitilliumText22L Lt";
             this.lblAlbum.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAlbum.FontCollection = this.fontCollection;
             this.lblAlbum.ForeColor = System.Drawing.Color.LightGray;
             this.lblAlbum.Location = new System.Drawing.Point(94, 102);
             this.lblAlbum.Name = "lblAlbum";
@@ -222,7 +218,6 @@ namespace MPfm
             this.lblArtist.BackColor = System.Drawing.Color.Transparent;
             this.lblArtist.CustomFontName = "TitilliumText22L Lt";
             this.lblArtist.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArtist.FontCollection = this.fontCollection;
             this.lblArtist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.lblArtist.Location = new System.Drawing.Point(93, 80);
             this.lblArtist.Name = "lblArtist";
@@ -304,7 +299,6 @@ namespace MPfm
             this.lblProgress.BackColor = System.Drawing.Color.Transparent;
             this.lblProgress.CustomFontName = "Junction";
             this.lblProgress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProgress.FontCollection = this.fontCollection;
             this.lblProgress.ForeColor = System.Drawing.Color.White;
             this.lblProgress.Location = new System.Drawing.Point(12, 187);
             this.lblProgress.Name = "lblProgress";
@@ -384,7 +378,6 @@ namespace MPfm
             this.lblMessage.BackColor = System.Drawing.Color.Transparent;
             this.lblMessage.CustomFontName = "Junction";
             this.lblMessage.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMessage.FontCollection = this.fontCollection;
             this.lblMessage.ForeColor = System.Drawing.Color.White;
             this.lblMessage.Location = new System.Drawing.Point(13, 54);
             this.lblMessage.Name = "lblMessage";
@@ -399,7 +392,6 @@ namespace MPfm
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblTitle.CustomFontName = "TitilliumText22L Lt";
             this.lblTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.FontCollection = this.fontCollection;
             this.lblTitle.ForeColor = System.Drawing.Color.LightGray;
             this.lblTitle.Location = new System.Drawing.Point(12, 33);
             this.lblTitle.Name = "lblTitle";
