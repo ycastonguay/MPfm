@@ -33,7 +33,7 @@ namespace MPfm.WindowsControls
 {
     /// <summary>
     /// This button control is based on System.Windows.Forms.Button.
-    /// It adds custom drawing and other features.
+    /// It adds support for embedded fonts and anti-aliasing, gradient backgrounds, and more.
     /// </summary>
     public class Button : System.Windows.Forms.Button
     {
@@ -311,48 +311,40 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// Private value for the CustomFont property.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
+        private CustomFont m_customFont = null;
         /// <summary>
-        /// Pointer to the embedded font collection.
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
         {
             get
             {
-                return m_antiAliasingEnabled;
+                return m_customFont;
             }
             set
             {
-                m_antiAliasingEnabled = value;
+                m_customFont = value;
+                Refresh();
             }
         }
 
         #endregion
 
         /// <summary>
-        /// Custom button based on System.Windows.Forms.Button. Adds a gradient
-        /// background option, with custom borders and custom fonts that can be
-        /// embedded in assembly files.
+        /// Default constructor for the Button class.
         /// </summary>
         public Button()
         {
+            // Set styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);    
+                ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
+
+            // Set default font
+            m_customFont = new CustomFont();
         }
 
         #region Paint Events
@@ -360,28 +352,56 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="e">Paint Event Arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             // Create a bitmap the size of the form.
             Bitmap bmp = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
-            Graphics g = Graphics.FromImage(bmp);            
+            Graphics g = Graphics.FromImage(bmp);
 
-            // Set text anti-aliasing to ClearType (best looking AA)
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            // Use anti-aliasing?
+            if (CustomFont.UseAntiAliasing)
+            {
+                // Set text anti-aliasing to ClearType (best looking AA)
+                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-            // Set smoothing mode for paths
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set smoothing mode for paths
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
 
             // Create custom font
-            Font font = this.Font;
-            if (FontCollection != null && CustomFontName.Length > 0)
-            {
-                FontFamily family = FontCollection.GetFontFamily(CustomFontName);
+            Font font = null;
 
-                if (family != null)
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            {
+                try
                 {
-                    font = new Font(family, Font.Size, Font.Style);
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                    // Get embedded font
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
+                }
+            }
+
+            // Check if font is null
+            if (font == null)
+            {
+                try
+                {
+                    // Try to get standard font
+                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
                 }
             }
 

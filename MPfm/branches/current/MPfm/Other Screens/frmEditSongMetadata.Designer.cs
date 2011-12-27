@@ -28,12 +28,14 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             this.propertyGridTags = new System.Windows.Forms.PropertyGrid();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
@@ -58,17 +60,23 @@ namespace MPfm
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.AntiAliasingEnabled = true;
             this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.CustomFontName = "Junction";
+            customFont1.EmbeddedFontName = "Junction";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 8;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseAntiAliasing = true;
+            customFont1.UseEmbeddedFont = true;
+            this.btnClose.CustomFont = customFont1;
             this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnClose.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnClose.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontCollection = this.fontCollection;
             this.btnClose.FontColor = System.Drawing.Color.Black;
             this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
@@ -144,14 +152,15 @@ namespace MPfm
             this.lblEditing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEditing.BackColor = System.Drawing.Color.Transparent;
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseEmbeddedFont = true;
-            this.lblEditing.CustomFont = customFont1;
+            customFont2.EmbeddedFontName = "Junction";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 8;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseAntiAliasing = true;
+            customFont2.UseEmbeddedFont = true;
+            this.lblEditing.CustomFont = customFont2;
             this.lblEditing.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEditing.Location = new System.Drawing.Point(3, 32);
             this.lblEditing.Name = "lblEditing";
@@ -162,17 +171,23 @@ namespace MPfm
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.AntiAliasingEnabled = true;
             this.btnSave.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnSave.BorderWidth = 1;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.CustomFontName = "Junction";
+            customFont3.EmbeddedFontName = "Junction";
+            customFont3.IsBold = false;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 8;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
+            customFont3.UseEmbeddedFont = true;
+            this.btnSave.CustomFont = customFont3;
             this.btnSave.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnSave.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnSave.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnSave.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnSave.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.FontCollection = this.fontCollection;
             this.btnSave.FontColor = System.Drawing.Color.Black;
             this.btnSave.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnSave.GradientColor2 = System.Drawing.Color.Gray;

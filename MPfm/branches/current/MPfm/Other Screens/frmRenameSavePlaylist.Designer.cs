@@ -34,6 +34,8 @@ namespace MPfm
             MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             this.lblName = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -42,7 +44,7 @@ namespace MPfm
             this.SuspendLayout();
             // 
             // lblName
-            //             
+            // 
             this.lblName.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
@@ -50,6 +52,7 @@ namespace MPfm
             customFont1.IsUnderline = false;
             customFont1.Size = 8;
             customFont1.StandardFontName = "Arial";
+            customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
             this.lblName.CustomFont = customFont1;
             this.lblName.Location = new System.Drawing.Point(3, 3);
@@ -91,17 +94,23 @@ namespace MPfm
             // 
             // btnOK
             // 
-            this.btnOK.AntiAliasingEnabled = true;
             this.btnOK.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnOK.BorderWidth = 1;
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOK.CustomFontName = "Junction";
+            customFont2.EmbeddedFontName = "Junction";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 8;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseAntiAliasing = true;
+            customFont2.UseEmbeddedFont = true;
+            this.btnOK.CustomFont = customFont2;
             this.btnOK.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnOK.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnOK.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnOK.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnOK.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.FontCollection = this.fontCollection;
             this.btnOK.FontColor = System.Drawing.Color.Black;
             this.btnOK.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnOK.GradientColor2 = System.Drawing.Color.Gray;
@@ -123,17 +132,23 @@ namespace MPfm
             // 
             // btnCancel
             // 
-            this.btnCancel.AntiAliasingEnabled = true;
             this.btnCancel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancel.CustomFontName = "Junction";
+            customFont3.EmbeddedFontName = "Junction";
+            customFont3.IsBold = false;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 8;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
+            customFont3.UseEmbeddedFont = true;
+            this.btnCancel.CustomFont = customFont3;
             this.btnCancel.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnCancel.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnCancel.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnCancel.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnCancel.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.FontCollection = this.fontCollection;
             this.btnCancel.FontColor = System.Drawing.Color.Black;
             this.btnCancel.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnCancel.GradientColor2 = System.Drawing.Color.Gray;

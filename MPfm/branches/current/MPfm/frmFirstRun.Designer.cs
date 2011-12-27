@@ -34,6 +34,9 @@
             MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
@@ -45,14 +48,21 @@
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFirstRun));
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lblWelcome = new MPfm.WindowsControls.Label();
             this.lblWelcomeText = new MPfm.WindowsControls.Label();
             this.panelWelcome = new MPfm.WindowsControls.Panel();
+            this.lblMixerSampleRateUnit = new MPfm.WindowsControls.Label();
+            this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
+            this.lbl1_3 = new MPfm.WindowsControls.Label();
+            this.lbl1_3_text = new MPfm.WindowsControls.Label();
             this.lbl1_2 = new MPfm.WindowsControls.Label();
             this.lbl1_2_text = new MPfm.WindowsControls.Label();
             this.lbl1_1 = new MPfm.WindowsControls.Label();
@@ -76,14 +86,10 @@
             this.btnNext = new MPfm.WindowsControls.Button();
             this.btnCancelWizard = new MPfm.WindowsControls.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
-            this.lbl1_3 = new MPfm.WindowsControls.Label();
-            this.lbl1_3_text = new MPfm.WindowsControls.Label();
-            this.lblMixerSampleRateUnit = new MPfm.WindowsControls.Label();
-            this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
             this.panelWelcome.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
             this.Panel1.SuspendLayout();
             this.panelError.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
             this.SuspendLayout();
             // 
             // fontCollection
@@ -189,6 +195,88 @@
             this.panelWelcome.Size = new System.Drawing.Size(620, 448);
             this.panelWelcome.TabIndex = 77;
             this.panelWelcome.Text = "CustomTextBox Disabled";
+            // 
+            // lblMixerSampleRateUnit
+            // 
+            this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
+            customFont3.EmbeddedFontName = "Junction";
+            customFont3.IsBold = true;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 9;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
+            customFont3.UseEmbeddedFont = true;
+            this.lblMixerSampleRateUnit.CustomFont = customFont3;
+            this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(80, 346);
+            this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";
+            this.lblMixerSampleRateUnit.Size = new System.Drawing.Size(39, 17);
+            this.lblMixerSampleRateUnit.TabIndex = 97;
+            this.lblMixerSampleRateUnit.Text = "Hz";
+            // 
+            // txtMixerSampleRate
+            // 
+            this.txtMixerSampleRate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMixerSampleRate.Location = new System.Drawing.Point(16, 346);
+            this.txtMixerSampleRate.Maximum = new decimal(new int[] {
+            96000,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.Minimum = new decimal(new int[] {
+            44100,
+            0,
+            0,
+            0});
+            this.txtMixerSampleRate.Name = "txtMixerSampleRate";
+            this.txtMixerSampleRate.Size = new System.Drawing.Size(62, 23);
+            this.txtMixerSampleRate.TabIndex = 96;
+            this.txtMixerSampleRate.Value = new decimal(new int[] {
+            44100,
+            0,
+            0,
+            0});
+            // 
+            // lbl1_3
+            // 
+            this.lbl1_3.BackColor = System.Drawing.Color.Transparent;
+            customFont4.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont4.IsBold = true;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 10;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
+            customFont4.UseEmbeddedFont = true;
+            this.lbl1_3.CustomFont = customFont4;
+            this.lbl1_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_3.ForeColor = System.Drawing.Color.White;
+            this.lbl1_3.Location = new System.Drawing.Point(13, 323);
+            this.lbl1_3.Name = "lbl1_3";
+            this.lbl1_3.Size = new System.Drawing.Size(18, 20);
+            this.lbl1_3.TabIndex = 95;
+            this.lbl1_3.Text = "3.";
+            // 
+            // lbl1_3_text
+            // 
+            this.lbl1_3_text.BackColor = System.Drawing.Color.Transparent;
+            customFont5.EmbeddedFontName = "Junction";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 9;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
+            customFont5.UseEmbeddedFont = true;
+            this.lbl1_3_text.CustomFont = customFont5;
+            this.lbl1_3_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1_3_text.ForeColor = System.Drawing.Color.White;
+            this.lbl1_3_text.Location = new System.Drawing.Point(28, 323);
+            this.lbl1_3_text.Name = "lbl1_3_text";
+            this.lbl1_3_text.Size = new System.Drawing.Size(257, 20);
+            this.lbl1_3_text.TabIndex = 94;
+            this.lbl1_3_text.Text = "Please select a mixer sample rate :";
             // 
             // lbl1_2
             // 
@@ -312,17 +400,23 @@
             // 
             // btnTestAudioSettings
             // 
-            this.btnTestAudioSettings.AntiAliasingEnabled = true;
             this.btnTestAudioSettings.BorderColor = System.Drawing.Color.Black;
             this.btnTestAudioSettings.BorderWidth = 1;
             this.btnTestAudioSettings.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTestAudioSettings.CustomFontName = "Junction";
+            customFont12.EmbeddedFontName = "Junction";
+            customFont12.IsBold = false;
+            customFont12.IsItalic = false;
+            customFont12.IsUnderline = false;
+            customFont12.Size = 8;
+            customFont12.StandardFontName = "Arial";
+            customFont12.UseAntiAliasing = true;
+            customFont12.UseEmbeddedFont = true;
+            this.btnTestAudioSettings.CustomFont = customFont12;
             this.btnTestAudioSettings.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnTestAudioSettings.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnTestAudioSettings.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnTestAudioSettings.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnTestAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestAudioSettings.FontCollection = this.fontCollection;
             this.btnTestAudioSettings.FontColor = System.Drawing.Color.Black;
             this.btnTestAudioSettings.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnTestAudioSettings.GradientColor2 = System.Drawing.Color.Gray;
@@ -374,15 +468,15 @@
             // lblNote1
             // 
             this.lblNote1.BackColor = System.Drawing.Color.Transparent;
-            customFont12.EmbeddedFontName = "Junction";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 8;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = true;
-            this.lblNote1.CustomFont = customFont12;
+            customFont13.EmbeddedFontName = "Junction";
+            customFont13.IsBold = false;
+            customFont13.IsItalic = false;
+            customFont13.IsUnderline = false;
+            customFont13.Size = 8;
+            customFont13.StandardFontName = "Arial";
+            customFont13.UseAntiAliasing = true;
+            customFont13.UseEmbeddedFont = true;
+            this.lblNote1.CustomFont = customFont13;
             this.lblNote1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNote1.ForeColor = System.Drawing.Color.Black;
             this.lblNote1.Location = new System.Drawing.Point(5, 29);
@@ -395,15 +489,15 @@
             // lblNote2
             // 
             this.lblNote2.BackColor = System.Drawing.Color.Transparent;
-            customFont13.EmbeddedFontName = "Junction";
-            customFont13.IsBold = false;
-            customFont13.IsItalic = false;
-            customFont13.IsUnderline = false;
-            customFont13.Size = 8;
-            customFont13.StandardFontName = "Arial";
-            customFont13.UseAntiAliasing = true;
-            customFont13.UseEmbeddedFont = true;
-            this.lblNote2.CustomFont = customFont13;
+            customFont14.EmbeddedFontName = "Junction";
+            customFont14.IsBold = false;
+            customFont14.IsItalic = false;
+            customFont14.IsUnderline = false;
+            customFont14.Size = 8;
+            customFont14.StandardFontName = "Arial";
+            customFont14.UseAntiAliasing = true;
+            customFont14.UseEmbeddedFont = true;
+            this.lblNote2.CustomFont = customFont14;
             this.lblNote2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNote2.ForeColor = System.Drawing.Color.Black;
             this.lblNote2.Location = new System.Drawing.Point(5, 48);
@@ -416,15 +510,15 @@
             // lblAudioSettingsText
             // 
             this.lblAudioSettingsText.BackColor = System.Drawing.Color.Transparent;
-            customFont14.EmbeddedFontName = "Junction";
-            customFont14.IsBold = false;
-            customFont14.IsItalic = false;
-            customFont14.IsUnderline = false;
-            customFont14.Size = 9;
-            customFont14.StandardFontName = "Arial";
-            customFont14.UseAntiAliasing = true;
-            customFont14.UseEmbeddedFont = true;
-            this.lblAudioSettingsText.CustomFont = customFont14;
+            customFont15.EmbeddedFontName = "Junction";
+            customFont15.IsBold = false;
+            customFont15.IsItalic = false;
+            customFont15.IsUnderline = false;
+            customFont15.Size = 9;
+            customFont15.StandardFontName = "Arial";
+            customFont15.UseAntiAliasing = true;
+            customFont15.UseEmbeddedFont = true;
+            this.lblAudioSettingsText.CustomFont = customFont15;
             this.lblAudioSettingsText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAudioSettingsText.ForeColor = System.Drawing.Color.LightGray;
             this.lblAudioSettingsText.Location = new System.Drawing.Point(13, 115);
@@ -437,15 +531,15 @@
             // lblAudioSettings
             // 
             this.lblAudioSettings.BackColor = System.Drawing.Color.Transparent;
-            customFont15.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont15.IsBold = true;
-            customFont15.IsItalic = false;
-            customFont15.IsUnderline = false;
-            customFont15.Size = 12;
-            customFont15.StandardFontName = "Arial";
-            customFont15.UseAntiAliasing = true;
-            customFont15.UseEmbeddedFont = true;
-            this.lblAudioSettings.CustomFont = customFont15;
+            customFont16.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont16.IsBold = true;
+            customFont16.IsItalic = false;
+            customFont16.IsUnderline = false;
+            customFont16.Size = 12;
+            customFont16.StandardFontName = "Arial";
+            customFont16.UseAntiAliasing = true;
+            customFont16.UseEmbeddedFont = true;
+            this.lblAudioSettings.CustomFont = customFont16;
             this.lblAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAudioSettings.ForeColor = System.Drawing.Color.White;
             this.lblAudioSettings.Location = new System.Drawing.Point(13, 92);
@@ -521,17 +615,23 @@
             // 
             // btnErrorCopyToClipboard
             // 
-            this.btnErrorCopyToClipboard.AntiAliasingEnabled = true;
             this.btnErrorCopyToClipboard.BorderColor = System.Drawing.Color.Black;
             this.btnErrorCopyToClipboard.BorderWidth = 1;
             this.btnErrorCopyToClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnErrorCopyToClipboard.CustomFontName = "Avenir";
+            customFont17.EmbeddedFontName = "";
+            customFont17.IsBold = false;
+            customFont17.IsItalic = false;
+            customFont17.IsUnderline = false;
+            customFont17.Size = 8;
+            customFont17.StandardFontName = "Arial";
+            customFont17.UseAntiAliasing = true;
+            customFont17.UseEmbeddedFont = false;
+            this.btnErrorCopyToClipboard.CustomFont = customFont17;
             this.btnErrorCopyToClipboard.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnErrorCopyToClipboard.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnErrorCopyToClipboard.DisabledGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnErrorCopyToClipboard.DisabledGradientColor2 = System.Drawing.Color.Maroon;
             this.btnErrorCopyToClipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnErrorCopyToClipboard.FontCollection = this.fontCollection;
             this.btnErrorCopyToClipboard.FontColor = System.Drawing.Color.White;
             this.btnErrorCopyToClipboard.GradientColor1 = System.Drawing.Color.DarkRed;
             this.btnErrorCopyToClipboard.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -553,17 +653,23 @@
             // 
             // btnErrorSendEmail
             // 
-            this.btnErrorSendEmail.AntiAliasingEnabled = true;
             this.btnErrorSendEmail.BorderColor = System.Drawing.Color.Black;
             this.btnErrorSendEmail.BorderWidth = 1;
             this.btnErrorSendEmail.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnErrorSendEmail.CustomFontName = "Avenir";
+            customFont18.EmbeddedFontName = "";
+            customFont18.IsBold = false;
+            customFont18.IsItalic = false;
+            customFont18.IsUnderline = false;
+            customFont18.Size = 8;
+            customFont18.StandardFontName = "Arial";
+            customFont18.UseAntiAliasing = true;
+            customFont18.UseEmbeddedFont = false;
+            this.btnErrorSendEmail.CustomFont = customFont18;
             this.btnErrorSendEmail.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnErrorSendEmail.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnErrorSendEmail.DisabledGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnErrorSendEmail.DisabledGradientColor2 = System.Drawing.Color.Maroon;
             this.btnErrorSendEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnErrorSendEmail.FontCollection = this.fontCollection;
             this.btnErrorSendEmail.FontColor = System.Drawing.Color.White;
             this.btnErrorSendEmail.GradientColor1 = System.Drawing.Color.DarkRed;
             this.btnErrorSendEmail.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -585,17 +691,23 @@
             // 
             // btnErrorExitPMP
             // 
-            this.btnErrorExitPMP.AntiAliasingEnabled = true;
             this.btnErrorExitPMP.BorderColor = System.Drawing.Color.Black;
             this.btnErrorExitPMP.BorderWidth = 1;
             this.btnErrorExitPMP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnErrorExitPMP.CustomFontName = "Avenir";
+            customFont19.EmbeddedFontName = "";
+            customFont19.IsBold = false;
+            customFont19.IsItalic = false;
+            customFont19.IsUnderline = false;
+            customFont19.Size = 8;
+            customFont19.StandardFontName = "Arial";
+            customFont19.UseAntiAliasing = true;
+            customFont19.UseEmbeddedFont = false;
+            this.btnErrorExitPMP.CustomFont = customFont19;
             this.btnErrorExitPMP.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnErrorExitPMP.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnErrorExitPMP.DisabledGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnErrorExitPMP.DisabledGradientColor2 = System.Drawing.Color.Maroon;
             this.btnErrorExitPMP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnErrorExitPMP.FontCollection = this.fontCollection;
             this.btnErrorExitPMP.FontColor = System.Drawing.Color.White;
             this.btnErrorExitPMP.ForeColor = System.Drawing.Color.White;
             this.btnErrorExitPMP.GradientColor1 = System.Drawing.Color.DarkRed;
@@ -632,15 +744,15 @@
             // lblError
             // 
             this.lblError.BackColor = System.Drawing.Color.Transparent;
-            customFont16.EmbeddedFontName = "";
-            customFont16.IsBold = false;
-            customFont16.IsItalic = false;
-            customFont16.IsUnderline = false;
-            customFont16.Size = 8;
-            customFont16.StandardFontName = "Arial";
-            customFont16.UseAntiAliasing = true;
-            customFont16.UseEmbeddedFont = false;
-            this.lblError.CustomFont = customFont16;
+            customFont20.EmbeddedFontName = "";
+            customFont20.IsBold = false;
+            customFont20.IsItalic = false;
+            customFont20.IsUnderline = false;
+            customFont20.Size = 8;
+            customFont20.StandardFontName = "Arial";
+            customFont20.UseAntiAliasing = true;
+            customFont20.UseEmbeddedFont = false;
+            this.lblError.CustomFont = customFont20;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.LightGray;
             this.lblError.Location = new System.Drawing.Point(3, 25);
@@ -652,18 +764,24 @@
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.AntiAliasingEnabled = true;
             this.btnNext.BorderColor = System.Drawing.Color.Black;
             this.btnNext.BorderWidth = 1;
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNext.CustomFontName = "Junction";
+            customFont21.EmbeddedFontName = "Junction";
+            customFont21.IsBold = false;
+            customFont21.IsItalic = false;
+            customFont21.IsUnderline = false;
+            customFont21.Size = 8;
+            customFont21.StandardFontName = "Arial";
+            customFont21.UseAntiAliasing = true;
+            customFont21.UseEmbeddedFont = true;
+            this.btnNext.CustomFont = customFont21;
             this.btnNext.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnNext.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnNext.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnNext.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnNext.Enabled = false;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNext.FontCollection = this.fontCollection;
             this.btnNext.FontColor = System.Drawing.Color.Black;
             this.btnNext.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnNext.GradientColor2 = System.Drawing.Color.Gray;
@@ -686,17 +804,23 @@
             // btnCancelWizard
             // 
             this.btnCancelWizard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelWizard.AntiAliasingEnabled = true;
             this.btnCancelWizard.BorderColor = System.Drawing.Color.Black;
             this.btnCancelWizard.BorderWidth = 1;
             this.btnCancelWizard.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelWizard.CustomFontName = "Junction";
+            customFont22.EmbeddedFontName = "Junction";
+            customFont22.IsBold = false;
+            customFont22.IsItalic = false;
+            customFont22.IsUnderline = false;
+            customFont22.Size = 8;
+            customFont22.StandardFontName = "Arial";
+            customFont22.UseAntiAliasing = true;
+            customFont22.UseEmbeddedFont = true;
+            this.btnCancelWizard.CustomFont = customFont22;
             this.btnCancelWizard.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnCancelWizard.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnCancelWizard.DisabledGradientColor1 = System.Drawing.Color.Gray;
             this.btnCancelWizard.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnCancelWizard.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelWizard.FontCollection = this.fontCollection;
             this.btnCancelWizard.FontColor = System.Drawing.Color.Black;
             this.btnCancelWizard.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnCancelWizard.GradientColor2 = System.Drawing.Color.Gray;
@@ -721,88 +845,6 @@
             this.openFile.Filter = "Audio files (*.mp3, *.flac, *.ogg, *.wav)|*.mp3;*.flac;*.ogg;*.wav";
             this.openFile.Title = "Please select an audio file to play";
             // 
-            // lbl1_3
-            // 
-            this.lbl1_3.BackColor = System.Drawing.Color.Transparent;
-            customFont4.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont4.IsBold = true;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 10;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.lbl1_3.CustomFont = customFont4;
-            this.lbl1_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1_3.ForeColor = System.Drawing.Color.White;
-            this.lbl1_3.Location = new System.Drawing.Point(13, 323);
-            this.lbl1_3.Name = "lbl1_3";
-            this.lbl1_3.Size = new System.Drawing.Size(18, 20);
-            this.lbl1_3.TabIndex = 95;
-            this.lbl1_3.Text = "3.";
-            // 
-            // lbl1_3_text
-            // 
-            this.lbl1_3_text.BackColor = System.Drawing.Color.Transparent;
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 9;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            this.lbl1_3_text.CustomFont = customFont5;
-            this.lbl1_3_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1_3_text.ForeColor = System.Drawing.Color.White;
-            this.lbl1_3_text.Location = new System.Drawing.Point(28, 323);
-            this.lbl1_3_text.Name = "lbl1_3_text";
-            this.lbl1_3_text.Size = new System.Drawing.Size(257, 20);
-            this.lbl1_3_text.TabIndex = 94;
-            this.lbl1_3_text.Text = "Please select a mixer sample rate :";
-            // 
-            // lblMixerSampleRateUnit
-            // 
-            this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = true;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 9;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            this.lblMixerSampleRateUnit.CustomFont = customFont3;
-            this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(80, 346);
-            this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";
-            this.lblMixerSampleRateUnit.Size = new System.Drawing.Size(39, 17);
-            this.lblMixerSampleRateUnit.TabIndex = 97;
-            this.lblMixerSampleRateUnit.Text = "Hz";
-            // 
-            // txtMixerSampleRate
-            // 
-            this.txtMixerSampleRate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMixerSampleRate.Location = new System.Drawing.Point(16, 346);
-            this.txtMixerSampleRate.Maximum = new decimal(new int[] {
-            96000,
-            0,
-            0,
-            0});
-            this.txtMixerSampleRate.Minimum = new decimal(new int[] {
-            44100,
-            0,
-            0,
-            0});
-            this.txtMixerSampleRate.Name = "txtMixerSampleRate";
-            this.txtMixerSampleRate.Size = new System.Drawing.Size(62, 23);
-            this.txtMixerSampleRate.TabIndex = 96;
-            this.txtMixerSampleRate.Value = new decimal(new int[] {
-            44100,
-            0,
-            0,
-            0});
-            // 
             // frmFirstRun
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -824,9 +866,9 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.frmFirstRun_Load);
             this.panelWelcome.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
             this.Panel1.ResumeLayout(false);
             this.panelError.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -77,6 +77,11 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont42 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont44 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont45 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont46 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont47 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont48 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont49 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
             this.lblGain17 = new MPfm.WindowsControls.Label();
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
@@ -171,6 +176,7 @@ namespace MPfm
             customFont1.IsUnderline = false;
             customFont1.Size = 8;
             customFont1.StandardFontName = "Arial";
+            customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
             this.lblGain17.CustomFont = customFont1;
             this.lblGain17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -214,6 +220,7 @@ namespace MPfm
             customFont2.IsUnderline = false;
             customFont2.Size = 9;
             customFont2.StandardFontName = "Arial";
+            customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
             this.lbl17.CustomFont = customFont2;
             this.lbl17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -234,6 +241,7 @@ namespace MPfm
             customFont3.IsUnderline = false;
             customFont3.Size = 8;
             customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
             this.lblGain16.CustomFont = customFont3;
             this.lblGain16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -254,6 +262,7 @@ namespace MPfm
             customFont4.IsUnderline = false;
             customFont4.Size = 9;
             customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
             customFont4.UseEmbeddedFont = true;
             this.lbl16.CustomFont = customFont4;
             this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -274,6 +283,7 @@ namespace MPfm
             customFont5.IsUnderline = false;
             customFont5.Size = 8;
             customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
             customFont5.UseEmbeddedFont = true;
             this.lblGain15.CustomFont = customFont5;
             this.lblGain15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -294,6 +304,7 @@ namespace MPfm
             customFont6.IsUnderline = false;
             customFont6.Size = 9;
             customFont6.StandardFontName = "Arial";
+            customFont6.UseAntiAliasing = true;
             customFont6.UseEmbeddedFont = true;
             this.lbl15.CustomFont = customFont6;
             this.lbl15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -314,6 +325,7 @@ namespace MPfm
             customFont7.IsUnderline = false;
             customFont7.Size = 8;
             customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
             this.lblGain14.CustomFont = customFont7;
             this.lblGain14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -334,6 +346,7 @@ namespace MPfm
             customFont8.IsUnderline = false;
             customFont8.Size = 9;
             customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
             customFont8.UseEmbeddedFont = true;
             this.lbl14.CustomFont = customFont8;
             this.lbl14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -354,6 +367,7 @@ namespace MPfm
             customFont9.IsUnderline = false;
             customFont9.Size = 8;
             customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
             customFont9.UseEmbeddedFont = true;
             this.lblGain13.CustomFont = customFont9;
             this.lblGain13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -374,6 +388,7 @@ namespace MPfm
             customFont10.IsUnderline = false;
             customFont10.Size = 9;
             customFont10.StandardFontName = "Arial";
+            customFont10.UseAntiAliasing = true;
             customFont10.UseEmbeddedFont = true;
             this.lbl13.CustomFont = customFont10;
             this.lbl13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -394,6 +409,7 @@ namespace MPfm
             customFont11.IsUnderline = false;
             customFont11.Size = 8;
             customFont11.StandardFontName = "Arial";
+            customFont11.UseAntiAliasing = true;
             customFont11.UseEmbeddedFont = true;
             this.lblGain12.CustomFont = customFont11;
             this.lblGain12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -414,6 +430,7 @@ namespace MPfm
             customFont12.IsUnderline = false;
             customFont12.Size = 9;
             customFont12.StandardFontName = "Arial";
+            customFont12.UseAntiAliasing = true;
             customFont12.UseEmbeddedFont = true;
             this.lbl12.CustomFont = customFont12;
             this.lbl12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -434,6 +451,7 @@ namespace MPfm
             customFont13.IsUnderline = false;
             customFont13.Size = 8;
             customFont13.StandardFontName = "Arial";
+            customFont13.UseAntiAliasing = true;
             customFont13.UseEmbeddedFont = true;
             this.lblGain11.CustomFont = customFont13;
             this.lblGain11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -454,6 +472,7 @@ namespace MPfm
             customFont14.IsUnderline = false;
             customFont14.Size = 9;
             customFont14.StandardFontName = "Arial";
+            customFont14.UseAntiAliasing = true;
             customFont14.UseEmbeddedFont = true;
             this.lbl11.CustomFont = customFont14;
             this.lbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -474,6 +493,7 @@ namespace MPfm
             customFont15.IsUnderline = false;
             customFont15.Size = 8;
             customFont15.StandardFontName = "Arial";
+            customFont15.UseAntiAliasing = true;
             customFont15.UseEmbeddedFont = true;
             this.lblGain10.CustomFont = customFont15;
             this.lblGain10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -494,6 +514,7 @@ namespace MPfm
             customFont16.IsUnderline = false;
             customFont16.Size = 9;
             customFont16.StandardFontName = "Arial";
+            customFont16.UseAntiAliasing = true;
             customFont16.UseEmbeddedFont = true;
             this.lbl10.CustomFont = customFont16;
             this.lbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -514,6 +535,7 @@ namespace MPfm
             customFont17.IsUnderline = false;
             customFont17.Size = 8;
             customFont17.StandardFontName = "Arial";
+            customFont17.UseAntiAliasing = true;
             customFont17.UseEmbeddedFont = true;
             this.lblGain9.CustomFont = customFont17;
             this.lblGain9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -534,6 +556,7 @@ namespace MPfm
             customFont18.IsUnderline = false;
             customFont18.Size = 9;
             customFont18.StandardFontName = "Arial";
+            customFont18.UseAntiAliasing = true;
             customFont18.UseEmbeddedFont = true;
             this.lbl9.CustomFont = customFont18;
             this.lbl9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -554,6 +577,7 @@ namespace MPfm
             customFont19.IsUnderline = false;
             customFont19.Size = 8;
             customFont19.StandardFontName = "Arial";
+            customFont19.UseAntiAliasing = true;
             customFont19.UseEmbeddedFont = true;
             this.lblGain8.CustomFont = customFont19;
             this.lblGain8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -574,6 +598,7 @@ namespace MPfm
             customFont20.IsUnderline = false;
             customFont20.Size = 9;
             customFont20.StandardFontName = "Arial";
+            customFont20.UseAntiAliasing = true;
             customFont20.UseEmbeddedFont = true;
             this.lbl8.CustomFont = customFont20;
             this.lbl8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -594,6 +619,7 @@ namespace MPfm
             customFont21.IsUnderline = false;
             customFont21.Size = 8;
             customFont21.StandardFontName = "Arial";
+            customFont21.UseAntiAliasing = true;
             customFont21.UseEmbeddedFont = true;
             this.lblGain7.CustomFont = customFont21;
             this.lblGain7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -614,6 +640,7 @@ namespace MPfm
             customFont22.IsUnderline = false;
             customFont22.Size = 9;
             customFont22.StandardFontName = "Arial";
+            customFont22.UseAntiAliasing = true;
             customFont22.UseEmbeddedFont = true;
             this.lbl7.CustomFont = customFont22;
             this.lbl7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -634,6 +661,7 @@ namespace MPfm
             customFont23.IsUnderline = false;
             customFont23.Size = 8;
             customFont23.StandardFontName = "Arial";
+            customFont23.UseAntiAliasing = true;
             customFont23.UseEmbeddedFont = true;
             this.lblGain6.CustomFont = customFont23;
             this.lblGain6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -654,6 +682,7 @@ namespace MPfm
             customFont24.IsUnderline = false;
             customFont24.Size = 9;
             customFont24.StandardFontName = "Arial";
+            customFont24.UseAntiAliasing = true;
             customFont24.UseEmbeddedFont = true;
             this.lbl6.CustomFont = customFont24;
             this.lbl6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -674,6 +703,7 @@ namespace MPfm
             customFont25.IsUnderline = false;
             customFont25.Size = 8;
             customFont25.StandardFontName = "Arial";
+            customFont25.UseAntiAliasing = true;
             customFont25.UseEmbeddedFont = true;
             this.lblGain5.CustomFont = customFont25;
             this.lblGain5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -694,6 +724,7 @@ namespace MPfm
             customFont26.IsUnderline = false;
             customFont26.Size = 9;
             customFont26.StandardFontName = "Arial";
+            customFont26.UseAntiAliasing = true;
             customFont26.UseEmbeddedFont = true;
             this.lbl5.CustomFont = customFont26;
             this.lbl5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -714,6 +745,7 @@ namespace MPfm
             customFont27.IsUnderline = false;
             customFont27.Size = 8;
             customFont27.StandardFontName = "Arial";
+            customFont27.UseAntiAliasing = true;
             customFont27.UseEmbeddedFont = true;
             this.lblGain4.CustomFont = customFont27;
             this.lblGain4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -734,6 +766,7 @@ namespace MPfm
             customFont28.IsUnderline = false;
             customFont28.Size = 9;
             customFont28.StandardFontName = "Arial";
+            customFont28.UseAntiAliasing = true;
             customFont28.UseEmbeddedFont = true;
             this.lbl4.CustomFont = customFont28;
             this.lbl4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -754,6 +787,7 @@ namespace MPfm
             customFont29.IsUnderline = false;
             customFont29.Size = 8;
             customFont29.StandardFontName = "Arial";
+            customFont29.UseAntiAliasing = true;
             customFont29.UseEmbeddedFont = true;
             this.lblGain3.CustomFont = customFont29;
             this.lblGain3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -774,6 +808,7 @@ namespace MPfm
             customFont30.IsUnderline = false;
             customFont30.Size = 9;
             customFont30.StandardFontName = "Arial";
+            customFont30.UseAntiAliasing = true;
             customFont30.UseEmbeddedFont = true;
             this.lbl3.CustomFont = customFont30;
             this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -794,6 +829,7 @@ namespace MPfm
             customFont31.IsUnderline = false;
             customFont31.Size = 8;
             customFont31.StandardFontName = "Arial";
+            customFont31.UseAntiAliasing = true;
             customFont31.UseEmbeddedFont = true;
             this.lblGain2.CustomFont = customFont31;
             this.lblGain2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -814,6 +850,7 @@ namespace MPfm
             customFont32.IsUnderline = false;
             customFont32.Size = 9;
             customFont32.StandardFontName = "Arial";
+            customFont32.UseAntiAliasing = true;
             customFont32.UseEmbeddedFont = true;
             this.lbl2.CustomFont = customFont32;
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -834,6 +871,7 @@ namespace MPfm
             customFont33.IsUnderline = false;
             customFont33.Size = 8;
             customFont33.StandardFontName = "Arial";
+            customFont33.UseAntiAliasing = true;
             customFont33.UseEmbeddedFont = true;
             this.lblGain1.CustomFont = customFont33;
             this.lblGain1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -854,6 +892,7 @@ namespace MPfm
             customFont34.IsUnderline = false;
             customFont34.Size = 9;
             customFont34.StandardFontName = "Arial";
+            customFont34.UseAntiAliasing = true;
             customFont34.UseEmbeddedFont = true;
             this.lbl1.CustomFont = customFont34;
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -874,6 +913,7 @@ namespace MPfm
             customFont35.IsUnderline = false;
             customFont35.Size = 8;
             customFont35.StandardFontName = "Arial";
+            customFont35.UseAntiAliasing = true;
             customFont35.UseEmbeddedFont = true;
             this.lblGain0.CustomFont = customFont35;
             this.lblGain0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -894,6 +934,7 @@ namespace MPfm
             customFont36.IsUnderline = false;
             customFont36.Size = 9;
             customFont36.StandardFontName = "Arial";
+            customFont36.UseAntiAliasing = true;
             customFont36.UseEmbeddedFont = true;
             this.lbl0.CustomFont = customFont36;
             this.lbl0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -914,6 +955,7 @@ namespace MPfm
             customFont37.IsUnderline = false;
             customFont37.Size = 10;
             customFont37.StandardFontName = "Arial";
+            customFont37.UseAntiAliasing = true;
             customFont37.UseEmbeddedFont = true;
             this.lbl0dB.CustomFont = customFont37;
             this.lbl0dB.ForeColor = System.Drawing.Color.White;
@@ -933,6 +975,7 @@ namespace MPfm
             customFont38.IsUnderline = false;
             customFont38.Size = 10;
             customFont38.StandardFontName = "Arial";
+            customFont38.UseAntiAliasing = true;
             customFont38.UseEmbeddedFont = true;
             this.lbl_6dB.CustomFont = customFont38;
             this.lbl_6dB.ForeColor = System.Drawing.Color.White;
@@ -952,6 +995,7 @@ namespace MPfm
             customFont39.IsUnderline = false;
             customFont39.Size = 10;
             customFont39.StandardFontName = "Arial";
+            customFont39.UseAntiAliasing = true;
             customFont39.UseEmbeddedFont = true;
             this.lbl6dB.CustomFont = customFont39;
             this.lbl6dB.ForeColor = System.Drawing.Color.White;
@@ -1602,6 +1646,7 @@ namespace MPfm
             customFont40.IsUnderline = false;
             customFont40.Size = 8;
             customFont40.StandardFontName = "Arial";
+            customFont40.UseAntiAliasing = true;
             customFont40.UseEmbeddedFont = true;
             this.lblEQOn.CustomFont = customFont40;
             this.lblEQOn.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1693,6 +1738,7 @@ namespace MPfm
             customFont41.IsUnderline = false;
             customFont41.Size = 8;
             customFont41.StandardFontName = "Arial";
+            customFont41.UseAntiAliasing = true;
             customFont41.UseEmbeddedFont = true;
             this.lblEQBandwidth.CustomFont = customFont41;
             this.lblEQBandwidth.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1715,6 +1761,7 @@ namespace MPfm
             customFont42.IsUnderline = false;
             customFont42.Size = 8;
             customFont42.StandardFontName = "Arial";
+            customFont42.UseAntiAliasing = true;
             customFont42.UseEmbeddedFont = true;
             this.lblEQQ.CustomFont = customFont42;
             this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1728,17 +1775,23 @@ namespace MPfm
             // 
             // btnAutoLevel
             // 
-            this.btnAutoLevel.AntiAliasingEnabled = true;
             this.btnAutoLevel.BorderColor = System.Drawing.Color.Gray;
             this.btnAutoLevel.BorderWidth = 1;
             this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAutoLevel.CustomFontName = "Junction";
+            customFont43.EmbeddedFontName = "Junction";
+            customFont43.IsBold = false;
+            customFont43.IsItalic = false;
+            customFont43.IsUnderline = false;
+            customFont43.Size = 8;
+            customFont43.StandardFontName = "Arial";
+            customFont43.UseAntiAliasing = true;
+            customFont43.UseEmbeddedFont = true;
+            this.btnAutoLevel.CustomFont = customFont43;
             this.btnAutoLevel.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnAutoLevel.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnAutoLevel.DisabledGradientColor1 = System.Drawing.Color.LightGray;
             this.btnAutoLevel.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAutoLevel.FontCollection = this.fontCollection;
             this.btnAutoLevel.FontColor = System.Drawing.Color.Black;
             this.btnAutoLevel.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnAutoLevel.GradientColor2 = System.Drawing.Color.Gray;
@@ -1760,17 +1813,23 @@ namespace MPfm
             // 
             // btnResetEQ
             // 
-            this.btnResetEQ.AntiAliasingEnabled = true;
             this.btnResetEQ.BorderColor = System.Drawing.Color.Gray;
             this.btnResetEQ.BorderWidth = 1;
             this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetEQ.CustomFontName = "Junction";
+            customFont44.EmbeddedFontName = "Junction";
+            customFont44.IsBold = false;
+            customFont44.IsItalic = false;
+            customFont44.IsUnderline = false;
+            customFont44.Size = 8;
+            customFont44.StandardFontName = "Arial";
+            customFont44.UseAntiAliasing = true;
+            customFont44.UseEmbeddedFont = true;
+            this.btnResetEQ.CustomFont = customFont44;
             this.btnResetEQ.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnResetEQ.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnResetEQ.DisabledGradientColor1 = System.Drawing.Color.LightGray;
             this.btnResetEQ.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnResetEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetEQ.FontCollection = this.fontCollection;
             this.btnResetEQ.FontColor = System.Drawing.Color.Black;
             this.btnResetEQ.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnResetEQ.GradientColor2 = System.Drawing.Color.Gray;
@@ -1795,14 +1854,15 @@ namespace MPfm
             this.lblEQChanged.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQChanged.BackColor = System.Drawing.Color.Transparent;
-            customFont43.EmbeddedFontName = "";
-            customFont43.IsBold = false;
-            customFont43.IsItalic = false;
-            customFont43.IsUnderline = false;
-            customFont43.Size = 8;
-            customFont43.StandardFontName = "Arial";
-            customFont43.UseEmbeddedFont = false;
-            this.lblEQChanged.CustomFont = customFont43;
+            customFont45.EmbeddedFontName = "";
+            customFont45.IsBold = false;
+            customFont45.IsItalic = false;
+            customFont45.IsUnderline = false;
+            customFont45.Size = 8;
+            customFont45.StandardFontName = "Arial";
+            customFont45.UseAntiAliasing = true;
+            customFont45.UseEmbeddedFont = false;
+            this.lblEQChanged.CustomFont = customFont45;
             this.lblEQChanged.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQChanged.ForeColor = System.Drawing.Color.White;
             this.lblEQChanged.Location = new System.Drawing.Point(4, 323);
@@ -1822,17 +1882,23 @@ namespace MPfm
             // 
             // btnSaveEQPreset
             // 
-            this.btnSaveEQPreset.AntiAliasingEnabled = true;
             this.btnSaveEQPreset.BorderColor = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.BorderWidth = 1;
             this.btnSaveEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSaveEQPreset.CustomFontName = "Junction";
+            customFont46.EmbeddedFontName = "Junction";
+            customFont46.IsBold = false;
+            customFont46.IsItalic = false;
+            customFont46.IsUnderline = false;
+            customFont46.Size = 8;
+            customFont46.StandardFontName = "Arial";
+            customFont46.UseAntiAliasing = true;
+            customFont46.UseEmbeddedFont = true;
+            this.btnSaveEQPreset.CustomFont = customFont46;
             this.btnSaveEQPreset.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.DisabledGradientColor1 = System.Drawing.Color.LightGray;
             this.btnSaveEQPreset.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveEQPreset.FontCollection = this.fontCollection;
             this.btnSaveEQPreset.FontColor = System.Drawing.Color.Black;
             this.btnSaveEQPreset.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnSaveEQPreset.GradientColor2 = System.Drawing.Color.Gray;
@@ -1854,17 +1920,23 @@ namespace MPfm
             // 
             // btnDeleteEQPreset
             // 
-            this.btnDeleteEQPreset.AntiAliasingEnabled = true;
             this.btnDeleteEQPreset.BorderColor = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.BorderWidth = 1;
             this.btnDeleteEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDeleteEQPreset.CustomFontName = "Junction";
+            customFont47.EmbeddedFontName = "Junction";
+            customFont47.IsBold = false;
+            customFont47.IsItalic = false;
+            customFont47.IsUnderline = false;
+            customFont47.Size = 8;
+            customFont47.StandardFontName = "Arial";
+            customFont47.UseAntiAliasing = true;
+            customFont47.UseEmbeddedFont = true;
+            this.btnDeleteEQPreset.CustomFont = customFont47;
             this.btnDeleteEQPreset.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.DisabledGradientColor1 = System.Drawing.Color.LightGray;
             this.btnDeleteEQPreset.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteEQPreset.FontCollection = this.fontCollection;
             this.btnDeleteEQPreset.FontColor = System.Drawing.Color.Black;
             this.btnDeleteEQPreset.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnDeleteEQPreset.GradientColor2 = System.Drawing.Color.Gray;
@@ -1889,14 +1961,15 @@ namespace MPfm
             this.lblEQName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQName.BackColor = System.Drawing.Color.Transparent;
-            customFont44.EmbeddedFontName = "Junction";
-            customFont44.IsBold = false;
-            customFont44.IsItalic = false;
-            customFont44.IsUnderline = false;
-            customFont44.Size = 8;
-            customFont44.StandardFontName = "Arial";
-            customFont44.UseEmbeddedFont = true;
-            this.lblEQName.CustomFont = customFont44;
+            customFont48.EmbeddedFontName = "Junction";
+            customFont48.IsBold = false;
+            customFont48.IsItalic = false;
+            customFont48.IsUnderline = false;
+            customFont48.Size = 8;
+            customFont48.StandardFontName = "Arial";
+            customFont48.UseAntiAliasing = true;
+            customFont48.UseEmbeddedFont = true;
+            this.lblEQName.CustomFont = customFont48;
             this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQName.ForeColor = System.Drawing.Color.White;
             this.lblEQName.Location = new System.Drawing.Point(4, 21);
@@ -1908,17 +1981,23 @@ namespace MPfm
             // 
             // btnClose
             // 
-            this.btnClose.AntiAliasingEnabled = true;
             this.btnClose.BorderColor = System.Drawing.Color.DimGray;
             this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.CustomFontName = "Junction";
+            customFont49.EmbeddedFontName = "";
+            customFont49.IsBold = false;
+            customFont49.IsItalic = false;
+            customFont49.IsUnderline = false;
+            customFont49.Size = 8;
+            customFont49.StandardFontName = "Arial";
+            customFont49.UseAntiAliasing = true;
+            customFont49.UseEmbeddedFont = false;
+            this.btnClose.CustomFont = customFont49;
             this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledGradientColor1 = System.Drawing.Color.LightGray;
             this.btnClose.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontCollection = this.fontCollection;
             this.btnClose.FontColor = System.Drawing.Color.Black;
             this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
             this.btnClose.GradientColor2 = System.Drawing.Color.Gray;

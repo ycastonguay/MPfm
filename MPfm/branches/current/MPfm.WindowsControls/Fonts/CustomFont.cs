@@ -94,11 +94,11 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the Size property.
         /// </summary>
-        private int m_size = 8;
+        private float m_size = 8;
         /// <summary>
         /// Defines the font size (in points).
         /// </summary>
-        public int Size
+        public float Size
         {
             get
             {

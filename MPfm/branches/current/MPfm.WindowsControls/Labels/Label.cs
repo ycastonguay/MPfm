@@ -58,6 +58,7 @@ namespace MPfm.WindowsControls
                 Refresh();
             }
         }
+
         /// <summary>
         /// Default constructor for the Label class.
         /// </summary>

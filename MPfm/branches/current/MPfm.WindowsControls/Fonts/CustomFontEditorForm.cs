@@ -117,7 +117,7 @@ namespace MPfm.WindowsControls
             // Set initial values
             radioUseCustomFont.Checked = CustomFont.UseEmbeddedFont;
             lblFontSize.Text = "Font Size: " + CustomFont.Size.ToString() + " pt";
-            trackFontSize.Value = CustomFont.Size;
+            trackFontSize.Value = (int)CustomFont.Size;
             chkIsBold.Checked = CustomFont.IsBold;
             chkIsItalic.Checked = CustomFont.IsItalic;
             chkIsUnderline.Checked = CustomFont.IsUnderline;
