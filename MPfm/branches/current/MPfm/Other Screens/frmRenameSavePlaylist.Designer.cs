@@ -42,8 +42,7 @@ namespace MPfm
             this.SuspendLayout();
             // 
             // lblName
-            // 
-            this.lblName.AntiAliasingEnabled = true;
+            //             
             this.lblName.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
@@ -53,7 +52,6 @@ namespace MPfm
             customFont1.StandardFontName = "Arial";
             customFont1.UseEmbeddedFont = true;
             this.lblName.CustomFont = customFont1;
-            this.lblName.CustomFontName = "Junction";
             this.lblName.Location = new System.Drawing.Point(3, 3);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(89, 17);

@@ -107,7 +107,6 @@
             // 
             // lblWelcome
             // 
-            this.lblWelcome.AntiAliasingEnabled = true;
             this.lblWelcome.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "TitilliumText22L Lt";
             customFont1.IsBold = false;
@@ -118,7 +117,6 @@
             customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
             this.lblWelcome.CustomFont = customFont1;
-            this.lblWelcome.CustomFontName = "TitilliumText22L Lt";
             this.lblWelcome.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWelcome.Location = new System.Drawing.Point(12, 32);
             this.lblWelcome.Name = "lblWelcome";
@@ -128,7 +126,6 @@
             // 
             // lblWelcomeText
             // 
-            this.lblWelcomeText.AntiAliasingEnabled = true;
             this.lblWelcomeText.BackColor = System.Drawing.Color.Transparent;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
@@ -139,7 +136,6 @@
             customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
             this.lblWelcomeText.CustomFont = customFont2;
-            this.lblWelcomeText.CustomFontName = "Junction";
             this.lblWelcomeText.Font = new System.Drawing.Font("MingLiU", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWelcomeText.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblWelcomeText.Location = new System.Drawing.Point(13, 64);
@@ -196,7 +192,6 @@
             // 
             // lbl1_2
             // 
-            this.lbl1_2.AntiAliasingEnabled = true;
             this.lbl1_2.BackColor = System.Drawing.Color.Transparent;
             customFont6.EmbeddedFontName = "TitilliumText22L Lt";
             customFont6.IsBold = true;
@@ -207,7 +202,6 @@
             customFont6.UseAntiAliasing = true;
             customFont6.UseEmbeddedFont = true;
             this.lbl1_2.CustomFont = customFont6;
-            this.lbl1_2.CustomFontName = "TitilliumText22L Lt";
             this.lbl1_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_2.ForeColor = System.Drawing.Color.White;
             this.lbl1_2.Location = new System.Drawing.Point(13, 273);
@@ -218,7 +212,6 @@
             // 
             // lbl1_2_text
             // 
-            this.lbl1_2_text.AntiAliasingEnabled = true;
             this.lbl1_2_text.BackColor = System.Drawing.Color.Transparent;
             customFont7.EmbeddedFontName = "Junction";
             customFont7.IsBold = false;
@@ -229,7 +222,6 @@
             customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
             this.lbl1_2_text.CustomFont = customFont7;
-            this.lbl1_2_text.CustomFontName = "Junction";
             this.lbl1_2_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_2_text.ForeColor = System.Drawing.Color.White;
             this.lbl1_2_text.Location = new System.Drawing.Point(28, 273);
@@ -240,7 +232,6 @@
             // 
             // lbl1_1
             // 
-            this.lbl1_1.AntiAliasingEnabled = true;
             this.lbl1_1.BackColor = System.Drawing.Color.Transparent;
             customFont8.EmbeddedFontName = "TitilliumText22L Lt";
             customFont8.IsBold = true;
@@ -251,7 +242,6 @@
             customFont8.UseAntiAliasing = true;
             customFont8.UseEmbeddedFont = true;
             this.lbl1_1.CustomFont = customFont8;
-            this.lbl1_1.CustomFontName = "TitilliumText22L Lt";
             this.lbl1_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_1.ForeColor = System.Drawing.Color.White;
             this.lbl1_1.Location = new System.Drawing.Point(14, 141);
@@ -262,7 +252,6 @@
             // 
             // lbl1_1_text
             // 
-            this.lbl1_1_text.AntiAliasingEnabled = true;
             this.lbl1_1_text.BackColor = System.Drawing.Color.Transparent;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = false;
@@ -273,7 +262,6 @@
             customFont9.UseAntiAliasing = true;
             customFont9.UseEmbeddedFont = true;
             this.lbl1_1_text.CustomFont = customFont9;
-            this.lbl1_1_text.CustomFontName = "Junction";
             this.lbl1_1_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_1_text.ForeColor = System.Drawing.Color.White;
             this.lbl1_1_text.Location = new System.Drawing.Point(29, 141);
@@ -284,7 +272,6 @@
             // 
             // lbl1_4
             // 
-            this.lbl1_4.AntiAliasingEnabled = true;
             this.lbl1_4.BackColor = System.Drawing.Color.Transparent;
             customFont10.EmbeddedFontName = "TitilliumText22L Lt";
             customFont10.IsBold = true;
@@ -295,7 +282,6 @@
             customFont10.UseAntiAliasing = true;
             customFont10.UseEmbeddedFont = true;
             this.lbl1_4.CustomFont = customFont10;
-            this.lbl1_4.CustomFontName = "TitilliumText22L Lt";
             this.lbl1_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_4.ForeColor = System.Drawing.Color.White;
             this.lbl1_4.Location = new System.Drawing.Point(14, 373);
@@ -306,7 +292,6 @@
             // 
             // lbl1_4_text
             // 
-            this.lbl1_4_text.AntiAliasingEnabled = true;
             this.lbl1_4_text.BackColor = System.Drawing.Color.Transparent;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
@@ -317,7 +302,6 @@
             customFont11.UseAntiAliasing = true;
             customFont11.UseEmbeddedFont = true;
             this.lbl1_4_text.CustomFont = customFont11;
-            this.lbl1_4_text.CustomFontName = "Junction";
             this.lbl1_4_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_4_text.ForeColor = System.Drawing.Color.White;
             this.lbl1_4_text.Location = new System.Drawing.Point(29, 373);
@@ -389,7 +373,6 @@
             // 
             // lblNote1
             // 
-            this.lblNote1.AntiAliasingEnabled = true;
             this.lblNote1.BackColor = System.Drawing.Color.Transparent;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
@@ -400,7 +383,6 @@
             customFont12.UseAntiAliasing = true;
             customFont12.UseEmbeddedFont = true;
             this.lblNote1.CustomFont = customFont12;
-            this.lblNote1.CustomFontName = "Junction";
             this.lblNote1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNote1.ForeColor = System.Drawing.Color.Black;
             this.lblNote1.Location = new System.Drawing.Point(5, 29);
@@ -412,7 +394,6 @@
             // 
             // lblNote2
             // 
-            this.lblNote2.AntiAliasingEnabled = true;
             this.lblNote2.BackColor = System.Drawing.Color.Transparent;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
@@ -423,7 +404,6 @@
             customFont13.UseAntiAliasing = true;
             customFont13.UseEmbeddedFont = true;
             this.lblNote2.CustomFont = customFont13;
-            this.lblNote2.CustomFontName = "Junction";
             this.lblNote2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNote2.ForeColor = System.Drawing.Color.Black;
             this.lblNote2.Location = new System.Drawing.Point(5, 48);
@@ -435,7 +415,6 @@
             // 
             // lblAudioSettingsText
             // 
-            this.lblAudioSettingsText.AntiAliasingEnabled = true;
             this.lblAudioSettingsText.BackColor = System.Drawing.Color.Transparent;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
@@ -446,7 +425,6 @@
             customFont14.UseAntiAliasing = true;
             customFont14.UseEmbeddedFont = true;
             this.lblAudioSettingsText.CustomFont = customFont14;
-            this.lblAudioSettingsText.CustomFontName = "Junction";
             this.lblAudioSettingsText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAudioSettingsText.ForeColor = System.Drawing.Color.LightGray;
             this.lblAudioSettingsText.Location = new System.Drawing.Point(13, 115);
@@ -458,7 +436,6 @@
             // 
             // lblAudioSettings
             // 
-            this.lblAudioSettings.AntiAliasingEnabled = true;
             this.lblAudioSettings.BackColor = System.Drawing.Color.Transparent;
             customFont15.EmbeddedFontName = "TitilliumText22L Lt";
             customFont15.IsBold = true;
@@ -469,7 +446,6 @@
             customFont15.UseAntiAliasing = true;
             customFont15.UseEmbeddedFont = true;
             this.lblAudioSettings.CustomFont = customFont15;
-            this.lblAudioSettings.CustomFontName = "TitilliumText22L Lt";
             this.lblAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAudioSettings.ForeColor = System.Drawing.Color.White;
             this.lblAudioSettings.Location = new System.Drawing.Point(13, 92);
@@ -655,7 +631,6 @@
             // 
             // lblError
             // 
-            this.lblError.AntiAliasingEnabled = true;
             this.lblError.BackColor = System.Drawing.Color.Transparent;
             customFont16.EmbeddedFontName = "";
             customFont16.IsBold = false;
@@ -666,7 +641,6 @@
             customFont16.UseAntiAliasing = true;
             customFont16.UseEmbeddedFont = false;
             this.lblError.CustomFont = customFont16;
-            this.lblError.CustomFontName = "Avenir";
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.LightGray;
             this.lblError.Location = new System.Drawing.Point(3, 25);
@@ -749,7 +723,6 @@
             // 
             // lbl1_3
             // 
-            this.lbl1_3.AntiAliasingEnabled = true;
             this.lbl1_3.BackColor = System.Drawing.Color.Transparent;
             customFont4.EmbeddedFontName = "TitilliumText22L Lt";
             customFont4.IsBold = true;
@@ -760,7 +733,6 @@
             customFont4.UseAntiAliasing = true;
             customFont4.UseEmbeddedFont = true;
             this.lbl1_3.CustomFont = customFont4;
-            this.lbl1_3.CustomFontName = "TitilliumText22L Lt";
             this.lbl1_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_3.ForeColor = System.Drawing.Color.White;
             this.lbl1_3.Location = new System.Drawing.Point(13, 323);
@@ -771,7 +743,6 @@
             // 
             // lbl1_3_text
             // 
-            this.lbl1_3_text.AntiAliasingEnabled = true;
             this.lbl1_3_text.BackColor = System.Drawing.Color.Transparent;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
@@ -782,7 +753,6 @@
             customFont5.UseAntiAliasing = true;
             customFont5.UseEmbeddedFont = true;
             this.lbl1_3_text.CustomFont = customFont5;
-            this.lbl1_3_text.CustomFontName = "Junction";
             this.lbl1_3_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1_3_text.ForeColor = System.Drawing.Color.White;
             this.lbl1_3_text.Location = new System.Drawing.Point(28, 323);
@@ -793,7 +763,6 @@
             // 
             // lblMixerSampleRateUnit
             // 
-            this.lblMixerSampleRateUnit.AntiAliasingEnabled = true;
             this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = true;
@@ -804,7 +773,6 @@
             customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
             this.lblMixerSampleRateUnit.CustomFont = customFont3;
-            this.lblMixerSampleRateUnit.CustomFontName = "Junction";
             this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(80, 346);
             this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";

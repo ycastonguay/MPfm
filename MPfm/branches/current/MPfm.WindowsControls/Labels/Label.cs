@@ -1,6 +1,6 @@
 //
 // Label.cs: This label control is based on the System.Windows.Forms.Label control.
-//           It adds custom drawing, supports embedded fonts and other features.
+//           It adds support for embedded fonts and anti-aliasing.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -33,42 +33,10 @@ namespace MPfm.WindowsControls
 {
     /// <summary>
     /// This label control is based on the System.Windows.Forms.Label control.
-    /// It adds custom drawing, supports embedded fonts and other features.
+    /// It adds support for embedded fonts and anti-aliasing.
     /// </summary>
     public class Label : System.Windows.Forms.Label
     {
-        #region Font Properties
-
-        /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
-        /// <summary>
-        /// Private value for the AntiAliasingEnabled property.
-        /// </summary>
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
-        {
-            get
-            {
-                return m_antiAliasingEnabled;
-            }
-            set
-            {
-                m_antiAliasingEnabled = value;
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
@@ -90,9 +58,8 @@ namespace MPfm.WindowsControls
                 Refresh();
             }
         }
-
         /// <summary>
-        /// Default constructor for Label.
+        /// Default constructor for the Label class.
         /// </summary>
         public Label()
         {
@@ -104,8 +71,6 @@ namespace MPfm.WindowsControls
             m_customFont = new CustomFont();
         }
 
-        #region Paint Events
-        
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
@@ -118,7 +83,7 @@ namespace MPfm.WindowsControls
                 Graphics g = pe.Graphics;
 
                 // Use anti-aliasing?
-                if (AntiAliasingEnabled)
+                if (CustomFont.UseAntiAliasing)
                 {
                     // Set text anti-aliasing to ClearType (best looking AA)
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -243,7 +208,5 @@ namespace MPfm.WindowsControls
                 throw ex;
             }
         }
-
-        #endregion
     }
 }

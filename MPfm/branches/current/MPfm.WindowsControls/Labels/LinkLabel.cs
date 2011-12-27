@@ -1,6 +1,6 @@
 //
 // LinkLabel.cs: This link label control is based on the System.Windows.Forms.LinkLabel control.
-//               It adds custom drawing, supports embedded fonts and other features.
+//               It adds support for embedded fonts and anti-aliasing.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -33,57 +33,45 @@ namespace MPfm.WindowsControls
 {
     /// <summary>
     /// This link label control is based on the System.Windows.Forms.LinkLabel control.
-    /// It adds custom drawing, supports embedded fonts and other features.
+    /// It adds support for embedded fonts and anti-aliasing.
     /// </summary>
     public class LinkLabel : System.Windows.Forms.LinkLabel
     {
-        #region Font Properties
-
         /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// Private value for the CustomFont property.
+        /// </summary>
+        private CustomFont m_customFont = null;
+        /// <summary>
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
-        /// <summary>
-        /// Pointer to the embedded font collection.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
         {
             get
             {
-                return m_antiAliasingEnabled;
+                return m_customFont;
             }
             set
             {
-                m_antiAliasingEnabled = value;
+                m_customFont = value;
+                Refresh();
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Default constructor for LinkLabel.
+        /// Default constructor for the LinkLabel class.
         /// </summary>
         public LinkLabel()
         {
+            // Set styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);      
+                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+
+            // Set default font
+            m_customFont = new CustomFont();
         }
 
-        #region Paint Events
-        
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
@@ -94,7 +82,7 @@ namespace MPfm.WindowsControls
             Graphics g = pe.Graphics;
 
             // Use anti-aliasing?
-            if (AntiAliasingEnabled)
+            if (CustomFont.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -104,14 +92,38 @@ namespace MPfm.WindowsControls
             }
 
             // Create custom font
-            Font font = this.Font;
-            if (FontCollection != null && CustomFontName.Length > 0)
-            {
-                FontFamily family = FontCollection.GetFontFamily(CustomFontName);
+            Font font = null;
 
-                if (family != null)
-                {                    
-                    font = new Font(family, Font.Size, Font.Style);
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            {
+                try
+                {
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                    // Get embedded font
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
+                }
+            }
+
+            // Check if font is null
+            if (font == null)
+            {
+                try
+                {
+                    // Try to get standard font
+                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
                 }
             }
 
@@ -173,7 +185,5 @@ namespace MPfm.WindowsControls
                 font = null;
             }                
         }
-
-        #endregion
     }
 }

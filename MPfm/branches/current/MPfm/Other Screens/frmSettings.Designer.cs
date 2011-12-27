@@ -183,7 +183,6 @@ namespace MPfm
             // 
             // lblTest
             // 
-            this.lblTest.AntiAliasingEnabled = true;
             this.lblTest.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "";
             customFont1.IsBold = false;
@@ -193,7 +192,6 @@ namespace MPfm
             customFont1.StandardFontName = "Arial";
             customFont1.UseEmbeddedFont = false;
             this.lblTest.CustomFont = customFont1;
-            this.lblTest.CustomFontName = "Junction";
             this.lblTest.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTest.Location = new System.Drawing.Point(8, 229);
             this.lblTest.Name = "lblTest";
@@ -291,7 +289,6 @@ namespace MPfm
             // 
             // lblHideTray
             // 
-            this.lblHideTray.AntiAliasingEnabled = true;
             this.lblHideTray.BackColor = System.Drawing.Color.Transparent;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
@@ -301,7 +298,6 @@ namespace MPfm
             customFont2.StandardFontName = "Arial";
             customFont2.UseEmbeddedFont = true;
             this.lblHideTray.CustomFont = customFont2;
-            this.lblHideTray.CustomFontName = "Junction";
             this.lblHideTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHideTray.Location = new System.Drawing.Point(20, 57);
             this.lblHideTray.Name = "lblHideTray";
@@ -312,7 +308,6 @@ namespace MPfm
             // 
             // lblShowTray
             // 
-            this.lblShowTray.AntiAliasingEnabled = true;
             this.lblShowTray.BackColor = System.Drawing.Color.Transparent;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
@@ -322,7 +317,6 @@ namespace MPfm
             customFont3.StandardFontName = "Arial";
             customFont3.UseEmbeddedFont = true;
             this.lblShowTray.CustomFont = customFont3;
-            this.lblShowTray.CustomFontName = "Junction";
             this.lblShowTray.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblShowTray.Location = new System.Drawing.Point(20, 36);
             this.lblShowTray.Name = "lblShowTray";
@@ -434,7 +428,6 @@ namespace MPfm
             // 
             // lblFilterBySoundFormat
             // 
-            this.lblFilterBySoundFormat.AntiAliasingEnabled = true;
             this.lblFilterBySoundFormat.BackColor = System.Drawing.Color.Transparent;
             customFont4.EmbeddedFontName = "";
             customFont4.IsBold = false;
@@ -444,7 +437,6 @@ namespace MPfm
             customFont4.StandardFontName = "Arial";
             customFont4.UseEmbeddedFont = false;
             this.lblFilterBySoundFormat.CustomFont = customFont4;
-            this.lblFilterBySoundFormat.CustomFontName = "Junction";
             this.lblFilterBySoundFormat.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFilterBySoundFormat.ForeColor = System.Drawing.Color.Black;
             this.lblFilterBySoundFormat.Location = new System.Drawing.Point(278, 59);
@@ -456,7 +448,6 @@ namespace MPfm
             // 
             // label2
             // 
-            this.label2.AntiAliasingEnabled = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             customFont5.EmbeddedFontName = "";
             customFont5.IsBold = false;
@@ -466,7 +457,6 @@ namespace MPfm
             customFont5.StandardFontName = "Arial";
             customFont5.UseEmbeddedFont = false;
             this.label2.CustomFont = customFont5;
-            this.label2.CustomFontName = "Junction";
             this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(289, 35);
@@ -487,7 +477,6 @@ namespace MPfm
             // 
             // label1
             // 
-            this.label1.AntiAliasingEnabled = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             customFont6.EmbeddedFontName = "";
             customFont6.IsBold = false;
@@ -497,7 +486,6 @@ namespace MPfm
             customFont6.StandardFontName = "Arial";
             customFont6.UseEmbeddedFont = false;
             this.label1.CustomFont = customFont6;
-            this.label1.CustomFontName = "Junction";
             this.label1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(1, 59);
@@ -724,7 +712,6 @@ namespace MPfm
             // 
             // lblMixerSampleRateUnit
             // 
-            this.lblMixerSampleRateUnit.AntiAliasingEnabled = true;
             this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = true;
@@ -734,7 +721,6 @@ namespace MPfm
             customFont8.StandardFontName = "Arial";
             customFont8.UseEmbeddedFont = true;
             this.lblMixerSampleRateUnit.CustomFont = customFont8;
-            this.lblMixerSampleRateUnit.CustomFontName = "Junction";
             this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(70, 147);
             this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";
@@ -768,7 +754,6 @@ namespace MPfm
             // 
             // lblBufferSizeUnit
             // 
-            this.lblBufferSizeUnit.AntiAliasingEnabled = true;
             this.lblBufferSizeUnit.BackColor = System.Drawing.Color.Transparent;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = true;
@@ -778,7 +763,6 @@ namespace MPfm
             customFont9.StandardFontName = "Arial";
             customFont9.UseEmbeddedFont = true;
             this.lblBufferSizeUnit.CustomFont = customFont9;
-            this.lblBufferSizeUnit.CustomFontName = "Junction";
             this.lblBufferSizeUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBufferSizeUnit.Location = new System.Drawing.Point(175, 147);
             this.lblBufferSizeUnit.Name = "lblBufferSizeUnit";
@@ -807,7 +791,6 @@ namespace MPfm
             // 
             // lblUpdatePeriodUnit
             // 
-            this.lblUpdatePeriodUnit.AntiAliasingEnabled = true;
             this.lblUpdatePeriodUnit.BackColor = System.Drawing.Color.Transparent;
             customFont10.EmbeddedFontName = "Junction";
             customFont10.IsBold = true;
@@ -817,7 +800,6 @@ namespace MPfm
             customFont10.StandardFontName = "Arial";
             customFont10.UseEmbeddedFont = true;
             this.lblUpdatePeriodUnit.CustomFont = customFont10;
-            this.lblUpdatePeriodUnit.CustomFontName = "Junction";
             this.lblUpdatePeriodUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUpdatePeriodUnit.Location = new System.Drawing.Point(269, 147);
             this.lblUpdatePeriodUnit.Name = "lblUpdatePeriodUnit";
@@ -846,7 +828,6 @@ namespace MPfm
             // 
             // lblUpdatePeriod
             // 
-            this.lblUpdatePeriod.AntiAliasingEnabled = true;
             this.lblUpdatePeriod.BackColor = System.Drawing.Color.Transparent;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
@@ -856,7 +837,6 @@ namespace MPfm
             customFont11.StandardFontName = "Arial";
             customFont11.UseEmbeddedFont = true;
             this.lblUpdatePeriod.CustomFont = customFont11;
-            this.lblUpdatePeriod.CustomFontName = "Junction";
             this.lblUpdatePeriod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUpdatePeriod.Location = new System.Drawing.Point(223, 127);
             this.lblUpdatePeriod.Name = "lblUpdatePeriod";
@@ -866,7 +846,6 @@ namespace MPfm
             // 
             // lblBufferSize
             // 
-            this.lblBufferSize.AntiAliasingEnabled = true;
             this.lblBufferSize.BackColor = System.Drawing.Color.Transparent;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
@@ -876,7 +855,6 @@ namespace MPfm
             customFont12.StandardFontName = "Arial";
             customFont12.UseEmbeddedFont = true;
             this.lblBufferSize.CustomFont = customFont12;
-            this.lblBufferSize.CustomFontName = "Junction";
             this.lblBufferSize.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBufferSize.Location = new System.Drawing.Point(122, 127);
             this.lblBufferSize.Name = "lblBufferSize";
@@ -886,7 +864,6 @@ namespace MPfm
             // 
             // lblMixerSampleRate
             // 
-            this.lblMixerSampleRate.AntiAliasingEnabled = true;
             this.lblMixerSampleRate.BackColor = System.Drawing.Color.Transparent;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
@@ -896,7 +873,6 @@ namespace MPfm
             customFont13.StandardFontName = "Arial";
             customFont13.UseEmbeddedFont = true;
             this.lblMixerSampleRate.CustomFont = customFont13;
-            this.lblMixerSampleRate.CustomFontName = "Junction";
             this.lblMixerSampleRate.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMixerSampleRate.Location = new System.Drawing.Point(3, 127);
             this.lblMixerSampleRate.Name = "lblMixerSampleRate";
@@ -906,7 +882,6 @@ namespace MPfm
             // 
             // lblOutputDriver
             // 
-            this.lblOutputDriver.AntiAliasingEnabled = true;
             this.lblOutputDriver.BackColor = System.Drawing.Color.Transparent;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
@@ -916,7 +891,6 @@ namespace MPfm
             customFont14.StandardFontName = "Arial";
             customFont14.UseEmbeddedFont = true;
             this.lblOutputDriver.CustomFont = customFont14;
-            this.lblOutputDriver.CustomFontName = "Junction";
             this.lblOutputDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutputDriver.Location = new System.Drawing.Point(3, 80);
             this.lblOutputDriver.Name = "lblOutputDriver";
@@ -975,7 +949,6 @@ namespace MPfm
             // 
             // lblDriver
             // 
-            this.lblDriver.AntiAliasingEnabled = true;
             this.lblDriver.BackColor = System.Drawing.Color.Transparent;
             customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = false;
@@ -985,7 +958,6 @@ namespace MPfm
             customFont15.StandardFontName = "Arial";
             customFont15.UseEmbeddedFont = true;
             this.lblDriver.CustomFont = customFont15;
-            this.lblDriver.CustomFontName = "Junction";
             this.lblDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDriver.Location = new System.Drawing.Point(3, 33);
             this.lblDriver.Name = "lblDriver";
@@ -1193,7 +1165,6 @@ namespace MPfm
             // 
             // lblFoldersTitle
             // 
-            this.lblFoldersTitle.AntiAliasingEnabled = true;
             this.lblFoldersTitle.BackColor = System.Drawing.Color.Transparent;
             customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
@@ -1203,7 +1174,6 @@ namespace MPfm
             customFont16.StandardFontName = "Arial";
             customFont16.UseEmbeddedFont = true;
             this.lblFoldersTitle.CustomFont = customFont16;
-            this.lblFoldersTitle.CustomFontName = "Junction";
             this.lblFoldersTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFoldersTitle.Location = new System.Drawing.Point(3, 36);
             this.lblFoldersTitle.Name = "lblFoldersTitle";

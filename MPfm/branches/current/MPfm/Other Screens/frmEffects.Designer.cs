@@ -164,7 +164,6 @@ namespace MPfm
             // 
             // lblGain17
             // 
-            this.lblGain17.AntiAliasingEnabled = true;
             this.lblGain17.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
@@ -174,7 +173,6 @@ namespace MPfm
             customFont1.StandardFontName = "Arial";
             customFont1.UseEmbeddedFont = true;
             this.lblGain17.CustomFont = customFont1;
-            this.lblGain17.CustomFontName = "Museo Sans 500";
             this.lblGain17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain17.ForeColor = System.Drawing.Color.White;
             this.lblGain17.Location = new System.Drawing.Point(753, 423);
@@ -209,7 +207,6 @@ namespace MPfm
             // 
             // lbl17
             // 
-            this.lbl17.AntiAliasingEnabled = true;
             this.lbl17.BackColor = System.Drawing.Color.Transparent;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
@@ -219,7 +216,6 @@ namespace MPfm
             customFont2.StandardFontName = "Arial";
             customFont2.UseEmbeddedFont = true;
             this.lbl17.CustomFont = customFont2;
-            this.lbl17.CustomFontName = "Museo Sans 500";
             this.lbl17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl17.ForeColor = System.Drawing.Color.White;
             this.lbl17.Location = new System.Drawing.Point(753, 404);
@@ -231,7 +227,6 @@ namespace MPfm
             // 
             // lblGain16
             // 
-            this.lblGain16.AntiAliasingEnabled = true;
             this.lblGain16.BackColor = System.Drawing.Color.Transparent;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
@@ -241,7 +236,6 @@ namespace MPfm
             customFont3.StandardFontName = "Arial";
             customFont3.UseEmbeddedFont = true;
             this.lblGain16.CustomFont = customFont3;
-            this.lblGain16.CustomFontName = "Museo Sans 500";
             this.lblGain16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain16.ForeColor = System.Drawing.Color.White;
             this.lblGain16.Location = new System.Drawing.Point(709, 423);
@@ -253,7 +247,6 @@ namespace MPfm
             // 
             // lbl16
             // 
-            this.lbl16.AntiAliasingEnabled = true;
             this.lbl16.BackColor = System.Drawing.Color.Transparent;
             customFont4.EmbeddedFontName = "Junction";
             customFont4.IsBold = false;
@@ -263,7 +256,6 @@ namespace MPfm
             customFont4.StandardFontName = "Arial";
             customFont4.UseEmbeddedFont = true;
             this.lbl16.CustomFont = customFont4;
-            this.lbl16.CustomFontName = "Museo Sans 500";
             this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl16.ForeColor = System.Drawing.Color.White;
             this.lbl16.Location = new System.Drawing.Point(709, 404);
@@ -275,7 +267,6 @@ namespace MPfm
             // 
             // lblGain15
             // 
-            this.lblGain15.AntiAliasingEnabled = true;
             this.lblGain15.BackColor = System.Drawing.Color.Transparent;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
@@ -285,7 +276,6 @@ namespace MPfm
             customFont5.StandardFontName = "Arial";
             customFont5.UseEmbeddedFont = true;
             this.lblGain15.CustomFont = customFont5;
-            this.lblGain15.CustomFontName = "Museo Sans 500";
             this.lblGain15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain15.ForeColor = System.Drawing.Color.White;
             this.lblGain15.Location = new System.Drawing.Point(665, 423);
@@ -297,7 +287,6 @@ namespace MPfm
             // 
             // lbl15
             // 
-            this.lbl15.AntiAliasingEnabled = true;
             this.lbl15.BackColor = System.Drawing.Color.Transparent;
             customFont6.EmbeddedFontName = "Junction";
             customFont6.IsBold = false;
@@ -307,7 +296,6 @@ namespace MPfm
             customFont6.StandardFontName = "Arial";
             customFont6.UseEmbeddedFont = true;
             this.lbl15.CustomFont = customFont6;
-            this.lbl15.CustomFontName = "Museo Sans 500";
             this.lbl15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl15.ForeColor = System.Drawing.Color.White;
             this.lbl15.Location = new System.Drawing.Point(665, 404);
@@ -319,7 +307,6 @@ namespace MPfm
             // 
             // lblGain14
             // 
-            this.lblGain14.AntiAliasingEnabled = true;
             this.lblGain14.BackColor = System.Drawing.Color.Transparent;
             customFont7.EmbeddedFontName = "Junction";
             customFont7.IsBold = false;
@@ -329,7 +316,6 @@ namespace MPfm
             customFont7.StandardFontName = "Arial";
             customFont7.UseEmbeddedFont = true;
             this.lblGain14.CustomFont = customFont7;
-            this.lblGain14.CustomFontName = "Museo Sans 500";
             this.lblGain14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain14.ForeColor = System.Drawing.Color.White;
             this.lblGain14.Location = new System.Drawing.Point(621, 423);
@@ -341,7 +327,6 @@ namespace MPfm
             // 
             // lbl14
             // 
-            this.lbl14.AntiAliasingEnabled = true;
             this.lbl14.BackColor = System.Drawing.Color.Transparent;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = false;
@@ -351,7 +336,6 @@ namespace MPfm
             customFont8.StandardFontName = "Arial";
             customFont8.UseEmbeddedFont = true;
             this.lbl14.CustomFont = customFont8;
-            this.lbl14.CustomFontName = "Museo Sans 500";
             this.lbl14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl14.ForeColor = System.Drawing.Color.White;
             this.lbl14.Location = new System.Drawing.Point(621, 404);
@@ -363,7 +347,6 @@ namespace MPfm
             // 
             // lblGain13
             // 
-            this.lblGain13.AntiAliasingEnabled = true;
             this.lblGain13.BackColor = System.Drawing.Color.Transparent;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = false;
@@ -373,7 +356,6 @@ namespace MPfm
             customFont9.StandardFontName = "Arial";
             customFont9.UseEmbeddedFont = true;
             this.lblGain13.CustomFont = customFont9;
-            this.lblGain13.CustomFontName = "Museo Sans 500";
             this.lblGain13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain13.ForeColor = System.Drawing.Color.White;
             this.lblGain13.Location = new System.Drawing.Point(577, 423);
@@ -385,7 +367,6 @@ namespace MPfm
             // 
             // lbl13
             // 
-            this.lbl13.AntiAliasingEnabled = true;
             this.lbl13.BackColor = System.Drawing.Color.Transparent;
             customFont10.EmbeddedFontName = "Junction";
             customFont10.IsBold = false;
@@ -395,7 +376,6 @@ namespace MPfm
             customFont10.StandardFontName = "Arial";
             customFont10.UseEmbeddedFont = true;
             this.lbl13.CustomFont = customFont10;
-            this.lbl13.CustomFontName = "Museo Sans 500";
             this.lbl13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl13.ForeColor = System.Drawing.Color.White;
             this.lbl13.Location = new System.Drawing.Point(577, 404);
@@ -407,7 +387,6 @@ namespace MPfm
             // 
             // lblGain12
             // 
-            this.lblGain12.AntiAliasingEnabled = true;
             this.lblGain12.BackColor = System.Drawing.Color.Transparent;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
@@ -417,7 +396,6 @@ namespace MPfm
             customFont11.StandardFontName = "Arial";
             customFont11.UseEmbeddedFont = true;
             this.lblGain12.CustomFont = customFont11;
-            this.lblGain12.CustomFontName = "Museo Sans 500";
             this.lblGain12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain12.ForeColor = System.Drawing.Color.White;
             this.lblGain12.Location = new System.Drawing.Point(533, 423);
@@ -429,7 +407,6 @@ namespace MPfm
             // 
             // lbl12
             // 
-            this.lbl12.AntiAliasingEnabled = true;
             this.lbl12.BackColor = System.Drawing.Color.Transparent;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
@@ -439,7 +416,6 @@ namespace MPfm
             customFont12.StandardFontName = "Arial";
             customFont12.UseEmbeddedFont = true;
             this.lbl12.CustomFont = customFont12;
-            this.lbl12.CustomFontName = "Museo Sans 500";
             this.lbl12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl12.ForeColor = System.Drawing.Color.White;
             this.lbl12.Location = new System.Drawing.Point(533, 404);
@@ -451,7 +427,6 @@ namespace MPfm
             // 
             // lblGain11
             // 
-            this.lblGain11.AntiAliasingEnabled = true;
             this.lblGain11.BackColor = System.Drawing.Color.Transparent;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
@@ -461,7 +436,6 @@ namespace MPfm
             customFont13.StandardFontName = "Arial";
             customFont13.UseEmbeddedFont = true;
             this.lblGain11.CustomFont = customFont13;
-            this.lblGain11.CustomFontName = "Museo Sans 500";
             this.lblGain11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain11.ForeColor = System.Drawing.Color.White;
             this.lblGain11.Location = new System.Drawing.Point(489, 423);
@@ -473,7 +447,6 @@ namespace MPfm
             // 
             // lbl11
             // 
-            this.lbl11.AntiAliasingEnabled = true;
             this.lbl11.BackColor = System.Drawing.Color.Transparent;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
@@ -483,7 +456,6 @@ namespace MPfm
             customFont14.StandardFontName = "Arial";
             customFont14.UseEmbeddedFont = true;
             this.lbl11.CustomFont = customFont14;
-            this.lbl11.CustomFontName = "Museo Sans 500";
             this.lbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl11.ForeColor = System.Drawing.Color.White;
             this.lbl11.Location = new System.Drawing.Point(489, 404);
@@ -495,7 +467,6 @@ namespace MPfm
             // 
             // lblGain10
             // 
-            this.lblGain10.AntiAliasingEnabled = true;
             this.lblGain10.BackColor = System.Drawing.Color.Transparent;
             customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = false;
@@ -505,7 +476,6 @@ namespace MPfm
             customFont15.StandardFontName = "Arial";
             customFont15.UseEmbeddedFont = true;
             this.lblGain10.CustomFont = customFont15;
-            this.lblGain10.CustomFontName = "Museo Sans 500";
             this.lblGain10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain10.ForeColor = System.Drawing.Color.White;
             this.lblGain10.Location = new System.Drawing.Point(445, 423);
@@ -517,7 +487,6 @@ namespace MPfm
             // 
             // lbl10
             // 
-            this.lbl10.AntiAliasingEnabled = true;
             this.lbl10.BackColor = System.Drawing.Color.Transparent;
             customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
@@ -527,7 +496,6 @@ namespace MPfm
             customFont16.StandardFontName = "Arial";
             customFont16.UseEmbeddedFont = true;
             this.lbl10.CustomFont = customFont16;
-            this.lbl10.CustomFontName = "Museo Sans 500";
             this.lbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl10.ForeColor = System.Drawing.Color.White;
             this.lbl10.Location = new System.Drawing.Point(445, 404);
@@ -539,7 +507,6 @@ namespace MPfm
             // 
             // lblGain9
             // 
-            this.lblGain9.AntiAliasingEnabled = true;
             this.lblGain9.BackColor = System.Drawing.Color.Transparent;
             customFont17.EmbeddedFontName = "Junction";
             customFont17.IsBold = false;
@@ -549,7 +516,6 @@ namespace MPfm
             customFont17.StandardFontName = "Arial";
             customFont17.UseEmbeddedFont = true;
             this.lblGain9.CustomFont = customFont17;
-            this.lblGain9.CustomFontName = "Museo Sans 500";
             this.lblGain9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain9.ForeColor = System.Drawing.Color.White;
             this.lblGain9.Location = new System.Drawing.Point(401, 423);
@@ -561,7 +527,6 @@ namespace MPfm
             // 
             // lbl9
             // 
-            this.lbl9.AntiAliasingEnabled = true;
             this.lbl9.BackColor = System.Drawing.Color.Transparent;
             customFont18.EmbeddedFontName = "Junction";
             customFont18.IsBold = false;
@@ -571,7 +536,6 @@ namespace MPfm
             customFont18.StandardFontName = "Arial";
             customFont18.UseEmbeddedFont = true;
             this.lbl9.CustomFont = customFont18;
-            this.lbl9.CustomFontName = "Museo Sans 500";
             this.lbl9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl9.ForeColor = System.Drawing.Color.White;
             this.lbl9.Location = new System.Drawing.Point(401, 404);
@@ -583,7 +547,6 @@ namespace MPfm
             // 
             // lblGain8
             // 
-            this.lblGain8.AntiAliasingEnabled = true;
             this.lblGain8.BackColor = System.Drawing.Color.Transparent;
             customFont19.EmbeddedFontName = "Junction";
             customFont19.IsBold = false;
@@ -593,7 +556,6 @@ namespace MPfm
             customFont19.StandardFontName = "Arial";
             customFont19.UseEmbeddedFont = true;
             this.lblGain8.CustomFont = customFont19;
-            this.lblGain8.CustomFontName = "Museo Sans 500";
             this.lblGain8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain8.ForeColor = System.Drawing.Color.White;
             this.lblGain8.Location = new System.Drawing.Point(357, 423);
@@ -605,7 +567,6 @@ namespace MPfm
             // 
             // lbl8
             // 
-            this.lbl8.AntiAliasingEnabled = true;
             this.lbl8.BackColor = System.Drawing.Color.Transparent;
             customFont20.EmbeddedFontName = "Junction";
             customFont20.IsBold = false;
@@ -615,7 +576,6 @@ namespace MPfm
             customFont20.StandardFontName = "Arial";
             customFont20.UseEmbeddedFont = true;
             this.lbl8.CustomFont = customFont20;
-            this.lbl8.CustomFontName = "Museo Sans 500";
             this.lbl8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl8.ForeColor = System.Drawing.Color.White;
             this.lbl8.Location = new System.Drawing.Point(357, 404);
@@ -627,7 +587,6 @@ namespace MPfm
             // 
             // lblGain7
             // 
-            this.lblGain7.AntiAliasingEnabled = true;
             this.lblGain7.BackColor = System.Drawing.Color.Transparent;
             customFont21.EmbeddedFontName = "Junction";
             customFont21.IsBold = false;
@@ -637,7 +596,6 @@ namespace MPfm
             customFont21.StandardFontName = "Arial";
             customFont21.UseEmbeddedFont = true;
             this.lblGain7.CustomFont = customFont21;
-            this.lblGain7.CustomFontName = "Museo Sans 500";
             this.lblGain7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain7.ForeColor = System.Drawing.Color.White;
             this.lblGain7.Location = new System.Drawing.Point(313, 423);
@@ -649,7 +607,6 @@ namespace MPfm
             // 
             // lbl7
             // 
-            this.lbl7.AntiAliasingEnabled = true;
             this.lbl7.BackColor = System.Drawing.Color.Transparent;
             customFont22.EmbeddedFontName = "Junction";
             customFont22.IsBold = false;
@@ -659,7 +616,6 @@ namespace MPfm
             customFont22.StandardFontName = "Arial";
             customFont22.UseEmbeddedFont = true;
             this.lbl7.CustomFont = customFont22;
-            this.lbl7.CustomFontName = "Museo Sans 500";
             this.lbl7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl7.ForeColor = System.Drawing.Color.White;
             this.lbl7.Location = new System.Drawing.Point(313, 404);
@@ -671,7 +627,6 @@ namespace MPfm
             // 
             // lblGain6
             // 
-            this.lblGain6.AntiAliasingEnabled = true;
             this.lblGain6.BackColor = System.Drawing.Color.Transparent;
             customFont23.EmbeddedFontName = "Junction";
             customFont23.IsBold = false;
@@ -681,7 +636,6 @@ namespace MPfm
             customFont23.StandardFontName = "Arial";
             customFont23.UseEmbeddedFont = true;
             this.lblGain6.CustomFont = customFont23;
-            this.lblGain6.CustomFontName = "Museo Sans 500";
             this.lblGain6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain6.ForeColor = System.Drawing.Color.White;
             this.lblGain6.Location = new System.Drawing.Point(269, 423);
@@ -693,7 +647,6 @@ namespace MPfm
             // 
             // lbl6
             // 
-            this.lbl6.AntiAliasingEnabled = true;
             this.lbl6.BackColor = System.Drawing.Color.Transparent;
             customFont24.EmbeddedFontName = "Junction";
             customFont24.IsBold = false;
@@ -703,7 +656,6 @@ namespace MPfm
             customFont24.StandardFontName = "Arial";
             customFont24.UseEmbeddedFont = true;
             this.lbl6.CustomFont = customFont24;
-            this.lbl6.CustomFontName = "Museo Sans 500";
             this.lbl6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl6.ForeColor = System.Drawing.Color.White;
             this.lbl6.Location = new System.Drawing.Point(269, 404);
@@ -715,7 +667,6 @@ namespace MPfm
             // 
             // lblGain5
             // 
-            this.lblGain5.AntiAliasingEnabled = true;
             this.lblGain5.BackColor = System.Drawing.Color.Transparent;
             customFont25.EmbeddedFontName = "Junction";
             customFont25.IsBold = false;
@@ -725,7 +676,6 @@ namespace MPfm
             customFont25.StandardFontName = "Arial";
             customFont25.UseEmbeddedFont = true;
             this.lblGain5.CustomFont = customFont25;
-            this.lblGain5.CustomFontName = "Museo Sans 500";
             this.lblGain5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain5.ForeColor = System.Drawing.Color.White;
             this.lblGain5.Location = new System.Drawing.Point(225, 423);
@@ -737,7 +687,6 @@ namespace MPfm
             // 
             // lbl5
             // 
-            this.lbl5.AntiAliasingEnabled = true;
             this.lbl5.BackColor = System.Drawing.Color.Transparent;
             customFont26.EmbeddedFontName = "Junction";
             customFont26.IsBold = false;
@@ -747,7 +696,6 @@ namespace MPfm
             customFont26.StandardFontName = "Arial";
             customFont26.UseEmbeddedFont = true;
             this.lbl5.CustomFont = customFont26;
-            this.lbl5.CustomFontName = "Museo Sans 500";
             this.lbl5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl5.ForeColor = System.Drawing.Color.White;
             this.lbl5.Location = new System.Drawing.Point(225, 404);
@@ -759,7 +707,6 @@ namespace MPfm
             // 
             // lblGain4
             // 
-            this.lblGain4.AntiAliasingEnabled = true;
             this.lblGain4.BackColor = System.Drawing.Color.Transparent;
             customFont27.EmbeddedFontName = "Junction";
             customFont27.IsBold = false;
@@ -769,7 +716,6 @@ namespace MPfm
             customFont27.StandardFontName = "Arial";
             customFont27.UseEmbeddedFont = true;
             this.lblGain4.CustomFont = customFont27;
-            this.lblGain4.CustomFontName = "Museo Sans 500";
             this.lblGain4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain4.ForeColor = System.Drawing.Color.White;
             this.lblGain4.Location = new System.Drawing.Point(181, 423);
@@ -781,7 +727,6 @@ namespace MPfm
             // 
             // lbl4
             // 
-            this.lbl4.AntiAliasingEnabled = true;
             this.lbl4.BackColor = System.Drawing.Color.Transparent;
             customFont28.EmbeddedFontName = "Junction";
             customFont28.IsBold = false;
@@ -791,7 +736,6 @@ namespace MPfm
             customFont28.StandardFontName = "Arial";
             customFont28.UseEmbeddedFont = true;
             this.lbl4.CustomFont = customFont28;
-            this.lbl4.CustomFontName = "Museo Sans 500";
             this.lbl4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl4.ForeColor = System.Drawing.Color.White;
             this.lbl4.Location = new System.Drawing.Point(181, 404);
@@ -803,7 +747,6 @@ namespace MPfm
             // 
             // lblGain3
             // 
-            this.lblGain3.AntiAliasingEnabled = true;
             this.lblGain3.BackColor = System.Drawing.Color.Transparent;
             customFont29.EmbeddedFontName = "Junction";
             customFont29.IsBold = false;
@@ -813,7 +756,6 @@ namespace MPfm
             customFont29.StandardFontName = "Arial";
             customFont29.UseEmbeddedFont = true;
             this.lblGain3.CustomFont = customFont29;
-            this.lblGain3.CustomFontName = "Museo Sans 500";
             this.lblGain3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain3.ForeColor = System.Drawing.Color.White;
             this.lblGain3.Location = new System.Drawing.Point(137, 423);
@@ -825,7 +767,6 @@ namespace MPfm
             // 
             // lbl3
             // 
-            this.lbl3.AntiAliasingEnabled = true;
             this.lbl3.BackColor = System.Drawing.Color.Transparent;
             customFont30.EmbeddedFontName = "Junction";
             customFont30.IsBold = false;
@@ -835,7 +776,6 @@ namespace MPfm
             customFont30.StandardFontName = "Arial";
             customFont30.UseEmbeddedFont = true;
             this.lbl3.CustomFont = customFont30;
-            this.lbl3.CustomFontName = "Museo Sans 500";
             this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl3.ForeColor = System.Drawing.Color.White;
             this.lbl3.Location = new System.Drawing.Point(137, 404);
@@ -847,7 +787,6 @@ namespace MPfm
             // 
             // lblGain2
             // 
-            this.lblGain2.AntiAliasingEnabled = true;
             this.lblGain2.BackColor = System.Drawing.Color.Transparent;
             customFont31.EmbeddedFontName = "Junction";
             customFont31.IsBold = false;
@@ -857,7 +796,6 @@ namespace MPfm
             customFont31.StandardFontName = "Arial";
             customFont31.UseEmbeddedFont = true;
             this.lblGain2.CustomFont = customFont31;
-            this.lblGain2.CustomFontName = "Museo Sans 500";
             this.lblGain2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain2.ForeColor = System.Drawing.Color.White;
             this.lblGain2.Location = new System.Drawing.Point(93, 423);
@@ -869,7 +807,6 @@ namespace MPfm
             // 
             // lbl2
             // 
-            this.lbl2.AntiAliasingEnabled = true;
             this.lbl2.BackColor = System.Drawing.Color.Transparent;
             customFont32.EmbeddedFontName = "Junction";
             customFont32.IsBold = false;
@@ -879,7 +816,6 @@ namespace MPfm
             customFont32.StandardFontName = "Arial";
             customFont32.UseEmbeddedFont = true;
             this.lbl2.CustomFont = customFont32;
-            this.lbl2.CustomFontName = "Museo Sans 500";
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl2.ForeColor = System.Drawing.Color.White;
             this.lbl2.Location = new System.Drawing.Point(93, 404);
@@ -891,7 +827,6 @@ namespace MPfm
             // 
             // lblGain1
             // 
-            this.lblGain1.AntiAliasingEnabled = true;
             this.lblGain1.BackColor = System.Drawing.Color.Transparent;
             customFont33.EmbeddedFontName = "Junction";
             customFont33.IsBold = false;
@@ -901,7 +836,6 @@ namespace MPfm
             customFont33.StandardFontName = "Arial";
             customFont33.UseEmbeddedFont = true;
             this.lblGain1.CustomFont = customFont33;
-            this.lblGain1.CustomFontName = "Museo Sans 500";
             this.lblGain1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain1.ForeColor = System.Drawing.Color.White;
             this.lblGain1.Location = new System.Drawing.Point(49, 423);
@@ -913,7 +847,6 @@ namespace MPfm
             // 
             // lbl1
             // 
-            this.lbl1.AntiAliasingEnabled = true;
             this.lbl1.BackColor = System.Drawing.Color.Transparent;
             customFont34.EmbeddedFontName = "Junction";
             customFont34.IsBold = false;
@@ -923,7 +856,6 @@ namespace MPfm
             customFont34.StandardFontName = "Arial";
             customFont34.UseEmbeddedFont = true;
             this.lbl1.CustomFont = customFont34;
-            this.lbl1.CustomFontName = "Museo Sans 500";
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1.ForeColor = System.Drawing.Color.White;
             this.lbl1.Location = new System.Drawing.Point(49, 404);
@@ -935,7 +867,6 @@ namespace MPfm
             // 
             // lblGain0
             // 
-            this.lblGain0.AntiAliasingEnabled = true;
             this.lblGain0.BackColor = System.Drawing.Color.Transparent;
             customFont35.EmbeddedFontName = "Junction";
             customFont35.IsBold = false;
@@ -945,7 +876,6 @@ namespace MPfm
             customFont35.StandardFontName = "Arial";
             customFont35.UseEmbeddedFont = true;
             this.lblGain0.CustomFont = customFont35;
-            this.lblGain0.CustomFontName = "Museo Sans 500";
             this.lblGain0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain0.ForeColor = System.Drawing.Color.White;
             this.lblGain0.Location = new System.Drawing.Point(6, 423);
@@ -957,7 +887,6 @@ namespace MPfm
             // 
             // lbl0
             // 
-            this.lbl0.AntiAliasingEnabled = true;
             this.lbl0.BackColor = System.Drawing.Color.Transparent;
             customFont36.EmbeddedFontName = "Junction";
             customFont36.IsBold = false;
@@ -967,7 +896,6 @@ namespace MPfm
             customFont36.StandardFontName = "Arial";
             customFont36.UseEmbeddedFont = true;
             this.lbl0.CustomFont = customFont36;
-            this.lbl0.CustomFontName = "Museo Sans 500";
             this.lbl0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl0.ForeColor = System.Drawing.Color.White;
             this.lbl0.Location = new System.Drawing.Point(6, 404);
@@ -979,7 +907,6 @@ namespace MPfm
             // 
             // lbl0dB
             // 
-            this.lbl0dB.AntiAliasingEnabled = true;
             this.lbl0dB.BackColor = System.Drawing.Color.Transparent;
             customFont37.EmbeddedFontName = "Junction";
             customFont37.IsBold = false;
@@ -989,7 +916,6 @@ namespace MPfm
             customFont37.StandardFontName = "Arial";
             customFont37.UseEmbeddedFont = true;
             this.lbl0dB.CustomFont = customFont37;
-            this.lbl0dB.CustomFontName = "Museo Sans 500";
             this.lbl0dB.ForeColor = System.Drawing.Color.White;
             this.lbl0dB.Location = new System.Drawing.Point(800, 211);
             this.lbl0dB.Name = "lbl0dB";
@@ -1000,7 +926,6 @@ namespace MPfm
             // 
             // lbl_6dB
             // 
-            this.lbl_6dB.AntiAliasingEnabled = true;
             this.lbl_6dB.BackColor = System.Drawing.Color.Transparent;
             customFont38.EmbeddedFontName = "Junction";
             customFont38.IsBold = false;
@@ -1010,7 +935,6 @@ namespace MPfm
             customFont38.StandardFontName = "Arial";
             customFont38.UseEmbeddedFont = true;
             this.lbl_6dB.CustomFont = customFont38;
-            this.lbl_6dB.CustomFontName = "Museo Sans 500";
             this.lbl_6dB.ForeColor = System.Drawing.Color.White;
             this.lbl_6dB.Location = new System.Drawing.Point(800, 382);
             this.lbl_6dB.Name = "lbl_6dB";
@@ -1021,7 +945,6 @@ namespace MPfm
             // 
             // lbl6dB
             // 
-            this.lbl6dB.AntiAliasingEnabled = true;
             this.lbl6dB.BackColor = System.Drawing.Color.Transparent;
             customFont39.EmbeddedFontName = "Junction";
             customFont39.IsBold = false;
@@ -1031,7 +954,6 @@ namespace MPfm
             customFont39.StandardFontName = "Arial";
             customFont39.UseEmbeddedFont = true;
             this.lbl6dB.CustomFont = customFont39;
-            this.lbl6dB.CustomFontName = "Museo Sans 500";
             this.lbl6dB.ForeColor = System.Drawing.Color.White;
             this.lbl6dB.Location = new System.Drawing.Point(800, 28);
             this.lbl6dB.Name = "lbl6dB";
@@ -1673,7 +1595,6 @@ namespace MPfm
             // 
             this.lblEQOn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEQOn.AntiAliasingEnabled = true;
             this.lblEQOn.BackColor = System.Drawing.Color.Transparent;
             customFont40.EmbeddedFontName = "Junction";
             customFont40.IsBold = false;
@@ -1683,7 +1604,6 @@ namespace MPfm
             customFont40.StandardFontName = "Arial";
             customFont40.UseEmbeddedFont = true;
             this.lblEQOn.CustomFont = customFont40;
-            this.lblEQOn.CustomFontName = "Junction";
             this.lblEQOn.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQOn.ForeColor = System.Drawing.Color.White;
             this.lblEQOn.Location = new System.Drawing.Point(18, 47);
@@ -1766,7 +1686,6 @@ namespace MPfm
             // 
             this.lblEQBandwidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEQBandwidth.AntiAliasingEnabled = true;
             this.lblEQBandwidth.BackColor = System.Drawing.Color.Transparent;
             customFont41.EmbeddedFontName = "Junction";
             customFont41.IsBold = false;
@@ -1776,7 +1695,6 @@ namespace MPfm
             customFont41.StandardFontName = "Arial";
             customFont41.UseEmbeddedFont = true;
             this.lblEQBandwidth.CustomFont = customFont41;
-            this.lblEQBandwidth.CustomFontName = "Junction";
             this.lblEQBandwidth.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQBandwidth.ForeColor = System.Drawing.Color.White;
             this.lblEQBandwidth.Location = new System.Drawing.Point(4, 103);
@@ -1790,7 +1708,6 @@ namespace MPfm
             // 
             this.lblEQQ.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEQQ.AntiAliasingEnabled = true;
             this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
             customFont42.EmbeddedFontName = "Junction";
             customFont42.IsBold = false;
@@ -1800,7 +1717,6 @@ namespace MPfm
             customFont42.StandardFontName = "Arial";
             customFont42.UseEmbeddedFont = true;
             this.lblEQQ.CustomFont = customFont42;
-            this.lblEQQ.CustomFontName = "Junction";
             this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQQ.ForeColor = System.Drawing.Color.White;
             this.lblEQQ.Location = new System.Drawing.Point(4, 62);
@@ -1878,7 +1794,6 @@ namespace MPfm
             // 
             this.lblEQChanged.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEQChanged.AntiAliasingEnabled = true;
             this.lblEQChanged.BackColor = System.Drawing.Color.Transparent;
             customFont43.EmbeddedFontName = "";
             customFont43.IsBold = false;
@@ -1888,7 +1803,6 @@ namespace MPfm
             customFont43.StandardFontName = "Arial";
             customFont43.UseEmbeddedFont = false;
             this.lblEQChanged.CustomFont = customFont43;
-            this.lblEQChanged.CustomFontName = "NeuzeitS";
             this.lblEQChanged.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQChanged.ForeColor = System.Drawing.Color.White;
             this.lblEQChanged.Location = new System.Drawing.Point(4, 323);
@@ -1974,7 +1888,6 @@ namespace MPfm
             // 
             this.lblEQName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEQName.AntiAliasingEnabled = true;
             this.lblEQName.BackColor = System.Drawing.Color.Transparent;
             customFont44.EmbeddedFontName = "Junction";
             customFont44.IsBold = false;
@@ -1984,7 +1897,6 @@ namespace MPfm
             customFont44.StandardFontName = "Arial";
             customFont44.UseEmbeddedFont = true;
             this.lblEQName.CustomFont = customFont44;
-            this.lblEQName.CustomFontName = "Junction";
             this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQName.ForeColor = System.Drawing.Color.White;
             this.lblEQName.Location = new System.Drawing.Point(4, 21);

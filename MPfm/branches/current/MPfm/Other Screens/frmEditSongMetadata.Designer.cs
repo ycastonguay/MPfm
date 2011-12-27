@@ -143,7 +143,6 @@ namespace MPfm
             // 
             this.lblEditing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEditing.AntiAliasingEnabled = true;
             this.lblEditing.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
@@ -153,7 +152,6 @@ namespace MPfm
             customFont1.StandardFontName = "Arial";
             customFont1.UseEmbeddedFont = true;
             this.lblEditing.CustomFont = customFont1;
-            this.lblEditing.CustomFontName = "Junction";
             this.lblEditing.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEditing.Location = new System.Drawing.Point(3, 32);
             this.lblEditing.Name = "lblEditing";

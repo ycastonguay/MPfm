@@ -103,8 +103,7 @@
             this.comboCustomFontName.SelectedIndexChanged += new System.EventHandler(this.comboCustomFontName_SelectedIndexChanged);
             // 
             // lblPreview
-            // 
-            this.lblPreview.AntiAliasingEnabled = true;
+            //             
             this.lblPreview.BackColor = System.Drawing.Color.Transparent;
             customFont1.EmbeddedFontName = "";
             customFont1.IsBold = false;
@@ -113,8 +112,7 @@
             customFont1.Size = 8;
             customFont1.StandardFontName = "Arial";
             customFont1.UseEmbeddedFont = false;
-            this.lblPreview.CustomFont = customFont1;
-            this.lblPreview.CustomFontName = "Junction";
+            this.lblPreview.CustomFont = customFont1;            
             this.lblPreview.Location = new System.Drawing.Point(6, 20);
             this.lblPreview.Name = "lblPreview";
             this.lblPreview.Size = new System.Drawing.Size(435, 44);
