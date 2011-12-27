@@ -30,7 +30,7 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Sound.BassNetWrapper;
 
-namespace PlaybackEngineV4
+namespace MPfm.Player.Demo
 {
     /// <summary>
     /// Settings form.

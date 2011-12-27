@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm", "MPfm\MPfm.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.WindowsControls", "MPfm.WindowsControls\MPfm.WindowsControls.csproj", "{11C9F839-A47E-455E-8D10-661E47DE664C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaybackEngineV4", "PlaybackEngineV3\PlaybackEngineV4.csproj", "{064ABDA7-31DC-495F-8214-ED2B13E05601}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Player.Demo", "PlaybackEngineV3\MPfm.Player.Demo.csproj", "{064ABDA7-31DC-495F-8214-ED2B13E05601}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Player", "MPfm.Player\MPfm.Player.csproj", "{FEB7497C-784C-4380-874F-46FD93C82BA1}"
 EndProject

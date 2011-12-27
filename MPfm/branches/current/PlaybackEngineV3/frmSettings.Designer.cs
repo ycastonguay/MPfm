@@ -1,4 +1,4 @@
-﻿namespace PlaybackEngineV4
+﻿namespace MPfm.Player.Demo
 {
     partial class frmSettings
     {
@@ -95,7 +95,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Image = global::PlaybackEngineV4.Properties.Resources.asterisk_orange;
+            this.btnReset.Image = global::MPfm.Player.Demo.Properties.Resources.asterisk_orange;
             this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReset.Location = new System.Drawing.Point(8, 99);
             this.btnReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -251,7 +251,7 @@
             // 
             // btnTestAudio
             // 
-            this.btnTestAudio.Image = global::PlaybackEngineV4.Properties.Resources.sound;
+            this.btnTestAudio.Image = global::MPfm.Player.Demo.Properties.Resources.sound;
             this.btnTestAudio.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTestAudio.Location = new System.Drawing.Point(8, 127);
             this.btnTestAudio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -327,7 +327,7 @@
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClose.Image = global::PlaybackEngineV4.Properties.Resources.DeleteHS;
+            this.btnClose.Image = global::MPfm.Player.Demo.Properties.Resources.DeleteHS;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.btnClose.Location = new System.Drawing.Point(352, 319);
             this.btnClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

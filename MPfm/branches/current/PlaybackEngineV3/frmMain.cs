@@ -42,7 +42,7 @@ using MPfm.Sound.BassNetWrapper;
 using MPfm.Library;
 using MPfm.Player;
 
-namespace PlaybackEngineV4
+namespace MPfm.Player.Demo
 {
     /// <summary>
     /// Main application form.

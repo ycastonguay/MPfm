@@ -1,4 +1,4 @@
-﻿namespace PlaybackEngineV4
+﻿namespace MPfm.Player.Demo
 {
     partial class frmMain
     {
@@ -47,6 +47,7 @@
             this.lblCurrentPath = new System.Windows.Forms.Label();
             this.listBoxPlaylist = new System.Windows.Forms.ListBox();
             this.groupPlaylist = new System.Windows.Forms.GroupBox();
+            this.btnRemoveFile = new System.Windows.Forms.Button();
             this.btnInsertFile = new System.Windows.Forms.Button();
             this.groupCurrentlyPlaying = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -99,7 +100,6 @@
             this.btnPlay = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.btnRemoveFile = new System.Windows.Forms.Button();
             this.groupLoadPlaylist.SuspendLayout();
             this.groupPlaylist.SuspendLayout();
             this.groupCurrentlyPlaying.SuspendLayout();
@@ -140,9 +140,9 @@
             this.lblTitle.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(60, 9);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(257, 15);
+            this.lblTitle.Size = new System.Drawing.Size(167, 15);
             this.lblTitle.TabIndex = 14;
-            this.lblTitle.Text = "MPfm - Playback Engine V4";
+            this.lblTitle.Text = "MPfm Player Demo";
             // 
             // groupLoadPlaylist
             // 
@@ -317,6 +317,19 @@
             this.groupPlaylist.TabIndex = 16;
             this.groupPlaylist.TabStop = false;
             this.groupPlaylist.Text = "Playlist";
+            // 
+            // btnRemoveFile
+            // 
+            this.btnRemoveFile.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveFile.Location = new System.Drawing.Point(265, 14);
+            this.btnRemoveFile.Name = "btnRemoveFile";
+            this.btnRemoveFile.Size = new System.Drawing.Size(133, 22);
+            this.btnRemoveFile.TabIndex = 51;
+            this.btnRemoveFile.Text = "Remove audio file";
+            this.btnRemoveFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveFile.UseVisualStyleBackColor = true;
+            this.btnRemoveFile.Click += new System.EventHandler(this.btnRemoveFile_Click);
             // 
             // btnInsertFile
             // 
@@ -706,7 +719,7 @@
             // 
             // btnResetEQ
             // 
-            this.btnResetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_error;
+            this.btnResetEQ.Image = global::MPfm.Player.Demo.Properties.Resources.chart_bar_error;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.btnResetEQ.Location = new System.Drawing.Point(91, 55);
             this.btnResetEQ.Name = "btnResetEQ";
@@ -757,7 +770,7 @@
             // 
             // btnSetEQ
             // 
-            this.btnSetEQ.Image = global::PlaybackEngineV4.Properties.Resources.chart_bar_edit;
+            this.btnSetEQ.Image = global::MPfm.Player.Demo.Properties.Resources.chart_bar_edit;
             this.btnSetEQ.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.btnSetEQ.Location = new System.Drawing.Point(8, 55);
             this.btnSetEQ.Name = "btnSetEQ";
@@ -812,7 +825,7 @@
             // btnSettings
             // 
             this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettings.Image = global::PlaybackEngineV4.Properties.Resources.cog;
+            this.btnSettings.Image = global::MPfm.Player.Demo.Properties.Resources.cog;
             this.btnSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettings.Location = new System.Drawing.Point(771, 5);
             this.btnSettings.Name = "btnSettings";
@@ -826,7 +839,7 @@
             // btnRepeat
             // 
             this.btnRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRepeat.Image = global::PlaybackEngineV4.Properties.Resources.RepeatHS;
+            this.btnRepeat.Image = global::MPfm.Player.Demo.Properties.Resources.RepeatHS;
             this.btnRepeat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRepeat.Location = new System.Drawing.Point(692, 5);
             this.btnRepeat.Name = "btnRepeat";
@@ -841,7 +854,7 @@
             // 
             this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrev.Enabled = false;
-            this.btnPrev.Image = global::PlaybackEngineV4.Properties.Resources.DataContainer_MoveFirstHS;
+            this.btnPrev.Image = global::MPfm.Player.Demo.Properties.Resources.DataContainer_MoveFirstHS;
             this.btnPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPrev.Location = new System.Drawing.Point(554, 5);
             this.btnPrev.Name = "btnPrev";
@@ -856,7 +869,7 @@
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNext.Enabled = false;
-            this.btnNext.Image = global::PlaybackEngineV4.Properties.Resources.DataContainer_MoveLastHS;
+            this.btnNext.Image = global::MPfm.Player.Demo.Properties.Resources.DataContainer_MoveLastHS;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNext.Location = new System.Drawing.Point(623, 5);
             this.btnNext.Name = "btnNext";
@@ -941,19 +954,6 @@
             this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
             this.dialogOpenFile.Title = "Select an audio file to insert in the playlist (*.MP3, *.FLAC, *.OGG, *.WAV).";
             // 
-            // btnRemoveFile
-            // 
-            this.btnRemoveFile.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveFile.Location = new System.Drawing.Point(265, 14);
-            this.btnRemoveFile.Name = "btnRemoveFile";
-            this.btnRemoveFile.Size = new System.Drawing.Size(133, 22);
-            this.btnRemoveFile.TabIndex = 51;
-            this.btnRemoveFile.Text = "Remove audio file";
-            this.btnRemoveFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveFile.UseVisualStyleBackColor = true;
-            this.btnRemoveFile.Click += new System.EventHandler(this.btnRemoveFile_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -988,7 +988,7 @@
             this.MinimumSize = new System.Drawing.Size(900, 400);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MPfm - Playback Engine V4 Demo";
+            this.Text = "MPfm Player Demo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.frmMain_Shown);

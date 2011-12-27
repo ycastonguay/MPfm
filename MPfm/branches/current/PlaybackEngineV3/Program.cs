@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PlaybackEngineV4
+namespace MPfm.Player.Demo
 {
     static class Program
     {

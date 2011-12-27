@@ -26,7 +26,7 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Sound.BassNetWrapper;
 
-namespace PlaybackEngineV4
+namespace MPfm.Player.Demo
 {
     /// <summary>
     /// This class contains the configuration data and allows it to 
