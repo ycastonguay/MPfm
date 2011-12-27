@@ -81,13 +81,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap arrow_left {
-            get {
-                object obj = ResourceManager.GetObject("arrow_left", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap arrow_refresh {
             get {
                 object obj = ResourceManager.GetObject("arrow_refresh", resourceCulture);
@@ -200,13 +193,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap database_refresh {
-            get {
-                object obj = ResourceManager.GetObject("database_refresh", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
@@ -221,23 +207,9 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap disk_multiple {
-            get {
-                object obj = ResourceManager.GetObject("disk_multiple", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap door_in {
             get {
                 object obj = ResourceManager.GetObject("door_in", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap email {
-            get {
-                object obj = ResourceManager.GetObject("email", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -263,13 +235,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap folder_find {
-            get {
-                object obj = ResourceManager.GetObject("folder_find", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap folder_page {
             get {
                 object obj = ResourceManager.GetObject("folder_page", resourceCulture);
@@ -291,13 +256,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap magnifier {
-            get {
-                object obj = ResourceManager.GetObject("magnifier", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap MPFM_Splash_0_5_0_3 {
             get {
                 object obj = ResourceManager.GetObject("MPFM_Splash_0.5.0.3", resourceCulture);
@@ -308,13 +266,6 @@ namespace MPfm.Properties {
         internal static System.Drawing.Bitmap music {
             get {
                 object obj = ResourceManager.GetObject("music", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap page_copy {
-            get {
-                object obj = ResourceManager.GetObject("page_copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -354,27 +305,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap sound_mute {
-            get {
-                object obj = ResourceManager.GetObject("sound_mute", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap star {
-            get {
-                object obj = ResourceManager.GetObject("star", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap tag_blue_add {
-            get {
-                object obj = ResourceManager.GetObject("tag_blue_add", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap textfield_rename {
             get {
                 object obj = ResourceManager.GetObject("textfield_rename", resourceCulture);
@@ -392,13 +322,6 @@ namespace MPfm.Properties {
         internal static System.Drawing.Bitmap time {
             get {
                 object obj = ResourceManager.GetObject("time", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap time1 {
-            get {
-                object obj = ResourceManager.GetObject("time1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

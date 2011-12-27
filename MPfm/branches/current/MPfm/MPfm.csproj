@@ -254,28 +254,20 @@
     <None Include="Resources\user.png" />
     <None Include="Resources\MPFM_Splash_0.5.0.3.png" />
     <None Include="Resources\error.png" />
-    <None Include="Resources\time1.png" />
     <None Include="Resources\shape_align_middle.png" />
     <None Include="Resources\textfield_rename.png" />
     <None Include="Resources\vcard.png" />
     <None Include="Resources\bug.png" />
     <None Include="Resources\world.png" />
-    <None Include="Resources\database_refresh.png" />
     <None Include="Resources\database_gear.png" />
     <None Include="Resources\page_white_add.png" />
     <None Include="Resources\folder_page.png" />
-    <None Include="Resources\tag_blue_add.png" />
     <None Include="Resources\exclamation.png" />
     <None Include="Resources\chart_line.png" />
-    <None Include="Resources\page_copy.png" />
-    <None Include="Resources\email.png" />
-    <None Include="Resources\magnifier.png" />
     <None Include="Resources\accept.png" />
     <None Include="Resources\page_white_text.png" />
-    <None Include="Resources\folder_find.png" />
     <None Include="Resources\tick.png" />
     <None Include="Resources\arrow_refresh.png" />
-    <None Include="Resources\arrow_left.png" />
     <None Include="Resources\arrow_right1.png" />
     <None Include="Resources\arrow_right.png" />
     <None Include="app.config">
@@ -286,7 +278,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\delete.png" />
-    <None Include="Resources\disk_multiple.png" />
     <None Include="Resources\application_view_detail.png" />
     <None Include="Resources\pencil.png" />
     <None Include="Resources\disk.png" />
@@ -295,7 +286,6 @@
     <None Include="Resources\time.png" />
     <None Include="Resources\music.png" />
     <None Include="Resources\cd.png" />
-    <None Include="Resources\star.png" />
     <None Include="Resources\folder_add.png" />
     <None Include="Resources\add.png" />
     <None Include="Resources\control_repeat.png" />
@@ -310,7 +300,6 @@
     <None Include="Resources\image.png" />
     <None Include="Resources\information.png" />
     <None Include="Resources\door_in.png" />
-    <None Include="Resources\sound_mute.png" />
     <None Include="Resources\cancel.png" />
     <None Include="Resources\sound.png" />
   </ItemGroup>

@@ -240,9 +240,6 @@
     <EmbeddedResource Include="Resources\flag_red.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\base_asterick_32.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\plus.png" />
   </ItemGroup>
   <ItemGroup>
