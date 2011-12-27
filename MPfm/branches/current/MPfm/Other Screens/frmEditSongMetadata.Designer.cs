@@ -29,17 +29,11 @@ namespace MPfm
         private void InitializeComponent()
         {
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             this.propertyGridTags = new System.Windows.Forms.PropertyGrid();
             this.btnClose = new MPfm.WindowsControls.Button();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.panelEditSongMetadata = new MPfm.WindowsControls.Panel();
             this.lblEditing = new MPfm.WindowsControls.Label();
             this.btnSave = new MPfm.WindowsControls.Button();
@@ -96,29 +90,6 @@ namespace MPfm
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "Nobile";
-            embeddedFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont4.Name = "TitilliumText22L Lt";
-            embeddedFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont5.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont5.Name = "Museo Sans 500";
-            embeddedFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
-            this.fontCollection.Fonts.Add(embeddedFont4);
-            this.fontCollection.Fonts.Add(embeddedFont5);
             // 
             // panelEditSongMetadata
             // 
@@ -238,7 +209,6 @@ namespace MPfm
         private MPfm.WindowsControls.Button btnClose;
         public System.Windows.Forms.PropertyGrid propertyGridTags;
         private MPfm.WindowsControls.Panel panelEditSongMetadata;
-        private MPfm.WindowsControls.FontCollection fontCollection;
         private WindowsControls.Button btnSave;
         private WindowsControls.Label lblEditing;        
     }

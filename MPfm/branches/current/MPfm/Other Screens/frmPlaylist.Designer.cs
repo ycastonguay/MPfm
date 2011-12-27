@@ -31,10 +31,6 @@ namespace MPfm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPlaylist));
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
@@ -49,7 +45,6 @@ namespace MPfm
             this.miPlaylistRemoveSongs = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.btnLoadPlaylist = new MPfm.WindowsControls.Button();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.btnRemoveSongs = new MPfm.WindowsControls.Button();
             this.btnRenamePlaylist = new MPfm.WindowsControls.Button();
@@ -161,25 +156,6 @@ namespace MPfm
             this.btnLoadPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLoadPlaylist.UseVisualStyleBackColor = true;
             this.btnLoadPlaylist.Click += new System.EventHandler(this.btnLoadPlaylist_Click);
-            // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "TitilliumText22L Lt";
-            embeddedFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont4.Name = "Droid Sans Mono";
-            embeddedFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
-            this.fontCollection.Fonts.Add(embeddedFont4);
             // 
             // btnClose
             // 
@@ -504,7 +480,6 @@ namespace MPfm
         private WindowsControls.Button btnRenamePlaylist;
         private WindowsControls.Button btnSavePlaylistAs;
         private WindowsControls.Button btnSavePlaylist;
-        private WindowsControls.FontCollection fontCollection;
         private WindowsControls.Button btnLoadPlaylist;
         private System.Windows.Forms.OpenFileDialog dialogLoadPlaylist;
         private System.Windows.Forms.SaveFileDialog dialogSavePlaylist;

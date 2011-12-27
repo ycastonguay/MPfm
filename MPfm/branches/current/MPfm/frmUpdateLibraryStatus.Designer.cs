@@ -40,10 +40,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibraryStatus));
@@ -63,7 +59,6 @@ namespace MPfm
             this.picAlbum = new System.Windows.Forms.PictureBox();
             this.panelLog = new MPfm.WindowsControls.Panel();
             this.lbLog = new MPfm.WindowsControls.ListBox();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblMessage = new MPfm.WindowsControls.Label();
             this.lblTitle = new MPfm.WindowsControls.Label();
@@ -438,25 +433,6 @@ namespace MPfm
             this.lbLog.Size = new System.Drawing.Size(762, 154);
             this.lbLog.TabIndex = 0;
             // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "TitilliumText22L Lt";
-            embeddedFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont4.Name = "Droid Sans Mono";
-            embeddedFont4.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
-            this.fontCollection.Fonts.Add(embeddedFont4);
-            // 
             // progressBar
             // 
             this.progressBar.Location = new System.Drawing.Point(16, 161);
@@ -551,7 +527,6 @@ namespace MPfm
         private MPfm.WindowsControls.LinkLabel linkSaveLog;
         private System.ComponentModel.BackgroundWorker workerTimer;
         private System.Windows.Forms.SaveFileDialog saveLogDialog;
-        private MPfm.WindowsControls.FontCollection fontCollection;
         private System.Windows.Forms.ProgressBar progressBar;
     }
 }

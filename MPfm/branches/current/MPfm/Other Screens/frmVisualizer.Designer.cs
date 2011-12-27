@@ -30,16 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmVisualizer));
             this.waveForm = new MPfm.WindowsControls.WaveForm();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.lblError = new MPfm.WindowsControls.Label();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.SuspendLayout();
             // 
             // waveForm
@@ -87,29 +81,6 @@
             this.lblError.Text = "The visualizer will be back in a future version, due to migration from another au" +
     "dio library to the BASS audio library.";
             // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "Nobile";
-            embeddedFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont4.Name = "TitilliumText22L Lt";
-            embeddedFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont5.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont5.Name = "Museo Sans 500";
-            embeddedFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
-            this.fontCollection.Fonts.Add(embeddedFont4);
-            this.fontCollection.Fonts.Add(embeddedFont5);
-            // 
             // frmVisualizer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -132,7 +103,6 @@
         public MPfm.WindowsControls.WaveForm waveForm;
         private System.Windows.Forms.Timer timerUpdate;
         private MPfm.WindowsControls.Label lblError;
-        private MPfm.WindowsControls.FontCollection fontCollection;
 
     }
 }

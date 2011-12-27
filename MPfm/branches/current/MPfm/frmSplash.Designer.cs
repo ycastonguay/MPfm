@@ -30,15 +30,11 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSplash));
             this.timerUpdateGUI = new System.Windows.Forms.Timer(this.components);
             this.timerFading = new System.Windows.Forms.Timer(this.components);
             this.lblStatus = new MPfm.WindowsControls.Label();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lblVersion = new MPfm.WindowsControls.Label();
             this.pictureBackground = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBackground)).BeginInit();
@@ -75,21 +71,6 @@ namespace MPfm
             this.lblStatus.TabIndex = 50;
             this.lblStatus.Text = "Initializing tracing...";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "Junction";
-            embeddedFont1.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "TitilliumText22L Lt";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "Droid Sans Mono";
-            embeddedFont3.ResourceName = "MPfm.Fonts.DroidSansMono.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
             // 
             // lblVersion
             // 
@@ -147,7 +128,6 @@ namespace MPfm
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBackground;
-        private MPfm.WindowsControls.FontCollection fontCollection;
         private MPfm.WindowsControls.Label lblStatus;
         private System.Windows.Forms.Timer timerUpdateGUI;
         private System.Windows.Forms.Timer timerFading;

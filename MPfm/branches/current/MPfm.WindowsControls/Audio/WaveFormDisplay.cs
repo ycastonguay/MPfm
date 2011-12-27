@@ -111,18 +111,26 @@ namespace MPfm.WindowsControls
         #region Font Properties
 
         /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// Private value for the CustomFont property.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
+        private CustomFont m_customFont = null;
         /// <summary>
-        /// Pointer to the embedded font collection.
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
+        {
+            get
+            {
+                return m_customFont;
+            }
+            set
+            {
+                m_customFont = value;
+                Refresh();
+            }
+        }
 
         #endregion
 
@@ -591,6 +599,9 @@ namespace MPfm.WindowsControls
         public WaveFormDisplay() 
             : base()
         {
+            // Create default font
+            m_customFont = new WindowsControls.CustomFont();
+
             #region Contextual Menu
             
             // Create contextual menu
@@ -1576,36 +1587,53 @@ namespace MPfm.WindowsControls
                 g = Graphics.FromImage(bmp);                
 
                 // Draw wave form bitmap                
-                g.DrawImage(m_bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);                
+                g.DrawImage(m_bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
 
-                #region Custom Font / Anti-Aliasing
-                
-                // Set text anti-aliasing to ClearType (best looking AA)
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-                // Set smoothing mode for paths
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-
-                // Load custom font
-                Font font = this.Font;
-                try
+                // Use anti-aliasing?
+                if (CustomFont.UseAntiAliasing)
                 {
-                    if (FontCollection != null && CustomFontName.Length > 0)
-                    {
-                        FontFamily family = FontCollection.GetFontFamily(CustomFontName);
+                    // Set text anti-aliasing to ClearType (best looking AA)
+                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                        if (family != null)
-                        {
-                            font = new Font(family, Font.Size, Font.Style);
-                        }
+                    // Set smoothing mode for paths
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                }
+
+                // Create custom font
+                Font font = null;
+
+                // Make sure the embedded font name needs to be loaded and is valid
+                if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+                {
+                    try
+                    {
+                        // Get embedded font collection
+                        EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                        // Get embedded font
+                        font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    }
+                    catch (Exception ex)
+                    {
+                        // Use default font instead
+                        font = this.Font;
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
 
-                #endregion
+                // Check if font is null
+                if (font == null)
+                {
+                    try
+                    {
+                        // Try to get standard font
+                        font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    }
+                    catch (Exception ex)
+                    {
+                        // Use default font instead
+                        font = this.Font;
+                    }
+                }
 
                 // Is the wave form loading in a background thread?
                 if (IsLoading)

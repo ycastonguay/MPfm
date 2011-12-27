@@ -59,24 +59,6 @@ namespace MPfm.WindowsControls
             }
         }
 
-        #region Font Properties
-
-        /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
-        /// <summary>
-        /// Pointer to the embedded font collection.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        #endregion
-
         #region Background Properties
 
         private Color m_gradientColor1 = Color.DarkGray;

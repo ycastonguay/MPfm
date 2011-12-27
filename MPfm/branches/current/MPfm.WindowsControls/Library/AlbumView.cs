@@ -424,37 +424,37 @@ namespace MPfm.WindowsControls
 
         #region Font Properties
 
-        /// <summary>
-        /// Pointer to the embedded font collection.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
+        ///// <summary>
+        ///// Pointer to the embedded font collection.
+        ///// </summary>
+        //[RefreshProperties(RefreshProperties.Repaint)]
+        //[Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
+        //public FontCollection FontCollection { get; set; }
 
-        /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
+        ///// <summary>
+        ///// Name of the embedded font (as written in the Name property of a CustomFont).
+        ///// </summary>
+        //[RefreshProperties(RefreshProperties.Repaint)]
+        //[Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
+        //public string CustomFontName { get; set; }
 
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
-        {
-            get
-            {
-                return m_antiAliasingEnabled;
-            }
-            set
-            {
-                m_antiAliasingEnabled = value;
-            }
-        }
+        //private bool m_antiAliasingEnabled = true;
+        ///// <summary>
+        ///// Use anti-aliasing when drawing the embedded font.
+        ///// </summary>
+        //[RefreshProperties(RefreshProperties.Repaint)]
+        //[Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
+        //public bool AntiAliasingEnabled
+        //{
+        //    get
+        //    {
+        //        return m_antiAliasingEnabled;
+        //    }
+        //    set
+        //    {
+        //        m_antiAliasingEnabled = value;
+        //    }
+        //}
 
         #endregion
 
@@ -663,160 +663,160 @@ namespace MPfm.WindowsControls
 
         public void PaintAlbums(ref Graphics g)
         {
-            // Load custom font
-            Font font = Tools.LoadCustomFont(FontCollection, CustomFontName, 9, FontStyle.Regular);
-            if (font == null)
-            {
-                // Load default font
-                font = new Font("Arial", 9, FontStyle.Regular);
-            }
-
-            // Check for an existing collection of items
-            bool regenerateItems = true;
-            if (m_items != null)
-            {
-                // Check the first item, if there's one
-                if (m_items.Count > 0 && m_items[0] is AlbumViewItem)
-                {
-                    regenerateItems = false;
-                }
-            }
-
-            // Check if the items have been generated, or that the items are not of album type
-            if (regenerateItems)
-            {
-                // Query how many albums there are in the library
-                Dictionary<string, string> listAlbums = m_library.SelectAlbumTitlesWithFilePaths();
-
-                // Create list of items
-                m_items = new List<AlbumViewItem>();
-                foreach (KeyValuePair<string, string> keyValue in listAlbums)
-                {
-                    // Create item and add to list
-                    AlbumViewItem item = new AlbumViewItem();
-                    item.Title = keyValue.Key;
-                    item.FilePath = keyValue.Value;
-                    m_items.Add(item);
-                }
-            }
-
-            // Check if a cache exists, or if the cache needs to be refreshed
-            if (m_albumCache == null)
-            {
-                // Create cache data
-                m_albumCache = new AlbumViewCache();
-
-                // Check how many icons fit in width and height
-                m_albumCache.IconHeightWithPadding = m_iconSize + (m_padding * 2);
-                m_albumCache.NumberOfIconsWidth = (int)Math.Floor((double)ClientRectangle.Width / (double)(m_albumCache.IconHeightWithPadding));
-                m_albumCache.NumberOfIconsHeight = (int)Math.Floor((double)ClientRectangle.Height / (double)(m_albumCache.IconHeightWithPadding));
-
-                // Calculate margin (space not taken by the icon + padding)
-                m_albumCache.TotalMargin = ClientRectangle.Width - ((m_albumCache.NumberOfIconsWidth * m_iconSize) + (m_padding * 2 * m_albumCache.NumberOfIconsWidth));
-                m_albumCache.Margin = (int)((double)m_albumCache.TotalMargin / 2);
-
-                // Calculate the total number of lines
-                m_albumCache.TotalNumberOfLines = (int)Math.Ceiling((double)m_items.Count / (double)m_albumCache.NumberOfIconsWidth);
-
-                // Calculate the total height (necessary for scrollbar)
-                m_albumCache.TotalHeight = m_albumCache.TotalNumberOfLines * m_albumCache.IconHeightWithPadding;
-
-                // Set scrollbar values
-                m_vScrollBar.Maximum = m_albumCache.TotalHeight;
-                m_vScrollBar.SmallChange = m_albumCache.IconHeightWithPadding / 10;
-                m_vScrollBar.LargeChange = m_albumCache.IconHeightWithPadding;
-            }
-
-            // Calculate how many lines must be skipped because of the scrollbar position
-            int startLineNumber = (int)Math.Floor((double)m_vScrollBar.Value / (double)(m_iconSize + (m_padding * 2)));
-
-            // Check if the total number of lines exceeds the number of icons fitting in height
-            int numberOfLinesToDraw = 0;
-            if (startLineNumber + m_albumCache.NumberOfIconsHeight > m_albumCache.TotalNumberOfLines)
-            {
-                // There aren't enough lines to fill the screen
-                numberOfLinesToDraw = m_albumCache.TotalNumberOfLines - startLineNumber;
-            }
-            else
-            {
-                // Fill up screen 
-                numberOfLinesToDraw = m_albumCache.NumberOfIconsHeight;
-            }
-
-            // Add one line for overflow; however, make sure we aren't adding a line without content 
-            if (startLineNumber + numberOfLinesToDraw + 1 <= m_albumCache.TotalNumberOfLines)
-            {
-                // Add one line for overflow
-                numberOfLinesToDraw++;
-            }
-
-            // Loop through icons (height)
-            int iconCount = startLineNumber * m_albumCache.NumberOfIconsWidth;
-            for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
-            {
-                // Calculate the Y offset
-                int offsetY = (m_padding * 2 * a) + (m_iconSize * a);
-
-                // Calculate offset with scrollbar position
-                offsetY = offsetY - m_vScrollBar.Value;
-
-                // Loop through icons (width)
-                for (int b = 0; b < m_albumCache.NumberOfIconsWidth; b++)
-                {
-                    // Get current item
-                    AlbumViewItem item = (AlbumViewItem)m_items[iconCount];
-
-                    // Extract image from audio file
-                    Image imageAudioFile = null;
-
-                    // Make sure the file exists
-                    if (File.Exists(item.FilePath))
-                    {
-                        // Try to extract image from audio file
-                        imageAudioFile = AudioFile.ExtractImageForAudioFile(item.FilePath);
-                    }
-
-                    // 2 times the padding per icon, plus 
-                    int offsetX = (m_padding * 2 * b) + (m_iconSize * b);
-                    Rectangle rectPositionAlbum = new Rectangle(offsetX, offsetY, m_iconSize + m_padding, m_iconSize + m_padding);
-
-                    // Check if an image was found
-                    if (imageAudioFile != null)
-                    {
-                        // Draw album cover
-                        g.DrawImage(imageAudioFile, rectPositionAlbum);
-                    }
-                    else
-                    {
-                        // Draw default album cover
-                        g.DrawRectangle(Pens.Gray, rectPositionAlbum);
-                    }
-
-                    // Draw caption
-                    SizeF sizeString = g.MeasureString(item.Title, Font);
-                    PointF pointTitle = new PointF(offsetX + ((m_iconSize - sizeString.Width) / 2), offsetY + m_iconSize - sizeString.Height);
-                    g.FillRectangle(Brushes.Black, new RectangleF(pointTitle.X, pointTitle.Y, sizeString.Width, sizeString.Height));
-                    g.DrawString(item.Title, font, Brushes.White, pointTitle);
-                    iconCount++;
-                }
-            }
-
-            // Next: draw only the visible lines.
-
-            //List<string> m_files = FileFinder.ByFileExtension(@"C:\MP3\The Beatles", new List<string>(){ "*.MP3" }, true);
-
-            //foreach (string filePath in m_files)
+            //// Load custom font
+            //Font font = Tools.LoadCustomFont(FontCollection, CustomFontName, 9, FontStyle.Regular);
+            //if (font == null)
             //{
-            //    Image imageCover = AudioFile.GetImageForAudioFile(filePath);    
+            //    // Load default font
+            //    font = new Font("Arial", 9, FontStyle.Regular);
             //}
 
-            // Since this mode displays a list of albums, we need only one song per album.
-            // Usually people put one album per folder. However we still need to scan all files for distinct values.
+            //// Check for an existing collection of items
+            //bool regenerateItems = true;
+            //if (m_items != null)
+            //{
+            //    // Check the first item, if there's one
+            //    if (m_items.Count > 0 && m_items[0] is AlbumViewItem)
+            //    {
+            //        regenerateItems = false;
+            //    }
+            //}
 
-            //int numberOfLines = 
+            //// Check if the items have been generated, or that the items are not of album type
+            //if (regenerateItems)
+            //{
+            //    // Query how many albums there are in the library
+            //    Dictionary<string, string> listAlbums = m_library.SelectAlbumTitlesWithFilePaths();
+
+            //    // Create list of items
+            //    m_items = new List<AlbumViewItem>();
+            //    foreach (KeyValuePair<string, string> keyValue in listAlbums)
+            //    {
+            //        // Create item and add to list
+            //        AlbumViewItem item = new AlbumViewItem();
+            //        item.Title = keyValue.Key;
+            //        item.FilePath = keyValue.Value;
+            //        m_items.Add(item);
+            //    }
+            //}
+
+            //// Check if a cache exists, or if the cache needs to be refreshed
+            //if (m_albumCache == null)
+            //{
+            //    // Create cache data
+            //    m_albumCache = new AlbumViewCache();
+
+            //    // Check how many icons fit in width and height
+            //    m_albumCache.IconHeightWithPadding = m_iconSize + (m_padding * 2);
+            //    m_albumCache.NumberOfIconsWidth = (int)Math.Floor((double)ClientRectangle.Width / (double)(m_albumCache.IconHeightWithPadding));
+            //    m_albumCache.NumberOfIconsHeight = (int)Math.Floor((double)ClientRectangle.Height / (double)(m_albumCache.IconHeightWithPadding));
+
+            //    // Calculate margin (space not taken by the icon + padding)
+            //    m_albumCache.TotalMargin = ClientRectangle.Width - ((m_albumCache.NumberOfIconsWidth * m_iconSize) + (m_padding * 2 * m_albumCache.NumberOfIconsWidth));
+            //    m_albumCache.Margin = (int)((double)m_albumCache.TotalMargin / 2);
+
+            //    // Calculate the total number of lines
+            //    m_albumCache.TotalNumberOfLines = (int)Math.Ceiling((double)m_items.Count / (double)m_albumCache.NumberOfIconsWidth);
+
+            //    // Calculate the total height (necessary for scrollbar)
+            //    m_albumCache.TotalHeight = m_albumCache.TotalNumberOfLines * m_albumCache.IconHeightWithPadding;
+
+            //    // Set scrollbar values
+            //    m_vScrollBar.Maximum = m_albumCache.TotalHeight;
+            //    m_vScrollBar.SmallChange = m_albumCache.IconHeightWithPadding / 10;
+            //    m_vScrollBar.LargeChange = m_albumCache.IconHeightWithPadding;
+            //}
+
+            //// Calculate how many lines must be skipped because of the scrollbar position
+            //int startLineNumber = (int)Math.Floor((double)m_vScrollBar.Value / (double)(m_iconSize + (m_padding * 2)));
+
+            //// Check if the total number of lines exceeds the number of icons fitting in height
+            //int numberOfLinesToDraw = 0;
+            //if (startLineNumber + m_albumCache.NumberOfIconsHeight > m_albumCache.TotalNumberOfLines)
+            //{
+            //    // There aren't enough lines to fill the screen
+            //    numberOfLinesToDraw = m_albumCache.TotalNumberOfLines - startLineNumber;
+            //}
+            //else
+            //{
+            //    // Fill up screen 
+            //    numberOfLinesToDraw = m_albumCache.NumberOfIconsHeight;
+            //}
+
+            //// Add one line for overflow; however, make sure we aren't adding a line without content 
+            //if (startLineNumber + numberOfLinesToDraw + 1 <= m_albumCache.TotalNumberOfLines)
+            //{
+            //    // Add one line for overflow
+            //    numberOfLinesToDraw++;
+            //}
+
+            //// Loop through icons (height)
+            //int iconCount = startLineNumber * m_albumCache.NumberOfIconsWidth;
+            //for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+            //{
+            //    // Calculate the Y offset
+            //    int offsetY = (m_padding * 2 * a) + (m_iconSize * a);
+
+            //    // Calculate offset with scrollbar position
+            //    offsetY = offsetY - m_vScrollBar.Value;
+
+            //    // Loop through icons (width)
+            //    for (int b = 0; b < m_albumCache.NumberOfIconsWidth; b++)
+            //    {
+            //        // Get current item
+            //        AlbumViewItem item = (AlbumViewItem)m_items[iconCount];
+
+            //        // Extract image from audio file
+            //        Image imageAudioFile = null;
+
+            //        // Make sure the file exists
+            //        if (File.Exists(item.FilePath))
+            //        {
+            //            // Try to extract image from audio file
+            //            imageAudioFile = AudioFile.ExtractImageForAudioFile(item.FilePath);
+            //        }
+
+            //        // 2 times the padding per icon, plus 
+            //        int offsetX = (m_padding * 2 * b) + (m_iconSize * b);
+            //        Rectangle rectPositionAlbum = new Rectangle(offsetX, offsetY, m_iconSize + m_padding, m_iconSize + m_padding);
+
+            //        // Check if an image was found
+            //        if (imageAudioFile != null)
+            //        {
+            //            // Draw album cover
+            //            g.DrawImage(imageAudioFile, rectPositionAlbum);
+            //        }
+            //        else
+            //        {
+            //            // Draw default album cover
+            //            g.DrawRectangle(Pens.Gray, rectPositionAlbum);
+            //        }
+
+            //        // Draw caption
+            //        SizeF sizeString = g.MeasureString(item.Title, Font);
+            //        PointF pointTitle = new PointF(offsetX + ((m_iconSize - sizeString.Width) / 2), offsetY + m_iconSize - sizeString.Height);
+            //        g.FillRectangle(Brushes.Black, new RectangleF(pointTitle.X, pointTitle.Y, sizeString.Width, sizeString.Height));
+            //        g.DrawString(item.Title, font, Brushes.White, pointTitle);
+            //        iconCount++;
+            //    }
+            //}
+
+            //// Next: draw only the visible lines.
+
+            ////List<string> m_files = FileFinder.ByFileExtension(@"C:\MP3\The Beatles", new List<string>(){ "*.MP3" }, true);
+
+            ////foreach (string filePath in m_files)
+            ////{
+            ////    Image imageCover = AudioFile.GetImageForAudioFile(filePath);    
+            ////}
+
+            //// Since this mode displays a list of albums, we need only one song per album.
+            //// Usually people put one album per folder. However we still need to scan all files for distinct values.
+
+            ////int numberOfLines = 
 
 
-            //g.FillRectangle(Brushes.White, new RectangleF(new PointF(0, 0), new SizeF((float)(Width / 2), (float)(Height / 2))));/
+            ////g.FillRectangle(Brushes.White, new RectangleF(new PointF(0, 0), new SizeF((float)(Width / 2), (float)(Height / 2))));/
         }
 
         #endregion

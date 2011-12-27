@@ -34,9 +34,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
@@ -76,7 +73,6 @@ namespace MPfm
             this.lblShowTray = new MPfm.WindowsControls.Label();
             this.chkShowTray = new System.Windows.Forms.CheckBox();
             this.chkHideTray = new System.Windows.Forms.CheckBox();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.tabTheme = new System.Windows.Forms.TabPage();
             this.panelTheme = new MPfm.WindowsControls.Panel();
             this.comboThemeControl = new System.Windows.Forms.ComboBox();
@@ -376,21 +372,6 @@ namespace MPfm
             this.chkHideTray.TabIndex = 89;
             this.chkHideTray.UseVisualStyleBackColor = false;
             this.chkHideTray.CheckedChanged += new System.EventHandler(this.chkHideTray_CheckedChanged);
-            // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "TitilliumText22L Lt";
-            embeddedFont3.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
             // 
             // tabTheme
             // 
@@ -1448,7 +1429,6 @@ namespace MPfm
         private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage tabLibrary;
         private System.Windows.Forms.TabPage tabAudioSettings;
-        private MPfm.WindowsControls.FontCollection fontCollection;
         private MPfm.WindowsControls.Label lblFoldersTitle;
         public System.Windows.Forms.FolderBrowserDialog dialogAddFolder;
         private System.Windows.Forms.ComboBox cboOutputDevices;

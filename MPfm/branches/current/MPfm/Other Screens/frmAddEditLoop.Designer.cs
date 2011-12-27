@@ -28,11 +28,6 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
@@ -55,7 +50,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.panelEditLoop = new MPfm.WindowsControls.Panel();
             this.btnEndPositionGoTo = new MPfm.WindowsControls.Button();
             this.btnEndPositionPunchIn = new MPfm.WindowsControls.Button();
@@ -89,29 +83,6 @@ namespace MPfm
             this.panelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "Nobile";
-            embeddedFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont4.Name = "TitilliumText22L Lt";
-            embeddedFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont5.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont5.Name = "Museo Sans 500";
-            embeddedFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
-            this.fontCollection.Fonts.Add(embeddedFont4);
-            this.fontCollection.Fonts.Add(embeddedFont5);
             // 
             // panelEditLoop
             // 
@@ -576,11 +547,9 @@ namespace MPfm
             this.waveForm.BorderColor = System.Drawing.Color.Empty;
             this.waveForm.BorderWidth = 0;
             this.waveForm.CursorColor = System.Drawing.Color.RoyalBlue;
-            this.waveForm.CustomFontName = "BPmono";
             this.waveForm.DisplayCurrentPosition = true;
             this.waveForm.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
             this.waveForm.Font = new System.Drawing.Font("Arial", 8F);
-            this.waveForm.FontCollection = this.fontCollection;
             this.waveForm.GradientColor1 = System.Drawing.Color.Black;
             this.waveForm.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.waveForm.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -847,8 +816,7 @@ namespace MPfm
         #endregion
 
         private MPfm.WindowsControls.Button btnClose;
-        private MPfm.WindowsControls.Panel panelEditLoop;
-        private MPfm.WindowsControls.FontCollection fontCollection;
+        private MPfm.WindowsControls.Panel panelEditLoop;        
         private WindowsControls.Button btnSave;
         private WindowsControls.Label lblName;
         private System.Windows.Forms.TextBox txtName;

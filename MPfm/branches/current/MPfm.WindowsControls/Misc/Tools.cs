@@ -111,44 +111,6 @@ namespace MPfm.WindowsControls
         /// <param name="fontSize">Font size</param>
         /// <param name="fontStyle">Font style</param>
         /// <returns></returns>
-        public static Font LoadCustomFont(FontCollection fontCollection, string customFontName, float fontSize, FontStyle fontStyle)
-        {
-            // Declare variables
-            Font font = null;
-
-            try
-            {
-                // Check if the parameters are valid
-                if (fontCollection != null && customFontName.Length > 0)
-                {
-                    // Get custom font family
-                    FontFamily family = fontCollection.GetFontFamily(customFontName);
-
-                    // Check if family is valid
-                    if (family != null)
-                    {
-                        // Create font
-                        font = new Font(family, fontSize, fontStyle);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Do nothing
-            }
-
-            return font;
-        }
-
-        /// <summary>
-        /// Loads a custom font from a custom font collection, using the font name, size and style
-        /// passed in parameter.
-        /// </summary>
-        /// <param name="fontCollection">Custom font collection</param>
-        /// <param name="customFontName">Custom font name</param>
-        /// <param name="fontSize">Font size</param>
-        /// <param name="fontStyle">Font style</param>
-        /// <returns></returns>
         public static Font LoadEmbeddedFont(EmbeddedFontCollection fontCollection, string customFontName, float fontSize, FontStyle fontStyle)
         {
             // Declare variables

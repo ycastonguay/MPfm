@@ -168,34 +168,24 @@ namespace MPfm.WindowsControls
         #region Font Properties
 
         /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// Private value for the CustomFont property.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
+        private CustomFont m_customFont = null;
         /// <summary>
-        /// Pointer to the embedded font collection.
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
         {
             get
             {
-                return m_antiAliasingEnabled;
+                return m_customFont;
             }
             set
             {
-                m_antiAliasingEnabled = value;
+                m_customFont = value;
+                Refresh();
             }
         }
 
@@ -211,6 +201,9 @@ namespace MPfm.WindowsControls
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+
+            // Create default font
+            m_customFont = new WindowsControls.CustomFont();
 
             // Create timer for mouse down
             timerMouseDown = new Timer();
@@ -333,7 +326,7 @@ namespace MPfm.WindowsControls
             Graphics g = pe.Graphics;
 
             // Use anti-aliasing?
-            if (AntiAliasingEnabled)
+            if (CustomFont.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;

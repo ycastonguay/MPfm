@@ -29,11 +29,6 @@ namespace MPfm
         private void InitializeComponent()
         {
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
@@ -87,7 +82,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
             this.lblGain17 = new MPfm.WindowsControls.Label();
-            this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lbl17 = new MPfm.WindowsControls.Label();
             this.lblGain16 = new MPfm.WindowsControls.Label();
             this.lbl16 = new MPfm.WindowsControls.Label();
@@ -190,29 +184,6 @@ namespace MPfm
             this.lblGain17.TabIndex = 58;
             this.lblGain17.Text = "0 dB";
             this.lblGain17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // fontCollection
-            // 
-            embeddedFont1.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont1.Name = "LeagueGothic";
-            embeddedFont1.ResourceName = "MPfm.Fonts.LeagueGothic.ttf";
-            embeddedFont2.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont2.Name = "Junction";
-            embeddedFont2.ResourceName = "MPfm.Fonts.Junction.ttf";
-            embeddedFont3.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont3.Name = "Nobile";
-            embeddedFont3.ResourceName = "MPfm.Fonts.nobile.ttf";
-            embeddedFont4.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont4.Name = "TitilliumText22L Lt";
-            embeddedFont4.ResourceName = "MPfm.Fonts.Titillium2.ttf";
-            embeddedFont5.AssemblyPath = "MPfm.Fonts.dll";
-            embeddedFont5.Name = "Museo Sans 500";
-            embeddedFont5.ResourceName = "MPfm.Fonts.MuseoSans_500.ttf";
-            this.fontCollection.Fonts.Add(embeddedFont1);
-            this.fontCollection.Fonts.Add(embeddedFont2);
-            this.fontCollection.Fonts.Add(embeddedFont3);
-            this.fontCollection.Fonts.Add(embeddedFont4);
-            this.fontCollection.Fonts.Add(embeddedFont5);
             // 
             // lbl17
             // 
@@ -1126,7 +1097,6 @@ namespace MPfm
             // 
             this.fader17.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader17.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader17.CustomFontName = null;
             this.fader17.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader17.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader17.FaderHeight = 30;
@@ -1135,7 +1105,6 @@ namespace MPfm
             this.fader17.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader17.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader17.FaderWidth = 12;
-            this.fader17.FontCollection = this.fontCollection;
             this.fader17.GradientColor1 = System.Drawing.Color.Black;
             this.fader17.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1153,7 +1122,6 @@ namespace MPfm
             // 
             this.fader16.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader16.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader16.CustomFontName = null;
             this.fader16.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader16.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader16.FaderHeight = 30;
@@ -1162,7 +1130,6 @@ namespace MPfm
             this.fader16.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader16.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader16.FaderWidth = 12;
-            this.fader16.FontCollection = this.fontCollection;
             this.fader16.GradientColor1 = System.Drawing.Color.Black;
             this.fader16.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1180,7 +1147,6 @@ namespace MPfm
             // 
             this.fader15.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader15.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader15.CustomFontName = null;
             this.fader15.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader15.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader15.FaderHeight = 30;
@@ -1189,7 +1155,6 @@ namespace MPfm
             this.fader15.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader15.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader15.FaderWidth = 12;
-            this.fader15.FontCollection = this.fontCollection;
             this.fader15.GradientColor1 = System.Drawing.Color.Black;
             this.fader15.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1207,7 +1172,6 @@ namespace MPfm
             // 
             this.fader14.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader14.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader14.CustomFontName = null;
             this.fader14.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader14.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader14.FaderHeight = 30;
@@ -1216,7 +1180,6 @@ namespace MPfm
             this.fader14.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader14.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader14.FaderWidth = 12;
-            this.fader14.FontCollection = this.fontCollection;
             this.fader14.GradientColor1 = System.Drawing.Color.Black;
             this.fader14.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1234,7 +1197,6 @@ namespace MPfm
             // 
             this.fader13.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader13.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader13.CustomFontName = null;
             this.fader13.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader13.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader13.FaderHeight = 30;
@@ -1243,7 +1205,6 @@ namespace MPfm
             this.fader13.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader13.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader13.FaderWidth = 12;
-            this.fader13.FontCollection = this.fontCollection;
             this.fader13.GradientColor1 = System.Drawing.Color.Black;
             this.fader13.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1261,7 +1222,6 @@ namespace MPfm
             // 
             this.fader12.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader12.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader12.CustomFontName = null;
             this.fader12.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader12.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader12.FaderHeight = 30;
@@ -1270,7 +1230,6 @@ namespace MPfm
             this.fader12.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader12.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader12.FaderWidth = 12;
-            this.fader12.FontCollection = this.fontCollection;
             this.fader12.GradientColor1 = System.Drawing.Color.Black;
             this.fader12.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1288,7 +1247,6 @@ namespace MPfm
             // 
             this.fader11.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader11.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader11.CustomFontName = null;
             this.fader11.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader11.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader11.FaderHeight = 30;
@@ -1297,7 +1255,6 @@ namespace MPfm
             this.fader11.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader11.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader11.FaderWidth = 12;
-            this.fader11.FontCollection = this.fontCollection;
             this.fader11.GradientColor1 = System.Drawing.Color.Black;
             this.fader11.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1315,7 +1272,6 @@ namespace MPfm
             // 
             this.fader10.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader10.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader10.CustomFontName = null;
             this.fader10.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader10.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader10.FaderHeight = 30;
@@ -1324,7 +1280,6 @@ namespace MPfm
             this.fader10.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader10.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader10.FaderWidth = 12;
-            this.fader10.FontCollection = this.fontCollection;
             this.fader10.GradientColor1 = System.Drawing.Color.Black;
             this.fader10.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1342,7 +1297,6 @@ namespace MPfm
             // 
             this.fader9.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader9.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader9.CustomFontName = null;
             this.fader9.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader9.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader9.FaderHeight = 30;
@@ -1351,7 +1305,6 @@ namespace MPfm
             this.fader9.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader9.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader9.FaderWidth = 12;
-            this.fader9.FontCollection = this.fontCollection;
             this.fader9.GradientColor1 = System.Drawing.Color.Black;
             this.fader9.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1369,7 +1322,6 @@ namespace MPfm
             // 
             this.fader8.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader8.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader8.CustomFontName = null;
             this.fader8.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader8.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader8.FaderHeight = 30;
@@ -1378,7 +1330,6 @@ namespace MPfm
             this.fader8.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader8.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader8.FaderWidth = 12;
-            this.fader8.FontCollection = this.fontCollection;
             this.fader8.GradientColor1 = System.Drawing.Color.Black;
             this.fader8.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1396,7 +1347,6 @@ namespace MPfm
             // 
             this.fader7.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader7.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader7.CustomFontName = null;
             this.fader7.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader7.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader7.FaderHeight = 30;
@@ -1405,7 +1355,6 @@ namespace MPfm
             this.fader7.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader7.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader7.FaderWidth = 12;
-            this.fader7.FontCollection = this.fontCollection;
             this.fader7.GradientColor1 = System.Drawing.Color.Black;
             this.fader7.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1423,7 +1372,6 @@ namespace MPfm
             // 
             this.fader6.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader6.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader6.CustomFontName = null;
             this.fader6.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader6.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader6.FaderHeight = 30;
@@ -1432,7 +1380,6 @@ namespace MPfm
             this.fader6.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader6.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader6.FaderWidth = 12;
-            this.fader6.FontCollection = this.fontCollection;
             this.fader6.GradientColor1 = System.Drawing.Color.Black;
             this.fader6.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1450,7 +1397,6 @@ namespace MPfm
             // 
             this.fader5.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader5.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader5.CustomFontName = null;
             this.fader5.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader5.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader5.FaderHeight = 30;
@@ -1459,7 +1405,6 @@ namespace MPfm
             this.fader5.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader5.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader5.FaderWidth = 12;
-            this.fader5.FontCollection = this.fontCollection;
             this.fader5.GradientColor1 = System.Drawing.Color.Black;
             this.fader5.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1477,7 +1422,6 @@ namespace MPfm
             // 
             this.fader4.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader4.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader4.CustomFontName = null;
             this.fader4.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader4.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader4.FaderHeight = 30;
@@ -1486,7 +1430,6 @@ namespace MPfm
             this.fader4.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader4.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader4.FaderWidth = 12;
-            this.fader4.FontCollection = this.fontCollection;
             this.fader4.GradientColor1 = System.Drawing.Color.Black;
             this.fader4.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1504,7 +1447,6 @@ namespace MPfm
             // 
             this.fader3.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader3.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader3.CustomFontName = null;
             this.fader3.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader3.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader3.FaderHeight = 30;
@@ -1513,7 +1455,6 @@ namespace MPfm
             this.fader3.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader3.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader3.FaderWidth = 12;
-            this.fader3.FontCollection = this.fontCollection;
             this.fader3.GradientColor1 = System.Drawing.Color.Black;
             this.fader3.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1531,7 +1472,6 @@ namespace MPfm
             // 
             this.fader2.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader2.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader2.CustomFontName = null;
             this.fader2.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader2.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader2.FaderHeight = 30;
@@ -1540,7 +1480,6 @@ namespace MPfm
             this.fader2.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader2.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader2.FaderWidth = 12;
-            this.fader2.FontCollection = this.fontCollection;
             this.fader2.GradientColor1 = System.Drawing.Color.Black;
             this.fader2.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1558,7 +1497,6 @@ namespace MPfm
             // 
             this.fader1.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader1.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader1.CustomFontName = null;
             this.fader1.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader1.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader1.FaderHeight = 30;
@@ -1567,7 +1505,6 @@ namespace MPfm
             this.fader1.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader1.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader1.FaderWidth = 12;
-            this.fader1.FontCollection = this.fontCollection;
             this.fader1.GradientColor1 = System.Drawing.Color.Black;
             this.fader1.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1585,7 +1522,6 @@ namespace MPfm
             // 
             this.fader0.CenterLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.fader0.CenterLineShadowColor = System.Drawing.Color.Gray;
-            this.fader0.CustomFontName = null;
             this.fader0.FaderGradientColor1 = System.Drawing.Color.Gainsboro;
             this.fader0.FaderGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader0.FaderHeight = 30;
@@ -1594,7 +1530,6 @@ namespace MPfm
             this.fader0.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader0.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader0.FaderWidth = 12;
-            this.fader0.FontCollection = this.fontCollection;
             this.fader0.GradientColor1 = System.Drawing.Color.Black;
             this.fader0.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.fader0.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -2128,7 +2063,6 @@ namespace MPfm
         private MPfm.WindowsControls.Button btnResetEQ;
         public System.Windows.Forms.ComboBox comboEQPreset;
         private System.Windows.Forms.Panel panelZeroLine;
-        private MPfm.WindowsControls.FontCollection fontCollection;
         private MPfm.WindowsControls.VolumeFader fader0;
         private MPfm.WindowsControls.VolumeFader fader6;
         private MPfm.WindowsControls.VolumeFader fader5;

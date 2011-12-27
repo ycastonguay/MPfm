@@ -56,18 +56,26 @@ namespace MPfm.WindowsControls
         #region Font Properties
 
         /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// Private value for the CustomFont property.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-        
+        private CustomFont m_customFont = null;
         /// <summary>
-        /// Pointer to the embedded font collection.
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
+        {
+            get
+            {
+                return m_customFont;
+            }
+            set
+            {
+                m_customFont = value;
+                Refresh();
+            }
+        }
 
         private Color m_fontColor = Color.White;
         /// <summary>
@@ -383,6 +391,9 @@ namespace MPfm.WindowsControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
             ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
+            // Create default font
+            m_customFont = new WindowsControls.CustomFont();
+
             // Initialize components (thank you Cpt Obvious!)
             InitializeComponent();
         }
@@ -439,13 +450,53 @@ namespace MPfm.WindowsControls
 
             // Create a bitmap the size of the form.
             Bitmap bmp = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
-            Graphics g = Graphics.FromImage(bmp);            
+            Graphics g = Graphics.FromImage(bmp);
 
-            // Set text anti-aliasing to ClearType (best looking AA)
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            // Use anti-aliasing?
+            if (CustomFont.UseAntiAliasing)
+            {
+                // Set text anti-aliasing to ClearType (best looking AA)
+                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-            // Set smoothing mode for paths
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set smoothing mode for paths
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
+
+            // Create custom font
+            Font font = null;
+
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            {
+                try
+                {
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                    // Get embedded font
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
+                }
+            }
+
+            // Check if font is null
+            if (font == null)
+            {
+                try
+                {
+                    // Try to get standard font
+                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
+                }
+            }
             
             // Draw background gradient (cover -1 pixel for some refresh bug)
             Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
@@ -467,21 +518,10 @@ namespace MPfm.WindowsControls
                 return;
             }
 
-            // Create font (from font collection or default family font)
-            Font font = this.Font;
-            if (FontCollection != null && CustomFontName.Length > 0)
-            {
-                FontFamily family = FontCollection.GetFontFamily(CustomFontName);
-
-                if (family != null)
-                {
-                    font = new Font(family, Font.Size, Font.Style);
-                }
-            }
-
             // By default, the bar width takes the full width of the control (except for stereo)
             float barWidth = Width;
 
+            // Check display type
             if (DisplayType == OutputMeterDisplayType.Stereo)
             {
                 // Set bar width to half width since there's two bars to draw

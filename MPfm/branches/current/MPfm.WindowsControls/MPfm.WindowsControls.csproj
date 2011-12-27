@@ -94,9 +94,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Fonts\EmbeddedFontCollection.cs" />
-    <Compile Include="Fonts\FontCollection.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Fonts\EmbeddedFontHelper.cs" />
     <Compile Include="Library\AlbumView.cs">
       <SubType>Component</SubType>
