@@ -2112,7 +2112,6 @@ namespace MPfm
             this.viewLoops.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewLoops.AntiAliasingEnabled = true;
             this.viewLoops.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.viewLoops.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnLoopPlayIcon,
@@ -2120,22 +2119,12 @@ namespace MPfm
             this.columnLoopLength,
             this.columnLoopStartPosition,
             this.columnLoopEndPosition});
-            this.viewLoops.CustomFontName = null;
             this.viewLoops.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewLoops.FontCollection = null;
             this.viewLoops.FullRowSelect = true;
-            this.viewLoops.GradientColor1 = System.Drawing.Color.LightGray;
-            this.viewLoops.GradientColor2 = System.Drawing.Color.Gray;
-            this.viewLoops.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.viewLoops.GridLines = true;
-            this.viewLoops.HeaderForeColor = System.Drawing.Color.Black;
-            this.viewLoops.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.viewLoops.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.viewLoops.HeaderHeight = 0;
             this.viewLoops.HideSelection = false;
             this.viewLoops.Location = new System.Drawing.Point(0, 20);
             this.viewLoops.Name = "viewLoops";
-            this.viewLoops.SelectedColor = System.Drawing.Color.DarkGray;
             this.viewLoops.Size = new System.Drawing.Size(393, 61);
             this.viewLoops.SmallImageList = this.imageList;
             this.viewLoops.TabIndex = 74;
@@ -2357,28 +2346,17 @@ namespace MPfm
             this.viewMarkers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewMarkers.AntiAliasingEnabled = true;
             this.viewMarkers.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.viewMarkers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnMarkerName,
             this.columnMarkerPosition,
             this.columnMarkerComments});
-            this.viewMarkers.CustomFontName = null;
             this.viewMarkers.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewMarkers.FontCollection = null;
             this.viewMarkers.FullRowSelect = true;
-            this.viewMarkers.GradientColor1 = System.Drawing.Color.LightGray;
-            this.viewMarkers.GradientColor2 = System.Drawing.Color.Gray;
-            this.viewMarkers.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.viewMarkers.GridLines = true;
-            this.viewMarkers.HeaderForeColor = System.Drawing.Color.Black;
-            this.viewMarkers.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.viewMarkers.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.viewMarkers.HeaderHeight = 0;
             this.viewMarkers.HideSelection = false;
             this.viewMarkers.Location = new System.Drawing.Point(0, 20);
             this.viewMarkers.Name = "viewMarkers";
-            this.viewMarkers.SelectedColor = System.Drawing.Color.DarkGray;
             this.viewMarkers.Size = new System.Drawing.Size(393, 61);
             this.viewMarkers.TabIndex = 70;
             this.viewMarkers.UseCompatibleStateImageBehavior = false;

@@ -50,10 +50,6 @@
             MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFirstRun));
             this.fontCollection = new MPfm.WindowsControls.FontCollection();
             this.lblWelcome = new MPfm.WindowsControls.Label();
@@ -70,26 +66,19 @@
             this.lbl1_4 = new MPfm.WindowsControls.Label();
             this.lbl1_4_text = new MPfm.WindowsControls.Label();
             this.btnTestAudioSettings = new MPfm.WindowsControls.Button();
-            this.Panel1 = new MPfm.WindowsControls.Panel();
+            this.panelNote = new MPfm.WindowsControls.Panel();
             this.lblNote1 = new MPfm.WindowsControls.Label();
             this.lblNote2 = new MPfm.WindowsControls.Label();
             this.lblAudioSettingsText = new MPfm.WindowsControls.Label();
             this.lblAudioSettings = new MPfm.WindowsControls.Label();
             this.cboOutputDevices = new System.Windows.Forms.ComboBox();
             this.cboDrivers = new System.Windows.Forms.ComboBox();
-            this.panelError = new MPfm.WindowsControls.Panel();
-            this.btnErrorCopyToClipboard = new MPfm.WindowsControls.Button();
-            this.btnErrorSendEmail = new MPfm.WindowsControls.Button();
-            this.btnErrorExitPMP = new MPfm.WindowsControls.Button();
-            this.txtError = new System.Windows.Forms.RichTextBox();
-            this.lblError = new MPfm.WindowsControls.Label();
             this.btnNext = new MPfm.WindowsControls.Button();
             this.btnCancelWizard = new MPfm.WindowsControls.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.panelWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
-            this.Panel1.SuspendLayout();
-            this.panelError.SuspendLayout();
+            this.panelNote.SuspendLayout();
             this.SuspendLayout();
             // 
             // fontCollection
@@ -118,7 +107,7 @@
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
             customFont1.IsUnderline = false;
-            customFont1.Size = 18;
+            customFont1.Size = 18F;
             customFont1.StandardFontName = "Arial";
             customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
@@ -137,7 +126,7 @@
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
             customFont2.IsUnderline = false;
-            customFont2.Size = 10;
+            customFont2.Size = 10F;
             customFont2.StandardFontName = "Arial";
             customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
@@ -167,7 +156,7 @@
             this.panelWelcome.Controls.Add(this.lbl1_4);
             this.panelWelcome.Controls.Add(this.lbl1_4_text);
             this.panelWelcome.Controls.Add(this.btnTestAudioSettings);
-            this.panelWelcome.Controls.Add(this.Panel1);
+            this.panelWelcome.Controls.Add(this.panelNote);
             this.panelWelcome.Controls.Add(this.lblAudioSettingsText);
             this.panelWelcome.Controls.Add(this.lblAudioSettings);
             this.panelWelcome.Controls.Add(this.cboOutputDevices);
@@ -203,7 +192,7 @@
             customFont3.IsBold = true;
             customFont3.IsItalic = false;
             customFont3.IsUnderline = false;
-            customFont3.Size = 9;
+            customFont3.Size = 9F;
             customFont3.StandardFontName = "Arial";
             customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
@@ -245,7 +234,7 @@
             customFont4.IsBold = true;
             customFont4.IsItalic = false;
             customFont4.IsUnderline = false;
-            customFont4.Size = 10;
+            customFont4.Size = 10F;
             customFont4.StandardFontName = "Arial";
             customFont4.UseAntiAliasing = true;
             customFont4.UseEmbeddedFont = true;
@@ -265,7 +254,7 @@
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
             customFont5.IsUnderline = false;
-            customFont5.Size = 9;
+            customFont5.Size = 9F;
             customFont5.StandardFontName = "Arial";
             customFont5.UseAntiAliasing = true;
             customFont5.UseEmbeddedFont = true;
@@ -285,7 +274,7 @@
             customFont6.IsBold = true;
             customFont6.IsItalic = false;
             customFont6.IsUnderline = false;
-            customFont6.Size = 10;
+            customFont6.Size = 10F;
             customFont6.StandardFontName = "Arial";
             customFont6.UseAntiAliasing = true;
             customFont6.UseEmbeddedFont = true;
@@ -305,7 +294,7 @@
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
             customFont7.IsUnderline = false;
-            customFont7.Size = 9;
+            customFont7.Size = 9F;
             customFont7.StandardFontName = "Arial";
             customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
@@ -325,7 +314,7 @@
             customFont8.IsBold = true;
             customFont8.IsItalic = false;
             customFont8.IsUnderline = false;
-            customFont8.Size = 10;
+            customFont8.Size = 10F;
             customFont8.StandardFontName = "Arial";
             customFont8.UseAntiAliasing = true;
             customFont8.UseEmbeddedFont = true;
@@ -345,7 +334,7 @@
             customFont9.IsBold = false;
             customFont9.IsItalic = false;
             customFont9.IsUnderline = false;
-            customFont9.Size = 9;
+            customFont9.Size = 9F;
             customFont9.StandardFontName = "Arial";
             customFont9.UseAntiAliasing = true;
             customFont9.UseEmbeddedFont = true;
@@ -365,7 +354,7 @@
             customFont10.IsBold = true;
             customFont10.IsItalic = false;
             customFont10.IsUnderline = false;
-            customFont10.Size = 10;
+            customFont10.Size = 10F;
             customFont10.StandardFontName = "Arial";
             customFont10.UseAntiAliasing = true;
             customFont10.UseEmbeddedFont = true;
@@ -385,7 +374,7 @@
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
             customFont11.IsUnderline = false;
-            customFont11.Size = 9;
+            customFont11.Size = 9F;
             customFont11.StandardFontName = "Arial";
             customFont11.UseAntiAliasing = true;
             customFont11.UseEmbeddedFont = true;
@@ -407,7 +396,7 @@
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
             customFont12.IsUnderline = false;
-            customFont12.Size = 8;
+            customFont12.Size = 8F;
             customFont12.StandardFontName = "Arial";
             customFont12.UseAntiAliasing = true;
             customFont12.UseEmbeddedFont = true;
@@ -436,34 +425,34 @@
             this.btnTestAudioSettings.UseVisualStyleBackColor = true;
             this.btnTestAudioSettings.Click += new System.EventHandler(this.btnTestAudioSettings_Click);
             // 
-            // Panel1
+            // panelNote
             // 
-            this.Panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelNote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Panel1.AntiAliasingEnabled = true;
-            this.Panel1.Controls.Add(this.lblNote1);
-            this.Panel1.Controls.Add(this.lblNote2);
-            this.Panel1.ExpandedHeight = 200;
-            this.Panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Panel1.FontCollection = this.fontCollection;
-            this.Panel1.ForeColor = System.Drawing.Color.White;
-            this.Panel1.GradientColor1 = System.Drawing.Color.Gainsboro;
-            this.Panel1.GradientColor2 = System.Drawing.Color.Silver;
-            this.Panel1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.Panel1.HeaderCustomFontName = "Junction";
-            this.Panel1.HeaderExpandable = false;
-            this.Panel1.HeaderExpanded = true;
-            this.Panel1.HeaderForeColor = System.Drawing.Color.Black;
-            this.Panel1.HeaderGradientColor1 = System.Drawing.Color.Silver;
-            this.Panel1.HeaderGradientColor2 = System.Drawing.Color.DarkGray;
-            this.Panel1.HeaderHeight = 22;
-            this.Panel1.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Panel1.HeaderTitle = "Note :";
-            this.Panel1.Location = new System.Drawing.Point(16, 194);
-            this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(591, 75);
-            this.Panel1.TabIndex = 87;
-            this.Panel1.Text = "CustomTextBox Disabled";
+            this.panelNote.AntiAliasingEnabled = true;
+            this.panelNote.Controls.Add(this.lblNote1);
+            this.panelNote.Controls.Add(this.lblNote2);
+            this.panelNote.ExpandedHeight = 200;
+            this.panelNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelNote.FontCollection = this.fontCollection;
+            this.panelNote.ForeColor = System.Drawing.Color.White;
+            this.panelNote.GradientColor1 = System.Drawing.Color.Gainsboro;
+            this.panelNote.GradientColor2 = System.Drawing.Color.Silver;
+            this.panelNote.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelNote.HeaderCustomFontName = "Junction";
+            this.panelNote.HeaderExpandable = false;
+            this.panelNote.HeaderExpanded = true;
+            this.panelNote.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelNote.HeaderGradientColor1 = System.Drawing.Color.Silver;
+            this.panelNote.HeaderGradientColor2 = System.Drawing.Color.DarkGray;
+            this.panelNote.HeaderHeight = 22;
+            this.panelNote.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelNote.HeaderTitle = "Note :";
+            this.panelNote.Location = new System.Drawing.Point(16, 194);
+            this.panelNote.Name = "panelNote";
+            this.panelNote.Size = new System.Drawing.Size(591, 75);
+            this.panelNote.TabIndex = 87;
+            this.panelNote.Text = "CustomTextBox Disabled";
             // 
             // lblNote1
             // 
@@ -472,7 +461,7 @@
             customFont13.IsBold = false;
             customFont13.IsItalic = false;
             customFont13.IsUnderline = false;
-            customFont13.Size = 8;
+            customFont13.Size = 8F;
             customFont13.StandardFontName = "Arial";
             customFont13.UseAntiAliasing = true;
             customFont13.UseEmbeddedFont = true;
@@ -493,7 +482,7 @@
             customFont14.IsBold = false;
             customFont14.IsItalic = false;
             customFont14.IsUnderline = false;
-            customFont14.Size = 8;
+            customFont14.Size = 8F;
             customFont14.StandardFontName = "Arial";
             customFont14.UseAntiAliasing = true;
             customFont14.UseEmbeddedFont = true;
@@ -514,7 +503,7 @@
             customFont15.IsBold = false;
             customFont15.IsItalic = false;
             customFont15.IsUnderline = false;
-            customFont15.Size = 9;
+            customFont15.Size = 9F;
             customFont15.StandardFontName = "Arial";
             customFont15.UseAntiAliasing = true;
             customFont15.UseEmbeddedFont = true;
@@ -535,7 +524,7 @@
             customFont16.IsBold = true;
             customFont16.IsItalic = false;
             customFont16.IsUnderline = false;
-            customFont16.Size = 12;
+            customFont16.Size = 12F;
             customFont16.StandardFontName = "Arial";
             customFont16.UseAntiAliasing = true;
             customFont16.UseEmbeddedFont = true;
@@ -580,202 +569,21 @@
             this.cboDrivers.ValueMember = "DriverType";
             this.cboDrivers.SelectedIndexChanged += new System.EventHandler(this.cboDrivers_SelectedIndexChanged);
             // 
-            // panelError
-            // 
-            this.panelError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelError.AntiAliasingEnabled = true;
-            this.panelError.Controls.Add(this.btnErrorCopyToClipboard);
-            this.panelError.Controls.Add(this.btnErrorSendEmail);
-            this.panelError.Controls.Add(this.btnErrorExitPMP);
-            this.panelError.Controls.Add(this.txtError);
-            this.panelError.Controls.Add(this.lblError);
-            this.panelError.ExpandedHeight = 200;
-            this.panelError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelError.FontCollection = this.fontCollection;
-            this.panelError.ForeColor = System.Drawing.Color.White;
-            this.panelError.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.panelError.GradientColor2 = System.Drawing.Color.Maroon;
-            this.panelError.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelError.HeaderCustomFontName = "Avenir";
-            this.panelError.HeaderExpandable = false;
-            this.panelError.HeaderExpanded = true;
-            this.panelError.HeaderForeColor = System.Drawing.Color.White;
-            this.panelError.HeaderGradientColor1 = System.Drawing.Color.Red;
-            this.panelError.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.panelError.HeaderHeight = 22;
-            this.panelError.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelError.HeaderTitle = "Error starting wizard";
-            this.panelError.Location = new System.Drawing.Point(645, 451);
-            this.panelError.Name = "panelError";
-            this.panelError.Size = new System.Drawing.Size(590, 227);
-            this.panelError.TabIndex = 79;
-            this.panelError.Text = "CustomTextBox Disabled";
-            this.panelError.Visible = false;
-            // 
-            // btnErrorCopyToClipboard
-            // 
-            this.btnErrorCopyToClipboard.BorderColor = System.Drawing.Color.Black;
-            this.btnErrorCopyToClipboard.BorderWidth = 1;
-            this.btnErrorCopyToClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont17.EmbeddedFontName = "";
-            customFont17.IsBold = false;
-            customFont17.IsItalic = false;
-            customFont17.IsUnderline = false;
-            customFont17.Size = 8;
-            customFont17.StandardFontName = "Arial";
-            customFont17.UseAntiAliasing = true;
-            customFont17.UseEmbeddedFont = false;
-            this.btnErrorCopyToClipboard.CustomFont = customFont17;
-            this.btnErrorCopyToClipboard.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnErrorCopyToClipboard.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnErrorCopyToClipboard.DisabledGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorCopyToClipboard.DisabledGradientColor2 = System.Drawing.Color.Maroon;
-            this.btnErrorCopyToClipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnErrorCopyToClipboard.FontColor = System.Drawing.Color.White;
-            this.btnErrorCopyToClipboard.GradientColor1 = System.Drawing.Color.DarkRed;
-            this.btnErrorCopyToClipboard.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorCopyToClipboard.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnErrorCopyToClipboard.Image = global::MPfm.Properties.Resources.page_copy;
-            this.btnErrorCopyToClipboard.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnErrorCopyToClipboard.Location = new System.Drawing.Point(318, 180);
-            this.btnErrorCopyToClipboard.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnErrorCopyToClipboard.MouseOverFontColor = System.Drawing.Color.White;
-            this.btnErrorCopyToClipboard.MouseOverGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorCopyToClipboard.MouseOverGradientColor2 = System.Drawing.Color.Maroon;
-            this.btnErrorCopyToClipboard.Name = "btnErrorCopyToClipboard";
-            this.btnErrorCopyToClipboard.Size = new System.Drawing.Size(123, 40);
-            this.btnErrorCopyToClipboard.TabIndex = 81;
-            this.btnErrorCopyToClipboard.Text = "Copy to clipboard";
-            this.btnErrorCopyToClipboard.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnErrorCopyToClipboard.UseVisualStyleBackColor = true;
-            this.btnErrorCopyToClipboard.Click += new System.EventHandler(this.btnErrorCopyToClipboard_Click);
-            // 
-            // btnErrorSendEmail
-            // 
-            this.btnErrorSendEmail.BorderColor = System.Drawing.Color.Black;
-            this.btnErrorSendEmail.BorderWidth = 1;
-            this.btnErrorSendEmail.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont18.EmbeddedFontName = "";
-            customFont18.IsBold = false;
-            customFont18.IsItalic = false;
-            customFont18.IsUnderline = false;
-            customFont18.Size = 8;
-            customFont18.StandardFontName = "Arial";
-            customFont18.UseAntiAliasing = true;
-            customFont18.UseEmbeddedFont = false;
-            this.btnErrorSendEmail.CustomFont = customFont18;
-            this.btnErrorSendEmail.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnErrorSendEmail.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnErrorSendEmail.DisabledGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorSendEmail.DisabledGradientColor2 = System.Drawing.Color.Maroon;
-            this.btnErrorSendEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnErrorSendEmail.FontColor = System.Drawing.Color.White;
-            this.btnErrorSendEmail.GradientColor1 = System.Drawing.Color.DarkRed;
-            this.btnErrorSendEmail.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorSendEmail.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnErrorSendEmail.Image = global::MPfm.Properties.Resources.email;
-            this.btnErrorSendEmail.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnErrorSendEmail.Location = new System.Drawing.Point(447, 180);
-            this.btnErrorSendEmail.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnErrorSendEmail.MouseOverFontColor = System.Drawing.Color.White;
-            this.btnErrorSendEmail.MouseOverGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorSendEmail.MouseOverGradientColor2 = System.Drawing.Color.Maroon;
-            this.btnErrorSendEmail.Name = "btnErrorSendEmail";
-            this.btnErrorSendEmail.Size = new System.Drawing.Size(123, 40);
-            this.btnErrorSendEmail.TabIndex = 80;
-            this.btnErrorSendEmail.Text = "Send email to author";
-            this.btnErrorSendEmail.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnErrorSendEmail.UseVisualStyleBackColor = true;
-            this.btnErrorSendEmail.Click += new System.EventHandler(this.btnErrorSendEmail_Click);
-            // 
-            // btnErrorExitPMP
-            // 
-            this.btnErrorExitPMP.BorderColor = System.Drawing.Color.Black;
-            this.btnErrorExitPMP.BorderWidth = 1;
-            this.btnErrorExitPMP.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont19.EmbeddedFontName = "";
-            customFont19.IsBold = false;
-            customFont19.IsItalic = false;
-            customFont19.IsUnderline = false;
-            customFont19.Size = 8;
-            customFont19.StandardFontName = "Arial";
-            customFont19.UseAntiAliasing = true;
-            customFont19.UseEmbeddedFont = false;
-            this.btnErrorExitPMP.CustomFont = customFont19;
-            this.btnErrorExitPMP.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnErrorExitPMP.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnErrorExitPMP.DisabledGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorExitPMP.DisabledGradientColor2 = System.Drawing.Color.Maroon;
-            this.btnErrorExitPMP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnErrorExitPMP.FontColor = System.Drawing.Color.White;
-            this.btnErrorExitPMP.ForeColor = System.Drawing.Color.White;
-            this.btnErrorExitPMP.GradientColor1 = System.Drawing.Color.DarkRed;
-            this.btnErrorExitPMP.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorExitPMP.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnErrorExitPMP.Image = global::MPfm.Properties.Resources.door_in;
-            this.btnErrorExitPMP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnErrorExitPMP.Location = new System.Drawing.Point(576, 180);
-            this.btnErrorExitPMP.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnErrorExitPMP.MouseOverFontColor = System.Drawing.Color.White;
-            this.btnErrorExitPMP.MouseOverGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnErrorExitPMP.MouseOverGradientColor2 = System.Drawing.Color.Maroon;
-            this.btnErrorExitPMP.Name = "btnErrorExitPMP";
-            this.btnErrorExitPMP.Size = new System.Drawing.Size(88, 40);
-            this.btnErrorExitPMP.TabIndex = 78;
-            this.btnErrorExitPMP.Text = "Exit PMP";
-            this.btnErrorExitPMP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnErrorExitPMP.UseVisualStyleBackColor = true;
-            this.btnErrorExitPMP.Click += new System.EventHandler(this.btnErrorExitPMP_Click);
-            // 
-            // txtError
-            // 
-            this.txtError.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.txtError.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtError.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtError.ForeColor = System.Drawing.Color.White;
-            this.txtError.Location = new System.Drawing.Point(6, 54);
-            this.txtError.Name = "txtError";
-            this.txtError.ReadOnly = true;
-            this.txtError.Size = new System.Drawing.Size(658, 120);
-            this.txtError.TabIndex = 79;
-            this.txtError.Text = "";
-            // 
-            // lblError
-            // 
-            this.lblError.BackColor = System.Drawing.Color.Transparent;
-            customFont20.EmbeddedFontName = "";
-            customFont20.IsBold = false;
-            customFont20.IsItalic = false;
-            customFont20.IsUnderline = false;
-            customFont20.Size = 8;
-            customFont20.StandardFontName = "Arial";
-            customFont20.UseAntiAliasing = true;
-            customFont20.UseEmbeddedFont = false;
-            this.lblError.CustomFont = customFont20;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.LightGray;
-            this.lblError.Location = new System.Drawing.Point(3, 25);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(383, 26);
-            this.lblError.TabIndex = 78;
-            this.lblError.Text = "An error has occured while detecting output devices:";
-            // 
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNext.BorderColor = System.Drawing.Color.Black;
             this.btnNext.BorderWidth = 1;
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont21.EmbeddedFontName = "Junction";
-            customFont21.IsBold = false;
-            customFont21.IsItalic = false;
-            customFont21.IsUnderline = false;
-            customFont21.Size = 8;
-            customFont21.StandardFontName = "Arial";
-            customFont21.UseAntiAliasing = true;
-            customFont21.UseEmbeddedFont = true;
-            this.btnNext.CustomFont = customFont21;
+            customFont17.EmbeddedFontName = "Junction";
+            customFont17.IsBold = false;
+            customFont17.IsItalic = false;
+            customFont17.IsUnderline = false;
+            customFont17.Size = 8F;
+            customFont17.StandardFontName = "Arial";
+            customFont17.UseAntiAliasing = true;
+            customFont17.UseEmbeddedFont = true;
+            this.btnNext.CustomFont = customFont17;
             this.btnNext.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnNext.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnNext.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -807,15 +615,15 @@
             this.btnCancelWizard.BorderColor = System.Drawing.Color.Black;
             this.btnCancelWizard.BorderWidth = 1;
             this.btnCancelWizard.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont22.EmbeddedFontName = "Junction";
-            customFont22.IsBold = false;
-            customFont22.IsItalic = false;
-            customFont22.IsUnderline = false;
-            customFont22.Size = 8;
-            customFont22.StandardFontName = "Arial";
-            customFont22.UseAntiAliasing = true;
-            customFont22.UseEmbeddedFont = true;
-            this.btnCancelWizard.CustomFont = customFont22;
+            customFont18.EmbeddedFontName = "Junction";
+            customFont18.IsBold = false;
+            customFont18.IsItalic = false;
+            customFont18.IsUnderline = false;
+            customFont18.Size = 8F;
+            customFont18.StandardFontName = "Arial";
+            customFont18.UseAntiAliasing = true;
+            customFont18.UseEmbeddedFont = true;
+            this.btnCancelWizard.CustomFont = customFont18;
             this.btnCancelWizard.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnCancelWizard.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnCancelWizard.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -854,7 +662,6 @@
             this.Controls.Add(this.btnCancelWizard);
             this.Controls.Add(this.panelWelcome);
             this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.panelError);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.GradientColor1 = System.Drawing.Color.White;
             this.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
@@ -867,8 +674,7 @@
             this.Load += new System.EventHandler(this.frmFirstRun_Load);
             this.panelWelcome.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
-            this.Panel1.ResumeLayout(false);
-            this.panelError.ResumeLayout(false);
+            this.panelNote.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -881,15 +687,9 @@
         private MPfm.WindowsControls.Label lblWelcomeText;
         private MPfm.WindowsControls.Panel panelWelcome;
         private System.Windows.Forms.ComboBox cboDrivers;
-        private MPfm.WindowsControls.Panel panelError;
-        private System.Windows.Forms.RichTextBox txtError;
-        private MPfm.WindowsControls.Label lblError;
-        private MPfm.WindowsControls.Button btnErrorCopyToClipboard;
-        private MPfm.WindowsControls.Button btnErrorSendEmail;
-        private MPfm.WindowsControls.Button btnErrorExitPMP;
         private MPfm.WindowsControls.Button btnCancelWizard;
         private System.Windows.Forms.ComboBox cboOutputDevices;
-        private MPfm.WindowsControls.Panel Panel1;
+        private MPfm.WindowsControls.Panel panelNote;
         private MPfm.WindowsControls.Label lblNote1;
         private MPfm.WindowsControls.Label lblNote2;
         private MPfm.WindowsControls.Label lblAudioSettingsText;

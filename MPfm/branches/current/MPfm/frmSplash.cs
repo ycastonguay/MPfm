@@ -76,16 +76,6 @@ namespace MPfm
 
             // Display the assembly version in the top label
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            
-            //int randomNumber = RandomNumber();
-            //if (randomNumber >= 50)
-            //{
-            //    pictureBackground.Image = global::PMP.Properties.Resources.PMP_Splash2010;
-            //}
-            //else if (randomNumber < 50)
-            //{
-            //    pictureBackground.Image = global::PMP.Properties.Resources.PMP_Splash2010_2;
-            //}
         }
 
         /// <summary>

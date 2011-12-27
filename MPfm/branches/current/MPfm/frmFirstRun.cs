@@ -130,53 +130,15 @@ namespace MPfm
                 }
             }
             catch (Exception ex)
-            {
-                lblError.Text = "An error has occured while detecting output devices:";
+            {                
                 StringBuilder sbError = new StringBuilder();
                 sbError.AppendLine("Message: " + ex.Message);
                 sbError.AppendLine("Stack trace: \n" + ex.StackTrace);
-                txtError.Text = sbError.ToString();
-                panelError.Visible = true;
                 throw ex;
             }
         }
 
         #region Control Events
-
-        #region Error Panel Events
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Exit PMP" button on the Error panel.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void btnErrorExitPMP_Click(object sender, EventArgs e)
-        {
-            DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Close();
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Send Email" button on the Error panel.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void btnErrorSendEmail_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"mailto:yanick.castonguay@gmail.com");
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Copy to Clipboard" button on the Error panel.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void btnErrorCopyToClipboard_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetData(DataFormats.Text, txtError.Text);
-        }
-
-        #endregion
 
         /// <summary>
         /// Occurs when the user clicks on the "Cancel" button. This exits the application.        

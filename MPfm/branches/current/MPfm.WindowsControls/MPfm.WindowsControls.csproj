@@ -146,9 +146,6 @@
     <Compile Include="Views\ReorderListView.Designer.cs">
       <DependentUpon>ReorderListView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Panel-Forms\Panel.cs">
       <SubType>Component</SubType>
     </Compile>

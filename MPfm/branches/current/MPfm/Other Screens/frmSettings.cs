@@ -541,32 +541,23 @@ namespace MPfm
         /// </summary>
         public void RefreshFolders()
         {
-            // Get the list of folders from the database
-            //List<Folder> folders = DataAccess.SelectFolders();
+            // Get the list of folders from the database            
             List<Folder> folders = m_main.Library.Gateway.SelectFolders();
 
             // Check if the list is null
             if (folders != null)
             {
-                viewFolders.Items.Clear();
+                // Clear items                 
+                listViewFolders.Items.Clear();
 
+                // Loop through folders
                 foreach (Folder folder in folders)
                 {
+                    // Add item
                     ListViewItem item = new ListViewItem(folder.FolderPath);
                     item.Tag = folder.FolderId;
-
-                    /*if (folder.LastUpdate == DateTime.MinValue)
-                    {
-                        item.SubItems.Add("Never");
-                    }
-                    else
-                    {
-                        item.SubItems.Add(folder.LastUpdate.ToShortDateString());
-                    }*/
-
-                    item.SubItems.Add(folder.IsRecursive.ToString());
-
-                    viewFolders.Items.Add(item);
+                    item.SubItems.Add(folder.IsRecursive.ToString());                                        
+                    listViewFolders.Items.Add(item);
                 }
             }
         }
@@ -630,7 +621,7 @@ namespace MPfm
         private void btnRemoveFolder_Click(object sender, EventArgs e)
         {
             // If no items are selected, return immediately
-            if (viewFolders.SelectedItems.Count == 0)
+            if (listViewFolders.SelectedItems.Count == 0)
             {
                 return;
             }
@@ -654,7 +645,7 @@ namespace MPfm
             }
 
             // Delete selected folders
-            foreach (ListViewItem item in viewFolders.SelectedItems)
+            foreach (ListViewItem item in listViewFolders.SelectedItems)
             {
                 // Check if the tag is null
                 if (item.Tag != null)
@@ -687,7 +678,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
-        private void viewFolders_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        private void listViewFolders_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             e.Cancel = true;
         }

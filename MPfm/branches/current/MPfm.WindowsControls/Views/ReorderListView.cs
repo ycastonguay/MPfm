@@ -36,7 +36,7 @@ namespace MPfm.WindowsControls
     /// 
     /// This code has been taken from http://www.codeproject.com/KB/list/ReorderListView.aspx.        
     /// </summary>
-    public partial class ReorderListView : ListView
+    public partial class ReorderListView : System.Windows.Forms.ListView
     {
         private const string REORDER = "Reorder";
 

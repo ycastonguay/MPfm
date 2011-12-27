@@ -38,7 +38,7 @@ namespace MPfm.Library
 {
     /// <summary>
     /// The Library class is a cache of the song library. It can update the library in a background worker.
-    /// It uses the DataAccess class to access the PMP database.
+    /// It uses the DataAccess class to access the MPfm database.
     /// </summary>
     public class Library
     {
