@@ -15,13 +15,15 @@
 
 --*/
 
-ALTER TABLE Playlists ADD FilePath varchar(500) NULL
-
-/**/
-
-ALTER TABLE Playlists ADD Format varchar(50) NULL
+DROP TABLE Playlists
 
 /**/
 
 DROP TABLE PlaylistItems
 
+/**/
+
+CREATE TABLE [PlaylistFiles] (
+[FilePath] varchar(500)  NOT NULL PRIMARY KEY,
+[Format] varchar(50)  NULL
+)

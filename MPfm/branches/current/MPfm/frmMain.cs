@@ -1480,7 +1480,8 @@ namespace MPfm
             }
             else
             {
-                formPlaylist.Show(this);
+                //formPlaylist.Show(this);
+                formPlaylist.Show();
                 btnPlaylist.Checked = true;
             }
         }

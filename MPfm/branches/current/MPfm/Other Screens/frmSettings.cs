@@ -712,7 +712,7 @@ namespace MPfm
         private void btnResetLibrary_Click(object sender, EventArgs e)
         {
             // Confirm operation
-            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all songs from your library (they will not be deleted!)", "Reset Library", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all the songs, loops, markers and playlists from your library.\nThis will *NOT* delete the actual files from your hard disk.", "Reset Library Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
                 // Stop the song if one is playing
                 if (Main.Player.IsPlaying)

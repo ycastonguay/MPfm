@@ -119,6 +119,35 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Converts a DataTable to a list of PlaylistFiles.
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <returns>List of PlaylistFiles</returns>
+        public static List<PlaylistFile> PlaylistFiles(DataTable table)
+        {
+            // Create list
+            List<PlaylistFile> dtos = new List<PlaylistFile>();
+
+            // Loop through rows
+            for (int a = 0; a < table.Rows.Count; a++)
+            {
+                // Set file path
+                PlaylistFile dto = new PlaylistFile();
+                dto.FilePath = table.Rows[a]["FilePath"].ToString();
+
+                // Set format
+                PlaylistFileFormat format = PlaylistFileFormat.Unknown;
+                Enum.TryParse<PlaylistFileFormat>(table.Rows[a]["FilePath"].ToString(), out format);
+                dto.Format = format;
+
+                // Add DTO to list
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
+
+        /// <summary>
         /// Converts a DataTable to a list of Folders.
         /// </summary>
         /// <param name="table">DataTable</param>
@@ -337,6 +366,11 @@ namespace MPfm.Library
                 // Convert values
                 ToAudioFileRow(ref row, (AudioFile)dto);
             }
+            else if (dto is PlaylistFile)
+            {
+                // Convert values
+                ToPlaylistFileRow(ref row, (PlaylistFile)dto);
+            }
             else if (dto is Folder)
             {
                 // Convert values
@@ -390,6 +424,18 @@ namespace MPfm.Library
             AssignRowValue(ref row, "Rating", dto.Rating);
             AssignRowValue(ref row, "Tempo", dto.Tempo);
             AssignRowValue(ref row, "LastPlayedDateTime", dto.LastPlayed);
+        }
+
+        /// <summary>
+        /// Sets the values of a DataRow in a PlaylistFile DataTable.
+        /// </summary>
+        /// <param name="row">DataRow to set</param>
+        /// <param name="dto">PlaylistFile</param>
+        public static void ToPlaylistFileRow(ref DataRow row, PlaylistFile dto)
+        {
+            // Set row data
+            row["FilePath"] = dto.FilePath;
+            row["Format"] = dto.Format.ToString();
         }
 
         /// <summary>

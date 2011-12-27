@@ -62,8 +62,7 @@ namespace MPfm.Library
         {
             // Delete all table content
             Delete("AudioFiles");
-            Delete("Playlists");
-            Delete("PlaylistItems");
+            Delete("PlaylistFiles");            
             Delete("Loops");
             Delete("Markers");
         }
@@ -999,6 +998,45 @@ namespace MPfm.Library
         {
             // Delete loop
             Delete("Settings", "SettingId", settingId);
+        }
+
+        #endregion
+
+        #region Playlist Files
+
+        /// <summary>
+        /// Selects all playlist files.
+        /// </summary>        
+        /// <returns>List of playlist files</returns>
+        public List<PlaylistFile> SelectPlaylistFiles()
+        {
+            // Fetch data
+            DataTable table = Select("SELECT * FROM PlaylistFiles");
+
+            // Convert to DTO
+            List<PlaylistFile> dtos = ConvertLibrary.PlaylistFiles(table);
+
+            return dtos;
+        }
+
+        /// <summary>
+        /// Inserts a new playlist file into the database.
+        /// </summary>
+        /// <param name="dto">Playlist file</param>
+        public void InsertPlaylistFile(PlaylistFile dto)
+        {
+            // Insert playlist file
+            Insert("PlaylistFiles", "FilePath", dto);
+        }
+
+        /// <summary>
+        /// Deletes a playlist file from the database.
+        /// </summary>
+        /// <param name="filePath">Playlist file path to delete</param>
+        public void DeletePlaylistFile(string filePath)
+        {
+            // Delete loop
+            Delete("PlaylistFiles", "FilePath = '" + filePath + "'");
         }
 
         #endregion

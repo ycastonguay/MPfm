@@ -521,15 +521,17 @@ namespace MPfm.Library
                     mediaFiles = SearchMediaFilesInFolders(arg.FolderPath, true);
                 }
 
-                // Make a list of file names
-                List<string> filePaths = new List<string>();
-                foreach (AudioFile audioFile in AudioFiles)
-                {
-                    filePaths.Add(audioFile.FilePath);
-                }
+                // Get the list of audio files from the database (actually the cache)
+                List<string> filePaths = AudioFiles.Select(x => x.FilePath).ToList();
+
+                // Get the list of playlist file paths from database
+                List<string> playlistFilePaths = Gateway.SelectPlaylistFiles().Select(x => x.FilePath).ToList();
 
                 // Compare list of files from database with list of files found on hard disk
                 List<string> audioFilesToUpdate = mediaFiles.Except(filePaths).ToList();
+
+                // Remove existing playlist files
+                audioFilesToUpdate = audioFilesToUpdate.Except(playlistFilePaths).ToList();                 
 
                 // Cancel thread if necessary
                 if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
@@ -537,8 +539,8 @@ namespace MPfm.Library
                 // Add new media (if media found!)
                 if (mediaFiles.Count > 0)
                 {
-                    AddAudioFilesToLibrary(audioFilesToUpdate);
-                }
+                    AddAudioFilesToLibrary(audioFilesToUpdate);                    
+                }                
 
                 // Cancel thread if necessary
                 if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
@@ -643,7 +645,6 @@ namespace MPfm.Library
             UpdateLibraryReportProgress("Searching media files", "Searching media files in library folders");
 
             // Get registered folders            
-            //List<Folder> folders = DataAccess.SelectFolders();
             List<Folder> folders = m_gateway.SelectFolders();
 
             // For each registered folder
@@ -713,6 +714,11 @@ namespace MPfm.Library
             extensionsSupported.Add("*.OGG");
             extensionsSupported.Add("*.APE");
             extensionsSupported.Add("*.WV");
+
+            extensionsSupported.Add("*.M3U");
+            extensionsSupported.Add("*.M3U8");
+            extensionsSupported.Add("*.PLS");
+            extensionsSupported.Add("*.XSPF");
             //extensionsSupported.Add("*.MPC");
 
 
@@ -781,6 +787,7 @@ namespace MPfm.Library
         {    
             // Declare variables
             AudioFile audioFile = null;
+            PlaylistFile playlistFile = null;
 
             // Check for cancel
             if (CancelUpdateLibrary)
@@ -791,8 +798,26 @@ namespace MPfm.Library
                         
             try
             {
-                // Get audio file metadata
-                audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
+                // Check if this is a playlist file
+                if (filePath.ToUpper().Contains(".M3U") ||
+                    filePath.ToUpper().Contains(".M3U8") ||
+                    filePath.ToUpper().Contains(".PLS") ||
+                    filePath.ToUpper().Contains(".XSPF"))
+                {
+                    // Get playlist file
+                    playlistFile = new PlaylistFile(filePath);
+
+                    // Display update
+                    UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong(), null);
+                }
+                else
+                {
+                    // Get audio file metadata
+                    audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
+
+                    // Display update
+                    UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
+                }
             }
             catch (Exception ex)
             {
@@ -801,14 +826,19 @@ namespace MPfm.Library
                 return;
             }
 
-            // Display update
-            UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
-
             try
             {
-                // Insert song into the database                
-                //m_gateway.InsertSong(newSong);
-                m_gateway.InsertAudioFile(audioFile);
+                // Determine what to insert in database
+                if (audioFile != null)
+                {
+                    // Insert audio file                
+                    m_gateway.InsertAudioFile(audioFile);
+                }
+                else if (playlistFile != null)
+                {
+                    // Insert playlist file                
+                    m_gateway.InsertPlaylistFile(playlistFile);
+                }
             }
             catch (Exception ex)
             {
