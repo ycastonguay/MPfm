@@ -99,7 +99,6 @@ namespace MPfm
             // 
             this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSongBrowserToolbar.AntiAliasingEnabled = true;
             this.panelSongBrowserToolbar.Controls.Add(this.btnLoadPlaylist);
             this.panelSongBrowserToolbar.Controls.Add(this.btnClose);
             this.panelSongBrowserToolbar.Controls.Add(this.btnRemoveSongs);
@@ -109,7 +108,6 @@ namespace MPfm
             this.panelSongBrowserToolbar.Controls.Add(this.btnNewPlaylist);
             this.panelSongBrowserToolbar.ExpandedHeight = 25;
             this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSongBrowserToolbar.FontCollection = null;
             this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
             this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
             this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;

@@ -28,6 +28,7 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -36,16 +37,16 @@ namespace MPfm
             MPfm.WindowsControls.EmbeddedFont embeddedFont1 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont2 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
             MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
@@ -55,10 +56,14 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont23 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont25 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
@@ -162,7 +167,6 @@ namespace MPfm
             // 
             // panelGeneralSettings
             // 
-            this.panelGeneralSettings.AntiAliasingEnabled = true;
             this.panelGeneralSettings.Controls.Add(this.lblTest);
             this.panelGeneralSettings.Controls.Add(this.btnStopPeak);
             this.panelGeneralSettings.Controls.Add(this.btnTestPeak);
@@ -171,10 +175,18 @@ namespace MPfm
             this.panelGeneralSettings.Controls.Add(this.lblShowTray);
             this.panelGeneralSettings.Controls.Add(this.chkShowTray);
             this.panelGeneralSettings.Controls.Add(this.chkHideTray);
+            customFont6.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont6.IsBold = true;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 12F;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseAntiAliasing = true;
+            customFont6.UseEmbeddedFont = true;
+            this.panelGeneralSettings.CustomFont = customFont6;
             this.panelGeneralSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneralSettings.ExpandedHeight = 200;
             this.panelGeneralSettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelGeneralSettings.FontCollection = this.fontCollection;
             this.panelGeneralSettings.GradientColor1 = System.Drawing.Color.Silver;
             this.panelGeneralSettings.GradientColor2 = System.Drawing.Color.Gray;
             this.panelGeneralSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -392,7 +404,6 @@ namespace MPfm
             // 
             // panelTheme
             // 
-            this.panelTheme.AntiAliasingEnabled = true;
             this.panelTheme.Controls.Add(this.comboThemeControl);
             this.panelTheme.Controls.Add(this.textBox2);
             this.panelTheme.Controls.Add(this.lblFilterBySoundFormat);
@@ -403,10 +414,18 @@ namespace MPfm
             this.panelTheme.Controls.Add(this.button3);
             this.panelTheme.Controls.Add(this.button2);
             this.panelTheme.Controls.Add(this.splitContainer1);
+            customFont14.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont14.IsBold = true;
+            customFont14.IsItalic = false;
+            customFont14.IsUnderline = false;
+            customFont14.Size = 12F;
+            customFont14.StandardFontName = "Arial";
+            customFont14.UseAntiAliasing = true;
+            customFont14.UseEmbeddedFont = true;
+            this.panelTheme.CustomFont = customFont14;
             this.panelTheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTheme.ExpandedHeight = 200;
             this.panelTheme.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelTheme.FontCollection = this.fontCollection;
             this.panelTheme.GradientColor1 = System.Drawing.Color.Silver;
             this.panelTheme.GradientColor2 = System.Drawing.Color.Gray;
             this.panelTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -455,15 +474,15 @@ namespace MPfm
             // lblFilterBySoundFormat
             // 
             this.lblFilterBySoundFormat.BackColor = System.Drawing.Color.Transparent;
-            customFont6.EmbeddedFontName = "";
-            customFont6.IsBold = false;
-            customFont6.IsItalic = false;
-            customFont6.IsUnderline = false;
-            customFont6.Size = 8F;
-            customFont6.StandardFontName = "Arial";
-            customFont6.UseAntiAliasing = true;
-            customFont6.UseEmbeddedFont = false;
-            this.lblFilterBySoundFormat.CustomFont = customFont6;
+            customFont7.EmbeddedFontName = "";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 8F;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
+            customFont7.UseEmbeddedFont = false;
+            this.lblFilterBySoundFormat.CustomFont = customFont7;
             this.lblFilterBySoundFormat.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFilterBySoundFormat.ForeColor = System.Drawing.Color.Black;
             this.lblFilterBySoundFormat.Location = new System.Drawing.Point(278, 59);
@@ -476,15 +495,15 @@ namespace MPfm
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            customFont7.EmbeddedFontName = "";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 8F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = false;
-            this.label2.CustomFont = customFont7;
+            customFont8.EmbeddedFontName = "";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 8F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = false;
+            this.label2.CustomFont = customFont8;
             this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(289, 35);
@@ -506,15 +525,15 @@ namespace MPfm
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            customFont8.EmbeddedFontName = "";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 8F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = false;
-            this.label1.CustomFont = customFont8;
+            customFont9.EmbeddedFontName = "";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8F;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = false;
+            this.label1.CustomFont = customFont9;
             this.label1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(1, 59);
@@ -529,15 +548,15 @@ namespace MPfm
             this.button4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.button4.BorderWidth = 1;
             this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont9.EmbeddedFontName = "Junction";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 8F;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseAntiAliasing = true;
-            customFont9.UseEmbeddedFont = true;
-            this.button4.CustomFont = customFont9;
+            customFont10.EmbeddedFontName = "Junction";
+            customFont10.IsBold = false;
+            customFont10.IsItalic = false;
+            customFont10.IsUnderline = false;
+            customFont10.Size = 8F;
+            customFont10.StandardFontName = "Arial";
+            customFont10.UseAntiAliasing = true;
+            customFont10.UseEmbeddedFont = true;
+            this.button4.CustomFont = customFont10;
             this.button4.DisabledBorderColor = System.Drawing.Color.Gray;
             this.button4.DisabledFontColor = System.Drawing.Color.Gray;
             this.button4.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -566,15 +585,15 @@ namespace MPfm
             this.button3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.button3.BorderWidth = 1;
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont10.EmbeddedFontName = "Junction";
-            customFont10.IsBold = false;
-            customFont10.IsItalic = false;
-            customFont10.IsUnderline = false;
-            customFont10.Size = 8F;
-            customFont10.StandardFontName = "Arial";
-            customFont10.UseAntiAliasing = true;
-            customFont10.UseEmbeddedFont = true;
-            this.button3.CustomFont = customFont10;
+            customFont11.EmbeddedFontName = "Junction";
+            customFont11.IsBold = false;
+            customFont11.IsItalic = false;
+            customFont11.IsUnderline = false;
+            customFont11.Size = 8F;
+            customFont11.StandardFontName = "Arial";
+            customFont11.UseAntiAliasing = true;
+            customFont11.UseEmbeddedFont = true;
+            this.button3.CustomFont = customFont11;
             this.button3.DisabledBorderColor = System.Drawing.Color.Gray;
             this.button3.DisabledFontColor = System.Drawing.Color.Gray;
             this.button3.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -603,15 +622,15 @@ namespace MPfm
             this.button2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.button2.BorderWidth = 1;
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont11.EmbeddedFontName = "Junction";
-            customFont11.IsBold = false;
-            customFont11.IsItalic = false;
-            customFont11.IsUnderline = false;
-            customFont11.Size = 8F;
-            customFont11.StandardFontName = "Arial";
-            customFont11.UseAntiAliasing = true;
-            customFont11.UseEmbeddedFont = true;
-            this.button2.CustomFont = customFont11;
+            customFont12.EmbeddedFontName = "Junction";
+            customFont12.IsBold = false;
+            customFont12.IsItalic = false;
+            customFont12.IsUnderline = false;
+            customFont12.Size = 8F;
+            customFont12.StandardFontName = "Arial";
+            customFont12.UseAntiAliasing = true;
+            customFont12.UseEmbeddedFont = true;
+            this.button2.CustomFont = customFont12;
             this.button2.DisabledBorderColor = System.Drawing.Color.Gray;
             this.button2.DisabledFontColor = System.Drawing.Color.Gray;
             this.button2.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -675,15 +694,15 @@ namespace MPfm
             this.songBrowser.Text = "songGridView1";
             songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             songGridViewTheme1.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
-            customFont12.EmbeddedFontName = "";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 8F;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = false;
-            songGridViewTheme1.Font = customFont12;
+            customFont13.EmbeddedFontName = "";
+            customFont13.IsBold = false;
+            customFont13.IsItalic = false;
+            customFont13.IsUnderline = false;
+            customFont13.Size = 8F;
+            customFont13.StandardFontName = "Arial";
+            customFont13.UseAntiAliasing = true;
+            customFont13.UseEmbeddedFont = false;
+            songGridViewTheme1.Font = customFont13;
             songGridViewTheme1.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             songGridViewTheme1.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             songGridViewTheme1.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
@@ -722,7 +741,6 @@ namespace MPfm
             // 
             // panelAudioSettings
             // 
-            this.panelAudioSettings.AntiAliasingEnabled = true;
             this.panelAudioSettings.Controls.Add(this.lblMixerSampleRateUnit);
             this.panelAudioSettings.Controls.Add(this.txtMixerSampleRate);
             this.panelAudioSettings.Controls.Add(this.lblBufferSizeUnit);
@@ -737,10 +755,18 @@ namespace MPfm
             this.panelAudioSettings.Controls.Add(this.cboOutputDevices);
             this.panelAudioSettings.Controls.Add(this.lblDriver);
             this.panelAudioSettings.Controls.Add(this.cboDrivers);
+            customFont24.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont24.IsBold = true;
+            customFont24.IsItalic = false;
+            customFont24.IsUnderline = false;
+            customFont24.Size = 12F;
+            customFont24.StandardFontName = "Arial";
+            customFont24.UseAntiAliasing = true;
+            customFont24.UseEmbeddedFont = true;
+            this.panelAudioSettings.CustomFont = customFont24;
             this.panelAudioSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAudioSettings.ExpandedHeight = 200;
             this.panelAudioSettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelAudioSettings.FontCollection = this.fontCollection;
             this.panelAudioSettings.GradientColor1 = System.Drawing.Color.Silver;
             this.panelAudioSettings.GradientColor2 = System.Drawing.Color.Gray;
             this.panelAudioSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -761,15 +787,15 @@ namespace MPfm
             // lblMixerSampleRateUnit
             // 
             this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont13.EmbeddedFontName = "Junction";
-            customFont13.IsBold = true;
-            customFont13.IsItalic = false;
-            customFont13.IsUnderline = false;
-            customFont13.Size = 9F;
-            customFont13.StandardFontName = "Arial";
-            customFont13.UseAntiAliasing = true;
-            customFont13.UseEmbeddedFont = true;
-            this.lblMixerSampleRateUnit.CustomFont = customFont13;
+            customFont15.EmbeddedFontName = "Junction";
+            customFont15.IsBold = true;
+            customFont15.IsItalic = false;
+            customFont15.IsUnderline = false;
+            customFont15.Size = 9F;
+            customFont15.StandardFontName = "Arial";
+            customFont15.UseAntiAliasing = true;
+            customFont15.UseEmbeddedFont = true;
+            this.lblMixerSampleRateUnit.CustomFont = customFont15;
             this.lblMixerSampleRateUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMixerSampleRateUnit.Location = new System.Drawing.Point(70, 147);
             this.lblMixerSampleRateUnit.Name = "lblMixerSampleRateUnit";
@@ -804,15 +830,15 @@ namespace MPfm
             // lblBufferSizeUnit
             // 
             this.lblBufferSizeUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont14.EmbeddedFontName = "Junction";
-            customFont14.IsBold = true;
-            customFont14.IsItalic = false;
-            customFont14.IsUnderline = false;
-            customFont14.Size = 9F;
-            customFont14.StandardFontName = "Arial";
-            customFont14.UseAntiAliasing = true;
-            customFont14.UseEmbeddedFont = true;
-            this.lblBufferSizeUnit.CustomFont = customFont14;
+            customFont16.EmbeddedFontName = "Junction";
+            customFont16.IsBold = true;
+            customFont16.IsItalic = false;
+            customFont16.IsUnderline = false;
+            customFont16.Size = 9F;
+            customFont16.StandardFontName = "Arial";
+            customFont16.UseAntiAliasing = true;
+            customFont16.UseEmbeddedFont = true;
+            this.lblBufferSizeUnit.CustomFont = customFont16;
             this.lblBufferSizeUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBufferSizeUnit.Location = new System.Drawing.Point(175, 147);
             this.lblBufferSizeUnit.Name = "lblBufferSizeUnit";
@@ -842,15 +868,15 @@ namespace MPfm
             // lblUpdatePeriodUnit
             // 
             this.lblUpdatePeriodUnit.BackColor = System.Drawing.Color.Transparent;
-            customFont15.EmbeddedFontName = "Junction";
-            customFont15.IsBold = true;
-            customFont15.IsItalic = false;
-            customFont15.IsUnderline = false;
-            customFont15.Size = 9F;
-            customFont15.StandardFontName = "Arial";
-            customFont15.UseAntiAliasing = true;
-            customFont15.UseEmbeddedFont = true;
-            this.lblUpdatePeriodUnit.CustomFont = customFont15;
+            customFont17.EmbeddedFontName = "Junction";
+            customFont17.IsBold = true;
+            customFont17.IsItalic = false;
+            customFont17.IsUnderline = false;
+            customFont17.Size = 9F;
+            customFont17.StandardFontName = "Arial";
+            customFont17.UseAntiAliasing = true;
+            customFont17.UseEmbeddedFont = true;
+            this.lblUpdatePeriodUnit.CustomFont = customFont17;
             this.lblUpdatePeriodUnit.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUpdatePeriodUnit.Location = new System.Drawing.Point(269, 147);
             this.lblUpdatePeriodUnit.Name = "lblUpdatePeriodUnit";
@@ -880,15 +906,15 @@ namespace MPfm
             // lblUpdatePeriod
             // 
             this.lblUpdatePeriod.BackColor = System.Drawing.Color.Transparent;
-            customFont16.EmbeddedFontName = "Junction";
-            customFont16.IsBold = false;
-            customFont16.IsItalic = false;
-            customFont16.IsUnderline = false;
-            customFont16.Size = 8F;
-            customFont16.StandardFontName = "Arial";
-            customFont16.UseAntiAliasing = true;
-            customFont16.UseEmbeddedFont = true;
-            this.lblUpdatePeriod.CustomFont = customFont16;
+            customFont18.EmbeddedFontName = "Junction";
+            customFont18.IsBold = false;
+            customFont18.IsItalic = false;
+            customFont18.IsUnderline = false;
+            customFont18.Size = 8F;
+            customFont18.StandardFontName = "Arial";
+            customFont18.UseAntiAliasing = true;
+            customFont18.UseEmbeddedFont = true;
+            this.lblUpdatePeriod.CustomFont = customFont18;
             this.lblUpdatePeriod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUpdatePeriod.Location = new System.Drawing.Point(223, 127);
             this.lblUpdatePeriod.Name = "lblUpdatePeriod";
@@ -899,15 +925,15 @@ namespace MPfm
             // lblBufferSize
             // 
             this.lblBufferSize.BackColor = System.Drawing.Color.Transparent;
-            customFont17.EmbeddedFontName = "Junction";
-            customFont17.IsBold = false;
-            customFont17.IsItalic = false;
-            customFont17.IsUnderline = false;
-            customFont17.Size = 8F;
-            customFont17.StandardFontName = "Arial";
-            customFont17.UseAntiAliasing = true;
-            customFont17.UseEmbeddedFont = true;
-            this.lblBufferSize.CustomFont = customFont17;
+            customFont19.EmbeddedFontName = "Junction";
+            customFont19.IsBold = false;
+            customFont19.IsItalic = false;
+            customFont19.IsUnderline = false;
+            customFont19.Size = 8F;
+            customFont19.StandardFontName = "Arial";
+            customFont19.UseAntiAliasing = true;
+            customFont19.UseEmbeddedFont = true;
+            this.lblBufferSize.CustomFont = customFont19;
             this.lblBufferSize.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBufferSize.Location = new System.Drawing.Point(122, 127);
             this.lblBufferSize.Name = "lblBufferSize";
@@ -918,15 +944,15 @@ namespace MPfm
             // lblMixerSampleRate
             // 
             this.lblMixerSampleRate.BackColor = System.Drawing.Color.Transparent;
-            customFont18.EmbeddedFontName = "Junction";
-            customFont18.IsBold = false;
-            customFont18.IsItalic = false;
-            customFont18.IsUnderline = false;
-            customFont18.Size = 8F;
-            customFont18.StandardFontName = "Arial";
-            customFont18.UseAntiAliasing = true;
-            customFont18.UseEmbeddedFont = true;
-            this.lblMixerSampleRate.CustomFont = customFont18;
+            customFont20.EmbeddedFontName = "Junction";
+            customFont20.IsBold = false;
+            customFont20.IsItalic = false;
+            customFont20.IsUnderline = false;
+            customFont20.Size = 8F;
+            customFont20.StandardFontName = "Arial";
+            customFont20.UseAntiAliasing = true;
+            customFont20.UseEmbeddedFont = true;
+            this.lblMixerSampleRate.CustomFont = customFont20;
             this.lblMixerSampleRate.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMixerSampleRate.Location = new System.Drawing.Point(3, 127);
             this.lblMixerSampleRate.Name = "lblMixerSampleRate";
@@ -937,15 +963,15 @@ namespace MPfm
             // lblOutputDriver
             // 
             this.lblOutputDriver.BackColor = System.Drawing.Color.Transparent;
-            customFont19.EmbeddedFontName = "Junction";
-            customFont19.IsBold = false;
-            customFont19.IsItalic = false;
-            customFont19.IsUnderline = false;
-            customFont19.Size = 8F;
-            customFont19.StandardFontName = "Arial";
-            customFont19.UseAntiAliasing = true;
-            customFont19.UseEmbeddedFont = true;
-            this.lblOutputDriver.CustomFont = customFont19;
+            customFont21.EmbeddedFontName = "Junction";
+            customFont21.IsBold = false;
+            customFont21.IsItalic = false;
+            customFont21.IsUnderline = false;
+            customFont21.Size = 8F;
+            customFont21.StandardFontName = "Arial";
+            customFont21.UseAntiAliasing = true;
+            customFont21.UseEmbeddedFont = true;
+            this.lblOutputDriver.CustomFont = customFont21;
             this.lblOutputDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutputDriver.Location = new System.Drawing.Point(3, 80);
             this.lblOutputDriver.Name = "lblOutputDriver";
@@ -958,15 +984,15 @@ namespace MPfm
             this.btnTestSound.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnTestSound.BorderWidth = 1;
             this.btnTestSound.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont20.EmbeddedFontName = "Junction";
-            customFont20.IsBold = false;
-            customFont20.IsItalic = false;
-            customFont20.IsUnderline = false;
-            customFont20.Size = 8F;
-            customFont20.StandardFontName = "Arial";
-            customFont20.UseAntiAliasing = true;
-            customFont20.UseEmbeddedFont = true;
-            this.btnTestSound.CustomFont = customFont20;
+            customFont22.EmbeddedFontName = "Junction";
+            customFont22.IsBold = false;
+            customFont22.IsItalic = false;
+            customFont22.IsUnderline = false;
+            customFont22.Size = 8F;
+            customFont22.StandardFontName = "Arial";
+            customFont22.UseAntiAliasing = true;
+            customFont22.UseEmbeddedFont = true;
+            this.btnTestSound.CustomFont = customFont22;
             this.btnTestSound.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnTestSound.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnTestSound.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1011,15 +1037,15 @@ namespace MPfm
             // lblDriver
             // 
             this.lblDriver.BackColor = System.Drawing.Color.Transparent;
-            customFont21.EmbeddedFontName = "Junction";
-            customFont21.IsBold = false;
-            customFont21.IsItalic = false;
-            customFont21.IsUnderline = false;
-            customFont21.Size = 8F;
-            customFont21.StandardFontName = "Arial";
-            customFont21.UseAntiAliasing = true;
-            customFont21.UseEmbeddedFont = true;
-            this.lblDriver.CustomFont = customFont21;
+            customFont23.EmbeddedFontName = "Junction";
+            customFont23.IsBold = false;
+            customFont23.IsItalic = false;
+            customFont23.IsUnderline = false;
+            customFont23.Size = 8F;
+            customFont23.StandardFontName = "Arial";
+            customFont23.UseAntiAliasing = true;
+            customFont23.UseEmbeddedFont = true;
+            this.lblDriver.CustomFont = customFont23;
             this.lblDriver.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDriver.Location = new System.Drawing.Point(3, 33);
             this.lblDriver.Name = "lblDriver";
@@ -1056,17 +1082,24 @@ namespace MPfm
             // 
             // panelLibrarySettings
             // 
-            this.panelLibrarySettings.AntiAliasingEnabled = true;
             this.panelLibrarySettings.Controls.Add(this.listViewFolders);
             this.panelLibrarySettings.Controls.Add(this.btnRemoveFolder);
             this.panelLibrarySettings.Controls.Add(this.btnAddFolder);
             this.panelLibrarySettings.Controls.Add(this.Button1);
             this.panelLibrarySettings.Controls.Add(this.lblFoldersTitle);
             this.panelLibrarySettings.Controls.Add(this.btnResetLibrary);
+            customFont30.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont30.IsBold = true;
+            customFont30.IsItalic = false;
+            customFont30.IsUnderline = false;
+            customFont30.Size = 12F;
+            customFont30.StandardFontName = "Arial";
+            customFont30.UseAntiAliasing = true;
+            customFont30.UseEmbeddedFont = true;
+            this.panelLibrarySettings.CustomFont = customFont30;
             this.panelLibrarySettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLibrarySettings.ExpandedHeight = 200;
             this.panelLibrarySettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelLibrarySettings.FontCollection = this.fontCollection;
             this.panelLibrarySettings.GradientColor1 = System.Drawing.Color.Silver;
             this.panelLibrarySettings.GradientColor2 = System.Drawing.Color.Gray;
             this.panelLibrarySettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1120,15 +1153,15 @@ namespace MPfm
             this.btnRemoveFolder.BorderColor = System.Drawing.Color.DimGray;
             this.btnRemoveFolder.BorderWidth = 1;
             this.btnRemoveFolder.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont22.EmbeddedFontName = "Junction";
-            customFont22.IsBold = false;
-            customFont22.IsItalic = false;
-            customFont22.IsUnderline = false;
-            customFont22.Size = 8F;
-            customFont22.StandardFontName = "Arial";
-            customFont22.UseAntiAliasing = true;
-            customFont22.UseEmbeddedFont = true;
-            this.btnRemoveFolder.CustomFont = customFont22;
+            customFont25.EmbeddedFontName = "Junction";
+            customFont25.IsBold = false;
+            customFont25.IsItalic = false;
+            customFont25.IsUnderline = false;
+            customFont25.Size = 8F;
+            customFont25.StandardFontName = "Arial";
+            customFont25.UseAntiAliasing = true;
+            customFont25.UseEmbeddedFont = true;
+            this.btnRemoveFolder.CustomFont = customFont25;
             this.btnRemoveFolder.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnRemoveFolder.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnRemoveFolder.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1158,15 +1191,15 @@ namespace MPfm
             this.btnAddFolder.BorderColor = System.Drawing.Color.DimGray;
             this.btnAddFolder.BorderWidth = 1;
             this.btnAddFolder.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont23.EmbeddedFontName = "Junction";
-            customFont23.IsBold = false;
-            customFont23.IsItalic = false;
-            customFont23.IsUnderline = false;
-            customFont23.Size = 8F;
-            customFont23.StandardFontName = "Arial";
-            customFont23.UseAntiAliasing = true;
-            customFont23.UseEmbeddedFont = true;
-            this.btnAddFolder.CustomFont = customFont23;
+            customFont26.EmbeddedFontName = "Junction";
+            customFont26.IsBold = false;
+            customFont26.IsItalic = false;
+            customFont26.IsUnderline = false;
+            customFont26.Size = 8F;
+            customFont26.StandardFontName = "Arial";
+            customFont26.UseAntiAliasing = true;
+            customFont26.UseEmbeddedFont = true;
+            this.btnAddFolder.CustomFont = customFont26;
             this.btnAddFolder.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnAddFolder.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnAddFolder.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1197,15 +1230,15 @@ namespace MPfm
             this.Button1.BorderColor = System.Drawing.Color.DimGray;
             this.Button1.BorderWidth = 1;
             this.Button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont24.EmbeddedFontName = "Junction";
-            customFont24.IsBold = false;
-            customFont24.IsItalic = false;
-            customFont24.IsUnderline = false;
-            customFont24.Size = 8F;
-            customFont24.StandardFontName = "Arial";
-            customFont24.UseAntiAliasing = true;
-            customFont24.UseEmbeddedFont = true;
-            this.Button1.CustomFont = customFont24;
+            customFont27.EmbeddedFontName = "Junction";
+            customFont27.IsBold = false;
+            customFont27.IsItalic = false;
+            customFont27.IsUnderline = false;
+            customFont27.Size = 8F;
+            customFont27.StandardFontName = "Arial";
+            customFont27.UseAntiAliasing = true;
+            customFont27.UseEmbeddedFont = true;
+            this.Button1.CustomFont = customFont27;
             this.Button1.DisabledBorderColor = System.Drawing.Color.Gray;
             this.Button1.DisabledFontColor = System.Drawing.Color.Silver;
             this.Button1.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1234,15 +1267,15 @@ namespace MPfm
             // lblFoldersTitle
             // 
             this.lblFoldersTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont25.EmbeddedFontName = "Junction";
-            customFont25.IsBold = false;
-            customFont25.IsItalic = false;
-            customFont25.IsUnderline = false;
-            customFont25.Size = 8F;
-            customFont25.StandardFontName = "Arial";
-            customFont25.UseAntiAliasing = true;
-            customFont25.UseEmbeddedFont = true;
-            this.lblFoldersTitle.CustomFont = customFont25;
+            customFont28.EmbeddedFontName = "Junction";
+            customFont28.IsBold = false;
+            customFont28.IsItalic = false;
+            customFont28.IsUnderline = false;
+            customFont28.Size = 8F;
+            customFont28.StandardFontName = "Arial";
+            customFont28.UseAntiAliasing = true;
+            customFont28.UseEmbeddedFont = true;
+            this.lblFoldersTitle.CustomFont = customFont28;
             this.lblFoldersTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFoldersTitle.Location = new System.Drawing.Point(3, 36);
             this.lblFoldersTitle.Name = "lblFoldersTitle";
@@ -1256,15 +1289,15 @@ namespace MPfm
             this.btnResetLibrary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnResetLibrary.BorderWidth = 1;
             this.btnResetLibrary.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont26.EmbeddedFontName = "Junction";
-            customFont26.IsBold = false;
-            customFont26.IsItalic = false;
-            customFont26.IsUnderline = false;
-            customFont26.Size = 8F;
-            customFont26.StandardFontName = "Arial";
-            customFont26.UseAntiAliasing = true;
-            customFont26.UseEmbeddedFont = true;
-            this.btnResetLibrary.CustomFont = customFont26;
+            customFont29.EmbeddedFontName = "Junction";
+            customFont29.IsBold = false;
+            customFont29.IsItalic = false;
+            customFont29.IsUnderline = false;
+            customFont29.Size = 8F;
+            customFont29.StandardFontName = "Arial";
+            customFont29.UseAntiAliasing = true;
+            customFont29.UseEmbeddedFont = true;
+            this.btnResetLibrary.CustomFont = customFont29;
             this.btnResetLibrary.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnResetLibrary.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnResetLibrary.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1300,15 +1333,15 @@ namespace MPfm
             this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont27.EmbeddedFontName = "Junction";
-            customFont27.IsBold = false;
-            customFont27.IsItalic = false;
-            customFont27.IsUnderline = false;
-            customFont27.Size = 9F;
-            customFont27.StandardFontName = "Arial";
-            customFont27.UseAntiAliasing = true;
-            customFont27.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont27;
+            customFont31.EmbeddedFontName = "Junction";
+            customFont31.IsBold = false;
+            customFont31.IsItalic = false;
+            customFont31.IsUnderline = false;
+            customFont31.Size = 8F;
+            customFont31.StandardFontName = "Arial";
+            customFont31.UseAntiAliasing = true;
+            customFont31.UseEmbeddedFont = true;
+            this.btnClose.CustomFont = customFont31;
             this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1340,13 +1373,20 @@ namespace MPfm
             // 
             // panelBackground
             // 
-            this.panelBackground.AntiAliasingEnabled = true;
             this.panelBackground.Controls.Add(this.btnClose);
             this.panelBackground.Controls.Add(this.tabs);
+            customFont32.EmbeddedFontName = "";
+            customFont32.IsBold = false;
+            customFont32.IsItalic = false;
+            customFont32.IsUnderline = false;
+            customFont32.Size = 8F;
+            customFont32.StandardFontName = "Arial";
+            customFont32.UseAntiAliasing = true;
+            customFont32.UseEmbeddedFont = false;
+            this.panelBackground.CustomFont = customFont32;
             this.panelBackground.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBackground.ExpandedHeight = 200;
             this.panelBackground.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelBackground.FontCollection = this.fontCollection;
             this.panelBackground.GradientColor1 = System.Drawing.Color.Silver;
             this.panelBackground.GradientColor2 = System.Drawing.Color.Gray;
             this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;

@@ -39,6 +39,9 @@ namespace MPfm.WindowsControls
     {
         #region Background Properties
 
+        /// <summary>
+        /// Private value for the GradientColor1 property.
+        /// </summary>
         private Color m_gradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient.
@@ -57,6 +60,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the GradientColor2 property.
+        /// </summary>
         private Color m_gradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient.
@@ -75,6 +81,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the GradientMode property.
+        /// </summary>
         private LinearGradientMode m_gradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
@@ -97,34 +106,34 @@ namespace MPfm.WindowsControls
         #region Font Properties
 
         /// <summary>
-        /// Pointer to the embedded font collection.
+        /// Private value for the CustomFont property.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        private bool m_antiAliasingEnabled = true;
+        private CustomFont m_customFont = null;
         /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
         {
             get
             {
-                return m_antiAliasingEnabled;
+                return m_customFont;
             }
             set
             {
-                m_antiAliasingEnabled = value;
+                m_customFont = value;
+                Refresh();
             }
-        }       
+        }
 
         #endregion
 
         #region Header Properties
 
+        /// <summary>
+        /// Private value for the HeaderCustomFontName property.
+        /// </summary>
         private string m_headerCustomFontName = "";
         /// <summary>
         /// Name of the embedded font used in the header (as written in the Name property of a CustomFont).
@@ -144,6 +153,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderTitle property.
+        /// </summary>
         private string m_headerTitle = "";
         /// <summary>
         /// Title displayed in the header.
@@ -163,6 +175,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderHeight property.
+        /// </summary>
         private int m_headerHeight = 0;
         /// <summary>
         /// Height of the header.
@@ -183,6 +198,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderTextAlign property.
+        /// </summary>
         private ContentAlignment m_headerTextAlign = ContentAlignment.MiddleLeft;
         /// <summary>
         /// Alignment of the text in the header.
@@ -202,6 +220,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderForeColor property.
+        /// </summary>
         private Color m_headerForeColor = Color.Black;
         /// <summary>
         /// The fore color of the font used in the header.
@@ -221,6 +242,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderGradientColor1 property.
+        /// </summary>
         private Color m_headerGradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient in the header.
@@ -240,6 +264,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderGradientColor2 property.
+        /// </summary>
         private Color m_headerGradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient in the header.
@@ -259,6 +286,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderExpandable property.
+        /// </summary>
         private bool m_headerExpandable = true;
         /// <summary>
         /// Defines if the header is expandable or not.
@@ -278,6 +308,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the HeaderExpanded property.
+        /// </summary>
         private bool m_headerExpanded = false;
         /// <summary>
         /// Defines if the header is expanded.
@@ -297,6 +330,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the ExpandedHeight property.
+        /// </summary>
         private int m_expandedHeight = 200;
         /// <summary>
         /// Defines the header height when expanded.
@@ -323,8 +359,12 @@ namespace MPfm.WindowsControls
         /// </summary>
         public Panel()
         {
+            // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);    
+
+            // Create default font
+            m_customFont = new CustomFont();
         }
 
         #region Expand Methods
@@ -383,23 +423,52 @@ namespace MPfm.WindowsControls
             // Get graphics from event
             Graphics g = pe.Graphics;
 
-            // Set text anti-aliasing to ClearType (best looking AA)
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            // Use anti-aliasing?
+            if (CustomFont.UseAntiAliasing)
+            {
+                // Set text anti-aliasing to ClearType (best looking AA)
+                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-            // Set smoothing mode for paths
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set smoothing mode for paths
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
 
             // Create custom font
-            Font font = this.Font;
-            if (FontCollection != null && m_headerCustomFontName.Length > 0)
-            {
-                FontFamily family = FontCollection.GetFontFamily(m_headerCustomFontName);
+            Font font = null;
 
-                if (family != null)
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            {
+                try
                 {
-                    font = new Font(family, Font.Size, Font.Style);
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+                    // Get embedded font
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
                 }
             }
+
+            // Check if font is null
+            if (font == null)
+            {
+                try
+                {
+                    // Try to get standard font
+                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
+                }
+            }
+
             // Draw body
             if (m_headerExpanded)
             {

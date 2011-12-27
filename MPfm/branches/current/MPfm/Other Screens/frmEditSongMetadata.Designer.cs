@@ -34,6 +34,7 @@ namespace MPfm
             MPfm.WindowsControls.EmbeddedFont embeddedFont3 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont4 = new MPfm.WindowsControls.EmbeddedFont();
             MPfm.WindowsControls.EmbeddedFont embeddedFont5 = new MPfm.WindowsControls.EmbeddedFont();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             this.propertyGridTags = new System.Windows.Forms.PropertyGrid();
@@ -67,7 +68,7 @@ namespace MPfm
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
             customFont1.IsUnderline = false;
-            customFont1.Size = 8;
+            customFont1.Size = 8F;
             customFont1.StandardFontName = "Arial";
             customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
@@ -121,15 +122,22 @@ namespace MPfm
             // 
             // panelEditSongMetadata
             // 
-            this.panelEditSongMetadata.AntiAliasingEnabled = true;
             this.panelEditSongMetadata.Controls.Add(this.lblEditing);
             this.panelEditSongMetadata.Controls.Add(this.btnSave);
             this.panelEditSongMetadata.Controls.Add(this.btnClose);
             this.panelEditSongMetadata.Controls.Add(this.propertyGridTags);
+            customFont4.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont4.IsBold = true;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 12F;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
+            customFont4.UseEmbeddedFont = true;
+            this.panelEditSongMetadata.CustomFont = customFont4;
             this.panelEditSongMetadata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditSongMetadata.ExpandedHeight = 200;
             this.panelEditSongMetadata.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelEditSongMetadata.FontCollection = this.fontCollection;
             this.panelEditSongMetadata.GradientColor1 = System.Drawing.Color.Silver;
             this.panelEditSongMetadata.GradientColor2 = System.Drawing.Color.Gray;
             this.panelEditSongMetadata.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -156,7 +164,7 @@ namespace MPfm
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
             customFont2.IsUnderline = false;
-            customFont2.Size = 8;
+            customFont2.Size = 8F;
             customFont2.StandardFontName = "Arial";
             customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
@@ -178,7 +186,7 @@ namespace MPfm
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
             customFont3.IsUnderline = false;
-            customFont3.Size = 8;
+            customFont3.Size = 8F;
             customFont3.StandardFontName = "Arial";
             customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
