@@ -41,10 +41,14 @@ namespace MPfm.WindowsControls
     /// </summary>
     public partial class OutputMeter : Control
     {
+        /// <summary>
+        /// Private value for the WaveDataHistory property.
+        /// </summary>
         private List<WaveDataMinMax> m_waveDataHistory = null;
         /// <summary>
         /// Array containing an history of min and max peaks over the last 1000ms.
         /// </summary>
+        [Browsable(false)]
         public List<WaveDataMinMax> WaveDataHistory
         {
             get
@@ -53,257 +57,30 @@ namespace MPfm.WindowsControls
             }
         }
 
-        #region Font Properties
-
         /// <summary>
-        /// Private value for the CustomFont property.
+        /// Private value for the Theme property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private OutputMeterTheme m_theme = null;
         /// <summary>
-        /// Defines the font to be used for rendering the control.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
+        public OutputMeterTheme Theme
         {
             get
             {
-                return m_customFont;
+                return m_theme;
             }
             set
             {
-                m_customFont = value;
-                Refresh();
+                m_theme = value;
             }
         }
-
-        private Color m_fontColor = Color.White;
-        /// <summary>
-        /// Fore font color used when displaying the volume peak in decibels.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Fonts"), Browsable(true), Description("Fore font color used when displaying the volume peak in decibels.")]
-        public Color FontColor
-        {
-            get
-            {
-                return m_fontColor;
-            }
-            set
-            {
-                m_fontColor = value;
-            }
-        }
-
-        private Color m_fontShadowColor = Color.Gray;
-        /// <summary>
-        /// Fore font color used when displaying the volume peak in decibels (drop shadow under text).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Fonts"), Browsable(true), Description("Fore font color used when displaying the volume peak in decibels (drop shadow under text).")]
-        public Color FontShadowColor
-        {
-            get
-            {
-                return m_fontShadowColor;
-            }
-            set
-            {
-                m_fontShadowColor = value;
-            }
-        }
-
-        #endregion
-
-        #region Border Properties
-
-        private Color m_borderColor = Color.Black;
-        /// <summary>
-        /// Color of the border.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("Color of the border.")]
-        public Color BorderColor
-        {
-            get
-            {
-                return m_borderColor;
-            }
-            set
-            {
-                m_borderColor = value;
-            }
-        }
-
-        private int m_borderWidth = 1;
-        /// <summary>
-        /// Width of the border.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("Width of the border.")]
-        public int BorderWidth
-        {
-            get
-            {
-                return m_borderWidth;
-            }
-            set
-            {
-                m_borderWidth = value;
-            }
-        }
-
-        #endregion
-
-        #region Background Properties
-
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
-        public Color GradientColor1 { get; set; }
-
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color GradientColor2 { get; set; }
-
-        private LinearGradientMode m_gradientMode = LinearGradientMode.Vertical;
-        /// <summary>
-        /// Background gradient mode.
-        /// </summary>
-        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
-        public LinearGradientMode GradientMode
-        {
-            get
-            {
-                return m_gradientMode;
-            }
-            set
-            {
-                m_gradientMode = value;
-            }
-        }
-
-        #endregion
-
-        #region Meter Properties
-
-        private Color m_meterGradientColor1 = Color.Green;
-        /// <summary>
-        /// The first color of the color gradient used when drawing the output meter.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The first color of the color gradient used when drawing the output meter.")]
-        public Color MeterGradientColor1
-        {
-            get
-            {
-                return m_meterGradientColor1;
-            }
-            set
-            {
-                m_meterGradientColor1 = value;
-            }
-        }
-
-        private Color m_meterGradientColor2 = Color.LightGreen;
-        /// <summary>
-        /// The second color of the color gradient used when drawing the output meter.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The second color of the color gradient used when drawing the output meter.")]
-        public Color MeterGradientColor2
-        {
-            get
-            {
-                return m_meterGradientColor2;
-            }
-            set
-            {
-                m_meterGradientColor2 = value;
-            }
-        }
-
-        private Color m_meterDistortionGradientColor1 = Color.DarkRed;
-        /// <summary>
-        /// The first color of the color gradient used when drawing the output meter.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The first color of the color gradient used when drawing the output meter.")]        
-        public Color MeterDistortionGradientColor1
-        {
-            get
-            {
-                return m_meterDistortionGradientColor1;
-            }
-            set
-            {
-                m_meterDistortionGradientColor1 = value;
-            }
-        }
-
-        private Color m_meterDistortionGradientColor2 = Color.Red;
-        /// <summary>
-        /// The second color of the color gradient used when drawing the output meter and value exceeds distortion threshold.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The second color of the color gradient used when drawing the output meter and value exceeds distortion threshold.")]        
-        public Color MeterDistortionGradientColor2
-        {
-            get
-            {
-                return m_meterDistortionGradientColor2;
-            }
-            set
-            {
-                m_meterDistortionGradientColor2 = value;
-            }
-        }
-
-        private Color m_meter0dbLineColor = Color.DarkGray;
-        /// <summary>
-        /// The color of the 0db line drawn on the output meter.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The color of the 0db line drawn on the output meter.")]        
-        public Color Meter0dbLineColor
-        {
-            get
-            {
-                return m_meter0dbLineColor;
-            }
-            set
-            {
-                m_meter0dbLineColor = value;
-            }
-        }
-
-        private Color m_meterPeakLineColor = Color.LightGray;
-        /// <summary>
-        /// The color of the peak line drawn on the output meter.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The color of the peak line drawn on the output meter.")]        
-        public Color MeterPeakLineColor
-        {
-            get
-            {
-                return m_meterPeakLineColor;
-            }
-            set
-            {
-                m_meterPeakLineColor = value;
-            }
-        }
-
-        #endregion
 
         #region Other Properties
 
+        /// <summary>
+        /// Private value for the DisplayType property.
+        /// </summary>
         private OutputMeterDisplayType m_displayType = OutputMeterDisplayType.Stereo;
         /// <summary>
         /// Output meter display type (left channel, right channel, stereo, or mix).
@@ -322,6 +99,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the DistortionThreshold property.
+        /// </summary>
         private float m_distortionThreshold = 0.9f;
         /// <summary>
         /// Value used to determine if the signal is distorting. Value range: 0.0f to 1.0f.
@@ -340,6 +120,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the DisplayDecibels property.
+        /// </summary>
         private bool m_displayDecibels = true;
         /// <summary>
         /// Display the peak (1000ms) in decibels in text at the bottom of each bar.
@@ -358,6 +141,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the DrawFloor property.
+        /// </summary>
         private float m_drawFloor = -60f;
         /// <summary>
         /// Floor from which the output meter will be drawn. Minimum value: -100 (dB). Max: 0 (dB). Default value: -60 (dB).
@@ -387,12 +173,12 @@ namespace MPfm.WindowsControls
             // Create history
             m_waveDataHistory = new List<WaveDataMinMax>();
 
+            // Create default theme
+            m_theme = new OutputMeterTheme();
+
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
             ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-
-            // Create default font
-            m_customFont = new WindowsControls.CustomFont();
 
             // Initialize components (thank you Cpt Obvious!)
             InitializeComponent();
@@ -453,7 +239,7 @@ namespace MPfm.WindowsControls
             Graphics g = Graphics.FromImage(bmp);
 
             // Use anti-aliasing?
-            if (CustomFont.UseAntiAliasing)
+            if (m_theme.CustomFont.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -466,7 +252,7 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            if (m_theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(m_theme.CustomFont.EmbeddedFontName))
             {
                 try
                 {
@@ -474,7 +260,7 @@ namespace MPfm.WindowsControls
                     EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                 }
                 catch (Exception ex)
                 {
@@ -489,7 +275,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = new Font(m_theme.CustomFont.StandardFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                 }
                 catch (Exception ex)
                 {
@@ -500,7 +286,7 @@ namespace MPfm.WindowsControls
             
             // Draw background gradient (cover -1 pixel for some refresh bug)
             Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, GradientColor1, GradientColor2, GradientMode);
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, m_theme.GradientColor1, m_theme.GradientColor2, m_theme.GradientMode);
             g.FillRectangle(brushBackground, rectBody);
             brushBackground.Dispose();
             brushBackground = null;
@@ -550,11 +336,11 @@ namespace MPfm.WindowsControls
                 //float barHeight = scaleMultiplier * (maxDB + 100);
 
                 // Create brushes for displaying volume in decibels
-                SolidBrush brushFontColor = new SolidBrush(FontColor);
-                SolidBrush brushFontShadowColor = new SolidBrush(FontShadowColor);
+                SolidBrush brushFontColor = new SolidBrush(m_theme.FontColor);
+                SolidBrush brushFontShadowColor = new SolidBrush(m_theme.FontShadowColor);
 
                 // Draw 0 dB line
-                pen = new Pen(Meter0dbLineColor);
+                pen = new Pen(m_theme.Meter0dbLineColor);
                 g.DrawLine(pen, new Point(0, 10), new Point(Width, 10));
                 pen.Dispose();
                 pen = null;
@@ -581,7 +367,7 @@ namespace MPfm.WindowsControls
 
                 // Create linear gradient brush covering the bar
                 RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
-                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, MeterGradientColor1, MeterGradientColor2, LinearGradientMode.Vertical);
+                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, m_theme.MeterGradientColor1, m_theme.MeterGradientColor2, LinearGradientMode.Vertical);
                 //if (maxLeftDB >= 0.2f)
                 //{
                 //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
@@ -593,7 +379,7 @@ namespace MPfm.WindowsControls
                 brushBar = null;
 
                 // Draw peak line
-                pen = new Pen(MeterPeakLineColor);
+                pen = new Pen(m_theme.MeterPeakLineColor);
                 g.DrawLine(pen, new PointF(0, 110 - (peakLeftDB + 100)), new PointF(barWidth, 110 - (peakLeftDB + 100)));
                 pen.Dispose();
                 pen = null;
@@ -632,7 +418,7 @@ namespace MPfm.WindowsControls
 
                 // Create linear gradient brush covering the bar
                 rectGrad = new RectangleF(barWidth, 110, barWidth, height);
-                brushBar = new LinearGradientBrush(rectGrad, MeterGradientColor1, MeterGradientColor2, LinearGradientMode.Vertical);
+                brushBar = new LinearGradientBrush(rectGrad, m_theme.MeterGradientColor1, m_theme.MeterGradientColor2, LinearGradientMode.Vertical);
                 //if (maxRightDB >= 0.2f)
                 //{
                 //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
@@ -651,7 +437,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Draw peak line
-                pen = new Pen(MeterPeakLineColor);
+                pen = new Pen(m_theme.MeterPeakLineColor);
                 g.DrawLine(pen, new PointF(barWidth, 110 - (peakRightDB + 100)), new PointF(barWidth * 2, 110 - (peakRightDB + 100)));
                 pen.Dispose();
                 pen = null;

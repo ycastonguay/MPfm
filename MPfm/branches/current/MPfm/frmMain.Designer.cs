@@ -51,6 +51,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.OutputMeterTheme outputMeterTheme1 = new MPfm.WindowsControls.OutputMeterTheme();
             MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
@@ -1395,8 +1396,15 @@ namespace MPfm
             // 
             // outputMeter
             // 
-            this.outputMeter.BorderColor = System.Drawing.Color.Empty;
-            this.outputMeter.BorderWidth = 0;
+            this.outputMeter.DisplayDecibels = true;
+            this.outputMeter.DisplayType = MPfm.WindowsControls.OutputMeterDisplayType.Stereo;
+            this.outputMeter.DistortionThreshold = 0.9F;
+            this.outputMeter.DrawFloor = 0F;
+            this.outputMeter.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.outputMeter.Location = new System.Drawing.Point(29, 26);
+            this.outputMeter.Name = "outputMeter";
+            this.outputMeter.Size = new System.Drawing.Size(44, 110);
+            this.outputMeter.TabIndex = 60;
             customFont19.EmbeddedFontName = "LeagueGothic";
             customFont19.IsBold = false;
             customFont19.IsItalic = false;
@@ -1405,27 +1413,19 @@ namespace MPfm
             customFont19.StandardFontName = "Arial";
             customFont19.UseAntiAliasing = true;
             customFont19.UseEmbeddedFont = true;
-            this.outputMeter.CustomFont = customFont19;
-            this.outputMeter.DisplayDecibels = true;
-            this.outputMeter.DisplayType = MPfm.WindowsControls.OutputMeterDisplayType.Stereo;
-            this.outputMeter.DistortionThreshold = 0.9F;
-            this.outputMeter.DrawFloor = 0F;
-            this.outputMeter.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.outputMeter.FontColor = System.Drawing.Color.White;
-            this.outputMeter.FontShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.outputMeter.GradientColor1 = System.Drawing.Color.Black;
-            this.outputMeter.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.outputMeter.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.outputMeter.Location = new System.Drawing.Point(29, 26);
-            this.outputMeter.Meter0dbLineColor = System.Drawing.Color.Gray;
-            this.outputMeter.MeterDistortionGradientColor1 = System.Drawing.Color.Red;
-            this.outputMeter.MeterDistortionGradientColor2 = System.Drawing.Color.DarkRed;
-            this.outputMeter.MeterGradientColor1 = System.Drawing.Color.PaleGreen;
-            this.outputMeter.MeterGradientColor2 = System.Drawing.Color.DarkGreen;
-            this.outputMeter.MeterPeakLineColor = System.Drawing.Color.OliveDrab;
-            this.outputMeter.Name = "outputMeter";
-            this.outputMeter.Size = new System.Drawing.Size(44, 110);
-            this.outputMeter.TabIndex = 60;
+            outputMeterTheme1.CustomFont = customFont19;
+            outputMeterTheme1.FontColor = System.Drawing.Color.White;
+            outputMeterTheme1.FontShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            outputMeterTheme1.GradientColor1 = System.Drawing.Color.Black;
+            outputMeterTheme1.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            outputMeterTheme1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            outputMeterTheme1.Meter0dbLineColor = System.Drawing.Color.Gray;
+            outputMeterTheme1.MeterDistortionGradientColor1 = System.Drawing.Color.Red;
+            outputMeterTheme1.MeterDistortionGradientColor2 = System.Drawing.Color.DarkRed;
+            outputMeterTheme1.MeterGradientColor1 = System.Drawing.Color.PaleGreen;
+            outputMeterTheme1.MeterGradientColor2 = System.Drawing.Color.DarkGreen;
+            outputMeterTheme1.MeterPeakLineColor = System.Drawing.Color.OliveDrab;
+            this.outputMeter.Theme = outputMeterTheme1;
             // 
             // faderVolume
             // 
