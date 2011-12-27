@@ -555,6 +555,14 @@ namespace MPfm.WindowsControls
             // Draw bitmap on control
             e.Graphics.DrawImage(bmp, 0, 0, ClientRectangle, GraphicsUnit.Pixel);
 
+            // Dispose font if necessary
+            if (font != null && font != this.Font)
+            {
+                // Dispose font
+                font.Dispose();
+                font = null;
+            }
+
             // Dispose graphics and bitmap
             bmp.Dispose();
             bmp = null;

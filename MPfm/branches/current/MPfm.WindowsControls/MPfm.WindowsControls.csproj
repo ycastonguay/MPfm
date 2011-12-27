@@ -122,7 +122,7 @@
     <Compile Include="Misc\HScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Misc\ListBox.cs">
+    <Compile Include="Lists\ListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Audio\OutputMeter.cs">
@@ -140,10 +140,10 @@
     <Compile Include="Labels\LinkLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\ReorderListView.cs">
+    <Compile Include="Lists\ReorderListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\ReorderListView.Designer.cs">
+    <Compile Include="Lists\ReorderListView.Designer.cs">
       <DependentUpon>ReorderListView.cs</DependentUpon>
     </Compile>
     <Compile Include="Panel-Forms\Panel.cs">

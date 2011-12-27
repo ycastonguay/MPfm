@@ -132,8 +132,6 @@ namespace MPfm
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.pictureBackground);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.GradientColor1 = System.Drawing.Color.Black;
-            this.GradientColor2 = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSplash";
             this.Opacity = 0D;

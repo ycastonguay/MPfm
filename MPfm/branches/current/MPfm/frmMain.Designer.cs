@@ -2919,8 +2919,7 @@ namespace MPfm
             this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.menuMain);
-            this.DoubleBuffered = true;
-            this.FontCollection = this.fontCollection;
+            this.DoubleBuffered = true;            
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuMain;
             this.MinimumSize = new System.Drawing.Size(790, 520);

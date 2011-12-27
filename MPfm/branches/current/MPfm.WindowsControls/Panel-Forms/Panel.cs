@@ -504,12 +504,17 @@ namespace MPfm.WindowsControls
                 g.DrawString(m_headerTitle, font, brushFont, 2, headerTitleY);
             }
 
+            // Dispose stuff
             brushFont.Dispose();
             brushFont = null;
 
-            // Dispose graphics
-            //g.Dispose();
-            //g = null;
+            // Dispose font if necessary
+            if (font != null && font != this.Font)
+            {
+                // Dispose font
+                font.Dispose();
+                font = null;
+            }
         }
 
         #endregion

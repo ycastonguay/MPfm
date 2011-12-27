@@ -679,8 +679,6 @@
             this.Controls.Add(this.panelWelcome);
             this.Controls.Add(this.btnNext);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.GradientColor1 = System.Drawing.Color.White;
-            this.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmFirstRun";
             this.ShowInTaskbar = false;

@@ -41,49 +41,39 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class ListBox : System.Windows.Forms.ListBox
     {
-        #region Font Properties
-
         /// <summary>
-        /// Name of the embedded font (as written in the Name property of a CustomFont).
+        /// Private value for the CustomFont property.
+        /// </summary>
+        private CustomFont m_customFont = null;
+        /// <summary>
+        /// Defines the font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Name of the embedded font (as written in the Name property of a CustomFont).")]
-        public string CustomFontName { get; set; }
-
-        /// <summary>
-        /// Pointer to the embedded font collection.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Pointer to the embedded font collection.")]
-        public FontCollection FontCollection { get; set; }
-
-        private bool m_antiAliasingEnabled = true;
-        /// <summary>
-        /// Use anti-aliasing when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Use anti-aliasing when drawing the embedded font.")]
-        public bool AntiAliasingEnabled
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        public CustomFont CustomFont
         {
             get
             {
-                return m_antiAliasingEnabled;
+                return m_customFont;
             }
             set
             {
-                m_antiAliasingEnabled = value;
+                m_customFont = value;
+                Refresh();
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Default constructor for ListBox.
         /// </summary>
         public ListBox()
         {
+            // Set control styles
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
             this.DrawMode = DrawMode.OwnerDrawFixed;  
+
+            // Create default font
+            m_customFont = new CustomFont();
         }
 
         #region Paint Events
@@ -94,31 +84,75 @@ namespace MPfm.WindowsControls
         /// <param name="e">Draw Item Event Arguments</param>
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
-            if (this.Items.Count > 0)
-            {
-                Font font = this.Font;
+            // Get graphics from paint event
+            Graphics g = e.Graphics;
 
+            // Check item count
+            if (Items.Count == 0)
+            {
+                return;
+            }
+
+            // Use anti-aliasing?
+            if (CustomFont.UseAntiAliasing)
+            {
+                // Set text anti-aliasing to ClearType (best looking AA)
+                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+                // Set smoothing mode for paths
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
+
+            // Create custom font
+            Font font = null;
+
+            // Make sure the embedded font name needs to be loaded and is valid
+            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            {
                 try
                 {
-                    if (FontCollection != null && CustomFontName.Length > 0)
-                    {
-                        FontFamily family = FontCollection.GetFontFamily(CustomFontName);
+                    // Get embedded font collection
+                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
-                        if (family != null)
-                        {
-                            font = new Font(family, Font.Size, Font.Style);
-                        }
-                    }
+                    // Get embedded font
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    // Use default font instead
+                    font = this.Font;
                 }
-
-                e.DrawBackground();
-                //e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(this.ForeColor), new PointF(e.Bounds.X, e.Bounds.Y));
-                e.Graphics.DrawString(this.Items[e.Index].ToString(), font, new SolidBrush(this.ForeColor), new PointF(e.Bounds.X, e.Bounds.Y));
             }
+
+            // Check if font is null
+            if (font == null)
+            {
+                try
+                {
+                    // Try to get standard font
+                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                }
+                catch (Exception ex)
+                {
+                    // Use default font instead
+                    font = this.Font;
+                }
+            }
+
+            // Draw background
+            e.DrawBackground();                
+
+            // Draw item
+            g.DrawString(this.Items[e.Index].ToString(), font, new SolidBrush(this.ForeColor), new PointF(e.Bounds.X, e.Bounds.Y));
+
+            // Dispose font if necessary
+            if (font != null && font != this.Font)
+            {
+                // Dispose font
+                font.Dispose();
+                font = null;
+            }
+
             base.OnDrawItem(e);
         }
 

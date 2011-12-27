@@ -1407,12 +1407,8 @@ namespace MPfm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(639, 431);
-            this.Controls.Add(this.panelBackground);
-            this.CustomFontName = "NeuzeitS";
+            this.Controls.Add(this.panelBackground);            
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FontCollection = this.fontCollection;
-            this.GradientColor1 = System.Drawing.Color.Silver;
-            this.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
