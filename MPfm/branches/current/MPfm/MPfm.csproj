@@ -267,9 +267,7 @@
     <None Include="Resources\tag_blue_add.png" />
     <None Include="Resources\exclamation.png" />
     <None Include="Resources\chart_line.png" />
-    <None Include="Resources\songbrowser_load.gif" />
     <None Include="Resources\page_copy.png" />
-    <None Include="Resources\cut.gif" />
     <None Include="Resources\email.png" />
     <None Include="Resources\magnifier.png" />
     <None Include="Resources\accept.png" />
@@ -280,7 +278,6 @@
     <None Include="Resources\arrow_left.png" />
     <None Include="Resources\arrow_right1.png" />
     <None Include="Resources\arrow_right.png" />
-    <None Include="Resources\loading.gif" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -316,7 +313,6 @@
     <None Include="Resources\sound_mute.png" />
     <None Include="Resources\cancel.png" />
     <None Include="Resources\sound.png" />
-    <None Include="Resources\bullet_red.png" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

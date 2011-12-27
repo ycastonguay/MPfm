@@ -109,13 +109,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap bullet_red {
-            get {
-                object obj = ResourceManager.GetObject("bullet_red", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
@@ -196,13 +189,6 @@ namespace MPfm.Properties {
         internal static System.Drawing.Bitmap control_stop {
             get {
                 object obj = ResourceManager.GetObject("control_stop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap cut {
-            get {
-                object obj = ResourceManager.GetObject("cut", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -305,13 +291,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap loading {
-            get {
-                object obj = ResourceManager.GetObject("loading", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap magnifier {
             get {
                 object obj = ResourceManager.GetObject("magnifier", resourceCulture);
@@ -364,13 +343,6 @@ namespace MPfm.Properties {
         internal static System.Drawing.Bitmap shape_align_middle {
             get {
                 object obj = ResourceManager.GetObject("shape_align_middle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap songbrowser_load {
-            get {
-                object obj = ResourceManager.GetObject("songbrowser_load", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
