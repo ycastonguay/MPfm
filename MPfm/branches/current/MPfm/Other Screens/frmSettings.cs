@@ -78,7 +78,6 @@ namespace MPfm
             InitializeComponent();
             m_main = main;
 
-
             //m_peakFile = new PeakFile(5);
             //m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
             //m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
@@ -96,15 +95,14 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmSettings_Load(object sender, EventArgs e)
         {
-            List<string> controls = new List<string>();
-            controls.Add("Main.SongBrowser");
-            controls.Add("Playlist.SongBrowser");
-            comboThemeControl.Items.Clear();
-            foreach (string control in controls)
-            {
-                comboThemeControl.Items.Add(control);
-            }
-            comboThemeControl.SelectedIndex = 0;
+            List<ThemeSectionComboBoxItem> themeControls = new List<ThemeSectionComboBoxItem>();
+            themeControls.Add(new ThemeSectionComboBoxItem("General", "GeneralTheme"));
+            themeControls.Add(new ThemeSectionComboBoxItem("Output Meter", "OutputMeterTheme"));
+            themeControls.Add(new ThemeSectionComboBoxItem("Song Browser", "SongGridViewTheme"));
+            themeControls.Add(new ThemeSectionComboBoxItem("Wave Form Display", "WaveFormDisplayTheme"));
+            themeControls.Add(new ThemeSectionComboBoxItem("Faders", "FaderTheme"));
+            comboThemeSection.DataSource = themeControls;
+            comboThemeSection.SelectedIndex = 0;
 
             // Load sample data into grid
             List<AudioFile> audioFiles = new List<AudioFile>();
@@ -123,15 +121,14 @@ namespace MPfm
             }          
 
             // Set now playing song
-            songBrowser.NowPlayingAudioFileId = audioFiles[0].Id;
+            previewSongGridView.NowPlayingAudioFileId = audioFiles[0].Id;
 
             // Load into control
-            songBrowser.Theme = Main.viewSongs2.Theme;
-            songBrowser.ImportAudioFiles(audioFiles);
-            propertyGridTheme.SelectedObject = songBrowser.Theme;
+            previewSongGridView.Theme = Main.viewSongs2.Theme;
+            previewSongGridView.ImportAudioFiles(audioFiles);            
 
             // Set column widths
-            songBrowser.Columns[0].Width = 100;
+            previewSongGridView.Columns[0].Width = 100;
         }
 
         protected void m_importAudioFiles_OnProcessData(UpdateLibraryProgressData data)
@@ -1038,15 +1035,188 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Occurs when the user changes a property in the Theme property grid.
+        /// </summary>
+        /// <param name="s">Object</param>
+        /// <param name="e">Event arguments</param>
         private void propertyGridTheme_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            // Get theme
-            SongGridViewTheme theme = (SongGridViewTheme)propertyGridTheme.SelectedObject;
+            // Get item
+            ThemeSectionComboBoxItem themeControl = (ThemeSectionComboBoxItem)comboThemeSection.SelectedItem;
 
-            // Refresh theme
-            songBrowser.Theme = theme;
-            songBrowser.InvalidateSongCache();
-            songBrowser.Refresh();
+            // Check for theme type
+            if (themeControl.ClassName == "SongGridViewTheme")
+            {
+                // Get theme
+                SongGridViewTheme theme = (SongGridViewTheme)propertyGridTheme.SelectedObject;
+
+                // Refresh theme
+                previewSongGridView.Theme = theme;
+                previewSongGridView.InvalidateSongCache();
+                previewSongGridView.Refresh();
+            }                        
+            else if (themeControl.ClassName == "OutputMeterTheme")
+            {
+                // Get theme
+                OutputMeterTheme theme = (OutputMeterTheme)propertyGridTheme.SelectedObject;
+
+                // Refresh theme
+                previewOutputMeter.Theme = theme;                
+                previewOutputMeter.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the current theme control using the combo box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void comboThemeControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get item
+            ThemeSectionComboBoxItem themeControl = (ThemeSectionComboBoxItem)comboThemeSection.SelectedItem;
+
+            // Check for Song Browser theme
+            if (themeControl.ClassName == "SongGridViewTheme")
+            {
+                // Set visibility
+                previewSongGridView.Visible = true;
+
+                // Set property grid item
+                propertyGridTheme.SelectedObject = previewSongGridView.Theme;
+            }
+            else
+            {
+                // Set visibility
+                previewSongGridView.Visible = false;                
+            }
+
+            // Check for Output Meter theme
+            if (themeControl.ClassName == "OutputMeterTheme")
+            {
+                // Set visibility
+                previewOutputMeter.Visible = true;
+
+                // Set property grid item
+                propertyGridTheme.SelectedObject = previewOutputMeter.Theme;
+            }
+            else
+            {
+                // Set visibility
+                previewOutputMeter.Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the New Theme button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnNewTheme_Click(object sender, EventArgs e)
+        {
+            // Warn user that this will overwrite the current theme
+            if (MessageBox.Show("Are you sure you wish to create a new theme? You will lose the current theme properties.", "Create a new theme confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+            
+            // Reset themes
+            previewOutputMeter.Theme = new OutputMeterTheme();
+            previewSongGridView.Theme = new SongGridViewTheme();
+
+            // Refresh controls
+            previewOutputMeter.Refresh();
+            previewSongGridView.Refresh();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Load Theme button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnLoadTheme_Click(object sender, EventArgs e)
+        {
+            // Display open theme dialog 
+            if (dialogOpenTheme.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+
+            // Warn user that this will overwrite the current theme
+            if (MessageBox.Show("Are you sure you wish to load this theme? You will lose the current theme properties.", "Load theme confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Save Theme button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnSaveTheme_Click(object sender, EventArgs e)
+        {
+            // Display save theme dialog
+            if (dialogSaveTheme.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// This class is used to define the items of the Theme Section combo box (in the Settings window).
+    /// </summary>
+    public class ThemeSectionComboBoxItem
+    {
+        /// <summary>
+        /// Private value for the Title property.
+        /// </summary>
+        private string m_title = string.Empty;
+        /// <summary>
+        /// Title of the combo box item (ex: Song Browser).
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return m_title;
+            }
+            set
+            {
+                m_title = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ClassName property.
+        /// </summary>
+        private string m_className = string.Empty;
+        /// <summary>
+        /// Name of the class that contains the theme properties (ex: OutputMeterTheme).
+        /// </summary>
+        public string ClassName
+        {
+            get
+            {
+                return m_className;
+            }
+            set
+            {
+                m_className = value;
+            }
+        }
+
+        /// <summary>
+        /// Default constructor for the ThemeSectionComboBoxItem class.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="className">Theme class name</param>
+        public ThemeSectionComboBoxItem(string title, string className)
+        {
+            m_title = title;
+            m_className = className;                
         }
     }
 
