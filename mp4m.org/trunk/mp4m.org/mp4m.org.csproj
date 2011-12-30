@@ -244,8 +244,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>10000</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://lcl-www.mp4m.org:8080</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
