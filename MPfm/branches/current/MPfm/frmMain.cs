@@ -1699,7 +1699,19 @@ namespace MPfm
             }
             else if (query.Type == SongQueryType.Playlist)
             {
-                //songs = Library.SelectAudioFiles(query.PlaylistId);
+                // Check if the playlistId is valid
+                if (query.PlaylistId == Guid.Empty)
+                {
+                    // UMMM... what if the files AREN'T in the library? what should be displayed in the song browser? 
+                    // maybe the songs should only be shown in the playlist window after all...
+                    // maybe add a combo box in the Playlist window with the list of playlists from the database? and recent ones (opened/saved)?
+
+                    // this could be a dropdown menu on the load playlist button? or a new button Load recent playlist... with drop down.
+                }
+                else
+                {
+                    //songs = Library.SelectAudioFiles(query.PlaylistId);
+                }                
             }
             else if (query.Type == SongQueryType.All)
             {
@@ -1927,11 +1939,11 @@ namespace MPfm
             nodeAllAlbums.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.AllAlbums, new SongQuery());
             nodeAllAlbums.Nodes.Add("dummy", "dummy");
 
-            nodeAllPlaylists = new TreeNode("Playlists");
-            nodeAllPlaylists.ImageIndex = 4;
-            nodeAllPlaylists.SelectedImageIndex = 4;
-            nodeAllPlaylists.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.AllPlaylists, new SongQuery(SongQueryType.None));
-            nodeAllPlaylists.Nodes.Add("dummy", "dummy");
+            //nodeAllPlaylists = new TreeNode("Playlists");
+            //nodeAllPlaylists.ImageIndex = 4;
+            //nodeAllPlaylists.SelectedImageIndex = 4;
+            //nodeAllPlaylists.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.AllPlaylists, new SongQuery(SongQueryType.None));
+            //nodeAllPlaylists.Nodes.Add("dummy", "dummy");
 
             //nodeRecentlyPlayed = new TreeNode("Recently Played");
             //nodeRecentlyPlayed.ImageIndex = 18;

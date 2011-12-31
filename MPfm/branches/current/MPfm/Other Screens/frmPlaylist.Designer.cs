@@ -30,6 +30,7 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPlaylist));
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -38,7 +39,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.menuPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaylistPlaySong = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,8 +55,15 @@ namespace MPfm
             this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
             this.dialogLoadPlaylist = new System.Windows.Forms.OpenFileDialog();
             this.dialogSavePlaylist = new System.Windows.Forms.SaveFileDialog();
+            this.menuLoadPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miLoadPlaylistBrowse = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.recentPlaylistsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fgfgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miLoadPlaylistLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPlaylist.SuspendLayout();
             this.panelSongBrowserToolbar.SuspendLayout();
+            this.menuLoadPlaylist.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageList
@@ -101,6 +109,15 @@ namespace MPfm
             this.panelSongBrowserToolbar.Controls.Add(this.btnSavePlaylistAs);
             this.panelSongBrowserToolbar.Controls.Add(this.btnSavePlaylist);
             this.panelSongBrowserToolbar.Controls.Add(this.btnNewPlaylist);
+            customFont8.EmbeddedFontName = "";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 8F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = false;
+            this.panelSongBrowserToolbar.CustomFont = customFont8;
             this.panelSongBrowserToolbar.ExpandedHeight = 25;
             this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
@@ -128,7 +145,7 @@ namespace MPfm
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
             customFont1.IsUnderline = false;
-            customFont1.Size = 8;
+            customFont1.Size = 8F;
             customFont1.StandardFontName = "Arial";
             customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
@@ -166,7 +183,7 @@ namespace MPfm
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
             customFont2.IsUnderline = false;
-            customFont2.Size = 8;
+            customFont2.Size = 8F;
             customFont2.StandardFontName = "Arial";
             customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
@@ -204,7 +221,7 @@ namespace MPfm
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
             customFont3.IsUnderline = false;
-            customFont3.Size = 8;
+            customFont3.Size = 8F;
             customFont3.StandardFontName = "Arial";
             customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
@@ -242,7 +259,7 @@ namespace MPfm
             customFont4.IsBold = false;
             customFont4.IsItalic = false;
             customFont4.IsUnderline = false;
-            customFont4.Size = 8;
+            customFont4.Size = 8F;
             customFont4.StandardFontName = "Arial";
             customFont4.UseAntiAliasing = true;
             customFont4.UseEmbeddedFont = true;
@@ -280,7 +297,7 @@ namespace MPfm
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
             customFont5.IsUnderline = false;
-            customFont5.Size = 8;
+            customFont5.Size = 8F;
             customFont5.StandardFontName = "Arial";
             customFont5.UseAntiAliasing = true;
             customFont5.UseEmbeddedFont = true;
@@ -318,7 +335,7 @@ namespace MPfm
             customFont6.IsBold = false;
             customFont6.IsItalic = false;
             customFont6.IsUnderline = false;
-            customFont6.Size = 8;
+            customFont6.Size = 8F;
             customFont6.StandardFontName = "Arial";
             customFont6.UseAntiAliasing = true;
             customFont6.UseEmbeddedFont = true;
@@ -356,7 +373,7 @@ namespace MPfm
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
             customFont7.IsUnderline = false;
-            customFont7.Size = 8;
+            customFont7.Size = 8F;
             customFont7.StandardFontName = "Arial";
             customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
@@ -409,15 +426,15 @@ namespace MPfm
             this.viewSongs2.Text = "songGridView1";
             songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             songGridViewTheme1.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 8;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            songGridViewTheme1.Font = customFont8;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8F;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = true;
+            songGridViewTheme1.Font = customFont9;
             songGridViewTheme1.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             songGridViewTheme1.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             songGridViewTheme1.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
@@ -445,6 +462,51 @@ namespace MPfm
     "ile (*.pls)|*.pls|XSPF Playlist file (*.xspf)|*.xspf";
             this.dialogSavePlaylist.Title = "Please select a file path for the playlist";
             // 
+            // menuLoadPlaylist
+            // 
+            this.menuLoadPlaylist.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miLoadPlaylistBrowse,
+            this.toolStripSeparator1,
+            this.recentPlaylistsToolStripMenuItem,
+            this.miLoadPlaylistLibrary});
+            this.menuLoadPlaylist.Name = "menuLoadPlaylist";
+            this.menuLoadPlaylist.Size = new System.Drawing.Size(208, 76);
+            // 
+            // miLoadPlaylistBrowse
+            // 
+            this.miLoadPlaylistBrowse.Image = global::MPfm.Properties.Resources.folder_page;
+            this.miLoadPlaylistBrowse.Name = "miLoadPlaylistBrowse";
+            this.miLoadPlaylistBrowse.Size = new System.Drawing.Size(207, 22);
+            this.miLoadPlaylistBrowse.Text = "Browse...";
+            this.miLoadPlaylistBrowse.Click += new System.EventHandler(this.miLoadPlaylistBrowse_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(204, 6);
+            // 
+            // recentPlaylistsToolStripMenuItem
+            // 
+            this.recentPlaylistsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fgfgToolStripMenuItem});
+            this.recentPlaylistsToolStripMenuItem.Name = "recentPlaylistsToolStripMenuItem";
+            this.recentPlaylistsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.recentPlaylistsToolStripMenuItem.Text = "Recently opened playlists";
+            this.recentPlaylistsToolStripMenuItem.Visible = false;
+            // 
+            // fgfgToolStripMenuItem
+            // 
+            this.fgfgToolStripMenuItem.Name = "fgfgToolStripMenuItem";
+            this.fgfgToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.fgfgToolStripMenuItem.Text = "fgfg";
+            // 
+            // miLoadPlaylistLibrary
+            // 
+            this.miLoadPlaylistLibrary.Image = global::MPfm.Properties.Resources.database;
+            this.miLoadPlaylistLibrary.Name = "miLoadPlaylistLibrary";
+            this.miLoadPlaylistLibrary.Size = new System.Drawing.Size(207, 22);
+            this.miLoadPlaylistLibrary.Text = "Library playlists";
+            // 
             // frmPlaylist
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -453,15 +515,15 @@ namespace MPfm
             this.Controls.Add(this.viewSongs2);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
             this.Name = "frmPlaylist";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Playlist";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPlaylist_FormClosing);
             this.Shown += new System.EventHandler(this.frmPlaylist_Shown);
+            this.VisibleChanged += new System.EventHandler(this.frmPlaylist_VisibleChanged);
             this.menuPlaylist.ResumeLayout(false);
             this.panelSongBrowserToolbar.ResumeLayout(false);
+            this.menuLoadPlaylist.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -483,5 +545,11 @@ namespace MPfm
         private WindowsControls.Button btnLoadPlaylist;
         private System.Windows.Forms.OpenFileDialog dialogLoadPlaylist;
         private System.Windows.Forms.SaveFileDialog dialogSavePlaylist;
+        private System.Windows.Forms.ContextMenuStrip menuLoadPlaylist;
+        private System.Windows.Forms.ToolStripMenuItem miLoadPlaylistBrowse;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem miLoadPlaylistLibrary;
+        private System.Windows.Forms.ToolStripMenuItem recentPlaylistsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fgfgToolStripMenuItem;
     }
 }

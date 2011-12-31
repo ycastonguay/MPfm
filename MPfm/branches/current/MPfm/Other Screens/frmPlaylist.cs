@@ -43,6 +43,9 @@ namespace MPfm
         // Private variables        
         public frmRenameSavePlaylist formRenameSavePlaylist = null;
 
+        /// <summary>
+        /// Private value for the Main property.
+        /// </summary>
         private frmMain m_main = null;
         /// <summary>
         /// Hook to the main form.
@@ -66,13 +69,32 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the form is shown.
+        /// Occurs when the form is first shown.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmPlaylist_Shown(object sender, EventArgs e)
         {
+            // Refresh playlist
             RefreshPlaylist();
+
+            // Refresh playlist menu
+            RefreshLibraryPlaylistsMenu();
+        }
+
+        /// <summary>
+        /// Occurs when the form is shown.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void frmPlaylist_VisibleChanged(object sender, EventArgs e)
+        {
+            // Check if form is visible
+            if (Visible)
+            {
+                // Refresh playlist menu
+                RefreshLibraryPlaylistsMenu();
+            }
         }
 
         #region Close Events
@@ -247,6 +269,31 @@ namespace MPfm
             viewSongs2.Refresh();
         }
 
+        /// <summary>
+        /// Refreshes the "Load playlist"/"Library playlists" menu item with library playlists.
+        /// </summary>
+        public void RefreshLibraryPlaylistsMenu()
+        {
+            // Clear sub items
+            miLoadPlaylistLibrary.DropDownItems.Clear();
+
+            // Fetch list of playlists from database
+            List<PlaylistFile> playlistFiles = Main.Library.Gateway.SelectPlaylistFiles();
+
+            // Add items to menu
+            foreach(PlaylistFile playlistFile in playlistFiles)
+            {
+                // Extract file name without extension
+                string fileName = Path.GetFileNameWithoutExtension(playlistFile.FilePath);
+
+                // Add item
+                ToolStripItem item = miLoadPlaylistLibrary.DropDownItems.Add(fileName);
+                item.Tag = playlistFile.FilePath;
+                item.ToolTipText = playlistFile.FilePath;
+                item.Click += new EventHandler(miLoadPlaylistLibraryItem_Click);               
+            }
+        }
+
         #endregion
 
         #region Toolbar Buttons Events
@@ -290,42 +337,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnLoadPlaylist_Click(object sender, EventArgs e)
         {
-            // Display the open playlist file dialog
-            if (dialogLoadPlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-            {
-                // The user has canceled the operation
-                return;
-            }
-
-            // Check if the player is playing
-            if(Main.Player.IsPlaying)
-            {
-                // Warn user
-                if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
-                {
-                    // The user said no; exit method
-                    return;
-                }
-
-                // Stop playback
-                Main.Stop();
-            }
-
-            // Load playlist
-            LoadPlaylist(dialogLoadPlaylist.FileName);
-        }
-
-        /// <summary>
-        /// Loads a playlist.
-        /// </summary>
-        /// <param name="playlistFilePath">Playlist file path</param>
-        public void LoadPlaylist(string playlistFilePath)
-        {
-            // Clear current playlist
-            Main.Player.Playlist.LoadPlaylist(playlistFilePath);
-
-            // Refresh view
-            RefreshPlaylist();
+            menuLoadPlaylist.Show(btnLoadPlaylist, new Point(0, btnLoadPlaylist.Height));
         }
 
         /// <summary>
@@ -365,64 +377,6 @@ namespace MPfm
         private void btnSavePlaylistAs_Click(object sender, EventArgs e)
         {
             SavePlaylistAs();
-        }
-
-        public void SavePlaylistAs()
-        {
-            // Check if the playlist is empty
-            if (Main.Player.Playlist.Items.Count == 0)
-            {
-                // Display error
-                MessageBox.Show("Error: You cannot save an empty playlist!", "Error saving playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Display dialog
-            if (dialogSavePlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-            {
-                // The user has cancelled the operation
-                return;
-            }
-
-            // Save playlist
-            SavePlaylist(dialogSavePlaylist.FileName);
-        }
-
-        public void SavePlaylist(string playlistFilePath)
-        {
-            // Change cursor
-            Cursor.Current = Cursors.WaitCursor;
-
-            // Set playlist file path
-            Main.Player.Playlist.FilePath = playlistFilePath;
-
-            // Determine what format the user has chosen
-            if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
-            {
-                // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
-            }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
-            {
-                // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
-            }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
-            {
-                // Save playlist
-                PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
-            }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
-            {
-                // Save playlist
-                PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
-            }
-
-            // Change cursor
-            Cursor.Current = Cursors.Default;
-
-            // Refresh title
-            RefreshTitle();
         }
 
         /// <summary>
@@ -513,6 +467,11 @@ namespace MPfm
 
         #region Contextual Menu Events
 
+        /// <summary>
+        /// Occurs when the user right clicks on the Song Browser.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void menuPlaylist_Opening(object sender, CancelEventArgs e)
         {
             // Check if at least one item is selected
@@ -523,9 +482,163 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Occurs when the user click on the "Play selected songs" menu item in the Playlist contextual menu.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miPlaylistPlaySong_Click(object sender, EventArgs e)
         {
             PlaySelectedSong();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Load playlist" button and the "Browse" menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miLoadPlaylistBrowse_Click(object sender, EventArgs e)
+        {
+            // Display the open playlist file dialog
+            if (dialogLoadPlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                // The user has canceled the operation
+                return;
+            }
+
+            // Check if the player is playing
+            if (Main.Player.IsPlaying)
+            {
+                // Warn user
+                if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+                {
+                    // The user said no; exit method
+                    return;
+                }
+
+                // Stop playback
+                Main.Stop();
+            }
+
+            // Load playlist
+            LoadPlaylist(dialogLoadPlaylist.FileName);
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on one of the library playlists in the "Load playlist"/"Library playlists" menu.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        protected void miLoadPlaylistLibraryItem_Click(object sender, EventArgs e)
+        {
+            // Cast sender
+            ToolStripItem item = (ToolStripItem)sender;
+
+            // Check if the player is playing
+            if (Main.Player.IsPlaying)
+            {
+                // Warn user
+                if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+                {
+                    // The user said no; exit method
+                    return;
+                }
+
+                // Stop playback
+                Main.Stop();
+            }
+
+            // Load playlist
+            LoadPlaylist(item.Tag.ToString());
+        }
+
+        #endregion
+
+        #region Load/Save Playlists
+
+        /// <summary>
+        /// Loads a playlist.
+        /// </summary>
+        /// <param name="playlistFilePath">Playlist file path</param>
+        public void LoadPlaylist(string playlistFilePath)
+        {
+            try
+            {
+                // Load playlist
+                Main.Player.Playlist.LoadPlaylist(playlistFilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Refresh view
+            RefreshPlaylist();
+        }
+
+        /// <summary>
+        /// Saves the playlist under a different file path.
+        /// </summary>
+        public void SavePlaylistAs()
+        {
+            // Check if the playlist is empty
+            if (Main.Player.Playlist.Items.Count == 0)
+            {
+                // Display error
+                MessageBox.Show("Error: You cannot save an empty playlist!", "Error saving playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Display dialog
+            if (dialogSavePlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                // The user has cancelled the operation
+                return;
+            }
+
+            // Save playlist
+            SavePlaylist(dialogSavePlaylist.FileName);
+        }
+
+        /// <summary>
+        /// Saves the playlist in the specified file path.
+        /// </summary>
+        /// <param name="playlistFilePath">Playlist file path</param>
+        public void SavePlaylist(string playlistFilePath)
+        {
+            // Change cursor
+            Cursor.Current = Cursors.WaitCursor;
+
+            // Set playlist file path
+            Main.Player.Playlist.FilePath = playlistFilePath;
+
+            // Determine what format the user has chosen
+            if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
+            {
+                // Save playlist
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+            }
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
+            {
+                // Save playlist
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+            }
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
+            {
+                // Save playlist
+                PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+            }
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
+            {
+                // Save playlist
+                PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+            }
+
+            // Change cursor
+            Cursor.Current = Cursors.Default;
+
+            // Refresh title
+            RefreshTitle();
         }
 
         #endregion
