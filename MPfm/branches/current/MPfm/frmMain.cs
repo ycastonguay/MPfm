@@ -1055,8 +1055,8 @@ namespace MPfm
                     // Set the play icon in the song browser                
                     RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
 
-                    // Refresh play icon in playlist
-                    formPlaylist.RefreshPlaylistPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
+                    // Refresh play icon in playlist                    
+                    formPlaylist.RefreshPlaylistPlayIcon(m_player.Playlist.CurrentItem.Id);
 
                     // Set next song in configuration                                    
                     Config.Controls.SongGridView.Query.AudioFileId = m_player.Playlist.CurrentItem.AudioFile.Id;
