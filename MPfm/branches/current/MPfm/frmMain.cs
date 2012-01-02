@@ -621,7 +621,9 @@ namespace MPfm
             }
             else if (currentNodeType == "Album")
             {
-                currentNodeType = "AllSongs";
+                // Expand the AllAlbums node                
+                InitOpenNodeAlbum = queryAlbumTitle;                
+                nodeAllAlbums.Expand();
             }
             else if (currentNodeType == "ArtistAlbum")
             {
@@ -634,19 +636,19 @@ namespace MPfm
             }
             else if (currentNodeType == "Playlist")
             {
-                // Expand the playlist node                
-                if (!String.IsNullOrEmpty(queryPlaylistId))
-                {                    
-                    try
-                    {
-                        InitOpenNodePlaylistId = new Guid(queryPlaylistId);
-                    }
-                    catch
-                    {
-                        InitOpenNodePlaylistId = Guid.Empty;
-                    }
-                }                
-                nodeAllPlaylists.Expand();
+                //// Expand the playlist node                
+                //if (!String.IsNullOrEmpty(queryPlaylistId))
+                //{                    
+                //    try
+                //    {
+                //        InitOpenNodePlaylistId = new Guid(queryPlaylistId);
+                //    }
+                //    catch
+                //    {
+                //        InitOpenNodePlaylistId = Guid.Empty;
+                //    }
+                //}                
+                //nodeAllPlaylists.Expand();
             }
         }
 
@@ -2591,7 +2593,7 @@ namespace MPfm
                 result.TreeNodeToUpdate.Text = result.TreeNodeToUpdate.Text.Replace(" (expanding...)", string.Empty);
                 result.TreeNodeToUpdate.Nodes.Clear();
 
-                // Check which peration type to do
+                // Check which operation type to do
                 if (result.OperationType == WorkerTreeLibraryOperationType.GetArtistAlbums)
                 {
                     // For each album
@@ -2707,8 +2709,21 @@ namespace MPfm
 
                         // Add node to tree
                         result.TreeNodeToUpdate.Nodes.Add(nodeAlbum);
+
+                        // If the form is initializing and setting the initial opened node from history...
+                        if (!IsInitDone && albumTitle == InitOpenNodeAlbum)
+                        {
+                            // Set node as selected
+                            treeLibrary.SelectedNode = nodeAlbum;
+                        }
                     }
 
+                    // Check if an Album child node needs to be opened
+                    if (!IsInitDone && !String.IsNullOrEmpty(InitOpenNodeAlbum))
+                    {
+                        // The artist node must be expanded
+                        treeLibrary.SelectedNode.Expand();
+                    }
                 }
                 else if (result.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
                 {
