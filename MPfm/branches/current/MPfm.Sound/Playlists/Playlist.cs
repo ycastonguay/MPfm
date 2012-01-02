@@ -78,11 +78,6 @@ namespace MPfm.Sound
         }
 
         /// <summary>
-        /// Playlist name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Playlist file path.
         /// </summary>
         public string FilePath { get; set; }
@@ -102,8 +97,7 @@ namespace MPfm.Sound
         public Playlist()
         {
             m_items = new List<PlaylistItem>();
-            m_currentItemIndex = 0;
-            Name = "Empty playlist";            
+            m_currentItemIndex = 0;            
             FilePath = string.Empty;
             Format = PlaylistFileFormat.Unknown;
         }
@@ -184,8 +178,7 @@ namespace MPfm.Sound
         /// Clears the playlist.
         /// </summary>
         public void Clear()
-        {
-            Name = "Empty playlist";
+        {            
             FilePath = string.Empty;
             Format = PlaylistFileFormat.Unknown;
             m_items = new List<PlaylistItem>();

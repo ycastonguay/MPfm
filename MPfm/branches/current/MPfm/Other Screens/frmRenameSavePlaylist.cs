@@ -92,17 +92,17 @@ namespace MPfm
             //    return;
             //}
 
-            // Check window mode
-            if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
-            {
-                // Rename playlist and reset its id (save AS)
-                Main.Player.Playlist.Name = txtName.Text;                
-            }
-            else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
-            {
-                // Rename playlist
-                Main.Player.Playlist.Name = txtName.Text;
-            }
+            //// Check window mode
+            //if (mode == RenameSavePlaylistWindowMode.SavePlaylist)
+            //{
+            //    // Rename playlist and reset its id (save AS)
+            //    Main.Player.Playlist.Name = txtName.Text;                
+            //}
+            //else if (mode == RenameSavePlaylistWindowMode.RenamePlaylist)
+            //{
+            //    // Rename playlist
+            //    Main.Player.Playlist.Name = txtName.Text;
+            //}
 
             // Set result
             this.DialogResult = System.Windows.Forms.DialogResult.OK;

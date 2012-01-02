@@ -235,14 +235,12 @@ namespace MPfm
         {
             // Display playlist file path in form title if available
             if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
-            {
-                //this.Text = Main.Player.Playlist.Name + " (" + Main.Player.Playlist.FilePath + ")";
+            {                
                 this.Text = Main.Player.Playlist.FilePath;
             }
             else
-            {
-                //this.Text = Main.Player.Playlist.Name;
-                this.Text = "Empty playlist";
+            {                
+                this.Text = "Unsaved playlist";
             }
         }
 
@@ -399,7 +397,7 @@ namespace MPfm
 
             // Set window location
             formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
-            formRenameSavePlaylist.txtName.Text = Main.Player.Playlist.Name;
+            //formRenameSavePlaylist.txtName.Text = Main.Player.Playlist.Name;
 
             // Show Save Playlist dialog
             if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
@@ -721,7 +719,7 @@ namespace MPfm
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
             {
                 // Save playlist
-                PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+                PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
             {

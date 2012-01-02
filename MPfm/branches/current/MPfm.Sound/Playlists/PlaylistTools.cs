@@ -179,7 +179,8 @@ namespace MPfm.Sound
         /// </summary>        
         /// <param name="playlistFilePath">Playlist file path</param>
         /// <param name="playlist">Playlist object</param>
-        public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist, bool relativePaths)
+        /// <param name="useRelativePaths">Use relative paths</param>
+        public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths)
         {
             // Declare variables
             StreamWriter writer = null;
@@ -192,17 +193,14 @@ namespace MPfm.Sound
                 // Open writer
                 writer = new StreamWriter(playlistFilePath);
 
-                // Write MPfm header
-                writer.WriteLine("# " + playlist.Name);
-                writer.WriteLine("# Saved using MPfm: Music Player for Musicians (http://www.mp4m.org)");
-
-                // Check for relative path               
+                // Write MPfm header                
+                writer.WriteLine("# Saved using MPfm: Music Player for Musicians (http://www.mp4m.org)");       
 
                 // Loop through files
                 foreach (PlaylistItem item in playlist.Items)
                 {
                     // Check if paths are relative
-                    if (relativePaths)
+                    if (useRelativePaths)
                     {
                         // Write relative file path
                         writer.WriteLine(item.AudioFile.FilePath.Replace(playlistPath + "\\", ""));
@@ -258,6 +256,9 @@ namespace MPfm.Sound
             List<string> files = new List<string>();
             StreamReader reader = null;
 
+            // Get playlist directory path
+            string playlistDirectory = Path.GetDirectoryName(filePath);
+
             try
             {
                 // Open reader
@@ -292,8 +293,30 @@ namespace MPfm.Sound
                             // Fetch file name
                             string fileName = lineValue.Replace("FILE" + lineNumber.ToString() + "=", "");
 
-                            // Add to list
-                            files.Add(fileName);
+                            // Check for a media file with absolute path
+                            if (File.Exists(fileName))
+                            {
+                                // Add file to list
+                                files.Add(fileName);
+                            }
+                            // Check for a media file with relative path (without backslash)
+                            else if (File.Exists(playlistDirectory + fileName))
+                            {
+                                // Add file to list
+                                files.Add(playlistDirectory + fileName);
+                            }
+                            // Check for a media file with relative path (with backslash)
+                            else if (File.Exists(playlistDirectory + "\\" + fileName))
+                            {
+                                // Add file to list
+                                files.Add(playlistDirectory + "\\" + fileName);
+                            }
+                            // Check for a media file with relative path (with slash)
+                            else if (File.Exists(playlistDirectory + "/" + fileName))
+                            {
+                                // Add file to list
+                                files.Add(playlistDirectory + "/" + fileName);
+                            }
                         }
                         else if (lineValue.StartsWith("TITLE"))
                         {
@@ -332,13 +355,17 @@ namespace MPfm.Sound
         /// </summary>        
         /// <param name="playlistFilePath">Playlist file path</param>
         /// <param name="playlist">Playlist object</param>
-        public static void SavePLSPlaylist(string playlistFilePath, Playlist playlist)
+        /// <param name="useRelativePaths">Use relative paths</param>
+        public static void SavePLSPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths)
         {
             // Declare variables
             StreamWriter writer = null;
 
             try
             {
+                // Get playlist path
+                string playlistPath = Path.GetDirectoryName(playlistFilePath);
+
                 // Open writer
                 writer = new StreamWriter(playlistFilePath);
 
@@ -348,9 +375,20 @@ namespace MPfm.Sound
 
                 // Loop through files
                 for(int a = 0; a < playlist.Items.Count; a++)
-                {
-                    // Write file path and title
-                    writer.WriteLine("File" + (a+1).ToString() + "=" + playlist.Items[a].AudioFile.FilePath);
+                {                    
+                    // Check if paths are relative
+                    if (useRelativePaths)
+                    {
+                        // Write relative file path
+                        writer.WriteLine("File" + (a + 1).ToString() + "=" + playlist.Items[a].AudioFile.FilePath.Replace(playlistPath + "\\", ""));                        
+                    }
+                    else
+                    {
+                        // Write absolute file path
+                        writer.WriteLine("File" + (a + 1).ToString() + "=" + playlist.Items[a].AudioFile.FilePath);                        
+                    }                                       
+
+                    // Write title
                     writer.WriteLine("Title" + (a + 1).ToString() + "=" + playlist.Items[a].AudioFile.Title);
                     
                     // Write spacer
