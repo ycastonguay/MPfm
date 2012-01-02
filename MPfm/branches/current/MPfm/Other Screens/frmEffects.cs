@@ -40,6 +40,12 @@ namespace MPfm
     /// </summary>
     public partial class frmEffects : MPfm.WindowsControls.Form
     {
+        // Private variables
+        private bool m_isFormLoaded = false;
+
+        /// <summary>
+        /// Private value for the Main property.
+        /// </summary>
         private frmMain m_main = null;
         /// <summary>
         /// Hook to the main form.
@@ -63,6 +69,9 @@ namespace MPfm
 
             RefreshEQPresets();
             LoadConfig();
+
+            // Set flag
+            m_isFormLoaded = true;
         }
 
         #region Close Events
@@ -430,6 +439,12 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
         {
+            // Check if the form has loaded
+            if (!m_isFormLoaded)
+            {
+                return;
+            }
+
             // Bypass EQ
             m_main.Player.BypassEQ();
 
@@ -501,6 +516,12 @@ namespace MPfm
         /// <param name="e"></param>
         private void comboEQPreset_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Check if the form has loaded
+            if (!m_isFormLoaded)
+            {
+                return;
+            }
+
             try
             {
                 // Check if selection is valid

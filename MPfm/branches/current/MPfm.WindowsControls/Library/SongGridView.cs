@@ -467,7 +467,7 @@ namespace MPfm.WindowsControls
             // Create columns
             SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
             SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
-            SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
+            //SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
             SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
             SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 4);
             SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 5);
@@ -488,7 +488,7 @@ namespace MPfm.WindowsControls
             // Set default widths
             columnSongAlbumCover.Width = 200;
             columnSongNowPlaying.Width = 20;
-            columnSongFileType.Width = 40;
+            //columnSongFileType.Width = 40;
             columnSongTrackNumber.Width = 30;
             columnSongTitle.Width = 200;
             columnSongLength.Width = 70;
@@ -501,7 +501,7 @@ namespace MPfm.WindowsControls
             m_columns = new List<SongGridViewColumn>();
             m_columns.Add(columnSongAlbumCover);
             m_columns.Add(columnSongNowPlaying);
-            m_columns.Add(columnSongFileType);
+            //m_columns.Add(columnSongFileType);
             m_columns.Add(columnSongTrackNumber);
             m_columns.Add(columnSongTitle);
             m_columns.Add(columnSongLength);
@@ -1941,6 +1941,17 @@ namespace MPfm.WindowsControls
                             }
                             else if (e.Button == System.Windows.Forms.MouseButtons.Right)
                             {
+                                // Refresh column visibility in menu before opening
+                                foreach(ToolStripMenuItem menuItem in m_menuColumns.Items)
+                                {
+                                    // Get column
+                                    SongGridViewColumn menuItemColumn = m_columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
+                                    if (menuItemColumn != null)
+                                    {
+                                        menuItem.Checked = menuItemColumn.Visible;
+                                    }
+                                }
+
                                 // Display columns contextual menu
                                 m_menuColumns.Show(this, e.X, e.Y);
                             }

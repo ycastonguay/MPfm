@@ -537,7 +537,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem miPlaylistRemoveSongs;
         private WindowsControls.Panel panelToolbar;
         private WindowsControls.Button btnNewPlaylist;
-        private WindowsControls.SongGridView viewSongs2;
         private WindowsControls.Button btnClose;
         private WindowsControls.Button btnRemoveSongs;
         private WindowsControls.Button btnRenamePlaylist;
@@ -552,5 +551,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem miLoadPlaylistLibrary;
         private System.Windows.Forms.ToolStripMenuItem recentPlaylistsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fgfgToolStripMenuItem;
+        public WindowsControls.SongGridView viewSongs2;
     }
 }

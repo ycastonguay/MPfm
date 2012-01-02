@@ -282,6 +282,7 @@ namespace MPfm
                         {
                             // Create column and add to list
                             SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"), true, 0);
+                            column.Title = XMLHelper.GetAttributeValue(elementColumn, "title");
                             column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
                             column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
                             column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
@@ -293,23 +294,27 @@ namespace MPfm
                 if (elementPlaylistGridView != null)
                 {
                     // Read subnodes                    
-                    XElement elementSongGridViewColumns = elementSongGridView.Element("columns");
+                    XElement elementPlaylistGridViewColumns = elementPlaylistGridView.Element("columns");
 
                     // Check if this XML element was found
-                    if (elementSongGridViewColumns != null)
+                    if (elementPlaylistGridViewColumns != null)
                     {
+                        // Clear existing columns
+                        m_controlsSection.PlaylistGridView.Columns.Clear();
+
                         // Get column list                                
-                        List<XElement> elementsColumns = elementSongGridViewColumns.Elements("column").ToList();
+                        List<XElement> elementsColumns = elementPlaylistGridViewColumns.Elements("column").ToList();
 
                         // Loop through columns
                         foreach (XElement elementColumn in elementsColumns)
                         {
                             // Create column and add to list                                                        
                             SongGridViewColumn column = new SongGridViewColumn(string.Empty, XMLHelper.GetAttributeValue(elementColumn, "fieldName"), true, 0);
+                            column.Title = XMLHelper.GetAttributeValue(elementColumn, "title");
                             column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
                             column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
                             column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
-                            m_controlsSection.SongGridView.Columns.Add(column);
+                            m_controlsSection.PlaylistGridView.Columns.Add(column);
                         }
                     }
                 }
@@ -492,6 +497,7 @@ namespace MPfm
                 // Create node
                 XElement elementColumn = new XElement("column");                
                 elementColumn.Add(XMLHelper.NewAttribute("fieldName", column.FieldName));
+                elementColumn.Add(XMLHelper.NewAttribute("title", column.Title));
                 elementColumn.Add(XMLHelper.NewAttribute("order", column.Order));
                 elementColumn.Add(XMLHelper.NewAttribute("width", column.Width));
                 elementColumn.Add(XMLHelper.NewAttribute("visible", column.Visible));
@@ -504,10 +510,11 @@ namespace MPfm
                 // Create node
                 XElement elementColumn = new XElement("column");                
                 elementColumn.Add(XMLHelper.NewAttribute("fieldName", column.FieldName));
+                elementColumn.Add(XMLHelper.NewAttribute("title", column.Title));
                 elementColumn.Add(XMLHelper.NewAttribute("order", column.Order));
                 elementColumn.Add(XMLHelper.NewAttribute("width", column.Width));
                 elementColumn.Add(XMLHelper.NewAttribute("visible", column.Visible));
-                elementControlsSongGridViewColumns.Add(elementColumn);
+                elementControlsPlaylistGridViewColumns.Add(elementColumn);
             }
             
             // Add nodes            

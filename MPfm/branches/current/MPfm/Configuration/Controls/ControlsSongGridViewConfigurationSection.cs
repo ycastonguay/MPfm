@@ -64,6 +64,10 @@ namespace MPfm
             {
                 return m_columns;
             }
+            set
+            {
+                m_columns = value;
+            }
         }
 
         /// <summary>

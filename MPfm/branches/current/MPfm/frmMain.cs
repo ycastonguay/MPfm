@@ -709,15 +709,16 @@ namespace MPfm
                 // Set splitter distance
                 splitFirst.SplitterDistance = Config.GetKeyValueGeneric<int>("WindowSplitterDistance") ?? 175;
 
-                //// Load song browser column widths
-                //viewSongs.Columns[0].Width = Config.SongBrowserCol1Width;
-                //viewSongs.Columns[1].Width = Config.SongBrowserCol2Width;
-                //viewSongs.Columns[2].Width = Config.SongBrowserCol3Width;
-                //viewSongs.Columns[3].Width = Config.SongBrowserCol4Width;
-                //viewSongs.Columns[4].Width = Config.SongBrowserCol5Width;
-                //viewSongs.Columns[5].Width = Config.SongBrowserCol6Width;
-                //viewSongs.Columns[6].Width = Config.SongBrowserCol7Width;
-                //viewSongs.Columns[7].Width = Config.SongBrowserCol8Width;
+                // Load song browser column widths
+                foreach (SongGridViewColumn column in Config.Controls.SongGridView.Columns)
+                {
+                    SongGridViewColumn columnGrid = viewSongs2.Columns.FirstOrDefault(x => x.Title == column.Title);
+                    if (columnGrid != null)
+                    {
+                        columnGrid.Visible = column.Visible;
+                        columnGrid.Width = column.Width;
+                    }
+                }
             }           
 
             // Playlist window
@@ -749,15 +750,16 @@ namespace MPfm
 
                 formPlaylist.Visible = windowPlaylist.Visible;
 
-                //// Load playlist column widths
-                //formPlaylist.viewSongs.Columns[0].Width = Config.PlaylistCol1Width;
-                //formPlaylist.viewSongs.Columns[1].Width = Config.PlaylistCol2Width;
-                //formPlaylist.viewSongs.Columns[2].Width = Config.PlaylistCol3Width;
-                //formPlaylist.viewSongs.Columns[3].Width = Config.PlaylistCol4Width;
-                //formPlaylist.viewSongs.Columns[4].Width = Config.PlaylistCol5Width;
-                //formPlaylist.viewSongs.Columns[5].Width = Config.PlaylistCol6Width;
-                //formPlaylist.viewSongs.Columns[6].Width = Config.PlaylistCol7Width;
-                //formPlaylist.viewSongs.Columns[7].Width = Config.PlaylistCol8Width;
+                // Load playlist column widths                
+                foreach (SongGridViewColumn column in Config.Controls.PlaylistGridView.Columns)
+                {
+                    SongGridViewColumn columnGrid = formPlaylist.viewSongs2.Columns.FirstOrDefault(x => x.Title == column.Title);
+                    if (columnGrid != null)
+                    {
+                        columnGrid.Visible = column.Visible;
+                        columnGrid.Width = column.Width;
+                    }
+                }
             }
         }
 
@@ -789,15 +791,8 @@ namespace MPfm
                 // Set splitter position
                 Config.SetKeyValue<int>("WindowSplitterDistance", splitFirst.SplitterDistance);
 
-                //// Save song browser column widths
-                //Config.SongBrowserCol1Width = viewSongs.Columns[0].Width;
-                //Config.SongBrowserCol2Width = viewSongs.Columns[1].Width;
-                //Config.SongBrowserCol3Width = viewSongs.Columns[2].Width;
-                //Config.SongBrowserCol4Width = viewSongs.Columns[3].Width;
-                //Config.SongBrowserCol5Width = viewSongs.Columns[4].Width;
-                //Config.SongBrowserCol6Width = viewSongs.Columns[5].Width;
-                //Config.SongBrowserCol7Width = viewSongs.Columns[6].Width;
-                //Config.SongBrowserCol8Width = viewSongs.Columns[7].Width;
+                // Add columns
+                Config.Controls.SongGridView.Columns = viewSongs2.Columns;
             }
 
             // Save playlist window position and size
@@ -820,15 +815,8 @@ namespace MPfm
                     }
                     windowPlaylist.Maximized = isMaximized;
 
-                    //// Save playlist column widths
-                    //Config.PlaylistCol1Width = formPlaylist.viewSongs.Columns[0].Width;
-                    //Config.PlaylistCol2Width = formPlaylist.viewSongs.Columns[1].Width;
-                    //Config.PlaylistCol3Width = formPlaylist.viewSongs.Columns[2].Width;
-                    //Config.PlaylistCol4Width = formPlaylist.viewSongs.Columns[3].Width;
-                    //Config.PlaylistCol5Width = formPlaylist.viewSongs.Columns[4].Width;
-                    //Config.PlaylistCol6Width = formPlaylist.viewSongs.Columns[5].Width;
-                    //Config.PlaylistCol7Width = formPlaylist.viewSongs.Columns[6].Width;
-                    //Config.PlaylistCol8Width = formPlaylist.viewSongs.Columns[7].Width;
+                    // Add columns
+                    Config.Controls.PlaylistGridView.Columns = formPlaylist.viewSongs2.Columns;
                 }
             }
 
@@ -2353,6 +2341,12 @@ namespace MPfm
         /// <param name="e">Arguments</param>
         private void faderVolume_OnFaderValueChanged(object sender, EventArgs e)
         {
+            // Check if the form has finished loading
+            if (!IsInitDone)
+            {
+                return;
+            }
+
             // Set volume and update label            
             m_player.Volume = (float)faderVolume.Value / 100;
             lblVolume.Text = faderVolume.Value.ToString() + " %";
