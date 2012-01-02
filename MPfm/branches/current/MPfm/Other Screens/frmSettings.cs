@@ -870,7 +870,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void chkShowTray_CheckedChanged(object sender, EventArgs e)
         {
-            settingsChanged = true;
+            //settingsChanged = true;
 
             // Enable checkboxes depending on value
             if (chkShowTray.Checked)
@@ -897,7 +897,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void chkHideTray_CheckedChanged(object sender, EventArgs e)
         {
-            settingsChanged = true;
+            //settingsChanged = true;
 
             // Save settings
             SaveGeneralConfig();
