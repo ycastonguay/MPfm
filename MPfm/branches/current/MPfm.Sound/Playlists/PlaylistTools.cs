@@ -87,6 +87,9 @@ namespace MPfm.Sound
             List<string> files = new List<string>();
             StreamReader reader = null;
 
+            // Get playlist directory path
+            string playlistDirectory = Path.GetDirectoryName(filePath);
+
             try
             {
                 // Open reader
@@ -102,16 +105,50 @@ namespace MPfm.Sound
                         // Make sure the line isn't a comment (begins by the pound # sign)
                         if (line[0] != '#')
                         {
-                            // Make sure the file exists
+                            string directoryPath = string.Empty;
+
+                            // Check for a media file with absolute path
                             if (File.Exists(line))
                             {
                                 // Add file to list
                                 files.Add(line);
                             }
+                            // Check for a media file with relative path (without backslash)
+                            else if (File.Exists(playlistDirectory + line))
+                            {
+                                // Add file to list
+                                files.Add(playlistDirectory + line);
+                            }
+                            // Check for a media file with relative path (with backslash)
+                            else if (File.Exists(playlistDirectory + "\\" + line))
+                            {
+                                // Add file to list
+                                files.Add(playlistDirectory + "\\" + line);
+                            }
+                            // Check for a directory with absolute path
                             else if (Directory.Exists(line))
                             {
+                                // Set directory path
+                                directoryPath = line;
+                            }
+                            // Check for a directory with relative path (without backslash)
+                            else if (Directory.Exists(playlistDirectory + line))
+                            {
+                                // Set directory path
+                                directoryPath = playlistDirectory + line;
+                            }
+                            // Check for a directory with relative path (with backslash)
+                            else if (Directory.Exists(playlistDirectory + "\\" + line))
+                            {
+                                // Set directory path
+                                directoryPath = playlistDirectory + "\\" + line;
+                            }
+
+                            // Check if the line is a directory
+                            if (!String.IsNullOrEmpty(directoryPath))
+                            {
                                 // The line is a directory! We gotta search recursively through this directory.
-                                List<string> moreFiles = AudioTools.SearchAudioFilesRecursive(line, "MP3;FLAC;OGG;WAV;WV;APE");
+                                List<string> moreFiles = AudioTools.SearchAudioFilesRecursive(directoryPath, "MP3;FLAC;OGG;WAV;WV;APE");
 
                                 // Check if the list is empty
                                 if (moreFiles != null || moreFiles.Count == 0)
