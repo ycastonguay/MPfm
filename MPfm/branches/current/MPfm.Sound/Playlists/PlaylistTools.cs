@@ -179,13 +179,16 @@ namespace MPfm.Sound
         /// </summary>        
         /// <param name="playlistFilePath">Playlist file path</param>
         /// <param name="playlist">Playlist object</param>
-        public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist)
+        public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist, bool relativePaths)
         {
             // Declare variables
             StreamWriter writer = null;
 
             try
             {
+                // Get playlist path
+                string playlistPath = Path.GetDirectoryName(playlistFilePath);
+
                 // Open writer
                 writer = new StreamWriter(playlistFilePath);
 
@@ -193,14 +196,26 @@ namespace MPfm.Sound
                 writer.WriteLine("# " + playlist.Name);
                 writer.WriteLine("# Saved using MPfm: Music Player for Musicians (http://www.mp4m.org)");
 
+                // Check for relative path               
+
                 // Loop through files
                 foreach (PlaylistItem item in playlist.Items)
                 {
-                    // Write file path
-                    writer.WriteLine(item.AudioFile.FilePath);
+                    // Check if paths are relative
+                    if (relativePaths)
+                    {
+                        // Write relative file path
+                        writer.WriteLine(item.AudioFile.FilePath.Replace(playlistPath + "\\", ""));
+                    }
+                    else
+                    {
+                        // Write absolute file path
+                        writer.WriteLine(item.AudioFile.FilePath);
+                    }
                 }
 
                 // Dispose writer
+                writer.Close();
                 writer.Dispose();
             }
             catch (Exception ex)

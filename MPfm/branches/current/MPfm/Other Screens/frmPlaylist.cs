@@ -404,9 +404,6 @@ namespace MPfm
             // Show Save Playlist dialog
             if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
-                // Set playlist type 
-                //Main.Player.Playlist.PlaylistType = PlaylistType.Custom;
-
                 // Refresh the window title
                 RefreshTitle();
 
@@ -677,25 +674,49 @@ namespace MPfm
         /// <summary>
         /// Saves the playlist in the specified file path.
         /// </summary>
-        /// <param name="playlistFilePath">Playlist file path</param>
+        /// <param name="playlistFilePath">Playlist file path</param>        
         public void SavePlaylist(string playlistFilePath)
         {
+            bool relativePath = false;
+
             // Change cursor
             Cursor.Current = Cursors.WaitCursor;
 
             // Set playlist file path
             Main.Player.Playlist.FilePath = playlistFilePath;
 
+            // Check if the path is in the same 
+            DialogResult dialogResult = MessageBox.Show("Do you wish to use relative paths instead of absolute paths when possible?\n\nA full path or absolute path is a path that points to the same location on one file system regardless of the working directory or combined paths.\n\nA relative path is a path relative to the working directory of the user or application, so the full absolute path will not have to be given.", "Use relative paths", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            // Check result
+            if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+            {
+                // Cancel
+                return;
+            }
+            else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+            {
+                // Save playlist
+                //SavePlaylist(dialogSavePlaylist.FileName, true);
+                relativePath = true;
+            }
+            else if (dialogResult == System.Windows.Forms.DialogResult.No)
+            {
+                // Save playlist
+                //SavePlaylist(dialogSavePlaylist.FileName, false);
+                relativePath = false;
+            }
+
             // Determine what format the user has chosen
             if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
             {
                 // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
             {
                 // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
             {
