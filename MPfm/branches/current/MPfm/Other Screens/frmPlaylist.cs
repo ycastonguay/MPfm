@@ -706,15 +706,15 @@ namespace MPfm
             }
 
             // Determine what format the user has chosen
-            if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
+            if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
             {
                 // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, true);
             }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
+            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
             {
                 // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
+                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, false);
             }
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
             {
@@ -724,7 +724,7 @@ namespace MPfm
             else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
             {
                 // Save playlist
-                PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist);
+                PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
             }
 
             // Change cursor

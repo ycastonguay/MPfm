@@ -77,9 +77,9 @@ namespace MPfm.Sound
         #region M3U/M3U8
         
         /// <summary>
-        /// Returns the list of audio files to play from a M3U playlist.
+        /// Returns the list of audio files to play from a M3U or M3U8 playlist.
         /// </summary>
-        /// <param name="filePath">Playlist file path</param>
+        /// <param name="filePath">Playlist file path</param>        
         /// <returns>List of audio file paths</returns>
         public static List<string> LoadM3UPlaylist(string filePath)
         {
@@ -92,8 +92,8 @@ namespace MPfm.Sound
 
             try
             {
-                // Open reader
-                reader = new StreamReader(filePath);
+                // Open reader (will automatically detect ASCII or UTF8 files)
+                reader = new StreamReader(filePath);                
 
                 // Loop through lines
                 string line = string.Empty;
@@ -175,12 +175,13 @@ namespace MPfm.Sound
         }
 
         /// <summary>
-        /// Saves a playlist to a specific path using the M3U playlist format.
+        /// Saves a playlist to a specific path using the M3U/M3U8 playlist format.
         /// </summary>        
         /// <param name="playlistFilePath">Playlist file path</param>
         /// <param name="playlist">Playlist object</param>
+        /// <param name="useUTF8Encoding">Use UTF8 encoding (instead of ASCII)</param>
         /// <param name="useRelativePaths">Use relative paths</param>
-        public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths)
+        public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths, bool useUTF8Encoding)
         {
             // Declare variables
             StreamWriter writer = null;
@@ -190,11 +191,20 @@ namespace MPfm.Sound
                 // Get playlist path
                 string playlistPath = Path.GetDirectoryName(playlistFilePath);
 
-                // Open writer
-                writer = new StreamWriter(playlistFilePath);
+                // Check for UTF8
+                if (useUTF8Encoding)
+                {
+                    // Open writer
+                    writer = new StreamWriter(playlistFilePath, false, Encoding.UTF8);
+                }
+                else
+                {
+                    // Open writer
+                    writer = new StreamWriter(playlistFilePath, false, Encoding.ASCII);
+                }
 
-                // Write MPfm header                
-                writer.WriteLine("# Saved using MPfm: Music Player for Musicians (http://www.mp4m.org)");       
+                // Write header                
+                writer.WriteLine("#EXTM3U");
 
                 // Loop through files
                 foreach (PlaylistItem item in playlist.Items)
@@ -443,6 +453,9 @@ namespace MPfm.Sound
             List<string> files = new List<string>();
             XDocument doc = null;
 
+            // Get playlist directory path
+            string playlistDirectory = Path.GetDirectoryName(filePath);
+
             try
             {
                 // Load XML document
@@ -475,8 +488,43 @@ namespace MPfm.Sound
                     XElement elementLocation = elementsTracks[a].Element(ns + "location");
                     if (elementLocation != null)
                     {
-                        // Add to list
-                        files.Add(elementLocation.Value);
+                        // The file format is always URI.
+                        // file:///mp3s/song_1.mp3
+                        // file:///C:/mp3s/song_1.mp3
+
+                        try
+                        {
+                            // Try to get URI
+                            Uri uri = new Uri(elementLocation.Value);
+                            string audioFilePath = uri.LocalPath.Replace("/", "\\");
+
+                            // Check if the path is valid
+                            if (!string.IsNullOrEmpty(audioFilePath))
+                            {
+                                // Check for a media file with absolute path
+                                if (File.Exists(audioFilePath))
+                                {
+                                    // Add file to list
+                                    files.Add(audioFilePath);
+                                }
+                                // Check for a media file with relative path (without slash)
+                                else if (File.Exists(playlistDirectory + audioFilePath))
+                                {
+                                    // Add file to list
+                                    files.Add(playlistDirectory + audioFilePath);
+                                }
+                                // Check for a media file with relative path (with slash)
+                                else if (File.Exists(playlistDirectory + "\\" + audioFilePath))
+                                {
+                                    // Add file to list
+                                    files.Add(playlistDirectory + "\\" + audioFilePath);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Skip file
+                        }                        
                     }
                 }
             }
@@ -497,10 +545,14 @@ namespace MPfm.Sound
         /// </summary>        
         /// <param name="playlistFilePath">Playlist file path</param>
         /// <param name="playlist">Playlist object</param>
-        public static void SaveXSPFPlaylist(string playlistFilePath, Playlist playlist)
+        /// <param name="useRelativePaths">Use relative paths</param>
+        public static void SaveXSPFPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths)
         {
             // Declare variables
             XDocument doc = null;
+
+            // Get playlist path
+            string playlistPath = Path.GetDirectoryName(playlistFilePath);
 
             try
             {
@@ -524,7 +576,19 @@ namespace MPfm.Sound
                     // Create elements
                     XElement elementTrack = new XElement(ns + "track");                    
                     XElement elementTitle = new XElement(ns + "title", playlist.Items[a].AudioFile.Title);
-                    XElement elementLocation = new XElement(ns + "location", playlist.Items[a].AudioFile.FilePath);
+
+                    // Check if paths are relative
+                    XElement elementLocation = null;
+                    if (useRelativePaths)
+                    {
+                        // Write relative file path                        
+                        elementLocation = new XElement(ns + "location", "file:///" + playlist.Items[a].AudioFile.FilePath.Replace(playlistPath + "\\", "").Replace("\\","/"));
+                    }
+                    else
+                    {
+                        // Write absolute file path                        
+                        elementLocation = new XElement(ns + "location", "file:///" + playlist.Items[a].AudioFile.FilePath.Replace("\\", "/"));
+                    }                        
 
                     // Add elements
                     elementTrack.Add(elementTitle);
