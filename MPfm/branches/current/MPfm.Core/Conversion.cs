@@ -280,6 +280,17 @@ namespace MPfm.Core
         }
 
         /// <summary>
+        /// Returns the number of seconds (with double precision) since 1970 of a DateTime.
+        /// Also called Unix timestamp.
+        /// </summary>
+        /// <param name="dateTime">DateTime to convert</param>
+        /// <returns>Unix timestamp</returns>
+        public static double DateTimeToUnixTimestamp(DateTime dateTime)
+        {
+            return (dateTime - new DateTime(1970, 1, 1)).TotalSeconds;
+        }
+
+        /// <summary>
         /// Parses a string and converts the value into a specific type.
         /// Inspired from a post on Stack Overflow: 
         /// http://stackoverflow.com/questions/569249/methodinfo-invoke-with-out-parameter

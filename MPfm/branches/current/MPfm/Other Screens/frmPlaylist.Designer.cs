@@ -44,7 +44,7 @@ namespace MPfm
             this.menuPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaylistPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miPlaylistRemoveSongs = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
+            this.panelToolbar = new MPfm.WindowsControls.Panel();
             this.btnLoadPlaylist = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.btnRemoveSongs = new MPfm.WindowsControls.Button();
@@ -62,7 +62,7 @@ namespace MPfm
             this.fgfgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadPlaylistLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPlaylist.SuspendLayout();
-            this.panelSongBrowserToolbar.SuspendLayout();
+            this.panelToolbar.SuspendLayout();
             this.menuLoadPlaylist.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,17 +98,17 @@ namespace MPfm
             this.miPlaylistRemoveSongs.Text = "Remove song(s)";
             this.miPlaylistRemoveSongs.Click += new System.EventHandler(this.btnRemoveSongs_Click);
             // 
-            // panelSongBrowserToolbar
+            // panelToolbar
             // 
-            this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSongBrowserToolbar.Controls.Add(this.btnLoadPlaylist);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnClose);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnRemoveSongs);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnRenamePlaylist);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnSavePlaylistAs);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnSavePlaylist);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnNewPlaylist);
+            this.panelToolbar.Controls.Add(this.btnLoadPlaylist);
+            this.panelToolbar.Controls.Add(this.btnClose);
+            this.panelToolbar.Controls.Add(this.btnRemoveSongs);
+            this.panelToolbar.Controls.Add(this.btnRenamePlaylist);
+            this.panelToolbar.Controls.Add(this.btnSavePlaylistAs);
+            this.panelToolbar.Controls.Add(this.btnSavePlaylist);
+            this.panelToolbar.Controls.Add(this.btnNewPlaylist);
             customFont8.EmbeddedFontName = "";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -117,24 +117,24 @@ namespace MPfm
             customFont8.StandardFontName = "Arial";
             customFont8.UseAntiAliasing = true;
             customFont8.UseEmbeddedFont = false;
-            this.panelSongBrowserToolbar.CustomFont = customFont8;
-            this.panelSongBrowserToolbar.ExpandedHeight = 25;
-            this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
-            this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowserToolbar.HeaderCustomFontName = "Junction";
-            this.panelSongBrowserToolbar.HeaderExpandable = false;
-            this.panelSongBrowserToolbar.HeaderExpanded = true;
-            this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
-            this.panelSongBrowserToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelSongBrowserToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panelSongBrowserToolbar.HeaderHeight = 0;
-            this.panelSongBrowserToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.panelSongBrowserToolbar.Location = new System.Drawing.Point(0, 0);
-            this.panelSongBrowserToolbar.Name = "panelSongBrowserToolbar";
-            this.panelSongBrowserToolbar.Size = new System.Drawing.Size(807, 25);
-            this.panelSongBrowserToolbar.TabIndex = 74;
+            this.panelToolbar.CustomFont = customFont8;
+            this.panelToolbar.ExpandedHeight = 25;
+            this.panelToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelToolbar.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
+            this.panelToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelToolbar.HeaderCustomFontName = "Junction";
+            this.panelToolbar.HeaderExpandable = false;
+            this.panelToolbar.HeaderExpanded = true;
+            this.panelToolbar.HeaderForeColor = System.Drawing.Color.White;
+            this.panelToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.panelToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelToolbar.HeaderHeight = 0;
+            this.panelToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panelToolbar.Location = new System.Drawing.Point(0, 0);
+            this.panelToolbar.Name = "panelToolbar";
+            this.panelToolbar.Size = new System.Drawing.Size(807, 25);
+            this.panelToolbar.TabIndex = 0;
             // 
             // btnLoadPlaylist
             // 
@@ -199,7 +199,7 @@ namespace MPfm
             this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(626, 0);
+            this.btnClose.Location = new System.Drawing.Point(511, 0);
             this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -237,7 +237,7 @@ namespace MPfm
             this.btnRemoveSongs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
             this.btnRemoveSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveSongs.Location = new System.Drawing.Point(514, 0);
+            this.btnRemoveSongs.Location = new System.Drawing.Point(399, 0);
             this.btnRemoveSongs.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnRemoveSongs.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRemoveSongs.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -275,7 +275,7 @@ namespace MPfm
             this.btnRenamePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRenamePlaylist.Image = global::MPfm.Properties.Resources.textfield_rename;
             this.btnRenamePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRenamePlaylist.Location = new System.Drawing.Point(399, 0);
+            this.btnRenamePlaylist.Location = new System.Drawing.Point(691, 0);
             this.btnRenamePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnRenamePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRenamePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -286,6 +286,7 @@ namespace MPfm
             this.btnRenamePlaylist.Text = "Rename playlist";
             this.btnRenamePlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRenamePlaylist.UseVisualStyleBackColor = true;
+            this.btnRenamePlaylist.Visible = false;
             this.btnRenamePlaylist.Click += new System.EventHandler(this.btnRenamePlaylist_Click);
             // 
             // btnSavePlaylistAs
@@ -421,7 +422,7 @@ namespace MPfm
             this.viewSongs2.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.viewSongs2.OrderByAscending = true;
             this.viewSongs2.OrderByFieldName = "";
-            this.viewSongs2.Size = new System.Drawing.Size(807, 328);
+            this.viewSongs2.Size = new System.Drawing.Size(807, 329);
             this.viewSongs2.TabIndex = 75;
             this.viewSongs2.Text = "songGridView1";
             songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
@@ -511,7 +512,7 @@ namespace MPfm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(807, 354);
-            this.Controls.Add(this.panelSongBrowserToolbar);
+            this.Controls.Add(this.panelToolbar);
             this.Controls.Add(this.viewSongs2);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -522,7 +523,7 @@ namespace MPfm
             this.Shown += new System.EventHandler(this.frmPlaylist_Shown);
             this.VisibleChanged += new System.EventHandler(this.frmPlaylist_VisibleChanged);
             this.menuPlaylist.ResumeLayout(false);
-            this.panelSongBrowserToolbar.ResumeLayout(false);
+            this.panelToolbar.ResumeLayout(false);
             this.menuLoadPlaylist.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -534,7 +535,7 @@ namespace MPfm
         private System.Windows.Forms.ContextMenuStrip menuPlaylist;
         private System.Windows.Forms.ToolStripMenuItem miPlaylistPlaySong;
         private System.Windows.Forms.ToolStripMenuItem miPlaylistRemoveSongs;
-        private WindowsControls.Panel panelSongBrowserToolbar;
+        private WindowsControls.Panel panelToolbar;
         private WindowsControls.Button btnNewPlaylist;
         private WindowsControls.SongGridView viewSongs2;
         private WindowsControls.Button btnClose;

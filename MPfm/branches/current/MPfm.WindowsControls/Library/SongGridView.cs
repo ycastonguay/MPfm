@@ -1706,23 +1706,27 @@ namespace MPfm.WindowsControls
             // Calculate scrollbar offset Y
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
 
-            // Reset mouse over item flags
-            for (int b = m_startLineNumber; b < m_startLineNumber + m_numberOfLinesToDraw; b++)
+            // Check if there's at least one item
+            if (m_items.Count > 0)
             {
-                // Check if the mouse was over this item
-                if (m_items[b].IsMouseOverItem)
+                // Reset mouse over item flags
+                for (int b = m_startLineNumber; b < m_startLineNumber + m_numberOfLinesToDraw; b++)
                 {
-                    // Reset flag and invalidate region
-                    m_items[b].IsMouseOverItem = false;
-                    Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((b - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
-                    controlNeedsToBeUpdated = true;
+                    // Check if the mouse was over this item
+                    if (m_items[b].IsMouseOverItem)
+                    {
+                        // Reset flag and invalidate region
+                        m_items[b].IsMouseOverItem = false;
+                        Invalidate(new Rectangle(m_columns[0].Width - m_hScrollBar.Value, ((b - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - m_columns[0].Width + m_hScrollBar.Value, m_songCache.LineHeight));
+                        controlNeedsToBeUpdated = true;
 
-                    // Exit loop
-                    break;
+                        // Exit loop
+                        break;
+                    }
                 }
             }
 
-            // Reset flags
+            // Reset column flags
             int columnOffsetX2 = 0;
             for (int b = 0; b < m_columns.Count; b++)
             {
@@ -2324,47 +2328,51 @@ namespace MPfm.WindowsControls
             int offsetY = 0;
             int scrollbarOffsetY = (m_startLineNumber * m_songCache.LineHeight) - m_vScrollBar.Value;
 
-            // Reset mouse over item flags
-            for (int b = m_startLineNumber; b < m_startLineNumber + m_numberOfLinesToDraw; b++)
+            // Check if there's at least one item
+            if (m_items.Count > 0)
             {
-                // Check if the mouse was over this item
-                if (m_items[b].IsMouseOverItem)
+                // Reset mouse over item flags
+                for (int b = m_startLineNumber; b < m_startLineNumber + m_numberOfLinesToDraw; b++)
                 {
-                    // Reset flag and invalidate region
-                    m_items[b].IsMouseOverItem = false;
-                    Invalidate(new Rectangle(albumArtCoverWidth - m_hScrollBar.Value, ((b - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + m_hScrollBar.Value, m_songCache.LineHeight));
+                    // Check if the mouse was over this item
+                    if (m_items[b].IsMouseOverItem)
+                    {
+                        // Reset flag and invalidate region
+                        m_items[b].IsMouseOverItem = false;
+                        Invalidate(new Rectangle(albumArtCoverWidth - m_hScrollBar.Value, ((b - m_startLineNumber + 1) * m_songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + m_hScrollBar.Value, m_songCache.LineHeight));
 
-                    // Exit loop
-                    break;
+                        // Exit loop
+                        break;
+                    }
                 }
-            }
 
-            // Put new mouse over flag
-            for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
-            {
-                // Get audio file
-                AudioFile audioFile = m_items[a].AudioFile;                
-
-                // Calculate offset
-                offsetY = (a * m_songCache.LineHeight) - m_vScrollBar.Value + m_songCache.LineHeight;
-
-                // Check if the mouse cursor is over this line (and not already mouse over)
-                if (e.X >= albumArtCoverWidth - m_hScrollBar.Value &&
-                    e.Y >= offsetY &&
-                    e.Y <= offsetY + m_songCache.LineHeight &&
-                    !m_items[a].IsMouseOverItem)
+                // Put new mouse over flag
+                for (int a = m_startLineNumber; a < m_startLineNumber + m_numberOfLinesToDraw; a++)
                 {
-                    // Set item as mouse over
-                    m_items[a].IsMouseOverItem = true;
+                    // Get audio file
+                    AudioFile audioFile = m_items[a].AudioFile;
 
-                    // Invalidate region                    
-                    Invalidate(new Rectangle(albumArtCoverWidth - m_hScrollBar.Value, offsetY, ClientRectangle.Width - albumArtCoverWidth + m_hScrollBar.Value, m_songCache.LineHeight));
+                    // Calculate offset
+                    offsetY = (a * m_songCache.LineHeight) - m_vScrollBar.Value + m_songCache.LineHeight;
 
-                    // Update control                    
-                    controlNeedsToBeUpdated = true;
+                    // Check if the mouse cursor is over this line (and not already mouse over)
+                    if (e.X >= albumArtCoverWidth - m_hScrollBar.Value &&
+                        e.Y >= offsetY &&
+                        e.Y <= offsetY + m_songCache.LineHeight &&
+                        !m_items[a].IsMouseOverItem)
+                    {
+                        // Set item as mouse over
+                        m_items[a].IsMouseOverItem = true;
 
-                    // Exit loop
-                    break;
+                        // Invalidate region                    
+                        Invalidate(new Rectangle(albumArtCoverWidth - m_hScrollBar.Value, offsetY, ClientRectangle.Width - albumArtCoverWidth + m_hScrollBar.Value, m_songCache.LineHeight));
+
+                        // Update control                    
+                        controlNeedsToBeUpdated = true;
+
+                        // Exit loop
+                        break;
+                    }
                 }
             }
 

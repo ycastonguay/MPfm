@@ -35,6 +35,45 @@ namespace MPfm.Sound
     /// </summary>
     public static class PlaylistTools
     {
+        /// <summary>
+        /// Returns the list of audio files from any of the following formats: M3U, M3U8, PLS and XSPF.
+        /// </summary>
+        /// <param name="filePath">Playlist file path</param>
+        /// <returns>List of audio file paths</returns>
+        public static List<string> LoadPlaylist(string filePath)
+        {
+            // Declare variables
+            List<string> files = new List<string>();
+
+            // Determine the playlist format
+            if (filePath.ToUpper().Contains(".M3U"))
+            {
+                // Load playlist file
+                files = PlaylistTools.LoadM3UPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".M3U8"))
+            {
+                // Load playlist file
+                files = PlaylistTools.LoadM3UPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".PLS"))
+            {
+                // Load playlist file
+                files = PlaylistTools.LoadPLSPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".XSPF"))
+            {
+                // Load playlist file
+                files = PlaylistTools.LoadXSPFPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".ASX"))
+            {
+
+            }
+
+            return files;
+        }
+
         #region M3U/M3U8
         
         /// <summary>

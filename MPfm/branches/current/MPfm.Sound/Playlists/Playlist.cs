@@ -112,6 +112,7 @@ namespace MPfm.Sound
 
         /// <summary>
         /// Loads a playlist (from any of the following formats: M3U, M3U8, PLS and XSPF).
+        /// Note: long playlists may take a while to load using this method!
         /// </summary>
         /// <param name="filePath">Playlist file path</param>
         /// <returns>Playlist</returns>

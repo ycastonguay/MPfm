@@ -22,11 +22,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
 using MPfm.Sound;
@@ -42,6 +44,7 @@ namespace MPfm
     {
         // Private variables        
         public frmRenameSavePlaylist formRenameSavePlaylist = null;
+        public frmLoadPlaylist formLoadPlaylist = null;
 
         /// <summary>
         /// Private value for the Main property.
@@ -192,34 +195,35 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user doubles clicks on an item of the ListView displaying the songs of the current playlist.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void viewSongs_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            // Play the selected song
-            PlaySelectedSong();
-        }
-
-        /// <summary>
         /// Plays the selected song in the ListView displaying the songs in the current playlist.
         /// </summary>
         public void PlaySelectedSong()
         {
-            //// Check if there is a selection
-            //if (viewSongs.SelectedItems.Count > 0)
-            //{               
-            //    // Get playlist song id
-            //    Guid playlistSongId = new Guid(viewSongs.SelectedItems[0].Tag.ToString());
+            // Make sure there is a selected item
+            if (viewSongs2.SelectedItems.Count == 0)
+            {
+                return;
+            }
 
-            //    // Skip to song
-            //    Main.Player.SkipToSong(playlistSongId);
+            // Get the playlist item identifier from the selected item
+            Guid playlistItemId = viewSongs2.SelectedItems[0].PlaylistItemId;
+            PlaylistItem item = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == playlistItemId);
+            int index = Main.Player.Playlist.Items.IndexOf(item);
 
-            //    // Refresh controls                
-            //    Main.RefreshSongControls(false);
-            //    RefreshPlaylistPlayIcon(playlistSongId);
-            //}
+            // Check if the player is playing
+            if (Main.Player.IsPlaying)
+            {
+                // Skip to new song
+                Main.Player.GoTo(index);
+            }
+            else
+            {
+                // Set playlist index
+                Main.Player.Playlist.GoTo(index);
+
+                // Start playback
+                Main.Play();
+            }
         }
 
         #region Refresh Methods
@@ -232,11 +236,13 @@ namespace MPfm
             // Display playlist file path in form title if available
             if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
             {
-                this.Text = Main.Player.Playlist.Name + " (" + Main.Player.Playlist.FilePath + ")";
+                //this.Text = Main.Player.Playlist.Name + " (" + Main.Player.Playlist.FilePath + ")";
+                this.Text = Main.Player.Playlist.FilePath;
             }
             else
             {
-                this.Text = Main.Player.Playlist.Name;
+                //this.Text = Main.Player.Playlist.Name;
+                this.Text = "Empty playlist";
             }
         }
 
@@ -337,6 +343,7 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void btnLoadPlaylist_Click(object sender, EventArgs e)
         {
+            // Display contextual menu
             menuLoadPlaylist.Show(btnLoadPlaylist, new Point(0, btnLoadPlaylist.Height));
         }
 
@@ -564,16 +571,83 @@ namespace MPfm
         {
             try
             {
-                // Load playlist
-                Main.Player.Playlist.LoadPlaylist(playlistFilePath);
+                // Create window
+                formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
+
+                // Show Load playlist dialog (progress bar)
+                DialogResult dialogResult = formLoadPlaylist.ShowDialog(this);
+                if (dialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    // Get audio files
+                    List<AudioFile> audioFiles = formLoadPlaylist.AudioFiles;
+
+                    // Check if any audio files have failed loading
+                    List<string> failedAudioFilePaths = formLoadPlaylist.FailedAudioFilePaths;
+
+                    // Clear player playlist
+                    Main.Player.Playlist.Clear();
+                    Main.Player.Playlist.FilePath = playlistFilePath;
+
+                    // Make sure there are audio files to add to the player playlist
+                    if (audioFiles.Count > 0)
+                    {
+                        // Add audio files                        
+                        Main.Player.Playlist.AddItems(audioFiles);
+                        Main.Player.Playlist.First();
+                    }
+                                       
+                    // Refresh song browser
+                    RefreshTitle();
+                    RefreshPlaylist();                    
+                    RefreshPlaylistPlayIcon(Guid.Empty);
+
+                    // Check if any files could not be loaded
+                    if (failedAudioFilePaths != null && failedAudioFilePaths.Count > 0)
+                    {
+                        // Check if the user wants to see the list of files
+                        if (MessageBox.Show("Some files in the playlist could not be loaded. Do you wish to see the list of files in a text editor?", "Some files could not be loaded", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            // Get temp file path
+                            string tempFilePath = Path.GetTempPath() + "MPfm_PlaylistLog_" + Conversion.DateTimeToUnixTimestamp(DateTime.Now).ToString("0.0000000").Replace(".", "") + ".txt";
+
+                            // Create temporary file
+                            try
+                            {
+                                // Open text writer
+                                TextWriter tw = new StreamWriter(tempFilePath);
+                                foreach (string item in failedAudioFilePaths)
+                                {
+                                    tw.WriteLine(item);
+                                }
+                                tw.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                // Display error
+                                MessageBox.Show("Failed to save the file to " + tempFilePath + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                            // Start notepad
+                            Process.Start(tempFilePath);
+                        }
+                    }
+                    
+                    // Check if the playlist is empty
+                    if (audioFiles.Count == 0)
+                    {
+                        // Warn user that the playlist is empty
+                        MessageBox.Show("The playlist file is empty or does not contain any valid file!", "Playlist is empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                // Dispose form
+                formLoadPlaylist.Dispose();
+                formLoadPlaylist = null;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // Refresh view
-            RefreshPlaylist();
         }
 
         /// <summary>
@@ -650,31 +724,8 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void viewSongs2_DoubleClick(object sender, EventArgs e)
         {
-            // Make sure there is a selected item
-            if (viewSongs2.SelectedItems.Count == 0)
-            {
-                return;
-            }
-
-            // Get the playlist item identifier from the selected item
-            Guid playlistItemId = viewSongs2.SelectedItems[0].PlaylistItemId;
-            PlaylistItem item = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == playlistItemId);
-            int index = Main.Player.Playlist.Items.IndexOf(item);
-
-            // Check if the player is playing
-            if (Main.Player.IsPlaying)
-            {
-                // Skip to new song
-                Main.Player.GoTo(index);
-            }
-            else
-            {
-                // Set playlist index
-                Main.Player.Playlist.GoTo(index);
-
-                // Start playback
-                Main.Play();
-            }
+            PlaySelectedSong();
         }
     }
+
 }
