@@ -134,8 +134,18 @@ namespace MPfm
             // Report progress
             worker.ReportProgress(0, new WorkerLoadPlaylistProgressData() { Message = "Analyzing playlist file..." });
 
-            // Load playlist file paths
-            List<string> filePaths = PlaylistTools.LoadPlaylist(playlistFilePath);
+            List<string> filePaths = new List<string>();
+            try
+            {
+                // Load playlist file paths
+                filePaths = PlaylistTools.LoadPlaylist(playlistFilePath);
+            }
+            catch (Exception ex)
+            {
+                // Stop process
+                e.Result = ex;
+                return;
+            }
 
             // Create completed event data
             WorkerLoadPlaylistCompleteData complete = new WorkerLoadPlaylistCompleteData();            
@@ -209,21 +219,33 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // Check if the operation was canceled
-            if (e.Cancelled)
+            // Check if the result is an exception
+            if (e.Result is Exception)
             {
-                // Set dialog result
-                DialogResult = System.Windows.Forms.DialogResult.Cancel;
+                // Cast exception
+                Exception ex = (Exception)e.Result;
+
+                // Show message box
+                MessageBox.Show("There was an error while loading the playlist:\n" + ex.Message + "\n" + ex.StackTrace, "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                // Get data structure
-                WorkerLoadPlaylistCompleteData data = (WorkerLoadPlaylistCompleteData)e.Result;
+                // Check if the operation was canceled
+                if (e.Cancelled)
+                {
+                    // Set dialog result
+                    DialogResult = System.Windows.Forms.DialogResult.Cancel;
+                }
+                else
+                {
+                    // Get data structure
+                    WorkerLoadPlaylistCompleteData data = (WorkerLoadPlaylistCompleteData)e.Result;
 
-                // Set dialog result
-                m_audioFiles = data.AudioFiles;
-                m_failedAudioFilePaths = data.FailedAudioFilePaths;
-                DialogResult = System.Windows.Forms.DialogResult.OK;   
+                    // Set dialog result
+                    m_audioFiles = data.AudioFiles;
+                    m_failedAudioFilePaths = data.FailedAudioFilePaths;
+                    DialogResult = System.Windows.Forms.DialogResult.OK;
+                }
             }
 
             // Close form
