@@ -2560,8 +2560,12 @@ namespace MPfm.WindowsControls
             m_songCache.TotalWidth = 0;
             for (int a = 0; a < m_songCache.ActiveColumns.Count; a++)
             {
-                // Increment total width
-                m_songCache.TotalWidth += m_songCache.ActiveColumns[a].Width;
+                // Check if column is visible
+                if (m_songCache.ActiveColumns[a].Visible)
+                {
+                    // Increment total width
+                    m_songCache.TotalWidth += m_songCache.ActiveColumns[a].Width;
+                }
             }
 
             // Calculate the number of lines visible (count out the header, which is one line height)
