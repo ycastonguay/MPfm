@@ -930,6 +930,11 @@ namespace MPfm
             // 
             this.txtBufferSize.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBufferSize.Location = new System.Drawing.Point(125, 147);
+            this.txtBufferSize.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.txtBufferSize.Minimum = new decimal(new int[] {
             10,
             0,

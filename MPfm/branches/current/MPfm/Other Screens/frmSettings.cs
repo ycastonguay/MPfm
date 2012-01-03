@@ -352,12 +352,29 @@ namespace MPfm
                 // Save new configuration
                 SaveAudioConfig();
 
-                // Check if the device has been initialized
-                if (!Main.Player.IsDeviceInitialized)
+                // Check if the player is playing
+                if (Main.Player.IsPlaying)
                 {
-                    // Initialize new device
-                    Main.Player.InitializeDevice(device);
+                    // Stop playback
+                    Main.Stop();
                 }
+
+                // Free device
+                Main.Player.FreeDevice();
+
+                // Initialize new device
+                Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
+                Main.Player.BufferSize = (int)txtBufferSize.Value;
+                Main.Player.InitializeDevice(device);
+
+                //// Check if the device has been initialized
+                //if (!Main.Player.IsDeviceInitialized)
+                //{
+                //    // Initialize new device
+                //    Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
+                //    Main.Player.BufferSize = (int)txtBufferSize.Value;                    
+                //    Main.Player.InitializeDevice(device);
+                //}
             }
             else
             {
