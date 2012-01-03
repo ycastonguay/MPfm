@@ -95,40 +95,50 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmSettings_Load(object sender, EventArgs e)
         {
-            List<ThemeSectionComboBoxItem> themeControls = new List<ThemeSectionComboBoxItem>();
-            themeControls.Add(new ThemeSectionComboBoxItem("General", "GeneralTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Output Meter", "OutputMeterTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Song Browser", "SongGridViewTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Wave Form Display", "WaveFormDisplayTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Faders", "FaderTheme"));
-            comboThemeSection.DataSource = themeControls;
-            comboThemeSection.SelectedIndex = 0;
+            //// Add theme sections
+            //List<ThemeSectionComboBoxItem> themeControls = new List<ThemeSectionComboBoxItem>();
+            //themeControls.Add(new ThemeSectionComboBoxItem("General", "GeneralTheme"));
+            //themeControls.Add(new ThemeSectionComboBoxItem("Output Meter", "OutputMeterTheme"));
+            //themeControls.Add(new ThemeSectionComboBoxItem("Song Browser", "SongGridViewTheme"));
+            //themeControls.Add(new ThemeSectionComboBoxItem("Wave Form Display", "WaveFormDisplayTheme"));
+            //themeControls.Add(new ThemeSectionComboBoxItem("Faders", "FaderTheme"));
+            //comboThemeSection.DataSource = themeControls;
+            //comboThemeSection.SelectedIndex = 0;
 
-            // Load sample data into grid
-            List<AudioFile> audioFiles = new List<AudioFile>();
-            for (int a = 0; a < 20; a++)
+            //// Load sample data into grid
+            //List<AudioFile> audioFiles = new List<AudioFile>();
+            //for (int a = 0; a < 20; a++)
+            //{
+            //    // Create audio file
+            //    AudioFile audioFile = new AudioFile(@"file://", Guid.NewGuid(), false);
+            //    audioFile.TrackNumber = (uint)a + 1;
+            //    audioFile.Length = "10:23.450";
+            //    audioFile.ArtistName = "Artist Name";
+            //    audioFile.AlbumTitle = "Album Title";
+            //    audioFile.Title = "Song Title #" + (a + 1).ToString();
+
+            //    // Add to list
+            //    audioFiles.Add(audioFile);
+            //}          
+
+            //// Set now playing song
+            //previewSongGridView.NowPlayingAudioFileId = audioFiles[0].Id;
+
+            //// Load into control
+            //previewSongGridView.Theme = Main.viewSongs2.Theme;
+            //previewSongGridView.ImportAudioFiles(audioFiles);            
+
+            //// Set column widths
+            //previewSongGridView.Columns[0].Width = 100;
+
+            // Remove theme tab
+            for (int a = 0; a < tabs.TabPages.Count; a++)
             {
-                // Create audio file
-                AudioFile audioFile = new AudioFile(@"file://", Guid.NewGuid(), false);
-                audioFile.TrackNumber = (uint)a + 1;
-                audioFile.Length = "10:23.450";
-                audioFile.ArtistName = "Artist Name";
-                audioFile.AlbumTitle = "Album Title";
-                audioFile.Title = "Song Title #" + (a + 1).ToString();
-
-                // Add to list
-                audioFiles.Add(audioFile);
-            }          
-
-            // Set now playing song
-            previewSongGridView.NowPlayingAudioFileId = audioFiles[0].Id;
-
-            // Load into control
-            previewSongGridView.Theme = Main.viewSongs2.Theme;
-            previewSongGridView.ImportAudioFiles(audioFiles);            
-
-            // Set column widths
-            previewSongGridView.Columns[0].Width = 100;
+                if (tabs.TabPages[a].Name.ToUpper() == "TABTHEME")
+                {
+                    tabs.TabPages.RemoveAt(a);
+                }
+            }
         }
 
         protected void m_importAudioFiles_OnProcessData(UpdateLibraryProgressData data)
