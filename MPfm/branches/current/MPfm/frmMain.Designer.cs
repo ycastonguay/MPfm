@@ -1899,10 +1899,7 @@ namespace MPfm
             // 
             // waveFormMarkersLoops
             // 
-            this.waveFormMarkersLoops.AutoScrollWithCursor = false;
-            this.waveFormMarkersLoops.BorderColor = System.Drawing.Color.Empty;
-            this.waveFormMarkersLoops.BorderWidth = 0;
-            this.waveFormMarkersLoops.CursorColor = System.Drawing.Color.RoyalBlue;
+            this.waveFormMarkersLoops.AutoScrollWithCursor = false;            
             customFont89.EmbeddedFontName = "Droid Sans Mono";
             customFont89.IsBold = false;
             customFont89.IsItalic = false;
@@ -1911,22 +1908,17 @@ namespace MPfm
             customFont89.StandardFontName = "Arial";
             customFont89.UseAntiAliasing = true;
             customFont89.UseEmbeddedFont = true;
-            this.waveFormMarkersLoops.CustomFont = customFont89;
             this.waveFormMarkersLoops.DisplayCurrentPosition = true;
             this.waveFormMarkersLoops.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
             this.waveFormMarkersLoops.Dock = System.Windows.Forms.DockStyle.Fill;
             this.waveFormMarkersLoops.Font = new System.Drawing.Font("Arial", 8F);
-            this.waveFormMarkersLoops.GradientColor1 = System.Drawing.Color.Black;
-            this.waveFormMarkersLoops.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.waveFormMarkersLoops.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.waveFormMarkersLoops.Length = ((long)(0));
             this.waveFormMarkersLoops.Location = new System.Drawing.Point(0, 0);
             this.waveFormMarkersLoops.Name = "waveFormMarkersLoops";
             this.waveFormMarkersLoops.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
     "s\\om-0gycd01\\Peak Files\\";
             this.waveFormMarkersLoops.Size = new System.Drawing.Size(792, 47);
-            this.waveFormMarkersLoops.TabIndex = 75;
-            this.waveFormMarkersLoops.WaveFormColor = System.Drawing.Color.Yellow;
+            this.waveFormMarkersLoops.TabIndex = 75;            
             this.waveFormMarkersLoops.Zoom = 100F;
             this.waveFormMarkersLoops.OnPositionChanged += new MPfm.WindowsControls.WaveFormDisplay.PositionChanged(this.waveFormMarkersLoops_OnPositionChanged);
             // 

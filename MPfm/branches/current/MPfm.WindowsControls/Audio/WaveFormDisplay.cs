@@ -73,6 +73,7 @@ namespace MPfm.WindowsControls
         // Mouse cursor related stuff
         private bool isMouseOverToolbar = false;
 
+        // Controls
         MPfm.WindowsControls.HScrollBar horizontalScrollBar = null;
 
         // Contextual menu
@@ -108,74 +109,6 @@ namespace MPfm.WindowsControls
 
         #region Properties
         
-        #region Font Properties
-
-        /// <summary>
-        /// Private value for the CustomFont property.
-        /// </summary>
-        private CustomFont m_customFont = null;
-        /// <summary>
-        /// Defines the font to be used for rendering the control.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
-        {
-            get
-            {
-                return m_customFont;
-            }
-            set
-            {
-                m_customFont = value;
-                Refresh();
-            }
-        }
-
-        #endregion
-
-        #region Border Properties
-
-        /// <summary>
-        /// Defines the border color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("The color of the border")]
-        public Color BorderColor { get; set; }
-
-        /// <summary>
-        /// Defines the border width.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("The width of the border")]
-        public int BorderWidth { get; set; }
-        #endregion
-
-        #region Background Properties
-
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
-        public Color GradientColor1 { get; set; }
-
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color GradientColor2 { get; set; }
-
-        /// <summary>
-        /// Defines the gradient mode used when painting the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Gradient mode")]
-        public LinearGradientMode GradientMode { get; set; }
-
-        #endregion
-
         #region Properties (File / Song Information)
 
         /// <summary>
@@ -352,10 +285,6 @@ namespace MPfm.WindowsControls
             }
         }
 
-        #endregion
-
-        #region Properties (Wave Form Display)
-
         /// <summary>
         /// Private value for the DisplayType property.
         /// </summary>
@@ -378,50 +307,23 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the WaveFormColor property.
+        /// Private value for the Theme property.
         /// </summary>
-        private Color m_waveFormColor = Color.Green;
+        private WaveFormDisplayTheme m_theme = null;
         /// <summary>
-        /// Color used when drawing the wave form.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Color used when drawing the wave form.")]        
-        public Color WaveFormColor
+        public WaveFormDisplayTheme Theme
         {
             get
             {
-                return m_waveFormColor;
+                return m_theme;
             }
             set
             {
-                m_waveFormColor = value;
+                m_theme = value;
             }
         }
-
-        /// <summary>
-        /// Private value for the CursorColor property.
-        /// </summary>
-        private Color m_cursorColor = Color.White;
-        /// <summary>
-        /// Color used when drawing the current song position cursor over the wave form.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Color used when drawing the current song position cursor over the wave form.")]
-        public Color CursorColor
-        {
-            get
-            {
-                return m_cursorColor;
-            }
-            set
-            {
-                m_cursorColor = value;
-            }
-        }
-
-        #endregion
-
-        #region Other Properties
 
         /// <summary>
         /// Private value for the ScrollX property.
@@ -599,8 +501,8 @@ namespace MPfm.WindowsControls
         public WaveFormDisplay() 
             : base()
         {
-            // Create default font
-            m_customFont = new WindowsControls.CustomFont();
+            // Create default theme
+            m_theme = new WaveFormDisplayTheme();
 
             #region Contextual Menu
             
@@ -1177,12 +1079,32 @@ namespace MPfm.WindowsControls
                 return;
             }
 
-            // Invalidate part of the control and update
-            Rectangle rect = new Rectangle((int)m_cursorX - 50, 0, 100, ClientRectangle.Height);
-            Invalidate(new Rectangle(0, Height - 20, 100, 20));
-            Invalidate(new Rectangle(0, 0, 100, 24));
+            // Get rectangle for current position
+            RectangleF rectPosition = GetCurrentPositionRect();
+
+            // Invalidate cursor
+            Rectangle rect = new Rectangle((int)m_cursorX - 5, 0, 10, ClientRectangle.Height);
             Invalidate(rect);
-            //Invalidate();
+
+            // Invalidate cursor text
+            if (DisplayCurrentPosition)
+            {
+                // Invalidate cursor text
+                Rectangle rectRound = Rectangle.Round(rectPosition);
+
+                // Inflate the rectangle a bit to prevent zones not to be invalidated
+                // (in fact, the position value always changes, so the rectangle might already be a bit "late")
+                rectRound.X -= 10;
+                rectRound.Y -= 1;
+                rectRound.Width += 12;
+                rectRound.Height += 2;                
+                Invalidate(rectRound);
+            }
+            
+            // Invalidate toolbar
+            Invalidate(new Rectangle(0, Height - 20, 100, 20));
+
+            // Update control
             Update();            
         }
 
@@ -1214,7 +1136,7 @@ namespace MPfm.WindowsControls
             float lineWidth = 0;
             float lineWidthPerHistoryItem = 0;
             int nHistoryItemsPerLine = 0;
-            float desiredLineWidth = 0.5f;
+            float desiredLineWidth = 0.4f;
 
             Rectangle rect;
             Color color;
@@ -1357,7 +1279,7 @@ namespace MPfm.WindowsControls
 
                     // Draw background gradient
                     Rectangle rectBackground = new Rectangle(0, 0, widthAvailable, heightAvailable);
-                    brushGradient = new LinearGradientBrush(rectBackground, GradientColor1, GradientColor2, GradientMode);
+                    brushGradient = new LinearGradientBrush(rectBackground, m_theme.BackgroundGradientColor1, m_theme.BackgroundGradientColor2, m_theme.BackgroundGradientMode);
                     g.FillRectangle(brushGradient, rectBackground);
                     brushGradient.Dispose();
                     brushGradient = null;
@@ -1464,7 +1386,7 @@ namespace MPfm.WindowsControls
                         }
 
                         // Create pen
-                        pen = new Pen(new SolidBrush(WaveFormColor));
+                        pen = new Pen(new SolidBrush(m_theme.WaveFormColor));
 
                         // Determine display type
                         if (DisplayType == WaveFormDisplayType.LeftChannel ||
@@ -1590,7 +1512,7 @@ namespace MPfm.WindowsControls
                 g.DrawImage(m_bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
 
                 // Use anti-aliasing?
-                if (CustomFont.UseAntiAliasing)
+                if (m_theme.CustomFont.UseAntiAliasing)
                 {
                     // Set text anti-aliasing to ClearType (best looking AA)
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -1603,7 +1525,7 @@ namespace MPfm.WindowsControls
                 Font font = null;
 
                 // Make sure the embedded font name needs to be loaded and is valid
-                if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+                if (m_theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(m_theme.CustomFont.EmbeddedFontName))
                 {
                     try
                     {
@@ -1611,7 +1533,7 @@ namespace MPfm.WindowsControls
                         EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
                         // Get embedded font
-                        font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        font = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                     }
                     catch (Exception ex)
                     {
@@ -1626,7 +1548,7 @@ namespace MPfm.WindowsControls
                     try
                     {
                         // Try to get standard font
-                        font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        font = new Font(m_theme.CustomFont.StandardFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                     }
                     catch (Exception ex)
                     {
@@ -1677,7 +1599,7 @@ namespace MPfm.WindowsControls
                     // The control has finished loading; display position
                    
                     // Draw cursor line
-                    pen = new Pen(CursorColor);
+                    pen = new Pen(m_theme.CursorColor);
                     g.DrawLine(pen, new PointF(xCursor, 0), new PointF(xCursor + 1, Height));
                     pen.Dispose();
                     pen = null;
@@ -1685,33 +1607,38 @@ namespace MPfm.WindowsControls
                     // Check if the time display needs to be drawn
                     if (DisplayCurrentPosition)
                     {
-                        // Measure string
-                        SizeF sizeText = g.MeasureString(PositionTime, Font);
+                        // Get rectangle
+                        RectangleF rectPosition = GetCurrentPositionRect();
 
-                        // Check if there's enough space at the left of the cursor to display the time
-                        float x = 0;
-                        if (xCursor < sizeText.Width)
-                        {
-                            // Display the time string at the right of the cursor
-                            x = xCursor;
-                        }
-                        else
-                        {
-                            // Display the time string at the left of the cursor
-                            x = xCursor - sizeText.Width - 4;
-                        }
+                        //// Measure string
+                        //SizeF sizeText = g.MeasureString(PositionTime, Font);
+
+                        //// Check if there's enough space at the left of the cursor to display the time
+                        //float x = 0;
+                        //if (xCursor < sizeText.Width)
+                        //{
+                        //    // Display the time string at the right of the cursor
+                        //    x = xCursor;
+                        //}
+                        //else
+                        //{
+                        //    // Display the time string at the left of the cursor
+                        //    x = xCursor - sizeText.Width - 4;
+                        //}
 
                         // Draw position background
-                        color = Color.FromArgb(200, CursorColor);
+                        color = Color.FromArgb(200, m_theme.CursorColor);
                         brush = new SolidBrush(color);
-                        g.FillRectangle(brush, new RectangleF(x, 0, sizeText.Width + 4, sizeText.Height + 4));
+                        //g.FillRectangle(brush, new RectangleF(x, 0, sizeText.Width + 4, sizeText.Height + 4));
+                        g.FillRectangle(brush, rectPosition);
                         brush.Dispose();
                         brush = null;
 
                         // Draw text
                         color = Color.FromArgb(255, Color.White);
                         brush = new SolidBrush(color);
-                        g.DrawString(PositionTime, Font, brush, new PointF(x + 2, 2));
+                        //g.DrawString(PositionTime, Font, brush, new PointF(x + 2, 2));
+                        g.DrawString(PositionTime, Font, brush, new PointF(rectPosition.X + 2, 2));
                         brush.Dispose();
                         brush = null;
                     }
@@ -2076,6 +2003,48 @@ namespace MPfm.WindowsControls
                 pe.Graphics.Clear(Color.Black);
                 pe.Graphics.DrawString("An error has occured: " + ex.Message, Font, Brushes.White, new Point(1, 1));
             }
+        }
+
+        /// <summary>
+        /// Returns a rectangle defining the surface used to draw the current position in text (including the padding).;
+        /// </summary>
+        /// <returns>Rectangle (float values)</returns>
+        public RectangleF GetCurrentPositionRect()
+        {
+            // Create variables
+            RectangleF rect = new RectangleF();
+
+            // Create dummmy image for measuring string
+            using(Image image = new Bitmap(1, 1))
+            {
+                // Create graphics object
+                using (Graphics g = Graphics.FromImage(image))
+                {
+                    // Measure string
+                    SizeF sizeText = g.MeasureString(PositionTime, Font);
+
+                    // Check if there's enough space at the left of the cursor to display the time
+                    float x = 0;
+                    if (m_cursorX < sizeText.Width)
+                    {
+                        // Display the time string at the right of the cursor
+                        x = m_cursorX;
+                    }
+                    else
+                    {
+                        // Display the time string at the left of the cursor
+                        x = m_cursorX - sizeText.Width - 4;
+                    }
+
+                    // Set rectangle properties
+                    rect.X = x;
+                    rect.Y = 0;
+                    rect.Width = sizeText.Width + 4;
+                    rect.Height = sizeText.Height + 4;
+                }
+            }
+
+            return rect;
         }
 
         #endregion

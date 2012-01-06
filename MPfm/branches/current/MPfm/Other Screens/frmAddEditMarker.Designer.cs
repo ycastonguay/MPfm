@@ -222,23 +222,16 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.waveForm.AutoScrollWithCursor = true;
-            this.waveForm.BorderColor = System.Drawing.Color.Empty;
-            this.waveForm.BorderWidth = 0;
-            this.waveForm.CursorColor = System.Drawing.Color.RoyalBlue;
             this.waveForm.DisplayCurrentPosition = true;
             this.waveForm.DisplayType = MPfm.WindowsControls.WaveFormDisplayType.Stereo;
             this.waveForm.Font = new System.Drawing.Font("Arial", 8F);
-            this.waveForm.GradientColor1 = System.Drawing.Color.Black;
-            this.waveForm.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.waveForm.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.waveForm.Length = ((long)(0));
             this.waveForm.Location = new System.Drawing.Point(6, 172);
             this.waveForm.Name = "waveForm";
             this.waveForm.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
     "s\\om-0gycd01\\Peak Files\\";
             this.waveForm.Size = new System.Drawing.Size(581, 79);
-            this.waveForm.TabIndex = 92;
-            this.waveForm.WaveFormColor = System.Drawing.Color.Yellow;
+            this.waveForm.TabIndex = 92;            
             this.waveForm.Zoom = 100F;
             // 
             // panelWarning
