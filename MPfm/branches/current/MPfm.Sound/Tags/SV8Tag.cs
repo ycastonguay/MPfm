@@ -32,6 +32,8 @@ namespace MPfm.Sound
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SV8Tag
     {
+        #region Stream Header
+        
         /// <summary>
         /// Private value for the SampleRate property.
         /// </summary>
@@ -39,6 +41,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Audio file sample rate. Can be 44100, 48000, 37800 or 32000 Hz.
         /// </summary>
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Audio file sample rate.")]
         public int SampleRate
         {
             get
@@ -58,6 +61,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the number of audio channels used for this audio file.
         /// </summary>
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Number of audio channels.")]
         public int AudioChannels
         {
             get
@@ -71,23 +75,106 @@ namespace MPfm.Sound
         }
 
         /// <summary>
-        /// Private value for the LengthSamples property.
+        /// Private value for the Length property.
         /// </summary>
-        private long m_lengthSamples = 0;
+        private long m_length = 0;
         /// <summary>
         /// Defines the audio file length in samples.
         /// </summary>
-        public long LengthSamples
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Audio file length (in samples).")]
+        public long Length
         {
             get
             {
-                return m_lengthSamples;
+                return m_length;
             }
             set
             {
-                m_lengthSamples = value;
+                m_length = value;
             }
         }
+
+        /// <summary>
+        /// Private value for the BeginningSilence property.
+        /// </summary>
+        private long m_beginningSilence = 0;
+        /// <summary>
+        /// Defines the number of samples to skip at the beginning of the stream (silence).
+        /// </summary>
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Number of samples to skip at the beginning of the stream (silence).")]
+        public long BeginningSilence
+        {
+            get
+            {
+                return m_beginningSilence;
+            }
+            set
+            {
+                m_beginningSilence = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the MidSideStereoEnabled property.
+        /// </summary>
+        private bool m_midSideStereoEnabled = false;
+        /// <summary>
+        /// Defines if the Mid Side Stereo mode is enabled.
+        /// </summary>
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Defines if the Mid Side Stereo mode is enabled.")]
+        public bool MidSideStereoEnabled
+        {
+            get
+            {
+                return m_midSideStereoEnabled;
+            }
+            set
+            {
+                m_midSideStereoEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the AudioBlockFrames property.
+        /// </summary>
+        private int m_audioBlockFrames = 0;
+        /// <summary>
+        /// Defines the number of frames per audio packet.
+        /// </summary>
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Number of frames per audio packet.")]
+        public int AudioBlockFrames
+        {
+            get
+            {
+                return m_audioBlockFrames;
+            }
+            set
+            {
+                m_audioBlockFrames = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the MaxUsedBands property.
+        /// </summary>
+        private int m_maxUsedBands = 0;
+        /// <summary>
+        /// Defines the maximum number of bands used in the audio file.
+        /// </summary>
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Maximum number of bands used in the audio file.")]
+        public int MaxUsedBands
+        {
+            get
+            {
+                return m_maxUsedBands;
+            }
+            set
+            {
+                m_maxUsedBands = value;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Default constructor for the SV8Tag class.

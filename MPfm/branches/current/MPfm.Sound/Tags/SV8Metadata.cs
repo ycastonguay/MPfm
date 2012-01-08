@@ -108,10 +108,10 @@ namespace MPfm.Sound
                             // Convert to big endian
                             int bigEndian = GetInt32(bytesRemaining, 0, false);
                             int sampleFrequency = ((bigEndian & 0xE000) >> 13);
-                            int maxBandsUsed = ((bigEndian & 0x1F00) >> 8);
-                            int channels = ((bigEndian & 0x00F0) >> 4) + 1;
+                            data.MaxUsedBands = ((bigEndian & 0x1F00) >> 8);
+                            data.AudioChannels = ((bigEndian & 0x00F0) >> 4) + 1;
                             int midSideStereoUsed = ((bigEndian & 0x0008) >> 3);
-                            int audioBlockFrames = ((bigEndian & 0x0007) >> 0);
+                            data.AudioBlockFrames = ((bigEndian & 0x0007) >> 0);
 
                             // Set metadata
                             // Sample rate
@@ -131,9 +131,11 @@ namespace MPfm.Sound
                             {
                                 data.SampleRate = 32000;
                             }
-                            // Other info
-                            data.AudioChannels = channels;
-                            data.LengthSamples = sampleCount;
+
+                            // Set other metadata
+                            data.Length = sampleCount;                         
+                            data.BeginningSilence = beginSilence;
+                            data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;
                         }
                         else if (key.ToUpper() == "RG")
                         {

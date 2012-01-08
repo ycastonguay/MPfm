@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.IO;
@@ -44,6 +45,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
+        [Browsable(false)]
 		public Guid Id
 		{
 			get
@@ -52,12 +54,39 @@ namespace MPfm.Sound
 			}
 		}
 
+        /// <summary>
+        /// Private value for the SV8Tag property.
+        /// </summary>
         private SV8Tag m_sv8Tag = null;
+        /// <summary>
+        /// Defines the SV8 tag associated with this audio file. 
+        /// Supported file formats: MPC (MusePack).
+        /// For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification.
+        /// </summary>
+        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV8 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification")]
         public SV8Tag SV8Tag
         {
             get
             {
                 return m_sv8Tag;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the APETag property.
+        /// </summary>
+        private APETag m_apeTag = null;
+        /// <summary>
+        /// Defines the APEv1/APEv2 tag associated with this audio file.
+        /// Supported file formats: FLAC, APE, WV, MPC, OFR, TTA.
+        /// For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.
+        /// </summary>
+        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("APEv1/APEv2 Tag. Supported file formats: FLAC, APE, WV, MPC, OFR, TTA. For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.")]
+        public APETag APETag
+        {
+            get
+            {
+                return m_apeTag;
             }
         }
 
@@ -71,6 +100,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Full path to the audio file.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Full path to the audio file.")]
 		public string FilePath
 		{
 			get
@@ -85,8 +115,9 @@ namespace MPfm.Sound
         private AudioFileFormat m_fileType = AudioFileFormat.Unknown;
 
 		/// <summary>
-		/// Type of audio file (FLAC, MP3, etc.)
+		/// Type of audio file (FLAC, MP3, OGG, WAV, WV, MPC, OFR, TTA).
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Type of audio file (FLAC, MP3, OGG, WAV, WV, MPC, OFR, TTA).")]
         public AudioFileFormat FileType
 		{
 			get
@@ -103,6 +134,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Position of the first block of data. Useful for reading the Xing header.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the first block of data.")]
 		public long FirstBlockPosition
 		{
 			get
@@ -119,6 +151,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Position of the last block of data.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the last block of data.")]
 		public long LastBlockPosition
 		{
 			get
@@ -133,12 +166,13 @@ namespace MPfm.Sound
 	   
 		/// <summary>
 		/// Private value for the Bitrate property.
-		/// </summary>
+		/// </summary>        
 		private int m_bitrate = 0;
 
 		/// <summary>
 		/// Audio bitrate. Indicates the average bitrate for VBR MP3 files.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bitrate.")]
 		public int Bitrate
 		{
 			get
@@ -155,6 +189,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Audio bits per sample. Usually 16-bit or 24-bit.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bits per sample. Usually 16-bit or 24-bit.")]
 		public int BitsPerSample
 		{
 			get
@@ -171,6 +206,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Channel mode (only for MP3 files).
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Channel mode (only for MP3 files).")]
 		public TagLib.Mpeg.ChannelMode ChannelMode
 		{
 			get
@@ -187,6 +223,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Sample rate (in Hz).
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Sample rate (in Hz).")]
 		public int SampleRate
 		{
 			get
@@ -201,8 +238,9 @@ namespace MPfm.Sound
 		private int m_audioChannels = 0;
 
 		/// <summary>
-		/// Number of channels.
+		/// Number of audio channels.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Number of audio channels.")]
 		public int AudioChannels
 		{
 			get
@@ -219,6 +257,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Frame length.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Frame length.")]
 		public int FrameLength
 		{
 			get
@@ -235,6 +274,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Audio layer type.
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio layer type.")]
 		public int AudioLayer
 		{
 			get
@@ -249,8 +289,9 @@ namespace MPfm.Sound
 		private string m_length;
 
 		/// <summary>
-		/// Length of the audio file (in 00:00.000 format).
+		/// Audio file length (in 00:00.000 format).
 		/// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio file length (in 00:00.000 format).")]
 		public string Length
 		{
 			get
@@ -278,6 +319,7 @@ namespace MPfm.Sound
         /// The INFO header is found on MP3 files encoded using LAME and CBR settings.
         /// Both headers are in fact the same.
         /// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 header type (XING or INFO).")]
         public string MP3HeaderType
         {
             get
@@ -295,6 +337,7 @@ namespace MPfm.Sound
         /// MP3 Encoder version.
         /// Ex: LAME3.98
         /// </summary>        
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder version.")]
         public string MP3EncoderVersion
         {
             get
@@ -312,6 +355,7 @@ namespace MPfm.Sound
         /// MP3 Encoder delay.
         /// Ex: 576
         /// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder delay.")]
         public int? MP3EncoderDelay
         {
             get
@@ -329,6 +373,7 @@ namespace MPfm.Sound
         /// MP3 Encoder padding.
         /// Ex: 1800
         /// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder padding.")]
         public int? MP3EncoderPadding
         {
             get
@@ -358,63 +403,59 @@ namespace MPfm.Sound
 
         #endregion		
 
-		#region Other Properties
-		
-		/// <summary>
-		/// Defines the number of times the audio file has been played.
-		/// </summary>
-		public int PlayCount { get; set; }
+		#region Database Properties
+        
+        /// <summary>
+        /// Defines the number of times the audio file has been played with MPfm (information comes from the MPfm database).
+        /// </summary>
+        [Browsable(false)]
+        public int PlayCount { get; set; }
 
-		/// <summary>
-		/// Defines the last time the audio file has been played.
-		/// Null if the audio file has never been played.
-		/// </summary>
-		public DateTime? LastPlayed { get; set; }
+        /// <summary>
+        /// Defines the last time the audio file has been played with MPfm (information comes from the MPfm database).
+        /// Null if the audio file has never been played.
+        /// </summary>
+        [Browsable(false)]
+        public DateTime? LastPlayed { get; set; }
 
-		/// <summary>
-		/// Defines the rating of the audio file, from 1 to 5. 
-		/// 0 means no rating.
-		/// </summary>
-		public int Rating { get; set; }
+        #endregion
 
-		/// <summary>
-		/// Defines the audio file tempo. 
-		/// 0 means no tempo found.
-		/// </summary>
-		public int Tempo { get; set; }        
-
-		#endregion
-
-		#region ID3v1/ID3v2 (MP3) and VorbisComment (FLAC, OGG) Properties
+		#region Master Tag Properties
 
 		/// <summary>
 		/// Song title.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Song title.")]
 		public string Title { get; set; }
 
 		/// <summary>
 		/// Artist name.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Artist name.")]
 		public string ArtistName { get; set; }
 
 		/// <summary>
 		/// Album title.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Album title.")]
 		public string AlbumTitle { get; set; }
 
 		/// <summary>
 		/// Genre.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Genre.")]
 		public string Genre { get; set; }
 
 		/// <summary>
 		/// Disc number.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Disc number.")]
 		public uint DiscNumber { get; set; }
 
 		/// <summary>
 		/// Track number.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Track number.")]
 		public uint TrackNumber { get; set; }
 
         /// <summary>
@@ -422,7 +463,8 @@ namespace MPfm.Sound
         /// If the disc number is zero, it will return the track number (ex: 10).
         /// If the disc number is higher than zero, it will return the disc number
         /// and the track number separated by a comma (ex: 1.10).
-        /// </summary>
+        /// </summary>        
+        [Browsable(false)]
         public string DiscTrackNumber
         {
             get
@@ -442,17 +484,34 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Track number.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Track count.")]
 		public uint TrackCount { get; set; }
 
 		/// <summary>
-		/// Production year.
+		/// Production year (year only).
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Production year (year only).")]
 		public uint Year { get; set; }
 
 		/// <summary>
 		/// Song lyrics.
 		/// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Song lyrics.")]
 		public string Lyrics { get; set; }
+
+        /// <summary>
+        /// Defines the rating of the audio file, from 1 to 5. 
+        /// 0 means no rating.
+        /// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Defines the rating of the audio file, from 1 to 5 (0 = no rating found).")]
+        public int Rating { get; set; }
+
+        /// <summary>
+        /// Defines the audio file tempo, in BPM (beats per minute).
+        /// 0 means no tempo found.
+        /// </summary>
+        [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Defines the audio file tempo, in BPM (beats per minute).")]
+        public int Tempo { get; set; }        
 
 		#endregion
 
@@ -704,18 +763,16 @@ namespace MPfm.Sound
                 }
             }
             else if (m_fileType == AudioFileFormat.MPC)
-            {
-                // TagLib does not seem to work...
+            {                
                 // MusePack (MPC) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Musepack
 
-                // BASS.NET doesn't support it either! 
-                //TAG_INFO tags = BassTags.BASS_TAG_GetFromFile(m_filePath);
+                // Read SV8 header
+                m_sv8Tag = SV8Metadata.Read(m_filePath);
 
-
-                SV8Tag sv8 = SV8Metadata.Read(m_filePath);
-                APETag ape = APEMetadata.Read(m_filePath);
-
+                // Read APE tag
+                m_apeTag = APEMetadata.Read(m_filePath);
+                
 
 
                 //// Read VorbisComment in FLAC file              
@@ -723,8 +780,8 @@ namespace MPfm.Sound
                 // TAGLIB DOES NOT WORK WITH SV8 (stream version 8)
                 //TagLib.MusePack.File file = new TagLib.MusePack.File(m_filePath);
 
-                m_audioChannels = sv8.AudioChannels;
-                m_sampleRate = sv8.SampleRate;
+                m_audioChannels = m_sv8Tag.AudioChannels;
+                m_sampleRate = m_sv8Tag.SampleRate;
                 m_bitsPerSample = 16;
 
 
