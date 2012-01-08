@@ -526,7 +526,7 @@ namespace MPfm.Player
             Tracing.Log("Player init -- Loading FLAC plugin...");            
             m_apePluginHandle = Base.LoadPlugin("bass_ape.dll");
             m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
-            //m_mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
+            m_mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
             //m_ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
             //m_ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
             m_wvPluginHandle = Base.LoadPlugin("basswv.dll");
@@ -647,7 +647,7 @@ namespace MPfm.Player
             Base.FreeFxPlugin();
             Base.FreePlugin(m_apePluginHandle);
             Base.FreePlugin(m_flacPluginHandle);
-            //Base.FreePlugin(m_mpcPluginHandle);
+            Base.FreePlugin(m_mpcPluginHandle);
             //Base.FreePlugin(m_ofrPluginHandle);
             //Base.FreePlugin(m_ttaPluginHandle);
             Base.FreePlugin(m_wvPluginHandle);

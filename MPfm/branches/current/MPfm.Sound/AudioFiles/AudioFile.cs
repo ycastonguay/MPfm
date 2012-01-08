@@ -52,6 +52,15 @@ namespace MPfm.Sound
 			}
 		}
 
+        private SV8Tag m_sv8Tag = null;
+        public SV8Tag SV8Tag
+        {
+            get
+            {
+                return m_sv8Tag;
+            }
+        }
+
 		#region File Information Properties
 		
 		/// <summary>
@@ -524,6 +533,8 @@ namespace MPfm.Sound
 			{
 				try
 				{
+                    //ID3v2Metadata.Read(m_filePath);
+
 					// Create a more specific type of class for MP3 files
 					TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(m_filePath);
 
@@ -702,14 +713,18 @@ namespace MPfm.Sound
                 //TAG_INFO tags = BassTags.BASS_TAG_GetFromFile(m_filePath);
 
 
+                SV8Tag sv8 = SV8Metadata.Read(m_filePath);
+                APETag ape = APEMetadata.Read(m_filePath);
+
+
 
                 //// Read VorbisComment in FLAC file              
   
                 // TAGLIB DOES NOT WORK WITH SV8 (stream version 8)
                 //TagLib.MusePack.File file = new TagLib.MusePack.File(m_filePath);
 
-                m_audioChannels = 2;
-                m_sampleRate = 44100;
+                m_audioChannels = sv8.AudioChannels;
+                m_sampleRate = sv8.SampleRate;
                 m_bitsPerSample = 16;
 
 

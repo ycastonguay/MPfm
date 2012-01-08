@@ -1,5 +1,5 @@
 ﻿//
-// APETag.cs: Data structure for APEv1 and APEv2 tags.
+// ID3v2Tag.cs: Data structure for ID3v2 tags.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -26,17 +26,16 @@ using System.Text;
 namespace MPfm.Sound
 {  
     /// <summary>
-    /// Data structure for APEv1 and APEv2 tags.
+    /// Data structure for ID3v2 tags.
     /// </summary>
-    public class APETag
+    public class ID3v2Tag
     {
         /// <summary>
         /// Private value for the TagSize property.
         /// </summary>
         private int m_tagSize = 0;
         /// <summary>
-        /// Defines the APE tag size (including the header if APEv2).
-        /// This value excludes the APEv1/APEv2 footer size.
+        /// Defines the ID3v2 tag size.
         /// </summary>
         public int TagSize
         {
@@ -51,29 +50,14 @@ namespace MPfm.Sound
         }
 
         /// <summary>
-        /// Private value for the Dictionary property.
-        /// </summary>
-        private Dictionary<string, string> m_dictionary = null;
-        /// <summary>
-        /// List of key/values contained in the APE tag.
-        /// </summary>
-        public Dictionary<string, string> Dictionary
-        {        
-            get
-            {
-                return m_dictionary;
-            }
-        }
-
-        /// <summary>
         /// Private value for the Version property.
         /// </summary>
-        private APETagVersion m_version = APETagVersion.Unknown;
+        private int m_version = 0;
         /// <summary>
-        /// Defines the APE tag version (APEv1 or APEv2).
-        /// Unknown if the APE tag was not found.
+        /// Defines the ID3v2 tag version (0 = ID3v2.0, 1 = ID3v2.1, etc.)
+        /// Unknown if the ID3v2 tag was not found.
         /// </summary>
-        public APETagVersion Version
+        public int Version
         {
             get
             {
@@ -86,31 +70,48 @@ namespace MPfm.Sound
         }
 
         /// <summary>
-        /// Default constructor for the APETag class.
+        /// Private value for the TagFound property.
         /// </summary>
-        public APETag()
+        private bool m_tagFound = false;
+        /// <summary>
+        /// Indicates if the ID3v2 tags have been found.
+        /// </summary>
+        public bool TagFound
         {
-            // Create dictionary
-            m_dictionary = new Dictionary<string, string>();
+            get
+            {
+                return m_tagFound;
+            }
+            set
+            {
+                m_tagFound = value;
+            }
         }
-    }
 
-    /// <summary>
-    /// Defines the APE tag version.
-    /// </summary>
-    public enum APETagVersion
-    {
         /// <summary>
-        /// The APE tag wasn't found or is in an unknown version.
+        /// Private value for the ExtendedHeader property.
         /// </summary>
-        Unknown = 0, 
+        private bool m_extendedHeader = false;
         /// <summary>
-        /// APE tag version 1.
+        /// Indicates if the file contains an extended header.
         /// </summary>
-        APEv1 = 1, 
+        public bool ExtendedHeader
+        {
+            get
+            {
+                return m_extendedHeader;
+            }
+            set
+            {
+                m_extendedHeader = value;
+            }
+        }
+
         /// <summary>
-        /// APE tag version 2.
+        /// Default constructor for the ID3v2Tag class.
         /// </summary>
-        APEv2 = 2
+        public ID3v2Tag()
+        {
+        }
     }
 }

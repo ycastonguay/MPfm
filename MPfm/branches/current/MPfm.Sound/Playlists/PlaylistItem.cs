@@ -208,7 +208,8 @@ namespace MPfm.Sound
             m_lengthBytes = m_channel.GetLength();
 
             // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
-            float ratio = (float)44100 / (float)m_audioFile.SampleRate;
+            //float ratio = (float)44100 / (float)m_audioFile.SampleRate;
+            float ratio = (float)44100 / (float)m_channel.SampleRate;
             m_lengthBytes = (int)((float)m_lengthBytes * ratio);
             m_lengthSamples = ConvertAudio.ToPCM(m_lengthBytes, 16, 2);
             m_lengthMilliseconds = (int)ConvertAudio.ToMS(m_lengthSamples, 44100);
