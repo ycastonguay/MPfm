@@ -638,6 +638,31 @@ namespace MPfm.Sound
                 // Monkey's Audio (APE) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Monkey's_Audio
 
+                //// Read APE metadata
+                //APETag apes = APEMetadata.Read(m_filePath);
+
+                //APEMetadata.Write(m_filePath, apes.Dictionary);
+
+                //// The metadata has been read successfully.
+                //// Go through key/values
+                //foreach (KeyValuePair<string, string> keyValue in apes.Dictionary)
+                //{
+                //    // Make sure the value has something
+                //    if (!String.IsNullOrEmpty(keyValue.Value))
+                //    {
+                //        // Check for album artist
+                //        if (keyValue.Key.ToUpper() == "ALBUM ARTIST")
+                //        {
+                //            // Set artist name
+                //            ArtistName = keyValue.Key;
+                //        }
+                //        else if (keyValue.Key.ToUpper() == "ARTIST")
+                //        {
+                //            // Set artist name
+                //            ArtistName = keyValue.Key;
+                //        }
+                //    }
+                //}
 
                 // Get TagLib APE
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
@@ -817,7 +842,16 @@ namespace MPfm.Sound
         /// <param name="tag">TagLib tag structure</param>
         private void FillProperties(TagLib.Tag tag)
         {
-            ArtistName = tag.FirstArtist;
+            // Artist name
+            if (!String.IsNullOrEmpty(tag.FirstArtist))
+            {
+                ArtistName = tag.FirstArtist;
+            }
+            else if(tag.AlbumArtists.Length > 0)
+            {
+                ArtistName = tag.AlbumArtists[0];
+            }
+
             AlbumTitle = tag.Album;
             Title = tag.Title;
             Genre = tag.FirstGenre;

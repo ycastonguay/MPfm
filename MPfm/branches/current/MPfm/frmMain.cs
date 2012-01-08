@@ -932,7 +932,7 @@ namespace MPfm
             if (AudioTools.CheckForDistortion(left, right, true, -3.0f))
             {
                 // Show distortion warning "LED"
-                picDistortionWarning.Visible = true;
+                //picDistortionWarning.Visible = true;
             }
         }
 
