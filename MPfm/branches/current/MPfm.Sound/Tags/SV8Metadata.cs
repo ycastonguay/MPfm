@@ -72,9 +72,7 @@ namespace MPfm.Sound
                     byte[] bytesKey = reader.ReadBytes(2);
                     string key = Encoding.UTF8.GetString(bytesKey);
 
-                    // Read size
-                    //byte byteSize = reader.ReadByte();
-
+                    // Read variable integer
                     int intSize = 0;
                     long size = SV8Metadata.ReadVariableLengthInteger(ref reader, ref intSize);
 
@@ -188,6 +186,12 @@ namespace MPfm.Sound
                         data.EncoderMinor = reader.ReadByte();
                         data.EncoderBuild = reader.ReadByte();
                     }
+                    else if (key.ToUpper() == "SO")
+                    {
+                        int offsetSize = 0;
+                        long offset = SV8Metadata.ReadVariableLengthInteger(ref reader, ref offsetSize);
+                        reader.ReadByte();
+                    }
                     else if (key.ToUpper() == "AP")
                     {
                         // This is an audio packet; no more header information
@@ -201,8 +205,8 @@ namespace MPfm.Sound
                 reader = null;
             }
             catch (Exception ex)
-            {
-                // Leave metadata empty
+            {                
+                throw ex;
             }
 
             return data;

@@ -1216,6 +1216,9 @@ namespace MPfm
                 return;
             }
 
+            // Declare variables
+            Dictionary<string, string> failedAudioFiles = new Dictionary<string, string>();
+
             // Check if the playback needs to be stopped
             if (Player.IsPlaying)
             {
@@ -1238,9 +1241,43 @@ namespace MPfm
             }
             else
             {
+                // Load audio files
+                List<AudioFile> audioFiles = new List<AudioFile>();                
+                foreach (string fileName in dialogOpenFile.FileNames)
+                {
+                    try
+                    {
+                        // Create audio file and add to list
+                        AudioFile audioFile = new AudioFile(fileName);
+                        audioFiles.Add(audioFile);
+                    }
+                    catch(Exception ex)
+                    {
+                        // Add to list of failed playback files
+                        failedAudioFiles.Add(fileName, ex.Message);
+                    }
+                }
+
+                // Check if there is at least one file to load
+                if (audioFiles.Count == 0)
+                {
+                    // Build list
+                    StringBuilder sbMessage = new StringBuilder();
+                    sbMessage.AppendLine("Error: The playlist is empty. No files could not be loaded:\n");
+                    foreach (KeyValuePair<string, string> fileName in failedAudioFiles)
+                    {
+                        sbMessage.AppendLine(fileName.Key + "\nReason: " + fileName.Value);
+                    }
+
+                    // Display message box
+                    MessageBox.Show(sbMessage.ToString(), "Error loading files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Add items to playlist
                 Player.Playlist.Clear();
-                Player.Playlist.AddItems(new List<string>(dialogOpenFile.FileNames));
+                //Player.Playlist.AddItems(dialogOpenFile.FileNames.ToList());
+                Player.Playlist.AddItems(audioFiles);
                 Player.Playlist.First();
             }
 
@@ -1266,6 +1303,21 @@ namespace MPfm
             // Make sure the user cannot add markers and loops
             btnAddLoop.Enabled = false;
             btnAddMarker.Enabled = false;
+
+            // Display the list of failed songs to the user
+            if (failedAudioFiles.Count > 0)
+            {
+                // Build list
+                StringBuilder sbMessage = new StringBuilder();
+                sbMessage.AppendLine("Some files could not be loaded:\n");
+                foreach (KeyValuePair<string, string> fileName in failedAudioFiles)
+                {
+                    sbMessage.AppendLine(fileName.Key +"\nReason: " + fileName.Value);
+                }
+
+                // Display warning
+                MessageBox.Show(sbMessage.ToString(), "Some files could not be loaded", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         /// <summary>
