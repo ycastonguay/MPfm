@@ -83,7 +83,7 @@ namespace MPfm.Sound
                     // Validate preamble
                     if (preamble != "APETAGEX")
                     {
-                        
+                        throw new APETagNotFoundException("The APE tag was not found.");
                     }
 
                     // Read Version number (32-bits)
@@ -98,6 +98,10 @@ namespace MPfm.Sound
                     else if (versionNumber == 2000)
                     {
                         data.Version = APETagVersion.APEv2;
+                    }
+                    else
+                    {
+                        throw new APETagNotFoundException("The APE tag version is unknown (" + versionNumber.ToString() + ").");
                     }
 
                     // Read Tag size (32-bits)
@@ -123,8 +127,7 @@ namespace MPfm.Sound
                     if (data.Version == APETagVersion.APEv2)
                     {
                         // Skip header (32 bytes)
-                        reader.BaseStream.Seek(32, SeekOrigin.Current);
-                        //itemCount--;
+                        reader.BaseStream.Seek(32, SeekOrigin.Current);                        
                     }
 
                     // Read items
@@ -166,6 +169,118 @@ namespace MPfm.Sound
 
                         // Add key/value to dictionary
                         data.Dictionary.Add(key, value);                                                
+                    }
+
+                    // Go through dictionary items
+                    foreach (KeyValuePair<string, string> keyValue in data.Dictionary)
+                    {
+                        string key = keyValue.Key.ToUpper().Trim();
+                        if (key == "TITLE")
+                        {
+                            data.Title = keyValue.Value;
+                        }
+                        else if (key == "SUBTITLE")
+                        {
+                            data.Subtitle = keyValue.Value;
+                        }
+                        else if (key == "ARTIST")
+                        {
+                            data.Artist = keyValue.Value;
+                        }
+                        else if (key == "ALBUM")
+                        {
+                            data.Album = keyValue.Value;
+                        }
+                        else if (key == "DEBUT ALBUM")
+                        {
+                            data.DebutAlbum = keyValue.Value;
+                        }
+                        else if (key == "PUBLISHER")
+                        {
+                            data.Publisher = keyValue.Value;
+                        }
+                        else if (key == "CONDUCTOR")
+                        {
+                            data.Conductor = keyValue.Value;
+                        }
+                        else if (key == "TRACK")
+                        {
+                            int value = 0;
+                            int.TryParse(keyValue.Value, out value);
+                            data.Track = value;
+                        }
+                        else if (key == "COMPOSER")
+                        {
+                            data.Composer = keyValue.Value;
+                        }
+                        else if (key == "COMMENT")
+                        {
+                            data.Comment = keyValue.Value;
+                        }
+                        else if (key == "COPYRIGHT")
+                        {
+                            data.Copyright = keyValue.Value;
+                        }
+                        else if (key == "PUBLICATIONRIGHT")
+                        {
+                            data.PublicationRight = keyValue.Value;
+                        }
+                        else if (key == "EAN/UPC")
+                        {
+                            int value = 0;
+                            int.TryParse(keyValue.Value, out value);
+                            data.EAN_UPC = value;
+                        }
+                        else if (key == "ISBN")
+                        {
+                            int value = 0;
+                            int.TryParse(keyValue.Value, out value);
+                            data.ISBN = value;
+                        }
+                        else if (key == "LC")
+                        {
+                            data.LC = keyValue.Value;
+                        }
+                        else if (key == "YEAR")
+                        {
+                            DateTime value = DateTime.MinValue;
+                            DateTime.TryParse(keyValue.Value, out value);
+                            data.Year = value;                            
+                        }
+                        else if (key == "RECORD DATE")
+                        {
+                            DateTime value = DateTime.MinValue;
+                            DateTime.TryParse(keyValue.Value, out value);
+                            data.RecordDate = value;
+                        }
+                        else if (key == "RECORD LOCATION")
+                        {
+                            data.RecordLocation = keyValue.Value;
+                        }
+                        else if (key == "GENRE")
+                        {
+                            data.Genre = keyValue.Value;
+                        }
+                        else if (key == "INDEX")
+                        {
+                            data.Index = keyValue.Value;
+                        }
+                        else if (key == "RELATED")
+                        {
+                            data.Related = keyValue.Value;
+                        }
+                        else if (key == "ABSTRACT")
+                        {
+                            data.Abstract = keyValue.Value;
+                        }
+                        else if (key == "LANGUAGE")
+                        {
+                            data.Language = keyValue.Value;
+                        }
+                        else if (key == "BIBLIOGRAPHY")
+                        {
+                            data.Bibliography = keyValue.Value;
+                        }
                     }
                 }
             }
@@ -290,5 +405,21 @@ namespace MPfm.Sound
                 writer.Write((long)0);                
             }
         }        
+    }
+
+    /// <summary>
+    /// Exception raised when no APEv1/APEv2 tags have been found.
+    /// </summary>
+    public class APETagNotFoundException 
+        : Exception
+    {
+        /// <summary>
+        /// Default constructor for the APETagNotFoundException exception class.
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        public APETagNotFoundException(string message) 
+            : base(message)
+        {
+        }
     }
 }

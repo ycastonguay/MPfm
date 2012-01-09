@@ -32,7 +32,7 @@ namespace MPfm.Sound
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SV8Tag
     {
-        #region Stream Header
+        #region Stream Header Packet
         
         /// <summary>
         /// Private value for the SampleRate property.
@@ -41,7 +41,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Audio file sample rate. Can be 44100, 48000, 37800 or 32000 Hz.
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Audio file sample rate.")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Audio file sample rate.")]
         public int SampleRate
         {
             get
@@ -61,7 +61,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the number of audio channels used for this audio file.
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Number of audio channels.")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Number of audio channels.")]
         public int AudioChannels
         {
             get
@@ -81,7 +81,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the audio file length in samples.
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Audio file length (in samples).")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Audio file length (in samples).")]
         public long Length
         {
             get
@@ -101,7 +101,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the number of samples to skip at the beginning of the stream (silence).
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Number of samples to skip at the beginning of the stream (silence).")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Number of samples to skip at the beginning of the stream (silence).")]
         public long BeginningSilence
         {
             get
@@ -121,7 +121,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines if the Mid Side Stereo mode is enabled.
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Defines if the Mid Side Stereo mode is enabled.")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Defines if the Mid Side Stereo mode is enabled.")]
         public bool MidSideStereoEnabled
         {
             get
@@ -141,7 +141,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the number of frames per audio packet.
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Number of frames per audio packet.")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Number of frames per audio packet.")]
         public int AudioBlockFrames
         {
             get
@@ -161,7 +161,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Defines the maximum number of bands used in the audio file.
         /// </summary>
-        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("Maximum number of bands used in the audio file.")]
+        [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Maximum number of bands used in the audio file.")]
         public int MaxUsedBands
         {
             get
@@ -171,6 +171,214 @@ namespace MPfm.Sound
             set
             {
                 m_maxUsedBands = value;
+            }
+        }
+
+        #endregion
+
+        #region Replay Gain Packet
+        
+        /// <summary>
+        /// Private value for the ReplayGainVersion property.
+        /// </summary>
+        private int m_replayGainVersion = 0;
+        /// <summary>
+        /// Defines the Replay Gain version.
+        /// </summary>
+        [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] Replay Gain version.")]
+        public int ReplayGainVersion
+        {
+            get
+            {
+                return m_replayGainVersion;
+            }
+            set
+            {
+                m_replayGainVersion = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the TitleGain property.
+        /// </summary>
+        private int m_titleGain = 0;
+        /// <summary>
+        /// The loudness calculated for the title, and not the gain that the player must apply.
+        /// </summary>
+        [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] The loudness calculated for the title, and not the gain that the player must apply.")]
+        public int TitleGain
+        {
+            get
+            {
+                return m_titleGain;
+            }
+            set
+            {
+                m_titleGain = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the TitlePeak property.
+        /// </summary>
+        private int m_titlePeak = 0;
+        /// <summary>
+        /// The gain calculated for the title.
+        /// </summary>
+        [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] The gain calculated for the title.")]
+        public int TitlePeak
+        {
+            get
+            {
+                return m_titlePeak;
+            }
+            set
+            {
+                m_titlePeak = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the AlbumGain property.
+        /// </summary>
+        private int m_albumGain = 0;
+        /// <summary>
+        /// The loudness calculated for the album.
+        /// </summary>
+        [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] The loudness calculated for the album.")]
+        public int AlbumGain
+        {
+            get
+            {
+                return m_albumGain;
+            }
+            set
+            {
+                m_albumGain = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the AlbumPeak property.
+        /// </summary>
+        private int m_albumPeak = 0;
+        /// <summary>
+        /// The gain calculated for the album.
+        /// </summary>
+        [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] The gain calculated for the album.")]
+        public int AlbumPeak
+        {
+            get
+            {
+                return m_albumPeak;
+            }
+            set
+            {
+                m_albumPeak = value;
+            }
+        }
+
+        #endregion
+
+        #region Encoder Information Packet
+
+        /// <summary>
+        /// Private value for the EncoderProfile property.
+        /// </summary>
+        private int m_encoderProfile = 0;
+        /// <summary>
+        /// Encoder quality in 4.3 format.
+        /// </summary>
+        [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] Quality in 4.3 format.")]
+        public int EncoderProfile
+        {
+            get
+            {
+                return m_encoderProfile;
+            }
+            set
+            {
+                m_encoderProfile = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the EncoderPNSTool property.
+        /// </summary>
+        private bool m_encoderPNSTool = false;
+        /// <summary>
+        /// Encoder PNS tool enabled.
+        /// </summary>
+        [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] PNS tool enabled.")]
+        public bool EncoderPNSTool
+        {
+            get
+            {
+                return m_encoderPNSTool;
+            }
+            set
+            {
+                m_encoderPNSTool = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the EncoderMajor property.
+        /// </summary>
+        private int m_encoderMajor = 0;
+        /// <summary>
+        /// Encoder major version.
+        /// </summary>
+        [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] Encoder major version.")]
+        public int EncoderMajor
+        {
+            get
+            {
+                return m_encoderMajor;
+            }
+            set
+            {
+                m_encoderMajor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the EncoderMinor property.
+        /// </summary>
+        private int m_encoderMinor = 0;
+        /// <summary>
+        /// Encoder minor version.
+        /// </summary>
+        [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] Encoder minor version.")]
+        public int EncoderMinor
+        {
+            get
+            {
+                return m_encoderMinor;
+            }
+            set
+            {
+                m_encoderMinor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the EncoderBuild property.
+        /// </summary>
+        private int m_encoderBuild = 0;
+        /// <summary>
+        /// Encoder build version.
+        /// </summary>
+        [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] Encoder build version.")]
+        public int EncoderBuild
+        {
+            get
+            {
+                return m_encoderBuild;
+            }
+            set
+            {
+                m_encoderBuild = value;
             }
         }
 

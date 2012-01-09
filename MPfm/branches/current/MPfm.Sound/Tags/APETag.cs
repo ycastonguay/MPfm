@@ -583,6 +583,7 @@ namespace MPfm.Sound
         /// <summary>
         /// List of key/values contained in the APE tag.
         /// </summary>
+        [Category("Global"), Browsable(true), ReadOnly(true), Description("Dictionary of key/value items found in the APE tag.")]
         public Dictionary<string, string> Dictionary
         {        
             get

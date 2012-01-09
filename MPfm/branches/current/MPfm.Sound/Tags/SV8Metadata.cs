@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Reflection;
 
@@ -52,118 +53,152 @@ namespace MPfm.Sound
             try
             {
                 // Open binary reader                        
-                using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
-                {                                        
-                    // Read "File magic number"
-                    byte[] bytesMagicNumber = reader.ReadBytes(4);
-                    string magicNumber = Encoding.UTF8.GetString(bytesMagicNumber);
+                BinaryReader reader = new BinaryReader(File.OpenRead(filePath));
+                
+                // Read "File magic number"
+                byte[] bytesMagicNumber = reader.ReadBytes(4);
+                string magicNumber = Encoding.UTF8.GetString(bytesMagicNumber);
 
-                    // Validate number
-                    if (magicNumber.ToUpper() != "MPCK")
-                    {
-                        throw new Exception("The file is not in MPC/SV8 format!");
-                    }
-
-                    // Loop through header keys
-                    while (true)
-                    {
-                        // Read key (16-bits)
-                        byte[] bytesKey = reader.ReadBytes(2);
-                        string key = Encoding.UTF8.GetString(bytesKey);
-
-                        // Read size
-                        byte byteSize = reader.ReadByte();
-
-                        // Read value (size - 3 bytes)
-                        byte[] bytesValue = reader.ReadBytes(byteSize - 3);
-
-                        // Check key
-                        if (key.ToUpper() == "SH")
-                        {
-                            // Stream header
-                            byte[] bytesCRC = new byte[4] { bytesValue[0], bytesValue[1], bytesValue[2], bytesValue[3] };
-                            byte byteStreamVersion = bytesValue[4];
-
-                            // Check if the header version is 8
-                            if (byteStreamVersion != 8)
-                            {
-                                throw new Exception("This file header version is not SV8!");
-                            }                            
-
-                            // Get sample count (variable integer)
-                            int intLength = 0;
-                            byte[] bytesRemainingSampleCount = new byte[bytesValue.Length - 5];
-                            Array.Copy(bytesValue, 5, bytesRemainingSampleCount, 0, bytesValue.Length - 5);
-                            long sampleCount = SV8Metadata.GetVariableLengthInteger(bytesRemainingSampleCount, ref intLength);
-
-                            // Get beginning silence (variable integer)                            
-                            byte[] bytesRemainingBeginSilence = new byte[bytesRemainingSampleCount.Length - intLength];
-                            Array.Copy(bytesRemainingSampleCount, intLength, bytesRemainingBeginSilence, 0, bytesRemainingSampleCount.Length - intLength);
-                            long beginSilence = SV8Metadata.GetVariableLengthInteger(bytesRemainingBeginSilence, ref intLength);
-
-                            byte[] bytesRemaining = new byte[bytesRemainingBeginSilence.Length - intLength];
-                            Array.Copy(bytesRemainingBeginSilence, intLength, bytesRemaining, 0, bytesRemainingBeginSilence.Length - intLength);
-
-                            // There should be 3 bytes left, but only the first two seem useful.
-                            // Convert to big endian
-                            int bigEndian = GetInt32(bytesRemaining, 0, false);
-                            int sampleFrequency = ((bigEndian & 0xE000) >> 13);
-                            data.MaxUsedBands = ((bigEndian & 0x1F00) >> 8);
-                            data.AudioChannels = ((bigEndian & 0x00F0) >> 4) + 1;
-                            int midSideStereoUsed = ((bigEndian & 0x0008) >> 3);
-                            data.AudioBlockFrames = ((bigEndian & 0x0007) >> 0);
-
-                            // Set metadata
-                            // Sample rate
-                            if (sampleFrequency == 0)
-                            {
-                                data.SampleRate = 44100;
-                            }
-                            else if (sampleFrequency == 1)
-                            {
-                                data.SampleRate = 48000;
-                            }
-                            else if (sampleFrequency == 2)
-                            {
-                                data.SampleRate = 37800;
-                            }
-                            else if (sampleFrequency == 3)
-                            {
-                                data.SampleRate = 32000;
-                            }
-
-                            // Set other metadata
-                            data.Length = sampleCount;                         
-                            data.BeginningSilence = beginSilence;
-                            data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;
-                        }
-                        else if (key.ToUpper() == "RG")
-                        {
-                            // Replay gain
-                        }
-                        else if (key.ToUpper() == "EI")
-                        {
-                            // Encoder info
-                        }
-                        else if (key.ToUpper() == "SO")
-                        {
-                            // Seek table offset
-                        }
-                        else if (key.ToUpper() == "ST")
-                        {
-                            // Seek table
-                        }
-                        else if (key.ToUpper() == "CT")
-                        {
-                            // Chapter tag
-                        }
-                        else if (key.ToUpper() == "AP")
-                        {
-                            // This is an audio packet; no more header information
-                            break;
-                        }
-                    }
+                // Validate number
+                if (magicNumber.ToUpper() != "MPCK")
+                {
+                    throw new Exception("The file is not in MPC/SV8 format!");
                 }
+
+                // Loop through header keys
+                while (true)
+                {
+                    // Read key (16-bits)
+                    byte[] bytesKey = reader.ReadBytes(2);
+                    string key = Encoding.UTF8.GetString(bytesKey);
+
+                    // Read size
+                    //byte byteSize = reader.ReadByte();
+
+                    int intSize = 0;
+                    long size = SV8Metadata.ReadVariableLengthInteger(ref reader, ref intSize);
+
+                    // Check key
+                    if (key.ToUpper() == "SH")
+                    {
+                        // Read value (size - 3 bytes)
+                        byte[] bytesValue = reader.ReadBytes((int)size - 3);
+
+                        // Stream header
+                        byte[] bytesCRC = new byte[4] { bytesValue[0], bytesValue[1], bytesValue[2], bytesValue[3] };
+                        byte byteStreamVersion = bytesValue[4];
+
+                        // Check if the header version is 8
+                        if (byteStreamVersion != 8)
+                        {
+                            throw new Exception("This file header version is not SV8!");
+                        }                            
+
+                        // Get sample count (variable integer)
+                        int intLength = 0;
+                        byte[] bytesRemainingSampleCount = new byte[bytesValue.Length - 5];
+                        Array.Copy(bytesValue, 5, bytesRemainingSampleCount, 0, bytesValue.Length - 5);
+                        long sampleCount = SV8Metadata.GetVariableLengthInteger(bytesRemainingSampleCount, ref intLength);
+
+                        // Get beginning silence (variable integer)                            
+                        byte[] bytesRemainingBeginSilence = new byte[bytesRemainingSampleCount.Length - intLength];
+                        Array.Copy(bytesRemainingSampleCount, intLength, bytesRemainingBeginSilence, 0, bytesRemainingSampleCount.Length - intLength);
+                        long beginSilence = SV8Metadata.GetVariableLengthInteger(bytesRemainingBeginSilence, ref intLength);
+
+                        byte[] bytesRemaining = new byte[bytesRemainingBeginSilence.Length - intLength];
+                        Array.Copy(bytesRemainingBeginSilence, intLength, bytesRemaining, 0, bytesRemainingBeginSilence.Length - intLength);
+
+                        // There should be 3 bytes left, but only the first two seem useful.
+                        // Convert to big endian
+                        int bigEndian = GetInt32(bytesRemaining, 0, false);
+                        int sampleFrequency = ((bigEndian & 0xE000) >> 13);
+                        data.MaxUsedBands = ((bigEndian & 0x1F00) >> 8);
+                        data.AudioChannels = ((bigEndian & 0x00F0) >> 4) + 1;
+                        int midSideStereoUsed = ((bigEndian & 0x0008) >> 3);
+                        data.AudioBlockFrames = ((bigEndian & 0x0007) >> 0);
+
+                        // Set metadata
+                        // Sample rate
+                        if (sampleFrequency == 0)
+                        {
+                            data.SampleRate = 44100;
+                        }
+                        else if (sampleFrequency == 1)
+                        {
+                            data.SampleRate = 48000;
+                        }
+                        else if (sampleFrequency == 2)
+                        {
+                            data.SampleRate = 37800;
+                        }
+                        else if (sampleFrequency == 3)
+                        {
+                            data.SampleRate = 32000;
+                        }
+
+                        // Set other metadata
+                        data.Length = sampleCount;                         
+                        data.BeginningSilence = beginSilence;
+                        data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;                            
+                    }
+                    else if (key.ToUpper() == "RG")
+                    {                           
+                        // Replay Gain                            
+                        byte byteReplayGainVersion = reader.ReadByte();
+                        byte[] bytesTitleGain = reader.ReadBytes(2);
+                        byte[] bytesTitlePeak = reader.ReadBytes(2);
+                        byte[] bytesAlbumGain = reader.ReadBytes(2);
+                        byte[] bytesAlbumPeak = reader.ReadBytes(2);
+
+                        // Read dummy byte (I don't know its use)
+                        //reader.ReadByte();
+
+                        // Set metadata
+                        data.ReplayGainVersion = (int)byteReplayGainVersion;
+                        data.TitleGain = BitConverter.ToInt16(bytesTitleGain, 0);
+                        data.TitlePeak = BitConverter.ToInt16(bytesTitlePeak, 0);
+                        data.AlbumGain = BitConverter.ToInt16(bytesAlbumGain, 0);
+                        data.AlbumPeak = BitConverter.ToInt16(bytesAlbumPeak, 0);
+                    }
+                    else if (key.ToUpper() == "EI")
+                    {                       
+                        // Encoder Info
+                        // Profile
+                        // 0 = NA
+                        // 1 = Unstable
+                        // 2 = NA
+                        // 3 = NA
+                        // 4 = NA
+                        // 5 = Quality 0
+                        // 6 = Quality 1
+                        // 7 = Telephone
+                        // 8 = Thumb (Q3)
+                        // 9 = Radio (Q4)
+                        // 10 = Standard (Q5)
+                        // 11 = Extreme (Q6)
+                        // 12 = Insane (Q7)
+                        // 13 = BrainDead (Q8)
+                        // 14 = Quality 9 (Q9)
+                        // 15 = Quality 10 (Q10)
+                        short intProfile_PNS = (short)reader.ReadByte();                        
+                        data.EncoderProfile = (intProfile_PNS >> 1) / 8;
+
+                        // Encoder version
+                        data.EncoderMajor = reader.ReadByte();
+                        data.EncoderMinor = reader.ReadByte();
+                        data.EncoderBuild = reader.ReadByte();
+                    }
+                    else if (key.ToUpper() == "AP")
+                    {
+                        // This is an audio packet; no more header information
+                        break;
+                    }
+                }  
+              
+                // Dispose reader
+                reader.Close();
+                reader.Dispose();                
+                reader = null;
             }
             catch (Exception ex)
             {
@@ -198,6 +233,29 @@ namespace MPfm.Sound
                 {
                     break;
                 }                
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Reads a variable length integer. Reads until the last byte is found. The length can vary between 8-bits to 64-bits.
+        /// </summary>
+        /// <param name="reader">Binary reader</param>
+        /// <param name="intLength">Integer length (1 = 8-bit, 2 = 16-bit, etc.)</param>
+        /// <returns>Value</returns>
+        public static long ReadVariableLengthInteger(ref BinaryReader reader, ref int intLength)
+        {
+            long value = 0;
+            for (intLength = 1; intLength <= 9; intLength++)
+            {
+                int currentByte = (int)reader.ReadByte();
+                value = (value << 7);
+                value = (value | (currentByte & 0x7F));
+                if ((currentByte & 0x80) == 0)
+                {
+                    break;
+                }
             }
 
             return value;
