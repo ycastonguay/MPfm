@@ -1,5 +1,5 @@
 ﻿//
-// SV8Tag.cs: Data structure for SV8 tags.
+// SV8Tag.cs: Data structure for SV8/MPC tags.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -27,7 +27,7 @@ using System.Text;
 namespace MPfm.Sound
 {  
     /// <summary>
-    /// Data structure for SV8 tags.
+    /// Data structure for SV8/MPC tags.
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SV8Tag

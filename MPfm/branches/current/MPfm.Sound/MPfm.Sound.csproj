@@ -99,6 +99,8 @@
     <Compile Include="PeakFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\APETag.cs" />
+    <Compile Include="Tags\SV7Metadata.cs" />
+    <Compile Include="Tags\SV7Tag.cs" />
     <Compile Include="Tags\ID3v2Tag.cs" />
     <Compile Include="Tags\ID3v2Metadata.cs" />
     <Compile Include="Tags\SV8Tag.cs" />

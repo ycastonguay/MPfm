@@ -55,6 +55,24 @@ namespace MPfm.Sound
 		}
 
         /// <summary>
+        /// Private value for the SV7Tag property.
+        /// </summary>
+        private SV7Tag m_sv7Tag = null;
+        /// <summary>
+        /// Defines the SV7 tag associated with this audio file. 
+        /// Supported file formats: MPC (MusePack).
+        /// For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification.
+        /// </summary>
+        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV7 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification")]
+        public SV7Tag SV7Tag
+        {
+            get
+            {
+                return m_sv7Tag;
+            }
+        }
+
+        /// <summary>
         /// Private value for the SV8Tag property.
         /// </summary>
         private SV8Tag m_sv8Tag = null;
@@ -766,23 +784,45 @@ namespace MPfm.Sound
             {                
                 // MusePack (MPC) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Musepack
+                try
+                {
+                    // Try to read SV8 header
+                    m_sv8Tag = SV8Metadata.Read(m_filePath);
 
-                // Read SV8 header
-                m_sv8Tag = SV8Metadata.Read(m_filePath);
+                    // Set audio properties
+                    m_audioChannels = m_sv8Tag.AudioChannels;
+                    m_sampleRate = m_sv8Tag.SampleRate;
+                    m_bitsPerSample = 16;
+                }
+                catch (SV8TagNotFoundException exSV8)
+                {
+                    try
+                    {
+                        // Try to read the SV7 header
+                        m_sv7Tag = SV7Metadata.Read(m_filePath);
+                    }
+                    catch (SV7TagNotFoundException exSV7)
+                    {
+                        // No headers have been found!
+                        throw new Exception("Error: The file is not in SV7/MPC or SV8/MPC format!");
+                    }
+                }
 
-                // Read APE tag
-                m_apeTag = APEMetadata.Read(m_filePath);
+                try
+                {
+                    // Read APE tag
+                    m_apeTag = APEMetadata.Read(m_filePath);
+                }
+                catch (APETagNotFoundException ex)
+                {
+                    // Do nothing
+                }
                 
-
-
                 //// Read VorbisComment in FLAC file              
   
                 // TAGLIB DOES NOT WORK WITH SV8 (stream version 8)
                 //TagLib.MusePack.File file = new TagLib.MusePack.File(m_filePath);
 
-                m_audioChannels = m_sv8Tag.AudioChannels;
-                m_sampleRate = m_sv8Tag.SampleRate;
-                m_bitsPerSample = 16;
 
 
                 //// Get the position of the first and last block
