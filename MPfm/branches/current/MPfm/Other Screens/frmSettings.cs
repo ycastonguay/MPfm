@@ -375,7 +375,7 @@ namespace MPfm
                 // Initialize new device
                 Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
                 Main.Player.BufferSize = (int)txtBufferSize.Value;
-                Main.Player.InitializeDevice(device);
+                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
 
                 //// Check if the device has been initialized
                 //if (!Main.Player.IsDeviceInitialized)
@@ -437,7 +437,11 @@ namespace MPfm
                 if (!Main.Player.IsDeviceInitialized)
                 {
                     // Initialize new device
-                    Main.Player.InitializeDevice(originalDevice);
+                    Main.Player.InitializeDevice(originalDevice, Main.Config.Audio.Mixer.Frequency);
+
+                    // Set original properties
+                    Main.Player.BufferSize = Main.Config.Audio.Mixer.BufferSize;
+                    Main.Player.UpdatePeriod = Main.Config.Audio.Mixer.UpdatePeriod;
                 }
             }
 
@@ -746,6 +750,44 @@ namespace MPfm
 
         #endregion
 
+        #region Theme Tab Events
+
+        /// <summary>
+        /// Occurs when the user clicks on the Load Theme button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnLoadTheme_Click(object sender, EventArgs e)
+        {
+            // Display open theme dialog 
+            if (dialogOpenTheme.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+
+            // Warn user that this will overwrite the current theme
+            if (MessageBox.Show("Are you sure you wish to load this theme? You will lose the current theme properties.", "Load theme confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Save Theme button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnSaveTheme_Click(object sender, EventArgs e)
+        {
+            // Display save theme dialog
+            if (dialogSaveTheme.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+        }
+
+        #endregion
+
         #region Audio Settings Tab Events
 
         /// <summary>
@@ -788,7 +830,7 @@ namespace MPfm
                 // Find default device
                 Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
             }
-        }        
+        }
 
         /// <summary>
         /// Occurs when the user clicks on the Test audio configuration button.
@@ -831,9 +873,6 @@ namespace MPfm
                 Tracing.Log("Output Device Driver: " + device.Driver);
                 Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
-                // Free device                
-                Main.Player.FreeDevice();
-
                 // Create test device
                 Tracing.Log("Creating test device...");
 
@@ -848,13 +887,43 @@ namespace MPfm
                 // Set flags
                 settingsTested = true;
 
+                // Free device                
+                Main.Player.FreeDevice();
+
+                //// Create test device
+                //Tracing.Log("Creating test device...");
+                //TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, (int)txtMixerSampleRate.Value);
+
+                //// Play sound file                
+                //Tracing.Log("Starting playback...");
+                //testDevice.Play(dialogOpenFile.FileName);
+                //Tracing.Log("The audio file is playing...");
+
+                //// Display info
+                //MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //// Stop and dispose the device
+                //Tracing.Log("User stops playback.");
+                //testDevice.Stop();
+
+                //// Dispose test device
+                //Tracing.Log("Disposing test device...");
+                //testDevice.Dispose();
+
+                // Disable output meter timer
+                Main.timerUpdateOutputMeter.Enabled = false;
+
                 // Create test device
                 Tracing.Log("Creating test device...");
-                TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, (int)txtMixerSampleRate.Value);
+                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
+
+                // Set player properties
+                Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
+                Main.Player.BufferSize = (int)txtBufferSize.Value;
 
                 // Play sound file                
                 Tracing.Log("Starting playback...");
-                testDevice.Play(dialogOpenFile.FileName);
+                Main.Player.PlayFiles(dialogOpenFile.FileNames.ToList());                
                 Tracing.Log("The audio file is playing...");
 
                 // Display info
@@ -862,11 +931,14 @@ namespace MPfm
 
                 // Stop and dispose the device
                 Tracing.Log("User stops playback.");
-                testDevice.Stop();
+                Main.Player.Stop();                
 
                 // Dispose test device
                 Tracing.Log("Disposing test device...");
-                testDevice.Dispose();
+                Main.Player.FreeDevice();                
+
+                // Re-enaable output meter timer
+                Main.timerUpdateOutputMeter.Enabled = true;
 
                 // The test is successful           
                 Tracing.Log("The audio settings test is successful!");
@@ -884,6 +956,34 @@ namespace MPfm
             }
 
             Tracing.Log("End of audio settings test.");
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Reset to Default button (in the Audio Settings tab).
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnResetToDefault_Click(object sender, EventArgs e)
+        {
+            // Select DirectSound driver
+            cboDrivers.SelectedIndex = 0;
+
+            // Loop through DirectSound devices to get the default device
+            for (int a = 0; a < m_devicesDirectSound.Count; a++)
+            {
+                // Is this the default device?
+                if (m_devicesDirectSound[a].IsDefault)
+                {
+                    // Set default device and exit loop
+                    cboOutputDevices.SelectedIndex = a;
+                    break;
+                }
+            }
+
+            // Set default values
+            txtMixerSampleRate.Value = 44100;
+            txtBufferSize.Value = 100;
+            txtUpdatePeriod.Value = 10;
         }
 
         #endregion
@@ -1157,39 +1257,6 @@ namespace MPfm
             previewSongGridView.Refresh();
         }
 
-        /// <summary>
-        /// Occurs when the user clicks on the Load Theme button.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnLoadTheme_Click(object sender, EventArgs e)
-        {
-            // Display open theme dialog 
-            if (dialogOpenTheme.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
-
-            // Warn user that this will overwrite the current theme
-            if (MessageBox.Show("Are you sure you wish to load this theme? You will lose the current theme properties.", "Load theme confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Save Theme button.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnSaveTheme_Click(object sender, EventArgs e)
-        {
-            // Display save theme dialog
-            if (dialogSaveTheme.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
-        }
     }
 
     /// <summary>

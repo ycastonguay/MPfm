@@ -261,6 +261,7 @@
     </Content>
     <Content Include="MPFM.ico" />
     <Content Include="MPfm_SmallOnly.ico" />
+    <None Include="Resources\cog.png" />
     <None Include="Resources\database.png" />
     <None Include="Resources\user.png" />
     <None Include="Resources\MPFM_Splash_0.5.0.3.png" />

@@ -540,7 +540,7 @@ namespace MPfm.Player
 
             // Initialize sound system
             Tracing.Log("Player init -- Initializing device,,,");
-            InitializeDevice(m_device);
+            InitializeDevice(m_device, m_mixerSampleRate);
         }
 
         /// <summary>
@@ -549,17 +549,19 @@ namespace MPfm.Player
         public void InitializeDevice()
         {
             // Initialize default device
-            InitializeDevice(new Device());
+            InitializeDevice(new Device(), m_mixerSampleRate);
         }
 
         /// <summary>
         /// Initializes a specific audio device for playback.
         /// </summary>
         /// <param name="device">Audio device</param>
-        public void InitializeDevice(Device device)
+        /// <param name="mixerSampleRate">Mixer sample rate (in Hz)</param>
+        public void InitializeDevice(Device device, int mixerSampleRate)
         {
             // Set properties
             m_device = device;
+            m_mixerSampleRate = mixerSampleRate;
 
             Tracing.Log("Player -- Initializing device (SampleRate: " + m_mixerSampleRate.ToString() + " Hz, DriverType: " + m_device.DriverType.ToString() + ", Id: " + m_device.Id.ToString() + ", Name: " + m_device.Name + ", BufferSize: " + m_bufferSize.ToString() + ", UpdatePeriod: " + m_updatePeriod.ToString() + ")");
 

@@ -3053,7 +3053,6 @@ namespace MPfm
         private System.ComponentModel.BackgroundWorker workerTreeLibrary;
         private System.Windows.Forms.ImageList imageListSongBrowser;
         private MPfm.WindowsControls.OutputMeter outputMeter;
-        private System.Windows.Forms.Timer timerUpdateOutputMeter;
         private MPfm.WindowsControls.TrackBar trackPosition;
         private MPfm.WindowsControls.TrackBar trackTimeShifting;
         private MPfm.WindowsControls.Label lblSongPosition;
@@ -3110,7 +3109,8 @@ namespace MPfm
         private System.Windows.Forms.SplitContainer splitLoopsMarkersSongBrowser;
         private WindowsControls.Button btnGoToMarker;
         public WindowsControls.SongGridView viewSongs2;
-        public System.Windows.Forms.NotifyIcon notifyIcon;        
+        public System.Windows.Forms.NotifyIcon notifyIcon;
+        public System.Windows.Forms.Timer timerUpdateOutputMeter;        
     }
 }
 

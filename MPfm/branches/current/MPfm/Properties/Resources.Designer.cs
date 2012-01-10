@@ -123,6 +123,13 @@ namespace MPfm.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap cog {
+            get {
+                object obj = ResourceManager.GetObject("cog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap control_end {
             get {
                 object obj = ResourceManager.GetObject("control_end", resourceCulture);

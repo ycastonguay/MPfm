@@ -208,7 +208,7 @@ namespace MPfm.Player.Demo
                     if (!m_main.player.IsDeviceInitialized)
                     {
                         // Initialize device
-                        m_main.player.InitializeDevice(device);
+                        m_main.player.InitializeDevice(device, 44100);
                     }
                 }
             }
