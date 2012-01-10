@@ -154,7 +154,7 @@ namespace MPfm.Player.Demo
 
                 // Load player using configuration values
                 Tracing.Log("Initializing player...");
-                player = new MPfm.Player.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod);
+                player = new MPfm.Player.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod, true);
                 player.UpdateThreads = m_configData.updateThreads;
                 player.OnPlaylistIndexChanged += new MPfm.Player.Player.PlaylistIndexChanged(player_OnSongFinished);
                 

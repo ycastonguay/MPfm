@@ -318,6 +318,13 @@ namespace MPfm
                 frmSplash.SetError("Configuration error: " + ex.Message);
             }
 
+            // Create player
+            Tracing.Log("Main form init -- Loading player...");
+            frmSplash.SetStatus("Loading player...");
+            m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
+            m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
+            m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
+
             // Check if it's the first time the user runs the application
             if (Config.GetKeyValueGeneric<bool>("FirstRun") == null ||
                 Config.GetKeyValueGeneric<bool>("FirstRun") == true)
@@ -347,8 +354,8 @@ namespace MPfm
             try
             {
                 Device device = null;
-                Tracing.Log("Main form init -- Loading player...");
-                frmSplash.SetStatus("Loading player...");
+                Tracing.Log("Main form init -- Initializing device...");
+                frmSplash.SetStatus("Initializing device...");
                 
                 // Get configuration values
                 DriverType driverType = Config.Audio.DriverType;
@@ -378,10 +385,8 @@ namespace MPfm
                     device = new Device();
                 }
 
-                // Create player
-                m_player = new MPfm.Player.Player(device, Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod);
-                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
-                m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
+                // Initialize device
+                m_player.InitializeDevice(device, Config.Audio.Mixer.Frequency);
 
                 // Create timer
                 m_timerSongPosition = new System.Windows.Forms.Timer();
@@ -392,12 +397,12 @@ namespace MPfm
             catch (Exception ex)
             {
                 // Set error in splash and hide splash
-                frmSplash.SetStatus("Error initializing player!");
+                frmSplash.SetStatus("Error initializing device!");
                 frmSplash.HideSplash();
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the player.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the player device.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Main form init -- Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application

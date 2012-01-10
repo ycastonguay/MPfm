@@ -477,7 +477,7 @@ namespace MPfm.Player
         public Player()
         {
             // Initialize system with default values
-            Initialize(new Device(), 44100, 100, 10);
+            Initialize(new Device(), 44100, 100, 10, true);
         }
 
         /// <summary>
@@ -488,10 +488,11 @@ namespace MPfm.Player
         /// <param name="mixerSampleRate">Mixer sample rate (default: 44100 Hz)</param>
         /// <param name="bufferSize">Buffer size (default: 500 ms)</param>
         /// <param name="updatePeriod">Update period (default: 10 ms)</param>
-        public Player(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
+        /// <param name="initializeDevice">Indicates if the device should be initialized</param>
+        public Player(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
             // Initialize system with specific values.
-            Initialize(device, mixerSampleRate, bufferSize, updatePeriod);
+            Initialize(device, mixerSampleRate, bufferSize, updatePeriod, initializeDevice);
         }
 
         /// <summary>
@@ -500,8 +501,9 @@ namespace MPfm.Player
         /// <param name="device">Device output</param>
         /// <param name="mixerSampleRate">Mixer sample rate (default: 44100 Hz)</param>
         /// <param name="bufferSize">Buffer size (default: 500 ms)</param>
-        /// <param name="updatePeriod">Update period (default: 10 ms)</param> 
-        private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod)
+        /// <param name="updatePeriod">Update period (default: 10 ms)</param>
+        /// <param name="initializeDevice">Indicates if the device should be initialized</param>
+        private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
             // Initialize system using specified values
             m_device = device;
@@ -538,9 +540,12 @@ namespace MPfm.Player
             Tracing.Log("Player init -- Creating default EQ preset...");
             m_currentEQPreset = new EQPreset();
 
-            // Initialize sound system
-            Tracing.Log("Player init -- Initializing device,,,");
-            InitializeDevice(m_device, m_mixerSampleRate);
+            // Initialize device
+            if (initializeDevice)
+            {
+                Tracing.Log("Player init -- Initializing device,,,");
+                InitializeDevice(m_device, m_mixerSampleRate);
+            }
         }
 
         /// <summary>

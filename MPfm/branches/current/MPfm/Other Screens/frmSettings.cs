@@ -862,7 +862,7 @@ namespace MPfm
                     }
 
                     // Stop player
-                    Main.Player.Stop();
+                    Main.Stop();
                 }
 
                 // Log 
@@ -927,7 +927,7 @@ namespace MPfm
                 Tracing.Log("The audio file is playing...");
 
                 // Display info
-                MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Stop and dispose the device
                 Tracing.Log("User stops playback.");
