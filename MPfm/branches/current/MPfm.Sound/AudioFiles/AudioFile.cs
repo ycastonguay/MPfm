@@ -726,31 +726,8 @@ namespace MPfm.Sound
                 // Monkey's Audio (APE) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Monkey's_Audio
 
-                //// Read APE metadata
-                //APETag apes = APEMetadata.Read(m_filePath);
-
-                //APEMetadata.Write(m_filePath, apes.Dictionary);
-
-                //// The metadata has been read successfully.
-                //// Go through key/values
-                //foreach (KeyValuePair<string, string> keyValue in apes.Dictionary)
-                //{
-                //    // Make sure the value has something
-                //    if (!String.IsNullOrEmpty(keyValue.Value))
-                //    {
-                //        // Check for album artist
-                //        if (keyValue.Key.ToUpper() == "ALBUM ARTIST")
-                //        {
-                //            // Set artist name
-                //            ArtistName = keyValue.Key;
-                //        }
-                //        else if (keyValue.Key.ToUpper() == "ARTIST")
-                //        {
-                //            // Set artist name
-                //            ArtistName = keyValue.Key;
-                //        }
-                //    }
-                //}
+                // Read APE metadata
+                m_apeTag = APEMetadata.Read(m_filePath);                
 
                 // Get TagLib APE
                 TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
