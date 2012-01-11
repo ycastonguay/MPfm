@@ -641,6 +641,7 @@ namespace MPfm.Player
             Base.Free();
 
             // Set flags
+            m_mainChannel = null;
             m_device = null;
             m_isDeviceInitialized = false;
         }

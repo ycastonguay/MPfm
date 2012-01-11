@@ -257,21 +257,14 @@ namespace MPfm
                 Tracing.Log("Output Device Id: " + device.Id);
                 Tracing.Log("Output Device Name: " + device.Name);
                 Tracing.Log("Output Device Driver: " + device.Driver);
-                Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());                
-
-                // Load FLAC plugin
-                //Tracing.Log("Loading FLAC plugin...");
-                //int flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+                Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
                 // Create test device
-                Tracing.Log("Creating test device...");
-                //TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, (int)txtMixerSampleRate.Value);                
-                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
-                //MPfm.Player.Player player = new Player.Player(device, (int)txtMixerSampleRate.Value, 100, 10, true);
+                Tracing.Log("Creating test device...");                
+                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);                
 
                 // Play sound file                
-                Tracing.Log("Starting playback...");
-                //testDevice.Play(openFile.FileName);
+                Tracing.Log("Starting playback...");                
                 Main.Player.PlayFiles(openFile.FileNames.ToList());
                 Tracing.Log("The audio file is playing...");
 
@@ -279,18 +272,12 @@ namespace MPfm
                 MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Stop and dispose the device
-                Tracing.Log("User stops playback.");
-                //testDevice.Stop();
+                Tracing.Log("User stops playback.");                
                 Main.Player.Stop();
 
                 // Dispose test device
-                Tracing.Log("Disposing test device...");
-                Main.Player.FreeDevice();
-                //testDevice.Dispose();
-
-                // Free FLAC plugin
-                //Tracing.Log("Freeing FLAC plugin...");
-                //Base.FreePlugin(flacPluginHandle);                
+                Tracing.Log("Disposing test device...");                
+                Main.Player.FreeDevice();                          
 
                 // The test is successful, enable Next button
                 btnNext.Enabled = true;

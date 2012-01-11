@@ -2880,7 +2880,6 @@ namespace MPfm
             // 
             // timerUpdateOutputMeter
             // 
-            this.timerUpdateOutputMeter.Enabled = true;
             this.timerUpdateOutputMeter.Interval = 10;
             this.timerUpdateOutputMeter.Tick += new System.EventHandler(this.timerUpdateOutputMeter_Tick);
             // 

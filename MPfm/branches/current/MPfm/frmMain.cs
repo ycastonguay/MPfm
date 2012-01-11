@@ -318,12 +318,19 @@ namespace MPfm
                 frmSplash.SetError("Configuration error: " + ex.Message);
             }
 
-            // Create player
-            Tracing.Log("Main form init -- Loading player...");
-            frmSplash.SetStatus("Loading player...");
-            m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
-            m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
-            m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
+            try
+            {
+                // Create player
+                Tracing.Log("Main form init -- Loading player...");
+                frmSplash.SetStatus("Loading player...");
+                m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
+                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
+                m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             // Check if it's the first time the user runs the application
             if (Config.GetKeyValueGeneric<bool>("FirstRun") == null ||
@@ -467,195 +474,211 @@ namespace MPfm
                 return;
             }
 
-            // Resetting display
-            lblCurrentAlbumTitle.Text = "";
-            lblCurrentArtistName.Text = "";
-            lblCurrentSongTitle.Text = "";
-            lblCurrentFilePath.Text = "";
-            lblBitrate.Text = "";
-            lblSoundFormat.Text = "";
-            lblFrequency.Text = "";
-
-            Tracing.Log("Main form init -- Refreshing library cache...");
-            frmSplash.SetStatus("Refreshing library cache...");
-
-            // Load window configuration (position, size, column sizes, etc.)
-            LoadWindowConfiguration();
-
-            // Reset song query
-            QuerySongBrowser = new SongQuery();
-
-            // Get query if available
-            string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
-            string queryAlbumTitle = Config.Controls.SongGridView.Query.AlbumTitle;
-            string queryPlaylistId = Config.Controls.SongGridView.Query.PlaylistId.ToString();
-            string querySongId = Config.Controls.SongGridView.Query.AudioFileId.ToString();
-            string currentNodeType = Config.Controls.SongGridView.Query.NodeType.ToString();
-
-            // Get media type filter configuration and set media type before refreshing the tree library
-            string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
-            
-            // Populate the supported formats
-            comboSoundFormat.Items.Clear();
-            comboSoundFormat.Items.Add("MP3");
-            comboSoundFormat.Items.Add("FLAC");
-            comboSoundFormat.Items.Add("OGG");
-            comboSoundFormat.Items.Add("APE");
-            comboSoundFormat.Items.Add("WV");
-            //Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
-            
-            //foreach (AudioFileFormat audioFileFormat in audioFileFormats)
-            //{
-            //    // Check if the item is not unknown
-            //    if (audioFileFormat != AudioFileFormat.Unknown && audioFileFormat != AudioFileFormat.All)
-            //    {
-            //        // Add item to combo box
-            //        comboSoundFormat.Items.Add(audioFileFormat.ToString());
-            //    }
-            //}
-
-            // Check if the configuration is null or empty
-            if (String.IsNullOrEmpty(filterSoundFormat))
+            try
             {
-                // Set MP3 filter by default
-                filterSoundFormat = AudioFileFormat.MP3.ToString();
-            }
+                Tracing.Log("Main form init -- Applying configuration...");
+                frmSplash.SetStatus("Applying configuration...");
 
-            // Set combo box selected item
-            comboSoundFormat.SelectedItem = filterSoundFormat;
 
-            // Refresh tree library
-            RefreshTreeLibrary();
+                // Resetting display
+                lblCurrentAlbumTitle.Text = "";
+                lblCurrentArtistName.Text = "";
+                lblCurrentSongTitle.Text = "";
+                lblCurrentFilePath.Text = "";
+                lblBitrate.Text = "";
+                lblSoundFormat.Text = "";
+                lblFrequency.Text = "";
 
-            Tracing.Log("Main form init -- Applying configuration...");
-            frmSplash.SetStatus("Applying configuration...");
+                // Load window configuration (position, size, column sizes, etc.)
+                LoadWindowConfiguration();
 
-            // Set tray settings
-            notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
+                // Reset song query
+                QuerySongBrowser = new SongQuery();
 
-            // Reset init settings
-            InitOpenNodeAlbum = string.Empty;
-            InitOpenNodeArtist = string.Empty;
-            InitOpenNodeArtistAlbum = string.Empty;
-            InitOpenNodePlaylistId = Guid.Empty;
-            InitCurrentSongId = Guid.Empty;
+                // Get query if available
+                string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
+                string queryAlbumTitle = Config.Controls.SongGridView.Query.AlbumTitle;
+                string queryPlaylistId = Config.Controls.SongGridView.Query.PlaylistId.ToString();
+                string querySongId = Config.Controls.SongGridView.Query.AudioFileId.ToString();
+                string currentNodeType = Config.Controls.SongGridView.Query.NodeType.ToString();
 
-            // Set volume
-            faderVolume.Value = Config.Audio.Mixer.Volume;
-            lblVolume.Text = Config.Audio.Mixer.Volume + " %";
-            Player.Volume = Config.Audio.Mixer.Volume;
+                // Get media type filter configuration and set media type before refreshing the tree library
+                string filterSoundFormat = Config.GetKeyValue("FilterSoundFormat");
 
-            // Set tray options
-            //notifyIcon.Visible = Config.ShowTray;
+                // Populate the supported formats
+                comboSoundFormat.Items.Clear();
+                comboSoundFormat.Items.Add("MP3");
+                comboSoundFormat.Items.Add("FLAC");
+                comboSoundFormat.Items.Add("OGG");
+                comboSoundFormat.Items.Add("APE");
+                comboSoundFormat.Items.Add("WV");
+                //Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
 
-            // Set Init current song Id
-            if (!string.IsNullOrEmpty(querySongId))
-            {
-                // Make sure the application doesn't crash if it tries to convert a string into Guid
-                try
+                //foreach (AudioFileFormat audioFileFormat in audioFileFormats)
+                //{
+                //    // Check if the item is not unknown
+                //    if (audioFileFormat != AudioFileFormat.Unknown && audioFileFormat != AudioFileFormat.All)
+                //    {
+                //        // Add item to combo box
+                //        comboSoundFormat.Items.Add(audioFileFormat.ToString());
+                //    }
+                //}
+
+                // Check if the configuration is null or empty
+                if (String.IsNullOrEmpty(filterSoundFormat))
                 {
-                    InitCurrentSongId = new Guid(querySongId);
+                    // Set MP3 filter by default
+                    filterSoundFormat = AudioFileFormat.MP3.ToString();
                 }
-                catch(Exception ex)
+
+                // Set combo box selected item
+                comboSoundFormat.SelectedItem = filterSoundFormat;
+
+                // Refresh tree library
+                RefreshTreeLibrary();
+
+                // Set tray settings
+                notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
+
+                // Reset init settings
+                InitOpenNodeAlbum = string.Empty;
+                InitOpenNodeArtist = string.Empty;
+                InitOpenNodeArtistAlbum = string.Empty;
+                InitOpenNodePlaylistId = Guid.Empty;
+                InitCurrentSongId = Guid.Empty;
+
+                // Set volume
+                faderVolume.Value = Config.Audio.Mixer.Volume;
+                lblVolume.Text = Config.Audio.Mixer.Volume + " %";
+                Player.Volume = Config.Audio.Mixer.Volume;
+
+                // Set Init current song Id
+                if (!string.IsNullOrEmpty(querySongId))
                 {
-                    // Do nothing
-                }               
+                    // Make sure the application doesn't crash if it tries to convert a string into Guid
+                    try
+                    {
+                        InitCurrentSongId = new Guid(querySongId);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Do nothing
+                    }
+                }
+
+                // Set default current node type
+                if (String.IsNullOrEmpty(currentNodeType))
+                {
+                    currentNodeType = "AllSongs";
+                }
+
+                // Set selected node depending on configuration
+                // AllArtists: No background worker required
+                if (currentNodeType == "AllArtists")
+                {
+                    // Set selected node
+                    treeLibrary.SelectedNode = nodeAllArtists;
+
+                    // Refresh song browser
+                    RefreshSongBrowser();
+
+                    // Declare init done!
+                    SetInitDone();
+                }
+                // AllAlbums: No background worker required
+                else if (currentNodeType == "AllAlbums")
+                {
+                    // Set selected node
+                    treeLibrary.SelectedNode = nodeAllAlbums;
+
+                    // Refresh song browser
+                    RefreshSongBrowser();
+
+                    // Declare init done!
+                    SetInitDone();
+                }
+                // nodeAllSongs: No background worker required
+                else if (currentNodeType == "AllSongs")
+                {
+                    // Set selected node
+                    treeLibrary.SelectedNode = nodeAllSongs;
+
+                    // Refresh song browser
+                    RefreshSongBrowser();
+
+                    // Declare init done!
+                    SetInitDone();
+                }
+                // AllPlaylists: No background worker required
+                else if (currentNodeType == "AllPlaylists")
+                {
+                    // Set selected node
+                    treeLibrary.SelectedNode = nodeAllPlaylists;
+
+                    // Refresh song browser
+                    RefreshSongBrowser();
+
+                    // Declare init done!
+                    SetInitDone();
+                }
+                // Artist: Background worker required
+                else if (currentNodeType == "Artist")
+                {
+                    // Expand the AllArtists node
+                    InitOpenNodeArtist = queryArtistName;
+                    nodeAllArtists.Expand();
+
+                    // Can't declare init done yet since background thread is running
+                }
+                else if (currentNodeType == "Album")
+                {
+                    // Expand the AllAlbums node                
+                    InitOpenNodeAlbum = queryAlbumTitle;
+                    nodeAllAlbums.Expand();
+                }
+                else if (currentNodeType == "ArtistAlbum")
+                {
+                    // Expand the AllArtists node
+                    InitOpenNodeArtist = queryArtistName;
+                    InitOpenNodeArtistAlbum = queryAlbumTitle;
+                    nodeAllArtists.Expand();
+
+                    // Can't declare init done yet since background thread is running
+                }
+                else if (currentNodeType == "Playlist")
+                {
+                    //// Expand the playlist node                
+                    //if (!String.IsNullOrEmpty(queryPlaylistId))
+                    //{                    
+                    //    try
+                    //    {
+                    //        InitOpenNodePlaylistId = new Guid(queryPlaylistId);
+                    //    }
+                    //    catch
+                    //    {
+                    //        InitOpenNodePlaylistId = Guid.Empty;
+                    //    }
+                    //}                
+                    //nodeAllPlaylists.Expand();
+                }
+
+                // Start output meter timer
+                timerUpdateOutputMeter.Start();
             }
-
-            // Set default current node type
-            if (String.IsNullOrEmpty(currentNodeType))
+            catch (Exception ex)
             {
-                currentNodeType = "AllSongs";
-            }
+                // Set error in splash and hide splash
+                frmSplash.SetStatus("Error applying configuration!");
+                frmSplash.HideSplash();
 
-            // Set selected node depending on configuration
-            // AllArtists: No background worker required
-            if (currentNodeType == "AllArtists")
-            {
-                // Set selected node
-                treeLibrary.SelectedNode = nodeAllArtists;
+                // Display message box with error
+                this.TopMost = true;
+                MessageBox.Show("There was an error while applying the configuration.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Tracing.Log("Main form init -- Configuration apply error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
 
-                // Refresh song browser
-                RefreshSongBrowser();
-
-                // Declare init done!
-                SetInitDone();
-            }
-            // AllAlbums: No background worker required
-            else if (currentNodeType == "AllAlbums")
-            {
-                // Set selected node
-                treeLibrary.SelectedNode = nodeAllAlbums;
-
-                // Refresh song browser
-                RefreshSongBrowser();
-
-                // Declare init done!
-                SetInitDone();
-            }
-            // nodeAllSongs: No background worker required
-            else if (currentNodeType == "AllSongs")
-            {
-                // Set selected node
-                treeLibrary.SelectedNode = nodeAllSongs;
-
-                // Refresh song browser
-                RefreshSongBrowser();
-
-                // Declare init done!
-                SetInitDone();
-            }
-            // AllPlaylists: No background worker required
-            else if (currentNodeType == "AllPlaylists")
-            {
-                // Set selected node
-                treeLibrary.SelectedNode = nodeAllPlaylists;
-
-                // Refresh song browser
-                RefreshSongBrowser();
-
-                // Declare init done!
-                SetInitDone();
-            }
-            // Artist: Background worker required
-            else if (currentNodeType == "Artist")
-            {
-                // Expand the AllArtists node
-                InitOpenNodeArtist = queryArtistName;                
-                nodeAllArtists.Expand();
-
-                // Can't declare init done yet since background thread is running
-            }
-            else if (currentNodeType == "Album")
-            {
-                // Expand the AllAlbums node                
-                InitOpenNodeAlbum = queryAlbumTitle;                
-                nodeAllAlbums.Expand();
-            }
-            else if (currentNodeType == "ArtistAlbum")
-            {
-                // Expand the AllArtists node
-                InitOpenNodeArtist = queryArtistName;
-                InitOpenNodeArtistAlbum = queryAlbumTitle;
-                nodeAllArtists.Expand();
-
-                // Can't declare init done yet since background thread is running
-            }
-            else if (currentNodeType == "Playlist")
-            {
-                //// Expand the playlist node                
-                //if (!String.IsNullOrEmpty(queryPlaylistId))
-                //{                    
-                //    try
-                //    {
-                //        InitOpenNodePlaylistId = new Guid(queryPlaylistId);
-                //    }
-                //    catch
-                //    {
-                //        InitOpenNodePlaylistId = Guid.Empty;
-                //    }
-                //}                
-                //nodeAllPlaylists.Expand();
+                // Exit application
+                Application.Exit();
+                return;
             }
         }
 
