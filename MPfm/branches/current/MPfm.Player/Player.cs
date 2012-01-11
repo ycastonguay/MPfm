@@ -863,6 +863,9 @@ namespace MPfm.Player
                     }
                 }
 
+                // Set initial volume
+                m_mainChannel.Volume = Volume;
+
                 // Load 18-band equalizer
                 Tracing.Log("Player.Play -- Creating equalizer (Preset: " + m_currentEQPreset + ")...");
                 AddEQ(m_currentEQPreset);

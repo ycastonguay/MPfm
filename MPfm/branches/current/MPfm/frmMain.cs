@@ -550,7 +550,7 @@ namespace MPfm
                 // Set volume
                 faderVolume.Value = Config.Audio.Mixer.Volume;
                 lblVolume.Text = Config.Audio.Mixer.Volume + " %";
-                Player.Volume = Config.Audio.Mixer.Volume;
+                Player.Volume = ((float)Config.Audio.Mixer.Volume / 100);
 
                 // Set Init current song Id
                 if (!string.IsNullOrEmpty(querySongId))
