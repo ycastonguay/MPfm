@@ -61,9 +61,14 @@ namespace MPfm.WindowsControls
         private PeakFile m_peakFile = null;
 
         /// <summary>
-        /// Timer controlling the refresh for the loading and cursor display.
+        /// Timer refreshing the control while a peak file is generating.
         /// </summary>
-        private Timer m_timer = null;
+        private Timer m_timerLoadPeakFile = null;
+
+        /// <summary>
+        /// Timer refreshing the control for animations.
+        /// </summary>
+        private Timer m_timerAnimation = null;
 
         // Animation
         private int animResolution = 256;
@@ -639,9 +644,16 @@ namespace MPfm.WindowsControls
             m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
 
             // Create timer for refresh
-            m_timer = new Timer();
-            m_timer.Interval = 500;
-            m_timer.Tick += new EventHandler(m_timer_Tick);
+            m_timerLoadPeakFile = new Timer();
+            m_timerLoadPeakFile.Enabled = false;
+            m_timerLoadPeakFile.Interval = 500;
+            m_timerLoadPeakFile.Tick += new EventHandler(m_timerLoadPeakFile_Tick);
+
+            // Create timer for animation
+            m_timerAnimation = new Timer();
+            m_timerAnimation.Enabled = false;
+            m_timerAnimation.Interval = 10;
+            m_timerAnimation.Tick += new EventHandler(m_timerAnimation_Tick);
 
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
@@ -661,6 +673,15 @@ namespace MPfm.WindowsControls
             horizontalScrollBar.OnValueChanged += new HScrollBar.ValueChanged(horizontalScrollBar_OnValueChanged);
             //horizontalScrollBar.Scroll += new ScrollEventHandler(horizontalScrollBar_Scroll);            
             this.Controls.Add(horizontalScrollBar);
+        }
+
+        protected void m_timerAnimation_Tick(object sender, EventArgs e)
+        {
+            // Increment counter
+            animZoomCount++;
+
+            Invalidate(new Rectangle(0, ClientRectangle.Height - 20, 100, 20));
+            Refresh();
         }
 
         /// <summary>
@@ -910,7 +931,7 @@ namespace MPfm.WindowsControls
             MethodInvoker methodUIUpdate = delegate
             {
                 // Stop timer
-                m_timer.Stop();
+                m_timerLoadPeakFile.Stop();
                 m_isLoading = false;
 
                 // Reset scrollbar
@@ -1012,7 +1033,7 @@ namespace MPfm.WindowsControls
 
             // Generate peak file and start timer for updating progress
             m_peakFile.GeneratePeakFile(filePath, peakFilePath);
-            m_timer.Start();
+            m_timerLoadPeakFile.Start();
         }
 
         /// <summary>
@@ -1030,11 +1051,11 @@ namespace MPfm.WindowsControls
 
         /// <summary>
         /// Occurs when the timer for refresh has expired.
-        /// Refreshes the wave form during loading or displays the cursor.
+        /// Refreshes the wave form during loading.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void m_timer_Tick(object sender, EventArgs e)
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void m_timerLoadPeakFile_Tick(object sender, EventArgs e)
         {
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
@@ -1731,6 +1752,7 @@ namespace MPfm.WindowsControls
                         {
                             // Stop animation by reseting count
                             animZoomCount = -1;
+                            m_timerAnimation.Stop();
                         }
                         else
                         {
@@ -1825,9 +1847,6 @@ namespace MPfm.WindowsControls
                             g.DrawString(zoomText, Font, brush, new Point(1, zoomTextY + 2));
                             brush.Dispose();
                             brush = null;
-
-                            // Increment counter
-                            animZoomCount++;
                         }
                     }
 
@@ -1836,7 +1855,7 @@ namespace MPfm.WindowsControls
                     // -----------------------------------------------------
                     // Toolbar / overlay animation                                   
 
-                    Rectangle rectToolbar = new Rectangle(0, 0, 80, 20);
+                    Rectangle rectToolbar = new Rectangle(0, 0, 60, 20);
 
                     if (isMouseOverToolbar)
                     {
@@ -1917,8 +1936,19 @@ namespace MPfm.WindowsControls
                             brush = null;
                         }
 
+                        //// Check if the background of the button needs to be drawn
+                        //if (MouseInteractionType == WaveFormMouseInteractionType.Select)
+                        //{
+                        //    // Draw currently selected button background
+                        //    brush = new SolidBrush(colorOverlaySelected);
+                        //    g.FillRectangle(brush, new Rectangle(20, 0, 20, 20));
+                        //    g.DrawRectangle(Pens.Gray, new Rectangle(20, 0, 20, 20));
+                        //    brush.Dispose();
+                        //    brush = null;
+                        //}
+
                         // Check if the background of the button needs to be drawn
-                        if (MouseInteractionType == WaveFormMouseInteractionType.Select)
+                        if (MouseInteractionType == WaveFormMouseInteractionType.ZoomIn)
                         {
                             // Draw currently selected button background
                             brush = new SolidBrush(colorOverlaySelected);
@@ -1929,23 +1959,12 @@ namespace MPfm.WindowsControls
                         }
 
                         // Check if the background of the button needs to be drawn
-                        if (MouseInteractionType == WaveFormMouseInteractionType.ZoomIn)
+                        if (MouseInteractionType == WaveFormMouseInteractionType.ZoomOut)
                         {
                             // Draw currently selected button background
                             brush = new SolidBrush(colorOverlaySelected);
                             g.FillRectangle(brush, new Rectangle(40, 0, 20, 20));
                             g.DrawRectangle(Pens.Gray, new Rectangle(40, 0, 20, 20));
-                            brush.Dispose();
-                            brush = null;
-                        }
-
-                        // Check if the background of the button needs to be drawn
-                        if (MouseInteractionType == WaveFormMouseInteractionType.ZoomOut)
-                        {
-                            // Draw currently selected button background
-                            brush = new SolidBrush(colorOverlaySelected);
-                            g.FillRectangle(brush, new Rectangle(60, 0, 20, 20));
-                            g.DrawRectangle(Pens.Gray, new Rectangle(60, 0, 20, 20));
                             brush.Dispose();
                             brush = null;
                         }
@@ -1956,21 +1975,23 @@ namespace MPfm.WindowsControls
                         imgPointer.Dispose();
                         imgPointer = null;
 
-                        // Select button
-                        //Bitmap bmpSelect = new Bitmap(MPfm.WindowsControls.Properties.Resources.select);
-                        g.DrawImage(imgSelect, new Rectangle(20 + 2, 1, 16, 16));
-                        imgSelect.Dispose();
-                        imgSelect = null;
+                        //// Select button
+                        ////Bitmap bmpSelect = new Bitmap(MPfm.WindowsControls.Properties.Resources.select);
+                        //g.DrawImage(imgSelect, new Rectangle(20 + 2, 1, 16, 16));
+                        //imgSelect.Dispose();
+                        //imgSelect = null;
 
                         // Zoom button
                         //Bitmap bmpZoomIn = new Bitmap(MPfm.WindowsControls.Properties.Resources.zoom_in);
-                        g.DrawImage(imgZoomIn, new Rectangle(40 + 3, 2, 16, 16));
+                        //g.DrawImage(imgZoomIn, new Rectangle(40 + 3, 2, 16, 16));
+                        g.DrawImage(imgZoomIn, new Rectangle(20 + 3, 2, 16, 16));
                         imgZoomIn.Dispose();
                         imgZoomIn = null;
 
                         // Zoom button
                         //Bitmap bmpZoomOut = new Bitmap(MPfm.WindowsControls.Properties.Resources.zoom_out);
-                        g.DrawImage(imgZoomOut, new Rectangle(61 + 2, 2, 16, 16));
+                        //g.DrawImage(imgZoomOut, new Rectangle(61 + 2, 2, 16, 16));
+                        g.DrawImage(imgZoomOut, new Rectangle(41 + 2, 2, 16, 16));
                         imgZoomOut.Dispose();
                         imgZoomOut = null;
                     }
@@ -2059,69 +2080,34 @@ namespace MPfm.WindowsControls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Check if the mouse cursor is over the toolbar
-            if (e.X <= 100 && e.Y <= 24)
+            if (e.X <= 60 && e.Y <= 20)
             {
+                // Check flag
                 if (!isMouseOverToolbar)
-                {
+                {                    
+                    // Set flags
                     animToolbarCount = 0;
                     isMouseOverToolbar = true;
-                    Refresh();
+
+                    // Invalidate toolbar and update control
+                    Invalidate(new Rectangle(0, 0, 60, 20));
+                    Update();
                 }
             }
             else
             {
-                isMouseOverToolbar = false;
+                // Check flag
+                if(isMouseOverToolbar)
+                {
+                    // Set flags
+                    isMouseOverToolbar = false;
+
+                    // Invalidate toolbar and update control
+                    Invalidate(new Rectangle(0, 0, 60, 20));
+                    Update();
+                }
             }
 
-            //// Check if the mouse cursor is over the scrollbar 
-            //if (Zoom > 100 && e.Y >= Height - 14)
-            //{
-            //    bool needToRefresh = false;
-
-            //    // Check if the cursor is on the left handle
-            //    if (e.X >= rectScrollBarLeftHandle.X &&
-            //        e.Y >= rectScrollBarLeftHandle.Y &&
-            //        e.X <= rectScrollBarLeftHandle.X + rectScrollBarLeftHandle.Width &&
-            //        e.Y <= rectScrollBarLeftHandle.Y + rectScrollBarLeftHandle.Height)
-            //    {
-            //        isMouseOverScrollBarLeftHandle = true;
-            //        needToRefresh = true;
-            //    }
-
-            //    // Check if the cursor is on the left handle
-            //    if (e.X >= rectScrollBarRightHandle.X &&
-            //        e.Y >= rectScrollBarRightHandle.Y &&
-            //        e.X <= rectScrollBarRightHandle.X + rectScrollBarRightHandle.Width &&
-            //        e.Y <= rectScrollBarRightHandle.Y + rectScrollBarRightHandle.Height)
-            //    {
-            //        isMouseOverScrollBarRightHandle = true;
-            //        needToRefresh = true;
-            //    }
-
-            //    // Check if the cursor is on the thumb
-            //    if (e.X >= rectScrollBarThumb.X &&
-            //        e.Y >= rectScrollBarThumb.Y &&
-            //        e.X <= rectScrollBarThumb.X + rectScrollBarThumb.Width &&
-            //        e.Y <= rectScrollBarThumb.Y + rectScrollBarThumb.Height &&
-            //        !isMouseOverScrollBarThumb)
-            //    {
-            //        isMouseOverScrollBarThumb = true;
-            //        needToRefresh = true;
-            //    }
-
-            //    // Check if the control needs to be refreshed
-            //    if (needToRefresh)
-            //    {
-            //        Refresh();
-            //    }
-            //}
-            //else
-            //{
-            //    // The mouse isn't over any of these elements
-            //    isMouseOverScrollBarThumb = false;
-            //    isMouseOverScrollBarLeftHandle = false;
-            //    isMouseOverScrollBarRightHandle = false;
-            //}
             base.OnMouseMove(e);
         }
 
@@ -2138,21 +2124,6 @@ namespace MPfm.WindowsControls
                 isMouseOverToolbar = false;
                 needToRefresh = true;
             }
-            //if (isMouseOverScrollBarThumb)
-            //{
-            //    isMouseOverScrollBarThumb = false;
-            //    needToRefresh = true;
-            //}
-            //if (isMouseOverScrollBarLeftHandle)
-            //{
-            //    isMouseOverScrollBarLeftHandle = false;
-            //    needToRefresh = true;
-            //}
-            //if (isMouseOverScrollBarRightHandle)
-            //{
-            //    isMouseOverScrollBarRightHandle = false;
-            //    needToRefresh = true;
-            //}
 
             // Refresh if needed
             if (needToRefresh)
@@ -2213,21 +2184,23 @@ namespace MPfm.WindowsControls
                     this.Cursor = Cursors.Default;
                     menuItemMouseInteractionTypePointer.Checked = true;
                 }
+                //else if (e.X >= 20 && e.X <= 40)
+                //{
+                //    // Set type and cursor
+                //    m_mouseInteractionType = WaveFormMouseInteractionType.Select;
+                //    this.Cursor = Cursors.Cross;
+                //    menuItemMouseInteractionTypeSelect.Checked = true;
+                //}
+                //else if (e.X >= 40 && e.X <= 60)
                 else if (e.X >= 20 && e.X <= 40)
-                {
-                    // Set type and cursor
-                    m_mouseInteractionType = WaveFormMouseInteractionType.Select;
-                    this.Cursor = Cursors.Cross;
-                    menuItemMouseInteractionTypeSelect.Checked = true;
-                }
-                else if (e.X >= 40 && e.X <= 60)
                 {
                     // Set type and custom cursor
                     m_mouseInteractionType = WaveFormMouseInteractionType.ZoomIn;
                     this.Cursor = Tools.CreateCursor(MPfm.WindowsControls.Properties.Resources.zoom_in, 2, 2);
                     menuItemMouseInteractionTypeZoomIn.Checked = true;
                 }
-                else if (e.X >= 60 && e.X <= 80)
+                else if (e.X >= 40 && e.X <= 60)
+                //else if (e.X >= 60 && e.X <= 80)
                 {
                     // Set type and custom cursor
                     m_mouseInteractionType = WaveFormMouseInteractionType.ZoomOut;
@@ -2237,45 +2210,6 @@ namespace MPfm.WindowsControls
 
                 return;
             }
-
-            //// Check if the user has clicked on the scrollbar
-            //if (Zoom > 100 && e.Y >= Height - 14)
-            //{
-            //    // Check if the cursor is on the left handle
-            //    if (e.X >= rectScrollBarLeftHandle.X &&
-            //        e.Y >= rectScrollBarLeftHandle.Y &&
-            //        e.X <= rectScrollBarLeftHandle.X + rectScrollBarLeftHandle.Width &&
-            //        e.Y <= rectScrollBarLeftHandle.Y + rectScrollBarLeftHandle.Height)
-            //    {
-            //        //isMouseOverScrollBarThumb = true;
-            //        //Refresh();                   
-            //    }
-
-            //    // Check if the cursor is on the left handle
-            //    if (e.X >= rectScrollBarRightHandle.X &&
-            //        e.Y >= rectScrollBarRightHandle.Y &&
-            //        e.X <= rectScrollBarRightHandle.X + rectScrollBarRightHandle.Width &&
-            //        e.Y <= rectScrollBarRightHandle.Y + rectScrollBarRightHandle.Height)
-            //    {
-
-            //    }
-
-            //    // Check if the cursor is on the thumb
-            //    if (e.X >= rectScrollBarThumb.X &&
-            //        e.Y >= rectScrollBarThumb.Y &&
-            //        e.X <= rectScrollBarThumb.X + rectScrollBarThumb.Width &&
-            //        e.Y <= rectScrollBarThumb.Y + rectScrollBarThumb.Height)
-            //    {
-            //        //isMouseOverScrollBarThumb = true;
-            //        //Refresh();                   
-            //    }
-
-            //    return;
-            //}
-            //else
-            //{
-
-            //}
 
             // -------------------------------------------------------------
             // Pointer
@@ -2388,6 +2322,7 @@ namespace MPfm.WindowsControls
 
                 // Reset animation count        
                 animZoomCount = 0;
+                m_timerAnimation.Start();
 
                 // Refresh wave form
                 needToRefreshBitmapCache = true;

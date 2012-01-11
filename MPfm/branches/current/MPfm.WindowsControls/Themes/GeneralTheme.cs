@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
@@ -38,7 +39,34 @@ namespace MPfm.WindowsControls
     /// Defines a theme object for general use in MPfm.
     /// </summary>
     public class GeneralTheme
-    {     
+    {
+        // Header color1/2
+        // Header fore color
+        // Header font
+        // Background color1/2
+        // Content fore color
+        // Content font
+        // Panel header color 1/2
+        // Panel header fore color
+        // Panel header font
+        // Panel color 1/2
+        // Panel text fore color        
+        // Panel text font
+        // Panel link color
+        // Panel link font
+        // Toolbar color1/2
+        // Toolbar fore color
+        // Toolbar font        
+        // Secondary window header background color1/2
+        // Secondary window header fore color
+        // Secondary window header font        
+        // Secondary window background color1/2
+        // Secondary window fore font
+        // Secondary window text font
+        // Secondary window button background color 1/2
+        // Secondary window button fore color
+        // Secondary window button font
+
         /// <summary>
         /// Default constructor for the GeneralTheme class.
         /// </summary>
