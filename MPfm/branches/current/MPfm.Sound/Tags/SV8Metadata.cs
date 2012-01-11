@@ -180,6 +180,7 @@ namespace MPfm.Sound
                         // 15 = Quality 10 (Q10)
                         short intProfile_PNS = (short)reader.ReadByte();                        
                         data.EncoderProfile = (intProfile_PNS >> 1) / 8;
+                        data.EncoderPNSTool = ((intProfile_PNS & 0x01) >> 0) == 1 ? true : false;
 
                         // Encoder version
                         data.EncoderMajor = reader.ReadByte();
@@ -188,8 +189,9 @@ namespace MPfm.Sound
                     }
                     else if (key.ToUpper() == "SO")
                     {
+                        // Read variable integer and byte. We don't actually store this 
                         int offsetSize = 0;
-                        long offset = SV8Metadata.ReadVariableLengthInteger(ref reader, ref offsetSize);
+                        data.SeekTableOffset = SV8Metadata.ReadVariableLengthInteger(ref reader, ref offsetSize);
                         reader.ReadByte();
                     }
                     else if (key.ToUpper() == "AP")

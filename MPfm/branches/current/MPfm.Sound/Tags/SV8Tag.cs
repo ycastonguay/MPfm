@@ -384,6 +384,30 @@ namespace MPfm.Sound
 
         #endregion
 
+        #region Seek Table Offset Packet
+
+        /// <summary>
+        /// Private value for the SeekTableOffset property.
+        /// </summary>
+        private long m_seekTableOffset = 0;
+        /// <summary>
+        /// Offset from this packet to the seek table packet.
+        /// </summary>
+        [Category("Seek Table Offset"), Browsable(true), ReadOnly(true), Description("[Seek Table Offset] Offset from this packet to the seek table packet.")]
+        public long SeekTableOffset
+        {
+            get
+            {
+                return m_seekTableOffset;
+            }
+            set
+            {
+                m_seekTableOffset = value;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Default constructor for the SV8Tag class.
         /// </summary>
