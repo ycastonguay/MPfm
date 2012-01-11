@@ -542,6 +542,8 @@ namespace MPfm
 
             // Set volume
             faderVolume.Value = Config.Audio.Mixer.Volume;
+            lblVolume.Text = Config.Audio.Mixer.Volume + " %";
+            Player.Volume = Config.Audio.Mixer.Volume;
 
             // Set tray options
             //notifyIcon.Visible = Config.ShowTray;
