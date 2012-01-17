@@ -770,6 +770,10 @@ namespace MPfm.Sound
                     m_audioChannels = m_sv8Tag.AudioChannels;
                     m_sampleRate = m_sv8Tag.SampleRate;
                     m_bitsPerSample = 16;
+
+                    // Calculate length
+                    long lengthMS = ConvertAudio.ToMS(m_sv8Tag.Length, (uint)m_sv8Tag.SampleRate);
+                    m_length = Conversion.MillisecondsToTimeString((ulong)lengthMS);                        
                 }
                 catch (SV8TagNotFoundException exSV8)
                 {
@@ -777,6 +781,16 @@ namespace MPfm.Sound
                     {
                         // Try to read the SV7 header
                         m_sv7Tag = SV7Metadata.Read(m_filePath);
+
+                        // Set audio properties
+                        m_audioChannels = m_sv7Tag.AudioChannels;
+                        m_sampleRate = m_sv7Tag.SampleRate;
+                        m_bitsPerSample = 16;
+
+                        // Calculate length
+                        long lengthSamples = ((((m_sv7Tag.FrameCount - 1) * 1152) + m_sv7Tag.LastFrameLength) * m_sv7Tag.AudioChannels) / 2; // floating point
+                        long lengthMS = ConvertAudio.ToMS(lengthSamples, (uint)m_sv7Tag.SampleRate);
+                        m_length = Conversion.MillisecondsToTimeString((ulong)lengthMS);                        
                     }
                     catch (SV7TagNotFoundException exSV7)
                     {
@@ -799,8 +813,6 @@ namespace MPfm.Sound
   
                 // TAGLIB DOES NOT WORK WITH SV8 (stream version 8)
                 //TagLib.MusePack.File file = new TagLib.MusePack.File(m_filePath);
-
-
 
                 //// Get the position of the first and last block
                 //m_firstBlockPosition = file.InvariantStartPosition;

@@ -2890,8 +2890,9 @@ namespace MPfm
             // 
             // dialogOpenFile
             // 
-            this.dialogOpenFile.Filter = "Playlist/Audio files (*.mp3,*.flac,*.ogg, *.ape, *.wv, *.wav, *.m3u, *.m3u8, *.pl" +
-    "s, *.xspf)|*.mp3;*.flac;*.ogg;*.ape;*.wav;*.wv;*.m3u;*.m3u8;*.pls;*.xspf";
+            this.dialogOpenFile.Filter = "Playlist/Audio files (*.mp3,*.flac,*.ogg, *.ape, *.wv, *.mpc, *.wav, *.m3u, *.m3u" +
+    "8, *.pls, *.xspf)|*.mp3;*.flac;*.ogg;*.ape;*.wav;*.wv;*.mpc;*.m3u;*.m3u8;*.pls;*" +
+    ".xspf";
             this.dialogOpenFile.Multiselect = true;
             this.dialogOpenFile.Title = "Select audio file(s) to play";
             // 

@@ -137,7 +137,7 @@ namespace MPfm.Sound
                         // Set other metadata
                         data.Length = sampleCount;                         
                         data.BeginningSilence = beginSilence;
-                        data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;                            
+                        data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;
                     }
                     else if (key.ToUpper() == "RG")
                     {                           
