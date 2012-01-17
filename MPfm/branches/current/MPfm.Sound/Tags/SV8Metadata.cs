@@ -25,6 +25,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Reflection;
+using MPfm.Core;
 
 namespace MPfm.Sound
 {
@@ -54,8 +55,12 @@ namespace MPfm.Sound
             {
                 // Open binary reader                        
                 BinaryReader reader = new BinaryReader(File.OpenRead(filePath));
-                
-                // Read "File magic number"
+
+                // Get file length
+                long fileLength = reader.BaseStream.Length;
+                long headerOffset = 0;
+
+                // Read "File magic number"                
                 byte[] bytesMagicNumber = reader.ReadBytes(4);
                 string magicNumber = Encoding.UTF8.GetString(bytesMagicNumber);
 
@@ -68,7 +73,7 @@ namespace MPfm.Sound
                 // Loop through header keys
                 while (true)
                 {
-                    // Read key (16-bits)
+                    // Read key (16-bits)                    
                     byte[] bytesKey = reader.ReadBytes(2);
                     string key = Encoding.UTF8.GetString(bytesKey);
 
@@ -135,7 +140,7 @@ namespace MPfm.Sound
                         }
 
                         // Set other metadata
-                        data.Length = sampleCount;                         
+                        data.LengthSamples = sampleCount;                         
                         data.BeginningSilence = beginSilence;
                         data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;
                     }
@@ -197,6 +202,7 @@ namespace MPfm.Sound
                     else if (key.ToUpper() == "AP")
                     {
                         // This is an audio packet; no more header information
+                        headerOffset = reader.BaseStream.Position;
                         break;
                     }
                 }  
@@ -205,6 +211,12 @@ namespace MPfm.Sound
                 reader.Close();
                 reader.Dispose();                
                 reader = null;
+
+                // Calculate length
+                data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, (uint)data.SampleRate);
+                data.Length = Conversion.MillisecondsToTimeString((ulong)data.LengthMS);
+                long audioLengthBytes = fileLength - headerOffset;
+                data.Bitrate = (int)(audioLengthBytes / data.LengthMS) * 8;
             }
             catch (Exception ex)
             {                

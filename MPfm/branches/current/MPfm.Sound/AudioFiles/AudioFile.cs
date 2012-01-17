@@ -770,10 +770,8 @@ namespace MPfm.Sound
                     m_audioChannels = m_sv8Tag.AudioChannels;
                     m_sampleRate = m_sv8Tag.SampleRate;
                     m_bitsPerSample = 16;
-
-                    // Calculate length
-                    long lengthMS = ConvertAudio.ToMS(m_sv8Tag.Length, (uint)m_sv8Tag.SampleRate);
-                    m_length = Conversion.MillisecondsToTimeString((ulong)lengthMS);                        
+                    m_length = m_sv8Tag.Length;
+                    m_bitrate = m_sv8Tag.Bitrate;
                 }
                 catch (SV8TagNotFoundException exSV8)
                 {
@@ -786,11 +784,8 @@ namespace MPfm.Sound
                         m_audioChannels = m_sv7Tag.AudioChannels;
                         m_sampleRate = m_sv7Tag.SampleRate;
                         m_bitsPerSample = 16;
-
-                        // Calculate length
-                        long lengthSamples = ((((m_sv7Tag.FrameCount - 1) * 1152) + m_sv7Tag.LastFrameLength) * m_sv7Tag.AudioChannels) / 2; // floating point
-                        long lengthMS = ConvertAudio.ToMS(lengthSamples, (uint)m_sv7Tag.SampleRate);
-                        m_length = Conversion.MillisecondsToTimeString((ulong)lengthMS);                        
+                        m_length = m_sv7Tag.Length;
+                        m_bitrate = m_sv7Tag.Bitrate;
                     }
                     catch (SV7TagNotFoundException exSV7)
                     {
@@ -803,41 +798,14 @@ namespace MPfm.Sound
                 {
                     // Read APE tag
                     m_apeTag = APEMetadata.Read(m_filePath);
+
+                    // Copy tags
+                    FillProperties(m_apeTag);
                 }
                 catch (APETagNotFoundException ex)
                 {
                     // Do nothing
                 }
-                
-                //// Read VorbisComment in FLAC file              
-  
-                // TAGLIB DOES NOT WORK WITH SV8 (stream version 8)
-                //TagLib.MusePack.File file = new TagLib.MusePack.File(m_filePath);
-
-                //// Get the position of the first and last block
-                //m_firstBlockPosition = file.InvariantStartPosition;
-                //m_lastBlockPosition = file.InvariantEndPosition;
-
-                //// Copy tags
-                //FillProperties(file.Tag);
-
-                //// Loop through codecs (usually just one)
-                //foreach (TagLib.ICodec codec in file.Properties.Codecs)
-                //{
-                //    // Check what kind of codec is used 
-                //    if (codec is TagLib.Ape.StreamHeader)
-                //    {
-                //        // Convert codec into a header 
-                //        TagLib.Ape.StreamHeader header = (TagLib.Ape.StreamHeader)codec;
-
-                //        // Copy properties
-                //        m_bitrate = header.AudioBitrate;
-                //        m_audioChannels = header.AudioChannels;
-                //        m_sampleRate = header.AudioSampleRate;
-                //        m_bitsPerSample = 16;
-                //        m_length = Conversion.TimeSpanToTimeString(header.Duration);
-                //    }
-                //}
             }
             else if (m_fileType == AudioFileFormat.OFR)
             {
@@ -961,6 +929,23 @@ namespace MPfm.Sound
             TrackCount = tag.TrackCount;
             Lyrics = tag.Lyrics;
             Year = tag.Year;        
+        }
+
+        /// <summary>
+        /// Fills the AudioFile properties from the APETag structure.
+        /// </summary>
+        /// <param name="tag">APETag structure</param>
+        private void FillProperties(APETag tag)
+        {
+            ArtistName = tag.Artist;
+            AlbumTitle = tag.Album;
+            Title = tag.Title;
+            Genre = tag.Genre;
+            //DiscNumber = tag
+            TrackNumber = (uint)tag.Track;
+            //TrackCount = tag.tr
+            //Lyrics = tag.ly
+            Year = (uint)tag.Year.Year;
         }
 
         /// <summary>

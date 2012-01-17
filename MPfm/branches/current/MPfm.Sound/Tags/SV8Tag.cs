@@ -75,22 +75,22 @@ namespace MPfm.Sound
         }
 
         /// <summary>
-        /// Private value for the Length property.
+        /// Private value for the LengthSamples property.
         /// </summary>
-        private long m_length = 0;
+        private long m_lengthSamples = 0;
         /// <summary>
         /// Defines the audio file length in samples.
         /// </summary>
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Audio file length (in samples).")]
-        public long Length
+        public long LengthSamples
         {
             get
             {
-                return m_length;
+                return m_lengthSamples;
             }
             set
             {
-                m_length = value;
+                m_lengthSamples = value;
             }
         }
 
@@ -419,6 +419,70 @@ namespace MPfm.Sound
             set
             {
                 m_seekTableOffset = value;
+            }
+        }
+
+        #endregion
+
+        #region Metadata
+
+        /// <summary>
+        /// Private value for the Bitrate property.
+        /// </summary>
+        private int m_bitrate = 0;
+        /// <summary>
+        /// Audio file bitrate. This value is not part of the SV7 header.
+        /// </summary>
+        [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file bitrate. This value is not part of the SV7 header.")]
+        public int Bitrate
+        {
+            get
+            {
+                return m_bitrate;
+            }
+            set
+            {
+                m_bitrate = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the LengthMS property.
+        /// </summary>
+        private long m_lengthMS = 0;
+        /// <summary>
+        /// Audio file length (in milliseconds). This value is not part of the SV7 header.
+        /// </summary>
+        [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file length (in milliseconds). This value is not part of the SV7 header.")]
+        public long LengthMS
+        {
+            get
+            {
+                return m_lengthMS;
+            }
+            set
+            {
+                m_lengthMS = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Length property.
+        /// </summary>
+        private string m_length = string.Empty;
+        /// <summary>
+        /// Audio file length (in time string format, 00:00.000). This value is not part of the SV7 header.
+        /// </summary>
+        [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file length (in time string format, 00:00.000). This value is not part of the SV7 header.")]
+        public string Length
+        {
+            get
+            {
+                return m_length;
+            }
+            set
+            {
+                m_length = value;
             }
         }
 

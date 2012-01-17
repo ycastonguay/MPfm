@@ -182,7 +182,7 @@ namespace MPfm.Sound
                 data.LengthSamples = ((((data.FrameCount - 1) * 1152) + data.LastFrameLength) * data.AudioChannels) / 2; // floating point
                 data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, (uint)data.SampleRate);
                 data.Length = Conversion.MillisecondsToTimeString((ulong)data.LengthMS);
-                long audioLengthBytes = fileLength - (28 * 8); // SV7 header is always 28 bytes
+                long audioLengthBytes = fileLength - 28; // SV7 header is always 28 bytes
                 data.Bitrate = (int)(audioLengthBytes / data.LengthMS) * 8;
             }
             catch (Exception ex)
