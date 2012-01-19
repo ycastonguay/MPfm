@@ -78,7 +78,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the DatabaseVersionMinor property.
         /// </summary>
-        private static int m_databaseVersionMinor = 2;
+        private static int m_databaseVersionMinor = 3;
         /// <summary>
         /// Indicates what database minor version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMajor property.
@@ -245,20 +245,20 @@ namespace MPfm.Library
                     // Split statements
                     string[] sqlSplit = sqlSplitHeader[1].Split(new string[] { "/**/" }, StringSplitOptions.None);
 
-                    try
+                    // Loop through statements
+                    for(int a = 0; a < sqlSplit.Length; a++)
                     {
-                        // Loop through statements
-                        for(int a = 0; a < sqlSplit.Length; a++)
+                        try
                         {
                             // Execute create script
                             Tracing.Log("Main form init -- Executing database update script statement " + (a+1).ToString() + " (" + scriptFileName + ")...");
                             gateway.ExecuteSQL(sqlSplit[a]);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Error executing the update script (" + scriptFileName + ")!", ex);
-                    }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error executing the update script (" + scriptFileName + ")!", ex);
+                        }
+                    }                    
                 }
             }
         }

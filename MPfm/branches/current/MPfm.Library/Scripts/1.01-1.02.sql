@@ -15,6 +15,12 @@
 
 --*/
 
+UPDATE Settings 
+SET SettingValue = '1.02'
+WHERE SettingName = 'DatabaseVersion'
+
+/**/
+
 DROP TABLE Playlists
 
 /**/
