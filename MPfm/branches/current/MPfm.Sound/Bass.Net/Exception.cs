@@ -25,8 +25,15 @@ using System.Text;
 
 namespace MPfm.Sound.BassNetWrapper
 {
+    /// <summary>
+    /// Custom exception class for the MPfm BASS.NET wrapper.
+    /// </summary>
     public class BassNetWrapperException : Exception
     {
+        /// <summary>
+        /// Default constructor for the default exception class of the MPfm BASS.NET wrapper.
+        /// </summary>
+        /// <param name="message">Exception message</param>
         public BassNetWrapperException(string message) 
             : base("An error has occured in Bass.Net: " + message)
         {            

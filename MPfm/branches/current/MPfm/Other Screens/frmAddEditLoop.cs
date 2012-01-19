@@ -1,6 +1,6 @@
 //
-// frmEditSongMetadata.cs: Edit Song Metadata window. This is where the user can modify the ID3 and other
-//                         tags for the media files.
+// frmAddEditLoop.cs: Add/Edit Loop window. This is where the user can add or edit 
+//                    loops for an audio file.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -35,8 +35,7 @@ using MPfm.WindowsControls;
 namespace MPfm
 {
     /// <summary>
-    /// Edit Song Metadata window. This is where the user can modify the ID3 and other
-    /// tags for the media files.
+    /// Add/Edit Loop window. This is where the user can add or edit loops for an audio file.
     /// </summary>
     public partial class frmAddEditLoop : MPfm.WindowsControls.Form
     {

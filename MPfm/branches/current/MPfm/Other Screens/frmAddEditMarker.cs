@@ -1,6 +1,6 @@
 //
-// frmEditSongMetadata.cs: Edit Song Metadata window. This is where the user can modify the ID3 and other
-//                         tags for the media files.
+// frmAddEditMarker.cs: Add/Edit Markers window. This is where the user can add or edit 
+//                      markers for an audio file.
 //
 // Copyright © 2011 Yanick Castonguay
 //
@@ -34,8 +34,7 @@ using MPfm.WindowsControls;
 namespace MPfm
 {
     /// <summary>
-    /// Edit Song Metadata window. This is where the user can modify the ID3 and other
-    /// tags for the media files.
+    /// Add/Edit Markers window. This is where the user can add or edit markers for an audio file.
     /// </summary>
     public partial class frmAddEditMarker : MPfm.WindowsControls.Form
     {
