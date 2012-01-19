@@ -790,7 +790,7 @@ namespace MPfm.Sound
                     catch (SV7TagNotFoundException exSV7)
                     {
                         // No headers have been found!
-                        throw new Exception("Error: The file is not in SV7/MPC or SV8/MPC format!");
+                        throw new Exception("Error: The file is not in SV7/MPC or SV8/MPC format!", exSV7);
                     }
                 }
 
