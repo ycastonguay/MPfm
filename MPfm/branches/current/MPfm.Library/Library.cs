@@ -258,8 +258,7 @@ namespace MPfm.Library
                         {
                             // Check minor version (1.02 had a bug where the version was not updated in the database, so it needs to skip any exception)
                             if (minor != 1)
-                            {
-                                // If this is version 1.01, the script might never
+                            {                                
                                 throw new Exception("Error executing the update script (" + scriptFileName + ")!", ex);
                             }                                                       
                         }
