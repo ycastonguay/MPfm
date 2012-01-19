@@ -515,10 +515,10 @@ namespace MPfm.WindowsControls
             m_columns = new List<SongGridViewColumn>();
             m_columns.Add(columnSongAlbumCover);
             m_columns.Add(columnSongNowPlaying);
-            //m_columns.Add(columnSongFileType);
+            m_columns.Add(columnSongFileType);
             m_columns.Add(columnSongTrackNumber);
             //m_columns.Add(columnSongTrackCount);
-            //m_columns.Add(columnSongFilePath);
+            m_columns.Add(columnSongFilePath);
             m_columns.Add(columnSongTitle);
             m_columns.Add(columnSongLength);
             m_columns.Add(columnSongArtistName);
