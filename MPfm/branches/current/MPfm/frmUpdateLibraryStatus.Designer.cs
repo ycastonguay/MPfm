@@ -28,20 +28,17 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibraryStatus));
             this.workerUpdateLibrary = new System.ComponentModel.BackgroundWorker();
             this.workerTimer = new System.ComponentModel.BackgroundWorker();
@@ -50,20 +47,15 @@ namespace MPfm
             this.lblEstimatedTimeLeft = new MPfm.WindowsControls.Label();
             this.lblTimeElapsed = new MPfm.WindowsControls.Label();
             this.linkSaveLog = new MPfm.WindowsControls.LinkLabel();
-            this.lblSongTitle = new MPfm.WindowsControls.Label();
-            this.lblAlbum = new MPfm.WindowsControls.Label();
-            this.lblArtist = new MPfm.WindowsControls.Label();
             this.btnOK = new MPfm.WindowsControls.Button();
             this.btnCancel = new MPfm.WindowsControls.Button();
             this.lblProgress = new MPfm.WindowsControls.Label();
-            this.picAlbum = new System.Windows.Forms.PictureBox();
             this.panelLog = new MPfm.WindowsControls.Panel();
             this.lbLog = new MPfm.WindowsControls.ListBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblMessage = new MPfm.WindowsControls.Label();
             this.lblTitle = new MPfm.WindowsControls.Label();
             this.panelMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).BeginInit();
             this.panelLog.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,26 +83,22 @@ namespace MPfm
             this.panelMain.Controls.Add(this.lblEstimatedTimeLeft);
             this.panelMain.Controls.Add(this.lblTimeElapsed);
             this.panelMain.Controls.Add(this.linkSaveLog);
-            this.panelMain.Controls.Add(this.lblSongTitle);
-            this.panelMain.Controls.Add(this.lblAlbum);
-            this.panelMain.Controls.Add(this.lblArtist);
             this.panelMain.Controls.Add(this.btnOK);
             this.panelMain.Controls.Add(this.btnCancel);
             this.panelMain.Controls.Add(this.lblProgress);
-            this.panelMain.Controls.Add(this.picAlbum);
             this.panelMain.Controls.Add(this.panelLog);
             this.panelMain.Controls.Add(this.progressBar);
             this.panelMain.Controls.Add(this.lblMessage);
             this.panelMain.Controls.Add(this.lblTitle);
-            customFont14.EmbeddedFontName = "";
-            customFont14.IsBold = false;
-            customFont14.IsItalic = false;
-            customFont14.IsUnderline = false;
-            customFont14.Size = 8F;
-            customFont14.StandardFontName = "Arial";
-            customFont14.UseAntiAliasing = true;
-            customFont14.UseEmbeddedFont = false;
-            this.panelMain.CustomFont = customFont14;
+            customFont11.EmbeddedFontName = "";
+            customFont11.IsBold = false;
+            customFont11.IsItalic = false;
+            customFont11.IsUnderline = false;
+            customFont11.Size = 8F;
+            customFont11.StandardFontName = "Arial";
+            customFont11.UseAntiAliasing = true;
+            customFont11.UseEmbeddedFont = false;
+            this.panelMain.CustomFont = customFont11;
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.ExpandedHeight = 188;
             this.panelMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -127,7 +115,7 @@ namespace MPfm
             this.panelMain.HeaderTitle = "Updating Library";
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(800, 450);
+            this.panelMain.Size = new System.Drawing.Size(800, 373);
             this.panelMain.TabIndex = 27;
             // 
             // lblEstimatedTimeLeft
@@ -146,7 +134,7 @@ namespace MPfm
             this.lblEstimatedTimeLeft.CustomFont = customFont1;
             this.lblEstimatedTimeLeft.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEstimatedTimeLeft.ForeColor = System.Drawing.Color.LightGray;
-            this.lblEstimatedTimeLeft.Location = new System.Drawing.Point(508, 187);
+            this.lblEstimatedTimeLeft.Location = new System.Drawing.Point(508, 110);
             this.lblEstimatedTimeLeft.Name = "lblEstimatedTimeLeft";
             this.lblEstimatedTimeLeft.Size = new System.Drawing.Size(287, 23);
             this.lblEstimatedTimeLeft.TabIndex = 67;
@@ -169,7 +157,7 @@ namespace MPfm
             this.lblTimeElapsed.CustomFont = customFont2;
             this.lblTimeElapsed.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeElapsed.ForeColor = System.Drawing.Color.LightGray;
-            this.lblTimeElapsed.Location = new System.Drawing.Point(15, 187);
+            this.lblTimeElapsed.Location = new System.Drawing.Point(15, 110);
             this.lblTimeElapsed.Name = "lblTimeElapsed";
             this.lblTimeElapsed.Size = new System.Drawing.Size(197, 23);
             this.lblTimeElapsed.TabIndex = 66;
@@ -192,7 +180,7 @@ namespace MPfm
             this.linkSaveLog.CustomFont = customFont3;
             this.linkSaveLog.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkSaveLog.ForeColor = System.Drawing.Color.Gainsboro;
-            this.linkSaveLog.Location = new System.Drawing.Point(484, 410);
+            this.linkSaveLog.Location = new System.Drawing.Point(484, 333);
             this.linkSaveLog.Name = "linkSaveLog";
             this.linkSaveLog.Size = new System.Drawing.Size(102, 20);
             this.linkSaveLog.TabIndex = 65;
@@ -201,83 +189,20 @@ namespace MPfm
             this.linkSaveLog.Visible = false;
             this.linkSaveLog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSaveLog_LinkClicked);
             // 
-            // lblSongTitle
-            // 
-            this.lblSongTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont4.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 11F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.lblSongTitle.CustomFont = customFont4;
-            this.lblSongTitle.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongTitle.ForeColor = System.Drawing.Color.Gray;
-            this.lblSongTitle.Location = new System.Drawing.Point(94, 123);
-            this.lblSongTitle.Name = "lblSongTitle";
-            this.lblSongTitle.Size = new System.Drawing.Size(687, 22);
-            this.lblSongTitle.TabIndex = 64;
-            this.lblSongTitle.Text = "Song Title";
-            this.lblSongTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblAlbum
-            // 
-            this.lblAlbum.BackColor = System.Drawing.Color.Transparent;
-            customFont5.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 11F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            this.lblAlbum.CustomFont = customFont5;
-            this.lblAlbum.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAlbum.ForeColor = System.Drawing.Color.LightGray;
-            this.lblAlbum.Location = new System.Drawing.Point(94, 102);
-            this.lblAlbum.Name = "lblAlbum";
-            this.lblAlbum.Size = new System.Drawing.Size(687, 22);
-            this.lblAlbum.TabIndex = 63;
-            this.lblAlbum.Text = "Album Title";
-            this.lblAlbum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblArtist
-            // 
-            this.lblArtist.BackColor = System.Drawing.Color.Transparent;
-            customFont6.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont6.IsBold = true;
-            customFont6.IsItalic = false;
-            customFont6.IsUnderline = false;
-            customFont6.Size = 12F;
-            customFont6.StandardFontName = "Arial";
-            customFont6.UseAntiAliasing = true;
-            customFont6.UseEmbeddedFont = true;
-            this.lblArtist.CustomFont = customFont6;
-            this.lblArtist.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArtist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this.lblArtist.Location = new System.Drawing.Point(93, 80);
-            this.lblArtist.Name = "lblArtist";
-            this.lblArtist.Size = new System.Drawing.Size(687, 22);
-            this.lblArtist.TabIndex = 62;
-            this.lblArtist.Text = "Artist Name";
-            this.lblArtist.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // btnOK
             // 
             this.btnOK.BorderColor = System.Drawing.Color.Black;
             this.btnOK.BorderWidth = 1;
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont7.EmbeddedFontName = "Junction";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 9F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            this.btnOK.CustomFont = customFont7;
+            customFont4.EmbeddedFontName = "Junction";
+            customFont4.IsBold = false;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 9F;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
+            customFont4.UseEmbeddedFont = true;
+            this.btnOK.CustomFont = customFont4;
             this.btnOK.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnOK.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnOK.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -289,7 +214,7 @@ namespace MPfm
             this.btnOK.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnOK.Image = global::MPfm.Properties.Resources.accept;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnOK.Location = new System.Drawing.Point(594, 400);
+            this.btnOK.Location = new System.Drawing.Point(594, 323);
             this.btnOK.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnOK.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnOK.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -307,15 +232,15 @@ namespace MPfm
             this.btnCancel.BorderColor = System.Drawing.Color.Black;
             this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 9F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            this.btnCancel.CustomFont = customFont8;
+            customFont5.EmbeddedFontName = "Junction";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 9F;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
+            customFont5.UseEmbeddedFont = true;
+            this.btnCancel.CustomFont = customFont5;
             this.btnCancel.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnCancel.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnCancel.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -328,7 +253,7 @@ namespace MPfm
             this.btnCancel.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnCancel.Image = global::MPfm.Properties.Resources.cancel;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCancel.Location = new System.Drawing.Point(692, 400);
+            this.btnCancel.Location = new System.Drawing.Point(692, 323);
             this.btnCancel.MouseOverBorderColor = System.Drawing.Color.Black;
             this.btnCancel.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnCancel.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -346,49 +271,37 @@ namespace MPfm
             this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblProgress.BackColor = System.Drawing.Color.Transparent;
-            customFont9.EmbeddedFontName = "Junction";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 9F;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseAntiAliasing = true;
-            customFont9.UseEmbeddedFont = true;
-            this.lblProgress.CustomFont = customFont9;
+            customFont6.EmbeddedFontName = "Junction";
+            customFont6.IsBold = false;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 9F;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseAntiAliasing = true;
+            customFont6.UseEmbeddedFont = true;
+            this.lblProgress.CustomFont = customFont6;
             this.lblProgress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProgress.ForeColor = System.Drawing.Color.White;
-            this.lblProgress.Location = new System.Drawing.Point(12, 187);
+            this.lblProgress.Location = new System.Drawing.Point(12, 110);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(775, 26);
             this.lblProgress.TabIndex = 59;
             this.lblProgress.Text = "Progress";
             this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // picAlbum
-            // 
-            this.picAlbum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(58)))), ((int)(((byte)(58)))));
-            this.picAlbum.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picAlbum.ImageLocation = "";
-            this.picAlbum.Location = new System.Drawing.Point(18, 80);
-            this.picAlbum.Name = "picAlbum";
-            this.picAlbum.Size = new System.Drawing.Size(70, 70);
-            this.picAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picAlbum.TabIndex = 58;
-            this.picAlbum.TabStop = false;
-            // 
             // panelLog
             // 
             this.panelLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelLog.Controls.Add(this.lbLog);
-            customFont11.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont11.IsBold = false;
-            customFont11.IsItalic = false;
-            customFont11.IsUnderline = false;
-            customFont11.Size = 9F;
-            customFont11.StandardFontName = "Arial";
-            customFont11.UseAntiAliasing = true;
-            customFont11.UseEmbeddedFont = true;
-            this.panelLog.CustomFont = customFont11;
+            customFont8.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 9F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = true;
+            this.panelLog.CustomFont = customFont8;
             this.panelLog.ExpandedHeight = 56;
             this.panelLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelLog.GradientColor1 = System.Drawing.Color.Black;
@@ -402,8 +315,8 @@ namespace MPfm
             this.panelLog.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.panelLog.HeaderHeight = 16;
             this.panelLog.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.panelLog.HeaderTitle = "Log";
-            this.panelLog.Location = new System.Drawing.Point(18, 216);
+            this.panelLog.HeaderTitle = "Error Log";
+            this.panelLog.Location = new System.Drawing.Point(18, 139);
             this.panelLog.Name = "panelLog";
             this.panelLog.Size = new System.Drawing.Size(768, 176);
             this.panelLog.TabIndex = 58;
@@ -412,15 +325,15 @@ namespace MPfm
             // 
             this.lbLog.BackColor = System.Drawing.Color.Black;
             this.lbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            customFont10.EmbeddedFontName = "Droid Sans Mono";
-            customFont10.IsBold = false;
-            customFont10.IsItalic = false;
-            customFont10.IsUnderline = false;
-            customFont10.Size = 8F;
-            customFont10.StandardFontName = "Courier New";
-            customFont10.UseAntiAliasing = true;
-            customFont10.UseEmbeddedFont = true;
-            this.lbLog.CustomFont = customFont10;
+            customFont7.EmbeddedFontName = "Droid Sans Mono";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 8F;
+            customFont7.StandardFontName = "Courier New";
+            customFont7.UseAntiAliasing = true;
+            customFont7.UseEmbeddedFont = true;
+            this.lbLog.CustomFont = customFont7;
             this.lbLog.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lbLog.Font = new System.Drawing.Font("Courier New", 8F);
             this.lbLog.ForeColor = System.Drawing.Color.White;
@@ -435,7 +348,7 @@ namespace MPfm
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(16, 161);
+            this.progressBar.Location = new System.Drawing.Point(16, 84);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(772, 23);
             this.progressBar.TabIndex = 3;
@@ -445,15 +358,15 @@ namespace MPfm
             this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMessage.BackColor = System.Drawing.Color.Transparent;
-            customFont12.EmbeddedFontName = "Junction";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 8F;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = true;
-            this.lblMessage.CustomFont = customFont12;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8F;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = true;
+            this.lblMessage.CustomFont = customFont9;
             this.lblMessage.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.White;
             this.lblMessage.Location = new System.Drawing.Point(13, 54);
@@ -466,15 +379,15 @@ namespace MPfm
             // lblTitle
             // 
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont13.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont13.IsBold = false;
-            customFont13.IsItalic = false;
-            customFont13.IsUnderline = false;
-            customFont13.Size = 12F;
-            customFont13.StandardFontName = "Arial";
-            customFont13.UseAntiAliasing = true;
-            customFont13.UseEmbeddedFont = true;
-            this.lblTitle.CustomFont = customFont13;
+            customFont10.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont10.IsBold = false;
+            customFont10.IsItalic = false;
+            customFont10.IsUnderline = false;
+            customFont10.Size = 12F;
+            customFont10.StandardFontName = "Arial";
+            customFont10.UseAntiAliasing = true;
+            customFont10.UseEmbeddedFont = true;
+            this.lblTitle.CustomFont = customFont10;
             this.lblTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.LightGray;
             this.lblTitle.Location = new System.Drawing.Point(12, 33);
@@ -487,7 +400,7 @@ namespace MPfm
             // frmUpdateLibraryStatus
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 373);
             this.ControlBox = false;
             this.Controls.Add(this.panelMain);
             this.DoubleBuffered = true;
@@ -501,7 +414,6 @@ namespace MPfm
             this.Text = "Updating Library";
             this.Shown += new System.EventHandler(this.frmUpdateLibraryStatus_Shown);
             this.panelMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picAlbum)).EndInit();
             this.panelLog.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -517,10 +429,6 @@ namespace MPfm
         private MPfm.WindowsControls.Label lblProgress;
         private MPfm.WindowsControls.Button btnOK;
         private MPfm.WindowsControls.Button btnCancel;
-        private System.Windows.Forms.PictureBox picAlbum;
-        private MPfm.WindowsControls.Label lblSongTitle;
-        private MPfm.WindowsControls.Label lblAlbum;
-        private MPfm.WindowsControls.Label lblArtist;
         private MPfm.WindowsControls.ListBox lbLog;
         private MPfm.WindowsControls.Label lblEstimatedTimeLeft;
         private MPfm.WindowsControls.Label lblTimeElapsed;

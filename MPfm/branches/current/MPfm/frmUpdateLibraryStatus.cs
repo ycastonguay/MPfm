@@ -135,9 +135,9 @@ namespace MPfm
             // Update UI
             lblTitle.Text = "Updating";
             lblMessage.Text = "Calculating...";
-            lblArtist.Text = string.Empty;
-            lblAlbum.Text = string.Empty;
-            lblSongTitle.Text = string.Empty;
+            //lblArtist.Text = string.Empty;
+            //lblAlbum.Text = string.Empty;
+            //lblSongTitle.Text = string.Empty;
 
             // Set update library events
             main.Library.OnUpdateLibraryProgress += new MPfm.Library.Library.UpdateLibraryProgress(Library_OnUpdateLibraryProgress);
@@ -402,55 +402,55 @@ namespace MPfm
                     // Update song if exists
                     if (data.Song != null)
                     {
-                        lblArtist.Text = data.Song.ArtistName;
-                        lblAlbum.Text = data.Song.AlbumTitle;
-                        lblSongTitle.Text = data.Song.SongTitle;
+                        //lblArtist.Text = data.Song.ArtistName;
+                        //lblAlbum.Text = data.Song.AlbumTitle;
+                        //lblSongTitle.Text = data.Song.SongTitle;
 
                         // Check if the folder has already been treated (we want to get the ID3
                         // image just once per album. This speeds up the update library process a lot.)
 
-                        //string path = Path.GetDirectoryName(data.FilePath);
-                        string artistAlbum = data.Song.ArtistName + " - " + data.Song.AlbumTitle;
-                        if (!listAlbums.Contains(artistAlbum))
-                        {
-                            try
-                            {
-                                // Get album art from ID3 tag or folder.jpg
-                                Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(data.FilePath);
+                        ////string path = Path.GetDirectoryName(data.FilePath);
+                        //string artistAlbum = data.Song.ArtistName + " - " + data.Song.AlbumTitle;
+                        //if (!listAlbums.Contains(artistAlbum))
+                        //{
+                        //    try
+                        //    {
+                        //        // Get album art from ID3 tag or folder.jpg
+                        //        Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(data.FilePath);
 
-                                // If image is null...
-                                if (image == null)
-                                {
-                                    // Display nothing
-                                    picAlbum.Image = null;
-                                }
-                                else
-                                {
-                                    // Update the album art                                
-                                    picAlbum.Image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
-                                }
+                        //        // If image is null...
+                        //        if (image == null)
+                        //        {
+                        //            // Display nothing
+                        //            picAlbum.Image = null;
+                        //        }
+                        //        else
+                        //        {
+                        //            // Update the album art                                
+                        //            picAlbum.Image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
+                        //        }
 
-                                // Add the folder in the list of folders
-                                listAlbums.Add(artistAlbum);
-                            }
-                            catch (Exception ex)
-                            {
-                                // Do nothing since this is only album art.
-                            }
-                        }
+                        //        // Add the folder in the list of folders
+                        //        listAlbums.Add(artistAlbum);
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        // Do nothing since this is only album art.
+                        //    }
+                        //}
 
-                        lbLog.Items.Insert(0, data.LogEntry);
-                        if (lbLog.Items.Count > 1000)
-                        {
-                            lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
-                        }
+                        //lbLog.Items.Insert(0, data.LogEntry);
+                        //if (lbLog.Items.Count > 1000)
+                        //{
+                        //    lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
+                        //}
                     }
                     else
                     {
-                        lblArtist.Text = string.Empty;
-                        lblAlbum.Text = string.Empty;
-                        lblSongTitle.Text = string.Empty;
-                        picAlbum.Image = null;
+                        //lblArtist.Text = string.Empty;
+                        //lblAlbum.Text = string.Empty;
+                        //lblSongTitle.Text = string.Empty;
+                        //picAlbum.Image = null;
                     }
                 }
             };

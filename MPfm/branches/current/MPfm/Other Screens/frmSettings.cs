@@ -152,9 +152,9 @@ namespace MPfm
                 }
                 else
                 {
-                    lblOutputDriver.Text = data.PercentageDone.ToString();
-                    lblDriver.Text = data.AudioFile.FilePath;
-                    lblTest.Text = data.ThreadNumber.ToString();
+                    //lblOutputDriver.Text = data.PercentageDone.ToString();
+                    //lblDriver.Text = data.AudioFile.FilePath;
+                    lblTest.Text = data.PercentageDone.ToString("0.00") + " %";
                 }
             };
 

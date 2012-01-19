@@ -249,16 +249,31 @@ namespace MPfm.Library
             // Add subsription with Finally (executed when the thread ends)
             m_listSubscriptions.Add(m_listObservables[index].Finally(() =>
             {
+                // NO. DOESNT WORK WITHOUT LOCKING. FUCK.
+
                 // Decrement thread count
                 m_numberOfThreadsRunning--;
 
                 // Check if this is the last thread
                 if (m_numberOfThreadsRunning == 0)
                 {
-                    // Insert files into database
-                    MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
-                    gateway.InsertAudioFiles(m_audioFilesToInsert);
-                    m_audioFilesToInsert.Clear();
+                    // Wait X number of times to insert audio files into the database
+                    if (m_audioFilesToInsert.Count > 50)
+                    {
+                        // Insert files into database
+                        MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
+                        gateway.InsertAudioFiles(m_audioFilesToInsert);
+                        m_audioFilesToInsert.Clear();
+
+                        // Is an event binded to OnProcessData?
+                        if (OnProcessData != null)
+                        {
+                            // Raise event with data
+                            UpdateLibraryProgressData data = new UpdateLibraryProgressData();
+                            data.PercentageDone = ((float)m_currentIndex / (float)m_listObservables.Count) * 100;
+                            OnProcessData(data);
+                        }
+                    }
 
                     // Determine how many files to process (do not start more threads than files to process!)
                     int numberOfFilesToProcess = m_listObservables.Count - 1 - m_currentIndex;
@@ -268,6 +283,15 @@ namespace MPfm.Library
                     {                        
                         // Set flags
                         m_isProcessing = false;
+
+                        // Insert the last files into database
+                        if (m_audioFilesToInsert.Count > 0)
+                        {
+                            // Insert files into database
+                            MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
+                            gateway.InsertAudioFiles(m_audioFilesToInsert);
+                            m_audioFilesToInsert.Clear();
+                        }
 
                         // Is an event binded to OnProcessDone?
                         if (OnProcessDone != null)
@@ -302,17 +326,7 @@ namespace MPfm.Library
                     // Insert into list
                     m_audioFilesToInsert.Add(o.AudioFile);
 
-                    // Is an event binded to OnProcessData?
-                    if (OnProcessData != null)
-                    {
-                        // Raise event with data
-                        //ImportAudioFilesProgressData data = new ImportAudioFilesProgressData();
-                        //data.AudioFile = o;
-                        //data.ThreadNumber = index;
-                        //data.PercentageDone = 0;
-                        //OnProcessData(data);
-                        OnProcessData(o);
-                    }
+
                 }
                 catch (Exception ex)
                 {
