@@ -467,14 +467,21 @@ namespace MPfm.WindowsControls
             // Create columns
             SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
             SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
-            //SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
+            SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
             SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
-            SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 4);
-            SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 5);
-            SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 6);
-            SongGridViewColumn columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 7);
-            SongGridViewColumn columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 8);
-            SongGridViewColumn columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 9);
+            SongGridViewColumn columnSongTrackCount = new SongGridViewColumn("Track Count", "TrackCount", false, 4);
+            SongGridViewColumn columnSongFilePath = new SongGridViewColumn("File Path", "FilePath", false, 5);
+            SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 6);
+            SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 7);
+            SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 8);
+            SongGridViewColumn columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 9);
+            SongGridViewColumn columnSongGenre = new SongGridViewColumn("Genre", "Genre", false, 10);
+            SongGridViewColumn columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 11);
+            SongGridViewColumn columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 12);
+            SongGridViewColumn columnSongBitrate = new SongGridViewColumn("Bitrate", "Bitrate", false, 13);
+            SongGridViewColumn columnSongSampleRate = new SongGridViewColumn("Sample Rate", "SampleRate", false, 14);
+            SongGridViewColumn columnSongTempo = new SongGridViewColumn("Tempo", "Tempo", false, 15);
+            SongGridViewColumn columnSongYear = new SongGridViewColumn("Year", "Year", false, 16);
 
             // Set visible column titles
             columnSongAlbumCover.IsHeaderTitleVisible = false;
@@ -488,14 +495,21 @@ namespace MPfm.WindowsControls
             // Set default widths
             columnSongAlbumCover.Width = 200;
             columnSongNowPlaying.Width = 20;
-            //columnSongFileType.Width = 40;
+            columnSongFileType.Width = 40;
             columnSongTrackNumber.Width = 30;
+            columnSongTrackCount.Width = 80;
+            columnSongFilePath.Width = 200;
             columnSongTitle.Width = 200;
             columnSongLength.Width = 70;
             columnSongArtistName.Width = 140;
             columnSongAlbumTitle.Width = 140;
+            columnSongGenre.Width = 140;
             columnSongPlayCount.Width = 50;
             columnSongLastPlayed.Width = 80;
+            columnSongBitrate.Width = 50;
+            columnSongSampleRate.Width = 50;
+            columnSongTempo.Width = 40;
+            columnSongYear.Width = 40;
 
             // Add columns to list
             m_columns = new List<SongGridViewColumn>();
@@ -503,12 +517,19 @@ namespace MPfm.WindowsControls
             m_columns.Add(columnSongNowPlaying);
             //m_columns.Add(columnSongFileType);
             m_columns.Add(columnSongTrackNumber);
+            //m_columns.Add(columnSongTrackCount);
+            //m_columns.Add(columnSongFilePath);
             m_columns.Add(columnSongTitle);
             m_columns.Add(columnSongLength);
             m_columns.Add(columnSongArtistName);
             m_columns.Add(columnSongAlbumTitle);
+            //m_columns.Add(columnSongGenre);
             m_columns.Add(columnSongPlayCount);
             m_columns.Add(columnSongLastPlayed);
+            //m_columns.Add(columnSongBitrate);
+            //m_columns.Add(columnSongSampleRate);
+            //m_columns.Add(columnSongTempo);
+            //m_columns.Add(columnSongYear);
 
             // Create contextual menu
             m_menuColumns = new System.Windows.Forms.ContextMenuStrip();
@@ -1900,7 +1921,7 @@ namespace MPfm.WindowsControls
                     if (column.Visible)
                     {
                         // Check if the mouse pointer is over this column
-                        if (e.X >= offsetX && e.X <= offsetX + column.Width)
+                        if (e.X >= offsetX - m_hScrollBar.Value && e.X <= offsetX + column.Width - m_hScrollBar.Value)
                         {
                             // Check mouse button
                             if (e.Button == System.Windows.Forms.MouseButtons.Left && CanChangeOrderBy)
