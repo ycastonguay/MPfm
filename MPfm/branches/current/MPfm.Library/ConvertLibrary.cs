@@ -431,6 +431,8 @@ namespace MPfm.Library
             AssignRowValue(ref row, "TrackCount", dto.TrackCount);
             AssignRowValue(ref row, "Rating", dto.Rating);
             AssignRowValue(ref row, "Tempo", dto.Tempo);
+            AssignRowValue(ref row, "SampleRate", dto.SampleRate);
+            AssignRowValue(ref row, "Bitrate", dto.Bitrate);
             AssignRowValue(ref row, "LastPlayedDateTime", dto.LastPlayed);
         }
 
