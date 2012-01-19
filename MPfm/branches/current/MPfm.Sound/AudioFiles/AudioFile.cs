@@ -197,6 +197,10 @@ namespace MPfm.Sound
 			{
 				return m_bitrate;
 			}
+            set
+            {
+                m_bitrate = value;
+            }
 		}
 
 		/// <summary>
@@ -248,6 +252,10 @@ namespace MPfm.Sound
 			{
 				return m_sampleRate;
 			}
+            set
+            {
+                m_sampleRate = value;
+            }
 		}
 
 		/// <summary>

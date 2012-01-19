@@ -18,7 +18,7 @@ ALTER TABLE [AudioFiles] ADD [Bitrate] integer DEFAULT '0' NULL
 
 /**/
 
-ALTER TABLE [AudioFiles] ADD [SampleCount] integer DEFAULT '0' NULL
+ALTER TABLE [AudioFiles] ADD [SampleRate] integer DEFAULT '0' NULL
 
 /**/
 

@@ -97,6 +97,14 @@ namespace MPfm.Library
                 int.TryParse(table.Rows[a]["Tempo"].ToString(), out tempo);
                 dto.Tempo = tempo;
 
+                int sampleRate = 0;
+                int.TryParse(table.Rows[a]["SampleRate"].ToString(), out sampleRate);
+                dto.SampleRate = sampleRate;
+
+                int bitrate = 0;
+                int.TryParse(table.Rows[a]["Bitrate"].ToString(), out bitrate);
+                dto.Bitrate = bitrate;
+
                 // Assign properties (datetimes)
                 DateTime lastPlayed = DateTime.MinValue;
                 DateTime.TryParse(table.Rows[a]["LastPlayedDateTime"].ToString(), out lastPlayed);
