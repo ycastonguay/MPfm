@@ -38,6 +38,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             MPfm.WindowsControls.OutputMeterTheme outputMeterTheme1 = new MPfm.WindowsControls.OutputMeterTheme();
             MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
@@ -45,6 +49,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
@@ -52,21 +57,16 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont23 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont25 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont34 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont35 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
-            MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont35 = new MPfm.WindowsControls.CustomFont();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.panelGeneralSettings = new MPfm.WindowsControls.Panel();
@@ -86,6 +86,9 @@ namespace MPfm
             this.lblThemeAuthor = new MPfm.WindowsControls.Label();
             this.txtThemeName = new System.Windows.Forms.TextBox();
             this.lblThemeName = new MPfm.WindowsControls.Label();
+            this.btnLoadTheme = new MPfm.WindowsControls.Button();
+            this.btnSaveTheme = new MPfm.WindowsControls.Button();
+            this.btnNewTheme = new MPfm.WindowsControls.Button();
             this.splitTheme = new System.Windows.Forms.SplitContainer();
             this.previewOutputMeter = new MPfm.WindowsControls.OutputMeter();
             this.previewSongGridView = new MPfm.WindowsControls.SongGridView();
@@ -94,6 +97,7 @@ namespace MPfm
             this.propertyGridTheme = new System.Windows.Forms.PropertyGrid();
             this.tabAudioSettings = new System.Windows.Forms.TabPage();
             this.panelAudioSettings = new MPfm.WindowsControls.Panel();
+            this.btnResetToDefault = new MPfm.WindowsControls.Button();
             this.lblMixerSampleRateUnit = new MPfm.WindowsControls.Label();
             this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
             this.lblBufferSizeUnit = new MPfm.WindowsControls.Label();
@@ -104,6 +108,7 @@ namespace MPfm
             this.lblBufferSize = new MPfm.WindowsControls.Label();
             this.lblMixerSampleRate = new MPfm.WindowsControls.Label();
             this.lblOutputDriver = new MPfm.WindowsControls.Label();
+            this.btnTestSound = new MPfm.WindowsControls.Button();
             this.cboOutputDevices = new System.Windows.Forms.ComboBox();
             this.lblDriver = new MPfm.WindowsControls.Label();
             this.cboDrivers = new System.Windows.Forms.ComboBox();
@@ -112,22 +117,17 @@ namespace MPfm
             this.listViewFolders = new System.Windows.Forms.ListView();
             this.columnPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblFoldersTitle = new MPfm.WindowsControls.Label();
-            this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.panelBackground = new MPfm.WindowsControls.Panel();
-            this.dialogOpenTheme = new System.Windows.Forms.OpenFileDialog();
-            this.dialogSaveTheme = new System.Windows.Forms.SaveFileDialog();
-            this.btnClose = new MPfm.WindowsControls.Button();
-            this.btnLoadTheme = new MPfm.WindowsControls.Button();
-            this.btnSaveTheme = new MPfm.WindowsControls.Button();
-            this.btnNewTheme = new MPfm.WindowsControls.Button();
-            this.btnResetToDefault = new MPfm.WindowsControls.Button();
-            this.btnTestSound = new MPfm.WindowsControls.Button();
             this.btnRemoveFolder = new MPfm.WindowsControls.Button();
             this.btnAddFolder = new MPfm.WindowsControls.Button();
             this.Button1 = new MPfm.WindowsControls.Button();
+            this.lblFoldersTitle = new MPfm.WindowsControls.Label();
             this.btnResetLibrary = new MPfm.WindowsControls.Button();
+            this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.panelBackground = new MPfm.WindowsControls.Panel();
+            this.btnClose = new MPfm.WindowsControls.Button();
+            this.dialogOpenTheme = new System.Windows.Forms.OpenFileDialog();
+            this.dialogSaveTheme = new System.Windows.Forms.SaveFileDialog();
             this.tabs.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.panelGeneralSettings.SuspendLayout();
@@ -229,7 +229,6 @@ namespace MPfm
             this.lblTest.Size = new System.Drawing.Size(254, 17);
             this.lblTest.TabIndex = 96;
             this.lblTest.Text = "Audio file directory for peak file generation:";
-            this.lblTest.Visible = false;
             // 
             // btnStopPeak
             // 
@@ -266,7 +265,7 @@ namespace MPfm
             this.btnStopPeak.Text = "Stop Peak";
             this.btnStopPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnStopPeak.UseVisualStyleBackColor = true;
-            this.btnStopPeak.Visible = false;
+            this.btnStopPeak.Click += new System.EventHandler(this.btnStopPeak_Click);
             // 
             // btnTestPeak
             // 
@@ -303,7 +302,7 @@ namespace MPfm
             this.btnTestPeak.Text = "Test Peak";
             this.btnTestPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnTestPeak.UseVisualStyleBackColor = true;
-            this.btnTestPeak.Visible = false;
+            this.btnTestPeak.Click += new System.EventHandler(this.btnTestPeak_Click);
             // 
             // txtPath
             // 
@@ -313,7 +312,6 @@ namespace MPfm
             this.txtPath.Size = new System.Drawing.Size(251, 21);
             this.txtPath.TabIndex = 93;
             this.txtPath.Text = "E:\\Mp3\\Bob Marley\\Exodus\\";
-            this.txtPath.Visible = false;
             // 
             // lblHideTray
             // 
@@ -387,9 +385,9 @@ namespace MPfm
             // tabTheme
             // 
             this.tabTheme.Controls.Add(this.panelTheme);
-            this.tabTheme.Location = new System.Drawing.Point(4, 22);
+            this.tabTheme.Location = new System.Drawing.Point(4, 24);
             this.tabTheme.Name = "tabTheme";
-            this.tabTheme.Size = new System.Drawing.Size(631, 352);
+            this.tabTheme.Size = new System.Drawing.Size(631, 350);
             this.tabTheme.TabIndex = 4;
             this.tabTheme.Text = "Theme";
             this.tabTheme.UseVisualStyleBackColor = true;
@@ -534,6 +532,120 @@ namespace MPfm
             this.lblThemeName.TabIndex = 104;
             this.lblThemeName.Text = "Name :";
             this.lblThemeName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnLoadTheme
+            // 
+            this.btnLoadTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.btnLoadTheme.BorderWidth = 1;
+            this.btnLoadTheme.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont10.EmbeddedFontName = "Junction";
+            customFont10.IsBold = false;
+            customFont10.IsItalic = false;
+            customFont10.IsUnderline = false;
+            customFont10.Size = 8F;
+            customFont10.StandardFontName = "Arial";
+            customFont10.UseAntiAliasing = true;
+            customFont10.UseEmbeddedFont = true;
+            this.btnLoadTheme.CustomFont = customFont10;
+            this.btnLoadTheme.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnLoadTheme.DisabledFontColor = System.Drawing.Color.Gray;
+            this.btnLoadTheme.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnLoadTheme.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnLoadTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadTheme.FontColor = System.Drawing.Color.Black;
+            this.btnLoadTheme.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnLoadTheme.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnLoadTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnLoadTheme.Image = global::MPfm.Properties.Resources.folder_page;
+            this.btnLoadTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLoadTheme.Location = new System.Drawing.Point(88, 30);
+            this.btnLoadTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.btnLoadTheme.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnLoadTheme.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnLoadTheme.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnLoadTheme.Name = "btnLoadTheme";
+            this.btnLoadTheme.Size = new System.Drawing.Size(93, 24);
+            this.btnLoadTheme.TabIndex = 103;
+            this.btnLoadTheme.Text = "Load theme";
+            this.btnLoadTheme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLoadTheme.UseVisualStyleBackColor = true;
+            this.btnLoadTheme.Click += new System.EventHandler(this.btnLoadTheme_Click);
+            // 
+            // btnSaveTheme
+            // 
+            this.btnSaveTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.btnSaveTheme.BorderWidth = 1;
+            this.btnSaveTheme.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont11.EmbeddedFontName = "Junction";
+            customFont11.IsBold = false;
+            customFont11.IsItalic = false;
+            customFont11.IsUnderline = false;
+            customFont11.Size = 8F;
+            customFont11.StandardFontName = "Arial";
+            customFont11.UseAntiAliasing = true;
+            customFont11.UseEmbeddedFont = true;
+            this.btnSaveTheme.CustomFont = customFont11;
+            this.btnSaveTheme.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnSaveTheme.DisabledFontColor = System.Drawing.Color.Gray;
+            this.btnSaveTheme.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnSaveTheme.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnSaveTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveTheme.FontColor = System.Drawing.Color.Black;
+            this.btnSaveTheme.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnSaveTheme.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnSaveTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnSaveTheme.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSaveTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSaveTheme.Location = new System.Drawing.Point(180, 30);
+            this.btnSaveTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.btnSaveTheme.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnSaveTheme.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnSaveTheme.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnSaveTheme.Name = "btnSaveTheme";
+            this.btnSaveTheme.Size = new System.Drawing.Size(93, 24);
+            this.btnSaveTheme.TabIndex = 102;
+            this.btnSaveTheme.Text = "Save theme";
+            this.btnSaveTheme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSaveTheme.UseVisualStyleBackColor = true;
+            this.btnSaveTheme.Click += new System.EventHandler(this.btnSaveTheme_Click);
+            // 
+            // btnNewTheme
+            // 
+            this.btnNewTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.btnNewTheme.BorderWidth = 1;
+            this.btnNewTheme.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont12.EmbeddedFontName = "Junction";
+            customFont12.IsBold = false;
+            customFont12.IsItalic = false;
+            customFont12.IsUnderline = false;
+            customFont12.Size = 8F;
+            customFont12.StandardFontName = "Arial";
+            customFont12.UseAntiAliasing = true;
+            customFont12.UseEmbeddedFont = true;
+            this.btnNewTheme.CustomFont = customFont12;
+            this.btnNewTheme.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnNewTheme.DisabledFontColor = System.Drawing.Color.Gray;
+            this.btnNewTheme.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnNewTheme.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnNewTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewTheme.FontColor = System.Drawing.Color.Black;
+            this.btnNewTheme.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnNewTheme.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnNewTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnNewTheme.Image = ((System.Drawing.Image)(resources.GetObject("btnNewTheme.Image")));
+            this.btnNewTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewTheme.Location = new System.Drawing.Point(0, 30);
+            this.btnNewTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.btnNewTheme.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnNewTheme.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnNewTheme.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnNewTheme.Name = "btnNewTheme";
+            this.btnNewTheme.Size = new System.Drawing.Size(89, 24);
+            this.btnNewTheme.TabIndex = 63;
+            this.btnNewTheme.Text = "New theme";
+            this.btnNewTheme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNewTheme.UseVisualStyleBackColor = true;
+            this.btnNewTheme.Click += new System.EventHandler(this.btnNewTheme_Click);
             // 
             // splitTheme
             // 
@@ -753,6 +865,44 @@ namespace MPfm
             this.panelAudioSettings.Size = new System.Drawing.Size(631, 350);
             this.panelAudioSettings.TabIndex = 16;
             // 
+            // btnResetToDefault
+            // 
+            this.btnResetToDefault.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnResetToDefault.BorderWidth = 1;
+            this.btnResetToDefault.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont18.EmbeddedFontName = "Junction";
+            customFont18.IsBold = false;
+            customFont18.IsItalic = false;
+            customFont18.IsUnderline = false;
+            customFont18.Size = 8F;
+            customFont18.StandardFontName = "Arial";
+            customFont18.UseAntiAliasing = true;
+            customFont18.UseEmbeddedFont = true;
+            this.btnResetToDefault.CustomFont = customFont18;
+            this.btnResetToDefault.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnResetToDefault.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnResetToDefault.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnResetToDefault.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnResetToDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResetToDefault.FontColor = System.Drawing.Color.Black;
+            this.btnResetToDefault.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnResetToDefault.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnResetToDefault.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnResetToDefault.Image = global::MPfm.Properties.Resources.cog;
+            this.btnResetToDefault.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnResetToDefault.Location = new System.Drawing.Point(129, 179);
+            this.btnResetToDefault.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnResetToDefault.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnResetToDefault.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnResetToDefault.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnResetToDefault.Name = "btnResetToDefault";
+            this.btnResetToDefault.Size = new System.Drawing.Size(103, 40);
+            this.btnResetToDefault.TabIndex = 94;
+            this.btnResetToDefault.Text = "Reset to default";
+            this.btnResetToDefault.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnResetToDefault.UseVisualStyleBackColor = true;
+            this.btnResetToDefault.Click += new System.EventHandler(this.btnResetToDefault_Click);
+            // 
             // lblMixerSampleRateUnit
             // 
             this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
@@ -953,6 +1103,44 @@ namespace MPfm
             this.lblOutputDriver.TabIndex = 11;
             this.lblOutputDriver.Text = "Output device:";
             // 
+            // btnTestSound
+            // 
+            this.btnTestSound.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnTestSound.BorderWidth = 1;
+            this.btnTestSound.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont26.EmbeddedFontName = "Junction";
+            customFont26.IsBold = false;
+            customFont26.IsItalic = false;
+            customFont26.IsUnderline = false;
+            customFont26.Size = 8F;
+            customFont26.StandardFontName = "Arial";
+            customFont26.UseAntiAliasing = true;
+            customFont26.UseEmbeddedFont = true;
+            this.btnTestSound.CustomFont = customFont26;
+            this.btnTestSound.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnTestSound.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnTestSound.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnTestSound.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnTestSound.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestSound.FontColor = System.Drawing.Color.Black;
+            this.btnTestSound.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnTestSound.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnTestSound.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnTestSound.Image = global::MPfm.Properties.Resources.sound;
+            this.btnTestSound.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnTestSound.Location = new System.Drawing.Point(6, 179);
+            this.btnTestSound.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTestSound.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnTestSound.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnTestSound.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnTestSound.Name = "btnTestSound";
+            this.btnTestSound.Size = new System.Drawing.Size(117, 40);
+            this.btnTestSound.TabIndex = 81;
+            this.btnTestSound.Text = "Test audio settings";
+            this.btnTestSound.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnTestSound.UseVisualStyleBackColor = true;
+            this.btnTestSound.Click += new System.EventHandler(this.btnTestSound_Click);
+            // 
             // cboOutputDevices
             // 
             this.cboOutputDevices.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1009,9 +1197,9 @@ namespace MPfm
             // tabLibrary
             // 
             this.tabLibrary.Controls.Add(this.panelLibrarySettings);
-            this.tabLibrary.Location = new System.Drawing.Point(4, 22);
+            this.tabLibrary.Location = new System.Drawing.Point(4, 24);
             this.tabLibrary.Name = "tabLibrary";
-            this.tabLibrary.Size = new System.Drawing.Size(631, 352);
+            this.tabLibrary.Size = new System.Drawing.Size(631, 350);
             this.tabLibrary.TabIndex = 1;
             this.tabLibrary.Text = "Library";
             this.tabLibrary.UseVisualStyleBackColor = true;
@@ -1083,306 +1271,6 @@ namespace MPfm
             // 
             this.columnRecursive.Text = "Recursive";
             this.columnRecursive.Width = 173;
-            // 
-            // lblFoldersTitle
-            // 
-            this.lblFoldersTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont32.EmbeddedFontName = "Junction";
-            customFont32.IsBold = false;
-            customFont32.IsItalic = false;
-            customFont32.IsUnderline = false;
-            customFont32.Size = 8F;
-            customFont32.StandardFontName = "Arial";
-            customFont32.UseAntiAliasing = true;
-            customFont32.UseEmbeddedFont = true;
-            this.lblFoldersTitle.CustomFont = customFont32;
-            this.lblFoldersTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFoldersTitle.Location = new System.Drawing.Point(3, 36);
-            this.lblFoldersTitle.Name = "lblFoldersTitle";
-            this.lblFoldersTitle.Size = new System.Drawing.Size(69, 17);
-            this.lblFoldersTitle.TabIndex = 6;
-            this.lblFoldersTitle.Text = "Folders :";
-            // 
-            // dialogAddFolder
-            // 
-            this.dialogAddFolder.Description = "Please select a folder to add to the music library.";
-            this.dialogAddFolder.ShowNewFolderButton = false;
-            // 
-            // dialogOpenFile
-            // 
-            this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
-            this.dialogOpenFile.Title = "Please select an audio file to play";
-            // 
-            // panelBackground
-            // 
-            this.panelBackground.Controls.Add(this.btnClose);
-            this.panelBackground.Controls.Add(this.tabs);
-            customFont36.EmbeddedFontName = "";
-            customFont36.IsBold = false;
-            customFont36.IsItalic = false;
-            customFont36.IsUnderline = false;
-            customFont36.Size = 8F;
-            customFont36.StandardFontName = "Arial";
-            customFont36.UseAntiAliasing = true;
-            customFont36.UseEmbeddedFont = false;
-            this.panelBackground.CustomFont = customFont36;
-            this.panelBackground.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBackground.ExpandedHeight = 200;
-            this.panelBackground.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelBackground.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelBackground.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelBackground.HeaderCustomFontName = "TitilliumText22L Lt";
-            this.panelBackground.HeaderExpandable = false;
-            this.panelBackground.HeaderExpanded = true;
-            this.panelBackground.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelBackground.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelBackground.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panelBackground.HeaderHeight = 0;
-            this.panelBackground.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelBackground.Location = new System.Drawing.Point(0, 0);
-            this.panelBackground.Name = "panelBackground";
-            this.panelBackground.Size = new System.Drawing.Size(639, 431);
-            this.panelBackground.TabIndex = 63;
-            // 
-            // dialogOpenTheme
-            // 
-            this.dialogOpenTheme.Filter = "Theme files (*.mpfmTheme)|*.mpfmTheme";
-            this.dialogOpenTheme.Title = "Please select a theme to load";
-            // 
-            // dialogSaveTheme
-            // 
-            this.dialogSaveTheme.Filter = "Theme files (*.mpfmTheme)|*.mpfmTheme";
-            this.dialogSaveTheme.Title = "Please select a file name for the theme";
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.btnClose.BorderWidth = 1;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont35.EmbeddedFontName = "Junction";
-            customFont35.IsBold = false;
-            customFont35.IsItalic = false;
-            customFont35.IsUnderline = false;
-            customFont35.Size = 8F;
-            customFont35.StandardFontName = "Arial";
-            customFont35.UseAntiAliasing = true;
-            customFont35.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont35;
-            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontColor = System.Drawing.Color.Black;
-            this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
-            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnClose.Location = new System.Drawing.Point(543, 384);
-            this.btnClose.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(92, 40);
-            this.btnClose.TabIndex = 62;
-            this.btnClose.Text = "Close";
-            this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnLoadTheme
-            // 
-            this.btnLoadTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnLoadTheme.BorderWidth = 1;
-            this.btnLoadTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont10.EmbeddedFontName = "Junction";
-            customFont10.IsBold = false;
-            customFont10.IsItalic = false;
-            customFont10.IsUnderline = false;
-            customFont10.Size = 8F;
-            customFont10.StandardFontName = "Arial";
-            customFont10.UseAntiAliasing = true;
-            customFont10.UseEmbeddedFont = true;
-            this.btnLoadTheme.CustomFont = customFont10;
-            this.btnLoadTheme.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnLoadTheme.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnLoadTheme.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnLoadTheme.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnLoadTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadTheme.FontColor = System.Drawing.Color.Black;
-            this.btnLoadTheme.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnLoadTheme.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnLoadTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnLoadTheme.Image = global::MPfm.Properties.Resources.folder_page;
-            this.btnLoadTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLoadTheme.Location = new System.Drawing.Point(88, 30);
-            this.btnLoadTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.btnLoadTheme.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnLoadTheme.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnLoadTheme.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnLoadTheme.Name = "btnLoadTheme";
-            this.btnLoadTheme.Size = new System.Drawing.Size(93, 24);
-            this.btnLoadTheme.TabIndex = 103;
-            this.btnLoadTheme.Text = "Load theme";
-            this.btnLoadTheme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnLoadTheme.UseVisualStyleBackColor = true;
-            this.btnLoadTheme.Click += new System.EventHandler(this.btnLoadTheme_Click);
-            // 
-            // btnSaveTheme
-            // 
-            this.btnSaveTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnSaveTheme.BorderWidth = 1;
-            this.btnSaveTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont11.EmbeddedFontName = "Junction";
-            customFont11.IsBold = false;
-            customFont11.IsItalic = false;
-            customFont11.IsUnderline = false;
-            customFont11.Size = 8F;
-            customFont11.StandardFontName = "Arial";
-            customFont11.UseAntiAliasing = true;
-            customFont11.UseEmbeddedFont = true;
-            this.btnSaveTheme.CustomFont = customFont11;
-            this.btnSaveTheme.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSaveTheme.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnSaveTheme.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnSaveTheme.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnSaveTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveTheme.FontColor = System.Drawing.Color.Black;
-            this.btnSaveTheme.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnSaveTheme.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnSaveTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSaveTheme.Image = global::MPfm.Properties.Resources.disk;
-            this.btnSaveTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveTheme.Location = new System.Drawing.Point(180, 30);
-            this.btnSaveTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.btnSaveTheme.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSaveTheme.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnSaveTheme.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnSaveTheme.Name = "btnSaveTheme";
-            this.btnSaveTheme.Size = new System.Drawing.Size(93, 24);
-            this.btnSaveTheme.TabIndex = 102;
-            this.btnSaveTheme.Text = "Save theme";
-            this.btnSaveTheme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSaveTheme.UseVisualStyleBackColor = true;
-            this.btnSaveTheme.Click += new System.EventHandler(this.btnSaveTheme_Click);
-            // 
-            // btnNewTheme
-            // 
-            this.btnNewTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnNewTheme.BorderWidth = 1;
-            this.btnNewTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont12.EmbeddedFontName = "Junction";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 8F;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = true;
-            this.btnNewTheme.CustomFont = customFont12;
-            this.btnNewTheme.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnNewTheme.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnNewTheme.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnNewTheme.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnNewTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewTheme.FontColor = System.Drawing.Color.Black;
-            this.btnNewTheme.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnNewTheme.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnNewTheme.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnNewTheme.Image = ((System.Drawing.Image)(resources.GetObject("btnNewTheme.Image")));
-            this.btnNewTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNewTheme.Location = new System.Drawing.Point(0, 30);
-            this.btnNewTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.btnNewTheme.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnNewTheme.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnNewTheme.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnNewTheme.Name = "btnNewTheme";
-            this.btnNewTheme.Size = new System.Drawing.Size(89, 24);
-            this.btnNewTheme.TabIndex = 63;
-            this.btnNewTheme.Text = "New theme";
-            this.btnNewTheme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnNewTheme.UseVisualStyleBackColor = true;
-            this.btnNewTheme.Click += new System.EventHandler(this.btnNewTheme_Click);
-            // 
-            // btnResetToDefault
-            // 
-            this.btnResetToDefault.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.btnResetToDefault.BorderWidth = 1;
-            this.btnResetToDefault.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont18.EmbeddedFontName = "Junction";
-            customFont18.IsBold = false;
-            customFont18.IsItalic = false;
-            customFont18.IsUnderline = false;
-            customFont18.Size = 8F;
-            customFont18.StandardFontName = "Arial";
-            customFont18.UseAntiAliasing = true;
-            customFont18.UseEmbeddedFont = true;
-            this.btnResetToDefault.CustomFont = customFont18;
-            this.btnResetToDefault.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnResetToDefault.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnResetToDefault.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnResetToDefault.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnResetToDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetToDefault.FontColor = System.Drawing.Color.Black;
-            this.btnResetToDefault.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnResetToDefault.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnResetToDefault.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetToDefault.Image = global::MPfm.Properties.Resources.cog;
-            this.btnResetToDefault.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnResetToDefault.Location = new System.Drawing.Point(129, 179);
-            this.btnResetToDefault.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnResetToDefault.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnResetToDefault.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnResetToDefault.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnResetToDefault.Name = "btnResetToDefault";
-            this.btnResetToDefault.Size = new System.Drawing.Size(103, 40);
-            this.btnResetToDefault.TabIndex = 94;
-            this.btnResetToDefault.Text = "Reset to default";
-            this.btnResetToDefault.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnResetToDefault.UseVisualStyleBackColor = true;
-            this.btnResetToDefault.Click += new System.EventHandler(this.btnResetToDefault_Click);
-            // 
-            // btnTestSound
-            // 
-            this.btnTestSound.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.btnTestSound.BorderWidth = 1;
-            this.btnTestSound.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont26.EmbeddedFontName = "Junction";
-            customFont26.IsBold = false;
-            customFont26.IsItalic = false;
-            customFont26.IsUnderline = false;
-            customFont26.Size = 8F;
-            customFont26.StandardFontName = "Arial";
-            customFont26.UseAntiAliasing = true;
-            customFont26.UseEmbeddedFont = true;
-            this.btnTestSound.CustomFont = customFont26;
-            this.btnTestSound.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnTestSound.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnTestSound.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnTestSound.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnTestSound.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestSound.FontColor = System.Drawing.Color.Black;
-            this.btnTestSound.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnTestSound.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnTestSound.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnTestSound.Image = global::MPfm.Properties.Resources.sound;
-            this.btnTestSound.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTestSound.Location = new System.Drawing.Point(6, 179);
-            this.btnTestSound.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnTestSound.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnTestSound.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnTestSound.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnTestSound.Name = "btnTestSound";
-            this.btnTestSound.Size = new System.Drawing.Size(117, 40);
-            this.btnTestSound.TabIndex = 81;
-            this.btnTestSound.Text = "Test audio settings";
-            this.btnTestSound.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTestSound.UseVisualStyleBackColor = true;
-            this.btnTestSound.Click += new System.EventHandler(this.btnTestSound_Click);
             // 
             // btnRemoveFolder
             // 
@@ -1500,6 +1388,25 @@ namespace MPfm
             this.Button1.Visible = false;
             this.Button1.Click += new System.EventHandler(this.btnUpdateLibrary_Click);
             // 
+            // lblFoldersTitle
+            // 
+            this.lblFoldersTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont32.EmbeddedFontName = "Junction";
+            customFont32.IsBold = false;
+            customFont32.IsItalic = false;
+            customFont32.IsUnderline = false;
+            customFont32.Size = 8F;
+            customFont32.StandardFontName = "Arial";
+            customFont32.UseAntiAliasing = true;
+            customFont32.UseEmbeddedFont = true;
+            this.lblFoldersTitle.CustomFont = customFont32;
+            this.lblFoldersTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFoldersTitle.Location = new System.Drawing.Point(3, 36);
+            this.lblFoldersTitle.Name = "lblFoldersTitle";
+            this.lblFoldersTitle.Size = new System.Drawing.Size(69, 17);
+            this.lblFoldersTitle.TabIndex = 6;
+            this.lblFoldersTitle.Text = "Folders :";
+            // 
             // btnResetLibrary
             // 
             this.btnResetLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1538,6 +1445,97 @@ namespace MPfm
             this.btnResetLibrary.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnResetLibrary.UseVisualStyleBackColor = true;
             this.btnResetLibrary.Click += new System.EventHandler(this.btnResetLibrary_Click);
+            // 
+            // dialogAddFolder
+            // 
+            this.dialogAddFolder.Description = "Please select a folder to add to the music library.";
+            this.dialogAddFolder.ShowNewFolderButton = false;
+            // 
+            // dialogOpenFile
+            // 
+            this.dialogOpenFile.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.wav)|*.mp3;*.flac;*.ogg,*.wav";
+            this.dialogOpenFile.Title = "Please select an audio file to play";
+            // 
+            // panelBackground
+            // 
+            this.panelBackground.Controls.Add(this.btnClose);
+            this.panelBackground.Controls.Add(this.tabs);
+            customFont36.EmbeddedFontName = "";
+            customFont36.IsBold = false;
+            customFont36.IsItalic = false;
+            customFont36.IsUnderline = false;
+            customFont36.Size = 8F;
+            customFont36.StandardFontName = "Arial";
+            customFont36.UseAntiAliasing = true;
+            customFont36.UseEmbeddedFont = false;
+            this.panelBackground.CustomFont = customFont36;
+            this.panelBackground.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelBackground.ExpandedHeight = 200;
+            this.panelBackground.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelBackground.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelBackground.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelBackground.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelBackground.HeaderExpandable = false;
+            this.panelBackground.HeaderExpanded = true;
+            this.panelBackground.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelBackground.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelBackground.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelBackground.HeaderHeight = 0;
+            this.panelBackground.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelBackground.Location = new System.Drawing.Point(0, 0);
+            this.panelBackground.Name = "panelBackground";
+            this.panelBackground.Size = new System.Drawing.Size(639, 431);
+            this.panelBackground.TabIndex = 63;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnClose.BorderWidth = 1;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont35.EmbeddedFontName = "Junction";
+            customFont35.IsBold = false;
+            customFont35.IsItalic = false;
+            customFont35.IsUnderline = false;
+            customFont35.Size = 8F;
+            customFont35.StandardFontName = "Arial";
+            customFont35.UseAntiAliasing = true;
+            customFont35.UseEmbeddedFont = true;
+            this.btnClose.CustomFont = customFont35;
+            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
+            this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnClose.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.FontColor = System.Drawing.Color.Black;
+            this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
+            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnClose.Location = new System.Drawing.Point(543, 384);
+            this.btnClose.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(92, 40);
+            this.btnClose.TabIndex = 62;
+            this.btnClose.Text = "Close";
+            this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // dialogOpenTheme
+            // 
+            this.dialogOpenTheme.Filter = "Theme files (*.mpfmTheme)|*.mpfmTheme";
+            this.dialogOpenTheme.Title = "Please select a theme to load";
+            // 
+            // dialogSaveTheme
+            // 
+            this.dialogSaveTheme.Filter = "Theme files (*.mpfmTheme)|*.mpfmTheme";
+            this.dialogSaveTheme.Title = "Please select a file name for the theme";
             // 
             // frmSettings
             // 

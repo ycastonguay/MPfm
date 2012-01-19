@@ -249,16 +249,24 @@ namespace MPfm.Library
             // Add subsription with Finally (executed when the thread ends)
             m_listSubscriptions.Add(m_listObservables[index].Finally(() =>
             {
-                // Check if there is more stuff to load
-                if (m_currentIndex >= m_filePaths.Count - 1)
-                {
-                    // Decrement the number of threads running
-                    m_numberOfThreadsRunning--;
+                // Decrement thread count
+                m_numberOfThreadsRunning--;
 
-                    // There might be multiple threads ending here, so make sure we don't raise the OnProgressDone more than once.
-                    if (m_numberOfThreadsRunning == 0)
-                    {
-                        // There aren't any other peak files to generate; set flags
+                // Check if this is the last thread
+                if (m_numberOfThreadsRunning == 0)
+                {
+                    // Insert files into database
+                    MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
+                    gateway.InsertAudioFiles(m_audioFilesToInsert);
+                    m_audioFilesToInsert.Clear();
+
+                    // Determine how many files to process (do not start more threads than files to process!)
+                    int numberOfFilesToProcess = m_listObservables.Count - 1 - m_currentIndex;
+
+                    // Check if there are files left
+                    if (numberOfFilesToProcess == 0)
+                    {                        
+                        // Set flags
                         m_isProcessing = false;
 
                         // Is an event binded to OnProcessDone?
@@ -267,52 +275,32 @@ namespace MPfm.Library
                             // Raise event with data
                             OnProcessDone(new UpdateLibraryDoneData());
                         }
+
+                        return;
+                    }
+                    else if (numberOfFilesToProcess > NumberOfThreads)
+                    {
+                        // Set number of files to process to the number of threads
+                        numberOfFilesToProcess = NumberOfThreads;
                     }
 
-                    return;
+                    // Subscribe the next x threads
+                    m_numberOfThreadsRunning = numberOfFilesToProcess;
+                    for (int a = 0; a < numberOfFilesToProcess; a++)
+                    {
+                        // Subscribe next thread
+                        m_currentIndex++;
+                        Subscribe(m_currentIndex);
+                    }                    
                 }
 
-                // Increment current index
-                m_currentIndex++;
-
-                // Load next thread
-                Subscribe(m_currentIndex);
-
-                // Subscribe to the IObservable (starts the thread)
+            // Subscribe to the IObservable (starts the thread)
             }).Subscribe(o =>
             {
                 try
                 {
-                    lock (thisLock)
-                    {
-                        // Check if the metadata was fetched successfully
-                        if (o.Exception == null)
-                        {
-                            // Insert into list
-                            m_audioFilesToInsert.Add(o.AudioFile);
-
-                            //lock (m_audioFilesToInsert)
-                            //{
-                            //    m_audioFilesToInsert.Add(o.AudioFile);
-                            //}
-                        }
-
-                        //lock (m_audioFilesToInsert)
-                        //{
-
-
-                        // Desfois ca rentre dans cette methode la a 21 elements au lieu de 20. un autre thread est deja la
-
-                        if (m_audioFilesToInsert.Count >= 20)
-                        {
-                            MPfmGateway gateway = new MPfmGateway(@"D:\Code\MPfm\Branches\Current\Output\Debug\MPfm.db");
-                            //List<AudioFile> stuff = m_audioFilesToInsert.GetCache();
-                            gateway.InsertAudioFiles(m_audioFilesToInsert);
-                            m_audioFilesToInsert.Clear();
-                            //m_audioFilesToInsert = new BlockingCollection<AudioFile>();
-                        }
-                        //}
-                    }
+                    // Insert into list
+                    m_audioFilesToInsert.Add(o.AudioFile);
 
                     // Is an event binded to OnProcessData?
                     if (OnProcessData != null)
@@ -334,10 +322,7 @@ namespace MPfm.Library
             }));
         }
 
-        private Object thisLock = new Object();
         private List<AudioFile> m_audioFilesToInsert = new List<AudioFile>();
-        //private BlockingCollection<AudioFile> m_audioFilesToInsert = new BlockingCollection<AudioFile>();
-        //private SynchronizedList<AudioFile> m_audioFilesToInsert = new SynchronizedList<AudioFile>();
 
         /// <summary>
         /// This is the main method for updating the library.
@@ -399,6 +384,9 @@ namespace MPfm.Library
                 numberOfFilesToProcess = NumberOfThreads;
             }
 
+            // Set the number of threads running
+            m_numberOfThreadsRunning = numberOfFilesToProcess;
+
             // Loop through initial threads
             for (int a = 0; a < numberOfFilesToProcess; a++)
             {
@@ -408,9 +396,6 @@ namespace MPfm.Library
                 // Increment current index
                 m_currentIndex++;
             }
-
-            // Set the number of threads running
-            m_numberOfThreadsRunning = numberOfFilesToProcess;
         }
 
         /// <summary>
@@ -451,100 +436,6 @@ namespace MPfm.Library
                     // Throw exception and exit loop
                     throw ex;
                 }
-            }
-        }
-    }
-
-    public class SynchronizedList<T>
-    {
-        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
-        private List<T> cache = new List<T>();        
-
-        public SynchronizedList()
-        {
-
-        }
-
-        public void Add(T item)
-        {
-            cacheLock.EnterWriteLock();
-            try
-            {
-                cache.Add(item);
-            }
-            finally
-            {
-                cacheLock.ExitWriteLock();
-            }
-        }
-
-        public T Get(int index)
-        {
-            cacheLock.EnterReadLock();
-            try
-            {
-                return cache[index];
-            }
-            finally
-            {
-                cacheLock.ExitReadLock();
-            }
-        }
-
-        public List<T> GetCache()
-        {
-            cacheLock.EnterReadLock();
-            try
-            {
-                List<T> list = new List<T>();
-                foreach (T item in cache)
-                {
-                    list.Add(item);
-                }
-                return list;
-            }
-            finally
-            {
-                cacheLock.ExitReadLock();
-            }
-        }
-
-        public void Delete(int index)
-        {
-            cacheLock.EnterWriteLock();
-            try
-            {
-                cache.RemoveAt(index);
-            }
-            finally
-            {
-                cacheLock.ExitWriteLock();
-            }
-        }
-
-        public void Clear()
-        {
-            cacheLock.EnterWriteLock();
-            try
-            {
-                cache.Clear();
-            }
-            finally
-            {
-                cacheLock.ExitWriteLock();
-            }
-        }
-
-        public int Count()
-        {
-            cacheLock.EnterReadLock();
-            try
-            {
-                return cache.Count;
-            }
-            finally
-            {
-                cacheLock.ExitReadLock();
             }
         }
     }

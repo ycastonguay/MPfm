@@ -1102,18 +1102,6 @@ namespace MPfm
         {
             try
             {
-                MPfmConfiguration cfg = new MPfmConfiguration(@"D:\Code\MPfm\Branches\Current\MPfm\ExampleConfig.xml");
-                cfg.Clear();
-                //cfg.Load();
-                cfg.Audio.Mixer.Frequency = 44100;
-                cfg.General.KeyValues.Add(new GeneralConfigurationKeyValue() { Name = "Test", Value = "hahaha", ValueType = typeof(string) });
-                cfg.General.KeyValues.Add(new GeneralConfigurationKeyValue() { Name = "Test2", Value = 22, ValueType = typeof(Int32) });
-                cfg.General.KeyValues.Add(new GeneralConfigurationKeyValue() { Name = "Test3", Value = 100.33003f, ValueType = typeof(float) });
-                cfg.Controls.SongGridView.Columns.Clear();
-                cfg.Controls.SongGridView.Columns.AddRange(Main.viewSongs2.Columns);
-                cfg.Save(@"C:\_\config.xml");
-                return;
-
                 //string peakFileDirectory = @"D:\_peak\";
 
                 //List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
