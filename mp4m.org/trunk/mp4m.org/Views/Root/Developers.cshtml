@@ -46,28 +46,35 @@
 </p> 
 <ul class="code">       
     <li><b>MPfm.Core</b><br />
-        Useful methods for all kinds of projects.
+        The MPfm.Core assembly contains miscellaneous static class methods for all kinds of projects.
     </li>
     <li><b>MPfm.Sound</b><br />
-        Bass.NET wrapper, TagLib# wrapper, AudioTools class for calculating audio data, PeakFile class for peak file reading/writing, TestDevice class to test audio devices, etc.
+        The MPfm.Sound assembly contains the Bass.NET wrapper classes, the AudioFile wrapper class for reading and writing metadata in most audio file formats, the AudioTools class for calculating audio data, the PeakFile class for reading and writing peak files, and more.
     </li>    
     <li><b>MPfm.Player</b><br />
-        Player classes with all their dependencies.
+        The MPfm.Player assembly contains the Player class and its dependencies (such as Loop, Marker, EQPreset, etc.) which is the playback engine used for MPfm.
     </li>
     <li><b>MPfm.Library</b><br />
-        Library classes with all their dependencies.
+        The MPfm.Library assembly contains classes to read and write audio file and playlist file metadata to a SQLite database. It also contains a Gateway pattern class for simplifying CRUD operations on a SQLite database.
     </li>
     <li><b>MPfm.WindowsControls</b><br />
-        Custom Windows Forms controls such as Label, LinkLabel, Button, Panel, ScrollBar, SongGridView, WaveFormDisplay, etc.
+        The MPfm.WindowsControls assembly contains custom generic Windows Forms controls (such as Label, LinkLabel, Panel, etc.), custom controls for displaying library contents (such as SongGridView), custom controls for sound visualization (such as OutputMeter, WaveFormDisplay, etc.), and more.
     </li>
 </ul>
 <p>
     Alternatively, you can also add the MPfm components to your project by adding a reference to the <b>MPfm NuGet packages</b>, which will be available soon.
 </p>
 <p>
-    <b>Note</b>: You can find a <b>demo application</b> of the Player component in the PlaybackEngineV4 folder of the Source Code package. The demo application
-    has the same features as MPfm, without the eye candy! This makes it easier to learn the Player component and use it in your own project. You can also read
-    the <b>.CHM help file</b> inside the source code package.
+    You can find a <b>demo application</b> of the Player component in the <b>MPfm.Player.Demo</b> folder of the Source Code package. The demo application
+    has the same features as MPfm, without the eye candy! This makes it easier to learn the Player component and use it in your own project. 
+</p>
+<h3>Developer Documentation</h3>
+<p>
+    The developer documentation is part of the Source Code package, available on the 
+    <a href="http://sourceforge.net/projects/mp4m" title="MPfm SourceForge Home Page">MPfm SourceForge Home Page</a>. 
+</p>
+<p>
+    You can also consult the online documentation <a href="/docs" title="MPfm Online Developer Documentation" >here</a>.
 </p>
 <h3>BASS.NET Key</h3>
 <p>
