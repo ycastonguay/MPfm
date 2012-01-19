@@ -510,8 +510,9 @@ namespace MPfm
                 comboSoundFormat.Items.Add("MP3");
                 comboSoundFormat.Items.Add("FLAC");
                 comboSoundFormat.Items.Add("OGG");
+                comboSoundFormat.Items.Add("MPC");
                 comboSoundFormat.Items.Add("APE");
-                comboSoundFormat.Items.Add("WV");
+                comboSoundFormat.Items.Add("WV");                
                 //Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
 
                 //foreach (AudioFileFormat audioFileFormat in audioFileFormats)

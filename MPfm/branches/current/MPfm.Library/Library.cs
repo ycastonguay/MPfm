@@ -716,6 +716,7 @@ namespace MPfm.Library
             extensionsSupported.Add("*.MP3");
             extensionsSupported.Add("*.FLAC");
             extensionsSupported.Add("*.OGG");
+            extensionsSupported.Add("*.MPC");
             extensionsSupported.Add("*.APE");
             extensionsSupported.Add("*.WV");
 
@@ -723,8 +724,6 @@ namespace MPfm.Library
             extensionsSupported.Add("*.M3U8");
             extensionsSupported.Add("*.PLS");
             extensionsSupported.Add("*.XSPF");
-            //extensionsSupported.Add("*.MPC");
-
 
             //// Populate list of supported extensions
             //List<string> extensionsSupported = new List<string>();

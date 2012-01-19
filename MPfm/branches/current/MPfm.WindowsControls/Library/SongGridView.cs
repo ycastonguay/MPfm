@@ -1434,6 +1434,14 @@ namespace MPfm.WindowsControls
                                         // Render to string
                                         value = intValue.ToString();
                                     }
+                                    else if (propertyInfo.PropertyType.FullName.Contains("MPfm.Sound.AudioFileFormat"))
+                                    {
+                                        // Try to get the value
+                                        AudioFileFormat theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
+
+                                        // Render to string
+                                        value = theValue.ToString();
+                                    }
                                     else
                                     {
                                         // If the type of unknown, leave the value empty

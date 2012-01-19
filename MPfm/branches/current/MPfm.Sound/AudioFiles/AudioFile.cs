@@ -142,6 +142,10 @@ namespace MPfm.Sound
 			{
 				return m_fileType;
 			}
+            set
+            {
+                m_fileType = value;
+            }
 		}
 
 		/// <summary>

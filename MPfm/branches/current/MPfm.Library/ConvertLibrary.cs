@@ -25,6 +25,7 @@ using System.Data.Common;
 using System.Data.Linq;
 using System.Data.Objects;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using MPfm.Player;
@@ -115,11 +116,17 @@ namespace MPfm.Library
                 else
                 {
                     dto.LastPlayed = lastPlayed;
-                }                                
+                }                               
+ 
+                // Load metadata
+                // Extract file extension
+                string ext = Path.GetExtension(dto.FilePath).ToUpper().Replace(".", "");
+                AudioFileFormat format = AudioFileFormat.Unknown;
+                Enum.TryParse<AudioFileFormat>(ext, out format);
+                dto.FileType = format;
 
                 // Add DTO to list
                 dtos.Add(dto);
-
             }
 
             // Return DTO
