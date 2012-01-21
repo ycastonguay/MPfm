@@ -36,6 +36,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using MPfm.Sound;
+using System.Threading.Tasks;
+using MPfm.Core;
 
 namespace MPfm.Library
 {
@@ -46,31 +48,25 @@ namespace MPfm.Library
     /// </summary>
     public class UpdateLibrary
     {
-        /// <summary>
-        /// Defines the list of IDisposables (subscriptions to IObservables).
-        /// </summary>
-        private List<IDisposable> m_listSubscriptions = null;
+        private int currentTaskIndex = 0;
 
-        /// <summary>
-        /// List of IObservables of UpdateLibraryProgressData.
-        /// </summary>
-        private List<IObservable<UpdateLibraryProgressData>> m_listObservables = null;
+        private string m_currentFile = string.Empty;
+        public string CurrentFile
+        {
+            get
+            {
+                return m_currentFile;
+            }
+        }
 
-        /// <summary>
-        /// Defines the current index in the list of files (in the FilePaths property).
-        /// </summary>
-        private int m_currentIndex = 0;
-
-        /// <summary>
-        /// Delegate for the OnProcessData event.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        public delegate void ProcessData(UpdateLibraryProgressData data);
-
-        /// <summary>
-        /// Event called every 20 blocks when generating a peak file.
-        /// </summary>
-        public event ProcessData OnProcessData;
+        private float m_percentageDone = 0;
+        public float PercentageDone
+        {
+            get
+            {
+                return m_percentageDone;
+            }
+        }
 
         /// <summary>
         /// Delegate for the OnProcessDone event.
@@ -130,21 +126,6 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Private value for the NumberOfThreadsRunning property.
-        /// </summary>
-        private int m_numberOfThreadsRunning = 0;
-        /// <summary>
-        /// Indicates the number of threads currently running.
-        /// </summary>
-        public int NumberOfThreadsRunning
-        {
-            get
-            {
-                return m_numberOfThreadsRunning;
-            }
-        }
-
-        /// <summary>
         /// Private value for the NumberOfThreads property.        
         /// </summary>
         private int m_numberOfThreads = 1;
@@ -160,27 +141,6 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Private value for the ProgressReportBlockInterval property.
-        /// </summary>
-        private int m_progressReportBlockInterval = 200;
-        /// <summary>
-        /// Defines when the OnProgressData event is called; it will be called
-        /// every x blocks (where x is ProgressReportBlockInterval). 
-        /// The default value is 20.
-        /// </summary>
-        public int ProgressReportBlockInterval
-        {
-            get
-            {
-                return m_progressReportBlockInterval;
-            }
-            set
-            {
-                m_progressReportBlockInterval = value;
-            }
-        }
-
-        /// <summary>
         /// Default constructor for the UpdateLibrary class.
         /// </summary>
         /// <param name="numberOfThreads">Defines the number of threads used for scanning audio file metadata</param>
@@ -192,224 +152,84 @@ namespace MPfm.Library
             m_databaseFilePath = databaseFilePath;
         }
 
-        /// <summary>
-        /// Scans the metadata of an audio file. This method returns an IObservable object for use with Reactive Extensions.        
-        /// </summary>
-        /// <param name="audioFilePath">Audio file path</param>
-        /// <param name="threadNumber">Thread number</param>
-        /// <returns>UpdateLibraryProgressData</returns>
-        protected IObservable<UpdateLibraryProgressData> ScanMetadataAsync(string audioFilePath, int threadNumber)
+        public async Task<List<AudioFile>> LoadFiles(List<string> filePaths)
         {
-            // Declare variables         
-            bool cancelled = false;
-            UpdateLibraryProgressData data = null;
 
-            // Create observable
-            IObservable<UpdateLibraryProgressData> observable = Observable.Create<UpdateLibraryProgressData>(o =>
+            // Todo: Split WHENALL in 50 files, and report only every 50 files. 
+            // OR use the polling technique since 50 files in old hardware might take a lot longer than newer hardware.
+
+            int maxTasks = 50;
+            currentTaskIndex = 0;
+            List<AudioFile> listAudioFiles = new List<AudioFile>();
+
+            // Create gateway
+            MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
+
+            while (true)
             {
-                // Declare cancel token
-                var cancel = new CancellationDisposable();
+                // Check how many tasks to process
+                int numberOfTasksToProcess = filePaths.Count - currentTaskIndex;
 
-                // Schedule operation in a new thread
-                Scheduler.NewThread.Schedule(() =>
+                if (numberOfTasksToProcess == 0)
                 {
-                    // Create data
-                    data = new UpdateLibraryProgressData();
-                    data.FilePath = audioFilePath;
-                    data.ThreadNumber = threadNumber;
-
-                    try
-                    {
-                        // Read audio file metadata
-                        data.AudioFile = new AudioFile(audioFilePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Create exception
-                        data.Exception = new UpdateLibraryException("There was an error while reading the audio file metadata.", ex);
-                    }
-
-                    // Send progress and set completed
-                    o.OnNext(data);
-                    o.OnCompleted();
-                });
-
-                return cancel;
-            });
-
-            return observable;
-        }
-
-        /// <summary>
-        /// Subscribe to a specific IObservable.
-        /// </summary>
-        /// <param name="index">File path index</param>
-        private void Subscribe(int index)
-        {
-            // Add subsription with Finally (executed when the thread ends)
-            m_listSubscriptions.Add(m_listObservables[index].Finally(() =>
-            {
-                // NO. DOESNT WORK WITHOUT LOCKING. FUCK.
-
-                // Decrement thread count
-                m_numberOfThreadsRunning--;
-
-                // Check if this is the last thread
-                if (m_numberOfThreadsRunning == 0)
+                    m_percentageDone = 100;
+                    break;
+                }
+                else if (filePaths.Count - currentTaskIndex > maxTasks)
                 {
-                    // Wait X number of times to insert audio files into the database
-                    if (m_audioFilesToInsert.Count > 50)
-                    {
-                        // Insert files into database
-                        MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
-                        gateway.InsertAudioFiles(m_audioFilesToInsert);
-                        m_audioFilesToInsert.Clear();
-
-                        // Is an event binded to OnProcessData?
-                        if (OnProcessData != null)
-                        {
-                            // Raise event with data
-                            UpdateLibraryProgressData data = new UpdateLibraryProgressData();
-                            data.PercentageDone = ((float)m_currentIndex / (float)m_listObservables.Count) * 100;
-                            OnProcessData(data);
-                        }
-                    }
-
-                    // Determine how many files to process (do not start more threads than files to process!)
-                    int numberOfFilesToProcess = m_listObservables.Count - 1 - m_currentIndex;
-
-                    // Check if there are files left
-                    if (numberOfFilesToProcess == 0)
-                    {                        
-                        // Set flags
-                        m_isProcessing = false;
-
-                        // Insert the last files into database
-                        if (m_audioFilesToInsert.Count > 0)
-                        {
-                            // Insert files into database
-                            MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
-                            gateway.InsertAudioFiles(m_audioFilesToInsert);
-                            m_audioFilesToInsert.Clear();
-                        }
-
-                        // Is an event binded to OnProcessDone?
-                        if (OnProcessDone != null)
-                        {
-                            // Raise event with data
-                            OnProcessDone(new UpdateLibraryDoneData());
-                        }
-
-                        return;
-                    }
-                    else if (numberOfFilesToProcess > NumberOfThreads)
-                    {
-                        // Set number of files to process to the number of threads
-                        numberOfFilesToProcess = NumberOfThreads;
-                    }
-
-                    // Subscribe the next x threads
-                    m_numberOfThreadsRunning = numberOfFilesToProcess;
-                    for (int a = 0; a < numberOfFilesToProcess; a++)
-                    {
-                        // Subscribe next thread
-                        m_currentIndex++;
-                        Subscribe(m_currentIndex);
-                    }                    
+                    numberOfTasksToProcess = maxTasks;
                 }
 
-            // Subscribe to the IObservable (starts the thread)
-            }).Subscribe(o =>
-            {
-                try
+                List<Task<UpdateLibraryProgressData>> tasks = new List<Task<UpdateLibraryProgressData>>();
+                for (int a = 0; a < numberOfTasksToProcess; a++)
                 {
-                    // Insert into list
-                    m_audioFilesToInsert.Add(o.AudioFile);
-
-
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
+                    currentTaskIndex++;
+                    tasks.Add(LoadAudioFileAsync(filePaths[currentTaskIndex-1], currentTaskIndex, filePaths.Count));
                 }
 
-            }));
+                UpdateLibraryProgressData[] data = await TaskEx.WhenAll(tasks);
+                List<AudioFile> audioFiles = new List<AudioFile>();
+                for (int a = 0; a < data.Length; a++)
+                {
+                    if (data[a].AudioFile != null)
+                    {
+                        audioFiles.Add(data[a].AudioFile);
+                    }
+                }
+
+
+                //listAudioFiles.AddRange(audioFiles);
+
+                // Insert audio files into database                
+                gateway.InsertAudioFiles(audioFiles);
+                //m_audioFilesToInsert.Clear();
+            }
+
+            return listAudioFiles;
         }
 
-        private List<AudioFile> m_audioFilesToInsert = new List<AudioFile>();
-
-        /// <summary>
-        /// This is the main method for updating the library.
-        /// </summary>
-        public void Update()
+        public async Task<UpdateLibraryProgressData> LoadAudioFileAsync(string filePath, int index, int count)
         {
-            // Fetch the list of folders to import
+            AudioFile audioFile = null;
+            UpdateLibraryProgressData data = new UpdateLibraryProgressData();
+            data.FilePath = filePath;
+            m_currentFile = filePath;
 
-        }
-
-        /// <summary>
-        /// Imports audio file metadata from a specific folder path into the database.
-        /// </summary>
-        /// <param name="folderPath">Folder path</param>        
-        public void ImportFolder(string folderPath)
-        {
-            // Search recursively and import files
-            List<string> filePaths = AudioTools.SearchAudioFilesRecursive(folderPath, "MP3;FLAC;OGG");
-
-            // Import new files
-            ImportFiles(filePaths);
-        }
-
-        /// <summary>
-        /// Imports metadata from a list of audio files into the database.
-        /// </summary>
-        /// <param name="filePaths">List of audio file paths</param>
-        public void ImportFiles(List<string> filePaths)
-        {
-            // Check there are active threads
-            if (m_isProcessing)
+            try
             {
-                throw new Exception("Error: The process cannot be restarted when there are currently active threads!");
+                //Tracing.Log("Loading " + filePath + "...");
+                audioFile = await TaskEx.Run(() => new AudioFile(filePath));
+                data.AudioFile = audioFile;                
+            }
+            catch (Exception ex)
+            {
+                data.Exception = new UpdateLibraryException("Error reading audio file", ex);
             }
 
-            // Set private values            
-            m_filePaths = filePaths;
+            // Set percentage
+            m_percentageDone = ((float)index / (float)count) * 100;
 
-            // Set flags
-            m_isProcessing = true;
-            m_currentIndex = 0;
-
-            // Create lists
-            m_listObservables = new List<IObservable<UpdateLibraryProgressData>>();
-            m_listSubscriptions = new List<IDisposable>();
-
-            // Loop through file paths
-            for (int a = 0; a < filePaths.Count; a++)
-            {
-                // Create IObservable
-                m_listObservables.Add(ScanMetadataAsync(filePaths[a], a));
-            }
-
-            // Determine how many files to process (do not start more threads than files to process!)
-            int numberOfFilesToProcess = filePaths.Count;
-            if (filePaths.Count > NumberOfThreads)
-            {
-                // Set number of files to process to the number of threads
-                numberOfFilesToProcess = NumberOfThreads;
-            }
-
-            // Set the number of threads running
-            m_numberOfThreadsRunning = numberOfFilesToProcess;
-
-            // Loop through initial threads
-            for (int a = 0; a < numberOfFilesToProcess; a++)
-            {
-                // Subscribe
-                Subscribe(m_currentIndex);
-
-                // Increment current index
-                m_currentIndex++;
-            }
+            return data;
         }
 
         /// <summary>
@@ -417,41 +237,41 @@ namespace MPfm.Library
         /// </summary>
         public void Cancel()
         {
-            // Check if the subscriptions are valid
-            if (m_listSubscriptions == null || m_listSubscriptions.Count == 0)
-            {
-                throw new Exception("Error cancelling process: The subscription list is empty or doesn't exist!");
-            }
+            //// Check if the subscriptions are valid
+            //if (m_listSubscriptions == null || m_listSubscriptions.Count == 0)
+            //{
+            //    throw new Exception("Error cancelling process: The subscription list is empty or doesn't exist!");
+            //}
 
-            // Check if the class is currently processing data
-            if (!m_isProcessing)
-            {
-                throw new Exception("Error cancelling process: There are no currently active threads!");
-            }
+            //// Check if the class is currently processing data
+            //if (!m_isProcessing)
+            //{
+            //    throw new Exception("Error cancelling process: There are no currently active threads!");
+            //}
 
-            // Loop through subscriptions            
-            while (true)
-            {
-                try
-                {
-                    // Check if there is a subscription left
-                    if (m_listSubscriptions.Count == 0)
-                    {
-                        // Exit loop
-                        break;
-                    }
+            //// Loop through subscriptions            
+            //while (true)
+            //{
+            //    try
+            //    {
+            //        // Check if there is a subscription left
+            //        if (m_listSubscriptions.Count == 0)
+            //        {
+            //            // Exit loop
+            //            break;
+            //        }
 
-                    // Dispose subscription and remove it from list
-                    m_listSubscriptions[0].Dispose();
-                    m_listSubscriptions.RemoveAt(0);
-                }
-                catch (Exception ex)
-                {
-                    // Throw exception and exit loop
-                    throw ex;
-                }
-            }
+            //        // Dispose subscription and remove it from list
+            //        m_listSubscriptions[0].Dispose();
+            //        m_listSubscriptions.RemoveAt(0);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Throw exception and exit loop
+            //        throw ex;
+            //    }
+            //}
         }
-    }
+    }    
 }
 

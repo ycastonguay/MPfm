@@ -60,11 +60,18 @@ namespace MPfm.Player
         private int m_ttaPluginHandle = 0;
         private int m_wvPluginHandle = 0;
 
+        /// <summary>
+        /// Offset position (necessary to calculate the offset in the output stream position
+        /// if the user has seeked the position in the decode stream). The output stream position
+        /// is reset to 0 in these cases to clear the audio buffer.
+        /// </summary>
+        private long m_positionOffset = 0;
+
         #region Callbacks
         
         // Callbacks
         private STREAMPROC m_streamProc;
-        private SYNCPROC m_syncProc;
+        private SYNCPROC m_syncProc;        
         private ASIOPROC m_asioProc;
         private WASAPIPROC m_wasapiProc;
 
@@ -733,6 +740,9 @@ namespace MPfm.Player
                 // Make sure there are no current loops                 
                 m_currentLoop = null;
 
+                // Set offset
+                m_positionOffset = 0;
+
                 // How many channels are left?                
                 int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;                
 
@@ -1068,12 +1078,18 @@ namespace MPfm.Player
             // Clear loop
             m_currentLoop = null;
 
+            // Set offset
+            m_positionOffset = 0;
+
             // Make sure index is in the list
             if (index <= Playlist.Items.Count - 1)
             {
                 //// Set position to 0
                 //// http://www.un4seen.com/forum/?topic=12508.0;hl=clear+stream
                 //SetPosition((long)0);
+
+                // Set main channel position to 0 (clear buffer)
+                m_mainChannel.SetPosition(0);
 
                 // Set index
                 Tracing.Log("Player.GoTo -- Setting playlist index to " + index.ToString() + "...");
@@ -1192,7 +1208,7 @@ namespace MPfm.Player
                 // Go to next audio file
                 GoTo(Playlist.CurrentItemIndex + 1);
             }            
-        }
+        }        
         
         /// <summary>
         /// Gets the position of the currently playing channel, in bytes.
@@ -1205,9 +1221,17 @@ namespace MPfm.Player
             {
                 return 0;
             }
+            
+            // Get main channel position
+            long outputPosition = m_mainChannel.GetPosition();
 
-            // Get position
-            return Playlist.CurrentItem.Channel.GetPosition();
+            // Divide by 2 (floating point)
+            outputPosition /= 2;
+
+            // Add the offset position
+            outputPosition += m_positionOffset;
+
+            return outputPosition;
         }
 
         /// <summary>
@@ -1222,7 +1246,13 @@ namespace MPfm.Player
                 return;
             }
 
-            // Set position
+            // Set offset position (for calulating current position)
+            m_positionOffset = bytes;
+
+            // Set main channel position to 0 (clear buffer)
+            m_mainChannel.SetPosition(0);
+
+            // Set position for the decode channel
             Playlist.CurrentItem.Channel.SetPosition(bytes);
         }
 
@@ -1241,7 +1271,13 @@ namespace MPfm.Player
             // Calculate new position
             long newPosition = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
 
-            // Set position
+            // Set offset position (for calulating current position)
+            m_positionOffset = newPosition;
+
+            // Set main channel position to 0 (clear buffer)
+            m_mainChannel.SetPosition(0);
+
+            // Set position for the decode channel
             Playlist.CurrentItem.Channel.SetPosition(newPosition);
         }
 
@@ -1571,6 +1607,32 @@ namespace MPfm.Player
                 // Clear current loop
                 m_currentLoop = null;
 
+                // Reset offset
+                m_positionOffset = 0;
+
+                //m_syncProc = new SYNCPROC(LoopSyncProc);
+                //int handle = .SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
+
+                // Need to get the main output current position and the data left in the buffer.
+                // Lock channel
+                m_mainChannel.Lock(true);
+                
+                // Get position
+                long position = m_mainChannel.GetPosition();
+                
+                int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
+                
+                m_mainChannel.Lock(false);                
+
+                // Since we're using floating point, divide values by 2
+                position /= 2;
+                buffered /= 2;
+
+                //if (position >= buffered) position -= buffered;
+
+                // Set position seeked
+                m_positionOffset = 0 - position - buffered;
+
                 // Check if this is the last item to play
                 if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
                 {
@@ -1734,7 +1796,7 @@ namespace MPfm.Player
         {
             // Set loop position
             Bass.BASS_ChannelSetPosition(channel, CurrentLoop.StartPositionBytes * 2);
-        }
+        }        
 
         #endregion
     }

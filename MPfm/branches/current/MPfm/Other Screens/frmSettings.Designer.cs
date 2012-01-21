@@ -229,7 +229,6 @@ namespace MPfm
             this.lblTest.Size = new System.Drawing.Size(254, 17);
             this.lblTest.TabIndex = 96;
             this.lblTest.Text = "Audio file directory for peak file generation:";
-            this.lblTest.Visible = false;
             // 
             // btnStopPeak
             // 
@@ -266,7 +265,6 @@ namespace MPfm
             this.btnStopPeak.Text = "Stop Peak";
             this.btnStopPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnStopPeak.UseVisualStyleBackColor = true;
-            this.btnStopPeak.Visible = false;
             this.btnStopPeak.Click += new System.EventHandler(this.btnStopPeak_Click);
             // 
             // btnTestPeak
@@ -304,7 +302,6 @@ namespace MPfm
             this.btnTestPeak.Text = "Test Peak";
             this.btnTestPeak.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnTestPeak.UseVisualStyleBackColor = true;
-            this.btnTestPeak.Visible = false;
             this.btnTestPeak.Click += new System.EventHandler(this.btnTestPeak_Click);
             // 
             // txtPath
@@ -315,7 +312,6 @@ namespace MPfm
             this.txtPath.Size = new System.Drawing.Size(251, 21);
             this.txtPath.TabIndex = 93;
             this.txtPath.Text = "E:\\Mp3\\Bob Marley\\Exodus\\";
-            this.txtPath.Visible = false;
             // 
             // lblHideTray
             // 

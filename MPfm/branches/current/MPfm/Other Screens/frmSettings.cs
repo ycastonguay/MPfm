@@ -1121,11 +1121,11 @@ namespace MPfm
 
                 //List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
 
-                m_updateLibrary = new UpdateLibrary(5, Main.Library.Gateway.DatabaseFilePath);
-                m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
-                m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
+                //m_updateLibrary = new UpdateLibrary(5, Main.Library.Gateway.DatabaseFilePath);
+                //m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
+                //m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
 
-                m_updateLibrary.ImportFolder(txtPath.Text);
+                //m_updateLibrary.ImportFolder(txtPath.Text);
             }
             catch (Exception ex)
             {

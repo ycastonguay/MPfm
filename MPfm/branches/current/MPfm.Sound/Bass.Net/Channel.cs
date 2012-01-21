@@ -467,6 +467,32 @@ namespace MPfm.Sound.BassNetWrapper
             return position;
         }
 
+        public long GetPositionWithBuffer()
+        {
+            Bass.BASS_ChannelLock(m_handle, true);
+            
+            // Get position
+            long position = Bass.BASS_ChannelGetPosition(m_handle);
+
+            int buffer = Bass.BASS_ChannelGetData(m_handle, IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
+
+            Bass.BASS_ChannelLock(m_handle, false);
+
+            if (position >= buffer)
+            {
+                position -= buffer;
+            }
+
+            // Check for floating point
+            if (m_isFloatingPoint)
+            {
+                // Convert 32-bit into 16-bit
+                position = position / 2;
+            }
+
+            return position;
+        }
+
         /// <summary>
         /// Sets the position of the channel/stream in bytes.
         /// </summary>
@@ -485,7 +511,21 @@ namespace MPfm.Sound.BassNetWrapper
             {
                 // Check for error
                 Base.CheckForError();
-            }
+            }            
+        }
+
+        /// <summary>
+        /// Locks or unlocks the position of the channel.
+        /// </summary>
+        /// <param name="state">If true, the position will be locked</param>
+        public void Lock(bool state)
+        {
+            // Set position
+            if (!Bass.BASS_ChannelLock(m_handle, state))
+            {
+                // Check for error
+                Base.CheckForError();
+            }    
         }
 
         #endregion

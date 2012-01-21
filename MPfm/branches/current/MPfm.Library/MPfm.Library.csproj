@@ -37,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Bass.Net, Version=2.4.8.0, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -82,6 +83,8 @@
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />
     <EmbeddedResource Include="Scripts\1.00-1.01.sql" />
     <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
+    <Content Include="Lib\AsyncCtpLibrary.dll" />
+    <Content Include="Lib\AsyncCtpLibrary.xml" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />

@@ -40,11 +40,15 @@ using System.Web;
 using System.Web.Services.Protocols;
 using System.Windows.Forms;
 using MPfm.Core;
+using MPfm.Library;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
 using MPfm.Library;
 using MPfm.Player;
+using System.Threading.Tasks;
+using System.Reactive.Concurrency;
+using System.Threading;
 
 namespace MPfm
 {
@@ -323,6 +327,7 @@ namespace MPfm
                 // Create player
                 Tracing.Log("Main form init -- Loading player...");
                 frmSplash.SetStatus("Loading player...");
+
                 m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
                 m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
                 m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
@@ -895,7 +900,7 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         private void timerUpdateOutputMeter_Tick(object sender, EventArgs e)
-        {
+        {            
             // Check for valid objects
             if (m_player == null || !m_player.IsPlaying ||
                 m_player.Playlist == null || m_player.Playlist.CurrentItem == null || m_player.Playlist.CurrentItem.Channel == null)
@@ -974,7 +979,7 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         public void m_timerSongPosition_Tick(object sender, EventArgs e)
-        {
+        {            
             // Check for valid objects
             if (m_player == null || !m_player.IsPlaying ||
                 m_player.Playlist == null || m_player.Playlist.CurrentItem == null || m_player.Playlist.CurrentItem.Channel == null)
@@ -986,7 +991,9 @@ namespace MPfm
             {
                 // Get position
                 //long positionBytes = m_player.Playlist.CurrentItem.Channel.GetPosition();
+                //long positionBytes = m_player.GetPosition();
                 long positionBytes = m_player.GetPosition();
+                
 
                 // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
                 float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
@@ -1218,7 +1225,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
-        private void miFileAddFolder_Click(object sender, EventArgs e)
+        private async void miFileAddFolder_Click(object sender, EventArgs e)
         {
             // Display dialog
             if (dialogAddFolder.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
@@ -1227,9 +1234,15 @@ namespace MPfm
                 return;
             }
 
-            // Update the library using the specified folder            
-            formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
-            formUpdateLibraryStatus.ShowDialog(this);
+            timerUpdateLibrary.Start();
+
+            new Thread(delegate()
+            {
+                
+                List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
+                updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
+                Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
+            }).Start();
         }
 
         /// <summary>
@@ -3198,15 +3211,67 @@ namespace MPfm
             miTreeLibraryDeletePlaylist.Tag = metadata;
         }
 
+        private UpdateLibrary updateLibrary = null;
+
         /// <summary>
         /// Displays the Update Library Status window and updates the library
         /// using the mode passed in parameter.
         /// </summary>
-        public void UpdateLibrary()
+        public async void UpdateLibrary()
         {
-            // Create window and display as dialog
-            formUpdateLibraryStatus = new frmUpdateLibraryStatus(this);
-            formUpdateLibraryStatus.ShowDialog(this);           
+            //timerUpdateLibrary.Start();
+
+            //new Thread(delegate()
+            //    {
+                    
+            //        stupidcounter = 0;
+            //        List<string> filePaths = AudioTools.SearchAudioFilesRecursive(@"E:\MP3\", "MP3;FLAC;OGG");
+            //        stupidcount = filePaths.Count;
+            //        updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);
+            //        updateLibrary.OnProcessData += new MPfm.Library.UpdateLibrary.ProcessData(updateLibrary_OnProcessData);
+            //        Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
+            //    }).Start();
+
+            //timerUpdateLibrary.Stop();
+            
+
+            //// Create window and display as dialog
+            //formUpdateLibraryStatus = new frmUpdateLibraryStatus(this);
+            //formUpdateLibraryStatus.ShowDialog(this);           
+        }
+        //private int stupidcounter = 0;
+        //private int stupidcount = 0;
+        //void updateLibrary_OnProcessData(Library.UpdateLibraryProgressData data)
+        //{
+        //    //stupidcounter++;
+        //    ////lblBitrateTitle.Text = data.PercentageDone.ToString();
+        //    //lblStatus.Text = "Updating " + data.FilePath + "...";
+        //    ////progressStatus.Value = (int)data.PercentageDone;
+        //    //progressStatus.Value = stupidcounter;
+        //}
+
+        
+        private void timerUpdateLibrary_Tick(object sender, EventArgs e)
+        {
+            if (updateLibrary == null)
+            {
+                return;
+            }
+
+            // Update progress
+            progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
+            lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
+            //lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
+
+            // Check if process is done
+            if (updateLibrary.PercentageDone == 100)
+            {
+                // Stop timer
+                timerUpdateLibrary.Stop();
+
+                // Display a list of files that could not be added to the library
+                MessageBox.Show("DONE");
+            }
         }
 
         /// <summary>
