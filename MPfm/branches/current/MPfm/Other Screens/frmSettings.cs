@@ -53,10 +53,7 @@ namespace MPfm
         private List<Device> m_devicesDirectSound = null;
         private List<Device> m_devicesASIO = null;
         private List<Device> m_devicesWASAPI = null;        
-        
-        private PeakFile m_peakFile = null;
-        private UpdateLibrary m_updateLibrary = null;
-        
+                
         private frmMain m_main = null;
         /// <summary>
         /// Hook to the main form.
@@ -87,6 +84,8 @@ namespace MPfm
             //m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
             //m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
         }
+
+        #region Form Events
 
         /// <summary>
         /// Occurs when the form has loaded.
@@ -140,90 +139,6 @@ namespace MPfm
                 }
             }
         }
-
-        protected void m_importAudioFiles_OnProcessData(UpdateLibraryProgressData data)
-        {
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                if (data.Exception != null)
-                {
-                    MessageBox.Show(data.FilePath + "\n" + data.Exception.Message + "\n" + data.Exception.InnerException.StackTrace);
-                }
-                else
-                {
-                    //lblOutputDriver.Text = data.PercentageDone.ToString();
-                    //lblDriver.Text = data.AudioFile.FilePath;
-                    lblTest.Text = data.PercentageDone.ToString("0.00") + " %";
-                }
-            };
-
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }
-        }
-
-        protected void m_importAudioFiles_OnProcessDone(UpdateLibraryDoneData data)
-        {
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                // Refresh everything
-                lblOutputDriver.Text = "DONE";
-                Main.Library.RefreshCache();
-                Main.RefreshAll();
-            };
-
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }
-
-        }
-
-        protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
-        {
-            
-        }
-
-        protected void m_peakFile_OnProcessData(PeakFileProgressData data)
-        {
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
-            {
-                lblOutputDriver.Text = data.PercentageDone.ToString();
-                lblDriver.Text = data.AudioFilePath;
-                lblTest.Text = data.ThreadNumber.ToString();
-            };
-
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
-            }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }            
-        }
-
-        protected void m_peakFile_OnProcessDone(PeakFileDoneData data)
-        {
-            MessageBox.Show("DONE!!!!!");
-        }
-
-        #region Form Events
 
         /// <summary>
         /// Occurs when the form becomes visible (each time the user presses on the
@@ -471,6 +386,22 @@ namespace MPfm
             txtMixerSampleRate.Value = Main.Config.Audio.Mixer.Frequency;
             txtBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
             txtUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
+            trackBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
+            trackUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
+
+            // Check sample rate
+            if (Main.Config.Audio.Mixer.Frequency == 44100)
+            {
+                radio44100Hz.Checked = true;
+            }
+            else if (Main.Config.Audio.Mixer.Frequency == 48000)
+            {
+                radio48000Hz.Checked = true;
+            }
+            else if (Main.Config.Audio.Mixer.Frequency == 96000)
+            {
+                radio96000Hz.Checked = true;
+            }
 
             // Check driver
             if (Main.Config.Audio.DriverType == DriverType.DirectSound)
@@ -1098,58 +1029,6 @@ namespace MPfm
             testSuccessful = false;
         }
 
-        private void btnTestPeak_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //string peakFileDirectory = @"D:\_peak\";
-
-                //List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
-
-                //Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                //foreach (string filePath in filePaths)
-                //{
-                //    // Extract file name from path
-                //    //string fileName = Path.GetFileName(filePath);
-                //    string peakFilePath = peakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
-
-                //    // Add dictionary value
-                //    dictionary.Add(filePath, peakFilePath);
-                //}
-
-                //m_peakFile.GeneratePeakFiles(dictionary);
-
-                //List<string> filePaths = AudioTools.SearchAudioFilesRecursive(txtPath.Text, "MP3;FLAC;OGG");
-
-                //m_updateLibrary = new UpdateLibrary(5, Main.Library.Gateway.DatabaseFilePath);
-                //m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
-                //m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
-
-                //m_updateLibrary.ImportFolder(txtPath.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-            }
-        }
-
-        private void btnStopPeak_Click(object sender, EventArgs e)
-        {
-            //m_peakFile.ReadPeakFile(@"D:\_peak\01 Natural Mystic_mp3.mpfmPeak");
-            //m_peakFile.ReadPeakFile(@"D:\_peak\03 Guiltiness_mp3.mpfmPeak");            
-            //m_peakFile.ReadPeakFile(@"D:\_peak\E__Mp3_Bob Marley_Exodus_05 Exodus_mp3.mpfmPeak");
-
-            try
-            {
-                //m_peakFile.Cancel();
-                m_updateLibrary.Cancel();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-            }
-        }
-
         /// <summary>
         /// Occurs when the user changes a property in the Theme property grid.
         /// </summary>
@@ -1243,6 +1122,79 @@ namespace MPfm
             // Refresh controls
             previewOutputMeter.Refresh();
             previewSongGridView.Refresh();
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the update period value using the track bar.
+        /// </summary>
+        private void trackUpdatePeriod_OnTrackBarValueChanged()
+        {
+            // Set value
+            txtUpdatePeriod.Value = trackUpdatePeriod.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the buffer size value using the track bar.
+        /// </summary>
+        private void trackBufferSize_OnTrackBarValueChanged()
+        {
+            // Set value
+            txtBufferSize.Value = trackBufferSize.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the 44100Hz label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lbl44100Hz_Click(object sender, EventArgs e)
+        {
+            radio44100Hz.Checked = true;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the 48000Hz label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lbl48000Hz_Click(object sender, EventArgs e)
+        {
+            radio48000Hz.Checked = true;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the 96000Hz label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lbl96000Hz_Click(object sender, EventArgs e)
+        {
+            radio96000Hz.Checked = true;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on one of the sample rate radio buttons.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void radio44100Hz_CheckedChanged(object sender, EventArgs e)
+        {
+            // Check which radio button is checked
+            if (radio44100Hz.Checked)
+            {
+                // Set value
+                txtMixerSampleRate.Value = 44100;
+            }
+            else if (radio48000Hz.Checked)
+            {
+                // Set value
+                txtMixerSampleRate.Value = 48000;
+            }
+            else if (radio96000Hz.Checked)
+            {
+                // Set value
+                txtMixerSampleRate.Value = 96000;
+            }
         }
 
     }
