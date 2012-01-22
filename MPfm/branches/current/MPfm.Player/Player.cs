@@ -1287,8 +1287,14 @@ namespace MPfm.Player
         /// <param name="marker">Marker position</param>
         public void GoToMarker(Marker marker)
         {
+            // Empty buffer
+            m_mainChannel.SetPosition(0);
+
             // Set current song position
             Playlist.CurrentItem.Channel.SetPosition(marker.PositionBytes);
+
+            // Set offset
+            m_positionOffset = marker.PositionBytes;
         }
 
         /// <summary>
@@ -1304,9 +1310,15 @@ namespace MPfm.Player
                 Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
                 Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
 
+                // Empty buffer
+                m_mainChannel.SetPosition(0);
+
                 // Set current song position to marker A
                 Tracing.Log("Player.StartLoop -- Setting start position...");
                 Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
+
+                // Set offset
+                m_positionOffset = loop.StartPositionBytes;
 
                 // Set current loop
                 m_currentLoop = loop;
@@ -1333,6 +1345,12 @@ namespace MPfm.Player
                 // Remove sync proc
                 Tracing.Log("Player.StopLoop -- Removing sync...");
                 Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
+
+                // Clear the audio buffer                
+                m_mainChannel.SetPosition(0);
+                m_mainChannel.Lock(true);
+                m_positionOffset = m_playlist.CurrentItem.Channel.GetPosition();
+                m_mainChannel.Lock(false);
             }
             catch (Exception ex)
             {
@@ -1794,6 +1812,15 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
+            // Increment position offset
+            //m_positionOffset -= CurrentLoop.LengthBytes;
+
+            // Empty audio buffer
+            m_mainChannel.SetPosition(0);
+
+            m_positionOffset = CurrentLoop.StartPositionBytes;
+
+
             // Set loop position
             Bass.BASS_ChannelSetPosition(channel, CurrentLoop.StartPositionBytes * 2);
         }        

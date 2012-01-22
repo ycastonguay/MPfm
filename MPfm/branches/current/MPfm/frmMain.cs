@@ -3681,7 +3681,7 @@ namespace MPfm
             if (viewLoops.SelectedItems.Count == 0)
             {
                 return;
-            }
+            }            
 
             // Get selected loopId
             Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
@@ -3791,6 +3791,12 @@ namespace MPfm
         {
             // Check if an item is selected
             if (viewLoops.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            // Check if the player is already playing a loop
+            if (Player.CurrentLoop != null)
             {
                 return;
             }
