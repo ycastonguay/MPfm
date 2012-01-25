@@ -883,42 +883,40 @@ namespace MPfm.WindowsControls
         /// <param name="data">Peak file progress data</param>
         protected void m_peakFile_OnProcessData(PeakFileProgressData data)
         {
-            // Invoke UI updates
-            MethodInvoker methodUIUpdate = delegate
+            //// Invoke UI updates
+            //MethodInvoker methodUIUpdate = delegate
+            //{
+
+
+            // Collection is being modified, so we can't iterate through it.
+            // So do a while loop instead
+            List<WaveDataMinMax> minMaxs = data.MinMax;
+            while (true)
             {
-                // Add min/max data to history
-                //WaveDataHistory.AddRange(data.MinMax);
-
-                // Collection is being modified, so we can't iterate through it.
-                List<WaveDataMinMax> minMaxs = data.MinMax;
-
-                while (true)
+                if (minMaxs.Count == 0)
                 {
-                    if (minMaxs.Count == 0)
-                    {
-                        break;
-                    }
-
-                    WaveDataHistory.Add(minMaxs[0]);
-                    minMaxs.RemoveAt(0);
+                    break;
                 }
 
-                // Set percentage done
-                m_percentageDone = data.PercentageDone;
-
-                // Refresh control
-                //Refresh();
-            };
-
-            // Check if invoking is necessary
-            if (InvokeRequired)
-            {
-                BeginInvoke(methodUIUpdate);
+                WaveDataHistory.Add(minMaxs[0]);
+                minMaxs.RemoveAt(0);
             }
-            else
-            {
-                methodUIUpdate.Invoke();
-            }
+
+            // Set percentage done
+            m_percentageDone = data.PercentageDone;
+
+
+            //};
+
+            //// Check if invoking is necessary
+            //if (InvokeRequired)
+            //{
+            //    BeginInvoke(methodUIUpdate);
+            //}
+            //else
+            //{
+            //    methodUIUpdate.Invoke();
+            //}
         }
 
         /// <summary>
@@ -998,13 +996,19 @@ namespace MPfm.WindowsControls
                 readFile = true;
             }
 
+            // Set flags
+            m_isLoading = true;
+
             try
             {
                 // Do we have to read the peak file?
                 if (readFile)
-                {
+                {                    
                     // Load peaks from file
                     m_waveDataHistory = m_peakFile.ReadPeakFile(peakFilePath);
+
+                    // Set flags
+                    m_isLoading = false;
 
                     // Refresh control
                     needToRefreshBitmapCache = true;
@@ -1025,15 +1029,13 @@ namespace MPfm.WindowsControls
                 throw ex;
             }
 
-            // Set flags
-            m_isLoading = true;
-
             // Reset zoom
             m_zoom = 100;
 
-            // Generate peak file and start timer for updating progress
-            m_peakFile.GeneratePeakFile(filePath, peakFilePath);
             m_timerLoadPeakFile.Start();
+
+            // Generate peak file and start timer for updating progress
+            m_peakFile.GeneratePeakFile(filePath, peakFilePath);            
         }
 
         /// <summary>

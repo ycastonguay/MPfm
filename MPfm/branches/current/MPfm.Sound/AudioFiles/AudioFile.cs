@@ -675,29 +675,36 @@ namespace MPfm.Sound
 			}
             else if (m_fileType == AudioFileFormat.FLAC)
 			{
-				// Read VorbisComment in FLAC file
-				TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
+                try
+                {
+                    // Read VorbisComment in FLAC file
+                    TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
 
-				// Get the position of the first and last block
-				m_firstBlockPosition = file.InvariantStartPosition;
-				m_lastBlockPosition = file.InvariantEndPosition;
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
 
-				// Copy tags
-                FillProperties(file.Tag);
+                    // Copy tags
+                    FillProperties(file.Tag);
 
-				// Loop through codecs (usually just one)
-				foreach (TagLib.ICodec codec in file.Properties.Codecs)
-				{
-					// Convert codec into a header 
-					TagLib.Flac.StreamHeader header = (TagLib.Flac.StreamHeader)codec;
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Convert codec into a header 
+                        TagLib.Flac.StreamHeader header = (TagLib.Flac.StreamHeader)codec;
 
-					// Copy properties
-					m_bitrate = header.AudioBitrate;
-					m_audioChannels = header.AudioChannels;
-					m_sampleRate = header.AudioSampleRate;
-					m_bitsPerSample = header.BitsPerSample;
-                    m_length = Conversion.TimeSpanToTimeString(header.Duration);
-				}
+                        // Copy properties
+                        m_bitrate = header.AudioBitrate;
+                        m_audioChannels = header.AudioChannels;
+                        m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = header.BitsPerSample;
+                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
 			}
             else if (m_fileType == AudioFileFormat.OGG)
 			{

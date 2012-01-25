@@ -462,6 +462,9 @@ namespace MPfm
 
                 Tracing.Log("Main form init -- Loading UI - Visualizer...");
                 formVisualizer = new frmVisualizer(this);
+
+                // Hide update library progress by default
+                ShowUpdateLibraryProgress(false);
             }
             catch (Exception ex)
             {
@@ -512,6 +515,7 @@ namespace MPfm
 
                 // Populate the supported formats
                 comboSoundFormat.Items.Clear();
+                comboSoundFormat.Items.Add("All");
                 comboSoundFormat.Items.Add("MP3");
                 comboSoundFormat.Items.Add("FLAC");
                 comboSoundFormat.Items.Add("OGG");
@@ -990,10 +994,7 @@ namespace MPfm
             try
             {
                 // Get position
-                //long positionBytes = m_player.Playlist.CurrentItem.Channel.GetPosition();
-                //long positionBytes = m_player.GetPosition();
-                long positionBytes = m_player.GetPosition();
-                
+                long positionBytes = m_player.GetPosition();                
 
                 // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
                 float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
@@ -1002,7 +1003,7 @@ namespace MPfm
                 //string position = ConvertAudio.ToTimeString(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)m_player.Playlist.CurrentItem.Channel.SampleRate);
                 //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
                 long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-                long positionMS = (int)ConvertAudio.ToMS(positionSamples, 44100);
+                long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)m_player.Playlist.CurrentItem.AudioFile.SampleRate);
                 string position = Conversion.MillisecondsToTimeString((ulong)positionMS);
                 //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
 
@@ -1010,9 +1011,12 @@ namespace MPfm
                 lblCurrentPosition.Text = position;
                 miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
                 lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
-                //waveFormMarkersLoops.Position = positionBytes;
-                //waveFormMarkersLoops.PositionTime = position;
-                waveFormMarkersLoops.SetPosition(positionBytes, position);
+
+                // Set position in the wave form display
+                if (!waveFormMarkersLoops.IsLoading)
+                {                    
+                    waveFormMarkersLoops.SetPosition(positionBytes, position);
+                }
 
                 // Update the song position
                 if (!songPositionChanging)
@@ -1234,15 +1238,23 @@ namespace MPfm
                 return;
             }
 
-            timerUpdateLibrary.Start();
+            // Update the library using the specified folder            
+            formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
+            formUpdateLibraryStatus.ShowDialog(this);
 
-            new Thread(delegate()
-            {
-                
-                List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
-                updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
-                Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
-            }).Start();
+            // Show panel
+            //ShowUpdateLibraryProgress(true);
+
+            //// Start update timer to display progress
+            //timerUpdateLibrary.Start();
+
+            //// Start new thread
+            //new Thread(delegate()
+            //{                
+            //    List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
+            //    updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
+            //    Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
+            //}).Start();
         }
 
         /// <summary>
@@ -1393,7 +1405,7 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         private void miHelpReportBug_Click(object sender, EventArgs e)
-        {
+        {            
             // Open website in default browser
             Process.Start("http://www.mp4m.org/mantis");
         }
@@ -1783,22 +1795,6 @@ namespace MPfm
             {
                 audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
             }
-            else if (query.Type == SongQueryType.Playlist)
-            {
-                // Check if the playlistId is valid
-                if (query.PlaylistId == Guid.Empty)
-                {
-                    // UMMM... what if the files AREN'T in the library? what should be displayed in the song browser? 
-                    // maybe the songs should only be shown in the playlist window after all...
-                    // maybe add a combo box in the Playlist window with the list of playlists from the database? and recent ones (opened/saved)?
-
-                    // this could be a dropdown menu on the load playlist button? or a new button Load recent playlist... with drop down.
-                }
-                else
-                {
-                    //songs = Library.SelectAudioFiles(query.PlaylistId);
-                }                
-            }
             else if (query.Type == SongQueryType.All)
             {
                 audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
@@ -1808,26 +1804,7 @@ namespace MPfm
                 audioFiles = new List<AudioFile>();
             }
 
-            // Filter songs by media type
-            if (comboSoundFormat.Text.ToLower() == "mp3")
-            {
-                audioFiles = audioFiles.Where(x => x.FileType == AudioFileFormat.MP3).ToList();
-            }
-            else if (comboSoundFormat.Text.ToLower() == "flac")
-            {
-                audioFiles = audioFiles.Where(x => x.FileType == AudioFileFormat.FLAC).ToList();
-            }
-            else if (comboSoundFormat.Text.ToLower() == "ogg")
-            {
-                audioFiles = audioFiles.Where(x => x.FileType == AudioFileFormat.OGG).ToList();
-            }
-
-            // Clear view
-            //viewSongs.Items.Clear();
-            //viewSongs.Groups.Clear();
-
-            // Make sure the audio file list is valid
-            int a = 0;
+            // Make sure the audio file list is valid            
             if (audioFiles == null)
             {
                 return;
@@ -3211,68 +3188,53 @@ namespace MPfm
             miTreeLibraryDeletePlaylist.Tag = metadata;
         }
 
-        private UpdateLibrary updateLibrary = null;
+        //private UpdateLibrary updateLibrary = null;
 
         /// <summary>
         /// Displays the Update Library Status window and updates the library
         /// using the mode passed in parameter.
         /// </summary>
-        public async void UpdateLibrary()
+        public void UpdateLibrary()
         {
             //timerUpdateLibrary.Start();
 
             //new Thread(delegate()
             //    {
-                    
-            //        stupidcounter = 0;
             //        List<string> filePaths = AudioTools.SearchAudioFilesRecursive(@"E:\MP3\", "MP3;FLAC;OGG");
-            //        stupidcount = filePaths.Count;
             //        updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);
             //        updateLibrary.OnProcessData += new MPfm.Library.UpdateLibrary.ProcessData(updateLibrary_OnProcessData);
             //        Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
             //    }).Start();
 
-            //timerUpdateLibrary.Stop();
-            
+            //timerUpdateLibrary.Stop();            
 
-            //// Create window and display as dialog
-            //formUpdateLibraryStatus = new frmUpdateLibraryStatus(this);
-            //formUpdateLibraryStatus.ShowDialog(this);           
+            // Create window and display as dialog
+            formUpdateLibraryStatus = new frmUpdateLibraryStatus(this);
+            formUpdateLibraryStatus.ShowDialog(this);           
         }
-        //private int stupidcounter = 0;
-        //private int stupidcount = 0;
-        //void updateLibrary_OnProcessData(Library.UpdateLibraryProgressData data)
+
+        //private void timerUpdateLibrary_Tick(object sender, EventArgs e)
         //{
-        //    //stupidcounter++;
-        //    ////lblBitrateTitle.Text = data.PercentageDone.ToString();
-        //    //lblStatus.Text = "Updating " + data.FilePath + "...";
-        //    ////progressStatus.Value = (int)data.PercentageDone;
-        //    //progressStatus.Value = stupidcounter;
+        //    if (updateLibrary == null)
+        //    {
+        //        return;
+        //    }
+
+        //    // Update progress
+        //    progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
+        //    lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
+        //    //lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
+
+        //    // Check if process is done
+        //    if (updateLibrary.PercentageDone == 100)
+        //    {
+        //        // Stop timer
+        //        timerUpdateLibrary.Stop();
+
+        //        // Show panel
+        //        ShowUpdateLibraryProgress(false);
+        //    }
         //}
-
-        
-        private void timerUpdateLibrary_Tick(object sender, EventArgs e)
-        {
-            if (updateLibrary == null)
-            {
-                return;
-            }
-
-            // Update progress
-            progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
-            lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
-            //lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
-
-            // Check if process is done
-            if (updateLibrary.PercentageDone == 100)
-            {
-                // Stop timer
-                timerUpdateLibrary.Stop();
-
-                // Display a list of files that could not be added to the library
-                MessageBox.Show("DONE");
-            }
-        }
 
         /// <summary>
         /// Occurs when the user changes the sound format filter using the Sound Format combobox.
@@ -3847,6 +3809,26 @@ namespace MPfm
         {
             // Refresh browser
             RefreshSongBrowser();
+        }
+
+        public void ShowUpdateLibraryProgress(bool show)
+        {
+            if (show)
+            {
+                // The update library progress panel is 102 pixels high.
+                treeLibrary.Height -= 102;
+                panelUpdateLibraryProgress.Visible = true;
+            }
+            else
+            {
+                treeLibrary.Height += 102;
+                panelUpdateLibraryProgress.Visible = false;
+            }
+        }
+
+        private void btnCancelUpdateLibrary_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 

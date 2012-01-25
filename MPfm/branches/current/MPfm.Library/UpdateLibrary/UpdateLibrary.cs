@@ -158,7 +158,7 @@ namespace MPfm.Library
             // Todo: Split WHENALL in 50 files, and report only every 50 files. 
             // OR use the polling technique since 50 files in old hardware might take a lot longer than newer hardware.
 
-            int maxTasks = 50;
+            int maxTasks = 2;
             currentTaskIndex = 0;
             List<AudioFile> listAudioFiles = new List<AudioFile>();
 

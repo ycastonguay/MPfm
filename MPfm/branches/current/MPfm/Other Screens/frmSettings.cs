@@ -912,9 +912,11 @@ namespace MPfm
             }
 
             // Set default values
-            txtMixerSampleRate.Value = 44100;
-            txtBufferSize.Value = 100;
+            radio44100Hz.Checked = true;            
+            txtBufferSize.Value = 1000;
+            trackBufferSize.Value = 1000;
             txtUpdatePeriod.Value = 10;
+            trackUpdatePeriod.Value = 10;
         }
 
         #endregion

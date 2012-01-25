@@ -1080,7 +1080,7 @@ namespace MPfm.Library
                 {
                     // Set query
                     queryAudioFiles = from s in AudioFiles
-                                      orderby s.ArtistName, s.AlbumTitle, s.DiscNumber, s.TrackNumber
+                                      orderby s.ArtistName, s.AlbumTitle, s.FileType, s.DiscNumber, s.TrackNumber
                                       select s;
                 }
                 else
@@ -1133,9 +1133,13 @@ namespace MPfm.Library
                 }
 
                 // Check for audio file format filter
-                if (audioFileFormat != AudioFileFormat.All)
+                if (audioFileFormat == AudioFileFormat.All)
                 {
-                    // Set filter
+                    // 
+                }
+                else
+                {
+                    // Set filter by file type
                     queryAudioFiles = queryAudioFiles.Where(s => s.FileType == audioFileFormat);
                 }
 
