@@ -642,7 +642,8 @@
             // 
             // openFile
             // 
-            this.openFile.Filter = "Audio files (*.mp3, *.flac, *.ogg, *.wav)|*.mp3;*.flac;*.ogg;*.wav";
+            this.openFile.Filter = "Audio files (*.mp3, *.flac, *.ogg, *.wav, *.ape, *.wv, *.mpc)|*.mp3;*.flac;*.ogg;" +
+    "*.wav;*.wv;*.ape;*.mpc";
             this.openFile.Title = "Please select an audio file to play";
             // 
             // frmFirstRun

@@ -434,6 +434,27 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Indicates if a column is currently resizing.
+        /// </summary>
+        public bool IsColumnResizing
+        {
+            get
+            {
+                // Loop through columns
+                foreach (SongGridViewColumn column in m_columns)
+                {
+                    // Check if column is moving
+                    if (column.IsUserResizingColumn)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -538,19 +559,19 @@ namespace MPfm.WindowsControls
             m_columns.Add(columnSongNowPlaying);
             m_columns.Add(columnSongFileType);
             m_columns.Add(columnSongTrackNumber);
-            //m_columns.Add(columnSongTrackCount);
+            m_columns.Add(columnSongTrackCount);
             m_columns.Add(columnSongFilePath);
             m_columns.Add(columnSongTitle);
             m_columns.Add(columnSongLength);
             m_columns.Add(columnSongArtistName);
             m_columns.Add(columnSongAlbumTitle);
-            //m_columns.Add(columnSongGenre);
+            m_columns.Add(columnSongGenre);
             m_columns.Add(columnSongPlayCount);
             m_columns.Add(columnSongLastPlayed);
-            //m_columns.Add(columnSongBitrate);
-            //m_columns.Add(columnSongSampleRate);
-            //m_columns.Add(columnSongTempo);
-            //m_columns.Add(columnSongYear);
+            m_columns.Add(columnSongBitrate);
+            m_columns.Add(columnSongSampleRate);
+            m_columns.Add(columnSongTempo);
+            m_columns.Add(columnSongYear);
 
             // Create contextual menu
             m_menuColumns = new System.Windows.Forms.ContextMenuStrip();
@@ -1855,13 +1876,6 @@ namespace MPfm.WindowsControls
                     // Save the original column width
                     m_dragOriginalColumnWidth = column.Width;
                 }
-
-                //// Check for moving column
-                //if (column.IsMouseOverColumnHeader && column.CanBeMoved && CanMoveColumns)
-                //{
-                //    // Set resizing column flag
-                //    column.IsUserMovingColumn = true;
-                //}
             }
             
             // Check if the left mouse button is held
@@ -1891,71 +1905,90 @@ namespace MPfm.WindowsControls
                 return;
             }
 
-            // Check if the user is moving a column
-            if (IsColumnMoving)
+            // Loop through columns
+            SongGridViewColumn columnMoving = null;
+            foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
             {
-                // Loop through columns
+                // Reset flags
+                column.IsUserResizingColumn = false;
+
+                // Check if this column is moving
+                if(column.IsUserMovingColumn)
+                {
+                    // Set column
+                    columnMoving = column;
+                }
+            }
+
+            // Check if the user is moving a column
+            if (columnMoving != null)
+            {
+                // Set flag
+                columnMoving.IsUserMovingColumn = false;
+                updateControl = true;
+
+                // Find out on what column the mouse cursor is
+                SongGridViewColumn columnOver = null;
+                int x = 0;
                 foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
                 {
-                    // Reset flags
-                    column.IsUserResizingColumn = false;                    
-
-                    // Check if the user is moving the column
-                    if (column.IsUserMovingColumn)
+                    // Check if the column is visible
+                    if (column.Visible)
                     {
-                        // Set flag
-                        column.IsUserMovingColumn = false;
-                        updateControl = true;
-
-                        // Set new order
-                        int x = 0;
-                        bool incrementOrder = false;
-                        int increment = 0;
-                        for (int a = 0; a < m_columns.Count; a++) // Must include columns that are not visible in the count
+                        // Check if the cursor is over this column
+                        if (e.X >= x && e.X < x + column.Width)
                         {
-                            // Get current column
-                            SongGridViewColumn columnOver = m_songCache.ActiveColumns[a];
-
-                            // Check if the order needs to be incremented
-                            if (incrementOrder && column.FieldName != columnOver.FieldName)
-                            {
-                                // Increment order
-                                columnOver.Order = ++increment;
-                            }
-
-                            // Check if column is visible
-                            if (columnOver.Visible)
-                            {
-                                // Check if the cursor is over this column
-                                if (e.X >= x && e.X < x + columnOver.Width)
-                                {
-                                    // Make sure this isn't the current column
-                                    if (columnOver.FieldName == column.FieldName)
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        // This is the column before; this means all columns after this one need to be updated
-                                        incrementOrder = true;
-
-                                        // Set initial increment
-                                        increment = columnOver.Order;
-
-                                        // Set order of the column being moved                                    
-                                        column.Order = increment;
-                                        columnOver.Order = ++increment;
-
-                                        // Set order of the previous column
-                                    }
-                                }
-
-                                // Increment x
-                                x += columnOver.Width;
-                            }
+                            // Set column
+                            columnOver = column;
+                            break;
                         }
+
+                        // Increment x
+                        x += column.Width;
                     }
                 }
+
+                // Check if the column was found (the cursor might be past the last column
+                if (columnOver == null)
+                {
+                    return;
+                }
+
+                // Order columns by their current order
+                List<SongGridViewColumn> columnsOrdered = m_columns.OrderBy(q => q.Order).ToList();
+
+                // Move column
+                int indexRemove = -1;
+                int indexAdd = -1;
+                for (int a = 0; a < columnsOrdered.Count; a++)
+                {
+                    // Find the moving column index
+                    if (columnsOrdered[a].FieldName == columnMoving.FieldName)
+                    {
+                        // Set index
+                        indexRemove = a;
+                    }
+
+                    // Find the column index with the mouse over
+                    if(columnsOrdered[a].FieldName == columnOver.FieldName)
+                    {
+                        // Set index
+                        indexAdd = a;
+                    }
+                }
+
+                // Remove column
+                columnsOrdered.RemoveAt(indexRemove);
+
+                // Add column to the new position
+                columnsOrdered.Insert(indexAdd, columnMoving);                
+
+                // Loop through columns to change the order
+                for (int a = 0; a < columnsOrdered.Count; a++)
+                {
+                    // Set order
+                    columnsOrdered[a].Order = a;                
+                }                
             }
 
             // Check if the control needs to be updated
@@ -2343,7 +2376,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Check if the user is moving the column
-                if (column.IsMouseOverColumnHeader && column.CanBeMoved && CanMoveColumns && m_isUserHoldingLeftMouseButton)
+                if (column.IsMouseOverColumnHeader && column.CanBeMoved && CanMoveColumns && m_isUserHoldingLeftMouseButton && !IsColumnResizing)
                 {
                     // Check if the X position has changed by at least 2 pixels (i.e. dragging)
                     if (m_dragStartX >= e.X + 2 ||

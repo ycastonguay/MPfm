@@ -759,6 +759,7 @@ namespace MPfm
                     {
                         columnGrid.Visible = column.Visible;
                         columnGrid.Width = column.Width;
+                        columnGrid.Order = column.Order;
                     }
                 }
             }           
@@ -800,6 +801,7 @@ namespace MPfm
                     {
                         columnGrid.Visible = column.Visible;
                         columnGrid.Width = column.Width;
+                        columnGrid.Order = column.Order;
                     }
                 }
             }
