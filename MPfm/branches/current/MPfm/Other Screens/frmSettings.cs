@@ -167,6 +167,9 @@ namespace MPfm
             // Set default value
             cboDrivers.SelectedIndex = 0;
 
+            // Set general settings lavels
+            lblPeakFileDefaultDirectory.Text = "Use default directory (" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files\\)";
+
             // Refresh controls           
             RefreshFolders();
 
@@ -479,6 +482,9 @@ namespace MPfm
             chkShowTray.Checked = (showTray.HasValue) ? showTray.Value : false;
             chkHideTray.Checked = (hideTray.HasValue) ? hideTray.Value : false;
             chkHideTray.Enabled = chkShowTray.Enabled;
+
+            // Set control enable
+            SetGeneralSettingsControlEnable();
         }
 
         /// <summary>
@@ -930,18 +936,15 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void chkShowTray_CheckedChanged(object sender, EventArgs e)
         {
-            //settingsChanged = true;
-
-            // Enable checkboxes depending on value
-            if (chkShowTray.Checked)
+            // Check if the show tray is checked
+            if (!chkShowTray.Checked)
             {
-                chkHideTray.Enabled = true;
-            }
-            else
-            {
-                chkHideTray.Enabled = false;
+                // Reset check
                 chkHideTray.Checked = false;
             }
+
+            // Set check box enable
+            SetGeneralSettingsControlEnable();
 
             // Set tray icon visibility
             Main.notifyIcon.Visible = chkShowTray.Checked;
@@ -1199,6 +1202,166 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Occurs when the user clicks on one of peak file directory radio buttons.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void radioPeakFile_CheckedChanged(object sender, EventArgs e)
+        {
+            // Check which radio button is checked
+            if (radioPeakFileDefaultDirectory.Checked)
+            {
+                
+                
+            }
+            else if (radioPeakFileCustomDirectory.Checked)
+            {
+
+            }
+
+            // Enable/disable controls
+            txtPeakFileCustomDirectory.Enabled = radioPeakFileCustomDirectory.Checked;
+            btnPeakFileCustomDirectoryBrowse.Enabled = radioPeakFileCustomDirectory.Checked;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Default Directory label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblPeakFileDefaultDirectory_Click(object sender, EventArgs e)
+        {
+            radioPeakFileDefaultDirectory.Checked = true;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Custom Directory label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblPeakFileCustomDirectory_Click(object sender, EventArgs e)
+        {
+            radioPeakFileCustomDirectory.Checked = true;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Browse (Peak File Custom Directory) button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnPeakFileCustomDirectoryBrowse_Click(object sender, EventArgs e)
+        {
+            // Display dialog
+            if (dialogBrowsePeakFileDirectory.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // Set text box value
+                txtPeakFileCustomDirectory.Text = dialogBrowsePeakFileDirectory.SelectedPath;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Use Maximum label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblPeakFileUseMaximum_Click(object sender, EventArgs e)
+        {
+            chkPeakFileUseMaximum.Checked = !chkPeakFileUseMaximum.Checked;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Display Warning label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblPeakFileDisplayWarning_Click(object sender, EventArgs e)
+        {
+            chkPeakFileDisplayWarning.Checked = !chkPeakFileDisplayWarning.Checked;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Delete Older Peak Files label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblPeakFileDelete_Click(object sender, EventArgs e)
+        {
+            chkPeakFileDelete.Checked = !chkPeakFileDelete.Checked;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Use Maximum check box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkPeakFileUseMaximum_CheckedChanged(object sender, EventArgs e)
+        {
+            // Enable/disable controls
+            SetGeneralSettingsControlEnable();
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Display Warning check box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkPeakFileDisplayWarning_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Peak File Delete Older Peak Files check box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkPeakFileDelete_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Enables/disables controls in General Settings tab depending on the configuration values.
+        /// </summary>
+        private void SetGeneralSettingsControlEnable()
+        {
+            // Enable checkboxes depending on value
+            chkHideTray.Enabled = chkShowTray.Checked;
+
+            // Check if the show tray is checked
+            if (chkShowTray.Checked)
+            {
+                // Set label color
+                lblHideTray.ForeColor = Color.Black;
+            }
+            else
+            {
+                // Set label color
+                lblHideTray.ForeColor = Color.FromArgb(80, 80, 80);
+            }
+
+            // Enable checkboxes depending on value
+            chkPeakFileDisplayWarning.Enabled = chkPeakFileUseMaximum.Checked;
+            chkPeakFileDelete.Enabled = chkPeakFileUseMaximum.Checked;
+            txtPeakFileMaximumSize.Enabled = chkPeakFileUseMaximum.Checked;
+
+            // Check if the show tray is checked
+            if (chkPeakFileUseMaximum.Checked)
+            {
+                // Set label color
+                lblPeakFileDisplayWarning.ForeColor = Color.Black;
+                lblPeakFileDelete.ForeColor = Color.Black;
+                lblPeakFileMaximumSizeUnit.ForeColor = Color.Black;
+            }
+            else
+            {
+                // Set label color
+                lblPeakFileDisplayWarning.ForeColor = Color.FromArgb(80, 80, 80);
+                lblPeakFileDelete.ForeColor = Color.FromArgb(80, 80, 80);
+                lblPeakFileMaximumSizeUnit.ForeColor = Color.FromArgb(80, 80, 80);
+            }
+        }
     }
 
     /// <summary>
