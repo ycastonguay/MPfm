@@ -207,6 +207,13 @@ namespace MPfm
             // Variables
             bool saveSettings = false;
 
+            // Save general settings
+            if (!SaveGeneralConfig())
+            {
+                // Cancel
+                return;
+            }            
+
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
@@ -479,22 +486,54 @@ namespace MPfm
             // Load tray options
             bool? hideTray = Main.Config.GetKeyValueGeneric<bool>("HideTray");
             bool? showTray = Main.Config.GetKeyValueGeneric<bool>("ShowTray");
+            
             chkShowTray.Checked = (showTray.HasValue) ? showTray.Value : false;
             chkHideTray.Checked = (hideTray.HasValue) ? hideTray.Value : false;
             chkHideTray.Enabled = chkShowTray.Enabled;
 
+            // Load peak file options
+            bool? peakFileUseCustomDirectory = Main.Config.GetKeyValueGeneric<bool>("PeakFile_UseCustomDirectory");            
+            bool? peakFileDisplayWarning = Main.Config.GetKeyValueGeneric<bool>("PeakFile_DisplayWarning");            
+            int? peakFileDisplayWarningThreshold = Main.Config.GetKeyValueGeneric<int>("PeakFile_DisplayWarningThreshold");
+            string peakFileCustomDirectory = Main.Config.GetKeyValue("PeakFile_CustomDirectory");
+
+            radioPeakFileCustomDirectory.Checked = (peakFileUseCustomDirectory.HasValue) ? peakFileUseCustomDirectory.Value : false;            
+            chkPeakFileDisplayWarning.Checked = (peakFileDisplayWarning.HasValue) ? peakFileDisplayWarning.Value : false;            
+            txtPeakFileDisplayWarningThreshold.Value = (peakFileDisplayWarningThreshold.HasValue) ? peakFileDisplayWarningThreshold.Value : 1000;
+            txtPeakFileCustomDirectory.Text = peakFileCustomDirectory;
+
             // Set control enable
-            SetGeneralSettingsControlEnable();
+            EnableGeneralSettingsControls();
         }
 
         /// <summary>
         /// Saves the general settings to the configuration file.
         /// </summary>
-        private void SaveGeneralConfig()
+        /// <returns>Indicates if the save was successful</returns>
+        private bool SaveGeneralConfig()
         {
-            // Save configuration values
+            // Validate peak file directory if custom
+            if (radioPeakFileCustomDirectory.Checked)
+            {
+                // Validate directory existence
+                if (!Directory.Exists(txtPeakFileCustomDirectory.Text))
+                {
+                    MessageBox.Show("Error: The custom peak file directory does not exist.\nPlease select the default peak file directory or use the Browse button to create a custom directory.", "Peak file directory does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            // Save tray options
             Main.Config.SetKeyValue<bool>("HideTray", chkHideTray.Checked);
             Main.Config.SetKeyValue<bool>("ShowTray", chkShowTray.Checked);
+
+            // Save peak file options
+            Main.Config.SetKeyValue<bool>("PeakFile_UseCustomDirectory", radioPeakFileCustomDirectory.Checked);
+            Main.Config.SetKeyValue("PeakFile_CustomDirectory", txtPeakFileCustomDirectory.Text);
+            Main.Config.SetKeyValue<bool>("PeakFile_DisplayWarning", chkPeakFileDisplayWarning.Checked);
+            Main.Config.SetKeyValue<int>("PeakFile_DisplayWarningThreshold", (int)txtPeakFileDisplayWarningThreshold.Value);
+
+            return true;
         }
 
         #endregion
@@ -944,26 +983,10 @@ namespace MPfm
             }
 
             // Set check box enable
-            SetGeneralSettingsControlEnable();
+            EnableGeneralSettingsControls();
 
             // Set tray icon visibility
             Main.notifyIcon.Visible = chkShowTray.Checked;
-
-            // Save settings
-            SaveGeneralConfig();
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Hide tray" check box.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void chkHideTray_CheckedChanged(object sender, EventArgs e)
-        {
-            //settingsChanged = true;
-
-            // Save settings
-            SaveGeneralConfig();
         }
 
         #endregion
@@ -1267,27 +1290,7 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void lblPeakFileUseMaximum_Click(object sender, EventArgs e)
         {
-            chkPeakFileUseMaximum.Checked = !chkPeakFileUseMaximum.Checked;
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Peak File Display Warning label.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void lblPeakFileDisplayWarning_Click(object sender, EventArgs e)
-        {
             chkPeakFileDisplayWarning.Checked = !chkPeakFileDisplayWarning.Checked;
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Peak File Delete Older Peak Files label.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void lblPeakFileDelete_Click(object sender, EventArgs e)
-        {
-            chkPeakFileDelete.Checked = !chkPeakFileDelete.Checked;
         }
 
         /// <summary>
@@ -1298,33 +1301,13 @@ namespace MPfm
         private void chkPeakFileUseMaximum_CheckedChanged(object sender, EventArgs e)
         {
             // Enable/disable controls
-            SetGeneralSettingsControlEnable();
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Peak File Display Warning check box.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void chkPeakFileDisplayWarning_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Peak File Delete Older Peak Files check box.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void chkPeakFileDelete_CheckedChanged(object sender, EventArgs e)
-        {
-
+            EnableGeneralSettingsControls();
         }
 
         /// <summary>
         /// Enables/disables controls in General Settings tab depending on the configuration values.
         /// </summary>
-        private void SetGeneralSettingsControlEnable()
+        private void EnableGeneralSettingsControls()
         {
             // Enable checkboxes depending on value
             chkHideTray.Enabled = chkShowTray.Checked;
@@ -1342,24 +1325,18 @@ namespace MPfm
             }
 
             // Enable checkboxes depending on value
-            chkPeakFileDisplayWarning.Enabled = chkPeakFileUseMaximum.Checked;
-            chkPeakFileDelete.Enabled = chkPeakFileUseMaximum.Checked;
-            txtPeakFileMaximumSize.Enabled = chkPeakFileUseMaximum.Checked;
+            txtPeakFileDisplayWarningThreshold.Enabled = chkPeakFileDisplayWarning.Checked;
 
-            // Check if the show tray is checked
-            if (chkPeakFileUseMaximum.Checked)
+            // Check check box value
+            if (chkPeakFileDisplayWarning.Checked)
             {
-                // Set label color
-                lblPeakFileDisplayWarning.ForeColor = Color.Black;
-                lblPeakFileDelete.ForeColor = Color.Black;
-                lblPeakFileMaximumSizeUnit.ForeColor = Color.Black;
+                // Set label color                
+                lblPeakFileDisplayWarningUnit.ForeColor = Color.Black;
             }
             else
             {
-                // Set label color
-                lblPeakFileDisplayWarning.ForeColor = Color.FromArgb(80, 80, 80);
-                lblPeakFileDelete.ForeColor = Color.FromArgb(80, 80, 80);
-                lblPeakFileMaximumSizeUnit.ForeColor = Color.FromArgb(80, 80, 80);
+                // Set label color                
+                lblPeakFileDisplayWarningUnit.ForeColor = Color.FromArgb(80, 80, 80);
             }
         }
     }
