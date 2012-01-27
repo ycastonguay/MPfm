@@ -69,6 +69,7 @@ namespace MPfm.WindowsControls
         private List<SongGridViewImageCache> m_imageCache = new List<SongGridViewImageCache>();        
 
         // Private variables used for mouse events
+        private int m_columnMoveMarkerX = 0;        
         public int m_startLineNumber = 0;
         public int m_numberOfLinesToDraw = 0;
         private int m_minimumColumnWidth = 30;
@@ -1929,30 +1930,45 @@ namespace MPfm.WindowsControls
 
                 // Find out on what column the mouse cursor is
                 SongGridViewColumn columnOver = null;
-                int x = 0;
-                foreach (SongGridViewColumn column in m_songCache.ActiveColumns)
+                int x = 0;                
+                for (int a = 0; a < m_songCache.ActiveColumns.Count; a++ )
                 {
+                    // Set current column
+                    SongGridViewColumn currentColumn = m_songCache.ActiveColumns[a];
+
                     // Check if the column is visible
-                    if (column.Visible)
+                    if (currentColumn.Visible)
                     {
-                        // Check if the cursor is over this column
-                        if (e.X >= x && e.X < x + column.Width)
+                        // Check if the cursor is over the left part of the column
+                        if (e.X >= x - m_hScrollBar.Value && e.X <= x + (currentColumn.Width / 2) - m_hScrollBar.Value)
                         {
                             // Set column
-                            columnOver = column;
+                            columnOver = currentColumn;
+                            break;
+                        }
+                        // Check if the cursor is over the right part of the column
+                        else if (e.X >= x + (currentColumn.Width / 2) - m_hScrollBar.Value && e.X <= x + currentColumn.Width - m_hScrollBar.Value)
+                        {
+                            // Check if there is a next item
+                            if (a < m_songCache.ActiveColumns.Count - 1)
+                            {
+                                // Set column
+                                columnOver = m_songCache.ActiveColumns[a + 1];
+                            }
+
                             break;
                         }
 
                         // Increment x
-                        x += column.Width;
+                        x += currentColumn.Width;
                     }
                 }
 
-                // Check if the column was found (the cursor might be past the last column
-                if (columnOver == null)
-                {
-                    return;
-                }
+                //// Check if the column was found (the cursor might be past the last column
+                //if (columnOver == null)
+                //{
+                //    return;
+                //}
 
                 // Order columns by their current order
                 List<SongGridViewColumn> columnsOrdered = m_columns.OrderBy(q => q.Order).ToList();
@@ -1970,7 +1986,7 @@ namespace MPfm.WindowsControls
                     }
 
                     // Find the column index with the mouse over
-                    if(columnsOrdered[a].FieldName == columnOver.FieldName)
+                    if(columnOver != null && columnsOrdered[a].FieldName == columnOver.FieldName)
                     {
                         // Set index
                         indexAdd = a;
@@ -1979,9 +1995,18 @@ namespace MPfm.WindowsControls
 
                 // Remove column
                 columnsOrdered.RemoveAt(indexRemove);
-
-                // Add column to the new position
-                columnsOrdered.Insert(indexAdd, columnMoving);                
+                
+                // Check if the index is -1 
+                if (indexAdd == -1)
+                {
+                    // Add column to the end
+                    columnsOrdered.Insert(columnsOrdered.Count, columnMoving);
+                }
+                else
+                {
+                    // Add column to the new position
+                    columnsOrdered.Insert(indexAdd, columnMoving);
+                }
 
                 // Loop through columns to change the order
                 for (int a = 0; a < columnsOrdered.Count; a++)
@@ -2315,9 +2340,7 @@ namespace MPfm.WindowsControls
             Update();
 
             base.OnMouseDoubleClick(e);
-        }
-
-        private int m_columnMoveMarkerX = 0;
+        }        
 
         /// <summary>
         /// Occurs when the mouse pointer is moving over the control.
@@ -2397,11 +2420,17 @@ namespace MPfm.WindowsControls
                         // Check if column is visible
                         if (columnOver.Visible)
                         {
-                            // Check if the cursor is over this column
-                            if (e.X >= x - m_hScrollBar.Value && e.X < x + columnOver.Width - m_hScrollBar.Value)
+                            // Check if the cursor is over the left part of the column
+                            if (e.X >= x - m_hScrollBar.Value && e.X <= x + (columnOver.Width / 2) - m_hScrollBar.Value)
                             {
                                 // Set marker
                                 m_columnMoveMarkerX = x;
+                            }
+                            // Check if the cursor is over the right part of the column
+                            else if (e.X >= x + (columnOver.Width / 2) - m_hScrollBar.Value && e.X <= x + columnOver.Width - m_hScrollBar.Value)
+                            {
+                                // Set marker
+                                m_columnMoveMarkerX = x + columnOver.Width;
                             }
 
                             // Increment x
@@ -2409,6 +2438,7 @@ namespace MPfm.WindowsControls
                         }
                     }
 
+                    // Invalidate control
                     Invalidate();
 
                     // Set flags
