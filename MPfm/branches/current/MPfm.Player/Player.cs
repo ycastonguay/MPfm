@@ -692,17 +692,20 @@ namespace MPfm.Player
         /// <param name="e">Event arguments</param>
         protected void m_timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            // Reset timer
-            m_timerPlayer.Enabled = false;
-
-            // Check if the next channel needs to be loaded
-            if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)
+            if (m_timerPlayer != null)
             {
-                // Check if the channel has already been loaded
-                if (!m_playlist.Items[m_playlist.CurrentItemIndex + 1].IsLoaded)
+                // Reset timer
+                m_timerPlayer.Enabled = false;
+
+                // Check if the next channel needs to be loaded
+                if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)
                 {
-                    // Create the next channel
-                    m_playlist.Items[m_playlist.CurrentItemIndex + 1].Load();
+                    // Check if the channel has already been loaded
+                    if (!m_playlist.Items[m_playlist.CurrentItemIndex + 1].IsLoaded)
+                    {
+                        // Create the next channel
+                        m_playlist.Items[m_playlist.CurrentItemIndex + 1].Load();
+                    }
                 }
             }
 

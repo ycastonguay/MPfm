@@ -132,6 +132,14 @@ namespace MPfm.WindowsControls
             }
             set
             {
+                // Make sure the peak file directory ends with a backslash
+                if (value[value.Length - 1] != '\\')
+                {
+                    // Add backslash
+                    value += "\\";
+                }
+
+                // Set value
                 m_peakFileDirectory = value;
             }
         }
@@ -1032,6 +1040,7 @@ namespace MPfm.WindowsControls
             // Reset zoom
             m_zoom = 100;
 
+            // Start timer
             m_timerLoadPeakFile.Start();
 
             // Generate peak file and start timer for updating progress

@@ -274,11 +274,6 @@ namespace MPfm
                         }
                     }
                 //}
-
-                // Ask user to save.
-
-                // Nothing has changed; just exit without warning
-                // HOWEVER: The user might have tested something, so the player might have been disposed. Add a flag for this.
             }
 
             // Save new settings?
@@ -375,10 +370,10 @@ namespace MPfm
             testSuccessful = false;
             settingsTested = false;
 
-            // Hide form
-            this.Close();
+            // Hide form            
             Main.BringToFront();
             Main.Focus();
+            this.Close();
         }
 
         #endregion
@@ -474,8 +469,7 @@ namespace MPfm
             Main.Config.Audio.DriverType = driver.DriverType;
             Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
             Main.Config.Audio.Mixer.BufferSize = (int)txtBufferSize.Value;
-            Main.Config.Audio.Mixer.UpdatePeriod = (int)txtUpdatePeriod.Value;
-            
+            Main.Config.Audio.Mixer.UpdatePeriod = (int)txtUpdatePeriod.Value;            
         }
 
         /// <summary>
@@ -523,6 +517,23 @@ namespace MPfm
                 }
             }
 
+            // Check if the peak file directory has changed    
+            string peakFileFolderPath = (radioPeakFileCustomDirectory.Checked) ? txtPeakFileCustomDirectory.Text : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files";
+            //if (Main.PeakFileFolderPath != peakFileFolderPath)
+            //{
+            //    // Ask user if he wants to delete the peak files in the original folder (or move them?)
+            //    DialogResult dialogResult = MessageBox.Show("The peak file directory has changed.\nDo you wish to delete the existing peak files in the older directory?\n\nClick YES to delete peak files in the older directory.\nClick NO to keep the peak files in the older directory.\nClick CANCEL to go back to the Settings window.", "Delete peak files", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            //    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+            //    {
+            //        return false;
+            //    }
+            //    else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+            //    {
+            //        // Delete peak files
+            //        PeakFile.DeletePeakFiles(Main.PeakFileFolderPath);
+            //    }
+            //}
+
             // Save tray options
             Main.Config.SetKeyValue<bool>("HideTray", chkHideTray.Checked);
             Main.Config.SetKeyValue<bool>("ShowTray", chkShowTray.Checked);
@@ -532,6 +543,12 @@ namespace MPfm
             Main.Config.SetKeyValue("PeakFile_CustomDirectory", txtPeakFileCustomDirectory.Text);
             Main.Config.SetKeyValue<bool>("PeakFile_DisplayWarning", chkPeakFileDisplayWarning.Checked);
             Main.Config.SetKeyValue<int>("PeakFile_DisplayWarningThreshold", (int)txtPeakFileDisplayWarningThreshold.Value);
+
+            // Set current peak file folder
+            Main.PeakFileFolderPath = peakFileFolderPath;
+
+            // Refresh peak file warning
+            Main.RefreshPeakFileDirectorySizeWarning();
 
             return true;
         }

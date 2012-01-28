@@ -92,6 +92,11 @@ namespace MPfm
             {
                 return m_peakFileFolderPath;
             }
+            set
+            {
+                m_peakFileFolderPath = value;
+                waveFormMarkersLoops.PeakFileDirectory = value;
+            }
         }
 
         private string m_configurationFilePath = string.Empty;
@@ -210,7 +215,6 @@ namespace MPfm
                 // Vista/Windows7: C:\Users\%username%\AppData\Roaming\
                 // XP: C:\Documents and Settings\%username%\Application Data\
                 m_applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
-                m_peakFileFolderPath = m_applicationDataFolderPath + "\\Peak Files";
 
                 // Check if the folder exists
                 if (!Directory.Exists(m_applicationDataFolderPath))
@@ -218,14 +222,6 @@ namespace MPfm
                     // Create directory                    
                     frmSplash.SetStatus("Creating application data folder...");
                     Directory.CreateDirectory(m_applicationDataFolderPath);
-                }
-
-                // Check if the peak folder exists
-                if (!Directory.Exists(m_peakFileFolderPath))
-                {
-                    // Create directory                    
-                    frmSplash.SetStatus("Creating peak file folder...");
-                    Directory.CreateDirectory(m_peakFileFolderPath);
                 }
 
                 // Set paths
@@ -289,6 +285,35 @@ namespace MPfm
                 {
                     // Load configuration values
                     m_config.Load();
+
+                    // Load peak file options
+                    bool? peakFileUseCustomDirectory = Config.GetKeyValueGeneric<bool>("PeakFile_UseCustomDirectory");
+                    string peakFileCustomDirectory = Config.GetKeyValue("PeakFile_CustomDirectory");
+
+                    // Set peak file directory
+                    if (peakFileUseCustomDirectory.HasValue && peakFileUseCustomDirectory.Value)
+                    {
+                        // Set custom peak file directory
+                        PeakFileFolderPath = peakFileCustomDirectory;                        
+                    }
+                    else
+                    {
+                        // Set default peak file directory
+                        PeakFileFolderPath = m_applicationDataFolderPath + "\\Peak Files\\";
+                    }
+                }
+                else
+                {
+                    // Set default peak file directory
+                    PeakFileFolderPath = m_applicationDataFolderPath + "\\Peak Files\\";
+                }
+
+                // Check if the peak folder exists
+                if (!Directory.Exists(PeakFileFolderPath))
+                {
+                    // Create directory                    
+                    frmSplash.SetStatus("Creating peak file folder...");
+                    Directory.CreateDirectory(PeakFileFolderPath);
                 }
 
                 try
@@ -329,8 +354,7 @@ namespace MPfm
                 frmSplash.SetStatus("Loading player...");
 
                 m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
-                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);
-                m_player.OnStreamCallbackCalled += new MPfm.Player.Player.StreamCallbackCalled(m_player_OnStreamCallbackCalled);
+                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);                
             }
             catch (Exception ex)
             {
@@ -561,6 +585,9 @@ namespace MPfm
                 faderVolume.Value = Config.Audio.Mixer.Volume;
                 lblVolume.Text = Config.Audio.Mixer.Volume + " %";
                 Player.Volume = ((float)Config.Audio.Mixer.Volume / 100);
+
+                // Update peak file warning if necessary
+                RefreshPeakFileDirectorySizeWarning();
 
                 // Set Init current song Id
                 if (!string.IsNullOrEmpty(querySongId))
@@ -888,17 +915,6 @@ namespace MPfm
 
         #region Player Events
 
-        public void m_player_OnStreamCallbackCalled(Player.PlayerStreamCallbackData data)
-        {
-            // Check for valid objects
-            if (m_player == null || !m_player.IsPlaying ||
-                m_player.Playlist == null || m_player.Playlist.CurrentItem == null || m_player.Playlist.CurrentItem.Channel == null)
-            {
-                return;
-            }
-
-        }
-
         /// <summary>
         /// Occurs when the timer for the output meter is expired. This forces the
         /// output meter to refresh itself every 10ms.
@@ -999,15 +1015,11 @@ namespace MPfm
                 long positionBytes = m_player.GetPosition();                
 
                 // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
-                float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
-                positionBytes = (int)((float)positionBytes * ratioPosition);
-
-                //string position = ConvertAudio.ToTimeString(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)m_player.Playlist.CurrentItem.Channel.SampleRate);
-                //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+                //float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
+                //positionBytes = (int)((float)positionBytes * ratioPosition);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
                 long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)m_player.Playlist.CurrentItem.AudioFile.SampleRate);
-                string position = Conversion.MillisecondsToTimeString((ulong)positionMS);
-                //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+                string position = Conversion.MillisecondsToTimeString((ulong)positionMS);                
 
                 // Set UI            
                 lblCurrentPosition.Text = position;
@@ -1125,6 +1137,9 @@ namespace MPfm
                     // Update the song grid view
                     viewSongs2.UpdateAudioFileLine(data.AudioFileEnded.Id);
                 }
+
+                // Update peak file warning if necessary
+                RefreshPeakFileDirectorySizeWarning();
             };
 
             // Check if invoking is necessary
@@ -1640,6 +1655,55 @@ namespace MPfm
         #endregion
 
         #region Refresh Methods
+
+        /// <summary>
+        /// Refreshes the peak file directory size warning.
+        /// </summary>
+        public void RefreshPeakFileDirectorySizeWarning()
+        {
+            // Get configuration
+            int? peakFileDisplayWarningThreshold = Config.GetKeyValueGeneric<int>("PeakFile_DisplayWarningThreshold");
+            bool? peakFileDisplayWarning = Config.GetKeyValueGeneric<bool>("PeakFile_DisplayWarning");
+
+            // Check if the warning needs to be displayed
+            if (peakFileDisplayWarning.HasValue && peakFileDisplayWarning.Value && peakFileDisplayWarningThreshold.HasValue)
+            {
+                // Check peak file directory size
+                long size = PeakFile.CheckDirectorySize(m_peakFileFolderPath);
+
+                // Check free space
+                long freeSpace = 0;
+                try
+                {
+                    // Get drive info
+                    DriveInfo driveInfo = new DriveInfo(m_peakFileFolderPath[0] + ":");
+                    freeSpace = driveInfo.AvailableFreeSpace;
+                }
+                catch (Exception ex)
+                {
+                    // Set value to indicate this has failed
+                    freeSpace = -1;
+                }
+
+                // Compare size with threshold
+                if (size > peakFileDisplayWarningThreshold.Value * 1000000)
+                {
+                    // Display warning
+                    lblPeakFileWarning.Text = "Warning: The peak file directory size exceeds " + peakFileDisplayWarningThreshold.Value.ToString() + " MB. Total peak file directory size: " + ((float)size / 1000000).ToString("0") + " MB. Free space on disk: " + ((float)freeSpace / 1000000).ToString("0") + " MB.";
+                    lblPeakFileWarning.Visible = true;
+                }
+                else
+                {
+                    // Hide warning
+                    lblPeakFileWarning.Visible = false;
+                }
+            }
+            else
+            {
+                // Hide warning
+                lblPeakFileWarning.Visible = false;
+            }
+        }
 
         /// <summary>
         /// Refreshes all the controls in the main form.
@@ -2173,6 +2237,9 @@ namespace MPfm
                 // Update the first audio file in the database (in case the metadata has changed)
                 Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
             }
+
+            // Refresh warning
+            RefreshPeakFileDirectorySizeWarning();
         }
 
         /// <summary>
@@ -2201,11 +2268,6 @@ namespace MPfm
                 {
                     // Generate an artist playlist and start playback                                                                        
                     audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, string.Empty, true, query.ArtistName);                        
-                }
-                else if (query.Type == SongQueryType.Playlist)
-                {
-                    // Play playlist
-                    //Player.PlayPlaylist(QuerySongBrowser.PlaylistId);
                 }
                 else if (query.Type == SongQueryType.All)
                 {
@@ -2313,8 +2375,8 @@ namespace MPfm
 
                 // Get length
                 int positionBytes = (int)(ratio * (double)m_player.Playlist.CurrentItem.LengthBytes);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-                long positionMS = ConvertAudio.ToMS(positionSamples, 44100);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                long positionMS = ConvertAudio.ToMS(positionSamples, (uint)m_player.Playlist.CurrentItem.AudioFile.SampleRate);
 
                 // Set player position
                 m_player.SetPosition(positionBytes);

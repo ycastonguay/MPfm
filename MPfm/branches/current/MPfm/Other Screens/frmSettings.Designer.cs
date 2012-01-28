@@ -68,18 +68,17 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont35 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont38 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont42 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont45 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont38 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont44 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.panelGeneralSettings = new MPfm.WindowsControls.Panel();
-            this.panel2 = new MPfm.WindowsControls.Panel();
+            this.panelPeakFiles = new MPfm.WindowsControls.Panel();
             this.lblPeakFileDisplayWarningUnit = new MPfm.WindowsControls.Label();
             this.txtPeakFileDisplayWarningThreshold = new System.Windows.Forms.NumericUpDown();
             this.lblPeakFileDisplayWarning = new MPfm.WindowsControls.Label();
@@ -91,7 +90,7 @@ namespace MPfm
             this.radioPeakFileCustomDirectory = new System.Windows.Forms.RadioButton();
             this.lblPeakFileDefaultDirectory = new MPfm.WindowsControls.Label();
             this.radioPeakFileDefaultDirectory = new System.Windows.Forms.RadioButton();
-            this.panel1 = new MPfm.WindowsControls.Panel();
+            this.panelSystemTray = new MPfm.WindowsControls.Panel();
             this.lblShowTray = new MPfm.WindowsControls.Label();
             this.lblHideTray = new MPfm.WindowsControls.Label();
             this.chkHideTray = new System.Windows.Forms.CheckBox();
@@ -141,13 +140,12 @@ namespace MPfm
             this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
             this.tabLibrary = new System.Windows.Forms.TabPage();
             this.panelLibrarySettings = new MPfm.WindowsControls.Panel();
+            this.panelFolders = new MPfm.WindowsControls.Panel();
+            this.btnAddFolder = new MPfm.WindowsControls.Button();
             this.listViewFolders = new System.Windows.Forms.ListView();
             this.columnPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnRemoveFolder = new MPfm.WindowsControls.Button();
-            this.btnAddFolder = new MPfm.WindowsControls.Button();
-            this.Button1 = new MPfm.WindowsControls.Button();
-            this.lblFoldersTitle = new MPfm.WindowsControls.Label();
             this.btnResetLibrary = new MPfm.WindowsControls.Button();
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
@@ -159,9 +157,9 @@ namespace MPfm
             this.tabs.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.panelGeneralSettings.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.panelPeakFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeakFileDisplayWarningThreshold)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.panelSystemTray.SuspendLayout();
             this.tabTheme.SuspendLayout();
             this.panelTheme.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitTheme)).BeginInit();
@@ -177,6 +175,7 @@ namespace MPfm
             ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
             this.tabLibrary.SuspendLayout();
             this.panelLibrarySettings.SuspendLayout();
+            this.panelFolders.SuspendLayout();
             this.panelBackground.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -207,8 +206,8 @@ namespace MPfm
             // 
             // panelGeneralSettings
             // 
-            this.panelGeneralSettings.Controls.Add(this.panel2);
-            this.panelGeneralSettings.Controls.Add(this.panel1);
+            this.panelGeneralSettings.Controls.Add(this.panelPeakFiles);
+            this.panelGeneralSettings.Controls.Add(this.panelSystemTray);
             customFont11.EmbeddedFontName = "TitilliumText22L Lt";
             customFont11.IsBold = true;
             customFont11.IsItalic = false;
@@ -238,21 +237,21 @@ namespace MPfm
             this.panelGeneralSettings.Size = new System.Drawing.Size(631, 350);
             this.panelGeneralSettings.TabIndex = 17;
             // 
-            // panel2
+            // panelPeakFiles
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelPeakFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.lblPeakFileDisplayWarningUnit);
-            this.panel2.Controls.Add(this.txtPeakFileDisplayWarningThreshold);
-            this.panel2.Controls.Add(this.lblPeakFileDisplayWarning);
-            this.panel2.Controls.Add(this.chkPeakFileDisplayWarning);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.txtPeakFileCustomDirectory);
-            this.panel2.Controls.Add(this.btnPeakFileCustomDirectoryBrowse);
-            this.panel2.Controls.Add(this.lblPeakFileCustomDirectory);
-            this.panel2.Controls.Add(this.radioPeakFileCustomDirectory);
-            this.panel2.Controls.Add(this.lblPeakFileDefaultDirectory);
-            this.panel2.Controls.Add(this.radioPeakFileDefaultDirectory);
+            this.panelPeakFiles.Controls.Add(this.lblPeakFileDisplayWarningUnit);
+            this.panelPeakFiles.Controls.Add(this.txtPeakFileDisplayWarningThreshold);
+            this.panelPeakFiles.Controls.Add(this.lblPeakFileDisplayWarning);
+            this.panelPeakFiles.Controls.Add(this.chkPeakFileDisplayWarning);
+            this.panelPeakFiles.Controls.Add(this.label1);
+            this.panelPeakFiles.Controls.Add(this.txtPeakFileCustomDirectory);
+            this.panelPeakFiles.Controls.Add(this.btnPeakFileCustomDirectoryBrowse);
+            this.panelPeakFiles.Controls.Add(this.lblPeakFileCustomDirectory);
+            this.panelPeakFiles.Controls.Add(this.radioPeakFileCustomDirectory);
+            this.panelPeakFiles.Controls.Add(this.lblPeakFileDefaultDirectory);
+            this.panelPeakFiles.Controls.Add(this.radioPeakFileDefaultDirectory);
             customFont7.EmbeddedFontName = "TitilliumText22L Lt";
             customFont7.IsBold = true;
             customFont7.IsItalic = false;
@@ -261,25 +260,25 @@ namespace MPfm
             customFont7.StandardFontName = "Arial";
             customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
-            this.panel2.CustomFont = customFont7;
-            this.panel2.ExpandedHeight = 200;
-            this.panel2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.GradientColor1 = System.Drawing.Color.Silver;
-            this.panel2.GradientColor2 = System.Drawing.Color.Gray;
-            this.panel2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panel2.HeaderCustomFontName = "TitilliumText22L Lt";
-            this.panel2.HeaderExpandable = false;
-            this.panel2.HeaderExpanded = true;
-            this.panel2.HeaderForeColor = System.Drawing.Color.Black;
-            this.panel2.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panel2.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panel2.HeaderHeight = 20;
-            this.panel2.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panel2.HeaderTitle = "Peak Files ";
-            this.panel2.Location = new System.Drawing.Point(8, 122);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(615, 147);
-            this.panel2.TabIndex = 104;
+            this.panelPeakFiles.CustomFont = customFont7;
+            this.panelPeakFiles.ExpandedHeight = 200;
+            this.panelPeakFiles.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelPeakFiles.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelPeakFiles.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelPeakFiles.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelPeakFiles.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelPeakFiles.HeaderExpandable = false;
+            this.panelPeakFiles.HeaderExpanded = true;
+            this.panelPeakFiles.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelPeakFiles.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelPeakFiles.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelPeakFiles.HeaderHeight = 20;
+            this.panelPeakFiles.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelPeakFiles.HeaderTitle = "Peak Files ";
+            this.panelPeakFiles.Location = new System.Drawing.Point(8, 122);
+            this.panelPeakFiles.Name = "panelPeakFiles";
+            this.panelPeakFiles.Size = new System.Drawing.Size(615, 147);
+            this.panelPeakFiles.TabIndex = 104;
             // 
             // lblPeakFileDisplayWarningUnit
             // 
@@ -448,7 +447,7 @@ namespace MPfm
             // radioPeakFileCustomDirectory
             // 
             this.radioPeakFileCustomDirectory.AutoSize = true;
-            this.radioPeakFileCustomDirectory.Location = new System.Drawing.Point(7, 51);
+            this.radioPeakFileCustomDirectory.Location = new System.Drawing.Point(6, 51);
             this.radioPeakFileCustomDirectory.Name = "radioPeakFileCustomDirectory";
             this.radioPeakFileCustomDirectory.Size = new System.Drawing.Size(14, 13);
             this.radioPeakFileCustomDirectory.TabIndex = 101;
@@ -479,7 +478,7 @@ namespace MPfm
             // 
             this.radioPeakFileDefaultDirectory.AutoSize = true;
             this.radioPeakFileDefaultDirectory.Checked = true;
-            this.radioPeakFileDefaultDirectory.Location = new System.Drawing.Point(7, 29);
+            this.radioPeakFileDefaultDirectory.Location = new System.Drawing.Point(6, 29);
             this.radioPeakFileDefaultDirectory.Name = "radioPeakFileDefaultDirectory";
             this.radioPeakFileDefaultDirectory.Size = new System.Drawing.Size(14, 13);
             this.radioPeakFileDefaultDirectory.TabIndex = 100;
@@ -487,14 +486,14 @@ namespace MPfm
             this.radioPeakFileDefaultDirectory.UseVisualStyleBackColor = true;
             this.radioPeakFileDefaultDirectory.CheckedChanged += new System.EventHandler(this.radioPeakFile_CheckedChanged);
             // 
-            // panel1
+            // panelSystemTray
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelSystemTray.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.lblShowTray);
-            this.panel1.Controls.Add(this.lblHideTray);
-            this.panel1.Controls.Add(this.chkHideTray);
-            this.panel1.Controls.Add(this.chkShowTray);
+            this.panelSystemTray.Controls.Add(this.lblShowTray);
+            this.panelSystemTray.Controls.Add(this.lblHideTray);
+            this.panelSystemTray.Controls.Add(this.chkHideTray);
+            this.panelSystemTray.Controls.Add(this.chkShowTray);
             customFont10.EmbeddedFontName = "TitilliumText22L Lt";
             customFont10.IsBold = true;
             customFont10.IsItalic = false;
@@ -503,25 +502,25 @@ namespace MPfm
             customFont10.StandardFontName = "Arial";
             customFont10.UseAntiAliasing = true;
             customFont10.UseEmbeddedFont = true;
-            this.panel1.CustomFont = customFont10;
-            this.panel1.ExpandedHeight = 200;
-            this.panel1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.GradientColor1 = System.Drawing.Color.Silver;
-            this.panel1.GradientColor2 = System.Drawing.Color.Gray;
-            this.panel1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panel1.HeaderCustomFontName = "TitilliumText22L Lt";
-            this.panel1.HeaderExpandable = false;
-            this.panel1.HeaderExpanded = true;
-            this.panel1.HeaderForeColor = System.Drawing.Color.Black;
-            this.panel1.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panel1.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panel1.HeaderHeight = 20;
-            this.panel1.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panel1.HeaderTitle = "System Tray";
-            this.panel1.Location = new System.Drawing.Point(8, 37);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(615, 79);
-            this.panel1.TabIndex = 103;
+            this.panelSystemTray.CustomFont = customFont10;
+            this.panelSystemTray.ExpandedHeight = 200;
+            this.panelSystemTray.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSystemTray.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelSystemTray.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelSystemTray.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelSystemTray.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelSystemTray.HeaderExpandable = false;
+            this.panelSystemTray.HeaderExpanded = true;
+            this.panelSystemTray.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelSystemTray.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelSystemTray.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelSystemTray.HeaderHeight = 20;
+            this.panelSystemTray.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelSystemTray.HeaderTitle = "System Tray";
+            this.panelSystemTray.Location = new System.Drawing.Point(8, 37);
+            this.panelSystemTray.Name = "panelSystemTray";
+            this.panelSystemTray.Size = new System.Drawing.Size(615, 79);
+            this.panelSystemTray.TabIndex = 103;
             // 
             // lblShowTray
             // 
@@ -1609,21 +1608,16 @@ namespace MPfm
             // 
             // panelLibrarySettings
             // 
-            this.panelLibrarySettings.Controls.Add(this.listViewFolders);
-            this.panelLibrarySettings.Controls.Add(this.btnRemoveFolder);
-            this.panelLibrarySettings.Controls.Add(this.btnAddFolder);
-            this.panelLibrarySettings.Controls.Add(this.Button1);
-            this.panelLibrarySettings.Controls.Add(this.lblFoldersTitle);
-            this.panelLibrarySettings.Controls.Add(this.btnResetLibrary);
-            customFont43.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont43.IsBold = true;
-            customFont43.IsItalic = false;
-            customFont43.IsUnderline = false;
-            customFont43.Size = 12F;
-            customFont43.StandardFontName = "Arial";
-            customFont43.UseAntiAliasing = true;
-            customFont43.UseEmbeddedFont = true;
-            this.panelLibrarySettings.CustomFont = customFont43;
+            this.panelLibrarySettings.Controls.Add(this.panelFolders);
+            customFont42.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont42.IsBold = true;
+            customFont42.IsItalic = false;
+            customFont42.IsUnderline = false;
+            customFont42.Size = 12F;
+            customFont42.StandardFontName = "Arial";
+            customFont42.UseAntiAliasing = true;
+            customFont42.UseEmbeddedFont = true;
+            this.panelLibrarySettings.CustomFont = customFont42;
             this.panelLibrarySettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLibrarySettings.ExpandedHeight = 200;
             this.panelLibrarySettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1641,8 +1635,83 @@ namespace MPfm
             this.panelLibrarySettings.HeaderTitle = "Library Settings";
             this.panelLibrarySettings.Location = new System.Drawing.Point(0, 0);
             this.panelLibrarySettings.Name = "panelLibrarySettings";
-            this.panelLibrarySettings.Size = new System.Drawing.Size(631, 352);
+            this.panelLibrarySettings.Size = new System.Drawing.Size(631, 350);
             this.panelLibrarySettings.TabIndex = 17;
+            // 
+            // panelFolders
+            // 
+            this.panelFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelFolders.Controls.Add(this.btnAddFolder);
+            this.panelFolders.Controls.Add(this.btnResetLibrary);
+            this.panelFolders.Controls.Add(this.listViewFolders);
+            this.panelFolders.Controls.Add(this.btnRemoveFolder);
+            customFont41.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont41.IsBold = true;
+            customFont41.IsItalic = false;
+            customFont41.IsUnderline = false;
+            customFont41.Size = 10F;
+            customFont41.StandardFontName = "Arial";
+            customFont41.UseAntiAliasing = true;
+            customFont41.UseEmbeddedFont = true;
+            this.panelFolders.CustomFont = customFont41;
+            this.panelFolders.ExpandedHeight = 200;
+            this.panelFolders.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelFolders.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelFolders.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelFolders.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelFolders.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelFolders.HeaderExpandable = false;
+            this.panelFolders.HeaderExpanded = true;
+            this.panelFolders.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelFolders.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelFolders.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelFolders.HeaderHeight = 20;
+            this.panelFolders.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelFolders.HeaderTitle = "Folders";
+            this.panelFolders.Location = new System.Drawing.Point(8, 37);
+            this.panelFolders.Name = "panelFolders";
+            this.panelFolders.Size = new System.Drawing.Size(615, 310);
+            this.panelFolders.TabIndex = 104;
+            // 
+            // btnAddFolder
+            // 
+            this.btnAddFolder.BorderColor = System.Drawing.Color.DimGray;
+            this.btnAddFolder.BorderWidth = 1;
+            this.btnAddFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont38.EmbeddedFontName = "Junction";
+            customFont38.IsBold = false;
+            customFont38.IsItalic = false;
+            customFont38.IsUnderline = false;
+            customFont38.Size = 8F;
+            customFont38.StandardFontName = "Arial";
+            customFont38.UseAntiAliasing = true;
+            customFont38.UseEmbeddedFont = true;
+            this.btnAddFolder.CustomFont = customFont38;
+            this.btnAddFolder.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnAddFolder.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnAddFolder.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnAddFolder.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnAddFolder.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddFolder.FontColor = System.Drawing.Color.Black;
+            this.btnAddFolder.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnAddFolder.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnAddFolder.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnAddFolder.Image = global::MPfm.Properties.Resources.add;
+            this.btnAddFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddFolder.Location = new System.Drawing.Point(8, 27);
+            this.btnAddFolder.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnAddFolder.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnAddFolder.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnAddFolder.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnAddFolder.Name = "btnAddFolder";
+            this.btnAddFolder.Size = new System.Drawing.Size(91, 25);
+            this.btnAddFolder.TabIndex = 66;
+            this.btnAddFolder.Text = "Add Folder";
+            this.btnAddFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddFolder.UseVisualStyleBackColor = true;
+            this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
             // 
             // listViewFolders
             // 
@@ -1656,10 +1725,10 @@ namespace MPfm
             this.listViewFolders.FullRowSelect = true;
             this.listViewFolders.GridLines = true;
             this.listViewFolders.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewFolders.Location = new System.Drawing.Point(7, 87);
+            this.listViewFolders.Location = new System.Drawing.Point(8, 58);
             this.listViewFolders.Name = "listViewFolders";
             this.listViewFolders.ShowGroups = false;
-            this.listViewFolders.Size = new System.Drawing.Size(616, 210);
+            this.listViewFolders.Size = new System.Drawing.Size(598, 198);
             this.listViewFolders.TabIndex = 68;
             this.listViewFolders.UseCompatibleStateImageBehavior = false;
             this.listViewFolders.View = System.Windows.Forms.View.Details;
@@ -1680,15 +1749,15 @@ namespace MPfm
             this.btnRemoveFolder.BorderColor = System.Drawing.Color.DimGray;
             this.btnRemoveFolder.BorderWidth = 1;
             this.btnRemoveFolder.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont38.EmbeddedFontName = "Junction";
-            customFont38.IsBold = false;
-            customFont38.IsItalic = false;
-            customFont38.IsUnderline = false;
-            customFont38.Size = 8F;
-            customFont38.StandardFontName = "Arial";
-            customFont38.UseAntiAliasing = true;
-            customFont38.UseEmbeddedFont = true;
-            this.btnRemoveFolder.CustomFont = customFont38;
+            customFont40.EmbeddedFontName = "Junction";
+            customFont40.IsBold = false;
+            customFont40.IsItalic = false;
+            customFont40.IsUnderline = false;
+            customFont40.Size = 8F;
+            customFont40.StandardFontName = "Arial";
+            customFont40.UseAntiAliasing = true;
+            customFont40.UseEmbeddedFont = true;
+            this.btnRemoveFolder.CustomFont = customFont40;
             this.btnRemoveFolder.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnRemoveFolder.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnRemoveFolder.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1700,7 +1769,7 @@ namespace MPfm
             this.btnRemoveFolder.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRemoveFolder.Image = global::MPfm.Properties.Resources.delete;
             this.btnRemoveFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveFolder.Location = new System.Drawing.Point(104, 56);
+            this.btnRemoveFolder.Location = new System.Drawing.Point(104, 27);
             this.btnRemoveFolder.MouseOverBorderColor = System.Drawing.Color.DimGray;
             this.btnRemoveFolder.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnRemoveFolder.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1713,11 +1782,12 @@ namespace MPfm
             this.btnRemoveFolder.UseVisualStyleBackColor = true;
             this.btnRemoveFolder.Click += new System.EventHandler(this.btnRemoveFolder_Click);
             // 
-            // btnAddFolder
+            // btnResetLibrary
             // 
-            this.btnAddFolder.BorderColor = System.Drawing.Color.DimGray;
-            this.btnAddFolder.BorderWidth = 1;
-            this.btnAddFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnResetLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnResetLibrary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnResetLibrary.BorderWidth = 1;
+            this.btnResetLibrary.Cursor = System.Windows.Forms.Cursors.Hand;
             customFont39.EmbeddedFontName = "Junction";
             customFont39.IsBold = false;
             customFont39.IsItalic = false;
@@ -1726,105 +1796,7 @@ namespace MPfm
             customFont39.StandardFontName = "Arial";
             customFont39.UseAntiAliasing = true;
             customFont39.UseEmbeddedFont = true;
-            this.btnAddFolder.CustomFont = customFont39;
-            this.btnAddFolder.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnAddFolder.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnAddFolder.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnAddFolder.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnAddFolder.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddFolder.FontColor = System.Drawing.Color.Black;
-            this.btnAddFolder.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnAddFolder.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnAddFolder.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAddFolder.Image = global::MPfm.Properties.Resources.add;
-            this.btnAddFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddFolder.Location = new System.Drawing.Point(7, 56);
-            this.btnAddFolder.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnAddFolder.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnAddFolder.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnAddFolder.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnAddFolder.Name = "btnAddFolder";
-            this.btnAddFolder.Size = new System.Drawing.Size(91, 25);
-            this.btnAddFolder.TabIndex = 66;
-            this.btnAddFolder.Text = "Add Folder";
-            this.btnAddFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAddFolder.UseVisualStyleBackColor = true;
-            this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
-            // 
-            // Button1
-            // 
-            this.Button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Button1.BorderColor = System.Drawing.Color.DimGray;
-            this.Button1.BorderWidth = 1;
-            this.Button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont40.EmbeddedFontName = "Junction";
-            customFont40.IsBold = false;
-            customFont40.IsItalic = false;
-            customFont40.IsUnderline = false;
-            customFont40.Size = 8F;
-            customFont40.StandardFontName = "Arial";
-            customFont40.UseAntiAliasing = true;
-            customFont40.UseEmbeddedFont = true;
-            this.Button1.CustomFont = customFont40;
-            this.Button1.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.Button1.DisabledFontColor = System.Drawing.Color.Silver;
-            this.Button1.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.Button1.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.Button1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Button1.FontColor = System.Drawing.Color.Black;
-            this.Button1.GradientColor1 = System.Drawing.Color.LightGray;
-            this.Button1.GradientColor2 = System.Drawing.Color.Gray;
-            this.Button1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.Button1.Image = ((System.Drawing.Image)(resources.GetObject("Button1.Image")));
-            this.Button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.Button1.Location = new System.Drawing.Point(113, 303);
-            this.Button1.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.Button1.MouseOverFontColor = System.Drawing.Color.Black;
-            this.Button1.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.Button1.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.Button1.Name = "Button1";
-            this.Button1.Size = new System.Drawing.Size(99, 42);
-            this.Button1.TabIndex = 65;
-            this.Button1.Text = "Update Library";
-            this.Button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.Button1.UseVisualStyleBackColor = true;
-            this.Button1.Visible = false;
-            this.Button1.Click += new System.EventHandler(this.btnUpdateLibrary_Click);
-            // 
-            // lblFoldersTitle
-            // 
-            this.lblFoldersTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont41.EmbeddedFontName = "Junction";
-            customFont41.IsBold = false;
-            customFont41.IsItalic = false;
-            customFont41.IsUnderline = false;
-            customFont41.Size = 9F;
-            customFont41.StandardFontName = "Arial";
-            customFont41.UseAntiAliasing = true;
-            customFont41.UseEmbeddedFont = true;
-            this.lblFoldersTitle.CustomFont = customFont41;
-            this.lblFoldersTitle.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFoldersTitle.Location = new System.Drawing.Point(3, 34);
-            this.lblFoldersTitle.Name = "lblFoldersTitle";
-            this.lblFoldersTitle.Size = new System.Drawing.Size(69, 17);
-            this.lblFoldersTitle.TabIndex = 6;
-            this.lblFoldersTitle.Text = "Folders :";
-            // 
-            // btnResetLibrary
-            // 
-            this.btnResetLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnResetLibrary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.btnResetLibrary.BorderWidth = 1;
-            this.btnResetLibrary.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont42.EmbeddedFontName = "Junction";
-            customFont42.IsBold = false;
-            customFont42.IsItalic = false;
-            customFont42.IsUnderline = false;
-            customFont42.Size = 8F;
-            customFont42.StandardFontName = "Arial";
-            customFont42.UseAntiAliasing = true;
-            customFont42.UseEmbeddedFont = true;
-            this.btnResetLibrary.CustomFont = customFont42;
+            this.btnResetLibrary.CustomFont = customFont39;
             this.btnResetLibrary.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnResetLibrary.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnResetLibrary.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1836,7 +1808,7 @@ namespace MPfm
             this.btnResetLibrary.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnResetLibrary.Image = ((System.Drawing.Image)(resources.GetObject("btnResetLibrary.Image")));
             this.btnResetLibrary.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnResetLibrary.Location = new System.Drawing.Point(7, 303);
+            this.btnResetLibrary.Location = new System.Drawing.Point(8, 263);
             this.btnResetLibrary.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.btnResetLibrary.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnResetLibrary.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1864,15 +1836,15 @@ namespace MPfm
             // 
             this.panelBackground.Controls.Add(this.btnClose);
             this.panelBackground.Controls.Add(this.tabs);
-            customFont45.EmbeddedFontName = "";
-            customFont45.IsBold = false;
-            customFont45.IsItalic = false;
-            customFont45.IsUnderline = false;
-            customFont45.Size = 8F;
-            customFont45.StandardFontName = "Arial";
-            customFont45.UseAntiAliasing = true;
-            customFont45.UseEmbeddedFont = false;
-            this.panelBackground.CustomFont = customFont45;
+            customFont44.EmbeddedFontName = "";
+            customFont44.IsBold = false;
+            customFont44.IsItalic = false;
+            customFont44.IsUnderline = false;
+            customFont44.Size = 8F;
+            customFont44.StandardFontName = "Arial";
+            customFont44.UseAntiAliasing = true;
+            customFont44.UseEmbeddedFont = false;
+            this.panelBackground.CustomFont = customFont44;
             this.panelBackground.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBackground.ExpandedHeight = 200;
             this.panelBackground.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1898,15 +1870,15 @@ namespace MPfm
             this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont44.EmbeddedFontName = "Junction";
-            customFont44.IsBold = false;
-            customFont44.IsItalic = false;
-            customFont44.IsUnderline = false;
-            customFont44.Size = 8F;
-            customFont44.StandardFontName = "Arial";
-            customFont44.UseAntiAliasing = true;
-            customFont44.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont44;
+            customFont43.EmbeddedFontName = "Junction";
+            customFont43.IsBold = false;
+            customFont43.IsItalic = false;
+            customFont43.IsUnderline = false;
+            customFont43.Size = 8F;
+            customFont43.StandardFontName = "Arial";
+            customFont43.UseAntiAliasing = true;
+            customFont43.UseEmbeddedFont = true;
+            this.btnClose.CustomFont = customFont43;
             this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -1965,11 +1937,11 @@ namespace MPfm
             this.tabs.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.panelGeneralSettings.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panelPeakFiles.ResumeLayout(false);
+            this.panelPeakFiles.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeakFileDisplayWarningThreshold)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelSystemTray.ResumeLayout(false);
+            this.panelSystemTray.PerformLayout();
             this.tabTheme.ResumeLayout(false);
             this.panelTheme.ResumeLayout(false);
             this.panelTheme.PerformLayout();
@@ -1987,6 +1959,7 @@ namespace MPfm
             ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
             this.tabLibrary.ResumeLayout(false);
             this.panelLibrarySettings.ResumeLayout(false);
+            this.panelFolders.ResumeLayout(false);
             this.panelBackground.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1997,12 +1970,10 @@ namespace MPfm
         private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage tabLibrary;
         private System.Windows.Forms.TabPage tabAudioSettings;
-        private MPfm.WindowsControls.Label lblFoldersTitle;
         public System.Windows.Forms.FolderBrowserDialog dialogAddFolder;
         private System.Windows.Forms.ComboBox cboOutputDevices;
         private MPfm.WindowsControls.Button btnResetLibrary;
         private MPfm.WindowsControls.Button btnClose;
-        private MPfm.WindowsControls.Button Button1;
         private MPfm.WindowsControls.Label lblOutputDriver;
         private MPfm.WindowsControls.Label lblDriver;
         private System.Windows.Forms.ComboBox cboDrivers;
@@ -2060,13 +2031,13 @@ namespace MPfm
         private WindowsControls.Label lblUpdatePeriodUnit;
         private System.Windows.Forms.NumericUpDown txtUpdatePeriod;
         private WindowsControls.Label lblUpdatePeriod;
-        private WindowsControls.Panel panel2;
+        private WindowsControls.Panel panelPeakFiles;
         private WindowsControls.Button btnPeakFileCustomDirectoryBrowse;
         private WindowsControls.Label lblPeakFileCustomDirectory;
         private System.Windows.Forms.RadioButton radioPeakFileCustomDirectory;
         private WindowsControls.Label lblPeakFileDefaultDirectory;
         private System.Windows.Forms.RadioButton radioPeakFileDefaultDirectory;
-        private WindowsControls.Panel panel1;
+        private WindowsControls.Panel panelSystemTray;
         private System.Windows.Forms.TextBox txtPeakFileCustomDirectory;
         private WindowsControls.Label lblPeakFileDisplayWarningUnit;
         private System.Windows.Forms.NumericUpDown txtPeakFileDisplayWarningThreshold;
@@ -2074,5 +2045,6 @@ namespace MPfm
         private WindowsControls.Label label1;
         private WindowsControls.Label lblPeakFileDisplayWarning;
         private System.Windows.Forms.CheckBox chkPeakFileDisplayWarning;
+        private WindowsControls.Panel panelFolders;
     }
 }

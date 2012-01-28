@@ -516,7 +516,7 @@ namespace MPfm.Sound
 
             // Loop through file paths
             for (int a = 0; a < filePaths.Count; a++)
-            {                
+            {
                 // Create IObservable for peak file
                 m_listObservables.Add(GeneratePeakFileAsync(filePaths.Keys.ElementAt(a), filePaths.Values.ElementAt(a), a));
             }
@@ -688,6 +688,47 @@ namespace MPfm.Sound
             }
 
             return listMinMax;
+        }
+
+        /// <summary>
+        /// Returns the total size of all files within a directory. Non-recursive.
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <returns>Total size (in bytes)</returns>
+        public static long CheckDirectorySize(string path)
+        {
+            // Get list of files
+            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
+
+            // Loop through files and calculate total length
+            long length = 0;
+            foreach (string file in files)
+            {
+                // Get file information
+                FileInfo fileInfo = new FileInfo(file);
+
+                // Increment length
+                length += fileInfo.Length;
+            }
+
+            return length;
+        }
+
+        /// <summary>
+        /// Deletes all the peak files in a directory.
+        /// </summary>
+        /// <param name="path">Path</param>        
+        public static void DeletePeakFiles(string path)
+        {
+            // Get list of files
+            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
+
+            // Loop through files            
+            foreach (string file in files)
+            {
+                // Delete file
+                File.Delete(file);
+            }
         }
     }
 
