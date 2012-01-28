@@ -1928,9 +1928,18 @@ namespace MPfm
                 lblBitrate.Text = m_player.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
                 lblFrequency.Text = m_player.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
 
-                // Set the song length for the Loops & Markers wave form display control
-                //waveFormMarkersLoops.Position = m_player.Playlist.CurrentItem.Channel.GetPosition();
-                waveFormMarkersLoops.Length = m_player.Playlist.CurrentItem.Channel.GetLength();
+                // Get length
+                long length = m_player.Playlist.CurrentItem.Channel.GetLength();
+
+                // Check if this is a FLAC file over 44100Hz
+                if (m_player.Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && m_player.Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+                {
+                    // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                    length = (long)((float)length * 1.5f);
+                }
+
+                // Set the song length for the Loops & Markers wave form display control                
+                waveFormMarkersLoops.Length = length;
 
                 // Load the wave form                
                 waveFormMarkersLoops.LoadWaveForm(m_player.Playlist.CurrentItem.AudioFile.FilePath);

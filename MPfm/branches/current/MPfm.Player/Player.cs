@@ -1123,6 +1123,13 @@ namespace MPfm.Player
                         m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     }
 
+                    // Compare sample rate on stream channel
+                    if (m_mainChannel.SampleRate != Playlist.CurrentItem.AudioFile.SampleRate)
+                    {
+                        // Set new sample rate
+                        m_mainChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
+                    }
+
                     try
                     {
                         // Start playback depending on driver type
@@ -1231,6 +1238,13 @@ namespace MPfm.Player
             // Divide by 2 (floating point)
             outputPosition /= 2;
 
+            // Check if this is a FLAC file over 44100Hz
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            {
+                // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                outputPosition = (long)((float)outputPosition * 1.5f);
+            }
+
             // Add the offset position
             outputPosition += m_positionOffset;
 
@@ -1255,6 +1269,13 @@ namespace MPfm.Player
             // Set main channel position to 0 (clear buffer)
             m_mainChannel.SetPosition(0);
 
+            // Check if this is a FLAC file over 44100Hz
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            {
+                // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                bytes = (long)((float)bytes / 1.5f);
+            }
+
             // Set position for the decode channel
             Playlist.CurrentItem.Channel.SetPosition(bytes);
         }
@@ -1274,11 +1295,18 @@ namespace MPfm.Player
             // Calculate new position
             long newPosition = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
 
+            // Set main channel position to 0 (clear buffer)
+            m_mainChannel.SetPosition(0);
+
             // Set offset position (for calulating current position)
             m_positionOffset = newPosition;
 
-            // Set main channel position to 0 (clear buffer)
-            m_mainChannel.SetPosition(0);
+            // Check if this is a FLAC file over 44100Hz
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            {
+                // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                newPosition = (long)((float)newPosition / 1.5f);
+            }
 
             // Set position for the decode channel
             Playlist.CurrentItem.Channel.SetPosition(newPosition);
@@ -1654,6 +1682,13 @@ namespace MPfm.Player
                 // Set position seeked
                 m_positionOffset = 0 - position - buffered;
 
+                // Check if this is a FLAC file over 44100Hz
+                if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+                {
+                    // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                    m_positionOffset = (long)((float)m_positionOffset * 1.5f);
+                }
+
                 // Check if this is the last item to play
                 if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
                 {
@@ -1737,6 +1772,13 @@ namespace MPfm.Player
 
                     // Raise event
                     OnPlaylistIndexChanged(data);
+                }
+
+                // Compare sample rate on stream channel
+                if (m_mainChannel.SampleRate != Playlist.CurrentItem.AudioFile.SampleRate)
+                {
+                    // Set new sample rate
+                    m_mainChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
                 }
 
                 // Return data from the new channel

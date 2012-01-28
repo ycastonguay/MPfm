@@ -688,6 +688,7 @@ namespace MPfm.WindowsControls
         {
             // Increment counter
             animZoomCount++;
+            animZoomCount++;
 
             Invalidate(new Rectangle(0, ClientRectangle.Height - 20, 100, 20));
             Refresh();

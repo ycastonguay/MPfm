@@ -206,6 +206,13 @@ namespace MPfm.Sound
 
             // Load channel length
             m_lengthBytes = m_channel.GetLength();
+
+            // Check if this is a FLAC file over 44100Hz
+            if (m_audioFile.FileType == AudioFileFormat.FLAC && m_audioFile.SampleRate > 44100)
+            {
+                m_lengthBytes = (long)((float)m_lengthBytes * 1.5f);
+            }
+
             m_lengthSamples = ConvertAudio.ToPCM(m_lengthBytes, (uint)m_audioFile.BitsPerSample, 2);
             m_lengthMilliseconds = (int)ConvertAudio.ToMS(m_lengthSamples, (uint)m_audioFile.SampleRate);
             m_lengthString = Conversion.MillisecondsToTimeString((ulong)m_lengthMilliseconds);

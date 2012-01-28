@@ -557,21 +557,21 @@ namespace MPfm.WindowsControls
             // Add columns to list
             m_columns = new List<SongGridViewColumn>();
             m_columns.Add(columnSongAlbumCover);
+            m_columns.Add(columnSongAlbumTitle);
+            m_columns.Add(columnSongArtistName);
+            m_columns.Add(columnSongBitrate);            
+            m_columns.Add(columnSongFilePath);            
+            m_columns.Add(columnSongGenre);
+            m_columns.Add(columnSongLastPlayed);
+            m_columns.Add(columnSongLength);
             m_columns.Add(columnSongNowPlaying);
-            m_columns.Add(columnSongFileType);
+            m_columns.Add(columnSongPlayCount);
+            m_columns.Add(columnSongSampleRate);
+            m_columns.Add(columnSongTitle); // Song title
+            m_columns.Add(columnSongTempo);            
             m_columns.Add(columnSongTrackNumber);
             m_columns.Add(columnSongTrackCount);
-            m_columns.Add(columnSongFilePath);
-            m_columns.Add(columnSongTitle);
-            m_columns.Add(columnSongLength);
-            m_columns.Add(columnSongArtistName);
-            m_columns.Add(columnSongAlbumTitle);
-            m_columns.Add(columnSongGenre);
-            m_columns.Add(columnSongPlayCount);
-            m_columns.Add(columnSongLastPlayed);
-            m_columns.Add(columnSongBitrate);
-            m_columns.Add(columnSongSampleRate);
-            m_columns.Add(columnSongTempo);
+            m_columns.Add(columnSongFileType); // Type
             m_columns.Add(columnSongYear);
 
             // Create contextual menu

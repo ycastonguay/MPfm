@@ -34,6 +34,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using MPfm.Sound.BassNetWrapper;
+using MPfm.Core;
 
 namespace MPfm.Sound
 {
@@ -396,8 +397,16 @@ namespace MPfm.Sound
                             // Check if file exists
                             if (File.Exists(peakFilePath))
                             {
-                                // Delete file
-                                File.Delete(peakFilePath);
+                                try
+                                {
+                                    // Delete file
+                                    File.Delete(peakFilePath);
+                                }
+                                catch (Exception ex)
+                                {
+                                    // Just skip this step.
+                                    Tracing.Log("Could not delete peak file " + peakFilePath + ".");
+                                }
                             }
                         }                        
                     }
@@ -581,7 +590,14 @@ namespace MPfm.Sound
                     }
 
                     // Dispose subscription and remove it from list
-                    m_listSubscriptions[0].Dispose();
+                    try
+                    {
+                        m_listSubscriptions[0].Dispose();
+                    }
+                    catch
+                    {
+
+                    }
                     m_listSubscriptions.RemoveAt(0);                    
                 }
                 catch(Exception ex)
