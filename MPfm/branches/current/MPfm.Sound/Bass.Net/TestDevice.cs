@@ -2,7 +2,7 @@
 // TestDevice.cs: This file contains the TestDevice class which is part of the
 //                BASS.NET wrapper.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

@@ -4,7 +4,7 @@
 //                     Loops & Markers panel of MPfm.
 //                     The control appearance can be changed using the public properties.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

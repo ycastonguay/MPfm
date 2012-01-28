@@ -2,7 +2,7 @@
 // OutputMeter.cs: This output meter control takes raw audio data and displays the current level of mono or stereo channels.
 //                 The control appearance can be changed using the public properties.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

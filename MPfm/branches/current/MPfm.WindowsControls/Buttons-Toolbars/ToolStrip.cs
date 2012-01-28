@@ -2,7 +2,7 @@
 // ToolStrip.cs: This toolstrip control is based on the System.Windows.Forms.ToolStrip control.
 //               It fixes an inactive window button click bug (see WndProc for more information).
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

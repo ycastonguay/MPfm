@@ -1,7 +1,7 @@
 ﻿//
 // SV8Tag.cs: Data structure for SV8/MPC tags.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

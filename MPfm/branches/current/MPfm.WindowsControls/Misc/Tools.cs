@@ -1,7 +1,7 @@
 //
 // Tools.cs: This class contains miscelleanous methods for Windows controls.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

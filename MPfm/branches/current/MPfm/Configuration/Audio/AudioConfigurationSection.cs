@@ -1,7 +1,7 @@
 ﻿//
 // AudioConfigurationSection.cs: Configuration section used for MPfm audio settings.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

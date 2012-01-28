@@ -1,7 +1,7 @@
 //
 // Form.cs: This form control is based on the System.Windows.Forms.Form control.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

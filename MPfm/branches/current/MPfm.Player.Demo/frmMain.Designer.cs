@@ -122,7 +122,7 @@
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(243, 12);
             this.lblCopyright.TabIndex = 18;
-            this.lblCopyright.Text = "Copyright © 2011 Yanick Castonguay";
+            this.lblCopyright.Text = "Copyright © 2011-2012 Yanick Castonguay";
             // 
             // lblVersion
             // 

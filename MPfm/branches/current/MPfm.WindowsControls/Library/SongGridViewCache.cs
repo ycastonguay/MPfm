@@ -1,7 +1,7 @@
 ﻿//
 // SongGridViewCache.cs: General cache for the SongGridView control.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

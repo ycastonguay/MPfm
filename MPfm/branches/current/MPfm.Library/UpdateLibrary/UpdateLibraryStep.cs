@@ -1,7 +1,7 @@
 ﻿//
 // UpdateLibraryStep.cs: Defines the current step in the Update Library process.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

@@ -2,7 +2,7 @@
 // WaveForm.cs: This wave form display control takes raw audio data and displays the current wave form of mono or stereo channels.
 //              The control appearance can be changed using the public properties.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

@@ -1,7 +1,7 @@
 ﻿//
 // AlbumView.cs: This custom control displays the albums contained in a MPfm library.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

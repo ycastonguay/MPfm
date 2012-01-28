@@ -2,7 +2,7 @@
 // VolumeFader.cs: This volume fader control is basically a vertical track bar, but with the appearance of a fader.
 //                 The control appearance can be changed using the public properties.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

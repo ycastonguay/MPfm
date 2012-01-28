@@ -2,7 +2,7 @@
 // GeneralConfigurationKeyValue.cs: Defines a key/value pair to be used 
 //                                  in the MPfm general configuration section.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

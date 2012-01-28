@@ -2,7 +2,7 @@
 // ConvertAudio.cs: Static helper class for converting audio position
 //                  into different formats.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

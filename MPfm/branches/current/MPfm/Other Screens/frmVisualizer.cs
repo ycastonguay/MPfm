@@ -2,7 +2,7 @@
 // frmVisualizer.cs: Visualizer window. This is where the user can visualize effects such as
 //                   wave forms, spectrum analyzers, and more. 
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

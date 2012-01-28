@@ -2,7 +2,7 @@
 // frmRenameSavePlaylist.cs: Popup window displayed in modal when the user clicked on the
 //                           Save Playlist or Rename Playlist buttons in the Playlist window.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

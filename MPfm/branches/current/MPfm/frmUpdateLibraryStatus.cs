@@ -1,7 +1,7 @@
 //
 // frmUpdateLibraryStatus.cs: Update Library window. This window is displayed when the application is updating the library.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

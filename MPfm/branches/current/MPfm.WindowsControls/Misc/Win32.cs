@@ -1,7 +1,7 @@
 //
 // Win32.cs: This file contains structured based on the Win32 kernel.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

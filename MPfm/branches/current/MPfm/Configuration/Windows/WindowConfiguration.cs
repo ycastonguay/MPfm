@@ -2,7 +2,7 @@
 // WindowConfiguration.cs: Defines the settings related to a MPfm window to 
 //                         be used in the Windows configuration section.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

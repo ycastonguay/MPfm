@@ -2,7 +2,7 @@
 // ConfigData.cs: This class is part of the PlaybackEngineV4 demo application.
 //                This is the class defining the configuration data.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

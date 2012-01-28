@@ -1,7 +1,7 @@
 ﻿//
 // DriverComboBoxItem.cs: This class represents the data used for a Driver combo box control.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

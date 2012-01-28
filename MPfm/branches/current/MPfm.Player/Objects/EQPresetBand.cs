@@ -2,7 +2,7 @@
 // EQPresetBand.cs: This file contains the class defining a band of the 18-band
 //                  equalizer.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

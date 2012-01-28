@@ -1,7 +1,7 @@
 //
 // GeneralTheme.cs: Defines a theme object for general use in MPfm.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

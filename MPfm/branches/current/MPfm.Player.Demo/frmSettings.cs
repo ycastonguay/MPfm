@@ -2,7 +2,7 @@
 // frmSettings.cs: This class is part of the PlaybackEngineV4 demo application.
 //                 This is the settings form of the application.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

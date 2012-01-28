@@ -1,7 +1,7 @@
 ﻿//
 // frmFirstRun.cs: First Run window. This window is displayed to the user when he/she first starts the application.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

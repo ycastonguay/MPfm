@@ -2,7 +2,7 @@
 // frmSettings.cs: Settings window. This is where the user selects the driver and output device.
 //                 The user can also configure the library folders in the Library tab.   
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

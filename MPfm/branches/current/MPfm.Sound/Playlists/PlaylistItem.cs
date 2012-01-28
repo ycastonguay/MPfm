@@ -2,7 +2,7 @@
 // PlaylistItem.cs: This file contains the class defining a playlist item to 
 //                  be used with the Player.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

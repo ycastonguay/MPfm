@@ -2,7 +2,7 @@
 // Panel.cs: This panel control is based on the System.Windows.Forms.Panel control.
 //           It adds custom drawing, gradient backgrounds and other features.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

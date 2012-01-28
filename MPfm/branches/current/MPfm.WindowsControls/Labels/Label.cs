@@ -2,7 +2,7 @@
 // Label.cs: This label control is based on the System.Windows.Forms.Label control.
 //           It adds support for embedded fonts and anti-aliasing.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

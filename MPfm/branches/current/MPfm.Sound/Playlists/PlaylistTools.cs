@@ -2,7 +2,7 @@
 // PlaylistTools.cs: This static class contains useful methods for loading and 
 //                   saving playlists.
 //
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2012 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

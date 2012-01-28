@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yanick Castonguay")]
 [assembly: AssemblyProduct("MPfm (Music Player for Musicians)")]
-[assembly: AssemblyCopyright("Copyright © 2011 Yanick Castonguay")]
+[assembly: AssemblyCopyright("Copyright © 2011-2012 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
