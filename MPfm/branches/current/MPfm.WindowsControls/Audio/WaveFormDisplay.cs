@@ -104,6 +104,7 @@ namespace MPfm.WindowsControls
         private ToolStripMenuItem menuItemWaveFormDisplayTypeRight = null;
         private ToolStripMenuItem menuItemWaveFormDisplayTypeMix = null;
 
+        private string m_peakFilePath = string.Empty;
         private bool needToRefreshBitmapCache = false;
 
         // Delegate events
@@ -943,6 +944,9 @@ namespace MPfm.WindowsControls
                 // Reset scrollbar
                 m_scrollX = 0;
 
+                // Read peak file (using data based on the progress event sometimes causes problems)
+                m_waveDataHistory = m_peakFile.ReadPeakFile(m_peakFilePath);
+
                 // Do a last refresh
                 needToRefreshBitmapCache = true;
                 Refresh();
@@ -992,14 +996,14 @@ namespace MPfm.WindowsControls
             //}
 
             // Build peak file path
-            string peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+            m_peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
 
             // Clear history
             WaveDataHistory.Clear();
 
             // Check if the peak file exists; try to read file
             bool readFile = false;
-            if(File.Exists(peakFilePath))
+            if (File.Exists(m_peakFilePath))
             {
                 readFile = true;
             }
@@ -1013,7 +1017,7 @@ namespace MPfm.WindowsControls
                 if (readFile)
                 {                    
                     // Load peaks from file
-                    m_waveDataHistory = m_peakFile.ReadPeakFile(peakFilePath);
+                    m_waveDataHistory = m_peakFile.ReadPeakFile(m_peakFilePath);
 
                     // Set flags
                     m_isLoading = false;
@@ -1044,7 +1048,7 @@ namespace MPfm.WindowsControls
             m_timerLoadPeakFile.Start();
 
             // Generate peak file and start timer for updating progress
-            m_peakFile.GeneratePeakFile(filePath, peakFilePath);            
+            m_peakFile.GeneratePeakFile(filePath, m_peakFilePath);            
         }
 
         /// <summary>
