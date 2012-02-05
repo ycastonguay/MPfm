@@ -741,6 +741,9 @@ namespace MPfm.Player
                 // Make sure there are no current loops                 
                 m_currentLoop = null;
 
+                // Make sure there are no sync procs
+                RemoveSyncCallbacks();
+
                 // Set offset
                 m_positionOffset = 0;
 
@@ -1048,11 +1051,7 @@ namespace MPfm.Player
             }
 
             // Remove syncs            
-            for (int a = 0; a < m_syncProcs.Count; a++ )
-            {
-                // Remove sync proc
-                RemoveSyncCallback(m_syncProcs[a].Handle);
-            }
+            RemoveSyncCallbacks();
 
             // Check if the current song exists
             if (m_playlist != null && m_playlist.CurrentItem != null)
@@ -1091,6 +1090,9 @@ namespace MPfm.Player
 
             // Clear loop
             m_currentLoop = null;
+
+            // Make sure there are no sync procs
+            RemoveSyncCallbacks();
 
             // Set offset
             m_positionOffset = 0;
@@ -1248,18 +1250,8 @@ namespace MPfm.Player
             {
                 return 0;
             }
-
-            //m_mainChannel.Lock(true);            
-            
-            //int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);            
-            
             // Get main channel position
             long outputPosition = m_mainChannel.GetPosition();
-            //long streamPosition = Playlist.CurrentItem.Channel.GetPosition();
-
-            //m_mainChannel.Lock(false);
-                        
-            //long newPos = streamPosition - buffered;
 
             // Divide by 2 (floating point)
             outputPosition /= 2;
@@ -1305,8 +1297,8 @@ namespace MPfm.Player
             // Get file length
             long length = Playlist.CurrentItem.Channel.GetLength();            
 
-            // Set sync
-            //SetPlayerSyncCallback((length - bytes) * 2, false);
+            // Remove any sync callback and set new callback            
+            RemoveSyncCallbacks();
             SetSyncCallback((length - bytes) * 2);
 
             // Set position for the decode channel
@@ -1344,8 +1336,8 @@ namespace MPfm.Player
             // Get file length
             long length = Playlist.CurrentItem.Channel.GetLength();
 
-            // Set sync
-            //SetPlayerSyncCallback((length - newPosition) * 2, false);
+            // Remove any sync callback and set new callback            
+            RemoveSyncCallbacks();
             SetSyncCallback((length - newPosition) * 2);
 
             // Set position for the decode channel
@@ -1419,8 +1411,21 @@ namespace MPfm.Player
 
                 // Clear the audio buffer                
                 m_mainChannel.SetPosition(0);
+
+                // Lock channel
                 m_mainChannel.Lock(true);
+
+                // Get position
                 m_positionOffset = m_playlist.CurrentItem.Channel.GetPosition();
+
+                // Get file length
+                long length = Playlist.CurrentItem.Channel.GetLength();
+
+                // Remove sync callbacks and set new sync
+                RemoveSyncCallbacks();
+                SetSyncCallback((length - m_positionOffset) * 2);
+
+                // Unlock channel
                 m_mainChannel.Lock(false);
             }
             catch (Exception ex)
@@ -1632,6 +1637,28 @@ namespace MPfm.Player
             m_syncProcs.Add(syncProc);
 
             return syncProc;
+        }
+
+        /// <summary>
+        /// Removes all synchronization callbacks from the sync callback list.
+        /// </summary>
+        protected void RemoveSyncCallbacks()
+        {
+            // Loop
+            while (true)
+            {
+                // Are there any more sync procs to remove?
+                if (m_syncProcs.Count > 0)
+                {
+                    // Remove sync proc
+                    RemoveSyncCallback(m_syncProcs[0].Handle);                    
+                }
+                else
+                {
+                    // Exit loop
+                    break;
+                }
+            }
         }
 
         /// <summary>
