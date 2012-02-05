@@ -1012,11 +1012,7 @@ namespace MPfm
             try
             {
                 // Get position
-                long positionBytes = m_player.GetPosition();                
-
-                // For some reason this works instead of using the 96000 Hz and 24 bit values in the following equations.
-                //float ratioPosition = (float)44100 / (float)m_player.Playlist.CurrentItem.AudioFile.SampleRate;
-                //positionBytes = (int)((float)positionBytes * ratioPosition);
+                long positionBytes = m_player.GetPosition();
                 long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
                 long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)m_player.Playlist.CurrentItem.AudioFile.SampleRate);
                 string position = Conversion.MillisecondsToTimeString((ulong)positionMS);                
@@ -1025,6 +1021,7 @@ namespace MPfm
                 lblCurrentPosition.Text = position;
                 miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
                 lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
+                //lblBitrateTitle.Text = positionBytes.ToString();
 
                 // Set position in the wave form display
                 if (!waveFormMarkersLoops.IsLoading)
@@ -1036,9 +1033,7 @@ namespace MPfm
                 if (!songPositionChanging)
                 {
                     // Get ratio
-                    float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
-
-                    // Do not go beyong 99% or the song might end before! (TODO: replace this WEAK condition)
+                    float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;                    
                     if (ratio <= 0.99f)
                     {
                         trackPosition.Value = Convert.ToInt32(ratio * 1000);

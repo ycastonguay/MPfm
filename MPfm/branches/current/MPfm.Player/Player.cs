@@ -47,8 +47,7 @@ namespace MPfm.Player
         /// Timer for the player.
         /// </summary>
         private System.Timers.Timer m_timerPlayer = null;
-        private Channel m_streamChannel = null;
-        private int m_syncProcHandle;
+        private Channel m_streamChannel = null;        
         private Dictionary<int, string> m_plugins = null;
 
         // Plugin handles
@@ -68,10 +67,11 @@ namespace MPfm.Player
         private long m_positionOffset = 0;
 
         #region Callbacks
-        
+
+        private List<PlayerSyncProc> m_syncProcs = null;
+
         // Callbacks
         private STREAMPROC m_streamProc;
-        private SYNCPROC m_syncProc;        
         private ASIOPROC m_asioProc;
         private WASAPIPROC m_wasapiProc;
 
@@ -190,9 +190,6 @@ namespace MPfm.Player
                     {
                         // Force looping
                         m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
-
-                        //m_syncProc = new SYNCPROC(EndSync);
-                        //m_syncProcHandle = m_currentSubChannel.Channel.SetSync(BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME, 0, m_syncProc);                    
                     }
                     else
                     {
@@ -521,7 +518,8 @@ namespace MPfm.Player
             // Create lists            
             m_playlist = new Playlist();
             m_markers = new List<Marker>();
-            m_loops = new List<Loop>();            
+            m_loops = new List<Loop>();
+            m_syncProcs = new List<PlayerSyncProc>();
 
             // Create timer
             Tracing.Log("Player init -- Creating timer...");
@@ -898,6 +896,12 @@ namespace MPfm.Player
                     m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                 }
 
+                // Get audio file length
+                long length = m_playlist.CurrentItem.Channel.GetLength();
+
+                // Set sync                
+                SetSyncCallback(length * 2);
+
                 // Start playback
                 m_isPlaying = true;
                 m_isPaused = false;
@@ -1043,6 +1047,13 @@ namespace MPfm.Player
                 BassWasapi.BASS_WASAPI_Stop(false);
             }
 
+            // Remove syncs            
+            for (int a = 0; a < m_syncProcs.Count; a++ )
+            {
+                // Remove sync proc
+                RemoveSyncCallback(m_syncProcs[a].Handle);
+            }
+
             // Check if the current song exists
             if (m_playlist != null && m_playlist.CurrentItem != null)
             {
@@ -1129,6 +1140,12 @@ namespace MPfm.Player
                         // Set new sample rate
                         m_mainChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
                     }
+
+                    // Get audio file length
+                    long length = m_playlist.CurrentItem.Channel.GetLength();
+
+                    // Set sync                
+                    SetSyncCallback(length * 2);
 
                     try
                     {
@@ -1231,9 +1248,18 @@ namespace MPfm.Player
             {
                 return 0;
             }
+
+            //m_mainChannel.Lock(true);            
+            
+            //int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);            
             
             // Get main channel position
             long outputPosition = m_mainChannel.GetPosition();
+            //long streamPosition = Playlist.CurrentItem.Channel.GetPosition();
+
+            //m_mainChannel.Lock(false);
+                        
+            //long newPos = streamPosition - buffered;
 
             // Divide by 2 (floating point)
             outputPosition /= 2;
@@ -1248,7 +1274,7 @@ namespace MPfm.Player
             // Add the offset position
             outputPosition += m_positionOffset;
 
-            return outputPosition;
+            return outputPosition;            
         }
 
         /// <summary>
@@ -1275,6 +1301,13 @@ namespace MPfm.Player
                 // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                 bytes = (long)((float)bytes / 1.5f);
             }
+
+            // Get file length
+            long length = Playlist.CurrentItem.Channel.GetLength();            
+
+            // Set sync
+            //SetPlayerSyncCallback((length - bytes) * 2, false);
+            SetSyncCallback((length - bytes) * 2);
 
             // Set position for the decode channel
             Playlist.CurrentItem.Channel.SetPosition(bytes);
@@ -1307,6 +1340,13 @@ namespace MPfm.Player
                 // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                 newPosition = (long)((float)newPosition / 1.5f);
             }
+
+            // Get file length
+            long length = Playlist.CurrentItem.Channel.GetLength();
+
+            // Set sync
+            //SetPlayerSyncCallback((length - newPosition) * 2, false);
+            SetSyncCallback((length - newPosition) * 2);
 
             // Set position for the decode channel
             Playlist.CurrentItem.Channel.SetPosition(newPosition);
@@ -1575,6 +1615,51 @@ namespace MPfm.Player
 
         #endregion
 
+        #region Synchronization Methods
+
+        /// <summary>
+        /// Sets a sync callback for triggering events when the playlist index increments.
+        /// </summary>
+        /// <param name="position">Sync callback position</param>
+        protected PlayerSyncProc SetSyncCallback(long position)
+        {                       
+            // Set sync
+            PlayerSyncProc syncProc = new PlayerSyncProc();
+            syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
+            syncProc.Handle = m_mainChannel.SetSync(BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);
+
+            // Add to list
+            m_syncProcs.Add(syncProc);
+
+            return syncProc;
+        }
+
+        /// <summary>
+        /// Removes a synchronization callback from the sync callback list.
+        /// </summary>
+        /// <param name="handle">Synchronization callback handle</param>
+        protected void RemoveSyncCallback(int handle)
+        {
+            // Loop through sync procs
+            for (int a = 0; a < m_syncProcs.Count; a++)
+            {
+                // Check handle
+                if (m_syncProcs[a].Handle == handle)
+                {
+                    // Remove sync
+                    m_mainChannel.RemoveSync(m_syncProcs[a].Handle);
+                    m_syncProcs[a].Handle = 0;
+                    m_syncProcs[a].SyncProc = null;
+
+                    // Remove from list and exit loop
+                    m_syncProcs.RemoveAt(a);
+                    break;
+                }
+            }
+        }
+
+        #endregion
+
         #region Callback Events
 
         /// <summary>
@@ -1622,32 +1707,7 @@ namespace MPfm.Player
                 }
 
                 // Get data from the current channel since it is running                
-                int data = m_playlist.CurrentItem.Channel.GetData(buffer, length);  
-              
-                //float[] stuff = new float[length];
-                //int returns2 = m_playlist.CurrentItem.Channel.GetData(stuff, length);
-
-                //// Raise song end event (if an event is subscribed)
-                //if (OnStreamCallbackCalled != null)
-                //{
-                //    // Create data
-                //    StreamCallbackData data = new StreamCallbackData();
-                //    data.Length = length;
-                //    data.Data = new byte[length];
-                //    Marshal.Copy(buffer, data.Data, 0, length);
-
-                //    float[] floats = new float[length / 4];
-                //    for (int a = 0; a < length / 4; a++)
-                //    {
-                //        floats[a] = BitConverter.ToSingle(data.Data, a);
-                //    }
-
-                //    //UnionArray arry = new UnionArray() { Bytes = data.Data };
-                //    //data.Data2 = stuff;
-
-                //    // Raise event
-                //    OnStreamCallbackCalled(data);
-                //}
+                int data = m_playlist.CurrentItem.Channel.GetData(buffer, length);             
 
                 return data;
             }
@@ -1659,19 +1719,12 @@ namespace MPfm.Player
                 // Reset offset
                 m_positionOffset = 0;
 
-                //m_syncProc = new SYNCPROC(LoopSyncProc);
-                //int handle = .SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
-
                 // Need to get the main output current position and the data left in the buffer.
-                // Lock channel
+                // Lock channel, get position and buffer, and unlock channel
                 m_mainChannel.Lock(true);
-                
-                // Get position
-                long position = m_mainChannel.GetPosition();
-                
+                long position = m_mainChannel.GetPosition();                
                 int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
-                
-                m_mainChannel.Lock(false);                
+                m_mainChannel.Lock(false);
 
                 // Since we're using floating point, divide values by 2
                 position /= 2;
@@ -1687,7 +1740,7 @@ namespace MPfm.Player
                 {
                     // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                     m_positionOffset = (long)((float)m_positionOffset * 1.5f);
-                }
+                }           
 
                 // Check if this is the last item to play
                 if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
@@ -1761,6 +1814,13 @@ namespace MPfm.Player
                 // There is another item to play; go on.                
                 Playlist.Next();
 
+                // Get length
+                long audioLength = Playlist.CurrentItem.Channel.GetLength();
+
+                // Set sync
+                long syncPos = (position + buffered + audioLength) * 2;
+                SetSyncCallback(syncPos);
+
                 // Raise song end event (if an event is subscribed)
                 if (OnPlaylistIndexChanged != null)
                 {
@@ -1772,13 +1832,6 @@ namespace MPfm.Player
 
                     // Raise event
                     OnPlaylistIndexChanged(data);
-                }
-
-                // Compare sample rate on stream channel
-                if (m_mainChannel.SampleRate != Playlist.CurrentItem.AudioFile.SampleRate)
-                {
-                    // Set new sample rate
-                    m_mainChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
                 }
 
                 // Return data from the new channel
@@ -1857,18 +1910,34 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
-            // Increment position offset
-            //m_positionOffset -= CurrentLoop.LengthBytes;
-
             // Empty audio buffer
             m_mainChannel.SetPosition(0);
 
+            // Set position offset
             m_positionOffset = CurrentLoop.StartPositionBytes;
-
 
             // Set loop position
             Bass.BASS_ChannelSetPosition(channel, CurrentLoop.StartPositionBytes * 2);
-        }        
+        }
+
+        /// <summary>
+        /// Sync callback routine used for triggering the playlist index changed event and
+        /// changing the output stream sample rate if necessary.
+        /// </summary>
+        /// <param name="handle">Handle to the sync</param>
+        /// <param name="channel">Channel handle</param>
+        /// <param name="data">Data</param>
+        /// <param name="user">User data</param>
+        private void PlayerSyncProc(int handle, int channel, int data, IntPtr user)
+        {
+            // Remove own sync
+            RemoveSyncCallback(handle);
+
+            // Set new sample rate
+            //m_mainChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
+
+            //m_positionOffset = m_newPositionOffset;
+        }
 
         #endregion
     }
