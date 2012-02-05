@@ -1930,11 +1930,19 @@ namespace MPfm.WindowsControls
 
                 // Find out on what column the mouse cursor is
                 SongGridViewColumn columnOver = null;
-                int x = 0;                
+                int x = 0;
+                bool isPastCurrentlyMovingColumn = false;
                 for (int a = 0; a < m_songCache.ActiveColumns.Count; a++ )
                 {
                     // Set current column
                     SongGridViewColumn currentColumn = m_songCache.ActiveColumns[a];
+
+                    // Check if current column
+                    if (currentColumn.FieldName == columnMoving.FieldName)
+                    {
+                        // Set flag
+                        isPastCurrentlyMovingColumn = true;
+                    }
 
                     // Check if the column is visible
                     if (currentColumn.Visible)
@@ -1942,9 +1950,18 @@ namespace MPfm.WindowsControls
                         // Check if the cursor is over the left part of the column
                         if (e.X >= x - m_hScrollBar.Value && e.X <= x + (currentColumn.Width / 2) - m_hScrollBar.Value)
                         {
-                            // Set column
-                            columnOver = currentColumn;
-                            break;
+                            // Check flag
+                            if (isPastCurrentlyMovingColumn && currentColumn.FieldName != columnMoving.FieldName)
+                            {
+                                // Set column
+                                columnOver = m_songCache.ActiveColumns[a - 1];
+                            }
+                            else
+                            {
+                                // Set column
+                                columnOver = m_songCache.ActiveColumns[a];
+                            }
+                            break;                               
                         }
                         // Check if the cursor is over the right part of the column
                         else if (e.X >= x + (currentColumn.Width / 2) - m_hScrollBar.Value && e.X <= x + currentColumn.Width - m_hScrollBar.Value)
@@ -1952,8 +1969,17 @@ namespace MPfm.WindowsControls
                             // Check if there is a next item
                             if (a < m_songCache.ActiveColumns.Count - 1)
                             {
-                                // Set column
-                                columnOver = m_songCache.ActiveColumns[a + 1];
+                                // Check flag
+                                if (isPastCurrentlyMovingColumn)
+                                {
+                                    // Set column
+                                    columnOver = m_songCache.ActiveColumns[a];
+                                }
+                                else
+                                {
+                                    // Set column
+                                    columnOver = m_songCache.ActiveColumns[a + 1];
+                                }
                             }
 
                             break;
