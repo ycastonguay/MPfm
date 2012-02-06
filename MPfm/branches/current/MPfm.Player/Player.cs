@@ -1705,7 +1705,8 @@ namespace MPfm.Player
             }
 
             // Get active status            
-            BASSActive status = m_playlist.CurrentItem.Channel.IsActive();
+            //BASSActive status = m_playlist.CurrentItem.Channel.IsActive();
+            BASSActive status = m_playlist.Items[m_currentMixPlaylistIndex].Channel.IsActive();
 
             // Check the current channel status
             if (status == BASSActive.BASS_ACTIVE_PLAYING)
@@ -1816,7 +1817,8 @@ namespace MPfm.Player
                 long audioLength = Playlist.Items[m_currentMixPlaylistIndex].Channel.GetLength();
 
                 // Set sync
-                long syncPos = (position + buffered + audioLength) * 2;
+                //long syncPos = (position + buffered + audioLength) * 2;
+                long syncPos = position + buffered + (audioLength * 2);
                 SetSyncCallback(syncPos);
 
                 // Unlock main channel
@@ -1907,6 +1909,31 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         private void PlayerSyncProc(int handle, int channel, int data, IntPtr user)
         {
+            // Lock main channel
+            m_mainChannel.Lock(true);
+
+            // Get main channel position
+            long position = m_mainChannel.GetPosition();
+
+            // Get remanining data in buffer
+            int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
+
+            // Set position offset
+            long offset = 0 - (position / 2);
+
+            // Check if this is a FLAC file over 44100Hz
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            {
+                // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                offset = (long)((float)offset * 1.5f);
+            }
+
+            // Set position offset
+            m_positionOffset = offset;
+
+            // Unlock main channel
+            m_mainChannel.Lock(false);
+
             // Remove own sync
             RemoveSyncCallback(handle);
             
@@ -1935,28 +1962,6 @@ namespace MPfm.Player
                 // Increment playlist index
                 Playlist.Next();
             }
-
-            // Lock main channel
-            m_mainChannel.Lock(true);
-
-            // Get main channel position
-            long position = m_mainChannel.GetPosition();
-
-            // Get remanining data in buffer
-            int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
-
-            // Set position offset
-            m_positionOffset = 0 - (position / 2);
-
-            // Check if this is a FLAC file over 44100Hz
-            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
-            {
-                // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
-                m_positionOffset = (long)((float)m_positionOffset * 1.5f);
-            }
-
-            // Unlock main channel
-            m_mainChannel.Lock(false);
 
             // Check if an event is subscribed
             if (OnPlaylistIndexChanged != null)
