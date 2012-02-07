@@ -691,7 +691,7 @@ namespace MPfm.Player
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         protected void m_timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
+        {            
             if (m_timerPlayer != null)
             {
                 // Reset timer
@@ -1909,23 +1909,57 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         private void PlayerSyncProc(int handle, int channel, int data, IntPtr user)
         {
-            // Lock main channel
+            // Declare variables
+            bool playbackStopped = false;
+            bool playlistBackToStart = false;
+            int nextPlaylistIndex = 0;
+
+            // Lock main channel. Do as less as possible when locking channels!
             m_mainChannel.Lock(true);
 
             // Get main channel position
             long position = m_mainChannel.GetPosition();
 
             // Get remanining data in buffer
-            int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
+            //int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
 
-            // Set position offset
+            // Check if this the last song
+            if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
+            {
+                // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
+                if (RepeatType == RepeatType.Playlist)
+                {
+                    // Set flags      
+                    nextPlaylistIndex = 0;
+                    playlistBackToStart = true;
+                }
+                else
+                {
+                    // Set flags
+                    playbackStopped = true;
+                }
+            }
+            else
+            {
+                // Set flags
+                nextPlaylistIndex = m_playlist.CurrentItemIndex + 1;
+            }
+
+            // Calculate position offset
             long offset = 0 - (position / 2);
 
             // Check if this is a FLAC file over 44100Hz
-            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate > 44100)
             {
                 // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                 offset = (long)((float)offset * 1.5f);
+            }
+
+            // Check if the sample rate needs to be changed (i.e. main channel sample rate different than the decoding file)
+            if (!playbackStopped && m_mainChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
+            {
+                // Set new sample rate
+                m_mainChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
             }
 
             // Set position offset
@@ -1938,8 +1972,6 @@ namespace MPfm.Player
             RemoveSyncCallback(handle);
             
             // Check if this is the last item to play
-            bool playbackStopped = false;
-            bool playlistBackToStart = false;
             if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
@@ -1947,14 +1979,6 @@ namespace MPfm.Player
                 {
                     // Go to first item
                     Playlist.First();
-
-                    // Set flag
-                    playlistBackToStart = true;
-                }
-                else
-                {
-                    // Set flag
-                    playbackStopped = true;
                 }
             }
             else
@@ -1992,13 +2016,6 @@ namespace MPfm.Player
 
                 // Raise event
                 OnPlaylistIndexChanged(eventData);
-            }
-            
-            // Compare sample rate
-            if (!playbackStopped && m_mainChannel.SampleRate != Playlist.CurrentItem.AudioFile.SampleRate)
-            {
-                // Set new sample rate
-                m_mainChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
             }
         }
 
