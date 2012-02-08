@@ -78,7 +78,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the DatabaseVersionMinor property.
         /// </summary>
-        private static int m_databaseVersionMinor = 3;
+        private static int m_databaseVersionMinor = 4;
         /// <summary>
         /// Indicates what database minor version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMajor property.
@@ -176,6 +176,30 @@ namespace MPfm.Library
         #endregion
 
         #region Database Script Creation/Update
+
+        /// <summary>
+        /// Returns the database version from the database file (actually in the Settings table).
+        /// </summary>
+        /// <param name="databaseFilePath">Database file path</param>
+        /// <returns>Database version (ex: "1.04")</returns>
+        public static string GetDatabaseVersion(string databaseFilePath)
+        {
+            // Create gateway
+            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
+
+            // Fetch database version
+            Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
+
+            // Check if setting is null
+            if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
+            {
+                // Yes, this is 1.00 (there was no Setting entry)
+                return "1.00";
+            }
+
+            // Extract major/minor
+            return settingDatabaseVersion.SettingValue;
+        }
 
         /// <summary>
         /// Checks if the library database structure needs to be updated by comparing

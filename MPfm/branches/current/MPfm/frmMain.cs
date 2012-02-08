@@ -333,6 +333,15 @@ namespace MPfm
 
                 try
                 {
+                    // Check version
+                    string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(m_databaseFilePath);
+                    if (databaseVersion == "1.03" && MPfm.Library.Library.DatabaseVersionMajor == 1 && MPfm.Library.Library.DatabaseVersionMinor == 4)
+                    {
+                        // Display message box
+                        //frmSplash.DisplayMessageBox("stuff", "caption", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //MessageBox.Show(, "STUFF");
+                    }
+
                     // Check if the database needs to be updated
                     MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(m_databaseFilePath);
                 }
@@ -1018,14 +1027,12 @@ namespace MPfm
                 string position = Conversion.MillisecondsToTimeString((ulong)positionMS);                
 
                 // Set UI            
-                lblCurrentPosition.Text = position;
+                lblCurrentPosition.Text = position;                
                 miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
-                lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
-                //lblBitrateTitle.Text = positionBytes.ToString();
 
                 // Set position in the wave form display
                 if (!waveFormMarkersLoops.IsLoading)
-                {                    
+                {
                     waveFormMarkersLoops.SetPosition(positionBytes, position);
                 }
 
@@ -1033,7 +1040,7 @@ namespace MPfm
                 if (!songPositionChanging)
                 {
                     // Get ratio
-                    float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;                    
+                    float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
                     if (ratio <= 0.99f)
                     {
                         trackPosition.Value = Convert.ToInt32(ratio * 1000);
@@ -1250,23 +1257,23 @@ namespace MPfm
                 return;
             }
 
-            // Update the library using the specified folder            
-            formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
-            formUpdateLibraryStatus.ShowDialog(this);
+            //// Update the library using the specified folder            
+            //formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
+            //formUpdateLibraryStatus.ShowDialog(this);
 
             // Show panel
-            //ShowUpdateLibraryProgress(true);
+            ShowUpdateLibraryProgress(true);
 
-            //// Start update timer to display progress
-            //timerUpdateLibrary.Start();
+            // Start update timer to display progress
+            timerUpdateLibrary.Start();
 
-            //// Start new thread
-            //new Thread(delegate()
-            //{                
-            //    List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
-            //    updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
-            //    Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
-            //}).Start();
+            // Start new thread
+            new Thread(delegate()
+            {                
+                List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
+                updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
+                Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
+            }).Start();
         }
 
         /// <summary>
@@ -1481,11 +1488,15 @@ namespace MPfm
             {
                 btnPause.Checked = false;
                 miTrayPause.Checked = false;
+                m_timerSongPosition.Enabled = true;
+                timerUpdateOutputMeter.Enabled = true;
             }
             else
             {
                 btnPause.Checked = true;
                 miTrayPause.Checked = true;
+                m_timerSongPosition.Enabled = false;
+                timerUpdateOutputMeter.Enabled = false;
             }
 
             // Set pause
@@ -1912,6 +1923,7 @@ namespace MPfm
                 lblCurrentAlbumTitle.Text = m_player.Playlist.CurrentItem.AudioFile.AlbumTitle;
                 lblCurrentSongTitle.Text = m_player.Playlist.CurrentItem.AudioFile.Title;
                 lblCurrentFilePath.Text = m_player.Playlist.CurrentItem.AudioFile.FilePath;
+                lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
 
                 // Set tray menu metadata
                 miTrayArtistName.Text = m_player.Playlist.CurrentItem.AudioFile.ArtistName;
@@ -3256,7 +3268,7 @@ namespace MPfm
             miTreeLibraryDeletePlaylist.Tag = metadata;
         }
 
-        //private UpdateLibrary updateLibrary = null;
+        private UpdateLibrary updateLibrary = null;
 
         /// <summary>
         /// Displays the Update Library Status window and updates the library
@@ -3281,28 +3293,28 @@ namespace MPfm
             formUpdateLibraryStatus.ShowDialog(this);           
         }
 
-        //private void timerUpdateLibrary_Tick(object sender, EventArgs e)
-        //{
-        //    if (updateLibrary == null)
-        //    {
-        //        return;
-        //    }
+        private void timerUpdateLibrary_Tick(object sender, EventArgs e)
+        {
+            if (updateLibrary == null)
+            {
+                return;
+            }
 
-        //    // Update progress
-        //    progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
-        //    lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
-        //    //lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
+            // Update progress
+            progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
+            lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
+            //lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
 
-        //    // Check if process is done
-        //    if (updateLibrary.PercentageDone == 100)
-        //    {
-        //        // Stop timer
-        //        timerUpdateLibrary.Stop();
+            // Check if process is done
+            if (updateLibrary.PercentageDone == 100)
+            {
+                // Stop timer
+                timerUpdateLibrary.Stop();
 
-        //        // Show panel
-        //        ShowUpdateLibraryProgress(false);
-        //    }
-        //}
+                // Show panel
+                ShowUpdateLibraryProgress(false);
+            }
+        }
 
         /// <summary>
         /// Occurs when the user changes the sound format filter using the Sound Format combobox.

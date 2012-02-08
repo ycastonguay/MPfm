@@ -1,6 +1,6 @@
 //
 // Label.cs: This label control is based on the System.Windows.Forms.Label control.
-//           It adds support for embedded fonts and anti-aliasing.
+//           It adds support for embedded Fonts and anti-aliasing.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -33,16 +33,108 @@ namespace MPfm.WindowsControls
 {
     /// <summary>
     /// This label control is based on the System.Windows.Forms.Label control.
-    /// It adds support for embedded fonts and anti-aliasing.
+    /// It adds support for embedded Fonts and anti-aliasing.
     /// </summary>
     public class Label : System.Windows.Forms.Label
     {
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
+        #region Background Properties
+
+        /// <summary>
+        /// Private value for the UseBackgroundGradient property.
+        /// </summary>
+        private bool m_useBackgroundGradient = false;
+        /// <summary>
+        /// Defines if the background gradient should be used or not.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("Defines if the background gradient should be used or not.")]
+        public bool UseBackgroundGradient
+        {
+            get
+            {
+                return m_useBackgroundGradient;
+            }
+            set
+            {
+                m_useBackgroundGradient = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BackgroundGradientColor1 property.
+        /// </summary>
+        private Color m_backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
+        /// <summary>
+        /// First color of the background gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
+        public Color BackgroundGradientColor1
+        {
+            get
+            {
+                return m_backgroundGradientColor1;
+            }
+            set
+            {
+                m_backgroundGradientColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BackgroundGradientColor2 property.
+        /// </summary>
+        private Color m_backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
+        /// <summary>
+        /// Second color of the background gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
+        public Color BackgroundGradientColor2
+        {
+            get
+            {
+                return m_backgroundGradientColor2;
+            }
+            set
+            {
+                m_backgroundGradientColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BackgroundGradientMode property.
+        /// </summary>
+        private LinearGradientMode m_backgroundGradientMode = LinearGradientMode.Vertical;
+        /// <summary>
+        /// Background gradient mode.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
+        public LinearGradientMode BackgroundGradientMode
+        {
+            get
+            {
+                return m_backgroundGradientMode;
+            }
+            set
+            {
+                m_backgroundGradientMode = value;
+            }
+        }
+
+        #endregion
+
+        #region Font Properties
+
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
         private CustomFont m_customFont = null;
         /// <summary>
-        /// Defines the font to be used for rendering the control.
+        /// Defines the Font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
@@ -59,6 +151,8 @@ namespace MPfm.WindowsControls
             }
         }
 
+        #endregion
+
         /// <summary>
         /// Default constructor for the Label class.
         /// </summary>
@@ -68,8 +162,11 @@ namespace MPfm.WindowsControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);        
             
-            // Set default font
+            // Set default Font
             m_customFont = new CustomFont();
+
+            // Get embedded Font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
         }
 
         /// <summary>
@@ -79,7 +176,7 @@ namespace MPfm.WindowsControls
         protected override void OnPaint(PaintEventArgs pe)
         {
             try
-            {
+            {                
                 // Get graphics from paint event
                 Graphics g = pe.Graphics;
 
@@ -93,114 +190,125 @@ namespace MPfm.WindowsControls
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                 }
 
-                // Create custom font
-                Font font = null;
-     
-                // Make sure the embedded font name needs to be loaded and is valid
+                // Create custom Font
+                Font Font = null;
+
+                // Make sure the embedded Font name needs to be loaded and is valid
                 if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
                 {
                     try
                     {
-                        // Get embedded font collection
-                        EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
-                        // Get embedded font
-                        font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        // Get embedded Font
+                        Font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                     }
                     catch (Exception ex)
                     {
-                        // Use default font instead
-                        font = this.Font;
+                        // Use default Font instead
+                        Font = this.Font;
                     }
                 }
 
-                // Check if font is null
-                if (font == null)
+                // Check if Font is null
+                if (Font == null)
                 {
                     try
                     {
-                        // Try to get standard font
-                        font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        // Try to get standard Font
+                        Font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
                     }
                     catch (Exception ex)
                     {
-                        // Use default font instead
-                        font = this.Font;
+                        // Use default Font instead
+                        Font = this.Font;
                     }
                 }
 
-                // Call paint background
-                base.OnPaintBackground(pe);
-
-                // Measure string            
-                SizeF sizeString = g.MeasureString(this.Text, font);
-
-                // Check for auto size
-                if (AutoSize)
+                // Check if the gradient background should be used
+                if (m_useBackgroundGradient)
+                {                    
+                    // Draw background gradient (cover -1 pixel for some refresh bug)
+                    Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
+                    LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, m_backgroundGradientColor1, m_backgroundGradientColor2, m_backgroundGradientMode);
+                    g.FillRectangle(brushBackground, rectBody);
+                    brushBackground.Dispose();
+                    brushBackground = null;
+                }
+                else
                 {
-                    // TODO: Reisze control
+                    // Call paint background
+                    base.OnPaintBackground(pe); // CPU intensive
                 }
 
                 // Create brush
-                SolidBrush brushFont = new SolidBrush(ForeColor);                
+                SolidBrush brushFont = new SolidBrush(ForeColor);
 
-                // Draw string depending on alignment
-                if (TextAlign == ContentAlignment.BottomLeft)
-                {
-                    // Bottom left
-                    g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
-                }
-                else if (this.TextAlign == ContentAlignment.BottomCenter)
-                {
-                    // Bottom center
-                    g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
-                }
-                else if (this.TextAlign == ContentAlignment.BottomRight)
-                {
-                    // Bottom right
-                    g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
-                }
-                else if (this.TextAlign == ContentAlignment.MiddleLeft)
-                {
-                    // Middle left
-                    g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
-                }
-                else if (this.TextAlign == ContentAlignment.MiddleCenter)
-                {
-                    // Middle center
-                    g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
-                }
-                else if (this.TextAlign == ContentAlignment.MiddleRight)
-                {
-                    // Middle right
-                    g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
-                }
-                else if (this.TextAlign == ContentAlignment.TopLeft)
+                if (TextAlign == ContentAlignment.TopLeft)
                 {
                     // Top left
-                    g.DrawString(Text, font, brushFont, 2, 2);
+                    g.DrawString(Text, Font, brushFont, 2, 2);
                 }
-                else if (this.TextAlign == ContentAlignment.TopCenter)
+                else
                 {
-                    // Top center
-                    g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
-                }
-                else if (this.TextAlign == ContentAlignment.TopRight)
-                {
-                    // Top right
-                    g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
+                    // Measure string            
+                    SizeF sizeString = g.MeasureString(this.Text, Font);
+
+                    // Draw string depending on alignment
+                    if (TextAlign == ContentAlignment.BottomLeft)
+                    {
+                        // Bottom left
+                        g.DrawString(Text, Font, brushFont, 2, (this.Height - sizeString.Height) - 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.BottomCenter)
+                    {
+                        // Bottom center
+                        g.DrawString(Text, Font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.BottomRight)
+                    {
+                        // Bottom right
+                        g.DrawString(Text, Font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.MiddleLeft)
+                    {
+                        // Middle left
+                        g.DrawString(Text, Font, brushFont, 2, (this.Height - sizeString.Height) / 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.MiddleCenter)
+                    {
+                        // Middle center
+                        g.DrawString(Text, Font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.MiddleRight)
+                    {
+                        // Middle right
+                        g.DrawString(Text, Font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.TopLeft)
+                    {
+
+                    }
+                    else if (this.TextAlign == ContentAlignment.TopCenter)
+                    {
+                        // Top center
+                        g.DrawString(Text, Font, brushFont, (this.Width - sizeString.Width) / 2, 2);
+                    }
+                    else if (this.TextAlign == ContentAlignment.TopRight)
+                    {
+                        // Top right
+                        g.DrawString(Text, Font, brushFont, (this.Width - sizeString.Width) - 2, 2);
+                    }
                 }
 
                 // Dispose stuff
                 brushFont.Dispose();
                 brushFont = null;
 
-                // Dispose font if necessary
-                if (font != null && font != this.Font)
+                // Dispose Font if necessary
+                if (Font != null && Font != this.Font)
                 {
-                    // Dispose font
-                    font.Dispose();
-                    font = null;
+                    // Dispose Font
+                    Font.Dispose();
+                    Font = null;
                 }
             }
             catch (Exception ex)
