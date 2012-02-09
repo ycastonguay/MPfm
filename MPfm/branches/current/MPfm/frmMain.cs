@@ -333,9 +333,25 @@ namespace MPfm
 
                 try
                 {
-                    // Check version
+                    // Check current database version
                     string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(m_databaseFilePath);
-                    if (databaseVersion == "1.03" && MPfm.Library.Library.DatabaseVersionMajor == 1 && MPfm.Library.Library.DatabaseVersionMinor == 4)
+
+                    // Extract major/minor
+                    string[] currentVersionSplit = databaseVersion.Split('.');
+
+                    // Check integrity of the setting value (should be split in 2)
+                    if (currentVersionSplit.Length != 2)
+                    {
+                        throw new Exception("Error fetching database version; the setting value is invalid!");
+                    }
+
+                    int currentMajor = 0;
+                    int currentMinor = 0;
+                    int.TryParse(currentVersionSplit[0], out currentMajor);
+                    int.TryParse(currentVersionSplit[1], out currentMinor);
+
+                    // Is this earlier than 1.04?
+                    if (currentMajor == 1 && currentMinor < 4)
                     {
                         // Set buffer size
                         Config.Audio.Mixer.BufferSize = 1000;
