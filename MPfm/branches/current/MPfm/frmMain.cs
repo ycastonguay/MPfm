@@ -337,9 +337,8 @@ namespace MPfm
                     string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(m_databaseFilePath);
                     if (databaseVersion == "1.03" && MPfm.Library.Library.DatabaseVersionMajor == 1 && MPfm.Library.Library.DatabaseVersionMinor == 4)
                     {
-                        // Display message box
-                        //frmSplash.DisplayMessageBox("stuff", "caption", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //MessageBox.Show(, "STUFF");
+                        // Set buffer size
+                        Config.Audio.Mixer.BufferSize = 1000;
                     }
 
                     // Check if the database needs to be updated
@@ -1257,23 +1256,23 @@ namespace MPfm
                 return;
             }
 
-            //// Update the library using the specified folder            
-            //formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
-            //formUpdateLibraryStatus.ShowDialog(this);
+            // Update the library using the specified folder            
+            formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
+            formUpdateLibraryStatus.ShowDialog(this);
 
-            // Show panel
-            ShowUpdateLibraryProgress(true);
+            //// Show panel
+            //ShowUpdateLibraryProgress(true);
 
-            // Start update timer to display progress
-            timerUpdateLibrary.Start();
+            //// Start update timer to display progress
+            //timerUpdateLibrary.Start();
 
-            // Start new thread
-            new Thread(delegate()
-            {                
-                List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
-                updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
-                Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
-            }).Start();
+            //// Start new thread
+            //new Thread(delegate()
+            //{                
+            //    List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
+            //    updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
+            //    Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
+            //}).Start();
         }
 
         /// <summary>
@@ -2112,52 +2111,6 @@ namespace MPfm
 
             // Set update done
             treeLibrary.EndUpdate();
-        }
-
-        /// <summary>
-        /// Refreshes the Playlists node of the tree library, if already expanded.
-        /// </summary>
-        public void RefreshTreeLibraryPlaylists()
-        {
-            ////// Check for nulls
-            ////if (nodeAllPlaylists == null)
-            ////{
-            ////    return;
-            ////}
-
-            ////// If the node isn't expanded, no need to refresh that node
-            ////if (!nodeAllPlaylists.IsExpanded && nodeAllPlaylists.Nodes.Count > 0)
-            ////{
-            ////    return;
-            ////}
-
-            ////// Fetch playlists
-            ////List<PlaylistDTO> playlists = Player.Library.SelectPlaylists(false);
-
-            ////// Clear nodes
-            ////nodeAllPlaylists.Nodes.Clear();
-
-            ////// For each playlist
-            ////foreach (PlaylistDTO playlist in playlists)
-            ////{
-            ////    // Create tree node
-            ////    TreeNode nodePlaylist = new TreeNode();
-            ////    nodePlaylist.Text = playlist.PlaylistName;
-            ////    nodePlaylist.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.Playlist, new SongQuery(playlist.PlaylistId));
-            ////    nodePlaylist.ImageIndex = 11;
-            ////    nodePlaylist.SelectedImageIndex = 11;
-
-            ////    // Add node to tree
-            ////    nodeAllPlaylists.Nodes.Add(nodePlaylist);
-
-            ////    // If the form is initializing and setting the initial opened node from history...
-            ////    if (!IsInitDone && playlist.PlaylistId == InitOpenNodePlaylistId)
-            ////    {
-            ////        // Set node as selected
-            ////        treeLibrary.SelectedNode = nodePlaylist;
-            ////    }
-            ////}
-
         }
 
         /// <summary>
@@ -3080,38 +3033,7 @@ namespace MPfm
         private void miTreeLibraryPlaySongs_Click(object sender, EventArgs e)
         {
             PlaySelectedView();
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Delete playlist" menu item of the Artist/Album browser contextual menu.
-        /// Deletes the playlist represented by the node.
-        /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void miTreeLibraryDeletePlaylist_Click(object sender, EventArgs e)
-        {
-            // Check if the tag is null
-            if (miTreeLibraryDeletePlaylist.Tag == null)
-            {
-                return;
-            }
-
-            // Get metadata from tag
-            TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)miTreeLibraryDeletePlaylist.Tag;
-
-            // Confirm with user
-            if (MessageBox.Show("Are you sure you wish to delete this playlist?", "Delete playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.No)
-            {
-                // The user has cancelled
-                return;
-            }
-
-            // Delete playlist
-            //DataAccess.DeletePlaylist(metadata.Query.PlaylistId);
-
-            // Refresh playlists
-            RefreshTreeLibraryPlaylists();
-        }     
+        }  
 
         #endregion
 
@@ -3268,7 +3190,7 @@ namespace MPfm
             miTreeLibraryDeletePlaylist.Tag = metadata;
         }
 
-        private UpdateLibrary updateLibrary = null;
+        //private UpdateLibrary updateLibrary = null;
 
         /// <summary>
         /// Displays the Update Library Status window and updates the library
@@ -3290,30 +3212,30 @@ namespace MPfm
 
             // Create window and display as dialog
             formUpdateLibraryStatus = new frmUpdateLibraryStatus(this);
-            formUpdateLibraryStatus.ShowDialog(this);           
+            formUpdateLibraryStatus.ShowDialog(this);
         }
 
         private void timerUpdateLibrary_Tick(object sender, EventArgs e)
         {
-            if (updateLibrary == null)
-            {
-                return;
-            }
+            //if (updateLibrary == null)
+            //{
+            //    return;
+            //}
 
-            // Update progress
-            progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
-            lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
-            //lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
+            //// Update progress
+            //progressUpdateLibrary.Value = (int)updateLibrary.PercentageDone;
+            //lblUpdateLibraryCurrentFileValue.Text = updateLibrary.CurrentFile;
+            ////lblStatusPercentage.Text = updateLibrary.PercentageDone.ToString("0.00") + "%";
 
-            // Check if process is done
-            if (updateLibrary.PercentageDone == 100)
-            {
-                // Stop timer
-                timerUpdateLibrary.Stop();
+            //// Check if process is done
+            //if (updateLibrary.PercentageDone == 100)
+            //{
+            //    // Stop timer
+            //    timerUpdateLibrary.Stop();
 
-                // Show panel
-                ShowUpdateLibraryProgress(false);
-            }
+            //    // Show panel
+            //    ShowUpdateLibraryProgress(false);
+            //}
         }
 
         /// <summary>

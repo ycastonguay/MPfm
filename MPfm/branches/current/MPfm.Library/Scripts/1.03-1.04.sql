@@ -15,5 +15,5 @@
 --*/
 
 UPDATE Settings 
-SET SettingValue = '1.03'
+SET SettingValue = '1.04'
 WHERE SettingName = 'DatabaseVersion'

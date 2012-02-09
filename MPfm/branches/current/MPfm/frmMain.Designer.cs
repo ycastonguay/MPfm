@@ -1040,8 +1040,7 @@ namespace MPfm
             this.miTreeLibraryDeletePlaylist.Image = global::MPfm.Properties.Resources.delete;
             this.miTreeLibraryDeletePlaylist.Name = "miTreeLibraryDeletePlaylist";
             this.miTreeLibraryDeletePlaylist.Size = new System.Drawing.Size(185, 22);
-            this.miTreeLibraryDeletePlaylist.Text = "Delete playlist";
-            this.miTreeLibraryDeletePlaylist.Click += new System.EventHandler(this.miTreeLibraryDeletePlaylist_Click);
+            this.miTreeLibraryDeletePlaylist.Text = "Delete playlist";            
             // 
             // comboSoundFormat
             // 

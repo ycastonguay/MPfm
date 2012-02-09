@@ -404,9 +404,6 @@ namespace MPfm
             {
                 // Refresh the window title
                 RefreshTitle();
-
-                // Refresh the playlists node in the Artist/Album browser
-                Main.RefreshTreeLibraryPlaylists();
             }
         }
 
