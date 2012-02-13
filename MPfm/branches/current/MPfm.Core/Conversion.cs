@@ -53,9 +53,9 @@ namespace MPfm.Core
                 // Return byte array
 				return enc.GetBytes(input);
 			}
-			catch(Exception ex)
+			catch
 			{
-                throw ex;
+                throw;
 			}
 		}
 
@@ -74,9 +74,9 @@ namespace MPfm.Core
                 // Return string
 				return enc.GetString(input);
 			}
-			catch(Exception ex)
+			catch
 			{
-                throw ex;
+                throw;
 			}
 		}
 
@@ -87,21 +87,29 @@ namespace MPfm.Core
         /// <returns>Byte array converted into a Bitmap object</returns>
         public static Bitmap ByteArrayToBitmap(byte[] input)
         {
+            // Declare variables
+            MemoryStream stream = null;
+
             try
             {
                 // Create MemoryStream object
-                MemoryStream stream = new MemoryStream();
+                stream = new MemoryStream();
 
                 // Write the byte array into the MemoryStream object
                 stream.Write(input, 0, input.Length);
-
-                // Return a new Bitmap object from the MemoryStream
-                return new Bitmap(stream);                
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
+            finally
+            {
+                // Dispose stream
+                stream.Dispose();
+            }
+
+            // Return a new Bitmap object from the MemoryStream
+            return new Bitmap(stream);
         }
 
         /// <summary>
@@ -112,22 +120,28 @@ namespace MPfm.Core
         /// <returns>Image object converted into a byte array</returns>
         public static byte[] ImageToByteArray(Image imageToConvert, ImageFormat formatOfImage)
         {
-            byte[] array;
+            // Declare variables
+            byte[] array = null;
+            MemoryStream ms = null;
 
             try
             {
                 // Create a MemoryStream object
-                MemoryStream ms = new MemoryStream();                
+                ms = new MemoryStream();
 
                 // Save the Image object into the MemoryStream object, specifying its format
                 imageToConvert.Save(ms, formatOfImage);
 
                 // Convert the MemoryStream object into a byte array
-                array = ms.ToArray();                
+                array = ms.ToArray();
             }
-            catch (Exception) 
-            { 
-                throw; 
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                ms.Dispose();
             }
 
             return array;

@@ -37,21 +37,28 @@ namespace MPfm.Core
         /// <param name="width">Resized image width</param>
         /// <param name="height">Resized image height</param>
         /// <returns></returns>
-		public static System.Drawing.Image ResizeImage(System.Drawing.Image image, int width, int height)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public static System.Drawing.Image ResizeImage(System.Drawing.Image image, int width, int height)
 		{
-			System.Drawing.Image imageResized = new Bitmap(width, height);
+            // Create image
+			Image imageResized = new Bitmap(width, height);
 
-			// Create Graphics Object
+			// Create Graphics object
 			Graphics graphics = Graphics.FromImage(imageResized);
 
-			// Set Graphics Object Options
+			// Set Graphics object options
 			graphics.CompositingQuality = CompositingQuality.HighQuality;
 			graphics.SmoothingMode = SmoothingMode.HighQuality;
 			graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
+            // Create rectangle with new width/height
 			Rectangle rect = new Rectangle(0, 0, width, height);
 
+            // Draw image
 			graphics.DrawImage(image, rect);
+
+            // Dispose graphics
+            graphics.Dispose();
 
 			return imageResized;
 		}
