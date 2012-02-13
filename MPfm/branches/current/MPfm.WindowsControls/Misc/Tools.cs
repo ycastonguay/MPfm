@@ -132,7 +132,7 @@ namespace MPfm.WindowsControls
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // Do nothing
             }
@@ -228,7 +228,7 @@ namespace MPfm.WindowsControls
                     path.AddEllipse( baseRect ); 
                 }
             } 
-            catch(Exception ex)
+            catch
             {
                 path.AddEllipse( baseRect ); 
             } 

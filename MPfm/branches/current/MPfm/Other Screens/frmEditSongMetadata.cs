@@ -58,6 +58,7 @@ namespace MPfm
         /// the file path(s) to the files to edit.
         /// </summary>
         /// <param name="main">Hook to main form</param>
+        /// <param name="filePaths">List of file paths</param>
         public frmEditSongMetadata(frmMain main, List<string> filePaths)
         {
             InitializeComponent();

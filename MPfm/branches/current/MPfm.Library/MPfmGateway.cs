@@ -1070,7 +1070,7 @@ namespace MPfm.Library
                     // Try to cast into an integer       
                     playCount = (int)value;
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Return no play count
                     return 0;
@@ -1113,7 +1113,7 @@ namespace MPfm.Library
                         lastPlayed = valueDateTime;
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     // No last played value
                     return null;

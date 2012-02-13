@@ -79,7 +79,7 @@ namespace MPfm.Sound
         /// <param name="waveDataLeft">Raw wave data (left channel)</param>
         /// <param name="waveDataRight">Raw wave data (right channel)</param>
         /// <param name="convertNegativeToPositive">Convert negative values to positive values (ex: true when used for output meters, 
-        /// false when used with wave form display controls (since the negative value is used to draw the bottom end of the waveform).<</param>
+        /// false when used with wave form display controls (since the negative value is used to draw the bottom end of the waveform).</param>
         /// <param name="distortionThreshold">If the volume level reaches or goes past this threshold, the method retuns true.</param>
         /// <returns></returns>
         public static bool CheckForDistortion(float[] waveDataLeft, float[] waveDataRight, bool convertNegativeToPositive, float distortionThreshold)
@@ -439,7 +439,7 @@ namespace MPfm.Sound
         /// <param name="waveDataLeft">Raw wave data (left channel)</param>
         /// <param name="waveDataRight">Raw wave data (right channel)</param>
         /// <param name="convertNegativeToPositive">Convert negative values to positive values (ex: true when used for output meters, 
-        /// false when used with wave form display controls (since the negative value is used to draw the bottom end of the waveform).<</param>
+        /// false when used with wave form display controls (since the negative value is used to draw the bottom end of the waveform).</param>
         /// <returns>WaveDataMinMax data structure</returns>
         public static WaveDataMinMax GetMinMaxFromWaveData(float[] waveDataLeft, float[] waveDataRight, bool convertNegativeToPositive)
         {

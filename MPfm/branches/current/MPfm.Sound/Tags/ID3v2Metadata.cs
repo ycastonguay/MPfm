@@ -110,7 +110,7 @@ namespace MPfm.Sound
                     
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // Leave metadata empty
             }

@@ -66,7 +66,7 @@ namespace MPfm.Sound
                 // Validate signature
                 if (signature.ToUpper() != "MP+")
                 {
-                    throw new SV7TagNotFoundException("The file is not in MPC/SV7 format!");
+                    throw new SV7TagNotFoundException("The file is not in MPC/SV7 format!", null);
                 }
 
                 // Read stream major/minor version
@@ -77,7 +77,7 @@ namespace MPfm.Sound
                 // Validate version
                 if (streamVersionMajor != 7)
                 {
-                    throw new SV7TagNotFoundException("This file header version is not SV7!");
+                    throw new SV7TagNotFoundException("This file header version is not SV7!", null);
                 }
                 
                 // Read frame count (32-bits)
@@ -204,8 +204,9 @@ namespace MPfm.Sound
         /// Default constructor for the SV7TagNotFoundException exception class.
         /// </summary>
         /// <param name="message">Exception message</param>
-        public SV7TagNotFoundException(string message)
-            : base(message)
+        /// <param name="innerException">Inner exception</param>
+        public SV7TagNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

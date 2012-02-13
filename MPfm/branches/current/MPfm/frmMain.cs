@@ -44,7 +44,6 @@ using MPfm.Library;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
-using MPfm.Library;
 using MPfm.Player;
 using System.Threading.Tasks;
 using System.Reactive.Concurrency;
@@ -621,7 +620,7 @@ namespace MPfm
                     {
                         InitCurrentSongId = new Guid(querySongId);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         // Do nothing
                     }
@@ -1066,7 +1065,7 @@ namespace MPfm
                     lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // Just don't do anything, this might be because the playlist items are now gone.
             }
@@ -1263,7 +1262,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
-        private async void miFileAddFolder_Click(object sender, EventArgs e)
+        private void miFileAddFolder_Click(object sender, EventArgs e)
         {
             // Display dialog
             if (dialogAddFolder.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
@@ -1700,7 +1699,7 @@ namespace MPfm
                     DriveInfo driveInfo = new DriveInfo(m_peakFileFolderPath[0] + ":");
                     freeSpace = driveInfo.AvailableFreeSpace;
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Set value to indicate this has failed
                     freeSpace = -1;
@@ -2408,8 +2407,6 @@ namespace MPfm
         /// <summary>
         /// Fires when the user scrolls the time shifting slider.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void trackTimeShiftingNew_OnTrackBarValueChanged()
         {
             double multiplier = 1 / ((double)trackTimeShifting.Value / 100);
@@ -3406,7 +3403,7 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user has clicked on the Markers & Loops Wave Form Display control and
+        /// Occurs when the user has clicked on the Markers and Loops Wave Form Display control and
         /// wants to skip to a specific position of the song.
         /// </summary>
         /// <param name="data">Event Data</param>
@@ -3854,7 +3851,7 @@ namespace MPfm
 
     /// <summary>
     /// Defines the data structure for reporting progress when generating a wave form
-    /// for the Loops & Markers UI.
+    /// for the Loops and Markers UI.
     /// </summary>
     public class WorkerWaveFormLoopsMarkersReportProgress
     {

@@ -284,7 +284,7 @@ namespace MPfm.Sound
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // Leave metadata empty
             }
@@ -297,6 +297,7 @@ namespace MPfm.Sound
         /// Supports the following audio formats: APE.
         /// </summary>
         /// <param name="filePath">Audio file path</param>        
+        /// <param name="dictionary">List of APE tags to write</param>
         public static void Write(string filePath, Dictionary<string, string> dictionary)
         {
             // Check for nulls or empty

@@ -809,7 +809,8 @@ namespace MPfm.Sound
                     catch (SV7TagNotFoundException exSV7)
                     {
                         // No headers have been found!
-                        throw new Exception("Error: The file is not in SV7/MPC or SV8/MPC format!", exSV7);
+                        SV8TagNotFoundException finalEx = new SV8TagNotFoundException(exSV8.Message, exSV7);
+                        throw new Exception("Error: The file is not in SV7/MPC or SV8/MPC format!",  finalEx);
                     }
                 }
 
@@ -821,9 +822,17 @@ namespace MPfm.Sound
                     // Copy tags
                     FillProperties(m_apeTag);
                 }
-                catch (APETagNotFoundException ex)
+                catch (Exception ex)
                 {
-                    // Do nothing
+                    // Check exception
+                    if (ex is APETagNotFoundException)
+                    {
+                        // Skip file
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
                 }
             }
             else if (m_fileType == AudioFileFormat.OFR)
@@ -1138,7 +1147,7 @@ namespace MPfm.Sound
                         // Get image from file
                         imageCover = Image.FromFile(imageFiles[0].FullName);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
                     }

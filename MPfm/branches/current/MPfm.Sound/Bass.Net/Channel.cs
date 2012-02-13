@@ -182,7 +182,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// </summary>
         /// <param name="frequency">Frequency (sample rate)</param>
         /// <param name="numberOfChannels">Number of channels (mono = 1, stereo = 2)</param>
-        /// <param name="isFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <param name="useFloatingPoint">Indicates if the channel should use floating point</param>
         /// <param name="streamProc">Handle to the STREAMPROC callback</param>
         /// <returns>Channel object</returns>
         public static Channel CreateStream(int frequency, int numberOfChannels, bool useFloatingPoint, STREAMPROC streamProc)
@@ -212,7 +212,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// Creates a stream from file for decoding.
         /// </summary>
         /// <param name="filePath">File path to the audio file</param>
-        /// <param name="isFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <param name="useFloatingPoint">Indicates if the channel should use floating point</param>
         /// <returns>Channel object</returns>
         public static Channel CreateFileStreamForDecoding(string filePath, bool useFloatingPoint)
         {
@@ -241,7 +241,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// </summary>
         /// <param name="streamHandle">Handle to the base stream</param>
         /// <param name="decode">Indicates if the file should be played or decoded</param>
-        /// <param name="isFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <param name="useFloatingPoint">Indicates if the channel should use floating point</param>
         /// <returns>Channel object</returns>
         public static Channel CreateStreamForTimeShifting(int streamHandle, bool decode, bool useFloatingPoint)
         {

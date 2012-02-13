@@ -52,7 +52,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="index">Index</param>
         /// <returns>Font</returns>
-        public EmbeddedFont this[int index]
+        public new EmbeddedFont this[int index]
         {
             get
             {
@@ -67,7 +67,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Clears the collection.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             fonts = new PrivateFontCollection();
             base.Clear();
@@ -132,7 +132,7 @@ namespace MPfm.WindowsControls
             {
                 assembly = Assembly.LoadFile(assemblyPath);
             }
-            catch (Exception ex)
+            catch
             {
                 return;
             }

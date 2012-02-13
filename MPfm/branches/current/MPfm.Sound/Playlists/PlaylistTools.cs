@@ -521,7 +521,7 @@ namespace MPfm.Sound
                                 }
                             }
                         }
-                        catch (Exception ex)
+                        catch
                         {
                             // Skip file
                         }                        

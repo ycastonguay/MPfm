@@ -40,8 +40,7 @@ namespace MPfm
     {
         // Private variables
         private AddEditMarkerWindowMode m_mode = AddEditMarkerWindowMode.Add;
-        private frmMain m_main = null;
-        private List<string> m_filePaths = null;        
+        private frmMain m_main = null;        
         private AudioFile m_audioFile = null;
         private Guid m_markerId = Guid.Empty;
 

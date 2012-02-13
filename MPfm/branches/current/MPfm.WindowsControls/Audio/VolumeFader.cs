@@ -341,7 +341,7 @@ namespace MPfm.WindowsControls
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(16)]
         [Category("Display"), Browsable(true), Description("Fader track margin.")]
-        public int Margin
+        public new int Margin
         {
             get
             {

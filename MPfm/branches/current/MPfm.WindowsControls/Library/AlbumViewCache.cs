@@ -33,7 +33,7 @@ namespace MPfm.WindowsControls
     public class AlbumViewCache
     {
         public int IconHeightWithPadding { get; set; }
-        public int NumberOfIconsWidth { get; set; }
+        //public int NumberOfIconsWidth { get; set; }
         public int NumberOfIconsHeight { get; set; }
         public int TotalMargin { get; set; }
         public int Margin { get; set; }

@@ -586,7 +586,7 @@ namespace MPfm.Library
             }
             catch (OldUpdateLibraryException ex)
             {
-                UpdateLibraryReportProgress("The update process was canceled", "Canceled by user");
+                UpdateLibraryReportProgress("The update process was canceled: " + ex.Message, "Canceled by user");
                 e.Cancel = true;
             }
             catch (Exception ex)
@@ -1481,7 +1481,7 @@ namespace MPfm.Library
                     return image;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // The TagLib# read has failed. Continue to try to get the image from folder.jpg.
             }
@@ -1511,7 +1511,7 @@ namespace MPfm.Library
                         // Get image from file
                         image = Image.FromFile(imagePath);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         // The image format is wrong or the image is corrupted. Return null.
                         return null;

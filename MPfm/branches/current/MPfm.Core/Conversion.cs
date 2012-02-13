@@ -57,8 +57,6 @@ namespace MPfm.Core
 			{
                 throw ex;
 			}
-			
-			return null;
 		}
 
         /// <summary>
@@ -80,8 +78,6 @@ namespace MPfm.Core
 			{
                 throw ex;
 			}
-
-			return "";
 		}
 
         /// <summary>
@@ -106,8 +102,6 @@ namespace MPfm.Core
             {
                 throw ex;
             }
-
-            return null;
         }
 
         /// <summary>

@@ -586,9 +586,6 @@ namespace MPfm
         /// <returns>Key value</returns>
         public T? GetKeyValueGeneric<T>(string name) where T : struct
         {
-            // Set default value
-            T value = default(T);            
-
             // Try to get the key/value pair
             GeneralConfigurationKeyValue keyValue = m_generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
 

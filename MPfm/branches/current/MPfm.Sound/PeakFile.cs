@@ -402,7 +402,7 @@ namespace MPfm.Sound
                                     // Delete file
                                     File.Delete(peakFilePath);
                                 }
-                                catch (Exception ex)
+                                catch
                                 {
                                     // Just skip this step.
                                     Tracing.Log("Could not delete peak file " + peakFilePath + ".");

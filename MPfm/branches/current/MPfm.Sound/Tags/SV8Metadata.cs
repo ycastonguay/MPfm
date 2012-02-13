@@ -67,7 +67,7 @@ namespace MPfm.Sound
                 // Validate number
                 if (magicNumber.ToUpper() != "MPCK")
                 {
-                    throw new SV8TagNotFoundException("The file is not in MPC/SV8 format!");
+                    throw new SV8TagNotFoundException("The file is not in MPC/SV8 format!", null);
                 }
 
                 // Loop through header keys
@@ -94,7 +94,7 @@ namespace MPfm.Sound
                         // Check if the header version is 8
                         if (byteStreamVersion != 8)
                         {
-                            throw new SV8TagNotFoundException("This file header version is not SV8!");
+                            throw new SV8TagNotFoundException("This file header version is not SV8!", null);
                         }                            
 
                         // Get sample count (variable integer)
@@ -309,8 +309,9 @@ namespace MPfm.Sound
         /// Default constructor for the SV8TagNotFoundException exception class.
         /// </summary>
         /// <param name="message">Exception message</param>
-        public SV8TagNotFoundException(string message)
-            : base(message)
+        /// <param name="innerException">Inner exception</param>
+        public SV8TagNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

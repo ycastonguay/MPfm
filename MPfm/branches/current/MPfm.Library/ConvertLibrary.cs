@@ -493,7 +493,7 @@ namespace MPfm.Library
         /// Sets the values of a DataRow in a Marker DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="marker">Marker</param>
+        /// <param name="dto">Marker</param>
         public static void ToMarkerRow(ref DataRow row, Marker dto)
         {
             // Set row data
@@ -511,7 +511,7 @@ namespace MPfm.Library
         /// Sets the values of a DataRow in a Loop DataTable.
         /// </summary>
         /// <param name="row">DataRow to set</param>
-        /// <param name="loop">Loop</param>
+        /// <param name="dto">Loop</param>
         public static void ToLoopRow(ref DataRow row, Loop dto)
         {
             // Set row data

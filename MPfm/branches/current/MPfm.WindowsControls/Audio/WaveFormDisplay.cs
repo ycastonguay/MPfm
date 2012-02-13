@@ -71,7 +71,7 @@ namespace MPfm.WindowsControls
         private Timer m_timerAnimation = null;
 
         // Animation
-        private int animResolution = 256;
+        //private int animResolution = 256;
         private int animZoomCount = -1;
         private int animToolbarCount = -1;
 
@@ -83,7 +83,7 @@ namespace MPfm.WindowsControls
 
         // Contextual menu
         private ContextMenuStrip menuStrip = null;
-        private ToolStripSeparator menuItemSeparator = null;
+        //private ToolStripSeparator menuItemSeparator = null;
         private ToolStripMenuItem menuItemCreateMarkerAtThisPosition = null;
         private ToolStripMenuItem menuItemMouseInteractionTypeZoomIn = null;
         private ToolStripMenuItem menuItemMouseInteractionTypeZoomOut = null;
@@ -1029,17 +1029,16 @@ namespace MPfm.WindowsControls
                     return;
                 }
             }
-            catch (PeakFileCorruptedException ex)
-            {
-                // Continue on to regenerate the file instead
-            }
-            catch (PeakFileFormatIncompatibleException ex)
-            {
-                // Continue on to regenerate the file instead
-            }
             catch (Exception ex)
             {
-                throw ex;
+                if (ex is PeakFileCorruptedException || ex is PeakFileFormatIncompatibleException)
+                {
+                    // Continue on to regenerate the file instead
+                }
+                else
+                {
+                    throw ex;
+                }
             }
 
             // Reset zoom
@@ -1572,7 +1571,7 @@ namespace MPfm.WindowsControls
                         // Get embedded font
                         font = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         // Use default font instead
                         font = this.Font;
@@ -1587,7 +1586,7 @@ namespace MPfm.WindowsControls
                         // Try to get standard font
                         font = new Font(m_theme.CustomFont.StandardFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         // Use default font instead
                         font = this.Font;

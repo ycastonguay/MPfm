@@ -117,7 +117,7 @@ namespace MPfm.WindowsControls
                     // Get embedded font
                     font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead
                     font = this.Font;
@@ -132,7 +132,7 @@ namespace MPfm.WindowsControls
                     // Try to get standard font
                     font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
-                catch (Exception ex)
+                catch 
                 {
                     // Use default font instead
                     font = this.Font;
@@ -159,7 +159,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="e">Paint Event Arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             Region iRegion = new Region(e.ClipRectangle);

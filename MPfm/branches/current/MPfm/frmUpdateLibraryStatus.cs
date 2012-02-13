@@ -504,7 +504,7 @@ namespace MPfm
                         {
                             workerTimer.ReportProgress(0);
                         }
-                        catch (Exception ex)
+                        catch
                         {
                             // Do nothing. There are so many updates that missing one is not very important.
                         }

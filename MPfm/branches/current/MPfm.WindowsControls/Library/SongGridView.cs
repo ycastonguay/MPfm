@@ -233,7 +233,7 @@ namespace MPfm.WindowsControls
         /// opens when the user right clicks an item.
         /// </summary>
         [Category("Misc"), Browsable(true), Description("Stuff.")]
-        public ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip ContextMenuStrip
         {
             get
             {
@@ -866,7 +866,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="e">Paint Event Arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             // Check if the library is valid
@@ -930,7 +930,7 @@ namespace MPfm.WindowsControls
                     fontDefault = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle());
                     fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead
                     fontDefault = this.Font;
@@ -947,7 +947,7 @@ namespace MPfm.WindowsControls
                     fontDefault = new Font(m_theme.Font.StandardFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle());
                     fontDefaultBold = new Font(m_theme.Font.StandardFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead
                     fontDefault = this.Font;
@@ -2760,7 +2760,7 @@ namespace MPfm.WindowsControls
                     // Get embedded fonts                    
                     fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead                    
                     fontDefaultBold = new Font(this.Font, FontStyle.Bold);
@@ -2775,7 +2775,7 @@ namespace MPfm.WindowsControls
                     // Try to get standard font                    
                     fontDefaultBold = new Font(m_theme.Font.StandardFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead                    
                     fontDefaultBold = new Font(this.Font, FontStyle.Bold);

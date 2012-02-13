@@ -294,7 +294,7 @@ namespace MPfm.Sound
                     // Set flag
                     addItem = true;
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Skip this item
                     addItem = false;

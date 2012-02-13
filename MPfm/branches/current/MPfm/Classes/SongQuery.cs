@@ -91,6 +91,7 @@ namespace MPfm
         /// using the artist name and album title passed in parameter.
         /// </summary>
         /// <param name="artistName">Artist Name</param>
+        /// <param name="albumTitle">Album Title</param>
         public SongQuery(string artistName, string albumTitle)
         {
             Type = SongQueryType.Album;

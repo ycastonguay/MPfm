@@ -49,7 +49,7 @@ namespace MPfm.WindowsControls
         public int mouseDownX = 0;
         public int originalValue = 0;
 
-        private int thumbDraggingOffsetX = 0;
+        //private int thumbDraggingOffsetX = 0;
         private bool isUserDraggingThumb = false;
 
         private bool isMouseLeftButtonDown = false;

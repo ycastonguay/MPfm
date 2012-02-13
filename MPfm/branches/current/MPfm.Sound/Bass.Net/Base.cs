@@ -132,8 +132,12 @@ namespace MPfm.Sound.BassNetWrapper
         /// </summary>
         /// <param name="deviceId">Device identifier</param>
         /// <param name="frequency">Sample rate (in Hz)</param>
+        /// <param name="channels">Number of channels</param>
         /// <param name="init">Intiailization flags</param>
-        /// <param name="asioInit">ASIO initialization flags</param>
+        /// <param name="wasapiInit">WASAPI initialization flags</param>
+        /// <param name="buffer">Buffer size</param>
+        /// <param name="period">Update period</param>
+        /// <param name="proc">WASAPI callback</param>
         public static void InitWASAPI(int deviceId, int frequency, int channels, BASSInit init, 
             BASSWASAPIInit wasapiInit, float buffer, float period, WASAPIPROC proc)
         {

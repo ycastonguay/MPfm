@@ -447,7 +447,7 @@ namespace MPfm.WindowsControls
                     // Get embedded font
                     font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead
                     font = this.Font;
@@ -462,7 +462,7 @@ namespace MPfm.WindowsControls
                     // Try to get standard font
                     font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Use default font instead
                     font = this.Font;
