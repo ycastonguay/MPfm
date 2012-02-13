@@ -48,9 +48,16 @@ namespace MPfm.Library
     /// </summary>
     public class UpdateLibrary
     {
+        // Private variables
         private int currentTaskIndex = 0;
 
+        /// <summary>
+        /// Private value for the CurrentFile property.
+        /// </summary>
         private string m_currentFile = string.Empty;
+        /// <summary>
+        /// Indicates which file is currently processing.
+        /// </summary>
         public string CurrentFile
         {
             get
@@ -59,7 +66,13 @@ namespace MPfm.Library
             }
         }
 
+        /// <summary>
+        /// Private value for the PercentageDone property.
+        /// </summary>
         private float m_percentageDone = 0;
+        /// <summary>
+        /// Indicates how much percentage of the process is done.
+        /// </summary>
         public float PercentageDone
         {
             get
@@ -68,16 +81,16 @@ namespace MPfm.Library
             }
         }
 
-        /// <summary>
-        /// Delegate for the OnProcessDone event.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        public delegate void ProcessDone(UpdateLibraryDoneData data);
+        ///// <summary>
+        ///// Delegate for the OnProcessDone event.
+        ///// </summary>
+        ///// <param name="data">Event data</param>
+        //public delegate void ProcessDone(UpdateLibraryDoneData data);
 
-        /// <summary>
-        /// Event called when all the GeneratePeakFiles threads have completed their work.
-        /// </summary>
-        public event ProcessDone OnProcessDone;
+        ///// <summary>
+        ///// Event called when all the GeneratePeakFiles threads have completed their work.
+        ///// </summary>
+        //public event ProcessDone OnProcessDone;
 
         /// <summary>
         /// Private value for the FilePaths property.
@@ -152,6 +165,11 @@ namespace MPfm.Library
             m_databaseFilePath = databaseFilePath;
         }
 
+        /// <summary>
+        /// Loads a list of files.
+        /// </summary>
+        /// <param name="filePaths">List of file paths</param>
+        /// <returns>List of tasks</returns>
         public async Task<List<AudioFile>> LoadFiles(List<string> filePaths)
         {
 
@@ -208,6 +226,13 @@ namespace MPfm.Library
             return listAudioFiles;
         }
 
+        /// <summary>
+        /// Loads a list of audio files into the library asychronously.
+        /// </summary>
+        /// <param name="filePath">List of file paths</param>
+        /// <param name="index">File index</param>
+        /// <param name="count">File count</param>
+        /// <returns>Task</returns>
         public async Task<UpdateLibraryProgressData> LoadAudioFileAsync(string filePath, int index, int count)
         {
             AudioFile audioFile = null;

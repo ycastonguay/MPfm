@@ -26,10 +26,25 @@ using System.Text;
 namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
-    /// Defines the type of channel.
+    /// Defines the types of channels found in the BASS.NET library.
     /// </summary>
     public enum ChannelType
     {
-        Playback = 0, FX = 1, Decode = 2, Memory = 3
+        /// <summary>
+        /// Playback channel (outputs to the sound card direcly).
+        /// </summary>
+        Playback = 0, 
+        /// <summary>
+        /// FX channel (can output to the sound card directly or be a decode channel).
+        /// </summary>
+        FX = 1, 
+        /// <summary>
+        /// Decode channel.
+        /// </summary>
+        Decode = 2, 
+        /// <summary>
+        /// Memory channel.
+        /// </summary>
+        Memory = 3
     }
 }

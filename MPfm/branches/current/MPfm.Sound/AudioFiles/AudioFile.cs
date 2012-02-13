@@ -1079,6 +1079,11 @@ namespace MPfm.Sound
             }
         }
 
+        /// <summary>
+        /// Extracts album art from an audio file.
+        /// </summary>
+        /// <param name="filePath">Audio file path</param>
+        /// <returns>Image (album art)</returns>
         public static Image ExtractImageForAudioFile(string filePath)
         {
             // Declare variables

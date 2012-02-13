@@ -155,6 +155,13 @@ namespace MPfm
     /// </summary>
     public enum RenameSavePlaylistWindowMode
     {
-        RenamePlaylist = 0, SavePlaylist = 1
+        /// <summary>
+        /// Renames a playlist.
+        /// </summary>
+        RenamePlaylist = 0, 
+        /// <summary>
+        /// Saves a playlist.
+        /// </summary>
+        SavePlaylist = 1
     }
 }

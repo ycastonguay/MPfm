@@ -36,25 +36,18 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class HScrollBar : System.Windows.Forms.Control
     {
-        // Scrollbar zones
-        Rectangle rectScrollBarLeftHandle;
-        Rectangle rectScrollBarRightHandle;
-        Rectangle rectScrollBarThumb;
-
-        // Mouse over information
-        private bool isMouseOverThumb = false;
-        private bool isMouseOverLeftHandle = false;
-        private bool isMouseOverRightHandle = false;
-        
-        public int mouseDownX = 0;
-        public int originalValue = 0;
-
-        //private int thumbDraggingOffsetX = 0;
-        private bool isUserDraggingThumb = false;
-
-        private bool isMouseLeftButtonDown = false;
-
-        private Timer timerMouseDown = null;
+        // Private variables
+        private Rectangle rectScrollBarLeftHandle;
+        private Rectangle rectScrollBarRightHandle;
+        private Rectangle rectScrollBarThumb;
+        private bool m_isMouseOverThumb = false;
+        private bool m_isMouseOverLeftHandle = false;
+        private bool m_isMouseOverRightHandle = false;
+        private int m_mouseDownX = 0;
+        private int m_originalValue = 0;
+        private bool m_isUserDraggingThumb = false;
+        private bool m_isMouseLeftButtonDown = false;
+        private Timer m_timerMouseDown = null;
 
         #region Properties
 
@@ -132,7 +125,7 @@ namespace MPfm.WindowsControls
             }
         }
 
-        public int m_value = 0;
+        private int m_value = 0;
         /// <summary>
         /// Value (value range = Maximum - Minimum)
         /// </summary>
@@ -206,10 +199,24 @@ namespace MPfm.WindowsControls
             m_customFont = new WindowsControls.CustomFont();
 
             // Create timer for mouse down
-            timerMouseDown = new Timer();
-            timerMouseDown.Enabled = false;            
-            timerMouseDown.Interval = 200;
-            timerMouseDown.Tick += new EventHandler(timerMouseDown_Tick);
+            m_timerMouseDown = new Timer();
+            m_timerMouseDown.Enabled = false;
+            m_timerMouseDown.Interval = 200;
+            m_timerMouseDown.Tick += new EventHandler(timerMouseDown_Tick);
+        }
+
+        #endregion
+
+        #region Other Methods       
+
+        /// <summary>
+        /// Sets the scroll bar value without triggering any event.
+        /// </summary>
+        /// <param name="value">New scroll bar value</param>
+        public void SetValueWithoutTriggeringEvent(int value)
+        {
+            // Set value
+            m_value = value;
         }
 
         /// <summary>
@@ -225,7 +232,7 @@ namespace MPfm.WindowsControls
             int value = 0;
 
             // Check if the user has clicked on one of the handles (i.e. small change)
-            if (mouseDownX <= 14)
+            if (m_mouseDownX <= 14)
             {
                 // Left handle; negative small change
                 value = Value - SmallChange;
@@ -240,7 +247,7 @@ namespace MPfm.WindowsControls
                 // Set new value (will refresh the scrollbar automatically)
                 Value = value;
             }
-            else if (mouseDownX >= Width - 14)
+            else if (m_mouseDownX >= Width - 14)
             {
                 // Right handle; positive small change
                 value = Value + SmallChange;
@@ -257,8 +264,8 @@ namespace MPfm.WindowsControls
             }
 
             // Check if the user has clicked on the scrollbar background (i.e. large change)
-            if (mouseDownX > 14 &&
-                mouseDownX < rectScrollBarThumb.Left)
+            if (m_mouseDownX > 14 &&
+                m_mouseDownX < rectScrollBarThumb.Left)
             {
                 // Left portion; negative large change
                 value = Value - LargeChange;
@@ -273,8 +280,8 @@ namespace MPfm.WindowsControls
                 // Set new value (will refresh the scrollbar automatically)
                 Value = value;
             }
-            else if (mouseDownX < Width - 14 &&
-                     mouseDownX > rectScrollBarThumb.Right)
+            else if (m_mouseDownX < Width - 14 &&
+                     m_mouseDownX > rectScrollBarThumb.Right)
             {
                 // Right portion; positive large change
                 value = Value + LargeChange;
@@ -351,7 +358,7 @@ namespace MPfm.WindowsControls
             // Set left handle background colors            
             color1 = Color.FromArgb(150, 150, 150, 150);
             color2 = Color.FromArgb(200, 200, 200, 200);
-            if (isMouseOverLeftHandle)
+            if (m_isMouseOverLeftHandle)
             {
                 color1 = Color.FromArgb(200, 200, 200, 200);
                 color2 = Color.FromArgb(255, 220, 220, 220);
@@ -367,7 +374,7 @@ namespace MPfm.WindowsControls
             // Set left handle arrow colors            
             color1 = Color.FromArgb(200, 0, 0, 0);
             color2 = Color.FromArgb(225, 50, 50, 50);
-            if (isMouseOverLeftHandle)
+            if (m_isMouseOverLeftHandle)
             {
                 color1 = Color.FromArgb(240, 50, 50, 50);
                 color2 = Color.FromArgb(255, 80, 80, 80);
@@ -398,7 +405,7 @@ namespace MPfm.WindowsControls
             // Set right handle background colors            
             color1 = Color.FromArgb(150, 150, 150, 150);
             color2 = Color.FromArgb(200, 200, 200, 200);
-            if (isMouseOverRightHandle)
+            if (m_isMouseOverRightHandle)
             {
                 color1 = Color.FromArgb(200, 200, 200, 200);
                 color2 = Color.FromArgb(255, 220, 220, 220);
@@ -414,7 +421,7 @@ namespace MPfm.WindowsControls
             // Set right handle arrow colors            
             color1 = Color.FromArgb(200, 0, 0, 0);
             color2 = Color.FromArgb(225, 50, 50, 50);
-            if (isMouseOverRightHandle)
+            if (m_isMouseOverRightHandle)
             {
                 color1 = Color.FromArgb(240, 50, 50, 50);
                 color2 = Color.FromArgb(255, 80, 80, 80);
@@ -451,7 +458,7 @@ namespace MPfm.WindowsControls
             // Render thumb
             color1 = Color.FromArgb(125, 200, 200, 200);
             color2 = Color.FromArgb(220, 225, 225, 225);
-            if (isMouseOverThumb || isUserDraggingThumb)
+            if (m_isMouseOverThumb || m_isUserDraggingThumb)
             {
                 color1 = Color.FromArgb(125, 200, 200, 200);
                 color2 = Color.FromArgb(255, 225, 225, 225);
@@ -503,7 +510,7 @@ namespace MPfm.WindowsControls
             bool needToRefresh = false;
 
             // Handles work only if the user isn't dragging the thumb
-            if (!isUserDraggingThumb)
+            if (!m_isUserDraggingThumb)
             {
                 // Check if the cursor is on the left handle
                 if (e.X >= rectScrollBarLeftHandle.X &&
@@ -511,27 +518,27 @@ namespace MPfm.WindowsControls
                     e.X <= rectScrollBarLeftHandle.X + rectScrollBarLeftHandle.Width &&
                     e.Y <= rectScrollBarLeftHandle.Y + rectScrollBarLeftHandle.Height)
                 {
-                    isMouseOverLeftHandle = true;
+                    m_isMouseOverLeftHandle = true;
                     needToRefresh = true;
                 }
-                else if (isMouseOverLeftHandle)
+                else if (m_isMouseOverLeftHandle)
                 {
-                    isMouseOverLeftHandle = false;
+                    m_isMouseOverLeftHandle = false;
                     needToRefresh = true;
                 }
 
-                // Check if the cursor is on the left handle
+                // Check if the cursor is on the right handle
                 if (e.X >= rectScrollBarRightHandle.X &&
                     e.Y >= rectScrollBarRightHandle.Y &&
                     e.X <= rectScrollBarRightHandle.X + rectScrollBarRightHandle.Width &&
                     e.Y <= rectScrollBarRightHandle.Y + rectScrollBarRightHandle.Height)
                 {
-                    isMouseOverRightHandle = true;
+                    m_isMouseOverRightHandle = true;
                     needToRefresh = true;
                 }
-                else if (isMouseOverRightHandle)
+                else if (m_isMouseOverRightHandle)
                 {
-                    isMouseOverRightHandle = false;
+                    m_isMouseOverRightHandle = false;
                     needToRefresh = true;
                 }
             }
@@ -543,27 +550,27 @@ namespace MPfm.WindowsControls
                 e.Y <= rectScrollBarThumb.Y + rectScrollBarThumb.Height)
             {
                 // Set flags
-                isMouseOverThumb = true;
+                m_isMouseOverThumb = true;
                 needToRefresh = true;
 
                 // Check if the user is holding down the left mouse button, and the dragging thumb flag isn't set
-                if (isMouseLeftButtonDown && !isUserDraggingThumb)
+                if (m_isMouseLeftButtonDown && !m_isUserDraggingThumb)
                 {
                     // Set flag
-                    isUserDraggingThumb = true;
+                    m_isUserDraggingThumb = true;
 
                     // Get the x offset
                     //thumbDraggingOffsetX = e.X - rectScrollBarThumb.X;
                 }
             }
-            else if (isMouseOverThumb)
+            else if (m_isMouseOverThumb)
             {
-                isMouseOverThumb = false;
+                m_isMouseOverThumb = false;
                 needToRefresh = true;
             }
 
             // Is the user dragging the thumb?
-            if (isMouseLeftButtonDown && isUserDraggingThumb)
+            if (m_isMouseLeftButtonDown && m_isUserDraggingThumb)
             {
                 // Find the value per pixel
                 int valueRange = Maximum - Minimum;
@@ -571,10 +578,10 @@ namespace MPfm.WindowsControls
                 float valuePerPixel = (float)valueRange / (float)availableWidth;
 
                 // Find the delta
-                int delta = e.Location.X - mouseDownX;
+                int delta = e.Location.X - m_mouseDownX;
 
                 // Set new value
-                int value = originalValue + (int)(((float)delta * valuePerPixel));
+                int value = m_originalValue + (int)(((float)delta * valuePerPixel));
 
                 // Set min/max
                 if (value < Minimum)
@@ -609,19 +616,19 @@ namespace MPfm.WindowsControls
         protected override void OnMouseLeave(EventArgs e)
         {
             bool needToRefresh = false;
-            if (isMouseOverThumb)
+            if (m_isMouseOverThumb)
             {
-                isMouseOverThumb = false;
+                m_isMouseOverThumb = false;
                 needToRefresh = true;
             }
-            if (isMouseOverLeftHandle)
+            if (m_isMouseOverLeftHandle)
             {
-                isMouseOverLeftHandle = false;
+                m_isMouseOverLeftHandle = false;
                 needToRefresh = true;
             }
-            if (isMouseOverRightHandle)
+            if (m_isMouseOverRightHandle)
             {
-                isMouseOverRightHandle = false;
+                m_isMouseOverRightHandle = false;
                 needToRefresh = true;
             }
 
@@ -643,9 +650,9 @@ namespace MPfm.WindowsControls
             int value = 0;
 
             // Set flags
-            isMouseLeftButtonDown = true;            
-            mouseDownX = e.Location.X;
-            originalValue = Value;
+            m_isMouseLeftButtonDown = true;
+            m_mouseDownX = e.Location.X;
+            m_originalValue = Value;
 
             // Check if the user has clicked on one of the handles (i.e. small change)
             if (e.Location.X <= 14)
@@ -722,7 +729,7 @@ namespace MPfm.WindowsControls
                 e.Location.X > rectScrollBarThumb.Right))
             {
                 // Start timer
-                timerMouseDown.Enabled = true;
+                m_timerMouseDown.Enabled = true;
             }
 
             // Call base method
@@ -737,11 +744,11 @@ namespace MPfm.WindowsControls
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Reset flags
-            isMouseLeftButtonDown = false;
-            isUserDraggingThumb = false;
+            m_isMouseLeftButtonDown = false;
+            m_isUserDraggingThumb = false;
 
             // Stop timer
-            timerMouseDown.Enabled = false;
+            m_timerMouseDown.Enabled = false;
 
             // Call base method
             base.OnMouseUp(e);

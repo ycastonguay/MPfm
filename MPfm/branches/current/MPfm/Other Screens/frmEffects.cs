@@ -541,6 +541,10 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Returns the EQ preset based on current values.
+        /// </summary>
+        /// <returns>EQPreset object</returns>
         public EQPreset GetEQPresetFromCurrentValues()
         {
             EQPreset preset = new EQPreset();

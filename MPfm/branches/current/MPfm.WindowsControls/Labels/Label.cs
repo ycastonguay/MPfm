@@ -311,10 +311,9 @@ namespace MPfm.WindowsControls
                     Font = null;
                 }
             }
-            catch (Exception ex)
-            {
-                //pe.Graphics.DrawString(ex.Message + "\n" + ex.StackTrace, Font, Brushes.White, new Point(1, 1));
-                throw ex;
+            catch
+            {                
+                throw;
             }
         }
     }

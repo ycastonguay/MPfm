@@ -37,14 +37,14 @@ namespace MPfm.WindowsControls
     public class EmbeddedFontCollection : ArrayList
     {
         // Private variables
-        public PrivateFontCollection fonts = null;
+        private PrivateFontCollection m_fonts = null;
 
         /// <summary>
         /// Default constructor for EmbeddedFontCollection.
         /// </summary>
         public EmbeddedFontCollection()
         {
-            fonts = new PrivateFontCollection();
+            m_fonts = new PrivateFontCollection();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         public override void Clear()
         {
-            fonts = new PrivateFontCollection();
+            m_fonts = new PrivateFontCollection();
             base.Clear();
         }
 
@@ -159,7 +159,7 @@ namespace MPfm.WindowsControls
             {
                 fixed (byte* pFontData = fontdata)
                 {
-                    fonts.AddMemoryFont((System.IntPtr)pFontData, fontdata.Length);
+                    m_fonts.AddMemoryFont((System.IntPtr)pFontData, fontdata.Length);
                 }
             }
 
@@ -172,7 +172,7 @@ namespace MPfm.WindowsControls
         /// <returns>Font Family</returns>
         public FontFamily GetFontFamily(string familyName)
         {
-            foreach (FontFamily family in fonts.Families)
+            foreach (FontFamily family in m_fonts.Families)
             {
                 if (familyName == family.Name)
                 {

@@ -46,13 +46,25 @@ namespace MPfm.Library
         private BackgroundWorker workerUpdateLibrary = null;
 
         #region Events
-        
-        // Update library progress delegate/event
+                
+        /// <summary>
+        /// Delegate for the OnUpdateLibraryProgress event.
+        /// </summary>
+        /// <param name="data">OnUpdateLibraryProgress data structure</param>
         public delegate void UpdateLibraryProgress(OldUpdateLibraryProgressData data);
+        /// <summary>
+        /// This event is fired every time a file is added to the library.
+        /// </summary>
         public event UpdateLibraryProgress OnUpdateLibraryProgress;
 
-        // Update library finished delegate/event
+        /// <summary>
+        /// Delegate for the OnUpdateLibraryFinished event.
+        /// </summary>
+        /// <param name="data">OnUpdateLibraryFinished data structure</param>
         public delegate void UpdateLibraryFinished(UpdateLibraryFinishedData data);
+        /// <summary>
+        /// This event is fired when the library update process has finished its work.
+        /// </summary>
         public event UpdateLibraryFinished OnUpdateLibraryFinished;
 
         #endregion        
@@ -351,46 +363,109 @@ namespace MPfm.Library
 
         #region Report progress
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
         public void UpdateLibraryReportProgress(string title, string message)
         {
             UpdateLibraryReportProgress(title, message, 0, 0, 0, null);
         }
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
         public void UpdateLibraryReportProgress(string title, string message, double percentage)
         {
             UpdateLibraryReportProgress(title, message, percentage, 0, 0, null);
         }
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
+        /// <param name="logEntry">Log entry</param>
         public void UpdateLibraryReportProgress(string title, string message, double percentage, string logEntry)
         {
             UpdateLibraryReportProgress(title, message, percentage, 0, 0, logEntry);
         }
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
+        /// <param name="totalNumberOfFiles">Total number of files</param>
+        /// <param name="currentFilePosition">Current file position</param>
         public void UpdateLibraryReportProgress(string title, string message, double percentage, int totalNumberOfFiles, int currentFilePosition)
         {
             UpdateLibraryReportProgress(title, message, percentage, totalNumberOfFiles, currentFilePosition, string.Empty);
         }
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
+        /// <param name="totalNumberOfFiles">Total number of files</param>
+        /// <param name="currentFilePosition">Current file position</param>
+        /// <param name="logEntry">Log entry</param>
         public void UpdateLibraryReportProgress(string title, string message, double percentage, int totalNumberOfFiles, int currentFilePosition, string logEntry)
         {
             UpdateLibraryReportProgress(title, message, percentage, totalNumberOfFiles, currentFilePosition, logEntry, string.Empty);
         }
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
+        /// <param name="totalNumberOfFiles">Total number of files</param>
+        /// <param name="currentFilePosition">Current file position</param>
+        /// <param name="logEntry">Log entry</param>
+        /// <param name="filePath">Audio file path</param>        
         public void UpdateLibraryReportProgress(string title, string message, double percentage, int totalNumberOfFiles, int currentFilePosition, string logEntry, string filePath)
         {
             UpdateLibraryReportProgress(title, message, percentage, totalNumberOfFiles, currentFilePosition, logEntry, filePath, null);
         }
 
+        /// <summary>
+        /// Reports progress for the update library process.
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
+        /// <param name="totalNumberOfFiles">Total number of files</param>
+        /// <param name="currentFilePosition">Current file position</param>
+        /// <param name="logEntry">Log entry</param>
+        /// <param name="filePath">Audio file path</param>
+        /// <param name="song">UpdateLibraryProgressDataSong structure</param>
         public void UpdateLibraryReportProgress(string title, string message, double percentage, int totalNumberOfFiles, int currentFilePosition, string logEntry, string filePath, UpdateLibraryProgressDataSong song)
         {
             UpdateLibraryReportProgress(title, message, percentage, totalNumberOfFiles, currentFilePosition, logEntry, filePath, null, null);
         }
 
         /// <summary>
-        /// Updates the progress of the library update.
+        /// Reports progress for the update library process.
         /// </summary>
         /// <param name="title">Title</param>
         /// <param name="message">Message</param>
+        /// <param name="percentage">Percentage done</param>
+        /// <param name="totalNumberOfFiles">Total number of files</param>
+        /// <param name="currentFilePosition">Current file position</param>
+        /// <param name="logEntry">Log entry</param>
+        /// <param name="filePath">Audio file path</param>
+        /// <param name="song">UpdateLibraryProgressDataSong structure</param>
+        /// <param name="ex">Exception</param>
         public void UpdateLibraryReportProgress(string title, string message, double percentage, int totalNumberOfFiles, int currentFilePosition, string logEntry, string filePath, UpdateLibraryProgressDataSong song, Exception ex)
         {
             // Check if an event is subscribed
@@ -1039,7 +1114,7 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Selects audio files from the cache, filtered by parameters.
+        /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
         /// <param name="audioFileFormat">Audio file format filter</param>
         /// <returns>List of AudioFiles</returns>
@@ -1049,9 +1124,11 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Selects audio files from the cache, filtered by parameters.
+        /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
         /// <param name="audioFileFormat">Audio file format filter</param>
+        /// <param name="orderBy">Order by field name</param>
+        /// <param name="orderByAscending">Order by (ascending) field name</param>
         /// <returns>List of AudioFiles</returns>
         public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending)
         {
@@ -1059,10 +1136,12 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Selects audio files from the cache, filtered by parameters.
+        /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
         /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="artistName">Artist Name</param>
+        /// <param name="orderBy">Order by field name</param>
+        /// <param name="orderByAscending">Order by (ascending) field name</param>
+        /// <param name="artistName">Artist name</param>
         /// <returns>List of AudioFiles</returns>
         public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName)
         {
@@ -1070,11 +1149,13 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Selects audio files from the cache, filtered by parameters.
+        /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
         /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="artistName">Artist Name</param>
-        /// <param name="albumTitle">Album Title</param>
+        /// <param name="orderBy">Order by field name</param>
+        /// <param name="orderByAscending">Order by (ascending) field name</param>
+        /// <param name="artistName">Artist name</param>
+        /// <param name="albumTitle">Album title</param>        
         /// <returns>List of AudioFiles</returns>
         public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
         {
@@ -1082,12 +1163,13 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Selects the songs from the song cache, filtered by the sound format, artist name,
-        /// album title and song title passed in parameter.
+        /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
         /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="artistName">Artist Name</param>
-        /// <param name="albumTitle">Album Title</param>
+        /// <param name="orderBy">Order by field name</param>
+        /// <param name="orderByAscending">Order by (ascending) field name</param>
+        /// <param name="artistName">Artist name</param>
+        /// <param name="albumTitle">Album title</param>
         /// <param name="searchTerms">Search terms</param>
         /// <returns>List of AudioFiles</returns>
         public List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
@@ -1591,17 +1673,42 @@ namespace MPfm.Library
     /// </summary>
     public class OldUpdateLibraryProgressData
     {
+        /// <summary>
+        /// Title to display.
+        /// </summary>
         public string Title { get; set; }
+        /// <summary>
+        /// Message to display.
+        /// </summary>
         public string Message { get; set; }
+        /// <summary>
+        /// Percentage done.
+        /// </summary>
         public double Percentage { get; set; }
+        /// <summary>
+        /// Total number of files to process.
+        /// </summary>
         public int TotalNumberOfFiles { get; set; }
+        /// <summary>
+        /// Current file (total can be found in the TotalNumberOfFiles property).
+        /// </summary>
         public int CurrentFilePosition { get; set; }
-        public string FilePath { get; set; }        
-        
-        public Exception Error;
-
+        /// <summary>
+        /// Audio file path.
+        /// </summary>
+        public string FilePath { get; set; }               
+        /// <summary>
+        /// Log entry.
+        /// </summary>
         public string LogEntry { get; set; }
+        /// <summary>
+        /// UpdateLibraryProgressDataSong data structure.
+        /// </summary>
         public UpdateLibraryProgressDataSong Song { get; set; }
+        /// <summary>
+        /// Exception related to processing this file.
+        /// </summary>
+        public Exception Error;
     }
 
     /// <summary>
@@ -1609,9 +1716,21 @@ namespace MPfm.Library
     /// </summary>
     public class UpdateLibraryProgressDataSong
     {
+        /// <summary>
+        /// Artist name.
+        /// </summary>
         public string ArtistName { get; set; }
+        /// <summary>
+        /// Album title.
+        /// </summary>
         public string AlbumTitle { get; set; }
+        /// <summary>
+        /// Song title.
+        /// </summary>
         public string SongTitle { get; set; }
+        /// <summary>
+        /// Album cover.
+        /// </summary>
         public Image Cover { get; set; }
     }
 
@@ -1620,7 +1739,13 @@ namespace MPfm.Library
     /// </summary>
     public class UpdateLibraryFinishedData
     {
+        /// <summary>
+        /// Indicates if the update library process was successful.
+        /// </summary>
         public bool Successful { get; set; }
+        /// <summary>
+        /// Indicates if the update library process was canceled.
+        /// </summary>
         public bool Cancelled { get; set; }
     }
 
@@ -1629,9 +1754,17 @@ namespace MPfm.Library
     /// </summary>
     public class UpdateLibraryArgument
     {
-        // Properties
+        /// <summary>
+        /// Update library mode.
+        /// </summary>
         public UpdateLibraryMode Mode { get; set; }
+        /// <summary>
+        /// List of files to update (necessary for the SpecificFiles update library mode).
+        /// </summary>
         public List<string> FilePaths { get; set; }
+        /// <summary>
+        /// Folder path to update (necessary for the SpecificFolder update library mode).
+        /// </summary>
         public string FolderPath { get; set; }
 
         /// <summary>
@@ -1651,6 +1784,17 @@ namespace MPfm.Library
     /// </summary>
     public enum UpdateLibraryMode
     {
-        WholeLibrary = 0, SpecificFiles = 1, SpecificFolder = 2
+        /// <summary>
+        /// Updates the whole library.
+        /// </summary>
+        WholeLibrary = 0, 
+        /// <summary>
+        /// Updates specific files.
+        /// </summary>
+        SpecificFiles = 1, 
+        /// <summary>
+        /// Updates a specific folder.
+        /// </summary>
+        SpecificFolder = 2
     }
 }

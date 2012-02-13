@@ -48,7 +48,7 @@ namespace MPfm.Player
         /// </summary>
         private System.Timers.Timer m_timerPlayer = null;
         private Channel m_streamChannel = null;        
-        private Dictionary<int, string> m_plugins = null;
+        //private Dictionary<int, string> m_plugins = null;
 
         int m_currentMixPlaylistIndex = 0;
 
@@ -57,8 +57,8 @@ namespace MPfm.Player
         private int m_apePluginHandle = 0;
         private int m_flacPluginHandle = 0;
         private int m_mpcPluginHandle = 0;
-        private int m_ofrPluginHandle = 0;
-        private int m_ttaPluginHandle = 0;
+        //private int m_ofrPluginHandle = 0;
+        //private int m_ttaPluginHandle = 0;
         private int m_wvPluginHandle = 0;
 
         /// <summary>
@@ -92,16 +92,16 @@ namespace MPfm.Player
         /// </summary>
         public event PlaylistIndexChanged OnPlaylistIndexChanged;
 
-        /// <summary>
-        /// Delegate method for the OnStreamCallbackCalled event.
-        /// </summary>
-        /// <param name="data">OnStreamCallbackCalled data</param>
-        public delegate void StreamCallbackCalled(PlayerStreamCallbackData data);
-        /// <summary>
-        /// The OnStreamCallbackCalled event is triggered when the stream callback has been called and
-        /// must return data.
-        /// </summary>
-        public event StreamCallbackCalled OnStreamCallbackCalled;
+        ///// <summary>
+        ///// Delegate method for the OnStreamCallbackCalled event.
+        ///// </summary>
+        ///// <param name="data">OnStreamCallbackCalled data</param>
+        //public delegate void StreamCallbackCalled(PlayerStreamCallbackData data);
+        ///// <summary>
+        ///// The OnStreamCallbackCalled event is triggered when the stream callback has been called and
+        ///// must return data.
+        ///// </summary>
+        //public event StreamCallbackCalled OnStreamCallbackCalled;
 
         #endregion
 

@@ -244,7 +244,7 @@ namespace MPfm.Sound
             long value = 0;
             for (intLength = 1; intLength <= 9; intLength++)
             {
-                int currentByte = (int)data[intLength - 1];
+                long currentByte = (long)data[intLength - 1];
                 value = (value << 7);
                 value = (value | (currentByte & 0x7F));
                 if ((currentByte & 0x80) == 0)
@@ -267,7 +267,7 @@ namespace MPfm.Sound
             long value = 0;
             for (intLength = 1; intLength <= 9; intLength++)
             {
-                int currentByte = (int)reader.ReadByte();
+                long currentByte = (long)reader.ReadByte();
                 value = (value << 7);
                 value = (value | (currentByte & 0x7F));
                 if ((currentByte & 0x80) == 0)

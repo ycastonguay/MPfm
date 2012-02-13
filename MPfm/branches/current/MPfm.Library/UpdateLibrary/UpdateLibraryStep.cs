@@ -40,10 +40,25 @@ namespace MPfm.Library
     /// </summary>
     public enum UpdateLibraryStep
     {
+        /// <summary>
+        /// Step #1: Search for broken file paths.
+        /// </summary>
         SearchForBrokenFilePaths = 0,
+        /// <summary>
+        /// Step #2: Search for new audio files.
+        /// </summary>
         SearchForNewFiles = 1,
+        /// <summary>
+        /// Step #3: Import new audio files to the library.
+        /// </summary>
         ImportNewFiles = 2,
+        /// <summary>
+        /// Step #4: Compact database.
+        /// </summary>
         CompactDatabase = 3,
+        /// <summary>
+        /// Step #5: Refresh library cache.
+        /// </summary>
         RefreshLibraryCache = 4
     }
 }

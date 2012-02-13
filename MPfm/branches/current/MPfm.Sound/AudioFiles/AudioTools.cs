@@ -71,44 +71,8 @@ namespace MPfm.Sound
             8372.01f, 8869.84f, 9397.27f, 9956.06f, 10548.08f, 11175.30f, 11839.82f, 12543.85f, 13289.75f, 14080.00f, 14917.24f, 15804.26f
         };
 
-        /// <summary>
-        /// Takes a block of wave data from both channels and detects if the volume level reaches or goes past 
-        /// the distortion threshold passed in parameter. The distortion threshold is measured in decibels
-        /// (ex: 0.0f for 0dB)
-        /// </summary>
-        /// <param name="waveDataLeft">Raw wave data (left channel)</param>
-        /// <param name="waveDataRight">Raw wave data (right channel)</param>
-        /// <param name="convertNegativeToPositive">Convert negative values to positive values (ex: true when used for output meters, 
-        /// false when used with wave form display controls (since the negative value is used to draw the bottom end of the waveform).</param>
-        /// <param name="distortionThreshold">If the volume level reaches or goes past this threshold, the method retuns true.</param>
-        /// <returns></returns>
-        public static bool CheckForDistortion(float[] waveDataLeft, float[] waveDataRight, bool convertNegativeToPositive, float distortionThreshold)
-        {
-            // Get min max data
-            WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, convertNegativeToPositive);
-
-            // Convert values into decibels
-            //float dbLeft = ConvertRawWaveValueToDecibels(minMax.leftMax);
-            //float dbRight = ConvertRawWaveValueToDecibels(minMax.rightMax);
-            int peakL = (int)Math.Round(32767f * minMax.leftMax) & 0xFFFF;
-            int peakR = (int)Math.Round(32767f * minMax.rightMax) & 0xFFFF;
-            float dbLeft = (float)Base.LevelToDB_16Bit(peakL);
-            float dbRight = (float)Base.LevelToDB_16Bit(peakR);           
-
-            // Check if the max peak reaches or goes past the threshold (left channel)
-            if (dbLeft >= distortionThreshold)
-            {
-                return true;
-            }
-            // Check if the max peak reaches or goes past the threshold (right channel)
-            if (dbRight >= distortionThreshold)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
+        #region Output and VU Meter
+        
         /// <summary>
         /// This method takes a set of parameters defining time, time variation, value and value target and
         /// "eases" in the output value following an exponential . This is the same "easing" used for example
@@ -136,6 +100,44 @@ namespace MPfm.Sound
             }
 
             return changeInValue * (float)Math.Pow(2, 10 * (currentTime/duration - 1)) + beginValue;
+        }
+
+        /// <summary>
+        /// Takes a block of wave data from both channels and detects if the volume level reaches or goes past 
+        /// the distortion threshold passed in parameter. The distortion threshold is measured in decibels
+        /// (ex: 0.0f for 0dB)
+        /// </summary>
+        /// <param name="waveDataLeft">Raw wave data (left channel)</param>
+        /// <param name="waveDataRight">Raw wave data (right channel)</param>
+        /// <param name="convertNegativeToPositive">Convert negative values to positive values (ex: true when used for output meters, 
+        /// false when used with wave form display controls (since the negative value is used to draw the bottom end of the waveform).</param>
+        /// <param name="distortionThreshold">If the volume level reaches or goes past this threshold, the method retuns true.</param>
+        /// <returns></returns>
+        public static bool CheckForDistortion(float[] waveDataLeft, float[] waveDataRight, bool convertNegativeToPositive, float distortionThreshold)
+        {
+            // Get min max data
+            WaveDataMinMax minMax = AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, convertNegativeToPositive);
+
+            // Convert values into decibels
+            //float dbLeft = ConvertRawWaveValueToDecibels(minMax.leftMax);
+            //float dbRight = ConvertRawWaveValueToDecibels(minMax.rightMax);
+            int peakL = (int)Math.Round(32767f * minMax.leftMax) & 0xFFFF;
+            int peakR = (int)Math.Round(32767f * minMax.rightMax) & 0xFFFF;
+            float dbLeft = (float)Base.LevelToDB_16Bit(peakL);
+            float dbRight = (float)Base.LevelToDB_16Bit(peakR);
+
+            // Check if the max peak reaches or goes past the threshold (left channel)
+            if (dbLeft >= distortionThreshold)
+            {
+                return true;
+            }
+            // Check if the max peak reaches or goes past the threshold (right channel)
+            if (dbRight >= distortionThreshold)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -169,7 +171,7 @@ namespace MPfm.Sound
             ///////// 1- Find the max peak in the last 1000ms, and its position in the array
 
             // 1- Find the *TRUE* max peak in the last 1000ms, and its position in the array
-            PeakInfo peakMax = GetPeakInfo(history, bufferSizeToAnalyse, channelType);            
+            PeakInfo peakMax = GetMaxdBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType);
 
             // 2- Find the *TRUE* min peak following the max peak and its position in the array
             PeakInfo peakMin = GetMindBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType, peakMax.position);
@@ -189,15 +191,33 @@ namespace MPfm.Sound
             return easedValue;            
         }
 
+        #endregion
+
+        #region Get Min/Max Peaks From History
+
+        /// <summary>
+        /// Returns the maximum peak of a list of min/max peaks.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static float GetMaxPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
             return GetMaxPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType).peak;
         }
 
+        /// <summary>
+        /// Returns the maximum peak of a list of min/max peaks, including its position in the array.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static PeakInfo GetMaxPeakFromWaveDataMaxHistoryWithInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
-            // The values range from -1.0f to 1.0f
-
             // Declare variables
             float current = 0.0f;
 
@@ -238,16 +258,42 @@ namespace MPfm.Sound
             return new PeakInfo() { peak = peak, position = indexOf };
         }
 
+        /// <summary>
+        /// Returns the minimum peak of a list of min/max peaks.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>        
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static float GetMinPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
             return GetMinPeakFromWaveDataMaxHistory(history, bufferSizeToAnalyse, channelType, 0);
         }
 
+        /// <summary>
+        /// Returns the minimum peak of a list of min/max peaks.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>
+        /// <param name="startPosition">Start position</param>
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static float GetMinPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType, int startPosition)
         {
             return GetMinPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType, startPosition).peak;
         }
 
+        /// <summary>
+        /// Returns the minimum peak of a list of min/max peaks, including its position in the array.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>
+        /// <param name="startPosition">Start position</param>
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static PeakInfo GetMinPeakFromWaveDataMaxHistoryWithInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType, int startPosition)
         {
             if (startPosition < 0)
@@ -295,22 +341,42 @@ namespace MPfm.Sound
             return new PeakInfo() { peak = peak, position = indexOf };
         }
 
-        public static float GetPeak(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
+        #endregion
+
+        #region Get Min/Max dB Peaks From History
+
+        /// <summary>
+        /// Returns the maximum peak (in decibels) of a list of min/max peaks.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>        
+        /// <returns>PeakInfo data structure (peak + position)</returns>
+        public static float GetMaxdBPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
-            return GetPeakInfo(history, bufferSizeToAnalyse, channelType).peak;
+            return GetMaxdBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType).peak;
         }
 
-        public static PeakInfo GetPeakInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
+        /// <summary>
+        /// Returns the maximum peak (in decibels) of a list of min/max peaks, including its position in the array.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>        
+        /// <returns>PeakInfo data structure (peak + position)</returns>
+        public static PeakInfo GetMaxdBPeakFromWaveDataMaxHistoryWithInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
             // Declare variables
-            float dbCurrent = 0.0f;            
+            float dbCurrent = 0.0f;
 
             // Each history item == 10 ms
             int historySize = history.Count;
             if (historySize > bufferSizeToAnalyse)
             {
                 historySize = bufferSizeToAnalyse;
-            }               
+            }
 
             // Start with a peak of -100 dB
             float peak = -100;
@@ -323,12 +389,12 @@ namespace MPfm.Sound
                     dbCurrent = ConvertRawWaveValueToDecibels(history[a].leftMax);
                     //dbCurrent = 20.0f * (float)Math.Log10(history[a].leftMax);                    
                 }
-                else if(channelType == ChannelType.Right)
+                else if (channelType == ChannelType.Right)
                 {
                     dbCurrent = ConvertRawWaveValueToDecibels(history[a].rightMax);
                     //dbCurrent = 20.0f * (float)Math.Log10(history[a].rightMax);
                 }
-                else if(channelType == ChannelType.Mix)
+                else if (channelType == ChannelType.Mix)
                 {
                     dbCurrent = ConvertRawWaveValueToDecibels(history[a].mixMax);
                     //dbCurrent = 20.0f * (float)Math.Log10(history[a].mixMax);
@@ -354,19 +420,45 @@ namespace MPfm.Sound
                 peak = -100.0f;
             }
 
-            return new PeakInfo(){ peak = peak, position = indexOf };
+            return new PeakInfo() { peak = peak, position = indexOf };
         }
 
+        /// <summary>
+        /// Returns the minimum peak (in decibels) of a list of min/max peaks.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>        
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static float GetMindBPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType)
         {
             return GetMindBPeakFromWaveDataMaxHistory(history, bufferSizeToAnalyse, channelType, 0);
         }
 
+        /// <summary>
+        /// Returns the minimum peak (in decibels) of a list of min/max peaks.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>
+        /// <param name="startPosition">Start position</param>
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static float GetMindBPeakFromWaveDataMaxHistory(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType, int startPosition)
         {
             return GetMindBPeakFromWaveDataMaxHistoryWithInfo(history, bufferSizeToAnalyse, channelType, startPosition).peak;
         }
 
+        /// <summary>
+        /// Returns the minimum peak (in decibels) of a list of min/max peaks, including its position in the array.
+        /// The values range from -1.0f to 1.0f.
+        /// </summary>
+        /// <param name="history">List of min/max peaks</param>
+        /// <param name="bufferSizeToAnalyse">Buffer size to analyse</param>
+        /// <param name="channelType">Channel type</param>
+        /// <param name="startPosition">Start position</param>
+        /// <returns>PeakInfo data structure (peak + position)</returns>
         public static PeakInfo GetMindBPeakFromWaveDataMaxHistoryWithInfo(List<WaveDataMinMax> history, int bufferSizeToAnalyse, ChannelType channelType, int startPosition)
         {
             if (startPosition < 0)
@@ -428,6 +520,8 @@ namespace MPfm.Sound
 
             return new PeakInfo() { peak = peak, position = indexOf };
         }
+
+        #endregion
 
         /// <summary>
         /// This method takes the left channel and right channel wave raw data and analyses it to get
@@ -567,11 +661,29 @@ namespace MPfm.Sound
     /// </summary>
     public class WaveDataMinMax
     {
+        /// <summary>
+        /// Minimum value for the Left channel.
+        /// </summary>
         public float leftMin { get; set; }
+        /// <summary>
+        /// Maximum value for the Left channel.
+        /// </summary>
         public float leftMax { get; set; }
+        /// <summary>
+        /// Minimum value for the Right channel.
+        /// </summary>
         public float rightMin { get; set; }
+        /// <summary>
+        /// Maximum value for the Right channel.
+        /// </summary>
         public float rightMax { get; set; }
+        /// <summary>
+        /// Minimum value for the mixed Left/Right channel.
+        /// </summary>
         public float mixMin { get; set; }
+        /// <summary>
+        /// Maximum value for the mixed Left/Right channel.
+        /// </summary>
         public float mixMax { get; set; }
 
         /// <summary>
@@ -579,6 +691,7 @@ namespace MPfm.Sound
         /// </summary>
         public WaveDataMinMax()
         {
+            // Set default values
             leftMin = 0.0f;
             leftMax = 0.0f;
             rightMin = 0.0f;
@@ -588,21 +701,37 @@ namespace MPfm.Sound
         }
     }
 
-    public class WaveDataMaxPeak
-    {
-        public float leftDB { get; set; }
-        public float rightDB { get; set; }
-        public float mixDB { get; set; }
-    }
-
+    /// <summary>
+    /// Peak information (includes its original position in the WaveDataMinMax array).
+    /// </summary>
     public class PeakInfo
     {
+        /// <summary>
+        /// Peak value.
+        /// </summary>
         public float peak { get; set; }        
+        /// <summary>
+        /// Peak position (in the WaveDataMixMax array).
+        /// </summary>
         public int position { get; set; }
     }
 
+    /// <summary>
+    /// Defines the channel type.
+    /// </summary>
     public enum ChannelType
     {
-        Left = 0, Right = 1, Mix = 2
+        /// <summary>
+        /// Left channel.
+        /// </summary>
+        Left = 0, 
+        /// <summary>
+        /// Right channel.
+        /// </summary>
+        Right = 1, 
+        /// <summary>
+        /// Mix (left/right channels).
+        /// </summary>
+        Mix = 2
     }
 }

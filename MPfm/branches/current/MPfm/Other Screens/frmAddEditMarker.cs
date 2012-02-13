@@ -298,6 +298,13 @@ namespace MPfm
     /// </summary>
     public enum AddEditMarkerWindowMode
     {
-        Add = 0, Edit = 1
+        /// <summary>
+        /// The window is in "Add" mode.
+        /// </summary>
+        Add = 0,
+        /// <summary>
+        /// The window is in "Edit" mode.
+        /// </summary>
+        Edit = 1
     }
 }

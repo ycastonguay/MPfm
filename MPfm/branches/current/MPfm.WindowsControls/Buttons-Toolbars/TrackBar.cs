@@ -344,6 +344,9 @@ namespace MPfm.WindowsControls
         }
 
         private int m_value = 0;
+        /// <summary>
+        /// Track bar value.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(0)]
         [Category("Display"), Browsable(true), Description("Track bar value")]

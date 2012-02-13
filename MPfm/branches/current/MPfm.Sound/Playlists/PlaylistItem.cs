@@ -91,7 +91,13 @@ namespace MPfm.Sound
             }
         }
 
+        /// <summary>
+        /// Private value for the LengthSamples property.
+        /// </summary>
         private long m_lengthSamples = 0;
+        /// <summary>
+        /// Playlist item length (in samples).
+        /// </summary>
         public long LengthSamples
         {
             get
@@ -100,7 +106,13 @@ namespace MPfm.Sound
             }
         }
 
+        /// <summary>
+        /// Private value for the LengthBytes property.
+        /// </summary>
         private long m_lengthBytes = 0;
+        /// <summary>
+        /// Playlist item length (in bytes).
+        /// </summary>
         public long LengthBytes
         {
             get
@@ -109,7 +121,13 @@ namespace MPfm.Sound
             }
         }
 
+        /// <summary>
+        /// Private value for the LengthMilliseconds property.
+        /// </summary>
         private int m_lengthMilliseconds = 0;
+        /// <summary>
+        /// Playlist item length (in milliseconds).
+        /// </summary>
         public int LengthMilliseconds
         {
             get
@@ -118,7 +136,13 @@ namespace MPfm.Sound
             }
         }
 
+        /// <summary>
+        /// Private value for the LengthString property.
+        /// </summary>
         private string m_lengthString = string.Empty;
+        /// <summary>
+        /// Playlist item length (in 00:00.000 string format).
+        /// </summary>
         public string LengthString
         {
             get

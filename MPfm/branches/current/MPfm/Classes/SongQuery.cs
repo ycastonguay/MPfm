@@ -29,7 +29,26 @@ namespace MPfm
     /// </summary>
     public enum SongQueryType
     {
-        None = 0, Artist = 1, Album = 2, Playlist = 3, All = 4
+        /// <summary>
+        /// No query.
+        /// </summary>
+        None = 0, 
+        /// <summary>
+        /// Artist query.
+        /// </summary>
+        Artist = 1, 
+        /// <summary>
+        /// Album query.
+        /// </summary>
+        Album = 2, 
+        /// <summary>
+        /// Playlist query.
+        /// </summary>
+        Playlist = 3, 
+        /// <summary>
+        /// All query.
+        /// </summary>
+        All = 4
     }
 
     /// <summary>

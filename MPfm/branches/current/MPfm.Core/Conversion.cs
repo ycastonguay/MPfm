@@ -330,14 +330,4 @@ namespace MPfm.Core
             return default(T);
         }
 	}
-
-    [StructLayout(LayoutKind.Explicit)]
-    public struct UnionArray
-    {
-        [FieldOffset(0)]
-        public Byte[] Bytes;
-
-        [FieldOffset(0)]
-        public float[] Floats;
-    }
 }

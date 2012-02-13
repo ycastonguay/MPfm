@@ -54,10 +54,16 @@ namespace MPfm.WindowsControls
 
         #region Border Properties
         
+        /// <summary>
+        /// Border color.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Border"), Browsable(true), Description("The color of the border")]
         public Color BorderColor { get; set; }
         
+        /// <summary>
+        /// Border width.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Border"), Browsable(true), Description("The width of the border")]
         public int BorderWidth { get; set; }
@@ -79,8 +85,11 @@ namespace MPfm.WindowsControls
         [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
         public Color GradientColor2 { get; set; }
 
+        /// <summary>
+        /// Background gradient mode.
+        /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Gradient mode")]
+        [Category("Background"), Browsable(true), Description("Background gradient mode")]
         public LinearGradientMode GradientMode { get; set; }
 
         #endregion
@@ -422,6 +431,21 @@ namespace MPfm.WindowsControls
     /// </summary>
     public enum WaveFormDisplayType
     {
-        LeftChannel = 0, RightChannel = 1, Stereo = 2, Mix = 3
+        /// <summary>
+        /// Left channel.
+        /// </summary>
+        LeftChannel = 0, 
+        /// <summary>
+        /// Right channel.
+        /// </summary>
+        RightChannel = 1, 
+        /// <summary>
+        /// Stereo (left and right channels).
+        /// </summary>
+        Stereo = 2, 
+        /// <summary>
+        /// Mix (mix of left/right channels).
+        /// </summary>
+        Mix = 3
     }
 }

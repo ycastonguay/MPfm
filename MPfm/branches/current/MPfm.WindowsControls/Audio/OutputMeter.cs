@@ -320,8 +320,8 @@ namespace MPfm.WindowsControls
                 //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
                 // Get peak for the last 1000ms
-                float peakLeftDB = AudioTools.GetPeak(WaveDataHistory, 100, MPfm.Sound.ChannelType.Left);
-                float peakRightDB = AudioTools.GetPeak(WaveDataHistory, 100, MPfm.Sound.ChannelType.Right);
+                float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, MPfm.Sound.ChannelType.Left);
+                float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, MPfm.Sound.ChannelType.Right);
 
                 // Set the dB range to display (-100 to +10dB)
                 float dbRangeToDisplay = 110;
@@ -537,7 +537,22 @@ namespace MPfm.WindowsControls
     /// </summary>
     public enum OutputMeterDisplayType
     {
-        LeftChannel = 0, RightChannel = 1, Stereo = 2, Mix = 3
+        /// <summary>
+        /// Displays only the left channel.
+        /// </summary>
+        LeftChannel = 0, 
+        /// <summary>
+        /// Displays only the right channel.
+        /// </summary>
+        RightChannel = 1, 
+        /// <summary>
+        /// Displays the left and right channel.
+        /// </summary>
+        Stereo = 2, 
+        /// <summary>
+        /// Displays only one channel (mix of left/right channels).
+        /// </summary>
+        Mix = 3
     }
 }
  

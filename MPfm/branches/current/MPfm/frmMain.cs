@@ -57,12 +57,21 @@ namespace MPfm
     /// </summary>
     public partial class frmMain : MPfm.WindowsControls.Form
     {
-        #region Properties
-
-        // Tracing        
+        // Private variables
         private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
+        private string m_configurationFilePath = string.Empty;
+        private string m_databaseFilePath = string.Empty;
+        private string m_logFilePath = string.Empty;
+        private string m_initOpenNodeArtist = string.Empty;
+        private string m_initOpenNodeArtistAlbum = string.Empty;
+        private string m_initOpenNodeAlbum = string.Empty;
+        private AudioFileFormat m_filterAudioFileFormat = AudioFileFormat.Unknown;
+        private bool m_songPositionChanging = false;
+        private SongQuery m_querySongBrowser = null;
 
+        #region Properties
+         
         /// <summary>
         /// Private value for the ApplicationDataFolderPath property.
         /// </summary>
@@ -98,40 +107,78 @@ namespace MPfm
             }
         }
 
-        private string m_configurationFilePath = string.Empty;
-        private string m_databaseFilePath = string.Empty;
-        private string m_logFilePath = string.Empty;        
-
-        // Initialisation
-        public bool IsInitDone { get; set; }        
-        public string InitOpenNodeArtist { get; set; }        
-        public string InitOpenNodeArtistAlbum { get; set; }        
-        public string InitOpenNodeAlbum { get; set; }
-        public Guid InitOpenNodePlaylistId { get; set; }
-        public Guid InitCurrentSongId { get; set; }
-
-        public AudioFileFormat FilterAudioFileFormat { get; set; }
-        public bool songPositionChanging = false;
-        public SongQuery QuerySongBrowser { get; set; }
-
-        // Forms
+        /// <summary>
+        /// Private value for the IsInitDone property.
+        /// </summary>
+        private bool m_isInitDone = false;
+        /// <summary>
+        /// Defines if the initialization process is done.
+        /// </summary>
+        public bool IsInitDone
+        {
+            get
+            {
+                return m_isInitDone;
+            }
+        }
+        
+        /// <summary>
+        /// "Update Library Status" form.
+        /// </summary>
         public frmUpdateLibraryStatus formUpdateLibraryStatus = null;        
+        /// <summary>
+        /// "Effects" form.
+        /// </summary>
         public frmEffects formEffects = null;
+        /// <summary>
+        /// "Settings" form.
+        /// </summary>
         public frmSettings formSettings = null;
+        /// <summary>
+        /// "Playlist" form.
+        /// </summary>
         public frmPlaylist formPlaylist = null;
+        /// <summary>
+        /// "Edit Song Metadata" form.
+        /// </summary>
         public frmEditSongMetadata formEditSongMetadata = null;
+        /// <summary>
+        /// "Add/Edit Marker" form.
+        /// </summary>
         public frmAddEditMarker formAddEditMarker = null;
+        /// <summary>
+        /// "Add/Edit Loop" form.
+        /// </summary>
         public frmAddEditLoop formAddEditLoop = null;
+        /// <summary>
+        /// "Visualizer" form.
+        /// </summary>
         public frmVisualizer formVisualizer = null;
 
-        // Tree library nodes
+        /// <summary>
+        /// "All songs" library tree node.
+        /// </summary>
         public TreeNode nodeAllSongs = null;
+        /// <summary>
+        /// "All artists" library tree node.
+        /// </summary>
         public TreeNode nodeAllArtists = null;
+        /// <summary>
+        /// "All albums" library tree node.
+        /// </summary>
         public TreeNode nodeAllAlbums = null;
+        /// <summary>
+        /// "All playlists" library tree node.
+        /// </summary>
         public TreeNode nodeAllPlaylists = null;
+        /// <summary>
+        /// "Recently played" library tree node.
+        /// </summary>
         public TreeNode nodeRecentlyPlayed = null;
 
-        // Timer for updating song position
+        /// <summary>
+        /// Timer for updating song position.
+        /// </summary>
         public System.Windows.Forms.Timer m_timerSongPosition = null;
 
         /// <summary>
@@ -194,13 +241,10 @@ namespace MPfm
         /// <summary>
         /// Fires when the main form is first loaded.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmMain_Load(object sender, EventArgs e)
         {
-            // Set initialization boolean
-            IsInitDone = false;
-
             // Load configuration
             try
             {
@@ -548,7 +592,7 @@ namespace MPfm
                 LoadWindowConfiguration();
 
                 // Reset song query
-                QuerySongBrowser = new SongQuery();
+                m_querySongBrowser = new SongQuery();
 
                 // Get query if available
                 string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
@@ -595,14 +639,7 @@ namespace MPfm
                 RefreshTreeLibrary();
 
                 // Set tray settings
-                notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
-
-                // Reset init settings
-                InitOpenNodeAlbum = string.Empty;
-                InitOpenNodeArtist = string.Empty;
-                InitOpenNodeArtistAlbum = string.Empty;
-                InitOpenNodePlaylistId = Guid.Empty;
-                InitCurrentSongId = Guid.Empty;
+                notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;                
 
                 // Set volume
                 faderVolume.Value = Config.Audio.Mixer.Volume;
@@ -612,19 +649,19 @@ namespace MPfm
                 // Update peak file warning if necessary
                 RefreshPeakFileDirectorySizeWarning();
 
-                // Set Init current song Id
-                if (!string.IsNullOrEmpty(querySongId))
-                {
-                    // Make sure the application doesn't crash if it tries to convert a string into Guid
-                    try
-                    {
-                        InitCurrentSongId = new Guid(querySongId);
-                    }
-                    catch
-                    {
-                        // Do nothing
-                    }
-                }
+                //// Set Init current song Id
+                //if (!string.IsNullOrEmpty(querySongId))
+                //{
+                //    // Make sure the application doesn't crash if it tries to convert a string into Guid
+                //    try
+                //    {
+                //        InitCurrentSongId = new Guid(querySongId);
+                //    }
+                //    catch
+                //    {
+                //        // Do nothing
+                //    }
+                //}
 
                 // Set default current node type
                 if (String.IsNullOrEmpty(currentNodeType))
@@ -685,7 +722,7 @@ namespace MPfm
                 else if (currentNodeType == "Artist")
                 {
                     // Expand the AllArtists node
-                    InitOpenNodeArtist = queryArtistName;
+                    m_initOpenNodeArtist = queryArtistName;
                     nodeAllArtists.Expand();
 
                     // Can't declare init done yet since background thread is running
@@ -693,14 +730,14 @@ namespace MPfm
                 else if (currentNodeType == "Album")
                 {
                     // Expand the AllAlbums node                
-                    InitOpenNodeAlbum = queryAlbumTitle;
+                    m_initOpenNodeAlbum = queryAlbumTitle;
                     nodeAllAlbums.Expand();
                 }
                 else if (currentNodeType == "ArtistAlbum")
                 {
                     // Expand the AllArtists node
-                    InitOpenNodeArtist = queryArtistName;
-                    InitOpenNodeArtistAlbum = queryAlbumTitle;
+                    m_initOpenNodeArtist = queryArtistName;
+                    m_initOpenNodeArtistAlbum = queryAlbumTitle;
                     nodeAllArtists.Expand();
 
                     // Can't declare init done yet since background thread is running
@@ -924,7 +961,7 @@ namespace MPfm
         public void SetInitDone()
         {
             // Set initialization boolean
-            IsInitDone = true;
+            m_isInitDone = true;
 
             Tracing.Log("Main form init -- Initialization successful!");
             frmSplash.SetStatus("Initialization successful!");
@@ -1051,7 +1088,7 @@ namespace MPfm
                 }
 
                 // Update the song position
-                if (!songPositionChanging)
+                if (!m_songPositionChanging)
                 {
                     // Get ratio
                     float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
@@ -1841,12 +1878,12 @@ namespace MPfm
             TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibrary.SelectedNode.Tag;           
 
             // Set the current song browser query from the selected node metadata            
-            QuerySongBrowser = metadata.Query;
+            m_querySongBrowser = metadata.Query;
 
             // Set config
-            Config.Controls.SongGridView.Query.ArtistName = QuerySongBrowser.ArtistName;
-            Config.Controls.SongGridView.Query.AlbumTitle = QuerySongBrowser.AlbumTitle;
-            Config.Controls.SongGridView.Query.PlaylistId = QuerySongBrowser.PlaylistId;
+            Config.Controls.SongGridView.Query.ArtistName = m_querySongBrowser.ArtistName;
+            Config.Controls.SongGridView.Query.AlbumTitle = m_querySongBrowser.AlbumTitle;
+            Config.Controls.SongGridView.Query.PlaylistId = m_querySongBrowser.PlaylistId;
 
             try
             {
@@ -1858,7 +1895,7 @@ namespace MPfm
             }
 
             // Refresh song browser
-            RefreshSongBrowser(QuerySongBrowser);
+            RefreshSongBrowser(m_querySongBrowser);
         }
 
         /// <summary>
@@ -1875,15 +1912,15 @@ namespace MPfm
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.All)
             {
-                audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -2080,7 +2117,7 @@ namespace MPfm
             nodeAllSongs.SelectedImageIndex = 12;
             nodeAllSongs.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.AllSongs, new SongQuery());
 
-            if (QuerySongBrowser.Type == SongQueryType.None)
+            if (m_querySongBrowser.Type == SongQueryType.None)
             {
                 selectedNode = nodeAllSongs;
             }
@@ -2246,17 +2283,17 @@ namespace MPfm
                 if (query.Type == SongQueryType.Album)
                 {
                     // Generate an artist/album playlist and start playback
-                    audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
+                    audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
                 }
                 else if (query.Type == SongQueryType.Artist)
                 {
                     // Generate an artist playlist and start playback                                                                        
-                    audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat, string.Empty, true, query.ArtistName);                        
+                    audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, string.Empty, true, query.ArtistName);                        
                 }
                 else if (query.Type == SongQueryType.All)
                 {
                     // Generate a playlist with all the library and start playback
-                    audioFiles = Library.SelectAudioFiles(FilterAudioFileFormat);                        
+                    audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat);                        
                 }
 
                 // Clear playlist and add songs
@@ -2291,7 +2328,7 @@ namespace MPfm
             }
 
             // Play selected song
-            Play(QuerySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
+            Play(m_querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
         } 
 
         /// <summary>
@@ -2334,8 +2371,8 @@ namespace MPfm
         /// <param name="sender">Event Sender</param>
         /// <param name="e">Event Arguments</param>
         private void trackPosition_MouseDown(object sender, MouseEventArgs e)
-        {            
-            songPositionChanging = true;
+        {
+            m_songPositionChanging = true;
         }
 
         /// <summary>
@@ -2370,7 +2407,7 @@ namespace MPfm
                 lblSongPercentage.Text = (ratio * 100).ToString("00.00");
 
                 // Set flags
-                songPositionChanging = false;
+                m_songPositionChanging = false;
             }
             catch (Exception ex)
             {
@@ -2670,17 +2707,17 @@ namespace MPfm
             if (args.OperationType == WorkerTreeLibraryOperationType.GetArtistAlbums)
             {
                 // Select all albums from artist
-                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, FilterAudioFileFormat);
+                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, m_filterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetArtists)
             {
                 // Select all artists
-                result.Artists = Library.SelectArtistNames(FilterAudioFileFormat);
+                result.Artists = Library.SelectArtistNames(m_filterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetAlbums)
             {
                 // Select all albums
-                result.AllAlbums = Library.SelectAlbumTitles(FilterAudioFileFormat);
+                result.AllAlbums = Library.SelectAlbumTitles(m_filterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
             {
@@ -2735,7 +2772,7 @@ namespace MPfm
                             result.TreeNodeToUpdate.Nodes.Add(nodeAlbum);
 
                             // If the form is initializing and setting the initial opened node from history...
-                            if (!IsInitDone && result.ArtistName == InitOpenNodeArtist && albumTitle == InitOpenNodeArtistAlbum)
+                            if (!IsInitDone && result.ArtistName == m_initOpenNodeArtist && albumTitle == m_initOpenNodeArtistAlbum)
                             {
                                 // Set node as selected
                                 treeLibrary.SelectedNode = nodeAlbum;
@@ -2776,7 +2813,7 @@ namespace MPfm
                             result.TreeNodeToUpdate.Nodes.Add(nodeArtist);
 
                             // If the form is initializing and setting the initial opened node from history...
-                            if (!IsInitDone && artistName == InitOpenNodeArtist)
+                            if (!IsInitDone && artistName == m_initOpenNodeArtist)
                             {
                                 // Set node as selected
                                 treeLibrary.SelectedNode = nodeArtist;
@@ -2785,7 +2822,7 @@ namespace MPfm
                     }
 
                     // Check if an ArtistAlbum child node needs to be opened
-                    if (!IsInitDone && !String.IsNullOrEmpty(InitOpenNodeArtistAlbum))
+                    if (!IsInitDone && !String.IsNullOrEmpty(m_initOpenNodeArtistAlbum))
                     {
                         // The artist node must be expanded
                         treeLibrary.SelectedNode.Expand();
@@ -2830,7 +2867,7 @@ namespace MPfm
                         result.TreeNodeToUpdate.Nodes.Add(nodeAlbum);
 
                         // If the form is initializing and setting the initial opened node from history...
-                        if (!IsInitDone && albumTitle == InitOpenNodeAlbum)
+                        if (!IsInitDone && albumTitle == m_initOpenNodeAlbum)
                         {
                             // Set node as selected
                             treeLibrary.SelectedNode = nodeAlbum;
@@ -2838,7 +2875,7 @@ namespace MPfm
                     }
 
                     // Check if an Album child node needs to be opened
-                    if (!IsInitDone && !String.IsNullOrEmpty(InitOpenNodeAlbum))
+                    if (!IsInitDone && !String.IsNullOrEmpty(m_initOpenNodeAlbum))
                     {
                         // The artist node must be expanded
                         treeLibrary.SelectedNode.Expand();
@@ -3263,7 +3300,7 @@ namespace MPfm
             Enum.TryParse<AudioFileFormat>(comboSoundFormat.Text, out audioFileFormat);
 
             // Set filter
-            FilterAudioFileFormat = audioFileFormat;
+            m_filterAudioFileFormat = audioFileFormat;
 
             // Check if init is done
             if (IsInitDone)
@@ -3826,8 +3863,13 @@ namespace MPfm
             RefreshSongBrowser();
         }
 
+        /// <summary>
+        /// Displays the "Update Library" panel for updating progress.
+        /// </summary>
+        /// <param name="show">If true, the panel will be shown.</param>
         public void ShowUpdateLibraryProgress(bool show)
         {
+            // Check if the panel needs to be shown
             if (show)
             {
                 // The update library progress panel is 102 pixels high.
@@ -3855,9 +3897,21 @@ namespace MPfm
     /// </summary>
     public class WorkerWaveFormLoopsMarkersReportProgress
     {
+        /// <summary>
+        /// Indicates how many bytes are read.
+        /// </summary>
         public uint BytesRead { get; set; }
+        /// <summary>
+        /// Indicates the total number of bytes to read.
+        /// </summary>
         public uint TotalBytes { get; set; }
+        /// <summary>
+        /// Indicates the percentage done.
+        /// </summary>
         public float PercentageDone { get; set; }
+        /// <summary>
+        /// WaveDataMinMax data structure.
+        /// </summary>
         public WaveDataMinMax WaveDataMinMax { get; set; }
     }
 
@@ -3867,30 +3921,72 @@ namespace MPfm
     /// </summary>
     public class WorkerTreeLibraryArgs
     {
+        /// <summary>
+        /// Operation type.
+        /// </summary>
         public WorkerTreeLibraryOperationType OperationType { get; set; }
+        /// <summary>
+        /// Indicates which tree node to update.
+        /// </summary>
         public TreeNode TreeNodeToUpdate { get; set; }
+        /// <summary>
+        /// Artist name.
+        /// </summary>
         public string ArtistName { get; set; }
     }
+
     /// <summary>
     /// Defines the results coming out of the background worker of the tree library.
     /// </summary>
     public class WorkerTreeLibraryResult
     {
+        /// <summary>
+        /// Operation type.
+        /// </summary>
         public WorkerTreeLibraryOperationType OperationType { get; set; }
+        /// <summary>
+        /// Indicates which tree node to update.
+        /// </summary>
         public TreeNode TreeNodeToUpdate { get; set; }
+        /// <summary>
+        /// Artist name.
+        /// </summary>
         public string ArtistName { get; set; }
+        /// <summary>
+        /// List of album titles.
+        /// </summary>
         public List<string> Albums { get; set; }
-        public List<string> Artists { get; set; }
-        //public List<PlaylistDTO> Playlists { get; set; }
-        // Key = ArtistName -- Values = albums
+        /// <summary>
+        /// List of artist names.
+        /// </summary>
+        public List<string> Artists { get; set; }                
+        /// <summary>
+        /// List of albums (key = artist name, value = album title).
+        /// </summary>
         public Dictionary<string, List<string>> AllAlbums { get; set; }
     }
+
     /// <summary>
     /// Defines what kind of operation the background worker process needs to do.
     /// </summary>
     public enum WorkerTreeLibraryOperationType
     {
-        GetArtists = 0, GetArtistAlbums = 1, GetAlbums = 2, GetPlaylists = 3
+        /// <summary>
+        /// Gets all artists.
+        /// </summary>
+        GetArtists = 0, 
+        /// <summary>
+        /// Gets all albums from a specific artist.
+        /// </summary>
+        GetArtistAlbums = 1, 
+        /// <summary>
+        /// Gets all albums.
+        /// </summary>
+        GetAlbums = 2, 
+        /// <summary>
+        /// Gets all playlists.
+        /// </summary>
+        GetPlaylists = 3
     }
 
     /// <summary>
@@ -3898,7 +3994,46 @@ namespace MPfm
     /// </summary>
     public enum TreeLibraryNodeType
     {
-        All = 0, AllSongs = 1, AllArtists = 2, AllAlbums = 3, AllPlaylists = 4, Artist = 5, Album = 6, ArtistAlbum = 7, Playlist = 8, RecentlyPlayed = 9
+        /// <summary>
+        /// "All" node type.
+        /// </summary>
+        All = 0, 
+        /// <summary>
+        /// "All songs" node type.
+        /// </summary>
+        AllSongs = 1, 
+        /// <summary>
+        /// "All artists" node type.
+        /// </summary>
+        AllArtists = 2,
+        /// <summary>
+        /// "All albums" node type.
+        /// </summary>
+        AllAlbums = 3,
+        /// <summary>
+        /// "All playlists" node type.
+        /// </summary>
+        AllPlaylists = 4,
+        /// <summary>
+        /// "Artist" node type.
+        /// </summary>
+        Artist = 5,
+        /// <summary>
+        /// "Album" node type.
+        /// </summary>
+        Album = 6,
+        /// <summary>
+        /// "Artist/Album" node type.
+        /// </summary>
+        ArtistAlbum = 7,
+        /// <summary>
+        /// "Playlist" node type.
+        /// </summary>
+        Playlist = 8,
+        /// <summary>
+        /// "Recently played" node type.
+        /// </summary>
+        RecentlyPlayed = 9
     }
 
     /// <summary>
@@ -3907,7 +4042,14 @@ namespace MPfm
     /// </summary>
     public class TreeLibraryNodeMetadata
     {
+        /// <summary>
+        /// Defines the node type.
+        /// </summary>
         public TreeLibraryNodeType NodeType { get; set; }
+
+        /// <summary>
+        /// Defines the query associated with this node type.
+        /// </summary>
         public SongQuery Query { get; set; }       
 
         /// <summary>

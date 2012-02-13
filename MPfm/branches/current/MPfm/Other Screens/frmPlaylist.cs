@@ -43,8 +43,8 @@ namespace MPfm
     public partial class frmPlaylist : MPfm.WindowsControls.Form
     {
         // Private variables        
-        public frmRenameSavePlaylist formRenameSavePlaylist = null;
-        public frmLoadPlaylist formLoadPlaylist = null;
+        private frmRenameSavePlaylist m_formRenameSavePlaylist = null;
+        private frmLoadPlaylist m_formLoadPlaylist = null;
 
         /// <summary>
         /// Private value for the Main property.
@@ -393,14 +393,14 @@ namespace MPfm
         private void btnRenamePlaylist_Click(object sender, EventArgs e)
         {
             // Create window
-            formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
+            m_formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
 
             // Set window location
-            formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
+            m_formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
             //formRenameSavePlaylist.txtName.Text = Main.Player.Playlist.Name;
 
             // Show Save Playlist dialog
-            if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            if (m_formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 // Refresh the window title
                 RefreshTitle();
@@ -564,17 +564,17 @@ namespace MPfm
             try
             {
                 // Create window
-                formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
+                m_formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
 
                 // Show Load playlist dialog (progress bar)
-                DialogResult dialogResult = formLoadPlaylist.ShowDialog(this);
+                DialogResult dialogResult = m_formLoadPlaylist.ShowDialog(this);
                 if (dialogResult == System.Windows.Forms.DialogResult.OK)
                 {
                     // Get audio files
-                    List<AudioFile> audioFiles = formLoadPlaylist.AudioFiles;
+                    List<AudioFile> audioFiles = m_formLoadPlaylist.AudioFiles;
 
                     // Check if any audio files have failed loading
-                    List<string> failedAudioFilePaths = formLoadPlaylist.FailedAudioFilePaths;
+                    List<string> failedAudioFilePaths = m_formLoadPlaylist.FailedAudioFilePaths;
 
                     // Clear player playlist
                     Main.Player.Playlist.Clear();
@@ -633,8 +633,8 @@ namespace MPfm
                 }
 
                 // Dispose form
-                formLoadPlaylist.Dispose();
-                formLoadPlaylist = null;
+                m_formLoadPlaylist.Dispose();
+                m_formLoadPlaylist = null;
             }
             catch (Exception ex)
             {

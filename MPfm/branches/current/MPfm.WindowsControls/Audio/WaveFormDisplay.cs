@@ -70,10 +70,8 @@ namespace MPfm.WindowsControls
         /// </summary>
         private Timer m_timerAnimation = null;
 
-        // Animation
-        //private int animResolution = 256;
-        private int animZoomCount = -1;
-        private int animToolbarCount = -1;
+        // Animation        
+        private int animZoomCount = -1;        
 
         // Mouse cursor related stuff
         private bool isMouseOverToolbar = false;
@@ -107,8 +105,14 @@ namespace MPfm.WindowsControls
         private string m_peakFilePath = string.Empty;
         private bool needToRefreshBitmapCache = false;
 
-        // Delegate events
+        /// <summary>
+        /// This delegate is used for the OnPositionChanged event.
+        /// </summary>
+        /// <param name="data">OnPositionChanged event data</param>
         public delegate void PositionChanged(PositionChangedData data);
+        /// <summary>
+        /// This event is fired when the user changes the cursor position.
+        /// </summary>
         public event PositionChanged OnPositionChanged;
 
         #endregion
@@ -450,7 +454,7 @@ namespace MPfm.WindowsControls
                 m_zoom = value;
 
                 // Set scrollbar value
-                horizontalScrollBar.m_value = (int)m_scrollX;
+                horizontalScrollBar.SetValueWithoutTriggeringEvent((int)m_scrollX);
             }
         }
 
@@ -684,6 +688,12 @@ namespace MPfm.WindowsControls
             this.Controls.Add(horizontalScrollBar);
         }
 
+        /// <summary>
+        /// This event is fired every time the animation timer expires.
+        /// This refreshes the current song marker.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         protected void m_timerAnimation_Tick(object sender, EventArgs e)
         {
             // Increment counter
@@ -867,6 +877,10 @@ namespace MPfm.WindowsControls
 
         #region Load Wave Form / Read+Write Peak Files Methods
 
+        /// <summary>
+        /// This event is fired when the peak file starts generating.
+        /// </summary>
+        /// <param name="data">Event data</param>
         protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
         {
             // Invoke UI updates
@@ -1037,7 +1051,7 @@ namespace MPfm.WindowsControls
                 }
                 else
                 {
-                    throw ex;
+                    throw;
                 }
             }
 
@@ -1416,9 +1430,9 @@ namespace MPfm.WindowsControls
                             mixMaxHeight = mixMax * heightToRenderLine;
                             mixMinHeight = mixMin * heightToRenderLine;
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            throw ex;
+                            throw;
                         }
 
                         // Create pen
@@ -2100,8 +2114,7 @@ namespace MPfm.WindowsControls
                 // Check flag
                 if (!isMouseOverToolbar)
                 {                    
-                    // Set flags
-                    animToolbarCount = 0;
+                    // Set flags                    
                     isMouseOverToolbar = true;
 
                     // Invalidate toolbar and update control
@@ -2386,7 +2399,13 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class PositionChangedData
     {
+        /// <summary>
+        /// New position chosen by the user (in bytes).
+        /// </summary>
         public uint Position { get; set; }
+        /// <summary>
+        /// New position chosen by the user (in percentage).
+        /// </summary>
         public float Percentage { get; set; }
     }
 
@@ -2419,9 +2438,21 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class WorkerWaveFormProgress
     {
+        /// <summary>
+        /// Indicates how many bytes are read.
+        /// </summary>
         public uint BytesRead { get; set; }
+        /// <summary>
+        /// Indicates the total number of bytes to read.
+        /// </summary>
         public uint TotalBytes { get; set; }
+        /// <summary>
+        /// Indicates the percentage done.
+        /// </summary>
         public float PercentageDone { get; set; }
+        /// <summary>
+        /// WaveDataMinMax data structure.
+        /// </summary>
         public WaveDataMinMax WaveDataMinMax { get; set; }
     }
 
@@ -2430,7 +2461,13 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class WorkerWaveFormArgument
     {
+        /// <summary>
+        /// Audio file path.
+        /// </summary>
         public string AudioFilePath { get; set; }
+        /// <summary>
+        /// Peak file path.
+        /// </summary>
         public string PeakFilePath { get; set; }
     }
 }

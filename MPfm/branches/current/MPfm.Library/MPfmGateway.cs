@@ -50,6 +50,10 @@ namespace MPfm.Library
         {
         }
 
+        /// <summary>
+        /// Executes an SQL statement.
+        /// </summary>
+        /// <param name="sql">SQL statement to execute</param>
         public void ExecuteSQL(string sql)
         {
             Execute(sql);

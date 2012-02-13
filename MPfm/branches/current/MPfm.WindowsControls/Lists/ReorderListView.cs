@@ -38,11 +38,23 @@ namespace MPfm.WindowsControls
     /// </summary>
     public partial class ReorderListView : System.Windows.Forms.ListView
     {
+        // Private variables
         private const string REORDER = "Reorder";
 
+        /// <summary>
+        /// Delegate for the ItemsReordered event.
+        /// </summary>
+        /// <param name="args">Event arguments</param>
         public delegate void ItemsReorderedHandler(EventArgs args);
+        /// <summary>
+        /// This event is fired when the items are reordered.
+        /// </summary>
         public event ItemsReorderedHandler ItemsReordered;
 
+        /// <summary>
+        /// This event is fired when the items are reordered.
+        /// </summary>
+        /// <param name="args">Event arguments</param>
         public void OnItemsReordered(EventArgs args)
         {
             if (ItemsReordered != null)
@@ -51,7 +63,13 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the AllowRowReorder property.
+        /// </summary>
         private bool allowRowReorder = true;
+        /// <summary>
+        /// Indicates if the rows can be reordered.
+        /// </summary>
         public bool AllowRowReorder
         {
             get
@@ -65,6 +83,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
         public new SortOrder Sorting
         {
             get
@@ -91,6 +112,10 @@ namespace MPfm.WindowsControls
             this.AllowRowReorder = true;
         }
 
+        /// <summary>
+        /// This event is triggered when the user drops an item on this control.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnDragDrop(DragEventArgs e)
         {
             bool itemsMoved = false;
@@ -140,6 +165,10 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// This event is fired when the user drags an item over this control.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnDragOver(DragEventArgs e)
         {
             if (!this.AllowRowReorder)
@@ -181,6 +210,10 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// This event is fired when the user starts to drag an item on this control.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnDragEnter(DragEventArgs e)
         {
             base.OnDragEnter(e);
@@ -206,6 +239,10 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// This event is fired when the user starts to drag an item from this control.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnItemDrag(ItemDragEventArgs e)
         {
             base.OnItemDrag(e);

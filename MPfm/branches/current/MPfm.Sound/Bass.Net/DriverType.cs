@@ -30,6 +30,17 @@ namespace MPfm.Sound.BassNetWrapper
     /// </summary>
     public enum DriverType
     {
-        DirectSound = 0, ASIO = 1, WASAPI = 2
+        /// <summary>
+        /// DirectSound (most popular choice).
+        /// </summary>
+        DirectSound = 0, 
+        /// <summary>
+        /// ASIO (requires a compatible ASIO driver, usually for low-latency sound cards).
+        /// </summary>
+        ASIO = 1, 
+        /// <summary>
+        /// WASAPI (only for Windows Vista and Windows 7).
+        /// </summary>
+        WASAPI = 2
     }
 }

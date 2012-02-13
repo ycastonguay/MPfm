@@ -33,9 +33,9 @@ namespace MPfm.Player
     /// </summary> 
     public class PlayerStreamCallbackData
     {
-        public byte[] Data { get; set; }
-        public float[] Data2 { get; set; }
-        public int Length { get; set; }
+        //public byte[] Data { get; set; }
+        //public float[] Data2 { get; set; }
+        //public int Length { get; set; }
     }
 
 }

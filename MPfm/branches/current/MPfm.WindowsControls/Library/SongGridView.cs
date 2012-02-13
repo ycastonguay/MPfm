@@ -60,7 +60,7 @@ namespace MPfm.WindowsControls
         // Background worker for updating album art
         private int m_preloadLinesAlbumCover = 20;
         private BackgroundWorker m_workerUpdateAlbumArt = null;
-        public List<SongGridViewBackgroundWorkerArgument> m_workerUpdateAlbumArtPile = null;
+        private List<SongGridViewBackgroundWorkerArgument> m_workerUpdateAlbumArtPile = null;
         private System.Windows.Forms.Timer m_timerUpdateAlbumArt = null;
         //private List<string> m_currentlyVisibleAlbumArt = null;
 
@@ -69,9 +69,9 @@ namespace MPfm.WindowsControls
         private List<SongGridViewImageCache> m_imageCache = new List<SongGridViewImageCache>();        
 
         // Private variables used for mouse events
-        private int m_columnMoveMarkerX = 0;        
-        public int m_startLineNumber = 0;
-        public int m_numberOfLinesToDraw = 0;
+        private int m_columnMoveMarkerX = 0;
+        private int m_startLineNumber = 0;
+        private int m_numberOfLinesToDraw = 0;
         private int m_minimumColumnWidth = 30;
         private int m_dragStartX = -1;
         private int m_dragOriginalColumnWidth = -1;
@@ -751,16 +751,23 @@ namespace MPfm.WindowsControls
             //}
         }
 
+        /// <summary>
+        /// Clears the currently selected items.
+        /// </summary>
         public void ClearSelectedItems()
         {
+            // Loop through items
             foreach (SongGridViewItem item in m_items)
             {
+                // Check if item is selected
                 if (item.IsSelected)
                 {
+                    // Unselect item
                     item.IsSelected = false;
                 }
             }
 
+            // Refresh control
             Refresh();
         }
 
@@ -2924,24 +2931,51 @@ namespace MPfm.WindowsControls
         }
     }
 
+    /// <summary>
+    /// Result data structure used for the SongGridView background worker.
+    /// </summary>
     public class SongGridViewBackgroundWorkerResult
     {
+        /// <summary>
+        /// Audio file.
+        /// </summary>
         public AudioFile AudioFile { get; set; }
+        /// <summary>
+        /// Album cover.
+        /// </summary>
         public Image AlbumArt { get; set; }
     }
 
+    /// <summary>
+    /// Argument data structure used for the SongGridView background worker.
+    /// </summary>
     public class SongGridViewBackgroundWorkerArgument
     {
+        /// <summary>
+        /// Audio file.
+        /// </summary>
         public AudioFile AudioFile { get; set; }
+        /// <summary>
+        /// Line number (item index in the SongGridView control).
+        /// </summary>
         public int LineIndex { get; set; }        
     }
 
+    /// <summary>
+    /// Data structure used for the SelectedIndexChanged event.
+    /// </summary>
     public class SongGridViewSelectedIndexChangedData
     {        
     }
 
+    /// <summary>
+    /// Data structure used for the ColumnClick event.
+    /// </summary>
     public class SongGridViewColumnClickData
     {
+        /// <summary>
+        /// Column index.
+        /// </summary>
         public int ColumnIndex { get; set; }
     }
 

@@ -31,7 +31,13 @@ namespace MPfm
     /// </summary>
     public class DriverComboBoxItem
     {
+        /// <summary>
+        /// Driver type (DirectSound, ASIO, WASAPI).
+        /// </summary>
         public DriverType DriverType { get; set; }
+        /// <summary>
+        /// Driver title.
+        /// </summary>
         public string Title { get; set; }
     }
 }

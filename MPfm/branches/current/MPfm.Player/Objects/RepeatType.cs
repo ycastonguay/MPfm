@@ -30,6 +30,19 @@ namespace MPfm.Player
     /// </summary>
     public enum RepeatType
     {
-        Off = 0, Playlist = 1, Song = 2
+        /// <summary>
+        /// No repeat.
+        /// </summary>
+        Off = 0, 
+        /// <summary>
+        /// Playlist repeat type. The playback returns to the first
+        /// item of the playlist when the playlist has finished playing.
+        /// </summary>
+        Playlist = 1, 
+        /// <summary>
+        /// Song repeat type. When the current song finishes, the playback returns
+        /// to the song start position.
+        /// </summary>
+        Song = 2
     }
 }

@@ -200,9 +200,21 @@ namespace MPfm.Sound
     /// </summary>
     public enum XingInfoHeaderStatus
     {
+        /// <summary>
+        /// No status.
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// Indicates that a Xing/Info header was found.
+        /// </summary>
         Successful = 1, 
+        /// <summary>
+        /// Indicates that no header was found.
+        /// </summary>
         HeaderNotFound = 2,
+        /// <summary>
+        /// Indicates that a valid header could not be found at the start position.
+        /// </summary>
         StartPositionNotValidHeader = 3
     }
 }

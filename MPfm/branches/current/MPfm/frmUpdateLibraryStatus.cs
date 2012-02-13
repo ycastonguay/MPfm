@@ -39,6 +39,18 @@ namespace MPfm
     /// </summary>
     public partial class frmUpdateLibraryStatus : Form
     {
+        // Private variables        
+        private UpdateLibraryMode mode;
+        private StringBuilder sbLog = new StringBuilder();
+        private DateTime startTime;
+        private DateTime startTimeAddFiles;
+        private TimeSpan timeElapsed;
+        private List<string> listAlbums = null;
+        private bool timerEnabled = false;
+
+        /// <summary>
+        /// Private value for the Main property.
+        /// </summary>
         private frmMain m_main = null;
         /// <summary>
         /// Hook to the main form.
@@ -51,16 +63,13 @@ namespace MPfm
             }
         }
 
-        // Private variables        
-        private UpdateLibraryMode mode;
-        private StringBuilder sbLog = new StringBuilder();
-        private DateTime startTime;
-        private DateTime startTimeAddFiles;
-        private TimeSpan timeElapsed;        
-        private List<string> listAlbums = null;
-        private bool timerEnabled = false;
-
+        /// <summary>
+        /// Private value for the FilePaths property.
+        /// </summary>
         private List<string> m_filePaths = null;
+        /// <summary>
+        /// Indicates the list of audio file paths to update.
+        /// </summary>
         public List<string> FilePaths
         {
             get
@@ -69,7 +78,13 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Private value for the FolderPath property.
+        /// </summary>
         private string m_folderPath = string.Empty;
+        /// <summary>
+        /// Indicates the folder path to update.
+        /// </summary>
         public string FolderPath
         {
             get
