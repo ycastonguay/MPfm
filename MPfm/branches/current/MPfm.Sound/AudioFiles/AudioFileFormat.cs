@@ -82,7 +82,22 @@ namespace MPfm.Sound
         /// TTA (True Audio) lossy audio codec.
         /// For more information, consult http://en.true-audio.com/.
         /// </summary>
-        TTA = 10
+        TTA = 10,
+        /// <summary>
+        /// WMA (Windows Media Audio) audio codec. Also called ASF.
+        /// For more information, consult http://en.wikipedia.org/wiki/Windows_Media_Audio.
+        /// </summary>
+        WMA = 11,
+        /// <summary>
+        /// AAC (Advanced Audio Coding) audio codec. Has different extensions (M4A, MP4, AAC).
+        /// For more information, consult http://en.wikipedia.org/wiki/Advanced_Audio_Coding.
+        /// </summary>
+        AAC = 12,
+        /// <summary>
+        /// ALAC (Apple Lossless Audio Codec) audio codec. Also sometimes called ALE (Apple Lossless Encoder).
+        /// For more information, consult http://en.wikipedia.org/wiki/Apple_Lossless.
+        /// </summary>
+        ALAC = 13
 	}
 }
 

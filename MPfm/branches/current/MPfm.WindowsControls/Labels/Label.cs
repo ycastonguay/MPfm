@@ -167,6 +167,8 @@ namespace MPfm.WindowsControls
 
             // Get embedded Font collection
             m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+            Font fontsss = EmbeddedFonts.LeagueGothic;
         }
 
         /// <summary>
@@ -179,6 +181,8 @@ namespace MPfm.WindowsControls
             {                
                 // Get graphics from paint event
                 Graphics g = pe.Graphics;
+
+                m_cachedFont = Tools.LoadEmbeddedFont(EmbeddedFonts.embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
 
                 // Use anti-aliasing?
                 if (CustomFont.UseAntiAliasing)
@@ -241,6 +245,63 @@ namespace MPfm.WindowsControls
 
                 // Create brush
                 SolidBrush brushFont = new SolidBrush(ForeColor);
+
+                //if (TextAlign == ContentAlignment.TopLeft)
+                //{
+                //    // Top left
+                //    g.DrawString(Text, m_cachedFont, brushFont, 2, 2);
+                //}
+                //else
+                //{
+                //    // Measure string            
+                //    SizeF sizeString = g.MeasureString(this.Text, Font);
+
+                //    // Draw string depending on alignment
+                //    if (TextAlign == ContentAlignment.BottomLeft)
+                //    {
+                //        // Bottom left
+                //        g.DrawString(Text, m_cachedFont, brushFont, 2, (this.Height - sizeString.Height) - 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.BottomCenter)
+                //    {
+                //        // Bottom center
+                //        g.DrawString(Text, m_cachedFont, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.BottomRight)
+                //    {
+                //        // Bottom right
+                //        g.DrawString(Text, m_cachedFont, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.MiddleLeft)
+                //    {
+                //        // Middle left
+                //        g.DrawString(Text, m_cachedFont, brushFont, 2, (this.Height - sizeString.Height) / 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.MiddleCenter)
+                //    {
+                //        // Middle center
+                //        g.DrawString(Text, m_cachedFont, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.MiddleRight)
+                //    {
+                //        // Middle right
+                //        g.DrawString(Text, m_cachedFont, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.TopLeft)
+                //    {
+
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.TopCenter)
+                //    {
+                //        // Top center
+                //        g.DrawString(Text, m_cachedFont, brushFont, (this.Width - sizeString.Width) / 2, 2);
+                //    }
+                //    else if (this.TextAlign == ContentAlignment.TopRight)
+                //    {
+                //        // Top right
+                //        g.DrawString(Text, m_cachedFont, brushFont, (this.Width - sizeString.Width) - 2, 2);
+                //    }
+                //}
 
                 if (TextAlign == ContentAlignment.TopLeft)
                 {
@@ -315,6 +376,17 @@ namespace MPfm.WindowsControls
             {                
                 throw;
             }
+            
         }
+
+        private static Font m_cachedFont = null;
+    }
+
+    public static class EmbeddedFonts
+    {                    
+        public static readonly EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+
+        //public static readonly Font LeagueGothic = new Font(FontFamily.GenericSansSerif, 10f);
+        public static readonly Font LeagueGothic = Tools.LoadEmbeddedFont(embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
     }
 }

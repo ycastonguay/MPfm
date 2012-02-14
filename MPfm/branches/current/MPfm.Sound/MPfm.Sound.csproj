@@ -81,6 +81,8 @@
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
     <Compile Include="AudioFiles\AudioTools.cs" />
+    <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
+    <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="Bass.Net\Channel.cs" />
     <Compile Include="Bass.Net\ChannelType.cs" />
     <Compile Include="Bass.Net\DriverType.cs" />

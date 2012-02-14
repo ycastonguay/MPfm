@@ -955,6 +955,8 @@ namespace MPfm.Sound
                 m_audioChannels = 2;
                 m_sampleRate = 44100;
                 m_bitsPerSample = 16;
+
+                // TagLib doesn't work.
             }
             else if (m_fileType == AudioFileFormat.WAV)
             {
@@ -964,7 +966,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Get WAV file
-                    file = new TagLib.Riff.File(m_filePath);
+                    file = new TagLib.Riff.File(m_filePath);                    
 
                     // Get the position of the first and last block
                     m_firstBlockPosition = file.InvariantStartPosition;
@@ -1003,6 +1005,32 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
+            else if (m_fileType == AudioFileFormat.WMA)
+            {
+                // Declare variables
+                TagLib.Asf.File file = null;
+
+                try
+                {
+                    // Read ASF/WMA tags
+                    file = new TagLib.Asf.File(m_filePath);
+
+                    // TagLib seems to work...!
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
+            }            
+
+            //AudioFileFormatExtensions.ALAC.            
+            
 
 			// If the song has no name, give filename as the name                
 			if (String.IsNullOrEmpty(Title))
@@ -1292,14 +1320,6 @@ namespace MPfm.Sound
                         imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
                     }
                 }
-            }
-            else if (extension == ".FLAC")
-            {
-
-            }
-            else if (extension == ".OGG")
-            {
-
             }
 
             // Check if the image was found using TagLib

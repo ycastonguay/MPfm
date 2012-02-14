@@ -121,28 +121,32 @@ namespace MPfm.WindowsControls
         /// <param name="assemblyPath">Assembly Path (i.e. MPfm.Fonts.dll)</param>
         public void AddFontFromResource(string resourceName, string assemblyPath)
         {
+            // Declare variables
             Assembly assembly = null;
 
-            if (assemblyPath.Length == 0)
+            // Check file path
+            if (!File.Exists(assemblyPath))
             {
-                return;
+                throw new ArgumentException("The assemblyPath parameter does not contain a valid file path.");
             }
 
+            // Try to load font from assembly
             try
             {
                 assembly = Assembly.LoadFile(assemblyPath);
             }
-            catch
+            catch(Exception ex)
             {
-                return;
+                throw new Exception("The assembly was not found!", ex);
             }
 
+            // Check if assembly was found
             if (assembly == null)
             {
-                return;
+                throw new Exception("The assembly was not found!");
             }
 
-
+            // Get manifest
             Stream fontStream = assembly.GetManifestResourceStream(resourceName);
 
             if (fontStream == null)
@@ -151,10 +155,12 @@ namespace MPfm.WindowsControls
                 return;
             }
 
+            // Read font from file
             byte[] fontdata = new byte[fontStream.Length];
             fontStream.Read(fontdata, 0, (int)fontStream.Length);
             fontStream.Close();
 
+            // Add font to memory (requires unsafe code)
             unsafe
             {
                 fixed (byte* pFontData = fontdata)
