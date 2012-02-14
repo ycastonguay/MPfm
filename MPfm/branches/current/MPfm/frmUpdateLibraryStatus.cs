@@ -242,22 +242,25 @@ namespace MPfm
             // Display the save dialog
             if (saveLogDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                TextWriter tw = null;
                 try
                 {
                     // Open text writer
-                    TextWriter tw = new StreamWriter(saveLogDialog.FileName);
+                    tw = new StreamWriter(saveLogDialog.FileName);
 
                     foreach (String item in lbLog.Items)
                     {
                         tw.WriteLine(item);
                     }
-
-                    tw.Close();
                 }
                 catch (Exception ex)
                 {
                     // Display error
                     MessageBox.Show("Failed to save the file to " + saveLogDialog.FileName + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    tw.Close();
                 }
             }
         }

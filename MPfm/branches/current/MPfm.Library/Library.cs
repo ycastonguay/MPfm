@@ -1030,7 +1030,7 @@ namespace MPfm.Library
             catch (Exception ex)
             {
                 Tracing.Log("MPfm.Library (Library) --  Error in SelectArtistAlbums(): " + ex.Message);
-                throw ex;
+                throw;
             }
 
             return albums;
@@ -1098,7 +1098,7 @@ namespace MPfm.Library
             catch (Exception ex)
             {
                 Tracing.Log(ex);
-                throw ex;
+                throw;
             }
 
             return audioFile;
@@ -1267,7 +1267,7 @@ namespace MPfm.Library
             catch (Exception ex)
             {
                 Tracing.Log(ex);
-                throw ex;
+                throw;
             }
 
             //return ConvertDTO.ConvertSongs(songs);
@@ -1543,11 +1543,12 @@ namespace MPfm.Library
         {
             // Declare variables
             Image image = null;
+            TagLib.File file = null;
 
             try
             {
                 // Get ID3 tags from file
-                TagLib.File file = TagLib.File.Create(filePath);
+                file = TagLib.File.Create(filePath);
 
                 // Can we get the image from the ID3 tags?
                 if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
@@ -1566,6 +1567,12 @@ namespace MPfm.Library
             catch
             {
                 // The TagLib# read has failed. Continue to try to get the image from folder.jpg.
+            }
+            finally
+            {
+                // Dispose file
+                if(file != null)
+                    file.Dispose();
             }
 
             // We still haven't found an image; check in the directory for folder.jpg
@@ -1663,6 +1670,7 @@ namespace MPfm.Library
     /// <summary>
     /// Defines a custom exception for the Update Library background process.
     /// </summary>
+    [Serializable]
     public class OldUpdateLibraryException : Exception
     {
 

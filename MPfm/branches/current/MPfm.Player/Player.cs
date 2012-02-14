@@ -923,7 +923,7 @@ namespace MPfm.Player
             catch (Exception ex)
             {
                 Tracing.Log("Player.Play error: " + ex.Message + "\n" + ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
 
@@ -1212,7 +1212,7 @@ namespace MPfm.Player
                 catch (Exception ex)
                 {
                     Tracing.Log("Player.GoTo error: " + ex.Message + "\n" + ex.StackTrace);
-                    throw ex;
+                    throw;
                 }
             }   
         }
@@ -1384,9 +1384,9 @@ namespace MPfm.Player
                 // Set current loop
                 m_currentLoop = loop;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -1426,9 +1426,9 @@ namespace MPfm.Player
                 // Unlock channel
                 m_mainChannel.Lock(false);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
             finally
             {

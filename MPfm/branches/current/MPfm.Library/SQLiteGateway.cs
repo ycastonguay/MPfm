@@ -103,9 +103,9 @@ namespace MPfm.Library
                 m_connection.ConnectionString = "Data Source=" + m_databaseFilePath;
                 m_connection.Open();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -130,9 +130,9 @@ namespace MPfm.Library
                 m_connection.Dispose();
                 m_connection = null;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 

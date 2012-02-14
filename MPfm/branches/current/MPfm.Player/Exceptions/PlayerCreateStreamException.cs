@@ -29,7 +29,7 @@ namespace MPfm.Player
     /// <summary>
     /// This Exception class is raised when the player has failed to create a stream.
     /// Related to the Player class.
-    /// </summary>
+    /// </summary>    
     public class PlayerCreateStreamException
         : Exception
     {

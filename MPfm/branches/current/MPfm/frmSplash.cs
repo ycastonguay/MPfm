@@ -228,6 +228,7 @@ namespace MPfm
             // The splash screen can be hidden only if the initialization is done                        
             if (InitDone && !fadingIn)
             {
+                closeFormAfterFadeOut = true;
                 fadingOut = true;
             }            
         }

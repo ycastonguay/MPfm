@@ -53,9 +53,9 @@ namespace MPfm
                     }                    
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
 
             // Set application defaults

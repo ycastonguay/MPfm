@@ -603,20 +603,24 @@ namespace MPfm
                             string tempFilePath = Path.GetTempPath() + "MPfm_PlaylistLog_" + Conversion.DateTimeToUnixTimestamp(DateTime.Now).ToString("0.0000000").Replace(".", "") + ".txt";
 
                             // Create temporary file
+                            TextWriter tw = null;
                             try
                             {
                                 // Open text writer
-                                TextWriter tw = new StreamWriter(tempFilePath);
+                                tw = new StreamWriter(tempFilePath);
                                 foreach (string item in failedAudioFilePaths)
                                 {
                                     tw.WriteLine(item);
-                                }
-                                tw.Close();
+                                }                                
                             }
                             catch (Exception ex)
                             {
                                 // Display error
                                 MessageBox.Show("Failed to save the file to " + tempFilePath + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            finally
+                            {
+                                tw.Close();
                             }
 
                             // Start notepad

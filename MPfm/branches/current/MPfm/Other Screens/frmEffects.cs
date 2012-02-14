@@ -535,9 +535,9 @@ namespace MPfm
                     Main.Config.Save();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 

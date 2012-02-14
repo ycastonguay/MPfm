@@ -135,7 +135,7 @@ namespace MPfm
                 StringBuilder sbError = new StringBuilder();
                 sbError.AppendLine("Message: " + ex.Message);
                 sbError.AppendLine("Stack trace: \n" + ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
 

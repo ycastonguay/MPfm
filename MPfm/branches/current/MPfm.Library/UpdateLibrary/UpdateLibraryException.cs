@@ -39,6 +39,7 @@ namespace MPfm.Library
     /// This Exception class is raised when the audio file metadata scanning has failed.
     /// Related to the UpdateLibrary class.
     /// </summary>
+    [Serializable]
     public class UpdateLibraryException
         : Exception
     {

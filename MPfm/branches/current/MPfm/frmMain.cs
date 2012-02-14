@@ -121,7 +121,11 @@ namespace MPfm
                 return m_isInitDone;
             }
         }
-        
+
+        /// <summary>
+        /// "Splash screen" form (Help > About menu).
+        /// </summary>
+        public frmSplash formSplashAbout = null;
         /// <summary>
         /// "Update Library Status" form.
         /// </summary>
@@ -291,9 +295,9 @@ namespace MPfm
                         // Open file
                         fileTracing = File.Open(m_logFilePath, FileMode.Append);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        throw ex;
+                        throw;
                     }
                 }
                 
@@ -423,9 +427,9 @@ namespace MPfm
                 m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
                 m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);                
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
 
             // Check if it's the first time the user runs the application
@@ -1488,8 +1492,18 @@ namespace MPfm
         /// <param name="e">Event Arguments</param>
         private void miHelpAbout_Click(object sender, EventArgs e)
         {
-            frmSplash splash = new frmSplash(false, true);
-            splash.Show(this);
+            // Check if form is already visible
+            if (formSplashAbout != null && formSplashAbout.Visible)
+            {
+                // Keep the splash screen visible
+                //formSplashAbout.
+            }
+            else
+            {
+                // Show splash screen
+                formSplashAbout = new frmSplash(false, true);
+                formSplashAbout.Show(this);
+            }
         }
 
         #endregion
@@ -1884,15 +1898,7 @@ namespace MPfm
             Config.Controls.SongGridView.Query.ArtistName = m_querySongBrowser.ArtistName;
             Config.Controls.SongGridView.Query.AlbumTitle = m_querySongBrowser.AlbumTitle;
             Config.Controls.SongGridView.Query.PlaylistId = m_querySongBrowser.PlaylistId;
-
-            try
-            {
-                Config.Save();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Config.Save();
 
             // Refresh song browser
             RefreshSongBrowser(m_querySongBrowser);
@@ -2002,9 +2008,9 @@ namespace MPfm
                 // Load the wave form                
                 waveFormMarkersLoops.LoadWaveForm(m_player.Playlist.CurrentItem.AudioFile.FilePath);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
