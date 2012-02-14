@@ -47,72 +47,80 @@ namespace MPfm.Sound
                 throw new Exception("The file path cannot be null or empty!");
             }
 
-            // Create data structure
+            // Declare variables
             ID3v2Tag data = new ID3v2Tag();
+            FileStream stream = null;
+            BinaryReader reader = null;
 
             try
             {
                 // Open binary reader                        
-                using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
-                {                                        
-                    // The metadata is at the start of the file
+                stream = File.OpenRead(filePath);
+                reader = new BinaryReader(stream);
 
-                    // Read header (10 bytes)
-                    // Read file identifier
-                    byte[] bytesFileIdentifier = reader.ReadBytes(3);
-                    string fileIdentifier = Encoding.UTF8.GetString(bytesFileIdentifier);
+                // The metadata is at the start of the file
 
-                    // Read version 
-                    byte[] bytesVersion = reader.ReadBytes(2);
-                    int version = BitConverter.ToInt16(bytesVersion, 0);
+                // Read header (10 bytes)
+                // Read file identifier
+                byte[] bytesFileIdentifier = reader.ReadBytes(3);
+                string fileIdentifier = Encoding.UTF8.GetString(bytesFileIdentifier);
 
-                    // Read flags
-                    byte byteFlags = reader.ReadByte();
-                    int stuff = byteFlags & 64;
+                // Read version 
+                byte[] bytesVersion = reader.ReadBytes(2);
+                int version = BitConverter.ToInt16(bytesVersion, 0);
 
-                    // Read tag size
-                    byte[] bytesTagSize = reader.ReadBytes(4);
+                // Read flags
+                byte byteFlags = reader.ReadByte();
+                int stuff = byteFlags & 64;
 
-                    // Check version                    
-                    if (version == 4)
-                    {
-                        // ID3v2.4+ uses synchsafe integers
-                        data.TagSize = ID3v2Metadata.UnSynchSafe(bytesTagSize);
-                    }
-                    else
-                    {
-                        data.TagSize = BitConverter.ToInt32(bytesTagSize, 0);
-                    }
+                // Read tag size
+                byte[] bytesTagSize = reader.ReadBytes(4);
 
-                    // Set flag
-                    data.TagFound = true;
-
-                    // Read extended header if found
-                    if (data.ExtendedHeader)
-                    {
-                        // Get extended header size (32-bit)
-                    }
-
-                    // Read ID3v2 frames
-                    byte[] bytesFrameID = reader.ReadBytes(4);
-                    string frameID = Encoding.UTF8.GetString(bytesFrameID).ToUpper();
-
-                    // Read size
-                    byte[] bytesSize = reader.ReadBytes(4);
-                    int size = BitConverter.ToInt32(bytesSize, 0);
-
-                    if (frameID == "TIT2")
-                    {
-
-                    }
-
-                    //int tagSize = BitConverter.ToInt32(bytesTagSize, 0);
-                    
+                // Check version                    
+                if (version == 4)
+                {
+                    // ID3v2.4+ uses synchsafe integers
+                    data.TagSize = ID3v2Metadata.UnSynchSafe(bytesTagSize);
                 }
+                else
+                {
+                    data.TagSize = BitConverter.ToInt32(bytesTagSize, 0);
+                }
+
+                // Set flag
+                data.TagFound = true;
+
+                // Read extended header if found
+                if (data.ExtendedHeader)
+                {
+                    // Get extended header size (32-bit)
+                }
+
+                // Read ID3v2 frames
+                byte[] bytesFrameID = reader.ReadBytes(4);
+                string frameID = Encoding.UTF8.GetString(bytesFrameID).ToUpper();
+
+                // Read size
+                byte[] bytesSize = reader.ReadBytes(4);
+                int size = BitConverter.ToInt32(bytesSize, 0);
+
+                if (frameID == "TIT2")
+                {
+
+                }
+
+                //int tagSize = BitConverter.ToInt32(bytesTagSize, 0);
+
+
             }
             catch
             {
                 // Leave metadata empty
+            }
+            finally
+            {
+                // Dispose stream (reader will be automatically disposed too)                
+                stream.Close();   
             }
 
             return data;

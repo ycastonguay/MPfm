@@ -600,10 +600,10 @@ namespace MPfm.Sound
                     }
                     m_listSubscriptions.RemoveAt(0);                    
                 }
-                catch(Exception ex)
+                catch
                 {
                     // Throw exception and exit loop
-                    throw ex;                    
+                    throw;                    
                 }
             }
 
@@ -815,6 +815,7 @@ namespace MPfm.Sound
     /// This Exception class is raised when the peak file is corrupted.    
     /// Related to the PeakFile class.
     /// </summary>
+    [Serializable]
     public class PeakFileCorruptedException 
         : Exception
     {
@@ -834,6 +835,7 @@ namespace MPfm.Sound
     /// This Exception class is raised when the peak file is incompatible.
     /// Related to the PeakFile class.
     /// </summary>
+    [Serializable]
     public class PeakFileFormatIncompatibleException
         : Exception
     {

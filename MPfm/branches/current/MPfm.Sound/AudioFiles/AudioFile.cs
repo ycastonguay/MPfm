@@ -620,65 +620,80 @@ namespace MPfm.Sound
 			// Check what is the type of the audio file
             if (m_fileType == AudioFileFormat.MP3)
 			{
-				try
-				{
-                    //ID3v2Metadata.Read(m_filePath);
+                // Declare variables
+                TagLib.Mpeg.AudioFile file = null;
 
-					// Create a more specific type of class for MP3 files
-					TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(m_filePath);
+                try
+                {
+                    // Create a more specific type of class for MP3 files
+                    file = new TagLib.Mpeg.AudioFile(m_filePath);                    
 
-					// Get the position of the first and last block
-					m_firstBlockPosition = file.InvariantStartPosition;
-					m_lastBlockPosition = file.InvariantEndPosition;
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
 
-					// Copy tags
+                    // Copy tags
                     FillProperties(file.Tag);
 
-					// Loop through codecs (usually just one)
-					foreach (TagLib.ICodec codec in file.Properties.Codecs)
-					{
-						// Convert codec into a header 
-						TagLib.Mpeg.AudioHeader header = (TagLib.Mpeg.AudioHeader)codec;
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Convert codec into a header 
+                        TagLib.Mpeg.AudioHeader header = (TagLib.Mpeg.AudioHeader)codec;
 
-						// Copy properties						
-						m_audioChannels = header.AudioChannels;
-						m_frameLength = header.AudioFrameLength;
-						m_audioLayer = header.AudioLayer;
-						m_sampleRate = header.AudioSampleRate;
-						m_bitsPerSample = 16; // always 16-bit
-						m_channelMode = header.ChannelMode;
-						m_bitrate = header.AudioBitrate;
-						m_length = Conversion.TimeSpanToTimeString(header.Duration);
-					}
+                        // Copy properties						
+                        m_audioChannels = header.AudioChannels;
+                        m_frameLength = header.AudioFrameLength;
+                        m_audioLayer = header.AudioLayer;
+                        m_sampleRate = header.AudioSampleRate;
+                        m_bitsPerSample = 16; // always 16-bit
+                        m_channelMode = header.ChannelMode;
+                        m_bitrate = header.AudioBitrate;
+                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
 
-					// Close TagLib file
-					file.Dispose();
+                try
+                {
+                    // Check if there's a Xing header
+                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
 
-					// Check if there's a Xing header
-					XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
-
-					// Check if the read was successful
-					if (xingHeader.Status == XingInfoHeaderStatus.Successful)
-					{
-						// Set property value
-						//m_xingInfoHeader = xingHeader;
+                    // Check if the read was successful
+                    if (xingHeader.Status == XingInfoHeaderStatus.Successful)
+                    {
+                        // Set property value
+                        //m_xingInfoHeader = xingHeader;
                         m_MP3EncoderDelay = xingHeader.EncoderDelay;
                         m_MP3EncoderPadding = xingHeader.EncoderPadding;
                         m_MP3EncoderVersion = xingHeader.EncoderVersion;
                         m_MP3HeaderType = xingHeader.HeaderType;
-					}
-				}
-				catch (Exception ex)
-				{
-					throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
-				}
+                    }
+                }
+                catch
+                {
+                    // Do nothing; this information is not vital
+                }
 			}
             else if (m_fileType == AudioFileFormat.FLAC)
 			{
+                // Declare variables 
+                TagLib.Flac.File file = null;
+
                 try
                 {
                     // Read VorbisComment in FLAC file
-                    TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
+                    file = new TagLib.Flac.File(m_filePath);
 
                     // Get the position of the first and last block
                     m_firstBlockPosition = file.InvariantStartPosition;
@@ -703,77 +718,118 @@ namespace MPfm.Sound
                 }
                 catch (Exception ex)
                 {
+                    // Throw exception
                     throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
                 }
 			}
             else if (m_fileType == AudioFileFormat.OGG)
 			{
-				// Read VorbisComment in FLAC file
-				TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
+                // Declare variables 
+                TagLib.Ogg.File file = null;
 
-				// Get the position of the first and last block
-				m_firstBlockPosition = file.InvariantStartPosition;
-				m_lastBlockPosition = file.InvariantEndPosition;                
+                try
+                {
+                    // Read VorbisComment in OGG file
+                    file = new TagLib.Ogg.File(m_filePath);
 
-				// Copy tags
-                FillProperties(file.Tag);
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
 
-				// Loop through codecs (usually just one)
-				foreach (TagLib.ICodec codec in file.Properties.Codecs)
-				{
-					// Check what kind of codec is used 
-					if (codec is TagLib.Ogg.Codecs.Theora)
-					{
-						// Do nothing, this is useless for audio.
-					}
-					else if (codec is TagLib.Ogg.Codecs.Vorbis)
-					{
-						// Convert codec into a header 
-						TagLib.Ogg.Codecs.Vorbis header = (TagLib.Ogg.Codecs.Vorbis)codec;
+                    // Copy tags
+                    FillProperties(file.Tag);
 
-						// Copy properties
-						m_bitrate = header.AudioBitrate;
-						m_audioChannels = header.AudioChannels;
-						m_sampleRate = header.AudioSampleRate;
-						m_bitsPerSample = 16;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
-					}
-				}
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Check what kind of codec is used 
+                        if (codec is TagLib.Ogg.Codecs.Theora)
+                        {
+                            // Do nothing, this is useless for audio.
+                        }
+                        else if (codec is TagLib.Ogg.Codecs.Vorbis)
+                        {
+                            // Convert codec into a header 
+                            TagLib.Ogg.Codecs.Vorbis header = (TagLib.Ogg.Codecs.Vorbis)codec;
+
+                            // Copy properties
+                            m_bitrate = header.AudioBitrate;
+                            m_audioChannels = header.AudioChannels;
+                            m_sampleRate = header.AudioSampleRate;
+                            m_bitsPerSample = 16;
+                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
 			}
             else if (m_fileType == AudioFileFormat.APE)
             {
                 // Monkey's Audio (APE) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Monkey's_Audio
 
-                // Read APE metadata
-                m_apeTag = APEMetadata.Read(m_filePath);                
+                // Declare variables
+                TagLib.Ape.File file = null;
 
-                // Get TagLib APE
-                TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
-
-                // Get the position of the first and last block
-                m_firstBlockPosition = file.InvariantStartPosition;
-                m_lastBlockPosition = file.InvariantEndPosition;
-
-                // Copy tags
-                FillProperties(file.Tag);
-
-                // Loop through codecs (usually just one)
-                foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                try
                 {
-                    // Check what kind of codec is used 
-                    if (codec is TagLib.Ape.StreamHeader)
-                    {
-                        // Convert codec into a header 
-                        TagLib.Ape.StreamHeader header = (TagLib.Ape.StreamHeader)codec;
+                    // Read APE metadata
+                    m_apeTag = APEMetadata.Read(m_filePath);
 
-                        // Copy properties
-                        m_bitrate = header.AudioBitrate;
-                        m_audioChannels = header.AudioChannels;
-                        m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = 16;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    // Get APEv1/v2 tags from APE file
+                    file = new TagLib.Ape.File(m_filePath);
+
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
+
+                    // Copy tags
+                    FillProperties(file.Tag);
+
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Check what kind of codec is used 
+                        if (codec is TagLib.Ape.StreamHeader)
+                        {
+                            // Convert codec into a header 
+                            TagLib.Ape.StreamHeader header = (TagLib.Ape.StreamHeader)codec;
+
+                            // Copy properties
+                            m_bitrate = header.AudioBitrate;
+                            m_audioChannels = header.AudioChannels;
+                            m_sampleRate = header.AudioSampleRate;
+                            m_bitsPerSample = 16;
+                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
                 }
             }
             else if (m_fileType == AudioFileFormat.MPC)
@@ -831,7 +887,7 @@ namespace MPfm.Sound
                     }
                     else
                     {
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -846,32 +902,49 @@ namespace MPfm.Sound
                 // WavPack supports APEv2 and ID3v1 tags.
                 // http://www.wavpack.com/wavpack_doc.html
 
-                // Read WavPack tags
-                TagLib.WavPack.File file = new TagLib.WavPack.File(m_filePath);
+                // Declare variables
+                TagLib.WavPack.File file = null;
 
-                // Get the position of the first and last block
-                m_firstBlockPosition = file.InvariantStartPosition;
-                m_lastBlockPosition = file.InvariantEndPosition;
-
-                // Copy tags
-                FillProperties(file.Tag);
-
-                // Loop through codecs (usually just one)
-                foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                try
                 {
-                    // Check what kind of codec is used 
-                    if (codec is TagLib.WavPack.StreamHeader)
-                    {
-                        // Convert codec into a header 
-                        TagLib.WavPack.StreamHeader header = (TagLib.WavPack.StreamHeader)codec;
+                    // Read WavPack tags
+                    file = new TagLib.WavPack.File(m_filePath);
 
-                        // Copy properties
-                        m_bitrate = header.AudioBitrate;
-                        m_audioChannels = header.AudioChannels;
-                        m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = 16;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
+
+                    // Copy tags
+                    FillProperties(file.Tag);
+
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Check what kind of codec is used 
+                        if (codec is TagLib.WavPack.StreamHeader)
+                        {
+                            // Convert codec into a header 
+                            TagLib.WavPack.StreamHeader header = (TagLib.WavPack.StreamHeader)codec;
+
+                            // Copy properties
+                            m_bitrate = header.AudioBitrate;
+                            m_audioChannels = header.AudioChannels;
+                            m_sampleRate = header.AudioSampleRate;
+                            m_bitsPerSample = 16;
+                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
                 }
             }
             else if (m_fileType == AudioFileFormat.TTA)
@@ -885,32 +958,49 @@ namespace MPfm.Sound
             }
             else if (m_fileType == AudioFileFormat.WAV)
             {
-                // Get WAV file
-                TagLib.Riff.File file = new TagLib.Riff.File(m_filePath);
+                // Declare variables
+                TagLib.Riff.File file = null;
 
-                // Get the position of the first and last block
-                m_firstBlockPosition = file.InvariantStartPosition;
-                m_lastBlockPosition = file.InvariantEndPosition;
-
-                // Copy tags
-                FillProperties(file.Tag);
-
-                // Loop through codecs (usually just one)
-                foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                try
                 {
-                    // Check what kind of codec is used 
-                    if (codec is TagLib.Riff.WaveFormatEx)
-                    {
-                        // Convert codec into a header 
-                        TagLib.Riff.WaveFormatEx header = (TagLib.Riff.WaveFormatEx)codec;
+                    // Get WAV file
+                    file = new TagLib.Riff.File(m_filePath);
 
-                        // Copy properties
-                        m_bitrate = header.AudioBitrate;
-                        m_audioChannels = header.AudioChannels;
-                        m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = 16;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
+
+                    // Copy tags
+                    FillProperties(file.Tag);
+
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Check what kind of codec is used 
+                        if (codec is TagLib.Riff.WaveFormatEx)
+                        {
+                            // Convert codec into a header 
+                            TagLib.Riff.WaveFormatEx header = (TagLib.Riff.WaveFormatEx)codec;
+
+                            // Copy properties
+                            m_bitrate = header.AudioBitrate;
+                            m_audioChannels = header.AudioChannels;
+                            m_sampleRate = header.AudioSampleRate;
+                            m_bitsPerSample = 16;
+                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
                 }
             }
 
@@ -956,7 +1046,8 @@ namespace MPfm.Sound
             TrackNumber = tag.Track;
             TrackCount = tag.TrackCount;
             Lyrics = tag.Lyrics;
-            Year = tag.Year;        
+            Year = tag.Year;
+            Tempo = (int)tag.BeatsPerMinute;
         }
 
         /// <summary>
@@ -983,99 +1074,189 @@ namespace MPfm.Sound
         {
             // Check what is the type of the audio file
             if (m_fileType == AudioFileFormat.MP3)
-            {                
-                // Create a more specific type of class for MP3 files
-                TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(m_filePath);
+            {          
+                // Declare variables
+                TagLib.Mpeg.AudioFile file = null;
 
-                // Copy tags
-                file.Tag.AlbumArtists = new string[] { ArtistName };
-                file.Tag.Album = AlbumTitle;
-                file.Tag.Title = Title;
-                file.Tag.Genres = new string[] { Genre };
-                file.Tag.Disc = DiscNumber;
-                file.Tag.Track = TrackNumber;
-                file.Tag.TrackCount = TrackCount;
-                file.Tag.Lyrics = Lyrics;
-                file.Tag.Year = Year;
+                try
+                {
+                    // Read tags
+                    file = new TagLib.Mpeg.AudioFile(m_filePath);
 
-                // Save metadata
-                file.Save();
+                    // Copy tags
+                    file.Tag.AlbumArtists = new string[] { ArtistName };
+                    file.Tag.Album = AlbumTitle;
+                    file.Tag.Title = Title;
+                    file.Tag.Genres = new string[] { Genre };
+                    file.Tag.Disc = DiscNumber;
+                    file.Tag.Track = TrackNumber;
+                    file.Tag.TrackCount = TrackCount;
+                    file.Tag.Lyrics = Lyrics;
+                    file.Tag.Year = Year;
+                    file.Tag.BeatsPerMinute = (uint)Tempo;
+
+                    // Save metadata
+                    file.Save();
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
             }
             else if (m_fileType == AudioFileFormat.FLAC)
             {
-                // Read VorbisComment in FLAC file
-                TagLib.Flac.File file = new TagLib.Flac.File(m_filePath);
+                // Declare variables
+                TagLib.Flac.File file = null;
 
-                // Copy tags
-                file.Tag.AlbumArtists = new string[] { ArtistName };
-                file.Tag.Album = AlbumTitle;
-                file.Tag.Title = Title;
-                file.Tag.Genres = new string[] { Genre };
-                file.Tag.Disc = DiscNumber;
-                file.Tag.Track = TrackNumber;
-                file.Tag.TrackCount = TrackCount;
-                file.Tag.Lyrics = Lyrics;
-                file.Tag.Year = Year;
+                try
+                {
+                    // Read tags
+                    file = new TagLib.Flac.File(m_filePath);
 
-                // Save metadata
-                file.Save();
+                    // Copy tags
+                    file.Tag.AlbumArtists = new string[] { ArtistName };
+                    file.Tag.Album = AlbumTitle;
+                    file.Tag.Title = Title;
+                    file.Tag.Genres = new string[] { Genre };
+                    file.Tag.Disc = DiscNumber;
+                    file.Tag.Track = TrackNumber;
+                    file.Tag.TrackCount = TrackCount;
+                    file.Tag.Lyrics = Lyrics;
+                    file.Tag.Year = Year;
+                    file.Tag.BeatsPerMinute = (uint)Tempo;
+
+                    // Save metadata
+                    file.Save();
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
             }
             else if (m_fileType == AudioFileFormat.OGG)
             {
-                // Read VorbisComment in OGG file
-                TagLib.Ogg.File file = new TagLib.Ogg.File(m_filePath);
+                // Declare variables
+                TagLib.Ogg.File file = null;
 
-                // Copy tags
-                file.Tag.AlbumArtists = new string[] { ArtistName };
-                file.Tag.Album = AlbumTitle;
-                file.Tag.Title = Title;
-                file.Tag.Genres = new string[] { Genre };
-                file.Tag.Disc = DiscNumber;
-                file.Tag.Track = TrackNumber;
-                file.Tag.TrackCount = TrackCount;
-                file.Tag.Lyrics = Lyrics;
-                file.Tag.Year = Year;
+                try
+                {
+                    // Read tags
+                    file = new TagLib.Ogg.File(m_filePath);
 
-                // Save metadata
-                file.Save();
+                    // Copy tags
+                    file.Tag.AlbumArtists = new string[] { ArtistName };
+                    file.Tag.Album = AlbumTitle;
+                    file.Tag.Title = Title;
+                    file.Tag.Genres = new string[] { Genre };
+                    file.Tag.Disc = DiscNumber;
+                    file.Tag.Track = TrackNumber;
+                    file.Tag.TrackCount = TrackCount;
+                    file.Tag.Lyrics = Lyrics;
+                    file.Tag.Year = Year;
+                    file.Tag.BeatsPerMinute = (uint)Tempo;
+
+                    // Save metadata
+                    file.Save();
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
             }
             else if (m_fileType == AudioFileFormat.APE)
             {
-                // Read APE tag in APE file
-                TagLib.Ape.File file = new TagLib.Ape.File(m_filePath);
+                // Declare variables
+                TagLib.Ape.File file = null;
 
-                // Copy tags
-                file.Tag.AlbumArtists = new string[] { ArtistName };
-                file.Tag.Album = AlbumTitle;
-                file.Tag.Title = Title;
-                file.Tag.Genres = new string[] { Genre };
-                file.Tag.Disc = DiscNumber;
-                file.Tag.Track = TrackNumber;
-                file.Tag.TrackCount = TrackCount;
-                file.Tag.Lyrics = Lyrics;
-                file.Tag.Year = Year;
+                try
+                {
+                    // Read tags
+                    file = new TagLib.Ape.File(m_filePath);
 
-                // Save metadata
-                file.Save();
+                    // Copy tags
+                    file.Tag.AlbumArtists = new string[] { ArtistName };
+                    file.Tag.Album = AlbumTitle;
+                    file.Tag.Title = Title;
+                    file.Tag.Genres = new string[] { Genre };
+                    file.Tag.Disc = DiscNumber;
+                    file.Tag.Track = TrackNumber;
+                    file.Tag.TrackCount = TrackCount;
+                    file.Tag.Lyrics = Lyrics;
+                    file.Tag.Year = Year;
+                    file.Tag.BeatsPerMinute = (uint)Tempo;
+
+                    // Save metadata
+                    file.Save();
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
             }
             else if (m_fileType == AudioFileFormat.WV)
             {
-                // Read APEv2/ID3v1 tag in WV file
-                TagLib.WavPack.File file = new TagLib.WavPack.File(m_filePath);
+                // Declare variables
+                TagLib.WavPack.File file = null;
 
-                // Copy tags
-                file.Tag.AlbumArtists = new string[] { ArtistName };
-                file.Tag.Album = AlbumTitle;
-                file.Tag.Title = Title;
-                file.Tag.Genres = new string[] { Genre };
-                file.Tag.Disc = DiscNumber;
-                file.Tag.Track = TrackNumber;
-                file.Tag.TrackCount = TrackCount;
-                file.Tag.Lyrics = Lyrics;
-                file.Tag.Year = Year;
+                try
+                {
+                    // Read tags
+                    file = new TagLib.WavPack.File(m_filePath);
 
-                // Save metadata
-                file.Save();
+                    // Copy tags
+                    file.Tag.AlbumArtists = new string[] { ArtistName };
+                    file.Tag.Album = AlbumTitle;
+                    file.Tag.Title = Title;
+                    file.Tag.Genres = new string[] { Genre };
+                    file.Tag.Disc = DiscNumber;
+                    file.Tag.Track = TrackNumber;
+                    file.Tag.TrackCount = TrackCount;
+                    file.Tag.Lyrics = Lyrics;
+                    file.Tag.Year = Year;
+                    file.Tag.BeatsPerMinute = (uint)Tempo;
+
+                    // Save metadata
+                    file.Save();
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
             }
         }
 
@@ -1099,10 +1280,9 @@ namespace MPfm.Sound
             string extension = Path.GetExtension(filePath).ToUpper();
             if (extension == ".MP3")
             {
-                try
+                // Get tags using TagLib
+                using (TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath))
                 {
-                    // Get tags using TagLib
-                    TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath);
 
                     // Can we get the image from the ID3 tags?
                     if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
@@ -1111,10 +1291,6 @@ namespace MPfm.Sound
                         ImageConverter ic = new ImageConverter();
                         imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
                     }
-                }
-                catch
-                {
-                    // Do nothing, try to get an image from another method
                 }
             }
             else if (extension == ".FLAC")

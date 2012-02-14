@@ -101,9 +101,7 @@
     </Compile>
     <Compile Include="Fonts\EmbeddedFontCollection.cs" />
     <Compile Include="Fonts\EmbeddedFontHelper.cs" />
-    <Compile Include="Library\AlbumView.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Library\AlbumView.cs" />
     <Compile Include="Library\AlbumView.Designer.cs">
       <DependentUpon>AlbumView.cs</DependentUpon>
     </Compile>

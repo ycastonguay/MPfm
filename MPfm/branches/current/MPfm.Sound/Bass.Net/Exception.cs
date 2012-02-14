@@ -28,6 +28,7 @@ namespace MPfm.Sound.BassNetWrapper
     /// <summary>
     /// Custom exception class for the MPfm BASS.NET wrapper.
     /// </summary>
+    [Serializable]
     public class BassNetWrapperException : Exception
     {
         /// <summary>

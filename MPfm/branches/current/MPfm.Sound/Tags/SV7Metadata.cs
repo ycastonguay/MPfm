@@ -48,17 +48,20 @@ namespace MPfm.Sound
                 throw new Exception("The file path cannot be null or empty!");
             }
 
-            // Create data structure
+            // Declare variables
             SV7Tag data = new SV7Tag();
+            BinaryReader reader = null;
+            FileStream stream = null;
 
             try
             {
                 // Open binary reader                        
-                BinaryReader reader = new BinaryReader(File.OpenRead(filePath));
+                stream = File.OpenRead(filePath);
+                reader = new BinaryReader(stream);
 
                 // Get file length
                 long fileLength = reader.BaseStream.Length;
-                
+
                 // Read signature
                 byte[] bytesSigntaure = reader.ReadBytes(3);
                 string signature = Encoding.UTF8.GetString(bytesSigntaure);
@@ -79,7 +82,7 @@ namespace MPfm.Sound
                 {
                     throw new SV7TagNotFoundException("This file header version is not SV7!", null);
                 }
-                
+
                 // Read frame count (32-bits)
                 byte[] bytesFrameCount = reader.ReadBytes(4);
                 data.FrameCount = BitConverter.ToInt32(bytesFrameCount, 0);
@@ -122,14 +125,14 @@ namespace MPfm.Sound
                 // Read true gapless / last frame length / fast seeking
                 byte[] bytesTrueGapless_LastFrameLength_FastSeeking = reader.ReadBytes(2);
                 int trueGapless = ((int)bytesTrueGapless_LastFrameLength_FastSeeking[0] & 0x80) >> 7;
-                data.LastFrameLength = ((int)bytesTrueGapless_LastFrameLength_FastSeeking[0] & 0x80) >> 7;                
+                data.LastFrameLength = ((int)bytesTrueGapless_LastFrameLength_FastSeeking[0] & 0x80) >> 7;
 
                 // Get last frame length
                 int lastFrameLength = BitConverter.ToInt16(bytesTrueGapless_LastFrameLength_FastSeeking, 0);
                 data.LastFrameLength = (lastFrameLength & 0x7FF0) >> 4;
 
                 // Read unused bytes
-                reader.ReadBytes(3);                
+                reader.ReadBytes(3);
 
                 // Read encoder version
                 byte byteEncoderVersion = reader.ReadByte();
@@ -148,11 +151,6 @@ namespace MPfm.Sound
 
                 // Complete string with version
                 encoderVersion += ((double)byteEncoderVersion / 100).ToString("0.00");
-              
-                // Dispose reader
-                reader.Close();
-                reader.Dispose();                
-                reader = null;
 
                 // Set metadata
                 data.EncoderVersion = encoderVersion;
@@ -185,9 +183,14 @@ namespace MPfm.Sound
                 long audioLengthBytes = fileLength - 28; // SV7 header is always 28 bytes
                 data.Bitrate = (int)(audioLengthBytes / data.LengthMS) * 8;
             }
-            catch (Exception ex)
-            {                
-                throw ex;
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Dispose stream (reader will be automatically disposed too)                
+                stream.Close();                
             }
 
             return data;
@@ -197,6 +200,7 @@ namespace MPfm.Sound
     /// <summary>
     /// Exception raised when no SV7 tags have been found.
     /// </summary>
+    [Serializable]
     public class SV7TagNotFoundException
         : Exception
     {

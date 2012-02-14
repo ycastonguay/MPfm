@@ -42,80 +42,87 @@ namespace MPfm.Sound
         /// <returns>Xing/Info header data structure</returns>
         public static XingInfoHeaderData ReadXingInfoHeader(string filePath, long startPosition)
         {
-            // Create data structure for Xing/Info header data
+            // Declare variables
             XingInfoHeaderData data = new XingInfoHeaderData();
+            FileStream stream = null;
+            BinaryReader reader = null;
 
             try
             {
-                // Open binary reader                        
-                using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
+                // Open binary reader
+                stream = File.OpenRead(filePath);
+                reader = new BinaryReader(stream);
+
+                // Seek to first frame
+                reader.BaseStream.Seek(startPosition, SeekOrigin.Begin);
+
+                // Read the MP3 header
+                byte[] byteHeader = reader.ReadBytes(4);
+
+                // Detect the start of a MP3 frame
+                if (byteHeader[0] != 0xFF && byteHeader[1] != 0xFB)
                 {
-                    // Seek to first frame
-                    reader.BaseStream.Seek(startPosition, SeekOrigin.Begin);
-
-                    // Read the MP3 header
-                    byte[] byteHeader = reader.ReadBytes(4);
-
-                    // Detect the start of a MP3 frame
-                    if (byteHeader[0] != 0xFF && byteHeader[1] != 0xFB)
-                    {
-                        // Set flag
-                        data.Status = XingInfoHeaderStatus.StartPositionNotValidHeader;
-                        return data;
-                    }
-
-                    // Great, we found a header!
-                    // Seek 20 bytes to check if the "Xing" or "Info" text is present
-                    reader.BaseStream.Seek(32, SeekOrigin.Current);
-                    
-                    // Get data for "Xing"/"Info"
-                    byte[] byteXingInfo = reader.ReadBytes(4);
-                    data.HeaderType = Encoding.UTF8.GetString(byteXingInfo).ToUpper();
-
-                    // Is this a Xing header?
-                    if (data.HeaderType != "XING" && data.HeaderType != "INFO")
-                    {
-                        // Set flag
-                        data.Status = XingInfoHeaderStatus.HeaderNotFound;
-                        return data;
-                    }
-
-                    // The Xing header is 120 bytes. seek 116 bytes (4 bytes less because of the 4 byte string)
-                    reader.BaseStream.Seek(116, SeekOrigin.Current);
-
-                    // Get encoder name / encoder version
-                    byte[] byteEncoderVersion = reader.ReadBytes(9);
-                    data.EncoderVersion = CleanByteArrayForString(byteEncoderVersion);
-
-                    // Get info tag (1 byte)
-                    byte byteInfoTag = reader.ReadByte();
-
-                    // Get low pass filter value (1 byte)
-                    byte byteLowPassFilterValue = reader.ReadByte();
-
-                    // Get replay gain (8 bytes)
-                    byte[] byteReplayGain = reader.ReadBytes(8);
-
-                    // Get encoding flags (1 byte)
-                    byte byteEncodingFlags = reader.ReadByte();
-
-                    // Get specified bitrate / minimal bitrate (1 byte)
-                    byte byteSpecifiedBitRateMinimalBitrate = reader.ReadByte();
-
-                    // Get encoder delay / padding (2x 12-bit over 3 bytes)
-                    byte[] byteEncoderDelays = reader.ReadBytes(3);
-                    data.EncoderDelay = byteEncoderDelays[0] << 4;
-                    data.EncoderDelay += byteEncoderDelays[1] >> 4;
-                    data.EncoderPadding = (byteEncoderDelays[1] & 0x0F) << 8;
-                    data.EncoderPadding += byteEncoderDelays[2];
-
-                    // Set status as successful
-                    data.Status = XingInfoHeaderStatus.Successful;
+                    // Set flag
+                    data.Status = XingInfoHeaderStatus.StartPositionNotValidHeader;
+                    return data;
                 }
+
+                // Great, we found a header!
+                // Seek 20 bytes to check if the "Xing" or "Info" text is present
+                reader.BaseStream.Seek(32, SeekOrigin.Current);
+
+                // Get data for "Xing"/"Info"
+                byte[] byteXingInfo = reader.ReadBytes(4);
+                data.HeaderType = Encoding.UTF8.GetString(byteXingInfo).ToUpper();
+
+                // Is this a Xing header?
+                if (data.HeaderType != "XING" && data.HeaderType != "INFO")
+                {
+                    // Set flag
+                    data.Status = XingInfoHeaderStatus.HeaderNotFound;
+                    return data;
+                }
+
+                // The Xing header is 120 bytes. seek 116 bytes (4 bytes less because of the 4 byte string)
+                reader.BaseStream.Seek(116, SeekOrigin.Current);
+
+                // Get encoder name / encoder version
+                byte[] byteEncoderVersion = reader.ReadBytes(9);
+                data.EncoderVersion = CleanByteArrayForString(byteEncoderVersion);
+
+                // Get info tag (1 byte)
+                byte byteInfoTag = reader.ReadByte();
+
+                // Get low pass filter value (1 byte)
+                byte byteLowPassFilterValue = reader.ReadByte();
+
+                // Get replay gain (8 bytes)
+                byte[] byteReplayGain = reader.ReadBytes(8);
+
+                // Get encoding flags (1 byte)
+                byte byteEncodingFlags = reader.ReadByte();
+
+                // Get specified bitrate / minimal bitrate (1 byte)
+                byte byteSpecifiedBitRateMinimalBitrate = reader.ReadByte();
+
+                // Get encoder delay / padding (2x 12-bit over 3 bytes)
+                byte[] byteEncoderDelays = reader.ReadBytes(3);
+                data.EncoderDelay = byteEncoderDelays[0] << 4;
+                data.EncoderDelay += byteEncoderDelays[1] >> 4;
+                data.EncoderPadding = (byteEncoderDelays[1] & 0x0F) << 8;
+                data.EncoderPadding += byteEncoderDelays[2];
+
+                // Set status as successful
+                data.Status = XingInfoHeaderStatus.Successful;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
+            }
+            finally
+            {
+                // Dispose stream (reader will be automatically disposed too)                
+                stream.Close();
             }
 
             return data;

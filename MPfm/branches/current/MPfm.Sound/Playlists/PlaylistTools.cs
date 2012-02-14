@@ -221,10 +221,6 @@ namespace MPfm.Sound
                         writer.WriteLine(item.AudioFile.FilePath);
                     }
                 }
-
-                // Dispose writer
-                writer.Close();
-                writer.Dispose();
             }
             catch (Exception ex)
             {
@@ -232,8 +228,8 @@ namespace MPfm.Sound
             }
             finally
             {
-                // Close writer
-                writer.Dispose();
+                // Dispose writer
+                writer.Close();
             }
         }
 
@@ -408,9 +404,6 @@ namespace MPfm.Sound
                 // Write fotter
                 writer.WriteLine("NumberOfEntries=" + playlist.Items.Count.ToString());
                 writer.WriteLine("Version=2");
-
-                // Dispose writer
-                writer.Dispose();
             }
             catch (Exception ex)
             {
@@ -419,7 +412,7 @@ namespace MPfm.Sound
             finally
             {
                 // Close writer
-                writer.Dispose();
+                writer.Close();
             }
         }
 

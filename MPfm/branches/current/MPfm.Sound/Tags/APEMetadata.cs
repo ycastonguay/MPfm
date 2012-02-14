@@ -48,245 +48,253 @@ namespace MPfm.Sound
                 throw new Exception("The file path cannot be null or empty!");
             }
 
-            // Create data structure
+            // Declare variables
             APETag data = new APETag();
+            FileStream stream = null;
+            BinaryReader reader = null;
 
             try
             {
-                // Open binary reader                        
-                using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
-                {                                        
-                    // APEv1/APEv2 have footers, but only APEv2 has a header. 
-                    // In fact, the header and footer contain the exact same information.
-                    // http://wiki.hydrogenaudio.org/index.php?title=APE_Tags_Header
+                // Open binary reader             
+                stream = File.OpenRead(filePath);
+                reader = new BinaryReader(stream);
 
-                    // APE metadata can always be found at the very end of the file.
-                    // TODO: maybe seek the reader near the end of file?
-                    //byte[] bytes = reader.ReadBytes(4);
+                // APEv1/APEv2 have footers, but only APEv2 has a header. 
+                // In fact, the header and footer contain the exact same information.
+                // http://wiki.hydrogenaudio.org/index.php?title=APE_Tags_Header
 
-                    // The header/footer structure is as followed:
-                    // 1) Preamble (64-bits) APETAGEX
-                    // 2) Version number (32-bits) 1000 or 2000
-                    // 3) Tag size (32-bits)
-                    // 4) Item count (32-bits)
-                    // 5) Tags flags (32-bits)
-                    // 6) Reserved (64-bits) Must be zero
-                    // Total: 32 bytes
+                // APE metadata can always be found at the very end of the file.
+                // TODO: maybe seek the reader near the end of file?
+                //byte[] bytes = reader.ReadBytes(4);
 
-                    // Seek at the end of the file (length - 32 bytes)
-                    reader.BaseStream.Seek(-32, SeekOrigin.End);
+                // The header/footer structure is as followed:
+                // 1) Preamble (64-bits) APETAGEX
+                // 2) Version number (32-bits) 1000 or 2000
+                // 3) Tag size (32-bits)
+                // 4) Item count (32-bits)
+                // 5) Tags flags (32-bits)
+                // 6) Reserved (64-bits) Must be zero
+                // Total: 32 bytes
 
-                    // Read Preamble (64-bits)
-                    byte[] bytesPreamble = reader.ReadBytes(8);
-                    string preamble = Encoding.UTF8.GetString(bytesPreamble);
+                // Seek at the end of the file (length - 32 bytes)
+                reader.BaseStream.Seek(-32, SeekOrigin.End);
 
-                    // Validate preamble
-                    if (preamble != "APETAGEX")
+                // Read Preamble (64-bits)
+                byte[] bytesPreamble = reader.ReadBytes(8);
+                string preamble = Encoding.UTF8.GetString(bytesPreamble);
+
+                // Validate preamble
+                if (preamble != "APETAGEX")
+                {
+                    throw new APETagNotFoundException("The APE tag was not found.");
+                }
+
+                // Read Version number (32-bits)
+                byte[] bytesVersionNumber = reader.ReadBytes(4);
+                int versionNumber = BitConverter.ToInt32(bytesVersionNumber, 0);
+
+                // Check version number
+                if (versionNumber == 1000)
+                {
+                    data.Version = APETagVersion.APEv1;
+                }
+                else if (versionNumber == 2000)
+                {
+                    data.Version = APETagVersion.APEv2;
+                }
+                else
+                {
+                    throw new APETagNotFoundException("The APE tag version is unknown (" + versionNumber.ToString() + ").");
+                }
+
+                // Read Tag size (32-bits)
+                // This is the total size of the items + header (if APEv2)
+                byte[] bytesTagSize = reader.ReadBytes(4);
+                data.TagSize = BitConverter.ToInt32(bytesTagSize, 0);
+
+                // Read Item count (32-bits)
+                byte[] bytesItemCount = reader.ReadBytes(4);
+                int itemCount = BitConverter.ToInt32(bytesItemCount, 0);
+
+                // Read Tags flags (32-bits)
+                // http://wiki.hydrogenaudio.org/index.php?title=Ape_Tags_Flags
+                byte[] bytesTagsFlags = reader.ReadBytes(4);
+
+                // Read reserved (64-bits)
+                byte[] bytesReserved = reader.ReadBytes(8);
+
+                // Seek back to the start of the APE metadata (32 bytes - tag size)
+                reader.BaseStream.Seek(-32 - data.TagSize, SeekOrigin.End);
+
+                // Is this APEv2?
+                if (data.Version == APETagVersion.APEv2)
+                {
+                    // Skip header (32 bytes)
+                    reader.BaseStream.Seek(32, SeekOrigin.Current);
+                }
+
+                // Read items
+                for (int a = 0; a < itemCount; a++)
+                {
+                    // Read item value size
+                    byte[] bytesItemValueSize = reader.ReadBytes(4);
+                    int itemValueSize = BitConverter.ToInt32(bytesItemValueSize, 0);
+
+                    // Read item flags
+                    byte[] bytesItemFlags = reader.ReadBytes(4);
+
+                    // The key size is variable but always ends by a key terminator (0x00).
+                    // The key characters vary from 0x20 (space) to 0x7E (tilde).
+
+                    // Read key
+                    List<byte> bytesKey = new List<byte>();
+                    while (true)
                     {
-                        throw new APETagNotFoundException("The APE tag was not found.");
+                        // Read characters until the terminator is found (0x00)
+                        byte byteChar = reader.ReadByte();
+                        if (byteChar == 0x00)
+                        {
+                            // Exit loop
+                            break;
+                        }
+                        else
+                        {
+                            bytesKey.Add(byteChar);
+                        }
                     }
 
-                    // Read Version number (32-bits)
-                    byte[] bytesVersionNumber = reader.ReadBytes(4);
-                    int versionNumber = BitConverter.ToInt32(bytesVersionNumber, 0);
+                    // Read value
+                    byte[] bytesValue = reader.ReadBytes(itemValueSize);
 
-                    // Check version number
-                    if (versionNumber == 1000)
+                    // Cast key and value into UTF8 strings
+                    string key = Encoding.UTF8.GetString(bytesKey.ToArray());
+                    string value = Encoding.UTF8.GetString(bytesValue);
+
+                    // Add key/value to dictionary
+                    data.Dictionary.Add(key, value);
+                }
+
+                // Go through dictionary items
+                foreach (KeyValuePair<string, string> keyValue in data.Dictionary)
+                {
+                    string key = keyValue.Key.ToUpper().Trim();
+                    if (key == "TITLE")
                     {
-                        data.Version = APETagVersion.APEv1;
+                        data.Title = keyValue.Value;
                     }
-                    else if (versionNumber == 2000)
+                    else if (key == "SUBTITLE")
                     {
-                        data.Version = APETagVersion.APEv2;
+                        data.Subtitle = keyValue.Value;
                     }
-                    else
+                    else if (key == "ARTIST")
                     {
-                        throw new APETagNotFoundException("The APE tag version is unknown (" + versionNumber.ToString() + ").");
+                        data.Artist = keyValue.Value;
                     }
-
-                    // Read Tag size (32-bits)
-                    // This is the total size of the items + header (if APEv2)
-                    byte[] bytesTagSize = reader.ReadBytes(4);
-                    data.TagSize = BitConverter.ToInt32(bytesTagSize, 0);
-
-                    // Read Item count (32-bits)
-                    byte[] bytesItemCount = reader.ReadBytes(4);
-                    int itemCount = BitConverter.ToInt32(bytesItemCount, 0);
-
-                    // Read Tags flags (32-bits)
-                    // http://wiki.hydrogenaudio.org/index.php?title=Ape_Tags_Flags
-                    byte[] bytesTagsFlags = reader.ReadBytes(4);
-
-                    // Read reserved (64-bits)
-                    byte[] bytesReserved = reader.ReadBytes(8);
-
-                    // Seek back to the start of the APE metadata (32 bytes - tag size)
-                    reader.BaseStream.Seek(-32 - data.TagSize, SeekOrigin.End);
-
-                    // Is this APEv2?
-                    if (data.Version == APETagVersion.APEv2)
+                    else if (key == "ALBUM")
                     {
-                        // Skip header (32 bytes)
-                        reader.BaseStream.Seek(32, SeekOrigin.Current);                        
+                        data.Album = keyValue.Value;
                     }
-
-                    // Read items
-                    for (int a = 0; a < itemCount; a++)
+                    else if (key == "DEBUT ALBUM")
                     {
-                        // Read item value size
-                        byte[] bytesItemValueSize = reader.ReadBytes(4);
-                        int itemValueSize = BitConverter.ToInt32(bytesItemValueSize, 0);
-
-                        // Read item flags
-                        byte[] bytesItemFlags = reader.ReadBytes(4);
-
-                        // The key size is variable but always ends by a key terminator (0x00).
-                        // The key characters vary from 0x20 (space) to 0x7E (tilde).
-
-                        // Read key
-                        List<byte> bytesKey = new List<byte>();
-                        while(true)
-                        {
-                            // Read characters until the terminator is found (0x00)
-                            byte byteChar = reader.ReadByte();
-                            if (byteChar == 0x00)
-                            {
-                                // Exit loop
-                                break;
-                            }
-                            else
-                            {
-                                bytesKey.Add(byteChar);
-                            }
-                        }
-
-                        // Read value
-                        byte[] bytesValue = reader.ReadBytes(itemValueSize);
-
-                        // Cast key and value into UTF8 strings
-                        string key = Encoding.UTF8.GetString(bytesKey.ToArray());
-                        string value = Encoding.UTF8.GetString(bytesValue);
-
-                        // Add key/value to dictionary
-                        data.Dictionary.Add(key, value);                                                
+                        data.DebutAlbum = keyValue.Value;
                     }
-
-                    // Go through dictionary items
-                    foreach (KeyValuePair<string, string> keyValue in data.Dictionary)
+                    else if (key == "PUBLISHER")
                     {
-                        string key = keyValue.Key.ToUpper().Trim();
-                        if (key == "TITLE")
-                        {
-                            data.Title = keyValue.Value;
-                        }
-                        else if (key == "SUBTITLE")
-                        {
-                            data.Subtitle = keyValue.Value;
-                        }
-                        else if (key == "ARTIST")
-                        {
-                            data.Artist = keyValue.Value;
-                        }
-                        else if (key == "ALBUM")
-                        {
-                            data.Album = keyValue.Value;
-                        }
-                        else if (key == "DEBUT ALBUM")
-                        {
-                            data.DebutAlbum = keyValue.Value;
-                        }
-                        else if (key == "PUBLISHER")
-                        {
-                            data.Publisher = keyValue.Value;
-                        }
-                        else if (key == "CONDUCTOR")
-                        {
-                            data.Conductor = keyValue.Value;
-                        }
-                        else if (key == "TRACK")
-                        {
-                            int value = 0;
-                            int.TryParse(keyValue.Value, out value);
-                            data.Track = value;
-                        }
-                        else if (key == "COMPOSER")
-                        {
-                            data.Composer = keyValue.Value;
-                        }
-                        else if (key == "COMMENT")
-                        {
-                            data.Comment = keyValue.Value;
-                        }
-                        else if (key == "COPYRIGHT")
-                        {
-                            data.Copyright = keyValue.Value;
-                        }
-                        else if (key == "PUBLICATIONRIGHT")
-                        {
-                            data.PublicationRight = keyValue.Value;
-                        }
-                        else if (key == "EAN/UPC")
-                        {
-                            int value = 0;
-                            int.TryParse(keyValue.Value, out value);
-                            data.EAN_UPC = value;
-                        }
-                        else if (key == "ISBN")
-                        {
-                            int value = 0;
-                            int.TryParse(keyValue.Value, out value);
-                            data.ISBN = value;
-                        }
-                        else if (key == "LC")
-                        {
-                            data.LC = keyValue.Value;
-                        }
-                        else if (key == "YEAR")
-                        {
-                            DateTime value = DateTime.MinValue;
-                            DateTime.TryParse(keyValue.Value, out value);
-                            data.Year = value;                            
-                        }
-                        else if (key == "RECORD DATE")
-                        {
-                            DateTime value = DateTime.MinValue;
-                            DateTime.TryParse(keyValue.Value, out value);
-                            data.RecordDate = value;
-                        }
-                        else if (key == "RECORD LOCATION")
-                        {
-                            data.RecordLocation = keyValue.Value;
-                        }
-                        else if (key == "GENRE")
-                        {
-                            data.Genre = keyValue.Value;
-                        }
-                        else if (key == "INDEX")
-                        {
-                            data.Index = keyValue.Value;
-                        }
-                        else if (key == "RELATED")
-                        {
-                            data.Related = keyValue.Value;
-                        }
-                        else if (key == "ABSTRACT")
-                        {
-                            data.Abstract = keyValue.Value;
-                        }
-                        else if (key == "LANGUAGE")
-                        {
-                            data.Language = keyValue.Value;
-                        }
-                        else if (key == "BIBLIOGRAPHY")
-                        {
-                            data.Bibliography = keyValue.Value;
-                        }
+                        data.Publisher = keyValue.Value;
+                    }
+                    else if (key == "CONDUCTOR")
+                    {
+                        data.Conductor = keyValue.Value;
+                    }
+                    else if (key == "TRACK")
+                    {
+                        int value = 0;
+                        int.TryParse(keyValue.Value, out value);
+                        data.Track = value;
+                    }
+                    else if (key == "COMPOSER")
+                    {
+                        data.Composer = keyValue.Value;
+                    }
+                    else if (key == "COMMENT")
+                    {
+                        data.Comment = keyValue.Value;
+                    }
+                    else if (key == "COPYRIGHT")
+                    {
+                        data.Copyright = keyValue.Value;
+                    }
+                    else if (key == "PUBLICATIONRIGHT")
+                    {
+                        data.PublicationRight = keyValue.Value;
+                    }
+                    else if (key == "EAN/UPC")
+                    {
+                        int value = 0;
+                        int.TryParse(keyValue.Value, out value);
+                        data.EAN_UPC = value;
+                    }
+                    else if (key == "ISBN")
+                    {
+                        int value = 0;
+                        int.TryParse(keyValue.Value, out value);
+                        data.ISBN = value;
+                    }
+                    else if (key == "LC")
+                    {
+                        data.LC = keyValue.Value;
+                    }
+                    else if (key == "YEAR")
+                    {
+                        DateTime value = DateTime.MinValue;
+                        DateTime.TryParse(keyValue.Value, out value);
+                        data.Year = value;
+                    }
+                    else if (key == "RECORD DATE")
+                    {
+                        DateTime value = DateTime.MinValue;
+                        DateTime.TryParse(keyValue.Value, out value);
+                        data.RecordDate = value;
+                    }
+                    else if (key == "RECORD LOCATION")
+                    {
+                        data.RecordLocation = keyValue.Value;
+                    }
+                    else if (key == "GENRE")
+                    {
+                        data.Genre = keyValue.Value;
+                    }
+                    else if (key == "INDEX")
+                    {
+                        data.Index = keyValue.Value;
+                    }
+                    else if (key == "RELATED")
+                    {
+                        data.Related = keyValue.Value;
+                    }
+                    else if (key == "ABSTRACT")
+                    {
+                        data.Abstract = keyValue.Value;
+                    }
+                    else if (key == "LANGUAGE")
+                    {
+                        data.Language = keyValue.Value;
+                    }
+                    else if (key == "BIBLIOGRAPHY")
+                    {
+                        data.Bibliography = keyValue.Value;
                     }
                 }
+
             }
             catch
             {
                 // Leave metadata empty
+            }
+            finally
+            {
+                // Dispose stream (reader will be automatically disposed too)                
+                stream.Close();   
             }
 
             return data;
@@ -308,14 +316,21 @@ namespace MPfm.Sound
             if (dictionary == null)
             {
                 throw new Exception("The dictionary cannot be null!");
-            }          
+            }
 
             // Read the metadata first (to get tag size)
             APETag tag = Read(filePath);
 
-            // Open binary writer
-            using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.ReadWrite)))
+            // Declare variables
+            BinaryWriter writer = null;
+            FileStream stream = null;
+            
+            try
             {
+                // Open binary writer
+                stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+                writer = new BinaryWriter(stream);
+                
                 // Was an existing APE header found?
                 if (tag.Version == APETagVersion.Unknown)
                 {
@@ -372,7 +387,7 @@ namespace MPfm.Sound
 
                     // Write item flags
                     writer.Write((Int32)0);
-                    
+
                     // Write item key in UTF8
                     writer.Write(Encoding.UTF8.GetBytes(keyValue.Key));
 
@@ -382,7 +397,7 @@ namespace MPfm.Sound
                     // Write item key in UTF8
                     writer.Write(Encoding.UTF8.GetBytes(keyValue.Value));
                 }
-                
+
                 // Write header
                 // Preamble
                 writer.Write(Encoding.UTF8.GetBytes("APETAGEX"));
@@ -403,14 +418,25 @@ namespace MPfm.Sound
                 writer.Write((byte)0x80); // Footer
 
                 // Reserved
-                writer.Write((long)0);                
+                writer.Write((long)0);
+                
             }
-        }        
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Dispose stream (writer will be automatically disposed too)                
+                stream.Close();   
+            }
+        }
     }
 
     /// <summary>
     /// Exception raised when no APEv1/APEv2 tags have been found.
     /// </summary>
+    [Serializable]
     public class APETagNotFoundException 
         : Exception
     {

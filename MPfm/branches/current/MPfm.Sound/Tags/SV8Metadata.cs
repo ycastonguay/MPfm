@@ -48,13 +48,16 @@ namespace MPfm.Sound
                 throw new Exception("The file path cannot be null or empty!");
             }
 
-            // Create data structure
+            // Declare variables
             SV8Tag data = new SV8Tag();
+            BinaryReader reader = null;
+            FileStream stream = null;
 
             try
             {
-                // Open binary reader                        
-                BinaryReader reader = new BinaryReader(File.OpenRead(filePath));
+                // Open binary reader      
+                stream = File.OpenRead(filePath);  
+                reader = new BinaryReader(stream);
 
                 // Get file length
                 long fileLength = reader.BaseStream.Length;
@@ -95,7 +98,7 @@ namespace MPfm.Sound
                         if (byteStreamVersion != 8)
                         {
                             throw new SV8TagNotFoundException("This file header version is not SV8!", null);
-                        }                            
+                        }
 
                         // Get sample count (variable integer)
                         int intLength = 0;
@@ -140,12 +143,12 @@ namespace MPfm.Sound
                         }
 
                         // Set other metadata
-                        data.LengthSamples = sampleCount;                         
+                        data.LengthSamples = sampleCount;
                         data.BeginningSilence = beginSilence;
                         data.MidSideStereoEnabled = (midSideStereoUsed == 1) ? true : false;
                     }
                     else if (key.ToUpper() == "RG")
-                    {                           
+                    {
                         // Replay Gain                            
                         byte byteReplayGainVersion = reader.ReadByte();
                         byte[] bytesTitleGain = reader.ReadBytes(2);
@@ -164,7 +167,7 @@ namespace MPfm.Sound
                         data.AlbumPeak = BitConverter.ToInt16(bytesAlbumPeak, 0);
                     }
                     else if (key.ToUpper() == "EI")
-                    {                       
+                    {
                         // Encoder Info
                         // Profile
                         // 0 = NA
@@ -183,7 +186,7 @@ namespace MPfm.Sound
                         // 13 = BrainDead (Q8)
                         // 14 = Quality 9 (Q9)
                         // 15 = Quality 10 (Q10)
-                        short intProfile_PNS = (short)reader.ReadByte();                        
+                        short intProfile_PNS = (short)reader.ReadByte();
                         data.EncoderProfile = (intProfile_PNS >> 1) / 8;
                         data.EncoderPNSTool = ((intProfile_PNS & 0x01) >> 0) == 1 ? true : false;
 
@@ -205,12 +208,7 @@ namespace MPfm.Sound
                         headerOffset = reader.BaseStream.Position;
                         break;
                     }
-                }  
-              
-                // Dispose reader
-                reader.Close();
-                reader.Dispose();                
-                reader = null;
+                }
 
                 // Calculate length
                 data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, (uint)data.SampleRate);
@@ -218,9 +216,14 @@ namespace MPfm.Sound
                 long audioLengthBytes = fileLength - headerOffset;
                 data.Bitrate = (int)(audioLengthBytes / data.LengthMS) * 8;
             }
-            catch (Exception ex)
-            {                
-                throw ex;
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Dispose stream (reader will be automatically disposed too)                
+                stream.Close();   
             }
 
             return data;
@@ -302,6 +305,7 @@ namespace MPfm.Sound
     /// <summary>
     /// Exception raised when no SV8 tags have been found.
     /// </summary>
+    [Serializable]
     public class SV8TagNotFoundException
         : Exception
     {
