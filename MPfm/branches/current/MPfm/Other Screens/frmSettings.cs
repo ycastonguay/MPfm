@@ -469,7 +469,9 @@ namespace MPfm
             Main.Config.Audio.DriverType = driver.DriverType;
             Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
             Main.Config.Audio.Mixer.BufferSize = (int)txtBufferSize.Value;
-            Main.Config.Audio.Mixer.UpdatePeriod = (int)txtUpdatePeriod.Value;            
+            Main.Config.Audio.Mixer.UpdatePeriod = (int)txtUpdatePeriod.Value;
+
+            Main.Config.Save();
         }
 
         /// <summary>
@@ -549,6 +551,8 @@ namespace MPfm
 
             // Refresh peak file warning
             Main.RefreshPeakFileDirectorySizeWarning();
+
+            Main.Config.Save();
 
             return true;
         }

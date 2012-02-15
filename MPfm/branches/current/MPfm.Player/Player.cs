@@ -782,7 +782,7 @@ namespace MPfm.Player
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
                     Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + m_playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
-                    m_streamProc = new STREAMPROC(StreamCallback);                
+                    m_streamProc = new STREAMPROC(StreamCallback);
                     m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
                 }
                 catch(Exception ex)
@@ -833,6 +833,9 @@ namespace MPfm.Player
                         newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;  
                     }
+                    
+                    // Set floating point
+                    BassAsio.BASS_ASIO_ChannelSetFormat(false, 0, BASSASIOFormat.BASS_ASIO_FORMAT_FLOAT);
 
                     // Create callback
                     m_asioProc = new ASIOPROC(AsioCallback);
@@ -844,6 +847,11 @@ namespace MPfm.Player
                         BassAsio.BASS_ASIO_ChannelEnable(false, 0, m_asioProc, new IntPtr(m_mainChannel.Handle));
                         Tracing.Log("Player.Play -- Joining ASIO channels...");
                         BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
+
+                        // Set sample rate
+                        Tracing.Log("Player.Play -- Set ASIO sample rates...");
+                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, m_playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_SetRate(m_playlist.CurrentItem.AudioFile.SampleRate);
                     }
                     catch (Exception ex)
                     {
@@ -1260,11 +1268,16 @@ namespace MPfm.Player
             {
                 return 0;
             }
+
             // Get main channel position
             long outputPosition = m_mainChannel.GetPosition();
 
-            // Divide by 2 (floating point)
-            outputPosition /= 2;
+            // Check driver type
+            if (Device.DriverType == DriverType.DirectSound)
+            {
+                // Divide by 2 (floating point)
+                outputPosition /= 2;
+            }
 
             // Check if this is a FLAC file over 44100Hz
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)

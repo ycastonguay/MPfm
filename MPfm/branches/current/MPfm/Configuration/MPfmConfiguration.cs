@@ -192,25 +192,8 @@ namespace MPfm
                 if (elementAudioDriver != null)
                 {
                     MPfm.Sound.BassNetWrapper.DriverType driverType;
-                    Enum.TryParse<MPfm.Sound.BassNetWrapper.DriverType>(elementAudioDriver.Value, out driverType);
+                    Enum.TryParse<MPfm.Sound.BassNetWrapper.DriverType>(XMLHelper.GetAttributeValue(elementAudioDriver, "type"), out driverType);
                     m_audioSection.DriverType = driverType;
-
-                    //// Find the right type of driver
-                    //if (elementAudioDriver.Value.ToUpper() == "DIRECTSOUND")
-                    //{
-                    //    // DirectSound
-                    //    m_audioSection.DriverType = Sound.BassNetWrapper.DriverType.DirectSound;
-                    //}
-                    //else if (elementAudioDriver.Value.ToUpper() == "ASIO")
-                    //{
-                    //    // ASIO
-                    //    m_audioSection.DriverType = Sound.BassNetWrapper.DriverType.ASIO;
-                    //}
-                    //else if (elementAudioDriver.Value.ToUpper() == "WASAPI")
-                    //{
-                    //    // WASAPI
-                    //    m_audioSection.DriverType = Sound.BassNetWrapper.DriverType.WASAPI;
-                    //}
                 }
                 // Check if this XML element was found
                 if (elementAudioDevice != null)

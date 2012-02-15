@@ -1003,10 +1003,13 @@ namespace MPfm
             // the number of 32-bit floats required (since length is in bytes!)
             int l4 = length20ms / 4; // 32-bit = 4 bytes
 
-            // create a data buffer as needed
-            float[] sampleData = new float[l4];
+            if (Player.Device.DriverType != DriverType.DirectSound)
+            {
+                return;
+            }
 
-            //int length = Bass.BASS_ChannelGetData(channel, sampleData, length20ms);
+            // create a data buffer as needed
+            float[] sampleData = new float[l4];  
             int length = m_player.MainChannel.GetData(sampleData, length20ms);
 
             // the number of 32-bit floats received
