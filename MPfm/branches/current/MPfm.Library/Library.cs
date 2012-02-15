@@ -818,6 +818,7 @@ namespace MPfm.Library
             extensionsSupported.Add("*.MPC");
             extensionsSupported.Add("*.APE");
             extensionsSupported.Add("*.WV");
+            extensionsSupported.Add("*.WMA");
 
             extensionsSupported.Add("*.M3U");
             extensionsSupported.Add("*.M3U8");

@@ -593,10 +593,19 @@ namespace MPfm.Sound
 			m_id = id;
 
 			// Set file type based on file extension
-            string fileExtension = Path.GetExtension(filePath).ToUpper().Replace(".", "");
             AudioFileFormat audioFileFormat = AudioFileFormat.Unknown;
-            Enum.TryParse<AudioFileFormat>(fileExtension, out audioFileFormat);
-            m_fileType = audioFileFormat;
+            string fileExtension = Path.GetExtension(filePath).ToUpper().Replace(".", "");
+            if (fileExtension == "M4A" || fileExtension == "MP4" || fileExtension == "AAC")
+            {
+                // The format can change even though the file extensions are the same
+                m_fileType = AudioFileFormat.AAC;
+            }
+            else
+            {                
+                // Get format by file extension
+                Enum.TryParse<AudioFileFormat>(fileExtension, out audioFileFormat);
+                m_fileType = audioFileFormat;
+            }
 
 			// Check if the metadata needs to be fetched
 			if (readMetadata)
@@ -895,7 +904,7 @@ namespace MPfm.Sound
             {
                 // TagLib does not support OFR files...
                 // OptimFROG (OFR) supports APEv2 tags.
-                // http://en.wikipedia.org/wiki/OptimFROG
+                // http://en.wikipedia.org/wiki/OptimFROG                
             }
             else if (m_fileType == AudioFileFormat.WV)
             {
@@ -1015,7 +1024,32 @@ namespace MPfm.Sound
                     // Read ASF/WMA tags
                     file = new TagLib.Asf.File(m_filePath);
 
-                    // TagLib seems to work...!
+                    // Get the position of the first and last block
+                    m_firstBlockPosition = file.InvariantStartPosition;
+                    m_lastBlockPosition = file.InvariantEndPosition;
+
+                    // Copy tags
+                    FillProperties(file.Tag);
+
+                    // The right length is here, not in the codec data structure
+                    m_length = Conversion.TimeSpanToTimeString(file.Properties.Duration);
+
+                    // Loop through codecs (usually just one)
+                    foreach (TagLib.ICodec codec in file.Properties.Codecs)
+                    {
+                        // Check what kind of codec is used 
+                        if (codec is TagLib.Riff.WaveFormatEx)
+                        {
+                            // Convert codec into a header 
+                            TagLib.Riff.WaveFormatEx header = (TagLib.Riff.WaveFormatEx)codec;
+
+                            // Copy properties
+                            m_bitrate = header.AudioBitrate;
+                            m_audioChannels = header.AudioChannels;
+                            m_sampleRate = header.AudioSampleRate;
+                            m_bitsPerSample = 16;                            
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1027,11 +1061,31 @@ namespace MPfm.Sound
                     if (file != null)
                         file.Dispose();
                 }
-            }            
+            }
+            else if (m_fileType == AudioFileFormat.AAC)
+            {
+                // Declare variables
+                TagLib.Aac.File file = null;
 
-            //AudioFileFormatExtensions.ALAC.            
+                try
+                {
+                    // Read AAC tags
+                    file = new TagLib.Aac.File(m_filePath);
+
+                    // Doesn't seem to work very well...
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
+            }              
             
-
 			// If the song has no name, give filename as the name                
 			if (String.IsNullOrEmpty(Title))
 			{

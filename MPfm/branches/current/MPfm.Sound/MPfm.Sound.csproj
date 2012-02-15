@@ -138,7 +138,10 @@
     <Content Include="Lib\bassasio.dll" />
     <Content Include="Lib\bassflac.dll" />
     <Content Include="Lib\basswasapi.dll" />
+    <Content Include="Lib\basswma.dll" />
     <Content Include="Lib\basswv.dll" />
+    <Content Include="Lib\bass_aac.dll" />
+    <Content Include="Lib\bass_alac.dll" />
     <Content Include="Lib\bass_ape.dll" />
     <Content Include="Lib\bass_fx.dll" />
     <Content Include="Lib\bass_mpc.dll" />

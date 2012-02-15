@@ -101,9 +101,24 @@ namespace MPfm.Sound
 
             // Add extensions
             extensions.AddRange(MP3.Extensions);
+            extensions.AddRange(WAV.Extensions);
+            extensions.AddRange(FLAC.Extensions);
+            extensions.AddRange(OGG.Extensions);
+            extensions.AddRange(MPC.Extensions);
+            extensions.AddRange(WV.Extensions);
+            extensions.AddRange(APE.Extensions);
+            extensions.AddRange(OFR.Extensions);
+            extensions.AddRange(TTA.Extensions);
+            extensions.AddRange(WMA.Extensions);
+            extensions.AddRange(AAC.Extensions);
+            extensions.AddRange(ALAC.Extensions);
+
+            // Make sure each item of the list is unique
+            extensions = extensions.Distinct().ToList();
 
             return extensions;
         }
+
     }
 }
 

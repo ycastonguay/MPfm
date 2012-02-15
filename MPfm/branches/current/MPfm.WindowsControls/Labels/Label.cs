@@ -28,6 +28,7 @@ using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using System.ComponentModel.Design;
 
 namespace MPfm.WindowsControls
 {
@@ -168,7 +169,7 @@ namespace MPfm.WindowsControls
             // Get embedded Font collection
             m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
-            Font fontsss = EmbeddedFonts.LeagueGothic;
+            //Font fontsss = EmbeddedFonts.LeagueGothic;
         }
 
         /// <summary>
@@ -182,7 +183,7 @@ namespace MPfm.WindowsControls
                 // Get graphics from paint event
                 Graphics g = pe.Graphics;
 
-                m_cachedFont = Tools.LoadEmbeddedFont(EmbeddedFonts.embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
+                //m_cachedFont = Tools.LoadEmbeddedFont(EmbeddedFonts.embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
 
                 // Use anti-aliasing?
                 if (CustomFont.UseAntiAliasing)
@@ -376,17 +377,19 @@ namespace MPfm.WindowsControls
             {                
                 throw;
             }
-            
+
+            //ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
+            //string path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
         }
 
         private static Font m_cachedFont = null;
     }
 
-    public static class EmbeddedFonts
-    {                    
-        public static readonly EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+    //public static class EmbeddedFonts
+    //{                    
+    //    public static readonly EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
-        //public static readonly Font LeagueGothic = new Font(FontFamily.GenericSansSerif, 10f);
-        public static readonly Font LeagueGothic = Tools.LoadEmbeddedFont(embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
-    }
+    //    //public static readonly Font LeagueGothic = new Font(FontFamily.GenericSansSerif, 10f);
+    //    //public static readonly Font LeagueGothic = Tools.LoadEmbeddedFont(embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
+    //}
 }

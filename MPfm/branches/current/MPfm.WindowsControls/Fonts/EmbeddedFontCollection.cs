@@ -28,6 +28,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using System.ComponentModel.Design;
 
 namespace MPfm.WindowsControls
 {
@@ -80,7 +81,25 @@ namespace MPfm.WindowsControls
         /// <returns>New index</returns>
         public int Add(EmbeddedFont value)
         {
-            AddFontFromResource(value.ResourceName, Application.StartupPath + "\\" + value.AssemblyPath);
+            // Declare variables
+            string resourcePath = string.Empty;
+
+            // Check if design time or run time
+            if (Tools.IsDesignTime())
+            {
+                // Set path as current project path
+                //ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
+                //string path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
+            }
+            else
+            {
+                // This is runtime; the file is in the same directory as the executable
+                resourcePath = Application.StartupPath + "\\" + value.AssemblyPath;
+
+                // Add font from resource file
+                AddFontFromResource(value.ResourceName, resourcePath);
+            }
+
             return base.Add(value);
         }
 

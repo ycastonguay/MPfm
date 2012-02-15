@@ -37,13 +37,24 @@ namespace MPfm.WindowsControls
     /// </summary>
     public static class Tools
     {
+        /// <summary>
+        /// Checks if the current process is in "design-time" (i.e. in Visual Studio).
+        /// </summary>
+        /// <returns>True if in Visual Studio</returns>
+        public static bool IsDesignTime()
+        {
+            // Check if the process is devenv
+            // http://stackoverflow.com/questions/282014/net-windows-forms-design-time-rules
+            return (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv");
+        }
+
         /// <summary>  
         /// Method for changing the opacity of an image.
         /// http://stackoverflow.com/questions/4779027/changing-the-opacity-of-a-bitmap-image
         /// </summary>  
         /// <param name="image">image to set opacity on</param>  
         /// <param name="opacity">percentage of opacity</param>  
-        /// <returns></returns>  
+        /// <returns>Image</returns>  
         public static Image SetImageOpacity(Image image, float opacity)
         {
             try

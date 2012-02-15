@@ -610,12 +610,13 @@ namespace MPfm
 
                 // Populate the supported formats
                 comboSoundFormat.Items.Clear();
-                comboSoundFormat.Items.Add("All");
-                comboSoundFormat.Items.Add("MP3");
-                comboSoundFormat.Items.Add("FLAC");
-                comboSoundFormat.Items.Add("OGG");
-                comboSoundFormat.Items.Add("MPC");
+                comboSoundFormat.Items.Add("All");                
                 comboSoundFormat.Items.Add("APE");
+                comboSoundFormat.Items.Add("FLAC");                
+                comboSoundFormat.Items.Add("MP3");
+                comboSoundFormat.Items.Add("MPC");
+                comboSoundFormat.Items.Add("OGG");
+                comboSoundFormat.Items.Add("WMA");
                 comboSoundFormat.Items.Add("WV");                
                 //Array audioFileFormats = Enum.GetValues(typeof(AudioFileFormat));
 
@@ -3317,7 +3318,6 @@ namespace MPfm
 
                 // Refresh all controls
                 RefreshAll();
-
             }
         }
 

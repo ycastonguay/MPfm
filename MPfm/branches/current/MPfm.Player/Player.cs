@@ -53,13 +53,15 @@ namespace MPfm.Player
         int m_currentMixPlaylistIndex = 0;
 
         // Plugin handles
-        private int m_fxEQHandle;        
+        private int m_fxEQHandle;
+        //private int m_aacPluginHandle = 0;
         private int m_apePluginHandle = 0;
         private int m_flacPluginHandle = 0;
         private int m_mpcPluginHandle = 0;
         //private int m_ofrPluginHandle = 0;
         //private int m_ttaPluginHandle = 0;
         private int m_wvPluginHandle = 0;
+        private int m_wmaPluginHandle = 0;
 
         /// <summary>
         /// Offset position (necessary to calculate the offset in the output stream position
@@ -533,12 +535,14 @@ namespace MPfm.Player
             // Load plugins
             //m_plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
             Tracing.Log("Player init -- Loading plugins...");
+            //m_aacPluginHandle = Base.LoadPlugin("bass_aac.dll");
             m_apePluginHandle = Base.LoadPlugin("bass_ape.dll");
             m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
-            m_mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
+            m_mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");            
             //m_ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
             //m_ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
             m_wvPluginHandle = Base.LoadPlugin("basswv.dll");
+            m_wmaPluginHandle = Base.LoadPlugin("basswma.dll");
 
             Tracing.Log("Player init -- Loading FX plugin...");
             Base.LoadFxPlugin();
@@ -660,12 +664,14 @@ namespace MPfm.Player
         {
             // Dispose plugins
             Base.FreeFxPlugin();
+            //Base.FreePlugin(m_aacPluginHandle);
             Base.FreePlugin(m_apePluginHandle);
             Base.FreePlugin(m_flacPluginHandle);
             Base.FreePlugin(m_mpcPluginHandle);
             //Base.FreePlugin(m_ofrPluginHandle);
             //Base.FreePlugin(m_ttaPluginHandle);
             Base.FreePlugin(m_wvPluginHandle);
+            Base.FreePlugin(m_wmaPluginHandle);
             //Base.FreePluginDirectory(m_plugins);            
         }        
 
