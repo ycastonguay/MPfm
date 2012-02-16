@@ -1724,7 +1724,6 @@ namespace MPfm.Player
             }
 
             // Get active status            
-            //BASSActive status = m_playlist.CurrentItem.Channel.IsActive();
             BASSActive status = m_playlist.Items[m_currentMixPlaylistIndex].Channel.IsActive();
 
             // Check the current channel status
@@ -1786,34 +1785,6 @@ namespace MPfm.Player
                         return Playlist.CurrentItem.Channel.GetData(buffer, length);
                     }
 
-                    // Raise song end event (if an event is subscribed)
-                    if (OnPlaylistIndexChanged != null)
-                    {
-                        // Keep current item in memory
-                        AudioFile audioFile = m_playlist.CurrentItem.AudioFile;
-
-                        // Check if EQ is enabled
-                        if (m_isEQEnabled)
-                        {
-                            // Remove EQ
-                            RemoveEQ();
-                        }
-
-                        // Dispose channels
-                        m_playlist.DisposeChannels();
-
-                        // Set flag
-                        m_isPlaying = false;
-
-                        // Create data
-                        PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
-                        data.AudioFileEnded = audioFile;
-                        data.IsPlaybackStopped = true;
-
-                        // Raise event
-                        OnPlaylistIndexChanged(data);
-                    }
-
                     // This is the end of the playlist                    
                     return (int)BASSStreamProc.BASS_STREAMPROC_END;
                 }
@@ -1835,8 +1806,7 @@ namespace MPfm.Player
                 // Get length of the next audio file to play
                 long audioLength = Playlist.Items[m_currentMixPlaylistIndex].Channel.GetLength();
 
-                // Set sync
-                //long syncPos = (position + buffered + audioLength) * 2;
+                // Set sync                
                 long syncPos = position + buffered + (audioLength * 2);
                 SetSyncCallback(syncPos);
 
@@ -1967,22 +1937,26 @@ namespace MPfm.Player
             // Calculate position offset
             long offset = 0 - (position / 2);
 
-            // Check if this is a FLAC file over 44100Hz
-            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate > 44100)
+            // Check if the playback has stopped
+            if (!playbackStopped)
             {
-                // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
-                offset = (long)((float)offset * 1.5f);
-            }
+                // Check if this is a FLAC file over 44100Hz
+                if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate > 44100)
+                {
+                    // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                    offset = (long)((float)offset * 1.5f);
+                }
 
-            // Check if the sample rate needs to be changed (i.e. main channel sample rate different than the decoding file)
-            if (!playbackStopped && m_mainChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
-            {
-                // Set new sample rate
-                m_mainChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
-            }
+                // Check if the sample rate needs to be changed (i.e. main channel sample rate different than the decoding file)
+                if (!playbackStopped && m_mainChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
+                {
+                    // Set new sample rate
+                    m_mainChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
+                }
 
-            // Set position offset
-            m_positionOffset = offset;
+                // Set position offset
+                m_positionOffset = offset;
+            }
 
             // Unlock main channel
             m_mainChannel.Lock(false);
@@ -2014,7 +1988,26 @@ namespace MPfm.Player
                 eventData.IsPlaybackStopped = playbackStopped;
 
                 // If the playback hasn't stopped, fill more event data
-                if (!playbackStopped)
+                if (playbackStopped)
+                {
+                    // Set event data
+                    eventData.AudioFileStarted = null;
+                    eventData.AudioFileEnded = Playlist.CurrentItem.AudioFile;
+
+                    // Check if EQ is enabled
+                    if (m_isEQEnabled)
+                    {
+                        // Remove EQ
+                        RemoveEQ();
+                    }
+
+                    // Dispose channels
+                    m_playlist.DisposeChannels();
+
+                    // Set flag
+                    m_isPlaying = false;
+                }
+                else
                 {
                     // Set event data
                     eventData.AudioFileStarted = Playlist.CurrentItem.AudioFile;
