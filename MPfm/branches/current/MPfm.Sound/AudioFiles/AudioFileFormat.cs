@@ -94,7 +94,7 @@ namespace MPfm.Sound
         /// </summary>
         AAC = 12,
         /// <summary>
-        /// ALAC (Apple Lossless Audio Codec) audio codec. Also sometimes called ALE (Apple Lossless Encoder).
+        /// ALAC (Apple Lossless Audio Codec) audio codec. Also sometimes called ALE (Apple Lossless Encoder). Has the M4A extension.
         /// For more information, consult http://en.wikipedia.org/wiki/Apple_Lossless.
         /// </summary>
         ALAC = 13
