@@ -37,6 +37,11 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class Button : System.Windows.Forms.Button
     {
+        /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
         private bool m_isMouseOver = false;
         /// <summary>
         /// Indicates if the mouse cursor is over the control.
@@ -345,6 +350,9 @@ namespace MPfm.WindowsControls
 
             // Set default font
             m_customFont = new CustomFont();
+
+            // Get embedded font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
         }
 
         #region Paint Events
@@ -377,11 +385,8 @@ namespace MPfm.WindowsControls
             {
                 try
                 {
-                    // Get embedded font collection
-                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch
                 {

@@ -42,6 +42,11 @@ namespace MPfm.WindowsControls
     public partial class OutputMeter : Control
     {
         /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
+        /// <summary>
         /// Private value for the WaveDataHistory property.
         /// </summary>
         private List<WaveDataMinMax> m_waveDataHistory = null;
@@ -182,6 +187,9 @@ namespace MPfm.WindowsControls
 
             // Initialize components (thank you Cpt Obvious!)
             InitializeComponent();
+
+            // Get embedded font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
         }
 
         #region Wave Data History
@@ -256,11 +264,8 @@ namespace MPfm.WindowsControls
             {
                 try
                 {
-                    // Get embedded font collection
-                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                 }
                 catch
                 {

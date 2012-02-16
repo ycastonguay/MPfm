@@ -51,6 +51,11 @@ namespace MPfm.WindowsControls
         #region Private variables
 
         /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        private EmbeddedFontCollection m_embeddedFonts = null;
+        
+        /// <summary>
         /// Defines the X position of the cursor.
         /// </summary>
         private float m_cursorX = 0.0f;
@@ -203,40 +208,6 @@ namespace MPfm.WindowsControls
                 m_length = value;
             }
         }
-
-        //private uint m_currentPositionMS = 0;
-        ///// <summary>
-        ///// Defines the current position (in milliseconds).
-        ///// This needs to be set by the user in order to display the cursor.
-        ///// </summary>
-        //public uint CurrentPositionMS
-        //{
-        //    get
-        //    {
-        //        return m_currentPositionMS;
-        //    }
-        //    set
-        //    {
-        //        m_currentPositionMS = value;
-        //    }
-        //}
-
-        //private uint m_totalMS = 0;
-        ///// <summary>
-        ///// Defines the total number of milliseconds of the audio file.        
-        ///// This needs to be set by the user in order to display the cursor.
-        ///// </summary>
-        //public uint TotalMS
-        //{
-        //    get
-        //    {
-        //        return m_totalMS;
-        //    }
-        //    set
-        //    {
-        //        m_totalMS = value;
-        //    }
-        //}
 
         #endregion
 
@@ -521,6 +492,9 @@ namespace MPfm.WindowsControls
         {
             // Create default theme
             m_theme = new WaveFormDisplayTheme();
+
+            // Get embedded font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
             #region Contextual Menu
             
@@ -1579,11 +1553,8 @@ namespace MPfm.WindowsControls
                 {
                     try
                     {
-                        // Get embedded font collection
-                        EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
                         // Get embedded font
-                        font = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
+                        font = Tools.LoadEmbeddedFont(m_embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
                     }
                     catch
                     {

@@ -38,6 +38,11 @@ namespace MPfm.WindowsControls
     public class LinkLabel : System.Windows.Forms.LinkLabel
     {
         /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
+        /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
         private CustomFont m_customFont = null;
@@ -70,6 +75,9 @@ namespace MPfm.WindowsControls
 
             // Set default font
             m_customFont = new CustomFont();
+
+            // Get embedded font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
         }
 
         /// <summary>
@@ -99,11 +107,8 @@ namespace MPfm.WindowsControls
             {
                 try
                 {
-                    // Get embedded font collection
-                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch
                 {

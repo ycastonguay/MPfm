@@ -37,6 +37,11 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class Panel : System.Windows.Forms.Panel
     {
+        /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
         #region Background Properties
 
         /// <summary>
@@ -365,6 +370,9 @@ namespace MPfm.WindowsControls
 
             // Create default font
             m_customFont = new CustomFont();
+
+            // Get embedded font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
         }
 
         #region Expand Methods
@@ -441,11 +449,8 @@ namespace MPfm.WindowsControls
             {
                 try
                 {
-                    // Get embedded font collection
-                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch
                 {

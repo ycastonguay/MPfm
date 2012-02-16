@@ -49,6 +49,11 @@ namespace MPfm.WindowsControls
     {
         #region Private Variables
 
+        /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        private EmbeddedFontCollection m_embeddedFonts = null;
+
         // Mode
         private SongGridViewMode m_mode = SongGridViewMode.AudioFile;
 
@@ -471,6 +476,9 @@ namespace MPfm.WindowsControls
 
             // Create default theme
             m_theme = new SongGridViewTheme();
+
+            // Get embedded font collection
+            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
             // Create timer for animation
             m_timerAnimationNowPlaying = new System.Windows.Forms.Timer();
@@ -930,12 +938,9 @@ namespace MPfm.WindowsControls
             {
                 try
                 {
-                    // Get embedded font collection
-                    EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
                     // Get embedded fonts
-                    fontDefault = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle());
-                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
+                    fontDefault = Tools.LoadEmbeddedFont(m_embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle());
+                    fontDefaultBold = Tools.LoadEmbeddedFont(m_embeddedFonts, m_theme.Font.EmbeddedFontName, m_theme.Font.Size, m_theme.Font.ToFontStyle() | FontStyle.Bold);
                 }
                 catch
                 {
