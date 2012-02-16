@@ -1150,6 +1150,28 @@ namespace MPfm.Sound
         }
 
         /// <summary>
+        /// Fills the Tag properties of a TagLib.File class (including its subclasses).
+        /// </summary>
+        /// <param name="file">TagLib.File class</param>
+        /// <returns>TagLib.File</returns>
+        public TagLib.File FillTags(TagLib.File file)
+        {
+            // Copy tags
+            file.Tag.AlbumArtists = new string[] { ArtistName };
+            file.Tag.Album = AlbumTitle;
+            file.Tag.Title = Title;
+            file.Tag.Genres = new string[] { Genre };
+            file.Tag.Disc = DiscNumber;
+            file.Tag.Track = TrackNumber;
+            file.Tag.TrackCount = TrackCount;
+            file.Tag.Lyrics = Lyrics;
+            file.Tag.Year = Year;
+            file.Tag.BeatsPerMinute = (uint)Tempo;
+
+            return file;
+        }
+
+        /// <summary>
         /// Saves the metadata associated with this audio file from its properties.
         /// </summary>
         public void SaveMetadata()
@@ -1163,19 +1185,10 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.Mpeg.AudioFile(m_filePath);
+                    file = new TagLib.Mpeg.AudioFile(m_filePath);                    
 
                     // Copy tags
-                    file.Tag.AlbumArtists = new string[] { ArtistName };
-                    file.Tag.Album = AlbumTitle;
-                    file.Tag.Title = Title;
-                    file.Tag.Genres = new string[] { Genre };
-                    file.Tag.Disc = DiscNumber;
-                    file.Tag.Track = TrackNumber;
-                    file.Tag.TrackCount = TrackCount;
-                    file.Tag.Lyrics = Lyrics;
-                    file.Tag.Year = Year;
-                    file.Tag.BeatsPerMinute = (uint)Tempo;
+                    file = (TagLib.Mpeg.AudioFile)FillTags(file);
 
                     // Save metadata
                     file.Save();
@@ -1203,16 +1216,7 @@ namespace MPfm.Sound
                     file = new TagLib.Flac.File(m_filePath);
 
                     // Copy tags
-                    file.Tag.AlbumArtists = new string[] { ArtistName };
-                    file.Tag.Album = AlbumTitle;
-                    file.Tag.Title = Title;
-                    file.Tag.Genres = new string[] { Genre };
-                    file.Tag.Disc = DiscNumber;
-                    file.Tag.Track = TrackNumber;
-                    file.Tag.TrackCount = TrackCount;
-                    file.Tag.Lyrics = Lyrics;
-                    file.Tag.Year = Year;
-                    file.Tag.BeatsPerMinute = (uint)Tempo;
+                    file = (TagLib.Flac.File)FillTags(file);
 
                     // Save metadata
                     file.Save();
@@ -1240,16 +1244,7 @@ namespace MPfm.Sound
                     file = new TagLib.Ogg.File(m_filePath);
 
                     // Copy tags
-                    file.Tag.AlbumArtists = new string[] { ArtistName };
-                    file.Tag.Album = AlbumTitle;
-                    file.Tag.Title = Title;
-                    file.Tag.Genres = new string[] { Genre };
-                    file.Tag.Disc = DiscNumber;
-                    file.Tag.Track = TrackNumber;
-                    file.Tag.TrackCount = TrackCount;
-                    file.Tag.Lyrics = Lyrics;
-                    file.Tag.Year = Year;
-                    file.Tag.BeatsPerMinute = (uint)Tempo;
+                    file = (TagLib.Ogg.File)FillTags(file);
 
                     // Save metadata
                     file.Save();
@@ -1277,16 +1272,7 @@ namespace MPfm.Sound
                     file = new TagLib.Ape.File(m_filePath);
 
                     // Copy tags
-                    file.Tag.AlbumArtists = new string[] { ArtistName };
-                    file.Tag.Album = AlbumTitle;
-                    file.Tag.Title = Title;
-                    file.Tag.Genres = new string[] { Genre };
-                    file.Tag.Disc = DiscNumber;
-                    file.Tag.Track = TrackNumber;
-                    file.Tag.TrackCount = TrackCount;
-                    file.Tag.Lyrics = Lyrics;
-                    file.Tag.Year = Year;
-                    file.Tag.BeatsPerMinute = (uint)Tempo;
+                    file = (TagLib.Ape.File)FillTags(file);
 
                     // Save metadata
                     file.Save();
@@ -1314,16 +1300,35 @@ namespace MPfm.Sound
                     file = new TagLib.WavPack.File(m_filePath);
 
                     // Copy tags
-                    file.Tag.AlbumArtists = new string[] { ArtistName };
-                    file.Tag.Album = AlbumTitle;
-                    file.Tag.Title = Title;
-                    file.Tag.Genres = new string[] { Genre };
-                    file.Tag.Disc = DiscNumber;
-                    file.Tag.Track = TrackNumber;
-                    file.Tag.TrackCount = TrackCount;
-                    file.Tag.Lyrics = Lyrics;
-                    file.Tag.Year = Year;
-                    file.Tag.BeatsPerMinute = (uint)Tempo;
+                    file = (TagLib.WavPack.File)FillTags(file);
+
+                    // Save metadata
+                    file.Save();
+                }
+                catch (Exception ex)
+                {
+                    // Throw exception
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                }
+                finally
+                {
+                    // Dispose file (if needed)
+                    if (file != null)
+                        file.Dispose();
+                }
+            }
+            else if (m_fileType == AudioFileFormat.WMA)
+            {
+                // Declare variables
+                TagLib.Asf.File file = null;
+
+                try
+                {
+                    // Read tags
+                    file = new TagLib.Asf.File(m_filePath);
+
+                    // Copy tags
+                    file = (TagLib.Asf.File)FillTags(file);
 
                     // Save metadata
                     file.Save();
