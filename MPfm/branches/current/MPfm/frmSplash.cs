@@ -205,8 +205,8 @@ namespace MPfm
         /// form if in "About" mode. Opens a browser to the MPfm web site if the
         /// user clicks on the web site link.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void pictureBackground_Click(object sender, EventArgs e)
         {
             // Check if the user clicks the link
@@ -237,8 +237,8 @@ namespace MPfm
         /// Occus when the mouse cursor is over the background picture. Displays a hand
         /// cursor when the cursor is in front of the mp4m.org website link.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void pictureBackground_MouseMove(object sender, MouseEventArgs e)
         {
             Point pt = this.PointToClient(System.Windows.Forms.Control.MousePosition);
@@ -269,8 +269,8 @@ namespace MPfm
         /// <summary>
         /// This timer updates the status message.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void timerUpdateGUI_Tick(object sender, EventArgs e)
         {
             // Display new status
@@ -290,8 +290,8 @@ namespace MPfm
         /// <summary>
         /// This timer updates the fade in/fade out.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void timerFading_Tick(object sender, EventArgs e)
         {
             if (fadingIn)

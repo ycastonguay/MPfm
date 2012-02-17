@@ -640,8 +640,8 @@ namespace MPfm.Player.Demo
         /// <summary>
         /// Occurs when the user holds a mouse button on the Song Position trackbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void trackPosition_MouseDown(object sender, MouseEventArgs e)
         {
             isSongPositionChanging = true;
@@ -650,8 +650,8 @@ namespace MPfm.Player.Demo
         /// <summary>
         /// Occurs when the user releases a mouse button on the Song Position trackbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void trackPosition_MouseUp(object sender, MouseEventArgs e)
         {
             isSongPositionChanging = false;

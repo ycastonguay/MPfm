@@ -81,7 +81,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to draw an item.
         /// </summary>
-        /// <param name="e">Draw Item Event Arguments</param>
+        /// <param name="e">Draw Item Event arguments</param>
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
             // Get graphics from paint event
@@ -159,7 +159,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="e">Paint Event Arguments</param>
+        /// <param name="e">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             Region iRegion = new Region(e.ClipRectangle);

@@ -144,8 +144,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Cancel" button. This exits the application.        
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnCancelWizard_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -155,8 +155,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Next" button. 
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnNext_Click(object sender, EventArgs e)
         {     
             // Get selected driver
@@ -178,8 +178,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user changes the driver using the combobox.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void cboDrivers_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get selected driver
@@ -218,8 +218,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user changes the output device using the combobox.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void cboOutputDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             // The test is successful, enable Next button

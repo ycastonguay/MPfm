@@ -80,8 +80,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the OK button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnOK_Click(object sender, EventArgs e)
         {
             //// Check if name is already taken
@@ -117,8 +117,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the Cancel button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             // Set result
@@ -132,8 +132,8 @@ namespace MPfm
         /// Occurs when the user types something into the txtName textbox.
         /// Disables the OK button if the name is empty.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             // Check if name is empty

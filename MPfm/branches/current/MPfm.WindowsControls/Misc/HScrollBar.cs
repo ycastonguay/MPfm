@@ -305,8 +305,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the scrollbar value changes.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public delegate void ValueChanged(object sender, EventArgs e);
         /// <summary>
         /// Hook for the scrollbar value changed event.
@@ -320,7 +320,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="pe">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs pe)
         {
             // Create objects
@@ -503,7 +503,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the mouse pointer is moving over the control.
         /// Manages the display of mouse on/off visual effects.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Set default flag
@@ -612,7 +612,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor leaves the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseLeave(EventArgs e)
         {
             bool needToRefresh = false;
@@ -643,7 +643,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user is pressing down a mouse button.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             // Declare variables
@@ -740,7 +740,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the user releases a mouse button.
         /// Manages the clicking on the different areas of the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Reset flags

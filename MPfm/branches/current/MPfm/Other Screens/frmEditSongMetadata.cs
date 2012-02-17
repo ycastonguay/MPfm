@@ -80,8 +80,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Close" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
             // Hide the form
@@ -91,8 +91,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Save" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             // Check if the player is playing

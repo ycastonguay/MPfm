@@ -106,8 +106,8 @@ namespace MPfm
         /// Occurs when the user tries to close the form, using the X button or the
         /// Close button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmPlaylist_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.ApplicationExitCall || e.CloseReason == CloseReason.WindowsShutDown)
@@ -125,8 +125,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the Close button on the toolbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -139,7 +139,7 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user changes the order of the playlist songs in the ListView.
         /// </summary>
-        /// <param name="args">Event Arguments</param>
+        /// <param name="args">Event arguments</param>
         public void viewSongs_ItemsReordered(EventArgs args)
         {
             //// Copy the original list of songs (we have to create a new list or the objects will stay as a reference)
@@ -305,8 +305,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "New playlist" button in the toolbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnNewPlaylist_Click(object sender, EventArgs e)
         {
             // Check if the playlist has at least one item
@@ -337,8 +337,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Load playlist" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnLoadPlaylist_Click(object sender, EventArgs e)
         {
             // Display contextual menu
@@ -348,8 +348,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Save playlist" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnSavePlaylist_Click(object sender, EventArgs e)
         {
             // Check if playlist file is valid
@@ -377,8 +377,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Save playlist as" button.
         /// Display a modal dialog to the user requesting the playlist name.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnSavePlaylistAs_Click(object sender, EventArgs e)
         {
             SavePlaylistAs();
@@ -388,8 +388,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Rename playlist" button.
         /// Display a modal dialog to the user requesting the new playlist name.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnRenamePlaylist_Click(object sender, EventArgs e)
         {
             // Create window
@@ -410,8 +410,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Remove songs" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnRemoveSongs_Click(object sender, EventArgs e)
         {
             // Create a list of songs to remove

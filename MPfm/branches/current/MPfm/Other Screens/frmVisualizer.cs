@@ -64,8 +64,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user tries to close the form.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmVisualizer_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.ApplicationExitCall)
@@ -79,8 +79,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the timer updates. This refreshes the wave form control.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
             //// Make sure the player is valid and something plays

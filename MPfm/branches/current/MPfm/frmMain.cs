@@ -984,8 +984,8 @@ namespace MPfm
         /// Occurs when the timer for the output meter is expired. This forces the
         /// output meter to refresh itself every 10ms.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void timerUpdateOutputMeter_Tick(object sender, EventArgs e)
         {            
             // Check for valid objects
@@ -1066,8 +1066,8 @@ namespace MPfm
         /// Occurs when the timer for updating the song position has expired.
         /// Updates the song position UI and other things.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void m_timerSongPosition_Tick(object sender, EventArgs e)
         {            
             // Check for valid objects
@@ -1223,8 +1223,8 @@ namespace MPfm
         /// Occurs when the user tries to close the form, using the X button or the
         /// Close button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.FormOwnerClosing ||
@@ -1285,8 +1285,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "File -> Add file(s) to library" menu item.
         /// Pops an open file dialog to let the user select the file(s) to add.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miFileAddFile_Click(object sender, EventArgs e)
         {
             // Display dialog
@@ -1305,8 +1305,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "File -> Add folder to library" menu item.
         /// Pops an open folder dialog to let the user select the folder to add.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miFileAddFolder_Click(object sender, EventArgs e)
         {
             // Display dialog
@@ -1339,8 +1339,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "File -> Open an audio file" menu item.
         /// Pops an open file dialog to let the user select the file to play.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miFileOpenAudioFile_Click(object sender, EventArgs e)
         {
             // Display dialog
@@ -1458,42 +1458,186 @@ namespace MPfm
         /// Occurs when the user clicks on the "File -> Exit" menu item. This
         /// exits the application.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miFileExit_Click(object sender, EventArgs e)
         {
             ExitApplication();
         }
 
-
         /// <summary>
-        /// Occurs when the user clicks the "Help -> Go to website" menu item.
+        /// Occurs when the user clicks the "Help -> View Help Contents..." menu item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
-        private void miHelpWebsite_Click(object sender, EventArgs e)
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpHelp_Click(object sender, EventArgs e)
         {
-            // Open website in default browser
-            Process.Start("http://www.mp4m.org");
+            // Display help file
+            Help.ShowHelp(this, "MPfm_User_Manual.chm");
         }
 
         /// <summary>
-        /// Occurs when the user clicks the "Help -> Report a bug" menu item.
+        /// Occurs when the user clicks the "Help -> View License..." menu item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpLicense_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Display license in favorite text editor
+                Process.Start("license.txt");
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening license file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Go to: MPfm Web Site..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpWebsite_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open website in default browser
+                Process.Start("http://www.mp4m.org");                        
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Go to: MPfm Blog..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpBlog_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open website in default browser
+                Process.Start("http://www.mp4m.org/blog");
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Go to: MPfm SourceForge Home Page..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpSourceForge_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open website in default browser
+                Process.Start("https://sourceforge.net/projects/mp4m/");
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Download latest version of MPfm directly from SourceForge..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpDownload_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open website in default browser
+                Process.Start("https://sourceforge.net/projects/mp4m/files/latest/download");
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Go to: MPfm Bug Tracker - Roadmap..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpRoadmap_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open website in default browser
+                Process.Start("http://www.mp4m.org/mantis/roadmap_page.php");
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Go to: MPfm Bug Tracker - Change Log..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void miHelpChangeLog_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open website in default browser
+                Process.Start("http://www.mp4m.org/mantis/changelog_page.php");
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks the "Help -> Go to: MPfm Bug Tracker - Report a new bug..." menu item.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miHelpReportBug_Click(object sender, EventArgs e)
-        {            
-            // Open website in default browser
-            Process.Start("http://www.mp4m.org/mantis");
+        {
+            try
+            {
+                // Display message box
+                if (MessageBox.Show("Thank you for taking the time to report a bug. It is truly appreciated.\n\nTo report a bug in the Mantis bug tracker, you need to login or register a new account. You can only submit bugs in the MPfm/Support project.\n\nFor more information, consult this web page: http://www.mp4m.org/support.", "Report a new bug", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == System.Windows.Forms.DialogResult.OK)
+                {
+                    // Open website in default browser
+                    Process.Start("http://www.mp4m.org/mantis/login_page.php");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Display message box
+                MessageBox.Show("Error: " + ex.Message + "\n" + ex.StackTrace, "Error opening web browser", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
         /// Occurs when the user clicks on the "Help -> About" menu item.
         /// This displays the "About" screen.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miHelpAbout_Click(object sender, EventArgs e)
         {
             // Check if form is already visible
@@ -1518,8 +1662,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Update Library" button on the main form toolbar.
         /// Displays the Update Library Status window and updates the whole library.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnUpdateLibrary_Click(object sender, EventArgs e)
         {
             // Update the whole library
@@ -1530,8 +1674,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Play" button on the main form toolbar.
         /// Plays the selected song query in the Song Browser.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnPlay_Click(object sender, EventArgs e)
         {
             // Start playback of currently selected item
@@ -1542,8 +1686,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Pause" button on the main form toolbar.
         /// Pauses the playback on the player.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnPause_Click(object sender, EventArgs e)
         {
             // Validate player
@@ -1576,8 +1720,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Stop" button on the main form toolbar.
         /// Stops the playback of the player.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnStop_Click(object sender, EventArgs e)
         {
             Stop();
@@ -1587,8 +1731,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Next song" button on the main form toolbar.
         /// Skips to the next song in the playlist.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnNextSong_Click(object sender, EventArgs e)
         {
             // Validate player
@@ -1610,8 +1754,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Previous song" button on the main form toolbar.
         /// Skips to the previous song in the playlist.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnPreviousSong_Click(object sender, EventArgs e)
         {
             // Validate player
@@ -1633,8 +1777,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Repeat Type" button on the main form toolbar.
         /// Iterates through the different repeat types.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnRepeat_Click(object sender, EventArgs e)
         {
             // Cycle through the repeat types
@@ -1659,8 +1803,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Playlist" button on the main form toolbar.
         /// Opens or closes the Playlist window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnPlaylist_Click(object sender, EventArgs e)
         {           
             if (formPlaylist.Visible)
@@ -1680,8 +1824,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Effects" button on the main form toolbar.
         /// Opens or closes the Effects window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnEffects_Click(object sender, EventArgs e)
         {
             if (formEffects.Visible)
@@ -1700,8 +1844,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Visualizer" button on the main form toolbar.
         /// Opens or closes the Visualizer window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnVisualizer_Click(object sender, EventArgs e)
         {
             if (formVisualizer.Visible)
@@ -1720,8 +1864,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Settings" button on the main form toolbar.
         /// Opens or closes the Settings window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnSettings_Click(object sender, EventArgs e)
         {
             formSettings.ShowDialog(this);
@@ -2378,8 +2522,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user holds a mouse button on the Song Position trackbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void trackPosition_MouseDown(object sender, MouseEventArgs e)
         {
             m_songPositionChanging = true;
@@ -2388,8 +2532,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user releases a mouse button on the Song Position trackbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void trackPosition_MouseUp(object sender, MouseEventArgs e)
         {
             // Validate player
@@ -2428,8 +2572,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the mouse cursor moves on the Song Position trackbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void trackPosition_MouseMove(object sender, MouseEventArgs e)
         {
             // Validate player
@@ -2488,8 +2632,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Edit Song Metadata" link in the "Actions" panel.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void linkEditSongMetadata_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Check for null
@@ -2540,8 +2684,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Guitar tabs" link in the "Actions" panel.
         /// Opens the default browser and searches for guitar tabs featuring the current song.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void linkSearchGuitarTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Make sure the player is playing
@@ -2555,8 +2699,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Bass tabs" link in the "Actions" panel.
         /// Opens the default browser and searches for bass tabs featuring the current song.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void linkSearchBassTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Make sure the player is playing
@@ -2570,8 +2714,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Lyrics" link in the "Actions" panel.
         /// Opens the default browser and searches for lyrics featuring the current song.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void linkSearchLyrics_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Make sure the player is playing
@@ -2585,8 +2729,8 @@ namespace MPfm
         /// Occurs when the user clicks on the album art picture box in the "Current Song" panel.
         /// Opens the default browser and searches for album art featuring the current album.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void picAlbum_MouseClick(object sender, MouseEventArgs e)
         {
             // Make sure the player is playing
@@ -2616,8 +2760,8 @@ namespace MPfm
         /// Occurs when the user right clicks on an item of the Song Browser.
         /// Opens up a contextual menu if at least an item is selected.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void menuSongBrowser_Opening(object sender, CancelEventArgs e)
         {
             if (viewSongs2.SelectedItems.Count == 0)
@@ -2658,8 +2802,8 @@ namespace MPfm
         /// Occurs when the user double clicks on an item of the Song Browser.
         /// Plays the selected song query.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void viewSongs2_DoubleClick(object sender, EventArgs e)
         {
             // Start playback of currently selected item
@@ -2669,8 +2813,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Edit Song Metadata" button on the Song Browser toolbar.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnEditSongMetadata_Click(object sender, EventArgs e)
         {
             // Check if at least one item is selected
@@ -2942,8 +3086,8 @@ namespace MPfm
         /// This fires a background worker to fetch the data needed for displaying the
         /// artists, albums, playlists, etc.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void treeLibrary_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             // Check if the arguments are valid
@@ -3015,8 +3159,8 @@ namespace MPfm
         /// <summary>
         /// Occurs just before the user tries to select an item in the Artist/Album browser.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void treeLibrary_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             e.Cancel = true;
@@ -3030,8 +3174,8 @@ namespace MPfm
         /// <summary>
         /// Occurs just after the user selected an item in the Artist/Album browser.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void treeLibrary_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //if (e.Action == TreeViewAction.ByMouse || e.Action == TreeViewAction.Unknown)
@@ -3053,8 +3197,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on a node on the Artist/Album browser.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void treeLibrary_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -3067,8 +3211,8 @@ namespace MPfm
         /// Occurs when the user double clicks on a node on the Artist/Album browser.
         /// Plays the songs from the artist, album or playlist from the item metadata.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void treeLibrary_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             // Check for null
@@ -3088,8 +3232,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Play songs" menu item of the Artist/Album browser contextual menu.
         /// Plays the songs from the artist, album or playlist from the item metadata.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miTreeLibraryPlaySongs_Click(object sender, EventArgs e)
         {
             PlaySelectedView();
@@ -3104,8 +3248,8 @@ namespace MPfm
         /// Gets the album art from the ID3 tags, or folder.jpg, and converts it to a smooth
         /// resized image.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void workerAlbumArt_DoWork(object sender, DoWorkEventArgs e)
         {
             string songPath = (string)e.Argument;
@@ -3127,8 +3271,8 @@ namespace MPfm
         /// Occurs when the background worker for fetching the album art has finished its work.
         /// Updates the picture box with the album art.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void workerAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // Invoke UI updates
@@ -3166,8 +3310,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user double clicks on the application tray icon.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ShowApplication();
@@ -3199,8 +3343,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Show MPfm" menu item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miTrayShowApplication_Click(object sender, EventArgs e)
         {
             ShowApplication();
@@ -3212,8 +3356,8 @@ namespace MPfm
         /// Occurs when the user right clicks on an item of the Artist/Album browser.
         /// Opens up a contextual menu if the user right clicked on a valid item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void menuLibrary_Opening(object sender, CancelEventArgs e)
         {
             // Get the point where the mouse cursor is
@@ -3301,8 +3445,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user changes the sound format filter using the Sound Format combobox.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void comboSoundFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get audio file format
@@ -3328,8 +3472,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Add songs to playlist" menu item of
         /// the Library contextual menu.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void miTreeLibraryAddSongsToPlaylist_Click(object sender, EventArgs e)
         {
             //// Get selected node
@@ -3384,8 +3528,8 @@ namespace MPfm
         /// Occurs when the user types something in the txtSearch textbox. Disables the Search
         /// button when the search query is empty.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             // Refresh song browser
@@ -3395,8 +3539,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the Add songs to playlist button or menu item in the Song Browser.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnAddSongToPlaylist_Click(object sender, EventArgs e)
         {
             // Loop through selected items
@@ -3479,8 +3623,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Add Marker button.
         /// Opens the Add/Edit Marker window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnAddMarker_Click(object sender, EventArgs e)
         {
             // Check if the wave data is loaded
@@ -3496,8 +3640,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Edit Marker button.
         /// Opens the Add/Edit Marker window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnEditMarker_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3518,8 +3662,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Remove Marker button.
         /// Confirms with the user the deletion of the marker.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnRemoveMarker_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3544,8 +3688,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Go To Marker button.
         /// Sets the player position as the currently selecter marker position.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnGoToMarker_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3569,8 +3713,8 @@ namespace MPfm
         /// Occurs when the user double-clicks on the Marker grid view.
         /// Sets the player position as the currently selecter marker position.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void viewMarkers_DoubleClick(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3594,8 +3738,8 @@ namespace MPfm
         /// Occurs when the user changes the selection on the Markers grid view.
         /// Enables/disables marker buttons.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void viewMarkers_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             // Enable/disable marker buttons
@@ -3621,8 +3765,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Add Loop button.
         /// Opens the Add/Edit Loop window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnAddLoop_Click(object sender, EventArgs e)
         {
             // Check if the wave data is loaded
@@ -3648,8 +3792,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Edit Loop button.
         /// Opens the Add/Edit Loop window.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnEditLoop_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3670,8 +3814,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Remove Loop button.
         /// Confirms with the user the deletion of the loop.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnRemoveLoop_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3696,8 +3840,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Play Loop button.
         /// Starts the playback of a loop.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnPlayLoop_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3746,8 +3890,8 @@ namespace MPfm
         /// Occurs when the user has clicked on the Stop Loop button.
         /// Stops the playback of a loop.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnStopLoop_Click(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3771,8 +3915,8 @@ namespace MPfm
         /// Occurs when the user changes the selection on the Loops grid view.
         /// Enables/disables loop buttons.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void viewLoops_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             // Enable/disable loop buttons
@@ -3808,8 +3952,8 @@ namespace MPfm
         /// Occurs when the user double-clicks on the Loops grid view.
         /// Sets the current loop as the currently selected item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void viewLoops_DoubleClick(object sender, EventArgs e)
         {
             // Check if an item is selected
@@ -3890,11 +4034,6 @@ namespace MPfm
                 treeLibrary.Height += 102;
                 panelUpdateLibraryProgress.Visible = false;
             }
-        }
-
-        private void btnCancelUpdateLibrary_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 

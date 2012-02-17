@@ -425,7 +425,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="pe">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs pe)
         {
             // Get graphics from event
@@ -530,7 +530,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the user double clicks on the control.
         /// Expands the header if the cursor is in the header area.
         /// </summary>
-        /// <param name="e">Mouse Event Arguments</param>
+        /// <param name="e">Mouse Event arguments</param>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);

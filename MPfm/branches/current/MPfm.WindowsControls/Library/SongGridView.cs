@@ -881,7 +881,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="e">Paint Event Arguments</param>
+        /// <param name="e">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             // Check if the library is valid
@@ -1729,7 +1729,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the control is resized.
         /// Invalidates the cache.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnResize(EventArgs e)
         {
             // Bug when putting window in maximized mode: black area at the bottom
@@ -1753,8 +1753,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user changes the horizontal scrollbar value.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         protected void m_hScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             // If the 
@@ -1766,8 +1766,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user changes the vertical scrollbar value.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         protected void m_vScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             // Redraw control
@@ -1781,7 +1781,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor enters on the control.        
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseEnter(EventArgs e)
         {
             // Set flags
@@ -1793,7 +1793,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor leaves the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseLeave(EventArgs e)
         {
             // Set flags
@@ -1865,7 +1865,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user is pressing down a mouse button.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             // Set flags
@@ -1904,7 +1904,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user releases a mouse button.        
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Reset flags
@@ -2070,7 +2070,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the user clicks on the control.
         /// Selects or unselects items, reorders columns.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseClick(MouseEventArgs e)
         {
             // Check if all the data is valid
@@ -2319,7 +2319,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the user double-clicks on the control.
         /// Starts the playback of a new song.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             // Check if all the data is valid
@@ -2384,7 +2384,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the mouse pointer is moving over the control.
         /// Manages the display of mouse on/off visual effects.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Declare variables
@@ -2914,8 +2914,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// This timer triggers the animation of the currently playing song.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         protected void m_timerAnimationNowPlaying_Tick(object sender, EventArgs e)
         {
             // If the rectangle is "empty", do not trigger invalidation

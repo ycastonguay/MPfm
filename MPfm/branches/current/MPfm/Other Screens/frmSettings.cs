@@ -186,8 +186,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the form is about to close.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.ApplicationExitCall)
@@ -595,8 +595,8 @@ namespace MPfm
         /// Occurs when the user clicks on the Add Folder button. The user must select
         /// a path to add to the library.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnAddFolder_Click(object sender, EventArgs e)
         {
             if (dialogAddFolder.ShowDialog() == DialogResult.OK)
@@ -641,8 +641,8 @@ namespace MPfm
         /// dialog box to make sure if he/she wants to remove the folders. The user is also prompted with a dialog box
         /// if he/she wants to remove the songs from the folders from the library.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnRemoveFolder_Click(object sender, EventArgs e)
         {
             // If no items are selected, return immediately
@@ -701,8 +701,8 @@ namespace MPfm
         /// Occurs when the user tries to change the width of a column. This blocks the user from
         /// doing so.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void listViewFolders_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             e.Cancel = true;
@@ -711,8 +711,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Update Library" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnUpdateLibrary_Click(object sender, EventArgs e)
         {
             // Display the update library window and update the whole library
@@ -790,8 +790,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user selects a driver or an output type using the combo boxes.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void cboDriverOrOutputType_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Set flags
@@ -992,8 +992,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Show tray" check box.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void chkShowTray_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the show tray is checked

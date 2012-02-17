@@ -575,8 +575,8 @@
 //        /// <summary>
 //        /// Occurs when the user changes the horizontal scrollbar value.
 //        /// </summary>
-//        /// <param name="sender">Event Sender</param>
-//        /// <param name="e">Event Arguments</param>
+//        /// <param name="sender">Event sender</param>
+//        /// <param name="e">Event arguments</param>
 //        protected void m_hScrollBar_Scroll(object sender, ScrollEventArgs e)
 //        {
 //            // If the 
@@ -588,8 +588,8 @@
 //        /// <summary>
 //        /// Occurs when the user changes the vertical scrollbar value.
 //        /// </summary>
-//        /// <param name="sender">Event Sender</param>
-//        /// <param name="e">Event Arguments</param>
+//        /// <param name="sender">Event sender</param>
+//        /// <param name="e">Event arguments</param>
 //        protected void m_vScrollBar_Scroll(object sender, ScrollEventArgs e)
 //        {
 //            // Redraw control
@@ -616,7 +616,7 @@
 //        /// <summary>
 //        /// Occurs when the control needs to be painted.
 //        /// </summary>
-//        /// <param name="e">Paint Event Arguments</param>
+//        /// <param name="e">Paint Event arguments</param>
 //        protected override void OnPaint(PaintEventArgs e)
 //        {
 
@@ -966,7 +966,7 @@
 //        /// Occurs when the control is resized.
 //        /// Invalidates the cache.
 //        /// </summary>
-//        /// <param name="e">Event Arguments</param>
+//        /// <param name="e">Event arguments</param>
 //        protected override void OnResize(EventArgs e)
 //        {
 //            base.OnResize(e);

@@ -232,8 +232,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Save Log" link.
         /// Displays a "Save file to" dialog and saves the log as a text file.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void linkSaveLog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Generate the name of the log
@@ -503,8 +503,8 @@ namespace MPfm
         /// Occurs when the background worker for the Update Library is started.
         /// This is the method that refreshes the UI.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void workerTimer_DoWork(object sender, DoWorkEventArgs e)
         {
             // Loop until timer is over
@@ -545,8 +545,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the background worker receives an update for the progress.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void workerTimer_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             // Update time

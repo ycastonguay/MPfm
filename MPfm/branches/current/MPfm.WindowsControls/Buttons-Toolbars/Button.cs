@@ -360,7 +360,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="e">Paint Event Arguments</param>
+        /// <param name="e">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             // Create a bitmap the size of the form.
@@ -579,7 +579,7 @@ namespace MPfm.WindowsControls
         /// Paints the background of the control. This event is empty to prevent
         /// calls to OnPaintBackground.
         /// </summary>
-        /// <param name="pevent">Paint Event Arguments</param>
+        /// <param name="pevent">Paint Event arguments</param>
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
             // Do not allow to paint the background            
@@ -592,7 +592,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor enters the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseEnter(EventArgs e)
         {
             m_isMouseOver = true;
@@ -603,7 +603,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor leaves the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseLeave(EventArgs e)
         {                        
             m_isMouseOver = false;

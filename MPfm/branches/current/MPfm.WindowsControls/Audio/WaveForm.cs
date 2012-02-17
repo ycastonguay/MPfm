@@ -229,7 +229,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="pe">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs pe)
         {
             Pen pen = null;

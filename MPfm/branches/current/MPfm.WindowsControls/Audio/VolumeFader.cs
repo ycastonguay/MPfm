@@ -415,8 +415,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the fader value changes.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public delegate void FaderValueChanged(object sender, EventArgs e);
         /// <summary>
         /// Hook for the fader value changed event.
@@ -440,7 +440,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="pe">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs pe)
         {            
             // Declare variables
@@ -615,7 +615,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse button is down.
         /// </summary>
-        /// <param name="e">Mouse Event Arguments</param>
+        /// <param name="e">Mouse Event arguments</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             m_mouseButtonDown = true;
@@ -641,7 +641,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse button is released.
         /// </summary>
-        /// <param name="e">Mouse Event Arguments</param>
+        /// <param name="e">Mouse Event arguments</param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Check if the track bar was moving (mouse down)
@@ -694,7 +694,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor moves over the control.
         /// </summary>
-        /// <param name="e">Mouse Event Arguments</param>
+        /// <param name="e">Mouse Event arguments</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Set value changed flag default to false

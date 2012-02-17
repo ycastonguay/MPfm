@@ -695,8 +695,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user clicks on one of the Wave Form Display Type sub menu items.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void menuItemWaveFormDisplayType_Click(object sender, EventArgs e)
         {
             // Make sure the sender is the menu item
@@ -726,8 +726,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user clicks on one of the Zoom sub menu items.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void menuItemZoom_Click(object sender, EventArgs e)
         {
             // Make sure the sender is the menu item
@@ -775,8 +775,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user clicks on one of the MouseInteractionType sub menu items.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void menuItemMouseInteractionType_Click(object sender, EventArgs e)
         {
             // Make sure the sender is the menu item
@@ -820,8 +820,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user clicks on the "Display current time position" menu item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void menuItemDisplayCurrentPosition_Click(object sender, EventArgs e)
         {
             DisplayCurrentPosition = menuItemDisplayCurrentPosition.Checked;
@@ -830,8 +830,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user clicks on the "Auto scroll with cursor" menu item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void menuItemAutoScrollWithCursor_Click(object sender, EventArgs e)
         {
             AutoScrollWithCursor = menuItemAutoScrollWithCursor.Checked;
@@ -840,8 +840,8 @@ namespace MPfm.WindowsControls
         /// <summary>            
         /// Occurs when the user clicks on the "Create marker at this position" menu item.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         public void menuItemCreateMarkerAtThisPosition_Click(object sender, EventArgs e)
         {
 
@@ -1135,7 +1135,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the control needs to be painted.
         /// </summary>
-        /// <param name="pe">Paint Event Arguments</param>
+        /// <param name="pe">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs pe)
         {
             // Declare variables
@@ -2076,7 +2076,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the mouse pointer is moving over the control.
         /// Manages the display of mouse on/off visual effects.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Check if the mouse cursor is over the toolbar
@@ -2113,7 +2113,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the mouse cursor leaves the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseLeave(EventArgs e)
         {
             // Check if any element needs to be refreshed
@@ -2135,7 +2135,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Occurs when the user is pressing down a mouse button.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -2145,7 +2145,7 @@ namespace MPfm.WindowsControls
         /// Occurs when the user releases a mouse button.
         /// Manages the clicking on the different areas of the control.
         /// </summary>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="e">Event arguments</param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // If the history is empty, cancel any mouse action

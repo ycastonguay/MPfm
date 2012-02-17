@@ -116,8 +116,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Close" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
             // Hide the form
@@ -126,8 +126,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Save" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             // Get PCM and PCM bytes values
@@ -183,8 +183,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Punch in" button.
         /// Sets the marker position to the current playback position.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnPunchIn_Click(object sender, EventArgs e)
         {
             // Check if the player is currently playing
@@ -208,8 +208,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Go to" button.
         /// Sets the player position to the current marker position.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnGoTo_Click(object sender, EventArgs e)
         {
             // Check if the player is currently playing
@@ -228,8 +228,8 @@ namespace MPfm
         /// Occurs when the user changes the name of the marker.
         /// Enables/disables the Save button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             // Validate form
@@ -239,8 +239,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user changes the position value.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void txtPosition_TextChanged(object sender, EventArgs e)
         {
             // Convert 0:00.000 to MS

@@ -1526,7 +1526,7 @@
             <typeparam name="T">Specifies the type of data returned by the Task.</typeparam>
             <typeparam name="E">Specifies the type of data provided to progress callbacks.</typeparam>
             <param name="tcs">The TaskCompletionsource.</param>
-            <param name="eventArgs">The progress event arguments.</param>
+            <param name="eventArgs">The progress Event arguments.</param>
             <param name="getProgress">A function to retrieve the progress data to publish.</param>
             <param name="callback">The progress callback.</param>
         </member>
@@ -1536,7 +1536,7 @@
             </summary>
             <typeparam name="T">Specifies the type of data returned by the Task.</typeparam>
             <param name="tcs">The TaskCompletionSource.</param>
-            <param name="e">The completion event arguments.</param>
+            <param name="e">The completion Event arguments.</param>
             <param name="requireMatch">Whether we require the tcs to match the e.UserState.</param>
             <param name="getResult">A function that gets the result with which to complete the task.</param>
             <param name="unregisterHandler">An action used to unregister work when the operaiton completes.</param>

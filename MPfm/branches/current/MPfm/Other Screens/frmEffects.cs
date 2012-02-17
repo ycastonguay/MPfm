@@ -79,8 +79,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the form is about to close.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void frmEffects_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.ApplicationExitCall)
@@ -202,8 +202,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Auto Level" button. Auto levels the
         /// equalizer values.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnAutoLevel_Click(object sender, EventArgs e)
         {
             // Declare variables
@@ -349,8 +349,8 @@ namespace MPfm
         /// <summary>
         /// Occurs when the user clicks on the "Delete preset" button.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnDeletePreset_Click(object sender, EventArgs e)
         {
             // Check if equalizer exists            
@@ -435,8 +435,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "EQ on" check box. Enables or
         /// disables the equalizer.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form has loaded
@@ -470,8 +470,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Reset EQ" button. Resets the values
         /// of the equalizer to 0.
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnResetEQ_Click(object sender, EventArgs e)
         {
             // Reset equalizer
@@ -560,10 +560,10 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user changes the value of a fader. This event is dynamic based on the event sender (fader).
+        /// Occurs when the user changes the value of a fader. This event is dynamic based on the Event sender (fader).
         /// </summary>
-        /// <param name="sender">Event Sender</param>
-        /// <param name="e">Event Arguments</param>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void fader_ValueChanged(object sender, EventArgs e)
         {
             // Get track bar
