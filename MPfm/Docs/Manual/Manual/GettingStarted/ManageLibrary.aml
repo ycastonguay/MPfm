@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="83a6f203-665e-4cbb-857e-ea8c3cdfa487" revisionNumber="1">
+  <developerWalkthroughDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>        
+        The library is where the audio file metadata are saved and cached for improving search performance.
+        You can manage your library by adding and removing audio files through different options:
+      </para>
+    </introduction>
+    
+    <procedure>
+      <title>Adding audio files from a specific folder</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, click on the <ui>File > Add folder to library...</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select a folder to add to the library and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            A dialog box will be shown and the audio files from this folder will be added to the library.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    
+    <procedure>
+      <title>Adding specific audio files from a folder</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, click on the <ui>File > Add files to library...</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select the audio files to add to the library and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            A dialog box will be shown and the selected audio files will be added to the library.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Removing folders from the library</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, click on the <ui>Windows > Settings</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select on the <ui>Library</ui> tab. Select a folder and click on the <ui>Remove folder(s)</ui> button.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              A message box will be shown, asking if you want to remove the audio files from the library. If you wish to 
+              remove the audio files from the library, click on the <ui>Yes</ui> button.
+            </para>
+            <alert class="note">
+              <para>
+                The audio files will not be deleted from your hard disk. They will be simply removed from the library cache.
+              </para>
+            </alert>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The folder will be removed from the library.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Remove all audio files from the library</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, click on the <ui>Windows > Settings</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select on the <ui>Library</ui> tab. Select a folder and click on the <ui>Reset Library</ui> button.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Confirm that you wish to remove all audio files from the library by clicking on the <ui>OK</ui> button.
+            </para>
+            <alert class="note">
+              <para>
+                The audio files will not be deleted from your hard disk. They will be simply removed from the library cache.
+              </para>
+            </alert>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The library will be empty.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="2f430833-68c1-4e5c-96fd-d42cfa282a0f">Playing audio files</link>
+          </definedTerm>
+          <definition>
+            <para>
+              After adding some audio files to your library, it is time to start playing some music.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
+
+  </developerWalkthroughDocument>
+</topic>

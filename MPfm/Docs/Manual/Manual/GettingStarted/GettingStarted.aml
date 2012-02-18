@@ -7,8 +7,7 @@
     <summary>
       <para>The topics in this section will help you use MPfm as a practice tool for your instrument, or to simply use MPfm as a music player.</para>
     </summary>
-    <introduction>
-      
+    <introduction>      
     </introduction>
 
     <section address="sectionPages">
@@ -26,11 +25,11 @@
           </definition>
 
           <definedTerm>
-            <link xlink:href="83a6f203-665e-4cbb-857e-ea8c3cdfa487">Adding audio files to the library</link>
+            <link xlink:href="83a6f203-665e-4cbb-857e-ea8c3cdfa487">Managing your library</link>
           </definedTerm>
           <definition>
             <para>
-              This page shows the different methods how to add audio files to the library.
+              This page displays the different methods how to add and remove audio files from the library.
             </para>
           </definition>
 
@@ -48,7 +47,7 @@
           </definedTerm>
           <definition>
             <para>
-              This page shows how to use markers to skip to specific positions inside an audio file.
+              This page has information on how to use markers to skip to specific positions inside an audio file.
             </para>
           </definition>
 
@@ -57,23 +56,66 @@
           </definedTerm>
           <definition>
             <para>
-              This page shows you how to use loops to loop through sections of an audio file.
+              This page has information on you how to use loops to loop through sections of an audio file.
             </para>
           </definition>
 
+          <definedTerm>
+            <link xlink:href="aaf3e8a9-9ce8-4ab5-985a-e869d6c26836">Using time shifting</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page can help you use time shifting to slow down or speed up audio files.
+            </para>
+          </definition>
+          
+          <definedTerm>
+            <link xlink:href="7fdf1471-f068-4145-a8f4-6f5b81fa3a8f">Using the 18-band equalizer</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page shows how to use the professional quality 18-band equalizer.
+            </para>
+          </definition>
+          
+          <definedTerm>
+            <link xlink:href="8891d45b-cc93-467a-b09e-689d5f4a160f">Editing song metadata</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page has information on how to view and edit audio file metadata.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="8ece2263-1a98-4424-b389-1822cdc46f56">Creating and editing playlists</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page can help you create and edit playlists.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="35faaf6e-b1b6-4ca3-9dfd-dd471fb9f86d">Quick tips</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page has a list of quick tips to maximize the use of MPfm.
+            </para>
+          </definition>
         </definitionTable>
       </content>
     </section>
     
     <!-- Coming soon: 
-    
-    - using time shifting
+        
     - change audio settings
     - using themes
     - using equalizer
     - creating and editing playlists
     - edit song metadata
-    
+    - configure song browser    
     
     Reference section
     - Explain in detail every screen and what the option does. Link F1 action from application to these topics.

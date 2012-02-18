@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="8891d45b-cc93-467a-b09e-689d5f4a160f" revisionNumber="1">
+  <developerWalkthroughDocument
+   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        MPfm supports viewing and editing audio file metadata in different tag formats (ID3, APE, etc.) through the
+        <ui>Edit Song Metadata</ui> window.
+      </para>
+    </introduction>
+
+    <procedure>
+      <title>View or edit song metadata</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, select a file in the <ui>Song Browser</ui> and click on the <ui>Edit song metadata</ui> button.
+            </para>
+            <para>
+              <ui>or</ui>
+            </para>
+            <para>
+              From the <ui>Main</ui> window, while an audio file is playing, click on the <ui>Edit song metadata</ui> in the <ui>Actions</ui> section.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Edit any of the values in the <ui>Master Tags</ui> property grid section and click on the <ui>Save</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The audio file metadata has been updated.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="8ece2263-1a98-4424-b389-1822cdc46f56">Creating and editing playlists</link>
+          </definedTerm>
+          <definition>
+            <para>
+              With MPfm, you can create and edit playlists in different formats (M3U, M3U8, PLS, XSPF).
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
+    <!-- see also: Effects window -->
+  </developerWalkthroughDocument>
+</topic>

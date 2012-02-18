@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="aaf3e8a9-9ce8-4ab5-985a-e869d6c26836" revisionNumber="1">
+  <developerWalkthroughDocument
+   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        Time shifting can be used to slow down audio files to make it easier to pick musical parts by ear. You can also speed up audio files
+        if you want to practice songs faster than the original tempo.
+      </para>
+    </introduction>
+
+    <procedure>
+      <title>Slow down or speed up playback</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, while an audio file is playing, use the <ui>Time shifting</ui> track bar in the <ui>Song Information</ui> section.
+              The playback speed can be slowed down to 50% or speed up to 150%.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The playback speed has been slowed down or sped up.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Reset time shifting</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, while an audio file is playing, click on the <ui>Reset</ui> link in the <ui>Time Shifting</ui> section.              
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The playback speed has reset to 100%.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="7fdf1471-f068-4145-a8f4-6f5b81fa3a8f">Using the 18-band equalizer</link>
+          </definedTerm>
+          <definition>
+            <para>
+              Learn how to use the 18-band equalizer to add loudness to your music.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
+  </developerWalkthroughDocument>
+</topic>

@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="7fdf1471-f068-4145-a8f4-6f5b81fa3a8f" revisionNumber="1">
+  <developerWalkthroughDocument
+   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        MPfm features a professional quality 18-band equalizer from the BASS audio library. You can use presets to save 
+        equalizer values for later use.
+      </para>
+    </introduction>
+
+    <procedure>
+      <title>Load an equalizer preset</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, click on the <ui>File > Effects</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select a preset using the <ui>Preset</ui> combo box. Make sure the <ui>EQ</ui> checkbox is on.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            An equalizer preset has been selected.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Save an equalizer preset</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Effects</ui> window, type a name for the preset in the <ui>Name</ui> text box.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Save preset</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            An equalizer preset has been saved.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Delete an equalizer preset</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Effects</ui> window, select a preset using the <ui>Preset</ui> combo box.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Delete preset</ui> button. Confirm the preset suppression.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            An equalizer preset has been deleted.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Enable or disable the equalizer</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Effects</ui> window, click on the <ui>EQ</ui> check box.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The equalizer has been enabled or disabled.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Reset equalizer</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Effects</ui> window, click on the <ui>Reset EQ</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The equalizer has been reset.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Auto level equalizer values</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Effects</ui> window, select a preset using the <ui>Preset</ui> combo box.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Auto Level</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The equalizer values have been leveled.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <!-- see also: Effects window -->
+
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="8891d45b-cc93-467a-b09e-689d5f4a160f">Editing song metadata</link>
+          </definedTerm>
+          <definition>
+            <para>
+              The next page shows how to view and edit audio file metadata.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
+  </developerWalkthroughDocument>
+</topic>

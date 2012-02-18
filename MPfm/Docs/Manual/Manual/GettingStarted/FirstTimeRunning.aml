@@ -104,11 +104,11 @@
       <content>
         <definitionTable>
           <definedTerm>
-            <link xlink:href="83a6f203-665e-4cbb-857e-ea8c3cdfa487">Adding audio files to the library</link>
+            <link xlink:href="83a6f203-665e-4cbb-857e-ea8c3cdfa487">Managing your library</link>
           </definedTerm>
           <definition>
             <para>
-              After starting the application for the first time, you should add audio files to the library.
+              After starting the application for the first time, it is now time to add some audio files to your library.
             </para>
           </definition>
         </definitionTable>

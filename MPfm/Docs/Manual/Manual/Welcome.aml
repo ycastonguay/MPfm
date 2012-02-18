@@ -29,6 +29,15 @@
         <definitionTable>
 
           <definedTerm>
+            <link xlink:href="1b3c178f-568b-40f4-bd7f-e69393078087">Glossary</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page is a list of the commonly used terms in this help file and in the MPfm application.
+            </para>
+          </definition>
+          
+          <definedTerm>
             <link xlink:href="6d6aa4db-8915-4d90-8fd1-86a70aa5f68c">Features</link>
           </definedTerm>
           <definition>
@@ -54,15 +63,6 @@
               This page contains information on how to submit new bugs, how to view the roadmap, change log, and more.
             </para>
           </definition>
-
-          <definedTerm>
-            <link xlink:href="1b3c178f-568b-40f4-bd7f-e69393078087">Glossary</link>
-          </definedTerm>
-          <definition>
-            <para>
-              This page is a list of the commonly used terms in this help file and in the MPfm application.
-            </para>
-          </definition>
         </definitionTable>
       </content>
     </section>
@@ -78,6 +78,13 @@
           <definition>
             <para>
               This section has a few walkthroughs on how to add audio files to the library, add loops and markers, and more.
+            </para>
+          </definition>
+
+          <definedTerm>Window Reference</definedTerm>
+          <definition>
+            <para>
+              Coming soon.
             </para>
           </definition>
 

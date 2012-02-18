@@ -21,7 +21,7 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, click on the <ui>Add loop</ui> button in the <ui>Loops and Markers</ui> section.
+              From the <ui>Main</ui> window, while the audio file is playing, click on the <ui>Add loop</ui> button in the <ui>Loops and Markers</ui> section.
             </para>
           </content>
         </step>
@@ -70,7 +70,7 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, select the loop in the the <ui>Loops and Markers</ui> section and click on the
+              From the <ui>Main</ui> window, while the audio file is playing, select the loop in the the <ui>Loops and Markers</ui> section and click on the
               <ui>Edit loop</ui> button.
             </para>
           </content>
@@ -105,7 +105,7 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, select the loop in the the <ui>Loops and Markers</ui> section and click on the
+              From the <ui>Main</ui> window, while the audio file is playing, select the loop in the the <ui>Loops and Markers</ui> section and click on the
               <ui>Remove loop</ui> button.
             </para>
           </content>
@@ -126,14 +126,14 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, select the loop in the the <ui>Loops and Markers</ui> section and click on the
+              From the <ui>Main</ui> window, while the audio file is playing, select the loop in the the <ui>Loops and Markers</ui> section and click on the
               <ui>Play loop</ui> button.
             </para>
             <para>
               <ui>or</ui>
             </para>
             <para>
-              While the audio file is playing, double-click on the loop in the the <ui>Loops and Markers</ui> section.
+              From the <ui>Main</ui> window, while the audio file is playing, double-click on the loop in the the <ui>Loops and Markers</ui> section.
             </para>
           </content>
         </step>
@@ -153,7 +153,7 @@
         <step>
           <content>
             <para>
-              While a loop is currently playing, click on the <ui>Stop loop</ui> button in the the <ui>Loops and Markers</ui> section.
+              From the <ui>Main</ui> window, while a loop is currently playing, click on the <ui>Stop loop</ui> button in the the <ui>Loops and Markers</ui> section.
             </para>
           </content>
         </step>
@@ -166,5 +166,20 @@
         </content>
       </conclusion>
     </procedure>
+    
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="aaf3e8a9-9ce8-4ab5-985a-e869d6c26836">Using time shifting</link>
+          </definedTerm>
+          <definition>
+            <para>
+              Use time shifting to slow down audio files to pick musical parts by ear.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
   </developerWalkthroughDocument>
 </topic>

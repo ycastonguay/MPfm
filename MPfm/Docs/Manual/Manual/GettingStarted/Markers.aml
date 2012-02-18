@@ -6,7 +6,7 @@
 
     <introduction>
       <para>
-        Markers can be added to audio files to quickly skip to specific positions while practicing your instrument.
+        Markers can be added to audio files to quickly skip to specific positions within an audio file while practicing your instrument.
       </para>
     </introduction>
 
@@ -21,7 +21,7 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, click on the <ui>Add marker</ui> button in the <ui>Loops and Markers</ui> section.
+              From the <ui>Main</ui> window, while the audio file is playing, click on the <ui>Add marker</ui> button in the <ui>Loops and Markers</ui> section.
             </para>
           </content>
         </step>
@@ -70,7 +70,7 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
+              From the <ui>Main</ui> window, while the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
               <ui>Edit marker</ui> button.
             </para>
           </content>
@@ -106,7 +106,7 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
+              From the <ui>Main</ui> window, while the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
               <ui>Remove marker</ui> button.
             </para>
           </content>
@@ -127,14 +127,14 @@
         <step>
           <content>
             <para>
-              While the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
+              From the <ui>Main</ui> window, while the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
               <ui>Go to</ui> button.
             </para>
             <para>
               <ui>or</ui>
             </para>
             <para>
-              While the audio file is playing, double-click on the marker in the the <ui>Loops and Markers</ui> section.
+              From the <ui>Main</ui> window, while the audio file is playing, double-click on the marker in the the <ui>Loops and Markers</ui> section.
             </para>
           </content>
         </step>
@@ -147,6 +147,20 @@
         </content>
       </conclusion>
     </procedure>
-    
+
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="109e42cc-7883-4db6-80fb-dde5abf2cdc2">Using loops</link>
+          </definedTerm>
+          <definition>
+            <para>
+              Use loops to practice sections of an audio file with your instrument.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
   </developerWalkthroughDocument>
 </topic>

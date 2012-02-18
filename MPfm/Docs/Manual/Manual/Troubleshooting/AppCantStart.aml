@@ -7,7 +7,7 @@
     <introduction>
       <para>
         If the application cannot start anymore, it can be because the configuration file contains invalid configuration values.
-        To reset the configuration file, follow the following steps:
+        To reset and delete the configuration file, follow the following steps:
       </para>
     </introduction>
 
@@ -17,7 +17,7 @@
         <step>
           <content>
             <para>
-              Open <ui>Windows Explorer</ui> and go to <system>C:\Documents and Settings\%username%\Application Data\</system>, where
+              Open <ui>Windows Explorer</ui> and go to <system>C:\Documents and Settings\%username%\Application Data\MPfm\</system>, where
               <legacyItalic>%username%</legacyItalic> is your Windows user name.              
             </para>
           </content>        
@@ -45,7 +45,7 @@
         <step>
           <content>
             <para>
-              Open <ui>Windows Explorer</ui> and go to <system>C:\Users\%username%\AppData\Roaming\</system>, where
+              Open <ui>Windows Explorer</ui> and go to <system>C:\Users\%username%\AppData\Roaming\MPfm\</system>, where
               <legacyItalic>%username%</legacyItalic> is your Windows user name.              
             </para>
           </content>

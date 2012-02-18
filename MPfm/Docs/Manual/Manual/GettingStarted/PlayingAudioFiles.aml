@@ -21,7 +21,7 @@
         <step>
           <content>
             <para>
-              Browse through the library using the <ui>Library Browser</ui> and the <ui>Song Browser</ui>.
+              From the <ui>Main</ui> window, browse through the library using the <ui>Library Browser</ui> and the <ui>Song Browser</ui>.
             </para>
           </content>
         </step>
@@ -47,13 +47,14 @@
         </content>
       </conclusion>
     </procedure>
+    
     <procedure>
       <title>If the audio files are not part of the library</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              Click on the <ui>File > Open audio file(s)...</ui> menu item.
+              From the <ui>Main</ui> window, click on the <ui>File > Open audio file(s)...</ui> menu item.
             </para>
           </content>
         </step>
@@ -74,13 +75,14 @@
         </content>
       </conclusion>
     </procedure>
+    
     <procedure>
       <title>If the playlist file is part of the library</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              From the <ui>Playlist Window</ui>, click on the <ui>Load playlist</ui> button, click on the <ui>Library playlists</ui> menu item and select the playlist to play.
+              From the <ui>Playlist</ui> window, click on the <ui>Load playlist</ui> button, click on the <ui>Library playlists</ui> menu item and select the playlist to play.
             </para>
           </content>
         </step>
@@ -93,19 +95,20 @@
         </content>
       </conclusion>
     </procedure>
+    
     <procedure>
       <title>If the playlist file is not part of the library</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              Click on the <ui>File > Open audio file(s)...</ui> menu item.
+              From the <ui>Main</ui> window, click on the <ui>File > Open audio file(s)...</ui> menu item.
             </para>
             <para>
               <ui>or</ui>
             </para>
             <para>
-              From the <ui>Playlist Window</ui>, click on the <ui>Load playlist</ui> button and click on the <ui>Browse...</ui> menu item.
+              From the <ui>Playlist</ui> window, click on the <ui>Load playlist</ui> button and click on the <ui>Browse...</ui> menu item.
             </para>
           </content>          
         </step>
@@ -126,6 +129,20 @@
         </content>
       </conclusion>
     </procedure>
-
+    
+    <nextSteps>
+      <content>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="055fe2a2-b75a-496c-a37d-a8304f99c042">Using markers</link>
+          </definedTerm>
+          <definition>
+            <para>
+              Use markers to skip to specific positions in an audio file.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </nextSteps>
   </developerWalkthroughDocument>
 </topic>

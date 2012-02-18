@@ -91,14 +91,24 @@
     <ContentLayout Include="Content.content" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GettingStarted\EditMetadata.aml" />
     <None Include="GettingStarted\Loops.aml" />
     <None Include="GettingStarted\Markers.aml" />
     <None Include="GettingStarted\GettingStarted.aml" />
     <None Include="GettingStarted\FirstTimeRunning.aml" />
-    <None Include="GettingStarted\AddingAudioFiles.aml" />
+    <None Include="GettingStarted\ManageLibrary.aml" />
     <None Include="GettingStarted\PlayingAudioFiles.aml" />
+    <None Include="GettingStarted\Playlists.aml" />
+    <None Include="GettingStarted\QuickTips.aml" />
+    <None Include="GettingStarted\TimeShifting.aml" />
+    <None Include="GettingStarted\EQ.aml" />
     <None Include="Glossary.aml" />
     <None Include="License.aml" />
+    <None Include="Reference\FirstRun.aml" />
+    <None Include="Reference\Main.aml" />
+    <None Include="Reference\MainCurrentSong.aml" />
+    <None Include="Reference\Reference.aml" />
+    <None Include="Reference\MainSongBrowser.aml" />
     <None Include="Support.aml" />
     <None Include="Troubleshooting\Troubleshooting.aml" />
     <None Include="Troubleshooting\NoSound.aml" />
@@ -108,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GettingStarted" />
+    <Folder Include="Reference" />
     <Folder Include="Troubleshooting" />
   </ItemGroup>
   <ItemGroup>

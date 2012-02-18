@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="35faaf6e-b1b6-4ca3-9dfd-dd471fb9f86d" revisionNumber="1">
+  <developerWalkthroughDocument
+   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        Here is a list of quick tips on the few hidden features of MPfm:
+      </para>
+    </introduction>
+
+    <procedure>
+      <title>Search the web for lyrics, guitar tabs or bass tabs while a song is playing</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Main</ui> window, while an audio file is playing, click on the following links in the <ui>Actions</ui> section.
+            </para>
+            <list class="bullet">
+              <listItem>
+                <para>Guitar tabs</para>                
+              </listItem>
+              <listItem>
+                <para>Bass tabs</para>
+              </listItem>
+              <listItem>
+                <para>Lyrics</para>
+              </listItem>
+            </list>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+
+    <!-- see also: Effects window -->
+  </developerWalkthroughDocument>
+</topic>

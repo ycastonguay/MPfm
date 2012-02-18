@@ -1,34 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<topic id="83a6f203-665e-4cbb-857e-ea8c3cdfa487" revisionNumber="1">
+<topic id="8ece2263-1a98-4424-b389-1822cdc46f56" revisionNumber="1">
   <developerWalkthroughDocument
-    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+  xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <introduction>
       <para>
-        Audio files can be added to the library using any of the following methods:
+        You can create and edit playlists in different formats (M3U, M3U8, PLS, XSPF) using MPfm.
       </para>
     </introduction>
 
-    <!--<prerequisites>
-      <content
-        <para>Stuff</para>
-      </content></prerequisites>-->
-    
     <procedure>
-      <title>Adding audio files from a specific folder</title>
+      <title>Create a new playlist</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              Click on the <ui>File > Add folder to library...</ui> menu item.
+              From the <ui>Main</ui> window, click on the <ui>Windows > Playlist</ui> menu item.
             </para>
           </content>
         </step>
         <step>
           <content>
             <para>
-              Select a folder to add to the library and click on the <ui>OK</ui> button.
+              Click on the <ui>New playlist</ui> button.
             </para>
           </content>
         </step>
@@ -36,25 +31,26 @@
       <conclusion>
         <content>
           <para>
-            A dialog box will be shown and the audio files from this folder will be added to the library.
+            A new playlist has been created.
           </para>
         </content>
       </conclusion>
     </procedure>
+
     <procedure>
-      <title>Adding specific audio files</title>
+      <title>Save playlist</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              Click on the <ui>File > Add files to library...</ui> menu item.
+              From the <ui>Playlist</ui> window, click on the <ui>Save playlist</ui> button.
             </para>
           </content>
         </step>
         <step>
           <content>
             <para>
-              Select the audio files to add to the library and click on the <ui>OK</ui> button.
+              Select a file name for the playlist and click on the <ui>OK</ui> button.
             </para>
           </content>
         </step>
@@ -62,7 +58,7 @@
       <conclusion>
         <content>
           <para>
-            A dialog box will be shown and the selected audio files will be added to the library.
+            The playlist has been saved.
           </para>
         </content>
       </conclusion>
@@ -72,16 +68,16 @@
       <content>
         <definitionTable>
           <definedTerm>
-            <link xlink:href="2f430833-68c1-4e5c-96fd-d42cfa282a0f">Playing audio files</link>
+            <link xlink:href="35faaf6e-b1b6-4ca3-9dfd-dd471fb9f86d">Quick tips</link>
           </definedTerm>
           <definition>
             <para>
-              After adding audio files to the library, you can play audio files.
+              Learn a few quick tips about MPfm you may not have seen at first glance.
             </para>
           </definition>
         </definitionTable>
       </content>
     </nextSteps>
-
+    <!-- see also: Effects window -->
   </developerWalkthroughDocument>
 </topic>
