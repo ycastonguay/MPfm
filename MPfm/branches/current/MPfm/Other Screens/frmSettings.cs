@@ -130,14 +130,14 @@ namespace MPfm
             //// Set column widths
             //previewSongGridView.Columns[0].Width = 100;
 
-            // Remove theme tab
-            for (int a = 0; a < tabs.TabPages.Count; a++)
-            {
-                if (tabs.TabPages[a].Name.ToUpper() == "TABTHEME")
-                {
-                    tabs.TabPages.RemoveAt(a);
-                }
-            }
+            //// Remove theme tab
+            //for (int a = 0; a < tabs.TabPages.Count; a++)
+            //{
+            //    if (tabs.TabPages[a].Name.ToUpper() == "TABTHEME")
+            //    {
+            //        tabs.TabPages.RemoveAt(a);
+            //    }
+            //}
         }
 
         /// <summary>

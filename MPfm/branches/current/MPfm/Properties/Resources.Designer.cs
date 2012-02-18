@@ -81,6 +81,13 @@ namespace MPfm.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap arrow_redo {
+            get {
+                object obj = ResourceManager.GetObject("arrow_redo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap arrow_refresh {
             get {
                 object obj = ResourceManager.GetObject("arrow_refresh", resourceCulture);
@@ -91,6 +98,27 @@ namespace MPfm.Properties {
         internal static System.Drawing.Bitmap arrow_right {
             get {
                 object obj = ResourceManager.GetObject("arrow_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap arrow_rotate_clockwise {
+            get {
+                object obj = ResourceManager.GetObject("arrow_rotate_clockwise", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap arrow_switch {
+            get {
+                object obj = ResourceManager.GetObject("arrow_switch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap arrow_switch1 {
+            get {
+                object obj = ResourceManager.GetObject("arrow_switch1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -264,6 +264,10 @@
     </Content>
     <Content Include="MPFM.ico" />
     <Content Include="MPfm_SmallOnly.ico" />
+    <None Include="Resources\arrow_rotate_clockwise.png" />
+    <None Include="Resources\arrow_switch1.png" />
+    <None Include="Resources\arrow_redo.png" />
+    <None Include="Resources\arrow_switch.png" />
     <None Include="Resources\help.png" />
     <None Include="Resources\package_link.png" />
     <None Include="Resources\folder_explore.png" />

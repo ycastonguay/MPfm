@@ -1800,6 +1800,18 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Occurs when the user clicks on the "Shuffle" button on the main form toolbar.
+        /// Enables of disables shuffling.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnShuffle_Click(object sender, EventArgs e)
+        {
+            // Set button check
+            btnShuffle.Checked = !btnShuffle.Checked;
+        }
+
+        /// <summary>
         /// Occurs when the user clicks on the "Playlist" button on the main form toolbar.
         /// Opens or closes the Playlist window.
         /// </summary>
@@ -3872,7 +3884,7 @@ namespace MPfm
                 if (new Guid(viewLoops.Items[a].Tag.ToString()) == loop.LoopId)
                 {
                     // Set flag
-                    viewLoops.Items[a].ImageIndex = 7;
+                    viewLoops.Items[a].ImageIndex = 23;
                 }
                 else
                 {
@@ -3990,7 +4002,7 @@ namespace MPfm
                 if (new Guid(viewLoops.Items[a].Tag.ToString()) == loop.LoopId)
                 {
                     // Set flag
-                    viewLoops.Items[a].ImageIndex = 7;
+                    viewLoops.Items[a].ImageIndex = 23;
                 }
                 else
                 {
