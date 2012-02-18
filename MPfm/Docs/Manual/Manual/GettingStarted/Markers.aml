@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <topic id="055fe2a2-b75a-496c-a37d-a8304f99c042" revisionNumber="1">
   <developerWalkthroughDocument
-    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <introduction>
       <para>
-        Audio files can be added to the library using different methods:
+        Markers can be added to audio files to quickly skip to specific positions while practicing your instrument.
       </para>
     </introduction>
 
@@ -16,19 +16,41 @@
       </content></prerequisites>-->
 
     <procedure>
-      <title>Adding audio files from a specific folder</title>
+      <title>Adding a new marker</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              Click on the <ui>File > Add folder to library...</ui> menu item.
+              While the audio file is playing, click on the <ui>Add marker</ui> button in the <ui>Loops and Markers</ui> section.
             </para>
           </content>
         </step>
         <step>
           <content>
             <para>
-              Select a folder to add to the library and click on the <ui>OK</ui> button.
+              Type a name for the marker in the <ui>Name</ui> text box.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select a position for the marker by either typing the position or clicking on the <ui>Punch in</ui> button. The <ui>Punch in</ui>
+              button will enter the current position in the <ui>Position</ui> text box.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Add a comment in the <ui>Comments</ui> text box (not mandatory).
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>              
+              Click on the <ui>Save</ui> button and close the window.
             </para>
           </content>
         </step>
@@ -36,25 +58,35 @@
       <conclusion>
         <content>
           <para>
-            A dialog box will be shown and the audio files from this folder will be added to the library.
+            A new marker has been created and can be used during playback.
           </para>
         </content>
       </conclusion>
     </procedure>
+
     <procedure>
-      <title>Adding specific audio files</title>
+      <title>Editing a marker</title>
       <steps class="ordered">
         <step>
           <content>
             <para>
-              Click on the <ui>File > Add files to library...</ui> menu item.
+              While the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
+              <ui>Edit marker</ui> button.
             </para>
           </content>
         </step>
         <step>
           <content>
             <para>
-              Select the audio files to add to the library and click on the <ui>OK</ui> button.
+              Change the marker position by either typing the position or clicking on the <ui>Punch in</ui> button. The <ui>Punch in</ui>
+              button will enter the current position in the <ui>Position</ui> text box.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Save</ui> button and close the window.
             </para>
           </content>
         </step>
@@ -62,17 +94,59 @@
       <conclusion>
         <content>
           <para>
-            A dialog box will be shown and the selected audio files will be added to the library.
+            The marker has been updated.
           </para>
         </content>
       </conclusion>
     </procedure>
 
-    <!--<nextSteps>
-      <content>
-        <para>Next steps info goes here</para>
-      </content>
-    </nextSteps>-->
+    <procedure>
+      <title>Removing a marker</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              While the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
+              <ui>Remove marker</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The marker has been removed.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
 
+    <procedure>
+      <title>Skip to a marker position</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              While the audio file is playing, select the marker in the the <ui>Loops and Markers</ui> section and click on the
+              <ui>Go to</ui> button.
+            </para>
+            <para>
+              <ui>or</ui>
+            </para>
+            <para>
+              While the audio file is playing, double-click on the marker in the the <ui>Loops and Markers</ui> section.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The current song position has been skipped to the marker position.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    
   </developerWalkthroughDocument>
 </topic>

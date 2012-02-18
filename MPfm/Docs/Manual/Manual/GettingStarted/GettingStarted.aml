@@ -44,26 +44,41 @@
           </definition>
 
           <definedTerm>
-            <link xlink:href="055fe2a2-b75a-496c-a37d-a8304f99c042">Adding and editing markers</link>
+            <link xlink:href="055fe2a2-b75a-496c-a37d-a8304f99c042">Using markers</link>
           </definedTerm>
           <definition>
             <para>
-              This page helps you add and edit markers to an audio file.
+              This page shows how to use markers to skip to specific positions inside an audio file.
             </para>
           </definition>
 
           <definedTerm>
-            <link xlink:href="109e42cc-7883-4db6-80fb-dde5abf2cdc2">Adding and editing loops</link>
+            <link xlink:href="109e42cc-7883-4db6-80fb-dde5abf2cdc2">Using loops</link>
           </definedTerm>
           <definition>
             <para>
-              This page helps you add and edit loops to an audio file.
+              This page shows you how to use loops to loop through sections of an audio file.
             </para>
           </definition>
 
         </definitionTable>
       </content>
     </section>
+    
+    <!-- Coming soon: 
+    
+    - using time shifting
+    - change audio settings
+    - using themes
+    - using equalizer
+    - creating and editing playlists
+    - edit song metadata
+    
+    
+    Reference section
+    - Explain in detail every screen and what the option does. Link F1 action from application to these topics.
+      ex: Loops, Markers, Settings, etc.    
+    -->
 
     <relatedTopics>
       <link xlink:href="ba2bd37f-a99f-42be-816b-aa4d86045e3f">Troubleshooting</link>      

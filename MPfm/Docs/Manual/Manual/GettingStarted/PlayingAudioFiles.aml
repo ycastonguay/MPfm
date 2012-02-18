@@ -126,12 +126,6 @@
         </content>
       </conclusion>
     </procedure>
-    
-    <!--<nextSteps>
-      <content>
-        <para>Next steps info goes here</para>
-      </content>
-    </nextSteps>-->
 
   </developerWalkthroughDocument>
 </topic>

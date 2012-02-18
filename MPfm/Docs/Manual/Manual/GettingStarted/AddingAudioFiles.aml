@@ -68,11 +68,20 @@
       </conclusion>
     </procedure>
 
-    <!--<nextSteps>
+    <nextSteps>
       <content>
-        <para>Next steps info goes here</para>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="2f430833-68c1-4e5c-96fd-d42cfa282a0f">Playing audio files</link>
+          </definedTerm>
+          <definition>
+            <para>
+              After adding audio files to the library, you can play audio files.
+            </para>
+          </definition>
+        </definitionTable>
       </content>
-    </nextSteps>-->
+    </nextSteps>
 
   </developerWalkthroughDocument>
 </topic>

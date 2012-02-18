@@ -99,12 +99,20 @@
         </content>
       </conclusion>
     </procedure>
-
-    <!--<nextSteps>
+    
+    <nextSteps>
       <content>
-        <para>Next steps info goes here</para>
+        <definitionTable>
+          <definedTerm>
+            <link xlink:href="83a6f203-665e-4cbb-857e-ea8c3cdfa487">Adding audio files to the library</link>
+          </definedTerm>
+          <definition>
+            <para>
+              After starting the application for the first time, you should add audio files to the library.
+            </para>
+          </definition>
+        </definitionTable>
       </content>
-    </nextSteps>-->
-
+    </nextSteps>
   </developerWalkthroughDocument>
 </topic>

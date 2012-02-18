@@ -1,56 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <topic id="e099358d-ab6a-4c1a-ae06-848beedc3f41" revisionNumber="1">
-  <developerTroubleshootingDocument
-    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
-
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
+  <developerWalkthroughDocument
+ xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <introduction>
-      <autoOutline />
       <para>
         If you cannot hear sound while using MPfm, try one of the following solutions:
       </para>
     </introduction>
 
-    <section address="Section1">
-      <title>Check if the sound works using another application</title>
-      <content>        
-        <autoOutline />
-        <para>
-          Follow the following steps:
-        </para>        
-        <procedure>
-          <title>Adding audio files from a specific folder</title>
-          <steps class="ordered">
-            <step>
-              <content>
-                <para>
-                  Click on the <ui>File > Add folder to library...</ui> menu item.
-                </para>
-              </content>
-            </step>
-            <step>
-              <content>
-                <para>
-                  Select a folder to add to the library and click on the <ui>OK</ui> button.
-                </para>
-              </content>
-            </step>
-          </steps>
-          <conclusion>
-            <content>
-              <para>
-                A dialog box will be shown and the audio files from this folder will be added to the library.
-              </para>
-            </content>
-          </conclusion>
-        </procedure>
-      </content>
-    </section>
-  </developerTroubleshootingDocument>
+    <procedure>
+      <title>Test the audio configuration using the Windows Control Panel</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Open <ui>Control Panel</ui> and click on the <ui>Sound</ui> icon.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Right-click on the device and click on the <ui>Test</ui> menu item.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            If the test fails, it means that there is a problem with your Windows sound configuration.
+            You need to fix this problem before being able to use MPfm.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <procedure>
+      <title>Try a different driver</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              If a specific driver doesn't work, you can try using another one (DirectSound, ASIO, WASAPI).
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Windows > Settings</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Audio</ui> tab, change the audio configuration and test the new settings.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            If none of the drivers work, check your Windows audio configuration. If the drivers work but you can't hear anything, check your volume.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+        
+  </developerWalkthroughDocument>
 </topic>
