@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="0a274a09-f489-4ace-a446-6df2a4f5e320" revisionNumber="1">
+  <developerWalkthroughDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <summary>
+      <para>The topics in this section will help you use MPfm as a practice tool for your instrument, or to simply use MPfm as a music player.</para>
+    </summary>
+    <introduction>
+      
+    </introduction>
+
+    <section address="sectionPages">
+      <title>Pages</title>
+      <content>
+        <definitionTable>
+
+          <definedTerm>
+            <link xlink:href="77328ba7-d6ca-40d0-b4e3-f775337cbe3c">First time running MPfm</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page has information on what to do when running MPfm for the first time.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="83a6f203-665e-4cbb-857e-ea8c3cdfa487">Adding audio files to the library</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page shows the different methods how to add audio files to the library.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="2f430833-68c1-4e5c-96fd-d42cfa282a0f">Playing audio files</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page shows how to play audio files from the library or from a playlist.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="055fe2a2-b75a-496c-a37d-a8304f99c042">Adding and editing markers</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page helps you add and edit markers to an audio file.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="109e42cc-7883-4db6-80fb-dde5abf2cdc2">Adding and editing loops</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page helps you add and edit loops to an audio file.
+            </para>
+          </definition>
+
+        </definitionTable>
+      </content>
+    </section>
+
+    <relatedTopics>
+      <link xlink:href="ba2bd37f-a99f-42be-816b-aa4d86045e3f">Troubleshooting</link>      
+    </relatedTopics>
+  </developerWalkthroughDocument>
+</topic>

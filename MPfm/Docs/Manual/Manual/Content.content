@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="fb31ee17-b042-4ad7-8e45-f780607d06f3" visible="True" isDefault="true" title="Welcome" />
+  <Topic id="6d6aa4db-8915-4d90-8fd1-86a70aa5f68c" visible="True" title="Features" />
+  <Topic id="7749bb52-ca44-4af7-88a8-0c8354e44617" visible="True" title="License" />
+  <Topic id="3ed8964e-9d6c-4a44-9e1b-ea9b64ab9b58" visible="True" title="Support" />
+  <Topic id="1b3c178f-568b-40f4-bd7f-e69393078087" visible="True" />
+  <Topic id="0a274a09-f489-4ace-a446-6df2a4f5e320" visible="True" isExpanded="true" title="Getting Started">
+    <Topic id="77328ba7-d6ca-40d0-b4e3-f775337cbe3c" visible="True" title="First time running MPfm" />
+    <Topic id="83a6f203-665e-4cbb-857e-ea8c3cdfa487" visible="True" title="Adding audio files to the library" />
+    <Topic id="2f430833-68c1-4e5c-96fd-d42cfa282a0f" visible="True" title="Playing audio files" />
+    <Topic id="055fe2a2-b75a-496c-a37d-a8304f99c042" visible="True" title="Adding and editing markers" />
+    <Topic id="109e42cc-7883-4db6-80fb-dde5abf2cdc2" visible="True" title="Adding and editing loops" />
+  </Topic>
+  <Topic id="ba2bd37f-a99f-42be-816b-aa4d86045e3f" visible="True" isExpanded="true" title="Troubleshooting">
+    <Topic id="e099358d-ab6a-4c1a-ae06-848beedc3f41" visible="True" title="No sound" />
+    <Topic id="750eeb2c-3e82-48fe-bbd9-5d9b6ea79148" visible="True" isSelected="true" title="The application cannot start" />
+  </Topic>
+</Topics>

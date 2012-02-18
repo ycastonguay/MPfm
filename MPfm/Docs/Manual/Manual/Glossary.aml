@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="1b3c178f-568b-40f4-bd7f-e69393078087" revisionNumber="1">
+  <developerGlossaryDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <glossary>
+      <title>Glossary</title>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="APE">APE (Monkey's Audio)</term>
+        </terms>
+        <definition>
+          <para>
+            APE (Monkey's Audio) is an audio file format using lossless compression. This audio format is free but not open source.
+            This format is using the <ui>APE</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>APE (Monkey's Audio) Home Page</linkAlternateText>
+              <linkUri>http://www.monkeysaudio.com/index.html</linkUri>
+            </externalLink>.
+          </para>
+        </definition>
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="FLAC">FLAC</term>
+        </terms>
+        <definition>
+          <para>
+            FLAC (Free Lossless Audio Codec) is an audio file format using lossless compression. This audio format is open source.
+            This format is using the <ui>FLAC</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>FLAC Home Page</linkAlternateText>
+              <linkUri>http://flac.sourceforge.net/</linkUri>
+            </externalLink>.
+          </para>
+        </definition>
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="library">Library</term>
+        </terms>
+        <definition>
+          <para>
+            The library is where the metadata of all audio files are saved. The library database can be found
+            in the user application data folder (MPfm.Database.db).
+          </para>
+        </definition>        
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="libraryBrowser">Library Browser</term>
+        </terms>
+        <definition>
+          <para>
+            The Library Browser is the tree view located at the left of the main window. In this control, you can select the
+            view shown in the Song Browser. The Library Browser has the following views:
+          </para>
+          <list class="bullet">
+            <listItem>
+              <para>All songs</para>
+            </listItem>
+            <listItem>
+              <para>Artist name</para>
+            </listItem>
+            <listItem>
+              <para>Album title</para>
+            </listItem>
+            <listItem>
+              <para>Artist name + Album title</para>
+            </listItem>
+          </list>                
+        </definition>
+        <relatedEntry termId="songBrowser" />
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="loop">Loop</term>
+        </terms>
+        <definition>
+          <para>
+            A loop has a start position and an end position. They can be used to loop through portions of
+            an audio file for practice. A loop can be made from two markers.
+          </para>
+        </definition>
+        <relatedEntry termId="marker" />
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="marker">Marker</term>
+        </terms>
+        <definition>
+          <para>A marker points to a specific position in an audio file.</para>
+        </definition>
+        <relatedEntry termId="loop" />
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="metadata">Metadata</term>
+        </terms>
+        <definition>
+          <para>
+            Metadata is a collection of information on an audio file (for example, the artist name, album title, etc.).
+            It can be found in different tag formats (APE, ID3, etc.).
+          </para>
+        </definition>        
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="MP3">MP3</term>
+        </terms>
+        <definition>
+          <para>
+            MP3 is an audio file format using lossy compression. This audio format is proprietary and a license must be
+            paid when using this commercially. This format is using the <ui>MP3</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>MP3 Wikipedia Page</linkAlternateText>
+              <linkUri>http://en.wikipedia.org/wiki/MP3</linkUri>
+            </externalLink>.            
+          </para>
+        </definition>
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="MPC">MusePack (MPC)</term>
+        </terms>
+        <definition>
+          <para>
+            MusePack (MPC) is an audio file format using lossy compression. This audio format is open source.
+            This format is using the <ui>MPC</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>MusePack (MPC) Home Page</linkAlternateText>
+              <linkUri>http://www.musepack.net/</linkUri>
+            </externalLink>.
+          </para>
+        </definition>
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="OGG">OGG</term>
+        </terms>
+        <definition>
+          <para>
+            OGG Vorbis is an audio file format using lossy compression. This audio format is open source.
+            This format is using the <ui>OGG</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>OGG Vorbis Wikipedia Page</linkAlternateText>
+              <linkUri>http://en.wikipedia.org/wiki/Vorbis</linkUri>
+            </externalLink>.
+          </para>
+        </definition>
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="songBrowser">Song Browser</term>
+        </terms>
+        <definition>
+          <para>
+            The Song Browser is the table located at the bottom of the main window. This control displays the songs filtered by the view selected
+            in the Library Browser. The columns can be shown, hidden or reordered.
+          </para>
+        </definition>
+        <relatedEntry termId="libraryBrowser" />
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="WAV">WAV</term>
+        </terms>
+        <definition>
+          <para>
+            WAV is an uncompressed audio file format. This audio format is very similar to AIFF and RIFF.
+            This format is using the <ui>WAV</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>WAV Wikipedia Page</linkAlternateText>
+              <linkUri>http://en.wikipedia.org/wiki/WAV</linkUri>
+            </externalLink>.
+          </para>
+        </definition>
+      </glossaryEntry>
+
+      <glossaryEntry>
+        <terms>
+          <term termId="WV">WavPack (WV)</term>
+        </terms>
+        <definition>
+          <para>
+            WavPack (WV) is an audio file format using lossless compression. This audio format is open source.
+            This format is using the <ui>WV</ui> file extension.
+            For more information about this format, click
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>WavPack (WV) Home Page</linkAlternateText>
+              <linkUri>http://www.wavpack.com/</linkUri>
+            </externalLink>.
+          </para>
+        </definition>
+      </glossaryEntry>
+
+    </glossary>
+  </developerGlossaryDocument>
+</topic>

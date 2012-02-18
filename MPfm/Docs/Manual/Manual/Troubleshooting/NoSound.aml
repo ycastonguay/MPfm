@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="e099358d-ab6a-4c1a-ae06-848beedc3f41" revisionNumber="1">
+  <developerTroubleshootingDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <autoOutline />
+      <para>
+        If you cannot hear sound while using MPfm, try one of the following solutions:
+      </para>
+    </introduction>
+
+    <section address="Section1">
+      <title>Check if the sound works using another application</title>
+      <content>        
+        <autoOutline />
+        <para>
+          Follow the following steps:
+        </para>        
+        <procedure>
+          <title>Adding audio files from a specific folder</title>
+          <steps class="ordered">
+            <step>
+              <content>
+                <para>
+                  Click on the <ui>File > Add folder to library...</ui> menu item.
+                </para>
+              </content>
+            </step>
+            <step>
+              <content>
+                <para>
+                  Select a folder to add to the library and click on the <ui>OK</ui> button.
+                </para>
+              </content>
+            </step>
+          </steps>
+          <conclusion>
+            <content>
+              <para>
+                A dialog box will be shown and the audio files from this folder will be added to the library.
+              </para>
+            </content>
+          </conclusion>
+        </procedure>
+      </content>
+    </section>
+  </developerTroubleshootingDocument>
+</topic>

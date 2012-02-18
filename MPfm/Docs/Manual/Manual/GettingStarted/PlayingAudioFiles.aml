@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="2f430833-68c1-4e5c-96fd-d42cfa282a0f" revisionNumber="1">
+  <developerWalkthroughDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        Audio files can be played using any of the following methods:
+      </para>
+    </introduction>
+
+    <!--<prerequisites>
+      <content
+        <para>Stuff</para>
+      </content></prerequisites>-->
+
+    <procedure>
+      <title>If the audio files are part of the library</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Browse through the library using the <ui>Library Browser</ui> and the <ui>Song Browser</ui>.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              From the <ui>Song Browser</ui>, double click on an audio file to play.
+            </para>
+            <para>
+              <ui>or</ui>
+            </para>
+            <para>
+              From the <ui>Song Browser</ui>, select an audio file to play, and click the <ui>Play selected song(s)</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>            
+            A playlist will be generated with the current Song Browser contents and the playback will start from the selected audio file.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    <procedure>
+      <title>If the audio files are not part of the library</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Click on the <ui>File > Open audio file(s)...</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select the audio files to play and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            A playlist will be generated with the selected audio files and the playback will start automatically
+            from the first file.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    <procedure>
+      <title>If the playlist file is part of the library</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              From the <ui>Playlist Window</ui>, click on the <ui>Load playlist</ui> button, click on the <ui>Library playlists</ui> menu item and select the playlist to play.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The playlist file will be loaded.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    <procedure>
+      <title>If the playlist file is not part of the library</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Click on the <ui>File > Open audio file(s)...</ui> menu item.
+            </para>
+            <para>
+              <ui>or</ui>
+            </para>
+            <para>
+              From the <ui>Playlist Window</ui>, click on the <ui>Load playlist</ui> button and click on the <ui>Browse...</ui> menu item.
+            </para>
+          </content>          
+        </step>
+        <step>
+          <content>
+            <para>
+              Select the playlist file to play and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The playlist file will be loaded and the first item of the playlist will automatically start playing if the <ui>File > Open audio files(s)...</ui>
+            option was chosen.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    
+    <!--<nextSteps>
+      <content>
+        <para>Next steps info goes here</para>
+      </content>
+    </nextSteps>-->
+
+  </developerWalkthroughDocument>
+</topic>

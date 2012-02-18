@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="83a6f203-665e-4cbb-857e-ea8c3cdfa487" revisionNumber="1">
+  <developerWalkthroughDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        Audio files can be added to the library using any of the following methods:
+      </para>
+    </introduction>
+
+    <!--<prerequisites>
+      <content
+        <para>Stuff</para>
+      </content></prerequisites>-->
+    
+    <procedure>
+      <title>Adding audio files from a specific folder</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Click on the <ui>File > Add folder to library...</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select a folder to add to the library and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            A dialog box will be shown and the audio files from this folder will be added to the library.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+    <procedure>
+      <title>Adding specific audio files</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Click on the <ui>File > Add files to library...</ui> menu item.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select the audio files to add to the library and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            A dialog box will be shown and the selected audio files will be added to the library.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <!--<nextSteps>
+      <content>
+        <para>Next steps info goes here</para>
+      </content>
+    </nextSteps>-->
+
+  </developerWalkthroughDocument>
+</topic>

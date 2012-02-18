@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="7749bb52-ca44-4af7-88a8-0c8354e44617" revisionNumber="1">
+  <developerConceptualDocument
+      xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <summary>
+    </summary>
+
+    <introduction>      
+      <para>
+        This license can be found inside the application directory in text format (LICENSE.TXT).
+      </para>
+      <autoOutline />
+    </introduction>
+
+    <section address="Section1-0">
+      <title>1.0 MPfm</title>
+      <content>        
+        <para>
+          MPfm is freeware and can be freely distributed, as long as you distribute all the licences included in the original package.
+          You must also reprint all the copyright and trademarks listed in the MPfm license.
+        </para>
+        <para>
+          <legacyUnderline>MPfm: Music Player for Musicians and the mp4m.org website are Copyright © 2011 Yanick Castonguay</legacyUnderline>, except for the BASS and BASS.NET libraries 
+          (see copyright notices below).
+        </para>
+        <para>
+          MPfm: Music Player for Musicians is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
+          as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+        </para>
+        <para>
+          <legacyBold>EXCEPTION: This distribution of MPfm may be linked against the BASS and BASS.NET libraries according to the terms of the section below entitled 
+          "BASS/BASS.NET GPLv3 Exception.".</legacyBold>
+        </para>
+        <para>
+          MPfm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+          FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+        </para>
+        <para>
+          You should have received a copy of the GNU General Public License along with MPfm (GPL-3.0.TXT). If not, click 
+            <externalLink>
+              <linkText>here</linkText>
+              <linkAlternateText>GNU General Public License Version 3 Page</linkAlternateText>
+              <linkUri>http://www.gnu.org/licenses/gpl-3.0.html</linkUri>
+            </externalLink>
+          to see the GPLv3 license.
+        </para>
+      </content>
+      <sections>
+        <section address="Section1-1">
+          <title>1.1 BASS/BASS.NET GPLv3 Exception</title>
+          <content>
+            <para>
+              The "BASS/BASS.NET GPLv3 Exception" section consists of the "1.1.1 Definitions" and "1.1.2 Exception" sections.
+            </para>
+          </content>
+          <sections>
+            <section address="Section1-1-1">
+              <title>1.1.1 Definitions</title>
+              <content>
+                <para>
+                  <legacyBold>"MPfm"</legacyBold> means the MPfm: Music Player for Musicians software licensed under version 3 of the GNU General Public License (collectively, 
+                  "GPL"), or a work based on such software and licensed under the GPL.                
+              </para>
+                <para>
+                  <legacyBold>"BASS"</legacyBold> means the BASS multiplatform audio library for Windows, Mac, Linux and other devices.
+                  The BASS library is Copyright © 1999-2011 Un4seen Developments. The BASS library is not free nor open-source; however its license
+                  enables use of the library for non-commercial usage only if it does not generate money through sales, advertising, etc.
+                  For more information about the BASS license, click 
+                  <externalLink>
+                    <linkText>here</linkText>
+                    <linkAlternateText>BASS License Page</linkAlternateText>
+                    <linkUri>http://www.un4seen.com/bass.html#license</linkUri>
+                  </externalLink>.                  
+              </para>
+                <para>
+                  <legacyBold>"BASS.NET"</legacyBold> means the .NET framework wrapper for the BASS audio library. The BASS.NET library is Copyright © 2005-2011 radio42.
+                  The BASS.NET library is not free nor open-source; however its license enables use of the library for non-commercial usage only
+                  if it does not generate money through sales, advertising, etc. For more information about the BASS.NET license, click 
+                  <externalLink>
+                    <linkText>here</linkText>
+                    <linkAlternateText>BASS.NET License Page</linkAlternateText>
+                    <linkUri>http://bass.radio42.com/index.html</linkUri>
+                  </externalLink>.
+                </para>
+              </content>
+            </section>
+            <section address="Section1-1-2">
+              <title>1.1.2 Exception</title>
+              <content>
+                <para>
+                  You have permission to copy, modify, propagate, and distribute a work formed by combining MPfm with the BASS and BASS.NET audio
+                  libraries, or a work derivative of such a combination, even if such copying, modification, propagation, or distribution would
+                  otherwise violate the terms of the GPL. You must comply with the GPL in all respects for all of the code used other than the
+                  BASS and BASS.NET audio libraries.
+                </para>
+                <para>
+                  You may include this "BASS/BASS.NET GPLv3 Exception" and its grant of permissions when you distribute MPfm. Inclusion of this 
+                  notice with such a distribution constitutes a grant of such permission. If you do not wish to grant these permissions, remove 
+                  this section entitled "BASS/BASS.NET GPLv3 Exception" from your distribution.
+                </para>
+              </content>
+            </section>
+          </sections>
+        </section>
+      </sections>
+    </section>
+    <section address="Section2-0">
+      <autoOutline />
+      <title>2.0 Third-party Libraries</title>
+      <content>
+        <autoOutline />
+        <para>
+          MPfm is using the following third-party libraries:
+        </para>
+      </content>
+      <sections>
+        <section address="Section2-1">
+          <title>2.1 BASS</title>
+          <content>
+            <para>
+              BASS is a multiplatform audio library for Windows, Mac, Linux and other devices. The BASS library is Copyright © 1999-2011 Un4seen Developments.
+              The BASS library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it does not
+              generate money through sales, advertising, etc. This distribution of MPfm meets this requirement since it is released under the GPLv3 license
+              and qualifies as free software. However, the use of the BASS library requires an exception to the GPLv3 license, which makes MPfm not fully
+              GNU compliant.
+            </para>
+            <para>
+              If you wish to use the MPfm source code in commercial projects, you are <legacyBold>*REQUIRED*</legacyBold> to contact Un4seen Developments and purchase the
+              license that fits your needs.
+            </para>
+            <para>
+              A copy of the BASS license is distributed with MPfm and can be found in the application directory (BASS_LICENSE.TXT). For more information
+              about the BASS license, go to
+              <externalLink>
+                <linkText>http://www.un4seen.com/bass.html#license</linkText>
+                <linkAlternateText>BASS License Page</linkAlternateText>
+                <linkUri>http://www.un4seen.com/bass.html#license</linkUri>
+              </externalLink>.              
+            </para>
+          </content>
+        </section>
+        <section address="Section2-2">
+          <title>2.2 BASS.NET</title>
+          <content>
+            <para>
+              The BASS.NET library is a BASS audio library wrapper for the .NET framework. The BASS.NET library is Copyright © 2005-2011 radio42.
+              The BASS.NET library is not free nor open-source; however its license enables use of the library for non-commercial usage only if it
+              does not generate money through sales, advertising, etc. This distribution of MPfm meets this requirement since it is released under
+              the GPLv3 license and qualifies as free software. However, the use of the BASS.NET library requires an exception to the GPLv3 license,
+              which makes MPfm not fully GNU compliant.
+            </para>
+            <para>
+              Any project (commercial and non-commercial) using the MPfm source code <legacyBold>*REQUIRES*</legacyBold> an individual BASS.NET key which can be obtained
+              through this website: 
+              <externalLink>
+                <linkText>http://bass.radio42.com/bass_register.html</linkText>
+                <linkAlternateText>BASS.NET Register Key Page</linkAlternateText>
+                <linkUri>http://bass.radio42.com/bass_register.html</linkUri>
+              </externalLink>.
+            </para>
+            <para>
+              If you wish to use the MPfm source code in commercial projects, you are <legacyBold>*REQUIRED*</legacyBold> to contact radio42 and purchase the license that fits your needs.
+            </para>
+            <para>
+              A copy of the BASS.NET license is distributed with MPfm and can be found in the application directory (BASS.NET_LICENSE.RTF). For more
+              information about the BASS.NET license, go to 
+              <externalLink>
+                <linkText>http://bass.radio42.com/index.html</linkText>
+                <linkAlternateText>BASS.NET License Page</linkAlternateText>
+                <linkUri>http://bass.radio42.com/index.html</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+        <section address="Section2-3">
+          <title>2.3 SQLite</title>
+          <content>
+            <para>
+              SQLite is freeware and is released under the 
+              <externalLink>
+                <linkText>Public Domain license</linkText>
+                <linkAlternateText>Public Domain Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/Public_Domain</linkUri>
+              </externalLink>.
+              For more information about the SQLite license, click
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>SQLite License Page</linkAlternateText>
+                <linkUri>http://www.sqlite.org/copyright.html</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+        <section address="Section2-4">
+          <title>2.4 System.Data.SQLite</title>
+          <content>
+            <para>
+              System.Data.SQLite is freeware and is released under the
+              <externalLink>
+                <linkText>Public Domain license</linkText>
+                <linkAlternateText>Public Domain Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/Public_Domain</linkUri>
+              </externalLink>.
+              For more information about this library, click
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>System.Data.SQLite Home Page</linkAlternateText>
+                <linkUri>http://sqlite.phxsoftware.com/</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+        <section address="Section2-5">
+          <title>2.5 TagLib#</title>
+          <content>
+            <para>
+              TagLib# (taglib-sharp) is released under the GNU Lesser General Public License 2.1 (LGPL). The LGPL license can be found
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>LGPLv2.1 Home Page</linkAlternateText>
+                <linkUri>http://www.gnu.org/licenses/lgpl-2.1.html</linkUri>
+              </externalLink>.
+              A copy of this license is distributed with MPfm and can be found in the application directory (LGPL2.1.TXT). For more information about TagLib#, click 
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>TagLib# Home Page</linkAlternateText>
+                <linkUri>http://weblog.savanne.be/tags/taglib-sharp</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+        <section address="Section2-6">
+          <title>2.6 FamFamFam Silk Icons</title>
+          <content>
+            <para>
+              The FamFamFam Silk icons are released under the 
+              <externalLink>
+                <linkText>Creative Commons Attribution 2.5 License</linkText>
+                <linkAlternateText>Creative Commons Attribution 2.5 License Page</linkAlternateText>
+                <linkUri>http://creativecommons.org/licenses/by/2.5/</linkUri>
+              </externalLink>.
+              These icons have been created by Mark James. More information about the FamFamFam icon license can be found
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>FamFamFam Icons Home Page</linkAlternateText>
+                <linkUri>http://www.famfamfam.com/lab/icons/silk/</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+        <section address="Section2-7">
+          <title>2.7 Open Source Fonts</title>          
+          <content>
+            <para>
+              MPfm is embedding the following open source fonts in MPfm.Fonts.dll:              
+            </para>            
+            <para>
+              <list class="bullet">
+                <listItem>
+                  Junction (from The League of Moveable Type)
+                </listItem>
+                <listItem>
+                  League Gothic (from The League of Moveable Type)
+                </listItem>
+                <listItem>
+                  TitilliumText (from Font Squirrel)
+                </listItem>
+                <listItem>
+                  Droid Sans Mono (from Ascender Corporation)
+                </listItem>                                                  
+              </list>
+            </para>
+            <para>
+              Junction is designed by 
+              <externalLink>
+                <linkText>Caroline Hadilaksono</linkText>
+                <linkAlternateText>Caroline Hadilaksono Homepage</linkAlternateText>
+                <linkUri>http://www.theleagueofmoveabletype.com/members/2-caroline-hadilaksono</linkUri>
+              </externalLink>.
+              More information about this font can be found 
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>Junction Font Homepage</linkAlternateText>
+                <linkUri>http://www.theleagueofmoveabletype.com/fonts/1-junction</linkUri>
+              </externalLink>.
+            </para>
+            <para>
+              League Gothic is designed by 
+              <externalLink>
+                <linkText>The League of Moveable Type</linkText>
+                <linkAlternateText>The League of Moveable Type Homepage</linkAlternateText>
+                <linkUri>http://www.theleagueofmoveabletype.com/</linkUri>
+              </externalLink>.
+              More information about that font can be found 
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>League Gothic Font Homepage</linkAlternateText>
+                <linkUri>http://www.theleagueofmoveabletype.com/fonts/7-league-gothic</linkUri>
+              </externalLink>.
+            </para>
+            <para>
+              TitilliumText is designed by the 
+              <externalLink>
+                <linkText>Accademia di Belle Arti Urbino</linkText>
+                <linkAlternateText>Accademia di Belle Arti Urbino Homepage</linkAlternateText>
+                <linkUri>http://www.campivisivi.net/titillium/</linkUri>
+              </externalLink>.
+              More information about this font can be found 
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>TitilliumText Font Homepage</linkAlternateText>
+                <linkUri>http://www.fontsquirrel.com/fonts/TitilliumText</linkUri>
+              </externalLink>.
+            </para>
+            <para>
+              Droid Sans Mono is designed by Steve Matteson of the 
+              <externalLink>
+                <linkText>Ascender Corporation</linkText>
+                <linkAlternateText>Ascender Corporation Homepage</linkAlternateText>
+                <linkUri>http://www.ascendercorp.com/</linkUri>
+              </externalLink>.
+              More information about this font can be found 
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>Droid Fonts Homepage</linkAlternateText>
+                <linkUri>http://www.droidfonts.com/licensing</linkUri>
+              </externalLink>.
+            </para>
+            <para>
+              The Junction, League Gothic and TitilliumText fonts are released under the 
+              <externalLink>
+                <linkText>SIL Open Font License 1.1</linkText>
+                <linkAlternateText>SIL Open Font License 1.1</linkAlternateText>
+                <linkUri>http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi%3Did=OFL</linkUri>
+              </externalLink>.
+              A copy of this license is distributed with MPfm and can be found in the application directory (SIL_OPEN_FONT_LICENSE_1.1.TXT).
+            </para>
+            <para>
+              The Droid Sans Mono font is released under the 
+              <externalLink>
+                <linkText>Apache License 2.0</linkText>
+                <linkAlternateText>Apache License 2.0</linkAlternateText>
+                <linkUri>http://www.apache.org/licenses/LICENSE-2.0.html</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+      </sections>
+    </section>
+    <section address="Section3-0">
+      <autoOutline />
+      <title>3.0 Other License Information</title>
+      <content>
+        <autoOutline />
+        <para>
+          Here is more important information about the MPfm license:
+        </para>
+      </content>
+      <sections>
+        <section address="Section3-1">
+          <title>3.1 MP3</title>
+          <content>
+            <para>
+              Officially, all applications decoding MP3 files must pay a license to the MP3 copyright owner, 
+              <externalLink>
+                <linkText>Technicolor</linkText>
+                <linkAlternateText>MP3 Licensing Homepage</linkAlternateText>
+                <linkUri>http://www.mp3licensing.com/</linkUri>
+              </externalLink>.
+              However, this distribution of MPfm is released under the GPLv3 license and is available free of charge.
+              The MPfm source code is available for anyone to download on SourceForge.Net. This means its copyright owner is not making money with this product.
+            </para>
+            <para>
+              Microsoft Windows also comes with a built-in MP3 decoder, and Microsoft is paying the license for all Windows copies.
+              Thus, Technicolor does not enforce the patent for Windows freeware MP3 decoders such as MPfm (and other freeware players such as Foobar2k).
+            </para>
+            <para>
+              A declaration from Thomson (older name for Technicolor) says that they will not charge a per unit royalty on freely distributed
+              MP3 decoders. This declaration can be found
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>Freeware MP3 Decoder Declaration</linkAlternateText>
+                <linkUri>http://www.heise.de/newsticker/meldung/Thomson-Keine-Lizenzgebuehren-fuer-freie-MP3-Decoder-58503.html</linkUri>
+              </externalLink>.
+            </para>
+            <para>
+              However, if you wish to release a commercial product using the MPfm source code, you are <legacyBold>*REQUIRED*</legacyBold> to contact Technicolor
+              to pay the due royalties. The MPfm copyright owner is <legacyBold>*NOT RESPONSIBLE*</legacyBold> for any royalties involving audio file formats for
+              commercial use of this source code.
+            </para>
+            <para>
+              More information about MP3 licensing can be found
+              <externalLink>
+                <linkText>here</linkText>
+                <linkAlternateText>MP3 Licensing Homepage</linkAlternateText>
+                <linkUri>http://www.mp3licensing.com/</linkUri>
+              </externalLink>.
+            </para>
+          </content>
+        </section>
+        <section address="Section3-2">
+          <title>3.2 Background Images</title>
+          <content>
+            <para>
+              The background images used on mp4m.org and on the MPfm splash screen were taken from              
+              <externalLink>
+                <linkText>stock.xchng</linkText>
+                <linkAlternateText>stock.xchng Homepage</linkAlternateText>
+                <linkUri>http://www.sxc.hu</linkUri>
+              </externalLink>.
+              Please consult their
+              <externalLink>
+                <linkText>license</linkText>
+                <linkAlternateText>stock.xchng License</linkAlternateText>
+                <linkUri>http://www.sxc.hu/help/7_2</linkUri>
+              </externalLink> for more information.
+            </para>
+          </content>
+        </section>
+        <section address="Section3-3">
+          <title>3.3 mp4m.org / musicplayerformusicians.com</title>
+          <content>
+            <para>
+              The MPfm logo and the MPfm web site (www.mp4m.org) are © 2011-2012 Yanick Castonguay.
+            </para>
+          </content>
+        </section>
+      </sections>
+    </section>
+  </developerConceptualDocument>
+</topic>

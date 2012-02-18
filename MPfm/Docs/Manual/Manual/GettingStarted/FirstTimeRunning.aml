@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="77328ba7-d6ca-40d0-b4e3-f775337cbe3c" revisionNumber="1">
+  <developerWalkthroughDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        The first time you run MPfm, a wizard is shown to help you configure the application and get started.
+        The recommended configuration is automatically selected, but testing the audio configuration is mandatory.
+      </para>
+    </introduction>
+
+    <!--<prerequisites>
+      <content
+        <para>Stuff</para>
+      </content></prerequisites>-->
+
+    <procedure>
+      <title>First Run Window</title>      
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Select a driver in the <ui>Please select a driver</ui> section from the following choices:
+            </para>
+            <list class="bullet">
+              <listItem>
+                <para>
+                  DirectSound
+                </para>
+              </listItem>
+              <listItem>
+                <para>
+                  ASIO
+                </para>
+              </listItem>
+              <listItem>
+                <para>
+                  WASAPI
+                </para>
+              </listItem>
+            </list>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select an output device in the <ui>Please select an output device</ui> section. 
+            </para>
+            <alert class="note">
+              The output device list is different per driver.
+            </alert>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select a sample rate in the <ui>Please select a mixer sample rate</ui> section. If you don't know what to select, 
+              leave the default value.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Test the audio configuration by clicking on the <ui>Test audio settings</ui> button.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Select an audio file to play and click on the <ui>OK</ui> button.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              If the audio configuration is correct, you should hear the audio file play normally. If the configuration has a problem,
+              the error will be shown.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click on the <ui>Save settings and continue</ui> button to save the audio configuration and launch the application.
+            </para>
+          </content>
+        </step>
+      </steps>
+      <conclusion>
+        <content>
+          <para>
+            The audio configuration has been tested successfully and the application can launch normally.
+          </para>
+        </content>
+      </conclusion>
+    </procedure>
+
+    <!--<nextSteps>
+      <content>
+        <para>Next steps info goes here</para>
+      </content>
+    </nextSteps>-->
+
+  </developerWalkthroughDocument>
+</topic>

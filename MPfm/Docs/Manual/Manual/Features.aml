@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="6d6aa4db-8915-4d90-8fd1-86a70aa5f68c" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <summary>
+    </summary>
+
+    <introduction>
+      <autoOutline />
+    </introduction>
+
+    <section address="sectionFeatures">
+      <title>Features</title>
+      <content>
+        <para>
+          MPfm has a lot of common features with other music players, such as gapless playback,
+          support for most popular sound formats, tagging, etc. However, it also has a lot of unique features
+          that most musicians will enjoy. Here are some of the most powerful features of MPfm:
+        </para>
+      </content>
+      <sections>
+        <section address="sectionFeatures1">
+          <title>Filter Library by Sound Format</title>
+          <content>
+            <para>
+              Most audio players support a wide variety of sound formats (see list below).
+              However, none let you filter your library by sound format as easily as MPfm; just use the
+              "Filter by Sound Format" combo box.-section content.
+            </para>
+          </content>
+        </section>
+        <section address="sectionFeatures2">
+          <title>Time Shifting</title>
+          <content>
+            <para>
+              Picking up complex rythmic sections by ear is much easier when you use time shifting.
+              You can slow down or speed up audio streams from 50% up to 150%.
+            </para>
+          </content>
+        </section>
+        <section address="sectionFeatures3">
+          <title>Loops</title>
+          <content>
+            <para>
+              Picking up complex rythmic sections by ear is much easier when you use time shifting.
+              You can slow down or speed up audio streams from 50% up to 150%.
+            </para>
+          </content>
+        </section>
+        <section address="sectionFeatures4">
+          <title>Markers</title>
+          <content>
+            <para>
+              You can create markers that can used for looping sections in a song for practice.
+            </para>
+          </content>
+        </section>
+      </sections>
+    </section>
+    <section address="sectionOpenSource">
+      <title>MPfm is freeware, open source and released under the GPLv3 license</title>
+      <content>
+        <para>
+          If you are a user, this means that this application will always stay free and community driven.
+          Should the application becomes outdated or deprecated, other developers will be able to take the source code,
+          update the application and add new features.
+        </para>
+        <para>
+          For more information about the GPLv3 license, click
+          <externalLink>
+            <linkText>here</linkText>
+            <linkAlternateText>GPLv3 License Page</linkAlternateText>
+            <linkUri>http://www.gnu.org/licenses/gpl.html</linkUri>
+          </externalLink>.          
+        </para>
+        <para>
+          If you are a developer, this means that you can download the source code and make your own modifications.
+          You could also re-use any MPfm component (player, library, Windows Forms controls, BASS.NET wrapper, etc.)
+          as-is in your own project, including commercial projects.
+        </para>
+        <para>
+          For more information about using the MPfm source code in your own project, go to the
+          <externalLink>
+            <linkText>Developers</linkText>
+            <linkAlternateText>MPfm Developers Page</linkAlternateText>
+            <linkUri>http://www.mp4m.org/developers</linkUri>
+          </externalLink>
+          page on the MPfm web site.
+        </para>
+      </content>
+    </section>
+    <section address="sectionSupportedOSes">
+      <title>Supported Operating Systems</title>
+      <content>
+        <para>
+          MPfm officially supports the following operating systems:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>Microsoft Windows XP</para>
+          </listItem>
+          <listItem>
+            <para>Microsoft Windows Vista</para>
+          </listItem>
+          <listItem>
+            <para>Microsoft Windows 7</para>
+          </listItem>
+          <listItem>
+            <para>Microsoft Windows 8 (Developer Preview)</para>
+          </listItem>
+        </list>
+        <para>
+          MPfm also supports Microsoft Windows Server 2003 and Microsoft Windows Server 2008 but is untested on these platforms.
+        </para>
+      </content>
+    </section>
+    <section address="sectionSupportedSoundCards">
+      <title>Supported Sound Cards / Audio Drivers</title>
+      <content>
+        <para>
+          MPfm supports the following audio drivers:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>DirectSound</para>
+          </listItem>
+          <listItem>
+            <para>ASIO 2.0+ (experimental)</para>
+          </listItem>
+          <listItem>
+            <para>Windows Audio Session API (experimental)</para>
+          </listItem>
+        </list>
+        <para>
+          MPfm supports basically every sound card that works under Microsoft Windows through the DirectSound driver. DirectSound also works inside a virtual machine.
+        </para>
+        <para>
+          The Windows Audio Session API driver is only available on the Microsoft Windows Vista and Microsoft Windows 7 operating systems, and require WASAPI drivers.
+        </para>
+        <para>
+          The ASIO driver is recommended only if you have low latency sound card with native ASIO drivers. VST plugins are only supported when using a ASIO driver.
+        </para>
+      </content>
+    </section>
+    <section address="sectionSupportedSoundFormats">
+      <title>Supported Sound Formats</title>
+      <content>
+        <para>
+          MPfm supports the following sound formats:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>MP3</linkText>
+                <linkAlternateText>MP3 Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/MP3</linkUri>
+              </externalLink>              
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>WMA</linkText>
+                <linkAlternateText>WMA Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/Windows_Media_Audio</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>FLAC</linkText>
+                <linkAlternateText>FLAC Home Page</linkAlternateText>
+                <linkUri>http://flac.sourceforge.net/</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>OGG (Vorbis)</linkText>
+                <linkAlternateText>OGG Vorbis Home Page</linkAlternateText>
+                <linkUri>http://www.vorbis.com/faq/</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>WAV</linkText>
+                <linkAlternateText>WAV Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/WAV</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>APE (Monkey's Audio)</linkText>
+                <linkAlternateText>Monkey's Audio Home Page</linkAlternateText>
+                <linkUri>http://www.monkeysaudio.com/</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>WavPack (WV)</linkText>
+                <linkAlternateText>WavPack Home Page</linkAlternateText>
+                <linkUri>http://www.wavpack.com/</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>MusePack (MPC)</linkText>
+                <linkAlternateText>MusePack Home Page</linkAlternateText>
+                <linkUri>http://www.musepack.net/</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              More will be added soon (OFR, TTA, AAC/M4A/MP4 + ALAC)
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    <section address="sectionSupportedPlaylistFormats">
+      <title>Supported Playlist Formats</title>
+      <content>
+        <para>
+          MPfm supports the following playlist formats:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>M3U/M3U8</linkText>
+                <linkAlternateText>M3U Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/M3U</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>PLS</linkText>
+                <linkAlternateText>PLS Wikipedia Page</linkAlternateText>
+                <linkUri>http://en.wikipedia.org/wiki/PLS</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <externalLink>
+                <linkText>XSPF</linkText>
+                <linkAlternateText>XSPF Home Page</linkAlternateText>
+                <linkUri>http://www.xspf.org/</linkUri>
+              </externalLink>
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

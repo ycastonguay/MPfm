@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="ba2bd37f-a99f-42be-816b-aa4d86045e3f" revisionNumber="1">
+  <developerWalkthroughDocument
+  xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <summary>
+      <para>The topics in this section will help you troubleshoot common problems.</para>
+    </summary>
+    <introduction>
+
+    </introduction>
+
+    <section address="sectionPages">
+      <title>Pages</title>
+      <content>
+        <definitionTable>
+
+          <definedTerm>
+            <link xlink:href="e099358d-ab6a-4c1a-ae06-848beedc3f41">No sound</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page has information on what to do when you can't hear sound from your sound card using MPFm.
+            </para>
+          </definition>
+          
+          <definedTerm>
+            <link xlink:href="750eeb2c-3e82-48fe-bbd9-5d9b6ea79148">The application cannot start</link>
+          </definedTerm>
+          <definition>
+            <para>
+              If the application cannot be started, follow these instructions to reset the configuration file.
+            </para>
+          </definition>
+
+        </definitionTable>
+      </content>
+    </section>
+
+    <relatedTopics>
+      <link xlink:href="0a274a09-f489-4ace-a446-6df2a4f5e320">Getting Started</link>
+    </relatedTopics>
+  </developerWalkthroughDocument>
+</topic>

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="fb31ee17-b042-4ad7-8e45-f780607d06f3" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <summary>
+    </summary>    
+
+    <introduction>
+      <para>
+        Welcome to the MPfm: Music Player for Musicians user manual. This manual is intended to help you start using MPfm as quickly as possible and troubleshoot the common
+        problems can you run into. This user manual is a work in progress; it will be updated quite often.
+      </para>
+      <para>
+        If you have suggestions, do not hesitate to contact us at the email address that can be found in the bottom of each page.
+      </para>
+      <para>
+        Have fun with MPfm!
+      </para>
+      <para>
+        <legacyBold>Yanick Castonguay</legacyBold>, MPfm developer
+      </para>
+    </introduction>
+
+    <section address="sectionPages">
+      <title>Pages</title>
+      <content>
+        <definitionTable>
+
+          <definedTerm>
+            <link xlink:href="6d6aa4db-8915-4d90-8fd1-86a70aa5f68c">Features</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page has more information on the features of MPfm.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="7749bb52-ca44-4af7-88a8-0c8354e44617">License</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This is important information about the MPfm license. If you want to use MPfm commercially, you <legacyBold>MUST</legacyBold> read this.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="3ed8964e-9d6c-4a44-9e1b-ea9b64ab9b58">Support</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page contains information on how to submit new bugs, how to view the roadmap, change log, and more.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="1b3c178f-568b-40f4-bd7f-e69393078087">Glossary</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This page is a list of the commonly used terms in this help file and in the MPfm application.
+            </para>
+          </definition>
+        </definitionTable>
+      </content>
+    </section>
+
+    <section address="sectionSections">
+      <title>Sections</title>
+      <content>
+        <definitionTable>
+          
+          <definedTerm>
+            <link xlink:href="0a274a09-f489-4ace-a446-6df2a4f5e320">Getting Started</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This section has a few walkthroughs on how to add audio files to the library, add loops and markers, and more.
+            </para>
+          </definition>
+
+          <definedTerm>
+            <link xlink:href="ba2bd37f-a99f-42be-816b-aa4d86045e3f">Troubleshooting</link>
+          </definedTerm>
+          <definition>
+            <para>
+              This section contains a few articles on how to troubleshoot common problems while running MPfm.
+            </para>
+          </definition>
+          
+        </definitionTable>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

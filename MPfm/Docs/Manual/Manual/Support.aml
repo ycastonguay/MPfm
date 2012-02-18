@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="3ed8964e-9d6c-4a44-9e1b-ea9b64ab9b58" revisionNumber="1">
+  <developerConceptualDocument
+   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <summary>      
+    </summary>
+
+    <introduction>      
+    </introduction>
+
+    <section address="sectionFeatures">      
+      <title>Bugs and Feature Request</title>
+      <content>
+        <para>
+          To view the issues, upcoming features, change log and roadmap of MPfm, check the          
+          <externalLink>
+            <linkText>Mantis bug tracker</linkText>
+            <linkAlternateText>MPfm Mantis Bug Tracker</linkAlternateText>
+            <linkUri>http://www.mp4m.org/mantis</linkUri>
+          </externalLink>.
+        </para>
+        <para>
+          To report a new bug, you will have to
+          <externalLink>
+            <linkText>create a new user</linkText>
+            <linkAlternateText>MPfm Mantis Bug Tracker - Create a new user</linkAlternateText>
+            <linkUri>http://www.mp4m.org/mantis/signup_page.php</linkUri>
+          </externalLink>
+          or
+          <externalLink>
+            <linkText>login using your existing credientials</linkText>
+            <linkAlternateText>MPfm Mantis Bug Tracker - Login</linkAlternateText>
+            <linkUri>http://www.mp4m.org/mantis/login_page.php</linkUri>
+          </externalLink>.          
+        </para>
+        <para>
+          Users can submit new issues in the <ui>MPfm/Support</ui> project. The developer will then try to reproduce 
+          the bug and add a definitive issue into the into the <ui>MPfm</ui> project. All related issues will be linked. 
+          You can use Mantis notifications to get updates on your submitted issues or on issues you are interested in.
+        </para>
+      </content>
+    </section>
+
+  </developerConceptualDocument>
+</topic>
