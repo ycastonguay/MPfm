@@ -42,21 +42,40 @@ namespace MPfm.WindowsControls
     public class Theme
     {
         /// <summary>
-        /// Private value for the General property.
+        /// Private value for the MainWindow property.
         /// </summary>
-        private GeneralTheme m_general = null;
+        private MainWindowTheme m_mainWindow = null;
         /// <summary>
-        /// Theme object for the SongGridView control.
+        /// Theme object for the main window.
         /// </summary>
-        public GeneralTheme General
+        public MainWindowTheme MainWindow
         {
             get
             {
-                return m_general;
+                return m_mainWindow;
             }
             set
             {
-                m_general = value;
+                m_mainWindow = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryWindow property.
+        /// </summary>
+        private SecondaryWindowTheme m_secondaryWindow = null;
+        /// <summary>
+        /// Theme object for the main window.
+        /// </summary>
+        public SecondaryWindowTheme SecondaryWindow
+        {
+            get
+            {
+                return m_secondaryWindow;
+            }
+            set
+            {
+                m_secondaryWindow = value;
             }
         }
 
@@ -104,7 +123,8 @@ namespace MPfm.WindowsControls
         public Theme()
         {
             // Create default objects
-            m_general = new GeneralTheme();
+            m_mainWindow = new MainWindowTheme();
+            m_secondaryWindow = new SecondaryWindowTheme();
             m_songGridView = new SongGridViewTheme();
             m_outputMeter = new OutputMeterTheme();
         }

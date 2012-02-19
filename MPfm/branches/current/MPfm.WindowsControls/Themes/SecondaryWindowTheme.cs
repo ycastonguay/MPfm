@@ -1,5 +1,5 @@
 //
-// GeneralTheme.cs: Defines a theme object for general use in MPfm.
+// SecondaryWindowTheme.cs: Defines a theme object for MPfm secondary windows.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -36,10 +36,12 @@ using System.Xml.Linq;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// Defines a theme object for general use in MPfm.
+    /// Defines a theme object for MPfm secondary windows.
     /// </summary>
-    public class GeneralTheme
+    public class SecondaryWindowTheme
     {
+        // Main window theme
+
         // Header color1/2
         // Header fore color
         // Header font
@@ -57,6 +59,8 @@ namespace MPfm.WindowsControls
         // Toolbar color1/2
         // Toolbar fore color
         // Toolbar font        
+        
+        
         // Secondary window header background color1/2
         // Secondary window header fore color
         // Secondary window header font        
@@ -67,10 +71,12 @@ namespace MPfm.WindowsControls
         // Secondary window button fore color
         // Secondary window button font
 
+
+
         /// <summary>
-        /// Default constructor for the GeneralTheme class.
+        /// Default constructor for the SecondaryWindowTheme class.
         /// </summary>
-        public GeneralTheme()
+        public SecondaryWindowTheme()
         {
 
         }

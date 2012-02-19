@@ -85,7 +85,7 @@ namespace MPfm
         {
             // Add theme sections
             List<ThemeSectionComboBoxItem> themeControls = new List<ThemeSectionComboBoxItem>();
-            themeControls.Add(new ThemeSectionComboBoxItem("General", "GeneralTheme"));
+            themeControls.Add(new ThemeSectionComboBoxItem("Main Window", "MainWindowTheme"));
             themeControls.Add(new ThemeSectionComboBoxItem("Output Meter", "OutputMeterTheme"));
             themeControls.Add(new ThemeSectionComboBoxItem("Song Browser", "SongGridViewTheme"));
             themeControls.Add(new ThemeSectionComboBoxItem("Wave Form Display", "WaveFormDisplayTheme"));
@@ -128,7 +128,7 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmThemes_Shown(object sender, EventArgs e)
         {
-       
+            
         }
 
         #endregion
@@ -156,9 +156,6 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
         {
-            // Variables
-            bool saveSettings = false;            
-
             // Hide form            
             Main.BringToFront();
             Main.Focus();
@@ -226,6 +223,21 @@ namespace MPfm
         {
             // Get item
             ThemeSectionComboBoxItem themeControl = (ThemeSectionComboBoxItem)comboPreviewPane.SelectedItem;
+
+            // Check for Main Window theme
+            if (themeControl.ClassName == "MainWindowTheme")
+            {
+                // Set visibility
+                panelPreviewMainWindow.Visible = true;
+
+                // Set property grid item
+                propertyGridTheme.SelectedObject = new MainWindowTheme();
+            }
+            else
+            {
+                // Set visibility
+                panelPreviewMainWindow.Visible = false;
+            }
 
             // Check for Song Browser theme
             if (themeControl.ClassName == "SongGridViewTheme")

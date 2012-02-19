@@ -1887,8 +1887,16 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnThemes_Click(object sender, EventArgs e)
         {
-            // Show Themes window
-            formThemes.ShowDialog(this);
+            if (formThemes.Visible)
+            {
+                formThemes.Close();
+                btnThemes.Checked = false;
+            }
+            else
+            {
+                formThemes.Show(this);
+                btnThemes.Checked = true;
+            }
         }
 
         /// <summary>

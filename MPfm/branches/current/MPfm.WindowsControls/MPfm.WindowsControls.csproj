@@ -170,7 +170,8 @@
     <Compile Include="Audio\WaveForm.Designer.cs">
       <DependentUpon>WaveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Themes\GeneralTheme.cs" />
+    <Compile Include="Themes\MainWindowTheme.cs" />
+    <Compile Include="Themes\SecondaryWindowTheme.cs" />
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeHelper.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
