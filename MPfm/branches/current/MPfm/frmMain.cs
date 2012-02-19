@@ -135,6 +135,10 @@ namespace MPfm
         /// </summary>
         public frmEffects formEffects = null;
         /// <summary>
+        /// "Themes" form.
+        /// </summary>
+        public frmThemes formThemes = null;
+        /// <summary>
         /// "Settings" form.
         /// </summary>
         public frmSettings formSettings = null;
@@ -548,6 +552,9 @@ namespace MPfm
 
                 Tracing.Log("Main form init -- Loading UI - Effects...");
                 formEffects = new frmEffects(this);
+
+                Tracing.Log("Main form init -- Loading UI - Themes...");
+                formThemes = new frmThemes(this);
 
                 Tracing.Log("Main form init -- Loading UI - Settings...");
                 formSettings = new frmSettings(this);
@@ -1873,6 +1880,18 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Occurs when the user clicks on the "Themes" button on the main form toolbar.
+        /// Opens or closes the Themes window.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnThemes_Click(object sender, EventArgs e)
+        {
+            // Show Themes window
+            formThemes.ShowDialog(this);
+        }
+
+        /// <summary>
         /// Occurs when the user clicks on the "Settings" button on the main form toolbar.
         /// Opens or closes the Settings window.
         /// </summary>
@@ -1880,6 +1899,7 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnSettings_Click(object sender, EventArgs e)
         {
+            // Show Settings window
             formSettings.ShowDialog(this);
         }
 
@@ -4047,6 +4067,7 @@ namespace MPfm
                 panelUpdateLibraryProgress.Visible = false;
             }
         }
+
     }
 
     #region Classes and enums

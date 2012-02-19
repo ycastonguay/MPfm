@@ -142,13 +142,14 @@ namespace MPfm
             this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
             this.btnNextSong = new System.Windows.Forms.ToolStripButton();
+            this.btnEffects = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRepeat = new System.Windows.Forms.ToolStripButton();
             this.btnShuffle = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPlaylist = new System.Windows.Forms.ToolStripButton();
-            this.btnEffects = new System.Windows.Forms.ToolStripButton();
             this.btnVisualizer = new System.Windows.Forms.ToolStripButton();
+            this.btnThemes = new System.Windows.Forms.ToolStripButton();
             this.btnSettings = new System.Windows.Forms.ToolStripButton();
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.splitFirst = new System.Windows.Forms.SplitContainer();
@@ -682,13 +683,14 @@ namespace MPfm
             this.btnStop,
             this.btnPreviousSong,
             this.btnNextSong,
+            this.btnEffects,
             this.toolStripSeparator14,
             this.btnRepeat,
             this.btnShuffle,
             this.toolStripSeparator6,
             this.btnPlaylist,
-            this.btnEffects,
             this.btnVisualizer,
+            this.btnThemes,
             this.btnSettings});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
@@ -766,6 +768,16 @@ namespace MPfm
             this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
             // 
+            // btnEffects
+            // 
+            this.btnEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
+            this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEffects.Name = "btnEffects";
+            this.btnEffects.Size = new System.Drawing.Size(46, 34);
+            this.btnEffects.Text = "Effects";
+            this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
+            // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
@@ -806,16 +818,6 @@ namespace MPfm
             this.btnPlaylist.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
-            // btnEffects
-            // 
-            this.btnEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
-            this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEffects.Name = "btnEffects";
-            this.btnEffects.Size = new System.Drawing.Size(46, 34);
-            this.btnEffects.Text = "Effects";
-            this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
-            // 
             // btnVisualizer
             // 
             this.btnVisualizer.Image = global::MPfm.Properties.Resources.chart_line;
@@ -826,6 +828,16 @@ namespace MPfm
             this.btnVisualizer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnVisualizer.Visible = false;
             this.btnVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
+            // 
+            // btnThemes
+            // 
+            this.btnThemes.Image = global::MPfm.Properties.Resources.layout;
+            this.btnThemes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnThemes.Name = "btnThemes";
+            this.btnThemes.Size = new System.Drawing.Size(49, 34);
+            this.btnThemes.Text = "Themes";
+            this.btnThemes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThemes.Click += new System.EventHandler(this.btnThemes_Click);
             // 
             // btnSettings
             // 
@@ -3514,7 +3526,8 @@ namespace MPfm
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem miHelpLicense;
         private System.Windows.Forms.ToolStripButton btnShuffle;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;        
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        public System.Windows.Forms.ToolStripButton btnThemes;        
     }
 }
 

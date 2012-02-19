@@ -116,13 +116,6 @@ namespace MPfm.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap arrow_switch1 {
-            get {
-                object obj = ResourceManager.GetObject("arrow_switch1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap bug {
             get {
                 object obj = ResourceManager.GetObject("bug", resourceCulture);
@@ -308,6 +301,13 @@ namespace MPfm.Properties {
         internal static System.Drawing.Bitmap information {
             get {
                 object obj = ResourceManager.GetObject("information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap layout {
+            get {
+                object obj = ResourceManager.GetObject("layout", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
