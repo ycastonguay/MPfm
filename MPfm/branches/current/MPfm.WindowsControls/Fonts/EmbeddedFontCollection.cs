@@ -75,27 +75,22 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Adds a font to the collection.
+        /// Adds a font to the collection. Needs a path to the assembly file containing the fonts.
         /// </summary>
         /// <param name="value">Font</param>
+        /// <param name="assemblyPath">Assembly path</param>
         /// <returns>New index</returns>
-        public int Add(EmbeddedFont value)
+        public int Add(EmbeddedFont value, string assemblyPath)
         {
             // Declare variables
             string resourcePath = string.Empty;
 
-            // Check if design time or run time
-            if (Tools.IsDesignTime())
-            {
-                // Set path as current project path
-                //ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
-                //string path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
-            }
-            else
-            {
-                // This is runtime; the file is in the same directory as the executable
-                resourcePath = Application.StartupPath + "\\" + value.AssemblyPath;
+            // Add assembly name
+            resourcePath = assemblyPath + value.AssemblyPath;
 
+            // Check if file exists
+            if (File.Exists(resourcePath))
+            {
                 // Add font from resource file
                 AddFontFromResource(value.ResourceName, resourcePath);
             }

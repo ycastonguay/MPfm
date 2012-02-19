@@ -22,6 +22,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using System.IO;
+using System.Reflection;
 
 namespace MPfm.WindowsControls
 {
@@ -86,19 +89,30 @@ namespace MPfm.WindowsControls
             return font;
         }
 
+        public static EmbeddedFontCollection GetEmbeddedFonts()
+        {
+            return GetEmbeddedFonts(string.Empty);
+        }
+
         /// <summary>
         /// Returns the list of embedded fonts.
         /// </summary>
         /// <returns>Collection of embedded fonts</returns>
-        public static EmbeddedFontCollection GetEmbeddedFonts()
+        public static EmbeddedFontCollection GetEmbeddedFonts(string assemblyPath)
         {
+            // Declare variables
+            if (String.IsNullOrEmpty(assemblyPath))
+            {
+                assemblyPath = Application.StartupPath + "\\";
+            }
+
             // Create list
             EmbeddedFontCollection collection = new EmbeddedFontCollection();
-            collection.Add(GetLeagueGothic());
-            collection.Add(GetJunction());
-            collection.Add(GetTitillium());
-            collection.Add(GetDroidSansMono());
+            collection.Add(GetLeagueGothic(), assemblyPath);
+            collection.Add(GetJunction(), assemblyPath);
+            collection.Add(GetTitillium(), assemblyPath);
+            collection.Add(GetDroidSansMono(), assemblyPath);
             return collection;
-        }
+        }        
     }
 }

@@ -37,6 +37,9 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
@@ -68,9 +71,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont38 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dialogOpenTheme = new System.Windows.Forms.OpenFileDialog();
@@ -86,6 +86,10 @@ namespace MPfm
             this.lblPreviewPane = new MPfm.WindowsControls.Label();
             this.splitTheme = new System.Windows.Forms.SplitContainer();
             this.panelPreviewMainWindow = new MPfm.WindowsControls.Panel();
+            this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.label1 = new MPfm.WindowsControls.Label();
+            this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
             this.panelCurrentSong = new MPfm.WindowsControls.Panel();
             this.panelCurrentSongChild = new MPfm.WindowsControls.Panel();
             this.lblCurrentFilePath = new MPfm.WindowsControls.Label();
@@ -119,22 +123,18 @@ namespace MPfm
             this.lblCurrentTheme = new MPfm.WindowsControls.Label();
             this.cboTheme = new System.Windows.Forms.ComboBox();
             this.panelBackground = new MPfm.WindowsControls.Panel();
-            this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.label1 = new MPfm.WindowsControls.Label();
-            this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
             this.panelThemeProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitTheme)).BeginInit();
             this.splitTheme.Panel1.SuspendLayout();
             this.splitTheme.Panel2.SuspendLayout();
             this.splitTheme.SuspendLayout();
             this.panelPreviewMainWindow.SuspendLayout();
+            this.panelSongBrowserToolbar.SuspendLayout();
             this.panelCurrentSong.SuspendLayout();
             this.panelCurrentSongChild.SuspendLayout();
             this.panelInformation.SuspendLayout();
             this.panelActions.SuspendLayout();
             this.panelBackground.SuspendLayout();
-            this.panelSongBrowserToolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // dialogAddFolder
@@ -476,6 +476,109 @@ namespace MPfm
             this.panelPreviewMainWindow.Name = "panelPreviewMainWindow";
             this.panelPreviewMainWindow.Size = new System.Drawing.Size(355, 344);
             this.panelPreviewMainWindow.TabIndex = 111;
+            // 
+            // panelSongBrowserToolbar
+            // 
+            this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSongBrowserToolbar.Controls.Add(this.txtSearch);
+            this.panelSongBrowserToolbar.Controls.Add(this.label1);
+            this.panelSongBrowserToolbar.Controls.Add(this.btnPlaySelectedSong);
+            customFont9.EmbeddedFontName = "";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8F;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = false;
+            this.panelSongBrowserToolbar.CustomFont = customFont9;
+            this.panelSongBrowserToolbar.ExpandedHeight = 25;
+            this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
+            this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelSongBrowserToolbar.HeaderCustomFontName = "Junction";
+            this.panelSongBrowserToolbar.HeaderExpandable = false;
+            this.panelSongBrowserToolbar.HeaderExpanded = true;
+            this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
+            this.panelSongBrowserToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.panelSongBrowserToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelSongBrowserToolbar.HeaderHeight = 0;
+            this.panelSongBrowserToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panelSongBrowserToolbar.Location = new System.Drawing.Point(10, 262);
+            this.panelSongBrowserToolbar.Name = "panelSongBrowserToolbar";
+            this.panelSongBrowserToolbar.Size = new System.Drawing.Size(333, 25);
+            this.panelSongBrowserToolbar.TabIndex = 74;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(221, 3);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(89, 20);
+            this.txtSearch.TabIndex = 74;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.label1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont7.EmbeddedFontName = "Junction";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 8F;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
+            customFont7.UseEmbeddedFont = true;
+            this.label1.CustomFont = customFont7;
+            this.label1.Font = new System.Drawing.Font("Arial", 8F);
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(148, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 10);
+            this.label1.TabIndex = 73;
+            this.label1.Text = "Search for :";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label1.UseBackgroundGradient = false;
+            // 
+            // btnPlaySelectedSong
+            // 
+            this.btnPlaySelectedSong.BorderColor = System.Drawing.Color.DimGray;
+            this.btnPlaySelectedSong.BorderWidth = 1;
+            this.btnPlaySelectedSong.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont8.EmbeddedFontName = "Junction";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 8F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = true;
+            this.btnPlaySelectedSong.CustomFont = customFont8;
+            this.btnPlaySelectedSong.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnPlaySelectedSong.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnPlaySelectedSong.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnPlaySelectedSong.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.btnPlaySelectedSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlaySelectedSong.FontColor = System.Drawing.Color.Black;
+            this.btnPlaySelectedSong.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnPlaySelectedSong.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnPlaySelectedSong.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnPlaySelectedSong.Image = global::MPfm.Properties.Resources.control_play;
+            this.btnPlaySelectedSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPlaySelectedSong.Location = new System.Drawing.Point(0, 0);
+            this.btnPlaySelectedSong.MouseOverBorderColor = System.Drawing.Color.DimGray;
+            this.btnPlaySelectedSong.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnPlaySelectedSong.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnPlaySelectedSong.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
+            this.btnPlaySelectedSong.Name = "btnPlaySelectedSong";
+            this.btnPlaySelectedSong.Size = new System.Drawing.Size(142, 25);
+            this.btnPlaySelectedSong.TabIndex = 68;
+            this.btnPlaySelectedSong.Text = "Play selected song(s)";
+            this.btnPlaySelectedSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPlaySelectedSong.UseVisualStyleBackColor = true;
             // 
             // panelCurrentSong
             // 
@@ -1296,7 +1399,7 @@ namespace MPfm
             this.lblCurrentTheme.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentTheme.Location = new System.Drawing.Point(93, 59);
             this.lblCurrentTheme.Name = "lblCurrentTheme";
-            this.lblCurrentTheme.Size = new System.Drawing.Size(113, 18);
+            this.lblCurrentTheme.Size = new System.Drawing.Size(756, 18);
             this.lblCurrentTheme.TabIndex = 114;
             this.lblCurrentTheme.Text = "Default Theme";
             this.lblCurrentTheme.UseBackgroundGradient = false;
@@ -1358,109 +1461,6 @@ namespace MPfm
             this.panelBackground.Size = new System.Drawing.Size(861, 571);
             this.panelBackground.TabIndex = 109;
             // 
-            // panelSongBrowserToolbar
-            // 
-            this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSongBrowserToolbar.Controls.Add(this.txtSearch);
-            this.panelSongBrowserToolbar.Controls.Add(this.label1);
-            this.panelSongBrowserToolbar.Controls.Add(this.btnPlaySelectedSong);
-            customFont9.EmbeddedFontName = "";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 8F;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseAntiAliasing = true;
-            customFont9.UseEmbeddedFont = false;
-            this.panelSongBrowserToolbar.CustomFont = customFont9;
-            this.panelSongBrowserToolbar.ExpandedHeight = 25;
-            this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
-            this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowserToolbar.HeaderCustomFontName = "Junction";
-            this.panelSongBrowserToolbar.HeaderExpandable = false;
-            this.panelSongBrowserToolbar.HeaderExpanded = true;
-            this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
-            this.panelSongBrowserToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelSongBrowserToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panelSongBrowserToolbar.HeaderHeight = 0;
-            this.panelSongBrowserToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.panelSongBrowserToolbar.Location = new System.Drawing.Point(10, 262);
-            this.panelSongBrowserToolbar.Name = "panelSongBrowserToolbar";
-            this.panelSongBrowserToolbar.Size = new System.Drawing.Size(333, 25);
-            this.panelSongBrowserToolbar.TabIndex = 74;
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Location = new System.Drawing.Point(221, 3);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(89, 20);
-            this.txtSearch.TabIndex = 74;
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.label1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont7.EmbeddedFontName = "Junction";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 8F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            this.label1.CustomFont = customFont7;
-            this.label1.Font = new System.Drawing.Font("Arial", 8F);
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(148, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 10);
-            this.label1.TabIndex = 73;
-            this.label1.Text = "Search for :";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label1.UseBackgroundGradient = false;
-            // 
-            // btnPlaySelectedSong
-            // 
-            this.btnPlaySelectedSong.BorderColor = System.Drawing.Color.DimGray;
-            this.btnPlaySelectedSong.BorderWidth = 1;
-            this.btnPlaySelectedSong.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 8F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            this.btnPlaySelectedSong.CustomFont = customFont8;
-            this.btnPlaySelectedSong.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnPlaySelectedSong.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnPlaySelectedSong.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnPlaySelectedSong.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnPlaySelectedSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlaySelectedSong.FontColor = System.Drawing.Color.Black;
-            this.btnPlaySelectedSong.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnPlaySelectedSong.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnPlaySelectedSong.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnPlaySelectedSong.Image = global::MPfm.Properties.Resources.control_play;
-            this.btnPlaySelectedSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPlaySelectedSong.Location = new System.Drawing.Point(0, 0);
-            this.btnPlaySelectedSong.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnPlaySelectedSong.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnPlaySelectedSong.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnPlaySelectedSong.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnPlaySelectedSong.Name = "btnPlaySelectedSong";
-            this.btnPlaySelectedSong.Size = new System.Drawing.Size(142, 25);
-            this.btnPlaySelectedSong.TabIndex = 68;
-            this.btnPlaySelectedSong.Text = "Play selected song(s)";
-            this.btnPlaySelectedSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnPlaySelectedSong.UseVisualStyleBackColor = true;
-            // 
             // frmThemes
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1485,13 +1485,13 @@ namespace MPfm
             ((System.ComponentModel.ISupportInitialize)(this.splitTheme)).EndInit();
             this.splitTheme.ResumeLayout(false);
             this.panelPreviewMainWindow.ResumeLayout(false);
+            this.panelSongBrowserToolbar.ResumeLayout(false);
+            this.panelSongBrowserToolbar.PerformLayout();
             this.panelCurrentSong.ResumeLayout(false);
             this.panelCurrentSongChild.ResumeLayout(false);
             this.panelInformation.ResumeLayout(false);
             this.panelActions.ResumeLayout(false);
             this.panelBackground.ResumeLayout(false);
-            this.panelSongBrowserToolbar.ResumeLayout(false);
-            this.panelSongBrowserToolbar.PerformLayout();
             this.ResumeLayout(false);
 
         }

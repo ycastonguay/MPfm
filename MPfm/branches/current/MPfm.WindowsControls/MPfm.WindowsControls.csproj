@@ -120,6 +120,9 @@
       <DependentUpon>SongGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\SongGridViewImageCache.cs" />
+    <Compile Include="Misc\Control.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Misc\HScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -30,6 +30,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
+using System.IO;
+using System.Reflection;
 
 namespace MPfm.WindowsControls
 {
@@ -152,7 +154,7 @@ namespace MPfm.WindowsControls
             set
             {
                 m_customFont = value;
-                Refresh();
+                Refresh();                
             }
         }
 
@@ -168,10 +170,49 @@ namespace MPfm.WindowsControls
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);        
             
             // Set default Font
-            m_customFont = new CustomFont();
+            m_customFont = new CustomFont();             
+        }
 
-            // Get embedded font collection
-            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+        /// <summary>
+        /// Occurs when the control is created.
+        /// </summary>
+        protected override void OnCreateControl()
+        {
+            // Call base event method
+            base.OnCreateControl();
+
+            // Load embedded fonts
+            LoadEmbeddedFonts();
+        }
+
+        /// <summary>
+        /// Loads the embedded fonts for rendering.
+        /// </summary>
+        protected void LoadEmbeddedFonts()
+        {
+            // Check if design time or run time            
+            if (Tools.IsDesignTime())
+            {
+                // This only exists when running in design time and cannot be run in the constructor                
+                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
+                string path = string.Empty;
+                if (typeResService != null)
+                {
+                    // Get path
+                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
+                }
+
+                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll               
+                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
+
+                // Get embedded font collection
+                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+            }
+            else
+            {
+                // Get embedded font collection
+                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+            }
         }
 
         /// <summary>
@@ -185,8 +226,6 @@ namespace MPfm.WindowsControls
                 // Get graphics from paint event
                 Graphics g = pe.Graphics;
 
-                //m_cachedFont = Tools.LoadEmbeddedFont(EmbeddedFonts.embeddedFonts, "LeagueGothic", 10f, FontStyle.Bold);
-
                 // Use anti-aliasing?
                 if (CustomFont.UseAntiAliasing)
                 {
@@ -198,7 +237,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Create custom Font
-                Font Font = null;
+                Font Font = null;                
 
                 // Make sure the embedded Font name needs to be loaded and is valid
                 if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
@@ -322,9 +361,6 @@ namespace MPfm.WindowsControls
             {                
                 throw;
             }
-
-            //ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
-            //string path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
         }
     }
 }
