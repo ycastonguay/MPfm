@@ -33,7 +33,7 @@ namespace MPfm.WindowsControls
     /// <summary>
     /// Custom property grid type editor for custom fonts.
     /// </summary>
-    public class CustomFontEditor : UITypeEditor
+    public class CustomFontUIEditor : UITypeEditor
     {
         /// <summary>
         /// Returns the window style.

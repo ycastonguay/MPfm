@@ -30,7 +30,7 @@ namespace MPfm.WindowsControls
     /// <summary>
     /// This object represents a custom font (standard or embedded font).
     /// </summary>
-    [Editor(typeof(CustomFontEditor), typeof(UITypeEditor))]
+    [Editor(typeof(CustomFontUIEditor), typeof(UITypeEditor))]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class CustomFont
     {

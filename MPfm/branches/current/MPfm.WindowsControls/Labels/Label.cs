@@ -29,6 +29,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel.Design;
+using System.Drawing.Design;
 
 namespace MPfm.WindowsControls
 {
@@ -141,7 +142,7 @@ namespace MPfm.WindowsControls
         /// Defines the Font to be used for rendering the control.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
+        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]        
         public CustomFont CustomFont
         {
             get
