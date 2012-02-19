@@ -51,11 +51,6 @@ namespace MPfm.WindowsControls
         #region Private variables
 
         /// <summary>
-        /// Embedded font collection used for drawing.
-        /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
-        
-        /// <summary>
         /// Defines the X position of the cursor.
         /// </summary>
         private float m_cursorX = 0.0f;
@@ -492,9 +487,6 @@ namespace MPfm.WindowsControls
         {
             // Create default theme
             m_theme = new WaveFormDisplayTheme();
-
-            // Get embedded font collection
-            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
             #region Contextual Menu
             

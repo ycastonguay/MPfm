@@ -44,15 +44,9 @@ namespace MPfm.WindowsControls
     /// <summary>
     /// This custom grid view control displays the MPfm library.
     /// </summary>
-    public partial class SongGridView 
-        : System.Windows.Forms.Control, IMessageFilter
+    public partial class SongGridView : Control, IMessageFilter
     {
         #region Private Variables
-
-        /// <summary>
-        /// Embedded font collection used for drawing.
-        /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
 
         // Mode
         private SongGridViewMode m_mode = SongGridViewMode.AudioFile;

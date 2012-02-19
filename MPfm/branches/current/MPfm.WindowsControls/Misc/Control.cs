@@ -37,7 +37,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Embedded font collection used for drawing.
         /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
+        protected EmbeddedFontCollection m_embeddedFonts = null;
 
         /// <summary>
         /// Default constructor for the Control class.
@@ -45,6 +45,13 @@ namespace MPfm.WindowsControls
         public Control() 
             : base()
         {
+        }
+
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+
+            LoadEmbeddedFonts();
         }
 
         /// <summary>

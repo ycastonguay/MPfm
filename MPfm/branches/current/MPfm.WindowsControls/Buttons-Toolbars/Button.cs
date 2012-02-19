@@ -28,6 +28,8 @@ using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
+using System.ComponentModel.Design;
 
 namespace MPfm.WindowsControls
 {
@@ -350,9 +352,48 @@ namespace MPfm.WindowsControls
 
             // Set default font
             m_customFont = new CustomFont();
+        }
 
-            // Get embedded font collection
-            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+        /// <summary>
+        /// Occurs when the control is created.
+        /// </summary>
+        protected override void OnCreateControl()
+        {
+            // Call base event method
+            base.OnCreateControl();
+
+            // Load embedded fonts
+            LoadEmbeddedFonts();
+        }
+
+        /// <summary>
+        /// Loads the embedded fonts for rendering.
+        /// </summary>
+        protected void LoadEmbeddedFonts()
+        {
+            // Check if design time or run time            
+            if (Tools.IsDesignTime())
+            {
+                // This only exists when running in design time and cannot be run in the constructor                
+                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
+                string path = string.Empty;
+                if (typeResService != null)
+                {
+                    // Get path
+                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
+                }
+
+                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll               
+                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
+
+                // Get embedded font collection
+                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+            }
+            else
+            {
+                // Get embedded font collection
+                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+            }
         }
 
         #region Paint Events
