@@ -41,107 +41,19 @@ namespace MPfm.WindowsControls
     public class MainWindowTheme
     {
 
-        #region Header
-        
-        /// <summary>
-        /// Private value for the HeaderBackgroundColor1 property.
-        /// </summary>
-        private Color m_headerBackgroundColor1 = Color.FromArgb(215, 215, 215);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("First color of the header background gradient.")]
-        public Color HeaderBackgroundColor1
-        {
-            get
-            {
-                return m_headerBackgroundColor1;
-            }
-            set
-            {
-                m_headerBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderBackgroundColor2 property.
-        /// </summary>
-        private Color m_headerBackgroundColor2 = Color.FromArgb(215, 215, 215);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("Second color of the header background gradient.")]
-        public Color HeaderBackgroundColor2
-        {
-            get
-            {
-                return m_headerBackgroundColor2;
-            }
-            set
-            {
-                m_headerBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderForeColor property.
-        /// </summary>
-        private Color m_headerForeColor = Color.FromArgb(215, 215, 215);
-        /// <summary>
-        /// Header fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("Header fore color.")]
-        public Color HeaderForeColor
-        {
-            get
-            {
-                return m_headerForeColor;
-            }
-            set
-            {
-                m_headerForeColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the Font property.
-        /// </summary>
-        private CustomFont m_headerFont = new CustomFont();
-        /// <summary>
-        /// Defines the font used for the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("Font used for the header.")]
-        public CustomFont HeaderFont
-        {
-            get
-            {
-                return m_headerFont;
-            }
-            set
-            {
-                m_headerFont = value;
-            }
-        }
-
-        #endregion
-
         #region Panel
 
         #region Panel Header
-
+        
         /// <summary>
         /// Private value for the PanelHeaderBackgroundColor1 property.
         /// </summary>
         private Color m_panelHeaderBackgroundColor1 = Color.FromArgb(215, 215, 215);
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the main panel header background gradient (first color).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("First color of the panelHeader background gradient.")]
+        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header background gradient (first color).")]
         public Color PanelHeaderBackgroundColor1
         {
             get
@@ -159,10 +71,10 @@ namespace MPfm.WindowsControls
         /// </summary>
         private Color m_panelHeaderBackgroundColor2 = Color.FromArgb(215, 215, 215);
         /// <summary>
-        /// Second color of the background gradient.
+        /// Defines the main panel header background gradient (second color).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("Second color of the panelHeader background gradient.")]
+        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header background gradient (second color).")]
         public Color PanelHeaderBackgroundColor2
         {
             get
@@ -176,44 +88,44 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the PanelHeaderForeColor property.
+        /// Private value for the PanelHeaderTextColor property.
         /// </summary>
-        private Color m_panelHeaderForeColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelHeaderTextColor = Color.FromArgb(215, 215, 215);
         /// <summary>
-        /// PanelHeader fore color.
+        /// Defines the main panel header text fore color.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("PanelHeader fore color.")]
-        public Color PanelHeaderForeColor
+        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header text fore color.")]
+        public Color PanelHeaderTextColor
         {
             get
             {
-                return m_panelHeaderForeColor;
+                return m_panelHeaderTextColor;
             }
             set
             {
-                m_panelHeaderForeColor = value;
+                m_panelHeaderTextColor = value;
             }
         }
 
         /// <summary>
-        /// Private value for the Font property.
+        /// Private value for the PanelHeaderTextFont property.
         /// </summary>
-        private CustomFont m_panelHeaderFont = new CustomFont();
+        private CustomFont m_panelHeaderTextFont = new CustomFont();
         /// <summary>
-        /// Defines the font used for the panelHeader.
+        /// Defines the main panel header text font.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("Font used for the panelHeader.")]
-        public CustomFont PanelHeaderFont
+        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header text font.")]
+        public CustomFont PanelHeaderTextFont
         {
             get
             {
-                return m_panelHeaderFont;
+                return m_panelHeaderTextFont;
             }
             set
             {
-                m_panelHeaderFont = value;
+                m_panelHeaderTextFont = value;
             }
         }
 
@@ -224,10 +136,10 @@ namespace MPfm.WindowsControls
         /// </summary>
         private Color m_panelBackgroundColor1 = Color.FromArgb(215, 215, 215);
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the main panel background gradient (first color).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("First color of the panel background gradient.")]
+        [Category("Main Panel"), Browsable(true), Description("Main panel background gradient (first color).")]
         public Color PanelBackgroundColor1
         {
             get
@@ -245,10 +157,10 @@ namespace MPfm.WindowsControls
         /// </summary>
         private Color m_panelBackgroundColor2 = Color.FromArgb(215, 215, 215);
         /// <summary>
-        /// Second color of the background gradient.
+        /// Defines the main panel background gradient (second color).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("Second color of the panel background gradient.")]
+        [Category("Main Panel"), Browsable(true), Description("Main panel background gradient (second color).")]
         public Color PanelBackgroundColor2
         {
             get
@@ -262,78 +174,659 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the PanelForeColor property.
+        /// Private value for the PanelTitleColor property.
         /// </summary>
-        private Color m_panelForeColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelTitleColor = Color.FromArgb(215, 215, 215);
         /// <summary>
-        /// Panel fore color.
+        /// Defines the main panel title fore color.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("Panel fore color.")]
-        public Color PanelForeColor
+        [Category("Main Panel"), Browsable(true), Description("Main panel title fore color.")]
+        public Color PanelTitleColor
         {
             get
             {
-                return m_panelForeColor;
+                return m_panelTitleColor;
             }
             set
             {
-                m_panelForeColor = value;
+                m_panelTitleColor = value;
             }
         }
 
         /// <summary>
-        /// Private value for the Font property.
+        /// Private value for the PanelTitleFont property.
         /// </summary>
-        private CustomFont m_panelFont = new CustomFont();
+        private CustomFont m_panelTitleFont = new CustomFont();
         /// <summary>
-        /// Defines the font used for the panel.
+        /// Defines the main panel title font.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Panel"), Browsable(true), Description("Font used for the panel.")]
-        public CustomFont PanelFont
+        [Category("Main Panel"), Browsable(true), Description("Main panel title font.")]
+        public CustomFont PanelTitleFont
         {
             get
             {
-                return m_panelFont;
+                return m_panelTitleFont;
             }
             set
             {
-                m_panelFont = value;
+                m_panelTitleFont = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelSubtitleColor property.
+        /// </summary>
+        private Color m_panelSubtitleColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the main panel subtitle fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle fore color.")]
+        public Color PanelSubtitleColor
+        {
+            get
+            {
+                return m_panelSubtitleColor;
+            }
+            set
+            {
+                m_panelSubtitleColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelSubtitleFont property.
+        /// </summary>
+        private CustomFont m_panelSubtitleFont = new CustomFont();
+        /// <summary>
+        /// Defines the main panel subtitle font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle font.")]
+        public CustomFont PanelSubtitleFont
+        {
+            get
+            {
+                return m_panelSubtitleFont;
+            }
+            set
+            {
+                m_panelSubtitleFont = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelSubtitle2Color property.
+        /// </summary>
+        private Color m_panelSubtitle2Color = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the main panel subtitle 2 fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle 2 fore color.")]
+        public Color PanelSubtitle2Color
+        {
+            get
+            {
+                return m_panelSubtitle2Color;
+            }
+            set
+            {
+                m_panelSubtitle2Color = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelSubtitle2Font property.
+        /// </summary>
+        private CustomFont m_panelSubtitle2Font = new CustomFont();
+        /// <summary>
+        /// Defines the main panel subtitle 2 font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle 2 font.")]
+        public CustomFont PanelSubtitle2Font
+        {
+            get
+            {
+                return m_panelSubtitle2Font;
+            }
+            set
+            {
+                m_panelSubtitle2Font = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelTextColor property.
+        /// </summary>
+        private Color m_panelTextColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the main panel text fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel text fore color.")]
+        public Color PanelTextColor
+        {
+            get
+            {
+                return m_panelTextColor;
+            }
+            set
+            {
+                m_panelTextColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelTextFont property.
+        /// </summary>
+        private CustomFont m_panelTextFont = new CustomFont();
+        /// <summary>
+        /// Defines the main panel text font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel text font.")]
+        public CustomFont PanelTextFont
+        {
+            get
+            {
+                return m_panelTextFont;
+            }
+            set
+            {
+                m_panelTextFont = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelTimeDisplayColor property.
+        /// </summary>
+        private Color m_panelTimeDisplayColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the main panel time display fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel time display fore color.")]
+        public Color PanelTimeDisplayColor
+        {
+            get
+            {
+                return m_panelTimeDisplayColor;
+            }
+            set
+            {
+                m_panelTimeDisplayColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelTimeDisplayFont property.
+        /// </summary>
+        private CustomFont m_panelTimeDisplayFont = new CustomFont();
+        /// <summary>
+        /// Defines the main panel time display font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel time display font.")]
+        public CustomFont PanelTimeDisplayFont
+        {
+            get
+            {
+                return m_panelTimeDisplayFont;
+            }
+            set
+            {
+                m_panelTimeDisplayFont = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelSmallTimeDisplayColor property.
+        /// </summary>
+        private Color m_panelSmallTimeDisplayColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the main panel small time display fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel small time display fore color.")]
+        public Color PanelSmallTimeDisplayColor
+        {
+            get
+            {
+                return m_panelSmallTimeDisplayColor;
+            }
+            set
+            {
+                m_panelSmallTimeDisplayColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the PanelSmallTimeDisplayFont property.
+        /// </summary>
+        private CustomFont m_panelSmallTimeDisplayFont = new CustomFont();
+        /// <summary>
+        /// Defines the main panel small time display font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Main Panel"), Browsable(true), Description("Main panel small time display font.")]
+        public CustomFont PanelSmallTimeDisplayFont
+        {
+            get
+            {
+                return m_panelSmallTimeDisplayFont;
+            }
+            set
+            {
+                m_panelSmallTimeDisplayFont = value;
             }
         }
 
         #endregion
 
-        // x Header color1/2
-        // x Header fore color
-        // x Header font
+        #region Secondary Panel
 
-        // Background color1/2
-        // Content fore color
-        // Content font
-        // x Panel header color 1/2
-        // x Panel header fore color
-        // x Panel header font
-        // x Panel color 1/2
-        // x Panel text fore color        
-        // x Panel text font
-        // Panel link color
-        // Panel link font
+        #region Secondary Panel Header
 
-        // Toolbar border
-        // Toolbar color1/2
-        // Toolbar fore color
-        // Toolbar font  
-        // Toolbar button color 1/2 and so on
+        /// <summary>
+        /// Private value for the SecondaryPanelHeaderBackgroundColor1 property.
+        /// </summary>
+        private Color m_secondaryPanelHeaderBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel header background gradient (first color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header background gradient (first color).")]
+        public Color SecondaryPanelHeaderBackgroundColor1
+        {
+            get
+            {
+                return m_secondaryPanelHeaderBackgroundColor1;
+            }
+            set
+            {
+                m_secondaryPanelHeaderBackgroundColor1 = value;
+            }
+        }
 
+        /// <summary>
+        /// Private value for the SecondaryPanelHeaderBackgroundColor2 property.
+        /// </summary>
+        private Color m_secondaryPanelHeaderBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel header background gradient (second color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header background gradient (second color).")]
+        public Color SecondaryPanelHeaderBackgroundColor2
+        {
+            get
+            {
+                return m_secondaryPanelHeaderBackgroundColor2;
+            }
+            set
+            {
+                m_secondaryPanelHeaderBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelHeaderTextColor property.
+        /// </summary>
+        private Color m_secondaryPanelHeaderTextColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel header text fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header text fore color.")]
+        public Color SecondaryPanelHeaderTextColor
+        {
+            get
+            {
+                return m_secondaryPanelHeaderTextColor;
+            }
+            set
+            {
+                m_secondaryPanelHeaderTextColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelHeaderTextFont property.
+        /// </summary>
+        private CustomFont m_secondaryPanelHeaderTextFont = new CustomFont();
+        /// <summary>
+        /// Defines the secondary panel header text font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header text font.")]
+        public CustomFont SecondaryPanelHeaderTextFont
+        {
+            get
+            {
+                return m_secondaryPanelHeaderTextFont;
+            }
+            set
+            {
+                m_secondaryPanelHeaderTextFont = value;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Private value for the SecondaryPanelBackgroundColor1 property.
+        /// </summary>
+        private Color m_secondaryPanelBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel background gradient (first color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel background gradient (first color).")]
+        public Color SecondaryPanelBackgroundColor1
+        {
+            get
+            {
+                return m_secondaryPanelBackgroundColor1;
+            }
+            set
+            {
+                m_secondaryPanelBackgroundColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelBackgroundColor2 property.
+        /// </summary>
+        private Color m_secondaryPanelBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel background gradient (second color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel background gradient (second color).")]
+        public Color SecondaryPanelBackgroundColor2
+        {
+            get
+            {
+                return m_secondaryPanelBackgroundColor2;
+            }
+            set
+            {
+                m_secondaryPanelBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelLabelColor property.
+        /// </summary>
+        private Color m_secondaryPanelLabelColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel label fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel label fore color.")]
+        public Color SecondaryPanelLabelColor
+        {
+            get
+            {
+                return m_secondaryPanelLabelColor;
+            }
+            set
+            {
+                m_secondaryPanelLabelColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelLabelFont property.
+        /// </summary>
+        private CustomFont m_secondaryPanelLabelFont = new CustomFont();
+        /// <summary>
+        /// Defines the secondary panel label font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel label font.")]
+        public CustomFont SecondaryPanelLabelFont
+        {
+            get
+            {
+                return m_secondaryPanelLabelFont;
+            }
+            set
+            {
+                m_secondaryPanelLabelFont = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelTextColor property.
+        /// </summary>
+        private Color m_secondaryPanelTextColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the secondary panel text fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel text fore color.")]
+        public Color SecondaryPanelTextColor
+        {
+            get
+            {
+                return m_secondaryPanelTextColor;
+            }
+            set
+            {
+                m_secondaryPanelTextColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the SecondaryPanelTextFont property.
+        /// </summary>
+        private CustomFont m_secondaryPanelTextFont = new CustomFont();
+        /// <summary>
+        /// Defines the secondary panel text font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel text font.")]
+        public CustomFont SecondaryPanelTextFont
+        {
+            get
+            {
+                return m_secondaryPanelTextFont;
+            }
+            set
+            {
+                m_secondaryPanelTextFont = value;
+            }
+        }
+
+        #endregion
+
+        #region Toolbar
+
+
+        #region Toolbar Buttons
+
+        /// <summary>
+        /// Private value for the ToolbarButtonBackgroundColor1 property.
+        /// </summary>
+        private Color m_toolbarButtonBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button background gradient (first color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (first color).")]
+        public Color ToolbarButtonBackgroundColor1
+        {
+            get
+            {
+                return m_toolbarButtonBackgroundColor1;
+            }
+            set
+            {
+                m_toolbarButtonBackgroundColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonBackgroundColor2 property.
+        /// </summary>
+        private Color m_toolbarButtonBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button background gradient (second color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (second color).")]
+        public Color ToolbarButtonBackgroundColor2
+        {
+            get
+            {
+                return m_toolbarButtonBackgroundColor2;
+            }
+            set
+            {
+                m_toolbarButtonBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonTextColor property.
+        /// </summary>
+        private Color m_toolbarButtonTextColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button text fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color.")]
+        public Color ToolbarButtonTextColor
+        {
+            get
+            {
+                return m_toolbarButtonTextColor;
+            }
+            set
+            {
+                m_toolbarButtonTextColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonTextFont property.
+        /// </summary>
+        private CustomFont m_toolbarButtonTextFont = new CustomFont();
+        /// <summary>
+        /// Defines the toolbar button text font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text font.")]
+        public CustomFont ToolbarButtonTextFont
+        {
+            get
+            {
+                return m_toolbarButtonTextFont;
+            }
+            set
+            {
+                m_toolbarButtonTextFont = value;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Private value for the ToolbarBackgroundColor1 property.
+        /// </summary>
+        private Color m_toolbarBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar background gradient (first color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar"), Browsable(true), Description("Toolbar background gradient (first color).")]
+        public Color ToolbarBackgroundColor1
+        {
+            get
+            {
+                return m_toolbarBackgroundColor1;
+            }
+            set
+            {
+                m_toolbarBackgroundColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarBackgroundColor2 property.
+        /// </summary>
+        private Color m_toolbarBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar background gradient (second color).
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar"), Browsable(true), Description("Toolbar background gradient (second color).")]
+        public Color ToolbarBackgroundColor2
+        {
+            get
+            {
+                return m_toolbarBackgroundColor2;
+            }
+            set
+            {
+                m_toolbarBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarTextColor property.
+        /// </summary>
+        private Color m_toolbarTextColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar text fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar"), Browsable(true), Description("Toolbar text fore color.")]
+        public Color ToolbarTextColor
+        {
+            get
+            {
+                return m_toolbarTextColor;
+            }
+            set
+            {
+                m_toolbarTextColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarTextFont property.
+        /// </summary>
+        private CustomFont m_toolbarTextFont = new CustomFont();
+        /// <summary>
+        /// Defines the toolbar text font.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar"), Browsable(true), Description("Toolbar text font.")]
+        public CustomFont ToolbarTextFont
+        {
+            get
+            {
+                return m_toolbarTextFont;
+            }
+            set
+            {
+                m_toolbarTextFont = value;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Default constructor for the MainWindowTheme class.
         /// </summary>
         public MainWindowTheme()
         {
-
         }
     }
 }
