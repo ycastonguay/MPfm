@@ -104,8 +104,7 @@ namespace MPfm
             this.panelMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelMain.GradientColor1 = System.Drawing.Color.Black;
             this.panelMain.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelMain.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelMain.HeaderCustomFontName = "NeuzeitS";
+            this.panelMain.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelMain.HeaderExpanded = true;
             this.panelMain.HeaderForeColor = System.Drawing.Color.White;
             this.panelMain.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -306,8 +305,7 @@ namespace MPfm
             this.panelLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelLog.GradientColor1 = System.Drawing.Color.Black;
             this.panelLog.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelLog.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLog.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelLog.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelLog.HeaderExpandable = false;
             this.panelLog.HeaderExpanded = true;
             this.panelLog.HeaderForeColor = System.Drawing.Color.White;

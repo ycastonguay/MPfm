@@ -139,28 +139,6 @@ namespace MPfm.WindowsControls
         #region Header Properties
 
         /// <summary>
-        /// Private value for the HeaderCustomFontName property.
-        /// </summary>
-        private string m_headerCustomFontName = "";
-        /// <summary>
-        /// Name of the embedded font used in the header (as written in the Name property of a CustomFont).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("Name of the embedded font used in the header (as written in the Name property of a CustomFont).")]
-        public string HeaderCustomFontName
-        {
-            get
-            {
-                return m_headerCustomFontName;
-            }
-            set
-            {
-                m_headerCustomFontName = value;
-            }
-        }
-
-        /// <summary>
         /// Private value for the HeaderTitle property.
         /// </summary>
         private string m_headerTitle = "";

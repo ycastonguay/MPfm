@@ -111,8 +111,7 @@ namespace MPfm
             this.panelEditSongMetadata.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEditSongMetadata.GradientColor1 = System.Drawing.Color.Silver;
             this.panelEditSongMetadata.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelEditSongMetadata.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelEditSongMetadata.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelEditSongMetadata.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelEditSongMetadata.HeaderExpandable = false;
             this.panelEditSongMetadata.HeaderExpanded = true;
             this.panelEditSongMetadata.HeaderForeColor = System.Drawing.Color.Black;

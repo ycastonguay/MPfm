@@ -434,7 +434,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelHeaderBackgroundColor1 property.
         /// </summary>
-        private Color m_secondaryPanelHeaderBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelHeaderBackgroundColor1 = Color.FromArgb(50, 50, 50);
         /// <summary>
         /// Defines the secondary panel header background gradient (first color).
         /// </summary>
@@ -455,7 +455,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelHeaderBackgroundColor2 property.
         /// </summary>
-        private Color m_secondaryPanelHeaderBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelHeaderBackgroundColor2 = Color.FromArgb(100, 100, 100);
         /// <summary>
         /// Defines the secondary panel header background gradient (second color).
         /// </summary>
@@ -476,7 +476,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelHeaderTextColor property.
         /// </summary>
-        private Color m_secondaryPanelHeaderTextColor = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelHeaderTextColor = Color.FromArgb(255, 255, 255);
         /// <summary>
         /// Defines the secondary panel header text fore color.
         /// </summary>
@@ -520,7 +520,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelBackgroundColor1 property.
         /// </summary>
-        private Color m_secondaryPanelBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelBackgroundColor1 = Color.FromArgb(0, 0, 0);
         /// <summary>
         /// Defines the secondary panel background gradient (first color).
         /// </summary>
@@ -541,7 +541,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelBackgroundColor2 property.
         /// </summary>
-        private Color m_secondaryPanelBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelBackgroundColor2 = Color.FromArgb(47, 47, 47);
         /// <summary>
         /// Defines the secondary panel background gradient (second color).
         /// </summary>
@@ -562,7 +562,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelLabelColor property.
         /// </summary>
-        private Color m_secondaryPanelLabelColor = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelLabelColor = Color.Silver;
         /// <summary>
         /// Defines the secondary panel label fore color.
         /// </summary>
@@ -604,7 +604,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelTextColor property.
         /// </summary>
-        private Color m_secondaryPanelTextColor = Color.FromArgb(215, 215, 215);
+        private Color m_secondaryPanelTextColor = Color.White;
         /// <summary>
         /// Defines the secondary panel text fore color.
         /// </summary>
@@ -647,7 +647,6 @@ namespace MPfm.WindowsControls
 
         #region Toolbar
 
-
         #region Toolbar Buttons
 
         /// <summary>
@@ -689,6 +688,153 @@ namespace MPfm.WindowsControls
             set
             {
                 m_toolbarButtonBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonBorderColor property.
+        /// </summary>
+        private Color m_toolbarButtonBorderColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button border color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button border color.")]
+        public Color ToolbarButtonBorderColor
+        {
+            get
+            {
+                return m_toolbarButtonBorderColor;
+            }
+            set
+            {
+                m_toolbarButtonBorderColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonOverBackgroundColor1 property.
+        /// </summary>
+        private Color m_toolbarButtonMouseOverBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button background gradient (first color), when the mouse is over.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (first color), when the mouse is over.")]
+        public Color ToolbarButtonMouseOverBackgroundColor1
+        {
+            get
+            {
+                return m_toolbarButtonMouseOverBackgroundColor1;
+            }
+            set
+            {
+                m_toolbarButtonMouseOverBackgroundColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonOverBackgroundColor2 property.
+        /// </summary>
+        private Color m_toolbarButtonMouseOverBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button background gradient (second color), when the mouse is over.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (second color), when the mouse is over.")]
+        public Color ToolbarButtonMouseOverBackgroundColor2
+        {
+            get
+            {
+                return m_toolbarButtonMouseOverBackgroundColor2;
+            }
+            set
+            {
+                m_toolbarButtonMouseOverBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonOverBackgroundColor2 property.
+        /// </summary>
+        private Color m_toolbarButtonMouseOverBorderColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button border color, when the mouse is over.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button border color, when the mouse is over.")]
+        public Color ToolbarButtonMouseOverBorderColor
+        {
+            get
+            {
+                return m_toolbarButtonMouseOverBorderColor;
+            }
+            set
+            {
+                m_toolbarButtonMouseOverBorderColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonDisabledBackgroundColor1 property.
+        /// </summary>
+        private Color m_toolbarButtonDisabledBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button background gradient (first color), when the control is disabled.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (first color), when the control is disabled.")]
+        public Color ToolbarButtonDisabledBackgroundColor1
+        {
+            get
+            {
+                return m_toolbarButtonDisabledBackgroundColor1;
+            }
+            set
+            {
+                m_toolbarButtonDisabledBackgroundColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonDisabledBackgroundColor2 property.
+        /// </summary>
+        private Color m_toolbarButtonDisabledBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button background gradient (second color), when the control is disabled.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (second color), when the control is disabled.")]
+        public Color ToolbarButtonDisabledBackgroundColor2
+        {
+            get
+            {
+                return m_toolbarButtonDisabledBackgroundColor2;
+            }
+            set
+            {
+                m_toolbarButtonDisabledBackgroundColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ToolbarButtonDisabledBorderColor property.
+        /// </summary>
+        private Color m_toolbarButtonDisabledBorderColor = Color.FromArgb(215, 215, 215);
+        /// <summary>
+        /// Defines the toolbar button border color, when the control is disabled.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button border color, when the control is disabled.")]
+        public Color ToolbarButtonDisabledBorderColor
+        {
+            get
+            {
+                return m_toolbarButtonDisabledBorderColor;
+            }
+            set
+            {
+                m_toolbarButtonDisabledBorderColor = value;
             }
         }
 

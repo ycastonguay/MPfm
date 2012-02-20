@@ -236,7 +236,7 @@ namespace MPfm
             this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.label1 = new MPfm.WindowsControls.Label();
+            this.lblSearchFor = new MPfm.WindowsControls.Label();
             this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
             this.btnAddSongToPlaylist = new MPfm.WindowsControls.Button();
             this.btnEditSongMetadata = new MPfm.WindowsControls.Button();
@@ -897,7 +897,6 @@ namespace MPfm
             this.panelLibrary.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.panelLibrary.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelLibrary.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLibrary.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelLibrary.HeaderExpandable = false;
             this.panelLibrary.HeaderExpanded = true;
             this.panelLibrary.HeaderForeColor = System.Drawing.Color.White;
@@ -934,7 +933,6 @@ namespace MPfm
             this.panelUpdateLibraryProgress.GradientColor1 = System.Drawing.Color.Black;
             this.panelUpdateLibraryProgress.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelUpdateLibraryProgress.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelUpdateLibraryProgress.HeaderCustomFontName = "Junction";
             this.panelUpdateLibraryProgress.HeaderExpandable = false;
             this.panelUpdateLibraryProgress.HeaderExpanded = true;
             this.panelUpdateLibraryProgress.HeaderForeColor = System.Drawing.Color.White;
@@ -1215,7 +1213,6 @@ namespace MPfm
             this.panelCurrentSong.GradientColor1 = System.Drawing.Color.Black;
             this.panelCurrentSong.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelCurrentSong.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentSong.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelCurrentSong.HeaderExpanded = true;
             this.panelCurrentSong.HeaderForeColor = System.Drawing.Color.White;
             this.panelCurrentSong.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
@@ -1319,7 +1316,6 @@ namespace MPfm
             this.panelInformation.GradientColor1 = System.Drawing.Color.Black;
             this.panelInformation.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.HeaderCustomFontName = "Junction";
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
@@ -1517,7 +1513,6 @@ namespace MPfm
             this.panelActions.GradientColor1 = System.Drawing.Color.Black;
             this.panelActions.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelActions.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelActions.HeaderCustomFontName = "Junction";
             this.panelActions.HeaderExpandable = false;
             this.panelActions.HeaderExpanded = true;
             this.panelActions.HeaderForeColor = System.Drawing.Color.White;
@@ -1721,7 +1716,6 @@ namespace MPfm
             this.panelVolume.GradientColor1 = System.Drawing.Color.Black;
             this.panelVolume.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelVolume.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelVolume.HeaderCustomFontName = "Junction";
             this.panelVolume.HeaderExpandable = false;
             this.panelVolume.HeaderExpanded = true;
             this.panelVolume.HeaderForeColor = System.Drawing.Color.White;
@@ -1849,7 +1843,6 @@ namespace MPfm
             this.panelTimeShifting.GradientColor1 = System.Drawing.Color.Black;
             this.panelTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelTimeShifting.HeaderCustomFontName = "Junction";
             this.panelTimeShifting.HeaderExpandable = false;
             this.panelTimeShifting.HeaderExpanded = true;
             this.panelTimeShifting.HeaderForeColor = System.Drawing.Color.White;
@@ -1955,7 +1948,6 @@ namespace MPfm
             this.panelSongPosition.GradientColor1 = System.Drawing.Color.Black;
             this.panelSongPosition.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelSongPosition.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongPosition.HeaderCustomFontName = "Junction";
             this.panelSongPosition.HeaderExpandable = false;
             this.panelSongPosition.HeaderExpanded = true;
             this.panelSongPosition.HeaderForeColor = System.Drawing.Color.White;
@@ -2065,7 +2057,6 @@ namespace MPfm
             this.panelLength.GradientColor1 = System.Drawing.Color.Black;
             this.panelLength.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelLength.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLength.HeaderCustomFontName = "Junction";
             this.panelLength.HeaderExpandable = false;
             this.panelLength.HeaderExpanded = true;
             this.panelLength.HeaderForeColor = System.Drawing.Color.White;
@@ -2121,7 +2112,6 @@ namespace MPfm
             this.panelCurrentPosition.GradientColor1 = System.Drawing.Color.Black;
             this.panelCurrentPosition.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelCurrentPosition.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentPosition.HeaderCustomFontName = "Junction";
             this.panelCurrentPosition.HeaderExpandable = false;
             this.panelCurrentPosition.HeaderExpanded = true;
             this.panelCurrentPosition.HeaderForeColor = System.Drawing.Color.White;
@@ -2241,7 +2231,6 @@ namespace MPfm
             this.panelLoopsMarkers.GradientColor1 = System.Drawing.Color.Black;
             this.panelLoopsMarkers.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelLoopsMarkers.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLoopsMarkers.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelLoopsMarkers.HeaderExpandable = false;
             this.panelLoopsMarkers.HeaderForeColor = System.Drawing.Color.White;
             this.panelLoopsMarkers.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -2863,7 +2852,6 @@ namespace MPfm
             this.panelSongBrowser.GradientColor1 = System.Drawing.Color.Black;
             this.panelSongBrowser.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelSongBrowser.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowser.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelSongBrowser.HeaderExpandable = false;
             this.panelSongBrowser.HeaderForeColor = System.Drawing.Color.White;
             this.panelSongBrowser.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -2932,7 +2920,7 @@ namespace MPfm
             this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongBrowserToolbar.Controls.Add(this.txtSearch);
-            this.panelSongBrowserToolbar.Controls.Add(this.label1);
+            this.panelSongBrowserToolbar.Controls.Add(this.lblSearchFor);
             this.panelSongBrowserToolbar.Controls.Add(this.btnPlaySelectedSong);
             this.panelSongBrowserToolbar.Controls.Add(this.btnAddSongToPlaylist);
             this.panelSongBrowserToolbar.Controls.Add(this.btnEditSongMetadata);
@@ -2950,7 +2938,6 @@ namespace MPfm
             this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
             this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
             this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowserToolbar.HeaderCustomFontName = "Junction";
             this.panelSongBrowserToolbar.HeaderExpandable = false;
             this.panelSongBrowserToolbar.HeaderExpanded = true;
             this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
@@ -2971,12 +2958,12 @@ namespace MPfm
             this.txtSearch.TabIndex = 74;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
-            // label1
+            // lblSearchFor
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.label1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.lblSearchFor.BackColor = System.Drawing.Color.Transparent;
+            this.lblSearchFor.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblSearchFor.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblSearchFor.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont54.EmbeddedFontName = "Junction";
             customFont54.IsBold = false;
             customFont54.IsItalic = false;
@@ -2985,16 +2972,16 @@ namespace MPfm
             customFont54.StandardFontName = "Arial";
             customFont54.UseAntiAliasing = true;
             customFont54.UseEmbeddedFont = true;
-            this.label1.CustomFont = customFont54;
-            this.label1.Font = new System.Drawing.Font("Arial", 8F);
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(430, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 10);
-            this.label1.TabIndex = 73;
-            this.label1.Text = "Search for :";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label1.UseBackgroundGradient = false;
+            this.lblSearchFor.CustomFont = customFont54;
+            this.lblSearchFor.Font = new System.Drawing.Font("Arial", 8F);
+            this.lblSearchFor.ForeColor = System.Drawing.Color.Black;
+            this.lblSearchFor.Location = new System.Drawing.Point(430, 6);
+            this.lblSearchFor.Name = "lblSearchFor";
+            this.lblSearchFor.Size = new System.Drawing.Size(76, 10);
+            this.lblSearchFor.TabIndex = 73;
+            this.lblSearchFor.Text = "Search for :";
+            this.lblSearchFor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSearchFor.UseBackgroundGradient = false;
             // 
             // btnPlaySelectedSong
             // 
@@ -3498,7 +3485,7 @@ namespace MPfm
         private WindowsControls.Panel panelSongBrowser;
         private WindowsControls.Panel panelSongBrowserToolbar;
         private System.Windows.Forms.TextBox txtSearch;
-        private WindowsControls.Label label1;
+        private WindowsControls.Label lblSearchFor;
         private WindowsControls.Button btnPlaySelectedSong;
         private WindowsControls.Button btnAddSongToPlaylist;
         private WindowsControls.Button btnEditSongMetadata;

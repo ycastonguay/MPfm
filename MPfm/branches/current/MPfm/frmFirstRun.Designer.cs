@@ -154,8 +154,7 @@
             this.panelWelcome.ForeColor = System.Drawing.Color.White;
             this.panelWelcome.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.panelWelcome.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panelWelcome.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelWelcome.HeaderCustomFontName = "Junction";
+            this.panelWelcome.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelWelcome.HeaderExpandable = false;
             this.panelWelcome.HeaderExpanded = true;
             this.panelWelcome.HeaderForeColor = System.Drawing.Color.White;
@@ -430,8 +429,7 @@
             this.panelNote.ForeColor = System.Drawing.Color.White;
             this.panelNote.GradientColor1 = System.Drawing.Color.Gainsboro;
             this.panelNote.GradientColor2 = System.Drawing.Color.Silver;
-            this.panelNote.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelNote.HeaderCustomFontName = "Junction";
+            this.panelNote.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelNote.HeaderExpandable = false;
             this.panelNote.HeaderExpanded = true;
             this.panelNote.HeaderForeColor = System.Drawing.Color.Black;

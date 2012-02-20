@@ -37,15 +37,15 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont34 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
@@ -59,6 +59,11 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont25 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.OutputMeterTheme outputMeterTheme1 = new MPfm.WindowsControls.OutputMeterTheme();
             MPfm.WindowsControls.CustomFont customFont35 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
@@ -71,11 +76,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont44 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont45 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dialogOpenTheme = new System.Windows.Forms.OpenFileDialog();
@@ -91,16 +91,17 @@ namespace MPfm
             this.lblPreviewPane = new MPfm.WindowsControls.Label();
             this.splitTheme = new System.Windows.Forms.SplitContainer();
             this.panelPreviewMainWindow = new MPfm.WindowsControls.Panel();
+            this.panelTimeShifting = new MPfm.WindowsControls.Panel();
+            this.lblTimeShifting = new MPfm.WindowsControls.Label();
+            this.linkResetTimeShifting = new MPfm.WindowsControls.LinkLabel();
+            this.trackTimeShifting = new MPfm.WindowsControls.TrackBar();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.label1 = new MPfm.WindowsControls.Label();
+            this.lblSearchFor = new MPfm.WindowsControls.Label();
             this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
+            this.panelCurrentPosition = new MPfm.WindowsControls.Panel();
+            this.lblCurrentPosition = new MPfm.WindowsControls.Label();
             this.panelCurrentSong = new MPfm.WindowsControls.Panel();
-            this.panelCurrentSongChild = new MPfm.WindowsControls.Panel();
-            this.lblCurrentFilePath = new MPfm.WindowsControls.Label();
-            this.lblCurrentAlbumTitle = new MPfm.WindowsControls.LinkLabel();
-            this.lblCurrentArtistName = new MPfm.WindowsControls.LinkLabel();
-            this.lblCurrentSongTitle = new MPfm.WindowsControls.Label();
             this.panelInformation = new MPfm.WindowsControls.Panel();
             this.lblFrequency = new MPfm.WindowsControls.Label();
             this.lblFrequencyTitle = new MPfm.WindowsControls.Label();
@@ -114,6 +115,11 @@ namespace MPfm
             this.linkSearchLyrics = new MPfm.WindowsControls.LinkLabel();
             this.linkSearchBassTabs = new MPfm.WindowsControls.LinkLabel();
             this.linkSearchGuitarTabs = new MPfm.WindowsControls.LinkLabel();
+            this.panelCurrentSongChild = new MPfm.WindowsControls.Panel();
+            this.lblCurrentFilePath = new MPfm.WindowsControls.Label();
+            this.lblCurrentAlbumTitle = new MPfm.WindowsControls.LinkLabel();
+            this.lblCurrentArtistName = new MPfm.WindowsControls.LinkLabel();
+            this.lblCurrentSongTitle = new MPfm.WindowsControls.Label();
             this.previewOutputMeter = new MPfm.WindowsControls.OutputMeter();
             this.previewSongGridView = new MPfm.WindowsControls.SongGridView();
             this.lblPreview = new MPfm.WindowsControls.Label();
@@ -128,26 +134,20 @@ namespace MPfm
             this.lblCurrentTheme = new MPfm.WindowsControls.Label();
             this.cboTheme = new System.Windows.Forms.ComboBox();
             this.panelBackground = new MPfm.WindowsControls.Panel();
-            this.panelCurrentPosition = new MPfm.WindowsControls.Panel();
-            this.lblCurrentPosition = new MPfm.WindowsControls.Label();
-            this.panelTimeShifting = new MPfm.WindowsControls.Panel();
-            this.lblTimeShifting = new MPfm.WindowsControls.Label();
-            this.linkResetTimeShifting = new MPfm.WindowsControls.LinkLabel();
-            this.trackTimeShifting = new MPfm.WindowsControls.TrackBar();
             this.panelThemeProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitTheme)).BeginInit();
             this.splitTheme.Panel1.SuspendLayout();
             this.splitTheme.Panel2.SuspendLayout();
             this.splitTheme.SuspendLayout();
             this.panelPreviewMainWindow.SuspendLayout();
+            this.panelTimeShifting.SuspendLayout();
             this.panelSongBrowserToolbar.SuspendLayout();
+            this.panelCurrentPosition.SuspendLayout();
             this.panelCurrentSong.SuspendLayout();
-            this.panelCurrentSongChild.SuspendLayout();
             this.panelInformation.SuspendLayout();
             this.panelActions.SuspendLayout();
+            this.panelCurrentSongChild.SuspendLayout();
             this.panelBackground.SuspendLayout();
-            this.panelCurrentPosition.SuspendLayout();
-            this.panelTimeShifting.SuspendLayout();
             this.SuspendLayout();
             // 
             // dialogAddFolder
@@ -375,7 +375,6 @@ namespace MPfm
             this.panelThemeProperties.GradientColor1 = System.Drawing.Color.Silver;
             this.panelThemeProperties.GradientColor2 = System.Drawing.Color.Gray;
             this.panelThemeProperties.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelThemeProperties.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelThemeProperties.HeaderExpandable = false;
             this.panelThemeProperties.HeaderExpanded = true;
             this.panelThemeProperties.HeaderForeColor = System.Drawing.Color.Black;
@@ -479,7 +478,6 @@ namespace MPfm
             this.panelPreviewMainWindow.GradientColor1 = System.Drawing.Color.Black;
             this.panelPreviewMainWindow.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.panelPreviewMainWindow.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelPreviewMainWindow.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelPreviewMainWindow.HeaderExpandable = false;
             this.panelPreviewMainWindow.HeaderExpanded = true;
             this.panelPreviewMainWindow.HeaderForeColor = System.Drawing.Color.Black;
@@ -492,12 +490,113 @@ namespace MPfm
             this.panelPreviewMainWindow.Size = new System.Drawing.Size(355, 344);
             this.panelPreviewMainWindow.TabIndex = 111;
             // 
+            // panelTimeShifting
+            // 
+            this.panelTimeShifting.Controls.Add(this.lblTimeShifting);
+            this.panelTimeShifting.Controls.Add(this.linkResetTimeShifting);
+            this.panelTimeShifting.Controls.Add(this.trackTimeShifting);
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8.25F;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = true;
+            this.panelTimeShifting.CustomFont = customFont9;
+            this.panelTimeShifting.ExpandedHeight = 200;
+            this.panelTimeShifting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelTimeShifting.GradientColor1 = System.Drawing.Color.Black;
+            this.panelTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.panelTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelTimeShifting.HeaderExpandable = false;
+            this.panelTimeShifting.HeaderExpanded = true;
+            this.panelTimeShifting.HeaderForeColor = System.Drawing.Color.White;
+            this.panelTimeShifting.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.panelTimeShifting.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelTimeShifting.HeaderHeight = 16;
+            this.panelTimeShifting.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panelTimeShifting.HeaderTitle = "Time Shifting";
+            this.panelTimeShifting.Location = new System.Drawing.Point(10, 211);
+            this.panelTimeShifting.Name = "panelTimeShifting";
+            this.panelTimeShifting.Size = new System.Drawing.Size(96, 48);
+            this.panelTimeShifting.TabIndex = 54;
+            // 
+            // lblTimeShifting
+            // 
+            this.lblTimeShifting.BackColor = System.Drawing.Color.Transparent;
+            this.lblTimeShifting.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTimeShifting.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblTimeShifting.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont7.EmbeddedFontName = "Droid Sans Mono";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 7F;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
+            customFont7.UseEmbeddedFont = true;
+            this.lblTimeShifting.CustomFont = customFont7;
+            this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeShifting.ForeColor = System.Drawing.Color.White;
+            this.lblTimeShifting.Location = new System.Drawing.Point(57, 36);
+            this.lblTimeShifting.Name = "lblTimeShifting";
+            this.lblTimeShifting.Size = new System.Drawing.Size(42, 12);
+            this.lblTimeShifting.TabIndex = 30;
+            this.lblTimeShifting.Text = "0 %";
+            this.lblTimeShifting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblTimeShifting.UseBackgroundGradient = false;
+            // 
+            // linkResetTimeShifting
+            // 
+            this.linkResetTimeShifting.BackColor = System.Drawing.Color.Transparent;
+            customFont8.EmbeddedFontName = "Droid Sans Mono";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 7F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = true;
+            this.linkResetTimeShifting.CustomFont = customFont8;
+            this.linkResetTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkResetTimeShifting.ForeColor = System.Drawing.Color.LightGray;
+            this.linkResetTimeShifting.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.linkResetTimeShifting.Location = new System.Drawing.Point(1, 34);
+            this.linkResetTimeShifting.Name = "linkResetTimeShifting";
+            this.linkResetTimeShifting.Size = new System.Drawing.Size(34, 12);
+            this.linkResetTimeShifting.TabIndex = 58;
+            this.linkResetTimeShifting.TabStop = true;
+            this.linkResetTimeShifting.Text = "Reset";
+            // 
+            // trackTimeShifting
+            // 
+            this.trackTimeShifting.CenterLineColor = System.Drawing.Color.Gray;
+            this.trackTimeShifting.CenterLineShadowColor = System.Drawing.Color.Black;
+            this.trackTimeShifting.FaderGradientColor1 = System.Drawing.Color.White;
+            this.trackTimeShifting.FaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.trackTimeShifting.FaderHeight = 8;
+            this.trackTimeShifting.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
+            this.trackTimeShifting.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.trackTimeShifting.FaderWidth = 16;
+            this.trackTimeShifting.GradientColor1 = System.Drawing.Color.Black;
+            this.trackTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.trackTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackTimeShifting.Location = new System.Drawing.Point(0, 17);
+            this.trackTimeShifting.Maximum = 50;
+            this.trackTimeShifting.Minimum = -50;
+            this.trackTimeShifting.Name = "trackTimeShifting";
+            this.trackTimeShifting.Size = new System.Drawing.Size(100, 20);
+            this.trackTimeShifting.StepSize = 5;
+            this.trackTimeShifting.TabIndex = 32;
+            this.trackTimeShifting.Text = "TrackBar1";
+            // 
             // panelSongBrowserToolbar
             // 
             this.panelSongBrowserToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSongBrowserToolbar.Controls.Add(this.txtSearch);
-            this.panelSongBrowserToolbar.Controls.Add(this.label1);
+            this.panelSongBrowserToolbar.Controls.Add(this.lblSearchFor);
             this.panelSongBrowserToolbar.Controls.Add(this.btnPlaySelectedSong);
             customFont12.EmbeddedFontName = "";
             customFont12.IsBold = false;
@@ -513,7 +612,6 @@ namespace MPfm
             this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
             this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
             this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowserToolbar.HeaderCustomFontName = "Junction";
             this.panelSongBrowserToolbar.HeaderExpandable = false;
             this.panelSongBrowserToolbar.HeaderExpanded = true;
             this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
@@ -533,12 +631,12 @@ namespace MPfm
             this.txtSearch.Size = new System.Drawing.Size(89, 20);
             this.txtSearch.TabIndex = 74;
             // 
-            // label1
+            // lblSearchFor
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.label1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.lblSearchFor.BackColor = System.Drawing.Color.Transparent;
+            this.lblSearchFor.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblSearchFor.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblSearchFor.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont10.EmbeddedFontName = "Junction";
             customFont10.IsBold = false;
             customFont10.IsItalic = false;
@@ -547,16 +645,16 @@ namespace MPfm
             customFont10.StandardFontName = "Arial";
             customFont10.UseAntiAliasing = true;
             customFont10.UseEmbeddedFont = true;
-            this.label1.CustomFont = customFont10;
-            this.label1.Font = new System.Drawing.Font("Arial", 8F);
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(148, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 10);
-            this.label1.TabIndex = 73;
-            this.label1.Text = "Search for :";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label1.UseBackgroundGradient = false;
+            this.lblSearchFor.CustomFont = customFont10;
+            this.lblSearchFor.Font = new System.Drawing.Font("Arial", 8F);
+            this.lblSearchFor.ForeColor = System.Drawing.Color.Black;
+            this.lblSearchFor.Location = new System.Drawing.Point(148, 7);
+            this.lblSearchFor.Name = "lblSearchFor";
+            this.lblSearchFor.Size = new System.Drawing.Size(76, 10);
+            this.lblSearchFor.TabIndex = 73;
+            this.lblSearchFor.Text = "Search for :";
+            this.lblSearchFor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSearchFor.UseBackgroundGradient = false;
             // 
             // btnPlaySelectedSong
             // 
@@ -595,6 +693,61 @@ namespace MPfm
             this.btnPlaySelectedSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPlaySelectedSong.UseVisualStyleBackColor = true;
             // 
+            // panelCurrentPosition
+            // 
+            this.panelCurrentPosition.Controls.Add(this.lblCurrentPosition);
+            customFont14.EmbeddedFontName = "Junction";
+            customFont14.IsBold = false;
+            customFont14.IsItalic = false;
+            customFont14.IsUnderline = false;
+            customFont14.Size = 8.25F;
+            customFont14.StandardFontName = "Arial";
+            customFont14.UseAntiAliasing = true;
+            customFont14.UseEmbeddedFont = true;
+            this.panelCurrentPosition.CustomFont = customFont14;
+            this.panelCurrentPosition.ExpandedHeight = 200;
+            this.panelCurrentPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelCurrentPosition.GradientColor1 = System.Drawing.Color.Black;
+            this.panelCurrentPosition.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.panelCurrentPosition.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelCurrentPosition.HeaderExpandable = false;
+            this.panelCurrentPosition.HeaderExpanded = true;
+            this.panelCurrentPosition.HeaderForeColor = System.Drawing.Color.White;
+            this.panelCurrentPosition.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.panelCurrentPosition.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelCurrentPosition.HeaderHeight = 16;
+            this.panelCurrentPosition.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panelCurrentPosition.HeaderTitle = "Position";
+            this.panelCurrentPosition.Location = new System.Drawing.Point(10, 152);
+            this.panelCurrentPosition.Name = "panelCurrentPosition";
+            this.panelCurrentPosition.Size = new System.Drawing.Size(96, 48);
+            this.panelCurrentPosition.TabIndex = 110;
+            // 
+            // lblCurrentPosition
+            // 
+            this.lblCurrentPosition.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentPosition.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.lblCurrentPosition.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.lblCurrentPosition.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont13.EmbeddedFontName = "Droid Sans Mono";
+            customFont13.IsBold = false;
+            customFont13.IsItalic = false;
+            customFont13.IsUnderline = false;
+            customFont13.Size = 10F;
+            customFont13.StandardFontName = "Arial";
+            customFont13.UseAntiAliasing = true;
+            customFont13.UseEmbeddedFont = true;
+            this.lblCurrentPosition.CustomFont = customFont13;
+            this.lblCurrentPosition.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentPosition.ForeColor = System.Drawing.Color.White;
+            this.lblCurrentPosition.Location = new System.Drawing.Point(0, 22);
+            this.lblCurrentPosition.Name = "lblCurrentPosition";
+            this.lblCurrentPosition.Size = new System.Drawing.Size(96, 22);
+            this.lblCurrentPosition.TabIndex = 23;
+            this.lblCurrentPosition.Text = "0:00.000";
+            this.lblCurrentPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblCurrentPosition.UseBackgroundGradient = true;
+            // 
             // panelCurrentSong
             // 
             this.panelCurrentSong.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -618,7 +771,6 @@ namespace MPfm
             this.panelCurrentSong.GradientColor1 = System.Drawing.Color.Black;
             this.panelCurrentSong.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelCurrentSong.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentSong.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelCurrentSong.HeaderExpanded = true;
             this.panelCurrentSong.HeaderForeColor = System.Drawing.Color.White;
             this.panelCurrentSong.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
@@ -630,139 +782,6 @@ namespace MPfm
             this.panelCurrentSong.Name = "panelCurrentSong";
             this.panelCurrentSong.Size = new System.Drawing.Size(333, 319);
             this.panelCurrentSong.TabIndex = 27;
-            // 
-            // panelCurrentSongChild
-            // 
-            this.panelCurrentSongChild.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelCurrentSongChild.Controls.Add(this.lblCurrentFilePath);
-            this.panelCurrentSongChild.Controls.Add(this.lblCurrentAlbumTitle);
-            this.panelCurrentSongChild.Controls.Add(this.lblCurrentArtistName);
-            this.panelCurrentSongChild.Controls.Add(this.lblCurrentSongTitle);
-            customFont32.EmbeddedFontName = "";
-            customFont32.IsBold = false;
-            customFont32.IsItalic = false;
-            customFont32.IsUnderline = false;
-            customFont32.Size = 8F;
-            customFont32.StandardFontName = "Arial";
-            customFont32.UseAntiAliasing = true;
-            customFont32.UseEmbeddedFont = false;
-            this.panelCurrentSongChild.CustomFont = customFont32;
-            this.panelCurrentSongChild.ExpandedHeight = 200;
-            this.panelCurrentSongChild.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelCurrentSongChild.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panelCurrentSongChild.GradientColor2 = System.Drawing.Color.Black;
-            this.panelCurrentSongChild.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentSongChild.HeaderExpanded = true;
-            this.panelCurrentSongChild.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelCurrentSongChild.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelCurrentSongChild.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panelCurrentSongChild.HeaderHeight = 0;
-            this.panelCurrentSongChild.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelCurrentSongChild.Location = new System.Drawing.Point(0, 23);
-            this.panelCurrentSongChild.Name = "panelCurrentSongChild";
-            this.panelCurrentSongChild.Size = new System.Drawing.Size(334, 110);
-            this.panelCurrentSongChild.TabIndex = 16;
-            // 
-            // lblCurrentFilePath
-            // 
-            this.lblCurrentFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCurrentFilePath.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentFilePath.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblCurrentFilePath.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblCurrentFilePath.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont28.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont28.IsBold = false;
-            customFont28.IsItalic = false;
-            customFont28.IsUnderline = false;
-            customFont28.Size = 8F;
-            customFont28.StandardFontName = "Arial";
-            customFont28.UseAntiAliasing = true;
-            customFont28.UseEmbeddedFont = true;
-            this.lblCurrentFilePath.CustomFont = customFont28;
-            this.lblCurrentFilePath.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentFilePath.ForeColor = System.Drawing.Color.Gray;
-            this.lblCurrentFilePath.Location = new System.Drawing.Point(2, 77);
-            this.lblCurrentFilePath.Name = "lblCurrentFilePath";
-            this.lblCurrentFilePath.Size = new System.Drawing.Size(320, 27);
-            this.lblCurrentFilePath.TabIndex = 59;
-            this.lblCurrentFilePath.Text = "File Path";
-            this.lblCurrentFilePath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblCurrentFilePath.UseBackgroundGradient = false;
-            // 
-            // lblCurrentAlbumTitle
-            // 
-            this.lblCurrentAlbumTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCurrentAlbumTitle.BackColor = System.Drawing.Color.Transparent;
-            customFont29.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont29.IsBold = false;
-            customFont29.IsItalic = false;
-            customFont29.IsUnderline = false;
-            customFont29.Size = 14F;
-            customFont29.StandardFontName = "Arial";
-            customFont29.UseAntiAliasing = true;
-            customFont29.UseEmbeddedFont = true;
-            this.lblCurrentAlbumTitle.CustomFont = customFont29;
-            this.lblCurrentAlbumTitle.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentAlbumTitle.ForeColor = System.Drawing.Color.Silver;
-            this.lblCurrentAlbumTitle.Location = new System.Drawing.Point(0, 31);
-            this.lblCurrentAlbumTitle.Name = "lblCurrentAlbumTitle";
-            this.lblCurrentAlbumTitle.Size = new System.Drawing.Size(320, 26);
-            this.lblCurrentAlbumTitle.TabIndex = 57;
-            this.lblCurrentAlbumTitle.TabStop = true;
-            this.lblCurrentAlbumTitle.Text = "Album Title";
-            // 
-            // lblCurrentArtistName
-            // 
-            this.lblCurrentArtistName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCurrentArtistName.BackColor = System.Drawing.Color.Transparent;
-            customFont30.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont30.IsBold = false;
-            customFont30.IsItalic = false;
-            customFont30.IsUnderline = false;
-            customFont30.Size = 18F;
-            customFont30.StandardFontName = "Arial";
-            customFont30.UseAntiAliasing = true;
-            customFont30.UseEmbeddedFont = true;
-            this.lblCurrentArtistName.CustomFont = customFont30;
-            this.lblCurrentArtistName.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentArtistName.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentArtistName.Location = new System.Drawing.Point(-1, 0);
-            this.lblCurrentArtistName.Name = "lblCurrentArtistName";
-            this.lblCurrentArtistName.Size = new System.Drawing.Size(320, 37);
-            this.lblCurrentArtistName.TabIndex = 56;
-            this.lblCurrentArtistName.TabStop = true;
-            this.lblCurrentArtistName.Text = "Artist Name";
-            // 
-            // lblCurrentSongTitle
-            // 
-            this.lblCurrentSongTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCurrentSongTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentSongTitle.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblCurrentSongTitle.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblCurrentSongTitle.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont31.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont31.IsBold = false;
-            customFont31.IsItalic = false;
-            customFont31.IsUnderline = false;
-            customFont31.Size = 12F;
-            customFont31.StandardFontName = "Arial";
-            customFont31.UseAntiAliasing = true;
-            customFont31.UseEmbeddedFont = true;
-            this.lblCurrentSongTitle.CustomFont = customFont31;
-            this.lblCurrentSongTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentSongTitle.ForeColor = System.Drawing.Color.Gray;
-            this.lblCurrentSongTitle.Location = new System.Drawing.Point(0, 56);
-            this.lblCurrentSongTitle.Name = "lblCurrentSongTitle";
-            this.lblCurrentSongTitle.Size = new System.Drawing.Size(320, 25);
-            this.lblCurrentSongTitle.TabIndex = 44;
-            this.lblCurrentSongTitle.Text = "Song Title";
-            this.lblCurrentSongTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblCurrentSongTitle.UseBackgroundGradient = false;
             // 
             // panelInformation
             // 
@@ -786,7 +805,6 @@ namespace MPfm
             this.panelInformation.GradientColor1 = System.Drawing.Color.Black;
             this.panelInformation.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.HeaderCustomFontName = "Junction";
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
@@ -983,7 +1001,6 @@ namespace MPfm
             this.panelActions.GradientColor1 = System.Drawing.Color.Black;
             this.panelActions.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.panelActions.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelActions.HeaderCustomFontName = "Junction";
             this.panelActions.HeaderExpandable = false;
             this.panelActions.HeaderExpanded = true;
             this.panelActions.HeaderForeColor = System.Drawing.Color.White;
@@ -1115,6 +1132,139 @@ namespace MPfm
             this.linkSearchGuitarTabs.TabIndex = 57;
             this.linkSearchGuitarTabs.TabStop = true;
             this.linkSearchGuitarTabs.Text = "Guitar tabs";
+            // 
+            // panelCurrentSongChild
+            // 
+            this.panelCurrentSongChild.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelCurrentSongChild.Controls.Add(this.lblCurrentFilePath);
+            this.panelCurrentSongChild.Controls.Add(this.lblCurrentAlbumTitle);
+            this.panelCurrentSongChild.Controls.Add(this.lblCurrentArtistName);
+            this.panelCurrentSongChild.Controls.Add(this.lblCurrentSongTitle);
+            customFont32.EmbeddedFontName = "";
+            customFont32.IsBold = false;
+            customFont32.IsItalic = false;
+            customFont32.IsUnderline = false;
+            customFont32.Size = 8F;
+            customFont32.StandardFontName = "Arial";
+            customFont32.UseAntiAliasing = true;
+            customFont32.UseEmbeddedFont = false;
+            this.panelCurrentSongChild.CustomFont = customFont32;
+            this.panelCurrentSongChild.ExpandedHeight = 200;
+            this.panelCurrentSongChild.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelCurrentSongChild.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelCurrentSongChild.GradientColor2 = System.Drawing.Color.Black;
+            this.panelCurrentSongChild.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelCurrentSongChild.HeaderExpanded = true;
+            this.panelCurrentSongChild.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelCurrentSongChild.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelCurrentSongChild.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelCurrentSongChild.HeaderHeight = 0;
+            this.panelCurrentSongChild.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelCurrentSongChild.Location = new System.Drawing.Point(0, 23);
+            this.panelCurrentSongChild.Name = "panelCurrentSongChild";
+            this.panelCurrentSongChild.Size = new System.Drawing.Size(334, 110);
+            this.panelCurrentSongChild.TabIndex = 16;
+            // 
+            // lblCurrentFilePath
+            // 
+            this.lblCurrentFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentFilePath.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentFilePath.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblCurrentFilePath.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblCurrentFilePath.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont28.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont28.IsBold = false;
+            customFont28.IsItalic = false;
+            customFont28.IsUnderline = false;
+            customFont28.Size = 8F;
+            customFont28.StandardFontName = "Arial";
+            customFont28.UseAntiAliasing = true;
+            customFont28.UseEmbeddedFont = true;
+            this.lblCurrentFilePath.CustomFont = customFont28;
+            this.lblCurrentFilePath.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentFilePath.ForeColor = System.Drawing.Color.Gray;
+            this.lblCurrentFilePath.Location = new System.Drawing.Point(2, 77);
+            this.lblCurrentFilePath.Name = "lblCurrentFilePath";
+            this.lblCurrentFilePath.Size = new System.Drawing.Size(320, 27);
+            this.lblCurrentFilePath.TabIndex = 59;
+            this.lblCurrentFilePath.Text = "File Path";
+            this.lblCurrentFilePath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCurrentFilePath.UseBackgroundGradient = false;
+            // 
+            // lblCurrentAlbumTitle
+            // 
+            this.lblCurrentAlbumTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentAlbumTitle.BackColor = System.Drawing.Color.Transparent;
+            customFont29.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont29.IsBold = false;
+            customFont29.IsItalic = false;
+            customFont29.IsUnderline = false;
+            customFont29.Size = 14F;
+            customFont29.StandardFontName = "Arial";
+            customFont29.UseAntiAliasing = true;
+            customFont29.UseEmbeddedFont = true;
+            this.lblCurrentAlbumTitle.CustomFont = customFont29;
+            this.lblCurrentAlbumTitle.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentAlbumTitle.ForeColor = System.Drawing.Color.Silver;
+            this.lblCurrentAlbumTitle.Location = new System.Drawing.Point(0, 31);
+            this.lblCurrentAlbumTitle.Name = "lblCurrentAlbumTitle";
+            this.lblCurrentAlbumTitle.Size = new System.Drawing.Size(320, 26);
+            this.lblCurrentAlbumTitle.TabIndex = 57;
+            this.lblCurrentAlbumTitle.TabStop = true;
+            this.lblCurrentAlbumTitle.Text = "Album Title";
+            // 
+            // lblCurrentArtistName
+            // 
+            this.lblCurrentArtistName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentArtistName.BackColor = System.Drawing.Color.Transparent;
+            customFont30.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont30.IsBold = false;
+            customFont30.IsItalic = false;
+            customFont30.IsUnderline = false;
+            customFont30.Size = 18F;
+            customFont30.StandardFontName = "Arial";
+            customFont30.UseAntiAliasing = true;
+            customFont30.UseEmbeddedFont = true;
+            this.lblCurrentArtistName.CustomFont = customFont30;
+            this.lblCurrentArtistName.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentArtistName.ForeColor = System.Drawing.Color.White;
+            this.lblCurrentArtistName.Location = new System.Drawing.Point(-1, 0);
+            this.lblCurrentArtistName.Name = "lblCurrentArtistName";
+            this.lblCurrentArtistName.Size = new System.Drawing.Size(320, 37);
+            this.lblCurrentArtistName.TabIndex = 56;
+            this.lblCurrentArtistName.TabStop = true;
+            this.lblCurrentArtistName.Text = "Artist Name";
+            // 
+            // lblCurrentSongTitle
+            // 
+            this.lblCurrentSongTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentSongTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentSongTitle.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblCurrentSongTitle.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblCurrentSongTitle.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont31.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont31.IsBold = false;
+            customFont31.IsItalic = false;
+            customFont31.IsUnderline = false;
+            customFont31.Size = 12F;
+            customFont31.StandardFontName = "Arial";
+            customFont31.UseAntiAliasing = true;
+            customFont31.UseEmbeddedFont = true;
+            this.lblCurrentSongTitle.CustomFont = customFont31;
+            this.lblCurrentSongTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentSongTitle.ForeColor = System.Drawing.Color.Gray;
+            this.lblCurrentSongTitle.Location = new System.Drawing.Point(0, 56);
+            this.lblCurrentSongTitle.Name = "lblCurrentSongTitle";
+            this.lblCurrentSongTitle.Size = new System.Drawing.Size(320, 25);
+            this.lblCurrentSongTitle.TabIndex = 44;
+            this.lblCurrentSongTitle.Text = "Song Title";
+            this.lblCurrentSongTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCurrentSongTitle.UseBackgroundGradient = false;
             // 
             // previewOutputMeter
             // 
@@ -1462,7 +1612,6 @@ namespace MPfm
             this.panelBackground.GradientColor1 = System.Drawing.Color.Silver;
             this.panelBackground.GradientColor2 = System.Drawing.Color.Gray;
             this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelBackground.HeaderCustomFontName = "TitilliumText22L Lt";
             this.panelBackground.HeaderExpandable = false;
             this.panelBackground.HeaderExpanded = true;
             this.panelBackground.HeaderForeColor = System.Drawing.Color.Black;
@@ -1475,164 +1624,6 @@ namespace MPfm
             this.panelBackground.Name = "panelBackground";
             this.panelBackground.Size = new System.Drawing.Size(861, 571);
             this.panelBackground.TabIndex = 109;
-            // 
-            // panelCurrentPosition
-            // 
-            this.panelCurrentPosition.Controls.Add(this.lblCurrentPosition);
-            customFont14.EmbeddedFontName = "Junction";
-            customFont14.IsBold = false;
-            customFont14.IsItalic = false;
-            customFont14.IsUnderline = false;
-            customFont14.Size = 8.25F;
-            customFont14.StandardFontName = "Arial";
-            customFont14.UseAntiAliasing = true;
-            customFont14.UseEmbeddedFont = true;
-            this.panelCurrentPosition.CustomFont = customFont14;
-            this.panelCurrentPosition.ExpandedHeight = 200;
-            this.panelCurrentPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelCurrentPosition.GradientColor1 = System.Drawing.Color.Black;
-            this.panelCurrentPosition.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelCurrentPosition.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentPosition.HeaderCustomFontName = "Junction";
-            this.panelCurrentPosition.HeaderExpandable = false;
-            this.panelCurrentPosition.HeaderExpanded = true;
-            this.panelCurrentPosition.HeaderForeColor = System.Drawing.Color.White;
-            this.panelCurrentPosition.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelCurrentPosition.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panelCurrentPosition.HeaderHeight = 16;
-            this.panelCurrentPosition.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.panelCurrentPosition.HeaderTitle = "Position";
-            this.panelCurrentPosition.Location = new System.Drawing.Point(10, 152);
-            this.panelCurrentPosition.Name = "panelCurrentPosition";
-            this.panelCurrentPosition.Size = new System.Drawing.Size(96, 48);
-            this.panelCurrentPosition.TabIndex = 110;
-            // 
-            // lblCurrentPosition
-            // 
-            this.lblCurrentPosition.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentPosition.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.lblCurrentPosition.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
-            this.lblCurrentPosition.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont13.EmbeddedFontName = "Droid Sans Mono";
-            customFont13.IsBold = false;
-            customFont13.IsItalic = false;
-            customFont13.IsUnderline = false;
-            customFont13.Size = 10F;
-            customFont13.StandardFontName = "Arial";
-            customFont13.UseAntiAliasing = true;
-            customFont13.UseEmbeddedFont = true;
-            this.lblCurrentPosition.CustomFont = customFont13;
-            this.lblCurrentPosition.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPosition.ForeColor = System.Drawing.Color.White;
-            this.lblCurrentPosition.Location = new System.Drawing.Point(0, 22);
-            this.lblCurrentPosition.Name = "lblCurrentPosition";
-            this.lblCurrentPosition.Size = new System.Drawing.Size(96, 22);
-            this.lblCurrentPosition.TabIndex = 23;
-            this.lblCurrentPosition.Text = "0:00.000";
-            this.lblCurrentPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblCurrentPosition.UseBackgroundGradient = true;
-            // 
-            // panelTimeShifting
-            // 
-            this.panelTimeShifting.Controls.Add(this.lblTimeShifting);
-            this.panelTimeShifting.Controls.Add(this.linkResetTimeShifting);
-            this.panelTimeShifting.Controls.Add(this.trackTimeShifting);
-            customFont9.EmbeddedFontName = "Junction";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 8.25F;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseAntiAliasing = true;
-            customFont9.UseEmbeddedFont = true;
-            this.panelTimeShifting.CustomFont = customFont9;
-            this.panelTimeShifting.ExpandedHeight = 200;
-            this.panelTimeShifting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelTimeShifting.GradientColor1 = System.Drawing.Color.Black;
-            this.panelTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelTimeShifting.HeaderCustomFontName = "Junction";
-            this.panelTimeShifting.HeaderExpandable = false;
-            this.panelTimeShifting.HeaderExpanded = true;
-            this.panelTimeShifting.HeaderForeColor = System.Drawing.Color.White;
-            this.panelTimeShifting.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelTimeShifting.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panelTimeShifting.HeaderHeight = 16;
-            this.panelTimeShifting.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.panelTimeShifting.HeaderTitle = "Time Shifting";
-            this.panelTimeShifting.Location = new System.Drawing.Point(10, 211);
-            this.panelTimeShifting.Name = "panelTimeShifting";
-            this.panelTimeShifting.Size = new System.Drawing.Size(96, 48);
-            this.panelTimeShifting.TabIndex = 54;
-            // 
-            // lblTimeShifting
-            // 
-            this.lblTimeShifting.BackColor = System.Drawing.Color.Transparent;
-            this.lblTimeShifting.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblTimeShifting.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblTimeShifting.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont7.EmbeddedFontName = "Droid Sans Mono";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 7F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            this.lblTimeShifting.CustomFont = customFont7;
-            this.lblTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTimeShifting.ForeColor = System.Drawing.Color.White;
-            this.lblTimeShifting.Location = new System.Drawing.Point(57, 36);
-            this.lblTimeShifting.Name = "lblTimeShifting";
-            this.lblTimeShifting.Size = new System.Drawing.Size(42, 12);
-            this.lblTimeShifting.TabIndex = 30;
-            this.lblTimeShifting.Text = "0 %";
-            this.lblTimeShifting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblTimeShifting.UseBackgroundGradient = false;
-            // 
-            // linkResetTimeShifting
-            // 
-            this.linkResetTimeShifting.BackColor = System.Drawing.Color.Transparent;
-            customFont8.EmbeddedFontName = "Droid Sans Mono";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 7F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            this.linkResetTimeShifting.CustomFont = customFont8;
-            this.linkResetTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkResetTimeShifting.ForeColor = System.Drawing.Color.LightGray;
-            this.linkResetTimeShifting.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.linkResetTimeShifting.Location = new System.Drawing.Point(1, 34);
-            this.linkResetTimeShifting.Name = "linkResetTimeShifting";
-            this.linkResetTimeShifting.Size = new System.Drawing.Size(34, 12);
-            this.linkResetTimeShifting.TabIndex = 58;
-            this.linkResetTimeShifting.TabStop = true;
-            this.linkResetTimeShifting.Text = "Reset";
-            // 
-            // trackTimeShifting
-            // 
-            this.trackTimeShifting.CenterLineColor = System.Drawing.Color.Gray;
-            this.trackTimeShifting.CenterLineShadowColor = System.Drawing.Color.Black;
-            this.trackTimeShifting.FaderGradientColor1 = System.Drawing.Color.White;
-            this.trackTimeShifting.FaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.trackTimeShifting.FaderHeight = 8;
-            this.trackTimeShifting.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
-            this.trackTimeShifting.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.trackTimeShifting.FaderWidth = 16;
-            this.trackTimeShifting.GradientColor1 = System.Drawing.Color.Black;
-            this.trackTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.trackTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.trackTimeShifting.Location = new System.Drawing.Point(0, 17);
-            this.trackTimeShifting.Maximum = 50;
-            this.trackTimeShifting.Minimum = -50;
-            this.trackTimeShifting.Name = "trackTimeShifting";
-            this.trackTimeShifting.Size = new System.Drawing.Size(100, 20);
-            this.trackTimeShifting.StepSize = 5;
-            this.trackTimeShifting.TabIndex = 32;
-            this.trackTimeShifting.Text = "TrackBar1";
             // 
             // frmThemes
             // 
@@ -1658,15 +1649,15 @@ namespace MPfm
             ((System.ComponentModel.ISupportInitialize)(this.splitTheme)).EndInit();
             this.splitTheme.ResumeLayout(false);
             this.panelPreviewMainWindow.ResumeLayout(false);
+            this.panelTimeShifting.ResumeLayout(false);
             this.panelSongBrowserToolbar.ResumeLayout(false);
             this.panelSongBrowserToolbar.PerformLayout();
+            this.panelCurrentPosition.ResumeLayout(false);
             this.panelCurrentSong.ResumeLayout(false);
-            this.panelCurrentSongChild.ResumeLayout(false);
             this.panelInformation.ResumeLayout(false);
             this.panelActions.ResumeLayout(false);
+            this.panelCurrentSongChild.ResumeLayout(false);
             this.panelBackground.ResumeLayout(false);
-            this.panelCurrentPosition.ResumeLayout(false);
-            this.panelTimeShifting.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1723,7 +1714,7 @@ namespace MPfm
         private WindowsControls.LinkLabel linkSearchGuitarTabs;
         private WindowsControls.Panel panelSongBrowserToolbar;
         private System.Windows.Forms.TextBox txtSearch;
-        private WindowsControls.Label label1;
+        private WindowsControls.Label lblSearchFor;
         private WindowsControls.Button btnPlaySelectedSong;
         private WindowsControls.Panel panelCurrentPosition;
         private WindowsControls.Label lblCurrentPosition;

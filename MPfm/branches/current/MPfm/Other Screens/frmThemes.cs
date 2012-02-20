@@ -43,14 +43,9 @@ namespace MPfm
     public partial class frmThemes : MPfm.WindowsControls.Form
     {
         // Private variables
-        private bool settingsChanged = false;
-        private bool settingsTested = false;
-        private bool testSuccessful = false;
-        private string filePath = string.Empty;        
-        private List<Device> m_devices = null;
-        private List<Device> m_devicesDirectSound = null;
-        private List<Device> m_devicesASIO = null;
-        private List<Device> m_devicesWASAPI = null;        
+        private MainWindowTheme mainWindowTheme = null;
+        private SecondaryWindowTheme secondaryWindowTheme = null;
+        private string filePath = string.Empty;            
                 
         private frmMain m_main = null;
         /// <summary>
@@ -84,12 +79,12 @@ namespace MPfm
         private void frmThemes_Load(object sender, EventArgs e)
         {
             // Add theme sections
-            List<ThemeSectionComboBoxItem> themeControls = new List<ThemeSectionComboBoxItem>();
-            themeControls.Add(new ThemeSectionComboBoxItem("Main Window", "MainWindowTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Output Meter", "OutputMeterTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Song Browser", "SongGridViewTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Wave Form Display", "WaveFormDisplayTheme"));
-            themeControls.Add(new ThemeSectionComboBoxItem("Faders", "FaderTheme"));
+            List<ThemePreviewPaneComboBoxItem> themeControls = new List<ThemePreviewPaneComboBoxItem>();
+            themeControls.Add(new ThemePreviewPaneComboBoxItem("Main Window", "MainWindowTheme"));
+            themeControls.Add(new ThemePreviewPaneComboBoxItem("Output Meter", "OutputMeterTheme"));
+            themeControls.Add(new ThemePreviewPaneComboBoxItem("Song Browser", "SongGridViewTheme"));
+            themeControls.Add(new ThemePreviewPaneComboBoxItem("Wave Form Display", "WaveFormDisplayTheme"));
+            themeControls.Add(new ThemePreviewPaneComboBoxItem("Faders", "FaderTheme"));
             comboPreviewPane.DataSource = themeControls;
             comboPreviewPane.SelectedIndex = 0;
 
@@ -118,6 +113,11 @@ namespace MPfm
 
             // Set column widths
             previewSongGridView.Columns[0].Width = 100;
+
+            // Refresh preview
+            mainWindowTheme = new MainWindowTheme();
+            secondaryWindowTheme = new SecondaryWindowTheme();
+            RefreshMainWindowPreview();
         }
 
         /// <summary>
@@ -128,7 +128,8 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmThemes_Shown(object sender, EventArgs e)
         {
-            
+            // Refresh property grid and preview pane.
+            RefreshPropertyGrid();
         }
 
         #endregion
@@ -190,7 +191,7 @@ namespace MPfm
         private void propertyGridTheme_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             // Get item
-            ThemeSectionComboBoxItem themeControl = (ThemeSectionComboBoxItem)comboPreviewPane.SelectedItem;
+            ThemePreviewPaneComboBoxItem themeControl = (ThemePreviewPaneComboBoxItem)comboPreviewPane.SelectedItem;
 
             // Check for theme type
             if (themeControl.ClassName == "SongGridViewTheme")
@@ -212,6 +213,14 @@ namespace MPfm
                 previewOutputMeter.Theme = theme;                
                 previewOutputMeter.Refresh();
             }
+            else if (themeControl.ClassName == "MainWindowTheme")
+            {
+                // Get theme
+                mainWindowTheme = (MainWindowTheme)propertyGridTheme.SelectedObject;
+
+                // Refresh theme
+                RefreshMainWindowPreview();
+            }
         }
 
         /// <summary>
@@ -221,53 +230,8 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void comboThemeControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Get item
-            ThemeSectionComboBoxItem themeControl = (ThemeSectionComboBoxItem)comboPreviewPane.SelectedItem;
-
-            // Check for Main Window theme
-            if (themeControl.ClassName == "MainWindowTheme")
-            {
-                // Set visibility
-                panelPreviewMainWindow.Visible = true;
-
-                // Set property grid item
-                propertyGridTheme.SelectedObject = new MainWindowTheme();
-            }
-            else
-            {
-                // Set visibility
-                panelPreviewMainWindow.Visible = false;
-            }
-
-            // Check for Song Browser theme
-            if (themeControl.ClassName == "SongGridViewTheme")
-            {
-                // Set visibility
-                previewSongGridView.Visible = true;
-
-                // Set property grid item
-                propertyGridTheme.SelectedObject = previewSongGridView.Theme;
-            }
-            else
-            {
-                // Set visibility
-                previewSongGridView.Visible = false;                
-            }
-
-            // Check for Output Meter theme
-            if (themeControl.ClassName == "OutputMeterTheme")
-            {
-                // Set visibility
-                previewOutputMeter.Visible = true;
-
-                // Set property grid item
-                propertyGridTheme.SelectedObject = previewOutputMeter.Theme;
-            }
-            else
-            {
-                // Set visibility
-                previewOutputMeter.Visible = false;
-            }
+            // Refresh property grid and preview pane
+            RefreshPropertyGrid();
         }
 
         /// <summary>
@@ -291,12 +255,192 @@ namespace MPfm
             previewOutputMeter.Refresh();
             previewSongGridView.Refresh();
         }
+
+        /// <summary>
+        /// Refreshes the property grid and preview pane.
+        /// </summary>
+        public void RefreshPropertyGrid()
+        {
+            // Get item
+            ThemePreviewPaneComboBoxItem themeControl = (ThemePreviewPaneComboBoxItem)comboPreviewPane.SelectedItem;
+
+            // Check for Main Window theme
+            if (themeControl.ClassName == "MainWindowTheme")
+            {
+                // Set visibility
+                panelPreviewMainWindow.Visible = true;
+                RefreshMainWindowPreview();
+
+                // Set property grid item
+                propertyGridTheme.SelectedObject = mainWindowTheme;
+            }
+            else
+            {
+                // Set visibility
+                panelPreviewMainWindow.Visible = false;
+            }
+
+            // Check for Song Browser theme
+            if (themeControl.ClassName == "SongGridViewTheme")
+            {
+                // Set visibility
+                previewSongGridView.Visible = true;
+
+                // Set property grid item
+                propertyGridTheme.SelectedObject = previewSongGridView.Theme;
+            }
+            else
+            {
+                // Set visibility
+                previewSongGridView.Visible = false;
+            }
+
+            // Check for Output Meter theme
+            if (themeControl.ClassName == "OutputMeterTheme")
+            {
+                // Set visibility
+                previewOutputMeter.Visible = true;
+
+                // Set property grid item
+                propertyGridTheme.SelectedObject = previewOutputMeter.Theme;
+            }
+            else
+            {
+                // Set visibility
+                previewOutputMeter.Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the Main Window preview pane.
+        /// </summary>
+        public void RefreshMainWindowPreview()
+        {
+            // Check if theme exists
+            if(mainWindowTheme == null)
+            {
+                return;
+            }
+
+            // Main panels
+            panelCurrentSong.CustomFont = mainWindowTheme.PanelTextFont;
+            panelCurrentSong.ForeColor = mainWindowTheme.PanelTextColor;
+            panelCurrentSong.GradientColor1 = mainWindowTheme.PanelBackgroundColor1;
+            panelCurrentSong.GradientColor2 = mainWindowTheme.PanelBackgroundColor2;
+            panelCurrentSong.HeaderGradientColor1 = mainWindowTheme.PanelHeaderBackgroundColor1;
+            panelCurrentSong.HeaderGradientColor2 = mainWindowTheme.PanelHeaderBackgroundColor2;
+            panelCurrentSong.HeaderForeColor = mainWindowTheme.PanelHeaderTextColor;
+            // header font to add
+            panelCurrentSong.Refresh();
+
+            // Set main panel labels
+            lblCurrentArtistName.CustomFont = mainWindowTheme.PanelTitleFont;
+            lblCurrentArtistName.ForeColor = mainWindowTheme.PanelTitleColor;
+            lblCurrentAlbumTitle.CustomFont = mainWindowTheme.PanelSubtitleFont;
+            lblCurrentAlbumTitle.ForeColor = mainWindowTheme.PanelSubtitleColor;
+            lblCurrentSongTitle.CustomFont = mainWindowTheme.PanelSubtitle2Font;
+            lblCurrentSongTitle.ForeColor = mainWindowTheme.PanelSubtitle2Color;
+            lblCurrentFilePath.CustomFont = mainWindowTheme.PanelTextFont;
+            lblCurrentFilePath.ForeColor = mainWindowTheme.PanelTextColor;
+
+            // Secondary panels            
+            panelInformation.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelInformation.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;            
+            panelInformation.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelInformation.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelInformation.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelInformation.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelInformation.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            // header font to add
+            panelInformation.Refresh();
+            panelActions.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelActions.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            panelActions.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelActions.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelActions.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelActions.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelActions.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            // header font to add
+            panelActions.Refresh();
+            panelCurrentPosition.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelCurrentPosition.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            panelCurrentPosition.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelCurrentPosition.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelCurrentPosition.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelCurrentPosition.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelCurrentPosition.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            // header font to add
+            panelCurrentPosition.Refresh();
+            panelTimeShifting.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelTimeShifting.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            panelTimeShifting.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelTimeShifting.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelTimeShifting.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelTimeShifting.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelTimeShifting.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            // header font to add
+            panelTimeShifting.Refresh();
+
+            // Set secondary panels labels
+            lblCurrentPosition.CustomFont = mainWindowTheme.PanelTimeDisplayFont;
+            lblCurrentPosition.ForeColor = mainWindowTheme.PanelTimeDisplayColor;
+            lblTimeShifting.CustomFont = mainWindowTheme.PanelSmallTimeDisplayFont;
+            lblTimeShifting.ForeColor = mainWindowTheme.PanelSmallTimeDisplayColor;
+            linkResetTimeShifting.CustomFont = mainWindowTheme.PanelSmallTimeDisplayFont;
+            linkResetTimeShifting.ForeColor = mainWindowTheme.PanelSmallTimeDisplayColor;
+
+            lblSoundFormatTitle.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblSoundFormatTitle.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            lblSoundFormat.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            lblSoundFormat.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            lblFrequencyTitle.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblFrequencyTitle.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            lblFrequency.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            lblFrequency.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            lblBitrateTitle.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblBitrateTitle.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            lblBitrate.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            lblBitrate.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+
+            linkEditSongMetadata.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkEditSongMetadata.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            linkSearchLyrics.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkSearchLyrics.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            linkSearchBassTabs.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkSearchBassTabs.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            linkSearchGuitarTabs.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkSearchGuitarTabs.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            lblSearchWeb.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblSearchWeb.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            
+            trackTimeShifting.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            trackTimeShifting.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+
+            // Toolbar
+            panelSongBrowserToolbar.GradientColor1 = mainWindowTheme.ToolbarBackgroundColor1;
+            panelSongBrowserToolbar.GradientColor2 = mainWindowTheme.ToolbarBackgroundColor2;
+
+            btnPlaySelectedSong.GradientColor1 = mainWindowTheme.ToolbarButtonBackgroundColor1;
+            btnPlaySelectedSong.GradientColor2 = mainWindowTheme.ToolbarButtonBackgroundColor2;
+            btnPlaySelectedSong.BorderColor = mainWindowTheme.ToolbarButtonBorderColor;
+            btnPlaySelectedSong.MouseOverGradientColor1 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor1;
+            btnPlaySelectedSong.MouseOverGradientColor2 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor2;
+            btnPlaySelectedSong.MouseOverBorderColor = mainWindowTheme.ToolbarButtonMouseOverBorderColor;
+            btnPlaySelectedSong.DisabledGradientColor1 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor1;
+            btnPlaySelectedSong.DisabledGradientColor2 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor2;
+            btnPlaySelectedSong.DisabledBorderColor = mainWindowTheme.ToolbarButtonDisabledBorderColor;            
+            btnPlaySelectedSong.CustomFont = mainWindowTheme.ToolbarButtonTextFont;
+            btnPlaySelectedSong.ForeColor = mainWindowTheme.ToolbarButtonTextColor;
+
+            lblSearchFor.CustomFont = mainWindowTheme.ToolbarTextFont;
+            lblSearchFor.ForeColor = mainWindowTheme.ToolbarTextColor;
+        }
     }
 
     /// <summary>
     /// This class is used to define the items of the Theme Section combo box (in the Settings window).
     /// </summary>
-    public class ThemeSectionComboBoxItem
+    public class ThemePreviewPaneComboBoxItem
     {
         /// <summary>
         /// Private value for the Title property.
@@ -337,11 +481,11 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Default constructor for the ThemeSectionComboBoxItem class.
+        /// Default constructor for the ThemePreviewPaneComboBoxItem class.
         /// </summary>
         /// <param name="title">Title</param>
         /// <param name="className">Theme class name</param>
-        public ThemeSectionComboBoxItem(string title, string className)
+        public ThemePreviewPaneComboBoxItem(string title, string className)
         {
             m_title = title;
             m_className = className;                

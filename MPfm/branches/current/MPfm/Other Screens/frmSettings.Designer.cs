@@ -185,8 +185,7 @@ namespace MPfm
             this.panelGeneralSettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelGeneralSettings.GradientColor1 = System.Drawing.Color.Silver;
             this.panelGeneralSettings.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelGeneralSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelGeneralSettings.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelGeneralSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelGeneralSettings.HeaderExpandable = false;
             this.panelGeneralSettings.HeaderExpanded = true;
             this.panelGeneralSettings.HeaderForeColor = System.Drawing.Color.Black;
@@ -228,8 +227,7 @@ namespace MPfm
             this.panelPeakFiles.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelPeakFiles.GradientColor1 = System.Drawing.Color.Silver;
             this.panelPeakFiles.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelPeakFiles.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelPeakFiles.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelPeakFiles.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelPeakFiles.HeaderExpandable = false;
             this.panelPeakFiles.HeaderExpanded = true;
             this.panelPeakFiles.HeaderForeColor = System.Drawing.Color.Black;
@@ -490,8 +488,7 @@ namespace MPfm
             this.panelSystemTray.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSystemTray.GradientColor1 = System.Drawing.Color.Silver;
             this.panelSystemTray.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelSystemTray.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSystemTray.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelSystemTray.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelSystemTray.HeaderExpandable = false;
             this.panelSystemTray.HeaderExpanded = true;
             this.panelSystemTray.HeaderForeColor = System.Drawing.Color.Black;
@@ -612,8 +609,7 @@ namespace MPfm
             this.panelAudioSettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelAudioSettings.GradientColor1 = System.Drawing.Color.Silver;
             this.panelAudioSettings.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelAudioSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelAudioSettings.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelAudioSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelAudioSettings.HeaderExpandable = false;
             this.panelAudioSettings.HeaderExpanded = true;
             this.panelAudioSettings.HeaderForeColor = System.Drawing.Color.Black;
@@ -648,8 +644,7 @@ namespace MPfm
             this.panelAudioSettingsOutput.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelAudioSettingsOutput.GradientColor1 = System.Drawing.Color.Silver;
             this.panelAudioSettingsOutput.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelAudioSettingsOutput.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelAudioSettingsOutput.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelAudioSettingsOutput.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelAudioSettingsOutput.HeaderExpandable = false;
             this.panelAudioSettingsOutput.HeaderExpanded = true;
             this.panelAudioSettingsOutput.HeaderForeColor = System.Drawing.Color.Black;
@@ -775,8 +770,7 @@ namespace MPfm
             this.panelAudioSettingsMixer.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelAudioSettingsMixer.GradientColor1 = System.Drawing.Color.Silver;
             this.panelAudioSettingsMixer.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelAudioSettingsMixer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelAudioSettingsMixer.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelAudioSettingsMixer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelAudioSettingsMixer.HeaderExpandable = false;
             this.panelAudioSettingsMixer.HeaderExpanded = true;
             this.panelAudioSettingsMixer.HeaderForeColor = System.Drawing.Color.Black;
@@ -1227,8 +1221,7 @@ namespace MPfm
             this.panelLibrarySettings.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelLibrarySettings.GradientColor1 = System.Drawing.Color.Silver;
             this.panelLibrarySettings.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelLibrarySettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLibrarySettings.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelLibrarySettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelLibrarySettings.HeaderExpandable = false;
             this.panelLibrarySettings.HeaderExpanded = true;
             this.panelLibrarySettings.HeaderForeColor = System.Drawing.Color.Black;
@@ -1264,8 +1257,7 @@ namespace MPfm
             this.panelFolders.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelFolders.GradientColor1 = System.Drawing.Color.Silver;
             this.panelFolders.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelFolders.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelFolders.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelFolders.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelFolders.HeaderExpandable = false;
             this.panelFolders.HeaderExpanded = true;
             this.panelFolders.HeaderForeColor = System.Drawing.Color.Black;
@@ -1454,8 +1446,7 @@ namespace MPfm
             this.panelBackground.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelBackground.GradientColor1 = System.Drawing.Color.Silver;
             this.panelBackground.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelBackground.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelBackground.HeaderExpandable = false;
             this.panelBackground.HeaderExpanded = true;
             this.panelBackground.HeaderForeColor = System.Drawing.Color.Black;

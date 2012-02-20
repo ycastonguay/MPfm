@@ -1079,8 +1079,7 @@ namespace MPfm
             this.panelEqualizer.ForeColor = System.Drawing.Color.White;
             this.panelEqualizer.GradientColor1 = System.Drawing.Color.Black;
             this.panelEqualizer.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelEqualizer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelEqualizer.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelEqualizer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelEqualizer.HeaderExpanded = true;
             this.panelEqualizer.HeaderForeColor = System.Drawing.Color.White;
             this.panelEqualizer.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -1561,8 +1560,7 @@ namespace MPfm
             this.panelPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelPreset.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.panelPreset.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelPreset.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelPreset.HeaderExpandable = false;
             this.panelPreset.HeaderExpanded = true;
             this.panelPreset.HeaderForeColor = System.Drawing.Color.White;
@@ -1649,8 +1647,7 @@ namespace MPfm
             this.panelInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelInformation.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.panelInformation.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.HeaderCustomFontName = "TitilliumText22L Lt";
+            this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
