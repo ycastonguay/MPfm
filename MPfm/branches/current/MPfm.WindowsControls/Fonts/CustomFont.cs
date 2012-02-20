@@ -194,6 +194,19 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Constructor for the CustomFont class. Requires the embedded font name and font size.
+        /// Will automatically set UseEmbeddedFont to true.
+        /// </summary>
+        /// <param name="embeddedFontName">Embedded font name</param>
+        /// <param name="size">Font size</param>
+        public CustomFont(string embeddedFontName, float size)
+        {
+            m_useEmbeddedFont = true;
+            m_embeddedFontName = embeddedFontName;
+            m_size = size;
+        }
+
+        /// <summary>
         /// Returns a FontStyle structure with the IsBold, IsItalic and IsUnderline property values.
         /// </summary>
         /// <returns>FontStyle</returns>

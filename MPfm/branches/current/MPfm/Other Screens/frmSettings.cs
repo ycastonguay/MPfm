@@ -129,10 +129,20 @@ namespace MPfm
             // Refresh controls           
             RefreshFolders();
 
+            btnGeneralSettings.Enabled = false;
+            btnAudioSettings.Enabled = true;
+            btnLibrarySettings.Enabled = true;
+
+            panelGeneralSettings.Visible = true;
+            panelAudioSettings.Visible = false;
+            panelLibrarySettings.Visible = false;
+
             // Load configuration
             LoadAudioConfig();
             LoadGeneralConfig();
-            settingsChanged = false;            
+            settingsChanged = false;    
+        
+
         }
 
         #endregion
@@ -1182,6 +1192,46 @@ namespace MPfm
                 // Set label color                
                 lblPeakFileDisplayWarningUnit.ForeColor = Color.FromArgb(80, 80, 80);
             }
+        }
+
+        private void btnGeneralSettings_Click(object sender, EventArgs e)
+        {
+            btnGeneralSettings.Enabled = false;
+            btnAudioSettings.Enabled = true;
+            btnLibrarySettings.Enabled = true;
+
+            panelGeneralSettings.Visible = true;
+            panelAudioSettings.Visible = false;
+            panelLibrarySettings.Visible = false;
+        }
+
+        private void btnAudioSettings_Click(object sender, EventArgs e)
+        {
+            btnGeneralSettings.Enabled = true;
+            btnAudioSettings.Enabled = false;
+            btnLibrarySettings.Enabled = true;
+
+            panelGeneralSettings.Visible = false;
+            panelAudioSettings.Visible = true;
+            panelLibrarySettings.Visible = false;
+
+        }
+
+        private void btnLibrarySettings_Click(object sender, EventArgs e)
+        {
+            btnGeneralSettings.Enabled = true;
+            btnAudioSettings.Enabled = true;
+            btnLibrarySettings.Enabled = false;
+
+            panelGeneralSettings.Visible = false;
+            panelAudioSettings.Visible = false;
+            panelLibrarySettings.Visible = true;
+
+        }
+        
+        public void RefreshShits()
+        {
+
         }
     }
 

@@ -48,7 +48,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelHeaderBackgroundColor1 property.
         /// </summary>
-        private Color m_panelHeaderBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_panelHeaderBackgroundColor1 = Color.FromArgb(100, 100, 100);
         /// <summary>
         /// Defines the main panel header background gradient (first color).
         /// </summary>
@@ -69,7 +69,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelHeaderBackgroundColor2 property.
         /// </summary>
-        private Color m_panelHeaderBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_panelHeaderBackgroundColor2 = Color.FromArgb(60, 60, 60);
         /// <summary>
         /// Defines the main panel header background gradient (second color).
         /// </summary>
@@ -90,7 +90,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelHeaderTextColor property.
         /// </summary>
-        private Color m_panelHeaderTextColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelHeaderTextColor = Color.FromArgb(255, 255, 255);
         /// <summary>
         /// Defines the main panel header text fore color.
         /// </summary>
@@ -111,7 +111,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelHeaderTextFont property.
         /// </summary>
-        private CustomFont m_panelHeaderTextFont = new CustomFont();
+        private CustomFont m_panelHeaderTextFont = new CustomFont("TitilliumText22L Lt", 10);
         /// <summary>
         /// Defines the main panel header text font.
         /// </summary>
@@ -134,7 +134,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelBackgroundColor1 property.
         /// </summary>
-        private Color m_panelBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_panelBackgroundColor1 = Color.FromArgb(20, 20, 20);
         /// <summary>
         /// Defines the main panel background gradient (first color).
         /// </summary>
@@ -155,7 +155,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelBackgroundColor2 property.
         /// </summary>
-        private Color m_panelBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_panelBackgroundColor2 = Color.FromArgb(40, 40, 40);
         /// <summary>
         /// Defines the main panel background gradient (second color).
         /// </summary>
@@ -176,7 +176,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTitleColor property.
         /// </summary>
-        private Color m_panelTitleColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelTitleColor = Color.White;
         /// <summary>
         /// Defines the main panel title fore color.
         /// </summary>
@@ -197,7 +197,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTitleFont property.
         /// </summary>
-        private CustomFont m_panelTitleFont = new CustomFont();
+        private CustomFont m_panelTitleFont = new CustomFont("TitilliumText22L Lt", 18);
         /// <summary>
         /// Defines the main panel title font.
         /// </summary>
@@ -218,7 +218,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitleColor property.
         /// </summary>
-        private Color m_panelSubtitleColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelSubtitleColor = Color.Silver;
         /// <summary>
         /// Defines the main panel subtitle fore color.
         /// </summary>
@@ -239,7 +239,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitleFont property.
         /// </summary>
-        private CustomFont m_panelSubtitleFont = new CustomFont();
+        private CustomFont m_panelSubtitleFont = new CustomFont("TitilliumText22L Lt", 14);
         /// <summary>
         /// Defines the main panel subtitle font.
         /// </summary>
@@ -260,7 +260,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitle2Color property.
         /// </summary>
-        private Color m_panelSubtitle2Color = Color.FromArgb(215, 215, 215);
+        private Color m_panelSubtitle2Color = Color.Gray;
         /// <summary>
         /// Defines the main panel subtitle 2 fore color.
         /// </summary>
@@ -281,7 +281,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitle2Font property.
         /// </summary>
-        private CustomFont m_panelSubtitle2Font = new CustomFont();
+        private CustomFont m_panelSubtitle2Font = new CustomFont("TitilliumText22L Lt", 12);
         /// <summary>
         /// Defines the main panel subtitle 2 font.
         /// </summary>
@@ -344,7 +344,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTimeDisplayColor property.
         /// </summary>
-        private Color m_panelTimeDisplayColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelTimeDisplayColor = Color.White;
         /// <summary>
         /// Defines the main panel time display fore color.
         /// </summary>
@@ -365,7 +365,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTimeDisplayFont property.
         /// </summary>
-        private CustomFont m_panelTimeDisplayFont = new CustomFont();
+        private CustomFont m_panelTimeDisplayFont = new CustomFont("Droid Sans Mono", 10);
         /// <summary>
         /// Defines the main panel time display font.
         /// </summary>
@@ -386,7 +386,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSmallTimeDisplayColor property.
         /// </summary>
-        private Color m_panelSmallTimeDisplayColor = Color.FromArgb(215, 215, 215);
+        private Color m_panelSmallTimeDisplayColor = Color.White;
         /// <summary>
         /// Defines the main panel small time display fore color.
         /// </summary>
@@ -407,7 +407,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSmallTimeDisplayFont property.
         /// </summary>
-        private CustomFont m_panelSmallTimeDisplayFont = new CustomFont();
+        private CustomFont m_panelSmallTimeDisplayFont = new CustomFont("Droid Sans Mono", 7);
         /// <summary>
         /// Defines the main panel small time display font.
         /// </summary>
@@ -497,7 +497,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelHeaderTextFont property.
         /// </summary>
-        private CustomFont m_secondaryPanelHeaderTextFont = new CustomFont();
+        private CustomFont m_secondaryPanelHeaderTextFont = new CustomFont("Junction", 8.25f);
         /// <summary>
         /// Defines the secondary panel header text font.
         /// </summary>
@@ -583,7 +583,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelLabelFont property.
         /// </summary>
-        private CustomFont m_secondaryPanelLabelFont = new CustomFont();
+        private CustomFont m_secondaryPanelLabelFont = new CustomFont("Junction", 7);
         /// <summary>
         /// Defines the secondary panel label font.
         /// </summary>
@@ -625,7 +625,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelTextFont property.
         /// </summary>
-        private CustomFont m_secondaryPanelTextFont = new CustomFont();
+        private CustomFont m_secondaryPanelTextFont = new CustomFont("Junction", 7);
         /// <summary>
         /// Defines the secondary panel text font.
         /// </summary>
@@ -652,7 +652,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonBackgroundColor1 property.
         /// </summary>
-        private Color m_toolbarButtonBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonBackgroundColor1 = Color.LightGray;
         /// <summary>
         /// Defines the toolbar button background gradient (first color).
         /// </summary>
@@ -673,7 +673,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonBackgroundColor2 property.
         /// </summary>
-        private Color m_toolbarButtonBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonBackgroundColor2 = Color.Gray;
         /// <summary>
         /// Defines the toolbar button background gradient (second color).
         /// </summary>
@@ -694,7 +694,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonBorderColor property.
         /// </summary>
-        private Color m_toolbarButtonBorderColor = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonBorderColor = Color.DimGray;
         /// <summary>
         /// Defines the toolbar button border color.
         /// </summary>
@@ -713,9 +713,30 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the ToolbarButtonTextColor property.
+        /// </summary>
+        private Color m_toolbarButtonTextColor = Color.Black;
+        /// <summary>
+        /// Defines the toolbar button text fore color.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color.")]
+        public Color ToolbarButtonTextColor
+        {
+            get
+            {
+                return m_toolbarButtonTextColor;
+            }
+            set
+            {
+                m_toolbarButtonTextColor = value;
+            }
+        }
+
+        /// <summary>
         /// Private value for the ToolbarButtonOverBackgroundColor1 property.
         /// </summary>
-        private Color m_toolbarButtonMouseOverBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonMouseOverBackgroundColor1 = Color.White;
         /// <summary>
         /// Defines the toolbar button background gradient (first color), when the mouse is over.
         /// </summary>
@@ -736,7 +757,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonOverBackgroundColor2 property.
         /// </summary>
-        private Color m_toolbarButtonMouseOverBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonMouseOverBackgroundColor2 = Color.DarkGray;
         /// <summary>
         /// Defines the toolbar button background gradient (second color), when the mouse is over.
         /// </summary>
@@ -757,7 +778,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonOverBackgroundColor2 property.
         /// </summary>
-        private Color m_toolbarButtonMouseOverBorderColor = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonMouseOverBorderColor = Color.DimGray;
         /// <summary>
         /// Defines the toolbar button border color, when the mouse is over.
         /// </summary>
@@ -776,9 +797,30 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the ToolbarButtonMouseOverTextColor property.
+        /// </summary>
+        private Color m_toolbarButtonMouseOverTextColor = Color.Black;
+        /// <summary>
+        /// Defines the toolbar button text fore color, when the mouse is over.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color, when the mouse is over.")]
+        public Color ToolbarButtonMouseOverTextColor
+        {
+            get
+            {
+                return m_toolbarButtonMouseOverTextColor;
+            }
+            set
+            {
+                m_toolbarButtonMouseOverTextColor = value;
+            }
+        }
+
+        /// <summary>
         /// Private value for the ToolbarButtonDisabledBackgroundColor1 property.
         /// </summary>
-        private Color m_toolbarButtonDisabledBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonDisabledBackgroundColor1 = Color.Gray;
         /// <summary>
         /// Defines the toolbar button background gradient (first color), when the control is disabled.
         /// </summary>
@@ -799,7 +841,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonDisabledBackgroundColor2 property.
         /// </summary>
-        private Color m_toolbarButtonDisabledBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonDisabledBackgroundColor2 = Color.FromArgb(35, 35, 35);
         /// <summary>
         /// Defines the toolbar button background gradient (second color), when the control is disabled.
         /// </summary>
@@ -820,7 +862,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarButtonDisabledBorderColor property.
         /// </summary>
-        private Color m_toolbarButtonDisabledBorderColor = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonDisabledBorderColor = Color.Gray;
         /// <summary>
         /// Defines the toolbar button border color, when the control is disabled.
         /// </summary>
@@ -839,23 +881,23 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the ToolbarButtonTextColor property.
+        /// Private value for the ToolbarDisabledButtonTextColor property.
         /// </summary>
-        private Color m_toolbarButtonTextColor = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarButtonDisabledTextColor = Color.Silver;
         /// <summary>
-        /// Defines the toolbar button text fore color.
+        /// Defines the toolbar button text fore color, when the control is disabled.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color.")]
-        public Color ToolbarButtonTextColor
+        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color, when the control is disabled.")]
+        public Color ToolbarButtonDisabledTextColor
         {
             get
             {
-                return m_toolbarButtonTextColor;
+                return m_toolbarButtonDisabledTextColor;
             }
             set
             {
-                m_toolbarButtonTextColor = value;
+                m_toolbarButtonDisabledTextColor = value;
             }
         }
 
@@ -885,7 +927,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarBackgroundColor1 property.
         /// </summary>
-        private Color m_toolbarBackgroundColor1 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarBackgroundColor1 = Color.Silver;
         /// <summary>
         /// Defines the toolbar background gradient (first color).
         /// </summary>
@@ -906,7 +948,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarBackgroundColor2 property.
         /// </summary>
-        private Color m_toolbarBackgroundColor2 = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarBackgroundColor2 = Color.Gainsboro;
         /// <summary>
         /// Defines the toolbar background gradient (second color).
         /// </summary>
@@ -927,7 +969,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the ToolbarTextColor property.
         /// </summary>
-        private Color m_toolbarTextColor = Color.FromArgb(215, 215, 215);
+        private Color m_toolbarTextColor = Color.Black;
         /// <summary>
         /// Defines the toolbar text fore color.
         /// </summary>

@@ -148,6 +148,8 @@ namespace MPfm
                 e.Cancel = true;
                 this.Hide();
             }
+
+            Main.btnThemes.Checked = false;
         }
 
         /// <summary>
@@ -323,13 +325,13 @@ namespace MPfm
             }
 
             // Main panels
-            panelCurrentSong.CustomFont = mainWindowTheme.PanelTextFont;
-            panelCurrentSong.ForeColor = mainWindowTheme.PanelTextColor;
+            panelCurrentSong.CustomFont = mainWindowTheme.PanelHeaderTextFont;
+            panelCurrentSong.ForeColor = mainWindowTheme.PanelHeaderTextColor;
             panelCurrentSong.GradientColor1 = mainWindowTheme.PanelBackgroundColor1;
             panelCurrentSong.GradientColor2 = mainWindowTheme.PanelBackgroundColor2;
             panelCurrentSong.HeaderGradientColor1 = mainWindowTheme.PanelHeaderBackgroundColor1;
             panelCurrentSong.HeaderGradientColor2 = mainWindowTheme.PanelHeaderBackgroundColor2;
-            panelCurrentSong.HeaderForeColor = mainWindowTheme.PanelHeaderTextColor;
+            panelCurrentSong.HeaderForeColor = mainWindowTheme.PanelHeaderTextColor;            
             // header font to add
             panelCurrentSong.Refresh();
 
@@ -430,7 +432,9 @@ namespace MPfm
             btnPlaySelectedSong.DisabledGradientColor2 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor2;
             btnPlaySelectedSong.DisabledBorderColor = mainWindowTheme.ToolbarButtonDisabledBorderColor;            
             btnPlaySelectedSong.CustomFont = mainWindowTheme.ToolbarButtonTextFont;
-            btnPlaySelectedSong.ForeColor = mainWindowTheme.ToolbarButtonTextColor;
+            btnPlaySelectedSong.DisabledFontColor = mainWindowTheme.ToolbarButtonDisabledTextColor;
+            btnPlaySelectedSong.MouseOverFontColor = mainWindowTheme.ToolbarButtonMouseOverTextColor;
+            btnPlaySelectedSong.FontColor = mainWindowTheme.ToolbarButtonTextColor;
 
             lblSearchFor.CustomFont = mainWindowTheme.ToolbarTextFont;
             lblSearchFor.ForeColor = mainWindowTheme.ToolbarTextColor;
