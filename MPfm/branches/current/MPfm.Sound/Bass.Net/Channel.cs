@@ -29,8 +29,7 @@ using MPfm.Core;
 using MPfm.Sound;
 using Un4seen.Bass;
 using Un4seen.BassAsio;
-using Un4seen.Bass.AddOn.Mpc;
-using Un4seen.Bass.AddOn.Flac;
+using Un4seen.Bass.AddOn.Mix;
 using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Sound.BassNetWrapper
@@ -55,6 +54,21 @@ namespace MPfm.Sound.BassNetWrapper
             get
             {
                 return m_channelType;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the IsMixer property.
+        /// </summary>
+        private bool m_isMixer = false;
+        /// <summary>
+        /// Indicates if the channel is a mixer channel (BassMix).
+        /// </summary>
+        public bool IsMixer
+        {
+            get
+            {
+                return m_isMixer;
             }
         }
 
@@ -197,16 +211,55 @@ namespace MPfm.Sound.BassNetWrapper
 
             // Create file stream
             int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
+            if (handle == 0)
+            {
+                // Check for error
+                Base.CheckForError();
+            }            
+            
+            // Return new channel instance
+            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency };
+        }
 
+        /// <summary>
+        /// Creates a mixer stream from one or multiple source channels.
+        /// </summary>
+        /// <param name="frequency">Frequency (sample rate)</param>
+        /// <param name="numberOfChannels">Number of channels (mono = 1, stereo = 2)</param>
+        /// <param name="useFloatingPoint">Indicates if the channel should use floating point</param>
+        /// <param name="useDecode">Indicates if the channel should be a decode channel</param>
+        /// <returns>Channel object</returns>
+        public static Channel CreateMixerStream(int frequency, int numberOfChannels, bool useFloatingPoint, bool useDecode)
+        {
+            // Build flags; add base flags
+            BASSFlag flags = BASSFlag.BASS_DEFAULT;
+            if (useFloatingPoint && useDecode)
+            {
+                // Set flags
+                flags = BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_DECODE;
+            }
+            else if (useFloatingPoint && !useDecode)
+            {
+                // Set flags
+                flags = BASSFlag.BASS_SAMPLE_FLOAT;
+            }
+            else if (!useFloatingPoint && useDecode)
+            {
+                // Set flags
+                flags = BASSFlag.BASS_STREAM_DECODE;
+            }
+
+            // Create mixer stream            
+            int handle = BassMix.BASS_Mixer_StreamCreate(frequency, numberOfChannels, flags);                        
             if (handle == 0)
             {
                 // Check for error
                 Base.CheckForError();
             }
-
+           
             // Return new channel instance
-            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency };
-        }
+            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency, m_isMixer = true };
+        }        
 
         /// <summary>
         /// Creates a stream from file for decoding.
@@ -333,12 +386,16 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         /// <summary>
-        /// Pauses the playback of a channel
-        /// </summary>
-        /// <returns>True if the operation was successful</returns>
-        public bool Pause()
-        {
-            return Bass.BASS_ChannelPause(m_handle);
+        /// Pauses the playback of a channel.
+        /// </summary>        
+        public void Pause()
+        {                        
+            // Pause playback
+            if (!Bass.BASS_ChannelPause(m_handle))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
         }
 
         #endregion
@@ -586,6 +643,17 @@ namespace MPfm.Sound.BassNetWrapper
             return Bass.BASS_ChannelGetData(m_handle, buffer, length);
         }
 
+        /// <summary>
+        /// Gets data from a mixer channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
+        public int GetMixerData(float[] buffer, int length)
+        {
+            return BassMix.BASS_Mixer_ChannelGetData(m_handle, buffer, length);
+        }
+
         #endregion
 
         #region Synchronization Callbacks
@@ -638,6 +706,25 @@ namespace MPfm.Sound.BassNetWrapper
         public double Bytes2Seconds(long position)
         {
             return Bass.BASS_ChannelBytes2Seconds(m_handle, position);
+        }
+
+        #endregion
+
+        #region Mixer
+
+        /// <summary>
+        /// Adds a source channel to the mixer. Only for mixer channels.
+        /// </summary>
+        /// <param name="channelHandle">Source channel handle</param>
+        public void AddChannel(int channelHandle)
+        {
+            // Add channel
+            bool success = BassMix.BASS_Mixer_StreamAddChannel(m_handle, channelHandle, BASSFlag.BASS_MIXER_BUFFER);
+            if (!success)
+            {
+                // Check for error
+                Base.CheckForError();
+            }
         }
 
         #endregion

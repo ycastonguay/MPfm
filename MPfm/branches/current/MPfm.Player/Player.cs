@@ -47,7 +47,15 @@ namespace MPfm.Player
         /// Timer for the player.
         /// </summary>
         private System.Timers.Timer m_timerPlayer = null;
-        private Channel m_streamChannel = null;        
+        private Channel m_streamChannel = null;
+        private Channel m_fxChannel = null;
+        public Channel FXChannel
+        {
+            get
+            {
+                return m_fxChannel;
+            }
+        }
         //private Dictionary<int, string> m_plugins = null;
 
         int m_currentMixPlaylistIndex = 0;
@@ -93,17 +101,6 @@ namespace MPfm.Player
         /// starts to play).
         /// </summary>
         public event PlaylistIndexChanged OnPlaylistIndexChanged;
-
-        ///// <summary>
-        ///// Delegate method for the OnStreamCallbackCalled event.
-        ///// </summary>
-        ///// <param name="data">OnStreamCallbackCalled data</param>
-        //public delegate void StreamCallbackCalled(PlayerStreamCallbackData data);
-        ///// <summary>
-        ///// The OnStreamCallbackCalled event is triggered when the stream callback has been called and
-        ///// must return data.
-        ///// </summary>
-        //public event StreamCallbackCalled OnStreamCallbackCalled;
 
         #endregion
 
@@ -598,7 +595,8 @@ namespace MPfm.Player
                 m_wasapiProc = new WASAPIPROC(WASAPICallback);
 
                 // Initialize sound system
-                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
+                //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
+                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 0, 0, m_wasapiProc);
             }
 
             // Default BASS.NET configuration values:
@@ -784,6 +782,9 @@ namespace MPfm.Player
                     Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + m_playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
                     m_streamProc = new STREAMPROC(StreamCallback);
                     m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
+
+                    Tracing.Log("Player.Play -- Creating time shifting channel...");
+                    m_fxChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
                 }
                 catch(Exception ex)
                 {
@@ -800,9 +801,9 @@ namespace MPfm.Player
                 {
                     try
                     {
-                        // Create main channel
-                        Tracing.Log("Player.Play -- Creating time shifting channel (DriverType: DirectSound, Decode: false, FloatingPoint: false)...");
-                        m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, false, false);
+                        Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
+                        m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateMixerStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, false);
+                        m_mainChannel.AddChannel(m_fxChannel.Handle);
                     }
                     catch (Exception ex)
                     {   
@@ -818,9 +819,10 @@ namespace MPfm.Player
                 {
                     try
                     {
-                        // Create main channel
-                        Tracing.Log("Player.Play -- Creating ASIO time shifting channel...");
-                        m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
+                        Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
+                        m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateMixerStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                        m_mainChannel.AddChannel(m_fxChannel.Handle);
+
                     }
                     catch (Exception ex)
                     {
@@ -882,8 +884,12 @@ namespace MPfm.Player
                 else if (m_device.DriverType == DriverType.WASAPI)
                 {
                     // Create main channel
-                    Tracing.Log("Player.Play -- Creating WASAPI time shifting channel...");
-                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
+                    //Tracing.Log("Player.Play -- Creating WASAPI time shifting channel...");
+                    //m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
+
+                    Tracing.Log("Player.Play -- Creating mixer channel (WASAPI)...");
+                    m_mainChannel = MPfm.Sound.BassNetWrapper.Channel.CreateMixerStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                    m_mainChannel.AddChannel(m_fxChannel.Handle);
 
                     // Start playback
                     if (!BassWasapi.BASS_WASAPI_Start())
@@ -1016,15 +1022,69 @@ namespace MPfm.Player
         /// </summary>
         public void Pause()
         {
-            if (!m_isPaused)
-            {
-                m_mainChannel.Pause();
+            // Check driver type (the pause mechanism differs by driver)
+            if (m_device.DriverType == DriverType.DirectSound)
+            {        
+                // Check if the playback is already paused
+                if (!m_isPaused)
+                {
+                    // Pause the playback channel
+                    m_mainChannel.Pause();
+                }
+                else
+                {
+                    // Unpause the playback channel
+                    m_mainChannel.Play(false);
+                }
             }
-            else
+            else if (m_device.DriverType == DriverType.ASIO)
             {
-                m_mainChannel.Play(false);
+                // Check if the playback is already paused
+                if (!m_isPaused)
+                {
+                    // Pause playback on ASIO (cannot pause in a decoding channel)
+                    if (!BassAsio.BASS_ASIO_ChannelPause(false, 0))
+                    {
+                        // Check for error
+                        Base.CheckForError();
+                    }
+                }
+                else
+                {
+                    // Unpause playback
+                    if (!BassAsio.BASS_ASIO_ChannelReset(false, 0, BASSASIOReset.BASS_ASIO_RESET_PAUSE))
+                    {
+                        // Check for error
+                        Base.CheckForError();
+                    }
+
+                }
+            }
+            else if (m_device.DriverType == DriverType.WASAPI)
+            {
+                // Check if the playback is already paused
+                if (!m_isPaused)
+                {
+                    // Pause playback on WASAPI (cannot pause in a decoding channel)
+                    if (!BassWasapi.BASS_WASAPI_Stop(false))
+                    {
+                        // Check for error
+                        Base.CheckForError();
+                    }
+                }
+                else
+                {
+                    // Unpause playback
+                    if (!BassWasapi.BASS_WASAPI_Start())
+                    {
+                        // Check for error
+                        Base.CheckForError();
+                    }
+
+                }
             }
 
+            // Set flag
             m_isPaused = !m_isPaused;
         }
 
@@ -1276,7 +1336,7 @@ namespace MPfm.Player
             if (Device.DriverType == DriverType.DirectSound)
             {
                 // Divide by 2 (floating point)
-                outputPosition /= 2;
+                //outputPosition /= 2;
             }
 
             // Check if this is a FLAC file over 44100Hz

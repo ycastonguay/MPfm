@@ -812,28 +812,12 @@ namespace MPfm
                 // Set flags
                 settingsTested = true;
 
-                // Free device                
-                Main.Player.FreeDevice();
-
-                //// Create test device
-                //Tracing.Log("Creating test device...");
-                //TestDevice testDevice = new TestDevice(driver.DriverType, device.Id, (int)txtMixerSampleRate.Value);
-
-                //// Play sound file                
-                //Tracing.Log("Starting playback...");
-                //testDevice.Play(dialogOpenFile.FileName);
-                //Tracing.Log("The audio file is playing...");
-
-                //// Display info
-                //MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working (unless you selected the \"No audio\" driver).\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                //// Stop and dispose the device
-                //Tracing.Log("User stops playback.");
-                //testDevice.Stop();
-
-                //// Dispose test device
-                //Tracing.Log("Disposing test device...");
-                //testDevice.Dispose();
+                // Check if device needs to be freed
+                if (Main.Player.IsDeviceInitialized)
+                {
+                    // Free device                
+                    Main.Player.FreeDevice();
+                }
 
                 // Disable output meter timer
                 Main.timerUpdateOutputMeter.Enabled = false;
