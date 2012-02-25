@@ -55,7 +55,6 @@ namespace MPfm.Sound.BassNetWrapper
 
         #endregion
 
-
         /// <summary>
         /// Creates a mixer stream from one or multiple source channels.
         /// </summary>
@@ -94,6 +93,94 @@ namespace MPfm.Sound.BassNetWrapper
 
             // Return new channel instance
             return new MixerChannel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency };
-        }    
+        }
+
+        /// <summary>
+        /// Returns the current position of a mixer channel in bytes.        
+        /// <para>
+        /// Note: The handle of the decode channel must be passed in parameter.        
+        /// </para>
+        /// </summary>
+        /// <param name="handle">Decode channel handle</param>
+        /// <returns>Position (in bytes)</returns>
+        public long GetPosition(int handle)
+        {
+            // Get position
+            long position = BassMix.BASS_Mixer_ChannelGetPosition(handle);
+
+            // Check for error
+            if (position == -1)
+            {
+                Base.CheckForError();
+            }
+
+            //// Check for floating point
+            //if (m_isFloatingPoint)
+            //{
+            //    // Convert 32-bit into 16-bit
+            //    position = position / 2;
+            //}
+
+            return position;
+        }
+
+        #region Synchronization Callbacks
+
+        ///// <summary>
+        ///// This method is not supported for a mixer channel because it requires an handle to the
+        ///// decoding channel.. Using this method will throw an exception. Use the other overloaded method instead.
+        ///// </summary>
+        ///// <returns>Null</returns>
+        //public new int SetSync(BASSSync type, long param, SYNCPROC syncProc)
+        //{
+        //    throw new NotSupportedException("This method is not supported for a mixer channel.");
+        //}
+
+        /// <summary>
+        /// Sets a synchronization callback for a mixer channel.
+        /// <para>
+        /// Note: The handle of the decode channel must be passed in parameter.        
+        /// </para>
+        /// </summary>        
+        /// <param name="handle">Decode channel handle</param>
+        /// <param name="type">Sync type</param>
+        /// <param name="param">Parameter (depends on sync type)</param>
+        /// <param name="syncProc">Instance of the synchronization callback</param>
+        /// <returns>Synchronization callback handle</returns>
+        public int SetSync(int handle, BASSSync type, long param, SYNCPROC syncProc)
+        {
+            // Set sync
+            int syncHandle = BassMix.BASS_Mixer_ChannelSetSync(handle, type, param, syncProc, IntPtr.Zero);
+
+            // Check for error
+            if (syncHandle == 0)
+            {
+                Base.CheckForError();
+            }
+
+            return syncHandle;
+        }
+
+        /// <summary>
+        /// Removes a synchronization callback for a mixer channel.
+        /// <para>
+        /// Note: The handle of the decode channel must be passed in parameter.        
+        /// </para>
+        /// </summary>
+        /// <param name="handle">Decode channel handle</param>
+        /// <param name="syncHandle">Handle to the synchronization callback</param>
+        public void RemoveSync(int handle, int syncHandle)
+        {
+            // Remove the sync callback
+            if (!BassMix.BASS_Mixer_ChannelRemoveSync(handle, syncHandle))
+            {
+                // Check for error
+                Base.CheckForError();
+            }
+        }
+
+        #endregion
+
+ 
     }
 }

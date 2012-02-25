@@ -611,7 +611,16 @@ namespace MPfm.Sound.BassNetWrapper
         /// <returns>Synchronization callback handle</returns>
         public int SetSync(BASSSync type, long param, SYNCPROC syncProc)
         {
-            return Bass.BASS_ChannelSetSync(m_handle, type, param, syncProc, IntPtr.Zero);
+            // Set sync
+            int syncHandle = Bass.BASS_ChannelSetSync(m_handle, type, param, syncProc, IntPtr.Zero);
+
+            // Check for error
+            if (syncHandle == 0)
+            {
+                Base.CheckForError();
+            }
+
+            return syncHandle;
         }
 
         /// <summary>

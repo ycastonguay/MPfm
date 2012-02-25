@@ -1339,8 +1339,7 @@ namespace MPfm.Player
             }
 
             // Get main channel position
-            //long outputPosition = m_mainChannel.GetPosition();
-            long outputPosition = BassMix.BASS_Mixer_ChannelGetPosition(m_fxChannel.Handle);
+            long outputPosition = m_mixerChannel.GetPosition(m_fxChannel.Handle);
             if (outputPosition == -1)
             {
                 Base.CheckForError();
@@ -1722,8 +1721,8 @@ namespace MPfm.Player
             // Set sync
             PlayerSyncProc syncProc = new PlayerSyncProc();
             syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
-            //syncProc.Handle = m_mainChannel.SetSync(BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);
-            syncProc.Handle = BassMix.BASS_Mixer_ChannelSetSync(m_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc, new IntPtr());
+            syncProc.Handle = m_mixerChannel.SetSync(m_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
+            //syncProc.Handle = BassMix.BASS_Mixer_ChannelSetSync(m_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc, new IntPtr());
 
             // Add to list
             m_syncProcs.Add(syncProc);
@@ -1767,11 +1766,12 @@ namespace MPfm.Player
                 {
                     // Remove sync
                     //m_mainChannel.RemoveSync(m_syncProcs[a].Handle);
-                    bool success = BassMix.BASS_Mixer_ChannelRemoveSync(m_fxChannel.Handle, m_syncProcs[a].Handle);
-                    if (!success)
-                    {
-                        Base.CheckForError();
-                    }
+                    //bool success = BassMix.BASS_Mixer_ChannelRemoveSync(m_fxChannel.Handle, m_syncProcs[a].Handle);
+                    //if (!success)
+                    //{
+                    //    Base.CheckForError();
+                    //}
+                    m_mixerChannel.RemoveSync(m_fxChannel.Handle, m_syncProcs[a].Handle);
                     m_syncProcs[a].Handle = 0;
                     m_syncProcs[a].SyncProc = null;
 
@@ -1879,7 +1879,8 @@ namespace MPfm.Player
 
                 // Get main channel position
                 //long position = m_mainChannel.GetPosition();
-                long position = BassMix.BASS_Mixer_ChannelGetPosition(m_fxChannel.Handle, BASSMode.BASS_POS_BYTES);
+                //long position = BassMix.BASS_Mixer_ChannelGetPosition(m_fxChannel.Handle, BASSMode.BASS_POS_BYTES);
+                long position = m_mixerChannel.GetPosition(m_fxChannel.Handle);
 
                 // Get remanining data in buffer
                 int buffered = m_mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
