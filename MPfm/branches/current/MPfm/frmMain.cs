@@ -1006,7 +1006,7 @@ namespace MPfm
             float maxR = 0f;
 
             // length of a 20ms window in bytes
-            int length20ms = (int)m_player.MainChannel.Seconds2Bytes2(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
+            int length20ms = (int)m_player.MixerChannel.Seconds2Bytes2(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
             // the number of 32-bit floats required (since length is in bytes!)
             int l4 = length20ms / 4; // 32-bit = 4 bytes
 
@@ -1022,7 +1022,7 @@ namespace MPfm
             }
             else
             {
-                length = m_player.MainChannel.GetData(sampleData, length20ms);
+                length = m_player.MixerChannel.GetData(sampleData, length20ms);
             }
             
 

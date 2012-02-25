@@ -1,6 +1,5 @@
 ﻿//
-// Channel.cs: This file contains the Channel class which is part of the
-//             BASS.NET wrapper.
+// Channel.cs: Defines a channel/stream to be used with BASS.NET.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -35,8 +34,8 @@ using Un4seen.Bass.AddOn.Fx;
 namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
-    /// Defines a channel/stream used in BASS.NET.
-    /// There are a few static methods to load streams..
+    /// Defines a channel/stream to be used with BASS.NET.
+    /// If you need to create a mixer channel, use the MixerChannel class.
     /// </summary>
     public class Channel
     {
@@ -45,7 +44,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <summary>
         /// Private value for the ChannelType property.
         /// </summary>
-        private ChannelType m_channelType = ChannelType.Playback;
+        protected ChannelType m_channelType = ChannelType.Playback;
         /// <summary>
         /// Indicates the type of channel (playback, FX, etc.)
         /// </summary>
@@ -58,24 +57,9 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         /// <summary>
-        /// Private value for the IsMixer property.
-        /// </summary>
-        private bool m_isMixer = false;
-        /// <summary>
-        /// Indicates if the channel is a mixer channel (BassMix).
-        /// </summary>
-        public bool IsMixer
-        {
-            get
-            {
-                return m_isMixer;
-            }
-        }
-
-        /// <summary>
         /// Private value for the IsDecode property.
         /// </summary>
-        private bool m_isDecode = false;
+        protected bool m_isDecode = false;
         /// <summary>
         /// Indicates if the channel/stream is decoding.
         /// </summary>
@@ -90,7 +74,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <summary>
         /// Private value for the IsFloatingPoint property.
         /// </summary>
-        private bool m_isFloatingPoint = false;
+        protected bool m_isFloatingPoint = false;
         /// <summary>
         /// Indicates if the channel/stream is using floating point.
         /// </summary>
@@ -105,7 +89,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <summary>
         /// Private value for the Handle property.
         /// </summary>
-        private int m_handle = 0;
+        protected int m_handle = 0;
         /// <summary>
         /// Handle to the channel.
         /// </summary>
@@ -140,7 +124,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <summary>
         /// Private value for the SampleRate property.
         /// </summary>
-        private int m_sampleRate = 0;
+        protected int m_sampleRate = 0;
         /// <summary>
         /// Defines the sample rate used for the channel.
         /// To fetch the "live" sample rate, use GetSampleRate().
@@ -171,7 +155,7 @@ namespace MPfm.Sound.BassNetWrapper
         #region Constructor
         
         /// <summary>
-        /// Default constructor for Channel. To create a new channel, use one
+        /// Default constructor for the Channel class. To create a new channel, use one
         /// of the static methods of this class.
         /// </summary>
         /// <param name="handle">Handle to the BASS.NET channel</param>
@@ -219,47 +203,7 @@ namespace MPfm.Sound.BassNetWrapper
             
             // Return new channel instance
             return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency };
-        }
-
-        /// <summary>
-        /// Creates a mixer stream from one or multiple source channels.
-        /// </summary>
-        /// <param name="frequency">Frequency (sample rate)</param>
-        /// <param name="numberOfChannels">Number of channels (mono = 1, stereo = 2)</param>
-        /// <param name="useFloatingPoint">Indicates if the channel should use floating point</param>
-        /// <param name="useDecode">Indicates if the channel should be a decode channel</param>
-        /// <returns>Channel object</returns>
-        public static Channel CreateMixerStream(int frequency, int numberOfChannels, bool useFloatingPoint, bool useDecode)
-        {
-            // Build flags; add base flags
-            BASSFlag flags = BASSFlag.BASS_DEFAULT;
-            if (useFloatingPoint && useDecode)
-            {
-                // Set flags
-                flags = BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_DECODE;
-            }
-            else if (useFloatingPoint && !useDecode)
-            {
-                // Set flags
-                flags = BASSFlag.BASS_SAMPLE_FLOAT;
-            }
-            else if (!useFloatingPoint && useDecode)
-            {
-                // Set flags
-                flags = BASSFlag.BASS_STREAM_DECODE;
-            }
-
-            // Create mixer stream            
-            int handle = BassMix.BASS_Mixer_StreamCreate(frequency, numberOfChannels, flags);                        
-            if (handle == 0)
-            {
-                // Check for error
-                Base.CheckForError();
-            }
-           
-            // Return new channel instance
-            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency, m_isMixer = true };
-        }        
+        }    
 
         /// <summary>
         /// Creates a stream from file for decoding.

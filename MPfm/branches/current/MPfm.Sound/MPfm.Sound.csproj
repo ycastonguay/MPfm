@@ -85,6 +85,7 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="Bass.Net\Channel.cs" />
     <Compile Include="Bass.Net\ChannelType.cs" />
+    <Compile Include="Bass.Net\MixerChannel.cs" />
     <Compile Include="Bass.Net\DriverType.cs" />
     <Compile Include="Bass.Net\TestDevice.cs" />
     <Compile Include="Bass.Net\DeviceHelper.cs" />
