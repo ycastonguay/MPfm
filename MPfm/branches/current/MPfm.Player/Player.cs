@@ -34,6 +34,7 @@ using Un4seen.BassWasapi;
 using Un4seen.Bass.AddOn.Ape;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
+using Un4seen.Bass.AddOn.Mix;
 
 namespace MPfm.Player
 {
@@ -246,11 +247,11 @@ namespace MPfm.Player
             {
                 m_timeShifting = value;
 
-                // Check if the main channel exists
-                if (m_mainChannel != null)
+                // Check if the fx channel exists
+                if (m_fxChannel != null)
                 {
                     // Set time shifting
-                    m_mainChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, m_timeShifting);
+                    m_fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, m_timeShifting);
                 }
             }           
         }
@@ -595,8 +596,10 @@ namespace MPfm.Player
                 m_wasapiProc = new WASAPIPROC(WASAPICallback);
 
                 // Initialize sound system
-                //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
-                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 0, 0, m_wasapiProc);
+                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
+                //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 1, 0, m_wasapiProc);
+
+                BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
             }
 
             // Default BASS.NET configuration values:
@@ -1107,12 +1110,15 @@ namespace MPfm.Player
                 RemoveEQ();
             }
 
+            // Stop mixer channel
+            m_mainChannel.Stop();
+
             // Check driver type
             if (m_device.DriverType == DriverType.DirectSound)
             {
                 // Stop main channel
-                Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
-                m_mainChannel.Stop();
+                //Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
+                //m_mainChannel.Stop();
             }
             else if (m_device.DriverType == DriverType.ASIO)
             {
@@ -1129,6 +1135,9 @@ namespace MPfm.Player
 
             // Remove syncs            
             RemoveSyncCallbacks();
+
+            // Dispose FX channel
+            m_fxChannel.Free();
 
             // Check if the current song exists
             if (m_playlist != null && m_playlist.CurrentItem != null)
@@ -1330,13 +1339,18 @@ namespace MPfm.Player
             }
 
             // Get main channel position
-            long outputPosition = m_mainChannel.GetPosition();
+            //long outputPosition = m_mainChannel.GetPosition();
+            long outputPosition = BassMix.BASS_Mixer_ChannelGetPosition(m_fxChannel.Handle);
+            if (outputPosition == -1)
+            {
+                Base.CheckForError();
+            }
 
             // Check driver type
             if (Device.DriverType == DriverType.DirectSound)
             {
                 // Divide by 2 (floating point)
-                //outputPosition /= 2;
+                outputPosition /= 2;
             }
 
             // Check if this is a FLAC file over 44100Hz
@@ -1708,7 +1722,8 @@ namespace MPfm.Player
             // Set sync
             PlayerSyncProc syncProc = new PlayerSyncProc();
             syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
-            syncProc.Handle = m_mainChannel.SetSync(BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);
+            //syncProc.Handle = m_mainChannel.SetSync(BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);
+            syncProc.Handle = BassMix.BASS_Mixer_ChannelSetSync(m_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc, new IntPtr());
 
             // Add to list
             m_syncProcs.Add(syncProc);
@@ -1751,7 +1766,12 @@ namespace MPfm.Player
                 if (m_syncProcs[a].Handle == handle)
                 {
                     // Remove sync
-                    m_mainChannel.RemoveSync(m_syncProcs[a].Handle);
+                    //m_mainChannel.RemoveSync(m_syncProcs[a].Handle);
+                    bool success = BassMix.BASS_Mixer_ChannelRemoveSync(m_fxChannel.Handle, m_syncProcs[a].Handle);
+                    if (!success)
+                    {
+                        Base.CheckForError();
+                    }
                     m_syncProcs[a].Handle = 0;
                     m_syncProcs[a].SyncProc = null;
 
@@ -1858,16 +1878,20 @@ namespace MPfm.Player
                 m_mainChannel.Lock(true);
 
                 // Get main channel position
-                long position = m_mainChannel.GetPosition();
+                //long position = m_mainChannel.GetPosition();
+                long position = BassMix.BASS_Mixer_ChannelGetPosition(m_fxChannel.Handle, BASSMode.BASS_POS_BYTES);
 
                 // Get remanining data in buffer
-                int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
+                int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
 
                 // Get length of the next audio file to play
                 long audioLength = Playlist.Items[m_currentMixPlaylistIndex].Channel.GetLength();
+                
+                // Multiply by 2 to get floating point
+                audioLength *= 2;
 
                 // Set sync                
-                long syncPos = position + buffered + (audioLength * 2);
+                long syncPos = position + buffered + audioLength;
                 SetSyncCallback(syncPos);
 
                 // Unlock main channel
@@ -1968,6 +1992,11 @@ namespace MPfm.Player
 
             // Get main channel position
             long position = m_mainChannel.GetPosition();
+
+            if (m_device.DriverType == DriverType.DirectSound)
+            {                
+                position *= 2;
+            }
 
             // Get remanining data in buffer
             //int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
