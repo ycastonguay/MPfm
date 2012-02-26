@@ -1114,10 +1114,7 @@ namespace MPfm
                 {
                     // Get ratio
                     float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
-                    if (ratio <= 0.99f)
-                    {
-                        trackPosition.Value = Convert.ToInt32(ratio * 1000);
-                    }
+                    trackPosition.Value = Convert.ToInt32(ratio * 1000);
 
                     // Set time on seek control
                     lblSongPosition.Text = position;
@@ -2189,6 +2186,9 @@ namespace MPfm
 
                 // Get length
                 long length = m_player.Playlist.CurrentItem.Channel.GetLength();
+
+                // Divide by 2 (floating point)
+                length /= 2;                
 
                 // Check if this is a FLAC file over 44100Hz
                 if (m_player.Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && m_player.Playlist.CurrentItem.AudioFile.SampleRate > 44100)

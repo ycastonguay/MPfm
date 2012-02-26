@@ -439,12 +439,12 @@ namespace MPfm.Sound.BassNetWrapper
             // Get length
             long length = Bass.BASS_ChannelGetLength(m_handle);
 
-            // Check for floating point
-            if (m_isFloatingPoint)
-            {
-                // Convert 32-bit into 16-bit
-                length = length / 2;
-            }
+            //// Check for floating point
+            //if (m_isFloatingPoint)
+            //{
+            //    // Convert 32-bit into 16-bit
+            //    length = length / 2;
+            //}
 
             return length;
         }
@@ -458,12 +458,12 @@ namespace MPfm.Sound.BassNetWrapper
             // Get position
             long position = Bass.BASS_ChannelGetPosition(m_handle);
 
-            // Check for floating point
-            if (m_isFloatingPoint)
-            {
-                // Convert 32-bit into 16-bit
-                position = position / 2;
-            }
+            //// Check for floating point
+            //if (m_isFloatingPoint)
+            //{
+            //    // Convert 32-bit into 16-bit
+            //    position = position / 2;
+            //}
             
             return position;
         }
@@ -474,15 +474,15 @@ namespace MPfm.Sound.BassNetWrapper
         /// <param name="position">Position (in bytes)</param>
         public void SetPosition(long position)
         {
-            // Check for floating point
-            long newPosition = position;
-            if (m_isFloatingPoint)
-            {
-                newPosition = newPosition * 2;
-            }
+            //// Check for floating point
+            //long newPosition = position;
+            //if (m_isFloatingPoint)
+            //{
+            //    newPosition = newPosition * 2;
+            //}
 
             // Set position
-            if (!Bass.BASS_ChannelSetPosition(m_handle, newPosition))
+            if (!Bass.BASS_ChannelSetPosition(m_handle, position))
             {
                 // Check for error
                 Base.CheckForError();

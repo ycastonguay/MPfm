@@ -821,6 +821,7 @@ namespace MPfm
 
                 // Disable output meter timer
                 Main.timerUpdateOutputMeter.Enabled = false;
+                Main.m_timerSongPosition.Enabled = false;
 
                 // Create test device
                 Tracing.Log("Creating test device...");
@@ -848,6 +849,7 @@ namespace MPfm
 
                 // Re-enaable output meter timer
                 Main.timerUpdateOutputMeter.Enabled = true;
+                Main.m_timerSongPosition.Enabled = true;
 
                 // The test is successful           
                 Tracing.Log("The audio settings test is successful!");

@@ -231,6 +231,13 @@ namespace MPfm.Sound
             // Load channel length
             m_lengthBytes = m_channel.GetLength();
 
+            // Check if the channel is using floating point
+            if (m_channel.IsFloatingPoint)
+            {
+                // Divide value by 2
+                m_lengthBytes /= 2;
+            }
+
             // Check if this is a FLAC file over 44100Hz
             if (m_audioFile.FileType == AudioFileFormat.FLAC && m_audioFile.SampleRate > 44100)
             {

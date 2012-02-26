@@ -235,6 +235,9 @@ namespace MPfm.Sound
                         // Get audio file length
                         audioFileLength = channelDecode.GetLength();
 
+                        // Divide it by two since we're using floating point
+                        audioFileLength /= 2;
+
                         // Check if peak file exists
                         if (File.Exists(peakFilePath))                        
                         {
