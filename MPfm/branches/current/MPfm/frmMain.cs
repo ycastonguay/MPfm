@@ -3650,10 +3650,15 @@ namespace MPfm
             if (data == null)
             {
                 return;
-            }
+            }            
+
+            // Stop timer for updating position
+            //m_timerSongPosition.Stop();
 
             // Set new position
             m_player.SetPosition(data.Percentage);
+
+            ///m_timerSongPosition.Start();
 
             //// Set new position
             //uint newPosition = Player.SetPositionSentenceMS(data.Percentage);

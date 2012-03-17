@@ -1198,7 +1198,12 @@ namespace MPfm.Player
 
                 // Stop playback
                 Tracing.Log("Player.GoTo -- Stopping playback...");
-                Stop();
+                //Stop();
+
+                // Stop mixer channel
+                m_mixerChannel.SetPosition(0);
+                m_fxChannel.SetPosition(0);
+                m_mixerChannel.Stop();                
             }
 
             // Clear loop
@@ -1214,8 +1219,8 @@ namespace MPfm.Player
             if (index <= Playlist.Items.Count - 1)
             {
                 // Set main channel position to 0 (clear buffer)
-                m_mixerChannel.SetPosition(0);
-                m_fxChannel.SetPosition(0);
+                //m_mixerChannel.SetPosition(0);
+                //m_fxChannel.SetPosition(0);
 
                 // Set index
                 Tracing.Log("Player.GoTo -- Setting playlist index to " + index.ToString() + "...");
@@ -1262,6 +1267,9 @@ namespace MPfm.Player
 
                     try
                     {
+                        m_mixerChannel.SetPosition(0);
+                        m_fxChannel.SetPosition(0);
+
                         // Start playback depending on driver type
                         if (m_device.DriverType == DriverType.DirectSound)
                         {
@@ -1363,8 +1371,8 @@ namespace MPfm.Player
             }
 
             // Get main channel position
-            //long outputPosition = m_mixerChannel.GetPosition(m_fxChannel.Handle);
-            long outputPosition = m_mixerChannel.GetPosition();
+            long outputPosition = m_mixerChannel.GetPosition(m_fxChannel.Handle);
+            //long outputPosition = m_mixerChannel.GetPosition();
 
             // Divide by 2 (floating point)
             outputPosition /= 2;            
@@ -1420,12 +1428,8 @@ namespace MPfm.Player
             // Get file length
             long length = Playlist.CurrentItem.Channel.GetLength();
 
-            // Lock channel
-            m_mixerChannel.Lock(true);
-
-            // Set main channel position to 0 (clear buffer)
-            m_mixerChannel.SetPosition(0);
-            m_fxChannel.SetPosition(0);
+            // Lock channel            
+            m_mixerChannel.Lock(true);            
 
             // Check if this is a FLAC file over 44100Hz
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
@@ -1437,6 +1441,10 @@ namespace MPfm.Player
             // Set position for the decode channel (needs to be in floating point)
             Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
 
+            // Set main channel position to 0 (clear buffer)            
+            m_fxChannel.SetPosition(0);
+            m_mixerChannel.SetPosition(0);
+
             // Set new callback (length already in floating point)
             SetSyncCallback((length - (bytes * 2))); // + buffered));
 
@@ -1444,7 +1452,7 @@ namespace MPfm.Player
             m_positionOffset = bytes;
 
             // Unlock channel
-            m_mixerChannel.Lock(false);
+            m_mixerChannel.Lock(false);            
         }
 
         /// <summary>
