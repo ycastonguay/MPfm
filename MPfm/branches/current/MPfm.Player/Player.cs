@@ -1182,154 +1182,33 @@ namespace MPfm.Player
         /// <summary>
         /// Stops the playback and starts playback at a specific playlist song.
         /// </summary>
-        /// <param name="index">Song index</param>
+        /// <param name="index">Playlist item index</param>
         public void GoTo(int index)
         {
-            // Check if the player is currently playing                
-            if (m_isPlaying)
+            // Stop playback
+            Stop();
+
+            // Skip to playlist item
+            Playlist.GoTo(index);
+            m_currentMixPlaylistIndex = index;
+
+            // Get audio file (to raise event later)
+            AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
+
+            // Start playback
+            Play();
+
+            // Raise audio file finished event (if an event is subscribed)
+            if (OnPlaylistIndexChanged != null)
             {
-                // Check if a loop is active
-                if (m_currentLoop != null)
-                {
-                    // Stop loop
-                    Tracing.Log("Player.GoTo -- Stopping current loop...");
-                    StopLoop();
-                }
+                // Create data
+                PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
+                data.IsPlaybackStopped = false;
+                data.AudioFileStarted = audioFileStarted;
 
-                // Stop playback
-                Tracing.Log("Player.GoTo -- Stopping playback...");
-                //Stop();
-
-                // Stop mixer channel
-                m_mixerChannel.SetPosition(0);
-                m_fxChannel.SetPosition(0);
-                m_mixerChannel.Stop();                
+                // Raise event
+                OnPlaylistIndexChanged(data);
             }
-
-            // Clear loop
-            m_currentLoop = null;
-
-            // Make sure there are no sync procs
-            RemoveSyncCallbacks();
-
-            // Set offset
-            m_positionOffset = 0;
-
-            // Make sure index is in the list
-            if (index <= Playlist.Items.Count - 1)
-            {
-                // Set main channel position to 0 (clear buffer)
-                //m_mixerChannel.SetPosition(0);
-                //m_fxChannel.SetPosition(0);
-
-                // Set index
-                Tracing.Log("Player.GoTo -- Setting playlist index to " + index.ToString() + "...");
-                Playlist.GoTo(index);
-                m_currentMixPlaylistIndex = index;
-
-                try
-                {
-                    // Load current item
-                    Tracing.Log("Player.GoTo -- Loading item index " + index.ToString() + "...");
-                    Playlist.Items[index].Load();
-
-                    // Get audio file
-                    AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
-
-                    // Load the next item, if it exists
-                    if (Playlist.CurrentItemIndex + 1 < Playlist.Items.Count)
-                    {
-                        // Load next item
-                        Tracing.Log("Player.GoTo -- Loading item index " + (index+1).ToString() + "...");
-                        Playlist.Items[index+1].Load();
-                    }
-
-                    // Check if the repeat type is Song
-                    if (m_repeatType == RepeatType.Song)
-                    {
-                        // Force looping
-                        Tracing.Log("Player.GoTo -- Set BASS_SAMPLE_LOOP...");
-                        m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
-                    }
-
-                    // Compare sample rate on stream channel
-                    if (m_mixerChannel.SampleRate != Playlist.CurrentItem.AudioFile.SampleRate)
-                    {
-                        // Set new sample rate
-                        m_mixerChannel.SetSampleRate(Playlist.CurrentItem.AudioFile.SampleRate);
-                    }
-
-                    // Get audio file length
-                    long length = m_playlist.CurrentItem.Channel.GetLength();
-
-                    // Set sync (value already in floating point)     
-                    SetSyncCallback(length);
-
-                    try
-                    {
-                        m_mixerChannel.SetPosition(0);
-                        m_fxChannel.SetPosition(0);
-
-                        // Start playback depending on driver type
-                        if (m_device.DriverType == DriverType.DirectSound)
-                        {
-                            // Start playback
-                            Tracing.Log("Player.GoTo -- Starting DirectSound playback...");
-                            m_mixerChannel.Play(false);
-                        }
-                        else if (m_device.DriverType == DriverType.ASIO)
-                        {
-                            // Start playback
-                            Tracing.Log("Player.GoTo -- Starting ASIO playback...");
-                            if (!BassAsio.BASS_ASIO_Start(0))
-                            {
-                                // Get error
-                                BASSError error = Bass.BASS_ErrorGetCode();
-                                throw new Exception("Error playing files in ASIO: " + error.ToString());
-                            }
-                        }
-                        else if (m_device.DriverType == DriverType.WASAPI)
-                        {
-                            // Start playback
-                            Tracing.Log("Player.GoTo -- Starting WASAPI playback...");
-                            if (!BassWasapi.BASS_WASAPI_Start())
-                            {
-                                // Get error
-                                BASSError error = Bass.BASS_ErrorGetCode();
-                                throw new Exception("Error playing files in WASAPI: " + error.ToString());
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to start the playback (" + ex.Message.ToString() + ").", ex);
-                        newEx.DriverType = m_device.DriverType;                        
-                        throw newEx;   
-                    }
-
-                    // Set flags
-                    m_isPlaying = true;
-                    m_isPaused = false;
-
-                    // Raise audio file finished event (if an event is subscribed)
-                    if (OnPlaylistIndexChanged != null)
-                    {
-                        // Create data
-                        PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
-                        data.IsPlaybackStopped = false;
-                        data.AudioFileStarted = audioFileStarted;
-
-                        // Raise event
-                        OnPlaylistIndexChanged(data);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Tracing.Log("Player.GoTo error: " + ex.Message + "\n" + ex.StackTrace);
-                    throw;
-                }
-            }   
         }
 
         /// <summary>
