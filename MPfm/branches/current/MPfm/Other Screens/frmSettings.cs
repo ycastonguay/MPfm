@@ -259,8 +259,8 @@ namespace MPfm
                 Main.Player.FreeDevice();
 
                 // Initialize new device
-                Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
-                Main.Player.BufferSize = (int)txtBufferSize.Value;
+                Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
+                Main.Player.BufferSize = (int)numericBufferSize.Value;
                 Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
 
                 //// Check if the device has been initialized
@@ -355,8 +355,8 @@ namespace MPfm
             cboOutputDevices.SelectedText = Main.Config.Audio.Device.Name;
             cboDrivers.SelectedValue = Main.Config.Audio.DriverType;
             txtMixerSampleRate.Value = Main.Config.Audio.Mixer.Frequency;
-            txtBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
-            txtUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
+            numericBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
+            numericUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
             trackBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
             trackUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
 
@@ -434,8 +434,8 @@ namespace MPfm
             Main.Config.Audio.Device.Name = device.Name;
             Main.Config.Audio.DriverType = driver.DriverType;
             Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
-            Main.Config.Audio.Mixer.BufferSize = (int)txtBufferSize.Value;
-            Main.Config.Audio.Mixer.UpdatePeriod = (int)txtUpdatePeriod.Value;
+            Main.Config.Audio.Mixer.BufferSize = (int)numericBufferSize.Value;
+            Main.Config.Audio.Mixer.UpdatePeriod = (int)numericUpdatePeriod.Value;
 
             Main.Config.Save();
         }
@@ -828,8 +828,8 @@ namespace MPfm
                 Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
 
                 // Set player properties
-                Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
-                Main.Player.BufferSize = (int)txtBufferSize.Value;
+                Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
+                Main.Player.BufferSize = (int)numericBufferSize.Value;
 
                 // Play sound file                
                 Tracing.Log("Starting playback...");
@@ -893,9 +893,9 @@ namespace MPfm
 
             // Set default values
             radio44100Hz.Checked = true;            
-            txtBufferSize.Value = 1000;
+            numericBufferSize.Value = 1000;
             trackBufferSize.Value = 1000;
-            txtUpdatePeriod.Value = 10;
+            numericUpdatePeriod.Value = 10;
             trackUpdatePeriod.Value = 10;
         }
 
@@ -971,7 +971,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void txtBufferSize_ValueChanged(object sender, EventArgs e)
+        private void numericBufferSize_ValueChanged(object sender, EventArgs e)
         {
             // Set flags
             settingsChanged = true;
@@ -984,7 +984,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void txtUpdatePeriod_ValueChanged(object sender, EventArgs e)
+        private void numericUpdatePeriod_ValueChanged(object sender, EventArgs e)
         {
             // Set flags
             settingsChanged = true;
@@ -998,7 +998,7 @@ namespace MPfm
         private void trackUpdatePeriod_OnTrackBarValueChanged()
         {
             // Set value
-            txtUpdatePeriod.Value = trackUpdatePeriod.Value;
+            numericUpdatePeriod.Value = trackUpdatePeriod.Value;
         }
 
         /// <summary>
@@ -1007,7 +1007,65 @@ namespace MPfm
         private void trackBufferSize_OnTrackBarValueChanged()
         {
             // Set value
-            txtBufferSize.Value = trackBufferSize.Value;
+            numericBufferSize.Value = trackBufferSize.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the position update frequency value using the track bar.
+        /// </summary>
+        private void trackPositionUpdateFrequency_OnTrackBarValueChanged()
+        {
+            // Set value
+            numericPositionUpdateFrequency.Value = trackPositionUpdateFrequency.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user changes the output meter update frequency value using the track bar.
+        /// </summary>
+        private void trackOutputMeterUpdateFrequency_OnTrackBarValueChanged()
+        {
+            // Set value
+            numericOutputMeterUpdateFrequency.Value = trackOutputMeterUpdateFrequency.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks or leaves the numeric control for the position update frequency.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void numericPositionUpdateFrequency_Leave(object sender, EventArgs e)
+        {
+            trackPositionUpdateFrequency.Value = (int)numericPositionUpdateFrequency.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks or leaves the numeric control for the output meter update frequency.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void numericOutputMeterUpdateFrequency_Leave(object sender, EventArgs e)
+        {
+            trackOutputMeterUpdateFrequency.Value = (int)numericOutputMeterUpdateFrequency.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks or leaves the numeric control for the audio buffer size.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void numericBufferSize_Leave(object sender, EventArgs e)
+        {
+            trackBufferSize.Value = (int)numericBufferSize.Value;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks or leaves the numeric control for the audio update period.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void numericUpdatePeriod_Leave(object sender, EventArgs e)
+        {
+            trackUpdatePeriod.Value = (int)numericUpdatePeriod.Value;
         }
 
         /// <summary>
@@ -1212,11 +1270,6 @@ namespace MPfm
             panelGeneralSettings.Visible = false;
             panelAudioSettings.Visible = false;
             panelLibrarySettings.Visible = true;
-
-        }
-        
-        public void RefreshShits()
-        {
 
         }
     }
