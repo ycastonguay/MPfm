@@ -924,8 +924,6 @@ namespace MPfm
             Main.notifyIcon.Visible = chkShowTray.Checked;
         }
 
-        #endregion
-
         /// <summary>
         /// Occurs when the user clicks on the "Display MPfm in system tray" label.
         /// Triggers the related checkbox.
@@ -933,8 +931,7 @@ namespace MPfm
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void lblShowTray_Click(object sender, EventArgs e)
-        {
-            // Set opposite value
+        {            
             chkShowTray.Checked = !chkShowTray.Checked;
         }
 
@@ -945,12 +942,38 @@ namespace MPfm
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void lblHideTray_Click(object sender, EventArgs e)
-        {
-            // Set opposite value
+        {            
             if (chkHideTray.Enabled)
             {
                 chkHideTray.Checked = !chkHideTray.Checked;
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Show tooltips" label.
+        /// Shows/hides tooltips from the application.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblShowTooltips_Click(object sender, EventArgs e)
+        {
+            if (chkShowTooltips.Enabled)
+            {
+                chkShowTooltips.Checked = !chkShowTooltips.Checked;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Show tooltips" label.
+        /// Shows/hides tooltips from the application.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void chkShowTooltips_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         /// <summary>
@@ -1272,6 +1295,7 @@ namespace MPfm
             panelLibrarySettings.Visible = true;
 
         }
+
     }
 
 }
