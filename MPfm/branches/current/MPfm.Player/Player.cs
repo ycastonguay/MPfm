@@ -623,8 +623,9 @@ namespace MPfm.Player
                 // Create callback
                 m_wasapiProc = new WASAPIPROC(WASAPICallback);
 
-                // Initialize sound system
-                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, m_wasapiProc);
+                // Initialize sound system                
+                //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 10.0f, 0, m_wasapiProc);
+                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.5f, 0, m_wasapiProc);
                 //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 1, 0, m_wasapiProc);
 
                 BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
@@ -637,7 +638,8 @@ namespace MPfm.Player
             // BASS_CONFIG_UPDATETHREADS: 1
 
             // Set configuration for buffer and update period
-            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+            // This only works for the default BASS output (http://www.un4seen.com/forum/?topic=13429.msg93740#msg93740)
+            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize); 
             Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
 
             // Set flags            
@@ -1174,6 +1176,12 @@ namespace MPfm.Player
                 m_playlist.DisposeChannels();
             }
 
+            // Check if WASAPI
+            if (m_device.DriverType == DriverType.WASAPI)
+            {
+                BassWasapi.BASS_WASAPI_Stop(true);
+            }
+
             // Set flags
             m_currentLoop = null;
             m_isPlaying = false;
@@ -1301,6 +1309,13 @@ namespace MPfm.Player
                 return;
             }
 
+            // Check if WASAPI
+            if (m_device.DriverType == DriverType.WASAPI)
+            {
+                BassWasapi.BASS_WASAPI_Stop(true);
+                BassWasapi.BASS_WASAPI_Start();
+            }
+
             // Remove any sync callback
             RemoveSyncCallbacks();
 
@@ -1331,7 +1346,7 @@ namespace MPfm.Player
             m_positionOffset = bytes;
 
             // Unlock channel
-            m_mixerChannel.Lock(false);            
+            m_mixerChannel.Lock(false);
         }
 
         /// <summary>
