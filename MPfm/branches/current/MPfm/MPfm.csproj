@@ -274,6 +274,7 @@
     </Content>
     <Content Include="MPFM.ico" />
     <Content Include="MPfm_SmallOnly.ico" />
+    <None Include="Resources\bullet_go.png" />
     <None Include="Resources\layout.png" />
     <None Include="Resources\arrow_rotate_clockwise.png" />
     <None Include="Resources\arrow_redo.png" />

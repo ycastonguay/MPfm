@@ -45,6 +45,8 @@ namespace MPfm
     public partial class frmSettings : MPfm.WindowsControls.Form
     {
         // Private variables
+        private AudioSettingsState audioSettingsState = AudioSettingsState.NotChanged;
+        private bool initializing = false;
         private bool settingsChanged = false;
         private bool settingsTested = false;
         private bool testSuccessful = false;
@@ -104,6 +106,10 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmSettings_Shown(object sender, EventArgs e)
         {
+            // Set flags
+            initializing = true;
+            audioSettingsState = AudioSettingsState.NotChanged;
+
             // Detect devices
             m_devices = DeviceHelper.DetectOutputDevices();
             m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
@@ -112,12 +118,12 @@ namespace MPfm
 
             // Update combo box
             List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
-            DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default, recommended)" };
-            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required) *EXPERIMENTAL*" };
-            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Windows 7 only) *EXPERIMENTAL*" };
+            DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default)" };
+            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (low latency)" };
+            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Win7 only) *NOT RECOMMENDED*" };
             drivers.Add(driverDirectSound);
             drivers.Add(driverASIO);
-            drivers.Add(driverWASAPI);
+            //drivers.Add(driverWASAPI);
             cboDrivers.DataSource = drivers;
 
             // Set default value
@@ -125,9 +131,6 @@ namespace MPfm
 
             // Set general settings lavels
             lblPeakFileDefaultDirectory.Text = "Use default directory (" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files\\)";
-
-            // Refresh controls           
-            RefreshFolders();
 
             btnGeneralSettings.Enabled = false;
             btnAudioSettings.Enabled = true;
@@ -140,7 +143,14 @@ namespace MPfm
             // Load configuration
             LoadAudioConfig();
             LoadGeneralConfig();
-            settingsChanged = false;       
+            settingsChanged = false;
+
+            // Refresh controls           
+            RefreshFolders();
+            RefreshAudioSettingsState();
+
+            // Set flag
+            initializing = false;
         }
 
         #endregion
@@ -358,18 +368,22 @@ namespace MPfm
             trackBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
             trackUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
 
-            // Check sample rate
+            // Set sample rate
+            cboSampleRate.Items.Clear();
+            cboSampleRate.Items.Add("44100");
+            cboSampleRate.Items.Add("48000");
+            cboSampleRate.Items.Add("96000");
             if (Main.Config.Audio.Mixer.Frequency == 44100)
-            {
-                radio44100Hz.Checked = true;
+            {                
+                cboSampleRate.SelectedIndex = 0;
             }
             else if (Main.Config.Audio.Mixer.Frequency == 48000)
             {
-                radio48000Hz.Checked = true;
+                cboSampleRate.SelectedIndex = 1;
             }
             else if (Main.Config.Audio.Mixer.Frequency == 96000)
             {
-                radio96000Hz.Checked = true;
+                cboSampleRate.SelectedIndex = 2;
             }
 
             // Check driver
@@ -566,6 +580,35 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Refreshes the Audio Settings tab state information (near the bottom of the tab).
+        /// </summary>
+        public void RefreshAudioSettingsState()
+        {
+            // Check state and update UI
+            if (audioSettingsState == AudioSettingsState.NotChanged)
+            {
+                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.tick;
+                lblAudioSettingsWarning.Text = "The audio settings haven't been changed.";
+                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
+                btnTestSaveAudioSettings.Text = "Test audio settings";
+            }
+            else if (audioSettingsState == AudioSettingsState.NotTested)
+            {
+                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.error;
+                lblAudioSettingsWarning.Text = "The audio settings have changed but haven't been tested.";
+                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
+                btnTestSaveAudioSettings.Text = "Test audio settings";
+            }
+            else if (audioSettingsState == AudioSettingsState.Tested)
+            {
+                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.accept;
+                lblAudioSettingsWarning.Text = "The new audio settings have been tested successfully. Click on 'Save audio settings' to continue.";
+                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.disk;
+                btnTestSaveAudioSettings.Text = "Save audio settings";
+            }
+        }
+
         #endregion
 
         #region Library Tab Events
@@ -738,7 +781,7 @@ namespace MPfm
             // Set flags
             settingsChanged = true;
             settingsTested = false;
-            testSuccessful = false;
+            testSuccessful = false;            
 
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
@@ -768,118 +811,149 @@ namespace MPfm
                 // Find default device
                 Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
             }
+
+            // Set state 
+            if (!initializing)
+            {
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
         }
 
         /// <summary>
-        /// Occurs when the user clicks on the Test audio configuration button.
+        /// Occurs when the user changes the "Sample rate" combo box value.
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void btnTestSound_Click(object sender, EventArgs e)
+        private void cboSampleRate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Set flags
-            settingsTested = false;
-            testSuccessful = false;
-
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
-
-            // Get selected device
-            Device device = (Device)cboOutputDevices.SelectedItem;
-
-            try
+            // Set state 
+            if (!initializing)
             {
-                // Warn user if system is already playing a song
-                if (Main.Player.IsPlaying)
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Test audio settings"/"Save audio settings" button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnTestSaveAudioSettings_Click(object sender, EventArgs e)
+        {
+            if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.NotChanged)
+            {
+                // Set flags
+                settingsTested = false;
+                testSuccessful = false;
+
+                // Get selected driver
+                DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+                // Get selected device
+                Device device = (Device)cboOutputDevices.SelectedItem;
+
+                try
                 {
-                    // Display message box                    
-                    if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+                    // Warn user if system is already playing a song
+                    if (Main.Player.IsPlaying)
                     {
-                        // The user cancelled
+                        // Display message box                    
+                        if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            // The user cancelled
+                            return;
+                        }
+
+                        // Stop player
+                        Main.Stop();
+                    }
+
+                    // Log 
+                    Tracing.Log("Starting audio settings test with the following settings: ");
+                    Tracing.Log("Driver Type: " + driver.DriverType.ToString());
+                    Tracing.Log("Output Device Id: " + device.Id);
+                    Tracing.Log("Output Device Name: " + device.Name);
+                    Tracing.Log("Output Device Driver: " + device.Driver);
+                    Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
+
+                    // Create test device
+                    Tracing.Log("Creating test device...");
+
+                    // Display the open file dialog (set filepath first)
+                    Tracing.Log("User selects a file.");
+                    dialogOpenFile.FileName = filePath;
+                    if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                    {
                         return;
                     }
 
-                    // Stop player
-                    Main.Stop();
-                }
+                    // Set flags
+                    settingsTested = true;
 
-                // Log 
-                Tracing.Log("Starting audio settings test with the following settings: ");
-                Tracing.Log("Driver Type: " + driver.DriverType.ToString());
-                Tracing.Log("Output Device Id: " + device.Id);
-                Tracing.Log("Output Device Name: " + device.Name);
-                Tracing.Log("Output Device Driver: " + device.Driver);
-                Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
+                    // Check if device needs to be freed
+                    if (Main.Player.IsDeviceInitialized)
+                    {
+                        // Free device                
+                        Main.Player.FreeDevice();
+                    }
 
-                // Create test device
-                Tracing.Log("Creating test device...");
+                    // Disable output meter timer
+                    Main.timerUpdateOutputMeter.Enabled = false;
+                    Main.m_timerSongPosition.Enabled = false;
 
-                // Display the open file dialog (set filepath first)
-                Tracing.Log("User selects a file.");
-                dialogOpenFile.FileName = filePath;
-                if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-                {
-                    return;
-                }
+                    // Create test device
+                    Tracing.Log("Creating test device...");
+                    Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
 
-                // Set flags
-                settingsTested = true;
+                    // Set player properties
+                    Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
+                    Main.Player.BufferSize = (int)numericBufferSize.Value;
 
-                // Check if device needs to be freed
-                if (Main.Player.IsDeviceInitialized)
-                {
-                    // Free device                
+                    // Play sound file                
+                    Tracing.Log("Starting playback...");
+                    Main.Player.PlayFiles(dialogOpenFile.FileNames.ToList());
+                    Tracing.Log("The audio file is playing...");
+
+                    // Display info
+                    MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Stop and dispose the device
+                    Tracing.Log("User stops playback.");
+                    Main.Player.Stop();
+
+                    // Dispose test device
+                    Tracing.Log("Disposing test device...");
                     Main.Player.FreeDevice();
+
+                    // Re-enaable output meter timer
+                    Main.timerUpdateOutputMeter.Enabled = true;
+                    Main.m_timerSongPosition.Enabled = true;
+
+                    // The test is successful           
+                    Tracing.Log("The audio settings test is successful!");
+
+                    // Set flags
+                    testSuccessful = true;
+                    audioSettingsState = AudioSettingsState.Tested;
+                    RefreshAudioSettingsState();
+                }
+                catch (Exception ex)
+                {
+                    // Show error
+                    MessageBox.Show(this, "Error testing sound configuration!\nThis audio configuration might not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Tracing.Log("The audio settings test has failed!");
+                    Tracing.Log("Exception message: " + ex.Message);
+                    Tracing.Log("Stack trace: " + ex.StackTrace);
                 }
 
-                // Disable output meter timer
-                Main.timerUpdateOutputMeter.Enabled = false;
-                Main.m_timerSongPosition.Enabled = false;
-
-                // Create test device
-                Tracing.Log("Creating test device...");
-                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
-
-                // Set player properties
-                Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
-                Main.Player.BufferSize = (int)numericBufferSize.Value;
-
-                // Play sound file                
-                Tracing.Log("Starting playback...");
-                Main.Player.PlayFiles(dialogOpenFile.FileNames.ToList());                
-                Tracing.Log("The audio file is playing...");
-
-                // Display info
-                MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Stop and dispose the device
-                Tracing.Log("User stops playback.");
-                Main.Player.Stop();                
-
-                // Dispose test device
-                Tracing.Log("Disposing test device...");
-                Main.Player.FreeDevice();                
-
-                // Re-enaable output meter timer
-                Main.timerUpdateOutputMeter.Enabled = true;
-                Main.m_timerSongPosition.Enabled = true;
-
-                // The test is successful           
-                Tracing.Log("The audio settings test is successful!");
-
-                // Set flags
-                testSuccessful = true;
+                Tracing.Log("End of audio settings test.");
             }
-            catch (Exception ex)
+            else if (audioSettingsState == AudioSettingsState.Tested)
             {
-                // Show error
-                MessageBox.Show(this, "Error testing sound configuration!\nThis audio configuration might not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Tracing.Log("The audio settings test has failed!");
-                Tracing.Log("Exception message: " + ex.Message);
-                Tracing.Log("Stack trace: " + ex.StackTrace);
+                MessageBox.Show("The new audio settings has been applied and saved successfully.", "New audio settings saved successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            Tracing.Log("End of audio settings test.");
         }
 
         /// <summary>
@@ -890,7 +964,7 @@ namespace MPfm
         private void btnResetToDefault_Click(object sender, EventArgs e)
         {
             // Select DirectSound driver
-            cboDrivers.SelectedIndex = 0;
+            cboDrivers.SelectedIndex = 0;            
 
             // Loop through DirectSound devices to get the default device
             for (int a = 0; a < m_devicesDirectSound.Count; a++)
@@ -905,11 +979,15 @@ namespace MPfm
             }
 
             // Set default values
-            radio44100Hz.Checked = true;            
+            cboSampleRate.SelectedIndex = 0;
             numericBufferSize.Value = 1000;
             trackBufferSize.Value = 1000;
             numericUpdatePeriod.Value = 10;
             trackUpdatePeriod.Value = 10;
+
+            // Set state
+            audioSettingsState = AudioSettingsState.NotTested;
+            RefreshAudioSettingsState();
         }
 
         #endregion
@@ -1035,6 +1113,13 @@ namespace MPfm
         {
             // Set value
             numericUpdatePeriod.Value = trackUpdatePeriod.Value;
+
+            // Set state
+            if (!initializing)
+            {                
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
         }
 
         /// <summary>
@@ -1044,6 +1129,13 @@ namespace MPfm
         {
             // Set value
             numericBufferSize.Value = trackBufferSize.Value;
+
+            // Set state
+            if (!initializing)
+            {
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
         }
 
         /// <summary>
@@ -1102,61 +1194,6 @@ namespace MPfm
         private void numericUpdatePeriod_Leave(object sender, EventArgs e)
         {
             trackUpdatePeriod.Value = (int)numericUpdatePeriod.Value;
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the 44100Hz label.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void lbl44100Hz_Click(object sender, EventArgs e)
-        {
-            radio44100Hz.Checked = true;
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the 48000Hz label.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void lbl48000Hz_Click(object sender, EventArgs e)
-        {
-            radio48000Hz.Checked = true;
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the 96000Hz label.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void lbl96000Hz_Click(object sender, EventArgs e)
-        {
-            radio96000Hz.Checked = true;
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on one of the sample rate radio buttons.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void radio44100Hz_CheckedChanged(object sender, EventArgs e)
-        {
-            // Check which radio button is checked
-            if (radio44100Hz.Checked)
-            {
-                // Set value
-                txtMixerSampleRate.Value = 44100;
-            }
-            else if (radio48000Hz.Checked)
-            {
-                // Set value
-                txtMixerSampleRate.Value = 48000;
-            }
-            else if (radio96000Hz.Checked)
-            {
-                // Set value
-                txtMixerSampleRate.Value = 96000;
-            }
         }
 
         /// <summary>
@@ -1311,4 +1348,22 @@ namespace MPfm
 
     }
 
+    /// <summary>
+    /// Defines the different states of the Audio settings tab.
+    /// </summary>
+    public enum AudioSettingsState
+    {
+        /// <summary>
+        /// The settings haven't been changed.
+        /// </summary>
+        NotChanged = 0,
+        /// <summary>
+        /// The settings have changed but haven't been tested.
+        /// </summary>
+        NotTested = 1,
+        /// <summary>
+        /// The settings have changed and have been tested.
+        /// </summary>
+        Tested = 2
+    }
 }
