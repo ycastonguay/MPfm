@@ -77,7 +77,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont45 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             this.panelGeneralSettings = new MPfm.WindowsControls.Panel();
-            this.panelUserInterface = new MPfm.WindowsControls.Panel();
+            this.panelUpdateFrequency = new MPfm.WindowsControls.Panel();
             this.lblOutputMeterUpdateFrequencyEvery = new MPfm.WindowsControls.Label();
             this.lblPositionUpdateFrequencyEvery = new MPfm.WindowsControls.Label();
             this.trackOutputMeterUpdateFrequency = new MPfm.WindowsControls.TrackBar();
@@ -100,7 +100,7 @@ namespace MPfm
             this.radioPeakFileCustomDirectory = new System.Windows.Forms.RadioButton();
             this.lblPeakFileDefaultDirectory = new MPfm.WindowsControls.Label();
             this.radioPeakFileDefaultDirectory = new System.Windows.Forms.RadioButton();
-            this.panelSystemTray = new MPfm.WindowsControls.Panel();
+            this.panelUserInterface = new MPfm.WindowsControls.Panel();
             this.lblShowTray = new MPfm.WindowsControls.Label();
             this.lblHideTray = new MPfm.WindowsControls.Label();
             this.chkHideTray = new System.Windows.Forms.CheckBox();
@@ -155,12 +155,12 @@ namespace MPfm
             this.lblShowTooltips = new MPfm.WindowsControls.Label();
             this.chkShowTooltips = new System.Windows.Forms.CheckBox();
             this.panelGeneralSettings.SuspendLayout();
-            this.panelUserInterface.SuspendLayout();
+            this.panelUpdateFrequency.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericOutputMeterUpdateFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericPositionUpdateFrequency)).BeginInit();
             this.panelPeakFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeakFileDisplayWarningThreshold)).BeginInit();
-            this.panelSystemTray.SuspendLayout();
+            this.panelUserInterface.SuspendLayout();
             this.panelAudioSettings.SuspendLayout();
             this.panelAudioSettingsOutput.SuspendLayout();
             this.panelAudioSettingsMixer.SuspendLayout();
@@ -177,9 +177,9 @@ namespace MPfm
             this.panelGeneralSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelGeneralSettings.Controls.Add(this.panelUserInterface);
+            this.panelGeneralSettings.Controls.Add(this.panelUpdateFrequency);
             this.panelGeneralSettings.Controls.Add(this.panelPeakFiles);
-            this.panelGeneralSettings.Controls.Add(this.panelSystemTray);
+            this.panelGeneralSettings.Controls.Add(this.panelUserInterface);
             customFont19.EmbeddedFontName = "TitilliumText22L Lt";
             customFont19.IsBold = true;
             customFont19.IsItalic = false;
@@ -208,20 +208,20 @@ namespace MPfm
             this.panelGeneralSettings.TabIndex = 17;
             this.panelGeneralSettings.Visible = false;
             // 
-            // panelUserInterface
+            // panelUpdateFrequency
             // 
-            this.panelUserInterface.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelUpdateFrequency.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelUserInterface.Controls.Add(this.lblOutputMeterUpdateFrequencyEvery);
-            this.panelUserInterface.Controls.Add(this.lblPositionUpdateFrequencyEvery);
-            this.panelUserInterface.Controls.Add(this.trackOutputMeterUpdateFrequency);
-            this.panelUserInterface.Controls.Add(this.lblOutputMeterUpdateFrequencyMS);
-            this.panelUserInterface.Controls.Add(this.numericOutputMeterUpdateFrequency);
-            this.panelUserInterface.Controls.Add(this.lblOutputMeterUpdateFrequency);
-            this.panelUserInterface.Controls.Add(this.trackPositionUpdateFrequency);
-            this.panelUserInterface.Controls.Add(this.lblPositionUpdateFrequencyMS);
-            this.panelUserInterface.Controls.Add(this.numericPositionUpdateFrequency);
-            this.panelUserInterface.Controls.Add(this.lblPositionUpdateFrequency);
+            this.panelUpdateFrequency.Controls.Add(this.lblOutputMeterUpdateFrequencyEvery);
+            this.panelUpdateFrequency.Controls.Add(this.lblPositionUpdateFrequencyEvery);
+            this.panelUpdateFrequency.Controls.Add(this.trackOutputMeterUpdateFrequency);
+            this.panelUpdateFrequency.Controls.Add(this.lblOutputMeterUpdateFrequencyMS);
+            this.panelUpdateFrequency.Controls.Add(this.numericOutputMeterUpdateFrequency);
+            this.panelUpdateFrequency.Controls.Add(this.lblOutputMeterUpdateFrequency);
+            this.panelUpdateFrequency.Controls.Add(this.trackPositionUpdateFrequency);
+            this.panelUpdateFrequency.Controls.Add(this.lblPositionUpdateFrequencyMS);
+            this.panelUpdateFrequency.Controls.Add(this.numericPositionUpdateFrequency);
+            this.panelUpdateFrequency.Controls.Add(this.lblPositionUpdateFrequency);
             customFont7.EmbeddedFontName = "TitilliumText22L Lt";
             customFont7.IsBold = true;
             customFont7.IsItalic = false;
@@ -230,24 +230,24 @@ namespace MPfm
             customFont7.StandardFontName = "Arial";
             customFont7.UseAntiAliasing = true;
             customFont7.UseEmbeddedFont = true;
-            this.panelUserInterface.CustomFont = customFont7;
-            this.panelUserInterface.ExpandedHeight = 200;
-            this.panelUserInterface.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelUserInterface.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelUserInterface.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelUserInterface.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelUserInterface.HeaderExpandable = false;
-            this.panelUserInterface.HeaderExpanded = true;
-            this.panelUserInterface.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelUserInterface.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelUserInterface.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panelUserInterface.HeaderHeight = 20;
-            this.panelUserInterface.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelUserInterface.HeaderTitle = "Update Frequency";
-            this.panelUserInterface.Location = new System.Drawing.Point(8, 37);
-            this.panelUserInterface.Name = "panelUserInterface";
-            this.panelUserInterface.Size = new System.Drawing.Size(623, 83);
-            this.panelUserInterface.TabIndex = 104;
+            this.panelUpdateFrequency.CustomFont = customFont7;
+            this.panelUpdateFrequency.ExpandedHeight = 200;
+            this.panelUpdateFrequency.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelUpdateFrequency.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelUpdateFrequency.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelUpdateFrequency.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelUpdateFrequency.HeaderExpandable = false;
+            this.panelUpdateFrequency.HeaderExpanded = true;
+            this.panelUpdateFrequency.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelUpdateFrequency.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelUpdateFrequency.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelUpdateFrequency.HeaderHeight = 20;
+            this.panelUpdateFrequency.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelUpdateFrequency.HeaderTitle = "Update Frequency";
+            this.panelUpdateFrequency.Location = new System.Drawing.Point(8, 37);
+            this.panelUpdateFrequency.Name = "panelUpdateFrequency";
+            this.panelUpdateFrequency.Size = new System.Drawing.Size(623, 83);
+            this.panelUpdateFrequency.TabIndex = 104;
             // 
             // lblOutputMeterUpdateFrequencyEvery
             // 
@@ -514,7 +514,7 @@ namespace MPfm
             this.panelPeakFiles.HeaderHeight = 20;
             this.panelPeakFiles.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelPeakFiles.HeaderTitle = "Peak Files ";
-            this.panelPeakFiles.Location = new System.Drawing.Point(8, 238);
+            this.panelPeakFiles.Location = new System.Drawing.Point(8, 226);
             this.panelPeakFiles.Name = "panelPeakFiles";
             this.panelPeakFiles.Size = new System.Drawing.Size(623, 147);
             this.panelPeakFiles.TabIndex = 104;
@@ -754,16 +754,16 @@ namespace MPfm
             this.radioPeakFileDefaultDirectory.UseVisualStyleBackColor = false;
             this.radioPeakFileDefaultDirectory.CheckedChanged += new System.EventHandler(this.radioPeakFile_CheckedChanged);
             // 
-            // panelSystemTray
+            // panelUserInterface
             // 
-            this.panelSystemTray.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelUserInterface.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSystemTray.Controls.Add(this.lblShowTooltips);
-            this.panelSystemTray.Controls.Add(this.chkShowTooltips);
-            this.panelSystemTray.Controls.Add(this.lblShowTray);
-            this.panelSystemTray.Controls.Add(this.lblHideTray);
-            this.panelSystemTray.Controls.Add(this.chkHideTray);
-            this.panelSystemTray.Controls.Add(this.chkShowTray);
+            this.panelUserInterface.Controls.Add(this.lblShowTooltips);
+            this.panelUserInterface.Controls.Add(this.chkShowTooltips);
+            this.panelUserInterface.Controls.Add(this.lblShowTray);
+            this.panelUserInterface.Controls.Add(this.lblHideTray);
+            this.panelUserInterface.Controls.Add(this.chkHideTray);
+            this.panelUserInterface.Controls.Add(this.chkShowTray);
             customFont18.EmbeddedFontName = "TitilliumText22L Lt";
             customFont18.IsBold = true;
             customFont18.IsItalic = false;
@@ -772,24 +772,24 @@ namespace MPfm
             customFont18.StandardFontName = "Arial";
             customFont18.UseAntiAliasing = true;
             customFont18.UseEmbeddedFont = true;
-            this.panelSystemTray.CustomFont = customFont18;
-            this.panelSystemTray.ExpandedHeight = 200;
-            this.panelSystemTray.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSystemTray.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelSystemTray.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelSystemTray.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSystemTray.HeaderExpandable = false;
-            this.panelSystemTray.HeaderExpanded = true;
-            this.panelSystemTray.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelSystemTray.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelSystemTray.HeaderGradientColor2 = System.Drawing.Color.Gray;
-            this.panelSystemTray.HeaderHeight = 20;
-            this.panelSystemTray.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelSystemTray.HeaderTitle = "User Interface";
-            this.panelSystemTray.Location = new System.Drawing.Point(8, 126);
-            this.panelSystemTray.Name = "panelSystemTray";
-            this.panelSystemTray.Size = new System.Drawing.Size(623, 106);
-            this.panelSystemTray.TabIndex = 103;
+            this.panelUserInterface.CustomFont = customFont18;
+            this.panelUserInterface.ExpandedHeight = 200;
+            this.panelUserInterface.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelUserInterface.GradientColor1 = System.Drawing.Color.Silver;
+            this.panelUserInterface.GradientColor2 = System.Drawing.Color.Gray;
+            this.panelUserInterface.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelUserInterface.HeaderExpandable = false;
+            this.panelUserInterface.HeaderExpanded = true;
+            this.panelUserInterface.HeaderForeColor = System.Drawing.Color.Black;
+            this.panelUserInterface.HeaderGradientColor1 = System.Drawing.Color.LightGray;
+            this.panelUserInterface.HeaderGradientColor2 = System.Drawing.Color.Gray;
+            this.panelUserInterface.HeaderHeight = 20;
+            this.panelUserInterface.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelUserInterface.HeaderTitle = "User Interface";
+            this.panelUserInterface.Location = new System.Drawing.Point(8, 126);
+            this.panelUserInterface.Name = "panelUserInterface";
+            this.panelUserInterface.Size = new System.Drawing.Size(623, 94);
+            this.panelUserInterface.TabIndex = 103;
             // 
             // lblShowTray
             // 
@@ -2061,14 +2061,14 @@ namespace MPfm
             this.Load += new System.EventHandler(this.frmSettings_Load);
             this.Shown += new System.EventHandler(this.frmSettings_Shown);
             this.panelGeneralSettings.ResumeLayout(false);
-            this.panelUserInterface.ResumeLayout(false);
+            this.panelUpdateFrequency.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericOutputMeterUpdateFrequency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericPositionUpdateFrequency)).EndInit();
             this.panelPeakFiles.ResumeLayout(false);
             this.panelPeakFiles.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeakFileDisplayWarningThreshold)).EndInit();
-            this.panelSystemTray.ResumeLayout(false);
-            this.panelSystemTray.PerformLayout();
+            this.panelUserInterface.ResumeLayout(false);
+            this.panelUserInterface.PerformLayout();
             this.panelAudioSettings.ResumeLayout(false);
             this.panelAudioSettings.PerformLayout();
             this.panelAudioSettingsOutput.ResumeLayout(false);
@@ -2134,7 +2134,7 @@ namespace MPfm
         private System.Windows.Forms.RadioButton radioPeakFileCustomDirectory;
         private WindowsControls.Label lblPeakFileDefaultDirectory;
         private System.Windows.Forms.RadioButton radioPeakFileDefaultDirectory;
-        private WindowsControls.Panel panelSystemTray;
+        private WindowsControls.Panel panelUserInterface;
         private System.Windows.Forms.TextBox txtPeakFileCustomDirectory;
         private WindowsControls.Label lblPeakFileDisplayWarningUnit;
         private System.Windows.Forms.NumericUpDown txtPeakFileDisplayWarningThreshold;
@@ -2146,7 +2146,7 @@ namespace MPfm
         private WindowsControls.Button btnLibrarySettings;
         private WindowsControls.Button btnGeneralSettings;
         private WindowsControls.Button btnAudioSettings;
-        private WindowsControls.Panel panelUserInterface;
+        private WindowsControls.Panel panelUpdateFrequency;
         private WindowsControls.TrackBar trackPositionUpdateFrequency;
         private WindowsControls.Label lblPositionUpdateFrequencyMS;
         private System.Windows.Forms.NumericUpDown numericPositionUpdateFrequency;
@@ -2157,11 +2157,11 @@ namespace MPfm
         private WindowsControls.Label lblOutputMeterUpdateFrequencyMS;
         private System.Windows.Forms.NumericUpDown numericOutputMeterUpdateFrequency;
         private WindowsControls.Label lblOutputMeterUpdateFrequency;
-        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ComboBox comboBox1;
         private WindowsControls.Label label2;
         private WindowsControls.Label label3;
         private WindowsControls.Label lblShowTooltips;
         private System.Windows.Forms.CheckBox chkShowTooltips;
+        public System.Windows.Forms.ToolTip toolTip;
     }
 }

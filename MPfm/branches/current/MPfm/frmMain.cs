@@ -589,7 +589,6 @@ namespace MPfm
                 Tracing.Log("Main form init -- Applying configuration...");
                 frmSplash.SetStatus("Applying configuration...");
 
-
                 // Resetting display
                 lblCurrentAlbumTitle.Text = "";
                 lblCurrentArtistName.Text = "";
@@ -597,10 +596,22 @@ namespace MPfm
                 lblCurrentFilePath.Text = "";
                 lblBitrate.Text = "";
                 lblSoundFormat.Text = "";
-                lblFrequency.Text = "";
+                lblFrequency.Text = "";                
 
                 // Load window configuration (position, size, column sizes, etc.)
                 LoadWindowConfiguration();
+
+                // Load other configuration options                
+                notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
+                m_timerSongPosition.Interval = (Config.GetKeyValueGeneric<int>("PositionUpdateFrequency").HasValue) ? Config.GetKeyValueGeneric<int>("PositionUpdateFrequency").Value : 10;
+                timerUpdateOutputMeter.Interval = (Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency").HasValue) ? Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency").Value : 20;
+                faderVolume.Value = Config.Audio.Mixer.Volume;
+                lblVolume.Text = Config.Audio.Mixer.Volume + " %";
+                Player.Volume = ((float)Config.Audio.Mixer.Volume / 100);
+
+                // Enable/disable tooltips
+                bool showTooltips = Config.GetKeyValueGeneric<bool>("ShowTooltips").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTooltips").Value : true;
+                EnableTooltips(showTooltips);
 
                 // Reset song query
                 m_querySongBrowser = new SongQuery();
@@ -647,16 +658,8 @@ namespace MPfm
                 // Set combo box selected item
                 comboSoundFormat.SelectedItem = filterSoundFormat;
 
-                // Refresh tree library
+                // Refresh controls
                 RefreshTreeLibrary();
-
-                // Set tray settings
-                notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;                
-
-                // Set volume
-                faderVolume.Value = Config.Audio.Mixer.Volume;
-                lblVolume.Text = Config.Audio.Mixer.Volume + " %";
-                Player.Volume = ((float)Config.Audio.Mixer.Volume / 100);
 
                 // Update peak file warning if necessary
                 RefreshPeakFileDirectorySizeWarning();
@@ -4086,6 +4089,16 @@ namespace MPfm
                 treeLibrary.Height += 102;
                 panelUpdateLibraryProgress.Visible = false;
             }
+        }
+
+        /// <summary>
+        /// Enables/disables tooltips.
+        /// </summary>
+        /// <param name="enable">If true, tooltips will be enabled.</param>
+        public void EnableTooltips(bool enable)
+        {
+            // Show/hide tooltips
+            formSettings.toolTip.Active = enable;
         }
 
     }

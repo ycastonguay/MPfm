@@ -140,9 +140,7 @@ namespace MPfm
             // Load configuration
             LoadAudioConfig();
             LoadGeneralConfig();
-            settingsChanged = false;    
-        
-
+            settingsChanged = false;       
         }
 
         #endregion
@@ -445,10 +443,12 @@ namespace MPfm
         /// </summary>
         private void LoadGeneralConfig()
         {
-            // Load tray options
+            // Load user interface options
+            bool? showTooltips = Main.Config.GetKeyValueGeneric<bool>("ShowTooltips");
             bool? hideTray = Main.Config.GetKeyValueGeneric<bool>("HideTray");
             bool? showTray = Main.Config.GetKeyValueGeneric<bool>("ShowTray");
-            
+
+            chkShowTooltips.Checked = (showTooltips.HasValue) ? showTooltips.Value : true;
             chkShowTray.Checked = (showTray.HasValue) ? showTray.Value : false;
             chkHideTray.Checked = (hideTray.HasValue) ? hideTray.Value : false;
             chkHideTray.Enabled = chkShowTray.Enabled;
@@ -463,6 +463,13 @@ namespace MPfm
             chkPeakFileDisplayWarning.Checked = (peakFileDisplayWarning.HasValue) ? peakFileDisplayWarning.Value : false;            
             txtPeakFileDisplayWarningThreshold.Value = (peakFileDisplayWarningThreshold.HasValue) ? peakFileDisplayWarningThreshold.Value : 1000;
             txtPeakFileCustomDirectory.Text = peakFileCustomDirectory;
+
+            // Load update frequency
+            int? positionUpdateFrequency = Main.Config.GetKeyValueGeneric<int>("PositionUpdateFrequency");
+            int? outputMeterUpdateFrequency = Main.Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency");
+
+            numericPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
+            numericOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
 
             // Set control enable
             EnableGeneralSettingsControls();
@@ -500,11 +507,16 @@ namespace MPfm
             //        // Delete peak files
             //        PeakFile.DeletePeakFiles(Main.PeakFileFolderPath);
             //    }
-            //}
+            //}            
 
-            // Save tray options
+            // Save user interface options
+            Main.Config.SetKeyValue<bool>("ShowTooltips", chkShowTooltips.Checked);
             Main.Config.SetKeyValue<bool>("HideTray", chkHideTray.Checked);
             Main.Config.SetKeyValue<bool>("ShowTray", chkShowTray.Checked);
+
+            // Save update frequency
+            Main.Config.SetKeyValue<int>("PositionUpdateFrequency", (int)numericPositionUpdateFrequency.Value);
+            Main.Config.SetKeyValue<int>("OutputMeterUpdateFrequency", (int)numericOutputMeterUpdateFrequency.Value);
 
             // Save peak file options
             Main.Config.SetKeyValue<bool>("PeakFile_UseCustomDirectory", radioPeakFileCustomDirectory.Checked);
@@ -518,6 +530,7 @@ namespace MPfm
             // Refresh peak file warning
             Main.RefreshPeakFileDirectorySizeWarning();
 
+            // Save configuration file
             Main.Config.Save();
 
             return true;
@@ -973,7 +986,7 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void chkShowTooltips_CheckedChanged(object sender, EventArgs e)
         {
-
+            Main.EnableTooltips(chkShowTooltips.Checked);
         }
 
         /// <summary>
