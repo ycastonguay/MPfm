@@ -74,7 +74,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the DatabaseVersionMajor property.
         /// </summary>
-        private static int m_databaseVersionMajor = 1;
+        private static int databaseVersionMajor = 1;
         /// <summary>
         /// Indicates what database major version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMinor property.
@@ -83,14 +83,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_databaseVersionMajor;
+                return databaseVersionMajor;
             }
         }
 
         /// <summary>
         /// Private value for the DatabaseVersionMinor property.
         /// </summary>
-        private static int m_databaseVersionMinor = 4;
+        private static int databaseVersionMinor = 4;
         /// <summary>
         /// Indicates what database minor version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMajor property.
@@ -99,14 +99,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_databaseVersionMinor;
+                return databaseVersionMinor;
             }
         }
 
         /// <summary>
         /// Private value for the Gateway property.
         /// </summary>
-        private MPfmGateway m_gateway = null;
+        private MPfmGateway gateway = null;
         /// <summary>
         /// Data access library.
         /// </summary>
@@ -114,14 +114,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_gateway;
+                return gateway;
             }
         }
 
         /// <summary>
         /// Private value for the CancelUpdateLibrary property.
         /// </summary>
-        private bool m_cancelUpdateLibrary = false;
+        private bool cancelUpdateLibrary = false;
         /// <summary>
         /// When true, cancels an update library process if running.
         /// </summary>
@@ -129,18 +129,18 @@ namespace MPfm.Library
         {
             get
             {
-                return m_cancelUpdateLibrary;
+                return cancelUpdateLibrary;
             }
             set
             {
-                m_cancelUpdateLibrary = value;
+                cancelUpdateLibrary = value;
             }
         }
 
         /// <summary>
         /// Private value for the AudioFiles property.
         /// </summary>
-        private List<AudioFile> m_audioFiles = null;
+        private List<AudioFile> audioFiles = null;
         /// <summary>
         /// Local cache of the audio file library.
         /// </summary>
@@ -148,7 +148,7 @@ namespace MPfm.Library
         {
             get
             {
-                return m_audioFiles;
+                return audioFiles;
             }
         }
 
@@ -170,7 +170,7 @@ namespace MPfm.Library
 
             // Create gateway
             Tracing.Log("Library init -- Initializing gateway...");
-            m_gateway = new MPfmGateway(databaseFilePath);
+            gateway = new MPfmGateway(databaseFilePath);
 
             // Create worker process
             Tracing.Log("Library init -- Creating background worker...");
@@ -525,7 +525,7 @@ namespace MPfm.Library
                 bool folderFound = false;
 
                 // Get the list of folders from the database                
-                List<Folder> folders = m_gateway.SelectFolders();
+                List<Folder> folders = gateway.SelectFolders();
 
                 // Search through folders if the base found can be found
                 foreach (Folder folder in folders)
@@ -547,7 +547,7 @@ namespace MPfm.Library
                     if (folder.FolderPath.Contains(folderPath))
                     {
                         // Delete this configured folder                        
-                        m_gateway.DeleteFolder(folder.FolderId);
+                        gateway.DeleteFolder(folder.FolderId);
                     }
                 }
 
@@ -555,7 +555,7 @@ namespace MPfm.Library
                 if (!folderFound)
                 {
                     // Add folder to database                    
-                    m_gateway.InsertFolder(folderPath, true);
+                    gateway.InsertFolder(folderPath, true);
                 }
             }
 
@@ -657,7 +657,7 @@ namespace MPfm.Library
 
                 // Compact database
                 UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);                
-                m_gateway.CompactDatabase();
+                gateway.CompactDatabase();
             }
             catch (OldUpdateLibraryException ex)
             {
@@ -702,7 +702,7 @@ namespace MPfm.Library
         {
             // Refresh audio file cache
             Tracing.Log("Library --  Refreshing audio file cache...");            
-            m_audioFiles = m_gateway.SelectAudioFiles();
+            this.audioFiles = gateway.SelectAudioFiles();
         }        
 
         /// <summary>
@@ -711,10 +711,10 @@ namespace MPfm.Library
         public void RemoveAudioFilesWithBrokenFilePaths()
         {
             // Get all audio files
-            List<AudioFile> audioFiles = m_gateway.SelectAudioFiles();
+            List<AudioFile> files = gateway.SelectAudioFiles();
 
             // For each audio file
-            for(int a = 0; a < audioFiles.Count; a++)
+            for (int a = 0; a < files.Count; a++)
             {
                 // Check for cancel[
                 if (CancelUpdateLibrary)
@@ -724,13 +724,13 @@ namespace MPfm.Library
                 }
 
                 // If the file doesn't exist, delete the audio file from the database
-                if (!File.Exists(audioFiles[a].FilePath))
+                if (!File.Exists(files[a].FilePath))
                 {
-                    Tracing.Log("Removing audio files that do not exist anymore on the hard drive..." + audioFiles[a].FilePath);
-                    UpdateLibraryReportProgress("Removing audio files that do not exist anymore on the hard drive...", audioFiles[a].FilePath, (double)((double)a / (double)audioFiles.Count) * 100);
+                    Tracing.Log("Removing audio files that do not exist anymore on the hard drive..." + files[a].FilePath);
+                    UpdateLibraryReportProgress("Removing audio files that do not exist anymore on the hard drive...", files[a].FilePath, (double)((double)a / (double)files.Count) * 100);
                     //DataAccess.DeleteSong(new Guid(songs[a].SongId));
                     //m_gateway.DeleteSong(songs[a].SongId);
-                    m_gateway.DeleteAudioFile(audioFiles[a].Id);
+                    gateway.DeleteAudioFile(files[a].Id);
                 }
             }
         }   
@@ -748,7 +748,7 @@ namespace MPfm.Library
             UpdateLibraryReportProgress("Searching media files", "Searching media files in library folders");
 
             // Get registered folders            
-            List<Folder> folders = m_gateway.SelectFolders();
+            List<Folder> folders = gateway.SelectFolders();
 
             // For each registered folder
             foreach (Folder folder in folders)
@@ -935,12 +935,12 @@ namespace MPfm.Library
                 if (audioFile != null)
                 {
                     // Insert audio file                
-                    m_gateway.InsertAudioFile(audioFile);
+                    gateway.InsertAudioFile(audioFile);
                 }
                 else if (playlistFile != null)
                 {
                     // Insert playlist file                
-                    m_gateway.InsertPlaylistFile(playlistFile);
+                    gateway.InsertPlaylistFile(playlistFile);
                 }
             }
             catch (Exception ex)
@@ -959,7 +959,7 @@ namespace MPfm.Library
         public void RemoveSongsFromLibrary(string folderPath)
         {
             // Delete audio files based on path            
-            m_gateway.DeleteAudioFiles(folderPath);
+            gateway.DeleteAudioFiles(folderPath);
         }
 
         #region Select (strings)
@@ -980,7 +980,7 @@ namespace MPfm.Library
         /// <returns>List of artist names</returns>
         public List<string> SelectArtistNames(AudioFileFormat audioFileFormat)
         {
-            return m_gateway.SelectDistinctArtistNames(audioFileFormat);
+            return gateway.SelectDistinctArtistNames(audioFileFormat);
         }
 
         /// <summary>
@@ -1053,7 +1053,7 @@ namespace MPfm.Library
         /// <returns>List of album titles</returns>
         public Dictionary<string, List<string>> SelectAlbumTitles(AudioFileFormat audioFileFormat)
         {
-            return m_gateway.SelectDistinctAlbumTitles(audioFileFormat);
+            return gateway.SelectDistinctAlbumTitles(audioFileFormat);
         }
 
         /// <summary>
@@ -1074,7 +1074,7 @@ namespace MPfm.Library
         /// <returns>List of album titles with file path</returns>
         public Dictionary<string, string> SelectAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
         {
-            return m_gateway.SelectDistinctAlbumTitlesWithFilePaths(audioFileFormat);
+            return gateway.SelectDistinctAlbumTitlesWithFilePaths(audioFileFormat);
         }
 
         #endregion
@@ -1620,10 +1620,10 @@ namespace MPfm.Library
         public void ResetLibrary()
         {
             // Reset library            
-            m_gateway.ResetLibrary();
+            gateway.ResetLibrary();
 
             // Compact database            
-            m_gateway.CompactDatabase();
+            gateway.CompactDatabase();
 
             // Refresh cache
             RefreshCache();
@@ -1636,14 +1636,14 @@ namespace MPfm.Library
         public void UpdateAudioFilePlayCount(Guid audioFileId)
         {
             // Update play count in database            
-            m_gateway.UpdatePlayCount(audioFileId);
+            gateway.UpdatePlayCount(audioFileId);
 
             // Update play count in cache                  
-            AudioFile audioFile = m_audioFiles.SingleOrDefault(x => x.Id == audioFileId);
+            AudioFile audioFile = audioFiles.SingleOrDefault(x => x.Id == audioFileId);
             if (audioFile != null)
             {
                 // Fetch audio file from database
-                AudioFile audioFileDatabase = m_gateway.SelectAudioFile(audioFile.Id);
+                AudioFile audioFileDatabase = gateway.SelectAudioFile(audioFile.Id);
                 
                 // Is the audio file in the database?
                 if (audioFileDatabase != null)

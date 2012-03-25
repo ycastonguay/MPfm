@@ -37,7 +37,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the Windows property.
         /// </summary>
-        private List<WindowConfiguration> m_windows;
+        private List<WindowConfiguration> windows;
         /// <summary>
         /// List of key/value pairs.
         /// </summary>
@@ -45,7 +45,7 @@ namespace MPfm
         {
             get
             {
-                return m_windows;
+                return windows;
             }
         }
 
@@ -55,7 +55,7 @@ namespace MPfm
         public WindowsConfigurationSection()
         {
             // Create list
-            m_windows = new List<WindowConfiguration>();
+            windows = new List<WindowConfiguration>();
 
             // Create main window
             WindowConfiguration windowMain = new WindowConfiguration();
@@ -69,8 +69,8 @@ namespace MPfm
             windowPlaylist.Visible = false;            
 
             // Add windows to list
-            m_windows.Add(windowMain);
-            m_windows.Add(windowPlaylist);
+            windows.Add(windowMain);
+            windows.Add(windowPlaylist);
         }
     }
 }

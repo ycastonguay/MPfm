@@ -49,7 +49,15 @@ namespace MPfm.Player
         /// </summary>
         private System.Timers.Timer m_timerPlayer = null;
         private Channel m_streamChannel = null;
+
+        /// <summary>
+        /// Private value for the FXChannel property.
+        /// </summary>
         private Channel m_fxChannel = null;
+
+        /// <summary>
+        /// Effects stream/channel.
+        /// </summary>
         public Channel FXChannel
         {
             get

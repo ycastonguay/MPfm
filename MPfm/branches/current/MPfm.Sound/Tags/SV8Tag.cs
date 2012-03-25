@@ -37,7 +37,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the SampleRate property.
         /// </summary>
-        private int m_sampleRate = 44100;
+        private int sampleRate = 44100;
         /// <summary>
         /// Audio file sample rate. Can be 44100, 48000, 37800 or 32000 Hz.
         /// </summary>
@@ -46,18 +46,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_sampleRate;
+                return sampleRate;
             }
             set
             {
-                m_sampleRate = value;
+                sampleRate = value;
             }
         }
 
         /// <summary>
         /// Private value for the AudioChannels property.
         /// </summary>
-        private int m_audioChannels = 2;
+        private int audioChannels = 2;
         /// <summary>
         /// Defines the number of audio channels used for this audio file.
         /// </summary>
@@ -66,18 +66,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_audioChannels;
+                return audioChannels;
             }
             set
             {
-                m_audioChannels = value;
+                audioChannels = value;
             }
         }
 
         /// <summary>
         /// Private value for the LengthSamples property.
         /// </summary>
-        private long m_lengthSamples = 0;
+        private long lengthSamples = 0;
         /// <summary>
         /// Defines the audio file length in samples.
         /// </summary>
@@ -86,18 +86,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_lengthSamples;
+                return lengthSamples;
             }
             set
             {
-                m_lengthSamples = value;
+                lengthSamples = value;
             }
         }
 
         /// <summary>
         /// Private value for the BeginningSilence property.
         /// </summary>
-        private long m_beginningSilence = 0;
+        private long beginningSilence = 0;
         /// <summary>
         /// Defines the number of samples to skip at the beginning of the stream (silence).
         /// </summary>
@@ -106,18 +106,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_beginningSilence;
+                return beginningSilence;
             }
             set
             {
-                m_beginningSilence = value;
+                beginningSilence = value;
             }
         }
 
         /// <summary>
         /// Private value for the MidSideStereoEnabled property.
         /// </summary>
-        private bool m_midSideStereoEnabled = false;
+        private bool midSideStereoEnabled = false;
         /// <summary>
         /// Defines if the Mid Side Stereo mode is enabled.
         /// </summary>
@@ -126,18 +126,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_midSideStereoEnabled;
+                return midSideStereoEnabled;
             }
             set
             {
-                m_midSideStereoEnabled = value;
+                midSideStereoEnabled = value;
             }
         }
 
         /// <summary>
         /// Private value for the AudioBlockFrames property.
         /// </summary>
-        private int m_audioBlockFrames = 0;
+        private int audioBlockFrames = 0;
         /// <summary>
         /// Defines the number of frames per audio packet.
         /// </summary>
@@ -146,18 +146,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_audioBlockFrames;
+                return audioBlockFrames;
             }
             set
             {
-                m_audioBlockFrames = value;
+                audioBlockFrames = value;
             }
         }
 
         /// <summary>
         /// Private value for the MaxUsedBands property.
         /// </summary>
-        private int m_maxUsedBands = 0;
+        private int maxUsedBands = 0;
         /// <summary>
         /// Defines the maximum number of bands used in the audio file.
         /// </summary>
@@ -166,11 +166,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_maxUsedBands;
+                return maxUsedBands;
             }
             set
             {
-                m_maxUsedBands = value;
+                maxUsedBands = value;
             }
         }
 
@@ -181,7 +181,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the ReplayGainVersion property.
         /// </summary>
-        private int m_replayGainVersion = 0;
+        private int replayGainVersion = 0;
         /// <summary>
         /// Defines the Replay Gain version.
         /// </summary>
@@ -190,18 +190,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_replayGainVersion;
+                return replayGainVersion;
             }
             set
             {
-                m_replayGainVersion = value;
+                replayGainVersion = value;
             }
         }
 
         /// <summary>
         /// Private value for the TitleGain property.
         /// </summary>
-        private int m_titleGain = 0;
+        private int titleGain = 0;
         /// <summary>
         /// The loudness calculated for the title, and not the gain that the player must apply.
         /// </summary>
@@ -210,18 +210,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_titleGain;
+                return titleGain;
             }
             set
             {
-                m_titleGain = value;
+                titleGain = value;
             }
         }
 
         /// <summary>
         /// Private value for the TitlePeak property.
         /// </summary>
-        private int m_titlePeak = 0;
+        private int titlePeak = 0;
         /// <summary>
         /// The gain calculated for the title.
         /// </summary>
@@ -230,18 +230,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_titlePeak;
+                return titlePeak;
             }
             set
             {
-                m_titlePeak = value;
+                titlePeak = value;
             }
         }
 
         /// <summary>
         /// Private value for the AlbumGain property.
         /// </summary>
-        private int m_albumGain = 0;
+        private int albumGain = 0;
         /// <summary>
         /// The loudness calculated for the album.
         /// </summary>
@@ -250,18 +250,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_albumGain;
+                return albumGain;
             }
             set
             {
-                m_albumGain = value;
+                albumGain = value;
             }
         }
 
         /// <summary>
         /// Private value for the AlbumPeak property.
         /// </summary>
-        private int m_albumPeak = 0;
+        private int albumPeak = 0;
         /// <summary>
         /// The gain calculated for the album.
         /// </summary>
@@ -270,11 +270,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_albumPeak;
+                return albumPeak;
             }
             set
             {
-                m_albumPeak = value;
+                albumPeak = value;
             }
         }
 
@@ -285,7 +285,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the EncoderProfile property.
         /// </summary>
-        private int m_encoderProfile = 0;
+        private int encoderProfile = 0;
         /// <summary>
         /// Encoder quality; one of the following values:
         /// 0: no profile
@@ -310,18 +310,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderProfile;
+                return encoderProfile;
             }
             set
             {
-                m_encoderProfile = value;
+                encoderProfile = value;
             }
         }
 
         /// <summary>
         /// Private value for the EncoderPNSTool property.
         /// </summary>
-        private bool m_encoderPNSTool = false;
+        private bool encoderPNSTool = false;
         /// <summary>
         /// Encoder PNS tool enabled.
         /// </summary>
@@ -330,18 +330,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderPNSTool;
+                return encoderPNSTool;
             }
             set
             {
-                m_encoderPNSTool = value;
+                encoderPNSTool = value;
             }
         }
 
         /// <summary>
         /// Private value for the EncoderMajor property.
         /// </summary>
-        private int m_encoderMajor = 0;
+        private int encoderMajor = 0;
         /// <summary>
         /// Encoder major version.
         /// </summary>
@@ -350,18 +350,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderMajor;
+                return encoderMajor;
             }
             set
             {
-                m_encoderMajor = value;
+                encoderMajor = value;
             }
         }
 
         /// <summary>
         /// Private value for the EncoderMinor property.
         /// </summary>
-        private int m_encoderMinor = 0;
+        private int encoderMinor = 0;
         /// <summary>
         /// Encoder minor version.
         /// </summary>
@@ -370,18 +370,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderMinor;
+                return encoderMinor;
             }
             set
             {
-                m_encoderMinor = value;
+                encoderMinor = value;
             }
         }
 
         /// <summary>
         /// Private value for the EncoderBuild property.
         /// </summary>
-        private int m_encoderBuild = 0;
+        private int encoderBuild = 0;
         /// <summary>
         /// Encoder build version.
         /// </summary>
@@ -390,11 +390,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderBuild;
+                return encoderBuild;
             }
             set
             {
-                m_encoderBuild = value;
+                encoderBuild = value;
             }
         }
 
@@ -405,7 +405,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the SeekTableOffset property.
         /// </summary>
-        private long m_seekTableOffset = 0;
+        private long seekTableOffset = 0;
         /// <summary>
         /// Offset from this packet to the seek table packet.
         /// </summary>
@@ -414,11 +414,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_seekTableOffset;
+                return seekTableOffset;
             }
             set
             {
-                m_seekTableOffset = value;
+                seekTableOffset = value;
             }
         }
 
@@ -429,7 +429,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the Bitrate property.
         /// </summary>
-        private int m_bitrate = 0;
+        private int bitrate = 0;
         /// <summary>
         /// Audio file bitrate. This value is not part of the SV7 header.
         /// </summary>
@@ -438,18 +438,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_bitrate;
+                return bitrate;
             }
             set
             {
-                m_bitrate = value;
+                bitrate = value;
             }
         }
 
         /// <summary>
         /// Private value for the LengthMS property.
         /// </summary>
-        private long m_lengthMS = 0;
+        private long lengthMS = 0;
         /// <summary>
         /// Audio file length (in milliseconds). This value is not part of the SV7 header.
         /// </summary>
@@ -458,18 +458,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_lengthMS;
+                return lengthMS;
             }
             set
             {
-                m_lengthMS = value;
+                lengthMS = value;
             }
         }
 
         /// <summary>
         /// Private value for the Length property.
         /// </summary>
-        private string m_length = string.Empty;
+        private string length = string.Empty;
         /// <summary>
         /// Audio file length (in time string format, 00:00.000). This value is not part of the SV7 header.
         /// </summary>
@@ -478,11 +478,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_length;
+                return length;
             }
             set
             {
-                m_length = value;
+                length = value;
             }
         }
 

@@ -89,6 +89,10 @@ namespace MPfm.WindowsControls
             return font;
         }
 
+        /// <summary>
+        /// Returns a collection of embedded fonts.
+        /// </summary>
+        /// <returns>Embedded font collection</returns>
         public static EmbeddedFontCollection GetEmbeddedFonts()
         {
             return GetEmbeddedFonts(string.Empty);

@@ -33,7 +33,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the TagSize property.
         /// </summary>
-        private int m_tagSize = 0;
+        private int tagSize = 0;
         /// <summary>
         /// Defines the ID3v2 tag size.
         /// </summary>
@@ -41,18 +41,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_tagSize;
+                return tagSize;
             }            
             set
             {
-                m_tagSize = value;
+                tagSize = value;
             }
         }
 
         /// <summary>
         /// Private value for the Version property.
         /// </summary>
-        private int m_version = 0;
+        private int version = 0;
         /// <summary>
         /// Defines the ID3v2 tag version (0 = ID3v2.0, 1 = ID3v2.1, etc.)
         /// Unknown if the ID3v2 tag was not found.
@@ -61,18 +61,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_version;
+                return version;
             }
             set
             {
-                m_version = value;
+                version = value;
             }
         }
 
         /// <summary>
         /// Private value for the TagFound property.
         /// </summary>
-        private bool m_tagFound = false;
+        private bool tagFound = false;
         /// <summary>
         /// Indicates if the ID3v2 tags have been found.
         /// </summary>
@@ -80,18 +80,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_tagFound;
+                return tagFound;
             }
             set
             {
-                m_tagFound = value;
+                tagFound = value;
             }
         }
 
         /// <summary>
         /// Private value for the ExtendedHeader property.
         /// </summary>
-        private bool m_extendedHeader = false;
+        private bool extendedHeader = false;
         /// <summary>
         /// Indicates if the file contains an extended header.
         /// </summary>
@@ -99,11 +99,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_extendedHeader;
+                return extendedHeader;
             }
             set
             {
-                m_extendedHeader = value;
+                extendedHeader = value;
             }
         }
 

@@ -48,27 +48,27 @@ namespace MPfm.Sound
         /// Defines the current peak file version. Used when reading peak files to make sure
         /// the format is compatible.
         /// </summary>
-        private string m_version = "1.00";
+        private string version = "1.00";
 
         /// <summary>
         /// Defines the list of IDisposables (subscriptions to IObservables).
         /// </summary>
-        private List<IDisposable> m_listSubscriptions = null;
+        private List<IDisposable> listSubscriptions = null;
 
         /// <summary>
         /// List of IObservables using PeakFileProgressData to report the thread progress.
         /// </summary>
-        private List<IObservable<PeakFileProgressData>> m_listObservables = null;
+        private List<IObservable<PeakFileProgressData>> listObservables = null;
 
         /// <summary>
         /// Defines the current index in the list of files (in the FilePaths property).
         /// </summary>
-        private int m_currentIndex = 0;
+        private int currentIndex = 0;
 
         /// <summary>
         /// Private value for the FilePaths property.
         /// </summary>
-        private Dictionary<string, string> m_filePaths = null;
+        private Dictionary<string, string> filePaths = null;
         /// <summary>
         /// Dictionary defining the audio (key) and peak (value) file paths to process.
         /// Can be updated in real-time (insert new items at the end of the list!).
@@ -77,7 +77,7 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_filePaths;
+                return filePaths;
             }
         }
 
@@ -117,7 +117,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the IsProcessing property.
         /// </summary>
-        private bool m_isProcessing = false;
+        private bool isProcessing = false;
         /// <summary>
         /// Indicates if the class is currently generating peak files.
         /// </summary>
@@ -125,14 +125,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_isProcessing;
+                return isProcessing;
             }
         }
 
         /// <summary>
         /// Private value for the NumberOfThreadsRunning property.
         /// </summary>
-        private int m_numberOfThreadsRunning = 0;
+        private int numberOfThreadsRunning = 0;
         /// <summary>
         /// Indicates the number of threads currently running.
         /// </summary>
@@ -140,14 +140,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_numberOfThreadsRunning;
+                return numberOfThreadsRunning;
             }
         }
 
         /// <summary>
         /// Private value for the NumberOfThreads property.        
         /// </summary>
-        private int m_numberOfThreads = 1;
+        private int numberOfThreads = 1;
         /// <summary>
         /// Defines the number of threads used for peak file generation.
         /// </summary>
@@ -155,14 +155,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_numberOfThreads;
+                return numberOfThreads;
             }
         }
 
         /// <summary>
         /// Private value for the ProgressReportBlockInterval property.
         /// </summary>
-        private int m_progressReportBlockInterval = 200;
+        private int progressReportBlockInterval = 200;
         /// <summary>
         /// Defines when the OnProgressData event is called; it will be called
         /// every x blocks (where x is ProgressReportBlockInterval). 
@@ -172,11 +172,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_progressReportBlockInterval;
+                return progressReportBlockInterval;
             }
             set
             {
-                m_progressReportBlockInterval = value;
+                progressReportBlockInterval = value;
             }
         }
 
@@ -187,7 +187,7 @@ namespace MPfm.Sound
         public PeakFile(int numberOfThreads)
         {
             // Set private values
-            m_numberOfThreads = numberOfThreads;
+            this.numberOfThreads = numberOfThreads;
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace MPfm.Sound
                         // Write file header (30 characters)                       
                         // 123456789012345678901234567890
                         // MPfm Peak File (version# 1.00)
-                        string version = "MPfm Peak File (version# " + m_version + ")";
+                        string version = "MPfm Peak File (version# " + this.version + ")";
                         binaryWriter.Write(version);
 
                         // Write audio file length
@@ -339,7 +339,7 @@ namespace MPfm.Sound
 
                             // Update progress every X blocks (m_progressReportBlockInterval) default = 20
                             dataBlockRead += read;
-                            if (dataBlockRead >= read * m_progressReportBlockInterval)
+                            if (dataBlockRead >= read * progressReportBlockInterval)
                             {
                                 // Reset flag
                                 dataBlockRead = 0;
@@ -431,19 +431,19 @@ namespace MPfm.Sound
         private void Subscribe(int index)
         {
             // Add subsription with Finally (executed when the thread ends)
-            m_listSubscriptions.Add(m_listObservables[index].Finally(() =>
+            listSubscriptions.Add(listObservables[index].Finally(() =>
             {
                 // Check if there is more stuff to load
-                if (m_currentIndex >= m_filePaths.Count - 1)
+                if (currentIndex >= filePaths.Count - 1)
                 {
                     // Decrement the number of threads running
-                    m_numberOfThreadsRunning--;
+                    numberOfThreadsRunning--;
 
                     // There might be multiple threads ending here, so make sure we don't raise the OnProgressDone more than once.
-                    if (m_numberOfThreadsRunning == 0)
+                    if (numberOfThreadsRunning == 0)
                     {
                         // There aren't any other peak files to generate; set flags
-                        m_isProcessing = false;
+                        isProcessing = false;
 
                         // Is an event binded to OnProcessDone?
                         if (OnProcessDone != null)
@@ -457,10 +457,10 @@ namespace MPfm.Sound
                 }
 
                 // Increment current index
-                m_currentIndex++;
+                currentIndex++;
 
                 // Load next thread
-                Subscribe(m_currentIndex);
+                Subscribe(currentIndex);
 
             // Subscribe to the IObservable (starts the thread)
             }).Subscribe(o =>
@@ -510,27 +510,27 @@ namespace MPfm.Sound
         public void GeneratePeakFiles(Dictionary<string, string> filePaths)
         {
             // Check there are active threads
-            if (m_isProcessing)
+            if (isProcessing)
             {
                 throw new Exception("Error: The process cannot be restarted when there are currently active threads!");
             }
 
             // Set private values            
-            m_filePaths = filePaths;
+            this.filePaths = filePaths;
 
             // Set flags
-            m_isProcessing = true;
-            m_currentIndex = 0;
+            isProcessing = true;
+            currentIndex = 0;
 
             // Create lists
-            m_listObservables = new List<IObservable<PeakFileProgressData>>();
-            m_listSubscriptions = new List<IDisposable>();
+            listObservables = new List<IObservable<PeakFileProgressData>>();
+            listSubscriptions = new List<IDisposable>();
 
             // Loop through file paths
             for (int a = 0; a < filePaths.Count; a++)
             {
                 // Create IObservable for peak file
-                m_listObservables.Add(GeneratePeakFileAsync(filePaths.Keys.ElementAt(a), filePaths.Values.ElementAt(a), a));
+                listObservables.Add(GeneratePeakFileAsync(filePaths.Keys.ElementAt(a), filePaths.Values.ElementAt(a), a));
             }
 
             // Determine how many files to process (do not start more threads than files to process!)
@@ -545,14 +545,14 @@ namespace MPfm.Sound
             for (int a = 0; a < numberOfFilesToProcess; a++)
             {
                 // Subscribe
-                Subscribe(m_currentIndex);
+                Subscribe(currentIndex);
 
                 // Increment current index
-                m_currentIndex++;
+                currentIndex++;
             }
 
             // Set the number of threads running
-            m_numberOfThreadsRunning = numberOfFilesToProcess;
+            numberOfThreadsRunning = numberOfFilesToProcess;
 
             //m_subscription = Observable.Merge(list).Subscribe(o =>
             //{
@@ -569,13 +569,13 @@ namespace MPfm.Sound
         public void Cancel()
         {
             // Check if the subscriptions are valid
-            if (m_listSubscriptions == null || m_listSubscriptions.Count == 0)
+            if (listSubscriptions == null || listSubscriptions.Count == 0)
             {
                 throw new Exception("Error cancelling process: The subscription list is empty or doesn't exist!");
             }
 
             // Check if the class is currently processing data
-            if (!m_isProcessing)
+            if (!isProcessing)
             {
                 throw new Exception("Error cancelling process: There are no currently active threads!");
             }
@@ -586,7 +586,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Check if there is a subscription left
-                    if (m_listSubscriptions.Count == 0)
+                    if (listSubscriptions.Count == 0)
                     {
                         // Exit loop
                         break;
@@ -595,13 +595,13 @@ namespace MPfm.Sound
                     // Dispose subscription and remove it from list
                     try
                     {
-                        m_listSubscriptions[0].Dispose();
+                        listSubscriptions[0].Dispose();
                     }
                     catch
                     {
 
                     }
-                    m_listSubscriptions.RemoveAt(0);                    
+                    listSubscriptions.RemoveAt(0);                    
                 }
                 catch
                 {
@@ -611,7 +611,7 @@ namespace MPfm.Sound
             }
 
             // CANNOT enumerate in a list that is currently modified.
-            //foreach (IDisposable subscription in m_listSubscriptions)
+            //foreach (IDisposable subscription in listSubscriptions)
             //{
             //    try
             //    {                    
@@ -659,9 +659,9 @@ namespace MPfm.Sound
 
                 // Extract version and validate
                 string version = fileHeader.Substring(fileHeader.Length - 5, 4);
-                if (version != m_version)
+                if (version != this.version)
                 {
-                    throw new PeakFileFormatIncompatibleException("Error: The peak file format is not compatible. Expecting version " + m_version + " instead of version " + version + ".", null);
+                    throw new PeakFileFormatIncompatibleException("Error: The peak file format is not compatible. Expecting version " + this.version + " instead of version " + version + ".", null);
                 }
 
                 // Read audio file length

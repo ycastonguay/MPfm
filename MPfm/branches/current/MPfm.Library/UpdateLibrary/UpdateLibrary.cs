@@ -54,7 +54,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the CurrentFile property.
         /// </summary>
-        private string m_currentFile = string.Empty;
+        private string currentFile = string.Empty;
         /// <summary>
         /// Indicates which file is currently processing.
         /// </summary>
@@ -62,14 +62,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_currentFile;
+                return currentFile;
             }
         }
 
         /// <summary>
         /// Private value for the PercentageDone property.
         /// </summary>
-        private float m_percentageDone = 0;
+        private float percentageDone = 0;
         /// <summary>
         /// Indicates how much percentage of the process is done.
         /// </summary>
@@ -77,7 +77,7 @@ namespace MPfm.Library
         {
             get
             {
-                return m_percentageDone;
+                return percentageDone;
             }
         }
 
@@ -95,7 +95,7 @@ namespace MPfm.Library
         /// <summary>
         /// Private value for the FilePaths property.
         /// </summary>
-        private List<string> m_filePaths = null;
+        private List<string> filePaths = null;
         /// <summary>
         /// List of audio files to import into the database.
         /// Can be updated in real-time (insert new items at the end of the list!).
@@ -104,14 +104,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_filePaths;
+                return filePaths;
             }
         }
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.
         /// </summary>
-        private string m_databaseFilePath = null;
+        private string databaseFilePath = null;
         /// <summary>
         /// MPfm database file path.
         /// </summary>
@@ -119,14 +119,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_databaseFilePath;
+                return databaseFilePath;
             }
         }
 
         /// <summary>
         /// Private value for the IsProcessing property.
         /// </summary>
-        private bool m_isProcessing = false;
+        private bool isProcessing = false;
         /// <summary>
         /// Indicates if the class is currently generating peak files.
         /// </summary>
@@ -134,14 +134,14 @@ namespace MPfm.Library
         {
             get
             {
-                return m_isProcessing;
+                return isProcessing;
             }
         }
 
         /// <summary>
         /// Private value for the NumberOfThreads property.        
         /// </summary>
-        private int m_numberOfThreads = 1;
+        private int numberOfThreads = 1;
         /// <summary>
         /// Defines the number of threads used for peak file generation.
         /// </summary>
@@ -149,7 +149,7 @@ namespace MPfm.Library
         {
             get
             {
-                return m_numberOfThreads;
+                return numberOfThreads;
             }
         }
 
@@ -161,8 +161,8 @@ namespace MPfm.Library
         public UpdateLibrary(int numberOfThreads, string databaseFilePath)
         {
             // Set private values
-            m_numberOfThreads = numberOfThreads;
-            m_databaseFilePath = databaseFilePath;
+            this.numberOfThreads = numberOfThreads;
+            this.databaseFilePath = databaseFilePath;
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace MPfm.Library
             List<AudioFile> listAudioFiles = new List<AudioFile>();
 
             // Create gateway
-            MPfmGateway gateway = new MPfmGateway(m_databaseFilePath);
+            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
 
             while (true)
             {
@@ -190,7 +190,7 @@ namespace MPfm.Library
 
                 if (numberOfTasksToProcess == 0)
                 {
-                    m_percentageDone = 100;
+                    percentageDone = 100;
                     break;
                 }
                 else if (filePaths.Count - currentTaskIndex > maxTasks)
@@ -238,7 +238,7 @@ namespace MPfm.Library
             AudioFile audioFile = null;
             UpdateLibraryProgressData data = new UpdateLibraryProgressData();
             data.FilePath = filePath;
-            m_currentFile = filePath;
+            currentFile = filePath;
 
             try
             {
@@ -252,7 +252,7 @@ namespace MPfm.Library
             }
 
             // Set percentage
-            m_percentageDone = ((float)index / (float)count) * 100;
+            percentageDone = ((float)index / (float)count) * 100;
 
             return data;
         }
@@ -263,13 +263,13 @@ namespace MPfm.Library
         public void Cancel()
         {
             //// Check if the subscriptions are valid
-            //if (m_listSubscriptions == null || m_listSubscriptions.Count == 0)
+            //if (listSubscriptions == null || listSubscriptions.Count == 0)
             //{
             //    throw new Exception("Error cancelling process: The subscription list is empty or doesn't exist!");
             //}
 
             //// Check if the class is currently processing data
-            //if (!m_isProcessing)
+            //if (!isProcessing)
             //{
             //    throw new Exception("Error cancelling process: There are no currently active threads!");
             //}
@@ -280,15 +280,15 @@ namespace MPfm.Library
             //    try
             //    {
             //        // Check if there is a subscription left
-            //        if (m_listSubscriptions.Count == 0)
+            //        if (listSubscriptions.Count == 0)
             //        {
             //            // Exit loop
             //            break;
             //        }
 
             //        // Dispose subscription and remove it from list
-            //        m_listSubscriptions[0].Dispose();
-            //        m_listSubscriptions.RemoveAt(0);
+            //        listSubscriptions[0].Dispose();
+            //        listSubscriptions.RemoveAt(0);
             //    }
             //    catch (Exception ex)
             //    {

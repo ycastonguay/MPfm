@@ -92,7 +92,7 @@ namespace MPfm.Sound.BassNetWrapper
             }
 
             // Return new channel instance
-            return new MixerChannel(handle, ChannelType.Memory, true, useFloatingPoint) { m_sampleRate = frequency };
+            return new MixerChannel(handle, ChannelType.Memory, true, useFloatingPoint) { sampleRate = frequency };
         }
 
         /// <summary>

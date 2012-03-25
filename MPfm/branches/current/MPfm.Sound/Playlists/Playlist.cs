@@ -35,7 +35,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the Items property.
         /// </summary>
-        private List<PlaylistItem> m_items = null;
+        private List<PlaylistItem> items = null;
         /// <summary>
         /// List of playlist items.
         /// </summary>
@@ -43,14 +43,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_items;
+                return items;
             }
         }
 
         /// <summary>
         /// Private value for the CurrentItemIndex property.
         /// </summary>
-        private int m_currentItemIndex = 0;
+        private int currentItemIndex = 0;
         /// <summary>
         /// Returns the current playlist item index.
         /// </summary>
@@ -58,14 +58,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_currentItemIndex;
+                return currentItemIndex;
             }
         }
 
         /// <summary>
         /// Private value for the CurrentItem property.
         /// </summary>
-        private PlaylistItem m_currentItem = null;
+        private PlaylistItem currentItem = null;
         /// <summary>
         /// Returns the current item.
         /// </summary>
@@ -73,7 +73,7 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_currentItem;
+                return currentItem;
             }
         }
 
@@ -96,8 +96,8 @@ namespace MPfm.Sound
         /// </summary>
         public Playlist()
         {
-            m_items = new List<PlaylistItem>();
-            m_currentItemIndex = 0;            
+            items = new List<PlaylistItem>();
+            currentItemIndex = 0;            
             FilePath = string.Empty;
             Format = PlaylistFileFormat.Unknown;
         }
@@ -181,9 +181,9 @@ namespace MPfm.Sound
         {            
             FilePath = string.Empty;
             Format = PlaylistFileFormat.Unknown;
-            m_items = new List<PlaylistItem>();
-            m_currentItemIndex = 0;
-            m_currentItem = null;            
+            items = new List<PlaylistItem>();
+            currentItemIndex = 0;
+            currentItem = null;            
         }
 
         /// <summary>
@@ -192,18 +192,18 @@ namespace MPfm.Sound
         public void DisposeChannels()
         {
             // Free current channel
-            if (m_currentItem.Channel != null)
+            if (currentItem.Channel != null)
             {
                 // Stop and free channel                
-                m_currentItem.Dispose();
-                m_currentItem = null;
+                currentItem.Dispose();
+                currentItem = null;
             }
 
             // Go through items to set them load = false
-            for (int a = 0; a < m_items.Count; a++)
+            for (int a = 0; a < items.Count; a++)
             {
                 // Dispose channel, if not null (validation inside method)
-                m_items[a].Dispose();
+                items[a].Dispose();
             }
         }
 
@@ -214,10 +214,10 @@ namespace MPfm.Sound
         private void UpdateCurrentItem()
         {
             // Check if there is at least one item but no current item set
-            if (m_currentItem == null && m_items.Count > 0)
+            if (currentItem == null && items.Count > 0)
             {
                 // Set current item to the first in the list
-                m_currentItem = m_items[0];
+                currentItem = items[0];
             }
         }
 
@@ -343,7 +343,7 @@ namespace MPfm.Sound
             if (index <= CurrentItemIndex)
             {
                 // Increment index
-                m_currentItemIndex++;
+                currentItemIndex++;
             }
 
             // Update current item
@@ -364,7 +364,7 @@ namespace MPfm.Sound
             if (index <= CurrentItemIndex)
             {
                 // Increment index
-                m_currentItemIndex++;
+                currentItemIndex++;
             }
 
             // Update current item
@@ -393,7 +393,7 @@ namespace MPfm.Sound
             if (index <= CurrentItemIndex)
             {
                 // Decrement current item index
-                m_currentItemIndex--;
+                currentItemIndex--;
             }
         }
 
@@ -403,8 +403,8 @@ namespace MPfm.Sound
         public void First()
         {
             // Set first index
-            m_currentItemIndex = 0;
-            m_currentItem = m_items[m_currentItemIndex];
+            currentItemIndex = 0;
+            currentItem = items[currentItemIndex];
         }
 
         /// <summary>
@@ -414,8 +414,8 @@ namespace MPfm.Sound
         public void GoTo(int index)
         {
             // Set index
-            m_currentItemIndex = index;
-            m_currentItem = m_items[m_currentItemIndex];
+            currentItemIndex = index;
+            currentItem = items[currentItemIndex];
         }
 
         /// <summary>
@@ -478,12 +478,12 @@ namespace MPfm.Sound
         public void Previous()
         {
             // Check if the previous channel needs to be loaded
-            if (m_currentItemIndex > 0)
+            if (currentItemIndex > 0)
             {
                 // Increment item
-                m_currentItemIndex--;
+                currentItemIndex--;
             }
-            m_currentItem = m_items[m_currentItemIndex];
+            currentItem = items[currentItemIndex];
         }
 
         /// <summary>
@@ -492,12 +492,12 @@ namespace MPfm.Sound
         public void Next()
         {
             // Check if the next channel needs to be loaded
-            if (m_currentItemIndex < m_items.Count - 1)
+            if (currentItemIndex < items.Count - 1)
             {
                 // Increment item
-                m_currentItemIndex++;                
+                currentItemIndex++;                
             }
-            m_currentItem = m_items[m_currentItemIndex];
+            currentItem = items[currentItemIndex];
         }
     }
 }

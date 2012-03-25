@@ -43,13 +43,13 @@ namespace MPfm.Library
     public class SQLiteGateway
     {
         // Private variables        
-        private DbProviderFactory m_factory = null;
-        private DbConnection m_connection = null;
+        private DbProviderFactory factory = null;
+        private DbConnection connection = null;
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.
         /// </summary>
-        private string m_databaseFilePath = string.Empty;
+        private string databaseFilePath = string.Empty;
         /// <summary>
         /// Database file path.
         /// </summary>
@@ -57,7 +57,7 @@ namespace MPfm.Library
         {
             get
             {
-                return m_databaseFilePath;
+                return databaseFilePath;
             }
         }
 
@@ -69,8 +69,8 @@ namespace MPfm.Library
         {
             // Initialize factory
             Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");
-            m_factory = DbProviderFactories.GetFactory("System.Data.SQLite");
-            m_databaseFilePath = databaseFilePath;
+            factory = DbProviderFactories.GetFactory("System.Data.SQLite");
+            this.databaseFilePath = databaseFilePath;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace MPfm.Library
         protected void OpenConnection()
         {
             // Check if the connection is still open
-            if (m_connection != null && m_connection.State != ConnectionState.Closed)
+            if (connection != null && connection.State != ConnectionState.Closed)
             {
                 // Throw exception
                 //throw new Exception("Cannot open database connection; the connection is already opened!");
@@ -99,9 +99,9 @@ namespace MPfm.Library
             try
             {
                 // Open connection
-                m_connection = m_factory.CreateConnection();
-                m_connection.ConnectionString = "Data Source=" + m_databaseFilePath;
-                m_connection.Open();
+                connection = factory.CreateConnection();
+                connection.ConnectionString = "Data Source=" + databaseFilePath;
+                connection.Open();
             }
             catch
             {
@@ -116,7 +116,7 @@ namespace MPfm.Library
         protected void CloseConnection()
         {
             // Check if the connection is still open
-            if (m_connection == null || m_connection.State == ConnectionState.Closed)
+            if (connection == null || connection.State == ConnectionState.Closed)
             {
                 // Throw exception
                 //throw new Exception("Cannot close database connection; the connection isn't opened!");
@@ -126,9 +126,9 @@ namespace MPfm.Library
             try
             {
                 // Close connection
-                m_connection.Close();
-                m_connection.Dispose();
-                m_connection = null;
+                connection.Close();
+                connection.Dispose();
+                connection = null;
             }
             catch
             {
@@ -147,9 +147,9 @@ namespace MPfm.Library
             OpenConnection();
 
             // Create command
-            DbCommand command = m_factory.CreateCommand();
+            DbCommand command = factory.CreateCommand();
             command.CommandText = sql;
-            command.Connection = m_connection;
+            command.Connection = connection;
             int rows = command.ExecuteNonQuery();
 
             // Close connection
@@ -169,9 +169,9 @@ namespace MPfm.Library
             OpenConnection();
 
             // Create command
-            DbCommand command = m_factory.CreateCommand();
+            DbCommand command = factory.CreateCommand();
             command.CommandText = sql;
-            command.Connection = m_connection;
+            command.Connection = connection;
             object obj = command.ExecuteScalar();
 
             // Close connection
@@ -200,12 +200,12 @@ namespace MPfm.Library
             OpenConnection();
 
             // Create command
-            DbCommand command = m_factory.CreateCommand();
+            DbCommand command = factory.CreateCommand();
             command.CommandText = sql;
-            command.Connection = m_connection;
+            command.Connection = connection;
 
             // Create adapter
-            DbDataAdapter adapter = m_factory.CreateDataAdapter();
+            DbDataAdapter adapter = factory.CreateDataAdapter();
             adapter.SelectCommand = command;
 
             // Fill table
@@ -229,16 +229,16 @@ namespace MPfm.Library
             OpenConnection();
 
             // Create command
-            DbCommand command = m_factory.CreateCommand();
+            DbCommand command = factory.CreateCommand();
             command.CommandText = sql;
-            command.Connection = m_connection;
+            command.Connection = connection;
 
             // Create adapter
-            DbDataAdapter adapter = m_factory.CreateDataAdapter();
+            DbDataAdapter adapter = factory.CreateDataAdapter();
             adapter.SelectCommand = command;
 
             // Create command builder
-            DbCommandBuilder builder = m_factory.CreateCommandBuilder();
+            DbCommandBuilder builder = factory.CreateCommandBuilder();
             builder.DataAdapter = adapter;
 
             // Get the insert, update and delete commands
@@ -263,19 +263,19 @@ namespace MPfm.Library
             OpenConnection();
 
             // Create transaction
-            DbTransaction transaction = m_connection.BeginTransaction();
+            DbTransaction transaction = connection.BeginTransaction();
 
             // Create command
-            DbCommand command = m_factory.CreateCommand();
+            DbCommand command = factory.CreateCommand();
             command.CommandText = sql;
-            command.Connection = m_connection;            
+            command.Connection = connection;            
 
             // Create adapter
-            DbDataAdapter adapter = m_factory.CreateDataAdapter();
+            DbDataAdapter adapter = factory.CreateDataAdapter();
             adapter.SelectCommand = command;
 
             // Create command builder
-            DbCommandBuilder builder = m_factory.CreateCommandBuilder();
+            DbCommandBuilder builder = factory.CreateCommandBuilder();
             builder.DataAdapter = adapter;
 
             // Get the insert, update and delete commands

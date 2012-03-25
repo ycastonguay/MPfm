@@ -40,12 +40,12 @@ namespace MPfm
         /// <summary>
         /// Configuration file path.
         /// </summary>
-        private string m_filePath = string.Empty;
+        private string filePath = string.Empty;
 
         /// <summary>
         /// Private value for the General property.
         /// </summary>
-        private GeneralConfigurationSection m_generalSection = null;
+        private GeneralConfigurationSection generalSection = null;
         /// <summary>
         /// General configuration section (key/value pairs)
         /// </summary>
@@ -53,14 +53,14 @@ namespace MPfm
         {
             get
             {
-                return m_generalSection;
+                return generalSection;
             }
         }
 
         /// <summary>
         /// Private value for the Audio property.
         /// </summary>
-        private AudioConfigurationSection m_audioSection = null;
+        private AudioConfigurationSection audioSection = null;
         /// <summary>
         /// Audio configuration section.
         /// </summary>
@@ -68,14 +68,14 @@ namespace MPfm
         {
             get
             {
-                return m_audioSection;
+                return audioSection;
             }
         }
 
         /// <summary>
         /// Private value for the Controls property.
         /// </summary>
-        private ControlsConfigurationSection m_controlsSection = null;
+        private ControlsConfigurationSection controlsSection = null;
         /// <summary>
         /// Controls configuration section.
         /// </summary>
@@ -83,14 +83,14 @@ namespace MPfm
         {
             get
             {
-                return m_controlsSection;
+                return controlsSection;
             }
         }
 
         /// <summary>
         /// Private value for the Windows property.
         /// </summary>
-        private WindowsConfigurationSection m_windowsSection = null;
+        private WindowsConfigurationSection windowsSection = null;
         /// <summary>
         /// Windows configuration section.
         /// </summary>
@@ -98,14 +98,14 @@ namespace MPfm
         {
             get
             {
-                return m_windowsSection;
+                return windowsSection;
             }
         }
 
         /// <summary>
         /// XML document used for loading and saving configuration to file.
         /// </summary>
-        private XDocument m_document = null;
+        private XDocument document = null;
 
         #endregion
 
@@ -119,7 +119,7 @@ namespace MPfm
         public MPfmConfiguration(string filePath)
         {
             // Set private values
-            m_filePath = filePath;
+            this.filePath = filePath;
 
             // Set default values
             Clear();
@@ -138,10 +138,10 @@ namespace MPfm
             Clear();
 
             // Load XML file
-            m_document = XDocument.Load(m_filePath);
+            document = XDocument.Load(filePath);
 
             // Read elements
-            XElement elementConfig = m_document.Element("configuration");
+            XElement elementConfig = document.Element("configuration");
 
             // Check if the configuration node was found
             if(elementConfig == null)
@@ -169,7 +169,7 @@ namespace MPfm
                     keyValue.ValueType = Type.GetType(XMLHelper.GetAttributeValue(elementKeyValue, "type"));
                     keyValue.Name = XMLHelper.GetAttributeValue(elementKeyValue, "name");
                     keyValue.Value = XMLHelper.GetAttributeValue(elementKeyValue, "value");
-                    m_generalSection.KeyValues.Add(keyValue);
+                    generalSection.KeyValues.Add(keyValue);
                 }
             }
 
@@ -193,30 +193,30 @@ namespace MPfm
                 {
                     MPfm.Sound.BassNetWrapper.DriverType driverType;
                     Enum.TryParse<MPfm.Sound.BassNetWrapper.DriverType>(XMLHelper.GetAttributeValue(elementAudioDriver, "type"), out driverType);
-                    m_audioSection.DriverType = driverType;
+                    audioSection.DriverType = driverType;
                 }
                 // Check if this XML element was found
                 if (elementAudioDevice != null)
                 {
                     // Get values
-                    m_audioSection.Device.Name = XMLHelper.GetAttributeValue(elementAudioDevice, "name");
-                    m_audioSection.Device.Id = XMLHelper.GetAttributeValueGeneric<int>(elementAudioDevice, "id");
+                    audioSection.Device.Name = XMLHelper.GetAttributeValue(elementAudioDevice, "name");
+                    audioSection.Device.Id = XMLHelper.GetAttributeValueGeneric<int>(elementAudioDevice, "id");
                 }
                 // Check if this XML element was found
                 if (elementAudioMixer != null)
                 {
                     // Get values
-                    m_audioSection.Mixer.Frequency = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "frequency");
-                    m_audioSection.Mixer.Volume = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "volume");                    
-                    m_audioSection.Mixer.BufferSize = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "bufferSize");
-                    m_audioSection.Mixer.UpdatePeriod = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "updatePeriod");
+                    audioSection.Mixer.Frequency = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "frequency");
+                    audioSection.Mixer.Volume = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "volume");                    
+                    audioSection.Mixer.BufferSize = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "bufferSize");
+                    audioSection.Mixer.UpdatePeriod = XMLHelper.GetAttributeValueGeneric<int>(elementAudioMixer, "updatePeriod");
                 }
                 // Check if this XML element was found
                 if (elementAudioEQ != null)
                 {
                     // Get values
-                    m_audioSection.EQ.Enabled = XMLHelper.GetAttributeValueGeneric<bool>(elementAudioEQ, "enabled");
-                    m_audioSection.EQ.Preset = XMLHelper.GetAttributeValue(elementAudioEQ, "preset");
+                    audioSection.EQ.Enabled = XMLHelper.GetAttributeValueGeneric<bool>(elementAudioEQ, "enabled");
+                    audioSection.EQ.Preset = XMLHelper.GetAttributeValue(elementAudioEQ, "preset");
                 }
             }
 
@@ -246,13 +246,13 @@ namespace MPfm
                         // Get node type
                         TreeLibraryNodeType nodeType;
                         Enum.TryParse<TreeLibraryNodeType>(XMLHelper.GetAttributeValue(elementSongGridViewQuery, "type"), out nodeType);
-                        m_controlsSection.SongGridView.Query.NodeType = nodeType;
+                        controlsSection.SongGridView.Query.NodeType = nodeType;
 
                         // Set other query properties
-                        m_controlsSection.SongGridView.Query.AudioFileId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "audioFileId");
-                        m_controlsSection.SongGridView.Query.PlaylistId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "playlistId");
-                        m_controlsSection.SongGridView.Query.ArtistName = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "artistName");
-                        m_controlsSection.SongGridView.Query.AlbumTitle = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "albumTitle");                        
+                        controlsSection.SongGridView.Query.AudioFileId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "audioFileId");
+                        controlsSection.SongGridView.Query.PlaylistId = XMLHelper.GetAttributeValueGeneric<Guid>(elementSongGridViewQuery, "playlistId");
+                        controlsSection.SongGridView.Query.ArtistName = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "artistName");
+                        controlsSection.SongGridView.Query.AlbumTitle = XMLHelper.GetAttributeValue(elementSongGridViewQuery, "albumTitle");                        
                     }
                     // Check if this XML element was found
                     if (elementSongGridViewColumns != null)
@@ -269,7 +269,7 @@ namespace MPfm
                             column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
                             column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
                             column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
-                            m_controlsSection.SongGridView.Columns.Add(column);
+                            controlsSection.SongGridView.Columns.Add(column);
                         }
                     }
                 }
@@ -283,7 +283,7 @@ namespace MPfm
                     if (elementPlaylistGridViewColumns != null)
                     {
                         // Clear existing columns
-                        m_controlsSection.PlaylistGridView.Columns.Clear();
+                        controlsSection.PlaylistGridView.Columns.Clear();
 
                         // Get column list                                
                         List<XElement> elementsColumns = elementPlaylistGridViewColumns.Elements("column").ToList();
@@ -297,7 +297,7 @@ namespace MPfm
                             column.Order = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "order");
                             column.Width = XMLHelper.GetAttributeValueGeneric<int>(elementColumn, "width");
                             column.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementColumn, "visible");
-                            m_controlsSection.PlaylistGridView.Columns.Add(column);
+                            controlsSection.PlaylistGridView.Columns.Add(column);
                         }
                     }
                 }
@@ -313,7 +313,7 @@ namespace MPfm
             if (elementWindows != null)
             {
                 // Reset window list
-                m_windowsSection.Windows.Clear();
+                windowsSection.Windows.Clear();
 
                 // Get window list                                
                 List<XElement> elementsWindows = elementWindows.Elements("window").ToList();
@@ -331,7 +331,7 @@ namespace MPfm
                     window.Height = XMLHelper.GetAttributeValueGeneric<int>(elementWindow, "height");
                     window.Maximized = XMLHelper.GetAttributeValueGeneric<bool>(elementWindow, "maximized");
                     window.Visible = XMLHelper.GetAttributeValueGeneric<bool>(elementWindow, "visible");
-                    m_windowsSection.Windows.Add(window);
+                    windowsSection.Windows.Add(window);
                 }
             }
         }
@@ -342,7 +342,7 @@ namespace MPfm
         public void Save()
         {
             // Save to default path
-            Save(m_filePath);
+            Save(filePath);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace MPfm
             RefreshXML();            
 
             // Save configuration to file
-            m_document.Save(filePath);            
+            document.Save(filePath);            
         }
 
         #endregion
@@ -368,10 +368,10 @@ namespace MPfm
         public void Clear()
         {
             // Create sections
-            m_generalSection = new GeneralConfigurationSection();
-            m_audioSection = new AudioConfigurationSection();
-            m_controlsSection = new ControlsConfigurationSection();
-            m_windowsSection = new WindowsConfigurationSection();
+            generalSection = new GeneralConfigurationSection();
+            audioSection = new AudioConfigurationSection();
+            controlsSection = new ControlsConfigurationSection();
+            windowsSection = new WindowsConfigurationSection();
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace MPfm
         public void RefreshXML()
         {
             // Create new document
-            m_document = new XDocument();
+            document = new XDocument();
 
             // Create main node
             XElement elementConfiguration = new XElement("configuration");
@@ -396,7 +396,7 @@ namespace MPfm
             XElement elementGeneral = new XElement("general");
 
             // Loop through key/value pairs
-            foreach (GeneralConfigurationKeyValue keyValue in m_generalSection.KeyValues)
+            foreach (GeneralConfigurationKeyValue keyValue in generalSection.KeyValues)
             {
                 // Create key/value pair
                 XElement elementKeyValue = new XElement("key");
@@ -425,16 +425,16 @@ namespace MPfm
             XElement elementAudioEQ = new XElement("eq");
 
             // Set node values and attributes
-            elementAudioDriver.Add(XMLHelper.NewAttribute("type", m_audioSection.DriverType.ToString()));
-            elementAudioDevice.Add(XMLHelper.NewAttribute("name", m_audioSection.Device.Name));
+            elementAudioDriver.Add(XMLHelper.NewAttribute("type", audioSection.DriverType.ToString()));
+            elementAudioDevice.Add(XMLHelper.NewAttribute("name", audioSection.Device.Name));
             elementAudioDevice.Add(XMLHelper.NewAttribute("driver", ""));
-            elementAudioDevice.Add(XMLHelper.NewAttribute("id", m_audioSection.Device.Id));
-            elementAudioMixer.Add(XMLHelper.NewAttribute("frequency", m_audioSection.Mixer.Frequency));
-            elementAudioMixer.Add(XMLHelper.NewAttribute("volume", m_audioSection.Mixer.Volume));
-            elementAudioMixer.Add(XMLHelper.NewAttribute("bufferSize", m_audioSection.Mixer.BufferSize));
-            elementAudioMixer.Add(XMLHelper.NewAttribute("updatePeriod", m_audioSection.Mixer.UpdatePeriod));
-            elementAudioEQ.Add(XMLHelper.NewAttribute("enabled", m_audioSection.EQ.Enabled));
-            elementAudioEQ.Add(XMLHelper.NewAttribute("preset", m_audioSection.EQ.Preset));
+            elementAudioDevice.Add(XMLHelper.NewAttribute("id", audioSection.Device.Id));
+            elementAudioMixer.Add(XMLHelper.NewAttribute("frequency", audioSection.Mixer.Frequency));
+            elementAudioMixer.Add(XMLHelper.NewAttribute("volume", audioSection.Mixer.Volume));
+            elementAudioMixer.Add(XMLHelper.NewAttribute("bufferSize", audioSection.Mixer.BufferSize));
+            elementAudioMixer.Add(XMLHelper.NewAttribute("updatePeriod", audioSection.Mixer.UpdatePeriod));
+            elementAudioEQ.Add(XMLHelper.NewAttribute("enabled", audioSection.EQ.Enabled));
+            elementAudioEQ.Add(XMLHelper.NewAttribute("preset", audioSection.EQ.Preset));
 
             // Add nodes           
             elementAudio.Add(elementAudioDriver);
@@ -468,14 +468,14 @@ namespace MPfm
             XElement elementControlsPlaylistGridViewColumns = new XElement("columns");
 
             // Song browser query
-            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("type", m_controlsSection.SongGridView.Query.NodeType.ToString()));
-            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("audioFileId", m_controlsSection.SongGridView.Query.AudioFileId.ToString()));
-            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("playlistId", m_controlsSection.SongGridView.Query.PlaylistId.ToString()));
-            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("artistName", m_controlsSection.SongGridView.Query.ArtistName));
-            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("albumTitle", m_controlsSection.SongGridView.Query.AlbumTitle));
+            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("type", controlsSection.SongGridView.Query.NodeType.ToString()));
+            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("audioFileId", controlsSection.SongGridView.Query.AudioFileId.ToString()));
+            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("playlistId", controlsSection.SongGridView.Query.PlaylistId.ToString()));
+            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("artistName", controlsSection.SongGridView.Query.ArtistName));
+            elementControlsSongGridViewQuery.Add(XMLHelper.NewAttribute("albumTitle", controlsSection.SongGridView.Query.AlbumTitle));
 
             // Loop through song browser columns            
-            foreach (SongGridViewColumn column in m_controlsSection.SongGridView.Columns.OrderBy(x => x.Order))
+            foreach (SongGridViewColumn column in controlsSection.SongGridView.Columns.OrderBy(x => x.Order))
             {
                 // Create node
                 XElement elementColumn = new XElement("column");                
@@ -488,7 +488,7 @@ namespace MPfm
             }
 
             // Loop through playlist browser columns            
-            foreach (SongGridViewColumn column in m_controlsSection.PlaylistGridView.Columns.OrderBy(x => x.Order))
+            foreach (SongGridViewColumn column in controlsSection.PlaylistGridView.Columns.OrderBy(x => x.Order))
             {
                 // Create node
                 XElement elementColumn = new XElement("column");                
@@ -518,7 +518,7 @@ namespace MPfm
             XElement elementWindows = new XElement("windows");
 
             // Loop through windows
-            foreach (WindowConfiguration window in m_windowsSection.Windows)
+            foreach (WindowConfiguration window in windowsSection.Windows)
             {
                 // Add node
                 XElement elementWindow = new XElement("window");
@@ -538,7 +538,7 @@ namespace MPfm
             elementConfiguration.Add(elementAudio);
             elementConfiguration.Add(elementControls);
             elementConfiguration.Add(elementWindows);
-            m_document.Add(elementConfiguration);
+            document.Add(elementConfiguration);
         }
 
         /// <summary>
@@ -549,7 +549,7 @@ namespace MPfm
         public string GetKeyValue(string name)
         {
             // Try to get the key/value pair
-            GeneralConfigurationKeyValue keyValue = m_generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
+            GeneralConfigurationKeyValue keyValue = generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
 
             // Check if the key/value pair is valid
             if (keyValue != null)
@@ -570,7 +570,7 @@ namespace MPfm
         public T? GetKeyValueGeneric<T>(string name) where T : struct
         {
             // Try to get the key/value pair
-            GeneralConfigurationKeyValue keyValue = m_generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
+            GeneralConfigurationKeyValue keyValue = generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
 
             // Check if the key/value pair is valid
             if (keyValue != null)
@@ -590,7 +590,7 @@ namespace MPfm
         public void SetKeyValue<T>(string name, T value)
         {
             // Try to get the key/value pair
-            GeneralConfigurationKeyValue keyValue = m_generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
+            GeneralConfigurationKeyValue keyValue = generalSection.KeyValues.FirstOrDefault(x => x.Name.ToUpper() == name.ToUpper());
 
             // Check if the key/value pair is valid
             if (keyValue != null)
@@ -605,7 +605,7 @@ namespace MPfm
                 keyValue.Name = name;
                 keyValue.ValueType = typeof(T);
                 keyValue.Value = value;
-                m_generalSection.KeyValues.Add(keyValue);
+                generalSection.KeyValues.Add(keyValue);
             }
         }
 

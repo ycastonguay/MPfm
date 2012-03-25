@@ -38,7 +38,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the SampleRate property.
         /// </summary>
-        private int m_sampleRate = 44100;
+        private int sampleRate = 44100;
         /// <summary>
         /// Audio file sample rate. Can be 44100, 48000, 37800 or 32000 Hz.
         /// </summary>
@@ -47,18 +47,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_sampleRate;
+                return sampleRate;
             }
             set
             {
-                m_sampleRate = value;
+                sampleRate = value;
             }
         }
 
         /// <summary>
         /// Private value for the FrameCount property.
         /// </summary>
-        private int m_frameCount = 0;
+        private int frameCount = 0;
         /// <summary>
         /// Number of frames, every frame contains 1152 samples per channel, the last frame contains 
         /// 1 to 1152 samples per channel. Furthermore, one has to consider the latency of the analysis 
@@ -69,18 +69,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_frameCount;
+                return frameCount;
             }
             set
             {
-                m_frameCount = value;
+                frameCount = value;
             }
         }
 
         /// <summary>
         /// Private value for the LastFrameLength property.
         /// </summary>
-        private int m_lastFrameLength = 0;
+        private int lastFrameLength = 0;
         /// <summary>
         /// Defines the used samples for the last frame. If true gapless, always 0.
         /// </summary>
@@ -89,18 +89,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_lastFrameLength;
+                return lastFrameLength;
             }
             set
             {
-                m_lastFrameLength = value;
+                lastFrameLength = value;
             }
         }
 
         /// <summary>
         /// Private value for the MaxLevel property.
         /// </summary>
-        private int m_maxLevel = 0;
+        private int maxLevel = 0;
         /// <summary>
         /// Defines the maximum level of the coded PCM input signal.
         /// </summary>
@@ -109,18 +109,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_maxLevel;
+                return maxLevel;
             }
             set
             {
-                m_maxLevel = value;
+                maxLevel = value;
             }
         }
 
         /// <summary>
         /// Private value for the MaxLevel property.
         /// </summary>
-        private int m_maxBand = 0;
+        private int maxBand = 0;
         /// <summary>
         /// Defines the last subband used in the whole file.
         /// </summary>
@@ -129,18 +129,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_maxBand;
+                return maxBand;
             }
             set
             {
-                m_maxBand = value;
+                maxBand = value;
             }
         }
 
         /// <summary>
         /// Private value for the AudioChannels property.
         /// </summary>
-        private int m_audioChannels = 2;
+        private int audioChannels = 2;
         /// <summary>
         /// Defines the number of audio channels used for this audio file.
         /// </summary>
@@ -149,18 +149,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_audioChannels;
+                return audioChannels;
             }
             set
             {
-                m_audioChannels = value;
+                audioChannels = value;
             }
         }
 
         /// <summary>
         /// Private value for the IntensityStereo property.
         /// </summary>
-        private bool m_intensityStereo = false;
+        private bool intensityStereo = false;
         /// <summary>
         /// Defines if intensity stereo coding (IS) was used.
         /// </summary>
@@ -169,18 +169,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_intensityStereo;
+                return intensityStereo;
             }
             set
             {
-                m_intensityStereo = value;
+                intensityStereo = value;
             }
         }
 
         /// <summary>
         /// Private value for the MidSideStereoEnabled property.
         /// </summary>
-        private bool m_midSideStereoEnabled = false;
+        private bool midSideStereoEnabled = false;
         /// <summary>
         /// Defines if the Mid Side Stereo mode is enabled.
         /// </summary>
@@ -189,18 +189,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_midSideStereoEnabled;
+                return midSideStereoEnabled;
             }
             set
             {
-                m_midSideStereoEnabled = value;
+                midSideStereoEnabled = value;
             }
         }
 
         /// <summary>
         /// Private value for the TrueGapless property.
         /// </summary>
-        private bool m_trueGapless = false;
+        private bool trueGapless = false;
         /// <summary>
         /// Defines if true gapless is used.
         /// </summary>
@@ -209,11 +209,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_trueGapless;
+                return trueGapless;
             }
             set
             {
-                m_trueGapless = value;
+                trueGapless = value;
             }
         }
 
@@ -224,7 +224,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the EncoderProfile property.
         /// </summary>
-        private int m_encoderProfile = 0;
+        private int encoderProfile = 0;
         /// <summary>
         /// Encoder quality; one of the following values:
         /// 0: no profile
@@ -249,18 +249,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderProfile;
+                return encoderProfile;
             }
             set
             {
-                m_encoderProfile = value;
+                encoderProfile = value;
             }
         }
 
         /// <summary>
         /// Private value for the EncoderVersion property.
         /// </summary>
-        private string m_encoderVersion = string.Empty;
+        private string encoderVersion = string.Empty;
         /// <summary>
         /// Defines the encoder version (ex: mppenc Beta 1.16).
         /// </summary>
@@ -269,11 +269,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_encoderVersion;
+                return encoderVersion;
             }
             set
             {
-                m_encoderVersion = value;
+                encoderVersion = value;
             }
         }
 
@@ -284,7 +284,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the TitleGain property.
         /// </summary>
-        private int m_titleGain = 0;
+        private int titleGain = 0;
         /// <summary>
         /// Change in the replay level. Value is treated as signed 16 bit value and the level is changed by that many mB (Millibel). 
         /// Thus level changes of -327.68 dB to +327.67 dB are possible.
@@ -294,18 +294,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_titleGain;
+                return titleGain;
             }
             set
             {
-                m_titleGain = value;
+                titleGain = value;
             }
         }
 
         /// <summary>
         /// Private value for the TitlePeak property.
         /// </summary>
-        private int m_titlePeak = 0;
+        private int titlePeak = 0;
         /// <summary>
         /// Maximum level of the decoded title:
         /// 16422: -6 dB
@@ -317,18 +317,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_titlePeak;
+                return titlePeak;
             }
             set
             {
-                m_titlePeak = value;
+                titlePeak = value;
             }
         }
 
         /// <summary>
         /// Private value for the AlbumGain property.
         /// </summary>
-        private int m_albumGain = 0;
+        private int albumGain = 0;
         /// <summary>
         /// Change in the replay level if the whole cd is supposed to be played with the same level change for all tracks. 
         /// Value is treated as signed 16 bit value and the level is attenuated by that many mB (Millibel). 
@@ -339,18 +339,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_albumGain;
+                return albumGain;
             }
             set
             {
-                m_albumGain = value;
+                albumGain = value;
             }
         }
 
         /// <summary>
         /// Private value for the AlbumPeak property.
         /// </summary>
-        private int m_albumPeak = 0;
+        private int albumPeak = 0;
         /// <summary>
         /// Maximum level of the whole decoded CD:
         /// 16422: -6 dB
@@ -362,11 +362,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_albumPeak;
+                return albumPeak;
             }
             set
             {
-                m_albumPeak = value;
+                albumPeak = value;
             }
         }
 
@@ -377,7 +377,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the Bitrate property.
         /// </summary>
-        private int m_bitrate = 0;
+        private int bitrate = 0;
         /// <summary>
         /// Audio file bitrate. This value is not part of the SV7 header.
         /// </summary>
@@ -386,18 +386,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_bitrate;
+                return bitrate;
             }
             set
             {
-                m_bitrate = value;
+                bitrate = value;
             }
         }
 
         /// <summary>
         /// Private value for the LengthSamples property.
         /// </summary>
-        private long m_lengthSamples = 0;
+        private long lengthSamples = 0;
         /// <summary>
         /// Audio file length (in samples). This value is not part of the SV7 header.
         /// </summary>
@@ -406,18 +406,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_lengthSamples;
+                return lengthSamples;
             }
             set
             {
-                m_lengthSamples = value;
+                lengthSamples = value;
             }
         }
 
         /// <summary>
         /// Private value for the LengthMS property.
         /// </summary>
-        private long m_lengthMS = 0;
+        private long lengthMS = 0;
         /// <summary>
         /// Audio file length (in milliseconds). This value is not part of the SV7 header.
         /// </summary>
@@ -426,18 +426,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_lengthMS;
+                return lengthMS;
             }
             set
             {
-                m_lengthMS = value;
+                lengthMS = value;
             }
         }
 
         /// <summary>
         /// Private value for the Length property.
         /// </summary>
-        private string m_length = string.Empty;
+        private string length = string.Empty;
         /// <summary>
         /// Audio file length (in time string format, 00:00.000). This value is not part of the SV7 header.
         /// </summary>
@@ -446,11 +446,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_length;
+                return length;
             }
             set
             {
-                m_length = value;
+                length = value;
             }
         }
 

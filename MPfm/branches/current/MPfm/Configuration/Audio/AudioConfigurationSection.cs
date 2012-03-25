@@ -44,7 +44,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the Device property.
         /// </summary>
-        private Device m_device = null;
+        private Device device = null;
         /// <summary>
         /// Output device (name, id, etc.).
         /// </summary>
@@ -52,18 +52,18 @@ namespace MPfm
         {
             get
             {
-                return m_device;
+                return device;
             }
             set
             {
-                m_device = value;
+                device = value;
             }
         }
 
         /// <summary>
         /// Private value for the Mixer property.
         /// </summary>
-        private AudioMixerConfigurationSection m_mixer = null;
+        private AudioMixerConfigurationSection mixer = null;
         /// <summary>
         /// Mixer section (frequency, volume, etc.).
         /// </summary>
@@ -71,14 +71,14 @@ namespace MPfm
         {
             get
             {
-                return m_mixer;
+                return mixer;
             }
         }
 
         /// <summary>
         /// Private value for the EQ property.
         /// </summary>
-        private AudioEQConfigurationSection m_eq = null;
+        private AudioEQConfigurationSection eq = null;
         /// <summary>
         /// EQ (equalizer) section (enabled, preset, etc.).
         /// </summary>
@@ -86,7 +86,7 @@ namespace MPfm
         {
             get
             {
-                return m_eq;
+                return eq;
             }
         }
 
@@ -96,9 +96,9 @@ namespace MPfm
         public AudioConfigurationSection()
         {
             // Create sections
-            m_device = new Device();
-            m_mixer = new AudioMixerConfigurationSection();
-            m_eq = new AudioEQConfigurationSection();
+            device = new Device();
+            mixer = new AudioMixerConfigurationSection();
+            eq = new AudioEQConfigurationSection();
         }
     }
 }

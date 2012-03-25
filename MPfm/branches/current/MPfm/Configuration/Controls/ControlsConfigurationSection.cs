@@ -39,7 +39,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the SongGridView property.
         /// </summary>
-        private ControlsSongGridViewConfigurationSection m_songGridView = null;
+        private ControlsSongGridViewConfigurationSection songGridView = null;
         /// <summary>
         /// Settings related to the SongGridView control (Song Browser).
         /// </summary>
@@ -47,14 +47,14 @@ namespace MPfm
         {
             get
             {
-                return m_songGridView;
+                return songGridView;
             }
         }
 
         /// <summary>
         /// Private value for the PlaylistGridView property.
         /// </summary>
-        private ControlsSongGridViewConfigurationSection m_playlistGridView = null;
+        private ControlsSongGridViewConfigurationSection playlistGridView = null;
         /// <summary>
         /// Settings related to the SongGridView control (Playlist Browser).
         /// </summary>
@@ -62,7 +62,7 @@ namespace MPfm
         {
             get
             {
-                return m_playlistGridView;
+                return playlistGridView;
             }
         }
 
@@ -72,8 +72,8 @@ namespace MPfm
         public ControlsConfigurationSection()
         {
             // Create sections
-            m_songGridView = new ControlsSongGridViewConfigurationSection();
-            m_playlistGridView = new ControlsSongGridViewConfigurationSection();
+            songGridView = new ControlsSongGridViewConfigurationSection();
+            playlistGridView = new ControlsSongGridViewConfigurationSection();
         }
     }
 }

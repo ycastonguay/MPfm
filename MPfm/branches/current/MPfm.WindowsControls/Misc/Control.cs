@@ -47,6 +47,9 @@ namespace MPfm.WindowsControls
         {
         }
 
+        /// <summary>
+        /// Triggered when the control is created.
+        /// </summary>
         protected override void OnCreateControl()
         {
             base.OnCreateControl();

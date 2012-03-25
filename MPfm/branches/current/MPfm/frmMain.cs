@@ -3661,7 +3661,7 @@ namespace MPfm
             // Set new position
             player.SetPosition(data.Percentage);
 
-            ///m_timerSongPosition.Start();
+            //m_timerSongPosition.Start();
 
             //// Set new position
             //uint newPosition = Player.SetPositionSentenceMS(data.Percentage);

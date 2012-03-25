@@ -36,7 +36,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the TagSize property.
         /// </summary>
-        private int m_tagSize = 0;
+        private int tagSize = 0;
         /// <summary>
         /// Defines the APE tag size (including the header if APEv2).
         /// This value excludes the APEv1/APEv2 footer size.
@@ -46,18 +46,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_tagSize;
+                return tagSize;
             }            
             set
             {
-                m_tagSize = value;
+                tagSize = value;
             }
         }
 
         /// <summary>
         /// Private value for the Title property.
         /// </summary>
-        private string m_title = string.Empty;
+        private string title = string.Empty;
         /// <summary>
         /// Music piece title, music work.
         /// </summary>
@@ -66,18 +66,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_title;
+                return title;
             }
             set
             {
-                m_title = value;
+                title = value;
             }
         }
 
         /// <summary>
         /// Private value for the Subtitle property.
         /// </summary>
-        private string m_subtitle = string.Empty;
+        private string subtitle = string.Empty;
         /// <summary>
         /// Title when the Title property contains the work or additional subtitle.
         /// </summary>
@@ -86,18 +86,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_subtitle;
+                return subtitle;
             }
             set
             {
-                m_subtitle = value;
+                subtitle = value;
             }
         }
 
         /// <summary>
         /// Private value for the Artist property.
         /// </summary>
-        private string m_artist = string.Empty;
+        private string artist = string.Empty;
         /// <summary>
         /// Performing artist, list of performing artists.
         /// </summary>
@@ -106,18 +106,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_artist;
+                return artist;
             }
             set
             {
-                m_artist = value;
+                artist = value;
             }
         }
 
         /// <summary>
         /// Private value for the Album property.
         /// </summary>
-        private string m_album = string.Empty;
+        private string album = string.Empty;
         /// <summary>
         /// Album name.
         /// </summary>
@@ -126,18 +126,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_album;
+                return album;
             }
             set
             {
-                m_album = value;
+                album = value;
             }
         }
 
         /// <summary>
         /// Private value for the DebutAlbum property.
         /// </summary>
-        private string m_debutAlbum = string.Empty;
+        private string debutAlbum = string.Empty;
         /// <summary>
         /// Debut album name.
         /// </summary>
@@ -146,18 +146,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_debutAlbum;
+                return debutAlbum;
             }
             set
             {
-                m_debutAlbum = value;
+                debutAlbum = value;
             }
         }
 
         /// <summary>
         /// Private value for the Publisher property.
         /// </summary>
-        private string m_publisher = string.Empty;
+        private string publisher = string.Empty;
         /// <summary>
         /// Record label or publisher.
         /// </summary>
@@ -166,18 +166,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_publisher;
+                return publisher;
             }
             set
             {
-                m_publisher = value;
+                publisher = value;
             }
         }
 
         /// <summary>
         /// Private value for the Conductor property.
         /// </summary>
-        private string m_conductor = string.Empty;
+        private string conductor = string.Empty;
         /// <summary>
         /// Conductor name.
         /// </summary>
@@ -186,18 +186,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_conductor;
+                return conductor;
             }
             set
             {
-                m_conductor = value;
+                conductor = value;
             }
         }
 
         /// <summary>
         /// Private value for the Conductor property.
         /// </summary>
-        private int m_track = 0;
+        private int track = 0;
         /// <summary>
         /// Track number, Track number/Total tracks number.
         /// </summary>
@@ -206,18 +206,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_track;
+                return track;
             }
             set
             {
-                m_track = value;
+                track = value;
             }
         }
 
         /// <summary>
         /// Private value for the Composer property.
         /// </summary>
-        private string m_composer = string.Empty;
+        private string composer = string.Empty;
         /// <summary>
         /// Name of the original composer, name of the original arranger.
         /// </summary>
@@ -226,18 +226,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_composer;
+                return composer;
             }
             set
             {
-                m_composer = value;
+                composer = value;
             }
         }
 
         /// <summary>
         /// Private value for the Comment property.
         /// </summary>
-        private string m_comment = string.Empty;
+        private string comment = string.Empty;
         /// <summary>
         /// User comment(s).
         /// </summary>
@@ -246,18 +246,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_comment;
+                return comment;
             }
             set
             {
-                m_comment = value;
+                comment = value;
             }
         }
 
         /// <summary>
         /// Private value for the Copyright property.
         /// </summary>
-        private string m_copyright = string.Empty;
+        private string copyright = string.Empty;
         /// <summary>
         /// Copyright holder.
         /// </summary>
@@ -266,18 +266,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_copyright;
+                return copyright;
             }
             set
             {
-                m_copyright = value;
+                copyright = value;
             }
         }
 
         /// <summary>
         /// Private value for the PublicationRight property.
         /// </summary>
-        private string m_publicationRight = string.Empty;
+        private string publicationRight = string.Empty;
         /// <summary>
         /// Publication right holder.
         /// </summary>
@@ -286,18 +286,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_publicationRight;
+                return publicationRight;
             }
             set
             {
-                m_publicationRight = value;
+                publicationRight = value;
             }
         }
 
         /// <summary>
         /// Private value for the File property.
         /// </summary>
-        private string m_file = string.Empty;
+        private string file = string.Empty;
         /// <summary>
         /// File location.
         /// </summary>
@@ -306,18 +306,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_file;
+                return file;
             }
             set
             {
-                m_file = value;
+                file = value;
             }
         }
 
         /// <summary>
         /// Private value for the EAN_UPC property.
         /// </summary>
-        private long m_EAN_UPC = 0;
+        private long ean_UPC = 0;
         /// <summary>
         /// EAN-13/UPC-A bar code identifier.
         /// </summary>
@@ -326,18 +326,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_EAN_UPC;
+                return ean_UPC;
             }
             set
             {
-                m_EAN_UPC = value;
+                ean_UPC = value;
             }
         }
 
         /// <summary>
         /// Private value for the ISBN property.
         /// </summary>
-        private int m_ISBN = 0;
+        private int isbn = 0;
         /// <summary>
         /// ISBN number with check digit.
         /// </summary>
@@ -346,18 +346,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_ISBN;
+                return isbn;
             }
             set
             {
-                m_ISBN = value;
+                isbn = value;
             }
         }
 
         /// <summary>
         /// Private value for the Catalog property.
         /// </summary>
-        private string m_catalog = string.Empty;
+        private string catalog = string.Empty;
         /// <summary>
         /// ISBN number with check digit.
         /// </summary>
@@ -366,18 +366,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_catalog;
+                return catalog;
             }
             set
             {
-                m_catalog = value;
+                catalog = value;
             }
         }
 
         /// <summary>
         /// Private value for the LC property.
         /// </summary>
-        private string m_lc = string.Empty;
+        private string lc = string.Empty;
         /// <summary>
         /// Label code.
         /// </summary>
@@ -386,18 +386,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_lc;
+                return lc;
             }
             set
             {
-                m_lc = value;
+                lc = value;
             }
         }
 
         /// <summary>
         /// Private value for the Year property.
         /// </summary>
-        private DateTime m_year = DateTime.MinValue;
+        private DateTime year = DateTime.MinValue;
         /// <summary>
         /// Release date.
         /// </summary>
@@ -406,18 +406,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_year;
+                return year;
             }
             set
             {
-                m_year = value;
+                year = value;
             }
         }
 
         /// <summary>
         /// Private value for the RecordDate property.
         /// </summary>
-        private DateTime m_recordDate = DateTime.MinValue;
+        private DateTime recordDate = DateTime.MinValue;
         /// <summary>
         /// Record date.
         /// </summary>
@@ -426,18 +426,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_recordDate;
+                return recordDate;
             }
             set
             {
-                m_recordDate = value;
+                recordDate = value;
             }
         }
 
         /// <summary>
         /// Private value for the RecordLocation property.
         /// </summary>
-        private string m_recordLocation = string.Empty;
+        private string recordLocation = string.Empty;
         /// <summary>
         /// Record location(s).
         /// </summary>
@@ -446,18 +446,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_recordLocation;
+                return recordLocation;
             }
             set
             {
-                m_recordLocation = value;
+                recordLocation = value;
             }
         }
 
         /// <summary>
         /// Private value for the Genre property.
         /// </summary>
-        private string m_genre = string.Empty;
+        private string genre = string.Empty;
         /// <summary>
         /// Genre(s).
         /// </summary>
@@ -466,18 +466,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_genre;
+                return genre;
             }
             set
             {
-                m_genre = value;
+                genre = value;
             }
         }
 
         /// <summary>
         /// Private value for the Index property.
         /// </summary>
-        private string m_index = string.Empty;
+        private string index = string.Empty;
         /// <summary>
         /// Indexes for quick access (index time). Can be a list of index times.
         /// </summary>
@@ -486,18 +486,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_index;
+                return index;
             }
             set
             {
-                m_index = value;
+                index = value;
             }
         }
 
         /// <summary>
         /// Private value for the Related property.
         /// </summary>
-        private string m_related = string.Empty;
+        private string related = string.Empty;
         /// <summary>
         /// Location of related information.
         /// </summary>
@@ -506,18 +506,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_related;
+                return related;
             }
             set
             {
-                m_related = value;
+                related = value;
             }
         }
 
         /// <summary>
         /// Private value for the Abstract property.
         /// </summary>
-        private string m_abstract = string.Empty;
+        private string _abstract = string.Empty;
         /// <summary>
         /// Abstract (no idea, don't ask me!).
         /// </summary>
@@ -526,18 +526,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_abstract;
+                return _abstract;
             }
             set
             {
-                m_abstract = value;
+                _abstract = value;
             }
         }
 
         /// <summary>
         /// Private value for the Language property.
         /// </summary>
-        private string m_language = string.Empty;
+        private string language = string.Empty;
         /// <summary>
         /// Used language(s) for music/spoken words.
         /// </summary>
@@ -546,18 +546,18 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_language;
+                return language;
             }
             set
             {
-                m_language = value;
+                language = value;
             }
         }
 
         /// <summary>
         /// Private value for the Bibliography property.
         /// </summary>
-        private string m_bibliography = string.Empty;
+        private string bibliography = string.Empty;
         /// <summary>
         /// Bibliography/Discography.
         /// </summary>
@@ -566,11 +566,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_bibliography;
+                return bibliography;
             }
             set
             {
-                m_bibliography = value;
+                bibliography = value;
             }
         }
 
@@ -579,7 +579,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the Dictionary property.
         /// </summary>
-        private Dictionary<string, string> m_dictionary = null;
+        private Dictionary<string, string> dictionary = null;
         /// <summary>
         /// List of key/values contained in the APE tag.
         /// </summary>
@@ -588,14 +588,14 @@ namespace MPfm.Sound
         {        
             get
             {
-                return m_dictionary;
+                return dictionary;
             }
         }
 
         /// <summary>
         /// Private value for the Version property.
         /// </summary>
-        private APETagVersion m_version = APETagVersion.Unknown;
+        private APETagVersion version = APETagVersion.Unknown;
         /// <summary>
         /// Defines the APE tag version (APEv1 or APEv2).
         /// Unknown if the APE tag was not found.
@@ -605,11 +605,11 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_version;
+                return version;
             }
             set
             {
-                m_version = value;
+                version = value;
             }
         }
 
@@ -619,7 +619,7 @@ namespace MPfm.Sound
         public APETag()
         {
             // Create dictionary
-            m_dictionary = new Dictionary<string, string>();
+            dictionary = new Dictionary<string, string>();
         }
     }
 

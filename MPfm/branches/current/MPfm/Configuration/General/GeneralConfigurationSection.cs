@@ -38,7 +38,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the KeyValue property.
         /// </summary>
-        private List<GeneralConfigurationKeyValue> m_keyValues;
+        private List<GeneralConfigurationKeyValue> keyValues;
         /// <summary>
         /// List of key/value pairs.
         /// </summary>
@@ -46,7 +46,7 @@ namespace MPfm
         {
             get
             {
-                return m_keyValues;
+                return keyValues;
             }
         }
 
@@ -56,7 +56,7 @@ namespace MPfm
         public GeneralConfigurationSection()
         {
             // Create list
-            m_keyValues = new List<GeneralConfigurationKeyValue>();
+            keyValues = new List<GeneralConfigurationKeyValue>();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the Query property.
         /// </summary>
-        private ControlsSongGridViewQueryConfigurationSection m_query;
+        private ControlsSongGridViewQueryConfigurationSection query;
         /// <summary>
         /// Defines the current query used in the SongGridView.
         /// </summary>
@@ -47,14 +47,14 @@ namespace MPfm
         {
             get
             {
-                return m_query;
+                return query;
             }
         }
 
         /// <summary>
         /// Private value for the Columns property.
         /// </summary>
-        private List<SongGridViewColumn> m_columns;
+        private List<SongGridViewColumn> columns;
         /// <summary>
         /// Defines the columns associated with the SongGridView control.
         /// </summary>
@@ -62,11 +62,11 @@ namespace MPfm
         {
             get
             {
-                return m_columns;
+                return columns;
             }
             set
             {
-                m_columns = value;
+                columns = value;
             }
         }
 
@@ -76,8 +76,8 @@ namespace MPfm
         public ControlsSongGridViewConfigurationSection()
         {
             // Create sections
-            m_query = new ControlsSongGridViewQueryConfigurationSection();
-            m_columns = new List<SongGridViewColumn>();
+            query = new ControlsSongGridViewQueryConfigurationSection();
+            columns = new List<SongGridViewColumn>();
         }
     }
 }
