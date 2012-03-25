@@ -119,8 +119,8 @@ namespace MPfm
             // Update combo box
             List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
             DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default)" };
-            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (low latency)" };
-            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Win7 only) *NOT RECOMMENDED*" };
+            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO" };
+            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Win7 only) *EXPERIMENTAL*" };
             drivers.Add(driverDirectSound);
             drivers.Add(driverASIO);
             //drivers.Add(driverWASAPI);
@@ -150,7 +150,7 @@ namespace MPfm
             RefreshAudioSettingsState();
 
             // Set flag
-            initializing = false;
+            initializing = false;            
         }
 
         #endregion
@@ -164,20 +164,12 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            if (e.CloseReason == CloseReason.ApplicationExitCall)
             {
-                e.Cancel = true;
-                this.Hide();
+                e.Cancel = false;
+                return;
             }
-        }
 
-        /// <summary>
-        /// Occurs when the user clicks on the Close button.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnClose_Click(object sender, EventArgs e)
-        {
             // Variables
             bool saveSettings = false;
 
@@ -186,13 +178,13 @@ namespace MPfm
             {
                 // Cancel
                 return;
-            }            
+            }
 
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
             // Get selected device
-            Device device = (Device)cboOutputDevices.SelectedItem;            
+            Device device = (Device)cboOutputDevices.SelectedItem;
 
             // Check if the settings have changed
             if (settingsChanged)
@@ -201,75 +193,79 @@ namespace MPfm
                 //if(driver.DriverType != Main.Config.Audio.DriverType ||
                 //   device.Name.ToUpper() != Main.Config.Audio.Device.Name.ToUpper())
                 //{
-                    // Yes they have really changed!
-                    // Have the new settings been tested?
-                    if (!settingsTested)
+                // Yes they have really changed!
+                // Have the new settings been tested?
+                if (audioSettingsState == AudioSettingsState.NotTested)
+                {
+                    // Display message
+                    DialogResult dialogResult = MessageBox.Show(this, "Warning: The audio settings hasn't been saved.\n\nClick OK to continue and exit the Settings window.\nClick Cancel to go back to the Settings window.", "Warning: Audio settings haven't been saved", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
                     {
-                        // Warn user
-                        DialogResult dialogResult = MessageBox.Show(this, "Warning: The new audio configuration hasn't been tested. Saving an incompatible configuration WILL crash the application.\nTo reset the application configuration, you must delete the MPfm configuration file (MPfm.Configuration.xml) in the MPfm application data folder (" + Main.ApplicationDataFolderPath + "). This will display the First Run screen again.\n\nClick YES to save and apply the untested configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and test your new configuration.", "Warning: New audio configuration untested", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-
-                        // Yes: Continue and save untested settings
-                        // No: Do not save new settings
-                        // Cancel: Go back and change settings
-                        if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-                        {
-                            // Cancel 
-                            return;
-                        }
-                        else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-                        {
-                            // Set save settings flag
-                            saveSettings = true;
-                        }
-                    }
-                    else if(settingsTested && !testSuccessful)
-                    {
-                        // The configuration has been tested but the audio test has failed
-                        MessageBox.Show("Error: You cannot apply an incompatible audio configuration because this will crash the application.\nPlease select a new audio configuration.", "Cannot apply an incompatible configuration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // Cancel 
+                        e.Cancel = true;
                         return;
                     }
-                    else if (settingsTested && testSuccessful)
-                    {                        
-                        // Warn user
-                        DialogResult dialogResult = MessageBox.Show(this, "Are you sure you wish to save and apply this new audio configuration?\n\nClick YES to save and apply the new configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and change the configuration.", "New audio configuration validation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                        // Yes: Continue and save tested settings
-                        // No: Do not save new settings
-                        // Cancel: Go back and change settings
-                        if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-                        {
-                            // Cancel 
-                            return;
-                        }
-                        else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-                        {
-                            // Set save settings flag
-                            saveSettings = true;
-                        }
+                }
+                else if (audioSettingsState == AudioSettingsState.Tested)
+                {
+                    // Display message
+                    DialogResult dialogResult = MessageBox.Show(this, "Warning: The audio settings hasn't been saved.\n\nClick OK to continue and exit the Settings window.\nClick Cancel to go back to the Settings window.", "Warning: Audio settings haven't been saved", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+                    {
+                        // Cancel 
+                        e.Cancel = true;
+                        return;
                     }
+                }
+                //else if (settingsTested && !testSuccessful)
+                //{
+                //    // The configuration has been tested but the audio test has failed
+                //    MessageBox.Show("Error: You cannot apply an incompatible audio configuration because this will crash the application.\nPlease select a new audio configuration.", "Cannot apply an incompatible configuration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return;
+                //}
+                //else if (settingsTested && testSuccessful)
+                //{
+                //    // Warn user
+                //    DialogResult dialogResult = MessageBox.Show(this, "Are you sure you wish to save and apply this new audio configuration?\n\nClick YES to save and apply the new configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and change the configuration.", "New audio configuration validation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                //    // Yes: Continue and save tested settings
+                //    // No: Do not save new settings
+                //    // Cancel: Go back and change settings
+                //    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+                //    {
+                //        // Cancel 
+                //        e.Cancel = true;
+                //        return;
+                //    }
+                //    else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                //    {
+                //        // Set save settings flag
+                //        saveSettings = true;
+                //    }
+                //}
                 //}
             }
 
             // Save new settings?
             if (saveSettings)
             {
-                // Save new configuration
-                SaveAudioConfig();
+                //// Save new configuration
+                ////SaveAudioConfig();
 
-                // Check if the player is playing
-                if (Main.Player.IsPlaying)
-                {
-                    // Stop playback
-                    Main.Stop();
-                }
+                //// Check if the player is playing
+                //if (Main.Player.IsPlaying)
+                //{
+                //    // Stop playback
+                //    Main.Stop();
+                //}
 
-                // Free device
-                Main.Player.FreeDevice();
+                //// Free device
+                //Main.Player.FreeDevice();
 
-                // Initialize new device
-                Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
-                Main.Player.BufferSize = (int)numericBufferSize.Value;
-                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
+                //// Initialize new device
+                //Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
+                //Main.Player.BufferSize = (int)numericBufferSize.Value;
+                //Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
 
                 //// Check if the device has been initialized
                 //if (!Main.Player.IsDeviceInitialized)
@@ -345,9 +341,23 @@ namespace MPfm
             settingsTested = false;
 
             // Hide form            
-            Main.BringToFront();
+            //Main.BringToFront();
             Main.Focus();
-            this.Close();
+            //this.Close();
+
+            e.Cancel = true;
+            this.Hide();
+            
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Close button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            
         }
 
         #endregion
@@ -796,15 +806,33 @@ namespace MPfm
                 Device defaultDevice = m_devicesDirectSound.FirstOrDefault(x => x.IsDefault);
             }
             else if (driver.DriverType == DriverType.ASIO)
-            {
+            {   
+                // Check the number of devices
+                if (m_devicesASIO.Count == 0)
+                {
+                    // Show warning and reset selection to DirectSound
+                    MessageBox.Show("No ASIO output devices were found on this system.", "No ASIO output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboDrivers.SelectedIndex = 0;
+                    return;
+                }
+
                 // Set combo box data source
                 cboOutputDevices.DataSource = m_devicesASIO;
 
                 // Find default device
-                Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);
+                Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);                
             }
             else if (driver.DriverType == DriverType.WASAPI)
             {
+                // Check the number of devices
+                if (m_devicesWASAPI.Count == 0)
+                {
+                    // Show warning and reset selection to DirectSound
+                    MessageBox.Show("No WASAPI output devices were found on this system.", "No WASAPI output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboDrivers.SelectedIndex = 0;
+                    return;
+                }
+
                 // Set combo box data source
                 cboOutputDevices.DataSource = m_devicesWASAPI;
 
@@ -951,7 +979,8 @@ namespace MPfm
                 Tracing.Log("End of audio settings test.");
             }
             else if (audioSettingsState == AudioSettingsState.Tested)
-            {
+            {                
+                SaveAudioConfig();
                 MessageBox.Show("The new audio settings has been applied and saved successfully.", "New audio settings saved successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

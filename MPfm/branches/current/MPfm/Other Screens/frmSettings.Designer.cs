@@ -980,7 +980,7 @@ namespace MPfm
             // 
             this.picAudioSettingsWarning.BackColor = System.Drawing.Color.Transparent;
             this.picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.tick;
-            this.picAudioSettingsWarning.Location = new System.Drawing.Point(6, 21);
+            this.picAudioSettingsWarning.Location = new System.Drawing.Point(6, 22);
             this.picAudioSettingsWarning.Name = "picAudioSettingsWarning";
             this.picAudioSettingsWarning.Size = new System.Drawing.Size(21, 23);
             this.picAudioSettingsWarning.TabIndex = 92;
@@ -1004,7 +1004,7 @@ namespace MPfm
             customFont20.UseEmbeddedFont = true;
             this.lblAudioSettingsWarning.CustomFont = customFont20;
             this.lblAudioSettingsWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAudioSettingsWarning.Location = new System.Drawing.Point(24, 20);
+            this.lblAudioSettingsWarning.Location = new System.Drawing.Point(24, 21);
             this.lblAudioSettingsWarning.Name = "lblAudioSettingsWarning";
             this.lblAudioSettingsWarning.Size = new System.Drawing.Size(595, 17);
             this.lblAudioSettingsWarning.TabIndex = 91;
@@ -1036,7 +1036,7 @@ namespace MPfm
             this.btnTestSaveAudioSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
             this.btnTestSaveAudioSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTestSaveAudioSettings.Location = new System.Drawing.Point(6, 50);
+            this.btnTestSaveAudioSettings.Location = new System.Drawing.Point(6, 48);
             this.btnTestSaveAudioSettings.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.btnTestSaveAudioSettings.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnTestSaveAudioSettings.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1075,7 +1075,7 @@ namespace MPfm
             this.btnResetToDefault.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnResetToDefault.Image = global::MPfm.Properties.Resources.cog;
             this.btnResetToDefault.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnResetToDefault.Location = new System.Drawing.Point(144, 50);
+            this.btnResetToDefault.Location = new System.Drawing.Point(144, 48);
             this.btnResetToDefault.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.btnResetToDefault.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnResetToDefault.MouseOverGradientColor1 = System.Drawing.Color.White;
@@ -1949,6 +1949,7 @@ namespace MPfm
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.toolTip.SetToolTip(this.btnClose, "Closes the Settings window.");
             this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // dialogOpenTheme
