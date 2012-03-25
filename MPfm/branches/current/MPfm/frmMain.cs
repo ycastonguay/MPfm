@@ -60,22 +60,22 @@ namespace MPfm
         // Private variables
         private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
-        private string m_configurationFilePath = string.Empty;
-        private string m_databaseFilePath = string.Empty;
-        private string m_logFilePath = string.Empty;
-        private string m_initOpenNodeArtist = string.Empty;
-        private string m_initOpenNodeArtistAlbum = string.Empty;
-        private string m_initOpenNodeAlbum = string.Empty;
-        private AudioFileFormat m_filterAudioFileFormat = AudioFileFormat.Unknown;
-        private bool m_songPositionChanging = false;
-        private SongQuery m_querySongBrowser = null;
+        private string configurationFilePath = string.Empty;
+        private string databaseFilePath = string.Empty;
+        private string logFilePath = string.Empty;
+        private string initOpenNodeArtist = string.Empty;
+        private string initOpenNodeArtistAlbum = string.Empty;
+        private string initOpenNodeAlbum = string.Empty;
+        private AudioFileFormat filterAudioFileFormat = AudioFileFormat.Unknown;
+        private bool songPositionChanging = false;
+        private SongQuery querySongBrowser = null;
 
         #region Properties
          
         /// <summary>
         /// Private value for the ApplicationDataFolderPath property.
         /// </summary>
-        private string m_applicationDataFolderPath = string.Empty;
+        private string applicationDataFolderPath = string.Empty;
         /// <summary>
         /// Indicates the application data folder path.
         /// </summary>
@@ -83,14 +83,14 @@ namespace MPfm
         {
             get
             {
-                return m_applicationDataFolderPath;
+                return applicationDataFolderPath;
             }
         }
 
         /// <summary>
         /// Private value for the PeakFileFolderPath property.
         /// </summary>
-        private string m_peakFileFolderPath = string.Empty;
+        private string peakFileFolderPath = string.Empty;
         /// <summary>
         /// Indicates the peak file folder path.
         /// </summary>
@@ -98,11 +98,11 @@ namespace MPfm
         {
             get
             {
-                return m_peakFileFolderPath;
+                return peakFileFolderPath;
             }
             set
             {
-                m_peakFileFolderPath = value;
+                peakFileFolderPath = value;
                 waveFormMarkersLoops.PeakFileDirectory = value;
             }
         }
@@ -110,7 +110,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the IsInitDone property.
         /// </summary>
-        private bool m_isInitDone = false;
+        private bool isInitDone = false;
         /// <summary>
         /// Defines if the initialization process is done.
         /// </summary>
@@ -118,7 +118,7 @@ namespace MPfm
         {
             get
             {
-                return m_isInitDone;
+                return isInitDone;
             }
         }
 
@@ -187,12 +187,12 @@ namespace MPfm
         /// <summary>
         /// Timer for updating song position.
         /// </summary>
-        public System.Windows.Forms.Timer m_timerSongPosition = null;
+        public System.Windows.Forms.Timer timerSongPosition = null;
 
         /// <summary>
         /// Private value for the Library property.
         /// </summary>
-        private MPfm.Library.Library m_library = null;
+        private MPfm.Library.Library library = null;
         /// <summary>
         /// The Library property contains the audio file library cache and updates the library.
         /// </summary>
@@ -200,14 +200,14 @@ namespace MPfm
         {
             get
             {
-                return m_library;
+                return library;
             }
         }
 
         /// <summary>
         /// Private value for the Player property.
         /// </summary>
-        private MPfm.Player.Player m_player = null;
+        private MPfm.Player.Player player = null;
         /// <summary>
         /// This is the playback engine for MPfm.
         /// </summary>
@@ -215,14 +215,14 @@ namespace MPfm
         {
             get
             {
-                return m_player;
+                return player;
             }
         }
 
         /// <summary>
         /// Private value for the Config property.
         /// </summary>
-        private MPfmConfiguration m_config = null;
+        private MPfmConfiguration config = null;
         /// <summary>
         /// This contains the configuration values for MPfm.
         /// </summary>
@@ -230,7 +230,7 @@ namespace MPfm
         {
             get
             {
-                return m_config;
+                return config;
             }
         }
 
@@ -265,39 +265,39 @@ namespace MPfm
                 // Get application data folder path
                 // Vista/Windows7: C:\Users\%username%\AppData\Roaming\
                 // XP: C:\Documents and Settings\%username%\Application Data\
-                m_applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
+                applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
 
                 // Check if the folder exists
-                if (!Directory.Exists(m_applicationDataFolderPath))
+                if (!Directory.Exists(applicationDataFolderPath))
                 {
                     // Create directory                    
                     frmSplash.SetStatus("Creating application data folder...");
-                    Directory.CreateDirectory(m_applicationDataFolderPath);
+                    Directory.CreateDirectory(applicationDataFolderPath);
                 }
 
                 // Set paths
-                m_configurationFilePath = m_applicationDataFolderPath + "\\MPfm.Configuration.xml";
-                m_databaseFilePath = m_applicationDataFolderPath + "\\MPfm.Database.db";
-                m_logFilePath = m_applicationDataFolderPath + "\\MPfm.Log.txt";
+                configurationFilePath = applicationDataFolderPath + "\\MPfm.Configuration.xml";
+                databaseFilePath = applicationDataFolderPath + "\\MPfm.Database.db";
+                logFilePath = applicationDataFolderPath + "\\MPfm.Log.txt";
 
                 // Set control paths
-                waveFormMarkersLoops.PeakFileDirectory = m_peakFileFolderPath + "\\";
+                waveFormMarkersLoops.PeakFileDirectory = peakFileFolderPath + "\\";
 
                 // Initialize tracing
                 frmSplash.SetStatus("Main form init -- Initializing tracing...");
             
                 // Check if trace file exists
-                if (!File.Exists(m_logFilePath))
+                if (!File.Exists(logFilePath))
                 {
                     // Create file
-                    fileTracing = File.Create(m_logFilePath);
+                    fileTracing = File.Create(logFilePath);
                 }
                 else
                 {
                     try
                     {
                         // Open file
-                        fileTracing = File.Open(m_logFilePath, FileMode.Append);
+                        fileTracing = File.Open(logFilePath, FileMode.Append);
                     }
                     catch
                     {
@@ -317,10 +317,10 @@ namespace MPfm
                 Tracing.LogWithoutTimeStamp("");
 
                 // Output paths
-                Tracing.Log("Main form init -- Application data folder: " + m_applicationDataFolderPath);
-                Tracing.Log("Main form init -- Configuration file path: " + m_configurationFilePath);
-                Tracing.Log("Main form init -- Database file path: " + m_databaseFilePath);                
-                Tracing.Log("Main form init -- Log file path: " + m_logFilePath);                
+                Tracing.Log("Main form init -- Application data folder: " + applicationDataFolderPath);
+                Tracing.Log("Main form init -- Configuration file path: " + configurationFilePath);
+                Tracing.Log("Main form init -- Database file path: " + databaseFilePath);                
+                Tracing.Log("Main form init -- Log file path: " + logFilePath);                
 
                 // Register BASS.NET with key
                 Tracing.Log("Main form init -- Registering BASS.NET...");
@@ -329,13 +329,13 @@ namespace MPfm
                 // Create configuration with default settings\
                 Tracing.Log("Main form init -- Loading configuration...");
                 frmSplash.SetStatus("Loading configuration...");                
-                m_config = new MPfmConfiguration(m_configurationFilePath);
+                config = new MPfmConfiguration(configurationFilePath);
 
                 // Check if the configuration file exists
-                if (File.Exists(m_configurationFilePath))
+                if (File.Exists(configurationFilePath))
                 {
                     // Load configuration values
-                    m_config.Load();
+                    config.Load();
 
                     // Load peak file options
                     bool? peakFileUseCustomDirectory = Config.GetKeyValueGeneric<bool>("PeakFile_UseCustomDirectory");
@@ -350,13 +350,13 @@ namespace MPfm
                     else
                     {
                         // Set default peak file directory
-                        PeakFileFolderPath = m_applicationDataFolderPath + "\\Peak Files\\";
+                        PeakFileFolderPath = applicationDataFolderPath + "\\Peak Files\\";
                     }
                 }
                 else
                 {
                     // Set default peak file directory
-                    PeakFileFolderPath = m_applicationDataFolderPath + "\\Peak Files\\";
+                    PeakFileFolderPath = applicationDataFolderPath + "\\Peak Files\\";
                 }
 
                 // Check if the peak folder exists
@@ -370,11 +370,11 @@ namespace MPfm
                 try
                 {
                     // Check if the database file exists
-                    if (!File.Exists(m_databaseFilePath))
+                    if (!File.Exists(databaseFilePath))
                     {                    
                         // Create database file
                         frmSplash.SetStatus("Creating database file...");
-                        MPfm.Library.Library.CreateDatabaseFile(m_databaseFilePath);
+                        MPfm.Library.Library.CreateDatabaseFile(databaseFilePath);
                     }
                 }
                 catch (Exception ex)
@@ -385,7 +385,7 @@ namespace MPfm
                 try
                 {
                     // Check current database version
-                    string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(m_databaseFilePath);
+                    string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(databaseFilePath);
 
                     // Extract major/minor
                     string[] currentVersionSplit = databaseVersion.Split('.');
@@ -409,7 +409,7 @@ namespace MPfm
                     }
 
                     // Check if the database needs to be updated
-                    MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(m_databaseFilePath);
+                    MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(databaseFilePath);
                 }
                 catch (Exception ex)
                 {
@@ -428,8 +428,8 @@ namespace MPfm
                 Tracing.Log("Main form init -- Loading player...");
                 frmSplash.SetStatus("Loading player...");
 
-                m_player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
-                m_player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(m_player_OnPlaylistIndexChanged);                
+                player = new MPfm.Player.Player(new Device(), Config.Audio.Mixer.Frequency, Config.Audio.Mixer.BufferSize, Config.Audio.Mixer.UpdatePeriod, false);
+                player.OnPlaylistIndexChanged += new Player.Player.PlaylistIndexChanged(player_OnPlaylistIndexChanged);                
             }
             catch
             {
@@ -497,13 +497,13 @@ namespace MPfm
                 }
 
                 // Initialize device
-                m_player.InitializeDevice(device, Config.Audio.Mixer.Frequency);
+                player.InitializeDevice(device, Config.Audio.Mixer.Frequency);
 
                 // Create timer
-                m_timerSongPosition = new System.Windows.Forms.Timer();
-                m_timerSongPosition.Interval = 10;
-                m_timerSongPosition.Tick += new EventHandler(m_timerSongPosition_Tick);
-                m_timerSongPosition.Enabled = true;
+                timerSongPosition = new System.Windows.Forms.Timer();
+                timerSongPosition.Interval = 10;
+                timerSongPosition.Tick += new EventHandler(timerSongPosition_Tick);
+                timerSongPosition.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -513,7 +513,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the player device.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the player device.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Main form init -- Player init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application
@@ -526,7 +526,7 @@ namespace MPfm
                 // Load library
                 Tracing.Log("Main form init -- Loading library...");
                 frmSplash.SetStatus("Loading library...");                
-                m_library = new Library.Library(m_databaseFilePath);
+                library = new Library.Library(databaseFilePath);
             }
             catch (Exception ex)
             {
@@ -536,7 +536,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the library.\nYou can delete the MPfm.Database.db file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the library.\nYou can delete the MPfm.Database.db file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Main form init -- Library init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
                 
                 // Exit application
@@ -576,7 +576,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while initializing the UI.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while initializing the UI.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the configuration and display the First Run screen.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing player!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("UI error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
 
                 // Exit application
@@ -603,7 +603,7 @@ namespace MPfm
 
                 // Load other configuration options                
                 notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
-                m_timerSongPosition.Interval = (Config.GetKeyValueGeneric<int>("PositionUpdateFrequency").HasValue) ? Config.GetKeyValueGeneric<int>("PositionUpdateFrequency").Value : 10;
+                timerSongPosition.Interval = (Config.GetKeyValueGeneric<int>("PositionUpdateFrequency").HasValue) ? Config.GetKeyValueGeneric<int>("PositionUpdateFrequency").Value : 10;
                 timerUpdateOutputMeter.Interval = (Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency").HasValue) ? Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency").Value : 20;
                 faderVolume.Value = Config.Audio.Mixer.Volume;
                 lblVolume.Text = Config.Audio.Mixer.Volume + " %";
@@ -614,7 +614,7 @@ namespace MPfm
                 EnableTooltips(showTooltips);
 
                 // Reset song query
-                m_querySongBrowser = new SongQuery();
+                querySongBrowser = new SongQuery();
 
                 // Get query if available
                 string queryArtistName = Config.Controls.SongGridView.Query.ArtistName;
@@ -737,7 +737,7 @@ namespace MPfm
                 else if (currentNodeType == "Artist")
                 {
                     // Expand the AllArtists node
-                    m_initOpenNodeArtist = queryArtistName;
+                    initOpenNodeArtist = queryArtistName;
                     nodeAllArtists.Expand();
 
                     // Can't declare init done yet since background thread is running
@@ -745,14 +745,14 @@ namespace MPfm
                 else if (currentNodeType == "Album")
                 {
                     // Expand the AllAlbums node                
-                    m_initOpenNodeAlbum = queryAlbumTitle;
+                    initOpenNodeAlbum = queryAlbumTitle;
                     nodeAllAlbums.Expand();
                 }
                 else if (currentNodeType == "ArtistAlbum")
                 {
                     // Expand the AllArtists node
-                    m_initOpenNodeArtist = queryArtistName;
-                    m_initOpenNodeArtistAlbum = queryAlbumTitle;
+                    initOpenNodeArtist = queryArtistName;
+                    initOpenNodeArtistAlbum = queryAlbumTitle;
                     nodeAllArtists.Expand();
 
                     // Can't declare init done yet since background thread is running
@@ -785,7 +785,7 @@ namespace MPfm
 
                 // Display message box with error
                 this.TopMost = true;
-                MessageBox.Show("There was an error while applying the configuration.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + m_applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error while applying the configuration.\nYou can delete the MPfm.Configuration.xml file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tracing.Log("Main form init -- Configuration apply error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
 
                 // Exit application
@@ -976,7 +976,7 @@ namespace MPfm
         public void SetInitDone()
         {
             // Set initialization boolean
-            m_isInitDone = true;
+            isInitDone = true;
 
             Tracing.Log("Main form init -- Initialization successful!");
             frmSplash.SetStatus("Initialization successful!");
@@ -999,8 +999,8 @@ namespace MPfm
         private void timerUpdateOutputMeter_Tick(object sender, EventArgs e)
         {            
             // Check for valid objects
-            if (m_player == null || !m_player.IsPlaying ||
-                m_player.Playlist == null || m_player.Playlist.CurrentItem == null || m_player.Playlist.CurrentItem.Channel == null)
+            if (player == null || !player.IsPlaying ||
+                player.Playlist == null || player.Playlist.CurrentItem == null || player.Playlist.CurrentItem.Channel == null)
             {
                 return;
             }
@@ -1009,7 +1009,7 @@ namespace MPfm
             float maxR = 0f;
 
             // length of a 20ms window in bytes
-            int length20ms = (int)m_player.MixerChannel.Seconds2Bytes2(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
+            int length20ms = (int)player.MixerChannel.Seconds2Bytes2(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
             // the number of 32-bit floats required (since length is in bytes!)
             int l4 = length20ms / 4; // 32-bit = 4 bytes
 
@@ -1021,11 +1021,11 @@ namespace MPfm
             {
                 // Use the GetMixerData method instead, so we don't "steal" data from the decode buffer
                 //length = m_player.MainChannel.GetMixerData(sampleData, length20ms);
-                length = m_player.FXChannel.GetMixerData(sampleData, length20ms);
+                length = player.FXChannel.GetMixerData(sampleData, length20ms);
             }
             else
             {
-                length = m_player.MixerChannel.GetData(sampleData, length20ms);
+                length = player.MixerChannel.GetData(sampleData, length20ms);
             }
             
 
@@ -1085,11 +1085,11 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        public void m_timerSongPosition_Tick(object sender, EventArgs e)
+        public void timerSongPosition_Tick(object sender, EventArgs e)
         {            
             // Check for valid objects
-            if (m_player == null || !m_player.IsPlaying ||
-                m_player.Playlist == null || m_player.Playlist.CurrentItem == null || m_player.Playlist.CurrentItem.Channel == null)
+            if (player == null || !player.IsPlaying ||
+                player.Playlist == null || player.Playlist.CurrentItem == null || player.Playlist.CurrentItem.Channel == null)
             {
                 return;
             }
@@ -1097,14 +1097,14 @@ namespace MPfm
             try
             {
                 // Get position
-                long positionBytes = m_player.GetPosition();
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)m_player.Playlist.CurrentItem.AudioFile.SampleRate);
+                long positionBytes = player.GetPosition();
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
                 string position = Conversion.MillisecondsToTimeString((ulong)positionMS);                
 
                 // Set UI            
                 lblCurrentPosition.Text = position;                
-                miTraySongPosition.Text = "[ " + position + " / " + m_player.Playlist.CurrentItem.LengthString + " ]";
+                miTraySongPosition.Text = "[ " + position + " / " + player.Playlist.CurrentItem.LengthString + " ]";
 
                 // Set position in the wave form display
                 if (!waveFormMarkersLoops.IsLoading)
@@ -1113,10 +1113,10 @@ namespace MPfm
                 }
 
                 // Update the song position
-                if (!m_songPositionChanging)
+                if (!songPositionChanging)
                 {
                     // Get ratio
-                    float ratio = (float)positionSamples / (float)m_player.Playlist.CurrentItem.LengthSamples;
+                    float ratio = (float)positionSamples / (float)player.Playlist.CurrentItem.LengthSamples;
                     trackPosition.Value = Convert.ToInt32(ratio * 1000);
 
                     // Set time on seek control
@@ -1135,7 +1135,7 @@ namespace MPfm
         /// Updates the UI.
         /// </summary>
         /// <param name="data">Event data</param>
-        public void m_player_OnPlaylistIndexChanged(Player.PlayerPlaylistIndexChangedData data)
+        public void player_OnPlaylistIndexChanged(Player.PlayerPlaylistIndexChangedData data)
         {
             // Declare variables
             AudioFile audioFileDatabase = null;
@@ -1161,7 +1161,7 @@ namespace MPfm
                 {
                     // Refresh controls
                     btnAddMarker.Enabled = false;
-                    m_timerSongPosition.Enabled = false;
+                    timerSongPosition.Enabled = false;
                     waveFormMarkersLoops.Clear();
                     RefreshSongControls();
                     RefreshMarkers();
@@ -1174,13 +1174,13 @@ namespace MPfm
                     RefreshSongInformation();
 
                     // Set the play icon in the song browser                
-                    RefreshSongBrowserPlayIcon(m_player.Playlist.CurrentItem.AudioFile.Id);
+                    RefreshSongBrowserPlayIcon(player.Playlist.CurrentItem.AudioFile.Id);
 
                     // Refresh play icon in playlist                    
-                    formPlaylist.RefreshPlaylistPlayIcon(m_player.Playlist.CurrentItem.Id);
+                    formPlaylist.RefreshPlaylistPlayIcon(player.Playlist.CurrentItem.Id);
 
                     // Set next song in configuration                                    
-                    Config.Controls.SongGridView.Query.AudioFileId = m_player.Playlist.CurrentItem.AudioFile.Id;
+                    Config.Controls.SongGridView.Query.AudioFileId = player.Playlist.CurrentItem.AudioFile.Id;
 
                     // Refresh loops & markers
                     RefreshMarkers();
@@ -1190,14 +1190,14 @@ namespace MPfm
                     if (audioFileDatabase != null)
                     {
                         // Update the new song in the database (in case the metadata has changed)
-                        Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
+                        Library.Gateway.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);
 
                         // Refresh play count
-                        SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == m_player.Playlist.CurrentItem.AudioFile.Id);
+                        SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == player.Playlist.CurrentItem.AudioFile.Id);
                         if (item != null)
                         {
                             // Set updated data
-                            AudioFile updatedAudioFile = Library.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+                            AudioFile updatedAudioFile = Library.SelectAudioFile(player.Playlist.CurrentItem.AudioFile.Id);
                             item.AudioFile = updatedAudioFile;
                         }
                     }
@@ -1261,13 +1261,13 @@ namespace MPfm
             e.Cancel = false;
 
             // Close player if not null
-            if (m_player != null)
+            if (player != null)
             {
                 // Stop playback if necessary
-                if (m_player.IsPlaying)
+                if (player.IsPlaying)
                 {
                     // Stop playback
-                    m_player.Stop();
+                    player.Stop();
                 }
 
                 // Check if a wave form is generating
@@ -1278,7 +1278,7 @@ namespace MPfm
                 }
 
                 // Release the sound system from memory
-                m_player.Dispose();
+                player.Dispose();
             }
         }
         
@@ -1446,7 +1446,7 @@ namespace MPfm
             RefreshLoops();
 
             // Start timer
-            m_timerSongPosition.Enabled = true;
+            timerSongPosition.Enabled = true;
 
             // Make sure the user cannot add markers and loops
             btnAddLoop.Enabled = false;
@@ -1705,29 +1705,29 @@ namespace MPfm
         private void btnPause_Click(object sender, EventArgs e)
         {
             // Validate player
-            if (m_player == null || m_player.Playlist == null || !m_player.IsPlaying)
+            if (player == null || player.Playlist == null || !player.IsPlaying)
             {
                 return;
             }
 
             // Check pause status
-            if (m_player.IsPaused)
+            if (player.IsPaused)
             {
                 btnPause.Checked = false;
                 miTrayPause.Checked = false;
-                m_timerSongPosition.Enabled = true;
+                timerSongPosition.Enabled = true;
                 timerUpdateOutputMeter.Enabled = true;
             }
             else
             {
                 btnPause.Checked = true;
                 miTrayPause.Checked = true;
-                m_timerSongPosition.Enabled = false;
+                timerSongPosition.Enabled = false;
                 timerUpdateOutputMeter.Enabled = false;
             }
 
             // Set pause
-            m_player.Pause();
+            player.Pause();
         }
 
         /// <summary>
@@ -1750,13 +1750,13 @@ namespace MPfm
         private void btnNextSong_Click(object sender, EventArgs e)
         {
             // Validate player
-            if (m_player == null || m_player.Playlist == null || !m_player.IsPlaying)
+            if (player == null || player.Playlist == null || !player.IsPlaying)
             {
                 return;
             }
 
             // Skip to next song in player
-            m_player.Next();
+            player.Next();
 
             // Refresh controls
             RefreshSongControls();
@@ -1773,13 +1773,13 @@ namespace MPfm
         private void btnPreviousSong_Click(object sender, EventArgs e)
         {
             // Validate player
-            if (m_player == null || m_player.Playlist == null || !m_player.IsPlaying)
+            if (player == null || player.Playlist == null || !player.IsPlaying)
             {
                 return;
             }
 
             // Go to previous song in player
-            m_player.Previous();
+            player.Previous();
 
             // Refresh controls
             RefreshSongControls();
@@ -1796,17 +1796,17 @@ namespace MPfm
         private void btnRepeat_Click(object sender, EventArgs e)
         {
             // Cycle through the repeat types
-            if (m_player.RepeatType == RepeatType.Off)
+            if (player.RepeatType == RepeatType.Off)
             {
-                m_player.RepeatType = RepeatType.Playlist;
+                player.RepeatType = RepeatType.Playlist;
             }
-            else if (m_player.RepeatType == RepeatType.Playlist)
+            else if (player.RepeatType == RepeatType.Playlist)
             {
-                m_player.RepeatType = RepeatType.Song;
+                player.RepeatType = RepeatType.Song;
             }
             else
             {
-                m_player.RepeatType = RepeatType.Off;
+                player.RepeatType = RepeatType.Off;
             }
 
             // Update repeat button
@@ -1935,14 +1935,14 @@ namespace MPfm
             if (peakFileDisplayWarning.HasValue && peakFileDisplayWarning.Value && peakFileDisplayWarningThreshold.HasValue)
             {
                 // Check peak file directory size
-                long size = PeakFile.CheckDirectorySize(m_peakFileFolderPath);
+                long size = PeakFile.CheckDirectorySize(peakFileFolderPath);
 
                 // Check free space
                 long freeSpace = 0;
                 try
                 {
                     // Get drive info
-                    DriveInfo driveInfo = new DriveInfo(m_peakFileFolderPath[0] + ":");
+                    DriveInfo driveInfo = new DriveInfo(peakFileFolderPath[0] + ":");
                     freeSpace = driveInfo.AvailableFreeSpace;
                 }
                 catch
@@ -2087,16 +2087,16 @@ namespace MPfm
             TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibrary.SelectedNode.Tag;           
 
             // Set the current song browser query from the selected node metadata            
-            m_querySongBrowser = metadata.Query;
+            querySongBrowser = metadata.Query;
 
             // Set config
-            Config.Controls.SongGridView.Query.ArtistName = m_querySongBrowser.ArtistName;
-            Config.Controls.SongGridView.Query.AlbumTitle = m_querySongBrowser.AlbumTitle;
-            Config.Controls.SongGridView.Query.PlaylistId = m_querySongBrowser.PlaylistId;
+            Config.Controls.SongGridView.Query.ArtistName = querySongBrowser.ArtistName;
+            Config.Controls.SongGridView.Query.AlbumTitle = querySongBrowser.AlbumTitle;
+            Config.Controls.SongGridView.Query.PlaylistId = querySongBrowser.PlaylistId;
             Config.Save();
 
             // Refresh song browser
-            RefreshSongBrowser(m_querySongBrowser);
+            RefreshSongBrowser(querySongBrowser);
         }
 
         /// <summary>
@@ -2113,15 +2113,15 @@ namespace MPfm
             // Get query type
             if (query.Type == SongQueryType.Album)
             {
-                audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(filterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, query.AlbumTitle, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.Artist)
             {
-                audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(filterAudioFileFormat, orderBy, orderByAscending, query.ArtistName, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.All)
             {
-                audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
+                audioFiles = Library.SelectAudioFiles(filterAudioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, txtSearch.Text);
             }
             else if (query.Type == SongQueryType.None)
             {
@@ -2149,7 +2149,7 @@ namespace MPfm
                 {
                     // Update the album art in an another thread
                     //workerAlbumArt.RunWorkerAsync(m_player.Playlist.CurrentItem.FilePath);
-                    workerAlbumArt.RunWorkerAsync(m_player.Playlist.CurrentItem.AudioFile.FilePath);
+                    workerAlbumArt.RunWorkerAsync(player.Playlist.CurrentItem.AudioFile.FilePath);
                 }
                 catch
                 {
@@ -2171,30 +2171,30 @@ namespace MPfm
                 //}
 
                 // Set metadata and file path labels
-                lblCurrentArtistName.Text = m_player.Playlist.CurrentItem.AudioFile.ArtistName;
-                lblCurrentAlbumTitle.Text = m_player.Playlist.CurrentItem.AudioFile.AlbumTitle;
-                lblCurrentSongTitle.Text = m_player.Playlist.CurrentItem.AudioFile.Title;
-                lblCurrentFilePath.Text = m_player.Playlist.CurrentItem.AudioFile.FilePath;
-                lblLength.Text = m_player.Playlist.CurrentItem.LengthString;
+                lblCurrentArtistName.Text = player.Playlist.CurrentItem.AudioFile.ArtistName;
+                lblCurrentAlbumTitle.Text = player.Playlist.CurrentItem.AudioFile.AlbumTitle;
+                lblCurrentSongTitle.Text = player.Playlist.CurrentItem.AudioFile.Title;
+                lblCurrentFilePath.Text = player.Playlist.CurrentItem.AudioFile.FilePath;
+                lblLength.Text = player.Playlist.CurrentItem.LengthString;
 
                 // Set tray menu metadata
-                miTrayArtistName.Text = m_player.Playlist.CurrentItem.AudioFile.ArtistName;
-                miTrayAlbumTitle.Text = m_player.Playlist.CurrentItem.AudioFile.AlbumTitle;
-                miTraySongTitle.Text = m_player.Playlist.CurrentItem.AudioFile.Title;
+                miTrayArtistName.Text = player.Playlist.CurrentItem.AudioFile.ArtistName;
+                miTrayAlbumTitle.Text = player.Playlist.CurrentItem.AudioFile.AlbumTitle;
+                miTraySongTitle.Text = player.Playlist.CurrentItem.AudioFile.Title;
 
                 // Set format labels
-                lblSoundFormat.Text = Path.GetExtension(m_player.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();
-                lblBitrate.Text = m_player.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
-                lblFrequency.Text = m_player.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
+                lblSoundFormat.Text = Path.GetExtension(player.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();
+                lblBitrate.Text = player.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
+                lblFrequency.Text = player.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
 
                 // Get length
-                long length = m_player.Playlist.CurrentItem.Channel.GetLength();
+                long length = player.Playlist.CurrentItem.Channel.GetLength();
 
                 // Divide by 2 (floating point)
                 length /= 2;                
 
                 // Check if this is a FLAC file over 44100Hz
-                if (m_player.Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && m_player.Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+                if (player.Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && player.Playlist.CurrentItem.AudioFile.SampleRate > 44100)
                 {
                     // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                     length = (long)((float)length * 1.5f);
@@ -2204,7 +2204,7 @@ namespace MPfm
                 waveFormMarkersLoops.Length = length;
 
                 // Load the wave form                
-                waveFormMarkersLoops.LoadWaveForm(m_player.Playlist.CurrentItem.AudioFile.FilePath);
+                waveFormMarkersLoops.LoadWaveForm(player.Playlist.CurrentItem.AudioFile.FilePath);
             }
             catch
             {
@@ -2321,7 +2321,7 @@ namespace MPfm
             nodeAllSongs.SelectedImageIndex = 12;
             nodeAllSongs.Tag = new TreeLibraryNodeMetadata(TreeLibraryNodeType.AllSongs, new SongQuery());
 
-            if (m_querySongBrowser.Type == SongQueryType.None)
+            if (querySongBrowser.Type == SongQueryType.None)
             {
                 selectedNode = nodeAllSongs;
             }
@@ -2379,7 +2379,7 @@ namespace MPfm
             string repeatSong = "Repeat (Song)";
 
             // Display the repeat type
-            if (m_player.RepeatType == RepeatType.Playlist)
+            if (player.RepeatType == RepeatType.Playlist)
             {
                 btnRepeat.Text = repeatPlaylist;
                 btnRepeat.Checked = true;
@@ -2387,7 +2387,7 @@ namespace MPfm
                 miTrayRepeat.Text = repeatPlaylist;
                 miTrayRepeat.Checked = true;
             }
-            else if (m_player.RepeatType == RepeatType.Song)
+            else if (player.RepeatType == RepeatType.Song)
             {
                 btnRepeat.Text = repeatSong;
                 btnRepeat.Checked = true;
@@ -2433,7 +2433,7 @@ namespace MPfm
         public void Play()
         {
             // Start playback
-            m_player.Play();
+            player.Play();
 
             // Refresh song information
             RefreshSongInformation();
@@ -2453,14 +2453,14 @@ namespace MPfm
             btnAddLoop.Enabled = true;
 
             // Start song position timer
-            m_timerSongPosition.Enabled = true;
+            timerSongPosition.Enabled = true;
 
             // Check if the audio file exists in the database
-            AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(m_player.Playlist.CurrentItem.AudioFile.Id);
+            AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(player.Playlist.CurrentItem.AudioFile.Id);
             if(audioFileDatabase != null)
             {
                 // Update the first audio file in the database (in case the metadata has changed)
-                Library.Gateway.UpdateAudioFile(m_player.Playlist.CurrentItem.AudioFile);
+                Library.Gateway.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);
             }
 
             // Refresh warning
@@ -2487,28 +2487,28 @@ namespace MPfm
                 if (query.Type == SongQueryType.Album)
                 {
                     // Generate an artist/album playlist and start playback
-                    audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
+                    audioFiles = Library.SelectAudioFiles(filterAudioFileFormat, string.Empty, true, query.ArtistName, query.AlbumTitle);                        
                 }
                 else if (query.Type == SongQueryType.Artist)
                 {
                     // Generate an artist playlist and start playback                                                                        
-                    audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat, string.Empty, true, query.ArtistName);                        
+                    audioFiles = Library.SelectAudioFiles(filterAudioFileFormat, string.Empty, true, query.ArtistName);                        
                 }
                 else if (query.Type == SongQueryType.All)
                 {
                     // Generate a playlist with all the library and start playback
-                    audioFiles = Library.SelectAudioFiles(m_filterAudioFileFormat);                        
+                    audioFiles = Library.SelectAudioFiles(filterAudioFileFormat);                        
                 }
 
                 // Clear playlist and add songs
-                m_player.Playlist.Clear();
-                m_player.Playlist.AddItems(audioFiles);
+                player.Playlist.Clear();
+                player.Playlist.AddItems(audioFiles);
 
                 // Set initial item
                 if (audioFileId != Guid.Empty)
                 {
                     // Set current item
-                    m_player.Playlist.GoTo(audioFileId);
+                    player.Playlist.GoTo(audioFileId);
                 }
 
                 // Start playback
@@ -2532,7 +2532,7 @@ namespace MPfm
             }
 
             // Play selected song
-            Play(m_querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
+            Play(querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
         } 
 
         /// <summary>
@@ -2541,7 +2541,7 @@ namespace MPfm
         public void Stop()
         {
             // Validate player
-            if(m_player == null || m_player.Playlist == null || !m_player.IsPlaying)
+            if(player == null || player.Playlist == null || !player.IsPlaying)
             {
                 return;
             }
@@ -2554,7 +2554,7 @@ namespace MPfm
             }
 
             // Stop song
-            m_player.Stop();
+            player.Stop();
 
             // Refresh controls
             btnAddMarker.Enabled = false;
@@ -2576,7 +2576,7 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void trackPosition_MouseDown(object sender, MouseEventArgs e)
         {
-            m_songPositionChanging = true;
+            songPositionChanging = true;
         }
 
         /// <summary>
@@ -2587,8 +2587,8 @@ namespace MPfm
         private void trackPosition_MouseUp(object sender, MouseEventArgs e)
         {
             // Validate player
-            if (m_player == null || !m_player.IsPlaying ||
-                m_player.Playlist == null || m_player.Playlist.CurrentItem == null)
+            if (player == null || !player.IsPlaying ||
+                player.Playlist == null || player.Playlist.CurrentItem == null)
             {
                 return;
             }
@@ -2599,19 +2599,19 @@ namespace MPfm
                 double ratio = (double)trackPosition.Value / 1000;
 
                 // Get length
-                int positionBytes = (int)(ratio * (double)m_player.Playlist.CurrentItem.LengthBytes);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)m_player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                long positionMS = ConvertAudio.ToMS(positionSamples, (uint)m_player.Playlist.CurrentItem.AudioFile.SampleRate);
+                int positionBytes = (int)(ratio * (double)player.Playlist.CurrentItem.LengthBytes);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                long positionMS = ConvertAudio.ToMS(positionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
 
                 // Set player position
-                m_player.SetPosition(positionBytes);
+                player.SetPosition(positionBytes);
 
                 // Set UI
                 lblSongPosition.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);                
                 lblSongPercentage.Text = (ratio * 100).ToString("00.00");
 
                 // Set flags
-                m_songPositionChanging = false;
+                songPositionChanging = false;
             }
             catch (Exception ex)
             {
@@ -2627,8 +2627,8 @@ namespace MPfm
         private void trackPosition_MouseMove(object sender, MouseEventArgs e)
         {
             // Validate player
-            if (m_player == null || !m_player.IsPlaying ||
-                m_player.Playlist == null || m_player.Playlist.CurrentItem == null)
+            if (player == null || !player.IsPlaying ||
+                player.Playlist == null || player.Playlist.CurrentItem == null)
             {
                 return;
             }
@@ -2640,7 +2640,7 @@ namespace MPfm
             if (e.Button == MouseButtons.Left)
             {
                 // Get time                
-                lblSongPosition.Text = Conversion.MillisecondsToTimeString(Convert.ToUInt32((ratio * (double)m_player.Playlist.CurrentItem.LengthMilliseconds)));
+                lblSongPosition.Text = Conversion.MillisecondsToTimeString(Convert.ToUInt32((ratio * (double)player.Playlist.CurrentItem.LengthMilliseconds)));
                 lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
             }
         }
@@ -2710,7 +2710,7 @@ namespace MPfm
             }
 
             // Set volume and update label            
-            m_player.Volume = (float)faderVolume.Value / 100;
+            player.Volume = (float)faderVolume.Value / 100;
             lblVolume.Text = faderVolume.Value.ToString() + " %";
             Config.Audio.Mixer.Volume = faderVolume.Value;
             Config.Save();
@@ -2911,17 +2911,17 @@ namespace MPfm
             if (args.OperationType == WorkerTreeLibraryOperationType.GetArtistAlbums)
             {
                 // Select all albums from artist
-                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, m_filterAudioFileFormat);
+                result.Albums = Library.SelectArtistAlbumTitles(args.ArtistName, filterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetArtists)
             {
                 // Select all artists
-                result.Artists = Library.SelectArtistNames(m_filterAudioFileFormat);
+                result.Artists = Library.SelectArtistNames(filterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetAlbums)
             {
                 // Select all albums
-                result.AllAlbums = Library.SelectAlbumTitles(m_filterAudioFileFormat);
+                result.AllAlbums = Library.SelectAlbumTitles(filterAudioFileFormat);
             }
             else if (args.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
             {
@@ -2976,7 +2976,7 @@ namespace MPfm
                             result.TreeNodeToUpdate.Nodes.Add(nodeAlbum);
 
                             // If the form is initializing and setting the initial opened node from history...
-                            if (!IsInitDone && result.ArtistName == m_initOpenNodeArtist && albumTitle == m_initOpenNodeArtistAlbum)
+                            if (!IsInitDone && result.ArtistName == initOpenNodeArtist && albumTitle == initOpenNodeArtistAlbum)
                             {
                                 // Set node as selected
                                 treeLibrary.SelectedNode = nodeAlbum;
@@ -3017,7 +3017,7 @@ namespace MPfm
                             result.TreeNodeToUpdate.Nodes.Add(nodeArtist);
 
                             // If the form is initializing and setting the initial opened node from history...
-                            if (!IsInitDone && artistName == m_initOpenNodeArtist)
+                            if (!IsInitDone && artistName == initOpenNodeArtist)
                             {
                                 // Set node as selected
                                 treeLibrary.SelectedNode = nodeArtist;
@@ -3026,7 +3026,7 @@ namespace MPfm
                     }
 
                     // Check if an ArtistAlbum child node needs to be opened
-                    if (!IsInitDone && !String.IsNullOrEmpty(m_initOpenNodeArtistAlbum))
+                    if (!IsInitDone && !String.IsNullOrEmpty(initOpenNodeArtistAlbum))
                     {
                         // The artist node must be expanded
                         treeLibrary.SelectedNode.Expand();
@@ -3071,7 +3071,7 @@ namespace MPfm
                         result.TreeNodeToUpdate.Nodes.Add(nodeAlbum);
 
                         // If the form is initializing and setting the initial opened node from history...
-                        if (!IsInitDone && albumTitle == m_initOpenNodeAlbum)
+                        if (!IsInitDone && albumTitle == initOpenNodeAlbum)
                         {
                             // Set node as selected
                             treeLibrary.SelectedNode = nodeAlbum;
@@ -3079,7 +3079,7 @@ namespace MPfm
                     }
 
                     // Check if an Album child node needs to be opened
-                    if (!IsInitDone && !String.IsNullOrEmpty(m_initOpenNodeAlbum))
+                    if (!IsInitDone && !String.IsNullOrEmpty(initOpenNodeAlbum))
                     {
                         // The artist node must be expanded
                         treeLibrary.SelectedNode.Expand();
@@ -3504,7 +3504,7 @@ namespace MPfm
             Enum.TryParse<AudioFileFormat>(comboSoundFormat.Text, out audioFileFormat);
 
             // Set filter
-            m_filterAudioFileFormat = audioFileFormat;
+            filterAudioFileFormat = audioFileFormat;
 
             // Check if init is done
             if (IsInitDone)
@@ -3603,7 +3603,7 @@ namespace MPfm
                 if (audioFile != null)
                 {
                     // Add to playlist                    
-                    m_player.Playlist.AddItem(audioFile.FilePath);
+                    player.Playlist.AddItem(audioFile.FilePath);
                 }
             }
 
@@ -3659,7 +3659,7 @@ namespace MPfm
             //m_timerSongPosition.Stop();
 
             // Set new position
-            m_player.SetPosition(data.Percentage);
+            player.SetPosition(data.Percentage);
 
             ///m_timerSongPosition.Start();
 
@@ -3761,7 +3761,7 @@ namespace MPfm
             uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
 
             // Set player position            
-            m_player.SetPosition(position);
+            player.SetPosition(position);
         }
 
         /// <summary>
@@ -3786,7 +3786,7 @@ namespace MPfm
             uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
 
             // Set player position            
-            m_player.SetPosition(position);
+            player.SetPosition(position);
         }
 
         /// <summary>

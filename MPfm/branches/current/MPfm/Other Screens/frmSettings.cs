@@ -48,12 +48,12 @@ namespace MPfm
         private AudioSettingsState audioSettingsState = AudioSettingsState.NotChanged;
         private bool initializing = false;
         private string filePath = string.Empty;        
-        private List<Device> m_devices = null;
-        private List<Device> m_devicesDirectSound = null;
-        private List<Device> m_devicesASIO = null;
-        private List<Device> m_devicesWASAPI = null;        
+        private List<Device> devices = null;
+        private List<Device> devicesDirectSound = null;
+        private List<Device> devicesASIO = null;
+        private List<Device> devicesWASAPI = null;        
                 
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -61,7 +61,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -72,7 +72,7 @@ namespace MPfm
         public frmSettings(frmMain main)
         {
             InitializeComponent();
-            m_main = main;
+            this.main = main;
         }
 
         #region Form Events
@@ -99,10 +99,10 @@ namespace MPfm
             audioSettingsState = AudioSettingsState.NotChanged;
 
             // Detect devices
-            m_devices = DeviceHelper.DetectOutputDevices();
-            m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
-            m_devicesASIO = m_devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
-            m_devicesWASAPI = m_devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
+            devices = DeviceHelper.DetectOutputDevices();
+            devicesDirectSound = devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
+            devicesASIO = devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
+            devicesWASAPI = devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
 
             // Update combo box
             List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
@@ -214,13 +214,13 @@ namespace MPfm
                 if (Main.Config.Audio.DriverType == DriverType.DirectSound)
                 {
                     // Loop through devices
-                    for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                    for (int a = 0; a < devicesDirectSound.Count; a++)
                     {
                         // Check if the device matches
-                        if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+                        if (devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                         {
                             // Set device
-                            originalDevice = m_devicesDirectSound[a];
+                            originalDevice = devicesDirectSound[a];
                             break;
                         }
                     }
@@ -228,13 +228,13 @@ namespace MPfm
                 else if (Main.Config.Audio.DriverType == DriverType.ASIO)
                 {
                     // Loop through devices
-                    for (int a = 0; a < m_devicesASIO.Count; a++)
+                    for (int a = 0; a < devicesASIO.Count; a++)
                     {
                         // Check if the device matches
-                        if (m_devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+                        if (devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                         {
                             // Set device
-                            originalDevice = m_devicesASIO[a];
+                            originalDevice = devicesASIO[a];
                             break;
                         }
                     }
@@ -242,13 +242,13 @@ namespace MPfm
                 else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
                 {
                     // Loop through devices
-                    for (int a = 0; a < m_devicesWASAPI.Count; a++)
+                    for (int a = 0; a < devicesWASAPI.Count; a++)
                     {
                         // Check if the device matches
-                        if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+                        if (devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                         {
                             // Set device
-                            originalDevice = m_devicesWASAPI[a];
+                            originalDevice = devicesWASAPI[a];
                             break;
                         }
                     }
@@ -314,10 +314,10 @@ namespace MPfm
             if (Main.Config.Audio.DriverType == DriverType.DirectSound)
             {
                 // Loop through devices
-                for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                for (int a = 0; a < devicesDirectSound.Count; a++)
                 {
                     // Check if the device matches
-                    if (m_devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+                    if (devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                     {
                         // Set selected index
                         cboOutputDevices.SelectedIndex = a;
@@ -328,10 +328,10 @@ namespace MPfm
             else if (Main.Config.Audio.DriverType == DriverType.ASIO)
             {
                 // Loop through devices
-                for (int a = 0; a < m_devicesASIO.Count; a++)
+                for (int a = 0; a < devicesASIO.Count; a++)
                 {
                     // Check if the device matches
-                    if (m_devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+                    if (devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                     {
                         // Set selected index
                         cboOutputDevices.SelectedIndex = a;
@@ -342,10 +342,10 @@ namespace MPfm
             else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
             {
                 // Loop through devices
-                for (int a = 0; a < m_devicesWASAPI.Count; a++)
+                for (int a = 0; a < devicesWASAPI.Count; a++)
                 {
                     // Check if the device matches
-                    if (m_devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+                    if (devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
                     {
                         // Set selected index
                         cboOutputDevices.SelectedIndex = a;
@@ -489,7 +489,7 @@ namespace MPfm
         public void RefreshFolders()
         {
             // Get the list of folders from the database            
-            List<Folder> folders = m_main.Library.Gateway.SelectFolders();
+            List<Folder> folders = main.Library.Gateway.SelectFolders();
 
             // Check if the list is null
             if (folders != null)
@@ -565,7 +565,7 @@ namespace MPfm
             {
                 // Check if folder already exists
                 //Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
-                Folder folder = m_main.Library.Gateway.SelectFolderByPath(dialogAddFolder.SelectedPath);
+                Folder folder = main.Library.Gateway.SelectFolderByPath(dialogAddFolder.SelectedPath);
 
                 // Cancel if folder already exists
                 if (folder != null)
@@ -588,7 +588,7 @@ namespace MPfm
 
                 // Create new folder
                 //DataAccess.InsertFolder(dialogAddFolder.SelectedPath, recursive);
-                m_main.Library.Gateway.InsertFolder(dialogAddFolder.SelectedPath, recursive);
+                main.Library.Gateway.InsertFolder(dialogAddFolder.SelectedPath, recursive);
                 RefreshFolders();
 
                 //ArrayList list = db.GetFolderNewSongs(dialogAddFolder.SelectedPath);
@@ -725,15 +725,15 @@ namespace MPfm
             if (driver.DriverType == DriverType.DirectSound)
             {
                 // Set combo box data source
-                cboOutputDevices.DataSource = m_devicesDirectSound;
+                cboOutputDevices.DataSource = devicesDirectSound;
 
                 // Find default device
-                Device defaultDevice = m_devicesDirectSound.FirstOrDefault(x => x.IsDefault);
+                Device defaultDevice = devicesDirectSound.FirstOrDefault(x => x.IsDefault);
             }
             else if (driver.DriverType == DriverType.ASIO)
             {   
                 // Check the number of devices
-                if (m_devicesASIO.Count == 0)
+                if (devicesASIO.Count == 0)
                 {
                     // Show warning and reset selection to DirectSound
                     MessageBox.Show("No ASIO output devices were found on this system.", "No ASIO output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -742,15 +742,15 @@ namespace MPfm
                 }
 
                 // Set combo box data source
-                cboOutputDevices.DataSource = m_devicesASIO;
+                cboOutputDevices.DataSource = devicesASIO;
 
                 // Find default device
-                Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);                
+                Device defaultDevice = devicesASIO.FirstOrDefault(x => x.IsDefault);                
             }
             else if (driver.DriverType == DriverType.WASAPI)
             {
                 // Check the number of devices
-                if (m_devicesWASAPI.Count == 0)
+                if (devicesWASAPI.Count == 0)
                 {
                     // Show warning and reset selection to DirectSound
                     MessageBox.Show("No WASAPI output devices were found on this system.", "No WASAPI output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -759,10 +759,10 @@ namespace MPfm
                 }
 
                 // Set combo box data source
-                cboOutputDevices.DataSource = m_devicesWASAPI;
+                cboOutputDevices.DataSource = devicesWASAPI;
 
                 // Find default device
-                Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
+                Device defaultDevice = devicesWASAPI.FirstOrDefault(x => x.IsDefault);
             }
 
             // Set state 
@@ -855,7 +855,7 @@ namespace MPfm
 
                     // Disable output meter timer
                     Main.timerUpdateOutputMeter.Enabled = false;
-                    Main.m_timerSongPosition.Enabled = false;
+                    Main.timerSongPosition.Enabled = false;
 
                     // Create test device
                     Tracing.Log("Creating test device...");
@@ -883,7 +883,7 @@ namespace MPfm
 
                     // Re-enaable output meter timer
                     Main.timerUpdateOutputMeter.Enabled = true;
-                    Main.m_timerSongPosition.Enabled = true;
+                    Main.timerSongPosition.Enabled = true;
 
                     // The test is successful           
                     Tracing.Log("The audio settings test is successful!");
@@ -927,10 +927,10 @@ namespace MPfm
             cboDrivers.SelectedIndex = 0;            
 
             // Loop through DirectSound devices to get the default device
-            for (int a = 0; a < m_devicesDirectSound.Count; a++)
+            for (int a = 0; a < devicesDirectSound.Count; a++)
             {
                 // Is this the default device?
-                if (m_devicesDirectSound[a].IsDefault)
+                if (devicesDirectSound[a].IsDefault)
                 {
                     // Set default device and exit loop
                     cboOutputDevices.SelectedIndex = a;
@@ -1098,7 +1098,7 @@ namespace MPfm
             if (numericPositionUpdateFrequency.Value != trackPositionUpdateFrequency.Value)
             {
                 numericPositionUpdateFrequency.Value = trackPositionUpdateFrequency.Value;
-                Main.m_timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
+                Main.timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
             }
         }
 
@@ -1123,7 +1123,7 @@ namespace MPfm
         private void numericPositionUpdateFrequency_Leave(object sender, EventArgs e)
         {
             trackPositionUpdateFrequency.Value = (int)numericPositionUpdateFrequency.Value;
-            Main.m_timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
+            Main.timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
         }
 
         /// <summary>
