@@ -42,9 +42,9 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Embedded font collection used for drawing.
         /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
+        private EmbeddedFontCollection embeddedFonts = null;
 
-        private bool m_isMouseOver = false;
+        private bool isMouseOver = false;
         /// <summary>
         /// Indicates if the mouse cursor is over the control.
         /// </summary>
@@ -52,13 +52,13 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_isMouseOver;
+                return isMouseOver;
             }
         }
 
         #region Border Properties
 
-        private Color m_borderColor = Color.Black;
+        private Color borderColor = Color.Black;
         /// <summary>
         /// Color of the border.
         /// </summary>
@@ -68,15 +68,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_borderColor;
+                return borderColor;
             }
             set
             {
-                m_borderColor = value;
+                borderColor = value;
             }
         }
 
-        private Color m_disabledBorderColor = Color.Gray;
+        private Color disabledBorderColor = Color.Gray;
         /// <summary>
         /// Color of the border (when the control is disabled).
         /// </summary>
@@ -86,15 +86,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_disabledBorderColor;
+                return disabledBorderColor;
             }
             set
             {
-                m_disabledBorderColor = value;
+                disabledBorderColor = value;
             }
         }
 
-        private Color m_mouseOverBorderColor = Color.Black;
+        private Color mouseOverBorderColor = Color.Black;
         /// <summary>
         /// Color of the border (when the mouse is over the control).
         /// </summary>
@@ -104,15 +104,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_mouseOverBorderColor;
+                return mouseOverBorderColor;
             }
             set
             {
-                m_mouseOverBorderColor = value;
+                mouseOverBorderColor = value;
             }
         }
 
-        private int m_borderWidth = 1;
+        private int borderWidth = 1;
         /// <summary>
         /// Width of the border.
         /// </summary>
@@ -122,11 +122,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_borderWidth;
+                return borderWidth;
             }
             set
             {
-                m_borderWidth = value;
+                borderWidth = value;
             }
         }
 
@@ -134,7 +134,7 @@ namespace MPfm.WindowsControls
 
         #region Background Properties
 
-        private Color m_gradientColor1 = Color.LightGray;
+        private Color gradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -144,15 +144,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor1;
+                return gradientColor1;
             }
             set
             {
-                m_gradientColor1 = value;
+                gradientColor1 = value;
             }
         }
 
-        private Color m_gradientColor2 = Color.Gray;
+        private Color gradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -162,15 +162,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor2;
+                return gradientColor2;
             }
             set
             {
-                m_gradientColor2 = value;
+                gradientColor2 = value;
             }
         }
 
-        private LinearGradientMode m_gradientMode = LinearGradientMode.Vertical;
+        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
         /// </summary>
@@ -179,15 +179,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientMode;
+                return gradientMode;
             }
             set
             {
-                m_gradientMode = value;
+                gradientMode = value;
             }
         }
 
-        private Color m_disabledGradientColor1 = Color.LightGray;
+        private Color disabledGradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient (when control is disabled).
         /// </summary>
@@ -197,15 +197,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_disabledGradientColor1;
+                return disabledGradientColor1;
             }
             set
             {
-                m_disabledGradientColor1 = value;
+                disabledGradientColor1 = value;
             }
         }
 
-        private Color m_disabledGradientColor2 = Color.Gray;
+        private Color disabledGradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient (when control is disabled).
         /// </summary>
@@ -215,15 +215,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_disabledGradientColor2;
+                return disabledGradientColor2;
             }
             set
             {
-                m_disabledGradientColor2 = value;
+                disabledGradientColor2 = value;
             }
         }
 
-        private Color m_mouseOverGradientColor1 = Color.LightGray;
+        private Color mouseOverGradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient (when mouse cursor is over the control).
         /// </summary>
@@ -233,15 +233,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_mouseOverGradientColor1;
+                return mouseOverGradientColor1;
             }
             set
             {
-                m_mouseOverGradientColor1 = value;
+                mouseOverGradientColor1 = value;
             }
         }
 
-        private Color m_mouseOverGradientColor2 = Color.Gray;
+        private Color mouseOverGradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient (when mouse cursor is over the control).
         /// </summary>
@@ -251,11 +251,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_mouseOverGradientColor2;
+                return mouseOverGradientColor2;
             }
             set
             {
-                m_mouseOverGradientColor2 = value;
+                mouseOverGradientColor2 = value;
             }
         }
 
@@ -263,7 +263,7 @@ namespace MPfm.WindowsControls
 
         #region Fonts Properties
 
-        private Color m_fontColor = Color.Black;
+        private Color fontColor = Color.Black;
         /// <summary>
         /// Fore color used when drawing the embedded font.
         /// </summary>
@@ -273,15 +273,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_fontColor;
+                return fontColor;
             }
             set
             {
-                m_fontColor = value;
+                fontColor = value;
             }               
         }
 
-        private Color m_disabledFontColor = Color.Gray;
+        private Color disabledFontColor = Color.Gray;
         /// <summary>
         /// Fore color used when drawing the embedded font (when control is disabled).
         /// </summary>
@@ -291,15 +291,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_disabledFontColor;
+                return disabledFontColor;
             }
             set
             {
-                m_disabledFontColor = value;
+                disabledFontColor = value;
             }
         }
 
-        private Color m_mouseOverFontColor = Color.Black;
+        private Color mouseOverFontColor = Color.Black;
         /// <summary>
         /// Fore color used when drawing the embedded font (when mouse cursor is over the control).
         /// </summary>
@@ -309,18 +309,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_mouseOverFontColor;
+                return mouseOverFontColor;
             }
             set
             {
-                m_mouseOverFontColor = value;
+                mouseOverFontColor = value;
             }
         }
 
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -330,11 +330,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
                 Refresh();
             }
         }
@@ -351,7 +351,7 @@ namespace MPfm.WindowsControls
                 ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Set default font
-            m_customFont = new CustomFont();
+            this.customFont = new CustomFont();
         }
 
         /// <summary>
@@ -387,12 +387,12 @@ namespace MPfm.WindowsControls
                 string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
 
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
             }
             else
             {
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
             }
         }
 
@@ -427,7 +427,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch
                 {
@@ -455,35 +455,35 @@ namespace MPfm.WindowsControls
             LinearGradientBrush brushBackground = null;
             if (!Enabled)
             {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, m_disabledGradientColor1, m_disabledGradientColor2, m_gradientMode);
+                brushBackground = new LinearGradientBrush(e.ClipRectangle, disabledGradientColor1, disabledGradientColor2, gradientMode);
             }
-            else if (m_isMouseOver)
+            else if (isMouseOver)
             {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, m_mouseOverGradientColor1, m_mouseOverGradientColor2, m_gradientMode);
+                brushBackground = new LinearGradientBrush(e.ClipRectangle, mouseOverGradientColor1, mouseOverGradientColor2, gradientMode);
             }
             else
             {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, m_gradientColor1, m_gradientColor2, m_gradientMode);
+                brushBackground = new LinearGradientBrush(e.ClipRectangle, gradientColor1, gradientColor2, gradientMode);
             }
             g.FillRectangle(brushBackground, ClientRectangle);
             brushBackground.Dispose();
             brushBackground = null;
 
             // Draw border
-            if(m_borderWidth > 0)
+            if(borderWidth > 0)
             {
                 Pen penBorder = null;
                 if (!Enabled)
                 {
-                    penBorder = new Pen(m_disabledBorderColor);
+                    penBorder = new Pen(disabledBorderColor);
                 }
-                else if (m_isMouseOver)
+                else if (isMouseOver)
                 {
-                    penBorder = new Pen(m_mouseOverBorderColor);
+                    penBorder = new Pen(mouseOverBorderColor);
                 }
                 else
                 {
-                    penBorder = new Pen(m_borderColor);
+                    penBorder = new Pen(borderColor);
                 }
                 
                 g.DrawRectangle(penBorder, 0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
@@ -495,15 +495,15 @@ namespace MPfm.WindowsControls
             SolidBrush brushFont = null;
             if (!Enabled)
             {
-                brushFont = new SolidBrush(m_disabledFontColor);
+                brushFont = new SolidBrush(disabledFontColor);
             }
-            else if (m_isMouseOver)
+            else if (isMouseOver)
             {
-                brushFont = new SolidBrush(m_mouseOverFontColor);
+                brushFont = new SolidBrush(mouseOverFontColor);
             }
             else
             {
-                brushFont = new SolidBrush(m_fontColor);
+                brushFont = new SolidBrush(fontColor);
             }
 
             // Measure string and place it depending on alignment
@@ -636,7 +636,7 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseEnter(EventArgs e)
         {
-            m_isMouseOver = true;
+            isMouseOver = true;
             Refresh();
             base.OnMouseEnter(e);            
         }
@@ -647,7 +647,7 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseLeave(EventArgs e)
         {                        
-            m_isMouseOver = false;
+            isMouseOver = false;
             Refresh();
             base.OnMouseLeave(e);
         }

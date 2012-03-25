@@ -38,7 +38,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the HeaderColor1 property.
         /// </summary>
-        private Color m_headerColor1 = Color.FromArgb(165, 165, 165);
+        private Color headerColor1 = Color.FromArgb(165, 165, 165);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -48,18 +48,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerColor1;
+                return headerColor1;
             }
             set
             {
-                m_headerColor1 = value;
+                headerColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderColor2 property.
         /// </summary>
-        private Color m_headerColor2 = Color.FromArgb(195, 195, 195);
+        private Color headerColor2 = Color.FromArgb(195, 195, 195);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -69,19 +69,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerColor2;
+                return headerColor2;
             }
             set
             {
-                m_headerColor2 = value;
+                headerColor2 = value;
             }
         }
-
 
         /// <summary>
         /// Private value for the HeaderHoverColor1 property.
         /// </summary>
-        private Color m_headerHoverColor1 = Color.FromArgb(145, 145, 145);
+        private Color headerHoverColor1 = Color.FromArgb(145, 145, 145);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -91,18 +90,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerHoverColor1;
+                return headerHoverColor1;
             }
             set
             {
-                m_headerHoverColor1 = value;
+                headerHoverColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderHoverColor2 property.
         /// </summary>
-        private Color m_headerHoverColor2 = Color.FromArgb(175, 175, 175);
+        private Color headerHoverColor2 = Color.FromArgb(175, 175, 175);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -112,18 +111,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerHoverColor2;
+                return headerHoverColor2;
             }
             set
             {
-                m_headerHoverColor2 = value;
+                headerHoverColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderForeColor property.
         /// </summary>
-        private Color m_headerForeColor = Color.FromArgb(60, 60, 60);
+        private Color headerForeColor = Color.FromArgb(60, 60, 60);
         /// <summary>
         /// Fore font color used in the header.
         /// </summary>
@@ -134,11 +133,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerForeColor;
+                return headerForeColor;
             }
             set
             {
-                m_headerForeColor = value;
+                headerForeColor = value;
             }
         }
 
@@ -149,7 +148,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the LineColor1 property.
         /// </summary>
-        private Color m_lineColor1 = Color.FromArgb(215, 215, 215);
+        private Color lineColor1 = Color.FromArgb(215, 215, 215);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -159,18 +158,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_lineColor1;
+                return lineColor1;
             }
             set
             {
-                m_lineColor1 = value;
+                lineColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the LineColor2 property.
         /// </summary>
-        private Color m_lineColor2 = Color.FromArgb(235, 235, 235);
+        private Color lineColor2 = Color.FromArgb(235, 235, 235);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -180,18 +179,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_lineColor2;
+                return lineColor2;
             }
             set
             {
-                m_lineColor2 = value;
+                lineColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the LineNowPlayingColor1 property.
         /// </summary>
-        private Color m_lineNowPlayingColor1 = Color.FromArgb(135, 235, 135);
+        private Color lineNowPlayingColor1 = Color.FromArgb(135, 235, 135);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -201,18 +200,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_lineNowPlayingColor1;
+                return lineNowPlayingColor1;
             }
             set
             {
-                m_lineNowPlayingColor1 = value;
+                lineNowPlayingColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the LineNowPlayingColor2 property.
         /// </summary>
-        private Color m_lineNowPlayingColor2 = Color.FromArgb(155, 255, 155);
+        private Color lineNowPlayingColor2 = Color.FromArgb(155, 255, 155);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -222,18 +221,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_lineNowPlayingColor2;
+                return lineNowPlayingColor2;
             }
             set
             {
-                m_lineNowPlayingColor2 = value;
+                lineNowPlayingColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the LineForeColor property.
         /// </summary>
-        private Color m_lineForeColor = Color.FromArgb(0, 0, 0);
+        private Color lineForeColor = Color.FromArgb(0, 0, 0);
         /// <summary>
         /// Fore font color used in the header.
         /// </summary>
@@ -244,18 +243,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_lineForeColor;
+                return lineForeColor;
             }
             set
             {
-                m_lineForeColor = value;
+                lineForeColor = value;
             }
         }
 
         /// <summary>
         /// Private value for the IconNowPlayingColor1 property.
         /// </summary>
-        private Color m_iconNowPlayingColor1 = Color.FromArgb(250, 200, 250);
+        private Color iconNowPlayingColor1 = Color.FromArgb(250, 200, 250);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -265,18 +264,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_iconNowPlayingColor1;
+                return iconNowPlayingColor1;
             }
             set
             {
-                m_iconNowPlayingColor1 = value;
+                iconNowPlayingColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the IconNowPlayingColor2 property.
         /// </summary>
-        private Color m_iconNowPlayingColor2 = Color.FromArgb(25, 150, 25);
+        private Color iconNowPlayingColor2 = Color.FromArgb(25, 150, 25);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -286,11 +285,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_iconNowPlayingColor2;
+                return iconNowPlayingColor2;
             }
             set
             {
-                m_iconNowPlayingColor2 = value;
+                iconNowPlayingColor2 = value;
             }
         }
 
@@ -301,7 +300,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the AlbumCoverBackgroundColor1 property.
         /// </summary>
-        private Color m_albumCoverBackgroundColor1 = Color.FromArgb(55, 55, 55);
+        private Color albumCoverBackgroundColor1 = Color.FromArgb(55, 55, 55);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -311,18 +310,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_albumCoverBackgroundColor1;
+                return albumCoverBackgroundColor1;
             }
             set
             {
-                m_albumCoverBackgroundColor1 = value;
+                albumCoverBackgroundColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the AlbumCoverBackgroundColor2 property.
         /// </summary>
-        private Color m_albumCoverBackgroundColor2 = Color.FromArgb(75, 75, 75);
+        private Color albumCoverBackgroundColor2 = Color.FromArgb(75, 75, 75);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -332,11 +331,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_albumCoverBackgroundColor2;
+                return albumCoverBackgroundColor2;
             }
             set
             {
-                m_albumCoverBackgroundColor2 = value;
+                albumCoverBackgroundColor2 = value;
             }
         }
 
@@ -345,7 +344,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the Padding property.
         /// </summary>
-        private int m_padding = 6;
+        private int padding = 6;
         /// <summary>
         /// Padding used around text and album covers (in pixels).
         /// </summary>
@@ -355,18 +354,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_padding;
+                return padding;
             }
             set
             {
-                m_padding = value;                
+                padding = value;                
             }
         }
 
         /// <summary>
         /// Private value for the Font property.
         /// </summary>
-        private CustomFont m_font = new CustomFont();
+        private CustomFont font = new CustomFont();
         /// <summary>
         /// Defines the font used in the control.
         /// </summary>
@@ -376,11 +375,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_font;
+                return font;
             }
             set
             {
-                m_font = value;
+                font = value;
             }
         }
 
@@ -390,10 +389,10 @@ namespace MPfm.WindowsControls
         public SongGridViewTheme()
         {
             // Set default values
-            m_font = new CustomFont();
-            m_font.EmbeddedFontName = "Junction";
-            m_font.Size = 8;
-            m_font.UseEmbeddedFont = true;
+            font = new CustomFont();
+            font.EmbeddedFontName = "Junction";
+            font.Size = 8;
+            font.UseEmbeddedFont = true;
         }
     }
 }

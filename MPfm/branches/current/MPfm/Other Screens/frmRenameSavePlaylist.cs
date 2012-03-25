@@ -40,7 +40,7 @@ namespace MPfm
         // Private variables
         private RenameSavePlaylistWindowMode mode;
         
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -48,7 +48,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -61,7 +61,7 @@ namespace MPfm
         public frmRenameSavePlaylist(frmMain main, RenameSavePlaylistWindowMode mode)
         {
             InitializeComponent();
-            this.m_main = main;
+            this.main = main;
             this.mode = mode;
 
             // Refresh controls based on window mode

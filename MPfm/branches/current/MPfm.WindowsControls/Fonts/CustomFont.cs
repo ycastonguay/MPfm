@@ -37,7 +37,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the IsBold property.
         /// </summary>
-        private bool m_isBold = false;
+        private bool isBold = false;
         /// <summary>
         /// Defines if the font uses bold.
         /// </summary>
@@ -45,18 +45,18 @@ namespace MPfm.WindowsControls
         {
             get
             {                
-                return m_isBold;
+                return isBold;
             }
             set
             {
-                m_isBold = value;
+                isBold = value;
             }
         }
 
         /// <summary>
         /// Private value for the IsItalic property.
         /// </summary>
-        private bool m_isItalic = false;
+        private bool isItalic = false;
         /// <summary>
         /// Defines if the font uses italic.
         /// </summary>
@@ -64,18 +64,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_isItalic;
+                return isItalic;
             }
             set
             {
-                m_isItalic = value;
+                isItalic = value;
             }
         }
 
         /// <summary>
         /// Private value for the IsUnderline property.
         /// </summary>
-        private bool m_isUnderline = false;
+        private bool isUnderline = false;
         /// <summary>
         /// Defines if the font uses underline.
         /// </summary>
@@ -83,18 +83,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_isUnderline;
+                return isUnderline;
             }
             set
             {
-                m_isUnderline = value;
+                isUnderline = value;
             }
         }
 
         /// <summary>
         /// Private value for the Size property.
         /// </summary>
-        private float m_size = 8;
+        private float size = 8;
         /// <summary>
         /// Defines the font size (in points).
         /// </summary>
@@ -102,18 +102,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_size;
+                return size;
             }
             set
             {
-                m_size = value;
+                size = value;
             }
         }
 
         /// <summary>
         /// Private value for the StandardFontName property.
         /// </summary>
-        private string m_standardFontName = "Arial";
+        private string standardFontName = "Arial";
         /// <summary>
         /// Defines the standard font face name.
         /// </summary>
@@ -121,18 +121,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_standardFontName;
+                return standardFontName;
             }
             set
             {
-                m_standardFontName = value;
+                standardFontName = value;
             }
         }
 
         /// <summary>
         /// Private value for the EmbeddedFontName property.
         /// </summary>
-        private string m_embeddedFontName = string.Empty;
+        private string embeddedFontName = string.Empty;
         /// <summary>
         /// Defines the embedded font name.
         /// </summary>
@@ -140,18 +140,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_embeddedFontName;
+                return embeddedFontName;
             }
             set
             {
-                m_embeddedFontName = value;
+                embeddedFontName = value;
             }
         }
 
         /// <summary>
         /// Private value for the UseEmbeddedFont property.
         /// </summary>
-        private bool m_useEmbeddedFont = false;
+        private bool useEmbeddedFont = false;
         /// <summary>
         /// Defines if the font should use the embedded font.
         /// </summary>
@@ -159,18 +159,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_useEmbeddedFont;
+                return useEmbeddedFont;
             }
             set
             {
-                m_useEmbeddedFont = value;
+                useEmbeddedFont = value;
             }
         }
 
         /// <summary>
         /// Private value for the UseAntiAliasing property.
         /// </summary>
-        private bool m_useAntiAliasing = true;
+        private bool useAntiAliasing = true;
         /// <summary>
         /// Defines if the font should use anti-aliasing.
         /// </summary>
@@ -178,11 +178,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_useAntiAliasing;
+                return useAntiAliasing;
             }
             set
             {
-                m_useAntiAliasing = value;
+                useAntiAliasing = value;
             }
         }
 
@@ -201,9 +201,9 @@ namespace MPfm.WindowsControls
         /// <param name="size">Font size</param>
         public CustomFont(string embeddedFontName, float size)
         {
-            m_useEmbeddedFont = true;
-            m_embeddedFontName = embeddedFontName;
-            m_size = size;
+            this.useEmbeddedFont = true;
+            this.embeddedFontName = embeddedFontName;
+            this.size = size;
         }
 
         /// <summary>

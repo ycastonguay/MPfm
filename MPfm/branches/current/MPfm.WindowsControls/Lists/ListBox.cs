@@ -44,7 +44,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -54,11 +54,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
                 Refresh();
             }
         }
@@ -73,7 +73,7 @@ namespace MPfm.WindowsControls
             this.DrawMode = DrawMode.OwnerDrawFixed;  
 
             // Create default font
-            m_customFont = new CustomFont();
+            customFont = new CustomFont();
         }
 
         #region Paint Events

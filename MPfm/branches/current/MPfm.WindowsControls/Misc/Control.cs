@@ -37,7 +37,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Embedded font collection used for drawing.
         /// </summary>
-        protected EmbeddedFontCollection m_embeddedFonts = null;
+        protected EmbeddedFontCollection embeddedFonts = null;
 
         /// <summary>
         /// Default constructor for the Control class.
@@ -79,12 +79,12 @@ namespace MPfm.WindowsControls
                 string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
 
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
             }
             else
             {
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
             }
         }
     }

@@ -39,7 +39,7 @@ namespace MPfm
     /// </summary>
     public partial class frmVisualizer : MPfm.WindowsControls.Form
     {
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -47,7 +47,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -56,9 +56,9 @@ namespace MPfm
         /// </summary>
         /// <param name="main">Hook to main form</param>
         public frmVisualizer(frmMain main)
-        {
-            m_main = main;        
+        {            
             InitializeComponent();
+            this.main = main;
         }
 
         /// <summary>

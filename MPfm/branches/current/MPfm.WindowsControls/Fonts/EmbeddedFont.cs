@@ -33,7 +33,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the Name property.
         /// </summary>
-        private string m_name = "";
+        private string name = "";
         /// <summary>
         /// Font name.
         /// Example: LeagueGothic
@@ -42,18 +42,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_name;
+                return name;
             }
             set
             {
-                m_name = value;
+                name = value;
             }
         }
 
         /// <summary>
         /// Private value for the ResourceName property.
         /// </summary>
-        private string m_resourceName = "";
+        private string resourceName = "";
         /// <summary>
         /// Assembly resource namespace.
         /// Example: MPfm.Fonts.LeagueGothic.ttf
@@ -62,18 +62,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_resourceName;
+                return resourceName;
             }
             set
             {
-                m_resourceName = value;
+                resourceName = value;
             }
         }
 
         /// <summary>
         /// Private value for the AssemblyPath property.
         /// </summary>
-        private string m_assemblyPath = "";
+        private string assemblyPath = "";
         /// <summary>
         /// Assembly path containing the embedded font. 
         /// Example: MPfm.Fonts.dll
@@ -82,11 +82,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_assemblyPath;
+                return assemblyPath;
             }
             set
             {
-                m_assemblyPath = value;
+                assemblyPath = value;
             }
         }
 

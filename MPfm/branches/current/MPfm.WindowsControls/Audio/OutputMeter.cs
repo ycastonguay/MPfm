@@ -44,7 +44,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the WaveDataHistory property.
         /// </summary>
-        private List<WaveDataMinMax> m_waveDataHistory = null;
+        private List<WaveDataMinMax> waveDataHistory = null;
         /// <summary>
         /// Array containing an history of min and max peaks over the last 1000ms.
         /// </summary>
@@ -53,14 +53,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_waveDataHistory;
+                return waveDataHistory;
             }
         }
 
         /// <summary>
         /// Private value for the Theme property.
         /// </summary>
-        private OutputMeterTheme m_theme = null;
+        private OutputMeterTheme theme = null;
         /// <summary>
         /// Defines the current theme used for rendering the control.
         /// </summary>
@@ -68,11 +68,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_theme;
+                return theme;
             }
             set
             {
-                m_theme = value;
+                theme = value;
             }
         }
 
@@ -81,7 +81,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the DisplayType property.
         /// </summary>
-        private OutputMeterDisplayType m_displayType = OutputMeterDisplayType.Stereo;
+        private OutputMeterDisplayType displayType = OutputMeterDisplayType.Stereo;
         /// <summary>
         /// Output meter display type (left channel, right channel, stereo, or mix).
         /// </summary>
@@ -91,18 +91,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_displayType;
+                return displayType;
             }
             set
             {
-                m_displayType = value;
+                displayType = value;
             }
         }
 
         /// <summary>
         /// Private value for the DistortionThreshold property.
         /// </summary>
-        private float m_distortionThreshold = 0.9f;
+        private float distortionThreshold = 0.9f;
         /// <summary>
         /// Value used to determine if the signal is distorting. Value range: 0.0f to 1.0f.
         /// </summary>
@@ -112,18 +112,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_distortionThreshold;
+                return distortionThreshold;
             }
             set
             {
-                m_distortionThreshold = value;
+                distortionThreshold = value;
             }
         }
 
         /// <summary>
         /// Private value for the DisplayDecibels property.
         /// </summary>
-        private bool m_displayDecibels = true;
+        private bool displayDecibels = true;
         /// <summary>
         /// Display the peak (1000ms) in decibels in text at the bottom of each bar.
         /// </summary>
@@ -133,18 +133,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_displayDecibels;
+                return displayDecibels;
             }
             set
             {
-                m_displayDecibels = value;
+                displayDecibels = value;
             }
         }
 
         /// <summary>
         /// Private value for the DrawFloor property.
         /// </summary>
-        private float m_drawFloor = -60f;
+        private float drawFloor = -60f;
         /// <summary>
         /// Floor from which the output meter will be drawn. Minimum value: -100 (dB). Max: 0 (dB). Default value: -60 (dB).
         /// </summary>
@@ -155,11 +155,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_drawFloor;
+                return drawFloor;
             }
             set
             {
-                m_drawFloor = value;
+                drawFloor = value;
             }
         }
 
@@ -171,10 +171,10 @@ namespace MPfm.WindowsControls
         public OutputMeter()
         {
             // Create history
-            m_waveDataHistory = new List<WaveDataMinMax>();
+            waveDataHistory = new List<WaveDataMinMax>();
 
             // Create default theme
-            m_theme = new OutputMeterTheme();
+            theme = new OutputMeterTheme();
 
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
@@ -239,7 +239,7 @@ namespace MPfm.WindowsControls
             Graphics g = Graphics.FromImage(bmp);
 
             // Use anti-aliasing?
-            if (m_theme.CustomFont.UseAntiAliasing)
+            if (theme.CustomFont.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -252,12 +252,12 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (m_theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(m_theme.CustomFont.EmbeddedFontName))
+            if (theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(theme.CustomFont.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.CustomFont.EmbeddedFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
                 }
                 catch
                 {
@@ -272,7 +272,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(m_theme.CustomFont.StandardFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
+                    font = new Font(theme.CustomFont.StandardFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
                 }
                 catch
                 {
@@ -283,7 +283,7 @@ namespace MPfm.WindowsControls
             
             // Draw background gradient (cover -1 pixel for some refresh bug)
             Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, m_theme.GradientColor1, m_theme.GradientColor2, m_theme.GradientMode);
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.GradientColor1, theme.GradientColor2, theme.GradientMode);
             g.FillRectangle(brushBackground, rectBody);
             brushBackground.Dispose();
             brushBackground = null;
@@ -333,11 +333,11 @@ namespace MPfm.WindowsControls
                 //float barHeight = scaleMultiplier * (maxDB + 100);
 
                 // Create brushes for displaying volume in decibels
-                SolidBrush brushFontColor = new SolidBrush(m_theme.FontColor);
-                SolidBrush brushFontShadowColor = new SolidBrush(m_theme.FontShadowColor);
+                SolidBrush brushFontColor = new SolidBrush(theme.FontColor);
+                SolidBrush brushFontShadowColor = new SolidBrush(theme.FontShadowColor);
 
                 // Draw 0 dB line
-                pen = new Pen(m_theme.Meter0dbLineColor);
+                pen = new Pen(theme.Meter0dbLineColor);
                 g.DrawLine(pen, new Point(0, 10), new Point(Width, 10));
                 pen.Dispose();
                 pen = null;
@@ -364,7 +364,7 @@ namespace MPfm.WindowsControls
 
                 // Create linear gradient brush covering the bar
                 RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
-                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, m_theme.MeterGradientColor1, m_theme.MeterGradientColor2, LinearGradientMode.Vertical);
+                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradientColor1, theme.MeterGradientColor2, LinearGradientMode.Vertical);
                 //if (maxLeftDB >= 0.2f)
                 //{
                 //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
@@ -376,7 +376,7 @@ namespace MPfm.WindowsControls
                 brushBar = null;
 
                 // Draw peak line
-                pen = new Pen(m_theme.MeterPeakLineColor);
+                pen = new Pen(theme.MeterPeakLineColor);
                 g.DrawLine(pen, new PointF(0, 110 - (peakLeftDB + 100)), new PointF(barWidth, 110 - (peakLeftDB + 100)));
                 pen.Dispose();
                 pen = null;
@@ -415,7 +415,7 @@ namespace MPfm.WindowsControls
 
                 // Create linear gradient brush covering the bar
                 rectGrad = new RectangleF(barWidth, 110, barWidth, height);
-                brushBar = new LinearGradientBrush(rectGrad, m_theme.MeterGradientColor1, m_theme.MeterGradientColor2, LinearGradientMode.Vertical);
+                brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradientColor1, theme.MeterGradientColor2, LinearGradientMode.Vertical);
                 //if (maxRightDB >= 0.2f)
                 //{
                 //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
@@ -434,7 +434,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Draw peak line
-                pen = new Pen(m_theme.MeterPeakLineColor);
+                pen = new Pen(theme.MeterPeakLineColor);
                 g.DrawLine(pen, new PointF(barWidth, 110 - (peakRightDB + 100)), new PointF(barWidth * 2, 110 - (peakRightDB + 100)));
                 pen.Dispose();
                 pen = null;

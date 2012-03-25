@@ -47,13 +47,13 @@ namespace MPfm.Player
         /// <summary>
         /// Timer for the player.
         /// </summary>
-        private System.Timers.Timer m_timerPlayer = null;
-        private Channel m_streamChannel = null;
+        private System.Timers.Timer timerPlayer = null;
+        private Channel streamChannel = null;
 
         /// <summary>
         /// Private value for the FXChannel property.
         /// </summary>
-        private Channel m_fxChannel = null;
+        private Channel fxChannel = null;
 
         /// <summary>
         /// Effects stream/channel.
@@ -62,39 +62,39 @@ namespace MPfm.Player
         {
             get
             {
-                return m_fxChannel;
+                return fxChannel;
             }
         }
-        //private Dictionary<int, string> m_plugins = null;
+        //private Dictionary<int, string> plugins = null;
 
-        int m_currentMixPlaylistIndex = 0;
+        int currentMixPlaylistIndex = 0;
 
         // Plugin handles
-        private int m_fxEQHandle;
-        //private int m_aacPluginHandle = 0;
-        private int m_apePluginHandle = 0;
-        private int m_flacPluginHandle = 0;
-        private int m_mpcPluginHandle = 0;
-        //private int m_ofrPluginHandle = 0;
-        //private int m_ttaPluginHandle = 0;
-        private int m_wvPluginHandle = 0;
-        private int m_wmaPluginHandle = 0;
+        private int fxEQHandle;
+        //private int aacPluginHandle = 0;
+        private int apePluginHandle = 0;
+        private int flacPluginHandle = 0;
+        private int mpcPluginHandle = 0;
+        //private int ofrPluginHandle = 0;
+        //private int ttaPluginHandle = 0;
+        private int wvPluginHandle = 0;
+        private int wmaPluginHandle = 0;
 
         /// <summary>
         /// Offset position (necessary to calculate the offset in the output stream position
         /// if the user has seeked the position in the decode stream). The output stream position
         /// is reset to 0 in these cases to clear the audio buffer.
         /// </summary>
-        private long m_positionOffset = 0;
+        private long positionOffset = 0;
 
         #region Callbacks
 
-        private List<PlayerSyncProc> m_syncProcs = null;
+        private List<PlayerSyncProc> syncProcs = null;
 
         // Callbacks
-        private STREAMPROC m_streamProc;
-        private ASIOPROC m_asioProc;
-        private WASAPIPROC m_wasapiProc;
+        private STREAMPROC streamProc;
+        private ASIOPROC asioProc;
+        private WASAPIPROC wasapiProc;
 
         #endregion
 
@@ -118,7 +118,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the IsPlaying property.
         /// </summary>
-        private bool m_isPlaying = false;
+        private bool isPlaying = false;
         /// <summary>
         /// Indicates if the player is currently playing an audio file.
         /// </summary>
@@ -126,14 +126,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_isPlaying;
+                return isPlaying;
             }
         }
 
         /// <summary>
         /// Private value for the IsPaused property.
         /// </summary>
-        private bool m_isPaused = false;
+        private bool isPaused = false;
         /// <summary>
         /// Indicates if the player is currently paused.
         /// </summary>
@@ -141,14 +141,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_isPaused;
+                return isPaused;
             }
         }
 
         /// <summary>
         /// Private value for the Device property.
         /// </summary>
-        private Device m_device = null;
+        private Device device = null;
         /// <summary>
         /// Defines the currently used device for playback.
         /// </summary>
@@ -156,14 +156,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_device;
+                return device;
             }
         }
 
         /// <summary>
         /// Private value for the IsDeviceInitialized property.
         /// </summary>
-        private bool m_isDeviceInitialized = false;
+        private bool isDeviceInitialized = false;
         /// <summary>
         /// Indicates if the device (as in the Device property) is initialized.
         /// </summary>
@@ -171,14 +171,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_isDeviceInitialized;
+                return isDeviceInitialized;
             }
         }       
 
         /// <summary>
         /// Private value for the RepeatType property.
         /// </summary>
-        private RepeatType m_repeatType = RepeatType.Off;
+        private RepeatType repeatType = RepeatType.Off;
         /// <summary>
         /// Repeat type (Off, Playlist, Song)
         /// </summary>
@@ -186,25 +186,25 @@ namespace MPfm.Player
         {
             get
             {
-                return m_repeatType;
+                return repeatType;
             }
             set
             {
-                m_repeatType = value;
+                repeatType = value;
 
                 // Check if the current song exists
-                if (m_playlist != null && m_playlist.CurrentItem != null)
+                if (playlist != null && playlist.CurrentItem != null)
                 {
                     // Check if the repeat type is Song
-                    if (m_repeatType == RepeatType.Song)
+                    if (repeatType == RepeatType.Song)
                     {
                         // Force looping
-                        m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                        playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     }
                     else
                     {
                         // Remove looping
-                        m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
+                        playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
                     }
                 }
             }
@@ -213,7 +213,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the Volume property.
         /// </summary>
-        private float m_volume = 1.0f;
+        private float volume = 1.0f;
         /// <summary>
         /// Defines the master volume (from 0 to 1).
         /// </summary>
@@ -221,22 +221,22 @@ namespace MPfm.Player
         {
             get
             {
-                return m_volume;
+                return volume;
             }
             set
             {
                 // Set value
-                m_volume = value;
+                volume = value;
 
                 // Check if the player is playing
-                if (m_mixerChannel != null)
+                if (mixerChannel != null)
                 {
                     // Set main volume
-                    m_mixerChannel.Volume = value;
+                    mixerChannel.Volume = value;
                 }
 
                 // Check driver type
-                if (m_device.DriverType == DriverType.ASIO)
+                if (device.DriverType == DriverType.ASIO)
                 {
                     // Set ASIO channel volume on left and right channel
                     bool success = BassAsio.BASS_ASIO_ChannelSetVolume(false, 0, value);
@@ -252,7 +252,7 @@ namespace MPfm.Player
                         Base.CheckForError();
                     }
                 }
-                else if (m_device.DriverType == DriverType.WASAPI)
+                else if (device.DriverType == DriverType.WASAPI)
                 {
                     // Set WASAPI volume
                     bool success = BassWasapi.BASS_WASAPI_SetVolume(true, value);
@@ -268,7 +268,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the TimeShifting property.
         /// </summary>
-        private float m_timeShifting = 0.0f;
+        private float timeShifting = 0.0f;
         /// <summary>
         /// Defines the time shifting applied to the currently playing stream.
         /// Value range from -100.0f (-100%) to 100.0f (+100%). To reset, set to 0.0f.
@@ -277,17 +277,17 @@ namespace MPfm.Player
         {
             get
             {
-                return m_timeShifting;
+                return timeShifting;
             }
             set
             {
-                m_timeShifting = value;
+                timeShifting = value;
 
                 // Check if the fx channel exists
-                if (m_fxChannel != null)
+                if (fxChannel != null)
                 {
                     // Set time shifting
-                    m_fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, m_timeShifting);
+                    fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, timeShifting);
                 }
             }           
         }
@@ -295,7 +295,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the MixerSampleRate property.
         /// </summary>
-        private int m_mixerSampleRate = 44100;
+        private int mixerSampleRate = 44100;
         /// <summary>
         /// Defines the sample rate of the mixer.
         /// </summary>
@@ -303,14 +303,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_mixerSampleRate;
+                return mixerSampleRate;
             }
         }
 
         /// <summary>
         /// Private value for the BufferSize property.
         /// </summary>
-        private int m_bufferSize = 1000;
+        private int bufferSize = 1000;
         /// <summary>
         /// Defines the buffer size (in milliseconds). Increase this value if older computers have trouble
         /// filling up the buffer in time.        
@@ -320,21 +320,21 @@ namespace MPfm.Player
         {
             get
             {
-                return m_bufferSize;
+                return bufferSize;
             }
             set
             {
-                m_bufferSize = value;
+                bufferSize = value;
 
                 // Set configuration
-                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize);
             }
         }
 
         /// <summary>
         /// Private value for the UpdatePeriod property.
         /// </summary>
-        private int m_updatePeriod = 10;
+        private int updatePeriod = 10;
         /// <summary>
         /// Defines how often BASS fills the buffer to make sure it is always full (in milliseconds).
         /// This affects the accuracy of the ChannelGetPosition value.
@@ -344,21 +344,21 @@ namespace MPfm.Player
         {
             get
             {
-                return m_updatePeriod;
+                return updatePeriod;
             }
             set
             {
-                m_updatePeriod = value;
+                updatePeriod = value;
 
                 // Set configuration
-                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, updatePeriod);
             }
         }
 
         /// <summary>
         /// Private value for the UpdateThreads property.
         /// </summary>
-        private int m_updateThreads = 1;
+        private int updateThreads = 1;
         /// <summary>
         /// Defines how many threads BASS can use to update playback buffers in parrallel.
         /// Note: The playback engine plays perfectly with just one update thread.
@@ -368,21 +368,21 @@ namespace MPfm.Player
         {
             get
             {
-                return m_updateThreads;
+                return updateThreads;
             }
             set
             {
-                m_updateThreads = value;
+                updateThreads = value;
 
                 // Set configuration
-                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, m_updateThreads);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, updateThreads);
             }
         }
 
         /// <summary>
         /// Private value for the MixerChannel property.
         /// </summary>
-        private MixerChannel m_mixerChannel = null;
+        private MixerChannel mixerChannel = null;
         /// <summary>
         /// Pointer to the mixer channel.
         /// </summary>
@@ -390,14 +390,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_mixerChannel;
+                return mixerChannel;
             }
         }
 
         /// <summary>
         /// Private value for the Playlist property.
         /// </summary>
-        private Playlist m_playlist = null;
+        private Playlist playlist = null;
         /// <summary>
         /// Playlist used for playback. Contains the audio file metadata and decode channels for
         /// playback.
@@ -406,14 +406,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_playlist;
+                return playlist;
             }
         }
 
         /// <summary>
         /// Private value for the CurrentEQPreset property.
         /// </summary>
-        private EQPreset m_currentEQPreset = null;
+        private EQPreset currentEQPreset = null;
         /// <summary>
         /// Defines the current EQ preset.
         /// </summary>
@@ -421,18 +421,18 @@ namespace MPfm.Player
         {
             get
             {
-                return m_currentEQPreset;
+                return currentEQPreset;
             }
             set
             {
-                m_currentEQPreset = value;
+                currentEQPreset = value;
             }
         }
 
         /// <summary>
         /// Private value for the IsEQEnabled property.
         /// </summary>
-        private bool m_isEQEnabled = false;
+        private bool isEQEnabled = false;
         /// <summary>
         /// Indicates if the EQ is enabled.
         /// </summary>
@@ -440,14 +440,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_isEQEnabled;
+                return isEQEnabled;
             }
         }
 
         /// <summary>
         /// Private value for the IsEQBypassed property.
         /// </summary>
-        private bool m_isEQBypassed = false;
+        private bool isEQBypassed = false;
         /// <summary>
         /// Indicates if the EQ is bypassed.
         /// </summary>
@@ -455,7 +455,7 @@ namespace MPfm.Player
         {
             get
             {
-                return m_isEQBypassed;
+                return isEQBypassed;
             }
         }
 
@@ -464,7 +464,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the Markers property.
         /// </summary>
-        private List<Marker> m_markers = null;
+        private List<Marker> markers = null;
         /// <summary>
         /// Defines a collection of markers.
         /// </summary>
@@ -472,14 +472,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_markers;
+                return markers;
             }
         }
 
         /// <summary>
         /// Private value for the Loops property.
         /// </summary>
-        private List<Loop> m_loops = null;
+        private List<Loop> loops = null;
         /// <summary>
         /// Defines a collection of loops.
         /// </summary>
@@ -487,14 +487,14 @@ namespace MPfm.Player
         {
             get
             {
-                return m_loops;
+                return loops;
             }
         }
 
         /// <summary>
         /// Private value for the CurrentLoop property.
         /// </summary>
-        private Loop m_currentLoop = null;
+        private Loop currentLoop = null;
         /// <summary>
         /// Defines the currently playing loop.
         /// </summary>
@@ -502,7 +502,7 @@ namespace MPfm.Player
         {
             get
             {
-                return m_currentLoop;
+                return currentLoop;
             }
         }
 
@@ -548,48 +548,48 @@ namespace MPfm.Player
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
             // Initialize system using specified values
-            m_device = device;
-            m_mixerSampleRate = mixerSampleRate;
-            m_bufferSize = bufferSize;
-            m_updatePeriod = updatePeriod;
+            this.device = device;
+            this.mixerSampleRate = mixerSampleRate;
+            this.bufferSize = bufferSize;
+            this.updatePeriod = updatePeriod;
 
             // Create lists            
-            m_playlist = new Playlist();
-            m_markers = new List<Marker>();
-            m_loops = new List<Loop>();
-            m_syncProcs = new List<PlayerSyncProc>();
+            playlist = new Playlist();
+            markers = new List<Marker>();
+            loops = new List<Loop>();
+            syncProcs = new List<PlayerSyncProc>();
 
             // Create timer
             Tracing.Log("Player init -- Creating timer...");
-            m_timerPlayer = new System.Timers.Timer();
-            m_timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(m_timerPlayer_Elapsed);
-            m_timerPlayer.Interval = 1000;
-            m_timerPlayer.Enabled = false;
+            timerPlayer = new System.Timers.Timer();
+            timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(timerPlayer_Elapsed);
+            timerPlayer.Interval = 1000;
+            timerPlayer.Enabled = false;
 
             // Load plugins
-            //m_plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
+            //plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
             Tracing.Log("Player init -- Loading plugins...");
-            //m_aacPluginHandle = Base.LoadPlugin("bass_aac.dll");
-            m_apePluginHandle = Base.LoadPlugin("bass_ape.dll");
-            m_flacPluginHandle = Base.LoadPlugin("bassflac.dll");
-            m_mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");            
-            //m_ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
-            //m_ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
-            m_wmaPluginHandle = Base.LoadPlugin("basswma.dll");
-            m_wvPluginHandle = Base.LoadPlugin("basswv.dll");            
+            //aacPluginHandle = Base.LoadPlugin("bass_aac.dll");
+            apePluginHandle = Base.LoadPlugin("bass_ape.dll");
+            flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+            mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");            
+            //ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
+            //ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
+            wmaPluginHandle = Base.LoadPlugin("basswma.dll");
+            wvPluginHandle = Base.LoadPlugin("basswv.dll");            
 
             Tracing.Log("Player init -- Loading FX plugin...");
             Base.LoadFxPlugin();
 
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
-            m_currentEQPreset = new EQPreset();
+            currentEQPreset = new EQPreset();
 
             // Initialize device
             if (initializeDevice)
             {
                 Tracing.Log("Player init -- Initializing device,,,");
-                InitializeDevice(m_device, m_mixerSampleRate);
+                InitializeDevice(device, mixerSampleRate);
             }
         }
 
@@ -599,7 +599,7 @@ namespace MPfm.Player
         public void InitializeDevice()
         {
             // Initialize default device
-            InitializeDevice(new Device(), m_mixerSampleRate);
+            InitializeDevice(new Device(), mixerSampleRate);
         }
 
         /// <summary>
@@ -610,33 +610,33 @@ namespace MPfm.Player
         public void InitializeDevice(Device device, int mixerSampleRate)
         {
             // Set properties
-            m_device = device;
-            m_mixerSampleRate = mixerSampleRate;
+            this.device = device;
+            this.mixerSampleRate = mixerSampleRate;
 
-            Tracing.Log("Player -- Initializing device (SampleRate: " + m_mixerSampleRate.ToString() + " Hz, DriverType: " + m_device.DriverType.ToString() + ", Id: " + m_device.Id.ToString() + ", Name: " + m_device.Name + ", BufferSize: " + m_bufferSize.ToString() + ", UpdatePeriod: " + m_updatePeriod.ToString() + ")");
+            Tracing.Log("Player -- Initializing device (SampleRate: " + mixerSampleRate.ToString() + " Hz, DriverType: " + device.DriverType.ToString() + ", Id: " + device.Id.ToString() + ", Name: " + device.Name + ", BufferSize: " + bufferSize.ToString() + ", UpdatePeriod: " + updatePeriod.ToString() + ")");
 
             // Check driver type
-            if (m_device.DriverType == DriverType.DirectSound)
+            if (device.DriverType == DriverType.DirectSound)
             {
                 // Initialize sound system                
-                Base.Init(m_device.Id, m_mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT);
+                Base.Init(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT);
             }
-            else if (m_device.DriverType == DriverType.ASIO)
+            else if (device.DriverType == DriverType.ASIO)
             {
                 // Initialize sound system
-                Base.InitASIO(m_device.Id, m_mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
+                Base.InitASIO(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
             }
-            else if (m_device.DriverType == DriverType.WASAPI)
+            else if (device.DriverType == DriverType.WASAPI)
             {
                 // Create callback
-                m_wasapiProc = new WASAPIPROC(WASAPICallback);
+                wasapiProc = new WASAPIPROC(WASAPICallback);
 
                 // Initialize sound system                
-                //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 10.0f, 0, m_wasapiProc);
-                Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.5f, 0, m_wasapiProc);
-                //Base.InitWASAPI(m_device.Id, m_mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 1, 0, m_wasapiProc);
+                //Base.InitWASAPI(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 10.0f, 0, wasapiProc);
+                Base.InitWASAPI(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.5f, 0, wasapiProc);
+                //Base.InitWASAPI(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 1, 0, wasapiProc);
 
-                BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
+                //BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
             }
 
             // Default BASS.NET configuration values:
@@ -647,11 +647,11 @@ namespace MPfm.Player
 
             // Set configuration for buffer and update period
             // This only works for the default BASS output (http://www.un4seen.com/forum/?topic=13429.msg93740#msg93740)
-            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, m_bufferSize); 
-            Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, m_updatePeriod);
+            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize); 
+            Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, updatePeriod);
 
             // Set flags            
-            m_isDeviceInitialized = true;
+            isDeviceInitialized = true;
         }
 
         /// <summary>
@@ -660,13 +660,13 @@ namespace MPfm.Player
         public void FreeDevice()
         {
             // Check if a device has been initialized
-            if (!m_isDeviceInitialized)
+            if (!isDeviceInitialized)
             {
                 return;
             }
 
             // Check driver type
-            if (m_device.DriverType == DriverType.ASIO)
+            if (device.DriverType == DriverType.ASIO)
             {
                 // Free ASIO device
                 if (!BassAsio.BASS_ASIO_Free())
@@ -676,7 +676,7 @@ namespace MPfm.Player
                     throw new Exception("Error freeing ASIO device: " + error.ToString());
                 }
             }
-            else if (m_device.DriverType == DriverType.WASAPI)
+            else if (device.DriverType == DriverType.WASAPI)
             {
                 // Free WASAPI device
                 if (!BassWasapi.BASS_WASAPI_Free())
@@ -691,9 +691,9 @@ namespace MPfm.Player
             Base.Free();
 
             // Set flags
-            m_mixerChannel = null;
-            m_device = null;
-            m_isDeviceInitialized = false;
+            mixerChannel = null;
+            device = null;
+            isDeviceInitialized = false;
         }
 
         /// <summary>
@@ -703,15 +703,15 @@ namespace MPfm.Player
         {
             // Dispose plugins
             Base.FreeFxPlugin();
-            //Base.FreePlugin(m_aacPluginHandle);
-            Base.FreePlugin(m_apePluginHandle);
-            Base.FreePlugin(m_flacPluginHandle);
-            Base.FreePlugin(m_mpcPluginHandle);
-            //Base.FreePlugin(m_ofrPluginHandle);
-            //Base.FreePlugin(m_ttaPluginHandle);
-            Base.FreePlugin(m_wvPluginHandle);
-            Base.FreePlugin(m_wmaPluginHandle);
-            //Base.FreePluginDirectory(m_plugins);            
+            //Base.FreePlugin(aacPluginHandle);
+            Base.FreePlugin(apePluginHandle);
+            Base.FreePlugin(flacPluginHandle);
+            Base.FreePlugin(mpcPluginHandle);
+            //Base.FreePlugin(ofrPluginHandle);
+            //Base.FreePlugin(ttaPluginHandle);
+            Base.FreePlugin(wvPluginHandle);
+            Base.FreePlugin(wmaPluginHandle);
+            //Base.FreePluginDirectory(plugins);            
         }        
 
         /// <summary>
@@ -735,21 +735,21 @@ namespace MPfm.Player
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        protected void m_timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        protected void timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {            
-            if (m_timerPlayer != null)
+            if (timerPlayer != null)
             {
                 // Reset timer
-                m_timerPlayer.Enabled = false;
+                timerPlayer.Enabled = false;
 
                 // Check if the next channel needs to be loaded
-                if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)
+                if (playlist.CurrentItemIndex < playlist.Items.Count - 1)
                 {
                     // Check if the channel has already been loaded
-                    if (!m_playlist.Items[m_playlist.CurrentItemIndex + 1].IsLoaded)
+                    if (!playlist.Items[playlist.CurrentItemIndex + 1].IsLoaded)
                     {
                         // Create the next channel
-                        m_playlist.Items[m_playlist.CurrentItemIndex + 1].Load();
+                        playlist.Items[playlist.CurrentItemIndex + 1].Load();
                     }
                 }
             }
@@ -770,10 +770,10 @@ namespace MPfm.Player
             try
             {
                 // Check if the player is currently playing                
-                if (m_isPlaying)
+                if (isPlaying)
                 {
                     // Check if a loop is active
-                    if (m_currentLoop != null)
+                    if (currentLoop != null)
                     {
                         // Stop loop
                         Tracing.Log("Player.Play -- Stopping current loop...");
@@ -786,14 +786,14 @@ namespace MPfm.Player
                 }
 
                 // Make sure there are no current loops                 
-                m_currentLoop = null;
+                currentLoop = null;
 
                 // Make sure there are no sync procs
                 RemoveSyncCallbacks();
 
                 // Set offset
-                m_positionOffset = 0;
-                m_currentMixPlaylistIndex = Playlist.CurrentItemIndex;
+                positionOffset = 0;
+                currentMixPlaylistIndex = Playlist.CurrentItemIndex;
 
                 // How many channels are left?                
                 int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;                
@@ -814,18 +814,18 @@ namespace MPfm.Player
                 for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
                 {
                     // Load channel and audio file metadata
-                    m_playlist.Items[a].Load();
+                    playlist.Items[a].Load();
                 }
 
                 try
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
-                    Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + m_playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
-                    m_streamProc = new STREAMPROC(StreamCallback);
-                    m_streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, m_streamProc);
+                    Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
+                    streamProc = new STREAMPROC(StreamCallback);
+                    streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, streamProc);
 
                     Tracing.Log("Player.Play -- Creating time shifting channel...");
-                    m_fxChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(m_streamChannel.Handle, true, true);
+                    fxChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(streamChannel.Handle, true, true);
                 }
                 catch(Exception ex)
                 {
@@ -833,19 +833,19 @@ namespace MPfm.Player
                     PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel (" + ex.Message + ").", ex);
                     newEx.Decode = true;
                     newEx.UseFloatingPoint = true;
-                    newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                    newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
                     throw newEx;
                 }
 
                 // Check driver type
-                if (m_device.DriverType == DriverType.DirectSound)
+                if (device.DriverType == DriverType.DirectSound)
                 {
                     try
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
-                        m_mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, false);
-                        m_mixerChannel.AddChannel(m_fxChannel.Handle);
+                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, false);
+                        mixerChannel.AddChannel(fxChannel.Handle);
                     }
                     catch (Exception ex)
                     {   
@@ -853,18 +853,18 @@ namespace MPfm.Player
                         PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
-                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
                     }
                 }
-                else if (m_device.DriverType == DriverType.ASIO)
+                else if (device.DriverType == DriverType.ASIO)
                 {
                     try
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
-                        m_mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
-                        m_mixerChannel.AddChannel(m_fxChannel.Handle);
+                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                        mixerChannel.AddChannel(fxChannel.Handle);
 
                     }
                     catch (Exception ex)
@@ -875,7 +875,7 @@ namespace MPfm.Player
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.Decode = true;
-                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;  
                     }
                     
@@ -883,27 +883,27 @@ namespace MPfm.Player
                     BassAsio.BASS_ASIO_ChannelSetFormat(false, 0, BASSASIOFormat.BASS_ASIO_FORMAT_FLOAT);
 
                     // Create callback
-                    m_asioProc = new ASIOPROC(AsioCallback);
+                    asioProc = new ASIOPROC(AsioCallback);
 
                     try
                     {
                         // Enable and join channels (for stereo output
                         Tracing.Log("Player.Play -- Enabling ASIO channels...");
-                        BassAsio.BASS_ASIO_ChannelEnable(false, 0, m_asioProc, new IntPtr(m_mixerChannel.Handle));
+                        BassAsio.BASS_ASIO_ChannelEnable(false, 0, asioProc, new IntPtr(mixerChannel.Handle));
                         Tracing.Log("Player.Play -- Joining ASIO channels...");
                         BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
 
                         // Set sample rate
                         Tracing.Log("Player.Play -- Set ASIO sample rates...");
-                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, m_playlist.CurrentItem.AudioFile.SampleRate);
-                        BassAsio.BASS_ASIO_SetRate(m_playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_SetRate(playlist.CurrentItem.AudioFile.SampleRate);
                     }
                     catch (Exception ex)
                     {
                         // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
                         PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to enable or join ASIO channels.", ex);
                         newEx.DriverType = DriverType.ASIO;
-                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
                     }
 
@@ -920,16 +920,16 @@ namespace MPfm.Player
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.Decode = true;
-                        newEx.SampleRate = m_playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;                        
                     }
                 }
-                else if (m_device.DriverType == DriverType.WASAPI)
+                else if (device.DriverType == DriverType.WASAPI)
                 {
                     // Create mixer stream
                     Tracing.Log("Player.Play -- Creating mixer channel (WASAPI)...");
-                    m_mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(m_playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
-                    m_mixerChannel.AddChannel(m_fxChannel.Handle);
+                    mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                    mixerChannel.AddChannel(fxChannel.Handle);
 
                     // Start playback
                     if (!BassWasapi.BASS_WASAPI_Start())
@@ -941,14 +941,14 @@ namespace MPfm.Player
                 }
 
                 // Set initial volume
-                m_mixerChannel.Volume = Volume;
+                mixerChannel.Volume = Volume;
 
                 // Load 18-band equalizer
-                Tracing.Log("Player.Play -- Creating equalizer (Preset: " + m_currentEQPreset + ")...");
-                AddEQ(m_currentEQPreset);
+                Tracing.Log("Player.Play -- Creating equalizer (Preset: " + currentEQPreset + ")...");
+                AddEQ(currentEQPreset);
 
                 // Check if EQ is bypassed
-                if (m_isEQBypassed)
+                if (isEQBypassed)
                 {
                     // Reset EQ
                     Tracing.Log("Player.Play -- Equalizer is bypassed; resetting EQ...");
@@ -956,28 +956,28 @@ namespace MPfm.Player
                 }
 
                 // Check if the repeat type is Song
-                if (m_repeatType == RepeatType.Song)
+                if (repeatType == RepeatType.Song)
                 {
                     // Force looping                    
-                    m_playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                    playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                 }
 
                 // Get audio file length
-                long length = m_playlist.CurrentItem.Channel.GetLength();
+                long length = playlist.CurrentItem.Channel.GetLength();
 
                 // Set sync (length already in floating point)          
                 SetSyncCallback(length);
 
                 // Start playback
-                m_isPlaying = true;
-                m_isPaused = false;
+                isPlaying = true;
+                isPaused = false;
 
                 // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
-                if (m_device.DriverType == DriverType.DirectSound)
+                if (device.DriverType == DriverType.DirectSound)
                 {
                     // Start playback
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
-                    m_mixerChannel.Play(false);
+                    mixerChannel.Play(false);
                 }
             }
             catch (Exception ex)
@@ -1034,24 +1034,24 @@ namespace MPfm.Player
             }
 
             // Check if the player is currently playing
-            if (m_isPlaying)
+            if (isPlaying)
             {
                 // Stop playback
                 Stop();
             }
 
             // Reset flags                
-            m_playlist.Clear();
+            playlist.Clear();
 
             // Create playlist items
             foreach (AudioFile audioFile in audioFiles)
             {
                 // Add playlist item
-                m_playlist.AddItem(audioFile);
+                playlist.AddItem(audioFile);
             }
 
             // Set playlist to first item
-            m_playlist.First();
+            playlist.First();
           
             // Start playback
             Play();
@@ -1063,24 +1063,24 @@ namespace MPfm.Player
         public void Pause()
         {
             // Check driver type (the pause mechanism differs by driver)
-            if (m_device.DriverType == DriverType.DirectSound)
+            if (device.DriverType == DriverType.DirectSound)
             {        
                 // Check if the playback is already paused
-                if (!m_isPaused)
+                if (!isPaused)
                 {
                     // Pause the playback channel
-                    m_mixerChannel.Pause();
+                    mixerChannel.Pause();
                 }
                 else
                 {
                     // Unpause the playback channel
-                    m_mixerChannel.Play(false);
+                    mixerChannel.Play(false);
                 }
             }
-            else if (m_device.DriverType == DriverType.ASIO)
+            else if (device.DriverType == DriverType.ASIO)
             {
                 // Check if the playback is already paused
-                if (!m_isPaused)
+                if (!isPaused)
                 {
                     // Pause playback on ASIO (cannot pause in a decoding channel)
                     if (!BassAsio.BASS_ASIO_ChannelPause(false, 0))
@@ -1100,10 +1100,10 @@ namespace MPfm.Player
 
                 }
             }
-            else if (m_device.DriverType == DriverType.WASAPI)
+            else if (device.DriverType == DriverType.WASAPI)
             {
                 // Check if the playback is already paused
-                if (!m_isPaused)
+                if (!isPaused)
                 {
                     // Pause playback on WASAPI (cannot pause in a decoding channel)
                     if (!BassWasapi.BASS_WASAPI_Stop(false))
@@ -1125,7 +1125,7 @@ namespace MPfm.Player
             }
 
             // Set flag
-            m_isPaused = !m_isPaused;
+            isPaused = !isPaused;
         }
 
         /// <summary>
@@ -1134,13 +1134,13 @@ namespace MPfm.Player
         public void Stop()
         {
             // Check if the main channel exists, and make sure the player is playing
-            if (m_mixerChannel == null)// || !m_isPlaying)
+            if (mixerChannel == null)// || !m_isPlaying)
             {
                 throw new Exception("Player.Stop error: The main channel is null!");
             }
 
             // Check if EQ is enabled
-            if (m_isEQEnabled)
+            if (isEQEnabled)
             {
                 // Remove EQ
                 Tracing.Log("Player.Stop -- Removing equalizer...");
@@ -1148,22 +1148,22 @@ namespace MPfm.Player
             }
 
             // Stop mixer channel
-            m_mixerChannel.Stop();
+            mixerChannel.Stop();
 
             // Check driver type
-            if (m_device.DriverType == DriverType.DirectSound)
+            if (device.DriverType == DriverType.DirectSound)
             {
                 // Stop main channel
                 //Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
                 //m_mainChannel.Stop();
             }
-            else if (m_device.DriverType == DriverType.ASIO)
+            else if (device.DriverType == DriverType.ASIO)
             {
                 // Stop playback
                 Tracing.Log("Player.Stop -- Stopping ASIO playback...");
                 BassAsio.BASS_ASIO_Stop();
             }
-            else if (m_device.DriverType == DriverType.WASAPI)
+            else if (device.DriverType == DriverType.WASAPI)
             {
                 // Stop playback
                 Tracing.Log("Player.Stop -- Stopping WASAPI playback...");
@@ -1174,25 +1174,25 @@ namespace MPfm.Player
             RemoveSyncCallbacks();
 
             // Dispose FX channel
-            m_fxChannel.Free();
+            fxChannel.Free();
 
             // Check if the current song exists
-            if (m_playlist != null && m_playlist.CurrentItem != null)
+            if (playlist != null && playlist.CurrentItem != null)
             {
                 // Dispose channels
                 Tracing.Log("Player.Stop -- Disposing channels...");
-                m_playlist.DisposeChannels();
+                playlist.DisposeChannels();
             }
 
             // Check if WASAPI
-            if (m_device.DriverType == DriverType.WASAPI)
+            if (device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
             }
 
             // Set flags
-            m_currentLoop = null;
-            m_isPlaying = false;
+            currentLoop = null;
+            isPlaying = false;
         }
 
         /// <summary>
@@ -1206,7 +1206,7 @@ namespace MPfm.Player
 
             // Skip to playlist item
             Playlist.GoTo(index);
-            m_currentMixPlaylistIndex = index;
+            currentMixPlaylistIndex = index;
 
             // Get audio file (to raise event later)
             AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
@@ -1266,8 +1266,7 @@ namespace MPfm.Player
             }
 
             // Get main channel position
-            long outputPosition = m_mixerChannel.GetPosition(m_fxChannel.Handle);
-            //long outputPosition = m_mixerChannel.GetPosition();
+            long outputPosition = mixerChannel.GetPosition(fxChannel.Handle);            
 
             // Divide by 2 (floating point)
             outputPosition /= 2;            
@@ -1280,7 +1279,7 @@ namespace MPfm.Player
             }
 
             // Add the offset position
-            outputPosition += m_positionOffset;
+            outputPosition += positionOffset;
 
             return outputPosition;            
         }
@@ -1318,7 +1317,7 @@ namespace MPfm.Player
             }
 
             // Check if WASAPI
-            if (m_device.DriverType == DriverType.WASAPI)
+            if (device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
                 BassWasapi.BASS_WASAPI_Start();
@@ -1331,7 +1330,7 @@ namespace MPfm.Player
             long length = Playlist.CurrentItem.Channel.GetLength();
 
             // Lock channel            
-            m_mixerChannel.Lock(true);            
+            mixerChannel.Lock(true);            
 
             // Check if this is a FLAC file over 44100Hz
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
@@ -1344,17 +1343,17 @@ namespace MPfm.Player
             Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
 
             // Set main channel position to 0 (clear buffer)            
-            m_fxChannel.SetPosition(0);
-            m_mixerChannel.SetPosition(0);
+            fxChannel.SetPosition(0);
+            mixerChannel.SetPosition(0);
 
             // Set new callback (length already in floating point)
             SetSyncCallback((length - (bytes * 2))); // + buffered));
 
             // Set offset position (for calulating current position)
-            m_positionOffset = bytes;
+            positionOffset = bytes;
 
             // Unlock channel
-            m_mixerChannel.Lock(false);
+            mixerChannel.Lock(false);
         }
 
         /// <summary>
@@ -1381,18 +1380,18 @@ namespace MPfm.Player
                 Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
 
                 // Empty buffer
-                m_mixerChannel.SetPosition(0);
-                m_fxChannel.SetPosition(0);
+                mixerChannel.SetPosition(0);
+                fxChannel.SetPosition(0);
 
                 // Set current song position to marker A
                 Tracing.Log("Player.StartLoop -- Setting start position...");
                 Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
 
                 // Set offset
-                m_positionOffset = loop.StartPositionBytes;
+                positionOffset = loop.StartPositionBytes;
 
                 // Set current loop
-                m_currentLoop = loop;
+                currentLoop = loop;
             }
             catch
             {
@@ -1408,7 +1407,7 @@ namespace MPfm.Player
             try
             {
                 // Make sure there is a loop to stop
-                if (m_currentLoop == null)
+                if (currentLoop == null)
                 {
                     throw new Exception("The current loop is null!");
                 }
@@ -1418,24 +1417,24 @@ namespace MPfm.Player
                 Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
 
                 // Clear the audio buffer                
-                m_mixerChannel.SetPosition(0);
-                m_fxChannel.SetPosition(0);
+                mixerChannel.SetPosition(0);
+                fxChannel.SetPosition(0);
 
                 // Lock channel
-                m_mixerChannel.Lock(true);
+                mixerChannel.Lock(true);
 
                 // Get position
-                m_positionOffset = m_playlist.CurrentItem.Channel.GetPosition();
+                positionOffset = playlist.CurrentItem.Channel.GetPosition();
 
                 // Get file length
                 long length = Playlist.CurrentItem.Channel.GetLength();
 
                 // Remove sync callbacks and set new sync
                 RemoveSyncCallbacks();
-                SetSyncCallback((length - m_positionOffset) * 2);
+                SetSyncCallback((length - positionOffset) * 2);
 
                 // Unlock channel
-                m_mixerChannel.Lock(false);
+                mixerChannel.Lock(false);
             }
             catch
             {
@@ -1444,7 +1443,7 @@ namespace MPfm.Player
             finally
             {
                 // Release loop
-                m_currentLoop = null;
+                currentLoop = null;
             }
         }
 
@@ -1459,25 +1458,25 @@ namespace MPfm.Player
         protected void AddEQ(EQPreset preset)
         {
             // Validate that the main channel exists
-            if (m_mixerChannel == null)
+            if (mixerChannel == null)
             {
                 throw new Exception("Error adding EQ: The main channel doesn't exist!");
             }
 
             // Check if an handle already exists
-            if (m_fxEQHandle != 0 || m_isEQEnabled)
+            if (fxEQHandle != 0 || isEQEnabled)
             {
                 throw new Exception("Error adding EQ: The equalizer already exists!");
             }
 
             // Load 18-band equalizer
-            m_fxEQHandle = m_mixerChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
+            fxEQHandle = mixerChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            m_currentEQPreset = preset;
-            for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
+            currentEQPreset = preset;
+            for (int a = 0; a < currentEQPreset.Bands.Count; a++)
             {
                 // Get current band
-                EQPresetBand currentBand = m_currentEQPreset.Bands[a];
+                EQPresetBand currentBand = currentEQPreset.Bands[a];
 
                 // Set equalizer band properties
                 eq.lBand = a;
@@ -1485,12 +1484,12 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+                Bass.BASS_FXSetParameters(fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
 
             // Set flags
-            m_isEQEnabled = true;
+            isEQEnabled = true;
         }
 
         /// <summary>
@@ -1499,21 +1498,21 @@ namespace MPfm.Player
         protected void RemoveEQ()
         {
             // Validate that the main channel exists
-            if (m_mixerChannel == null)
+            if (mixerChannel == null)
             {
                 throw new Exception("Error removing EQ: The main channel doesn't exist!");
             }
 
             // Check if the EQ is enabled
-            if (!m_isEQEnabled)
+            if (!isEQEnabled)
             {
                 throw new Exception("Error removing EQ: The EQ isn't activated!");
             }
 
             // Remove EQ
-            m_mixerChannel.RemoveFX(m_fxEQHandle);
-            m_fxEQHandle = 0;
-            m_isEQEnabled = false;
+            mixerChannel.RemoveFX(fxEQHandle);
+            fxEQHandle = 0;
+            isEQEnabled = false;
         }
 
         /// <summary>
@@ -1525,7 +1524,7 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
             eq.lBand = band;
-            Bass.BASS_FXGetParameters(m_fxEQHandle, eq);
+            Bass.BASS_FXGetParameters(fxEQHandle, eq);
             
             return eq;
         }
@@ -1540,13 +1539,13 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
-            Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+            Bass.BASS_FXSetParameters(fxEQHandle, eq);
 
             // Set EQ preset value too?
             if (setCurrentEQPresetValue)
             {
                 // Set EQ preset value
-                m_currentEQPreset.Bands[band].Gain = gain;
+                currentEQPreset.Bands[band].Gain = gain;
             }
         }
 
@@ -1560,17 +1559,17 @@ namespace MPfm.Player
             // when there is no playback does nothing.
 
             // Reset flag
-            m_isEQBypassed = !m_isEQBypassed;
+            isEQBypassed = !isEQBypassed;
 
             // Check if the main channel exists
-            if (m_mixerChannel == null)
+            if (mixerChannel == null)
             {
                 // Nothing to bypass
                 return;
             }
 
             // Check the new bypass state
-            if (m_isEQBypassed)
+            if (isEQBypassed)
             {
                 // Reset EQ
                 ResetEQ();
@@ -1578,7 +1577,7 @@ namespace MPfm.Player
             else
             {
                 // Reapply current EQ preset
-                ApplyEQPreset(m_currentEQPreset);
+                ApplyEQPreset(currentEQPreset);
             }
         }
 
@@ -1590,11 +1589,11 @@ namespace MPfm.Player
         {
             // Load 18-band equalizer
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            m_currentEQPreset = preset;
-            for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
+            currentEQPreset = preset;
+            for (int a = 0; a < currentEQPreset.Bands.Count; a++)
             {
                 // Get current band
-                EQPresetBand currentBand = m_currentEQPreset.Bands[a];
+                EQPresetBand currentBand = currentEQPreset.Bands[a];
 
                 // Set equalizer band properties
                 eq.lBand = a;
@@ -1602,7 +1601,7 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(m_fxEQHandle, eq);
+                Bass.BASS_FXSetParameters(fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
         }
@@ -1613,13 +1612,13 @@ namespace MPfm.Player
         public void ResetEQ()
         {
             // Validate that the main channel exists
-            if (m_mixerChannel == null)
+            if (mixerChannel == null)
             {
                 throw new Exception("Error resetting EQ: The main channel doesn't exist!");
             }
 
             // Loop through bands
-            for (int a = 0; a < m_currentEQPreset.Bands.Count; a++)
+            for (int a = 0; a < currentEQPreset.Bands.Count; a++)
             {
                 // Reset gain
                 UpdateEQBand(a, 0.0f, false);
@@ -1640,10 +1639,10 @@ namespace MPfm.Player
             // Set sync
             PlayerSyncProc syncProc = new PlayerSyncProc();
             syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
-            syncProc.Handle = m_mixerChannel.SetSync(m_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
+            syncProc.Handle = mixerChannel.SetSync(fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
 
             // Add to list
-            m_syncProcs.Add(syncProc);
+            syncProcs.Add(syncProc);
 
             return syncProc;
         }
@@ -1657,10 +1656,10 @@ namespace MPfm.Player
             while (true)
             {
                 // Are there any more sync procs to remove?
-                if (m_syncProcs.Count > 0)
+                if (syncProcs.Count > 0)
                 {
                     // Remove sync proc
-                    RemoveSyncCallback(m_syncProcs[0].Handle);                    
+                    RemoveSyncCallback(syncProcs[0].Handle);                    
                 }
                 else
                 {
@@ -1677,18 +1676,18 @@ namespace MPfm.Player
         protected void RemoveSyncCallback(int handle)
         {
             // Loop through sync procs
-            for (int a = 0; a < m_syncProcs.Count; a++)
+            for (int a = 0; a < syncProcs.Count; a++)
             {
                 // Check handle
-                if (m_syncProcs[a].Handle == handle)
+                if (syncProcs[a].Handle == handle)
                 {
                     // Remove sync
-                    m_mixerChannel.RemoveSync(m_fxChannel.Handle, m_syncProcs[a].Handle);
-                    m_syncProcs[a].Handle = 0;
-                    m_syncProcs[a].SyncProc = null;
+                    mixerChannel.RemoveSync(fxChannel.Handle, syncProcs[a].Handle);
+                    syncProcs[a].Handle = 0;
+                    syncProcs[a].SyncProc = null;
 
                     // Remove from list and exit loop
-                    m_syncProcs.RemoveAt(a);
+                    syncProcs.RemoveAt(a);
                     break;
                 }
             }
@@ -1709,57 +1708,57 @@ namespace MPfm.Player
         private int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
             // If the current sub channel is null, end the stream            
-            if(m_playlist == null || m_playlist.CurrentItem == null)
+            if(playlist == null || playlist.CurrentItem == null)
             {
                 // Return end-of-channel
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
             }
 
             // Get active status            
-            BASSActive status = m_playlist.Items[m_currentMixPlaylistIndex].Channel.IsActive();
+            BASSActive status = playlist.Items[currentMixPlaylistIndex].Channel.IsActive();
 
             // Check the current channel status
             if (status == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Check if the next channel needs to be loaded
-                if (m_playlist.CurrentItemIndex < m_playlist.Items.Count - 1)                    
+                if (playlist.CurrentItemIndex < playlist.Items.Count - 1)                    
                 {
                     // Create the next channel using a timer
-                    m_timerPlayer.Start();
+                    timerPlayer.Start();
                 }
 
                 // Check if a loop is enabled
-                if (m_currentLoop != null)
+                if (currentLoop != null)
                 {
                     // Get current position
-                    long position = m_playlist.CurrentItem.Channel.GetPosition();
+                    long position = playlist.CurrentItem.Channel.GetPosition();
 
                     // Check if the position is lower than the start position, or if the position is after the end position
-                    if (position < m_currentLoop.StartPositionBytes || position > m_currentLoop.EndPositionBytes)
+                    if (position < currentLoop.StartPositionBytes || position > currentLoop.EndPositionBytes)
                     {
                         // Set position to start position
-                        m_playlist.CurrentItem.Channel.SetPosition(m_currentLoop.StartPositionBytes);
+                        playlist.CurrentItem.Channel.SetPosition(currentLoop.StartPositionBytes);
                     }
                 }
 
                 // Get data from the current channel since it is running                
-                int data = m_playlist.Items[m_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+                int data = playlist.Items[currentMixPlaylistIndex].Channel.GetData(buffer, length);
 
                 return data;
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
                 // Clear current loop
-                m_currentLoop = null;
+                currentLoop = null;
 
                 // Check if this is the last item to play                
-                if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
+                if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
                 {
                     // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                     if (RepeatType == RepeatType.Playlist)
                     {
                         // Set next playlist index
-                        m_currentMixPlaylistIndex = 0;
+                        currentMixPlaylistIndex = 0;
 
                         // Dispose channels
                         //m_playlist.DisposeChannels();
@@ -1783,30 +1782,30 @@ namespace MPfm.Player
                 else
                 {
                     // Set next playlist index                    
-                    m_currentMixPlaylistIndex++;
+                    currentMixPlaylistIndex++;
                 }
 
                 // Lock main channel
-                m_mixerChannel.Lock(true);
+                mixerChannel.Lock(true);
 
                 // Get main channel position
-                long position = m_mixerChannel.GetPosition(m_fxChannel.Handle);
+                long position = mixerChannel.GetPosition(fxChannel.Handle);
 
                 // Get remanining data in buffer
-                int buffered = m_mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
+                int buffered = mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
 
                 // Get length of the next audio file to play
-                long audioLength = Playlist.Items[m_currentMixPlaylistIndex].Channel.GetLength();
+                long audioLength = Playlist.Items[currentMixPlaylistIndex].Channel.GetLength();
 
                 // Set sync                
                 long syncPos = position + buffered + audioLength;
                 SetSyncCallback(syncPos);
 
                 // Unlock main channel
-                m_mixerChannel.Lock(false);
+                mixerChannel.Lock(false);
 
                 // Return data from the new channel
-                return Playlist.Items[m_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+                return Playlist.Items[currentMixPlaylistIndex].Channel.GetData(buffer, length);
             }
 
             // Return end-of-channel
@@ -1849,10 +1848,10 @@ namespace MPfm.Player
         private int GetData(IntPtr buffer, int length, IntPtr user)
         {
             // Check if the channel is still playing
-            if (Bass.BASS_ChannelIsActive(m_mixerChannel.Handle) == BASSActive.BASS_ACTIVE_PLAYING)
+            if (Bass.BASS_ChannelIsActive(mixerChannel.Handle) == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Return data
-                return Bass.BASS_ChannelGetData(m_mixerChannel.Handle, buffer, length);
+                return Bass.BASS_ChannelGetData(mixerChannel.Handle, buffer, length);
             }
             else
             {
@@ -1871,11 +1870,11 @@ namespace MPfm.Player
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
             // Empty audio buffer
-            m_mixerChannel.SetPosition(0);
-            m_fxChannel.SetPosition(0);
+            mixerChannel.SetPosition(0);
+            fxChannel.SetPosition(0);
 
             // Set position offset
-            m_positionOffset = CurrentLoop.StartPositionBytes;
+            positionOffset = CurrentLoop.StartPositionBytes;
 
             // Set loop position
             Bass.BASS_ChannelSetPosition(channel, CurrentLoop.StartPositionBytes * 2);
@@ -1897,16 +1896,16 @@ namespace MPfm.Player
             int nextPlaylistIndex = 0;
 
             // Lock main channel. Do as less as possible when locking channels!
-            m_mixerChannel.Lock(true);
+            mixerChannel.Lock(true);
 
             // Get main channel position
-            long position = m_mixerChannel.GetPosition();
+            long position = mixerChannel.GetPosition();
 
             // Get remanining data in buffer
-            //int buffered = m_mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
+            //int buffered = mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
 
             // Check if this the last song
-            if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
+            if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                 if (RepeatType == RepeatType.Playlist)
@@ -1924,7 +1923,7 @@ namespace MPfm.Player
             else
             {
                 // Set flags
-                nextPlaylistIndex = m_playlist.CurrentItemIndex + 1;
+                nextPlaylistIndex = playlist.CurrentItemIndex + 1;
             }
 
             // Calculate position offset
@@ -1941,24 +1940,24 @@ namespace MPfm.Player
                 }
 
                 // Check if the sample rate needs to be changed (i.e. main channel sample rate different than the decoding file)
-                if (!playbackStopped && m_mixerChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
+                if (!playbackStopped && mixerChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
                 {
                     // Set new sample rate
-                    m_mixerChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
+                    mixerChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
                 }
 
                 // Set position offset
-                m_positionOffset = offset;
+                positionOffset = offset;
             }
 
             // Unlock main channel
-            m_mixerChannel.Lock(false);
+            mixerChannel.Lock(false);
 
             // Remove own sync
             RemoveSyncCallback(handle);
             
             // Check if this is the last item to play
-            if (m_playlist.CurrentItemIndex == m_playlist.Items.Count - 1)
+            if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                 if (RepeatType == RepeatType.Playlist)
@@ -1988,17 +1987,17 @@ namespace MPfm.Player
                     eventData.AudioFileEnded = Playlist.CurrentItem.AudioFile;
 
                     // Check if EQ is enabled
-                    if (m_isEQEnabled)
+                    if (isEQEnabled)
                     {
                         // Remove EQ
                         RemoveEQ();
                     }
 
                     // Dispose channels
-                    m_playlist.DisposeChannels();
+                    playlist.DisposeChannels();
 
                     // Set flag
-                    m_isPlaying = false;
+                    isPlaying = false;
                 }
                 else
                 {

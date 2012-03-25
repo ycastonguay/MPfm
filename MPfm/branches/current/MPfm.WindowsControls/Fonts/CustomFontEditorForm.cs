@@ -36,14 +36,14 @@ namespace MPfm.WindowsControls
     public partial class CustomFontEditorForm : Form
     {
         // Private variables
-        private bool m_formLoaded = false;
-        private InstalledFontCollection m_fonts = null;
-        private EmbeddedFontCollection m_embeddedFonts = null;
+        private bool formLoaded = false;
+        private InstalledFontCollection fonts = null;
+        private EmbeddedFontCollection embeddedFonts = null;
 
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be modified.
         /// </summary>
@@ -51,11 +51,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
             }
         }
 
@@ -68,7 +68,7 @@ namespace MPfm.WindowsControls
             InitializeComponent();
 
             // Create default font
-            m_customFont = new WindowsControls.CustomFont();         
+            customFont = new WindowsControls.CustomFont();         
         }
 
         /// <summary>
@@ -79,21 +79,21 @@ namespace MPfm.WindowsControls
         private void CustomFontEditorForm_Load(object sender, EventArgs e)
         {
             // Get list of embedded fonts
-            m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-            comboCustomFontName.DataSource = m_embeddedFonts;
+            embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+            comboCustomFontName.DataSource = embeddedFonts;
 
             // Get list of standard fonts
-            m_fonts = new InstalledFontCollection();
-            for (int a = 0; a < m_fonts.Families.Length; a++)
+            fonts = new InstalledFontCollection();
+            for (int a = 0; a < fonts.Families.Length; a++)
             {
                 // Make sure the regular style is available
-                if (m_fonts.Families[a].IsStyleAvailable(FontStyle.Regular))
+                if (fonts.Families[a].IsStyleAvailable(FontStyle.Regular))
                 {
                     // Add font
-                    int index = comboStandardFontName.Items.Add(m_fonts.Families[a].Name);
+                    int index = comboStandardFontName.Items.Add(fonts.Families[a].Name);
 
                     // Check if the font name matches
-                    if (CustomFont.StandardFontName.ToUpper() == m_fonts.Families[a].Name.ToUpper())
+                    if (CustomFont.StandardFontName.ToUpper() == fonts.Families[a].Name.ToUpper())
                     {
                         // Set selected index
                         comboStandardFontName.SelectedIndex = index;
@@ -103,7 +103,7 @@ namespace MPfm.WindowsControls
             }            
 
             // Loop through embedded fonts
-            foreach (EmbeddedFont embeddedFont in m_embeddedFonts)
+            foreach (EmbeddedFont embeddedFont in embeddedFonts)
             {
                 // Check if the name matches
                 if (embeddedFont.Name.ToUpper() == CustomFont.EmbeddedFontName.ToUpper())
@@ -130,7 +130,7 @@ namespace MPfm.WindowsControls
             Text = "Edit font";
 
             // Set flags
-            m_formLoaded = true;
+            formLoaded = true;
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace MPfm.WindowsControls
         private void comboCustomFontName_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -187,7 +187,7 @@ namespace MPfm.WindowsControls
         private void comboStandardFontName_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -213,7 +213,7 @@ namespace MPfm.WindowsControls
         private void radioUseCustomFont_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -237,7 +237,7 @@ namespace MPfm.WindowsControls
         private void radioUseStandardFont_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -261,7 +261,7 @@ namespace MPfm.WindowsControls
         private void trackFontSize_Scroll(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -283,7 +283,7 @@ namespace MPfm.WindowsControls
         private void chkIsBold_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -302,7 +302,7 @@ namespace MPfm.WindowsControls
         private void chkIsItalic_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }
@@ -321,7 +321,7 @@ namespace MPfm.WindowsControls
         private void chkIsUnderline_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form is loading
-            if (!m_formLoaded)
+            if (!formLoaded)
             {
                 return;
             }

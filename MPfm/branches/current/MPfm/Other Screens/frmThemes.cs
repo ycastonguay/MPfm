@@ -47,7 +47,7 @@ namespace MPfm
         private SecondaryWindowTheme secondaryWindowTheme = null;
         private string filePath = string.Empty;            
                 
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -55,7 +55,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -66,7 +66,7 @@ namespace MPfm
         public frmThemes(frmMain main)
         {
             InitializeComponent();
-            m_main = main;
+            this.main = main;
         }
 
         #region Form Events
@@ -449,7 +449,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the Title property.
         /// </summary>
-        private string m_title = string.Empty;
+        private string title = string.Empty;
         /// <summary>
         /// Title of the combo box item (ex: Song Browser).
         /// </summary>
@@ -457,18 +457,18 @@ namespace MPfm
         {
             get
             {
-                return m_title;
+                return title;
             }
             set
             {
-                m_title = value;
+                title = value;
             }
         }
 
         /// <summary>
         /// Private value for the ClassName property.
         /// </summary>
-        private string m_className = string.Empty;
+        private string className = string.Empty;
         /// <summary>
         /// Name of the class that contains the theme properties (ex: OutputMeterTheme).
         /// </summary>
@@ -476,11 +476,11 @@ namespace MPfm
         {
             get
             {
-                return m_className;
+                return className;
             }
             set
             {
-                m_className = value;
+                className = value;
             }
         }
 
@@ -491,8 +491,8 @@ namespace MPfm
         /// <param name="className">Theme class name</param>
         public ThemePreviewPaneComboBoxItem(string title, string className)
         {
-            m_title = title;
-            m_className = className;                
+            this.title = title;
+            this.className = className;                
         }
     }
 

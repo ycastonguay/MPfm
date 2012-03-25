@@ -42,12 +42,12 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Embedded font collection used for drawing.
         /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
+        private EmbeddedFontCollection embeddedFonts = null;
 
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -57,11 +57,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
                 Refresh();
             }
         }
@@ -76,7 +76,7 @@ namespace MPfm.WindowsControls
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
             // Set default font
-            m_customFont = new CustomFont();
+            customFont = new CustomFont();
         }
 
         /// <summary>
@@ -112,12 +112,12 @@ namespace MPfm.WindowsControls
                 string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
 
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
             }
             else
             {
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
             }
         }
 
@@ -149,7 +149,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch
                 {

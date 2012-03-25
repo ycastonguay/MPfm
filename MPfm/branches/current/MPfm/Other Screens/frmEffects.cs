@@ -41,12 +41,12 @@ namespace MPfm
     public partial class frmEffects : MPfm.WindowsControls.Form
     {
         // Private variables
-        private bool m_isFormLoaded = false;
+        private bool isFormLoaded = false;
 
         /// <summary>
         /// Private value for the Main property.
         /// </summary>
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -54,7 +54,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -65,13 +65,13 @@ namespace MPfm
         public frmEffects(frmMain main)
         {
             InitializeComponent();
-            m_main = main;
+            this.main = main;
 
             RefreshEQPresets();
             LoadConfig();
 
             // Set flag
-            m_isFormLoaded = true;
+            isFormLoaded = true;
         }
 
         #region Close Events
@@ -157,7 +157,7 @@ namespace MPfm
 
             // Select presets
             //List<Equalizer> eqs = DataAccess.SelectEqualizers();
-            List<EQPreset> eqs = m_main.Library.Gateway.SelectEQPresets();
+            List<EQPreset> eqs = main.Library.Gateway.SelectEQPresets();
 
             // For each EQ
             foreach (EQPreset eq in eqs)
@@ -355,7 +355,7 @@ namespace MPfm
         {
             // Check if equalizer exists            
             //Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
-            EQPreset equalizerExists = m_main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
+            EQPreset equalizerExists = main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists != null)
             {
@@ -363,7 +363,7 @@ namespace MPfm
                 if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {                    
                     //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
-                    m_main.Library.Gateway.DeleteEqualizer(equalizerExists.EQPresetId);
+                    main.Library.Gateway.DeleteEqualizer(equalizerExists.EQPresetId);
 
                     RefreshEQPresets();
                     ResetEQ();
@@ -409,12 +409,12 @@ namespace MPfm
             eq.Bands[17].Gain = (float)fader17.Value / 10;            
 
             // Check if equalizer exists                        
-            EQPreset equalizerExists = m_main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
+            EQPreset equalizerExists = main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists == null)
             {
                 //DataAccess.InsertEqualizer(eq);
-                m_main.Library.Gateway.InsertEqualizer(eq);
+                main.Library.Gateway.InsertEqualizer(eq);
             }
             else
             {
@@ -422,7 +422,7 @@ namespace MPfm
                 {
                     // Update ID and EQ
                     eq.EQPresetId = equalizerExists.EQPresetId;                    
-                    m_main.Library.Gateway.UpdateEqualizer(eq);
+                    main.Library.Gateway.UpdateEqualizer(eq);
                 }
             }
 
@@ -440,29 +440,29 @@ namespace MPfm
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
         {
             // Check if the form has loaded
-            if (!m_isFormLoaded)
+            if (!isFormLoaded)
             {
                 return;
             }
 
             // Bypass EQ
-            m_main.Player.BypassEQ();
+            main.Player.BypassEQ();
 
             // Set configuration and save
-            m_main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
-            m_main.Config.Save();
+            main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
+            main.Config.Save();
 
             //// Set equalizer
             //if (m_main.Player.IsEQEnabled)
             //{
             //    // Remove EQ
-            //    m_main.Player.RemoveEQ();
+            //    main.Player.RemoveEQ();
             //}
             //else
             //{
             //    // Add EQ
             //    EQPreset preset = GetEQPresetFromCurrentValues();
-            //    m_main.Player.AddEQ(preset);
+            //    main.Player.AddEQ(preset);
             //}
         }        
 
@@ -485,7 +485,7 @@ namespace MPfm
         private void SetPreset(string name)
         {
             // Get equalizer                    
-            EQPreset equalizer = m_main.Library.Gateway.SelectEQPreset(name);
+            EQPreset equalizer = main.Library.Gateway.SelectEQPreset(name);
 
             // Set values
             txtEQPresetName.Text = equalizer.Name;
@@ -517,7 +517,7 @@ namespace MPfm
         private void comboEQPreset_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Check if the form has loaded
-            if (!m_isFormLoaded)
+            if (!isFormLoaded)
             {
                 return;
             }
@@ -576,7 +576,7 @@ namespace MPfm
             MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
 
             float gain = (float)fader.Value / 10;            
-            m_main.Player.UpdateEQBand(index, gain, true);
+            main.Player.UpdateEQBand(index, gain, true);
 
             // Update dB display
             string strDB = "";

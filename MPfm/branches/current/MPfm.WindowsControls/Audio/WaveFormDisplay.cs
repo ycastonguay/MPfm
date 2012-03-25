@@ -53,22 +53,22 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the X position of the cursor.
         /// </summary>
-        private float m_cursorX = 0.0f;
+        private float cursorX = 0.0f;
 
         /// <summary>
         /// PeakFile instance used for generating and reading peak files.
         /// </summary>
-        private PeakFile m_peakFile = null;
+        private PeakFile peakFile = null;
 
         /// <summary>
         /// Timer refreshing the control while a peak file is generating.
         /// </summary>
-        private Timer m_timerLoadPeakFile = null;
+        private Timer timerLoadPeakFile = null;
 
         /// <summary>
         /// Timer refreshing the control for animations.
         /// </summary>
-        private Timer m_timerAnimation = null;
+        private Timer timerAnimation = null;
 
         // Animation        
         private int animZoomCount = -1;        
@@ -102,7 +102,7 @@ namespace MPfm.WindowsControls
         private ToolStripMenuItem menuItemWaveFormDisplayTypeRight = null;
         private ToolStripMenuItem menuItemWaveFormDisplayTypeMix = null;
 
-        private string m_peakFilePath = string.Empty;
+        private string peakFilePath = string.Empty;
         private bool needToRefreshBitmapCache = false;
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PeakFileDirectory property.
         /// </summary>
-        private string m_peakFileDirectory;
+        private string peakFileDirectory;
         /// <summary>
         /// Directory where the peak files are located.
         /// Peak Files in current directory by default.
@@ -133,7 +133,7 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_peakFileDirectory;
+                return peakFileDirectory;
             }
             set
             {
@@ -145,14 +145,14 @@ namespace MPfm.WindowsControls
                 }
 
                 // Set value
-                m_peakFileDirectory = value;
+                peakFileDirectory = value;
             }
         }
 
         /// <summary>
         /// Private value for the Position property.
         /// </summary>
-        private long m_position = 0;
+        private long position = 0;
         /// <summary>
         /// Defines the current audio file position (in bytes).
         /// This needs to be set by the user in order to display the cursor 
@@ -162,14 +162,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_position;
+                return position;
             }
         }
 
         /// <summary>
         /// Private value for the PositionTime property.
         /// </summary>
-        private string m_positionTime = "00:00.000";
+        private string positionTime = "00:00.000";
         /// <summary>
         /// Defines the current audio file position (in time string, such as 00:00.000).
         /// This needs to be set by the user in order to display the cursor 
@@ -179,14 +179,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_positionTime;
+                return positionTime;
             }
         }
 
         /// <summary>
         /// Private value for the Length property.
         /// </summary>
-        private long m_length = 0;
+        private long length = 0;
         /// <summary>
         /// Defines the current audio file length (in bytes).
         /// This needs to be set by the user in order to display the cursor 
@@ -196,11 +196,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_length;
+                return length;
             }
             set
             {
-                m_length = value;
+                length = value;
             }
         }
 
@@ -211,7 +211,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the IsLoading property.
         /// </summary>
-        private bool m_isLoading = false;
+        private bool isLoading = false;
         /// <summary>
         /// Indicates if the wave form history data is currently loading. This will display a shadow over 
         /// the loading waveform and indicate the percentage of data loaded.
@@ -220,14 +220,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_isLoading;
+                return isLoading;
             }
         }
 
         /// <summary>
         /// Private value for the BytesRead property.
         /// </summary>
-        private uint m_bytesRead = 0;
+        private uint bytesRead = 0;
         /// <summary>
         /// Defines the number of bytes read when loading wave data history.        
         /// </summary>
@@ -235,14 +235,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_bytesRead;
+                return bytesRead;
             }
         }
 
         /// <summary>
         /// Private value for the PercentageDone property.
         /// </summary>
-        private float m_percentageDone = 0;
+        private float percentageDone = 0;
         /// <summary>
         /// Defines the percentage of the wave form generation done.
         /// </summary>
@@ -250,14 +250,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_percentageDone;
+                return percentageDone;
             }
         }
 
         /// <summary>
         /// Private value for the WaveDataHistory property.
         /// </summary>
-        private List<WaveDataMinMax> m_waveDataHistory = null;
+        private List<WaveDataMinMax> waveDataHistory = null;
         /// <summary>
         /// Array containing an history of min and max peaks of the audio file.
         /// </summary>
@@ -265,14 +265,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_waveDataHistory;
+                return waveDataHistory;
             }
         }
 
         /// <summary>
         /// Private value for the DisplayType property.
         /// </summary>
-        private WaveFormDisplayType m_displayType = WaveFormDisplayType.Stereo;
+        private WaveFormDisplayType displayType = WaveFormDisplayType.Stereo;
         /// <summary>
         /// Wave form display type (left channel, right channel or stereo).
         /// </summary>
@@ -282,18 +282,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_displayType;
+                return displayType;
             }
             set
             {
-                m_displayType = value;
+                displayType = value;
             }
         }
 
         /// <summary>
         /// Private value for the Theme property.
         /// </summary>
-        private WaveFormDisplayTheme m_theme = null;
+        private WaveFormDisplayTheme theme = null;
         /// <summary>
         /// Defines the current theme used for rendering the control.
         /// </summary>
@@ -301,18 +301,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_theme;
+                return theme;
             }
             set
             {
-                m_theme = value;
+                theme = value;
             }
         }
 
         /// <summary>
         /// Private value for the ScrollX property.
         /// </summary>
-        private float m_scrollX = 0;
+        private float scrollX = 0;
         /// <summary>
         /// Defines the current scrollbar value.
         /// </summary>
@@ -320,14 +320,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_scrollX;
+                return scrollX;
             }
         }
 
         /// <summary>
         /// Private value for the AutoScrollWithCursor property.
         /// </summary>
-        private bool m_autoScrollWithCursor = false;
+        private bool autoScrollWithCursor = false;
         /// <summary>
         /// Defines if the cursor needs to automatically scroll the waveform
         /// (when zoom is over 100%).
@@ -336,18 +336,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_autoScrollWithCursor;
+                return autoScrollWithCursor;
             }
             set
             {
-                m_autoScrollWithCursor = value;
+                autoScrollWithCursor = value;
             }
         }
 
         /// <summary>
         /// Private value for the Zoom property.
         /// </summary>
-        private float m_zoom = 100;
+        private float zoom = 100;
         /// <summary>
         /// Defines the zoom for the wave form display (in percentage).
         /// </summary>
@@ -355,12 +355,12 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_zoom;
+                return zoom;
             }
             set
             {
                 // Check what is the factor between the two zooms (i.e. 100% to 200% = 2)
-                float zoomDelta = value - m_zoom;
+                float zoomDelta = value - zoom;
 
                 // Check if the zoom level hasn't changed
                 if (zoomDelta == 0)
@@ -373,7 +373,7 @@ namespace MPfm.WindowsControls
                 if (value == 100)
                 {
                     // Reset scroll X
-                    m_scrollX = 0;
+                    this.scrollX = 0;
                 }
                 // Check if the value is positive
                 else if (zoomDelta > 0)
@@ -397,7 +397,7 @@ namespace MPfm.WindowsControls
                     }
 
                     // Set value
-                    m_scrollX = scrollX;
+                    this.scrollX = scrollX;
                 }
                 // Check if the value is negative
                 else if (zoomDelta < 0)
@@ -413,21 +413,21 @@ namespace MPfm.WindowsControls
                     float factors = -(zoomDelta / 100) + 1;
 
                     // Scale the scroll x
-                    m_scrollX = ScrollX / factors;
+                    this.scrollX = ScrollX / factors;
                 }
 
                 // Set zoom value
-                m_zoom = value;
+                zoom = value;
 
                 // Set scrollbar value
-                horizontalScrollBar.SetValueWithoutTriggeringEvent((int)m_scrollX);
+                horizontalScrollBar.SetValueWithoutTriggeringEvent((int)this.scrollX);
             }
         }
 
         /// <summary>
         /// Private value for the BitmapWaveForm property.
         /// </summary>
-        private Bitmap m_bitmapWaveForm = null;
+        private Bitmap bitmapWaveForm = null;
         /// <summary>
         /// Wave form bitmap cache.
         /// </summary>
@@ -435,14 +435,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_bitmapWaveForm;
+                return bitmapWaveForm;
             }
         }
 
         /// <summary>
         /// Private value for the MouseInteractionType property.
         /// </summary>
-        private WaveFormMouseInteractionType m_mouseInteractionType = WaveFormMouseInteractionType.Pointer;
+        private WaveFormMouseInteractionType mouseInteractionType = WaveFormMouseInteractionType.Pointer;
         /// <summary>
         /// Defines the current mouse interaction type (pointer, select, zoom in, zoom out, etc.).
         /// </summary>
@@ -450,14 +450,14 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_mouseInteractionType;
+                return mouseInteractionType;
             }
         }
 
         /// <summary>
         /// Private value for the DisplayCurrentPosition property.
         /// </summary>
-        private bool m_displayCurrentPosition = true;
+        private bool displayCurrentPosition = true;
         /// <summary>
         /// Defines if the current song poisition should be displayed over the wave form.
         /// </summary>
@@ -465,11 +465,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_displayCurrentPosition;
+                return displayCurrentPosition;
             }
             set
             {
-                m_displayCurrentPosition = value;
+                displayCurrentPosition = value;
             }
         }
 
@@ -486,7 +486,7 @@ namespace MPfm.WindowsControls
             : base()
         {
             // Create default theme
-            m_theme = new WaveFormDisplayTheme();
+            theme = new WaveFormDisplayTheme();
 
             #region Contextual Menu
             
@@ -543,7 +543,7 @@ namespace MPfm.WindowsControls
             // Create Auto Scroll with Cursor menu item
             menuItemAutoScrollWithCursor = (ToolStripMenuItem)menuStrip.Items.Add("Auto scroll with cursor");
             menuItemAutoScrollWithCursor.CheckOnClick = true;
-            menuItemAutoScrollWithCursor.Checked = m_autoScrollWithCursor;
+            menuItemAutoScrollWithCursor.Checked = autoScrollWithCursor;
             menuItemAutoScrollWithCursor.Visible = false;
             menuItemAutoScrollWithCursor.Click += new EventHandler(menuItemAutoScrollWithCursor_Click);
             
@@ -611,28 +611,28 @@ namespace MPfm.WindowsControls
             #endregion
 
             // Create history
-            m_waveDataHistory = new List<WaveDataMinMax>();
+            waveDataHistory = new List<WaveDataMinMax>();
 
             // Set peak file directory
-            m_peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
+            peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
 
             // Create PeakFile class instance 
-            m_peakFile = new PeakFile(1);
-            m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
-            m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
-            m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
+            peakFile = new PeakFile(1);
+            peakFile.OnProcessStarted += new PeakFile.ProcessStarted(peakFile_OnProcessStarted);
+            peakFile.OnProcessData += new PeakFile.ProcessData(peakFile_OnProcessData);
+            peakFile.OnProcessDone += new PeakFile.ProcessDone(peakFile_OnProcessDone);
 
             // Create timer for refresh
-            m_timerLoadPeakFile = new Timer();
-            m_timerLoadPeakFile.Enabled = false;
-            m_timerLoadPeakFile.Interval = 500;
-            m_timerLoadPeakFile.Tick += new EventHandler(m_timerLoadPeakFile_Tick);
+            timerLoadPeakFile = new Timer();
+            timerLoadPeakFile.Enabled = false;
+            timerLoadPeakFile.Interval = 500;
+            timerLoadPeakFile.Tick += new EventHandler(timerLoadPeakFile_Tick);
 
             // Create timer for animation
-            m_timerAnimation = new Timer();
-            m_timerAnimation.Enabled = false;
-            m_timerAnimation.Interval = 10;
-            m_timerAnimation.Tick += new EventHandler(m_timerAnimation_Tick);
+            timerAnimation = new Timer();
+            timerAnimation.Enabled = false;
+            timerAnimation.Interval = 10;
+            timerAnimation.Tick += new EventHandler(timerAnimation_Tick);
 
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
@@ -660,7 +660,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        protected void m_timerAnimation_Tick(object sender, EventArgs e)
+        protected void timerAnimation_Tick(object sender, EventArgs e)
         {
             // Increment counter
             animZoomCount++;
@@ -787,22 +787,22 @@ namespace MPfm.WindowsControls
                 menuItem.Checked = true;
 
                 // Set mouse interaction type
-                m_mouseInteractionType = (WaveFormMouseInteractionType)menuItem.Tag;
+                mouseInteractionType = (WaveFormMouseInteractionType)menuItem.Tag;
 
                 // Set mouse cursor
-                if (m_mouseInteractionType == WaveFormMouseInteractionType.Pointer)
+                if (mouseInteractionType == WaveFormMouseInteractionType.Pointer)
                 {
                     this.Cursor = Cursors.Default;
                 }
-                else if (m_mouseInteractionType == WaveFormMouseInteractionType.Select)
+                else if (mouseInteractionType == WaveFormMouseInteractionType.Select)
                 {
                     this.Cursor = Cursors.Cross;
                 }
-                else if (m_mouseInteractionType == WaveFormMouseInteractionType.ZoomIn)
+                else if (mouseInteractionType == WaveFormMouseInteractionType.ZoomIn)
                 {
                     this.Cursor = Tools.CreateCursor(MPfm.WindowsControls.Properties.Resources.zoom_in, 2, 2);
                 }
-                else if (m_mouseInteractionType == WaveFormMouseInteractionType.ZoomOut)
+                else if (mouseInteractionType == WaveFormMouseInteractionType.ZoomOut)
                 {
                     this.Cursor = Tools.CreateCursor(MPfm.WindowsControls.Properties.Resources.zoom_out, 2, 2);
                 }
@@ -847,13 +847,13 @@ namespace MPfm.WindowsControls
         /// This event is fired when the peak file starts generating.
         /// </summary>
         /// <param name="data">Event data</param>
-        protected void m_peakFile_OnProcessStarted(PeakFileStartedData data)
+        protected void peakFile_OnProcessStarted(PeakFileStartedData data)
         {
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
                 // Create history 
-                m_waveDataHistory = new List<WaveDataMinMax>((int)data.TotalBlocks);
+                waveDataHistory = new List<WaveDataMinMax>((int)data.TotalBlocks);
             };
 
             // Check if invoking is necessary
@@ -871,7 +871,7 @@ namespace MPfm.WindowsControls
         /// This event is called every 20 blocks during peak file generation.
         /// </summary>
         /// <param name="data">Peak file progress data</param>
-        protected void m_peakFile_OnProcessData(PeakFileProgressData data)
+        protected void peakFile_OnProcessData(PeakFileProgressData data)
         {
             //// Invoke UI updates
             //MethodInvoker methodUIUpdate = delegate
@@ -893,7 +893,7 @@ namespace MPfm.WindowsControls
             }
 
             // Set percentage done
-            m_percentageDone = data.PercentageDone;
+            percentageDone = data.PercentageDone;
 
 
             //};
@@ -913,20 +913,20 @@ namespace MPfm.WindowsControls
         /// This event is called when the peak file generation is done.
         /// </summary>
         /// <param name="data">Peak file done data</param>
-        protected void m_peakFile_OnProcessDone(PeakFileDoneData data)
+        protected void peakFile_OnProcessDone(PeakFileDoneData data)
         {
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
                 // Stop timer
-                m_timerLoadPeakFile.Stop();
-                m_isLoading = false;
+                timerLoadPeakFile.Stop();
+                isLoading = false;
 
                 // Reset scrollbar
-                m_scrollX = 0;
+                scrollX = 0;
 
                 // Read peak file (using data based on the progress event sometimes causes problems)
-                m_waveDataHistory = m_peakFile.ReadPeakFile(m_peakFilePath);
+                waveDataHistory = peakFile.ReadPeakFile(peakFilePath);
 
                 // Do a last refresh
                 needToRefreshBitmapCache = true;
@@ -951,18 +951,18 @@ namespace MPfm.WindowsControls
         public void LoadWaveForm(string filePath)
         {
             // Reset scroll
-            m_scrollX = 0;
+            scrollX = 0;
             horizontalScrollBar.Value = 0;
             horizontalScrollBar.Visible = false;
 
             // Check if a wave form is already generating
-            if (m_isLoading)
+            if (isLoading)
             {
                 // Cancel wave form generation
-                if (m_peakFile.IsProcessing)
+                if (peakFile.IsProcessing)
                 {
                     // Cancel operation
-                    m_peakFile.Cancel();
+                    peakFile.Cancel();
                 }
             }
 
@@ -977,20 +977,20 @@ namespace MPfm.WindowsControls
             //}
 
             // Build peak file path
-            m_peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+            peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
 
             // Clear history
             WaveDataHistory.Clear();
 
             // Check if the peak file exists; try to read file
             bool readFile = false;
-            if (File.Exists(m_peakFilePath))
+            if (File.Exists(peakFilePath))
             {
                 readFile = true;
             }
 
             // Set flags
-            m_isLoading = true;
+            isLoading = true;
 
             try
             {
@@ -998,10 +998,10 @@ namespace MPfm.WindowsControls
                 if (readFile)
                 {                    
                     // Load peaks from file
-                    m_waveDataHistory = m_peakFile.ReadPeakFile(m_peakFilePath);
+                    waveDataHistory = peakFile.ReadPeakFile(peakFilePath);
 
                     // Set flags
-                    m_isLoading = false;
+                    isLoading = false;
 
                     // Refresh control
                     needToRefreshBitmapCache = true;
@@ -1022,13 +1022,13 @@ namespace MPfm.WindowsControls
             }
 
             // Reset zoom
-            m_zoom = 100;
+            zoom = 100;
 
             // Start timer
-            m_timerLoadPeakFile.Start();
+            timerLoadPeakFile.Start();
 
             // Generate peak file and start timer for updating progress
-            m_peakFile.GeneratePeakFile(filePath, m_peakFilePath);            
+            peakFile.GeneratePeakFile(filePath, peakFilePath);            
         }
 
         /// <summary>
@@ -1037,7 +1037,7 @@ namespace MPfm.WindowsControls
         public void CancelWaveFormLoading()
         {
             // Cancel the operation asynchronously            
-            m_peakFile.Cancel();
+            peakFile.Cancel();
         }
 
         #endregion
@@ -1050,13 +1050,13 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void m_timerLoadPeakFile_Tick(object sender, EventArgs e)
+        private void timerLoadPeakFile_Tick(object sender, EventArgs e)
         {
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
                 // Make sure the wave form is loading
-                if (m_isLoading)
+                if (isLoading)
                 {
                     // Refresh the whole control
                     Refresh();
@@ -1086,11 +1086,11 @@ namespace MPfm.WindowsControls
         public void SetPosition(long positionBytes, string positionTime)
         {
             // Set position properties
-            m_position = positionBytes;
-            m_positionTime = positionTime;
+            this.position = positionBytes;
+            this.positionTime = positionTime;
 
             // Make sure the peak file isn't generating
-            if (m_isLoading)
+            if (isLoading)
             {
                 return;
             }
@@ -1099,7 +1099,7 @@ namespace MPfm.WindowsControls
             RectangleF rectPosition = GetCurrentPositionRect();
 
             // Invalidate cursor
-            Rectangle rect = new Rectangle((int)m_cursorX - 5, 0, 10, ClientRectangle.Height);
+            Rectangle rect = new Rectangle((int)cursorX - 5, 0, 10, ClientRectangle.Height);
             Invalidate(rect);
 
             // Invalidate cursor text
@@ -1282,20 +1282,20 @@ namespace MPfm.WindowsControls
                     horizontalScrollBar.SmallChange = smallChange;
 
                     // If another bitmap exists, clean it
-                    if (m_bitmapWaveForm != null)
+                    if (bitmapWaveForm != null)
                     {
                         // Dispose of the bitmap and set it to null
-                        m_bitmapWaveForm.Dispose();
-                        m_bitmapWaveForm = null;
+                        bitmapWaveForm.Dispose();
+                        bitmapWaveForm = null;
                     }
 
                     // Create bitmap buffer with the drawing zone size
-                    m_bitmapWaveForm = new Bitmap(widthAvailable, heightAvailable);
-                    g = Graphics.FromImage(m_bitmapWaveForm);                    
+                    bitmapWaveForm = new Bitmap(widthAvailable, heightAvailable);
+                    g = Graphics.FromImage(bitmapWaveForm);                    
 
                     // Draw background gradient
                     Rectangle rectBackground = new Rectangle(0, 0, widthAvailable, heightAvailable);
-                    brushGradient = new LinearGradientBrush(rectBackground, m_theme.BackgroundGradientColor1, m_theme.BackgroundGradientColor2, m_theme.BackgroundGradientMode);
+                    brushGradient = new LinearGradientBrush(rectBackground, theme.BackgroundGradientColor1, theme.BackgroundGradientColor2, theme.BackgroundGradientMode);
                     g.FillRectangle(brushGradient, rectBackground);
                     brushGradient.Dispose();
                     brushGradient = null;
@@ -1402,7 +1402,7 @@ namespace MPfm.WindowsControls
                         }
 
                         // Create pen
-                        pen = new Pen(new SolidBrush(m_theme.WaveFormColor));
+                        pen = new Pen(new SolidBrush(theme.WaveFormColor));
 
                         // Determine display type
                         if (DisplayType == WaveFormDisplayType.LeftChannel ||
@@ -1501,14 +1501,14 @@ namespace MPfm.WindowsControls
                     if (xCursor > Width - 10)
                     {
                         // Adjust scroll value
-                        if (m_scrollX == 0)
+                        if (scrollX == 0)
                         {
-                            m_scrollX = xCursor;
+                            scrollX = xCursor;
                             //horizontalScrollBar.Value = (int)xCursor;
                         }
                         else
                         {
-                            m_scrollX = xCursor + Width - 15;
+                            scrollX = xCursor + Width - 15;
                             //horizontalScrollBar.Value = (int)m_scrollX;
                         }
 
@@ -1518,17 +1518,17 @@ namespace MPfm.WindowsControls
                 }
 
                 // Set cursor X
-                m_cursorX = xCursor;
+                cursorX = xCursor;
 
                 // Draw bitmap for control
                 Bitmap bmp = new Bitmap(Bounds.Width, Bounds.Height);
                 g = Graphics.FromImage(bmp);                
 
                 // Draw wave form bitmap                
-                g.DrawImage(m_bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
+                g.DrawImage(bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
 
                 // Use anti-aliasing?
-                if (m_theme.CustomFont.UseAntiAliasing)
+                if (theme.CustomFont.UseAntiAliasing)
                 {
                     // Set text anti-aliasing to ClearType (best looking AA)
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -1541,12 +1541,12 @@ namespace MPfm.WindowsControls
                 Font font = null;
 
                 // Make sure the embedded font name needs to be loaded and is valid
-                if (m_theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(m_theme.CustomFont.EmbeddedFontName))
+                if (theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(theme.CustomFont.EmbeddedFontName))
                 {
                     try
                     {
                         // Get embedded font
-                        font = Tools.LoadEmbeddedFont(m_embeddedFonts, m_theme.CustomFont.EmbeddedFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
+                        font = Tools.LoadEmbeddedFont(embeddedFonts, theme.CustomFont.EmbeddedFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
                     }
                     catch
                     {
@@ -1561,7 +1561,7 @@ namespace MPfm.WindowsControls
                     try
                     {
                         // Try to get standard font
-                        font = new Font(m_theme.CustomFont.StandardFontName, m_theme.CustomFont.Size, m_theme.CustomFont.ToFontStyle());
+                        font = new Font(theme.CustomFont.StandardFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
                     }
                     catch
                     {
@@ -1612,7 +1612,7 @@ namespace MPfm.WindowsControls
                     // The control has finished loading; display position
                    
                     // Draw cursor line
-                    pen = new Pen(m_theme.CursorColor);
+                    pen = new Pen(theme.CursorColor);
                     g.DrawLine(pen, new PointF(xCursor, 0), new PointF(xCursor + 1, Height));
                     pen.Dispose();
                     pen = null;
@@ -1640,7 +1640,7 @@ namespace MPfm.WindowsControls
                         //}
 
                         // Draw position background
-                        color = Color.FromArgb(200, m_theme.CursorColor);
+                        color = Color.FromArgb(200, theme.CursorColor);
                         brush = new SolidBrush(color);
                         //g.FillRectangle(brush, new RectangleF(x, 0, sizeText.Width + 4, sizeText.Height + 4));
                         g.FillRectangle(brush, rectPosition);
@@ -1744,7 +1744,7 @@ namespace MPfm.WindowsControls
                         {
                             // Stop animation by reseting count
                             animZoomCount = -1;
-                            m_timerAnimation.Stop();
+                            timerAnimation.Stop();
                         }
                         else
                         {
@@ -1989,7 +1989,7 @@ namespace MPfm.WindowsControls
                     }
 
                     //g.FillRectangle(Brushes.Black, new Rectangle(0, Height - 20, 100, 20)); 
-                    //g.DrawString("CursorX: " + m_cursorX.ToString("0"), Font, Brushes.Blue, new Point(0, Height - 20));
+                    //g.DrawString("CursorX: " + cursorX.ToString("0"), Font, Brushes.Blue, new Point(0, Height - 20));
                     //g.DrawString("ScrollX: " + ScrollX + " / " + horizontalScrollBar.Maximum.ToString(), Font, Brushes.Blue, new Point(0, (Height / 2) - 6));
 
                     //g.DrawString(CurrentPosition.ToString() + " / " + TotalBytes.ToString(), Font, Brushes.White, new Point(1, 1));
@@ -2038,15 +2038,15 @@ namespace MPfm.WindowsControls
 
                     // Check if there's enough space at the left of the cursor to display the time
                     float x = 0;
-                    if (m_cursorX < sizeText.Width)
+                    if (cursorX < sizeText.Width)
                     {
                         // Display the time string at the right of the cursor
-                        x = m_cursorX;
+                        x = cursorX;
                     }
                     else
                     {
                         // Display the time string at the left of the cursor
-                        x = m_cursorX - sizeText.Width - 4;
+                        x = cursorX - sizeText.Width - 4;
                     }
 
                     // Set rectangle properties
@@ -2171,14 +2171,14 @@ namespace MPfm.WindowsControls
                 if (e.X >= 0 && e.X <= 20)
                 {
                     // Set type and default cursor
-                    m_mouseInteractionType = WaveFormMouseInteractionType.Pointer;
+                    mouseInteractionType = WaveFormMouseInteractionType.Pointer;
                     this.Cursor = Cursors.Default;
                     menuItemMouseInteractionTypePointer.Checked = true;
                 }
                 //else if (e.X >= 20 && e.X <= 40)
                 //{
                 //    // Set type and cursor
-                //    m_mouseInteractionType = WaveFormMouseInteractionType.Select;
+                //    mouseInteractionType = WaveFormMouseInteractionType.Select;
                 //    this.Cursor = Cursors.Cross;
                 //    menuItemMouseInteractionTypeSelect.Checked = true;
                 //}
@@ -2186,7 +2186,7 @@ namespace MPfm.WindowsControls
                 else if (e.X >= 20 && e.X <= 40)
                 {
                     // Set type and custom cursor
-                    m_mouseInteractionType = WaveFormMouseInteractionType.ZoomIn;
+                    mouseInteractionType = WaveFormMouseInteractionType.ZoomIn;
                     this.Cursor = Tools.CreateCursor(MPfm.WindowsControls.Properties.Resources.zoom_in, 2, 2);
                     menuItemMouseInteractionTypeZoomIn.Checked = true;
                 }
@@ -2194,7 +2194,7 @@ namespace MPfm.WindowsControls
                 //else if (e.X >= 60 && e.X <= 80)
                 {
                     // Set type and custom cursor
-                    m_mouseInteractionType = WaveFormMouseInteractionType.ZoomOut;
+                    mouseInteractionType = WaveFormMouseInteractionType.ZoomOut;
                     this.Cursor = Tools.CreateCursor(MPfm.WindowsControls.Properties.Resources.zoom_out, 2, 2);
                     menuItemMouseInteractionTypeZoomOut.Checked = true;
                 }
@@ -2218,8 +2218,8 @@ namespace MPfm.WindowsControls
                 }
 
                 float ratioCursor = (float)x / (float)Width;
-                float ratioWidthAvailable = (float)Width / (float)m_bitmapWaveForm.Size.Width;                    
-                float percentageCursor = (ratioCursor * ratioWidthAvailable) + (ScrollX / (float)m_bitmapWaveForm.Size.Width);
+                float ratioWidthAvailable = (float)Width / (float)bitmapWaveForm.Size.Width;                    
+                float percentageCursor = (ratioCursor * ratioWidthAvailable) + (ScrollX / (float)bitmapWaveForm.Size.Width);
 
                 //uint position = (uint)(percentageCursor * (float)TotalPCMBytes);
 
@@ -2313,7 +2313,7 @@ namespace MPfm.WindowsControls
 
                 // Reset animation count        
                 animZoomCount = 0;
-                m_timerAnimation.Start();
+                timerAnimation.Start();
 
                 // Refresh wave form
                 needToRefreshBitmapCache = true;
@@ -2346,7 +2346,7 @@ namespace MPfm.WindowsControls
         public void horizontalScrollBar_OnValueChanged(object sender, EventArgs e)
         {
             // Set scroll value
-            m_scrollX = horizontalScrollBar.Value;
+            scrollX = horizontalScrollBar.Value;
 
             // Invalidate control and refresh
             Invalidate();

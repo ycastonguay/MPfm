@@ -39,7 +39,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the BackgroundGradientColor1 property.
         /// </summary>
-        private Color m_backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
+        private Color backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -49,18 +49,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_backgroundGradientColor1;
+                return backgroundGradientColor1;
             }
             set
             {
-                m_backgroundGradientColor1 = value;
+                backgroundGradientColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the BackgroundGradientColor2 property.
         /// </summary>
-        private Color m_backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
+        private Color backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -70,18 +70,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_backgroundGradientColor2;
+                return backgroundGradientColor2;
             }
             set
             {
-                m_backgroundGradientColor2 = value;
+                backgroundGradientColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the BackgroundGradientMode property.
         /// </summary>
-        private LinearGradientMode m_backgroundGradientMode = LinearGradientMode.Vertical;
+        private LinearGradientMode backgroundGradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
         /// </summary>
@@ -91,11 +91,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_backgroundGradientMode;
+                return backgroundGradientMode;
             }
             set
             {
-                m_backgroundGradientMode = value;
+                backgroundGradientMode = value;
             }
         }
 
@@ -106,7 +106,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -116,11 +116,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
             }
         }
 
@@ -130,7 +130,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the WaveFormColor property.
         /// </summary>
-        private Color m_waveFormColor = Color.Yellow;
+        private Color waveFormColor = Color.Yellow;
         /// <summary>
         /// Color used when drawing the wave form.
         /// </summary>
@@ -140,18 +140,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_waveFormColor;
+                return waveFormColor;
             }
             set
             {
-                m_waveFormColor = value;
+                waveFormColor = value;
             }
         }
 
         /// <summary>
         /// Private value for the CursorColor property.
         /// </summary>
-        private Color m_cursorColor = Color.RoyalBlue;
+        private Color cursorColor = Color.RoyalBlue;
         /// <summary>
         /// Color used when drawing the current song position cursor over the wave form.
         /// </summary>
@@ -161,11 +161,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_cursorColor;
+                return cursorColor;
             }
             set
             {
-                m_cursorColor = value;
+                cursorColor = value;
             }
         }
 
@@ -175,10 +175,10 @@ namespace MPfm.WindowsControls
         public WaveFormDisplayTheme()
         {            
             // Set default values
-            m_customFont = new CustomFont();
-            m_customFont.EmbeddedFontName = "Droid Sans Mono";
-            m_customFont.Size = 8;
-            m_customFont.UseEmbeddedFont = true;
+            customFont = new CustomFont();
+            customFont.EmbeddedFontName = "Droid Sans Mono";
+            customFont.Size = 8;
+            customFont.UseEmbeddedFont = true;
         }
     }
 }

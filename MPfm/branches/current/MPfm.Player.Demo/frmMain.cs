@@ -55,9 +55,9 @@ namespace MPfm.Player.Demo
         private TextWriterTraceListener textTraceListener = null;
         private bool isSongPositionChanging = false;
         private bool isNewPlaylist = false;
-        private long m_currentSongLength = 0;
-        public ConfigData m_configData = null;
-        public Device m_device = null;
+        private long currentSongLength = 0;
+        public ConfigData configData = null;
+        public Device device = null;
 
         /// <summary>
         /// Main form constructor.
@@ -109,13 +109,13 @@ namespace MPfm.Player.Demo
 
                 // Get configuration values
                 Tracing.Log("Loading configuration file...");
-                m_configData = new ConfigData();
-                Tracing.Log("BufferSize: " + m_configData.bufferSize.ToString());
-                Tracing.Log("UpdatePeriod: " + m_configData.updatePeriod.ToString());
-                Tracing.Log("UpdateThreads: " + m_configData.updateThreads.ToString());
-                Tracing.Log("DriverType: " + m_configData.driverType);
-                Tracing.Log("DeviceId: " + m_configData.deviceId.ToString());
-                Tracing.Log("DeviceName: " + m_configData.deviceName);
+                configData = new ConfigData();
+                Tracing.Log("BufferSize: " + configData.bufferSize.ToString());
+                Tracing.Log("UpdatePeriod: " + configData.updatePeriod.ToString());
+                Tracing.Log("UpdateThreads: " + configData.updateThreads.ToString());
+                Tracing.Log("DriverType: " + configData.driverType);
+                Tracing.Log("DeviceId: " + configData.deviceId.ToString());
+                Tracing.Log("DeviceName: " + configData.deviceName);
 
                 // Set directory
                 txtPath.Text = directory;
@@ -129,33 +129,33 @@ namespace MPfm.Player.Demo
                 }             
 
                 // Check configured driver type
-                if (m_configData.driverType.ToUpper() == "DIRECTSOUND")
+                if (configData.driverType.ToUpper() == "DIRECTSOUND")
                 {
                     // Try to find the configured device
-                    m_device = DeviceHelper.FindOutputDevice(DriverType.DirectSound, m_configData.deviceName);
+                    device = DeviceHelper.FindOutputDevice(DriverType.DirectSound, configData.deviceName);
                 }
-                else if (m_configData.driverType.ToUpper() == "ASIO")
+                else if (configData.driverType.ToUpper() == "ASIO")
                 {
                     // Try to find the configured device
-                    m_device = DeviceHelper.FindOutputDevice(DriverType.ASIO, m_configData.deviceName);
+                    device = DeviceHelper.FindOutputDevice(DriverType.ASIO, configData.deviceName);
                 }
-                else if (m_configData.driverType.ToUpper() == "WASAPI")
+                else if (configData.driverType.ToUpper() == "WASAPI")
                 {
                     // Try to find the configured device
-                    m_device = DeviceHelper.FindOutputDevice(DriverType.WASAPI, m_configData.deviceName);
+                    device = DeviceHelper.FindOutputDevice(DriverType.WASAPI, configData.deviceName);
                 }
 
                 // Check if the device was found
-                if (m_device == null)
+                if (device == null)
                 {
                     // Select default device instead (DirectSound, default device)
-                    m_device = new Device();
+                    device = new Device();
                 }
 
                 // Load player using configuration values
                 Tracing.Log("Initializing player...");
-                player = new MPfm.Player.Player(m_device, 44100, m_configData.bufferSize, m_configData.updatePeriod, true);
-                player.UpdateThreads = m_configData.updateThreads;
+                player = new MPfm.Player.Player(device, 44100, configData.bufferSize, configData.updatePeriod, true);
+                player.UpdateThreads = configData.updateThreads;
                 player.OnPlaylistIndexChanged += new MPfm.Player.Player.PlaylistIndexChanged(player_OnSongFinished);
                 
                 // Refresh status bar
@@ -233,9 +233,9 @@ namespace MPfm.Player.Demo
                 btnNext.Enabled = (player.Playlist.CurrentItemIndex + 1 < player.Playlist.Items.Count);
                 btnPrev.Enabled = (player.Playlist.CurrentItemIndex > 0);
 
-                m_currentSongLength = player.Playlist.CurrentItem.Channel.GetLength();
-                lblCurrentLength.Text = BytesToTime(m_currentSongLength);
-                lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
+                currentSongLength = player.Playlist.CurrentItem.Channel.GetLength();
+                lblCurrentLength.Text = BytesToTime(currentSongLength);
+                lblCurrentLengthPCM.Text = currentSongLength.ToString();
 
                 // Set list box position
                 SetListBoxPosition(player.Playlist.CurrentItemIndex);
@@ -554,19 +554,19 @@ namespace MPfm.Player.Demo
                 lblCurrentTitle.Text = player.Playlist.CurrentItem.AudioFile.Title;
                 lblCurrentPath.Text = player.Playlist.CurrentItem.AudioFile.FilePath;
 
-                m_currentSongLength = player.Playlist.CurrentItem.Channel.GetLength();
-                lblCurrentLength.Text = BytesToTime(m_currentSongLength);
-                lblCurrentLengthPCM.Text = m_currentSongLength.ToString();
+                currentSongLength = player.Playlist.CurrentItem.Channel.GetLength();
+                lblCurrentLength.Text = BytesToTime(currentSongLength);
+                lblCurrentLengthPCM.Text = currentSongLength.ToString();
 
                 //long length = player.CurrentSubChannel.FileProperties.LastBlockPosition - player.CurrentSubChannel.FileProperties.FirstBlockPosition;
             }
 
             if (!isSongPositionChanging)
             {
-                trackPosition.Maximum = (int)m_currentSongLength - 1;
-                if (positionBytes > m_currentSongLength - 1)
+                trackPosition.Maximum = (int)currentSongLength - 1;
+                if (positionBytes > currentSongLength - 1)
                 {
-                    trackPosition.Value = (int)m_currentSongLength - 1;
+                    trackPosition.Value = (int)currentSongLength - 1;
                 }
                 else if (positionBytes <= 0)
                 {

@@ -42,14 +42,14 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Embedded font collection used for drawing.
         /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
+        private EmbeddedFontCollection embeddedFonts = null;
 
         #region Background Properties
 
         /// <summary>
         /// Private value for the GradientColor1 property.
         /// </summary>
-        private Color m_gradientColor1 = Color.LightGray;
+        private Color gradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -59,18 +59,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor1;
+                return gradientColor1;
             }
             set
             {
-                m_gradientColor1 = value;
+                gradientColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the GradientColor2 property.
         /// </summary>
-        private Color m_gradientColor2 = Color.Gray;
+        private Color gradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -80,18 +80,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor2;
+                return gradientColor2;
             }
             set
             {
-                m_gradientColor2 = value;
+                gradientColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the GradientMode property.
         /// </summary>
-        private LinearGradientMode m_gradientMode = LinearGradientMode.Vertical;
+        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
         /// </summary>
@@ -100,11 +100,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientMode;
+                return gradientMode;
             }
             set
             {
-                m_gradientMode = value;
+                gradientMode = value;
             }
         }
 
@@ -115,7 +115,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -125,11 +125,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
                 Refresh();
             }
         }
@@ -141,7 +141,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the HeaderTitle property.
         /// </summary>
-        private string m_headerTitle = "";
+        private string headerTitle = "";
         /// <summary>
         /// Title displayed in the header.
         /// </summary>
@@ -152,18 +152,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerTitle;
+                return headerTitle;
             }
             set
             {
-                m_headerTitle = value;
+                headerTitle = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderHeight property.
         /// </summary>
-        private int m_headerHeight = 0;
+        private int headerHeight = 0;
         /// <summary>
         /// Height of the header.
         /// </summary>
@@ -174,11 +174,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerHeight;
+                return headerHeight;
             }
             set
             {
-                m_headerHeight = value;
+                headerHeight = value;
 
             }
         }
@@ -186,7 +186,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the HeaderTextAlign property.
         /// </summary>
-        private ContentAlignment m_headerTextAlign = ContentAlignment.MiddleLeft;
+        private ContentAlignment headerTextAlign = ContentAlignment.MiddleLeft;
         /// <summary>
         /// Alignment of the text in the header.
         /// </summary>
@@ -197,18 +197,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerTextAlign;
+                return headerTextAlign;
             }
             set
             {
-                m_headerTextAlign = value;
+                headerTextAlign = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderForeColor property.
         /// </summary>
-        private Color m_headerForeColor = Color.Black;
+        private Color headerForeColor = Color.Black;
         /// <summary>
         /// The fore color of the font used in the header.
         /// </summary>
@@ -219,18 +219,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerForeColor;
+                return headerForeColor;
             }
             set
             {
-                m_headerForeColor = value;
+                headerForeColor = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderGradientColor1 property.
         /// </summary>
-        private Color m_headerGradientColor1 = Color.LightGray;
+        private Color headerGradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the background gradient in the header.
         /// </summary>
@@ -241,18 +241,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerGradientColor1;
+                return headerGradientColor1;
             }
             set
             {
-                m_headerGradientColor1 = value;
+                headerGradientColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderGradientColor2 property.
         /// </summary>
-        private Color m_headerGradientColor2 = Color.Gray;
+        private Color headerGradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient in the header.
         /// </summary>
@@ -263,18 +263,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerGradientColor2;
+                return headerGradientColor2;
             }
             set
             {
-                m_headerGradientColor2 = value;
+                headerGradientColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderExpandable property.
         /// </summary>
-        private bool m_headerExpandable = true;
+        private bool headerExpandable = true;
         /// <summary>
         /// Defines if the header is expandable or not.
         /// </summary>
@@ -285,18 +285,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerExpandable;
+                return headerExpandable;
             }
             set
             {
-                m_headerExpandable = value;
+                headerExpandable = value;
             }
         }
 
         /// <summary>
         /// Private value for the HeaderExpanded property.
         /// </summary>
-        private bool m_headerExpanded = false;
+        private bool headerExpanded = false;
         /// <summary>
         /// Defines if the header is expanded.
         /// </summary>
@@ -307,18 +307,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_headerExpanded;
+                return headerExpanded;
             }
             set
             {
-                m_headerExpanded = value;
+                headerExpanded = value;
             }
         }
 
         /// <summary>
         /// Private value for the ExpandedHeight property.
         /// </summary>
-        private int m_expandedHeight = 200;
+        private int expandedHeight = 200;
         /// <summary>
         /// Defines the header height when expanded.
         /// </summary>
@@ -329,11 +329,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_expandedHeight;
+                return expandedHeight;
             }
             set
             {
-                m_expandedHeight = value;
+                expandedHeight = value;
             }
         }
 
@@ -349,7 +349,7 @@ namespace MPfm.WindowsControls
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);    
 
             // Create default font
-            m_customFont = new CustomFont();
+            customFont = new CustomFont();
         }
 
 
@@ -386,12 +386,12 @@ namespace MPfm.WindowsControls
                 string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
 
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
             }
             else
             {
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
             }
         }
 
@@ -402,17 +402,17 @@ namespace MPfm.WindowsControls
         /// </summary>
         public void Expand()
         {
-            if (m_headerExpandable)
+            if (headerExpandable)
             {
-                m_headerExpanded = !m_headerExpanded;
+                headerExpanded = !headerExpanded;
 
-                if (m_headerExpanded)
+                if (headerExpanded)
                 {
-                    Height = m_expandedHeight;
+                    Height = expandedHeight;
                 }
                 else
                 {
-                    Height = m_headerHeight;
+                    Height = headerHeight;
                 }
             }
         }
@@ -423,17 +423,17 @@ namespace MPfm.WindowsControls
         /// <param name="value">Expand or hide the panel</param>
         public void Expand(bool value)
         {
-            if (m_headerExpandable)
+            if (headerExpandable)
             {
-                m_headerExpanded = value;
+                headerExpanded = value;
 
-                if (m_headerExpanded)
+                if (headerExpanded)
                 {
-                    Height = m_expandedHeight;
+                    Height = expandedHeight;
                 }
                 else
                 {
-                    Height = m_headerHeight;
+                    Height = headerHeight;
                 }
             }
         }
@@ -470,7 +470,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                 }
                 catch
                 {
@@ -495,38 +495,38 @@ namespace MPfm.WindowsControls
             }
 
             // Draw body
-            if (m_headerExpanded)
+            if (headerExpanded)
             {
                 // Draw gradient
                 Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, m_gradientColor1, m_gradientColor2, LinearGradientMode.Vertical);
+                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, gradientColor1, gradientColor2, LinearGradientMode.Vertical);
                 g.FillRectangle(brushBody, rectBody);
                 brushBody.Dispose();
                 brushBody = null;
             }
 
             // Draw header
-            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, m_headerHeight + 4), m_headerGradientColor1, m_headerGradientColor2, LinearGradientMode.Vertical);
-            g.FillRectangle(brushHeader, 0, 0, ClientRectangle.Width, m_headerHeight);
+            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), headerGradientColor1, headerGradientColor2, LinearGradientMode.Vertical);
+            g.FillRectangle(brushHeader, 0, 0, ClientRectangle.Width, headerHeight);
             brushHeader.Dispose();
             brushHeader = null;
 
-            SolidBrush brushFont = new SolidBrush(m_headerForeColor);
-            SizeF sizeString = g.MeasureString(m_headerTitle, font);
+            SolidBrush brushFont = new SolidBrush(headerForeColor);
+            SizeF sizeString = g.MeasureString(headerTitle, font);
 
-            float headerTitleY = ((float)m_headerHeight - sizeString.Height) / 2;
+            float headerTitleY = ((float)headerHeight - sizeString.Height) / 2;
 
             if (HeaderTextAlign == ContentAlignment.MiddleCenter)
             {
-                g.DrawString(m_headerTitle, font, brushFont, (Width - sizeString.Width) / 2, headerTitleY);
+                g.DrawString(headerTitle, font, brushFont, (Width - sizeString.Width) / 2, headerTitleY);
             }
             else if (HeaderTextAlign == ContentAlignment.MiddleRight)
             {
-                g.DrawString(m_headerTitle, font, brushFont, Width - sizeString.Width, headerTitleY);
+                g.DrawString(headerTitle, font, brushFont, Width - sizeString.Width, headerTitleY);
             }
             else
             {
-                g.DrawString(m_headerTitle, font, brushFont, 2, headerTitleY);
+                g.DrawString(headerTitle, font, brushFont, 2, headerTitleY);
             }
 
             // Dispose stuff
@@ -555,9 +555,9 @@ namespace MPfm.WindowsControls
         {
             base.OnMouseDoubleClick(e);
 
-            if (m_headerExpandable)
+            if (headerExpandable)
             {
-                if (e.Y >= 0 && e.Y <= m_headerHeight)
+                if (e.Y >= 0 && e.Y <= headerHeight)
                 {
                     Expand();
                 }

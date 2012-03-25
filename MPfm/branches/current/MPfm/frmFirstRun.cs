@@ -44,12 +44,12 @@ namespace MPfm
     {
         // Private variables
         private string filePath = string.Empty;
-        private List<Device> m_devices = null;
-        private List<Device> m_devicesDirectSound = null;
-        private List<Device> m_devicesASIO = null;
-        private List<Device> m_devicesWASAPI = null;
+        private List<Device> devices = null;
+        private List<Device> devicesDirectSound = null;
+        private List<Device> devicesASIO = null;
+        private List<Device> devicesWASAPI = null;
 
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -57,7 +57,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -67,7 +67,7 @@ namespace MPfm
         /// <param name="main">Hook to main form</param>
         public frmFirstRun(frmMain main)
         {
-            m_main = main;
+            this.main = main;
             InitializeComponent();
         }
 
@@ -81,10 +81,10 @@ namespace MPfm
             try
             {
                 // Detect devices
-                m_devices = DeviceHelper.DetectOutputDevices();
+                devices = DeviceHelper.DetectOutputDevices();
 
                 // Check if at least one device has been found
-                if (m_devices.Count == 0)
+                if (devices.Count == 0)
                 {
                     // Display warning to user
                     MessageBox.Show("Error: No valid audio devices have been found!", "No audio devices found", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -95,15 +95,15 @@ namespace MPfm
                 }
 
                 // Output to log
-                for (int a = 0; a < m_devices.Count; a++)
+                for (int a = 0; a < devices.Count; a++)
                 {
-                    Tracing.Log("FirstRun -- Detected device " + (a + 1).ToString() + "/" + m_devices.Count.ToString() + ": " + m_devices[a].DriverType.ToString() + " (Id: " + m_devices[a].Id.ToString() + " Name: " + m_devices[a].Name + ")");
+                    Tracing.Log("FirstRun -- Detected device " + (a + 1).ToString() + "/" + devices.Count.ToString() + ": " + devices[a].DriverType.ToString() + " (Id: " + devices[a].Id.ToString() + " Name: " + devices[a].Name + ")");
                 }
 
                 // Separate devices 
-                m_devicesDirectSound = m_devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
-                m_devicesASIO = m_devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
-                m_devicesWASAPI = m_devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
+                devicesDirectSound = devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
+                devicesASIO = devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
+                devicesWASAPI = devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
 
                 // Update combo box
                 List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
@@ -119,10 +119,10 @@ namespace MPfm
                 cboDrivers.SelectedIndex = 0;
 
                 // Loop through DirectSound devices to get the default device
-                for (int a = 0; a < m_devicesDirectSound.Count; a++)
+                for (int a = 0; a < devicesDirectSound.Count; a++)
                 {
                     // Is this the default device?
-                    if (m_devicesDirectSound[a].IsDefault)
+                    if (devicesDirectSound[a].IsDefault)
                     {
                         // Set default device and exit loop
                         cboOutputDevices.SelectedIndex = a;
@@ -189,26 +189,26 @@ namespace MPfm
             if (driver.DriverType == DriverType.DirectSound)
             {
                 // Set combo box data source
-                cboOutputDevices.DataSource = m_devicesDirectSound;
+                cboOutputDevices.DataSource = devicesDirectSound;
 
                 // Find default device
-                Device defaultDevice = m_devicesDirectSound.FirstOrDefault(x => x.IsDefault);
+                Device defaultDevice = devicesDirectSound.FirstOrDefault(x => x.IsDefault);
             }
             else if (driver.DriverType == DriverType.ASIO)
             {
                 // Set combo box data source
-                cboOutputDevices.DataSource = m_devicesASIO;
+                cboOutputDevices.DataSource = devicesASIO;
 
                 // Find default device
-                Device defaultDevice = m_devicesASIO.FirstOrDefault(x => x.IsDefault);
+                Device defaultDevice = devicesASIO.FirstOrDefault(x => x.IsDefault);
             }
             else if (driver.DriverType == DriverType.WASAPI)
             {
                 // Set combo box data source
-                cboOutputDevices.DataSource = m_devicesWASAPI;
+                cboOutputDevices.DataSource = devicesWASAPI;
 
                 // Find default device
-                Device defaultDevice = m_devicesWASAPI.FirstOrDefault(x => x.IsDefault);
+                Device defaultDevice = devicesWASAPI.FirstOrDefault(x => x.IsDefault);
             }
 
             // The test is successful, enable Next button

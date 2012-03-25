@@ -43,13 +43,13 @@ namespace MPfm
     public partial class frmPlaylist : MPfm.WindowsControls.Form
     {
         // Private variables        
-        private frmRenameSavePlaylist m_formRenameSavePlaylist = null;
-        private frmLoadPlaylist m_formLoadPlaylist = null;
+        private frmRenameSavePlaylist formRenameSavePlaylist = null;
+        private frmLoadPlaylist formLoadPlaylist = null;
 
         /// <summary>
         /// Private value for the Main property.
         /// </summary>
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -57,7 +57,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -68,7 +68,7 @@ namespace MPfm
         public frmPlaylist(frmMain main)
         {
             InitializeComponent();
-            m_main = main;
+            this.main = main;
         }
 
         /// <summary>
@@ -393,14 +393,14 @@ namespace MPfm
         private void btnRenamePlaylist_Click(object sender, EventArgs e)
         {
             // Create window
-            m_formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
+            formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
 
             // Set window location
-            m_formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
+            formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
             //formRenameSavePlaylist.txtName.Text = Main.Player.Playlist.Name;
 
             // Show Save Playlist dialog
-            if (m_formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 // Refresh the window title
                 RefreshTitle();
@@ -564,17 +564,17 @@ namespace MPfm
             try
             {
                 // Create window
-                m_formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
+                formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
 
                 // Show Load playlist dialog (progress bar)
-                DialogResult dialogResult = m_formLoadPlaylist.ShowDialog(this);
+                DialogResult dialogResult = formLoadPlaylist.ShowDialog(this);
                 if (dialogResult == System.Windows.Forms.DialogResult.OK)
                 {
                     // Get audio files
-                    List<AudioFile> audioFiles = m_formLoadPlaylist.AudioFiles;
+                    List<AudioFile> audioFiles = formLoadPlaylist.AudioFiles;
 
                     // Check if any audio files have failed loading
-                    List<string> failedAudioFilePaths = m_formLoadPlaylist.FailedAudioFilePaths;
+                    List<string> failedAudioFilePaths = formLoadPlaylist.FailedAudioFilePaths;
 
                     // Clear player playlist
                     Main.Player.Playlist.Clear();
@@ -637,8 +637,8 @@ namespace MPfm
                 }
 
                 // Dispose form
-                m_formLoadPlaylist.Dispose();
-                m_formLoadPlaylist = null;
+                formLoadPlaylist.Dispose();
+                formLoadPlaylist = null;
             }
             catch (Exception ex)
             {

@@ -39,10 +39,10 @@ namespace MPfm
     public partial class frmAddEditMarker : MPfm.WindowsControls.Form
     {
         // Private variables
-        private AddEditMarkerWindowMode m_mode = AddEditMarkerWindowMode.Add;
-        private frmMain m_main = null;        
-        private AudioFile m_audioFile = null;
-        private Guid m_markerId = Guid.Empty;
+        private AddEditMarkerWindowMode mode = AddEditMarkerWindowMode.Add;
+        private frmMain main = null;        
+        private AudioFile audioFile = null;
+        private Guid markerId = Guid.Empty;
 
         /// <summary>
         /// Hook to the main form.
@@ -51,7 +51,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -66,10 +66,10 @@ namespace MPfm
         public frmAddEditMarker(frmMain main, AddEditMarkerWindowMode mode, AudioFile audioFile, Guid markerId)
         {
             InitializeComponent();
-            m_main = main;
-            m_mode = mode;
-            m_audioFile = audioFile;
-            m_markerId = markerId;
+            this.main = main;
+            this.mode = mode;
+            this.audioFile = audioFile;
+            this.markerId = markerId;
 
             // Initialize controls
             Initialize();
@@ -81,22 +81,22 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblSongValue.Text = m_audioFile.Title + " (" + m_audioFile.ArtistName + ")";
+            lblSongValue.Text = audioFile.Title + " (" + audioFile.ArtistName + ")";
 
             // Set labels depending on mode
-            if (m_mode == AddEditMarkerWindowMode.Add)
+            if (mode == AddEditMarkerWindowMode.Add)
             {
                 panelEditMarker.HeaderTitle = "Add marker";
                 Text = "Add marker";
             }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
+            else if (mode == AddEditMarkerWindowMode.Edit)
             {
                 panelEditMarker.HeaderTitle = "Edit marker";
                 panelEditMarker.Refresh();
                 Text = "Edit marker";
 
                 // Fetch marker from database                
-                Marker marker = Main.Library.Gateway.SelectMarker(m_markerId);
+                Marker marker = Main.Library.Gateway.SelectMarker(markerId);
 
                 // Check if the marker was found
                 if(marker == null)
@@ -138,20 +138,20 @@ namespace MPfm
 
             // Create a new marker or fetch the existing marker from the database            
             Marker marker = null;
-            if (m_mode == AddEditMarkerWindowMode.Add)
+            if (mode == AddEditMarkerWindowMode.Add)
             {
                 // Insert the new marker into the database
                 marker = new Marker();
                 marker.MarkerId = Guid.NewGuid();
             }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
+            else if (mode == AddEditMarkerWindowMode.Edit)
             {
                 // Select the existing marker from the database
-                marker = Main.Library.Gateway.SelectMarker(m_markerId);
+                marker = Main.Library.Gateway.SelectMarker(markerId);
             }
 
             // Set properties            
-            marker.AudioFileId = m_audioFile.Id;
+            marker.AudioFileId = audioFile.Id;
             marker.Name = txtName.Text;
             marker.Comments = txtComments.Text;
             marker.Position = txtPosition.Text;
@@ -159,17 +159,17 @@ namespace MPfm
             marker.PositionBytes = pcmBytes;
 
             // Determine if an INSERT or an UPDATE is necessary
-            if (m_mode == AddEditMarkerWindowMode.Add)
+            if (mode == AddEditMarkerWindowMode.Add)
             {
                 // Insert marker
                 Main.Library.Gateway.InsertMarker(marker);
 
                 // Refresh window as Edit Marker
-                m_markerId = marker.MarkerId;
-                m_mode = AddEditMarkerWindowMode.Edit;
+                markerId = marker.MarkerId;
+                mode = AddEditMarkerWindowMode.Edit;
                 Initialize();
             }
-            else if (m_mode == AddEditMarkerWindowMode.Edit)
+            else if (mode == AddEditMarkerWindowMode.Edit)
             {
                 // Update marker
                 Main.Library.Gateway.UpdateMarker(marker);
@@ -274,14 +274,14 @@ namespace MPfm
             }
 
             // Get song length in MS
-            uint msTotal = ConvertAudio.ToMS(m_audioFile.Length);
+            uint msTotal = ConvertAudio.ToMS(audioFile.Length);
             uint msMarker = ConvertAudio.ToMS(txtPosition.Text);
 
             // Check if the position exceeds the song length
             if (msMarker > msTotal)
             {
                 isValid = false;
-                warningMessage = "The marker position cannot exceed the audio file length (" + m_audioFile.Length + ").";
+                warningMessage = "The marker position cannot exceed the audio file length (" + audioFile.Length + ").";
             }
 
             // Set warning

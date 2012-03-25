@@ -47,7 +47,7 @@ namespace MPfm.WindowsControls
         private float valueRelativeToValueRange = 0;
         private float valueRange = 0;
 
-        private bool m_mouseButtonDown = false;
+        private bool mouseButtonDown = false;
         /// <summary>
         /// Indicates if a mouse button is down.
         /// </summary>
@@ -55,13 +55,13 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_mouseButtonDown;
+                return mouseButtonDown;
             }
         }
 
         #region Background Properties
 
-        private Color m_gradientColor1 = Color.DarkGray;
+        private Color gradientColor1 = Color.DarkGray;
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -71,15 +71,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor1;
+                return gradientColor1;
             }
             set
             {
-                m_gradientColor1 = value;
+                gradientColor1 = value;
             }
         }
 
-        private Color m_gradientColor2 = Color.Gray;
+        private Color gradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -89,15 +89,15 @@ namespace MPfm.WindowsControls
         {  
             get
             {
-                return m_gradientColor2;
+                return gradientColor2;
             }
             set
             {
-                m_gradientColor2 = value;
+                gradientColor2 = value;
             }
         }
 
-        private LinearGradientMode m_gradientMode = LinearGradientMode.Vertical;
+        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
         /// </summary>
@@ -106,11 +106,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientMode;
+                return gradientMode;
             }
             set
             {
-                m_gradientMode = value;
+                gradientMode = value;
             }
         }
 
@@ -118,7 +118,7 @@ namespace MPfm.WindowsControls
 
         #region Fader Properties
 
-        private Color m_faderMiddleLineColor = Color.Black;
+        private Color faderMiddleLineColor = Color.Black;
         /// <summary>
         /// Color of the line in the center of the fader.
         /// </summary>
@@ -128,15 +128,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderMiddleLineColor;
+                return faderMiddleLineColor;
             }
             set
             {
-                m_faderMiddleLineColor = value;
+                faderMiddleLineColor = value;
             }
         }
 
-        private Color m_faderShadowColor = Color.DarkGray;
+        private Color faderShadowColor = Color.DarkGray;
         /// <summary>
         /// Color of the fader shadow.
         /// </summary>
@@ -146,15 +146,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderShadowColor;
+                return faderShadowColor;
             }
             set
             {
-                m_faderShadowColor = value;
+                faderShadowColor = value;
             }
         }
 
-        private int m_faderWidth = 20;
+        private int faderWidth = 20;
         /// <summary>
         /// Fader width.
         /// </summary>
@@ -165,15 +165,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderWidth;
+                return faderWidth;
             }
             set
             {
-                m_faderWidth = value;
+                faderWidth = value;
             }
         }
 
-        private int m_faderHeight = 15;
+        private int faderHeight = 15;
         /// <summary>
         /// Fader height.
         /// </summary>
@@ -184,15 +184,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderHeight;
+                return faderHeight;
             }
             set
             {
-                m_faderHeight = value;
+                faderHeight = value;
             }
         }
 
-        private Color m_faderGradientColor1 = Color.LightGray;
+        private Color faderGradientColor1 = Color.LightGray;
         /// <summary>
         /// First color of the fader gradient.
         /// </summary>
@@ -202,15 +202,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderGradientColor1;
+                return faderGradientColor1;
             }
             set
             {
-                m_faderGradientColor1 = value;
+                faderGradientColor1 = value;
             }
         }
 
-        private Color m_faderGradientColor2 = Color.Gray;
+        private Color faderGradientColor2 = Color.Gray;
         /// <summary>
         /// Second color of the fader gradient.
         /// </summary>
@@ -220,15 +220,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderGradientColor2;
+                return faderGradientColor2;
             }
             set
             {
-                m_faderGradientColor2 = value;
+                faderGradientColor2 = value;
             }
         }
 
-        private Color m_faderShadowGradientColor1 = Color.DarkGray;
+        private Color faderShadowGradientColor1 = Color.DarkGray;
         /// <summary>
         /// First color of the fader shadow gradient.
         /// </summary>
@@ -238,15 +238,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderShadowGradientColor1;
+                return faderShadowGradientColor1;
             }
             set
             {
-                m_faderShadowGradientColor1 = value;
+                faderShadowGradientColor1 = value;
             }
         }
 
-        private Color m_faderShadowGradientColor2 = Color.DarkGray;
+        private Color faderShadowGradientColor2 = Color.DarkGray;
         /// <summary>
         /// Second color of the fader shadow gradient.
         /// </summary>
@@ -256,11 +256,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_faderShadowGradientColor2;
+                return faderShadowGradientColor2;
             }
             set
             {
-                m_faderShadowGradientColor2 = value;
+                faderShadowGradientColor2 = value;
             }
         }
 
@@ -268,7 +268,7 @@ namespace MPfm.WindowsControls
 
         #region Other Properties
         
-        private int m_minimum = 0;
+        private int minimum = 0;
         /// <summary>
         /// Fader minimum value.
         /// </summary>
@@ -279,15 +279,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_minimum;
+                return minimum;
             }
             set
             {
-                m_minimum = value;
+                minimum = value;
             }
         }
 
-        private int m_maximum = 10;
+        private int maximum = 10;
         /// <summary>
         /// Fader maximum value.
         /// </summary>
@@ -297,15 +297,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_maximum;
+                return maximum;
             }
             set
             {
-                m_maximum = value;
+                maximum = value;
             }
         }
 
-        private int m_value = 0;
+        private int value = 0;
         /// <summary>
         /// Fader value.
         /// </summary>
@@ -316,11 +316,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_value;
+                return value;
             }
             set
             {
-                m_value = value;
+                this.value = value;
 
                 // Raise refresh event
                 this.Refresh();
@@ -334,7 +334,7 @@ namespace MPfm.WindowsControls
             }
         }
 
-        private int m_margin = 16;
+        private int margin = 16;
         /// <summary>
         /// Fader track margin.
         /// </summary>
@@ -345,15 +345,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_margin;
+                return margin;
             }
             set
             {
-                m_margin = value;
+                margin = value;
             }
         }
 
-        private int m_stepSize = 1;
+        private int stepSize = 1;
         /// <summary>
         /// Fader step size (when the user clicks to skip a value).
         /// </summary>
@@ -364,15 +364,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_stepSize;
+                return stepSize;
             }
             set
             {
-                m_stepSize = value;
+                stepSize = value;
             }
         }
 
-        private Color m_centerLineColor = Color.Black;
+        private Color centerLineColor = Color.Black;
         /// <summary>
         /// Color used when drawing the center line.
         /// </summary>
@@ -382,15 +382,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_centerLineColor;
+                return centerLineColor;
             }
             set
             {
-                m_centerLineColor = value;
+                centerLineColor = value;
             }
         }
 
-        private Color m_centerLineShadowColor = Color.DarkGray;
+        private Color centerLineShadowColor = Color.DarkGray;
         /// <summary>
         /// Color used when drawing the center line shadow.
         /// </summary>
@@ -400,11 +400,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_centerLineShadowColor;
+                return centerLineShadowColor;
             }
             set
             {
-                m_centerLineShadowColor = value;
+                centerLineShadowColor = value;
             }
         }
 
@@ -618,7 +618,7 @@ namespace MPfm.WindowsControls
         /// <param name="e">Mouse Event arguments</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            m_mouseButtonDown = true;
+            mouseButtonDown = true;
 
             // Make sure the mouse button pressed was the left mouse button
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
@@ -684,7 +684,7 @@ namespace MPfm.WindowsControls
             }
 
             // Reset flags
-            m_mouseButtonDown = false;
+            mouseButtonDown = false;
             isTrackBarMoving = false;
 
             // Call the client side events
@@ -700,7 +700,7 @@ namespace MPfm.WindowsControls
             // Set value changed flag default to false
             bool valueChanged = false;
 
-            if (isTrackBarMoving && m_mouseButtonDown)
+            if (isTrackBarMoving && mouseButtonDown)
             {
                 // Evaluate tick height
                 float tickHeight = trackHeight / valueRange;

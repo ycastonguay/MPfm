@@ -42,7 +42,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the Handle property.
         /// </summary>
-        private int m_handle = 0;
+        private int handle = 0;
         /// <summary>
         /// Defines the synchronization callback handle.
         /// </summary>
@@ -50,18 +50,18 @@ namespace MPfm.Player
         {
             get
             {
-                return m_handle;
+                return handle;
             }
             set
             {
-                m_handle = value;
+                handle = value;
             }
         }
 
         /// <summary>
         /// Private value for the SyncProc property.
         /// </summary>
-        private SYNCPROC m_syncProc = null;
+        private SYNCPROC syncProc = null;
         /// <summary>
         /// Defines the synchronization callback (BASS.NET object).
         /// </summary>
@@ -69,11 +69,11 @@ namespace MPfm.Player
         {
             get
             {
-                return m_syncProc;
+                return syncProc;
             }
             set
             {
-                m_syncProc = value;
+                syncProc = value;
             }
         }
 

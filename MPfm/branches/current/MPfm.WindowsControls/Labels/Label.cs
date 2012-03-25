@@ -44,14 +44,14 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Embedded font collection used for drawing.
         /// </summary>
-        private EmbeddedFontCollection m_embeddedFonts = null;
+        private EmbeddedFontCollection embeddedFonts = null;
 
         #region Background Properties
 
         /// <summary>
         /// Private value for the UseBackgroundGradient property.
         /// </summary>
-        private bool m_useBackgroundGradient = false;
+        private bool useBackgroundGradient = false;
         /// <summary>
         /// Defines if the background gradient should be used or not.
         /// </summary>
@@ -61,18 +61,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_useBackgroundGradient;
+                return useBackgroundGradient;
             }
             set
             {
-                m_useBackgroundGradient = value;
+                useBackgroundGradient = value;
             }
         }
 
         /// <summary>
         /// Private value for the BackgroundGradientColor1 property.
         /// </summary>
-        private Color m_backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
+        private Color backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -82,18 +82,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_backgroundGradientColor1;
+                return backgroundGradientColor1;
             }
             set
             {
-                m_backgroundGradientColor1 = value;
+                backgroundGradientColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the BackgroundGradientColor2 property.
         /// </summary>
-        private Color m_backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
+        private Color backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -103,18 +103,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_backgroundGradientColor2;
+                return backgroundGradientColor2;
             }
             set
             {
-                m_backgroundGradientColor2 = value;
+                backgroundGradientColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the BackgroundGradientMode property.
         /// </summary>
-        private LinearGradientMode m_backgroundGradientMode = LinearGradientMode.Vertical;
+        private LinearGradientMode backgroundGradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
         /// </summary>
@@ -124,11 +124,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_backgroundGradientMode;
+                return backgroundGradientMode;
             }
             set
             {
-                m_backgroundGradientMode = value;
+                backgroundGradientMode = value;
             }
         }
 
@@ -139,7 +139,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the Font to be used for rendering the control.
         /// </summary>
@@ -149,11 +149,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
                 Refresh();                
             }
         }
@@ -170,7 +170,7 @@ namespace MPfm.WindowsControls
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);        
             
             // Set default Font
-            m_customFont = new CustomFont();             
+            customFont = new CustomFont();             
         }
 
         /// <summary>
@@ -206,12 +206,12 @@ namespace MPfm.WindowsControls
                 string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
 
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
             }
             else
             {
                 // Get embedded font collection
-                m_embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
             }
         }
 
@@ -245,7 +245,7 @@ namespace MPfm.WindowsControls
                     try
                     {
                         // Get embedded Font
-                        Font = Tools.LoadEmbeddedFont(m_embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        Font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
                     }
                     catch
                     {
@@ -270,11 +270,11 @@ namespace MPfm.WindowsControls
                 }
 
                 // Check if the gradient background should be used
-                if (m_useBackgroundGradient)
+                if (useBackgroundGradient)
                 {                    
                     // Draw background gradient (cover -1 pixel for some refresh bug)
                     Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                    LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, m_backgroundGradientColor1, m_backgroundGradientColor2, m_backgroundGradientMode);
+                    LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, backgroundGradientColor1, backgroundGradientColor2, backgroundGradientMode);
                     g.FillRectangle(brushBackground, rectBody);
                     brushBackground.Dispose();
                     brushBackground = null;

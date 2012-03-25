@@ -51,7 +51,7 @@ namespace MPfm
         /// <summary>
         /// Private value for the Main property.
         /// </summary>
-        private frmMain m_main = null;
+        private frmMain main = null;
         /// <summary>
         /// Hook to the main form.
         /// </summary>
@@ -59,14 +59,14 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
         /// <summary>
         /// Private value for the FilePaths property.
         /// </summary>
-        private List<string> m_filePaths = null;
+        private List<string> filePaths = null;
         /// <summary>
         /// Indicates the list of audio file paths to update.
         /// </summary>
@@ -74,14 +74,14 @@ namespace MPfm
         {
             get
             {
-                return m_filePaths;
+                return filePaths;
             }
         }
 
         /// <summary>
         /// Private value for the FolderPath property.
         /// </summary>
-        private string m_folderPath = string.Empty;
+        private string folderPath = string.Empty;
         /// <summary>
         /// Indicates the folder path to update.
         /// </summary>
@@ -89,7 +89,7 @@ namespace MPfm
         {
             get
             {
-                return m_folderPath;
+                return folderPath;
             }
         }
 
@@ -142,10 +142,10 @@ namespace MPfm
         {
             // Initialize private variables
             InitializeComponent();
-            m_main = main;
+            this.main = main;
             this.mode = mode;
-            m_filePaths = filePaths;
-            m_folderPath = folderPath;
+            this.filePaths = filePaths;
+            this.folderPath = folderPath;
 
             // Update UI
             lblTitle.Text = "Updating";

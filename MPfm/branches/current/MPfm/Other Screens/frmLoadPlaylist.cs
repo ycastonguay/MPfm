@@ -38,13 +38,13 @@ namespace MPfm
     public partial class frmLoadPlaylist : MPfm.WindowsControls.Form
     {
         // Private variables
-        private frmMain m_main = null;
-        private string m_playlistFilePath = string.Empty;
+        private frmMain main = null;
+        private string playlistFilePath = string.Empty;
 
         /// <summary>
         /// Private value for the AudioFiles property.
         /// </summary>
-        private List<AudioFile> m_audioFiles = null;
+        private List<AudioFile> audioFiles = null;
         /// <summary>
         /// List of AudioFiles that have been scanned by the background worker.
         /// </summary>
@@ -52,14 +52,14 @@ namespace MPfm
         {
             get
             {
-                return m_audioFiles;
+                return audioFiles;
             }
         }
 
         /// <summary>
         /// Private value for the FailedAudioFilePaths property.
         /// </summary>
-        private List<string> m_failedAudioFilePaths = null;
+        private List<string> failedAudioFilePaths = null;
         /// <summary>
         /// List of audio file paths that could not be loaded successfully.
         /// </summary>
@@ -67,7 +67,7 @@ namespace MPfm
         {
             get
             {
-                return m_failedAudioFilePaths;
+                return failedAudioFilePaths;
             }
         }
 
@@ -78,7 +78,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -91,8 +91,8 @@ namespace MPfm
         public frmLoadPlaylist(frmMain main, string playlistFilePath)
         {
             InitializeComponent();
-            m_main = main;
-            m_playlistFilePath = playlistFilePath;
+            this.main = main;
+            this.playlistFilePath = playlistFilePath;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace MPfm
         private void frmLoadPlaylist_Load(object sender, EventArgs e)
         {
             // Start worker
-            worker.RunWorkerAsync(m_playlistFilePath);
+            worker.RunWorkerAsync(playlistFilePath);
         }
 
         /// <summary>
@@ -242,8 +242,8 @@ namespace MPfm
                     WorkerLoadPlaylistCompleteData data = (WorkerLoadPlaylistCompleteData)e.Result;
 
                     // Set dialog result
-                    m_audioFiles = data.AudioFiles;
-                    m_failedAudioFilePaths = data.FailedAudioFilePaths;
+                    audioFiles = data.AudioFiles;
+                    failedAudioFilePaths = data.FailedAudioFilePaths;
                     DialogResult = System.Windows.Forms.DialogResult.OK;
                 }
             }

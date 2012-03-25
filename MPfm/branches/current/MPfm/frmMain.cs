@@ -1020,7 +1020,7 @@ namespace MPfm
             if (Player.Device.DriverType != DriverType.DirectSound)
             {
                 // Use the GetMixerData method instead, so we don't "steal" data from the decode buffer
-                //length = m_player.MainChannel.GetMixerData(sampleData, length20ms);
+                //length = player.MainChannel.GetMixerData(sampleData, length20ms);
                 length = player.FXChannel.GetMixerData(sampleData, length20ms);
             }
             else
@@ -1344,7 +1344,7 @@ namespace MPfm
             //new Thread(delegate()
             //{                
             //    List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
-            //    updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);                
+            //    updateLibrary = new Library.UpdateLibrary(1, library.Gateway.DatabaseFilePath);                
             //    Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
             //}).Start();
         }
@@ -3457,7 +3457,7 @@ namespace MPfm
             //new Thread(delegate()
             //    {
             //        List<string> filePaths = AudioTools.SearchAudioFilesRecursive(@"E:\MP3\", "MP3;FLAC;OGG");
-            //        updateLibrary = new Library.UpdateLibrary(1, m_library.Gateway.DatabaseFilePath);
+            //        updateLibrary = new Library.UpdateLibrary(1, library.Gateway.DatabaseFilePath);
             //        updateLibrary.OnProcessData += new MPfm.Library.UpdateLibrary.ProcessData(updateLibrary_OnProcessData);
             //        Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
             //    }).Start();

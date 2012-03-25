@@ -39,7 +39,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the GradientColor1 property.
         /// </summary>
-        private Color m_gradientColor1 = Color.Black;
+        private Color gradientColor1 = Color.Black;
         /// <summary>
         /// First color of the background gradient.
         /// </summary>
@@ -49,18 +49,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor1;
+                return gradientColor1;
             }
             set
             {
-                m_gradientColor1 = value;
+                gradientColor1 = value;
             }
         }
 
         /// <summary>
         /// Private value for the GradientColor2 property.
         /// </summary>
-        private Color m_gradientColor2 = Color.FromArgb(40, 40, 40);
+        private Color gradientColor2 = Color.FromArgb(40, 40, 40);
         /// <summary>
         /// Second color of the background gradient.
         /// </summary>
@@ -70,18 +70,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientColor2;
+                return gradientColor2;
             }
             set
             {
-                m_gradientColor2 = value;
+                gradientColor2 = value;
             }
         }
 
         /// <summary>
         /// Private value for the GradientMode property.
         /// </summary>
-        private LinearGradientMode m_gradientMode = LinearGradientMode.Vertical;
+        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
         /// <summary>
         /// Background gradient mode.
         /// </summary>
@@ -90,11 +90,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_gradientMode;
+                return gradientMode;
             }
             set
             {
-                m_gradientMode = value;
+                gradientMode = value;
             }
         }
 
@@ -105,7 +105,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont m_customFont = null;
+        private CustomFont customFont = null;
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -115,18 +115,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_customFont;
+                return customFont;
             }
             set
             {
-                m_customFont = value;
+                customFont = value;
             }
         }
 
         /// <summary>
         /// Private value for the FontColor property.
         /// </summary>
-        private Color m_fontColor = Color.White;
+        private Color fontColor = Color.White;
         /// <summary>
         /// Fore font color used when displaying the volume peak in decibels.
         /// </summary>
@@ -136,18 +136,18 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_fontColor;
+                return fontColor;
             }
             set
             {
-                m_fontColor = value;
+                fontColor = value;
             }
         }
 
         /// <summary>
         /// Private value for the FontShadowColor property.
         /// </summary>
-        private Color m_fontShadowColor = Color.Gray;
+        private Color fontShadowColor = Color.Gray;
         /// <summary>
         /// Fore font color used when displaying the volume peak in decibels (drop shadow under text).
         /// </summary>
@@ -157,11 +157,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_fontShadowColor;
+                return fontShadowColor;
             }
             set
             {
-                m_fontShadowColor = value;
+                fontShadowColor = value;
             }
         }
 
@@ -169,7 +169,7 @@ namespace MPfm.WindowsControls
 
         #region Meter Properties
 
-        private Color m_meterGradientColor1 = Color.Green;
+        private Color meterGradientColor1 = Color.Green;
         /// <summary>
         /// The first color of the color gradient used when drawing the output meter.
         /// </summary>
@@ -179,15 +179,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_meterGradientColor1;
+                return meterGradientColor1;
             }
             set
             {
-                m_meterGradientColor1 = value;
+                meterGradientColor1 = value;
             }
         }
 
-        private Color m_meterGradientColor2 = Color.LightGreen;
+        private Color meterGradientColor2 = Color.LightGreen;
         /// <summary>
         /// The second color of the color gradient used when drawing the output meter.
         /// </summary>
@@ -197,15 +197,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_meterGradientColor2;
+                return meterGradientColor2;
             }
             set
             {
-                m_meterGradientColor2 = value;
+                meterGradientColor2 = value;
             }
         }
 
-        private Color m_meterDistortionGradientColor1 = Color.DarkRed;
+        private Color meterDistortionGradientColor1 = Color.DarkRed;
         /// <summary>
         /// The first color of the color gradient used when drawing the output meter.
         /// </summary>
@@ -215,15 +215,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_meterDistortionGradientColor1;
+                return meterDistortionGradientColor1;
             }
             set
             {
-                m_meterDistortionGradientColor1 = value;
+                meterDistortionGradientColor1 = value;
             }
         }
 
-        private Color m_meterDistortionGradientColor2 = Color.Red;
+        private Color meterDistortionGradientColor2 = Color.Red;
         /// <summary>
         /// The second color of the color gradient used when drawing the output meter and value exceeds distortion threshold.
         /// </summary>
@@ -233,15 +233,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_meterDistortionGradientColor2;
+                return meterDistortionGradientColor2;
             }
             set
             {
-                m_meterDistortionGradientColor2 = value;
+                meterDistortionGradientColor2 = value;
             }
         }
 
-        private Color m_meter0dbLineColor = Color.DarkGray;
+        private Color meter0dbLineColor = Color.DarkGray;
         /// <summary>
         /// The color of the 0db line drawn on the output meter.
         /// </summary>
@@ -251,15 +251,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_meter0dbLineColor;
+                return meter0dbLineColor;
             }
             set
             {
-                m_meter0dbLineColor = value;
+                meter0dbLineColor = value;
             }
         }
 
-        private Color m_meterPeakLineColor = Color.LightGray;
+        private Color meterPeakLineColor = Color.LightGray;
         /// <summary>
         /// The color of the peak line drawn on the output meter.
         /// </summary>
@@ -269,16 +269,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_meterPeakLineColor;
+                return meterPeakLineColor;
             }
             set
             {
-                m_meterPeakLineColor = value;
+                meterPeakLineColor = value;
             }
         }
 
         #endregion
-
 
         /// <summary>
         /// Default constructor for the OutputMeterTheme class.
@@ -286,10 +285,10 @@ namespace MPfm.WindowsControls
         public OutputMeterTheme()
         {
             // Set default values
-            m_customFont = new CustomFont();
-            m_customFont.EmbeddedFontName = "Junction";
-            m_customFont.Size = 8;
-            m_customFont.UseEmbeddedFont = true;
+            customFont = new CustomFont();
+            customFont.EmbeddedFontName = "Junction";
+            customFont.Size = 8;
+            customFont.UseEmbeddedFont = true;
         }
     }
 }

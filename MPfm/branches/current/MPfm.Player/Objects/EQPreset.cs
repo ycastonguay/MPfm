@@ -52,7 +52,7 @@ namespace MPfm.Player
         /// <summary>
         /// Private value for the Bands property.
         /// </summary>
-        private List<EQPresetBand> m_bands = null;
+        private List<EQPresetBand> bands = null;
         /// <summary>
         /// List of equalizer bands (18 bands).
         /// </summary>
@@ -60,7 +60,7 @@ namespace MPfm.Player
         {
             get
             {
-                return m_bands;
+                return bands;
             }
         }
 
@@ -109,7 +109,7 @@ namespace MPfm.Player
         public void LoadDefault()
         {
             // Create default preset
-            m_bands = new List<EQPresetBand>();
+            bands = new List<EQPresetBand>();
             Name = "Default";
             EQPresetId = Guid.NewGuid();
 
@@ -120,9 +120,8 @@ namespace MPfm.Player
             for (int a = 0; a < freqs.Count; a++)
             {
                 // Add equalizer band
-                m_bands.Add(new EQPresetBand(freqs[a]));
+                bands.Add(new EQPresetBand(freqs[a]));
             }
-
         }
 
         /// <summary>

@@ -40,16 +40,16 @@ namespace MPfm
     public partial class frmAddEditLoop : MPfm.WindowsControls.Form
     {
         // Private variables
-        private AddEditLoopWindowMode m_mode = AddEditLoopWindowMode.Add;
-        private frmMain m_main = null;        
-        private AudioFile m_audioFile = null;
-        private Guid m_loopId = Guid.Empty;
-        private List<Marker> m_markers = null;
-        private uint m_loopLengthMS = 0;
-        private uint m_loopLengthBytes = 0;
-        private uint m_loopLengthSamples = 0;        
-        private long m_startPositionBytes = 0;
-        private long m_endPositionBytes = 0;
+        private AddEditLoopWindowMode mode = AddEditLoopWindowMode.Add;
+        private frmMain main = null;        
+        private AudioFile audioFile = null;
+        private Guid loopId = Guid.Empty;
+        private List<Marker> markers = null;
+        private uint loopLengthMS = 0;
+        private uint loopLengthBytes = 0;
+        private uint loopLengthSamples = 0;        
+        private long startPositionBytes = 0;
+        private long endPositionBytes = 0;
 
         /// <summary>
         /// Hook to the main form.
@@ -58,7 +58,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -73,10 +73,10 @@ namespace MPfm
         public frmAddEditLoop(frmMain main, AddEditLoopWindowMode mode, AudioFile audioFile, Guid loopId)
         {
             InitializeComponent();
-            m_main = main;
-            m_mode = mode;
-            m_audioFile = audioFile;
-            m_loopId = loopId;
+            this.main = main;
+            this.mode = mode;
+            this.audioFile = audioFile;
+            this.loopId = loopId;
 
             // Initialize controls
             Initialize();
@@ -88,25 +88,25 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblSongValue.Text = m_audioFile.Title + " (" + m_audioFile.ArtistName + ")";
+            lblSongValue.Text = audioFile.Title + " (" + audioFile.ArtistName + ")";
 
             // Refresh markers
             RefreshMarkers();
 
             // Set labels depending on mode
-            if (m_mode == AddEditLoopWindowMode.Add)
+            if (mode == AddEditLoopWindowMode.Add)
             {
                 panelEditLoop.HeaderTitle = "Add loop";
                 Text = "Add loop";
             }
-            else if (m_mode == AddEditLoopWindowMode.Edit)
+            else if (mode == AddEditLoopWindowMode.Edit)
             {
                 panelEditLoop.HeaderTitle = "Edit loop";
                 panelEditLoop.Refresh();
                 Text = "Edit loop";
 
                 // Fetch loop from database                
-                Loop loop = Main.Library.Gateway.SelectLoop(m_loopId);
+                Loop loop = Main.Library.Gateway.SelectLoop(loopId);
 
                 // Check if the loop was found
                 if (loop == null)
@@ -118,8 +118,8 @@ namespace MPfm
                 txtName.Text = loop.Name;
                 txtStartPosition.Text = loop.StartPosition;
                 txtEndPosition.Text = loop.EndPosition;
-                m_startPositionBytes = loop.StartPositionBytes;
-                m_endPositionBytes = loop.EndPositionBytes;
+                startPositionBytes = loop.StartPositionBytes;
+                endPositionBytes = loop.EndPositionBytes;
             }
 
             // Validate form
@@ -135,16 +135,16 @@ namespace MPfm
         public void RefreshMarkers()
         {
             // Fetch markers from database
-            m_markers = Main.Library.Gateway.SelectMarkers(m_main.Player.Playlist.CurrentItem.AudioFile.Id);
-            m_markers.Insert(0, new Marker());
+            markers = Main.Library.Gateway.SelectMarkers(main.Player.Playlist.CurrentItem.AudioFile.Id);
+            markers.Insert(0, new Marker());
 
             // Set combo box items for A
-            comboStartPositionMarker.DataSource = m_markers;
+            comboStartPositionMarker.DataSource = markers;
 
             // Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
-            m_markers = Main.Library.Gateway.SelectMarkers(m_main.Player.Playlist.CurrentItem.AudioFile.Id);
-            m_markers.Insert(0, new Marker());
-            comboEndPositionMarker.DataSource = m_markers;  
+            markers = Main.Library.Gateway.SelectMarkers(main.Player.Playlist.CurrentItem.AudioFile.Id);
+            markers.Insert(0, new Marker());
+            comboEndPositionMarker.DataSource = markers;  
         }
 
         /// <summary>
@@ -171,41 +171,41 @@ namespace MPfm
 
             // Create a new loop or fetch the existing loop from the database
             Loop loop = null;
-            if (m_mode == AddEditLoopWindowMode.Add)
+            if (mode == AddEditLoopWindowMode.Add)
             {
                 // Insert the new loop into the database
                 loop = new Loop();
                 loop.LoopId = Guid.NewGuid();
             }
-            else if (m_mode == AddEditLoopWindowMode.Edit)
+            else if (mode == AddEditLoopWindowMode.Edit)
             {
                 // Select the existing loop from the database
-                loop = Main.Library.Gateway.SelectLoop(m_loopId);
+                loop = Main.Library.Gateway.SelectLoop(loopId);
             }
 
             // Set properties    
             loop.Name = txtName.Text;
-            loop.AudioFileId = m_audioFile.Id;
-            loop.Length = Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
-            loop.LengthBytes = m_loopLengthBytes;
-            loop.LengthSamples = m_loopLengthSamples;
+            loop.AudioFileId = audioFile.Id;
+            loop.Length = Conversion.MillisecondsToTimeString((ulong)loopLengthMS);
+            loop.LengthBytes = loopLengthBytes;
+            loop.LengthSamples = loopLengthSamples;
             loop.StartPosition = txtStartPosition.Text;
-            loop.StartPositionBytes = (uint)m_startPositionBytes;            
+            loop.StartPositionBytes = (uint)startPositionBytes;            
             loop.EndPosition = txtEndPosition.Text;
-            loop.EndPositionBytes = (uint)m_endPositionBytes;
+            loop.EndPositionBytes = (uint)endPositionBytes;
 
             // Determine if an INSERT or an UPDATE is necessary
-            if (m_mode == AddEditLoopWindowMode.Add)
+            if (mode == AddEditLoopWindowMode.Add)
             {
                 // Insert loop
                 Main.Library.Gateway.InsertLoop(loop);
 
                 // Refresh window as Edit Loop
-                m_loopId = loop.LoopId;
-                m_mode = AddEditLoopWindowMode.Edit;
+                loopId = loop.LoopId;
+                mode = AddEditLoopWindowMode.Edit;
                 Initialize();
             }
-            else if (m_mode == AddEditLoopWindowMode.Edit)
+            else if (mode == AddEditLoopWindowMode.Edit)
             {
                 // Update loop
                 Main.Library.Gateway.UpdateLoop(loop);
@@ -237,7 +237,7 @@ namespace MPfm
             // Get marker and display position
             Marker marker = (Marker)comboStartPositionMarker.SelectedItem;
             txtStartPosition.Text = marker.Position;
-            m_startPositionBytes = marker.PositionBytes;
+            startPositionBytes = marker.PositionBytes;
 
             // Validate form
             ValidateForm();
@@ -253,7 +253,7 @@ namespace MPfm
             // Get marker and display position
             Marker marker = (Marker)comboEndPositionMarker.SelectedItem;
             txtEndPosition.Text = marker.Position;
-            m_endPositionBytes = marker.PositionBytes;
+            endPositionBytes = marker.PositionBytes;
 
             // Validate form
             ValidateForm();
@@ -276,7 +276,7 @@ namespace MPfm
             }
 
             // Valiudate loop length
-            if (m_endPositionBytes <= m_startPositionBytes)
+            if (endPositionBytes <= startPositionBytes)
             {
                 isValid = false;
                 warningMessage = "The loop length must be positive.";
@@ -284,14 +284,14 @@ namespace MPfm
             else
             {
                 // Convert values                
-                m_loopLengthBytes = (uint)(m_endPositionBytes - m_startPositionBytes);
-                m_loopLengthSamples = (uint)ConvertAudio.ToPCM((long)m_loopLengthBytes, 16, 2);
-                m_loopLengthMS = (uint)ConvertAudio.ToMS((long)m_loopLengthSamples, 44100);
+                loopLengthBytes = (uint)(endPositionBytes - startPositionBytes);
+                loopLengthSamples = (uint)ConvertAudio.ToPCM((long)loopLengthBytes, 16, 2);
+                loopLengthMS = (uint)ConvertAudio.ToMS((long)loopLengthSamples, 44100);
 
                 // Update loop length
-                lblLoopLengthValue.Text = MPfm.Core.Conversion.MillisecondsToTimeString((ulong)m_loopLengthMS);
-                lblLoopLengthPCMBytesValue.Text = m_loopLengthBytes.ToString();
-                lblLoopLengthPCMValue.Text = m_loopLengthSamples.ToString();                
+                lblLoopLengthValue.Text = MPfm.Core.Conversion.MillisecondsToTimeString((ulong)loopLengthMS);
+                lblLoopLengthPCMBytesValue.Text = loopLengthBytes.ToString();
+                lblLoopLengthPCMValue.Text = loopLengthSamples.ToString();                
             }
 
             // Set warning
@@ -317,8 +317,8 @@ namespace MPfm
             }
 
             // Get position
-            m_startPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
-            string position = ConvertAudio.ToTimeString(m_startPositionBytes, 16, 2, 44100);
+            startPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
+            string position = ConvertAudio.ToTimeString(startPositionBytes, 16, 2, 44100);
 
             // Update controls
             txtStartPosition.Text = position;
@@ -342,8 +342,8 @@ namespace MPfm
             }
 
             // Get position
-            m_endPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
-            string position = ConvertAudio.ToTimeString(m_endPositionBytes, 16, 2, 44100);
+            endPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
+            string position = ConvertAudio.ToTimeString(endPositionBytes, 16, 2, 44100);
 
             // Update controls
             txtEndPosition.Text = position;
@@ -367,7 +367,7 @@ namespace MPfm
             }
 
             // Set position            
-            Main.Player.SetPosition(m_startPositionBytes);
+            Main.Player.SetPosition(startPositionBytes);
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace MPfm
             }
 
             // Set position            
-            Main.Player.SetPosition(m_endPositionBytes);
+            Main.Player.SetPosition(endPositionBytes);
         }
 
         /// <summary>
@@ -422,20 +422,20 @@ namespace MPfm
         public void CheckForRelatedPositionMarkers()
         {
             // Loop through markers to check if the position matches
-            foreach (Marker marker in m_markers)
+            foreach (Marker marker in markers)
             {
                 // Skip any unnamed markers
                 if (!String.IsNullOrEmpty(marker.Name))
                 {
                     // Check if the start position matches
-                    if (marker.PositionBytes == m_startPositionBytes)
+                    if (marker.PositionBytes == startPositionBytes)
                     {
                         // Set start position selected item
                         comboStartPositionMarker.SelectedItem = marker;
                     }
 
                     // Check if the end position matches
-                    if (marker.PositionBytes == m_endPositionBytes)
+                    if (marker.PositionBytes == endPositionBytes)
                     {
                         // Set end position selected item
                         comboEndPositionMarker.SelectedItem = marker;

@@ -40,7 +40,7 @@ namespace MPfm.WindowsControls
     /// </summary>
     public partial class WaveForm : Control
     {
-        private List<WaveDataMinMax> m_waveDataHistory = null;
+        private List<WaveDataMinMax> waveDataHistory = null;
         /// <summary>
         /// Array containing an history of min and max peaks over the last 1000ms.
         /// </summary>
@@ -48,7 +48,7 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_waveDataHistory;
+                return waveDataHistory;
             }
         }
 
@@ -96,7 +96,7 @@ namespace MPfm.WindowsControls
 
         #region Other Properties
         
-        private WaveFormDisplayType m_displayType = WaveFormDisplayType.Stereo;
+        private WaveFormDisplayType displayType = WaveFormDisplayType.Stereo;
         /// <summary>
         /// Wave form display type (left channel, right channel or stereo).
         /// </summary>
@@ -106,15 +106,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_displayType;
+                return displayType;
             }
             set
             {
-                m_displayType = value;
+                displayType = value;
             }
         }
 
-        private float m_distortionThreshold = 0.9f;
+        private float distortionThreshold = 0.9f;
         /// <summary>
         /// Value used to determine if the signal is distorting. Value range: 0.0f to 1.0f.
         /// </summary>
@@ -124,15 +124,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_distortionThreshold;
+                return distortionThreshold;
             }
             set
             {
-                m_distortionThreshold = value;
+                distortionThreshold = value;
             }
         }
 
-        private Color m_waveFormColor = Color.Green;
+        private Color waveFormColor = Color.Green;
         /// <summary>
         /// Color used when drawing the wave form.
         /// </summary>
@@ -142,15 +142,15 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_waveFormColor;
+                return waveFormColor;
             }
             set
             {
-                m_waveFormColor = value;
+                waveFormColor = value;
             }
         }
 
-        private Color m_waveFormDistortionColor = Color.Red;
+        private Color waveFormDistortionColor = Color.Red;
         /// <summary>
         /// Color used when drawing the wave form and value exceeds distortion threshold.
         /// </summary>
@@ -160,11 +160,11 @@ namespace MPfm.WindowsControls
         {
             get
             {
-                return m_waveFormDistortionColor;
+                return waveFormDistortionColor;
             }
             set
             {
-                m_waveFormDistortionColor = value;
+                waveFormDistortionColor = value;
             }
         }
 
@@ -177,7 +177,7 @@ namespace MPfm.WindowsControls
             : base()
         {
             // Create history
-            m_waveDataHistory = new List<WaveDataMinMax>();
+            waveDataHistory = new List<WaveDataMinMax>();
 
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |

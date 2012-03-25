@@ -38,9 +38,9 @@ namespace MPfm
     public partial class frmEditSongMetadata : MPfm.WindowsControls.Form
     {
         // Private variables
-        private frmMain m_main = null;
-        private List<string> m_filePaths = null;
-        private AudioFile m_audioFile = null;
+        private frmMain main = null;
+        private List<string> filePaths = null;
+        private AudioFile audioFile = null;
 
         /// <summary>
         /// Hook to the main form.
@@ -49,7 +49,7 @@ namespace MPfm
         {
             get
             {
-                return m_main;
+                return main;
             }
         }
 
@@ -62,17 +62,17 @@ namespace MPfm
         public frmEditSongMetadata(frmMain main, List<string> filePaths)
         {
             InitializeComponent();
-            m_main = main;
-            m_filePaths = filePaths;
+            this.main = main;
+            this.filePaths = filePaths;
 
             // Get TagLib information about the file
             if (filePaths.Count > 0)
             {
                 // Get TagLib information                
-                m_audioFile = new AudioFile(filePaths[0]);
+                audioFile = new AudioFile(filePaths[0]);
 
                 // Update property grid
-                propertyGridTags.SelectedObject = m_audioFile;
+                propertyGridTags.SelectedObject = audioFile;
                 lblEditing.Text = "Editing " + filePaths[0];
             }
         }
@@ -99,7 +99,7 @@ namespace MPfm
             if (Main.Player.IsPlaying)
             {
                 // Check if the file is currently playing
-                if (Main.Player.Playlist.CurrentItem.AudioFile.FilePath == m_audioFile.FilePath)
+                if (Main.Player.Playlist.CurrentItem.AudioFile.FilePath == audioFile.FilePath)
                 {
                     // Warn user that this will stop playback.
                     if (MessageBox.Show("This audio file is currently playing. Do you wish to stop the playback to save this audio file metadata?", "Must stop playback to save audio file metadata", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK)
@@ -116,7 +116,7 @@ namespace MPfm
             }
 
             // Save metadata
-            m_audioFile.SaveMetadata();
+            audioFile.SaveMetadata();
         }
     }
 }
