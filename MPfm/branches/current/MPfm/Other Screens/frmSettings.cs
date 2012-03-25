@@ -47,9 +47,6 @@ namespace MPfm
         // Private variables
         private AudioSettingsState audioSettingsState = AudioSettingsState.NotChanged;
         private bool initializing = false;
-        private bool settingsChanged = false;
-        private bool settingsTested = false;
-        private bool testSuccessful = false;
         private string filePath = string.Empty;        
         private List<Device> m_devices = null;
         private List<Device> m_devicesDirectSound = null;
@@ -76,15 +73,6 @@ namespace MPfm
         {
             InitializeComponent();
             m_main = main;
-
-            //m_peakFile = new PeakFile(5);
-            //m_peakFile.OnProcessStarted += new PeakFile.ProcessStarted(m_peakFile_OnProcessStarted);
-            //m_peakFile.OnProcessData += new PeakFile.ProcessData(m_peakFile_OnProcessData);
-            //m_peakFile.OnProcessDone += new PeakFile.ProcessDone(m_peakFile_OnProcessDone);
-
-            //m_updateLibrary = new UpdateLibrary(5, Main.Library.Gateway.DatabaseFilePath);
-            //m_updateLibrary.OnProcessData += new UpdateLibrary.ProcessData(m_importAudioFiles_OnProcessData);
-            //m_updateLibrary.OnProcessDone += new UpdateLibrary.ProcessDone(m_importAudioFiles_OnProcessDone);
         }
 
         #region Form Events
@@ -143,7 +131,6 @@ namespace MPfm
             // Load configuration
             LoadAudioConfig();
             LoadGeneralConfig();
-            settingsChanged = false;
 
             // Refresh controls           
             RefreshFolders();
@@ -164,14 +151,19 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.ApplicationExitCall)
+            // Fix for FormClosing event called twice because of message box below
+            if (!this.Visible)
             {
-                e.Cancel = false;
                 return;
             }
 
-            // Variables
-            bool saveSettings = false;
+            // Check if the application is exiting
+            if (e.CloseReason == CloseReason.ApplicationExitCall)
+            {
+                // Exit immediately without saving
+                e.Cancel = false;
+                return;
+            }
 
             // Save general settings
             if (!SaveGeneralConfig())
@@ -187,96 +179,35 @@ namespace MPfm
             Device device = (Device)cboOutputDevices.SelectedItem;
 
             // Check if the settings have changed
-            if (settingsChanged)
+            if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.Tested)
             {
-                //// Compare the original configured values to make sure the settings have really changed
-                //if(driver.DriverType != Main.Config.Audio.DriverType ||
-                //   device.Name.ToUpper() != Main.Config.Audio.Device.Name.ToUpper())
-                //{
-                // Yes they have really changed!
-                // Have the new settings been tested?
+                string messageBoxText = string.Empty;
+                string messageBoxTitle = string.Empty;
+
+                // Check state
                 if (audioSettingsState == AudioSettingsState.NotTested)
                 {
-                    // Display message
-                    DialogResult dialogResult = MessageBox.Show(this, "Warning: The audio settings hasn't been saved.\n\nClick OK to continue and exit the Settings window.\nClick Cancel to go back to the Settings window.", "Warning: Audio settings haven't been saved", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-                    {
-                        // Cancel 
-                        e.Cancel = true;
-                        return;
-                    }
+                    messageBoxText = "The audio settings have changed but haven't been tested.\nDo you still wish to exit the Settings window?\n\nClick OK to continue without saving.\nClick Cancel to go back.";
+                    messageBoxTitle = "Audio settings have changed";
                 }
                 else if (audioSettingsState == AudioSettingsState.Tested)
                 {
-                    // Display message
-                    DialogResult dialogResult = MessageBox.Show(this, "Warning: The audio settings hasn't been saved.\n\nClick OK to continue and exit the Settings window.\nClick Cancel to go back to the Settings window.", "Warning: Audio settings haven't been saved", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-                    {
-                        // Cancel 
-                        e.Cancel = true;
-                        return;
-                    }
+                    messageBoxText = "The audio settings have been tested but haven't been saved.\nDo you still wish to exit the Settings window?\n\nClick OK to continue without saving.\nClick Cancel to go back.";
+                    messageBoxTitle = "Audio settings have been tested";
                 }
-                //else if (settingsTested && !testSuccessful)
-                //{
-                //    // The configuration has been tested but the audio test has failed
-                //    MessageBox.Show("Error: You cannot apply an incompatible audio configuration because this will crash the application.\nPlease select a new audio configuration.", "Cannot apply an incompatible configuration", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return;
-                //}
-                //else if (settingsTested && testSuccessful)
-                //{
-                //    // Warn user
-                //    DialogResult dialogResult = MessageBox.Show(this, "Are you sure you wish to save and apply this new audio configuration?\n\nClick YES to save and apply the new configuration.\nClick NO to exit the Settings window without saving the new configuration.\nClick CANCEL to go back to the Settings window and change the configuration.", "New audio configuration validation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                //    // Yes: Continue and save tested settings
-                //    // No: Do not save new settings
-                //    // Cancel: Go back and change settings
-                //    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-                //    {
-                //        // Cancel 
-                //        e.Cancel = true;
-                //        return;
-                //    }
-                //    else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-                //    {
-                //        // Set save settings flag
-                //        saveSettings = true;
-                //    }
-                //}
-                //}
+                // Display message box
+                DialogResult dialogResult = MessageBox.Show(Main, messageBoxText, messageBoxTitle, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+                {
+                    // Cancel 
+                    e.Cancel = true;
+                    return;
+                }
             }
 
-            // Save new settings?
-            if (saveSettings)
-            {
-                //// Save new configuration
-                ////SaveAudioConfig();
-
-                //// Check if the player is playing
-                //if (Main.Player.IsPlaying)
-                //{
-                //    // Stop playback
-                //    Main.Stop();
-                //}
-
-                //// Free device
-                //Main.Player.FreeDevice();
-
-                //// Initialize new device
-                //Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
-                //Main.Player.BufferSize = (int)numericBufferSize.Value;
-                //Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
-
-                //// Check if the device has been initialized
-                //if (!Main.Player.IsDeviceInitialized)
-                //{
-                //    // Initialize new device
-                //    Main.Player.UpdatePeriod = (int)txtUpdatePeriod.Value;
-                //    Main.Player.BufferSize = (int)txtBufferSize.Value;                    
-                //    Main.Player.InitializeDevice(device);
-                //}
-            }
-            else
+            // Check if the original audio settings need to be restored
+            if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.Tested)
             {
                 // Do not save settings; restore original configuration                
                 Device originalDevice = null;
@@ -335,29 +266,13 @@ namespace MPfm
                 }
             }
 
-            // Reset flags
-            settingsChanged = false;
-            testSuccessful = false;
-            settingsTested = false;
-
             // Hide form            
             //Main.BringToFront();
             Main.Focus();
             //this.Close();
 
             e.Cancel = true;
-            this.Hide();
-            
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Close button.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            
+            this.Hide();         
         }
 
         #endregion
@@ -602,6 +517,7 @@ namespace MPfm
                 lblAudioSettingsWarning.Text = "The audio settings haven't been changed.";
                 btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
                 btnTestSaveAudioSettings.Text = "Test audio settings";
+                btnTestSaveAudioSettings.Enabled = true;
             }
             else if (audioSettingsState == AudioSettingsState.NotTested)
             {
@@ -609,6 +525,7 @@ namespace MPfm
                 lblAudioSettingsWarning.Text = "The audio settings have changed but haven't been tested.";
                 btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
                 btnTestSaveAudioSettings.Text = "Test audio settings";
+                btnTestSaveAudioSettings.Enabled = true;
             }
             else if (audioSettingsState == AudioSettingsState.Tested)
             {
@@ -616,7 +533,16 @@ namespace MPfm
                 lblAudioSettingsWarning.Text = "The new audio settings have been tested successfully. Click on 'Save audio settings' to continue.";
                 btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.disk;
                 btnTestSaveAudioSettings.Text = "Save audio settings";
+                btnTestSaveAudioSettings.Enabled = true;
             }
+            else if (audioSettingsState == AudioSettingsState.Saved)
+            {
+                lblAudioSettingsWarning.Text = "The new audio settings has been applied and saved successfully.";
+                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.accept;                
+                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.disk;
+                btnTestSaveAudioSettings.Text = "Save audio settings";
+                btnTestSaveAudioSettings.Enabled = false;
+            }            
         }
 
         #endregion
@@ -787,12 +713,7 @@ namespace MPfm
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void cboDriverOrOutputType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Set flags
-            settingsChanged = true;
-            settingsTested = false;
-            testSuccessful = false;            
-
+        {      
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
@@ -870,12 +791,9 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnTestSaveAudioSettings_Click(object sender, EventArgs e)
         {
+            // Check state
             if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.NotChanged)
             {
-                // Set flags
-                settingsTested = false;
-                testSuccessful = false;
-
                 // Get selected driver
                 DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
@@ -918,7 +836,7 @@ namespace MPfm
                     }
 
                     // Set flags
-                    settingsTested = true;
+                    //settingsTested = true;
 
                     // Check if device needs to be freed
                     if (Main.Player.IsDeviceInitialized)
@@ -963,7 +881,7 @@ namespace MPfm
                     Tracing.Log("The audio settings test is successful!");
 
                     // Set flags
-                    testSuccessful = true;
+                    //testSuccessful = true;
                     audioSettingsState = AudioSettingsState.Tested;
                     RefreshAudioSettingsState();
                 }
@@ -980,7 +898,12 @@ namespace MPfm
             }
             else if (audioSettingsState == AudioSettingsState.Tested)
             {                
+                // Save audio configuration
                 SaveAudioConfig();
+
+                // Set state and show message
+                audioSettingsState = AudioSettingsState.Saved;
+                RefreshAudioSettingsState();
                 MessageBox.Show("The new audio settings has been applied and saved successfully.", "New audio settings saved successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -1097,29 +1020,18 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the mixer sample rate value changes.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void txtMixerSampleRate_ValueChanged(object sender, EventArgs e)
-        {
-            // Set flags
-            settingsChanged = true;
-            settingsTested = false;
-            testSuccessful = false;
-        }
-
-        /// <summary>
         /// Occurs when the buffer size value changes.
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void numericBufferSize_ValueChanged(object sender, EventArgs e)
         {
-            // Set flags
-            settingsChanged = true;
-            settingsTested = false;
-            testSuccessful = false;
+            // Set state 
+            if (!initializing)
+            {
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
         }
 
         /// <summary>
@@ -1129,10 +1041,12 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void numericUpdatePeriod_ValueChanged(object sender, EventArgs e)
         {
-            // Set flags
-            settingsChanged = true;
-            settingsTested = false;
-            testSuccessful = false;
+            // Set state 
+            if (!initializing)
+            {
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
         }
 
         /// <summary>
@@ -1232,17 +1146,6 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void radioPeakFile_CheckedChanged(object sender, EventArgs e)
         {
-            // Check which radio button is checked
-            if (radioPeakFileDefaultDirectory.Checked)
-            {
-                
-                
-            }
-            else if (radioPeakFileCustomDirectory.Checked)
-            {
-
-            }
-
             // Enable/disable controls
             txtPeakFileCustomDirectory.Enabled = radioPeakFileCustomDirectory.Checked;
             btnPeakFileCustomDirectoryBrowse.Enabled = radioPeakFileCustomDirectory.Checked;
@@ -1340,6 +1243,12 @@ namespace MPfm
             }
         }
 
+        /// <summary>
+        /// Occurs when the user clicks on the "General" button.
+        /// Switches to the "General Settings" tab.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnGeneralSettings_Click(object sender, EventArgs e)
         {
             btnGeneralSettings.Enabled = false;
@@ -1351,6 +1260,12 @@ namespace MPfm
             panelLibrarySettings.Visible = false;
         }
 
+        /// <summary>
+        /// Occurs when the user clicks on the "Audio" button.
+        /// Switches to the "Audio Settings" tab.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnAudioSettings_Click(object sender, EventArgs e)
         {
             btnGeneralSettings.Enabled = true;
@@ -1360,9 +1275,14 @@ namespace MPfm
             panelGeneralSettings.Visible = false;
             panelAudioSettings.Visible = true;
             panelLibrarySettings.Visible = false;
-
         }
 
+        /// <summary>
+        /// Occurs when the user clicks on the "Library" button.
+        /// Switches to the "Library Settings" tab.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void btnLibrarySettings_Click(object sender, EventArgs e)
         {
             btnGeneralSettings.Enabled = true;
@@ -1372,9 +1292,7 @@ namespace MPfm
             panelGeneralSettings.Visible = false;
             panelAudioSettings.Visible = false;
             panelLibrarySettings.Visible = true;
-
         }
-
     }
 
     /// <summary>
@@ -1393,6 +1311,10 @@ namespace MPfm
         /// <summary>
         /// The settings have changed and have been tested.
         /// </summary>
-        Tested = 2
+        Tested = 2,
+        /// <summary>
+        /// The settings have been saved.
+        /// </summary>
+        Saved = 3
     }
 }

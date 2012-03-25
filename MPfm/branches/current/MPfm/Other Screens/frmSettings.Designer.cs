@@ -69,11 +69,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             MPfm.WindowsControls.CustomFont customFont37 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont44 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont42 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
             this.panelGeneralSettings = new MPfm.WindowsControls.Panel();
             this.panelUpdateFrequency = new MPfm.WindowsControls.Panel();
             this.lblOutputMeterUpdateFrequencyEvery = new MPfm.WindowsControls.Label();
@@ -143,7 +142,6 @@ namespace MPfm
             this.btnLibrarySettings = new MPfm.WindowsControls.Button();
             this.btnGeneralSettings = new MPfm.WindowsControls.Button();
             this.btnAudioSettings = new MPfm.WindowsControls.Button();
-            this.btnClose = new MPfm.WindowsControls.Button();
             this.dialogOpenTheme = new System.Windows.Forms.OpenFileDialog();
             this.dialogSaveTheme = new System.Windows.Forms.SaveFileDialog();
             this.dialogBrowsePeakFileDirectory = new System.Windows.Forms.FolderBrowserDialog();
@@ -1273,7 +1271,6 @@ namespace MPfm
             0,
             0});
             this.txtMixerSampleRate.Visible = false;
-            this.txtMixerSampleRate.ValueChanged += new System.EventHandler(this.txtMixerSampleRate_ValueChanged);
             // 
             // lblOutputDriver
             // 
@@ -1766,16 +1763,15 @@ namespace MPfm
             this.panelBackground.Controls.Add(this.btnLibrarySettings);
             this.panelBackground.Controls.Add(this.btnGeneralSettings);
             this.panelBackground.Controls.Add(this.btnAudioSettings);
-            this.panelBackground.Controls.Add(this.btnClose);
-            customFont44.EmbeddedFontName = "";
-            customFont44.IsBold = false;
-            customFont44.IsItalic = false;
-            customFont44.IsUnderline = false;
-            customFont44.Size = 8F;
-            customFont44.StandardFontName = "Arial";
-            customFont44.UseAntiAliasing = true;
-            customFont44.UseEmbeddedFont = false;
-            this.panelBackground.CustomFont = customFont44;
+            customFont43.EmbeddedFontName = "";
+            customFont43.IsBold = false;
+            customFont43.IsItalic = false;
+            customFont43.IsUnderline = false;
+            customFont43.Size = 8F;
+            customFont43.StandardFontName = "Arial";
+            customFont43.UseAntiAliasing = true;
+            customFont43.UseEmbeddedFont = false;
+            this.panelBackground.CustomFont = customFont43;
             this.panelBackground.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBackground.ExpandedHeight = 200;
             this.panelBackground.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1911,47 +1907,6 @@ namespace MPfm
             this.btnAudioSettings.UseVisualStyleBackColor = true;
             this.btnAudioSettings.Click += new System.EventHandler(this.btnAudioSettings_Click);
             // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.btnClose.BorderWidth = 1;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont43.EmbeddedFontName = "Junction";
-            customFont43.IsBold = false;
-            customFont43.IsItalic = false;
-            customFont43.IsUnderline = false;
-            customFont43.Size = 8F;
-            customFont43.StandardFontName = "Arial";
-            customFont43.UseAntiAliasing = true;
-            customFont43.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont43;
-            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontColor = System.Drawing.Color.Black;
-            this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
-            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(575, 0);
-            this.btnClose.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(64, 26);
-            this.btnClose.TabIndex = 62;
-            this.btnClose.Text = "Close";
-            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnClose, "Closes the Settings window.");
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Visible = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // dialogOpenTheme
             // 
             this.dialogOpenTheme.Filter = "Theme files (*.mpfmTheme)|*.mpfmTheme";
@@ -2019,7 +1974,6 @@ namespace MPfm
         public System.Windows.Forms.FolderBrowserDialog dialogAddFolder;
         private System.Windows.Forms.ComboBox cboOutputDevices;
         private MPfm.WindowsControls.Button btnResetLibrary;
-        private MPfm.WindowsControls.Button btnClose;
         private MPfm.WindowsControls.Label lblOutputDriver;
         private MPfm.WindowsControls.Label lblDriver;
         private System.Windows.Forms.ComboBox cboDrivers;
