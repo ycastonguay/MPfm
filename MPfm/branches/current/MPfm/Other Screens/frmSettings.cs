@@ -286,8 +286,7 @@ namespace MPfm
         {
             // Load values into controls
             cboOutputDevices.SelectedText = Main.Config.Audio.Device.Name;
-            cboDrivers.SelectedValue = Main.Config.Audio.DriverType;
-            txtMixerSampleRate.Value = Main.Config.Audio.Mixer.Frequency;
+            cboDrivers.SelectedValue = Main.Config.Audio.DriverType;            
             numericBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
             numericUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
             trackBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
@@ -369,10 +368,13 @@ namespace MPfm
 
             // Save configuration values
             Main.Config.Audio.Device.Name = device.Name;
-            Main.Config.Audio.DriverType = driver.DriverType;
-            Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
+            Main.Config.Audio.DriverType = driver.DriverType;                       
             Main.Config.Audio.Mixer.BufferSize = (int)numericBufferSize.Value;
             Main.Config.Audio.Mixer.UpdatePeriod = (int)numericUpdatePeriod.Value;
+
+            int frequency = 44100;
+            int.TryParse(cboSampleRate.Text, out frequency);
+            Main.Config.Audio.Mixer.Frequency = frequency;
 
             Main.Config.Save();
         }
@@ -409,6 +411,8 @@ namespace MPfm
 
             numericPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
             numericOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
+            trackPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
+            trackOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
 
             // Set control enable
             EnableGeneralSettingsControls();
@@ -800,6 +804,10 @@ namespace MPfm
                 // Get selected device
                 Device device = (Device)cboOutputDevices.SelectedItem;
 
+                // Get sample rate
+                int frequency = 44100;
+                int.TryParse(cboSampleRate.Text, out frequency);                
+
                 try
                 {
                     // Warn user if system is already playing a song
@@ -851,7 +859,7 @@ namespace MPfm
 
                     // Create test device
                     Tracing.Log("Creating test device...");
-                    Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);
+                    Main.Player.InitializeDevice(device, frequency);
 
                     // Set player properties
                     Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
@@ -1085,9 +1093,13 @@ namespace MPfm
         /// Occurs when the user changes the position update frequency value using the track bar.
         /// </summary>
         private void trackPositionUpdateFrequency_OnTrackBarValueChanged()
-        {
-            // Set value
-            numericPositionUpdateFrequency.Value = trackPositionUpdateFrequency.Value;
+        {                        
+            // Set value (only if different, to prevent triggering events)
+            if (numericPositionUpdateFrequency.Value != trackPositionUpdateFrequency.Value)
+            {
+                numericPositionUpdateFrequency.Value = trackPositionUpdateFrequency.Value;
+                Main.m_timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
+            }
         }
 
         /// <summary>
@@ -1095,8 +1107,12 @@ namespace MPfm
         /// </summary>
         private void trackOutputMeterUpdateFrequency_OnTrackBarValueChanged()
         {
-            // Set value
-            numericOutputMeterUpdateFrequency.Value = trackOutputMeterUpdateFrequency.Value;
+            // Set value (only if different, to prevent triggering events)
+            if (numericOutputMeterUpdateFrequency.Value != trackOutputMeterUpdateFrequency.Value)
+            {
+                numericOutputMeterUpdateFrequency.Value = trackOutputMeterUpdateFrequency.Value;
+                Main.timerUpdateOutputMeter.Interval = (int)trackOutputMeterUpdateFrequency.Value;
+            }
         }
 
         /// <summary>
@@ -1107,6 +1123,7 @@ namespace MPfm
         private void numericPositionUpdateFrequency_Leave(object sender, EventArgs e)
         {
             trackPositionUpdateFrequency.Value = (int)numericPositionUpdateFrequency.Value;
+            Main.m_timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
         }
 
         /// <summary>
@@ -1117,6 +1134,7 @@ namespace MPfm
         private void numericOutputMeterUpdateFrequency_Leave(object sender, EventArgs e)
         {
             trackOutputMeterUpdateFrequency.Value = (int)numericOutputMeterUpdateFrequency.Value;
+            Main.timerUpdateOutputMeter.Interval = (int)numericOutputMeterUpdateFrequency.Value;
         }
 
         /// <summary>

@@ -117,7 +117,6 @@ namespace MPfm
             this.lblDriver = new MPfm.WindowsControls.Label();
             this.lblSampleRate = new MPfm.WindowsControls.Label();
             this.cboOutputDevices = new System.Windows.Forms.ComboBox();
-            this.txtMixerSampleRate = new System.Windows.Forms.NumericUpDown();
             this.lblOutputDriver = new MPfm.WindowsControls.Label();
             this.panelAudioSettingsMixer = new MPfm.WindowsControls.Panel();
             this.trackUpdatePeriod = new MPfm.WindowsControls.TrackBar();
@@ -157,7 +156,6 @@ namespace MPfm
             this.panelAudioSettingsStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAudioSettingsWarning)).BeginInit();
             this.panelAudioSettingsOutput.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).BeginInit();
             this.panelAudioSettingsMixer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpdatePeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericBufferSize)).BeginInit();
@@ -1098,7 +1096,6 @@ namespace MPfm
             this.panelAudioSettingsOutput.Controls.Add(this.lblDriver);
             this.panelAudioSettingsOutput.Controls.Add(this.lblSampleRate);
             this.panelAudioSettingsOutput.Controls.Add(this.cboOutputDevices);
-            this.panelAudioSettingsOutput.Controls.Add(this.txtMixerSampleRate);
             this.panelAudioSettingsOutput.Controls.Add(this.lblOutputDriver);
             customFont28.EmbeddedFontName = "TitilliumText22L Lt";
             customFont28.IsBold = true;
@@ -1247,30 +1244,6 @@ namespace MPfm
             this.cboOutputDevices.TabIndex = 9;
             this.cboOutputDevices.ValueMember = "Id";
             this.cboOutputDevices.SelectedIndexChanged += new System.EventHandler(this.cboDriverOrOutputType_SelectedIndexChanged);
-            // 
-            // txtMixerSampleRate
-            // 
-            this.txtMixerSampleRate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMixerSampleRate.Location = new System.Drawing.Point(255, 89);
-            this.txtMixerSampleRate.Maximum = new decimal(new int[] {
-            96000,
-            0,
-            0,
-            0});
-            this.txtMixerSampleRate.Minimum = new decimal(new int[] {
-            44100,
-            0,
-            0,
-            0});
-            this.txtMixerSampleRate.Name = "txtMixerSampleRate";
-            this.txtMixerSampleRate.Size = new System.Drawing.Size(62, 23);
-            this.txtMixerSampleRate.TabIndex = 92;
-            this.txtMixerSampleRate.Value = new decimal(new int[] {
-            44100,
-            0,
-            0,
-            0});
-            this.txtMixerSampleRate.Visible = false;
             // 
             // lblOutputDriver
             // 
@@ -1958,7 +1931,6 @@ namespace MPfm
             this.panelAudioSettingsStatus.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picAudioSettingsWarning)).EndInit();
             this.panelAudioSettingsOutput.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtMixerSampleRate)).EndInit();
             this.panelAudioSettingsMixer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpdatePeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericBufferSize)).EndInit();
@@ -1990,7 +1962,6 @@ namespace MPfm
         private System.Windows.Forms.CheckBox chkShowTray;
         private System.Windows.Forms.CheckBox chkHideTray;
         private WindowsControls.Label lblBufferSize;
-        private System.Windows.Forms.NumericUpDown txtMixerSampleRate;
         private WindowsControls.Label lblBufferSizeUnit;
         private System.Windows.Forms.NumericUpDown numericBufferSize;
         private System.Windows.Forms.ListView listViewFolders;
