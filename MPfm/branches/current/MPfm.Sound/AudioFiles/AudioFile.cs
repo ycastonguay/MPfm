@@ -40,7 +40,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Private value for the Id property.
 		/// </summary>
-		private Guid m_id = Guid.Empty;
+		private Guid id = Guid.Empty;
 
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
@@ -50,14 +50,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_id;
+				return id;
 			}
 		}
 
         /// <summary>
         /// Private value for the SV7Tag property.
         /// </summary>
-        private SV7Tag m_sv7Tag = null;
+        private SV7Tag sv7Tag = null;
         /// <summary>
         /// Defines the SV7 tag associated with this audio file. 
         /// Supported file formats: MPC (MusePack).
@@ -68,14 +68,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_sv7Tag;
+                return sv7Tag;
             }
         }
 
         /// <summary>
         /// Private value for the SV8Tag property.
         /// </summary>
-        private SV8Tag m_sv8Tag = null;
+        private SV8Tag sv8Tag = null;
         /// <summary>
         /// Defines the SV8 tag associated with this audio file. 
         /// Supported file formats: MPC (MusePack).
@@ -86,14 +86,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_sv8Tag;
+                return sv8Tag;
             }
         }
 
         /// <summary>
         /// Private value for the APETag property.
         /// </summary>
-        private APETag m_apeTag = null;
+        private APETag apeTag = null;
         /// <summary>
         /// Defines the APEv1/APEv2 tag associated with this audio file.
         /// Supported file formats: FLAC, APE, WV, MPC, OFR, TTA.
@@ -104,7 +104,7 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_apeTag;
+                return apeTag;
             }
         }
 
@@ -113,7 +113,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Private value for the FilePath property.
 		/// </summary>
-		private string m_filePath = null;
+		private string filePath = null;
 
 		/// <summary>
 		/// Full path to the audio file.
@@ -123,14 +123,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_filePath;
+				return filePath;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the FileType property.
 		/// </summary>
-        private AudioFileFormat m_fileType = AudioFileFormat.Unknown;
+        private AudioFileFormat fileType = AudioFileFormat.Unknown;
 
 		/// <summary>
 		/// Type of audio file (FLAC, MP3, OGG, WAV, WV, MPC, OFR, TTA).
@@ -140,18 +140,18 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_fileType;
+				return fileType;
 			}
             set
             {
-                m_fileType = value;
+                fileType = value;
             }
 		}
 
 		/// <summary>
 		/// Private value for the FirstBlockPosition property.
 		/// </summary>
-		private long m_firstBlockPosition = 0;
+		private long firstBlockPosition = 0;
 
 		/// <summary>
 		/// Position of the first block of data. Useful for reading the Xing header.
@@ -161,14 +161,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_firstBlockPosition;
+				return firstBlockPosition;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the LastBlockPosition property.
 		/// </summary>
-		private long m_lastBlockPosition = 0;
+		private long lastBlockPosition = 0;
 
 		/// <summary>
 		/// Position of the last block of data.
@@ -178,7 +178,7 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_lastBlockPosition;
+				return lastBlockPosition;
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Private value for the Bitrate property.
 		/// </summary>        
-		private int m_bitrate = 0;
+		private int bitrate = 0;
 
 		/// <summary>
 		/// Audio bitrate. Indicates the average bitrate for VBR MP3 files.
@@ -199,18 +199,18 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_bitrate;
+				return bitrate;
 			}
             set
             {
-                m_bitrate = value;
+                bitrate = value;
             }
 		}
 
 		/// <summary>
 		/// Private value for the BitsPerSample property.
 		/// </summary>
-		private int m_bitsPerSample = 0;
+		private int bitsPerSample = 0;
 
 		/// <summary>
 		/// Audio bits per sample. Usually 16-bit or 24-bit.
@@ -220,14 +220,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_bitsPerSample;
+				return bitsPerSample;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the ChannelMode property.
 		/// </summary>
-		private TagLib.Mpeg.ChannelMode m_channelMode;
+		private TagLib.Mpeg.ChannelMode channelMode;
 
 		/// <summary>
 		/// Channel mode (only for MP3 files).
@@ -237,14 +237,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_channelMode;
+				return channelMode;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the SampleRate property.
 		/// </summary>
-		private int m_sampleRate = 0;
+		private int sampleRate = 0;
 
 		/// <summary>
 		/// Sample rate (in Hz).
@@ -254,18 +254,18 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_sampleRate;
+				return sampleRate;
 			}
             set
             {
-                m_sampleRate = value;
+                sampleRate = value;
             }
 		}
 
 		/// <summary>
 		/// Private value for the AudioChannels property.
 		/// </summary>
-		private int m_audioChannels = 0;
+		private int audioChannels = 0;
 
 		/// <summary>
 		/// Number of audio channels.
@@ -275,14 +275,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_audioChannels;
+				return audioChannels;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the FrameLength property.
 		/// </summary>
-		private int m_frameLength = 0;
+		private int frameLength = 0;
 
 		/// <summary>
 		/// Frame length.
@@ -292,14 +292,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_frameLength;
+				return frameLength;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the AudioLayer property.
 		/// </summary>
-		private int m_audioLayer = 0;
+		private int audioLayer = 0;
 
 		/// <summary>
 		/// Audio layer type.
@@ -309,14 +309,14 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_audioLayer;
+				return audioLayer;
 			}
 		}
 
 		/// <summary>
 		/// Private value for the Length property.
 		/// </summary>
-		private string m_length;
+		private string length;
 
 		/// <summary>
 		/// Audio file length (in 00:00.000 format).
@@ -326,11 +326,11 @@ namespace MPfm.Sound
 		{
 			get
 			{
-				return m_length;
+				return length;
 			}
 			set
 			{
-				m_length = value;
+				length = value;
 			}
 		}
 
@@ -341,7 +341,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Private value for the MP3HeaderType property.
         /// </summary>
-        private string m_MP3HeaderType = string.Empty;
+        private string mp3HeaderType = string.Empty;
 
         /// <summary>
         /// Indicates the type of header for the MP3 file.
@@ -354,14 +354,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_MP3HeaderType;
+                return mp3HeaderType;
             }
         }
 
         /// <summary>
         /// Private value for the MP3EncoderVersion property.
         /// </summary>
-        private string m_MP3EncoderVersion = string.Empty;
+        private string mp3EncoderVersion = string.Empty;
 
         /// <summary>
         /// MP3 Encoder version.
@@ -372,14 +372,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_MP3EncoderVersion;
+                return mp3EncoderVersion;
             }
         }
 
         /// <summary>
         /// Private value for the MP3EncoderDelay property.
         /// </summary>
-        private int? m_MP3EncoderDelay = null;
+        private int? mp3EncoderDelay = null;
 
         /// <summary>
         /// MP3 Encoder delay.
@@ -390,14 +390,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_MP3EncoderDelay;
+                return mp3EncoderDelay;
             }
         }
 
         /// <summary>
         /// Private value for the MP3EncoderDelay property.
         /// </summary>
-        private int? m_MP3EncoderPadding = null;
+        private int? mp3EncoderPadding = null;
 
         /// <summary>
         /// MP3 Encoder padding.
@@ -408,14 +408,14 @@ namespace MPfm.Sound
         {
             get
             {
-                return m_MP3EncoderPadding;
+                return mp3EncoderPadding;
             }
         }
 
         ///// <summary>
         ///// Private value for the XingInfoHeader property.
         ///// </summary>
-        //private XingInfoHeaderData m_xingInfoHeader = null;
+        //private XingInfoHeaderData xingInfoHeader = null;
 
         ///// <summary>
         ///// Xing/Info header information (only for MP3 files). Null if the Xing header
@@ -427,7 +427,7 @@ namespace MPfm.Sound
         //{
         //    get
         //    {
-        //        return m_xingInfoHeader;
+        //        return xingInfoHeader;
         //    }
         //}
 
@@ -589,8 +589,8 @@ namespace MPfm.Sound
 		private void Initialize(string filePath, Guid id, bool readMetadata)
 		{
 			// Set properties
-			m_filePath = filePath;
-			m_id = id;
+			this.filePath = filePath;
+			this.id = id;
 
 			// Set file type based on file extension
             AudioFileFormat audioFileFormat = AudioFileFormat.Unknown;
@@ -598,13 +598,13 @@ namespace MPfm.Sound
             if (fileExtension == "M4A" || fileExtension == "MP4" || fileExtension == "AAC")
             {
                 // The format can change even though the file extensions are the same
-                m_fileType = AudioFileFormat.AAC;
+                fileType = AudioFileFormat.AAC;
             }
             else
             {                
                 // Get format by file extension
                 Enum.TryParse<AudioFileFormat>(fileExtension, out audioFileFormat);
-                m_fileType = audioFileFormat;
+                fileType = audioFileFormat;
             }
 
 			// Check if the metadata needs to be fetched
@@ -627,7 +627,7 @@ namespace MPfm.Sound
 		public void RefreshMetadata()
 		{
 			// Check what is the type of the audio file
-            if (m_fileType == AudioFileFormat.MP3)
+            if (fileType == AudioFileFormat.MP3)
 			{
                 // Declare variables
                 TagLib.Mpeg.AudioFile file = null;
@@ -635,11 +635,11 @@ namespace MPfm.Sound
                 try
                 {
                     // Create a more specific type of class for MP3 files
-                    file = new TagLib.Mpeg.AudioFile(m_filePath);                    
+                    file = new TagLib.Mpeg.AudioFile(filePath);                    
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
@@ -651,20 +651,20 @@ namespace MPfm.Sound
                         TagLib.Mpeg.AudioHeader header = (TagLib.Mpeg.AudioHeader)codec;
 
                         // Copy properties						
-                        m_audioChannels = header.AudioChannels;
-                        m_frameLength = header.AudioFrameLength;
-                        m_audioLayer = header.AudioLayer;
-                        m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = 16; // always 16-bit
-                        m_channelMode = header.ChannelMode;
-                        m_bitrate = header.AudioBitrate;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                        audioChannels = header.AudioChannels;
+                        frameLength = header.AudioFrameLength;
+                        audioLayer = header.AudioLayer;
+                        sampleRate = header.AudioSampleRate;
+                        bitsPerSample = 16; // always 16-bit
+                        channelMode = header.ChannelMode;
+                        bitrate = header.AudioBitrate;
+                        length = Conversion.TimeSpanToTimeString(header.Duration);
                     }
                 }
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -676,17 +676,17 @@ namespace MPfm.Sound
                 try
                 {
                     // Check if there's a Xing header
-                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(m_filePath, m_firstBlockPosition);
+                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(filePath, firstBlockPosition);
 
                     // Check if the read was successful
                     if (xingHeader.Status == XingInfoHeaderStatus.Successful)
                     {
                         // Set property value
                         //m_xingInfoHeader = xingHeader;
-                        m_MP3EncoderDelay = xingHeader.EncoderDelay;
-                        m_MP3EncoderPadding = xingHeader.EncoderPadding;
-                        m_MP3EncoderVersion = xingHeader.EncoderVersion;
-                        m_MP3HeaderType = xingHeader.HeaderType;
+                        mp3EncoderDelay = xingHeader.EncoderDelay;
+                        mp3EncoderPadding = xingHeader.EncoderPadding;
+                        mp3EncoderVersion = xingHeader.EncoderVersion;
+                        mp3HeaderType = xingHeader.HeaderType;
                     }
                 }
                 catch
@@ -694,7 +694,7 @@ namespace MPfm.Sound
                     // Do nothing; this information is not vital
                 }
 			}
-            else if (m_fileType == AudioFileFormat.FLAC)
+            else if (fileType == AudioFileFormat.FLAC)
 			{
                 // Declare variables 
                 TagLib.Flac.File file = null;
@@ -702,11 +702,11 @@ namespace MPfm.Sound
                 try
                 {
                     // Read VorbisComment in FLAC file
-                    file = new TagLib.Flac.File(m_filePath);
+                    file = new TagLib.Flac.File(filePath);
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
@@ -718,17 +718,17 @@ namespace MPfm.Sound
                         TagLib.Flac.StreamHeader header = (TagLib.Flac.StreamHeader)codec;
 
                         // Copy properties
-                        m_bitrate = header.AudioBitrate;
-                        m_audioChannels = header.AudioChannels;
-                        m_sampleRate = header.AudioSampleRate;
-                        m_bitsPerSample = header.BitsPerSample;
-                        m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                        bitrate = header.AudioBitrate;
+                        audioChannels = header.AudioChannels;
+                        sampleRate = header.AudioSampleRate;
+                        bitsPerSample = header.BitsPerSample;
+                        length = Conversion.TimeSpanToTimeString(header.Duration);
                     }
                 }
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -737,7 +737,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
 			}
-            else if (m_fileType == AudioFileFormat.OGG)
+            else if (fileType == AudioFileFormat.OGG)
 			{
                 // Declare variables 
                 TagLib.Ogg.File file = null;
@@ -745,11 +745,11 @@ namespace MPfm.Sound
                 try
                 {
                     // Read VorbisComment in OGG file
-                    file = new TagLib.Ogg.File(m_filePath);
+                    file = new TagLib.Ogg.File(filePath);
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
@@ -768,18 +768,18 @@ namespace MPfm.Sound
                             TagLib.Ogg.Codecs.Vorbis header = (TagLib.Ogg.Codecs.Vorbis)codec;
 
                             // Copy properties
-                            m_bitrate = header.AudioBitrate;
-                            m_audioChannels = header.AudioChannels;
-                            m_sampleRate = header.AudioSampleRate;
-                            m_bitsPerSample = 16;
-                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                            bitrate = header.AudioBitrate;
+                            audioChannels = header.AudioChannels;
+                            sampleRate = header.AudioSampleRate;
+                            bitsPerSample = 16;
+                            length = Conversion.TimeSpanToTimeString(header.Duration);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -788,7 +788,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
 			}
-            else if (m_fileType == AudioFileFormat.APE)
+            else if (fileType == AudioFileFormat.APE)
             {
                 // Monkey's Audio (APE) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Monkey's_Audio
@@ -799,14 +799,14 @@ namespace MPfm.Sound
                 try
                 {
                     // Read APE metadata
-                    m_apeTag = APEMetadata.Read(m_filePath);
+                    apeTag = APEMetadata.Read(filePath);
 
                     // Get APEv1/v2 tags from APE file
-                    file = new TagLib.Ape.File(m_filePath);
+                    file = new TagLib.Ape.File(filePath);
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
@@ -821,18 +821,18 @@ namespace MPfm.Sound
                             TagLib.Ape.StreamHeader header = (TagLib.Ape.StreamHeader)codec;
 
                             // Copy properties
-                            m_bitrate = header.AudioBitrate;
-                            m_audioChannels = header.AudioChannels;
-                            m_sampleRate = header.AudioSampleRate;
-                            m_bitsPerSample = 16;
-                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                            bitrate = header.AudioBitrate;
+                            audioChannels = header.AudioChannels;
+                            sampleRate = header.AudioSampleRate;
+                            bitsPerSample = 16;
+                            length = Conversion.TimeSpanToTimeString(header.Duration);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -841,35 +841,35 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.MPC)
+            else if (fileType == AudioFileFormat.MPC)
             {                
                 // MusePack (MPC) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/Musepack
                 try
                 {
                     // Try to read SV8 header
-                    m_sv8Tag = SV8Metadata.Read(m_filePath);
+                    sv8Tag = SV8Metadata.Read(filePath);
 
                     // Set audio properties
-                    m_audioChannels = m_sv8Tag.AudioChannels;
-                    m_sampleRate = m_sv8Tag.SampleRate;
-                    m_bitsPerSample = 16;
-                    m_length = m_sv8Tag.Length;
-                    m_bitrate = m_sv8Tag.Bitrate;
+                    audioChannels = sv8Tag.AudioChannels;
+                    sampleRate = sv8Tag.SampleRate;
+                    bitsPerSample = 16;
+                    length = sv8Tag.Length;
+                    bitrate = sv8Tag.Bitrate;
                 }
                 catch (SV8TagNotFoundException exSV8)
                 {
                     try
                     {
                         // Try to read the SV7 header
-                        m_sv7Tag = SV7Metadata.Read(m_filePath);
+                        sv7Tag = SV7Metadata.Read(filePath);
 
                         // Set audio properties
-                        m_audioChannels = m_sv7Tag.AudioChannels;
-                        m_sampleRate = m_sv7Tag.SampleRate;
-                        m_bitsPerSample = 16;
-                        m_length = m_sv7Tag.Length;
-                        m_bitrate = m_sv7Tag.Bitrate;
+                        audioChannels = sv7Tag.AudioChannels;
+                        sampleRate = sv7Tag.SampleRate;
+                        bitsPerSample = 16;
+                        length = sv7Tag.Length;
+                        bitrate = sv7Tag.Bitrate;
                     }
                     catch (SV7TagNotFoundException exSV7)
                     {
@@ -882,10 +882,10 @@ namespace MPfm.Sound
                 try
                 {
                     // Read APE tag
-                    m_apeTag = APEMetadata.Read(m_filePath);
+                    apeTag = APEMetadata.Read(filePath);
 
                     // Copy tags
-                    FillProperties(m_apeTag);
+                    FillProperties(apeTag);
                 }
                 catch (Exception ex)
                 {
@@ -900,13 +900,13 @@ namespace MPfm.Sound
                     }
                 }
             }
-            else if (m_fileType == AudioFileFormat.OFR)
+            else if (fileType == AudioFileFormat.OFR)
             {
                 // TagLib does not support OFR files...
                 // OptimFROG (OFR) supports APEv2 tags.
                 // http://en.wikipedia.org/wiki/OptimFROG                
             }
-            else if (m_fileType == AudioFileFormat.WV)
+            else if (fileType == AudioFileFormat.WV)
             {
                 // WavPack supports APEv2 and ID3v1 tags.
                 // http://www.wavpack.com/wavpack_doc.html
@@ -917,11 +917,11 @@ namespace MPfm.Sound
                 try
                 {
                     // Read WavPack tags
-                    file = new TagLib.WavPack.File(m_filePath);
+                    file = new TagLib.WavPack.File(filePath);
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
@@ -936,18 +936,18 @@ namespace MPfm.Sound
                             TagLib.WavPack.StreamHeader header = (TagLib.WavPack.StreamHeader)codec;
 
                             // Copy properties
-                            m_bitrate = header.AudioBitrate;
-                            m_audioChannels = header.AudioChannels;
-                            m_sampleRate = header.AudioSampleRate;
-                            m_bitsPerSample = 16;
-                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                            bitrate = header.AudioBitrate;
+                            audioChannels = header.AudioChannels;
+                            sampleRate = header.AudioSampleRate;
+                            bitsPerSample = 16;
+                            length = Conversion.TimeSpanToTimeString(header.Duration);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -956,18 +956,18 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.TTA)
+            else if (fileType == AudioFileFormat.TTA)
             {
                 // The True Audio (TTA) format supports ID3v1, ID3v2 and APEv2 tags.
                 // http://en.wikipedia.org/wiki/TTA_(codec)
 
-                m_audioChannels = 2;
-                m_sampleRate = 44100;
-                m_bitsPerSample = 16;
+                audioChannels = 2;
+                sampleRate = 44100;
+                bitsPerSample = 16;
 
                 // TagLib doesn't work.
             }
-            else if (m_fileType == AudioFileFormat.WAV)
+            else if (fileType == AudioFileFormat.WAV)
             {
                 // Declare variables
                 TagLib.Riff.File file = null;
@@ -975,11 +975,11 @@ namespace MPfm.Sound
                 try
                 {
                     // Get WAV file
-                    file = new TagLib.Riff.File(m_filePath);                    
+                    file = new TagLib.Riff.File(filePath);                    
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
@@ -994,18 +994,18 @@ namespace MPfm.Sound
                             TagLib.Riff.WaveFormatEx header = (TagLib.Riff.WaveFormatEx)codec;
 
                             // Copy properties
-                            m_bitrate = header.AudioBitrate;
-                            m_audioChannels = header.AudioChannels;
-                            m_sampleRate = header.AudioSampleRate;
-                            m_bitsPerSample = 16;
-                            m_length = Conversion.TimeSpanToTimeString(header.Duration);
+                            bitrate = header.AudioBitrate;
+                            audioChannels = header.AudioChannels;
+                            sampleRate = header.AudioSampleRate;
+                            bitsPerSample = 16;
+                            length = Conversion.TimeSpanToTimeString(header.Duration);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -1014,7 +1014,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.WMA)
+            else if (fileType == AudioFileFormat.WMA)
             {
                 // Declare variables
                 TagLib.Asf.File file = null;
@@ -1022,17 +1022,17 @@ namespace MPfm.Sound
                 try
                 {
                     // Read ASF/WMA tags
-                    file = new TagLib.Asf.File(m_filePath);
+                    file = new TagLib.Asf.File(filePath);
 
                     // Get the position of the first and last block
-                    m_firstBlockPosition = file.InvariantStartPosition;
-                    m_lastBlockPosition = file.InvariantEndPosition;
+                    firstBlockPosition = file.InvariantStartPosition;
+                    lastBlockPosition = file.InvariantEndPosition;
 
                     // Copy tags
                     FillProperties(file.Tag);
 
                     // The right length is here, not in the codec data structure
-                    m_length = Conversion.TimeSpanToTimeString(file.Properties.Duration);
+                    length = Conversion.TimeSpanToTimeString(file.Properties.Duration);
 
                     // Loop through codecs (usually just one)
                     foreach (TagLib.ICodec codec in file.Properties.Codecs)
@@ -1044,10 +1044,10 @@ namespace MPfm.Sound
                             TagLib.Riff.WaveFormatEx header = (TagLib.Riff.WaveFormatEx)codec;
 
                             // Copy properties
-                            m_bitrate = header.AudioBitrate;
-                            m_audioChannels = header.AudioChannels;
-                            m_sampleRate = header.AudioSampleRate;
-                            m_bitsPerSample = 16;                            
+                            bitrate = header.AudioBitrate;
+                            audioChannels = header.AudioChannels;
+                            sampleRate = header.AudioSampleRate;
+                            bitsPerSample = 16;                            
                         }
                     }
                 }
@@ -1062,7 +1062,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.AAC)
+            else if (fileType == AudioFileFormat.AAC)
             {
                 // Declare variables
                 TagLib.Aac.File file = null;
@@ -1070,7 +1070,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read AAC tags
-                    file = new TagLib.Aac.File(m_filePath);
+                    file = new TagLib.Aac.File(filePath);
 
                     // Doesn't seem to work very well...
                 }
@@ -1089,7 +1089,7 @@ namespace MPfm.Sound
 			// If the song has no name, give filename as the name                
 			if (String.IsNullOrEmpty(Title))
 			{
-				Title = Path.GetFileNameWithoutExtension(m_filePath);
+				Title = Path.GetFileNameWithoutExtension(filePath);
 			}
 
 			// If the artist has no name, give it "Unknown Artist"
@@ -1177,7 +1177,7 @@ namespace MPfm.Sound
         public void SaveMetadata()
         {
             // Check what is the type of the audio file
-            if (m_fileType == AudioFileFormat.MP3)
+            if (fileType == AudioFileFormat.MP3)
             {          
                 // Declare variables
                 TagLib.Mpeg.AudioFile file = null;
@@ -1185,7 +1185,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.Mpeg.AudioFile(m_filePath);                    
+                    file = new TagLib.Mpeg.AudioFile(filePath);                    
 
                     // Copy tags
                     file = (TagLib.Mpeg.AudioFile)FillTags(file);
@@ -1196,7 +1196,7 @@ namespace MPfm.Sound
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -1205,7 +1205,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.FLAC)
+            else if (fileType == AudioFileFormat.FLAC)
             {
                 // Declare variables
                 TagLib.Flac.File file = null;
@@ -1213,7 +1213,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.Flac.File(m_filePath);
+                    file = new TagLib.Flac.File(filePath);
 
                     // Copy tags
                     file = (TagLib.Flac.File)FillTags(file);
@@ -1224,7 +1224,7 @@ namespace MPfm.Sound
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -1233,7 +1233,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.OGG)
+            else if (fileType == AudioFileFormat.OGG)
             {
                 // Declare variables
                 TagLib.Ogg.File file = null;
@@ -1241,7 +1241,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.Ogg.File(m_filePath);
+                    file = new TagLib.Ogg.File(filePath);
 
                     // Copy tags
                     file = (TagLib.Ogg.File)FillTags(file);
@@ -1252,7 +1252,7 @@ namespace MPfm.Sound
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -1261,7 +1261,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.APE)
+            else if (fileType == AudioFileFormat.APE)
             {
                 // Declare variables
                 TagLib.Ape.File file = null;
@@ -1269,7 +1269,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.Ape.File(m_filePath);
+                    file = new TagLib.Ape.File(filePath);
 
                     // Copy tags
                     file = (TagLib.Ape.File)FillTags(file);
@@ -1280,7 +1280,7 @@ namespace MPfm.Sound
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -1289,7 +1289,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.WV)
+            else if (fileType == AudioFileFormat.WV)
             {
                 // Declare variables
                 TagLib.WavPack.File file = null;
@@ -1297,7 +1297,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.WavPack.File(m_filePath);
+                    file = new TagLib.WavPack.File(filePath);
 
                     // Copy tags
                     file = (TagLib.WavPack.File)FillTags(file);
@@ -1308,7 +1308,7 @@ namespace MPfm.Sound
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
@@ -1317,7 +1317,7 @@ namespace MPfm.Sound
                         file.Dispose();
                 }
             }
-            else if (m_fileType == AudioFileFormat.WMA)
+            else if (fileType == AudioFileFormat.WMA)
             {
                 // Declare variables
                 TagLib.Asf.File file = null;
@@ -1325,7 +1325,7 @@ namespace MPfm.Sound
                 try
                 {
                     // Read tags
-                    file = new TagLib.Asf.File(m_filePath);
+                    file = new TagLib.Asf.File(filePath);
 
                     // Copy tags
                     file = (TagLib.Asf.File)FillTags(file);
@@ -1336,7 +1336,7 @@ namespace MPfm.Sound
                 catch (Exception ex)
                 {
                     // Throw exception
-                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + m_filePath + ").", ex);
+                    throw new Exception("An error occured while reading/writing the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
                 {
