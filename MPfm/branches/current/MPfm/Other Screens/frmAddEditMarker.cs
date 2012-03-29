@@ -188,6 +188,7 @@ namespace MPfm
         private void btnPunchIn_Click(object sender, EventArgs e)
         {
             // Check if the player is currently playing
+            // test
             if (!Main.Player.IsPlaying)
             {
                 return;
