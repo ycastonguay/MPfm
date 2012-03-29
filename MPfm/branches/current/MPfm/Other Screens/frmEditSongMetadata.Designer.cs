@@ -28,6 +28,7 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
@@ -37,6 +38,7 @@ namespace MPfm
             this.panelEditSongMetadata = new MPfm.WindowsControls.Panel();
             this.lblEditing = new MPfm.WindowsControls.Label();
             this.btnSave = new MPfm.WindowsControls.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelEditSongMetadata.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,6 +90,7 @@ namespace MPfm
             this.btnClose.TabIndex = 63;
             this.btnClose.Text = "Close";
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnClose, "Closes the window.");
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -111,7 +114,7 @@ namespace MPfm
             this.panelEditSongMetadata.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEditSongMetadata.GradientColor1 = System.Drawing.Color.Silver;
             this.panelEditSongMetadata.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelEditSongMetadata.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelEditSongMetadata.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelEditSongMetadata.HeaderExpandable = false;
             this.panelEditSongMetadata.HeaderExpanded = true;
             this.panelEditSongMetadata.HeaderForeColor = System.Drawing.Color.Black;
@@ -130,6 +133,9 @@ namespace MPfm
             this.lblEditing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEditing.BackColor = System.Drawing.Color.Transparent;
+            this.lblEditing.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEditing.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEditing.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
@@ -145,6 +151,7 @@ namespace MPfm
             this.lblEditing.Size = new System.Drawing.Size(626, 17);
             this.lblEditing.TabIndex = 66;
             this.lblEditing.Text = "Editing";
+            this.lblEditing.UseBackgroundGradient = false;
             // 
             // btnSave
             // 
@@ -182,8 +189,16 @@ namespace MPfm
             this.btnSave.TabIndex = 65;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnSave, "Saves the song metadata.");
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Edit Song Metadata";
             // 
             // frmEditSongMetadata
             // 
@@ -209,6 +224,7 @@ namespace MPfm
         public System.Windows.Forms.PropertyGrid propertyGridTags;
         private MPfm.WindowsControls.Panel panelEditSongMetadata;
         private WindowsControls.Button btnSave;
-        private WindowsControls.Label lblEditing;        
+        private WindowsControls.Label lblEditing;
+        public System.Windows.Forms.ToolTip toolTip;        
     }
 }

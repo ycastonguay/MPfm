@@ -83,25 +83,14 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void frmEffects_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveConfig();
+
             if (e.CloseReason != CloseReason.ApplicationExitCall)
             {                
                 e.Cancel = true;
                 this.Hide();
                 Main.btnEffects.Checked = false;
             }
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the Close button.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            SaveConfig();
-            this.Close();
-            Main.BringToFront();
-            Main.Focus();
         }
 
         #endregion

@@ -28,6 +28,7 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -67,7 +68,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont37 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont38 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont52 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont50 = new MPfm.WindowsControls.CustomFont();
@@ -79,7 +80,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont47 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont48 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont49 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
             this.lblGain17 = new MPfm.WindowsControls.Label();
             this.lbl17 = new MPfm.WindowsControls.Label();
@@ -156,8 +156,8 @@ namespace MPfm
             this.btnSaveEQPreset = new MPfm.WindowsControls.Button();
             this.btnDeleteEQPreset = new MPfm.WindowsControls.Button();
             this.lblEQName = new MPfm.WindowsControls.Label();
-            this.btnClose = new MPfm.WindowsControls.Button();
             this.panelZeroLine = new System.Windows.Forms.Panel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayout.SuspendLayout();
             this.panelEqualizer.SuspendLayout();
             this.panelPreset.SuspendLayout();
@@ -167,6 +167,9 @@ namespace MPfm
             // lblGain17
             // 
             this.lblGain17.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain17.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain17.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain17.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -184,10 +187,14 @@ namespace MPfm
             this.lblGain17.TabIndex = 58;
             this.lblGain17.Text = "0 dB";
             this.lblGain17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain17.UseBackgroundGradient = false;
             // 
             // lbl17
             // 
             this.lbl17.BackColor = System.Drawing.Color.Transparent;
+            this.lbl17.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl17.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl17.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
@@ -205,10 +212,14 @@ namespace MPfm
             this.lbl17.TabIndex = 57;
             this.lbl17.Text = "20 kHz";
             this.lbl17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl17.UseBackgroundGradient = false;
             // 
             // lblGain16
             // 
             this.lblGain16.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain16.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain16.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain16.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
@@ -226,10 +237,14 @@ namespace MPfm
             this.lblGain16.TabIndex = 55;
             this.lblGain16.Text = "0 dB";
             this.lblGain16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain16.UseBackgroundGradient = false;
             // 
             // lbl16
             // 
             this.lbl16.BackColor = System.Drawing.Color.Transparent;
+            this.lbl16.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl16.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl16.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont4.EmbeddedFontName = "Junction";
             customFont4.IsBold = false;
             customFont4.IsItalic = false;
@@ -247,10 +262,14 @@ namespace MPfm
             this.lbl16.TabIndex = 54;
             this.lbl16.Text = "14 kHz";
             this.lbl16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl16.UseBackgroundGradient = false;
             // 
             // lblGain15
             // 
             this.lblGain15.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain15.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain15.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain15.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
@@ -268,10 +287,14 @@ namespace MPfm
             this.lblGain15.TabIndex = 52;
             this.lblGain15.Text = "0 dB";
             this.lblGain15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain15.UseBackgroundGradient = false;
             // 
             // lbl15
             // 
             this.lbl15.BackColor = System.Drawing.Color.Transparent;
+            this.lbl15.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl15.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl15.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont6.EmbeddedFontName = "Junction";
             customFont6.IsBold = false;
             customFont6.IsItalic = false;
@@ -289,10 +312,14 @@ namespace MPfm
             this.lbl15.TabIndex = 51;
             this.lbl15.Text = "10 kHz";
             this.lbl15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl15.UseBackgroundGradient = false;
             // 
             // lblGain14
             // 
             this.lblGain14.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain14.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain14.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain14.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont7.EmbeddedFontName = "Junction";
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
@@ -310,10 +337,14 @@ namespace MPfm
             this.lblGain14.TabIndex = 49;
             this.lblGain14.Text = "0 dB";
             this.lblGain14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain14.UseBackgroundGradient = false;
             // 
             // lbl14
             // 
             this.lbl14.BackColor = System.Drawing.Color.Transparent;
+            this.lbl14.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl14.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl14.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -331,10 +362,14 @@ namespace MPfm
             this.lbl14.TabIndex = 48;
             this.lbl14.Text = "7 kHz";
             this.lbl14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl14.UseBackgroundGradient = false;
             // 
             // lblGain13
             // 
             this.lblGain13.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain13.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain13.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain13.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = false;
             customFont9.IsItalic = false;
@@ -352,10 +387,14 @@ namespace MPfm
             this.lblGain13.TabIndex = 46;
             this.lblGain13.Text = "0 dB";
             this.lblGain13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain13.UseBackgroundGradient = false;
             // 
             // lbl13
             // 
             this.lbl13.BackColor = System.Drawing.Color.Transparent;
+            this.lbl13.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl13.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl13.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont10.EmbeddedFontName = "Junction";
             customFont10.IsBold = false;
             customFont10.IsItalic = false;
@@ -373,10 +412,14 @@ namespace MPfm
             this.lbl13.TabIndex = 45;
             this.lbl13.Text = "5 kHz";
             this.lbl13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl13.UseBackgroundGradient = false;
             // 
             // lblGain12
             // 
             this.lblGain12.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain12.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain12.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain12.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
@@ -394,10 +437,14 @@ namespace MPfm
             this.lblGain12.TabIndex = 43;
             this.lblGain12.Text = "0 dB";
             this.lblGain12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain12.UseBackgroundGradient = false;
             // 
             // lbl12
             // 
             this.lbl12.BackColor = System.Drawing.Color.Transparent;
+            this.lbl12.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl12.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl12.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
@@ -415,10 +462,14 @@ namespace MPfm
             this.lbl12.TabIndex = 42;
             this.lbl12.Text = "3.5 kHz";
             this.lbl12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl12.UseBackgroundGradient = false;
             // 
             // lblGain11
             // 
             this.lblGain11.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain11.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain11.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain11.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
             customFont13.IsItalic = false;
@@ -436,10 +487,14 @@ namespace MPfm
             this.lblGain11.TabIndex = 40;
             this.lblGain11.Text = "0 dB";
             this.lblGain11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain11.UseBackgroundGradient = false;
             // 
             // lbl11
             // 
             this.lbl11.BackColor = System.Drawing.Color.Transparent;
+            this.lbl11.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl11.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl11.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
             customFont14.IsItalic = false;
@@ -457,10 +512,14 @@ namespace MPfm
             this.lbl11.TabIndex = 39;
             this.lbl11.Text = "2.5 kHz";
             this.lbl11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl11.UseBackgroundGradient = false;
             // 
             // lblGain10
             // 
             this.lblGain10.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain10.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain10.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain10.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = false;
             customFont15.IsItalic = false;
@@ -478,10 +537,14 @@ namespace MPfm
             this.lblGain10.TabIndex = 37;
             this.lblGain10.Text = "0 dB";
             this.lblGain10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain10.UseBackgroundGradient = false;
             // 
             // lbl10
             // 
             this.lbl10.BackColor = System.Drawing.Color.Transparent;
+            this.lbl10.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl10.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl10.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
             customFont16.IsItalic = false;
@@ -499,10 +562,14 @@ namespace MPfm
             this.lbl10.TabIndex = 36;
             this.lbl10.Text = "1.8 kHz";
             this.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl10.UseBackgroundGradient = false;
             // 
             // lblGain9
             // 
             this.lblGain9.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain9.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain9.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain9.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont17.EmbeddedFontName = "Junction";
             customFont17.IsBold = false;
             customFont17.IsItalic = false;
@@ -520,10 +587,14 @@ namespace MPfm
             this.lblGain9.TabIndex = 34;
             this.lblGain9.Text = "0 dB";
             this.lblGain9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain9.UseBackgroundGradient = false;
             // 
             // lbl9
             // 
             this.lbl9.BackColor = System.Drawing.Color.Transparent;
+            this.lbl9.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl9.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl9.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont18.EmbeddedFontName = "Junction";
             customFont18.IsBold = false;
             customFont18.IsItalic = false;
@@ -541,10 +612,14 @@ namespace MPfm
             this.lbl9.TabIndex = 33;
             this.lbl9.Text = "1.2 kHz";
             this.lbl9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl9.UseBackgroundGradient = false;
             // 
             // lblGain8
             // 
             this.lblGain8.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain8.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain8.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain8.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont19.EmbeddedFontName = "Junction";
             customFont19.IsBold = false;
             customFont19.IsItalic = false;
@@ -562,10 +637,14 @@ namespace MPfm
             this.lblGain8.TabIndex = 31;
             this.lblGain8.Text = "0 dB";
             this.lblGain8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain8.UseBackgroundGradient = false;
             // 
             // lbl8
             // 
             this.lbl8.BackColor = System.Drawing.Color.Transparent;
+            this.lbl8.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl8.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl8.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont20.EmbeddedFontName = "Junction";
             customFont20.IsBold = false;
             customFont20.IsItalic = false;
@@ -583,10 +662,14 @@ namespace MPfm
             this.lbl8.TabIndex = 30;
             this.lbl8.Text = "880 Hz";
             this.lbl8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl8.UseBackgroundGradient = false;
             // 
             // lblGain7
             // 
             this.lblGain7.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain7.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain7.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain7.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont21.EmbeddedFontName = "Junction";
             customFont21.IsBold = false;
             customFont21.IsItalic = false;
@@ -604,10 +687,14 @@ namespace MPfm
             this.lblGain7.TabIndex = 28;
             this.lblGain7.Text = "0 dB";
             this.lblGain7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain7.UseBackgroundGradient = false;
             // 
             // lbl7
             // 
             this.lbl7.BackColor = System.Drawing.Color.Transparent;
+            this.lbl7.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl7.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl7.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont22.EmbeddedFontName = "Junction";
             customFont22.IsBold = false;
             customFont22.IsItalic = false;
@@ -625,10 +712,14 @@ namespace MPfm
             this.lbl7.TabIndex = 27;
             this.lbl7.Text = "622 Hz";
             this.lbl7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl7.UseBackgroundGradient = false;
             // 
             // lblGain6
             // 
             this.lblGain6.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain6.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain6.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain6.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont23.EmbeddedFontName = "Junction";
             customFont23.IsBold = false;
             customFont23.IsItalic = false;
@@ -646,10 +737,14 @@ namespace MPfm
             this.lblGain6.TabIndex = 25;
             this.lblGain6.Text = "0 dB";
             this.lblGain6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain6.UseBackgroundGradient = false;
             // 
             // lbl6
             // 
             this.lbl6.BackColor = System.Drawing.Color.Transparent;
+            this.lbl6.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl6.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl6.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont24.EmbeddedFontName = "Junction";
             customFont24.IsBold = false;
             customFont24.IsItalic = false;
@@ -667,10 +762,14 @@ namespace MPfm
             this.lbl6.TabIndex = 24;
             this.lbl6.Text = "440 Hz";
             this.lbl6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl6.UseBackgroundGradient = false;
             // 
             // lblGain5
             // 
             this.lblGain5.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain5.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain5.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain5.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont25.EmbeddedFontName = "Junction";
             customFont25.IsBold = false;
             customFont25.IsItalic = false;
@@ -688,10 +787,14 @@ namespace MPfm
             this.lblGain5.TabIndex = 22;
             this.lblGain5.Text = "0 dB";
             this.lblGain5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain5.UseBackgroundGradient = false;
             // 
             // lbl5
             // 
             this.lbl5.BackColor = System.Drawing.Color.Transparent;
+            this.lbl5.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl5.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl5.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont26.EmbeddedFontName = "Junction";
             customFont26.IsBold = false;
             customFont26.IsItalic = false;
@@ -709,10 +812,14 @@ namespace MPfm
             this.lbl5.TabIndex = 21;
             this.lbl5.Text = "311 Hz";
             this.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl5.UseBackgroundGradient = false;
             // 
             // lblGain4
             // 
             this.lblGain4.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont27.EmbeddedFontName = "Junction";
             customFont27.IsBold = false;
             customFont27.IsItalic = false;
@@ -730,10 +837,14 @@ namespace MPfm
             this.lblGain4.TabIndex = 19;
             this.lblGain4.Text = "0 dB";
             this.lblGain4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain4.UseBackgroundGradient = false;
             // 
             // lbl4
             // 
             this.lbl4.BackColor = System.Drawing.Color.Transparent;
+            this.lbl4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont28.EmbeddedFontName = "Junction";
             customFont28.IsBold = false;
             customFont28.IsItalic = false;
@@ -751,10 +862,14 @@ namespace MPfm
             this.lbl4.TabIndex = 18;
             this.lbl4.Text = "220 Hz";
             this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl4.UseBackgroundGradient = false;
             // 
             // lblGain3
             // 
             this.lblGain3.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont29.EmbeddedFontName = "Junction";
             customFont29.IsBold = false;
             customFont29.IsItalic = false;
@@ -772,10 +887,14 @@ namespace MPfm
             this.lblGain3.TabIndex = 16;
             this.lblGain3.Text = "0 dB";
             this.lblGain3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain3.UseBackgroundGradient = false;
             // 
             // lbl3
             // 
             this.lbl3.BackColor = System.Drawing.Color.Transparent;
+            this.lbl3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont30.EmbeddedFontName = "Junction";
             customFont30.IsBold = false;
             customFont30.IsItalic = false;
@@ -793,10 +912,14 @@ namespace MPfm
             this.lbl3.TabIndex = 15;
             this.lbl3.Text = "156 Hz";
             this.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl3.UseBackgroundGradient = false;
             // 
             // lblGain2
             // 
             this.lblGain2.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont31.EmbeddedFontName = "Junction";
             customFont31.IsBold = false;
             customFont31.IsItalic = false;
@@ -814,10 +937,14 @@ namespace MPfm
             this.lblGain2.TabIndex = 13;
             this.lblGain2.Text = "0 dB";
             this.lblGain2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain2.UseBackgroundGradient = false;
             // 
             // lbl2
             // 
             this.lbl2.BackColor = System.Drawing.Color.Transparent;
+            this.lbl2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont32.EmbeddedFontName = "Junction";
             customFont32.IsBold = false;
             customFont32.IsItalic = false;
@@ -835,10 +962,14 @@ namespace MPfm
             this.lbl2.TabIndex = 12;
             this.lbl2.Text = "110 Hz";
             this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl2.UseBackgroundGradient = false;
             // 
             // lblGain1
             // 
             this.lblGain1.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont33.EmbeddedFontName = "Junction";
             customFont33.IsBold = false;
             customFont33.IsItalic = false;
@@ -856,10 +987,14 @@ namespace MPfm
             this.lblGain1.TabIndex = 10;
             this.lblGain1.Text = "0 dB";
             this.lblGain1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain1.UseBackgroundGradient = false;
             // 
             // lbl1
             // 
             this.lbl1.BackColor = System.Drawing.Color.Transparent;
+            this.lbl1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont34.EmbeddedFontName = "Junction";
             customFont34.IsBold = false;
             customFont34.IsItalic = false;
@@ -877,10 +1012,14 @@ namespace MPfm
             this.lbl1.TabIndex = 9;
             this.lbl1.Text = "77 Hz";
             this.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl1.UseBackgroundGradient = false;
             // 
             // lblGain0
             // 
             this.lblGain0.BackColor = System.Drawing.Color.Transparent;
+            this.lblGain0.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGain0.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblGain0.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont35.EmbeddedFontName = "Junction";
             customFont35.IsBold = false;
             customFont35.IsItalic = false;
@@ -898,10 +1037,14 @@ namespace MPfm
             this.lblGain0.TabIndex = 7;
             this.lblGain0.Text = "0 dB";
             this.lblGain0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGain0.UseBackgroundGradient = false;
             // 
             // lbl0
             // 
             this.lbl0.BackColor = System.Drawing.Color.Transparent;
+            this.lbl0.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl0.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl0.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont36.EmbeddedFontName = "Junction";
             customFont36.IsBold = false;
             customFont36.IsItalic = false;
@@ -919,10 +1062,14 @@ namespace MPfm
             this.lbl0.TabIndex = 6;
             this.lbl0.Text = "55 Hz";
             this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl0.UseBackgroundGradient = false;
             // 
             // lbl0dB
             // 
             this.lbl0dB.BackColor = System.Drawing.Color.Transparent;
+            this.lbl0dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl0dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl0dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont37.EmbeddedFontName = "Junction";
             customFont37.IsBold = false;
             customFont37.IsItalic = false;
@@ -939,10 +1086,14 @@ namespace MPfm
             this.lbl0dB.TabIndex = 59;
             this.lbl0dB.Text = "  0 dB";
             this.lbl0dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl0dB.UseBackgroundGradient = false;
             // 
             // lbl_6dB
             // 
             this.lbl_6dB.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_6dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl_6dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl_6dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont38.EmbeddedFontName = "Junction";
             customFont38.IsBold = false;
             customFont38.IsItalic = false;
@@ -959,10 +1110,14 @@ namespace MPfm
             this.lbl_6dB.TabIndex = 60;
             this.lbl_6dB.Text = "- 6 dB";
             this.lbl_6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_6dB.UseBackgroundGradient = false;
             // 
             // lbl6dB
             // 
             this.lbl6dB.BackColor = System.Drawing.Color.Transparent;
+            this.lbl6dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbl6dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lbl6dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont39.EmbeddedFontName = "Junction";
             customFont39.IsBold = false;
             customFont39.IsItalic = false;
@@ -979,6 +1134,7 @@ namespace MPfm
             this.lbl6dB.TabIndex = 61;
             this.lbl6dB.Text = "+ 6 dB";
             this.lbl6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl6dB.UseBackgroundGradient = false;
             // 
             // tableLayout
             // 
@@ -1024,7 +1180,6 @@ namespace MPfm
             this.panelEqualizer.Controls.Add(this.fader0);
             this.panelEqualizer.Controls.Add(this.panelPreset);
             this.panelEqualizer.Controls.Add(this.panelInformation);
-            this.panelEqualizer.Controls.Add(this.btnClose);
             this.panelEqualizer.Controls.Add(this.lbl6dB);
             this.panelEqualizer.Controls.Add(this.lbl_6dB);
             this.panelEqualizer.Controls.Add(this.lbl0dB);
@@ -1065,21 +1220,21 @@ namespace MPfm
             this.panelEqualizer.Controls.Add(this.lblGain9);
             this.panelEqualizer.Controls.Add(this.lbl9);
             this.panelEqualizer.Controls.Add(this.panelZeroLine);
-            customFont52.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont52.IsBold = false;
-            customFont52.IsItalic = false;
-            customFont52.IsUnderline = false;
-            customFont52.Size = 10F;
-            customFont52.StandardFontName = "Arial";
-            customFont52.UseAntiAliasing = true;
-            customFont52.UseEmbeddedFont = true;
-            this.panelEqualizer.CustomFont = customFont52;
+            customFont51.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont51.IsBold = false;
+            customFont51.IsItalic = false;
+            customFont51.IsUnderline = false;
+            customFont51.Size = 10F;
+            customFont51.StandardFontName = "Arial";
+            customFont51.UseAntiAliasing = true;
+            customFont51.UseEmbeddedFont = true;
+            this.panelEqualizer.CustomFont = customFont51;
             this.panelEqualizer.ExpandedHeight = 450;
             this.panelEqualizer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEqualizer.ForeColor = System.Drawing.Color.White;
             this.panelEqualizer.GradientColor1 = System.Drawing.Color.Black;
             this.panelEqualizer.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelEqualizer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelEqualizer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelEqualizer.HeaderExpanded = true;
             this.panelEqualizer.HeaderForeColor = System.Drawing.Color.White;
             this.panelEqualizer.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -1560,7 +1715,7 @@ namespace MPfm
             this.panelPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelPreset.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.panelPreset.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelPreset.HeaderExpandable = false;
             this.panelPreset.HeaderExpanded = true;
             this.panelPreset.HeaderForeColor = System.Drawing.Color.White;
@@ -1590,6 +1745,9 @@ namespace MPfm
             this.lblEQOn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQOn.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQOn.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEQOn.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEQOn.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont40.EmbeddedFontName = "Junction";
             customFont40.IsBold = false;
             customFont40.IsItalic = false;
@@ -1607,6 +1765,8 @@ namespace MPfm
             this.lblEQOn.TabIndex = 64;
             this.lblEQOn.Text = " EQ On";
             this.lblEQOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lblEQOn, "Enables/disables the 18-band equalizer.");
+            this.lblEQOn.UseBackgroundGradient = false;
             // 
             // chkEQOn
             // 
@@ -1647,7 +1807,7 @@ namespace MPfm
             this.panelInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelInformation.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.panelInformation.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
@@ -1688,6 +1848,9 @@ namespace MPfm
             this.lblEQBandwidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQBandwidth.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQBandwidth.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEQBandwidth.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEQBandwidth.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont42.EmbeddedFontName = "Junction";
             customFont42.IsBold = false;
             customFont42.IsItalic = false;
@@ -1705,12 +1868,16 @@ namespace MPfm
             this.lblEQBandwidth.TabIndex = 73;
             this.lblEQBandwidth.Text = "Bandwidth:";
             this.lblEQBandwidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEQBandwidth.UseBackgroundGradient = false;
             // 
             // lblEQQ
             // 
             this.lblEQQ.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQQ.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEQQ.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEQQ.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont43.EmbeddedFontName = "Junction";
             customFont43.IsBold = false;
             customFont43.IsItalic = false;
@@ -1728,6 +1895,7 @@ namespace MPfm
             this.lblEQQ.TabIndex = 71;
             this.lblEQQ.Text = "Q:";
             this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEQQ.UseBackgroundGradient = false;
             // 
             // btnAutoLevel
             // 
@@ -1764,6 +1932,7 @@ namespace MPfm
             this.btnAutoLevel.TabIndex = 70;
             this.btnAutoLevel.Text = "Auto Level";
             this.btnAutoLevel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
             this.btnAutoLevel.UseVisualStyleBackColor = true;
             this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
             // 
@@ -1802,6 +1971,7 @@ namespace MPfm
             this.btnResetEQ.TabIndex = 69;
             this.btnResetEQ.Text = "Reset EQ";
             this.btnResetEQ.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnResetEQ, "Resets the equalizer bands to 0 dB.");
             this.btnResetEQ.UseVisualStyleBackColor = true;
             this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
             // 
@@ -1810,6 +1980,9 @@ namespace MPfm
             this.lblEQChanged.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQChanged.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQChanged.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEQChanged.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEQChanged.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont46.EmbeddedFontName = "";
             customFont46.IsBold = false;
             customFont46.IsItalic = false;
@@ -1827,6 +2000,7 @@ namespace MPfm
             this.lblEQChanged.TabIndex = 68;
             this.lblEQChanged.Text = "EQ changed";
             this.lblEQChanged.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEQChanged.UseBackgroundGradient = false;
             this.lblEQChanged.Visible = false;
             // 
             // txtEQPresetName
@@ -1871,6 +2045,7 @@ namespace MPfm
             this.btnSaveEQPreset.TabIndex = 66;
             this.btnSaveEQPreset.Text = "Save Preset";
             this.btnSaveEQPreset.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnSaveEQPreset, "Saves the current equalizer in a preset.");
             this.btnSaveEQPreset.UseVisualStyleBackColor = true;
             this.btnSaveEQPreset.Click += new System.EventHandler(this.btnSavePreset_Click);
             // 
@@ -1909,6 +2084,7 @@ namespace MPfm
             this.btnDeleteEQPreset.TabIndex = 63;
             this.btnDeleteEQPreset.Text = "Delete Preset";
             this.btnDeleteEQPreset.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnDeleteEQPreset, "Deletes the currently selected preset.");
             this.btnDeleteEQPreset.UseVisualStyleBackColor = true;
             this.btnDeleteEQPreset.Click += new System.EventHandler(this.btnDeletePreset_Click);
             // 
@@ -1917,6 +2093,9 @@ namespace MPfm
             this.lblEQName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQName.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQName.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEQName.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEQName.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont49.EmbeddedFontName = "Junction";
             customFont49.IsBold = false;
             customFont49.IsItalic = false;
@@ -1934,43 +2113,7 @@ namespace MPfm
             this.lblEQName.TabIndex = 60;
             this.lblEQName.Text = "Name:";
             this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnClose
-            // 
-            this.btnClose.BorderColor = System.Drawing.Color.DimGray;
-            this.btnClose.BorderWidth = 1;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont51.EmbeddedFontName = "Junction";
-            customFont51.IsBold = false;
-            customFont51.IsItalic = false;
-            customFont51.IsUnderline = false;
-            customFont51.Size = 8F;
-            customFont51.StandardFontName = "Arial";
-            customFont51.UseAntiAliasing = true;
-            customFont51.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont51;
-            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradientColor1 = System.Drawing.Color.LightGray;
-            this.btnClose.DisabledGradientColor2 = System.Drawing.Color.Gray;
-            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontColor = System.Drawing.Color.Black;
-            this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnClose.Location = new System.Drawing.Point(928, 2);
-            this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(62, 19);
-            this.btnClose.TabIndex = 62;
-            this.btnClose.Text = "Close";
-            this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.lblEQName.UseBackgroundGradient = false;
             // 
             // panelZeroLine
             // 
@@ -1979,6 +2122,13 @@ namespace MPfm
             this.panelZeroLine.Name = "panelZeroLine";
             this.panelZeroLine.Size = new System.Drawing.Size(800, 2);
             this.panelZeroLine.TabIndex = 66;
+            // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Effects";
             // 
             // frmEffects
             // 
@@ -2047,7 +2197,6 @@ namespace MPfm
         private MPfm.WindowsControls.Label lbl0dB;
         private System.Windows.Forms.TableLayoutPanel tableLayout;
         private MPfm.WindowsControls.Panel panelEqualizer;
-        private MPfm.WindowsControls.Button btnClose;
         private MPfm.WindowsControls.Button btnDeleteEQPreset;
         private MPfm.WindowsControls.Panel panelInformation;
         private MPfm.WindowsControls.Label lblEQName;
@@ -2083,5 +2232,6 @@ namespace MPfm
         private System.Windows.Forms.MaskedTextBox txtEQQ;
         private WindowsControls.Label lblEQBandwidth;
         private WindowsControls.Label lblEQQ;
+        public System.Windows.Forms.ToolTip toolTip;
     }
 }
