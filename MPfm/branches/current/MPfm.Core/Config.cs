@@ -1,5 +1,5 @@
 ﻿//
-// Config.cs: Configuration helper class for MPfm.
+// Config.cs: Configuration helper class.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
