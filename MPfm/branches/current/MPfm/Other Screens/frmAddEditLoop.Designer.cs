@@ -28,7 +28,8 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
-            MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
+            this.components = new System.ComponentModel.Container();
+            MPfm.WindowsControls.CustomFont customFont23 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -42,6 +43,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.WaveFormDisplayTheme waveFormDisplayTheme1 = new MPfm.WindowsControls.WaveFormDisplayTheme();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont16 = new MPfm.WindowsControls.CustomFont();
@@ -50,6 +52,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont21 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
             this.panelEditLoop = new MPfm.WindowsControls.Panel();
             this.btnEndPositionGoTo = new MPfm.WindowsControls.Button();
             this.btnEndPositionPunchIn = new MPfm.WindowsControls.Button();
@@ -79,6 +82,7 @@ namespace MPfm
             this.lblName = new MPfm.WindowsControls.Label();
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelEditLoop.SuspendLayout();
             this.panelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -112,21 +116,21 @@ namespace MPfm
             this.panelEditLoop.Controls.Add(this.lblName);
             this.panelEditLoop.Controls.Add(this.btnSave);
             this.panelEditLoop.Controls.Add(this.btnClose);
-            customFont22.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont22.IsBold = true;
-            customFont22.IsItalic = false;
-            customFont22.IsUnderline = false;
-            customFont22.Size = 12F;
-            customFont22.StandardFontName = "Arial";
-            customFont22.UseAntiAliasing = true;
-            customFont22.UseEmbeddedFont = true;
-            this.panelEditLoop.CustomFont = customFont22;
+            customFont23.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont23.IsBold = true;
+            customFont23.IsItalic = false;
+            customFont23.IsUnderline = false;
+            customFont23.Size = 12F;
+            customFont23.StandardFontName = "Arial";
+            customFont23.UseAntiAliasing = true;
+            customFont23.UseEmbeddedFont = true;
+            this.panelEditLoop.CustomFont = customFont23;
             this.panelEditLoop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditLoop.ExpandedHeight = 200;
             this.panelEditLoop.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEditLoop.GradientColor1 = System.Drawing.Color.Silver;
             this.panelEditLoop.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelEditLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelEditLoop.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelEditLoop.HeaderExpandable = false;
             this.panelEditLoop.HeaderExpanded = true;
             this.panelEditLoop.HeaderForeColor = System.Drawing.Color.Black;
@@ -175,6 +179,7 @@ namespace MPfm
             this.btnEndPositionGoTo.TabIndex = 110;
             this.btnEndPositionGoTo.Text = "Go to";
             this.btnEndPositionGoTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnEndPositionGoTo, "Sets the current song position to the loop end position.");
             this.btnEndPositionGoTo.UseVisualStyleBackColor = true;
             this.btnEndPositionGoTo.Click += new System.EventHandler(this.btnEndPositionGoTo_Click);
             // 
@@ -213,6 +218,7 @@ namespace MPfm
             this.btnEndPositionPunchIn.TabIndex = 109;
             this.btnEndPositionPunchIn.Text = "Punch in";
             this.btnEndPositionPunchIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnEndPositionPunchIn, "Sets the loop end position to the current song position.");
             this.btnEndPositionPunchIn.UseVisualStyleBackColor = true;
             this.btnEndPositionPunchIn.Click += new System.EventHandler(this.btnEndPositionPunchIn_Click);
             // 
@@ -221,6 +227,9 @@ namespace MPfm
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.label1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
@@ -236,6 +245,7 @@ namespace MPfm
             this.label1.Size = new System.Drawing.Size(118, 17);
             this.label1.TabIndex = 108;
             this.label1.Text = "End Position :";
+            this.label1.UseBackgroundGradient = false;
             // 
             // txtEndPosition
             // 
@@ -268,6 +278,9 @@ namespace MPfm
             this.lblEndPositionMarker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEndPositionMarker.BackColor = System.Drawing.Color.Transparent;
+            this.lblEndPositionMarker.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEndPositionMarker.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEndPositionMarker.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont4.EmbeddedFontName = "Junction";
             customFont4.IsBold = false;
             customFont4.IsItalic = false;
@@ -283,6 +296,8 @@ namespace MPfm
             this.lblEndPositionMarker.Size = new System.Drawing.Size(93, 17);
             this.lblEndPositionMarker.TabIndex = 104;
             this.lblEndPositionMarker.Text = "Related marker :";
+            this.toolTip.SetToolTip(this.lblEndPositionMarker, "List of markers matching the loop end position.");
+            this.lblEndPositionMarker.UseBackgroundGradient = false;
             // 
             // btnStartPositionGoTo
             // 
@@ -319,6 +334,7 @@ namespace MPfm
             this.btnStartPositionGoTo.TabIndex = 103;
             this.btnStartPositionGoTo.Text = "Go to";
             this.btnStartPositionGoTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnStartPositionGoTo, "Sets the current song position to the loop start position.");
             this.btnStartPositionGoTo.UseVisualStyleBackColor = true;
             this.btnStartPositionGoTo.Click += new System.EventHandler(this.btnStartPositionGoTo_Click);
             // 
@@ -357,6 +373,7 @@ namespace MPfm
             this.btnStartPositionPunchIn.TabIndex = 102;
             this.btnStartPositionPunchIn.Text = "Punch in";
             this.btnStartPositionPunchIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnStartPositionPunchIn, "Sets the loop start position to the current song position.");
             this.btnStartPositionPunchIn.UseVisualStyleBackColor = true;
             this.btnStartPositionPunchIn.Click += new System.EventHandler(this.btnStartPositionPunchIn_Click);
             // 
@@ -365,6 +382,9 @@ namespace MPfm
             this.lblPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPosition.BackColor = System.Drawing.Color.Transparent;
+            this.lblPosition.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblPosition.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblPosition.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont7.EmbeddedFontName = "Junction";
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
@@ -380,6 +400,7 @@ namespace MPfm
             this.lblPosition.Size = new System.Drawing.Size(118, 17);
             this.lblPosition.TabIndex = 99;
             this.lblPosition.Text = "Start Position :";
+            this.lblPosition.UseBackgroundGradient = false;
             // 
             // txtStartPosition
             // 
@@ -411,7 +432,7 @@ namespace MPfm
             this.panelWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelWarning.GradientColor1 = System.Drawing.Color.LemonChiffon;
             this.panelWarning.GradientColor2 = System.Drawing.Color.Gold;
-            this.panelWarning.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelWarning.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelWarning.HeaderExpandable = false;
             this.panelWarning.HeaderExpanded = true;
             this.panelWarning.HeaderForeColor = System.Drawing.Color.Black;
@@ -440,6 +461,9 @@ namespace MPfm
             this.lblWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWarning.BackColor = System.Drawing.Color.Transparent;
+            this.lblWarning.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblWarning.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblWarning.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -455,11 +479,15 @@ namespace MPfm
             this.lblWarning.Size = new System.Drawing.Size(334, 17);
             this.lblWarning.TabIndex = 91;
             this.lblWarning.Text = "The loop length must be positive.";
+            this.lblWarning.UseBackgroundGradient = false;
             // 
             // lblLoopLengthPCMBytesValue
             // 
             this.lblLoopLengthPCMBytesValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoopLengthPCMBytesValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMBytesValue.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblLoopLengthPCMBytesValue.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblLoopLengthPCMBytesValue.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont10.EmbeddedFontName = "Droid Sans Mono";
             customFont10.IsBold = true;
             customFont10.IsItalic = false;
@@ -475,11 +503,15 @@ namespace MPfm
             this.lblLoopLengthPCMBytesValue.Size = new System.Drawing.Size(89, 17);
             this.lblLoopLengthPCMBytesValue.TabIndex = 97;
             this.lblLoopLengthPCMBytesValue.Text = "0";
+            this.lblLoopLengthPCMBytesValue.UseBackgroundGradient = false;
             // 
             // lblLoopLengthPCMBytes
             // 
             this.lblLoopLengthPCMBytes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoopLengthPCMBytes.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMBytes.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblLoopLengthPCMBytes.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblLoopLengthPCMBytes.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
@@ -495,11 +527,15 @@ namespace MPfm
             this.lblLoopLengthPCMBytes.Size = new System.Drawing.Size(110, 17);
             this.lblLoopLengthPCMBytes.TabIndex = 96;
             this.lblLoopLengthPCMBytes.Text = "Loop Length (bytes)";
+            this.lblLoopLengthPCMBytes.UseBackgroundGradient = false;
             // 
             // lblLoopLengthPCMValue
             // 
             this.lblLoopLengthPCMValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoopLengthPCMValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMValue.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblLoopLengthPCMValue.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblLoopLengthPCMValue.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont12.EmbeddedFontName = "Droid Sans Mono";
             customFont12.IsBold = true;
             customFont12.IsItalic = false;
@@ -515,11 +551,15 @@ namespace MPfm
             this.lblLoopLengthPCMValue.Size = new System.Drawing.Size(89, 17);
             this.lblLoopLengthPCMValue.TabIndex = 95;
             this.lblLoopLengthPCMValue.Text = "0";
+            this.lblLoopLengthPCMValue.UseBackgroundGradient = false;
             // 
             // lblLoopLengthPCM
             // 
             this.lblLoopLengthPCM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoopLengthPCM.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCM.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblLoopLengthPCM.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblLoopLengthPCM.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
             customFont13.IsItalic = false;
@@ -535,6 +575,7 @@ namespace MPfm
             this.lblLoopLengthPCM.Size = new System.Drawing.Size(130, 17);
             this.lblLoopLengthPCM.TabIndex = 94;
             this.lblLoopLengthPCM.Text = "Loop Length (samples)";
+            this.lblLoopLengthPCM.UseBackgroundGradient = false;
             // 
             // waveForm
             // 
@@ -552,47 +593,70 @@ namespace MPfm
     "s\\om-0gycd01\\Peak Files\\";
             this.waveForm.Size = new System.Drawing.Size(578, 92);
             this.waveForm.TabIndex = 93;
-            this.waveForm.Zoom = 100F;
-            // 
-            // lblLoopLengthValue
-            // 
-            this.lblLoopLengthValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblLoopLengthValue.BackColor = System.Drawing.Color.Transparent;
+            waveFormDisplayTheme1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            waveFormDisplayTheme1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            waveFormDisplayTheme1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            waveFormDisplayTheme1.CursorColor = System.Drawing.Color.RoyalBlue;
             customFont14.EmbeddedFontName = "Droid Sans Mono";
-            customFont14.IsBold = true;
+            customFont14.IsBold = false;
             customFont14.IsItalic = false;
             customFont14.IsUnderline = false;
             customFont14.Size = 8F;
             customFont14.StandardFontName = "Arial";
             customFont14.UseAntiAliasing = true;
             customFont14.UseEmbeddedFont = true;
-            this.lblLoopLengthValue.CustomFont = customFont14;
-            this.lblLoopLengthValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoopLengthValue.Location = new System.Drawing.Point(2, 344);
-            this.lblLoopLengthValue.Name = "lblLoopLengthValue";
-            this.lblLoopLengthValue.Size = new System.Drawing.Size(89, 17);
-            this.lblLoopLengthValue.TabIndex = 75;
-            this.lblLoopLengthValue.Text = "0";
+            waveFormDisplayTheme1.CustomFont = customFont14;
+            waveFormDisplayTheme1.WaveFormColor = System.Drawing.Color.Yellow;
+            this.waveForm.Theme = waveFormDisplayTheme1;
+            this.waveForm.Zoom = 100F;
             // 
-            // lblLoopLength
+            // lblLoopLengthValue
             // 
-            this.lblLoopLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblLoopLength.BackColor = System.Drawing.Color.Transparent;
-            customFont15.EmbeddedFontName = "Junction";
-            customFont15.IsBold = false;
+            this.lblLoopLengthValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLoopLengthValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthValue.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblLoopLengthValue.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblLoopLengthValue.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont15.EmbeddedFontName = "Droid Sans Mono";
+            customFont15.IsBold = true;
             customFont15.IsItalic = false;
             customFont15.IsUnderline = false;
             customFont15.Size = 8F;
             customFont15.StandardFontName = "Arial";
             customFont15.UseAntiAliasing = true;
             customFont15.UseEmbeddedFont = true;
-            this.lblLoopLength.CustomFont = customFont15;
+            this.lblLoopLengthValue.CustomFont = customFont15;
+            this.lblLoopLengthValue.Font = new System.Drawing.Font("Droid Sans Mono", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthValue.Location = new System.Drawing.Point(2, 344);
+            this.lblLoopLengthValue.Name = "lblLoopLengthValue";
+            this.lblLoopLengthValue.Size = new System.Drawing.Size(89, 17);
+            this.lblLoopLengthValue.TabIndex = 75;
+            this.lblLoopLengthValue.Text = "0";
+            this.lblLoopLengthValue.UseBackgroundGradient = false;
+            // 
+            // lblLoopLength
+            // 
+            this.lblLoopLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblLoopLength.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLength.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblLoopLength.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblLoopLength.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont16.EmbeddedFontName = "Junction";
+            customFont16.IsBold = false;
+            customFont16.IsItalic = false;
+            customFont16.IsUnderline = false;
+            customFont16.Size = 8F;
+            customFont16.StandardFontName = "Arial";
+            customFont16.UseAntiAliasing = true;
+            customFont16.UseEmbeddedFont = true;
+            this.lblLoopLength.CustomFont = customFont16;
             this.lblLoopLength.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopLength.Location = new System.Drawing.Point(2, 327);
             this.lblLoopLength.Name = "lblLoopLength";
             this.lblLoopLength.Size = new System.Drawing.Size(89, 17);
             this.lblLoopLength.TabIndex = 74;
             this.lblLoopLength.Text = "Loop Length";
+            this.lblLoopLength.UseBackgroundGradient = false;
             // 
             // comboStartPositionMarker
             // 
@@ -614,63 +678,76 @@ namespace MPfm
             this.lblStartPositionMarker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStartPositionMarker.BackColor = System.Drawing.Color.Transparent;
-            customFont16.EmbeddedFontName = "Junction";
-            customFont16.IsBold = false;
-            customFont16.IsItalic = false;
-            customFont16.IsUnderline = false;
-            customFont16.Size = 8F;
-            customFont16.StandardFontName = "Arial";
-            customFont16.UseAntiAliasing = true;
-            customFont16.UseEmbeddedFont = true;
-            this.lblStartPositionMarker.CustomFont = customFont16;
-            this.lblStartPositionMarker.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStartPositionMarker.Location = new System.Drawing.Point(275, 140);
-            this.lblStartPositionMarker.Name = "lblStartPositionMarker";
-            this.lblStartPositionMarker.Size = new System.Drawing.Size(93, 17);
-            this.lblStartPositionMarker.TabIndex = 82;
-            this.lblStartPositionMarker.Text = "Related marker :";
-            // 
-            // lblSongValue
-            // 
-            this.lblSongValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSongValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblStartPositionMarker.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblStartPositionMarker.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblStartPositionMarker.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont17.EmbeddedFontName = "Junction";
-            customFont17.IsBold = true;
+            customFont17.IsBold = false;
             customFont17.IsItalic = false;
             customFont17.IsUnderline = false;
             customFont17.Size = 8F;
             customFont17.StandardFontName = "Arial";
             customFont17.UseAntiAliasing = true;
             customFont17.UseEmbeddedFont = true;
-            this.lblSongValue.CustomFont = customFont17;
-            this.lblSongValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongValue.Location = new System.Drawing.Point(3, 52);
-            this.lblSongValue.Name = "lblSongValue";
-            this.lblSongValue.Size = new System.Drawing.Size(581, 17);
-            this.lblSongValue.TabIndex = 79;
-            this.lblSongValue.Text = "Song";
+            this.lblStartPositionMarker.CustomFont = customFont17;
+            this.lblStartPositionMarker.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStartPositionMarker.Location = new System.Drawing.Point(275, 140);
+            this.lblStartPositionMarker.Name = "lblStartPositionMarker";
+            this.lblStartPositionMarker.Size = new System.Drawing.Size(93, 17);
+            this.lblStartPositionMarker.TabIndex = 82;
+            this.lblStartPositionMarker.Text = "Related marker :";
+            this.toolTip.SetToolTip(this.lblStartPositionMarker, "List of markers matching the loop start position.");
+            this.lblStartPositionMarker.UseBackgroundGradient = false;
             // 
-            // lblSong
+            // lblSongValue
             // 
-            this.lblSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblSongValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSong.BackColor = System.Drawing.Color.Transparent;
+            this.lblSongValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblSongValue.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblSongValue.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblSongValue.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             customFont18.EmbeddedFontName = "Junction";
-            customFont18.IsBold = false;
+            customFont18.IsBold = true;
             customFont18.IsItalic = false;
             customFont18.IsUnderline = false;
             customFont18.Size = 8F;
             customFont18.StandardFontName = "Arial";
             customFont18.UseAntiAliasing = true;
             customFont18.UseEmbeddedFont = true;
-            this.lblSong.CustomFont = customFont18;
+            this.lblSongValue.CustomFont = customFont18;
+            this.lblSongValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSongValue.Location = new System.Drawing.Point(3, 52);
+            this.lblSongValue.Name = "lblSongValue";
+            this.lblSongValue.Size = new System.Drawing.Size(581, 17);
+            this.lblSongValue.TabIndex = 79;
+            this.lblSongValue.Text = "Song";
+            this.lblSongValue.UseBackgroundGradient = false;
+            // 
+            // lblSong
+            // 
+            this.lblSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSong.BackColor = System.Drawing.Color.Transparent;
+            this.lblSong.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblSong.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblSong.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont19.EmbeddedFontName = "Junction";
+            customFont19.IsBold = false;
+            customFont19.IsItalic = false;
+            customFont19.IsUnderline = false;
+            customFont19.Size = 8F;
+            customFont19.StandardFontName = "Arial";
+            customFont19.UseAntiAliasing = true;
+            customFont19.UseEmbeddedFont = true;
+            this.lblSong.CustomFont = customFont19;
             this.lblSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSong.Location = new System.Drawing.Point(3, 34);
             this.lblSong.Name = "lblSong";
             this.lblSong.Size = new System.Drawing.Size(581, 17);
             this.lblSong.TabIndex = 78;
             this.lblSong.Text = "Song :";
+            this.lblSong.UseBackgroundGradient = false;
             // 
             // txtName
             // 
@@ -688,21 +765,25 @@ namespace MPfm
             this.lblName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblName.BackColor = System.Drawing.Color.Transparent;
-            customFont19.EmbeddedFontName = "Junction";
-            customFont19.IsBold = false;
-            customFont19.IsItalic = false;
-            customFont19.IsUnderline = false;
-            customFont19.Size = 8F;
-            customFont19.StandardFontName = "Arial";
-            customFont19.UseAntiAliasing = true;
-            customFont19.UseEmbeddedFont = true;
-            this.lblName.CustomFont = customFont19;
+            this.lblName.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblName.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblName.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont20.EmbeddedFontName = "Junction";
+            customFont20.IsBold = false;
+            customFont20.IsItalic = false;
+            customFont20.IsUnderline = false;
+            customFont20.Size = 8F;
+            customFont20.StandardFontName = "Arial";
+            customFont20.UseAntiAliasing = true;
+            customFont20.UseEmbeddedFont = true;
+            this.lblName.CustomFont = customFont20;
             this.lblName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.Location = new System.Drawing.Point(3, 71);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(586, 17);
             this.lblName.TabIndex = 67;
             this.lblName.Text = "Name :";
+            this.lblName.UseBackgroundGradient = false;
             // 
             // btnSave
             // 
@@ -710,15 +791,15 @@ namespace MPfm
             this.btnSave.BorderColor = System.Drawing.Color.DimGray;
             this.btnSave.BorderWidth = 1;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont20.EmbeddedFontName = "Junction";
-            customFont20.IsBold = false;
-            customFont20.IsItalic = false;
-            customFont20.IsUnderline = false;
-            customFont20.Size = 9F;
-            customFont20.StandardFontName = "Arial";
-            customFont20.UseAntiAliasing = true;
-            customFont20.UseEmbeddedFont = true;
-            this.btnSave.CustomFont = customFont20;
+            customFont21.EmbeddedFontName = "Junction";
+            customFont21.IsBold = false;
+            customFont21.IsItalic = false;
+            customFont21.IsUnderline = false;
+            customFont21.Size = 9F;
+            customFont21.StandardFontName = "Arial";
+            customFont21.UseAntiAliasing = true;
+            customFont21.UseEmbeddedFont = true;
+            this.btnSave.CustomFont = customFont21;
             this.btnSave.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnSave.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnSave.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -741,6 +822,7 @@ namespace MPfm
             this.btnSave.TabIndex = 65;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnSave, "Saves the current loop.");
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -750,15 +832,15 @@ namespace MPfm
             this.btnClose.BorderColor = System.Drawing.Color.DimGray;
             this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont21.EmbeddedFontName = "Junction";
-            customFont21.IsBold = false;
-            customFont21.IsItalic = false;
-            customFont21.IsUnderline = false;
-            customFont21.Size = 9F;
-            customFont21.StandardFontName = "Arial";
-            customFont21.UseAntiAliasing = true;
-            customFont21.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont21;
+            customFont22.EmbeddedFontName = "Junction";
+            customFont22.IsBold = false;
+            customFont22.IsItalic = false;
+            customFont22.IsUnderline = false;
+            customFont22.Size = 9F;
+            customFont22.StandardFontName = "Arial";
+            customFont22.UseAntiAliasing = true;
+            customFont22.UseEmbeddedFont = true;
+            this.btnClose.CustomFont = customFont22;
             this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
             this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -780,8 +862,16 @@ namespace MPfm
             this.btnClose.TabIndex = 63;
             this.btnClose.Text = "Close";
             this.btnClose.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.btnClose, "Closes the window.");
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Add/Edit Loop";
             // 
             // frmAddEditLoop
             // 
@@ -834,6 +924,7 @@ namespace MPfm
         private WindowsControls.Label label1;
         private System.Windows.Forms.MaskedTextBox txtEndPosition;
         private System.Windows.Forms.ComboBox comboEndPositionMarker;
-        private WindowsControls.Label lblEndPositionMarker;        
+        private WindowsControls.Label lblEndPositionMarker;
+        public System.Windows.Forms.ToolTip toolTip;        
     }
 }

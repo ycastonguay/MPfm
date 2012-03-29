@@ -82,7 +82,7 @@ namespace MPfm
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void frmEffects_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        {            
             SaveConfig();
 
             if (e.CloseReason != CloseReason.ApplicationExitCall)
