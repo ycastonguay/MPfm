@@ -30,7 +30,7 @@ namespace MPfm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPlaylist));
-            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -38,9 +38,8 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
-            MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.menuPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaylistPlaySong = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +47,6 @@ namespace MPfm
             this.panelToolbar = new MPfm.WindowsControls.Panel();
             this.button1 = new MPfm.WindowsControls.Button();
             this.btnLoadPlaylist = new MPfm.WindowsControls.Button();
-            this.btnClose = new MPfm.WindowsControls.Button();
             this.btnRemoveSongs = new MPfm.WindowsControls.Button();
             this.btnRenamePlaylist = new MPfm.WindowsControls.Button();
             this.btnSavePlaylistAs = new MPfm.WindowsControls.Button();
@@ -63,6 +61,7 @@ namespace MPfm
             this.recentPlaylistsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fgfgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miLoadPlaylistLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuPlaylist.SuspendLayout();
             this.panelToolbar.SuspendLayout();
             this.menuLoadPlaylist.SuspendLayout();
@@ -106,26 +105,25 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelToolbar.Controls.Add(this.button1);
             this.panelToolbar.Controls.Add(this.btnLoadPlaylist);
-            this.panelToolbar.Controls.Add(this.btnClose);
             this.panelToolbar.Controls.Add(this.btnRemoveSongs);
             this.panelToolbar.Controls.Add(this.btnRenamePlaylist);
             this.panelToolbar.Controls.Add(this.btnSavePlaylistAs);
             this.panelToolbar.Controls.Add(this.btnSavePlaylist);
             this.panelToolbar.Controls.Add(this.btnNewPlaylist);
-            customFont9.EmbeddedFontName = "";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 8F;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseAntiAliasing = true;
-            customFont9.UseEmbeddedFont = false;
-            this.panelToolbar.CustomFont = customFont9;
+            customFont8.EmbeddedFontName = "";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 8F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = false;
+            this.panelToolbar.CustomFont = customFont8;
             this.panelToolbar.ExpandedHeight = 25;
             this.panelToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelToolbar.GradientColor1 = System.Drawing.Color.Silver;
             this.panelToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
-            this.panelToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelToolbar.HeaderExpandable = false;
             this.panelToolbar.HeaderExpanded = true;
             this.panelToolbar.HeaderForeColor = System.Drawing.Color.White;
@@ -173,6 +171,7 @@ namespace MPfm
             this.button1.TabIndex = 75;
             this.button1.Text = "Shuffle playlist";
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.button1, "Shuffles the playlist items.");
             this.button1.UseVisualStyleBackColor = true;
             // 
             // btnLoadPlaylist
@@ -210,14 +209,15 @@ namespace MPfm
             this.btnLoadPlaylist.TabIndex = 74;
             this.btnLoadPlaylist.Text = "Load playlist";
             this.btnLoadPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnLoadPlaylist, "Loads a playlist file (M3U, M3U8, PLS, XSPF).");
             this.btnLoadPlaylist.UseVisualStyleBackColor = true;
             this.btnLoadPlaylist.Click += new System.EventHandler(this.btnLoadPlaylist_Click);
             // 
-            // btnClose
+            // btnRemoveSongs
             // 
-            this.btnClose.BorderColor = System.Drawing.Color.DimGray;
-            this.btnClose.BorderWidth = 1;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemoveSongs.BorderColor = System.Drawing.Color.DimGray;
+            this.btnRemoveSongs.BorderWidth = 1;
+            this.btnRemoveSongs.Cursor = System.Windows.Forms.Cursors.Hand;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
@@ -226,45 +226,7 @@ namespace MPfm
             customFont3.StandardFontName = "Arial";
             customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont3;
-            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnClose.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontColor = System.Drawing.Color.Black;
-            this.btnClose.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnClose.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnClose.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
-            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(618, 0);
-            this.btnClose.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnClose.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnClose.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(58, 25);
-            this.btnClose.TabIndex = 73;
-            this.btnClose.Text = "Close";
-            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnRemoveSongs
-            // 
-            this.btnRemoveSongs.BorderColor = System.Drawing.Color.DimGray;
-            this.btnRemoveSongs.BorderWidth = 1;
-            this.btnRemoveSongs.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 8F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.btnRemoveSongs.CustomFont = customFont4;
+            this.btnRemoveSongs.CustomFont = customFont3;
             this.btnRemoveSongs.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnRemoveSongs.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnRemoveSongs.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -286,6 +248,7 @@ namespace MPfm
             this.btnRemoveSongs.TabIndex = 72;
             this.btnRemoveSongs.Text = "Remove song(s)  ";
             this.btnRemoveSongs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnRemoveSongs, "Removes the selected songs from the playlist.");
             this.btnRemoveSongs.UseVisualStyleBackColor = true;
             this.btnRemoveSongs.Click += new System.EventHandler(this.btnRemoveSongs_Click);
             // 
@@ -294,15 +257,15 @@ namespace MPfm
             this.btnRenamePlaylist.BorderColor = System.Drawing.Color.DimGray;
             this.btnRenamePlaylist.BorderWidth = 1;
             this.btnRenamePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 8F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            this.btnRenamePlaylist.CustomFont = customFont5;
+            customFont4.EmbeddedFontName = "Junction";
+            customFont4.IsBold = false;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 8F;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
+            customFont4.UseEmbeddedFont = true;
+            this.btnRenamePlaylist.CustomFont = customFont4;
             this.btnRenamePlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnRenamePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnRenamePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -333,15 +296,15 @@ namespace MPfm
             this.btnSavePlaylistAs.BorderColor = System.Drawing.Color.DimGray;
             this.btnSavePlaylistAs.BorderWidth = 1;
             this.btnSavePlaylistAs.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont6.EmbeddedFontName = "Junction";
-            customFont6.IsBold = false;
-            customFont6.IsItalic = false;
-            customFont6.IsUnderline = false;
-            customFont6.Size = 8F;
-            customFont6.StandardFontName = "Arial";
-            customFont6.UseAntiAliasing = true;
-            customFont6.UseEmbeddedFont = true;
-            this.btnSavePlaylistAs.CustomFont = customFont6;
+            customFont5.EmbeddedFontName = "Junction";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 8F;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
+            customFont5.UseEmbeddedFont = true;
+            this.btnSavePlaylistAs.CustomFont = customFont5;
             this.btnSavePlaylistAs.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnSavePlaylistAs.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnSavePlaylistAs.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -363,6 +326,7 @@ namespace MPfm
             this.btnSavePlaylistAs.TabIndex = 70;
             this.btnSavePlaylistAs.Text = "Save playlist as...";
             this.btnSavePlaylistAs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnSavePlaylistAs, "Saves the current playlist under a different format/file name.");
             this.btnSavePlaylistAs.UseVisualStyleBackColor = true;
             this.btnSavePlaylistAs.Click += new System.EventHandler(this.btnSavePlaylistAs_Click);
             // 
@@ -371,15 +335,15 @@ namespace MPfm
             this.btnSavePlaylist.BorderColor = System.Drawing.Color.DimGray;
             this.btnSavePlaylist.BorderWidth = 1;
             this.btnSavePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont7.EmbeddedFontName = "Junction";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 8F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            this.btnSavePlaylist.CustomFont = customFont7;
+            customFont6.EmbeddedFontName = "Junction";
+            customFont6.IsBold = false;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 8F;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseAntiAliasing = true;
+            customFont6.UseEmbeddedFont = true;
+            this.btnSavePlaylist.CustomFont = customFont6;
             this.btnSavePlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnSavePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnSavePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -401,6 +365,7 @@ namespace MPfm
             this.btnSavePlaylist.TabIndex = 69;
             this.btnSavePlaylist.Text = "Save playlist";
             this.btnSavePlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnSavePlaylist, "Saves the current playlist.");
             this.btnSavePlaylist.UseVisualStyleBackColor = true;
             this.btnSavePlaylist.Click += new System.EventHandler(this.btnSavePlaylist_Click);
             // 
@@ -409,15 +374,15 @@ namespace MPfm
             this.btnNewPlaylist.BorderColor = System.Drawing.Color.DimGray;
             this.btnNewPlaylist.BorderWidth = 1;
             this.btnNewPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 8F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            this.btnNewPlaylist.CustomFont = customFont8;
+            customFont7.EmbeddedFontName = "Junction";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 8F;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
+            customFont7.UseEmbeddedFont = true;
+            this.btnNewPlaylist.CustomFont = customFont7;
             this.btnNewPlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
             this.btnNewPlaylist.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnNewPlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
@@ -439,6 +404,7 @@ namespace MPfm
             this.btnNewPlaylist.TabIndex = 68;
             this.btnNewPlaylist.Text = "New playlist";
             this.btnNewPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnNewPlaylist, "Creates a new empty playlist.");
             this.btnNewPlaylist.UseVisualStyleBackColor = true;
             this.btnNewPlaylist.Click += new System.EventHandler(this.btnNewPlaylist_Click);
             // 
@@ -466,15 +432,15 @@ namespace MPfm
             this.viewSongs2.Text = "songGridView1";
             songGridViewTheme1.AlbumCoverBackgroundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             songGridViewTheme1.AlbumCoverBackgroundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
-            customFont10.EmbeddedFontName = "Junction";
-            customFont10.IsBold = false;
-            customFont10.IsItalic = false;
-            customFont10.IsUnderline = false;
-            customFont10.Size = 8F;
-            customFont10.StandardFontName = "Arial";
-            customFont10.UseAntiAliasing = true;
-            customFont10.UseEmbeddedFont = true;
-            songGridViewTheme1.Font = customFont10;
+            customFont9.EmbeddedFontName = "Junction";
+            customFont9.IsBold = false;
+            customFont9.IsItalic = false;
+            customFont9.IsUnderline = false;
+            customFont9.Size = 8F;
+            customFont9.StandardFontName = "Arial";
+            customFont9.UseAntiAliasing = true;
+            customFont9.UseEmbeddedFont = true;
+            songGridViewTheme1.Font = customFont9;
             songGridViewTheme1.HeaderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
             songGridViewTheme1.HeaderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             songGridViewTheme1.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
@@ -488,7 +454,7 @@ namespace MPfm
             songGridViewTheme1.LineNowPlayingColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
             songGridViewTheme1.LineNowPlayingColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
             songGridViewTheme1.Padding = 6;
-            this.viewSongs2.Theme = songGridViewTheme1;            
+            this.viewSongs2.Theme = songGridViewTheme1;
             this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
             // 
             // dialogLoadPlaylist
@@ -547,6 +513,13 @@ namespace MPfm
             this.miLoadPlaylistLibrary.Size = new System.Drawing.Size(207, 22);
             this.miLoadPlaylistLibrary.Text = "Library playlists";
             // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Playlist";
+            // 
             // frmPlaylist
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -577,7 +550,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem miPlaylistRemoveSongs;
         private WindowsControls.Panel panelToolbar;
         private WindowsControls.Button btnNewPlaylist;
-        private WindowsControls.Button btnClose;
         private WindowsControls.Button btnRemoveSongs;
         private WindowsControls.Button btnRenamePlaylist;
         private WindowsControls.Button btnSavePlaylistAs;
@@ -593,5 +565,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem fgfgToolStripMenuItem;
         public WindowsControls.SongGridView viewSongs2;
         private WindowsControls.Button button1;
+        public System.Windows.Forms.ToolTip toolTip;
     }
 }

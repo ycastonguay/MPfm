@@ -122,18 +122,6 @@ namespace MPfm
             }
         }
 
-        /// <summary>
-        /// Occurs when the user clicks on the Close button on the toolbar.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            Main.BringToFront();
-            Main.Focus();
-        }
-
         #endregion
 
         /// <summary>
