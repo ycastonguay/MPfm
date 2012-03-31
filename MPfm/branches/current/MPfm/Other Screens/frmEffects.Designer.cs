@@ -1842,6 +1842,7 @@ namespace MPfm
             this.txtEQQ.Size = new System.Drawing.Size(118, 21);
             this.txtEQQ.TabIndex = 87;
             this.txtEQQ.Text = "0100";
+            this.toolTip.SetToolTip(this.txtEQQ, "Equalizer Q");
             // 
             // lblEQBandwidth
             // 
@@ -1868,6 +1869,7 @@ namespace MPfm
             this.lblEQBandwidth.TabIndex = 73;
             this.lblEQBandwidth.Text = "Bandwidth:";
             this.lblEQBandwidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lblEQBandwidth, "Equalizer Bandwidth (adjusts the width of each band).");
             this.lblEQBandwidth.UseBackgroundGradient = false;
             // 
             // lblEQQ
@@ -1895,6 +1897,7 @@ namespace MPfm
             this.lblEQQ.TabIndex = 71;
             this.lblEQQ.Text = "Q:";
             this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lblEQQ, "Equalizer Q (adjusts the sharpness of each band)");
             this.lblEQQ.UseBackgroundGradient = false;
             // 
             // btnAutoLevel
@@ -2113,6 +2116,7 @@ namespace MPfm
             this.lblEQName.TabIndex = 60;
             this.lblEQName.Text = "Name:";
             this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip.SetToolTip(this.lblEQName, "Equalizer preset name.");
             this.lblEQName.UseBackgroundGradient = false;
             // 
             // panelZeroLine
