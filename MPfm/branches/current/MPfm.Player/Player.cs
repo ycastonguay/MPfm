@@ -64,14 +64,20 @@ namespace MPfm.Player
             {
                 return fxChannel;
             }
-        }
-        //private Dictionary<int, string> plugins = null;
+        }        
 
+        /// <summary>
+        /// Indicates the current playlist item index used by the mixer.
+        /// The playlist index is incremented when the mixer starts to play the next song.
+        /// Depending on the buffer size used, the index can be incremented a few seconds before actually hearing
+        /// the song change.
+        /// </summary>
         int currentMixPlaylistIndex = 0;
 
         // Plugin handles
         private int fxEQHandle;
         //private int aacPluginHandle = 0;
+        //private Dictionary<int, string> plugins = null;
         private int apePluginHandle = 0;
         private int flacPluginHandle = 0;
         private int mpcPluginHandle = 0;
@@ -1374,21 +1380,59 @@ namespace MPfm.Player
         {
             try
             {
-                // Set loop sync proc
-                Tracing.Log("Player.StartLoop -- Setting sync...");
-                Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
-                Playlist.CurrentItem.SyncProcHandle = Playlist.CurrentItem.Channel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, loop.EndPositionBytes * 2, Playlist.CurrentItem.SyncProc);
+                // Validate player
+                if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
+                {
+                    return;
+                }
 
-                // Empty buffer
-                mixerChannel.SetPosition(0);
+                // Get loop start/end position
+                long startPositionBytes = loop.StartPositionBytes;
+                long endPositionBytes = loop.EndPositionBytes;
+
+                // Check if this is a FLAC file over 44100Hz
+                if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+                {
+                    // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                    startPositionBytes = (long)((float)startPositionBytes / 1.5f);
+                    endPositionBytes = (long)((float)endPositionBytes / 1.5f);
+                }
+
+                // Check if WASAPI
+                if (device.DriverType == DriverType.WASAPI)
+                {
+                    BassWasapi.BASS_WASAPI_Stop(true);
+                    BassWasapi.BASS_WASAPI_Start();
+                }
+
+                // Remove any sync callback
+                RemoveSyncCallbacks();
+
+                // Get file length
+                long length = Playlist.CurrentItem.Channel.GetLength();
+
+                // Lock channel            
+                mixerChannel.Lock(true);
+
+                // Set position for the decode channel (needs to be in floating point)
+                Playlist.CurrentItem.Channel.SetPosition(startPositionBytes * 2);
+
+                // Set main channel position to 0 (clear buffer)            
                 fxChannel.SetPosition(0);
+                mixerChannel.SetPosition(0);
 
-                // Set current song position to marker A
-                Tracing.Log("Player.StartLoop -- Setting start position...");
-                Playlist.CurrentItem.Channel.SetPosition(loop.StartPositionBytes);
+                // Set sync
+                Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
+                Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
 
-                // Set offset
-                positionOffset = loop.StartPositionBytes;
+                // Set new callback (length already in floating point)
+                SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
+
+                // Set offset position (for calulating current position)
+                positionOffset = startPositionBytes;
+
+                // Unlock channel
+                mixerChannel.Lock(false);
 
                 // Set current loop
                 currentLoop = loop;
@@ -1409,32 +1453,14 @@ namespace MPfm.Player
                 // Make sure there is a loop to stop
                 if (currentLoop == null)
                 {
-                    throw new Exception("The current loop is null!");
+                    return;
                 }
 
                 // Remove sync proc
                 Tracing.Log("Player.StopLoop -- Removing sync...");
-                Playlist.CurrentItem.Channel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
 
-                // Clear the audio buffer                
-                mixerChannel.SetPosition(0);
-                fxChannel.SetPosition(0);
-
-                // Lock channel
-                mixerChannel.Lock(true);
-
-                // Get position
-                positionOffset = playlist.CurrentItem.Channel.GetPosition();
-
-                // Get file length
-                long length = Playlist.CurrentItem.Channel.GetLength();
-
-                // Remove sync callbacks and set new sync
-                RemoveSyncCallbacks();
-                SetSyncCallback((length - positionOffset) * 2);
-
-                // Unlock channel
-                mixerChannel.Lock(false);
+                // Remove loop sync proc
+                mixerChannel.RemoveSync(fxChannel.Handle, Playlist.CurrentItem.SyncProcHandle);
             }
             catch
             {
@@ -1727,20 +1753,6 @@ namespace MPfm.Player
                     timerPlayer.Start();
                 }
 
-                // Check if a loop is enabled
-                if (currentLoop != null)
-                {
-                    // Get current position
-                    long position = playlist.CurrentItem.Channel.GetPosition();
-
-                    // Check if the position is lower than the start position, or if the position is after the end position
-                    if (position < currentLoop.StartPositionBytes || position > currentLoop.EndPositionBytes)
-                    {
-                        // Set position to start position
-                        playlist.CurrentItem.Channel.SetPosition(currentLoop.StartPositionBytes);
-                    }
-                }
-
                 // Get data from the current channel since it is running                
                 int data = playlist.Items[currentMixPlaylistIndex].Channel.GetData(buffer, length);
 
@@ -1869,15 +1881,37 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
-            // Empty audio buffer
-            mixerChannel.SetPosition(0);
+            // Validate nulls
+            if (CurrentLoop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
+            {
+                return;
+            }
+
+            // Get loop start position
+            long bytes = CurrentLoop.StartPositionBytes;
+
+            // Lock channel            
+            mixerChannel.Lock(true);
+
+            // Check if this is a FLAC file over 44100Hz
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            {
+                // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                bytes = (long)((float)bytes / 1.5f);
+            }
+
+            // Set position for the decode channel (needs to be in floating point)
+            Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
+
+            // Set main channel position to 0 (clear buffer)            
             fxChannel.SetPosition(0);
+            mixerChannel.SetPosition(0);
 
-            // Set position offset
-            positionOffset = CurrentLoop.StartPositionBytes;
+            // Set offset position (for calulating current position)
+            positionOffset = bytes;
 
-            // Set loop position
-            Bass.BASS_ChannelSetPosition(channel, CurrentLoop.StartPositionBytes * 2);
+            // Unlock channel
+            mixerChannel.Lock(false);
         }
 
         /// <summary>
@@ -2025,5 +2059,4 @@ namespace MPfm.Player
 
         #endregion
     }
-
 }

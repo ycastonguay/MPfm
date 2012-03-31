@@ -195,9 +195,14 @@ namespace MPfm
             }
 
             // Get position
-            long positionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
-            long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-            string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);                        
+            //long positionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
+            //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+            //string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);
+
+            // Get position
+            long positionBytes = Main.Player.GetPosition();
+            long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+            string position = ConvertAudio.ToTimeString(positionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)Main.Player.Playlist.CurrentItem.AudioFile.SampleRate);
 
             // Update controls
             txtPosition.Text = position;

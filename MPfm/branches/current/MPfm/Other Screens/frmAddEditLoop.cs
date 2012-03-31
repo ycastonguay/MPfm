@@ -317,8 +317,8 @@ namespace MPfm
             }
 
             // Get position
-            startPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
-            string position = ConvertAudio.ToTimeString(startPositionBytes, 16, 2, 44100);
+            startPositionBytes = Main.Player.GetPosition();            
+            string position = ConvertAudio.ToTimeString(startPositionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)Main.Player.Playlist.CurrentItem.AudioFile.SampleRate);
 
             // Update controls
             txtStartPosition.Text = position;
@@ -342,8 +342,8 @@ namespace MPfm
             }
 
             // Get position
-            endPositionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
-            string position = ConvertAudio.ToTimeString(endPositionBytes, 16, 2, 44100);
+            endPositionBytes = Main.Player.GetPosition();
+            string position = ConvertAudio.ToTimeString(endPositionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)Main.Player.Playlist.CurrentItem.AudioFile.SampleRate);
 
             // Update controls
             txtEndPosition.Text = position;
