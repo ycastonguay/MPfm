@@ -206,8 +206,8 @@ namespace MPfm
                 }
             }
 
-            // Check if the original audio settings need to be restored
-            if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.Tested)
+            // Check if the original audio settings need to be restored            
+            if(!Main.Player.IsDeviceInitialized)
             {
                 // Do not save settings; restore original configuration                
                 Device originalDevice = null;
@@ -1144,7 +1144,11 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void numericBufferSize_Leave(object sender, EventArgs e)
         {
-            trackBufferSize.Value = (int)numericBufferSize.Value;
+            // Update only if value is different (to prevent triggering events)
+            if (trackBufferSize.Value != (int)numericBufferSize.Value)
+            {
+                trackBufferSize.Value = (int)numericBufferSize.Value;
+            }
         }
 
         /// <summary>
@@ -1154,7 +1158,11 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void numericUpdatePeriod_Leave(object sender, EventArgs e)
         {
-            trackUpdatePeriod.Value = (int)numericUpdatePeriod.Value;
+            // Update only if value is different (to prevent triggering events)
+            if (trackUpdatePeriod.Value != (int)numericUpdatePeriod.Value)
+            {
+                trackUpdatePeriod.Value = (int)numericUpdatePeriod.Value;
+            }
         }
 
         /// <summary>
