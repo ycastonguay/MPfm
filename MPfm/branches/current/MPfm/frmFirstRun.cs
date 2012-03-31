@@ -108,11 +108,11 @@ namespace MPfm
                 // Update combo box
                 List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
                 DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default, recommended)" };
-                DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required) *EXPERIMENTAL*" };
+                DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO (driver required)" };
                 DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Windows 7 only) *EXPERIMENTAL*" };
                 drivers.Add(driverDirectSound);
                 drivers.Add(driverASIO);
-                drivers.Add(driverWASAPI);
+                //drivers.Add(driverWASAPI);
                 cboDrivers.DataSource = drivers;
 
                 // Set default value (DirectSound)
@@ -129,6 +129,13 @@ namespace MPfm
                         break;
                     }
                 }
+
+                // Add available sample rates
+                cboSampleRate.Items.Clear();
+                cboSampleRate.Items.Add("44100");
+                cboSampleRate.Items.Add("48000");
+                cboSampleRate.Items.Add("96000");
+                cboSampleRate.SelectedIndex = 0;
             }
             catch (Exception ex)
             {                
@@ -167,8 +174,11 @@ namespace MPfm
 
             // Save configuration            
             Main.Config.Audio.Device = device;
-            Main.Config.Audio.DriverType = driver.DriverType;
-            Main.Config.Audio.Mixer.Frequency = (int)txtMixerSampleRate.Value;
+            Main.Config.Audio.DriverType = driver.DriverType;            
+
+            int frequency = 44100;
+            int.TryParse(cboSampleRate.Text, out frequency);
+            Main.Config.Audio.Mixer.Frequency = frequency;
 
             // Close wizard
             DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -241,6 +251,10 @@ namespace MPfm
             // Get selected device
             Device device = (Device)cboOutputDevices.SelectedItem;
 
+            // Get sample rate
+            int frequency = 44100;
+            int.TryParse(cboSampleRate.Text, out frequency);            
+
             try
             {
                 // Display the open file dialog (set filepath first)
@@ -260,8 +274,8 @@ namespace MPfm
                 Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
                 // Create test device
-                Tracing.Log("Creating test device...");                
-                Main.Player.InitializeDevice(device, (int)txtMixerSampleRate.Value);                
+                Tracing.Log("Creating test device...");
+                Main.Player.InitializeDevice(device, frequency);
 
                 // Play sound file                
                 Tracing.Log("Starting playback...");                

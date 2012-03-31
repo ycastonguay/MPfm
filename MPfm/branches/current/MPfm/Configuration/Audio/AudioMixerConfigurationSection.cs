@@ -44,7 +44,7 @@ namespace MPfm
         /// </summary>
         public int Volume { get; set; }
         /// <summary>
-        /// Mixer buffer size (default: 100ms).
+        /// Mixer buffer size (default: 1000ms).
         /// </summary>
         public int BufferSize { get; set; }
         /// <summary>
@@ -60,9 +60,8 @@ namespace MPfm
             // Set default values
             Frequency = 44100;
             Volume = 85;
-            BufferSize = 100;
-            UpdatePeriod = 10;
-
+            BufferSize = 1000;
+            UpdatePeriod = 10;            
         }
     }
 }
