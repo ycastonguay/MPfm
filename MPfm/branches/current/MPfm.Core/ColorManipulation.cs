@@ -1,5 +1,5 @@
 //
-// ColorManipulation.cs: Color manipulation routines
+// ColorManipulation.cs: Color manipulation routines.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
