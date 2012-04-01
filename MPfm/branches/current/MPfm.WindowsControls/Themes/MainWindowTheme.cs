@@ -43,18 +43,17 @@ namespace MPfm.WindowsControls
     {
         #region Panel
 
-        #region Panel Header
-
         /// <summary>
         /// Private value for the PanelHeaderBackground property.
         /// </summary>
-        private Gradient panelHeaderBackground = new Gradient(Color.FromArgb(100, 100, 100), Color.FromArgb(60, 60, 60), LinearGradientMode.Vertical);
+        private TextGradient panelHeaderBackground = new TextGradient(Color.FromArgb(100, 100, 100), Color.FromArgb(60, 60, 60), LinearGradientMode.Vertical, 
+                                                                      Color.FromArgb(60, 60, 60), new CustomFont("TitilliumText22L Lt", 10, Color.White));
         /// <summary>
         /// Defines the main panel header background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header background gradient.")]
-        public Gradient PanelHeaderBackground
+        [Category("Main Panel"), Browsable(true), Description("Main panel header background gradient.")]
+        public TextGradient PanelHeaderBackground
         {
             get
             {
@@ -65,29 +64,6 @@ namespace MPfm.WindowsControls
                 panelHeaderBackground = value;
             }
         }
-
-        /// <summary>
-        /// Private value for the PanelHeaderTextFont property.
-        /// </summary>
-        private CustomFont panelHeaderTextFont = new CustomFont("TitilliumText22L Lt", 10, Color.White);
-        /// <summary>
-        /// Defines the main panel header text font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header text font.")]
-        public CustomFont PanelHeaderTextFont
-        {
-            get
-            {
-                return panelHeaderTextFont;
-            }
-            set
-            {
-                panelHeaderTextFont = value;
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Private value for the PanelBackground property.
@@ -132,107 +108,44 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the PanelSubtitleColor property.
+        /// Private value for the PanelTitle2Font property.
         /// </summary>
-        private Color panelSubtitleColor = Color.Silver;
+        private CustomFont panelTitle2Font = new CustomFont("TitilliumText22L Lt", 14, Color.Silver);
         /// <summary>
-        /// Defines the main panel subtitle fore color.
+        /// Defines the main panel title 2 font.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle fore color.")]
-        public Color PanelSubtitleColor
+        [Category("Main Panel"), Browsable(true), Description("Main panel title 2 font.")]
+        public CustomFont PanelTitle2Font
         {
             get
             {
-                return panelSubtitleColor;
+                return panelTitle2Font;
             }
             set
             {
-                panelSubtitleColor = value;
+                panelTitle2Font = value;
             }
         }
 
         /// <summary>
-        /// Private value for the PanelSubtitleFont property.
+        /// Private value for the PanelTitle3Font property.
         /// </summary>
-        private CustomFont panelSubtitleFont = new CustomFont("TitilliumText22L Lt", 14, Color.Silver);
+        private CustomFont panelTitle3Font = new CustomFont("TitilliumText22L Lt", 12, Color.Gray);
         /// <summary>
-        /// Defines the main panel subtitle font.
+        /// Defines the main panel title 3 font.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle font.")]
-        public CustomFont PanelSubtitleFont
+        [Category("Main Panel"), Browsable(true), Description("Main panel title 3 font.")]
+        public CustomFont PanelTitle3Font
         {
             get
             {
-                return panelSubtitleFont;
+                return panelTitle3Font;
             }
             set
             {
-                panelSubtitleFont = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelSubtitle2Color property.
-        /// </summary>
-        private Color panelSubtitle2Color = Color.Gray;
-        /// <summary>
-        /// Defines the main panel subtitle 2 fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle 2 fore color.")]
-        public Color PanelSubtitle2Color
-        {
-            get
-            {
-                return panelSubtitle2Color;
-            }
-            set
-            {
-                panelSubtitle2Color = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelSubtitle2Font property.
-        /// </summary>
-        private CustomFont panelSubtitle2Font = new CustomFont("TitilliumText22L Lt", 12, Color.Gray);
-        /// <summary>
-        /// Defines the main panel subtitle 2 font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel subtitle 2 font.")]
-        public CustomFont PanelSubtitle2Font
-        {
-            get
-            {
-                return panelSubtitle2Font;
-            }
-            set
-            {
-                panelSubtitle2Font = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelTextColor property.
-        /// </summary>
-        private Color panelTextColor = Color.FromArgb(215, 215, 215);
-        /// <summary>
-        /// Defines the main panel text fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel text fore color.")]
-        public Color PanelTextColor
-        {
-            get
-            {
-                return panelTextColor;
-            }
-            set
-            {
-                panelTextColor = value;
+                panelTitle3Font = value;
             }
         }
 
@@ -258,86 +171,44 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the PanelTimeDisplayColor property.
+        /// Private value for the PanelMonospacedFont property.
         /// </summary>
-        private Color panelTimeDisplayColor = Color.White;
+        private CustomFont panelMonospacedFont = new CustomFont("Droid Sans Mono", 10, Color.White);
         /// <summary>
-        /// Defines the main panel time display fore color.
+        /// Defines the main panel monospaced font.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel time display fore color.")]
-        public Color PanelTimeDisplayColor
+        [Category("Main Panel"), Browsable(true), Description("Main panel monospaced font.")]
+        public CustomFont PanelMonospacedFont
         {
             get
             {
-                return panelTimeDisplayColor;
+                return panelMonospacedFont;
             }
             set
             {
-                panelTimeDisplayColor = value;
+                panelMonospacedFont = value;
             }
         }
 
         /// <summary>
-        /// Private value for the PanelTimeDisplayFont property.
+        /// Private value for the PanelSmallMonospacedFont property.
         /// </summary>
-        private CustomFont panelTimeDisplayFont = new CustomFont("Droid Sans Mono", 10, Color.White);
+        private CustomFont panelSmallMonospacedFont = new CustomFont("Droid Sans Mono", 7, Color.White);
         /// <summary>
-        /// Defines the main panel time display font.
+        /// Defines the main panel small monospaced font.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel time display font.")]
-        public CustomFont PanelTimeDisplayFont
+        [Category("Main Panel"), Browsable(true), Description("Main panel small monospaced font.")]
+        public CustomFont PanelSmallMonospacedFont
         {
             get
             {
-                return panelTimeDisplayFont;
+                return panelSmallMonospacedFont;
             }
             set
             {
-                panelTimeDisplayFont = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelSmallTimeDisplayColor property.
-        /// </summary>
-        private Color panelSmallTimeDisplayColor = Color.White;
-        /// <summary>
-        /// Defines the main panel small time display fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel small time display fore color.")]
-        public Color PanelSmallTimeDisplayColor
-        {
-            get
-            {
-                return panelSmallTimeDisplayColor;
-            }
-            set
-            {
-                panelSmallTimeDisplayColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelSmallTimeDisplayFont property.
-        /// </summary>
-        private CustomFont panelSmallTimeDisplayFont = new CustomFont("Droid Sans Mono", 7, Color.White);
-        /// <summary>
-        /// Defines the main panel small time display font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel small time display font.")]
-        public CustomFont PanelSmallTimeDisplayFont
-        {
-            get
-            {
-                return panelSmallTimeDisplayFont;
-            }
-            set
-            {
-                panelSmallTimeDisplayFont = value;
+                panelSmallMonospacedFont = value;
             }
         }
 
@@ -345,154 +216,46 @@ namespace MPfm.WindowsControls
 
         #region Secondary Panel
 
-        #region Secondary Panel Header
-
         /// <summary>
-        /// Private value for the SecondaryPanelHeaderBackgroundColor1 property.
+        /// Private value for the SecondaryPanelHeaderBackground property.
         /// </summary>
-        private Color secondaryPanelHeaderBackgroundColor1 = Color.FromArgb(50, 50, 50);
+        private TextGradient secondaryPanelHeaderBackground = new TextGradient(Color.FromArgb(50, 50, 50), Color.FromArgb(100, 100, 100), LinearGradientMode.Vertical,
+                                                                      Color.FromArgb(60, 60, 60), new CustomFont("Junction", 8.25f, Color.White));
         /// <summary>
-        /// Defines the secondary panel header background gradient (first color).
+        /// Defines the secondary panel header background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header background gradient (first color).")]
-        public Color SecondaryPanelHeaderBackgroundColor1
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel header background gradient.")]
+        public TextGradient SecondaryPanelHeaderBackground
         {
             get
             {
-                return secondaryPanelHeaderBackgroundColor1;
+                return secondaryPanelHeaderBackground;
             }
             set
             {
-                secondaryPanelHeaderBackgroundColor1 = value;
+                secondaryPanelHeaderBackground = value;
             }
         }
 
         /// <summary>
-        /// Private value for the SecondaryPanelHeaderBackgroundColor2 property.
+        /// Private value for the SecondaryPanelBackground property.
         /// </summary>
-        private Color secondaryPanelHeaderBackgroundColor2 = Color.FromArgb(100, 100, 100);
+        private TextGradient secondaryPanelBackground = new TextGradient(Color.FromArgb(20, 20, 20), Color.FromArgb(50, 50, 50), LinearGradientMode.Vertical, Color.Gray, new CustomFont("Junction", 7.0f, Color.White));
         /// <summary>
-        /// Defines the secondary panel header background gradient (second color).
+        /// Defines the secondary panel background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header background gradient (second color).")]
-        public Color SecondaryPanelHeaderBackgroundColor2
+        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel background gradient.")]
+        public TextGradient SecondaryPanelBackground
         {
             get
             {
-                return secondaryPanelHeaderBackgroundColor2;
+                return secondaryPanelBackground;
             }
             set
             {
-                secondaryPanelHeaderBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the SecondaryPanelHeaderTextColor property.
-        /// </summary>
-        private Color secondaryPanelHeaderTextColor = Color.FromArgb(255, 255, 255);
-        /// <summary>
-        /// Defines the secondary panel header text fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header text fore color.")]
-        public Color SecondaryPanelHeaderTextColor
-        {
-            get
-            {
-                return secondaryPanelHeaderTextColor;
-            }
-            set
-            {
-                secondaryPanelHeaderTextColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the SecondaryPanelHeaderTextFont property.
-        /// </summary>
-        private CustomFont secondaryPanelHeaderTextFont = new CustomFont("Junction", 8.25f, Color.White);
-        /// <summary>
-        /// Defines the secondary panel header text font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel - Header"), Browsable(true), Description("Secondary panel header text font.")]
-        public CustomFont SecondaryPanelHeaderTextFont
-        {
-            get
-            {
-                return secondaryPanelHeaderTextFont;
-            }
-            set
-            {
-                secondaryPanelHeaderTextFont = value;
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Private value for the SecondaryPanelBackgroundColor1 property.
-        /// </summary>
-        private Color secondaryPanelBackgroundColor1 = Color.FromArgb(0, 0, 0);
-        /// <summary>
-        /// Defines the secondary panel background gradient (first color).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel background gradient (first color).")]
-        public Color SecondaryPanelBackgroundColor1
-        {
-            get
-            {
-                return secondaryPanelBackgroundColor1;
-            }
-            set
-            {
-                secondaryPanelBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the SecondaryPanelBackgroundColor2 property.
-        /// </summary>
-        private Color secondaryPanelBackgroundColor2 = Color.FromArgb(47, 47, 47);
-        /// <summary>
-        /// Defines the secondary panel background gradient (second color).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel background gradient (second color).")]
-        public Color SecondaryPanelBackgroundColor2
-        {
-            get
-            {
-                return secondaryPanelBackgroundColor2;
-            }
-            set
-            {
-                secondaryPanelBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the SecondaryPanelLabelColor property.
-        /// </summary>
-        private Color secondaryPanelLabelColor = Color.Silver;
-        /// <summary>
-        /// Defines the secondary panel label fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel label fore color.")]
-        public Color SecondaryPanelLabelColor
-        {
-            get
-            {
-                return secondaryPanelLabelColor;
-            }
-            set
-            {
-                secondaryPanelLabelColor = value;
+                secondaryPanelBackground = value;
             }
         }
 
@@ -517,48 +280,6 @@ namespace MPfm.WindowsControls
             }
         }
 
-        /// <summary>
-        /// Private value for the SecondaryPanelTextColor property.
-        /// </summary>
-        private Color secondaryPanelTextColor = Color.White;
-        /// <summary>
-        /// Defines the secondary panel text fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel text fore color.")]
-        public Color SecondaryPanelTextColor
-        {
-            get
-            {
-                return secondaryPanelTextColor;
-            }
-            set
-            {
-                secondaryPanelTextColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the SecondaryPanelTextFont property.
-        /// </summary>
-        private CustomFont secondaryPanelTextFont = new CustomFont("Junction", 7, Color.White);
-        /// <summary>
-        /// Defines the secondary panel text font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Secondary Panel"), Browsable(true), Description("Secondary panel text font.")]
-        public CustomFont SecondaryPanelTextFont
-        {
-            get
-            {
-                return secondaryPanelTextFont;
-            }
-            set
-            {
-                secondaryPanelTextFont = value;
-            }
-        }
-
         #endregion
 
         #region Toolbar
@@ -566,361 +287,88 @@ namespace MPfm.WindowsControls
         #region Toolbar Buttons
 
         /// <summary>
-        /// Private value for the ToolbarButtonBackgroundColor1 property.
+        /// Private value for the ToolbarButtonBackground property.
         /// </summary>
-        private Color toolbarButtonBackgroundColor1 = Color.LightGray;
+        private TextGradient toolbarButtonBackground = new TextGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.Gray, new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
-        /// Defines the toolbar button background gradient (first color).
+        /// Defines the toolbar button background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (first color).")]
-        public Color ToolbarButtonBackgroundColor1
+        [Category("Toolbar"), Browsable(true), Description("Toolbar button background gradient.")]
+        public TextGradient ToolbarButtonBackground
         {
             get
             {
-                return toolbarButtonBackgroundColor1;
+                return toolbarButtonBackground;
             }
             set
             {
-                toolbarButtonBackgroundColor1 = value;
+                toolbarButtonBackground = value;
             }
         }
 
         /// <summary>
-        /// Private value for the ToolbarButtonBackgroundColor2 property.
+        /// Private value for the ToolbarButtonMouseOverBackground property.
         /// </summary>
-        private Color toolbarButtonBackgroundColor2 = Color.Gray;
+        private TextGradient toolbarButtonMouseOverBackground = new TextGradient(Color.White, Color.LightGray, LinearGradientMode.Vertical, Color.Gray, new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
-        /// Defines the toolbar button background gradient (second color).
+        /// Defines the toolbar button background gradient (when the mouse cursor is over).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (second color).")]
-        public Color ToolbarButtonBackgroundColor2
+        [Category("Toolbar"), Browsable(true), Description("Toolbar button background gradient (when the mouse cursor is over).")]
+        public TextGradient ToolbarButtonMouseOverBackground
         {
             get
             {
-                return toolbarButtonBackgroundColor2;
+                return toolbarButtonMouseOverBackground;
             }
             set
             {
-                toolbarButtonBackgroundColor2 = value;
+                toolbarButtonMouseOverBackground = value;
             }
         }
 
         /// <summary>
-        /// Private value for the ToolbarButtonBorderColor property.
+        /// Private value for the ToolbarButtonDisabledBackground property.
         /// </summary>
-        private Color toolbarButtonBorderColor = Color.DimGray;
+        private TextGradient toolbarButtonDisabledBackground = new TextGradient(Color.White, Color.LightGray, LinearGradientMode.Vertical, Color.Gray, new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
-        /// Defines the toolbar button border color.
+        /// Defines the toolbar button background gradient (when the mouse cursor is over).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button border color.")]
-        public Color ToolbarButtonBorderColor
+        [Category("Toolbar"), Browsable(true), Description("Toolbar button background gradient (when the mouse cursor is over).")]
+        public TextGradient ToolbarButtonDisabledBackground
         {
             get
             {
-                return toolbarButtonBorderColor;
+                return toolbarButtonDisabledBackground;
             }
             set
             {
-                toolbarButtonBorderColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonTextColor property.
-        /// </summary>
-        private Color toolbarButtonTextColor = Color.Black;
-        /// <summary>
-        /// Defines the toolbar button text fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color.")]
-        public Color ToolbarButtonTextColor
-        {
-            get
-            {
-                return toolbarButtonTextColor;
-            }
-            set
-            {
-                toolbarButtonTextColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonOverBackgroundColor1 property.
-        /// </summary>
-        private Color toolbarButtonMouseOverBackgroundColor1 = Color.White;
-        /// <summary>
-        /// Defines the toolbar button background gradient (first color), when the mouse is over.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (first color), when the mouse is over.")]
-        public Color ToolbarButtonMouseOverBackgroundColor1
-        {
-            get
-            {
-                return toolbarButtonMouseOverBackgroundColor1;
-            }
-            set
-            {
-                toolbarButtonMouseOverBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonOverBackgroundColor2 property.
-        /// </summary>
-        private Color toolbarButtonMouseOverBackgroundColor2 = Color.DarkGray;
-        /// <summary>
-        /// Defines the toolbar button background gradient (second color), when the mouse is over.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (second color), when the mouse is over.")]
-        public Color ToolbarButtonMouseOverBackgroundColor2
-        {
-            get
-            {
-                return toolbarButtonMouseOverBackgroundColor2;
-            }
-            set
-            {
-                toolbarButtonMouseOverBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonOverBackgroundColor2 property.
-        /// </summary>
-        private Color toolbarButtonMouseOverBorderColor = Color.DimGray;
-        /// <summary>
-        /// Defines the toolbar button border color, when the mouse is over.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button border color, when the mouse is over.")]
-        public Color ToolbarButtonMouseOverBorderColor
-        {
-            get
-            {
-                return toolbarButtonMouseOverBorderColor;
-            }
-            set
-            {
-                toolbarButtonMouseOverBorderColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonMouseOverTextColor property.
-        /// </summary>
-        private Color toolbarButtonMouseOverTextColor = Color.Black;
-        /// <summary>
-        /// Defines the toolbar button text fore color, when the mouse is over.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color, when the mouse is over.")]
-        public Color ToolbarButtonMouseOverTextColor
-        {
-            get
-            {
-                return toolbarButtonMouseOverTextColor;
-            }
-            set
-            {
-                toolbarButtonMouseOverTextColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonDisabledBackgroundColor1 property.
-        /// </summary>
-        private Color toolbarButtonDisabledBackgroundColor1 = Color.Gray;
-        /// <summary>
-        /// Defines the toolbar button background gradient (first color), when the control is disabled.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (first color), when the control is disabled.")]
-        public Color ToolbarButtonDisabledBackgroundColor1
-        {
-            get
-            {
-                return toolbarButtonDisabledBackgroundColor1;
-            }
-            set
-            {
-                toolbarButtonDisabledBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonDisabledBackgroundColor2 property.
-        /// </summary>
-        private Color toolbarButtonDisabledBackgroundColor2 = Color.FromArgb(35, 35, 35);
-        /// <summary>
-        /// Defines the toolbar button background gradient (second color), when the control is disabled.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button background gradient (second color), when the control is disabled.")]
-        public Color ToolbarButtonDisabledBackgroundColor2
-        {
-            get
-            {
-                return toolbarButtonDisabledBackgroundColor2;
-            }
-            set
-            {
-                toolbarButtonDisabledBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonDisabledBorderColor property.
-        /// </summary>
-        private Color toolbarButtonDisabledBorderColor = Color.Gray;
-        /// <summary>
-        /// Defines the toolbar button border color, when the control is disabled.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button border color, when the control is disabled.")]
-        public Color ToolbarButtonDisabledBorderColor
-        {
-            get
-            {
-                return toolbarButtonDisabledBorderColor;
-            }
-            set
-            {
-                toolbarButtonDisabledBorderColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarDisabledButtonTextColor property.
-        /// </summary>
-        private Color toolbarButtonDisabledTextColor = Color.Silver;
-        /// <summary>
-        /// Defines the toolbar button text fore color, when the control is disabled.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text fore color, when the control is disabled.")]
-        public Color ToolbarButtonDisabledTextColor
-        {
-            get
-            {
-                return toolbarButtonDisabledTextColor;
-            }
-            set
-            {
-                toolbarButtonDisabledTextColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarButtonTextFont property.
-        /// </summary>
-        private CustomFont toolbarButtonTextFont = new CustomFont();
-        /// <summary>
-        /// Defines the toolbar button text font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar - Buttons"), Browsable(true), Description("Toolbar button text font.")]
-        public CustomFont ToolbarButtonTextFont
-        {
-            get
-            {
-                return toolbarButtonTextFont;
-            }
-            set
-            {
-                toolbarButtonTextFont = value;
+                toolbarButtonDisabledBackground = value;
             }
         }
 
         #endregion
 
         /// <summary>
-        /// Private value for the ToolbarBackgroundColor1 property.
+        /// Private value for the ToolbarBackground property.
         /// </summary>
-        private Color toolbarBackgroundColor1 = Color.Silver;
+        private TextGradient toolbarBackground = new TextGradient(Color.Silver, Color.Gainsboro, LinearGradientMode.Vertical, Color.Silver, new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
-        /// Defines the toolbar background gradient (first color).
+        /// Defines the toolbar background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar"), Browsable(true), Description("Toolbar background gradient (first color).")]
-        public Color ToolbarBackgroundColor1
+        [Category("Toolbar"), Browsable(true), Description("Toolbar background gradient.")]
+        public TextGradient ToolbarBackground
         {
             get
             {
-                return toolbarBackgroundColor1;
+                return toolbarBackground;
             }
             set
             {
-                toolbarBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarBackgroundColor2 property.
-        /// </summary>
-        private Color toolbarBackgroundColor2 = Color.Gainsboro;
-        /// <summary>
-        /// Defines the toolbar background gradient (second color).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar"), Browsable(true), Description("Toolbar background gradient (second color).")]
-        public Color ToolbarBackgroundColor2
-        {
-            get
-            {
-                return toolbarBackgroundColor2;
-            }
-            set
-            {
-                toolbarBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarTextColor property.
-        /// </summary>
-        private Color toolbarTextColor = Color.Black;
-        /// <summary>
-        /// Defines the toolbar text fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar"), Browsable(true), Description("Toolbar text fore color.")]
-        public Color ToolbarTextColor
-        {
-            get
-            {
-                return toolbarTextColor;
-            }
-            set
-            {
-                toolbarTextColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the ToolbarTextFont property.
-        /// </summary>
-        private CustomFont toolbarTextFont = new CustomFont();
-        /// <summary>
-        /// Defines the toolbar text font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Toolbar"), Browsable(true), Description("Toolbar text font.")]
-        public CustomFont ToolbarTextFont
-        {
-            get
-            {
-                return toolbarTextFont;
-            }
-            set
-            {
-                toolbarTextFont = value;
+                toolbarBackground = value;
             }
         }
 
