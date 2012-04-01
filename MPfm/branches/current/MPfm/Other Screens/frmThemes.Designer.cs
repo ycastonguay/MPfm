@@ -172,32 +172,11 @@ namespace MPfm
             // 
             // btnSaveTheme
             // 
-            this.btnSaveTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnSaveTheme.BorderWidth = 1;
             this.btnSaveTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont1.ColorInt = -16777216;
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8F;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseAntiAliasing = true;
-            customFont1.UseEmbeddedFont = true;
-            this.btnSaveTheme.CustomFont = customFont1;
-            this.btnSaveTheme.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSaveTheme.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnSaveTheme.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSaveTheme.DisabledGradient")));
             this.btnSaveTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveTheme.FontColor = System.Drawing.Color.Black;
-            this.btnSaveTheme.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSaveTheme.Gradient")));
             this.btnSaveTheme.Image = global::MPfm.Properties.Resources.disk;
             this.btnSaveTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveTheme.Location = new System.Drawing.Point(88, 31);
-            this.btnSaveTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnSaveTheme.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSaveTheme.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSaveTheme.MouseOverGradient")));
             this.btnSaveTheme.Name = "btnSaveTheme";
             this.btnSaveTheme.Size = new System.Drawing.Size(93, 24);
             this.btnSaveTheme.TabIndex = 102;
@@ -208,32 +187,11 @@ namespace MPfm
             // 
             // btnApplyTheme
             // 
-            this.btnApplyTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnApplyTheme.BorderWidth = 1;
             this.btnApplyTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont2.ColorInt = -16777216;
-            customFont2.EmbeddedFontName = "Junction";
-            customFont2.IsBold = false;
-            customFont2.IsItalic = false;
-            customFont2.IsUnderline = false;
-            customFont2.Size = 8F;
-            customFont2.StandardFontName = "Arial";
-            customFont2.UseAntiAliasing = true;
-            customFont2.UseEmbeddedFont = true;
-            this.btnApplyTheme.CustomFont = customFont2;
-            this.btnApplyTheme.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnApplyTheme.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnApplyTheme.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnApplyTheme.DisabledGradient")));
             this.btnApplyTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyTheme.FontColor = System.Drawing.Color.Black;
-            this.btnApplyTheme.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnApplyTheme.Gradient")));
             this.btnApplyTheme.Image = global::MPfm.Properties.Resources.accept;
             this.btnApplyTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnApplyTheme.Location = new System.Drawing.Point(286, 31);
-            this.btnApplyTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnApplyTheme.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnApplyTheme.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnApplyTheme.MouseOverGradient")));
             this.btnApplyTheme.Name = "btnApplyTheme";
             this.btnApplyTheme.Size = new System.Drawing.Size(96, 24);
             this.btnApplyTheme.TabIndex = 109;
@@ -243,32 +201,11 @@ namespace MPfm
             // 
             // btnNewTheme
             // 
-            this.btnNewTheme.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnNewTheme.BorderWidth = 1;
             this.btnNewTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont3.ColorInt = -16777216;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = false;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 8F;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            this.btnNewTheme.CustomFont = customFont3;
-            this.btnNewTheme.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnNewTheme.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnNewTheme.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnNewTheme.DisabledGradient")));
             this.btnNewTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewTheme.FontColor = System.Drawing.Color.Black;
-            this.btnNewTheme.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnNewTheme.Gradient")));
             this.btnNewTheme.Image = ((System.Drawing.Image)(resources.GetObject("btnNewTheme.Image")));
             this.btnNewTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNewTheme.Location = new System.Drawing.Point(0, 31);
-            this.btnNewTheme.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnNewTheme.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnNewTheme.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnNewTheme.MouseOverGradient")));
             this.btnNewTheme.Name = "btnNewTheme";
             this.btnNewTheme.Size = new System.Drawing.Size(89, 24);
             this.btnNewTheme.TabIndex = 63;
@@ -985,32 +922,11 @@ namespace MPfm
             // 
             // btnPlaySelectedSong
             // 
-            this.btnPlaySelectedSong.BorderColor = System.Drawing.Color.DimGray;
-            this.btnPlaySelectedSong.BorderWidth = 1;
             this.btnPlaySelectedSong.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont23.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont23.ColorInt = -16777216;
-            customFont23.EmbeddedFontName = "Junction";
-            customFont23.IsBold = false;
-            customFont23.IsItalic = false;
-            customFont23.IsUnderline = false;
-            customFont23.Size = 8F;
-            customFont23.StandardFontName = "Arial";
-            customFont23.UseAntiAliasing = true;
-            customFont23.UseEmbeddedFont = true;
-            this.btnPlaySelectedSong.CustomFont = customFont23;
-            this.btnPlaySelectedSong.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnPlaySelectedSong.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnPlaySelectedSong.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnPlaySelectedSong.DisabledGradient")));
             this.btnPlaySelectedSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlaySelectedSong.FontColor = System.Drawing.Color.Black;
-            this.btnPlaySelectedSong.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnPlaySelectedSong.Gradient")));
             this.btnPlaySelectedSong.Image = global::MPfm.Properties.Resources.control_play;
             this.btnPlaySelectedSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPlaySelectedSong.Location = new System.Drawing.Point(0, 0);
-            this.btnPlaySelectedSong.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnPlaySelectedSong.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnPlaySelectedSong.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnPlaySelectedSong.MouseOverGradient")));
             this.btnPlaySelectedSong.Name = "btnPlaySelectedSong";
             this.btnPlaySelectedSong.Size = new System.Drawing.Size(142, 25);
             this.btnPlaySelectedSong.TabIndex = 68;
@@ -1448,32 +1364,11 @@ namespace MPfm
             // 
             // btnSaveThemeAs
             // 
-            this.btnSaveThemeAs.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.btnSaveThemeAs.BorderWidth = 1;
             this.btnSaveThemeAs.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont40.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont40.ColorInt = -16777216;
-            customFont40.EmbeddedFontName = "Junction";
-            customFont40.IsBold = false;
-            customFont40.IsItalic = false;
-            customFont40.IsUnderline = false;
-            customFont40.Size = 8F;
-            customFont40.StandardFontName = "Arial";
-            customFont40.UseAntiAliasing = true;
-            customFont40.UseEmbeddedFont = true;
-            this.btnSaveThemeAs.CustomFont = customFont40;
-            this.btnSaveThemeAs.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSaveThemeAs.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnSaveThemeAs.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSaveThemeAs.DisabledGradient")));
             this.btnSaveThemeAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveThemeAs.FontColor = System.Drawing.Color.Black;
-            this.btnSaveThemeAs.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSaveThemeAs.Gradient")));
             this.btnSaveThemeAs.Image = global::MPfm.Properties.Resources.disk;
             this.btnSaveThemeAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveThemeAs.Location = new System.Drawing.Point(180, 31);
-            this.btnSaveThemeAs.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnSaveThemeAs.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSaveThemeAs.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSaveThemeAs.MouseOverGradient")));
             this.btnSaveThemeAs.Name = "btnSaveThemeAs";
             this.btnSaveThemeAs.Size = new System.Drawing.Size(107, 24);
             this.btnSaveThemeAs.TabIndex = 115;

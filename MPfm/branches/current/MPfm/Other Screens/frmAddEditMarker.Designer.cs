@@ -424,32 +424,11 @@ namespace MPfm
             // 
             // btnGoTo
             // 
-            this.btnGoTo.BorderColor = System.Drawing.Color.DimGray;
-            this.btnGoTo.BorderWidth = 1;
             this.btnGoTo.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont11.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont11.ColorInt = -16777216;
-            customFont11.EmbeddedFontName = "Junction";
-            customFont11.IsBold = false;
-            customFont11.IsItalic = false;
-            customFont11.IsUnderline = false;
-            customFont11.Size = 9F;
-            customFont11.StandardFontName = "Arial";
-            customFont11.UseAntiAliasing = true;
-            customFont11.UseEmbeddedFont = true;
-            this.btnGoTo.CustomFont = customFont11;
-            this.btnGoTo.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnGoTo.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnGoTo.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnGoTo.DisabledGradient")));
             this.btnGoTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGoTo.FontColor = System.Drawing.Color.Black;
-            this.btnGoTo.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnGoTo.Gradient")));
             this.btnGoTo.Image = global::MPfm.Properties.Resources.arrow_right;
             this.btnGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGoTo.Location = new System.Drawing.Point(211, 135);
-            this.btnGoTo.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnGoTo.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnGoTo.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnGoTo.MouseOverGradient")));
             this.btnGoTo.Name = "btnGoTo";
             this.btnGoTo.Size = new System.Drawing.Size(60, 30);
             this.btnGoTo.TabIndex = 75;
@@ -461,32 +440,11 @@ namespace MPfm
             // 
             // btnPunchIn
             // 
-            this.btnPunchIn.BorderColor = System.Drawing.Color.DimGray;
-            this.btnPunchIn.BorderWidth = 1;
             this.btnPunchIn.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont12.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont12.ColorInt = -16777216;
-            customFont12.EmbeddedFontName = "Junction";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 9F;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = true;
-            this.btnPunchIn.CustomFont = customFont12;
-            this.btnPunchIn.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnPunchIn.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnPunchIn.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnPunchIn.DisabledGradient")));
             this.btnPunchIn.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPunchIn.FontColor = System.Drawing.Color.Black;
-            this.btnPunchIn.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnPunchIn.Gradient")));
             this.btnPunchIn.Image = global::MPfm.Properties.Resources.time;
             this.btnPunchIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPunchIn.Location = new System.Drawing.Point(129, 135);
-            this.btnPunchIn.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnPunchIn.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnPunchIn.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnPunchIn.MouseOverGradient")));
             this.btnPunchIn.Name = "btnPunchIn";
             this.btnPunchIn.Size = new System.Drawing.Size(76, 30);
             this.btnPunchIn.TabIndex = 74;
@@ -625,33 +583,12 @@ namespace MPfm
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.BorderColor = System.Drawing.Color.DimGray;
-            this.btnSave.BorderWidth = 1;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont17.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont17.ColorInt = -16777216;
-            customFont17.EmbeddedFontName = "Junction";
-            customFont17.IsBold = false;
-            customFont17.IsItalic = false;
-            customFont17.IsUnderline = false;
-            customFont17.Size = 9F;
-            customFont17.StandardFontName = "Arial";
-            customFont17.UseAntiAliasing = true;
-            customFont17.UseEmbeddedFont = true;
-            this.btnSave.CustomFont = customFont17;
-            this.btnSave.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSave.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnSave.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSave.DisabledGradient")));
             this.btnSave.Enabled = false;
             this.btnSave.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.FontColor = System.Drawing.Color.Black;
-            this.btnSave.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSave.Gradient")));
             this.btnSave.Image = global::MPfm.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSave.Location = new System.Drawing.Point(398, 340);
-            this.btnSave.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnSave.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSave.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnSave.MouseOverGradient")));
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(92, 45);
             this.btnSave.TabIndex = 65;
@@ -664,32 +601,11 @@ namespace MPfm
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.BorderColor = System.Drawing.Color.DimGray;
-            this.btnClose.BorderWidth = 1;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont18.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont18.ColorInt = -16777216;
-            customFont18.EmbeddedFontName = "Junction";
-            customFont18.IsBold = false;
-            customFont18.IsItalic = false;
-            customFont18.IsUnderline = false;
-            customFont18.Size = 9F;
-            customFont18.StandardFontName = "Arial";
-            customFont18.UseAntiAliasing = true;
-            customFont18.UseEmbeddedFont = true;
-            this.btnClose.CustomFont = customFont18;
-            this.btnClose.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnClose.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnClose.DisabledGradient")));
             this.btnClose.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.FontColor = System.Drawing.Color.Black;
-            this.btnClose.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnClose.Gradient")));
             this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnClose.Location = new System.Drawing.Point(495, 340);
-            this.btnClose.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnClose.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnClose.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnClose.MouseOverGradient")));
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(92, 45);
             this.btnClose.TabIndex = 63;

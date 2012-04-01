@@ -411,19 +411,21 @@ namespace MPfm
             panelSongBrowserToolbar.Gradient.Color1 = theme.MainWindow.ToolbarBackground.Color1;
             panelSongBrowserToolbar.Gradient.Color2 = theme.MainWindow.ToolbarBackground.Color2;
 
-            btnPlaySelectedSong.Gradient.Color1 = theme.MainWindow.ToolbarButtonBackground.Color1;
-            btnPlaySelectedSong.Gradient.Color2 = theme.MainWindow.ToolbarButtonBackground.Color2;
-            btnPlaySelectedSong.BorderColor = theme.MainWindow.ToolbarButtonBackground.BorderColor;
-            btnPlaySelectedSong.MouseOverGradient.Color1 = theme.MainWindow.ToolbarButtonMouseOverBackground.Color1;
-            btnPlaySelectedSong.MouseOverGradient.Color2 = theme.MainWindow.ToolbarButtonMouseOverBackground.Color2;
-            btnPlaySelectedSong.MouseOverBorderColor = theme.MainWindow.ToolbarButtonMouseOverBackground.BorderColor;
-            btnPlaySelectedSong.DisabledGradient.Color1 = theme.MainWindow.ToolbarButtonDisabledBackground.Color1;
-            btnPlaySelectedSong.DisabledGradient.Color2 = theme.MainWindow.ToolbarButtonDisabledBackground.Color2;
-            btnPlaySelectedSong.DisabledBorderColor = theme.MainWindow.ToolbarButtonDisabledBackground.BorderColor;            
-            btnPlaySelectedSong.CustomFont = theme.MainWindow.ToolbarButtonBackground.Font;
-            btnPlaySelectedSong.DisabledFontColor = theme.MainWindow.ToolbarButtonDisabledBackground.Font.Color;
-            btnPlaySelectedSong.MouseOverFontColor = theme.MainWindow.ToolbarButtonMouseOverBackground.Font.Color;
-            btnPlaySelectedSong.FontColor = theme.MainWindow.ToolbarButtonBackground.Font.Color;
+            btnPlaySelectedSong.TextGradientDefault.Color1 = theme.MainWindow.ToolbarButtonBackground.Color1;
+            btnPlaySelectedSong.TextGradientDefault.Color2 = theme.MainWindow.ToolbarButtonBackground.Color2;
+            btnPlaySelectedSong.TextGradientDefault.BorderColor = theme.MainWindow.ToolbarButtonBackground.BorderColor;
+            btnPlaySelectedSong.TextGradientMouseOver.Color1 = theme.MainWindow.ToolbarButtonMouseOverBackground.Color1;
+            btnPlaySelectedSong.TextGradientMouseOver.Color2 = theme.MainWindow.ToolbarButtonMouseOverBackground.Color2;
+            btnPlaySelectedSong.TextGradientMouseOver.BorderColor = theme.MainWindow.ToolbarButtonMouseOverBackground.BorderColor;
+            btnPlaySelectedSong.TextGradientDisabled.Color1 = theme.MainWindow.ToolbarButtonDisabledBackground.Color1;
+            btnPlaySelectedSong.TextGradientDisabled.Color2 = theme.MainWindow.ToolbarButtonDisabledBackground.Color2;
+            btnPlaySelectedSong.TextGradientDisabled.BorderColor = theme.MainWindow.ToolbarButtonDisabledBackground.BorderColor;
+            btnPlaySelectedSong.TextGradientDefault.Font = theme.MainWindow.ToolbarButtonBackground.Font;
+            btnPlaySelectedSong.TextGradientDefault.Font.Color = theme.MainWindow.ToolbarButtonBackground.Font.Color;
+            btnPlaySelectedSong.TextGradientDisabled.Font = theme.MainWindow.ToolbarButtonDisabledBackground.Font;
+            btnPlaySelectedSong.TextGradientDisabled.Font.Color = theme.MainWindow.ToolbarButtonDisabledBackground.Font.Color;
+            btnPlaySelectedSong.TextGradientMouseOver.Font = theme.MainWindow.ToolbarButtonMouseOverBackground.Font;
+            btnPlaySelectedSong.TextGradientMouseOver.Font.Color = theme.MainWindow.ToolbarButtonMouseOverBackground.Font.Color;            
 
             lblSearchFor.CustomFont = theme.MainWindow.ToolbarBackground.Font;
             lblSearchFor.ForeColor = theme.MainWindow.ToolbarBackground.Font.Color;

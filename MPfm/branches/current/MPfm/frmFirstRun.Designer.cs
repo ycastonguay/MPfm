@@ -429,32 +429,11 @@
             // 
             // btnTestAudioSettings
             // 
-            this.btnTestAudioSettings.BorderColor = System.Drawing.Color.Black;
-            this.btnTestAudioSettings.BorderWidth = 1;
             this.btnTestAudioSettings.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont12.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont12.ColorInt = -16777216;
-            customFont12.EmbeddedFontName = "Junction";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 8F;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = true;
-            this.btnTestAudioSettings.CustomFont = customFont12;
-            this.btnTestAudioSettings.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnTestAudioSettings.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnTestAudioSettings.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnTestAudioSettings.DisabledGradient")));
             this.btnTestAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestAudioSettings.FontColor = System.Drawing.Color.Black;
-            this.btnTestAudioSettings.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnTestAudioSettings.Gradient")));
             this.btnTestAudioSettings.Image = global::MPfm.Properties.Resources.sound;
             this.btnTestAudioSettings.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnTestAudioSettings.Location = new System.Drawing.Point(16, 398);
-            this.btnTestAudioSettings.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnTestAudioSettings.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnTestAudioSettings.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnTestAudioSettings.MouseOverGradient")));
             this.btnTestAudioSettings.Name = "btnTestAudioSettings";
             this.btnTestAudioSettings.Size = new System.Drawing.Size(129, 40);
             this.btnTestAudioSettings.TabIndex = 80;
@@ -638,8 +617,6 @@
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.BorderColor = System.Drawing.Color.Black;
-            this.btnNext.BorderWidth = 1;
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
             customFont19.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             customFont19.ColorInt = -16777216;
@@ -651,20 +628,11 @@
             customFont19.StandardFontName = "Arial";
             customFont19.UseAntiAliasing = true;
             customFont19.UseEmbeddedFont = true;
-            this.btnNext.CustomFont = customFont19;
-            this.btnNext.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnNext.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnNext.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnNext.DisabledGradient")));
             this.btnNext.Enabled = false;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNext.FontColor = System.Drawing.Color.Black;
-            this.btnNext.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnNext.Gradient")));
             this.btnNext.Image = global::MPfm.Properties.Resources.arrow_right;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnNext.Location = new System.Drawing.Point(447, 454);
-            this.btnNext.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnNext.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnNext.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnNext.MouseOverGradient")));
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(161, 40);
             this.btnNext.TabIndex = 73;
@@ -676,32 +644,11 @@
             // btnCancelWizard
             // 
             this.btnCancelWizard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelWizard.BorderColor = System.Drawing.Color.Black;
-            this.btnCancelWizard.BorderWidth = 1;
             this.btnCancelWizard.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont20.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont20.ColorInt = -16777216;
-            customFont20.EmbeddedFontName = "Junction";
-            customFont20.IsBold = false;
-            customFont20.IsItalic = false;
-            customFont20.IsUnderline = false;
-            customFont20.Size = 8F;
-            customFont20.StandardFontName = "Arial";
-            customFont20.UseAntiAliasing = true;
-            customFont20.UseEmbeddedFont = true;
-            this.btnCancelWizard.CustomFont = customFont20;
-            this.btnCancelWizard.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnCancelWizard.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnCancelWizard.DisabledGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnCancelWizard.DisabledGradient")));
             this.btnCancelWizard.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelWizard.FontColor = System.Drawing.Color.Black;
-            this.btnCancelWizard.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnCancelWizard.Gradient")));
             this.btnCancelWizard.Image = global::MPfm.Properties.Resources.door_in;
             this.btnCancelWizard.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnCancelWizard.Location = new System.Drawing.Point(296, 454);
-            this.btnCancelWizard.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnCancelWizard.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnCancelWizard.MouseOverGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("btnCancelWizard.MouseOverGradient")));
             this.btnCancelWizard.Name = "btnCancelWizard";
             this.btnCancelWizard.Size = new System.Drawing.Size(145, 40);
             this.btnCancelWizard.TabIndex = 78;

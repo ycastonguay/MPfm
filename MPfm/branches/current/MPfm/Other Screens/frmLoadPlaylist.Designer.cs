@@ -106,8 +106,6 @@ namespace MPfm
             // 
             // btnCancel
             // 
-            this.btnCancel.BorderColor = System.Drawing.Color.DimGray;
-            this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             customFont2.ColorInt = -16777216;
@@ -119,16 +117,10 @@ namespace MPfm
             customFont2.StandardFontName = "Arial";
             customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
-            this.btnCancel.CustomFont = customFont2;
-            this.btnCancel.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnCancel.DisabledFontColor = System.Drawing.Color.Silver;
             this.btnCancel.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.FontColor = System.Drawing.Color.Black;
             this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancel.Location = new System.Drawing.Point(6, 27);
-            this.btnCancel.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnCancel.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(58, 20);
             this.btnCancel.TabIndex = 84;
