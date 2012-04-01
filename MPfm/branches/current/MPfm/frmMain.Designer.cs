@@ -66,9 +66,11 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont34 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient1 = new MPfm.WindowsControls.Gradient();
             MPfm.WindowsControls.CustomFont customFont37 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont35 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient2 = new MPfm.WindowsControls.Gradient();
             MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.WaveFormDisplayTheme waveFormDisplayTheme1 = new MPfm.WindowsControls.WaveFormDisplayTheme();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
@@ -141,11 +143,11 @@ namespace MPfm
             this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
             this.btnNextSong = new System.Windows.Forms.ToolStripButton();
-            this.btnEffects = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRepeat = new System.Windows.Forms.ToolStripButton();
             this.btnShuffle = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnEffects = new System.Windows.Forms.ToolStripButton();
             this.btnPlaylist = new System.Windows.Forms.ToolStripButton();
             this.btnVisualizer = new System.Windows.Forms.ToolStripButton();
             this.btnThemes = new System.Windows.Forms.ToolStripButton();
@@ -765,16 +767,6 @@ namespace MPfm
             this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
             // 
-            // btnEffects
-            // 
-            this.btnEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
-            this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEffects.Name = "btnEffects";
-            this.btnEffects.Size = new System.Drawing.Size(46, 34);
-            this.btnEffects.Text = "Effects";
-            this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
-            // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
@@ -804,6 +796,16 @@ namespace MPfm
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 37);
+            // 
+            // btnEffects
+            // 
+            this.btnEffects.Image = global::MPfm.Properties.Resources.control_equalizer;
+            this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEffects.Name = "btnEffects";
+            this.btnEffects.Size = new System.Drawing.Size(46, 34);
+            this.btnEffects.Text = "Effects";
+            this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
             // 
             // btnPlaylist
             // 
@@ -2029,6 +2031,12 @@ namespace MPfm
             // 
             this.trackPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            gradient1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            gradient1.BorderWidth = 1;
+            gradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            gradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            gradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackPosition.BackgroundGradient = gradient1;
             this.trackPosition.CenterLineColor = System.Drawing.Color.Gray;
             this.trackPosition.CenterLineShadowColor = System.Drawing.Color.Black;
             this.trackPosition.FaderGradientColor1 = System.Drawing.Color.White;
@@ -2037,9 +2045,6 @@ namespace MPfm
             this.trackPosition.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackPosition.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackPosition.FaderWidth = 16;
-            this.trackPosition.GradientColor1 = System.Drawing.Color.Black;
-            this.trackPosition.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.trackPosition.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackPosition.Location = new System.Drawing.Point(0, 17);
             this.trackPosition.Maximum = 999;
             this.trackPosition.Name = "trackPosition";
@@ -2135,6 +2140,12 @@ namespace MPfm
             // 
             // trackTimeShifting
             // 
+            gradient2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            gradient2.BorderWidth = 1;
+            gradient2.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            gradient2.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            gradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackTimeShifting.BackgroundGradient = gradient2;
             this.trackTimeShifting.CenterLineColor = System.Drawing.Color.Gray;
             this.trackTimeShifting.CenterLineShadowColor = System.Drawing.Color.Black;
             this.trackTimeShifting.FaderGradientColor1 = System.Drawing.Color.White;
@@ -2143,9 +2154,6 @@ namespace MPfm
             this.trackTimeShifting.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackTimeShifting.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackTimeShifting.FaderWidth = 16;
-            this.trackTimeShifting.GradientColor1 = System.Drawing.Color.Black;
-            this.trackTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.trackTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackTimeShifting.Location = new System.Drawing.Point(0, 17);
             this.trackTimeShifting.Maximum = 50;
             this.trackTimeShifting.Minimum = -50;

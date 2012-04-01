@@ -415,8 +415,8 @@ namespace MPfm
             lblSearchWeb.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
             lblSearchWeb.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
             
-            trackTimeShifting.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
-            trackTimeShifting.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            trackTimeShifting.BackgroundGradient.Color1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            trackTimeShifting.BackgroundGradient.Color2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
 
             // Toolbar
             panelSongBrowserToolbar.GradientColor1 = mainWindowTheme.ToolbarBackgroundColor1;

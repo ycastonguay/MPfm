@@ -69,6 +69,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         [Browsable(false)]
         [XmlElement(ElementName = "Color1")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Color1Int
         {
             get
@@ -108,6 +109,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         [Browsable(false)]
         [XmlElement(ElementName = "Color2")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Color2Int
         {
             get
@@ -167,6 +169,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         [Browsable(false)]
         [XmlElement(ElementName = "BorderColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int BorderColorInt
         {
             get
@@ -184,9 +187,9 @@ namespace MPfm.WindowsControls
         /// </summary>
         private int borderWidth = 1;
         /// <summary>
-        /// Defines the border width (in pixels).
+        /// Defines the border width (in pixels). To hide the border, enter 0.
         /// </summary>
-        [Category("Border"), Browsable(true), Description("Defines the border width (in pixels).")]
+        [Category("Border"), Browsable(true), Description("Defines the border width (in pixels). To hide the border, enter 0.")]
         public int BorderWidth
         {
             get
@@ -196,26 +199,6 @@ namespace MPfm.WindowsControls
             set
             {
                 borderWidth = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the IsBorderVisible property.
-        /// </summary>
-        private bool isBorderVisible = false;
-        /// <summary>
-        /// Defines the border visibility.
-        /// </summary>
-        [Category("Border"), Browsable(true), Description("Defines the border visibility.")]
-        public bool IsBorderVisible
-        {
-            get
-            {
-                return isBorderVisible;
-            }
-            set
-            {
-                isBorderVisible = value;
             }
         }
 
@@ -237,7 +220,7 @@ namespace MPfm.WindowsControls
             this.color1 = color1;
             this.color2 = color2;
             this.gradientMode = mode;
-            this.isBorderVisible = false;
+            this.borderWidth = 0;
         }
 
         /// <summary>
@@ -247,13 +230,14 @@ namespace MPfm.WindowsControls
         /// <param name="color2">Gradient second color</param>
         /// <param name="mode">Gradient mode</param>
         /// <param name="borderColor">Border color</param>
-        public Gradient(Color color1, Color color2, LinearGradientMode mode, Color borderColor)
+        /// <param name="borderWidth">Border width (enter 0 to hide the border)</param>
+        public Gradient(Color color1, Color color2, LinearGradientMode mode, Color borderColor, int borderWidth)
         {
             this.color1 = color1;
             this.color2 = color2;
             this.gradientMode = mode;
             this.borderColor = borderColor;
-            this.isBorderVisible = true;
+            this.borderWidth = borderWidth;
         }
     }
 }

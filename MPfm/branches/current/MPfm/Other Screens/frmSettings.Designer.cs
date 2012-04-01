@@ -33,8 +33,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient1 = new MPfm.WindowsControls.Gradient();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient2 = new MPfm.WindowsControls.Gradient();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
@@ -59,8 +61,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient3 = new MPfm.WindowsControls.Gradient();
             MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient4 = new MPfm.WindowsControls.Gradient();
             MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
@@ -289,6 +293,12 @@ namespace MPfm
             // 
             // trackOutputMeterUpdateFrequency
             // 
+            gradient1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient1.BorderWidth = 1;
+            gradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            gradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackOutputMeterUpdateFrequency.BackgroundGradient = gradient1;
             this.trackOutputMeterUpdateFrequency.CenterLineColor = System.Drawing.Color.Silver;
             this.trackOutputMeterUpdateFrequency.CenterLineShadowColor = System.Drawing.Color.DimGray;
             this.trackOutputMeterUpdateFrequency.FaderGradientColor1 = System.Drawing.Color.White;
@@ -297,9 +307,6 @@ namespace MPfm
             this.trackOutputMeterUpdateFrequency.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackOutputMeterUpdateFrequency.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackOutputMeterUpdateFrequency.FaderWidth = 16;
-            this.trackOutputMeterUpdateFrequency.GradientColor1 = System.Drawing.Color.DarkGray;
-            this.trackOutputMeterUpdateFrequency.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackOutputMeterUpdateFrequency.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackOutputMeterUpdateFrequency.Location = new System.Drawing.Point(104, 54);
             this.trackOutputMeterUpdateFrequency.Maximum = 100;
             this.trackOutputMeterUpdateFrequency.Minimum = 10;
@@ -380,6 +387,12 @@ namespace MPfm
             // 
             // trackPositionUpdateFrequency
             // 
+            gradient2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient2.BorderWidth = 1;
+            gradient2.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            gradient2.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackPositionUpdateFrequency.BackgroundGradient = gradient2;
             this.trackPositionUpdateFrequency.CenterLineColor = System.Drawing.Color.Silver;
             this.trackPositionUpdateFrequency.CenterLineShadowColor = System.Drawing.Color.DimGray;
             this.trackPositionUpdateFrequency.FaderGradientColor1 = System.Drawing.Color.White;
@@ -388,9 +401,6 @@ namespace MPfm
             this.trackPositionUpdateFrequency.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackPositionUpdateFrequency.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackPositionUpdateFrequency.FaderWidth = 16;
-            this.trackPositionUpdateFrequency.GradientColor1 = System.Drawing.Color.Silver;
-            this.trackPositionUpdateFrequency.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackPositionUpdateFrequency.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackPositionUpdateFrequency.Location = new System.Drawing.Point(104, 26);
             this.trackPositionUpdateFrequency.Maximum = 100;
             this.trackPositionUpdateFrequency.Minimum = 10;
@@ -1310,6 +1320,12 @@ namespace MPfm
             // 
             // trackUpdatePeriod
             // 
+            gradient3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient3.BorderWidth = 1;
+            gradient3.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            gradient3.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackUpdatePeriod.BackgroundGradient = gradient3;
             this.trackUpdatePeriod.CenterLineColor = System.Drawing.Color.Silver;
             this.trackUpdatePeriod.CenterLineShadowColor = System.Drawing.Color.DimGray;
             this.trackUpdatePeriod.FaderGradientColor1 = System.Drawing.Color.White;
@@ -1318,9 +1334,6 @@ namespace MPfm
             this.trackUpdatePeriod.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackUpdatePeriod.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackUpdatePeriod.FaderWidth = 16;
-            this.trackUpdatePeriod.GradientColor1 = System.Drawing.Color.DarkGray;
-            this.trackUpdatePeriod.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackUpdatePeriod.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackUpdatePeriod.Location = new System.Drawing.Point(111, 57);
             this.trackUpdatePeriod.Maximum = 100;
             this.trackUpdatePeriod.Minimum = 10;
@@ -1403,6 +1416,12 @@ namespace MPfm
             // 
             // trackBufferSize
             // 
+            gradient4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient4.BorderWidth = 1;
+            gradient4.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            gradient4.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            gradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackBufferSize.BackgroundGradient = gradient4;
             this.trackBufferSize.CenterLineColor = System.Drawing.Color.Silver;
             this.trackBufferSize.CenterLineShadowColor = System.Drawing.Color.DimGray;
             this.trackBufferSize.FaderGradientColor1 = System.Drawing.Color.White;
@@ -1411,9 +1430,6 @@ namespace MPfm
             this.trackBufferSize.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackBufferSize.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackBufferSize.FaderWidth = 16;
-            this.trackBufferSize.GradientColor1 = System.Drawing.Color.DarkGray;
-            this.trackBufferSize.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackBufferSize.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.trackBufferSize.Location = new System.Drawing.Point(111, 28);
             this.trackBufferSize.Maximum = 10000;
             this.trackBufferSize.Minimum = 100;

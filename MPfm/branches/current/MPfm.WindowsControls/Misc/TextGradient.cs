@@ -78,9 +78,10 @@ namespace MPfm.WindowsControls
         /// <param name="color2">Gradient second color</param>
         /// <param name="mode">Gradient mode</param>
         /// <param name="borderColor">Border color</param>        
+        /// <param name="borderWidth">Border width (enter 0 to hide border)</param>        
         /// <param name="font">Font</param>
-        public TextGradient(Color color1, Color color2, LinearGradientMode mode, Color borderColor, CustomFont font)
-            : base(color1, color2, mode, borderColor)
+        public TextGradient(Color color1, Color color2, LinearGradientMode mode, Color borderColor, int borderWidth, CustomFont font)
+            : base(color1, color2, mode, borderColor, borderWidth)
         {
             this.font = font;
         }
