@@ -124,8 +124,6 @@ namespace MPfm
             this.panelToolbar.HeaderExpandable = false;
             this.panelToolbar.HeaderExpanded = true;
             this.panelToolbar.HeaderForeColor = System.Drawing.Color.White;
-            this.panelToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.panelToolbar.HeaderHeight = 0;
             this.panelToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelToolbar.Location = new System.Drawing.Point(0, 0);

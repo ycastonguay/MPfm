@@ -1315,8 +1315,7 @@ namespace MPfm
             this.panelEqualizer.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelEqualizer.Gradient")));
             this.panelEqualizer.HeaderExpanded = true;
             this.panelEqualizer.HeaderForeColor = System.Drawing.Color.White;
-            this.panelEqualizer.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.panelEqualizer.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.panelEqualizer.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelEqualizer.HeaderGradient")));
             this.panelEqualizer.HeaderHeight = 22;
             this.panelEqualizer.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelEqualizer.HeaderTitle = "Equalizer (18 bands)";
@@ -1797,8 +1796,7 @@ namespace MPfm
             this.panelPreset.HeaderExpandable = false;
             this.panelPreset.HeaderExpanded = true;
             this.panelPreset.HeaderForeColor = System.Drawing.Color.White;
-            this.panelPreset.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelPreset.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelPreset.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelPreset.HeaderGradient")));
             this.panelPreset.HeaderHeight = 16;
             this.panelPreset.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelPreset.HeaderTitle = "Preset";
@@ -1891,8 +1889,7 @@ namespace MPfm
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
-            this.panelInformation.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelInformation.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelInformation.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelInformation.HeaderGradient")));
             this.panelInformation.HeaderHeight = 16;
             this.panelInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelInformation.HeaderTitle = "Information";
@@ -2012,7 +2009,7 @@ namespace MPfm
             this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
             this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnAutoLevel.Location = new System.Drawing.Point(7, 239);
-            this.btnAutoLevel.MouseOverBorderColor = System.Drawing.Color.Gray;
+            this.btnAutoLevel.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.btnAutoLevel.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnAutoLevel.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnAutoLevel.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2053,7 +2050,7 @@ namespace MPfm
             this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnResetEQ.Location = new System.Drawing.Point(7, 283);
-            this.btnResetEQ.MouseOverBorderColor = System.Drawing.Color.Gray;
+            this.btnResetEQ.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.btnResetEQ.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnResetEQ.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnResetEQ.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2131,7 +2128,7 @@ namespace MPfm
             this.btnSaveEQPreset.Image = global::MPfm.Properties.Resources.tick;
             this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSaveEQPreset.Location = new System.Drawing.Point(7, 149);
-            this.btnSaveEQPreset.MouseOverBorderColor = System.Drawing.Color.Gray;
+            this.btnSaveEQPreset.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.btnSaveEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSaveEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnSaveEQPreset.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2172,7 +2169,7 @@ namespace MPfm
             this.btnDeleteEQPreset.Image = global::MPfm.Properties.Resources.delete;
             this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDeleteEQPreset.Location = new System.Drawing.Point(7, 194);
-            this.btnDeleteEQPreset.MouseOverBorderColor = System.Drawing.Color.Gray;
+            this.btnDeleteEQPreset.MouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.btnDeleteEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnDeleteEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnDeleteEQPreset.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;

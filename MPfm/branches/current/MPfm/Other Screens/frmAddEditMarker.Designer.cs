@@ -115,8 +115,6 @@ namespace MPfm
             this.panelEditMarker.HeaderExpandable = false;
             this.panelEditMarker.HeaderExpanded = true;
             this.panelEditMarker.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelEditMarker.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelEditMarker.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelEditMarker.HeaderHeight = 30;
             this.panelEditMarker.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelEditMarker.HeaderTitle = "Edit Marker";
@@ -285,8 +283,6 @@ namespace MPfm
             this.panelWarning.HeaderExpandable = false;
             this.panelWarning.HeaderExpanded = true;
             this.panelWarning.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelWarning.HeaderGradientColor1 = System.Drawing.Color.LemonChiffon;
-            this.panelWarning.HeaderGradientColor2 = System.Drawing.Color.Gold;
             this.panelWarning.HeaderHeight = 18;
             this.panelWarning.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelWarning.HeaderTitle = "Warning";

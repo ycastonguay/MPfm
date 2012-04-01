@@ -69,8 +69,6 @@ namespace MPfm
             this.panelLoadPlaylist.HeaderExpandable = false;
             this.panelLoadPlaylist.HeaderExpanded = true;
             this.panelLoadPlaylist.HeaderForeColor = System.Drawing.Color.White;
-            this.panelLoadPlaylist.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelLoadPlaylist.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.panelLoadPlaylist.HeaderHeight = 0;
             this.panelLoadPlaylist.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelLoadPlaylist.Location = new System.Drawing.Point(0, 0);

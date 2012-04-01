@@ -131,8 +131,6 @@ namespace MPfm
             this.panelEditLoop.HeaderExpandable = false;
             this.panelEditLoop.HeaderExpanded = true;
             this.panelEditLoop.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelEditLoop.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelEditLoop.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelEditLoop.HeaderHeight = 30;
             this.panelEditLoop.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelEditLoop.HeaderTitle = "Edit Loop";
@@ -430,8 +428,6 @@ namespace MPfm
             this.panelWarning.HeaderExpandable = false;
             this.panelWarning.HeaderExpanded = true;
             this.panelWarning.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelWarning.HeaderGradientColor1 = System.Drawing.Color.LemonChiffon;
-            this.panelWarning.HeaderGradientColor2 = System.Drawing.Color.Gold;
             this.panelWarning.HeaderHeight = 18;
             this.panelWarning.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelWarning.HeaderTitle = "Warning";

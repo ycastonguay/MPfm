@@ -186,8 +186,6 @@ namespace MPfm
             this.panelGeneralSettings.HeaderExpandable = false;
             this.panelGeneralSettings.HeaderExpanded = true;
             this.panelGeneralSettings.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelGeneralSettings.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelGeneralSettings.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelGeneralSettings.HeaderHeight = 30;
             this.panelGeneralSettings.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelGeneralSettings.HeaderTitle = "General Settings";
@@ -225,8 +223,6 @@ namespace MPfm
             this.panelUpdateFrequency.HeaderExpandable = false;
             this.panelUpdateFrequency.HeaderExpanded = true;
             this.panelUpdateFrequency.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelUpdateFrequency.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelUpdateFrequency.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelUpdateFrequency.HeaderHeight = 20;
             this.panelUpdateFrequency.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelUpdateFrequency.HeaderTitle = "Update Frequency";
@@ -492,8 +488,6 @@ namespace MPfm
             this.panelPeakFiles.HeaderExpandable = false;
             this.panelPeakFiles.HeaderExpanded = true;
             this.panelPeakFiles.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelPeakFiles.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelPeakFiles.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelPeakFiles.HeaderHeight = 20;
             this.panelPeakFiles.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelPeakFiles.HeaderTitle = "Peak Files ";
@@ -761,8 +755,6 @@ namespace MPfm
             this.panelUserInterface.HeaderExpandable = false;
             this.panelUserInterface.HeaderExpanded = true;
             this.panelUserInterface.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelUserInterface.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelUserInterface.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelUserInterface.HeaderHeight = 20;
             this.panelUserInterface.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelUserInterface.HeaderTitle = "User Interface";
@@ -911,8 +903,6 @@ namespace MPfm
             this.panelAudioSettings.HeaderExpandable = false;
             this.panelAudioSettings.HeaderExpanded = true;
             this.panelAudioSettings.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelAudioSettings.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelAudioSettings.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelAudioSettings.HeaderHeight = 30;
             this.panelAudioSettings.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelAudioSettings.HeaderTitle = "Audio Settings";
@@ -944,8 +934,6 @@ namespace MPfm
             this.panelAudioSettingsStatus.HeaderExpandable = false;
             this.panelAudioSettingsStatus.HeaderExpanded = true;
             this.panelAudioSettingsStatus.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelAudioSettingsStatus.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelAudioSettingsStatus.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelAudioSettingsStatus.HeaderHeight = 18;
             this.panelAudioSettingsStatus.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelAudioSettingsStatus.HeaderTitle = "Status";
@@ -1093,8 +1081,6 @@ namespace MPfm
             this.panelAudioSettingsOutput.HeaderExpandable = false;
             this.panelAudioSettingsOutput.HeaderExpanded = true;
             this.panelAudioSettingsOutput.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelAudioSettingsOutput.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelAudioSettingsOutput.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelAudioSettingsOutput.HeaderHeight = 20;
             this.panelAudioSettingsOutput.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelAudioSettingsOutput.HeaderTitle = "Output";
@@ -1274,8 +1260,6 @@ namespace MPfm
             this.panelAudioSettingsMixer.HeaderExpandable = false;
             this.panelAudioSettingsMixer.HeaderExpanded = true;
             this.panelAudioSettingsMixer.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelAudioSettingsMixer.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelAudioSettingsMixer.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelAudioSettingsMixer.HeaderHeight = 20;
             this.panelAudioSettingsMixer.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelAudioSettingsMixer.HeaderTitle = "Mixer (DirectSound)";
@@ -1494,8 +1478,6 @@ namespace MPfm
             this.panelLibrarySettings.HeaderExpandable = false;
             this.panelLibrarySettings.HeaderExpanded = true;
             this.panelLibrarySettings.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelLibrarySettings.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelLibrarySettings.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelLibrarySettings.HeaderHeight = 30;
             this.panelLibrarySettings.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelLibrarySettings.HeaderTitle = "Library Settings";
@@ -1528,8 +1510,6 @@ namespace MPfm
             this.panelFolders.HeaderExpandable = false;
             this.panelFolders.HeaderExpanded = true;
             this.panelFolders.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelFolders.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelFolders.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelFolders.HeaderHeight = 20;
             this.panelFolders.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelFolders.HeaderTitle = "Folders";
@@ -1721,8 +1701,6 @@ namespace MPfm
             this.panelBackground.HeaderExpandable = false;
             this.panelBackground.HeaderExpanded = true;
             this.panelBackground.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelBackground.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelBackground.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelBackground.HeaderHeight = 0;
             this.panelBackground.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelBackground.Location = new System.Drawing.Point(0, 0);

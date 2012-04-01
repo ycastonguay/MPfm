@@ -897,8 +897,7 @@ namespace MPfm
             this.panelLibrary.HeaderExpandable = false;
             this.panelLibrary.HeaderExpanded = true;
             this.panelLibrary.HeaderForeColor = System.Drawing.Color.White;
-            this.panelLibrary.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelLibrary.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelLibrary.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLibrary.HeaderGradient")));
             this.panelLibrary.HeaderHeight = 22;
             this.panelLibrary.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelLibrary.HeaderTitle = "Library";
@@ -933,8 +932,7 @@ namespace MPfm
             this.panelUpdateLibraryProgress.HeaderExpandable = false;
             this.panelUpdateLibraryProgress.HeaderExpanded = true;
             this.panelUpdateLibraryProgress.HeaderForeColor = System.Drawing.Color.White;
-            this.panelUpdateLibraryProgress.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelUpdateLibraryProgress.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelUpdateLibraryProgress.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelUpdateLibraryProgress.HeaderGradient")));
             this.panelUpdateLibraryProgress.HeaderHeight = 16;
             this.panelUpdateLibraryProgress.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelUpdateLibraryProgress.HeaderTitle = "Update Library Progress";
@@ -1233,8 +1231,7 @@ namespace MPfm
             this.panelCurrentSong.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelCurrentSong.Gradient")));
             this.panelCurrentSong.HeaderExpanded = true;
             this.panelCurrentSong.HeaderForeColor = System.Drawing.Color.White;
-            this.panelCurrentSong.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelCurrentSong.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelCurrentSong.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelCurrentSong.HeaderGradient")));
             this.panelCurrentSong.HeaderHeight = 22;
             this.panelCurrentSong.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelCurrentSong.HeaderTitle = "Current Song";
@@ -1298,8 +1295,7 @@ namespace MPfm
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
-            this.panelInformation.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelInformation.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelInformation.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelInformation.HeaderGradient")));
             this.panelInformation.HeaderHeight = 16;
             this.panelInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelInformation.HeaderTitle = "Information";
@@ -1519,8 +1515,7 @@ namespace MPfm
             this.panelActions.HeaderExpandable = false;
             this.panelActions.HeaderExpanded = true;
             this.panelActions.HeaderForeColor = System.Drawing.Color.White;
-            this.panelActions.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelActions.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelActions.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelActions.HeaderGradient")));
             this.panelActions.HeaderHeight = 16;
             this.panelActions.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelActions.HeaderTitle = "Actions";
@@ -1736,8 +1731,7 @@ namespace MPfm
             this.panelCurrentPosition.HeaderExpandable = false;
             this.panelCurrentPosition.HeaderExpanded = true;
             this.panelCurrentPosition.HeaderForeColor = System.Drawing.Color.White;
-            this.panelCurrentPosition.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelCurrentPosition.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelCurrentPosition.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelCurrentPosition.HeaderGradient")));
             this.panelCurrentPosition.HeaderHeight = 16;
             this.panelCurrentPosition.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelCurrentPosition.HeaderTitle = "Position";
@@ -1818,8 +1812,7 @@ namespace MPfm
             this.panelLength.HeaderExpandable = false;
             this.panelLength.HeaderExpanded = true;
             this.panelLength.HeaderForeColor = System.Drawing.Color.White;
-            this.panelLength.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelLength.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelLength.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLength.HeaderGradient")));
             this.panelLength.HeaderHeight = 16;
             this.panelLength.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelLength.HeaderTitle = "Length";
@@ -1879,8 +1872,7 @@ namespace MPfm
             this.panelVolume.HeaderExpandable = false;
             this.panelVolume.HeaderExpanded = true;
             this.panelVolume.HeaderForeColor = System.Drawing.Color.White;
-            this.panelVolume.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelVolume.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelVolume.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelVolume.HeaderGradient")));
             this.panelVolume.HeaderHeight = 16;
             this.panelVolume.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelVolume.HeaderTitle = "Volume";
@@ -2011,8 +2003,7 @@ namespace MPfm
             this.panelSongPosition.HeaderExpandable = false;
             this.panelSongPosition.HeaderExpanded = true;
             this.panelSongPosition.HeaderForeColor = System.Drawing.Color.White;
-            this.panelSongPosition.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelSongPosition.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelSongPosition.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelSongPosition.HeaderGradient")));
             this.panelSongPosition.HeaderHeight = 16;
             this.panelSongPosition.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelSongPosition.HeaderTitle = "Song Position";
@@ -2127,8 +2118,7 @@ namespace MPfm
             this.panelTimeShifting.HeaderExpandable = false;
             this.panelTimeShifting.HeaderExpanded = true;
             this.panelTimeShifting.HeaderForeColor = System.Drawing.Color.White;
-            this.panelTimeShifting.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelTimeShifting.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelTimeShifting.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelTimeShifting.HeaderGradient")));
             this.panelTimeShifting.HeaderHeight = 16;
             this.panelTimeShifting.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelTimeShifting.HeaderTitle = "Time Shifting";
@@ -2256,8 +2246,7 @@ namespace MPfm
             this.panelLoopsMarkers.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLoopsMarkers.Gradient")));
             this.panelLoopsMarkers.HeaderExpandable = false;
             this.panelLoopsMarkers.HeaderForeColor = System.Drawing.Color.White;
-            this.panelLoopsMarkers.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelLoopsMarkers.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelLoopsMarkers.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLoopsMarkers.HeaderGradient")));
             this.panelLoopsMarkers.HeaderHeight = 22;
             this.panelLoopsMarkers.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelLoopsMarkers.HeaderTitle = "Loops & Markers";
@@ -2901,8 +2890,7 @@ namespace MPfm
             this.panelSongBrowser.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelSongBrowser.Gradient")));
             this.panelSongBrowser.HeaderExpandable = false;
             this.panelSongBrowser.HeaderForeColor = System.Drawing.Color.White;
-            this.panelSongBrowser.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelSongBrowser.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panelSongBrowser.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelSongBrowser.HeaderGradient")));
             this.panelSongBrowser.HeaderHeight = 22;
             this.panelSongBrowser.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelSongBrowser.HeaderTitle = "Song Browser";
@@ -2990,8 +2978,7 @@ namespace MPfm
             this.panelSongBrowserToolbar.HeaderExpandable = false;
             this.panelSongBrowserToolbar.HeaderExpanded = true;
             this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
-            this.panelSongBrowserToolbar.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelSongBrowserToolbar.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelSongBrowserToolbar.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelSongBrowserToolbar.HeaderGradient")));
             this.panelSongBrowserToolbar.HeaderHeight = 0;
             this.panelSongBrowserToolbar.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelSongBrowserToolbar.Location = new System.Drawing.Point(0, 23);

@@ -107,8 +107,7 @@ namespace MPfm
             this.panelMain.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelMain.Gradient")));
             this.panelMain.HeaderExpanded = true;
             this.panelMain.HeaderForeColor = System.Drawing.Color.White;
-            this.panelMain.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.panelMain.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.panelMain.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelMain.HeaderGradient")));
             this.panelMain.HeaderHeight = 22;
             this.panelMain.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelMain.HeaderTitle = "Updating Library";
@@ -333,8 +332,7 @@ namespace MPfm
             this.panelLog.HeaderExpandable = false;
             this.panelLog.HeaderExpanded = true;
             this.panelLog.HeaderForeColor = System.Drawing.Color.White;
-            this.panelLog.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelLog.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelLog.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLog.HeaderGradient")));
             this.panelLog.HeaderHeight = 16;
             this.panelLog.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelLog.HeaderTitle = "Error Log";

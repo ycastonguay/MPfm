@@ -115,8 +115,6 @@ namespace MPfm
             this.panelEditSongMetadata.HeaderExpandable = false;
             this.panelEditSongMetadata.HeaderExpanded = true;
             this.panelEditSongMetadata.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelEditSongMetadata.HeaderGradientColor1 = System.Drawing.Color.LightGray;
-            this.panelEditSongMetadata.HeaderGradientColor2 = System.Drawing.Color.Gray;
             this.panelEditSongMetadata.HeaderHeight = 30;
             this.panelEditSongMetadata.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelEditSongMetadata.HeaderTitle = "Edit Song Metadata";

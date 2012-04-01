@@ -169,8 +169,7 @@
             this.panelWelcome.HeaderExpandable = false;
             this.panelWelcome.HeaderExpanded = true;
             this.panelWelcome.HeaderForeColor = System.Drawing.Color.White;
-            this.panelWelcome.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
-            this.panelWelcome.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.panelWelcome.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelWelcome.HeaderGradient")));
             this.panelWelcome.HeaderHeight = 22;
             this.panelWelcome.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelWelcome.HeaderTitle = "MPfm Initial Configuration Wizard";
@@ -492,8 +491,7 @@
             this.panelNote.HeaderExpandable = false;
             this.panelNote.HeaderExpanded = true;
             this.panelNote.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelNote.HeaderGradientColor1 = System.Drawing.Color.Silver;
-            this.panelNote.HeaderGradientColor2 = System.Drawing.Color.DarkGray;
+            this.panelNote.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelNote.HeaderGradient")));
             this.panelNote.HeaderHeight = 22;
             this.panelNote.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelNote.HeaderTitle = "Note :";
