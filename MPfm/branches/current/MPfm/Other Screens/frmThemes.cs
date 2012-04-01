@@ -422,19 +422,19 @@ namespace MPfm
             panelSongBrowserToolbar.GradientColor1 = mainWindowTheme.ToolbarBackgroundColor1;
             panelSongBrowserToolbar.GradientColor2 = mainWindowTheme.ToolbarBackgroundColor2;
 
-            btnPlaySelectedSong.GradientColor1 = mainWindowTheme.ToolbarButtonBackgroundColor1;
-            btnPlaySelectedSong.GradientColor2 = mainWindowTheme.ToolbarButtonBackgroundColor2;
-            btnPlaySelectedSong.BorderColor = mainWindowTheme.ToolbarButtonBorderColor;
-            btnPlaySelectedSong.MouseOverGradientColor1 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor1;
-            btnPlaySelectedSong.MouseOverGradientColor2 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor2;
-            btnPlaySelectedSong.MouseOverBorderColor = mainWindowTheme.ToolbarButtonMouseOverBorderColor;
-            btnPlaySelectedSong.DisabledGradientColor1 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor1;
-            btnPlaySelectedSong.DisabledGradientColor2 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor2;
-            btnPlaySelectedSong.DisabledBorderColor = mainWindowTheme.ToolbarButtonDisabledBorderColor;            
-            btnPlaySelectedSong.CustomFont = mainWindowTheme.ToolbarButtonTextFont;
-            btnPlaySelectedSong.DisabledFontColor = mainWindowTheme.ToolbarButtonDisabledTextColor;
-            btnPlaySelectedSong.MouseOverFontColor = mainWindowTheme.ToolbarButtonMouseOverTextColor;
-            btnPlaySelectedSong.FontColor = mainWindowTheme.ToolbarButtonTextColor;
+            //btnPlaySelectedSong.GradientColor1 = mainWindowTheme.ToolbarButtonBackgroundColor1;
+            //btnPlaySelectedSong.GradientColor2 = mainWindowTheme.ToolbarButtonBackgroundColor2;
+            //btnPlaySelectedSong.BorderColor = mainWindowTheme.ToolbarButtonBorderColor;
+            //btnPlaySelectedSong.MouseOverGradientColor1 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor1;
+            //btnPlaySelectedSong.MouseOverGradientColor2 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor2;
+            //btnPlaySelectedSong.MouseOverBorderColor = mainWindowTheme.ToolbarButtonMouseOverBorderColor;
+            //btnPlaySelectedSong.DisabledGradientColor1 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor1;
+            //btnPlaySelectedSong.DisabledGradientColor2 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor2;
+            //btnPlaySelectedSong.DisabledBorderColor = mainWindowTheme.ToolbarButtonDisabledBorderColor;            
+            //btnPlaySelectedSong.CustomFont = mainWindowTheme.ToolbarButtonTextFont;
+            //btnPlaySelectedSong.DisabledFontColor = mainWindowTheme.ToolbarButtonDisabledTextColor;
+            //btnPlaySelectedSong.MouseOverFontColor = mainWindowTheme.ToolbarButtonMouseOverTextColor;
+            //btnPlaySelectedSong.FontColor = mainWindowTheme.ToolbarButtonTextColor;
 
             lblSearchFor.CustomFont = mainWindowTheme.ToolbarTextFont;
             lblSearchFor.ForeColor = mainWindowTheme.ToolbarTextColor;

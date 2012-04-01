@@ -240,11 +240,13 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="embeddedFontName">Embedded font name</param>
         /// <param name="size">Font size</param>
-        public CustomFont(string embeddedFontName, float size)
+        /// <param name="color">Font color</param>
+        public CustomFont(string embeddedFontName, float size, Color color)
         {
             this.useEmbeddedFont = true;
             this.embeddedFontName = embeddedFontName;
             this.size = size;
+            this.color = color;
         }
 
         /// <summary>

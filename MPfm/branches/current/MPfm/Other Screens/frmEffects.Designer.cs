@@ -1902,34 +1902,11 @@ namespace MPfm
             // 
             // btnAutoLevel
             // 
-            this.btnAutoLevel.BorderColor = System.Drawing.Color.Gray;
-            this.btnAutoLevel.BorderWidth = 1;
             this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont44.EmbeddedFontName = "Junction";
-            customFont44.IsBold = false;
-            customFont44.IsItalic = false;
-            customFont44.IsUnderline = false;
-            customFont44.Size = 8F;
-            customFont44.StandardFontName = "Arial";
-            customFont44.UseAntiAliasing = true;
-            customFont44.UseEmbeddedFont = true;
-            this.btnAutoLevel.CustomFont = customFont44;
-            this.btnAutoLevel.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnAutoLevel.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnAutoLevel.DisabledGradientColor1 = System.Drawing.Color.LightGray;
-            this.btnAutoLevel.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAutoLevel.FontColor = System.Drawing.Color.Black;
-            this.btnAutoLevel.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnAutoLevel.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnAutoLevel.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
             this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnAutoLevel.Location = new System.Drawing.Point(7, 239);
-            this.btnAutoLevel.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnAutoLevel.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnAutoLevel.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnAutoLevel.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnAutoLevel.Name = "btnAutoLevel";
             this.btnAutoLevel.Size = new System.Drawing.Size(117, 38);
             this.btnAutoLevel.TabIndex = 70;
@@ -1941,34 +1918,11 @@ namespace MPfm
             // 
             // btnResetEQ
             // 
-            this.btnResetEQ.BorderColor = System.Drawing.Color.Gray;
-            this.btnResetEQ.BorderWidth = 1;
             this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont45.EmbeddedFontName = "Junction";
-            customFont45.IsBold = false;
-            customFont45.IsItalic = false;
-            customFont45.IsUnderline = false;
-            customFont45.Size = 8F;
-            customFont45.StandardFontName = "Arial";
-            customFont45.UseAntiAliasing = true;
-            customFont45.UseEmbeddedFont = true;
-            this.btnResetEQ.CustomFont = customFont45;
-            this.btnResetEQ.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnResetEQ.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnResetEQ.DisabledGradientColor1 = System.Drawing.Color.LightGray;
-            this.btnResetEQ.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnResetEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetEQ.FontColor = System.Drawing.Color.Black;
-            this.btnResetEQ.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnResetEQ.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnResetEQ.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnResetEQ.Location = new System.Drawing.Point(7, 283);
-            this.btnResetEQ.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnResetEQ.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnResetEQ.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnResetEQ.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnResetEQ.Name = "btnResetEQ";
             this.btnResetEQ.Size = new System.Drawing.Size(117, 38);
             this.btnResetEQ.TabIndex = 69;
@@ -2015,34 +1969,11 @@ namespace MPfm
             // 
             // btnSaveEQPreset
             // 
-            this.btnSaveEQPreset.BorderColor = System.Drawing.Color.Gray;
-            this.btnSaveEQPreset.BorderWidth = 1;
             this.btnSaveEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont47.EmbeddedFontName = "Junction";
-            customFont47.IsBold = false;
-            customFont47.IsItalic = false;
-            customFont47.IsUnderline = false;
-            customFont47.Size = 8F;
-            customFont47.StandardFontName = "Arial";
-            customFont47.UseAntiAliasing = true;
-            customFont47.UseEmbeddedFont = true;
-            this.btnSaveEQPreset.CustomFont = customFont47;
-            this.btnSaveEQPreset.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSaveEQPreset.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnSaveEQPreset.DisabledGradientColor1 = System.Drawing.Color.LightGray;
-            this.btnSaveEQPreset.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveEQPreset.FontColor = System.Drawing.Color.Black;
-            this.btnSaveEQPreset.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnSaveEQPreset.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnSaveEQPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSaveEQPreset.Image = global::MPfm.Properties.Resources.tick;
             this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSaveEQPreset.Location = new System.Drawing.Point(7, 149);
-            this.btnSaveEQPreset.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnSaveEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSaveEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnSaveEQPreset.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnSaveEQPreset.Name = "btnSaveEQPreset";
             this.btnSaveEQPreset.Size = new System.Drawing.Size(117, 38);
             this.btnSaveEQPreset.TabIndex = 66;
@@ -2054,34 +1985,11 @@ namespace MPfm
             // 
             // btnDeleteEQPreset
             // 
-            this.btnDeleteEQPreset.BorderColor = System.Drawing.Color.Gray;
-            this.btnDeleteEQPreset.BorderWidth = 1;
             this.btnDeleteEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont48.EmbeddedFontName = "Junction";
-            customFont48.IsBold = false;
-            customFont48.IsItalic = false;
-            customFont48.IsUnderline = false;
-            customFont48.Size = 8F;
-            customFont48.StandardFontName = "Arial";
-            customFont48.UseAntiAliasing = true;
-            customFont48.UseEmbeddedFont = true;
-            this.btnDeleteEQPreset.CustomFont = customFont48;
-            this.btnDeleteEQPreset.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnDeleteEQPreset.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnDeleteEQPreset.DisabledGradientColor1 = System.Drawing.Color.LightGray;
-            this.btnDeleteEQPreset.DisabledGradientColor2 = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteEQPreset.FontColor = System.Drawing.Color.Black;
-            this.btnDeleteEQPreset.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnDeleteEQPreset.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnDeleteEQPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnDeleteEQPreset.Image = global::MPfm.Properties.Resources.delete;
             this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDeleteEQPreset.Location = new System.Drawing.Point(7, 194);
-            this.btnDeleteEQPreset.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnDeleteEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnDeleteEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnDeleteEQPreset.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnDeleteEQPreset.Name = "btnDeleteEQPreset";
             this.btnDeleteEQPreset.Size = new System.Drawing.Size(117, 38);
             this.btnDeleteEQPreset.TabIndex = 63;

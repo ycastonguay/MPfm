@@ -190,34 +190,11 @@ namespace MPfm
             // 
             // btnOK
             // 
-            this.btnOK.BorderColor = System.Drawing.Color.Black;
-            this.btnOK.BorderWidth = 1;
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 9F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.btnOK.CustomFont = customFont4;
-            this.btnOK.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnOK.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnOK.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnOK.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.FontColor = System.Drawing.Color.Black;
-            this.btnOK.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnOK.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnOK.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnOK.Image = global::MPfm.Properties.Resources.accept;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnOK.Location = new System.Drawing.Point(594, 323);
-            this.btnOK.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnOK.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnOK.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnOK.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(92, 40);
             this.btnOK.TabIndex = 61;
@@ -228,35 +205,12 @@ namespace MPfm
             // 
             // btnCancel
             // 
-            this.btnCancel.BorderColor = System.Drawing.Color.Black;
-            this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 9F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            this.btnCancel.CustomFont = customFont5;
-            this.btnCancel.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnCancel.DisabledFontColor = System.Drawing.Color.Gray;
-            this.btnCancel.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnCancel.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnCancel.Enabled = false;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.FontColor = System.Drawing.Color.Black;
-            this.btnCancel.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnCancel.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnCancel.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnCancel.Image = global::MPfm.Properties.Resources.cancel;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnCancel.Location = new System.Drawing.Point(692, 323);
-            this.btnCancel.MouseOverBorderColor = System.Drawing.Color.Black;
-            this.btnCancel.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnCancel.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnCancel.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(92, 40);
             this.btnCancel.TabIndex = 60;

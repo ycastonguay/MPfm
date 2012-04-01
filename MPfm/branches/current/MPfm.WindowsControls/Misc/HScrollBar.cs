@@ -207,7 +207,7 @@ namespace MPfm.WindowsControls
 
         #endregion
 
-        #region Other Methods       
+        #region Other Methods
 
         /// <summary>
         /// Sets the scroll bar value without triggering any event.

@@ -138,34 +138,11 @@ namespace MPfm
             // 
             // button1
             // 
-            this.button1.BorderColor = System.Drawing.Color.DimGray;
-            this.button1.BorderWidth = 1;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8F;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseAntiAliasing = true;
-            customFont1.UseEmbeddedFont = true;
-            this.button1.CustomFont = customFont1;
-            this.button1.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.button1.DisabledFontColor = System.Drawing.Color.Silver;
-            this.button1.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.button1.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.button1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.FontColor = System.Drawing.Color.Black;
-            this.button1.GradientColor1 = System.Drawing.Color.LightGray;
-            this.button1.GradientColor2 = System.Drawing.Color.Gray;
-            this.button1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.button1.Image = global::MPfm.Properties.Resources.arrow_switch;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button1.Location = new System.Drawing.Point(511, 0);
-            this.button1.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.button1.MouseOverFontColor = System.Drawing.Color.Black;
-            this.button1.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.button1.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(108, 25);
             this.button1.TabIndex = 75;
@@ -176,34 +153,11 @@ namespace MPfm
             // 
             // btnLoadPlaylist
             // 
-            this.btnLoadPlaylist.BorderColor = System.Drawing.Color.DimGray;
-            this.btnLoadPlaylist.BorderWidth = 1;
             this.btnLoadPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont2.EmbeddedFontName = "Junction";
-            customFont2.IsBold = false;
-            customFont2.IsItalic = false;
-            customFont2.IsUnderline = false;
-            customFont2.Size = 8F;
-            customFont2.StandardFontName = "Arial";
-            customFont2.UseAntiAliasing = true;
-            customFont2.UseEmbeddedFont = true;
-            this.btnLoadPlaylist.CustomFont = customFont2;
-            this.btnLoadPlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnLoadPlaylist.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnLoadPlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnLoadPlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnLoadPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadPlaylist.FontColor = System.Drawing.Color.Black;
-            this.btnLoadPlaylist.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnLoadPlaylist.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnLoadPlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnLoadPlaylist.Image = global::MPfm.Properties.Resources.folder_page;
             this.btnLoadPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLoadPlaylist.Location = new System.Drawing.Point(92, 0);
-            this.btnLoadPlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnLoadPlaylist.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnLoadPlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnLoadPlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnLoadPlaylist.Name = "btnLoadPlaylist";
             this.btnLoadPlaylist.Size = new System.Drawing.Size(95, 25);
             this.btnLoadPlaylist.TabIndex = 74;
@@ -215,34 +169,11 @@ namespace MPfm
             // 
             // btnRemoveSongs
             // 
-            this.btnRemoveSongs.BorderColor = System.Drawing.Color.DimGray;
-            this.btnRemoveSongs.BorderWidth = 1;
             this.btnRemoveSongs.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = false;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 8F;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            this.btnRemoveSongs.CustomFont = customFont3;
-            this.btnRemoveSongs.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnRemoveSongs.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnRemoveSongs.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnRemoveSongs.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnRemoveSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveSongs.FontColor = System.Drawing.Color.Black;
-            this.btnRemoveSongs.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnRemoveSongs.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnRemoveSongs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
             this.btnRemoveSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveSongs.Location = new System.Drawing.Point(399, 0);
-            this.btnRemoveSongs.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnRemoveSongs.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnRemoveSongs.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnRemoveSongs.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnRemoveSongs.Name = "btnRemoveSongs";
             this.btnRemoveSongs.Size = new System.Drawing.Size(113, 25);
             this.btnRemoveSongs.TabIndex = 72;
@@ -254,34 +185,11 @@ namespace MPfm
             // 
             // btnRenamePlaylist
             // 
-            this.btnRenamePlaylist.BorderColor = System.Drawing.Color.DimGray;
-            this.btnRenamePlaylist.BorderWidth = 1;
             this.btnRenamePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 8F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.btnRenamePlaylist.CustomFont = customFont4;
-            this.btnRenamePlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnRenamePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnRenamePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnRenamePlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnRenamePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRenamePlaylist.FontColor = System.Drawing.Color.Black;
-            this.btnRenamePlaylist.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnRenamePlaylist.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnRenamePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnRenamePlaylist.Image = global::MPfm.Properties.Resources.textfield_rename;
             this.btnRenamePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRenamePlaylist.Location = new System.Drawing.Point(691, 0);
-            this.btnRenamePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnRenamePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnRenamePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnRenamePlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnRenamePlaylist.Name = "btnRenamePlaylist";
             this.btnRenamePlaylist.Size = new System.Drawing.Size(116, 25);
             this.btnRenamePlaylist.TabIndex = 71;
@@ -293,34 +201,11 @@ namespace MPfm
             // 
             // btnSavePlaylistAs
             // 
-            this.btnSavePlaylistAs.BorderColor = System.Drawing.Color.DimGray;
-            this.btnSavePlaylistAs.BorderWidth = 1;
             this.btnSavePlaylistAs.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 8F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            this.btnSavePlaylistAs.CustomFont = customFont5;
-            this.btnSavePlaylistAs.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSavePlaylistAs.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnSavePlaylistAs.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnSavePlaylistAs.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnSavePlaylistAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePlaylistAs.FontColor = System.Drawing.Color.Black;
-            this.btnSavePlaylistAs.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnSavePlaylistAs.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnSavePlaylistAs.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSavePlaylistAs.Image = global::MPfm.Properties.Resources.disk;
             this.btnSavePlaylistAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSavePlaylistAs.Location = new System.Drawing.Point(280, 0);
-            this.btnSavePlaylistAs.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnSavePlaylistAs.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSavePlaylistAs.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnSavePlaylistAs.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnSavePlaylistAs.Name = "btnSavePlaylistAs";
             this.btnSavePlaylistAs.Size = new System.Drawing.Size(120, 25);
             this.btnSavePlaylistAs.TabIndex = 70;
@@ -332,34 +217,11 @@ namespace MPfm
             // 
             // btnSavePlaylist
             // 
-            this.btnSavePlaylist.BorderColor = System.Drawing.Color.DimGray;
-            this.btnSavePlaylist.BorderWidth = 1;
             this.btnSavePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont6.EmbeddedFontName = "Junction";
-            customFont6.IsBold = false;
-            customFont6.IsItalic = false;
-            customFont6.IsUnderline = false;
-            customFont6.Size = 8F;
-            customFont6.StandardFontName = "Arial";
-            customFont6.UseAntiAliasing = true;
-            customFont6.UseEmbeddedFont = true;
-            this.btnSavePlaylist.CustomFont = customFont6;
-            this.btnSavePlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnSavePlaylist.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnSavePlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnSavePlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnSavePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePlaylist.FontColor = System.Drawing.Color.Black;
-            this.btnSavePlaylist.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnSavePlaylist.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnSavePlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnSavePlaylist.Image = global::MPfm.Properties.Resources.disk;
             this.btnSavePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSavePlaylist.Location = new System.Drawing.Point(186, 0);
-            this.btnSavePlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnSavePlaylist.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnSavePlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnSavePlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnSavePlaylist.Name = "btnSavePlaylist";
             this.btnSavePlaylist.Size = new System.Drawing.Size(95, 25);
             this.btnSavePlaylist.TabIndex = 69;
@@ -371,34 +233,11 @@ namespace MPfm
             // 
             // btnNewPlaylist
             // 
-            this.btnNewPlaylist.BorderColor = System.Drawing.Color.DimGray;
-            this.btnNewPlaylist.BorderWidth = 1;
             this.btnNewPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont7.EmbeddedFontName = "Junction";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 8F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            this.btnNewPlaylist.CustomFont = customFont7;
-            this.btnNewPlaylist.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.btnNewPlaylist.DisabledFontColor = System.Drawing.Color.Silver;
-            this.btnNewPlaylist.DisabledGradientColor1 = System.Drawing.Color.Gray;
-            this.btnNewPlaylist.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnNewPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPlaylist.FontColor = System.Drawing.Color.Black;
-            this.btnNewPlaylist.GradientColor1 = System.Drawing.Color.LightGray;
-            this.btnNewPlaylist.GradientColor2 = System.Drawing.Color.Gray;
-            this.btnNewPlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnNewPlaylist.Image = global::MPfm.Properties.Resources.page_white_text;
             this.btnNewPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNewPlaylist.Location = new System.Drawing.Point(0, 0);
-            this.btnNewPlaylist.MouseOverBorderColor = System.Drawing.Color.DimGray;
-            this.btnNewPlaylist.MouseOverFontColor = System.Drawing.Color.Black;
-            this.btnNewPlaylist.MouseOverGradientColor1 = System.Drawing.Color.White;
-            this.btnNewPlaylist.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnNewPlaylist.Name = "btnNewPlaylist";
             this.btnNewPlaylist.Size = new System.Drawing.Size(93, 25);
             this.btnNewPlaylist.TabIndex = 68;

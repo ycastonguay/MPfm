@@ -46,7 +46,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the Font property.
         /// </summary>
-        private CustomFont font = new CustomFont("Arial", 8.0f);
+        private CustomFont font = new CustomFont("Arial", 8.0f, Color.Black);
         /// <summary>
         /// Defines the font used for text rendering.
         /// </summary>

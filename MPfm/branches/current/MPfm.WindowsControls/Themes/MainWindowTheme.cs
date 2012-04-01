@@ -111,7 +111,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelHeaderTextFont property.
         /// </summary>
-        private CustomFont panelHeaderTextFont = new CustomFont("TitilliumText22L Lt", 10);
+        private CustomFont panelHeaderTextFont = new CustomFont("TitilliumText22L Lt", 10, Color.Black);
         /// <summary>
         /// Defines the main panel header text font.
         /// </summary>
@@ -197,7 +197,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTitleFont property.
         /// </summary>
-        private CustomFont panelTitleFont = new CustomFont("TitilliumText22L Lt", 18);
+        private CustomFont panelTitleFont = new CustomFont("TitilliumText22L Lt", 18, Color.Black);
         /// <summary>
         /// Defines the main panel title font.
         /// </summary>
@@ -239,7 +239,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitleFont property.
         /// </summary>
-        private CustomFont panelSubtitleFont = new CustomFont("TitilliumText22L Lt", 14);
+        private CustomFont panelSubtitleFont = new CustomFont("TitilliumText22L Lt", 14, Color.Black);
         /// <summary>
         /// Defines the main panel subtitle font.
         /// </summary>
@@ -281,7 +281,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitle2Font property.
         /// </summary>
-        private CustomFont panelSubtitle2Font = new CustomFont("TitilliumText22L Lt", 12);
+        private CustomFont panelSubtitle2Font = new CustomFont("TitilliumText22L Lt", 12, Color.Black);
         /// <summary>
         /// Defines the main panel subtitle 2 font.
         /// </summary>
@@ -365,7 +365,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTimeDisplayFont property.
         /// </summary>
-        private CustomFont panelTimeDisplayFont = new CustomFont("Droid Sans Mono", 10);
+        private CustomFont panelTimeDisplayFont = new CustomFont("Droid Sans Mono", 10, Color.Black);
         /// <summary>
         /// Defines the main panel time display font.
         /// </summary>
@@ -407,7 +407,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSmallTimeDisplayFont property.
         /// </summary>
-        private CustomFont panelSmallTimeDisplayFont = new CustomFont("Droid Sans Mono", 7);
+        private CustomFont panelSmallTimeDisplayFont = new CustomFont("Droid Sans Mono", 7, Color.Black);
         /// <summary>
         /// Defines the main panel small time display font.
         /// </summary>
@@ -497,7 +497,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelHeaderTextFont property.
         /// </summary>
-        private CustomFont secondaryPanelHeaderTextFont = new CustomFont("Junction", 8.25f);
+        private CustomFont secondaryPanelHeaderTextFont = new CustomFont("Junction", 8.25f, Color.Black);
         /// <summary>
         /// Defines the secondary panel header text font.
         /// </summary>
@@ -583,7 +583,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelLabelFont property.
         /// </summary>
-        private CustomFont secondaryPanelLabelFont = new CustomFont("Junction", 7);
+        private CustomFont secondaryPanelLabelFont = new CustomFont("Junction", 7, Color.Black);
         /// <summary>
         /// Defines the secondary panel label font.
         /// </summary>
@@ -625,7 +625,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelTextFont property.
         /// </summary>
-        private CustomFont secondaryPanelTextFont = new CustomFont("Junction", 7);
+        private CustomFont secondaryPanelTextFont = new CustomFont("Junction", 7, Color.Black);
         /// <summary>
         /// Defines the secondary panel text font.
         /// </summary>
