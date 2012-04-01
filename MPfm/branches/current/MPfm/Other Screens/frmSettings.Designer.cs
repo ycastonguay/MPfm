@@ -33,10 +33,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient1 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.BackgroundGradient gradient1 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient2 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.BackgroundGradient gradient2 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
@@ -61,10 +61,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient3 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.BackgroundGradient gradient3 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient4 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.BackgroundGradient gradient4 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();

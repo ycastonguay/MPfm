@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace MPfm.WindowsControls
 {
@@ -183,6 +184,46 @@ namespace MPfm.WindowsControls
             set
             {
                 useAntiAliasing = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Color property.
+        /// </summary>
+        private Color color = Color.FromArgb(0, 0, 0);
+        /// <summary>
+        /// Defines the font color.
+        /// </summary>
+        [XmlIgnore]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Gradient"), Browsable(true), Description("Defines the font color.")]
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+            set
+            {
+                color = value;
+            }
+        }
+        /// <summary>
+        /// Gets/sets the font color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
+        /// </summary>
+        [Browsable(false)]
+        [XmlElement(ElementName = "Color")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int ColorInt
+        {
+            get
+            {
+                return color.ToArgb();
+            }
+            set
+            {
+                color = Color.FromArgb(value);
             }
         }
 

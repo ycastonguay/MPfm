@@ -66,11 +66,11 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont34 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient1 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.BackgroundGradient gradient1 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.CustomFont customFont37 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont35 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont36 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient2 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.BackgroundGradient gradient2 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.WaveFormDisplayTheme waveFormDisplayTheme1 = new MPfm.WindowsControls.WaveFormDisplayTheme();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();

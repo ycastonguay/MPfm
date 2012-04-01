@@ -64,13 +64,13 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the BackgroundGradient property.
         /// </summary>
-        private Gradient backgroundGradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.Gray, 1);
+        private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.Gray, 1);
         /// <summary>
         /// Defines the background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Background"), Browsable(true), Description("Background gradient.")]
-        public Gradient BackgroundGradient
+        public BackgroundGradient BackgroundGradient
         {
             get
             {

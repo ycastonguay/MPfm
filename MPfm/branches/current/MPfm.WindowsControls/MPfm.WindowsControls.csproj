@@ -117,6 +117,7 @@
     <Compile Include="Misc\Control.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Misc\BackgroundGradient.cs" />
     <Compile Include="Misc\Gradient.cs" />
     <Compile Include="Misc\HScrollBar.cs">
       <SubType>Component</SubType>

@@ -41,7 +41,7 @@ namespace MPfm.WindowsControls
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TextGradient
-        : Gradient
+        : BackgroundGradient
     {
         /// <summary>
         /// Private value for the Font property.
