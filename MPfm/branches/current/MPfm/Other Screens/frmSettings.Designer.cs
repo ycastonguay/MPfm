@@ -31,9 +31,9 @@ namespace MPfm
             this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
@@ -299,9 +299,7 @@ namespace MPfm
             this.trackOutputMeterUpdateFrequency.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackOutputMeterUpdateFrequency.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackOutputMeterUpdateFrequency.FaderWidth = 16;
-            this.trackOutputMeterUpdateFrequency.GradientColor1 = System.Drawing.Color.DarkGray;
-            this.trackOutputMeterUpdateFrequency.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackOutputMeterUpdateFrequency.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackOutputMeterUpdateFrequency.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("trackOutputMeterUpdateFrequency.Gradient")));
             this.trackOutputMeterUpdateFrequency.Location = new System.Drawing.Point(104, 54);
             this.trackOutputMeterUpdateFrequency.Maximum = 100;
             this.trackOutputMeterUpdateFrequency.Minimum = 10;
@@ -394,9 +392,7 @@ namespace MPfm
             this.trackPositionUpdateFrequency.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackPositionUpdateFrequency.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackPositionUpdateFrequency.FaderWidth = 16;
-            this.trackPositionUpdateFrequency.GradientColor1 = System.Drawing.Color.Silver;
-            this.trackPositionUpdateFrequency.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackPositionUpdateFrequency.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackPositionUpdateFrequency.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("trackPositionUpdateFrequency.Gradient")));
             this.trackPositionUpdateFrequency.Location = new System.Drawing.Point(104, 26);
             this.trackPositionUpdateFrequency.Maximum = 100;
             this.trackPositionUpdateFrequency.Minimum = 10;
@@ -1342,9 +1338,7 @@ namespace MPfm
             this.trackUpdatePeriod.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackUpdatePeriod.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackUpdatePeriod.FaderWidth = 16;
-            this.trackUpdatePeriod.GradientColor1 = System.Drawing.Color.DarkGray;
-            this.trackUpdatePeriod.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackUpdatePeriod.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackUpdatePeriod.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("trackUpdatePeriod.Gradient")));
             this.trackUpdatePeriod.Location = new System.Drawing.Point(111, 57);
             this.trackUpdatePeriod.Maximum = 100;
             this.trackUpdatePeriod.Minimum = 10;
@@ -1439,9 +1433,7 @@ namespace MPfm
             this.trackBufferSize.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
             this.trackBufferSize.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackBufferSize.FaderWidth = 16;
-            this.trackBufferSize.GradientColor1 = System.Drawing.Color.DarkGray;
-            this.trackBufferSize.GradientColor2 = System.Drawing.Color.Gray;
-            this.trackBufferSize.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.trackBufferSize.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("trackBufferSize.Gradient")));
             this.trackBufferSize.Location = new System.Drawing.Point(111, 28);
             this.trackBufferSize.Maximum = 10000;
             this.trackBufferSize.Minimum = 100;
@@ -1754,9 +1746,9 @@ namespace MPfm
             // 
             // panelBackground
             // 
+            this.panelBackground.Controls.Add(this.panelAudioSettings);
             this.panelBackground.Controls.Add(this.panelGeneralSettings);
             this.panelBackground.Controls.Add(this.panelLibrarySettings);
-            this.panelBackground.Controls.Add(this.panelAudioSettings);
             this.panelBackground.Controls.Add(this.btnLibrarySettings);
             this.panelBackground.Controls.Add(this.btnGeneralSettings);
             this.panelBackground.Controls.Add(this.btnAudioSettings);
