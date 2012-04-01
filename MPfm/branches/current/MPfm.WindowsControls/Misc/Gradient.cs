@@ -142,6 +142,85 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the BorderColor property.
+        /// </summary>
+        private Color borderColor = Color.FromArgb(20, 20, 20);
+        /// <summary>
+        /// Defines the border color.
+        /// </summary>
+        [XmlIgnore]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Border"), Browsable(true), Description("Defines the border color.")]
+        public Color BorderColor
+        {
+            get
+            {
+                return borderColor;
+            }
+            set
+            {
+                borderColor = value;
+            }
+        }
+        /// <summary>
+        /// Gets/sets the border color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
+        /// </summary>
+        [Browsable(false)]
+        [XmlElement(ElementName = "BorderColor")]
+        public int BorderColorInt
+        {
+            get
+            {
+                return borderColor.ToArgb();
+            }
+            set
+            {
+                borderColor = Color.FromArgb(value);
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BorderWidth property.
+        /// </summary>
+        private int borderWidth = 1;
+        /// <summary>
+        /// Defines the border width (in pixels).
+        /// </summary>
+        [Category("Border"), Browsable(true), Description("Defines the border width (in pixels).")]
+        public int BorderWidth
+        {
+            get
+            {
+                return borderWidth;
+            }
+            set
+            {
+                borderWidth = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the IsBorderVisible property.
+        /// </summary>
+        private bool isBorderVisible = false;
+        /// <summary>
+        /// Defines the border visibility.
+        /// </summary>
+        [Category("Border"), Browsable(true), Description("Defines the border visibility.")]
+        public bool IsBorderVisible
+        {
+            get
+            {
+                return isBorderVisible;
+            }
+            set
+            {
+                isBorderVisible = value;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the Gradient class.
         /// </summary>
         public Gradient()
@@ -159,6 +238,23 @@ namespace MPfm.WindowsControls
             this.color1 = color1;
             this.color2 = color2;
             this.gradientMode = mode;
+            this.isBorderVisible = false;
+        }
+
+        /// <summary>
+        /// Constructor for the Gradient class.
+        /// </summary>
+        /// <param name="color1">Gradient first color</param>
+        /// <param name="color2">Gradient second color</param>
+        /// <param name="mode">Gradient mode</param>
+        /// <param name="borderColor">Border color</param>
+        public Gradient(Color color1, Color color2, LinearGradientMode mode, Color borderColor)
+        {
+            this.color1 = color1;
+            this.color2 = color2;
+            this.gradientMode = mode;
+            this.borderColor = borderColor;
+            this.isBorderVisible = true;
         }
     }
 }
