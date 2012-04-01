@@ -121,9 +121,6 @@ namespace MPfm
             this.panelToolbar.CustomFont = customFont8;
             this.panelToolbar.ExpandedHeight = 25;
             this.panelToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelToolbar.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
-            this.panelToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelToolbar.HeaderExpandable = false;
             this.panelToolbar.HeaderExpanded = true;
             this.panelToolbar.HeaderForeColor = System.Drawing.Color.White;

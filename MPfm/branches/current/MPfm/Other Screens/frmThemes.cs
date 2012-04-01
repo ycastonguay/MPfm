@@ -315,8 +315,9 @@ namespace MPfm
             // Main panels
             panelCurrentSong.CustomFont = theme.MainWindow.PanelHeaderTextFont;
             panelCurrentSong.ForeColor = theme.MainWindow.PanelHeaderTextFont.Color;
-            panelCurrentSong.GradientColor1 = theme.MainWindow.PanelBackground.Color1;
-            panelCurrentSong.GradientColor2 = theme.MainWindow.PanelBackground.Color2;
+            panelCurrentSong.Gradient = theme.MainWindow.PanelBackground;
+            //panelCurrentSong.GradientColor1 = theme.MainWindow.PanelBackground.Color1;
+            //panelCurrentSong.GradientColor2 = theme.MainWindow.PanelBackground.Color2;
             panelCurrentSong.HeaderGradientColor1 = theme.MainWindow.PanelHeaderBackground.Color1;            
             panelCurrentSong.HeaderGradientColor2 = theme.MainWindow.PanelHeaderBackground.Color2;
             panelCurrentSong.HeaderForeColor = theme.MainWindow.PanelHeaderTextFont.Color;            
@@ -334,8 +335,8 @@ namespace MPfm
             lblCurrentFilePath.ForeColor = theme.MainWindow.PanelTextColor;
 
             // Secondary panels            
-            panelInformation.GradientColor1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
-            panelInformation.GradientColor2 = theme.MainWindow.SecondaryPanelBackgroundColor2;            
+            panelInformation.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
+            panelInformation.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackgroundColor2;            
             panelInformation.CustomFont = theme.MainWindow.SecondaryPanelHeaderTextFont;
             panelInformation.ForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             panelInformation.HeaderGradientColor1 = theme.MainWindow.SecondaryPanelHeaderBackgroundColor1;
@@ -343,8 +344,8 @@ namespace MPfm
             panelInformation.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             // header font to add
             panelInformation.Refresh();
-            panelActions.GradientColor1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
-            panelActions.GradientColor2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
+            panelActions.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
+            panelActions.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
             panelActions.CustomFont = theme.MainWindow.SecondaryPanelHeaderTextFont;
             panelActions.ForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             panelActions.HeaderGradientColor1 = theme.MainWindow.SecondaryPanelHeaderBackgroundColor1;
@@ -352,8 +353,8 @@ namespace MPfm
             panelActions.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             // header font to add
             panelActions.Refresh();
-            panelCurrentPosition.GradientColor1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
-            panelCurrentPosition.GradientColor2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
+            panelCurrentPosition.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
+            panelCurrentPosition.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
             panelCurrentPosition.CustomFont = theme.MainWindow.SecondaryPanelHeaderTextFont;
             panelCurrentPosition.ForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             panelCurrentPosition.HeaderGradientColor1 = theme.MainWindow.SecondaryPanelHeaderBackgroundColor1;
@@ -361,8 +362,8 @@ namespace MPfm
             panelCurrentPosition.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             // header font to add
             panelCurrentPosition.Refresh();
-            panelTimeShifting.GradientColor1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
-            panelTimeShifting.GradientColor2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
+            panelTimeShifting.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackgroundColor1;
+            panelTimeShifting.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
             panelTimeShifting.CustomFont = theme.MainWindow.SecondaryPanelHeaderTextFont;
             panelTimeShifting.ForeColor = theme.MainWindow.SecondaryPanelHeaderTextColor;
             panelTimeShifting.HeaderGradientColor1 = theme.MainWindow.SecondaryPanelHeaderBackgroundColor1;
@@ -407,8 +408,8 @@ namespace MPfm
             trackTimeShifting.GradientColor2 = theme.MainWindow.SecondaryPanelBackgroundColor2;
 
             // Toolbar
-            panelSongBrowserToolbar.GradientColor1 = theme.MainWindow.ToolbarBackgroundColor1;
-            panelSongBrowserToolbar.GradientColor2 = theme.MainWindow.ToolbarBackgroundColor2;
+            panelSongBrowserToolbar.Gradient.Color1 = theme.MainWindow.ToolbarBackgroundColor1;
+            panelSongBrowserToolbar.Gradient.Color2 = theme.MainWindow.ToolbarBackgroundColor2;
 
             btnPlaySelectedSong.GradientColor1 = theme.MainWindow.ToolbarButtonBackgroundColor1;
             btnPlaySelectedSong.GradientColor2 = theme.MainWindow.ToolbarButtonBackgroundColor2;

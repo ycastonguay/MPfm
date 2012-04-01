@@ -329,9 +329,6 @@ namespace MPfm
             this.panelThemeProperties.CustomFont = customFont39;
             this.panelThemeProperties.ExpandedHeight = 200;
             this.panelThemeProperties.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelThemeProperties.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelThemeProperties.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelThemeProperties.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelThemeProperties.HeaderExpandable = false;
             this.panelThemeProperties.HeaderExpanded = true;
             this.panelThemeProperties.HeaderForeColor = System.Drawing.Color.Black;
@@ -434,9 +431,6 @@ namespace MPfm
             this.panelPreviewMainWindow.CustomFont = customFont32;
             this.panelPreviewMainWindow.ExpandedHeight = 200;
             this.panelPreviewMainWindow.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelPreviewMainWindow.GradientColor1 = System.Drawing.Color.Black;
-            this.panelPreviewMainWindow.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.panelPreviewMainWindow.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelPreviewMainWindow.HeaderExpandable = false;
             this.panelPreviewMainWindow.HeaderExpanded = true;
             this.panelPreviewMainWindow.HeaderForeColor = System.Drawing.Color.Black;
@@ -468,9 +462,6 @@ namespace MPfm
             this.panelInformation.CustomFont = customFont12;
             this.panelInformation.ExpandedHeight = 56;
             this.panelInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelInformation.GradientColor1 = System.Drawing.Color.Black;
-            this.panelInformation.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
@@ -664,9 +655,6 @@ namespace MPfm
             this.panelActions.CustomFont = customFont18;
             this.panelActions.ExpandedHeight = 56;
             this.panelActions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelActions.GradientColor1 = System.Drawing.Color.Black;
-            this.panelActions.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelActions.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelActions.HeaderExpandable = false;
             this.panelActions.HeaderExpanded = true;
             this.panelActions.HeaderForeColor = System.Drawing.Color.White;
@@ -815,9 +803,6 @@ namespace MPfm
             this.panelTimeShifting.CustomFont = customFont21;
             this.panelTimeShifting.ExpandedHeight = 200;
             this.panelTimeShifting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelTimeShifting.GradientColor1 = System.Drawing.Color.Black;
-            this.panelTimeShifting.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelTimeShifting.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelTimeShifting.HeaderExpandable = false;
             this.panelTimeShifting.HeaderExpanded = true;
             this.panelTimeShifting.HeaderForeColor = System.Drawing.Color.White;
@@ -918,9 +903,6 @@ namespace MPfm
             this.panelSongBrowserToolbar.CustomFont = customFont24;
             this.panelSongBrowserToolbar.ExpandedHeight = 25;
             this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSongBrowserToolbar.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelSongBrowserToolbar.GradientColor2 = System.Drawing.Color.Gainsboro;
-            this.panelSongBrowserToolbar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelSongBrowserToolbar.HeaderExpandable = false;
             this.panelSongBrowserToolbar.HeaderExpanded = true;
             this.panelSongBrowserToolbar.HeaderForeColor = System.Drawing.Color.White;
@@ -1016,9 +998,6 @@ namespace MPfm
             this.panelCurrentPosition.CustomFont = customFont26;
             this.panelCurrentPosition.ExpandedHeight = 200;
             this.panelCurrentPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelCurrentPosition.GradientColor1 = System.Drawing.Color.Black;
-            this.panelCurrentPosition.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelCurrentPosition.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelCurrentPosition.HeaderExpandable = false;
             this.panelCurrentPosition.HeaderExpanded = true;
             this.panelCurrentPosition.HeaderForeColor = System.Drawing.Color.White;
@@ -1077,9 +1056,6 @@ namespace MPfm
             this.panelCurrentSong.CustomFont = customFont31;
             this.panelCurrentSong.ExpandedHeight = 178;
             this.panelCurrentSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelCurrentSong.GradientColor1 = System.Drawing.Color.Black;
-            this.panelCurrentSong.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelCurrentSong.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelCurrentSong.HeaderExpanded = true;
             this.panelCurrentSong.HeaderForeColor = System.Drawing.Color.White;
             this.panelCurrentSong.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
@@ -1535,9 +1511,6 @@ namespace MPfm
             this.panelBackground.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBackground.ExpandedHeight = 200;
             this.panelBackground.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelBackground.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelBackground.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelBackground.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelBackground.HeaderExpandable = false;
             this.panelBackground.HeaderExpanded = true;
             this.panelBackground.HeaderForeColor = System.Drawing.Color.Black;

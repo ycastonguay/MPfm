@@ -29,6 +29,7 @@ namespace MPfm
         private void InitializeComponent()
         {
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoadPlaylist));
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -50,6 +51,8 @@ namespace MPfm
             this.panelLoadPlaylist.Controls.Add(this.lblFilePath);
             this.panelLoadPlaylist.Controls.Add(this.lblFile);
             this.panelLoadPlaylist.Controls.Add(this.progressBar);
+            customFont5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont5.ColorInt = -16777216;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
@@ -62,9 +65,7 @@ namespace MPfm
             this.panelLoadPlaylist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLoadPlaylist.ExpandedHeight = 0;
             this.panelLoadPlaylist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelLoadPlaylist.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panelLoadPlaylist.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelLoadPlaylist.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelLoadPlaylist.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLoadPlaylist.Gradient")));
             this.panelLoadPlaylist.HeaderExpandable = false;
             this.panelLoadPlaylist.HeaderExpanded = true;
             this.panelLoadPlaylist.HeaderForeColor = System.Drawing.Color.White;
@@ -81,6 +82,11 @@ namespace MPfm
             // 
             this.lblPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPercentage.BackColor = System.Drawing.Color.Transparent;
+            this.lblPercentage.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblPercentage.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblPercentage.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont1.ColorInt = -16777216;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -91,19 +97,22 @@ namespace MPfm
             customFont1.UseEmbeddedFont = true;
             this.lblPercentage.CustomFont = customFont1;
             this.lblPercentage.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPercentage.ForeColor = System.Drawing.Color.White;
+            this.lblPercentage.ForeColor = System.Drawing.Color.Black;
             this.lblPercentage.Location = new System.Drawing.Point(560, 26);
             this.lblPercentage.Name = "lblPercentage";
             this.lblPercentage.Size = new System.Drawing.Size(37, 17);
             this.lblPercentage.TabIndex = 82;
             this.lblPercentage.Text = "100%";
             this.lblPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPercentage.UseBackgroundGradient = false;
             // 
             // btnCancel
             // 
             this.btnCancel.BorderColor = System.Drawing.Color.DimGray;
             this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont2.ColorInt = -16777216;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
@@ -141,6 +150,11 @@ namespace MPfm
             this.lblFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFilePath.BackColor = System.Drawing.Color.Transparent;
+            this.lblFilePath.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblFilePath.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblFilePath.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont3.ColorInt = -16777216;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = true;
             customFont3.IsItalic = false;
@@ -151,16 +165,22 @@ namespace MPfm
             customFont3.UseEmbeddedFont = true;
             this.lblFilePath.CustomFont = customFont3;
             this.lblFilePath.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFilePath.ForeColor = System.Drawing.Color.White;
+            this.lblFilePath.ForeColor = System.Drawing.Color.Black;
             this.lblFilePath.Location = new System.Drawing.Point(34, 4);
             this.lblFilePath.Name = "lblFilePath";
             this.lblFilePath.Size = new System.Drawing.Size(558, 17);
             this.lblFilePath.TabIndex = 85;
             this.lblFilePath.Text = "C:\\MP3\\Unknown Artist\\Unknown Album\\01 Hello World.mp3";
+            this.lblFilePath.UseBackgroundGradient = false;
             // 
             // lblFile
             // 
             this.lblFile.BackColor = System.Drawing.Color.Transparent;
+            this.lblFile.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblFile.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblFile.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont4.ColorInt = -16777216;
             customFont4.EmbeddedFontName = "Junction";
             customFont4.IsBold = false;
             customFont4.IsItalic = false;
@@ -171,12 +191,13 @@ namespace MPfm
             customFont4.UseEmbeddedFont = true;
             this.lblFile.CustomFont = customFont4;
             this.lblFile.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFile.ForeColor = System.Drawing.Color.White;
+            this.lblFile.ForeColor = System.Drawing.Color.Black;
             this.lblFile.Location = new System.Drawing.Point(3, 4);
             this.lblFile.Name = "lblFile";
             this.lblFile.Size = new System.Drawing.Size(37, 17);
             this.lblFile.TabIndex = 84;
             this.lblFile.Text = "File :";
+            this.lblFile.UseBackgroundGradient = false;
             // 
             // progressBar
             // 

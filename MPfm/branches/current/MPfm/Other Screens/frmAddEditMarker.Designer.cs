@@ -112,9 +112,6 @@ namespace MPfm
             this.panelEditMarker.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditMarker.ExpandedHeight = 200;
             this.panelEditMarker.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelEditMarker.GradientColor1 = System.Drawing.Color.Silver;
-            this.panelEditMarker.GradientColor2 = System.Drawing.Color.Gray;
-            this.panelEditMarker.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelEditMarker.HeaderExpandable = false;
             this.panelEditMarker.HeaderExpanded = true;
             this.panelEditMarker.HeaderForeColor = System.Drawing.Color.Black;
@@ -285,9 +282,6 @@ namespace MPfm
             this.panelWarning.CustomFont = customFont7;
             this.panelWarning.ExpandedHeight = 200;
             this.panelWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelWarning.GradientColor1 = System.Drawing.Color.LemonChiffon;
-            this.panelWarning.GradientColor2 = System.Drawing.Color.Gold;
-            this.panelWarning.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelWarning.HeaderExpandable = false;
             this.panelWarning.HeaderExpanded = true;
             this.panelWarning.HeaderForeColor = System.Drawing.Color.Black;

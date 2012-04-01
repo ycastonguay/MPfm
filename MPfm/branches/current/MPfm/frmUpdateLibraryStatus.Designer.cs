@@ -36,10 +36,10 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibraryStatus));
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibraryStatus));
             this.workerUpdateLibrary = new System.ComponentModel.BackgroundWorker();
             this.workerTimer = new System.ComponentModel.BackgroundWorker();
             this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
@@ -90,6 +90,8 @@ namespace MPfm
             this.panelMain.Controls.Add(this.progressBar);
             this.panelMain.Controls.Add(this.lblMessage);
             this.panelMain.Controls.Add(this.lblTitle);
+            customFont11.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont11.ColorInt = -16777216;
             customFont11.EmbeddedFontName = "";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
@@ -102,9 +104,7 @@ namespace MPfm
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.ExpandedHeight = 188;
             this.panelMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelMain.GradientColor1 = System.Drawing.Color.Black;
-            this.panelMain.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelMain.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelMain.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelMain.Gradient")));
             this.panelMain.HeaderExpanded = true;
             this.panelMain.HeaderForeColor = System.Drawing.Color.White;
             this.panelMain.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -122,6 +122,11 @@ namespace MPfm
             this.lblEstimatedTimeLeft.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEstimatedTimeLeft.BackColor = System.Drawing.Color.Transparent;
+            this.lblEstimatedTimeLeft.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblEstimatedTimeLeft.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblEstimatedTimeLeft.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont1.ColorInt = -16777216;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -139,12 +144,18 @@ namespace MPfm
             this.lblEstimatedTimeLeft.TabIndex = 67;
             this.lblEstimatedTimeLeft.Text = "Estimated time left :";
             this.lblEstimatedTimeLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblEstimatedTimeLeft.UseBackgroundGradient = false;
             // 
             // lblTimeElapsed
             // 
             this.lblTimeElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTimeElapsed.BackColor = System.Drawing.Color.Transparent;
+            this.lblTimeElapsed.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTimeElapsed.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblTimeElapsed.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont2.ColorInt = -16777216;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
@@ -162,12 +173,15 @@ namespace MPfm
             this.lblTimeElapsed.TabIndex = 66;
             this.lblTimeElapsed.Text = "Time elapsed :";
             this.lblTimeElapsed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblTimeElapsed.UseBackgroundGradient = false;
             // 
             // linkSaveLog
             // 
             this.linkSaveLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.linkSaveLog.BackColor = System.Drawing.Color.Transparent;
+            customFont3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont3.ColorInt = -16777216;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
@@ -193,6 +207,8 @@ namespace MPfm
             this.btnOK.BorderColor = System.Drawing.Color.Black;
             this.btnOK.BorderWidth = 1;
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont4.ColorInt = -16777216;
             customFont4.EmbeddedFontName = "Junction";
             customFont4.IsBold = false;
             customFont4.IsItalic = false;
@@ -231,6 +247,8 @@ namespace MPfm
             this.btnCancel.BorderColor = System.Drawing.Color.Black;
             this.btnCancel.BorderWidth = 1;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont5.ColorInt = -16777216;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
@@ -270,6 +288,11 @@ namespace MPfm
             this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblProgress.BackColor = System.Drawing.Color.Transparent;
+            this.lblProgress.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblProgress.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblProgress.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont6.ColorInt = -16777216;
             customFont6.EmbeddedFontName = "Junction";
             customFont6.IsBold = false;
             customFont6.IsItalic = false;
@@ -287,11 +310,14 @@ namespace MPfm
             this.lblProgress.TabIndex = 59;
             this.lblProgress.Text = "Progress";
             this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblProgress.UseBackgroundGradient = false;
             // 
             // panelLog
             // 
             this.panelLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelLog.Controls.Add(this.lbLog);
+            customFont8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont8.ColorInt = -16777216;
             customFont8.EmbeddedFontName = "TitilliumText22L Lt";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -303,9 +329,7 @@ namespace MPfm
             this.panelLog.CustomFont = customFont8;
             this.panelLog.ExpandedHeight = 56;
             this.panelLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelLog.GradientColor1 = System.Drawing.Color.Black;
-            this.panelLog.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelLog.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
+            this.panelLog.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelLog.Gradient")));
             this.panelLog.HeaderExpandable = false;
             this.panelLog.HeaderExpanded = true;
             this.panelLog.HeaderForeColor = System.Drawing.Color.White;
@@ -316,13 +340,15 @@ namespace MPfm
             this.panelLog.HeaderTitle = "Error Log";
             this.panelLog.Location = new System.Drawing.Point(18, 139);
             this.panelLog.Name = "panelLog";
-            this.panelLog.Size = new System.Drawing.Size(768, 176);
+            this.panelLog.Size = new System.Drawing.Size(768, 171);
             this.panelLog.TabIndex = 58;
             // 
             // lbLog
             // 
             this.lbLog.BackColor = System.Drawing.Color.Black;
             this.lbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            customFont7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont7.ColorInt = -16777216;
             customFont7.EmbeddedFontName = "Droid Sans Mono";
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
@@ -337,11 +363,11 @@ namespace MPfm
             this.lbLog.ForeColor = System.Drawing.Color.White;
             this.lbLog.FormattingEnabled = true;
             this.lbLog.ItemHeight = 14;
-            this.lbLog.Location = new System.Drawing.Point(3, 21);
+            this.lbLog.Location = new System.Drawing.Point(0, 17);
             this.lbLog.Name = "lbLog";
             this.lbLog.ScrollAlwaysVisible = true;
             this.lbLog.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lbLog.Size = new System.Drawing.Size(762, 154);
+            this.lbLog.Size = new System.Drawing.Size(768, 154);
             this.lbLog.TabIndex = 0;
             // 
             // progressBar
@@ -356,6 +382,11 @@ namespace MPfm
             this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMessage.BackColor = System.Drawing.Color.Transparent;
+            this.lblMessage.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblMessage.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblMessage.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont9.ColorInt = -16777216;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = false;
             customFont9.IsItalic = false;
@@ -373,10 +404,16 @@ namespace MPfm
             this.lblMessage.TabIndex = 49;
             this.lblMessage.Text = "Message";
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblMessage.UseBackgroundGradient = false;
             // 
             // lblTitle
             // 
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblTitle.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTitle.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblTitle.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont10.ColorInt = -16777216;
             customFont10.EmbeddedFontName = "TitilliumText22L Lt";
             customFont10.IsBold = false;
             customFont10.IsItalic = false;
@@ -394,6 +431,7 @@ namespace MPfm
             this.lblTitle.TabIndex = 44;
             this.lblTitle.Text = "Title";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblTitle.UseBackgroundGradient = false;
             // 
             // frmUpdateLibraryStatus
             // 

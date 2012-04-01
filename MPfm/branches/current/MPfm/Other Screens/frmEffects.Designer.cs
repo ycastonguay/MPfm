@@ -70,6 +70,7 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
             MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont50 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont42 = new MPfm.WindowsControls.CustomFont();
@@ -80,7 +81,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont47 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont48 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont49 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
             this.lblGain17 = new MPfm.WindowsControls.Label();
             this.lbl17 = new MPfm.WindowsControls.Label();
             this.lblGain16 = new MPfm.WindowsControls.Label();
@@ -170,6 +170,8 @@ namespace MPfm
             this.lblGain17.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain17.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain17.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont1.ColorInt = -16777216;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -195,6 +197,8 @@ namespace MPfm
             this.lbl17.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl17.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl17.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont2.ColorInt = -16777216;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
@@ -220,6 +224,8 @@ namespace MPfm
             this.lblGain16.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain16.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain16.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont3.ColorInt = -16777216;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = false;
             customFont3.IsItalic = false;
@@ -245,6 +251,8 @@ namespace MPfm
             this.lbl16.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl16.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl16.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont4.ColorInt = -16777216;
             customFont4.EmbeddedFontName = "Junction";
             customFont4.IsBold = false;
             customFont4.IsItalic = false;
@@ -270,6 +278,8 @@ namespace MPfm
             this.lblGain15.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain15.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain15.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont5.ColorInt = -16777216;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
@@ -295,6 +305,8 @@ namespace MPfm
             this.lbl15.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl15.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl15.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont6.ColorInt = -16777216;
             customFont6.EmbeddedFontName = "Junction";
             customFont6.IsBold = false;
             customFont6.IsItalic = false;
@@ -320,6 +332,8 @@ namespace MPfm
             this.lblGain14.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain14.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain14.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont7.ColorInt = -16777216;
             customFont7.EmbeddedFontName = "Junction";
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
@@ -345,6 +359,8 @@ namespace MPfm
             this.lbl14.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl14.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl14.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont8.ColorInt = -16777216;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -370,6 +386,8 @@ namespace MPfm
             this.lblGain13.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain13.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain13.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont9.ColorInt = -16777216;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = false;
             customFont9.IsItalic = false;
@@ -395,6 +413,8 @@ namespace MPfm
             this.lbl13.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl13.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl13.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont10.ColorInt = -16777216;
             customFont10.EmbeddedFontName = "Junction";
             customFont10.IsBold = false;
             customFont10.IsItalic = false;
@@ -420,6 +440,8 @@ namespace MPfm
             this.lblGain12.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain12.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain12.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont11.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont11.ColorInt = -16777216;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
@@ -445,6 +467,8 @@ namespace MPfm
             this.lbl12.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl12.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl12.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont12.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont12.ColorInt = -16777216;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
@@ -470,6 +494,8 @@ namespace MPfm
             this.lblGain11.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain11.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain11.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont13.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont13.ColorInt = -16777216;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
             customFont13.IsItalic = false;
@@ -495,6 +521,8 @@ namespace MPfm
             this.lbl11.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl11.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl11.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont14.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont14.ColorInt = -16777216;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
             customFont14.IsItalic = false;
@@ -520,6 +548,8 @@ namespace MPfm
             this.lblGain10.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain10.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain10.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont15.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont15.ColorInt = -16777216;
             customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = false;
             customFont15.IsItalic = false;
@@ -545,6 +575,8 @@ namespace MPfm
             this.lbl10.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl10.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl10.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont16.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont16.ColorInt = -16777216;
             customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
             customFont16.IsItalic = false;
@@ -570,6 +602,8 @@ namespace MPfm
             this.lblGain9.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain9.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain9.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont17.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont17.ColorInt = -16777216;
             customFont17.EmbeddedFontName = "Junction";
             customFont17.IsBold = false;
             customFont17.IsItalic = false;
@@ -595,6 +629,8 @@ namespace MPfm
             this.lbl9.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl9.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl9.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont18.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont18.ColorInt = -16777216;
             customFont18.EmbeddedFontName = "Junction";
             customFont18.IsBold = false;
             customFont18.IsItalic = false;
@@ -620,6 +656,8 @@ namespace MPfm
             this.lblGain8.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain8.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain8.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont19.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont19.ColorInt = -16777216;
             customFont19.EmbeddedFontName = "Junction";
             customFont19.IsBold = false;
             customFont19.IsItalic = false;
@@ -645,6 +683,8 @@ namespace MPfm
             this.lbl8.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl8.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl8.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont20.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont20.ColorInt = -16777216;
             customFont20.EmbeddedFontName = "Junction";
             customFont20.IsBold = false;
             customFont20.IsItalic = false;
@@ -670,6 +710,8 @@ namespace MPfm
             this.lblGain7.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain7.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain7.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont21.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont21.ColorInt = -16777216;
             customFont21.EmbeddedFontName = "Junction";
             customFont21.IsBold = false;
             customFont21.IsItalic = false;
@@ -695,6 +737,8 @@ namespace MPfm
             this.lbl7.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl7.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl7.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont22.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont22.ColorInt = -16777216;
             customFont22.EmbeddedFontName = "Junction";
             customFont22.IsBold = false;
             customFont22.IsItalic = false;
@@ -720,6 +764,8 @@ namespace MPfm
             this.lblGain6.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain6.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain6.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont23.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont23.ColorInt = -16777216;
             customFont23.EmbeddedFontName = "Junction";
             customFont23.IsBold = false;
             customFont23.IsItalic = false;
@@ -745,6 +791,8 @@ namespace MPfm
             this.lbl6.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl6.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl6.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont24.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont24.ColorInt = -16777216;
             customFont24.EmbeddedFontName = "Junction";
             customFont24.IsBold = false;
             customFont24.IsItalic = false;
@@ -770,6 +818,8 @@ namespace MPfm
             this.lblGain5.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain5.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain5.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont25.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont25.ColorInt = -16777216;
             customFont25.EmbeddedFontName = "Junction";
             customFont25.IsBold = false;
             customFont25.IsItalic = false;
@@ -795,6 +845,8 @@ namespace MPfm
             this.lbl5.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl5.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl5.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont26.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont26.ColorInt = -16777216;
             customFont26.EmbeddedFontName = "Junction";
             customFont26.IsBold = false;
             customFont26.IsItalic = false;
@@ -820,6 +872,8 @@ namespace MPfm
             this.lblGain4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont27.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont27.ColorInt = -16777216;
             customFont27.EmbeddedFontName = "Junction";
             customFont27.IsBold = false;
             customFont27.IsItalic = false;
@@ -845,6 +899,8 @@ namespace MPfm
             this.lbl4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont28.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont28.ColorInt = -16777216;
             customFont28.EmbeddedFontName = "Junction";
             customFont28.IsBold = false;
             customFont28.IsItalic = false;
@@ -870,6 +926,8 @@ namespace MPfm
             this.lblGain3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont29.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont29.ColorInt = -16777216;
             customFont29.EmbeddedFontName = "Junction";
             customFont29.IsBold = false;
             customFont29.IsItalic = false;
@@ -895,6 +953,8 @@ namespace MPfm
             this.lbl3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont30.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont30.ColorInt = -16777216;
             customFont30.EmbeddedFontName = "Junction";
             customFont30.IsBold = false;
             customFont30.IsItalic = false;
@@ -920,6 +980,8 @@ namespace MPfm
             this.lblGain2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont31.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont31.ColorInt = -16777216;
             customFont31.EmbeddedFontName = "Junction";
             customFont31.IsBold = false;
             customFont31.IsItalic = false;
@@ -945,6 +1007,8 @@ namespace MPfm
             this.lbl2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont32.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont32.ColorInt = -16777216;
             customFont32.EmbeddedFontName = "Junction";
             customFont32.IsBold = false;
             customFont32.IsItalic = false;
@@ -970,6 +1034,8 @@ namespace MPfm
             this.lblGain1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont33.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont33.ColorInt = -16777216;
             customFont33.EmbeddedFontName = "Junction";
             customFont33.IsBold = false;
             customFont33.IsItalic = false;
@@ -995,6 +1061,8 @@ namespace MPfm
             this.lbl1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont34.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont34.ColorInt = -16777216;
             customFont34.EmbeddedFontName = "Junction";
             customFont34.IsBold = false;
             customFont34.IsItalic = false;
@@ -1020,6 +1088,8 @@ namespace MPfm
             this.lblGain0.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblGain0.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblGain0.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont35.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont35.ColorInt = -16777216;
             customFont35.EmbeddedFontName = "Junction";
             customFont35.IsBold = false;
             customFont35.IsItalic = false;
@@ -1045,6 +1115,8 @@ namespace MPfm
             this.lbl0.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl0.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl0.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont36.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont36.ColorInt = -16777216;
             customFont36.EmbeddedFontName = "Junction";
             customFont36.IsBold = false;
             customFont36.IsItalic = false;
@@ -1070,6 +1142,8 @@ namespace MPfm
             this.lbl0dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl0dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl0dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont37.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont37.ColorInt = -16777216;
             customFont37.EmbeddedFontName = "Junction";
             customFont37.IsBold = false;
             customFont37.IsItalic = false;
@@ -1094,6 +1168,8 @@ namespace MPfm
             this.lbl_6dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl_6dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl_6dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont38.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont38.ColorInt = -16777216;
             customFont38.EmbeddedFontName = "Junction";
             customFont38.IsBold = false;
             customFont38.IsItalic = false;
@@ -1118,6 +1194,8 @@ namespace MPfm
             this.lbl6dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl6dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl6dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont39.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont39.ColorInt = -16777216;
             customFont39.EmbeddedFontName = "Junction";
             customFont39.IsBold = false;
             customFont39.IsItalic = false;
@@ -1220,6 +1298,8 @@ namespace MPfm
             this.panelEqualizer.Controls.Add(this.lblGain9);
             this.panelEqualizer.Controls.Add(this.lbl9);
             this.panelEqualizer.Controls.Add(this.panelZeroLine);
+            customFont51.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont51.ColorInt = -16777216;
             customFont51.EmbeddedFontName = "TitilliumText22L Lt";
             customFont51.IsBold = false;
             customFont51.IsItalic = false;
@@ -1232,9 +1312,7 @@ namespace MPfm
             this.panelEqualizer.ExpandedHeight = 450;
             this.panelEqualizer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelEqualizer.ForeColor = System.Drawing.Color.White;
-            this.panelEqualizer.GradientColor1 = System.Drawing.Color.Black;
-            this.panelEqualizer.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelEqualizer.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelEqualizer.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelEqualizer.Gradient")));
             this.panelEqualizer.HeaderExpanded = true;
             this.panelEqualizer.HeaderForeColor = System.Drawing.Color.White;
             this.panelEqualizer.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -1259,8 +1337,8 @@ namespace MPfm
             this.fader17.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader17.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader17.FaderWidth = 12;
-            this.fader17.GradientColor1 = System.Drawing.Color.Black;
-            this.fader17.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader17.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader17.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader17.Location = new System.Drawing.Point(764, 28);
             this.fader17.Maximum = 60;
@@ -1284,8 +1362,8 @@ namespace MPfm
             this.fader16.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader16.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader16.FaderWidth = 12;
-            this.fader16.GradientColor1 = System.Drawing.Color.Black;
-            this.fader16.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader16.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader16.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader16.Location = new System.Drawing.Point(720, 28);
             this.fader16.Maximum = 60;
@@ -1309,8 +1387,8 @@ namespace MPfm
             this.fader15.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader15.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader15.FaderWidth = 12;
-            this.fader15.GradientColor1 = System.Drawing.Color.Black;
-            this.fader15.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader15.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader15.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader15.Location = new System.Drawing.Point(676, 28);
             this.fader15.Maximum = 60;
@@ -1334,8 +1412,8 @@ namespace MPfm
             this.fader14.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader14.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader14.FaderWidth = 12;
-            this.fader14.GradientColor1 = System.Drawing.Color.Black;
-            this.fader14.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader14.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader14.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader14.Location = new System.Drawing.Point(632, 28);
             this.fader14.Maximum = 60;
@@ -1359,8 +1437,8 @@ namespace MPfm
             this.fader13.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader13.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader13.FaderWidth = 12;
-            this.fader13.GradientColor1 = System.Drawing.Color.Black;
-            this.fader13.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader13.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader13.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader13.Location = new System.Drawing.Point(588, 28);
             this.fader13.Maximum = 60;
@@ -1384,8 +1462,8 @@ namespace MPfm
             this.fader12.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader12.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader12.FaderWidth = 12;
-            this.fader12.GradientColor1 = System.Drawing.Color.Black;
-            this.fader12.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader12.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader12.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader12.Location = new System.Drawing.Point(544, 28);
             this.fader12.Maximum = 60;
@@ -1409,8 +1487,8 @@ namespace MPfm
             this.fader11.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader11.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader11.FaderWidth = 12;
-            this.fader11.GradientColor1 = System.Drawing.Color.Black;
-            this.fader11.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader11.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader11.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader11.Location = new System.Drawing.Point(500, 28);
             this.fader11.Maximum = 60;
@@ -1434,8 +1512,8 @@ namespace MPfm
             this.fader10.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader10.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader10.FaderWidth = 12;
-            this.fader10.GradientColor1 = System.Drawing.Color.Black;
-            this.fader10.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader10.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader10.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader10.Location = new System.Drawing.Point(456, 28);
             this.fader10.Maximum = 60;
@@ -1459,8 +1537,8 @@ namespace MPfm
             this.fader9.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader9.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader9.FaderWidth = 12;
-            this.fader9.GradientColor1 = System.Drawing.Color.Black;
-            this.fader9.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader9.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader9.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader9.Location = new System.Drawing.Point(412, 28);
             this.fader9.Maximum = 60;
@@ -1484,8 +1562,8 @@ namespace MPfm
             this.fader8.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader8.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader8.FaderWidth = 12;
-            this.fader8.GradientColor1 = System.Drawing.Color.Black;
-            this.fader8.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader8.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader8.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader8.Location = new System.Drawing.Point(368, 28);
             this.fader8.Maximum = 60;
@@ -1509,8 +1587,8 @@ namespace MPfm
             this.fader7.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader7.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader7.FaderWidth = 12;
-            this.fader7.GradientColor1 = System.Drawing.Color.Black;
-            this.fader7.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader7.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader7.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader7.Location = new System.Drawing.Point(324, 28);
             this.fader7.Maximum = 60;
@@ -1534,8 +1612,8 @@ namespace MPfm
             this.fader6.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader6.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader6.FaderWidth = 12;
-            this.fader6.GradientColor1 = System.Drawing.Color.Black;
-            this.fader6.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader6.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader6.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader6.Location = new System.Drawing.Point(280, 28);
             this.fader6.Maximum = 60;
@@ -1559,8 +1637,8 @@ namespace MPfm
             this.fader5.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader5.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader5.FaderWidth = 12;
-            this.fader5.GradientColor1 = System.Drawing.Color.Black;
-            this.fader5.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader5.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader5.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader5.Location = new System.Drawing.Point(236, 28);
             this.fader5.Maximum = 60;
@@ -1584,8 +1662,8 @@ namespace MPfm
             this.fader4.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader4.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader4.FaderWidth = 12;
-            this.fader4.GradientColor1 = System.Drawing.Color.Black;
-            this.fader4.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader4.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader4.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader4.Location = new System.Drawing.Point(192, 28);
             this.fader4.Maximum = 60;
@@ -1609,8 +1687,8 @@ namespace MPfm
             this.fader3.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader3.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader3.FaderWidth = 12;
-            this.fader3.GradientColor1 = System.Drawing.Color.Black;
-            this.fader3.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader3.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader3.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader3.Location = new System.Drawing.Point(148, 28);
             this.fader3.Maximum = 60;
@@ -1634,8 +1712,8 @@ namespace MPfm
             this.fader2.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader2.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader2.FaderWidth = 12;
-            this.fader2.GradientColor1 = System.Drawing.Color.Black;
-            this.fader2.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader2.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader2.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader2.Location = new System.Drawing.Point(104, 28);
             this.fader2.Maximum = 60;
@@ -1659,8 +1737,8 @@ namespace MPfm
             this.fader1.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader1.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader1.FaderWidth = 12;
-            this.fader1.GradientColor1 = System.Drawing.Color.Black;
-            this.fader1.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader1.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader1.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader1.Location = new System.Drawing.Point(60, 28);
             this.fader1.Maximum = 60;
@@ -1684,8 +1762,8 @@ namespace MPfm
             this.fader0.FaderShadowGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(188)))), ((int)(((byte)(188)))));
             this.fader0.FaderShadowGradientColor2 = System.Drawing.Color.Gainsboro;
             this.fader0.FaderWidth = 12;
-            this.fader0.GradientColor1 = System.Drawing.Color.Black;
-            this.fader0.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.fader0.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.fader0.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.fader0.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.fader0.Location = new System.Drawing.Point(16, 28);
             this.fader0.Maximum = 60;
@@ -1702,6 +1780,8 @@ namespace MPfm
             this.panelPreset.Controls.Add(this.comboEQPreset);
             this.panelPreset.Controls.Add(this.lblEQOn);
             this.panelPreset.Controls.Add(this.chkEQOn);
+            customFont41.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont41.ColorInt = -16777216;
             customFont41.EmbeddedFontName = "TitilliumText22L Lt";
             customFont41.IsBold = false;
             customFont41.IsItalic = false;
@@ -1713,9 +1793,7 @@ namespace MPfm
             this.panelPreset.CustomFont = customFont41;
             this.panelPreset.ExpandedHeight = 56;
             this.panelPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelPreset.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelPreset.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelPreset.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelPreset.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelPreset.Gradient")));
             this.panelPreset.HeaderExpandable = false;
             this.panelPreset.HeaderExpanded = true;
             this.panelPreset.HeaderForeColor = System.Drawing.Color.White;
@@ -1748,6 +1826,8 @@ namespace MPfm
             this.lblEQOn.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblEQOn.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblEQOn.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont40.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont40.ColorInt = -16777216;
             customFont40.EmbeddedFontName = "Junction";
             customFont40.IsBold = false;
             customFont40.IsItalic = false;
@@ -1758,7 +1838,7 @@ namespace MPfm
             customFont40.UseEmbeddedFont = true;
             this.lblEQOn.CustomFont = customFont40;
             this.lblEQOn.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQOn.ForeColor = System.Drawing.Color.White;
+            this.lblEQOn.ForeColor = System.Drawing.Color.Black;
             this.lblEQOn.Location = new System.Drawing.Point(18, 47);
             this.lblEQOn.Name = "lblEQOn";
             this.lblEQOn.Size = new System.Drawing.Size(73, 16);
@@ -1794,6 +1874,8 @@ namespace MPfm
             this.panelInformation.Controls.Add(this.btnSaveEQPreset);
             this.panelInformation.Controls.Add(this.btnDeleteEQPreset);
             this.panelInformation.Controls.Add(this.lblEQName);
+            customFont50.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont50.ColorInt = -16777216;
             customFont50.EmbeddedFontName = "TitilliumText22L Lt";
             customFont50.IsBold = false;
             customFont50.IsItalic = false;
@@ -1805,9 +1887,7 @@ namespace MPfm
             this.panelInformation.CustomFont = customFont50;
             this.panelInformation.ExpandedHeight = 56;
             this.panelInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelInformation.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.panelInformation.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.panelInformation.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.panelInformation.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelInformation.Gradient")));
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderForeColor = System.Drawing.Color.White;
@@ -1852,6 +1932,8 @@ namespace MPfm
             this.lblEQBandwidth.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblEQBandwidth.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblEQBandwidth.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont42.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont42.ColorInt = -16777216;
             customFont42.EmbeddedFontName = "Junction";
             customFont42.IsBold = false;
             customFont42.IsItalic = false;
@@ -1862,7 +1944,7 @@ namespace MPfm
             customFont42.UseEmbeddedFont = true;
             this.lblEQBandwidth.CustomFont = customFont42;
             this.lblEQBandwidth.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQBandwidth.ForeColor = System.Drawing.Color.White;
+            this.lblEQBandwidth.ForeColor = System.Drawing.Color.Black;
             this.lblEQBandwidth.Location = new System.Drawing.Point(4, 103);
             this.lblEQBandwidth.Name = "lblEQBandwidth";
             this.lblEQBandwidth.Size = new System.Drawing.Size(112, 14);
@@ -1880,6 +1962,8 @@ namespace MPfm
             this.lblEQQ.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblEQQ.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblEQQ.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont43.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont43.ColorInt = -16777216;
             customFont43.EmbeddedFontName = "Junction";
             customFont43.IsBold = false;
             customFont43.IsItalic = false;
@@ -1890,7 +1974,7 @@ namespace MPfm
             customFont43.UseEmbeddedFont = true;
             this.lblEQQ.CustomFont = customFont43;
             this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQQ.ForeColor = System.Drawing.Color.White;
+            this.lblEQQ.ForeColor = System.Drawing.Color.Black;
             this.lblEQQ.Location = new System.Drawing.Point(4, 62);
             this.lblEQQ.Name = "lblEQQ";
             this.lblEQQ.Size = new System.Drawing.Size(112, 14);
@@ -1905,6 +1989,8 @@ namespace MPfm
             this.btnAutoLevel.BorderColor = System.Drawing.Color.Gray;
             this.btnAutoLevel.BorderWidth = 1;
             this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont44.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont44.ColorInt = -16777216;
             customFont44.EmbeddedFontName = "Junction";
             customFont44.IsBold = false;
             customFont44.IsItalic = false;
@@ -1926,7 +2012,7 @@ namespace MPfm
             this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
             this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnAutoLevel.Location = new System.Drawing.Point(7, 239);
-            this.btnAutoLevel.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnAutoLevel.MouseOverBorderColor = System.Drawing.Color.Gray;
             this.btnAutoLevel.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnAutoLevel.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnAutoLevel.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1944,6 +2030,8 @@ namespace MPfm
             this.btnResetEQ.BorderColor = System.Drawing.Color.Gray;
             this.btnResetEQ.BorderWidth = 1;
             this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont45.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont45.ColorInt = -16777216;
             customFont45.EmbeddedFontName = "Junction";
             customFont45.IsBold = false;
             customFont45.IsItalic = false;
@@ -1965,7 +2053,7 @@ namespace MPfm
             this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnResetEQ.Location = new System.Drawing.Point(7, 283);
-            this.btnResetEQ.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnResetEQ.MouseOverBorderColor = System.Drawing.Color.Gray;
             this.btnResetEQ.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnResetEQ.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnResetEQ.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -1986,6 +2074,8 @@ namespace MPfm
             this.lblEQChanged.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblEQChanged.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblEQChanged.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont46.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont46.ColorInt = -16777216;
             customFont46.EmbeddedFontName = "";
             customFont46.IsBold = false;
             customFont46.IsItalic = false;
@@ -2018,6 +2108,8 @@ namespace MPfm
             this.btnSaveEQPreset.BorderColor = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.BorderWidth = 1;
             this.btnSaveEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont47.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont47.ColorInt = -16777216;
             customFont47.EmbeddedFontName = "Junction";
             customFont47.IsBold = false;
             customFont47.IsItalic = false;
@@ -2039,7 +2131,7 @@ namespace MPfm
             this.btnSaveEQPreset.Image = global::MPfm.Properties.Resources.tick;
             this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSaveEQPreset.Location = new System.Drawing.Point(7, 149);
-            this.btnSaveEQPreset.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnSaveEQPreset.MouseOverBorderColor = System.Drawing.Color.Gray;
             this.btnSaveEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnSaveEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnSaveEQPreset.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2057,6 +2149,8 @@ namespace MPfm
             this.btnDeleteEQPreset.BorderColor = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.BorderWidth = 1;
             this.btnDeleteEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont48.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont48.ColorInt = -16777216;
             customFont48.EmbeddedFontName = "Junction";
             customFont48.IsBold = false;
             customFont48.IsItalic = false;
@@ -2078,7 +2172,7 @@ namespace MPfm
             this.btnDeleteEQPreset.Image = global::MPfm.Properties.Resources.delete;
             this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDeleteEQPreset.Location = new System.Drawing.Point(7, 194);
-            this.btnDeleteEQPreset.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnDeleteEQPreset.MouseOverBorderColor = System.Drawing.Color.Gray;
             this.btnDeleteEQPreset.MouseOverFontColor = System.Drawing.Color.Black;
             this.btnDeleteEQPreset.MouseOverGradientColor1 = System.Drawing.Color.White;
             this.btnDeleteEQPreset.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
@@ -2099,6 +2193,8 @@ namespace MPfm
             this.lblEQName.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblEQName.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblEQName.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            customFont49.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont49.ColorInt = -16777216;
             customFont49.EmbeddedFontName = "Junction";
             customFont49.IsBold = false;
             customFont49.IsItalic = false;
@@ -2109,7 +2205,7 @@ namespace MPfm
             customFont49.UseEmbeddedFont = true;
             this.lblEQName.CustomFont = customFont49;
             this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQName.ForeColor = System.Drawing.Color.White;
+            this.lblEQName.ForeColor = System.Drawing.Color.Black;
             this.lblEQName.Location = new System.Drawing.Point(4, 21);
             this.lblEQName.Name = "lblEQName";
             this.lblEQName.Size = new System.Drawing.Size(112, 14);
