@@ -39,8 +39,7 @@ namespace MPfm.WindowsControls
     /// <summary>
     /// The TextGradient class adds font properties to the Gradient class.
     /// </summary>
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]    
     public class TextGradient 
         : Gradient
     {

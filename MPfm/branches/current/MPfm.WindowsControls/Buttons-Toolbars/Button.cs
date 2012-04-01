@@ -44,6 +44,9 @@ namespace MPfm.WindowsControls
         /// </summary>
         private EmbeddedFontCollection embeddedFonts = null;
 
+        /// <summary>
+        /// Private value for the IsMouseOver property.
+        /// </summary>
         private bool isMouseOver = false;
         /// <summary>
         /// Indicates if the mouse cursor is over the control.
@@ -56,228 +59,68 @@ namespace MPfm.WindowsControls
             }
         }
 
-        #region Border Properties
-
-        private Color borderColor = Color.Black;
         /// <summary>
-        /// Color of the border.
+        /// Private value for the TextGradientDefault property.
+        /// </summary>
+        private TextGradient textGradientDefault = new TextGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, new CustomFont("Junction", 8.0f, Color.Black));
+        /// <summary>
+        /// Defines the text gradient (for the default state).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("Color of the border.")]
-        public Color BorderColor
+        [Category("Theme"), Browsable(true), Description("Defines the text gradient (for the default state).")]
+        public TextGradient TextGradientDefault
         {
             get
             {
-                return borderColor;
+                return textGradientDefault;
             }
             set
             {
-                borderColor = value;
-            }
-        }
-
-        private Color disabledBorderColor = Color.Gray;
-        /// <summary>
-        /// Color of the border (when the control is disabled).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("Color of the border when the control is disabled.")]
-        public Color DisabledBorderColor
-        {
-            get
-            {
-                return disabledBorderColor;
-            }
-            set
-            {
-                disabledBorderColor = value;
-            }
-        }
-
-        private Color mouseOverBorderColor = Color.Black;
-        /// <summary>
-        /// Color of the border (when the mouse is over the control).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("Color of the border when the mouse is over the control.")]
-        public Color MouseOverBorderColor
-        {
-            get
-            {
-                return mouseOverBorderColor;
-            }
-            set
-            {
-                mouseOverBorderColor = value;
-            }
-        }
-
-        private int borderWidth = 1;
-        /// <summary>
-        /// Width of the border.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Border"), Browsable(true), Description("Width of the border.")]
-        public int BorderWidth
-        {
-            get
-            {
-                return borderWidth;
-            }
-            set
-            {
-                borderWidth = value;
-            }
-        }
-
-        #endregion
-
-        #region Background Properties
-
-        /// <summary>
-        /// Private value for the Gradient property.
-        /// </summary>
-        private Gradient gradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical);
-        /// <summary>
-        /// Defines the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
-        public Gradient Gradient
-        {
-            get
-            {
-                return gradient;
-            }
-            set
-            {
-                gradient = value;
+                textGradientDefault = value;
             }
         }
 
         /// <summary>
-        /// Private value for the Gradient property.
+        /// Private value for the TextGradientMouseOver property.
         /// </summary>
-        private Gradient mouseOverGradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical);
+        private TextGradient textGradientMouseOver = new TextGradient(Color.White, Color.LightGray, LinearGradientMode.Vertical, Color.FromArgb(70, 70, 70), new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
-        /// Defines the background gradient.
+        /// Defines the text gradient (when the mouse cursor is over).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
-        public Gradient MouseOverGradient
+        [Category("Theme"), Browsable(true), Description("Defines the text gradient (when the mouse cursor is over).")]
+        public TextGradient TextGradientMouseOver
         {
             get
             {
-                return mouseOverGradient;
+                return textGradientMouseOver;
             }
             set
             {
-                mouseOverGradient = value;
+                textGradientMouseOver = value;
             }
         }
 
         /// <summary>
-        /// Private value for the Gradient property.
+        /// Private value for the TextGradientDisabled property.
         /// </summary>
-        private Gradient disabledGradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical);
+        private TextGradient textGradientDisabled = new TextGradient(Color.FromArgb(100, 100, 100), Color.FromArgb(50, 50, 50), LinearGradientMode.Vertical, Color.DarkGray, new CustomFont("Junction", 8.0f, Color.LightGray));
         /// <summary>
-        /// Defines the background gradient.
+        /// Defines the text gradient (when the control is disabled).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
-        public Gradient DisabledGradient
+        [Category("Theme"), Browsable(true), Description("Defines the text gradient (when the control is disabled).")]
+        public TextGradient TextGradientDisabled
         {
             get
             {
-                return disabledGradient;
+                return textGradientDisabled;
             }
             set
             {
-                disabledGradient = value;
+                textGradientDisabled = value;
             }
         }
-
-        #endregion
-
-        #region Fonts Properties
-
-        private Color fontColor = Color.Black;
-        /// <summary>
-        /// Fore color used when drawing the embedded font.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Fonts"), Browsable(true), Description("Fore color used when drawing the embedded font.")]
-        public Color FontColor
-        {
-            get
-            {
-                return fontColor;
-            }
-            set
-            {
-                fontColor = value;
-            }               
-        }
-
-        private Color disabledFontColor = Color.Gray;
-        /// <summary>
-        /// Fore color used when drawing the embedded font (when control is disabled).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Fonts"), Browsable(true), Description("Fore color used when drawing the embedded font (when control is disabled).")]
-        public Color DisabledFontColor
-        {
-            get
-            {
-                return disabledFontColor;
-            }
-            set
-            {
-                disabledFontColor = value;
-            }
-        }
-
-        private Color mouseOverFontColor = Color.Black;
-        /// <summary>
-        /// Fore color used when drawing the embedded font (when mouse cursor is over the control).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Fonts"), Browsable(true), Description("Fore color used when drawing the embedded font (when mouse cursor is over the control).")]
-        public Color MouseOverFontColor
-        {
-            get
-            {
-                return mouseOverFontColor;
-            }
-            set
-            {
-                mouseOverFontColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the CustomFont property.
-        /// </summary>
-        private CustomFont customFont = null;
-        /// <summary>
-        /// Defines the font to be used for rendering the control.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
-        {
-            get
-            {
-                return customFont;
-            }
-            set
-            {
-                customFont = value;
-                Refresh();
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Default constructor for the Button class.
@@ -287,9 +130,6 @@ namespace MPfm.WindowsControls
             // Set styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
-
-            // Set default font
-            this.customFont = new CustomFont();
         }
 
         /// <summary>
@@ -346,8 +186,19 @@ namespace MPfm.WindowsControls
             Bitmap bmp = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
             Graphics g = Graphics.FromImage(bmp);
 
+            // Check state and select gradient
+            TextGradient gradient = this.TextGradientDefault;
+            if (!Enabled)
+            {
+                gradient = this.TextGradientDisabled;
+            }
+            else if (isMouseOver)
+            {
+                gradient = this.TextGradientMouseOver;
+            }
+
             // Use anti-aliasing?
-            if (CustomFont.UseAntiAliasing)
+            if (gradient.Font.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -360,12 +211,12 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            if (gradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(gradient.Font.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, gradient.Font.EmbeddedFontName, gradient.Font.Size, gradient.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -380,7 +231,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = new Font(gradient.Font.StandardFontName, gradient.Font.Size, gradient.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -391,61 +242,25 @@ namespace MPfm.WindowsControls
 
             // Draw background gradient
             LinearGradientBrush brushBackground = null;
-            if (!Enabled)
-            {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, disabledGradient.Color1, disabledGradient.Color2, disabledGradient.GradientMode);
-            }
-            else if (isMouseOver)
-            {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, mouseOverGradient.Color1, mouseOverGradient.Color2, mouseOverGradient.GradientMode);
-            }
-            else
-            {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, gradient.Color1, gradient.Color2, gradient.GradientMode);
-            }
+            brushBackground = new LinearGradientBrush(e.ClipRectangle, gradient.Color1, gradient.Color2, gradient.GradientMode);
             g.FillRectangle(brushBackground, ClientRectangle);
             brushBackground.Dispose();
             brushBackground = null;
 
             // Draw border
-            if(borderWidth > 0)
+            if (gradient.BorderWidth > 0)
             {
-                Pen penBorder = null;
-                if (!Enabled)
-                {
-                    penBorder = new Pen(disabledBorderColor);
-                }
-                else if (isMouseOver)
-                {
-                    penBorder = new Pen(mouseOverBorderColor);
-                }
-                else
-                {
-                    penBorder = new Pen(borderColor);
-                }
-                
+                Pen penBorder = new Pen(gradient.BorderColor);
                 g.DrawRectangle(penBorder, 0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
                 penBorder.Dispose();
                 penBorder = null;
-            }
-
-            // Draw text
-            SolidBrush brushFont = null;
-            if (!Enabled)
-            {
-                brushFont = new SolidBrush(disabledFontColor);
-            }
-            else if (isMouseOver)
-            {
-                brushFont = new SolidBrush(mouseOverFontColor);
-            }
-            else
-            {
-                brushFont = new SolidBrush(fontColor);
-            }
+            }            
 
             // Measure string and place it depending on alignment
             SizeF sizeString = g.MeasureString(this.Text, font);
+
+            // Draw text
+            SolidBrush brushFont = new SolidBrush(gradient.Font.Color);
             if (TextAlign == ContentAlignment.BottomLeft)
             {
                 g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
@@ -510,7 +325,7 @@ namespace MPfm.WindowsControls
                     // to center middle y: (height / 2) - (image height /2)
 
                     Point pt = new Point(4, (e.ClipRectangle.Height / 2) - (Image.Height / 2));
-                    g.DrawImage(Image, pt);  
+                    g.DrawImage(Image, pt);
                 }
                 else if (ImageAlign == ContentAlignment.MiddleCenter)
                 {
@@ -522,12 +337,12 @@ namespace MPfm.WindowsControls
                 }
                 else if (ImageAlign == ContentAlignment.TopLeft)
                 {
-                    g.DrawImage(Image, new Point(4, 4));                    
+                    g.DrawImage(Image, new Point(4, 4));
                 }
                 else if (ImageAlign == ContentAlignment.TopCenter)
-                {                    
+                {
                     Point pt = new Point((e.ClipRectangle.Width - Image.Width) / 2, 5);
-                    g.DrawImage(Image, pt);                    
+                    g.DrawImage(Image, pt);
                 }
                 else if (ImageAlign == ContentAlignment.TopRight)
                 {
