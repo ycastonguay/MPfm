@@ -411,14 +411,14 @@ namespace MPfm
             panelSongBrowserToolbar.Gradient.Color1 = theme.MainWindow.ToolbarBackgroundColor1;
             panelSongBrowserToolbar.Gradient.Color2 = theme.MainWindow.ToolbarBackgroundColor2;
 
-            btnPlaySelectedSong.GradientColor1 = theme.MainWindow.ToolbarButtonBackgroundColor1;
-            btnPlaySelectedSong.GradientColor2 = theme.MainWindow.ToolbarButtonBackgroundColor2;
+            btnPlaySelectedSong.Gradient.Color1 = theme.MainWindow.ToolbarButtonBackgroundColor1;
+            btnPlaySelectedSong.Gradient.Color2 = theme.MainWindow.ToolbarButtonBackgroundColor2;
             btnPlaySelectedSong.BorderColor = theme.MainWindow.ToolbarButtonBorderColor;
-            btnPlaySelectedSong.MouseOverGradientColor1 = theme.MainWindow.ToolbarButtonMouseOverBackgroundColor1;
-            btnPlaySelectedSong.MouseOverGradientColor2 = theme.MainWindow.ToolbarButtonMouseOverBackgroundColor2;
+            btnPlaySelectedSong.MouseOverGradient.Color1 = theme.MainWindow.ToolbarButtonMouseOverBackgroundColor1;
+            btnPlaySelectedSong.MouseOverGradient.Color2 = theme.MainWindow.ToolbarButtonMouseOverBackgroundColor2;
             btnPlaySelectedSong.MouseOverBorderColor = theme.MainWindow.ToolbarButtonMouseOverBorderColor;
-            btnPlaySelectedSong.DisabledGradientColor1 = theme.MainWindow.ToolbarButtonDisabledBackgroundColor1;
-            btnPlaySelectedSong.DisabledGradientColor2 = theme.MainWindow.ToolbarButtonDisabledBackgroundColor2;
+            btnPlaySelectedSong.DisabledGradient.Color1 = theme.MainWindow.ToolbarButtonDisabledBackgroundColor1;
+            btnPlaySelectedSong.DisabledGradient.Color2 = theme.MainWindow.ToolbarButtonDisabledBackgroundColor2;
             btnPlaySelectedSong.DisabledBorderColor = theme.MainWindow.ToolbarButtonDisabledBorderColor;            
             btnPlaySelectedSong.CustomFont = theme.MainWindow.ToolbarButtonTextFont;
             btnPlaySelectedSong.DisabledFontColor = theme.MainWindow.ToolbarButtonDisabledTextColor;

@@ -134,128 +134,66 @@ namespace MPfm.WindowsControls
 
         #region Background Properties
 
-        private Color gradientColor1 = Color.LightGray;
         /// <summary>
-        /// First color of the background gradient.
+        /// Private value for the Gradient property.
+        /// </summary>
+        private Gradient gradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical);
+        /// <summary>
+        /// Defines the background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
-        public Color GradientColor1
+        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
+        public Gradient Gradient
         {
             get
             {
-                return gradientColor1;
+                return gradient;
             }
             set
             {
-                gradientColor1 = value;
+                gradient = value;
             }
         }
 
-        private Color gradientColor2 = Color.Gray;
         /// <summary>
-        /// Second color of the background gradient.
+        /// Private value for the Gradient property.
+        /// </summary>
+        private Gradient mouseOverGradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical);
+        /// <summary>
+        /// Defines the background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color GradientColor2
+        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
+        public Gradient MouseOverGradient
         {
             get
             {
-                return gradientColor2;
+                return mouseOverGradient;
             }
             set
             {
-                gradientColor2 = value;
+                mouseOverGradient = value;
             }
         }
 
-        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
         /// <summary>
-        /// Background gradient mode.
+        /// Private value for the Gradient property.
         /// </summary>
-        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
-        public LinearGradientMode GradientMode
-        {
-            get
-            {
-                return gradientMode;
-            }
-            set
-            {
-                gradientMode = value;
-            }
-        }
-
-        private Color disabledGradientColor1 = Color.LightGray;
+        private Gradient disabledGradient = new Gradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical);
         /// <summary>
-        /// First color of the background gradient (when control is disabled).
+        /// Defines the background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient (when control is disabled).")]
-        public Color DisabledGradientColor1
+        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
+        public Gradient DisabledGradient
         {
             get
             {
-                return disabledGradientColor1;
+                return disabledGradient;
             }
             set
             {
-                disabledGradientColor1 = value;
-            }
-        }
-
-        private Color disabledGradientColor2 = Color.Gray;
-        /// <summary>
-        /// Second color of the background gradient (when control is disabled).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient (when control is disabled).")]
-        public Color DisabledGradientColor2
-        {
-            get
-            {
-                return disabledGradientColor2;
-            }
-            set
-            {
-                disabledGradientColor2 = value;
-            }
-        }
-
-        private Color mouseOverGradientColor1 = Color.LightGray;
-        /// <summary>
-        /// First color of the background gradient (when mouse cursor is over the control).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient (when mouse cursor is over the control).")]
-        public Color MouseOverGradientColor1
-        {
-            get
-            {
-                return mouseOverGradientColor1;
-            }
-            set
-            {
-                mouseOverGradientColor1 = value;
-            }
-        }
-
-        private Color mouseOverGradientColor2 = Color.Gray;
-        /// <summary>
-        /// Second color of the background gradient (when mouse cursor is over the control).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient (when mouse cursor is over the control).")]
-        public Color MouseOverGradientColor2
-        {
-            get
-            {
-                return mouseOverGradientColor2;
-            }
-            set
-            {
-                mouseOverGradientColor2 = value;
+                disabledGradient = value;
             }
         }
 
@@ -455,15 +393,15 @@ namespace MPfm.WindowsControls
             LinearGradientBrush brushBackground = null;
             if (!Enabled)
             {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, disabledGradientColor1, disabledGradientColor2, gradientMode);
+                brushBackground = new LinearGradientBrush(e.ClipRectangle, disabledGradient.Color1, disabledGradient.Color2, disabledGradient.GradientMode);
             }
             else if (isMouseOver)
             {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, mouseOverGradientColor1, mouseOverGradientColor2, gradientMode);
+                brushBackground = new LinearGradientBrush(e.ClipRectangle, mouseOverGradient.Color1, mouseOverGradient.Color2, mouseOverGradient.GradientMode);
             }
             else
             {
-                brushBackground = new LinearGradientBrush(e.ClipRectangle, gradientColor1, gradientColor2, gradientMode);
+                brushBackground = new LinearGradientBrush(e.ClipRectangle, gradient.Color1, gradient.Color2, gradient.GradientMode);
             }
             g.FillRectangle(brushBackground, ClientRectangle);
             brushBackground.Dispose();

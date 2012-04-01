@@ -283,7 +283,7 @@ namespace MPfm.WindowsControls
             
             // Draw background gradient (cover -1 pixel for some refresh bug)
             Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.GradientColor1, theme.GradientColor2, theme.GradientMode);
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.Gradient.Color1, theme.Gradient.Color2, theme.Gradient.GradientMode);
             g.FillRectangle(brushBackground, rectBody);
             brushBackground.Dispose();
             brushBackground = null;

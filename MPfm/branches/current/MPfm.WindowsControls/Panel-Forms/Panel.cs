@@ -207,50 +207,6 @@ namespace MPfm.WindowsControls
             }
         }
 
-        ///// <summary>
-        ///// Private value for the HeaderGradientColor1 property.
-        ///// </summary>
-        //private Color headerGradientColor1 = Color.LightGray;
-        ///// <summary>
-        ///// First color of the background gradient in the header.
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[DefaultValue("")]
-        //[Category("Header"), Browsable(true), Description("First color of the background gradient in the header.")]
-        //public Color HeaderGradientColor1
-        //{
-        //    get
-        //    {
-        //        return headerGradientColor1;
-        //    }
-        //    set
-        //    {
-        //        headerGradientColor1 = value;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Private value for the HeaderGradientColor2 property.
-        ///// </summary>
-        //private Color headerGradientColor2 = Color.Gray;
-        ///// <summary>
-        ///// Second color of the background gradient in the header.
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[DefaultValue("")]
-        //[Category("Header"), Browsable(true), Description("Second color of the background gradient in the header.")]
-        //public Color HeaderGradientColor2
-        //{
-        //    get
-        //    {
-        //        return headerGradientColor2;
-        //    }
-        //    set
-        //    {
-        //        headerGradientColor2 = value;
-        //    }
-        //}
-
         /// <summary>
         /// Private value for the HeaderExpandable property.
         /// </summary>
