@@ -167,6 +167,7 @@
     <Compile Include="Audio\WaveForm.Designer.cs">
       <DependentUpon>WaveForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\Gradient.cs" />
     <Compile Include="Themes\MainWindowTheme.cs" />
     <Compile Include="Themes\SecondaryWindowTheme.cs" />
     <Compile Include="Themes\Theme.cs" />

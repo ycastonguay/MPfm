@@ -32,6 +32,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace MPfm.WindowsControls
 {
@@ -40,78 +41,35 @@ namespace MPfm.WindowsControls
     /// </summary>
     public class MainWindowTheme
     {
-
         #region Panel
 
         #region Panel Header
-        
-        /// <summary>
-        /// Private value for the PanelHeaderBackgroundColor1 property.
-        /// </summary>
-        private Color panelHeaderBackgroundColor1 = Color.FromArgb(100, 100, 100);
-        /// <summary>
-        /// Defines the main panel header background gradient (first color).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header background gradient (first color).")]
-        public Color PanelHeaderBackgroundColor1
-        {
-            get
-            {
-                return panelHeaderBackgroundColor1;
-            }
-            set
-            {
-                panelHeaderBackgroundColor1 = value;
-            }
-        }
 
         /// <summary>
-        /// Private value for the PanelHeaderBackgroundColor2 property.
+        /// Private value for the PanelHeaderBackground property.
         /// </summary>
-        private Color panelHeaderBackgroundColor2 = Color.FromArgb(60, 60, 60);
+        private Gradient panelHeaderBackground = new Gradient(Color.FromArgb(100, 100, 100), Color.FromArgb(60, 60, 60), LinearGradientMode.Vertical);
         /// <summary>
-        /// Defines the main panel header background gradient (second color).
+        /// Defines the main panel header background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header background gradient (second color).")]
-        public Color PanelHeaderBackgroundColor2
+        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header background gradient.")]
+        public Gradient PanelHeaderBackground
         {
             get
             {
-                return panelHeaderBackgroundColor2;
+                return panelHeaderBackground;
             }
             set
             {
-                panelHeaderBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelHeaderTextColor property.
-        /// </summary>
-        private Color panelHeaderTextColor = Color.FromArgb(255, 255, 255);
-        /// <summary>
-        /// Defines the main panel header text fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel - Header"), Browsable(true), Description("Main panel header text fore color.")]
-        public Color PanelHeaderTextColor
-        {
-            get
-            {
-                return panelHeaderTextColor;
-            }
-            set
-            {
-                panelHeaderTextColor = value;
+                panelHeaderBackground = value;
             }
         }
 
         /// <summary>
         /// Private value for the PanelHeaderTextFont property.
         /// </summary>
-        private CustomFont panelHeaderTextFont = new CustomFont("TitilliumText22L Lt", 10);
+        private CustomFont panelHeaderTextFont = new CustomFont("TitilliumText22L Lt", 10, Color.White);
         /// <summary>
         /// Defines the main panel header text font.
         /// </summary>
@@ -132,72 +90,30 @@ namespace MPfm.WindowsControls
         #endregion
 
         /// <summary>
-        /// Private value for the PanelBackgroundColor1 property.
+        /// Private value for the PanelBackground property.
         /// </summary>
-        private Color panelBackgroundColor1 = Color.FromArgb(20, 20, 20);
+        private Gradient panelBackground = new Gradient(Color.FromArgb(20, 20, 20), Color.FromArgb(40, 40, 40), LinearGradientMode.Vertical);
         /// <summary>
-        /// Defines the main panel background gradient (first color).
+        /// Defines the main panel header background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel background gradient (first color).")]
-        public Color PanelBackgroundColor1
+        [Category("Main Panel"), Browsable(true), Description("Main panel background gradient.")]
+        public Gradient PanelBackground
         {
             get
             {
-                return panelBackgroundColor1;
+                return panelBackground;
             }
             set
             {
-                panelBackgroundColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelBackgroundColor2 property.
-        /// </summary>
-        private Color panelBackgroundColor2 = Color.FromArgb(40, 40, 40);
-        /// <summary>
-        /// Defines the main panel background gradient (second color).
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel background gradient (second color).")]
-        public Color PanelBackgroundColor2
-        {
-            get
-            {
-                return panelBackgroundColor2;
-            }
-            set
-            {
-                panelBackgroundColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the PanelTitleColor property.
-        /// </summary>
-        private Color panelTitleColor = Color.White;
-        /// <summary>
-        /// Defines the main panel title fore color.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Main Panel"), Browsable(true), Description("Main panel title fore color.")]
-        public Color PanelTitleColor
-        {
-            get
-            {
-                return panelTitleColor;
-            }
-            set
-            {
-                panelTitleColor = value;
+                panelBackground = value;
             }
         }
 
         /// <summary>
         /// Private value for the PanelTitleFont property.
         /// </summary>
-        private CustomFont panelTitleFont = new CustomFont("TitilliumText22L Lt", 18);
+        private CustomFont panelTitleFont = new CustomFont("TitilliumText22L Lt", 18, Color.White);
         /// <summary>
         /// Defines the main panel title font.
         /// </summary>
@@ -239,7 +155,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitleFont property.
         /// </summary>
-        private CustomFont panelSubtitleFont = new CustomFont("TitilliumText22L Lt", 14);
+        private CustomFont panelSubtitleFont = new CustomFont("TitilliumText22L Lt", 14, Color.Silver);
         /// <summary>
         /// Defines the main panel subtitle font.
         /// </summary>
@@ -281,7 +197,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSubtitle2Font property.
         /// </summary>
-        private CustomFont panelSubtitle2Font = new CustomFont("TitilliumText22L Lt", 12);
+        private CustomFont panelSubtitle2Font = new CustomFont("TitilliumText22L Lt", 12, Color.Gray);
         /// <summary>
         /// Defines the main panel subtitle 2 font.
         /// </summary>
@@ -365,7 +281,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelTimeDisplayFont property.
         /// </summary>
-        private CustomFont panelTimeDisplayFont = new CustomFont("Droid Sans Mono", 10);
+        private CustomFont panelTimeDisplayFont = new CustomFont("Droid Sans Mono", 10, Color.White);
         /// <summary>
         /// Defines the main panel time display font.
         /// </summary>
@@ -407,7 +323,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the PanelSmallTimeDisplayFont property.
         /// </summary>
-        private CustomFont panelSmallTimeDisplayFont = new CustomFont("Droid Sans Mono", 7);
+        private CustomFont panelSmallTimeDisplayFont = new CustomFont("Droid Sans Mono", 7, Color.White);
         /// <summary>
         /// Defines the main panel small time display font.
         /// </summary>
@@ -497,7 +413,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelHeaderTextFont property.
         /// </summary>
-        private CustomFont secondaryPanelHeaderTextFont = new CustomFont("Junction", 8.25f);
+        private CustomFont secondaryPanelHeaderTextFont = new CustomFont("Junction", 8.25f, Color.White);
         /// <summary>
         /// Defines the secondary panel header text font.
         /// </summary>
@@ -583,7 +499,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelLabelFont property.
         /// </summary>
-        private CustomFont secondaryPanelLabelFont = new CustomFont("Junction", 7);
+        private CustomFont secondaryPanelLabelFont = new CustomFont("Junction", 7, Color.Silver);
         /// <summary>
         /// Defines the secondary panel label font.
         /// </summary>
@@ -625,7 +541,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the SecondaryPanelTextFont property.
         /// </summary>
-        private CustomFont secondaryPanelTextFont = new CustomFont("Junction", 7);
+        private CustomFont secondaryPanelTextFont = new CustomFont("Junction", 7, Color.White);
         /// <summary>
         /// Defines the secondary panel text font.
         /// </summary>
