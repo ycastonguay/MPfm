@@ -43,7 +43,8 @@ namespace MPfm
     public partial class frmThemes : MPfm.WindowsControls.Form
     {
         // Private variables
-        private Theme theme = null;
+        private MainWindowTheme mainWindowTheme = null;
+        private SecondaryWindowTheme secondaryWindowTheme = null;
         private string filePath = string.Empty;            
                 
         private frmMain main = null;
@@ -66,7 +67,6 @@ namespace MPfm
         {
             InitializeComponent();
             this.main = main;
-            this.theme = new Theme();
         }
 
         #region Form Events
@@ -115,6 +115,8 @@ namespace MPfm
             previewSongGridView.Columns[0].Width = 100;
 
             // Refresh preview
+            mainWindowTheme = new MainWindowTheme();
+            secondaryWindowTheme = new SecondaryWindowTheme();
             RefreshMainWindowPreview();
         }
 
@@ -144,11 +146,23 @@ namespace MPfm
             if (e.CloseReason != CloseReason.ApplicationExitCall)
             {
                 e.Cancel = true;
-                Main.Focus();
                 this.Hide();
             }
 
             Main.btnThemes.Checked = false;
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the Close button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            // Hide form            
+            Main.BringToFront();
+            Main.Focus();
+            this.Close();
         }
 
         #endregion
@@ -167,8 +181,6 @@ namespace MPfm
             {
                 return;
             }
-
-            ThemeHelper.Save(dialogSaveTheme.FileName, theme);
         }
 
         #endregion
@@ -206,7 +218,7 @@ namespace MPfm
             else if (themeControl.ClassName == "MainWindowTheme")
             {
                 // Get theme
-                theme.MainWindow = (MainWindowTheme)propertyGridTheme.SelectedObject;
+                mainWindowTheme = (MainWindowTheme)propertyGridTheme.SelectedObject;
 
                 // Refresh theme
                 RefreshMainWindowPreview();
@@ -262,7 +274,7 @@ namespace MPfm
                 RefreshMainWindowPreview();
 
                 // Set property grid item
-                propertyGridTheme.SelectedObject = theme.MainWindow;
+                propertyGridTheme.SelectedObject = mainWindowTheme;
             }
             else
             {
@@ -307,134 +319,125 @@ namespace MPfm
         public void RefreshMainWindowPreview()
         {
             // Check if theme exists
-            if(theme == null || theme.MainWindow == null)
+            if(mainWindowTheme == null)
             {
                 return;
             }
 
             // Main panels
-            panelCurrentSong.CustomFont = theme.MainWindow.PanelHeaderBackground.Font;
-            panelCurrentSong.ForeColor = theme.MainWindow.PanelHeaderBackground.Font.Color;
-            panelCurrentSong.Gradient = theme.MainWindow.PanelBackground;
-            //panelCurrentSong.GradientColor1 = theme.MainWindow.PanelBackground.Color1;
-            //panelCurrentSong.GradientColor2 = theme.MainWindow.PanelBackground.Color2;
-            panelCurrentSong.HeaderGradient.Color1 = theme.MainWindow.PanelHeaderBackground.Color1;            
-            panelCurrentSong.HeaderGradient.Color2 = theme.MainWindow.PanelHeaderBackground.Color2;
-            panelCurrentSong.HeaderForeColor = theme.MainWindow.PanelHeaderBackground.Font.Color;            
+            panelCurrentSong.CustomFont = mainWindowTheme.PanelHeaderTextFont;
+            panelCurrentSong.ForeColor = mainWindowTheme.PanelHeaderTextColor;
+            panelCurrentSong.GradientColor1 = mainWindowTheme.PanelBackgroundColor1;
+            panelCurrentSong.GradientColor2 = mainWindowTheme.PanelBackgroundColor2;
+            panelCurrentSong.HeaderGradientColor1 = mainWindowTheme.PanelHeaderBackgroundColor1;
+            panelCurrentSong.HeaderGradientColor2 = mainWindowTheme.PanelHeaderBackgroundColor2;
+            panelCurrentSong.HeaderForeColor = mainWindowTheme.PanelHeaderTextColor;            
             // header font to add
             panelCurrentSong.Refresh();
 
             // Set main panel labels
-            lblCurrentArtistName.CustomFont = theme.MainWindow.PanelTitleFont;
-            lblCurrentArtistName.ForeColor = theme.MainWindow.PanelTitleFont.Color;
-            lblCurrentAlbumTitle.CustomFont = theme.MainWindow.PanelTitle2Font;
-            lblCurrentAlbumTitle.ForeColor = theme.MainWindow.PanelTitle2Font.Color;
-            lblCurrentSongTitle.CustomFont = theme.MainWindow.PanelTitle3Font;
-            lblCurrentSongTitle.ForeColor = theme.MainWindow.PanelTitle3Font.Color;
-            lblCurrentFilePath.CustomFont = theme.MainWindow.PanelTextFont;
-            lblCurrentFilePath.ForeColor = theme.MainWindow.PanelTextFont.Color;
+            lblCurrentArtistName.CustomFont = mainWindowTheme.PanelTitleFont;
+            lblCurrentArtistName.ForeColor = mainWindowTheme.PanelTitleColor;
+            lblCurrentAlbumTitle.CustomFont = mainWindowTheme.PanelSubtitleFont;
+            lblCurrentAlbumTitle.ForeColor = mainWindowTheme.PanelSubtitleColor;
+            lblCurrentSongTitle.CustomFont = mainWindowTheme.PanelSubtitle2Font;
+            lblCurrentSongTitle.ForeColor = mainWindowTheme.PanelSubtitle2Color;
+            lblCurrentFilePath.CustomFont = mainWindowTheme.PanelTextFont;
+            lblCurrentFilePath.ForeColor = mainWindowTheme.PanelTextColor;
 
             // Secondary panels            
-            panelInformation.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackground.Color1;
-            panelInformation.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackground.Color2;            
-            panelInformation.CustomFont = theme.MainWindow.SecondaryPanelHeaderBackground.Font;
-            panelInformation.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
-            panelInformation.HeaderGradient.Color1 = theme.MainWindow.SecondaryPanelHeaderBackground.Color1;
-            panelInformation.HeaderGradient.Color2 = theme.MainWindow.SecondaryPanelHeaderBackground.Color2;
-            panelInformation.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
+            panelInformation.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelInformation.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;            
+            panelInformation.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelInformation.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelInformation.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelInformation.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelInformation.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
             // header font to add
             panelInformation.Refresh();
-            panelActions.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackground.Color1;
-            panelActions.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackground.Color2;
-            panelActions.CustomFont = theme.MainWindow.SecondaryPanelHeaderBackground.Font;
-            panelActions.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
-            panelActions.HeaderGradient.Color1 = theme.MainWindow.SecondaryPanelHeaderBackground.Color1;
-            panelActions.HeaderGradient.Color2 = theme.MainWindow.SecondaryPanelHeaderBackground.Color2;
-            panelActions.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
+            panelActions.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelActions.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            panelActions.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelActions.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelActions.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelActions.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelActions.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
             // header font to add
             panelActions.Refresh();
-            panelCurrentPosition.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackground.Color1;
-            panelCurrentPosition.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackground.Color2;
-            panelCurrentPosition.CustomFont = theme.MainWindow.SecondaryPanelHeaderBackground.Font;
-            panelCurrentPosition.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
-            panelCurrentPosition.HeaderGradient.Color1 = theme.MainWindow.SecondaryPanelHeaderBackground.Color1;
-            panelCurrentPosition.HeaderGradient.Color2 = theme.MainWindow.SecondaryPanelHeaderBackground.Color2;
-            panelCurrentPosition.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
+            panelCurrentPosition.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelCurrentPosition.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            panelCurrentPosition.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelCurrentPosition.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelCurrentPosition.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelCurrentPosition.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelCurrentPosition.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
             // header font to add
             panelCurrentPosition.Refresh();
-            panelTimeShifting.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackground.Color1;
-            panelTimeShifting.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackground.Color2;
-            panelTimeShifting.CustomFont = theme.MainWindow.SecondaryPanelHeaderBackground.Font;
-            panelTimeShifting.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
-            panelTimeShifting.HeaderGradient.Color1 = theme.MainWindow.SecondaryPanelHeaderBackground.Color1;
-            panelTimeShifting.HeaderGradient.Color2 = theme.MainWindow.SecondaryPanelHeaderBackground.Color2;
-            panelTimeShifting.HeaderForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
+            panelTimeShifting.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            panelTimeShifting.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
+            panelTimeShifting.CustomFont = mainWindowTheme.SecondaryPanelHeaderTextFont;
+            panelTimeShifting.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            panelTimeShifting.HeaderGradientColor1 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor1;
+            panelTimeShifting.HeaderGradientColor2 = mainWindowTheme.SecondaryPanelHeaderBackgroundColor2;
+            panelTimeShifting.HeaderForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
             // header font to add
             panelTimeShifting.Refresh();
 
             // Set secondary panels labels
-            lblCurrentPosition.CustomFont = theme.MainWindow.PanelMonospacedFont;
-            lblCurrentPosition.ForeColor = theme.MainWindow.PanelMonospacedFont.Color;
-            lblTimeShifting.CustomFont = theme.MainWindow.PanelSmallMonospacedFont;
-            lblTimeShifting.ForeColor = theme.MainWindow.PanelSmallMonospacedFont.Color;
-            linkResetTimeShifting.CustomFont = theme.MainWindow.PanelSmallMonospacedFont;
-            linkResetTimeShifting.ForeColor = theme.MainWindow.PanelSmallMonospacedFont.Color;
+            lblCurrentPosition.CustomFont = mainWindowTheme.PanelTimeDisplayFont;
+            lblCurrentPosition.ForeColor = mainWindowTheme.PanelTimeDisplayColor;
+            lblTimeShifting.CustomFont = mainWindowTheme.PanelSmallTimeDisplayFont;
+            lblTimeShifting.ForeColor = mainWindowTheme.PanelSmallTimeDisplayColor;
+            linkResetTimeShifting.CustomFont = mainWindowTheme.PanelSmallTimeDisplayFont;
+            linkResetTimeShifting.ForeColor = mainWindowTheme.PanelSmallTimeDisplayColor;
 
-            lblSoundFormatTitle.CustomFont = theme.MainWindow.SecondaryPanelLabelFont;
-            lblSoundFormatTitle.ForeColor = theme.MainWindow.SecondaryPanelLabelFont.Color;
-            lblSoundFormat.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            lblSoundFormat.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
-            lblFrequencyTitle.CustomFont = theme.MainWindow.SecondaryPanelLabelFont;
-            lblFrequencyTitle.ForeColor = theme.MainWindow.SecondaryPanelLabelFont.Color;
-            lblFrequency.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            lblFrequency.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
-            lblBitrateTitle.CustomFont = theme.MainWindow.SecondaryPanelLabelFont;
-            lblBitrateTitle.ForeColor = theme.MainWindow.SecondaryPanelLabelFont.Color;
-            lblBitrate.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            lblBitrate.ForeColor = theme.MainWindow.SecondaryPanelHeaderBackground.Font.Color;
+            lblSoundFormatTitle.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblSoundFormatTitle.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            lblSoundFormat.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            lblSoundFormat.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            lblFrequencyTitle.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblFrequencyTitle.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            lblFrequency.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            lblFrequency.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
+            lblBitrateTitle.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblBitrateTitle.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
+            lblBitrate.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            lblBitrate.ForeColor = mainWindowTheme.SecondaryPanelHeaderTextColor;
 
-            linkEditSongMetadata.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            linkEditSongMetadata.ForeColor = theme.MainWindow.SecondaryPanelBackground.Font.Color;
-            linkSearchLyrics.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            linkSearchLyrics.ForeColor = theme.MainWindow.SecondaryPanelBackground.Font.Color;
-            linkSearchBassTabs.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            linkSearchBassTabs.ForeColor = theme.MainWindow.SecondaryPanelBackground.Font.Color;
-            linkSearchGuitarTabs.CustomFont = theme.MainWindow.SecondaryPanelBackground.Font;
-            linkSearchGuitarTabs.ForeColor = theme.MainWindow.SecondaryPanelBackground.Font.Color;
-            lblSearchWeb.CustomFont = theme.MainWindow.SecondaryPanelLabelFont;
-            lblSearchWeb.ForeColor = theme.MainWindow.SecondaryPanelLabelFont.Color;
+            linkEditSongMetadata.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkEditSongMetadata.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            linkSearchLyrics.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkSearchLyrics.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            linkSearchBassTabs.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkSearchBassTabs.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            linkSearchGuitarTabs.CustomFont = mainWindowTheme.SecondaryPanelTextFont;
+            linkSearchGuitarTabs.ForeColor = mainWindowTheme.SecondaryPanelTextColor;
+            lblSearchWeb.CustomFont = mainWindowTheme.SecondaryPanelLabelFont;
+            lblSearchWeb.ForeColor = mainWindowTheme.SecondaryPanelLabelColor;
             
-            trackTimeShifting.Gradient.Color1 = theme.MainWindow.SecondaryPanelBackground.Color1;
-            trackTimeShifting.Gradient.Color2 = theme.MainWindow.SecondaryPanelBackground.Color2;
+            trackTimeShifting.GradientColor1 = mainWindowTheme.SecondaryPanelBackgroundColor1;
+            trackTimeShifting.GradientColor2 = mainWindowTheme.SecondaryPanelBackgroundColor2;
 
             // Toolbar
-            panelSongBrowserToolbar.Gradient.Color1 = theme.MainWindow.ToolbarBackground.Color1;
-            panelSongBrowserToolbar.Gradient.Color2 = theme.MainWindow.ToolbarBackground.Color2;
+            panelSongBrowserToolbar.GradientColor1 = mainWindowTheme.ToolbarBackgroundColor1;
+            panelSongBrowserToolbar.GradientColor2 = mainWindowTheme.ToolbarBackgroundColor2;
 
-            btnPlaySelectedSong.TextGradientDefault.Color1 = theme.MainWindow.ToolbarButtonBackground.Color1;
-            btnPlaySelectedSong.TextGradientDefault.Color2 = theme.MainWindow.ToolbarButtonBackground.Color2;
-            btnPlaySelectedSong.TextGradientDefault.BorderColor = theme.MainWindow.ToolbarButtonBackground.BorderColor;
-            btnPlaySelectedSong.TextGradientMouseOver.Color1 = theme.MainWindow.ToolbarButtonMouseOverBackground.Color1;
-            btnPlaySelectedSong.TextGradientMouseOver.Color2 = theme.MainWindow.ToolbarButtonMouseOverBackground.Color2;
-            btnPlaySelectedSong.TextGradientMouseOver.BorderColor = theme.MainWindow.ToolbarButtonMouseOverBackground.BorderColor;
-            btnPlaySelectedSong.TextGradientDisabled.Color1 = theme.MainWindow.ToolbarButtonDisabledBackground.Color1;
-            btnPlaySelectedSong.TextGradientDisabled.Color2 = theme.MainWindow.ToolbarButtonDisabledBackground.Color2;
-            btnPlaySelectedSong.TextGradientDisabled.BorderColor = theme.MainWindow.ToolbarButtonDisabledBackground.BorderColor;
-            btnPlaySelectedSong.TextGradientDefault.Font = theme.MainWindow.ToolbarButtonBackground.Font;
-            btnPlaySelectedSong.TextGradientDefault.Font.Color = theme.MainWindow.ToolbarButtonBackground.Font.Color;
-            btnPlaySelectedSong.TextGradientDisabled.Font = theme.MainWindow.ToolbarButtonDisabledBackground.Font;
-            btnPlaySelectedSong.TextGradientDisabled.Font.Color = theme.MainWindow.ToolbarButtonDisabledBackground.Font.Color;
-            btnPlaySelectedSong.TextGradientMouseOver.Font = theme.MainWindow.ToolbarButtonMouseOverBackground.Font;
-            btnPlaySelectedSong.TextGradientMouseOver.Font.Color = theme.MainWindow.ToolbarButtonMouseOverBackground.Font.Color;            
+            btnPlaySelectedSong.GradientColor1 = mainWindowTheme.ToolbarButtonBackgroundColor1;
+            btnPlaySelectedSong.GradientColor2 = mainWindowTheme.ToolbarButtonBackgroundColor2;
+            btnPlaySelectedSong.BorderColor = mainWindowTheme.ToolbarButtonBorderColor;
+            btnPlaySelectedSong.MouseOverGradientColor1 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor1;
+            btnPlaySelectedSong.MouseOverGradientColor2 = mainWindowTheme.ToolbarButtonMouseOverBackgroundColor2;
+            btnPlaySelectedSong.MouseOverBorderColor = mainWindowTheme.ToolbarButtonMouseOverBorderColor;
+            btnPlaySelectedSong.DisabledGradientColor1 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor1;
+            btnPlaySelectedSong.DisabledGradientColor2 = mainWindowTheme.ToolbarButtonDisabledBackgroundColor2;
+            btnPlaySelectedSong.DisabledBorderColor = mainWindowTheme.ToolbarButtonDisabledBorderColor;            
+            btnPlaySelectedSong.CustomFont = mainWindowTheme.ToolbarButtonTextFont;
+            btnPlaySelectedSong.DisabledFontColor = mainWindowTheme.ToolbarButtonDisabledTextColor;
+            btnPlaySelectedSong.MouseOverFontColor = mainWindowTheme.ToolbarButtonMouseOverTextColor;
+            btnPlaySelectedSong.FontColor = mainWindowTheme.ToolbarButtonTextColor;
 
-            lblSearchFor.CustomFont = theme.MainWindow.ToolbarBackground.Font;
-            lblSearchFor.ForeColor = theme.MainWindow.ToolbarBackground.Font.Color;
-        }
-
-        private void btnSaveThemeAs_Click(object sender, EventArgs e)
-        {
-            theme = ThemeHelper.Load(@"D:\Code\test.mpfmTheme");
-            RefreshMainWindowPreview();
+            lblSearchFor.CustomFont = mainWindowTheme.ToolbarTextFont;
+            lblSearchFor.ForeColor = mainWindowTheme.ToolbarTextColor;
         }
     }
 
@@ -492,4 +495,5 @@ namespace MPfm
             this.className = className;                
         }
     }
+
 }

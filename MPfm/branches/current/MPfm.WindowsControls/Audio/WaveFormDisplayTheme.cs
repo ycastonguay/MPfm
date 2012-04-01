@@ -37,23 +37,65 @@ namespace MPfm.WindowsControls
         #region Background Properties
 
         /// <summary>
-        /// Private value for the Gradient property.
+        /// Private value for the BackgroundGradientColor1 property.
         /// </summary>
-        private Gradient gradient = new Gradient(Color.Black, Color.FromArgb(50, 50, 50), LinearGradientMode.Vertical);
+        private Color backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
         /// <summary>
-        /// Defines the background gradient.
+        /// First color of the background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Defines the background gradient.")]
-        public Gradient Gradient
+        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
+        public Color BackgroundGradientColor1
         {
             get
             {
-                return gradient;
+                return backgroundGradientColor1;
             }
             set
             {
-                gradient = value;
+                backgroundGradientColor1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BackgroundGradientColor2 property.
+        /// </summary>
+        private Color backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
+        /// <summary>
+        /// Second color of the background gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
+        public Color BackgroundGradientColor2
+        {
+            get
+            {
+                return backgroundGradientColor2;
+            }
+            set
+            {
+                backgroundGradientColor2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the BackgroundGradientMode property.
+        /// </summary>
+        private LinearGradientMode backgroundGradientMode = LinearGradientMode.Vertical;
+        /// <summary>
+        /// Background gradient mode.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
+        public LinearGradientMode BackgroundGradientMode
+        {
+            get
+            {
+                return backgroundGradientMode;
+            }
+            set
+            {
+                backgroundGradientMode = value;
             }
         }
 

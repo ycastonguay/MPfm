@@ -24,7 +24,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace MPfm.WindowsControls
 {
@@ -42,8 +41,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines if the font uses bold.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines if the font uses bold.")]
         public bool IsBold
         {
             get
@@ -63,8 +60,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines if the font uses italic.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines if the font uses italic.")]
         public bool IsItalic
         {
             get
@@ -84,8 +79,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines if the font uses underline.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines if the font uses underline.")]
         public bool IsUnderline
         {
             get
@@ -105,8 +98,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the font size (in points).
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines the font size (in points).")]
         public float Size
         {
             get
@@ -126,8 +117,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the standard font face name.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines the standard font face name.")]
         public string StandardFontName
         {
             get
@@ -147,8 +136,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the embedded font name.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines the embedded font name.")]
         public string EmbeddedFontName
         {
             get
@@ -168,8 +155,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines if the font should use the embedded font.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines if the font should use the embedded font.")]
         public bool UseEmbeddedFont
         {
             get
@@ -189,8 +174,6 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines if the font should use anti-aliasing.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines if the font should use anti-aliasing.")]
         public bool UseAntiAliasing
         {
             get
@@ -200,45 +183,6 @@ namespace MPfm.WindowsControls
             set
             {
                 useAntiAliasing = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the Color property.
-        /// </summary>
-        private Color color = Color.FromArgb(0, 0, 0);
-        /// <summary>
-        /// Defines the first color of the gradient.
-        /// </summary>
-        [XmlIgnore]
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Gradient"), Browsable(true), Description("Defines the first color of the gradient.")]
-        public Color Color
-        {
-            get
-            {
-                return color;
-            }
-            set
-            {
-                color = value;
-            }
-        }
-        /// <summary>
-        /// Gets/sets the font color using a 32-bit integer (ARGB).
-        /// This is used for serializing the Color structure in XML.
-        /// </summary>
-        [Browsable(false)]
-        [XmlElement(ElementName = "Color")]
-        public int ColorInt
-        {
-            get
-            {
-                return color.ToArgb();
-            }
-            set
-            {
-                color = Color.FromArgb(value);
             }
         }
 
@@ -255,8 +199,7 @@ namespace MPfm.WindowsControls
         /// </summary>
         /// <param name="embeddedFontName">Embedded font name</param>
         /// <param name="size">Font size</param>
-        /// <param name="color">Font color</param>
-        public CustomFont(string embeddedFontName, float size, Color color)
+        public CustomFont(string embeddedFontName, float size)
         {
             this.useEmbeddedFont = true;
             this.embeddedFontName = embeddedFontName;

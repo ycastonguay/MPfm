@@ -29,7 +29,7 @@ namespace MPfm.Core
     /// <summary>
     /// The ColorManipulation class contains static functions related to manipulating colors.
     /// </summary>
-    public static class ColorManipulation
+    public class ColorManipulation
     {
         /// <summary>
         /// This method takes a color and applies a brightness level to it.
@@ -80,7 +80,8 @@ namespace MPfm.Core
                 colorB = color.B + brightnessLevel;
             }
 
-            return Color.FromArgb(colorR, colorG, colorB);
+            return Color.FromArgb(colorR, colorG, colorB);            
         }
+
     }
 }

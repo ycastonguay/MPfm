@@ -117,7 +117,6 @@
     <Compile Include="Misc\Control.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Misc\TextGradient.cs" />
     <Compile Include="Misc\HScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -168,7 +167,6 @@
     <Compile Include="Audio\WaveForm.Designer.cs">
       <DependentUpon>WaveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\Gradient.cs" />
     <Compile Include="Themes\MainWindowTheme.cs" />
     <Compile Include="Themes\SecondaryWindowTheme.cs" />
     <Compile Include="Themes\Theme.cs" />

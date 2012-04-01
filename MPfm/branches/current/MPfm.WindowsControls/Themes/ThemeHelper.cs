@@ -31,7 +31,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace MPfm.WindowsControls
 {
@@ -47,10 +46,9 @@ namespace MPfm.WindowsControls
         /// <returns>Theme object</returns>
         public static Theme Load(string filePath)
         {
-            XmlSerializer deserializer = new XmlSerializer(typeof(Theme));
-            TextReader textReader = new StreamReader(filePath);
-            Object obj = deserializer.Deserialize(textReader);
-            Theme theme = (Theme)obj;
+            // Declare variables
+            Theme theme = new Theme();
+
             return theme;
         }
 
@@ -61,10 +59,7 @@ namespace MPfm.WindowsControls
         /// <param name="theme">Theme object</param>
         public static void Save(string filePath, Theme theme)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Theme));
-            TextWriter textWriter = new StreamWriter(filePath);
-            serializer.Serialize(textWriter, theme);
-            textWriter.Close();
+
         }
     }
 }

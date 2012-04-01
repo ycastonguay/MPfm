@@ -41,7 +41,6 @@
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFirstRun));
             MPfm.WindowsControls.CustomFont customFont15 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
@@ -49,10 +48,10 @@
             MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont19 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.CustomFont customFont20 = new MPfm.WindowsControls.CustomFont();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFirstRun));
             this.lblWelcome = new MPfm.WindowsControls.Label();
             this.lblWelcomeText = new MPfm.WindowsControls.Label();
             this.panelWelcome = new MPfm.WindowsControls.Panel();
-            this.cboSampleRate = new System.Windows.Forms.ComboBox();
             this.lblMixerSampleRateUnit = new MPfm.WindowsControls.Label();
             this.lbl1_3 = new MPfm.WindowsControls.Label();
             this.lbl1_3_text = new MPfm.WindowsControls.Label();
@@ -73,6 +72,7 @@
             this.btnNext = new MPfm.WindowsControls.Button();
             this.btnCancelWizard = new MPfm.WindowsControls.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
+            this.cboSampleRate = new System.Windows.Forms.ComboBox();
             this.panelWelcome.SuspendLayout();
             this.panelNote.SuspendLayout();
             this.SuspendLayout();
@@ -83,8 +83,6 @@
             this.lblWelcome.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblWelcome.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblWelcome.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont1.ColorInt = -16777216;
             customFont1.EmbeddedFontName = "TitilliumText22L Lt";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -108,8 +106,6 @@
             this.lblWelcomeText.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblWelcomeText.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblWelcomeText.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont2.ColorInt = -16777216;
             customFont2.EmbeddedFontName = "Junction";
             customFont2.IsBold = false;
             customFont2.IsItalic = false;
@@ -151,8 +147,6 @@
             this.panelWelcome.Controls.Add(this.cboDrivers);
             this.panelWelcome.Controls.Add(this.lblWelcomeText);
             this.panelWelcome.Controls.Add(this.lblWelcome);
-            customFont18.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont18.ColorInt = -16777216;
             customFont18.EmbeddedFontName = "Junction";
             customFont18.IsBold = false;
             customFont18.IsItalic = false;
@@ -165,11 +159,14 @@
             this.panelWelcome.ExpandedHeight = 200;
             this.panelWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelWelcome.ForeColor = System.Drawing.Color.White;
-            this.panelWelcome.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelWelcome.Gradient")));
+            this.panelWelcome.GradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.panelWelcome.GradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panelWelcome.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelWelcome.HeaderExpandable = false;
             this.panelWelcome.HeaderExpanded = true;
             this.panelWelcome.HeaderForeColor = System.Drawing.Color.White;
-            this.panelWelcome.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelWelcome.HeaderGradient")));
+            this.panelWelcome.HeaderGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.panelWelcome.HeaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.panelWelcome.HeaderHeight = 22;
             this.panelWelcome.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelWelcome.HeaderTitle = "MPfm Initial Configuration Wizard";
@@ -179,29 +176,12 @@
             this.panelWelcome.TabIndex = 77;
             this.panelWelcome.Text = "CustomTextBox Disabled";
             // 
-            // cboSampleRate
-            // 
-            this.cboSampleRate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboSampleRate.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboSampleRate.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboSampleRate.DisplayMember = "Title";
-            this.cboSampleRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSampleRate.FormattingEnabled = true;
-            this.cboSampleRate.Location = new System.Drawing.Point(17, 346);
-            this.cboSampleRate.Name = "cboSampleRate";
-            this.cboSampleRate.Size = new System.Drawing.Size(66, 23);
-            this.cboSampleRate.TabIndex = 98;
-            this.cboSampleRate.ValueMember = "DriverType";
-            // 
             // lblMixerSampleRateUnit
             // 
             this.lblMixerSampleRateUnit.BackColor = System.Drawing.Color.Transparent;
             this.lblMixerSampleRateUnit.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblMixerSampleRateUnit.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblMixerSampleRateUnit.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont3.ColorInt = -16777216;
             customFont3.EmbeddedFontName = "Junction";
             customFont3.IsBold = true;
             customFont3.IsItalic = false;
@@ -225,8 +205,6 @@
             this.lbl1_3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont4.ColorInt = -16777216;
             customFont4.EmbeddedFontName = "TitilliumText22L Lt";
             customFont4.IsBold = true;
             customFont4.IsItalic = false;
@@ -251,8 +229,6 @@
             this.lbl1_3_text.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_3_text.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_3_text.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont5.ColorInt = -16777216;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
@@ -277,8 +253,6 @@
             this.lbl1_2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont6.ColorInt = -16777216;
             customFont6.EmbeddedFontName = "TitilliumText22L Lt";
             customFont6.IsBold = true;
             customFont6.IsItalic = false;
@@ -303,8 +277,6 @@
             this.lbl1_2_text.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_2_text.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_2_text.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont7.ColorInt = -16777216;
             customFont7.EmbeddedFontName = "Junction";
             customFont7.IsBold = false;
             customFont7.IsItalic = false;
@@ -329,8 +301,6 @@
             this.lbl1_1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont8.ColorInt = -16777216;
             customFont8.EmbeddedFontName = "TitilliumText22L Lt";
             customFont8.IsBold = true;
             customFont8.IsItalic = false;
@@ -355,8 +325,6 @@
             this.lbl1_1_text.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_1_text.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_1_text.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont9.ColorInt = -16777216;
             customFont9.EmbeddedFontName = "Junction";
             customFont9.IsBold = false;
             customFont9.IsItalic = false;
@@ -381,8 +349,6 @@
             this.lbl1_4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont10.ColorInt = -16777216;
             customFont10.EmbeddedFontName = "TitilliumText22L Lt";
             customFont10.IsBold = true;
             customFont10.IsItalic = false;
@@ -407,8 +373,6 @@
             this.lbl1_4_text.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lbl1_4_text.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbl1_4_text.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont11.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont11.ColorInt = -16777216;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
@@ -429,11 +393,34 @@
             // 
             // btnTestAudioSettings
             // 
+            this.btnTestAudioSettings.BorderColor = System.Drawing.Color.Black;
+            this.btnTestAudioSettings.BorderWidth = 1;
             this.btnTestAudioSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont12.EmbeddedFontName = "Junction";
+            customFont12.IsBold = false;
+            customFont12.IsItalic = false;
+            customFont12.IsUnderline = false;
+            customFont12.Size = 8F;
+            customFont12.StandardFontName = "Arial";
+            customFont12.UseAntiAliasing = true;
+            customFont12.UseEmbeddedFont = true;
+            this.btnTestAudioSettings.CustomFont = customFont12;
+            this.btnTestAudioSettings.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnTestAudioSettings.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnTestAudioSettings.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnTestAudioSettings.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnTestAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestAudioSettings.FontColor = System.Drawing.Color.Black;
+            this.btnTestAudioSettings.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnTestAudioSettings.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnTestAudioSettings.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnTestAudioSettings.Image = global::MPfm.Properties.Resources.sound;
             this.btnTestAudioSettings.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnTestAudioSettings.Location = new System.Drawing.Point(16, 398);
+            this.btnTestAudioSettings.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnTestAudioSettings.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnTestAudioSettings.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnTestAudioSettings.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnTestAudioSettings.Name = "btnTestAudioSettings";
             this.btnTestAudioSettings.Size = new System.Drawing.Size(129, 40);
             this.btnTestAudioSettings.TabIndex = 80;
@@ -448,8 +435,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelNote.Controls.Add(this.lblNote1);
             this.panelNote.Controls.Add(this.lblNote2);
-            customFont15.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont15.ColorInt = -16777216;
             customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = true;
             customFont15.IsItalic = false;
@@ -462,11 +447,14 @@
             this.panelNote.ExpandedHeight = 200;
             this.panelNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelNote.ForeColor = System.Drawing.Color.White;
-            this.panelNote.Gradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelNote.Gradient")));
+            this.panelNote.GradientColor1 = System.Drawing.Color.Gainsboro;
+            this.panelNote.GradientColor2 = System.Drawing.Color.Silver;
+            this.panelNote.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelNote.HeaderExpandable = false;
             this.panelNote.HeaderExpanded = true;
             this.panelNote.HeaderForeColor = System.Drawing.Color.Black;
-            this.panelNote.HeaderGradient = ((MPfm.WindowsControls.Gradient)(resources.GetObject("panelNote.HeaderGradient")));
+            this.panelNote.HeaderGradientColor1 = System.Drawing.Color.Silver;
+            this.panelNote.HeaderGradientColor2 = System.Drawing.Color.DarkGray;
             this.panelNote.HeaderHeight = 22;
             this.panelNote.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelNote.HeaderTitle = "Note :";
@@ -482,8 +470,6 @@
             this.lblNote1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblNote1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblNote1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont13.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont13.ColorInt = -16777216;
             customFont13.EmbeddedFontName = "Junction";
             customFont13.IsBold = false;
             customFont13.IsItalic = false;
@@ -508,8 +494,6 @@
             this.lblNote2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblNote2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblNote2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont14.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont14.ColorInt = -16777216;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
             customFont14.IsItalic = false;
@@ -535,8 +519,6 @@
             this.lblAudioSettingsText.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblAudioSettingsText.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblAudioSettingsText.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont16.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont16.ColorInt = -16777216;
             customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
             customFont16.IsItalic = false;
@@ -562,8 +544,6 @@
             this.lblAudioSettings.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblAudioSettings.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lblAudioSettings.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont17.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont17.ColorInt = -16777216;
             customFont17.EmbeddedFontName = "TitilliumText22L Lt";
             customFont17.IsBold = true;
             customFont17.IsItalic = false;
@@ -617,9 +597,9 @@
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.BorderColor = System.Drawing.Color.Black;
+            this.btnNext.BorderWidth = 1;
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            customFont19.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont19.ColorInt = -16777216;
             customFont19.EmbeddedFontName = "Junction";
             customFont19.IsBold = false;
             customFont19.IsItalic = false;
@@ -628,11 +608,24 @@
             customFont19.StandardFontName = "Arial";
             customFont19.UseAntiAliasing = true;
             customFont19.UseEmbeddedFont = true;
+            this.btnNext.CustomFont = customFont19;
+            this.btnNext.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnNext.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnNext.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnNext.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnNext.Enabled = false;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNext.FontColor = System.Drawing.Color.Black;
+            this.btnNext.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnNext.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnNext.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnNext.Image = global::MPfm.Properties.Resources.arrow_right;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnNext.Location = new System.Drawing.Point(447, 454);
+            this.btnNext.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnNext.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnNext.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnNext.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(161, 40);
             this.btnNext.TabIndex = 73;
@@ -644,11 +637,34 @@
             // btnCancelWizard
             // 
             this.btnCancelWizard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelWizard.BorderColor = System.Drawing.Color.Black;
+            this.btnCancelWizard.BorderWidth = 1;
             this.btnCancelWizard.Cursor = System.Windows.Forms.Cursors.Hand;
+            customFont20.EmbeddedFontName = "Junction";
+            customFont20.IsBold = false;
+            customFont20.IsItalic = false;
+            customFont20.IsUnderline = false;
+            customFont20.Size = 8F;
+            customFont20.StandardFontName = "Arial";
+            customFont20.UseAntiAliasing = true;
+            customFont20.UseEmbeddedFont = true;
+            this.btnCancelWizard.CustomFont = customFont20;
+            this.btnCancelWizard.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.btnCancelWizard.DisabledFontColor = System.Drawing.Color.Silver;
+            this.btnCancelWizard.DisabledGradientColor1 = System.Drawing.Color.Gray;
+            this.btnCancelWizard.DisabledGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.btnCancelWizard.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelWizard.FontColor = System.Drawing.Color.Black;
+            this.btnCancelWizard.GradientColor1 = System.Drawing.Color.LightGray;
+            this.btnCancelWizard.GradientColor2 = System.Drawing.Color.Gray;
+            this.btnCancelWizard.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.btnCancelWizard.Image = global::MPfm.Properties.Resources.door_in;
             this.btnCancelWizard.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnCancelWizard.Location = new System.Drawing.Point(296, 454);
+            this.btnCancelWizard.MouseOverBorderColor = System.Drawing.Color.Black;
+            this.btnCancelWizard.MouseOverFontColor = System.Drawing.Color.Black;
+            this.btnCancelWizard.MouseOverGradientColor1 = System.Drawing.Color.White;
+            this.btnCancelWizard.MouseOverGradientColor2 = System.Drawing.Color.DarkGray;
             this.btnCancelWizard.Name = "btnCancelWizard";
             this.btnCancelWizard.Size = new System.Drawing.Size(145, 40);
             this.btnCancelWizard.TabIndex = 78;
@@ -662,6 +678,21 @@
             this.openFile.Filter = "Audio files (*.mp3, *.flac, *.ogg, *.wav, *.ape, *.wv, *.mpc)|*.mp3;*.flac;*.ogg;" +
     "*.wav;*.wv;*.ape;*.mpc";
             this.openFile.Title = "Please select an audio file to play";
+            // 
+            // cboSampleRate
+            // 
+            this.cboSampleRate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboSampleRate.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboSampleRate.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboSampleRate.DisplayMember = "Title";
+            this.cboSampleRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSampleRate.FormattingEnabled = true;
+            this.cboSampleRate.Location = new System.Drawing.Point(17, 346);
+            this.cboSampleRate.Name = "cboSampleRate";
+            this.cboSampleRate.Size = new System.Drawing.Size(66, 23);
+            this.cboSampleRate.TabIndex = 98;
+            this.cboSampleRate.ValueMember = "DriverType";
             // 
             // frmFirstRun
             // 
