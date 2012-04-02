@@ -44,93 +44,47 @@ namespace MPfm.WindowsControls
         /// </summary>
         private EmbeddedFontCollection embeddedFonts = null;
 
-        #region Background Properties
+        #region Theme Properties
 
         /// <summary>
-        /// Private value for the GradientColor1 property.
+        /// Private value for the TextGradientHeader property.
         /// </summary>
-        private Color gradientColor1 = Color.LightGray;
+        private TextGradient textGradientHeader = new TextGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1, new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the header text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("First color of the background gradient.")]
-        public Color GradientColor1
+        [Category("Theme"), Browsable(true), Description("Header text gradient.")]
+        public TextGradient TextGradientHeader
         {
             get
             {
-                return gradientColor1;
+                return textGradientHeader;
             }
             set
             {
-                gradientColor1 = value;
+                textGradientHeader = value;
             }
         }
 
         /// <summary>
-        /// Private value for the GradientColor2 property.
+        /// Private value for the BackgroundGradient property.
         /// </summary>
-        private Color gradientColor2 = Color.Gray;
+        private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1);
         /// <summary>
-        /// Second color of the background gradient.
+        /// Defines the background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Configuration"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color GradientColor2
+        [Category("Theme"), Browsable(true), Description("Background gradient.")]
+        public BackgroundGradient BackgroundGradient
         {
             get
             {
-                return gradientColor2;
+                return backgroundGradient;
             }
             set
             {
-                gradientColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the GradientMode property.
-        /// </summary>
-        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
-        /// <summary>
-        /// Background gradient mode.
-        /// </summary>
-        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
-        public LinearGradientMode GradientMode
-        {
-            get
-            {
-                return gradientMode;
-            }
-            set
-            {
-                gradientMode = value;
-            }
-        }
-
-        #endregion
-
-        #region Font Properties
-
-        /// <summary>
-        /// Private value for the CustomFont property.
-        /// </summary>
-        private CustomFont customFont = null;
-        /// <summary>
-        /// Defines the font to be used for rendering the control.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
-        {
-            get
-            {
-                return customFont;
-            }
-            set
-            {
-                customFont = value;
-                Refresh();
+                backgroundGradient = value;
             }
         }
 
@@ -202,72 +156,6 @@ namespace MPfm.WindowsControls
             set
             {
                 headerTextAlign = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderForeColor property.
-        /// </summary>
-        private Color headerForeColor = Color.Black;
-        /// <summary>
-        /// The fore color of the font used in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("The fore color of the font used in the header.")]
-        public Color HeaderForeColor
-        {
-            get
-            {
-                return headerForeColor;
-            }
-            set
-            {
-                headerForeColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderGradientColor1 property.
-        /// </summary>
-        private Color headerGradientColor1 = Color.LightGray;
-        /// <summary>
-        /// First color of the background gradient in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("First color of the background gradient in the header.")]
-        public Color HeaderGradientColor1
-        {
-            get
-            {
-                return headerGradientColor1;
-            }
-            set
-            {
-                headerGradientColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderGradientColor2 property.
-        /// </summary>
-        private Color headerGradientColor2 = Color.Gray;
-        /// <summary>
-        /// Second color of the background gradient in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("Second color of the background gradient in the header.")]
-        public Color HeaderGradientColor2
-        {
-            get
-            {
-                return headerGradientColor2;
-            }
-            set
-            {
-                headerGradientColor2 = value;
             }
         }
 
@@ -346,10 +234,7 @@ namespace MPfm.WindowsControls
         {
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);    
-
-            // Create default font
-            customFont = new CustomFont();
+                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
         }
 
 
@@ -452,7 +337,7 @@ namespace MPfm.WindowsControls
             Graphics g = pe.Graphics;
 
             // Use anti-aliasing?
-            if (CustomFont.UseAntiAliasing)
+            if (textGradientHeader.Font.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -465,12 +350,12 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            if (textGradientHeader.Font.UseEmbeddedFont && !String.IsNullOrEmpty(textGradientHeader.Font.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, textGradientHeader.Font.EmbeddedFontName, textGradientHeader.Font.Size, textGradientHeader.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -485,7 +370,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = new Font(textGradientHeader.Font.StandardFontName, textGradientHeader.Font.Size, textGradientHeader.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -499,19 +384,19 @@ namespace MPfm.WindowsControls
             {
                 // Draw gradient
                 Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, gradientColor1, gradientColor2, LinearGradientMode.Vertical);
+                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, backgroundGradient.Color1, backgroundGradient.Color2, backgroundGradient.GradientMode);
                 g.FillRectangle(brushBody, rectBody);
                 brushBody.Dispose();
                 brushBody = null;
             }
 
             // Draw header
-            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), headerGradientColor1, headerGradientColor2, LinearGradientMode.Vertical);
+            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), textGradientHeader.Color1, textGradientHeader.Color2, textGradientHeader.GradientMode);
             g.FillRectangle(brushHeader, 0, 0, ClientRectangle.Width, headerHeight);
             brushHeader.Dispose();
             brushHeader = null;
 
-            SolidBrush brushFont = new SolidBrush(headerForeColor);
+            SolidBrush brushFont = new SolidBrush(textGradientHeader.Font.Color);
             SizeF sizeString = g.MeasureString(headerTitle, font);
 
             float headerTitleY = ((float)headerHeight - sizeString.Height) / 2;

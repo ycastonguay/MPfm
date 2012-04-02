@@ -59,7 +59,6 @@ namespace MPfm.WindowsControls
             }
         }
 
-
         /// <summary>
         /// Private value for the TextGradientDefault property.
         /// </summary>
