@@ -3,17 +3,59 @@
 
 public partial class MainWindow
 {
+	private global::Gtk.UIManager UIManager;
+	private global::Gtk.Action FileAction;
+	private global::Gtk.Action OpenAudioFileAction;
+	private global::Gtk.Action ExitAction;
+	private global::Gtk.Action HelpAction;
+	private global::Gtk.Action AboutMPfmAction;
+	private global::Gtk.VBox vbox1;
+	private global::Gtk.MenuBar menubar;
+	
 	protected virtual void Build ()
 	{
 		global::Stetic.Gui.Initialize (this);
 		// Widget MainWindow
+		this.UIManager = new global::Gtk.UIManager ();
+		global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
+		this.FileAction = new global::Gtk.Action ("FileAction", global::Mono.Unix.Catalog.GetString ("File"), null, null);
+		this.FileAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("File");
+		w1.Add (this.FileAction, null);
+		this.OpenAudioFileAction = new global::Gtk.Action ("OpenAudioFileAction", global::Mono.Unix.Catalog.GetString ("Open audio file(s)..."), null, null);
+		this.OpenAudioFileAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Open audio file(s)...");
+		w1.Add (this.OpenAudioFileAction, null);
+		this.ExitAction = new global::Gtk.Action ("ExitAction", global::Mono.Unix.Catalog.GetString ("Exit"), null, null);
+		this.ExitAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Exit");
+		w1.Add (this.ExitAction, null);
+		this.HelpAction = new global::Gtk.Action ("HelpAction", global::Mono.Unix.Catalog.GetString ("Help"), null, null);
+		this.HelpAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Help");
+		w1.Add (this.HelpAction, null);
+		this.AboutMPfmAction = new global::Gtk.Action ("AboutMPfmAction", global::Mono.Unix.Catalog.GetString ("About MPfm"), null, null);
+		this.AboutMPfmAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("About MPfm");
+		w1.Add (this.AboutMPfmAction, null);
+		this.UIManager.InsertActionGroup (w1, 0);
+		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+		// Container child MainWindow.Gtk.Container+ContainerChild
+		this.vbox1 = new global::Gtk.VBox ();
+		this.vbox1.Name = "vbox1";
+		this.vbox1.Spacing = 6;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar'><menu name='FileAction' action='FileAction'><menuitem name='OpenAudioFileAction' action='OpenAudioFileAction'/><menuitem name='ExitAction' action='ExitAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='AboutMPfmAction' action='AboutMPfmAction'/></menu></menubar></ui>");
+		this.menubar = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar")));
+		this.menubar.Name = "menubar";
+		this.vbox1.Add (this.menubar);
+		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.menubar]));
+		w2.Position = 0;
+		w2.Expand = false;
+		w2.Fill = false;
+		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 400;
+		this.DefaultWidth = 426;
 		this.DefaultHeight = 300;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);

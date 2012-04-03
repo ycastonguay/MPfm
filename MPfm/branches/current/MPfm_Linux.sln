@@ -89,7 +89,7 @@ Global
 		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MPfm.Core\MPfm.Core.csproj
+		StartupItem = MPfm.GTK\MPfm.GTK.csproj
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

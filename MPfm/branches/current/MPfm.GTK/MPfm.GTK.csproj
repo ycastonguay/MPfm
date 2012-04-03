@@ -86,5 +86,12 @@
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.UI\MPfm.UI.csproj">
+      <Project>{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}</Project>
+      <Name>MPfm.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icon48.png" />
   </ItemGroup>
 </Project>
