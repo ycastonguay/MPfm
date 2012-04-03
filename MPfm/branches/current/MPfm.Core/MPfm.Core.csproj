@@ -78,6 +78,7 @@
     <Compile Include="ImageManipulation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tracing.cs" />
+    <Compile Include="OS.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
