@@ -24,7 +24,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Data.Linq;
-using System.Data.Objects;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;

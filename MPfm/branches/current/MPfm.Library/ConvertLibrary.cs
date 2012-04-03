@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.Linq;
-using System.Data.Objects;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
