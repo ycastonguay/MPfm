@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Player", "MPfm.Player\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Player.Demo", "MPfm.Player.Demo\MPfm.Player.Demo.csproj", "{064ABDA7-31DC-495F-8214-ED2B13E05601}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.UI", "MPfm.UI\MPfm.UI.csproj", "{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -111,6 +113,16 @@ Global
 		{064ABDA7-31DC-495F-8214-ED2B13E05601}.Release|Mixed Platforms.Build.0 = Release|x86
 		{064ABDA7-31DC-495F-8214-ED2B13E05601}.Release|x86.ActiveCfg = Release|x86
 		{064ABDA7-31DC-495F-8214-ED2B13E05601}.Release|x86.Build.0 = Release|x86
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

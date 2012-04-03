@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -377,6 +377,10 @@
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.UI\MPfm.UI.csproj">
+      <Project>{3531AB3A-4E55-40F0-8E4D-C9E5EA697509}</Project>
+      <Name>MPfm.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.WindowsControls\MPfm.WindowsControls.csproj">
       <Project>{11C9F839-A47E-455E-8D10-661E47DE664C}</Project>
