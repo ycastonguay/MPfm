@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using Gtk;
 
-namespace MPfm
+namespace MPfm.GTK
 {
 	public class MainClass
 	{
