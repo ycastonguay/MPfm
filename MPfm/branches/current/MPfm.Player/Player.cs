@@ -572,20 +572,36 @@ namespace MPfm.Player
             timerPlayer.Interval = 1000;
             timerPlayer.Enabled = false;
 
-            // Load plugins
-            //plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
-            Tracing.Log("Player init -- Loading plugins...");
-            //aacPluginHandle = Base.LoadPlugin("bass_aac.dll");
-            apePluginHandle = Base.LoadPlugin("bass_ape.dll");
-            flacPluginHandle = Base.LoadPlugin("bassflac.dll");
-            mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");            
-            //ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
-            //ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
-            wmaPluginHandle = Base.LoadPlugin("basswma.dll");
-            wvPluginHandle = Base.LoadPlugin("basswv.dll");            
+            // Initialize BASS library by OS type
+            if (OS.Type == OSType.Windows)
+            {
+                // Load decoding plugins
+                //plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
+                Tracing.Log("Player init -- Loading plugins...");
+                //aacPluginHandle = Base.LoadPlugin("bass_aac.dll");
+                apePluginHandle = Base.LoadPlugin("bass_ape.dll");
+                flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+                mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
+                //ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
+                //ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
+                wmaPluginHandle = Base.LoadPlugin("basswma.dll");
+                wvPluginHandle = Base.LoadPlugin("basswv.dll");     
+            }
+            else if (OS.Type == OSType.Linux)
+            {
+                // Load BASS library
+
+                // Load decoding plugins
+            }
+            else if (OS.Type == OSType.MacOSX)
+            {
+                // Load BASS library
+
+                // Load decoding plugins
+            }       
 
             Tracing.Log("Player init -- Loading FX plugin...");
-            Base.LoadFxPlugin();
+            Base.LoadFxPlugin();            
 
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
@@ -700,6 +716,14 @@ namespace MPfm.Player
             mixerChannel = null;
             device = null;
             isDeviceInitialized = false;
+        }
+
+        /// <summary>
+        /// Loads the BASS plugins depending on the current platform.
+        /// </summary>
+        public void LoadPlugins()
+        {
+
         }
 
         /// <summary>
