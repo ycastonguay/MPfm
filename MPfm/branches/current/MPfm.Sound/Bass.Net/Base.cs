@@ -33,6 +33,7 @@ using Un4seen.BassAsio;
 using Un4seen.BassWasapi;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
+using Un4seen.Bass.AddOn.Mix;
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -301,7 +302,7 @@ namespace MPfm.Sound.BassNetWrapper
                 // Check for error (throw exception if the error is found)
                 CheckForError();
             }
-        }
+        }		
 
         /// <summary>
         /// Loads the BASS FX plugin.
@@ -339,6 +340,82 @@ namespace MPfm.Sound.BassNetWrapper
                 CheckForError();
             }
         }
+		
+		/// <summary>
+		/// Returns the BASS library version.
+		/// This is the right way to load the BASS plugin under Linux and Mac OS X.
+		/// Throws an exception if the version doesn't match with the one in BASS.NET.
+		/// </summary>
+		/// <returns>BASS library version</returns>
+		public static int GetBASSVersion()
+		{			
+			// Load BASS library by checking the version
+			int version = Bass.BASS_GetVersion();
+			
+			// Check version with BASS.NET
+			if(Utils.HighWord(version) != Bass.BASSVERSION)
+			{
+				// Wrong version
+				throw new Exception("The version of the BASS library does not match with BASS.NET!");
+			}
+			
+			return version;
+		}
+		
+		/// <summary>
+		/// Frees the BASS library from memory.
+		/// </summary>
+		public static void FreeBASS()
+		{
+			// Free BASS library
+			bool success = Bass.BASS_Free();
+			if(!success)
+			{				
+				Base.CheckForError();
+			}
+		}
+		
+		/// <summary>
+		/// Returns the BASS FX plugin version.
+		/// This is the right way to load the FX plugin under Linux and Mac OS X.
+		/// Throws an exception if the version doesn't match with the one in BASS.NET.
+		/// </summary>
+		/// <returns>BASS FX plugin version</returns>		
+		public static int GetFxPluginVersion()
+		{
+			// Load BASS FX plugin by checking the version
+			int version = BassFx.BASS_FX_GetVersion();			
+				
+			// Check version with BASS.NET
+			if(Utils.HighWord(version) != BassFx.BASSFXVERSION)
+			{
+				// Wrong version
+				throw new Exception("The version of the BASS FX plugin does not match with BASS.NET!");
+			}
+			
+			return version;
+		}
+		
+		/// <summary>
+		/// Returns the BASS MIX plugin version.
+		/// This is the right way to load the MIX plugin under Linux and Mac OS X.
+		/// Throws an exception if the version doesn't match with the one in BASS.NET.
+		/// </summary>
+		/// <returns>BASS MIX plugin version</returns>		
+		public static int GetMixPluginVersion()
+		{
+			// Load BASS MIX plugin by checking the version
+			int version = BassMix.BASS_Mixer_GetVersion();
+				
+			// Check version with BASS.NET
+			if(Utils.HighWord(version) != BassMix.BASSMIXVERSION)
+			{
+				// Wrong version
+				throw new Exception("The version of the BASS MIX plugin does not match with BASS.NET!");
+			}
+			
+			return version;
+		}
 
         #endregion
 

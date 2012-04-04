@@ -8,7 +8,7 @@
     <ProjectGuid>{2273DAAF-55C6-4422-BD3D-2DCDEA09DBCC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MPfm.GTK</RootNamespace>
-    <AssemblyName>MPfm.GTK</AssemblyName>
+    <AssemblyName>MPfm</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,6 +119,7 @@
     <None Include="Lib\x86\libbass_mpc.so" />
     <None Include="Lib\x86\libbass_tta.so" />
     <None Include="Lib\x86\libbasswv.so" />
+    <None Include="Bass.Net.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

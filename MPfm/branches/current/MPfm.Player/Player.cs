@@ -572,6 +572,9 @@ namespace MPfm.Player
             timerPlayer.Interval = 1000;
             timerPlayer.Enabled = false;
 
+			// Register BASS.NET
+			Un4seen.Bass.BassNet.Registration("yanick.castonguay@gmail.com", "2X3433427152222");		
+			
             // Initialize BASS library by OS type
             if (OS.Type == OSType.Windows)
             {
@@ -586,23 +589,34 @@ namespace MPfm.Player
                 //ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
                 wmaPluginHandle = Base.LoadPlugin("basswma.dll");
                 wvPluginHandle = Base.LoadPlugin("basswv.dll");     
+								            
+            	Base.LoadFxPlugin();
             }
-            else if (OS.Type == OSType.Linux)
-            {
-                // Load BASS library
+			else // Linux or Mac OS X
+			{				
+				// Load BASS library
+				Base.GetBASSVersion();
+				
+				// Load FX and MIX plugins
+				Base.GetFxPluginVersion();
+				Base.GetMixPluginVersion();
+				
+				// Get current directory
+				string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-                // Load decoding plugins
-            }
-            else if (OS.Type == OSType.MacOSX)
-            {
-                // Load BASS library
-
-                // Load decoding plugins
-            }       
-
-            Tracing.Log("Player init -- Loading FX plugin...");
-            Base.LoadFxPlugin();            
-
+	            if (OS.Type == OSType.Linux)
+	            {				
+	                // Load decoding plugins
+					flacPluginHandle = Base.LoadPlugin (exePath + "/libbassflac.so");
+	            }
+	            else if (OS.Type == OSType.MacOSX)
+	            {
+	                // Load BASS library
+	
+	                // Load decoding plugins
+	            }
+			}
+    
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
             currentEQPreset = new EQPreset();
@@ -661,16 +675,27 @@ namespace MPfm.Player
                 //BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
             }
 
-            // Default BASS.NET configuration values:
+            // Default BASS.NET configuration values for Windows:
             //
             // BASS_CONFIG_BUFFER: 500
             // BASS_CONFIG_UPDATEPERIOD: 100
             // BASS_CONFIG_UPDATETHREADS: 1
-
-            // Set configuration for buffer and update period
-            // This only works for the default BASS output (http://www.un4seen.com/forum/?topic=13429.msg93740#msg93740)
-            Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize); 
-            Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, updatePeriod);
+			
+			if(OS.Type == OSType.Windows)
+			{
+	            // Set configuration for buffer and update period
+            	// This only works for the default BASS output (http://www.un4seen.com/forum/?topic=13429.msg93740#msg93740)
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize); 
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, updatePeriod);	
+			}
+            else if (OS.Type == OSType.Linux)
+            {				
+				// Default
+            }
+            else if (OS.Type == OSType.MacOSX)
+            {
+				// Default
+            }		
 
             // Set flags            
             isDeviceInitialized = true;
