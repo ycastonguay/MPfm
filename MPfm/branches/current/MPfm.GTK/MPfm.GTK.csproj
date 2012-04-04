@@ -93,5 +93,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="icon48.png" />
+    <None Include="Lib\x64\libbass.so" />
+    <None Include="Lib\x64\libbass_aac.so" />
+    <None Include="Lib\x64\libbass_ac3.so" />
+    <None Include="Lib\x64\libbass_alac.so" />
+    <None Include="Lib\x64\libbass_fx.so" />
+    <None Include="Lib\x64\libbass_mpc.so" />
+    <None Include="Lib\x64\libbass_tta.so" />
+    <None Include="Lib\x64\libbasscd.so" />
+    <None Include="Lib\x64\libbassenc.so" />
+    <None Include="Lib\x64\libbassflac.so" />
+    <None Include="Lib\x64\libbassmidi.so" />
+    <None Include="Lib\x64\libbassmix.so" />
+    <None Include="Lib\x64\libbasswv.so" />
+    <None Include="Lib\x86\libbass.so" />
+    <None Include="Lib\x86\libbass_aac.so" />
+    <None Include="Lib\x86\libbass_ac3.so" />
+    <None Include="Lib\x86\libbass_alac.so" />
+    <None Include="Lib\x86\libbasscd.so" />
+    <None Include="Lib\x86\libbassenc.so" />
+    <None Include="Lib\x86\libbassflac.so" />
+    <None Include="Lib\x86\libbass_fx.so" />
+    <None Include="Lib\x86\libbassmidi.so" />
+    <None Include="Lib\x86\libbassmix.so" />
+    <None Include="Lib\x86\libbass_mpc.so" />
+    <None Include="Lib\x86\libbass_tta.so" />
+    <None Include="Lib\x86\libbasswv.so" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\" />
+    <Folder Include="Lib\x86\" />
+    <Folder Include="Lib\x64\" />
   </ItemGroup>
 </Project>

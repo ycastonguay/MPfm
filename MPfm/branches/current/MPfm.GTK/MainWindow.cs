@@ -42,13 +42,13 @@ public partial class MainWindow: Gtk.Window
 		// Set application icon (visible in GNOME but not UNITY)
 		this.SetIconFromFile("icon48.png");
 
-//		// Get default font name
-//		string defaultFontName = this.lblArtistName.Style.FontDescription.Family;
-//		this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
-//		this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
-//		this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-//		this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 10"));
-//		this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+		// Get default font name
+		string defaultFontName = this.lblArtistName.Style.FontDescription.Family;
+		this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
+		this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
+		this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+		this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 10"));
+		this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 
 		//this.drawingArea1.SetSizeRequest(200, 200);
 
@@ -120,12 +120,12 @@ public partial class MainWindow: Gtk.Window
 
 		// Invoke UI changes
 		Gtk.Application.Invoke(delegate{
-			//lblCurrentPosition.Text = position.Position.ToString();
+			lblCurrentPosition.Text = position.Position.ToString();
 
 			// Check if the user is currently changing the position
 			if(!isSongPositionChanging)
 			{
-				//hscaleSongPosition.Value = position.PositionBytes;
+				hscaleSongPosition.Value = position.PositionBytes;
 			}
 		});
 	}
@@ -180,12 +180,16 @@ public partial class MainWindow: Gtk.Window
 		colTrackNumber.SetCellDataFunc(cellTrackNumber, new Gtk.TreeCellDataFunc(RenderSongBrowserCell));
 		colLength.SetCellDataFunc(cellLength, new Gtk.TreeCellDataFunc(RenderSongBrowserCell));
 
-//		treeSongBrowser.AppendColumn(colPlaybackIcon);
-//		treeSongBrowser.AppendColumn(colTrackNumber);
-//		treeSongBrowser.AppendColumn(colSongTitle);
-//		treeSongBrowser.AppendColumn(colLength);
-//		treeSongBrowser.AppendColumn(colArtistName);
-//		treeSongBrowser.AppendColumn(colAlbumTitle);
+		treeSongBrowser.AppendColumn(colPlaybackIcon);
+		treeSongBrowser.AppendColumn(colTrackNumber);
+		treeSongBrowser.AppendColumn(colSongTitle);
+		treeSongBrowser.AppendColumn(colLength);
+		treeSongBrowser.AppendColumn(colArtistName);
+		treeSongBrowser.AppendColumn(colAlbumTitle);
+
+		//colArtistName.AddAttribute(cellArtistName, "text", 0);
+		//colAlbumTitle.AddAttribute(cellAlbumTitle, "text", 0);
+		//colSongTitle.AddAttribute(cellSongTitle, "text", 0);
 	}
 
 	protected void RefreshSongBrowser(List<AudioFile> audioFiles)
@@ -198,7 +202,7 @@ public partial class MainWindow: Gtk.Window
 		}
 
 		// Set model
-		//treeSongBrowser.Model = musicListStore;
+		treeSongBrowser.Model = musicListStore;
 	}
 
 	private void RenderSongBrowserCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -223,28 +227,28 @@ public partial class MainWindow: Gtk.Window
 
 	protected void RefreshSongInformation()
 	{
-//		// Check if the current item is valid
-//		if(controller.Player.Playlist.CurrentItem == null)
-//		{
-//	        // Set empty values
-//	        lblArtistName.Text = string.Empty;
-//	        lblAlbumTitle.Text = string.Empty;
-//	        lblSongTitle.Text = string.Empty;
-//	        lblSongFilePath.Text = "No song currently playing.";
-//			lblCurrentPosition.Text = "0:00.000";
-//	        lblLength.Text = "0:00.000";
-//			hscaleSongPosition.Value = 0;
-//		}
-//		else
-//		{
-//	        // Set metadata and file path labels
-//	        lblArtistName.Text = controller.Player.Playlist.CurrentItem.AudioFile.ArtistName;
-//	        lblAlbumTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.AlbumTitle;
-//	        lblSongTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.Title;
-//	        lblSongFilePath.Text = controller.Player.Playlist.CurrentItem.AudioFile.FilePath;
-//	        lblLength.Text = controller.Player.Playlist.CurrentItem.LengthString;
-//			hscaleSongPosition.Adjustment.Upper = controller.Player.Playlist.CurrentItem.LengthBytes;
-//		}
+		// Check if the current item is valid
+		if(controller.Player.Playlist.CurrentItem == null)
+		{
+	        // Set empty values
+	        lblArtistName.Text = string.Empty;
+	        lblAlbumTitle.Text = string.Empty;
+	        lblSongTitle.Text = string.Empty;
+	        lblSongFilePath.Text = "No song currently playing.";
+			lblCurrentPosition.Text = "0:00.000";
+	        lblLength.Text = "0:00.000";
+			hscaleSongPosition.Value = 0;
+		}
+		else
+		{
+	        // Set metadata and file path labels
+	        lblArtistName.Text = controller.Player.Playlist.CurrentItem.AudioFile.ArtistName;
+	        lblAlbumTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.AlbumTitle;
+	        lblSongTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.Title;
+	        lblSongFilePath.Text = controller.Player.Playlist.CurrentItem.AudioFile.FilePath;
+	        lblLength.Text = controller.Player.Playlist.CurrentItem.LengthString;
+			hscaleSongPosition.Adjustment.Upper = controller.Player.Playlist.CurrentItem.LengthBytes;
+		}
 	}
 
     /// <summary>
@@ -256,22 +260,22 @@ public partial class MainWindow: Gtk.Window
         string repeatPlaylist = "Playlist";
         string repeatSong = "Song";
 
-//        // Display the repeat type
-//        if (controller.Player.RepeatType == RepeatType.Playlist)
-//        {
-//			lblRepeatType.Text = repeatPlaylist;
-//			actionRepeatType.Label = "Repeat Type (" + repeatPlaylist + ")";
-//        }
-//        else if (controller.Player.RepeatType == RepeatType.Song)
-//        {
-//			lblRepeatType.Text = repeatSong;
-//			actionRepeatType.Label = "Repeat Type (" + repeatSong + ")";
-//        }
-//        else
-//        {
-//			lblRepeatType.Text = repeatOff;
-//			actionRepeatType.Label = "Repeat Type (" + repeatOff + ")";
-//        }
+        // Display the repeat type
+        if (controller.Player.RepeatType == RepeatType.Playlist)
+        {
+			lblRepeatType.Text = repeatPlaylist;
+			actionRepeatType.Label = "Repeat Type (" + repeatPlaylist + ")";
+        }
+        else if (controller.Player.RepeatType == RepeatType.Song)
+        {
+			lblRepeatType.Text = repeatSong;
+			actionRepeatType.Label = "Repeat Type (" + repeatSong + ")";
+        }
+        else
+        {
+			lblRepeatType.Text = repeatOff;
+			actionRepeatType.Label = "Repeat Type (" + repeatOff + ")";
+        }
     }
 
 	#region Action Events
@@ -430,8 +434,8 @@ public partial class MainWindow: Gtk.Window
 	protected void OnVolumeValueChanged(object sender, System.EventArgs e)
 	{
 		// Set player volume
-		//float value = ((float)vscaleVolume.Value / 100);
-		//controller.Player.Volume = value;
+		float value = ((float)vscaleVolume.Value / 100);
+		controller.Player.Volume = value;
 	}
 
 	protected void OnSongPositionValueChanged(object sender, System.EventArgs e)
