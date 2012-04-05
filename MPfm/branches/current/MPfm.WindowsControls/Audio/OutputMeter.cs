@@ -283,7 +283,7 @@ namespace MPfm.WindowsControls
             
             // Draw background gradient (cover -1 pixel for some refresh bug)
             Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.GradientColor1, theme.GradientColor2, theme.GradientMode);
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
             g.FillRectangle(brushBackground, rectBody);
             brushBackground.Dispose();
             brushBackground = null;
@@ -333,7 +333,7 @@ namespace MPfm.WindowsControls
                 //float barHeight = scaleMultiplier * (maxDB + 100);
 
                 // Create brushes for displaying volume in decibels
-                SolidBrush brushFontColor = new SolidBrush(theme.FontColor);
+                SolidBrush brushFontColor = new SolidBrush(theme.CustomFont.Color);
                 SolidBrush brushFontShadowColor = new SolidBrush(theme.FontShadowColor);
 
                 // Draw 0 dB line
@@ -364,7 +364,7 @@ namespace MPfm.WindowsControls
 
                 // Create linear gradient brush covering the bar
                 RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
-                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradientColor1, theme.MeterGradientColor2, LinearGradientMode.Vertical);
+                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradient.Color1, theme.MeterGradient.Color2, theme.MeterGradient.GradientMode);
                 //if (maxLeftDB >= 0.2f)
                 //{
                 //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
@@ -415,7 +415,7 @@ namespace MPfm.WindowsControls
 
                 // Create linear gradient brush covering the bar
                 rectGrad = new RectangleF(barWidth, 110, barWidth, height);
-                brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradientColor1, theme.MeterGradientColor2, LinearGradientMode.Vertical);
+                brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradient.Color1, theme.MeterGradient.Color2, theme.MeterGradient.GradientMode);
                 //if (maxRightDB >= 0.2f)
                 //{
                 //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);

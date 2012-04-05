@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace MPfm.WindowsControls
 {
@@ -34,78 +35,31 @@ namespace MPfm.WindowsControls
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class OutputMeterTheme
     {
-        #region Background Properties
-
         /// <summary>
-        /// Private value for the GradientColor1 property.
+        /// Private value for the BackgroundGradient property.
         /// </summary>
-        private Color gradientColor1 = Color.Black;
+        private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.FromArgb(20, 20, 20), Color.FromArgb(50, 50, 50), LinearGradientMode.Vertical, Color.Gray, 0);
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the output meter background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
-        public Color GradientColor1
+        [Category("Theme"), Browsable(true), Description("Output meter background gradient.")]
+        public BackgroundGradient BackgroundGradient
         {
             get
             {
-                return gradientColor1;
+                return backgroundGradient;
             }
             set
             {
-                gradientColor1 = value;
+                backgroundGradient = value;
             }
         }
 
-        /// <summary>
-        /// Private value for the GradientColor2 property.
-        /// </summary>
-        private Color gradientColor2 = Color.FromArgb(40, 40, 40);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color GradientColor2
-        {
-            get
-            {
-                return gradientColor2;
-            }
-            set
-            {
-                gradientColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the GradientMode property.
-        /// </summary>
-        private LinearGradientMode gradientMode = LinearGradientMode.Vertical;
-        /// <summary>
-        /// Background gradient mode.
-        /// </summary>
-        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
-        public LinearGradientMode GradientMode
-        {
-            get
-            {
-                return gradientMode;
-            }
-            set
-            {
-                gradientMode = value;
-            }
-        }
-
-        #endregion
-
-        #region Font Properties
-        
         /// <summary>
         /// Private value for the CustomFont property.
         /// </summary>
-        private CustomFont customFont = null;
+        private CustomFont customFont = new CustomFont("Junction", 8.0f, Color.White);
         /// <summary>
         /// Defines the font to be used for rendering the control.
         /// </summary>
@@ -120,27 +74,6 @@ namespace MPfm.WindowsControls
             set
             {
                 customFont = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the FontColor property.
-        /// </summary>
-        private Color fontColor = Color.White;
-        /// <summary>
-        /// Fore font color used when displaying the volume peak in decibels.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Fonts"), Browsable(true), Description("Fore font color used when displaying the volume peak in decibels.")]
-        public Color FontColor
-        {
-            get
-            {
-                return fontColor;
-            }
-            set
-            {
-                fontColor = value;
             }
         }
 
@@ -164,80 +97,64 @@ namespace MPfm.WindowsControls
                 fontShadowColor = value;
             }
         }
-
-        #endregion
-
-        #region Meter Properties
-
-        private Color meterGradientColor1 = Color.Green;
         /// <summary>
-        /// The first color of the color gradient used when drawing the output meter.
+        /// Gets/sets the font shadow color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The first color of the color gradient used when drawing the output meter.")]
-        public Color MeterGradientColor1
+        [Browsable(false)]
+        [XmlElement(ElementName = "FontShadowColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int FontShadowColorInt
         {
             get
             {
-                return meterGradientColor1;
+                return fontShadowColor.ToArgb();
             }
             set
             {
-                meterGradientColor1 = value;
+                fontShadowColor = Color.FromArgb(value);
             }
         }
 
-        private Color meterGradientColor2 = Color.LightGreen;
         /// <summary>
-        /// The second color of the color gradient used when drawing the output meter.
+        /// Private value for the MeterGradient property.
+        /// </summary>
+        private BackgroundGradient meterGradient = new BackgroundGradient(Color.Green, Color.LightGreen, LinearGradientMode.Vertical, Color.Gray, 0);
+        /// <summary>
+        /// Defines the output meter gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The second color of the color gradient used when drawing the output meter.")]
-        public Color MeterGradientColor2
+        [Category("Theme"), Browsable(true), Description("Output meter gradient.")]
+        public BackgroundGradient MeterGradient
         {
             get
             {
-                return meterGradientColor2;
+                return meterGradient;
             }
             set
             {
-                meterGradientColor2 = value;
+                meterGradient = value;
             }
         }
 
-        private Color meterDistortionGradientColor1 = Color.DarkRed;
         /// <summary>
-        /// The first color of the color gradient used when drawing the output meter.
+        /// Private value for the MeterDistortionGradient property.
+        /// </summary>
+        private BackgroundGradient meterDistortionGradient = new BackgroundGradient(Color.DarkRed, Color.Red, LinearGradientMode.Vertical, Color.Gray, 0);
+        /// <summary>
+        /// Defines the output meter distortion gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The first color of the color gradient used when drawing the output meter.")]
-        public Color MeterDistortionGradientColor1
+        [Category("Theme"), Browsable(true), Description("Output meter distortion gradient.")]
+        public BackgroundGradient MeterDistortionGradient
         {
             get
             {
-                return meterDistortionGradientColor1;
+                return meterDistortionGradient;
             }
             set
             {
-                meterDistortionGradientColor1 = value;
-            }
-        }
-
-        private Color meterDistortionGradientColor2 = Color.Red;
-        /// <summary>
-        /// The second color of the color gradient used when drawing the output meter and value exceeds distortion threshold.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("The second color of the color gradient used when drawing the output meter and value exceeds distortion threshold.")]
-        public Color MeterDistortionGradientColor2
-        {
-            get
-            {
-                return meterDistortionGradientColor2;
-            }
-            set
-            {
-                meterDistortionGradientColor2 = value;
+                meterDistortionGradient = value;
             }
         }
 
@@ -258,6 +175,24 @@ namespace MPfm.WindowsControls
                 meter0dbLineColor = value;
             }
         }
+        /// <summary>
+        /// Gets/sets the 0db line color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
+        /// </summary>
+        [Browsable(false)]
+        [XmlElement(ElementName = "Meter0dbLineColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int Meter0dbLineColorInt
+        {
+            get
+            {
+                return meter0dbLineColor.ToArgb();
+            }
+            set
+            {
+                meter0dbLineColor = Color.FromArgb(value);
+            }
+        }
 
         private Color meterPeakLineColor = Color.LightGray;
         /// <summary>
@@ -276,19 +211,30 @@ namespace MPfm.WindowsControls
                 meterPeakLineColor = value;
             }
         }
-
-        #endregion
+        /// <summary>
+        /// Gets/sets the peak line color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
+        /// </summary>
+        [Browsable(false)]
+        [XmlElement(ElementName = "MeterPeakLineColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int MeterPeakLineColorInt
+        {
+            get
+            {
+                return meterPeakLineColor.ToArgb();
+            }
+            set
+            {
+                meterPeakLineColor = Color.FromArgb(value);
+            }
+        }
 
         /// <summary>
         /// Default constructor for the OutputMeterTheme class.
         /// </summary>
         public OutputMeterTheme()
         {
-            // Set default values
-            customFont = new CustomFont();
-            customFont.EmbeddedFontName = "Junction";
-            customFont.Size = 8;
-            customFont.UseEmbeddedFont = true;
         }
     }
 }
