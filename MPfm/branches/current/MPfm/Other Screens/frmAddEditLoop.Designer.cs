@@ -211,8 +211,7 @@ namespace MPfm
             customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;
             textGradient1.Font = customFont1;
-            textGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEndPositionGoTo.TextGradientDefault = textGradient1;
+            textGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient2.BorderColor = System.Drawing.Color.DarkGray;
             textGradient2.BorderWidth = 1;
             textGradient2.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -227,8 +226,7 @@ namespace MPfm
             customFont2.UseAntiAliasing = true;
             customFont2.UseEmbeddedFont = true;
             textGradient2.Font = customFont2;
-            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEndPositionGoTo.TextGradientDisabled = textGradient2;
+            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient3.BorderWidth = 1;
             textGradient3.Color1 = System.Drawing.Color.White;
@@ -243,8 +241,7 @@ namespace MPfm
             customFont3.UseAntiAliasing = true;
             customFont3.UseEmbeddedFont = true;
             textGradient3.Font = customFont3;
-            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEndPositionGoTo.TextGradientMouseOver = textGradient3;
+            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnEndPositionGoTo, "Sets the current song position to the loop end position.");
             this.btnEndPositionGoTo.UseVisualStyleBackColor = true;
             this.btnEndPositionGoTo.Click += new System.EventHandler(this.btnEndPositionGoTo_Click);
@@ -275,8 +272,7 @@ namespace MPfm
             customFont4.UseAntiAliasing = true;
             customFont4.UseEmbeddedFont = true;
             textGradient4.Font = customFont4;
-            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEndPositionPunchIn.TextGradientDefault = textGradient4;
+            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient5.BorderColor = System.Drawing.Color.DarkGray;
             textGradient5.BorderWidth = 1;
             textGradient5.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -291,8 +287,7 @@ namespace MPfm
             customFont5.UseAntiAliasing = true;
             customFont5.UseEmbeddedFont = true;
             textGradient5.Font = customFont5;
-            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEndPositionPunchIn.TextGradientDisabled = textGradient5;
+            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient6.BorderWidth = 1;
             textGradient6.Color1 = System.Drawing.Color.White;
@@ -307,8 +302,7 @@ namespace MPfm
             customFont6.UseAntiAliasing = true;
             customFont6.UseEmbeddedFont = true;
             textGradient6.Font = customFont6;
-            textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnEndPositionPunchIn.TextGradientMouseOver = textGradient6;
+            textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnEndPositionPunchIn, "Sets the loop end position to the current song position.");
             this.btnEndPositionPunchIn.UseVisualStyleBackColor = true;
             this.btnEndPositionPunchIn.Click += new System.EventHandler(this.btnEndPositionPunchIn_Click);
@@ -418,8 +412,7 @@ namespace MPfm
             customFont9.UseAntiAliasing = true;
             customFont9.UseEmbeddedFont = true;
             textGradient7.Font = customFont9;
-            textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStartPositionGoTo.TextGradientDefault = textGradient7;
+            textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient8.BorderColor = System.Drawing.Color.DarkGray;
             textGradient8.BorderWidth = 1;
             textGradient8.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -434,8 +427,7 @@ namespace MPfm
             customFont10.UseAntiAliasing = true;
             customFont10.UseEmbeddedFont = true;
             textGradient8.Font = customFont10;
-            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStartPositionGoTo.TextGradientDisabled = textGradient8;
+            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient9.BorderWidth = 1;
             textGradient9.Color1 = System.Drawing.Color.White;
@@ -450,8 +442,7 @@ namespace MPfm
             customFont11.UseAntiAliasing = true;
             customFont11.UseEmbeddedFont = true;
             textGradient9.Font = customFont11;
-            textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStartPositionGoTo.TextGradientMouseOver = textGradient9;
+            textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnStartPositionGoTo, "Sets the current song position to the loop start position.");
             this.btnStartPositionGoTo.UseVisualStyleBackColor = true;
             this.btnStartPositionGoTo.Click += new System.EventHandler(this.btnStartPositionGoTo_Click);
@@ -482,8 +473,7 @@ namespace MPfm
             customFont12.UseAntiAliasing = true;
             customFont12.UseEmbeddedFont = true;
             textGradient10.Font = customFont12;
-            textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStartPositionPunchIn.TextGradientDefault = textGradient10;
+            textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient11.BorderColor = System.Drawing.Color.DarkGray;
             textGradient11.BorderWidth = 1;
             textGradient11.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -498,8 +488,7 @@ namespace MPfm
             customFont13.UseAntiAliasing = true;
             customFont13.UseEmbeddedFont = true;
             textGradient11.Font = customFont13;
-            textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStartPositionPunchIn.TextGradientDisabled = textGradient11;
+            textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient12.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient12.BorderWidth = 1;
             textGradient12.Color1 = System.Drawing.Color.White;
@@ -514,8 +503,7 @@ namespace MPfm
             customFont14.UseAntiAliasing = true;
             customFont14.UseEmbeddedFont = true;
             textGradient12.Font = customFont14;
-            textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnStartPositionPunchIn.TextGradientMouseOver = textGradient12;
+            textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnStartPositionPunchIn, "Sets the loop start position to the current song position.");
             this.btnStartPositionPunchIn.UseVisualStyleBackColor = true;
             this.btnStartPositionPunchIn.Click += new System.EventHandler(this.btnStartPositionPunchIn_Click);
@@ -976,8 +964,7 @@ namespace MPfm
             customFont29.UseAntiAliasing = true;
             customFont29.UseEmbeddedFont = true;
             textGradient14.Font = customFont29;
-            textGradient14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSave.TextGradientDefault = textGradient14;
+            textGradient14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient15.BorderColor = System.Drawing.Color.DarkGray;
             textGradient15.BorderWidth = 1;
             textGradient15.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -992,8 +979,7 @@ namespace MPfm
             customFont30.UseAntiAliasing = true;
             customFont30.UseEmbeddedFont = true;
             textGradient15.Font = customFont30;
-            textGradient15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSave.TextGradientDisabled = textGradient15;
+            textGradient15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient16.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient16.BorderWidth = 1;
             textGradient16.Color1 = System.Drawing.Color.White;
@@ -1008,8 +994,7 @@ namespace MPfm
             customFont31.UseAntiAliasing = true;
             customFont31.UseEmbeddedFont = true;
             textGradient16.Font = customFont31;
-            textGradient16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSave.TextGradientMouseOver = textGradient16;
+            textGradient16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnSave, "Saves the current loop.");
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -1041,8 +1026,7 @@ namespace MPfm
             customFont32.UseAntiAliasing = true;
             customFont32.UseEmbeddedFont = true;
             textGradient17.Font = customFont32;
-            textGradient17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.TextGradientDefault = textGradient17;
+            textGradient17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient18.BorderColor = System.Drawing.Color.DarkGray;
             textGradient18.BorderWidth = 1;
             textGradient18.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -1057,8 +1041,7 @@ namespace MPfm
             customFont33.UseAntiAliasing = true;
             customFont33.UseEmbeddedFont = true;
             textGradient18.Font = customFont33;
-            textGradient18.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.TextGradientDisabled = textGradient18;
+            textGradient18.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient19.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient19.BorderWidth = 1;
             textGradient19.Color1 = System.Drawing.Color.White;
@@ -1073,8 +1056,7 @@ namespace MPfm
             customFont34.UseAntiAliasing = true;
             customFont34.UseEmbeddedFont = true;
             textGradient19.Font = customFont34;
-            textGradient19.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnClose.TextGradientMouseOver = textGradient19;
+            textGradient19.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnClose, "Closes the window.");
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);

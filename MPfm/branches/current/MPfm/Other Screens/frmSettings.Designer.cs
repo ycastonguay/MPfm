@@ -763,8 +763,7 @@ namespace MPfm
             customFont11.UseAntiAliasing = true;
             customFont11.UseEmbeddedFont = true;
             textGradient2.Font = customFont11;
-            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnPeakFileCustomDirectoryBrowse.TextGradientDefault = textGradient2;
+            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient3.BorderColor = System.Drawing.Color.DarkGray;
             textGradient3.BorderWidth = 1;
             textGradient3.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -779,8 +778,7 @@ namespace MPfm
             customFont12.UseAntiAliasing = true;
             customFont12.UseEmbeddedFont = true;
             textGradient3.Font = customFont12;
-            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnPeakFileCustomDirectoryBrowse.TextGradientDisabled = textGradient3;
+            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient4.BorderWidth = 1;
             textGradient4.Color1 = System.Drawing.Color.White;
@@ -795,8 +793,7 @@ namespace MPfm
             customFont13.UseAntiAliasing = true;
             customFont13.UseEmbeddedFont = true;
             textGradient4.Font = customFont13;
-            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnPeakFileCustomDirectoryBrowse.TextGradientMouseOver = textGradient4;
+            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnPeakFileCustomDirectoryBrowse, "Click here to select a custom directory for saving peak files.");
             this.btnPeakFileCustomDirectoryBrowse.UseVisualStyleBackColor = true;
             this.btnPeakFileCustomDirectoryBrowse.Click += new System.EventHandler(this.btnPeakFileCustomDirectoryBrowse_Click);
@@ -1191,8 +1188,7 @@ namespace MPfm
             customFont23.UseAntiAliasing = true;
             customFont23.UseEmbeddedFont = true;
             textGradient8.Font = customFont23;
-            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnTestSaveAudioSettings.TextGradientDefault = textGradient8;
+            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient9.BorderColor = System.Drawing.Color.DarkGray;
             textGradient9.BorderWidth = 1;
             textGradient9.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -1207,8 +1203,7 @@ namespace MPfm
             customFont24.UseAntiAliasing = true;
             customFont24.UseEmbeddedFont = true;
             textGradient9.Font = customFont24;
-            textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnTestSaveAudioSettings.TextGradientDisabled = textGradient9;
+            textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient10.BorderWidth = 1;
             textGradient10.Color1 = System.Drawing.Color.White;
@@ -1223,8 +1218,7 @@ namespace MPfm
             customFont25.UseAntiAliasing = true;
             customFont25.UseEmbeddedFont = true;
             textGradient10.Font = customFont25;
-            textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnTestSaveAudioSettings.TextGradientMouseOver = textGradient10;
+            textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnTestSaveAudioSettings, "Click here to test the currently selected audio settings.");
             this.btnTestSaveAudioSettings.UseVisualStyleBackColor = true;
             this.btnTestSaveAudioSettings.Click += new System.EventHandler(this.btnTestSaveAudioSettings_Click);
@@ -1255,8 +1249,7 @@ namespace MPfm
             customFont26.UseAntiAliasing = true;
             customFont26.UseEmbeddedFont = true;
             textGradient11.Font = customFont26;
-            textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetToDefault.TextGradientDefault = textGradient11;
+            textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient12.BorderColor = System.Drawing.Color.DarkGray;
             textGradient12.BorderWidth = 1;
             textGradient12.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -1271,8 +1264,7 @@ namespace MPfm
             customFont27.UseAntiAliasing = true;
             customFont27.UseEmbeddedFont = true;
             textGradient12.Font = customFont27;
-            textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetToDefault.TextGradientDisabled = textGradient12;
+            textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient13.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient13.BorderWidth = 1;
             textGradient13.Color1 = System.Drawing.Color.White;
@@ -1287,8 +1279,7 @@ namespace MPfm
             customFont28.UseAntiAliasing = true;
             customFont28.UseEmbeddedFont = true;
             textGradient13.Font = customFont28;
-            textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetToDefault.TextGradientMouseOver = textGradient13;
+            textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnResetToDefault, "Click here to reset the audio settings to the recommended values for your system." +
         "");
             this.btnResetToDefault.UseVisualStyleBackColor = true;
@@ -1844,8 +1835,7 @@ namespace MPfm
             customFont41.UseAntiAliasing = true;
             customFont41.UseEmbeddedFont = true;
             textGradient18.Font = customFont41;
-            textGradient18.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAddFolder.TextGradientDefault = textGradient18;
+            textGradient18.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient19.BorderColor = System.Drawing.Color.DarkGray;
             textGradient19.BorderWidth = 1;
             textGradient19.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -1860,8 +1850,7 @@ namespace MPfm
             customFont42.UseAntiAliasing = true;
             customFont42.UseEmbeddedFont = true;
             textGradient19.Font = customFont42;
-            textGradient19.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAddFolder.TextGradientDisabled = textGradient19;
+            textGradient19.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient20.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient20.BorderWidth = 1;
             textGradient20.Color1 = System.Drawing.Color.White;
@@ -1876,8 +1865,7 @@ namespace MPfm
             customFont43.UseAntiAliasing = true;
             customFont43.UseEmbeddedFont = true;
             textGradient20.Font = customFont43;
-            textGradient20.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAddFolder.TextGradientMouseOver = textGradient20;
+            textGradient20.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnAddFolder, "Adds a folder to the library.");
             this.btnAddFolder.UseVisualStyleBackColor = true;
             this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
@@ -1908,8 +1896,7 @@ namespace MPfm
             customFont44.UseAntiAliasing = true;
             customFont44.UseEmbeddedFont = true;
             textGradient21.Font = customFont44;
-            textGradient21.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetLibrary.TextGradientDefault = textGradient21;
+            textGradient21.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient22.BorderColor = System.Drawing.Color.DarkGray;
             textGradient22.BorderWidth = 1;
             textGradient22.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -1924,8 +1911,7 @@ namespace MPfm
             customFont45.UseAntiAliasing = true;
             customFont45.UseEmbeddedFont = true;
             textGradient22.Font = customFont45;
-            textGradient22.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetLibrary.TextGradientDisabled = textGradient22;
+            textGradient22.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient23.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient23.BorderWidth = 1;
             textGradient23.Color1 = System.Drawing.Color.White;
@@ -1940,8 +1926,7 @@ namespace MPfm
             customFont46.UseAntiAliasing = true;
             customFont46.UseEmbeddedFont = true;
             textGradient23.Font = customFont46;
-            textGradient23.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetLibrary.TextGradientMouseOver = textGradient23;
+            textGradient23.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnResetLibrary, "Resets the library by removing all folders. The audio files are NOT deleted from " +
         "the hard disk.");
             this.btnResetLibrary.UseVisualStyleBackColor = true;
@@ -2004,8 +1989,7 @@ namespace MPfm
             customFont47.UseAntiAliasing = true;
             customFont47.UseEmbeddedFont = true;
             textGradient24.Font = customFont47;
-            textGradient24.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnRemoveFolder.TextGradientDefault = textGradient24;
+            textGradient24.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient25.BorderColor = System.Drawing.Color.DarkGray;
             textGradient25.BorderWidth = 1;
             textGradient25.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2020,8 +2004,7 @@ namespace MPfm
             customFont48.UseAntiAliasing = true;
             customFont48.UseEmbeddedFont = true;
             textGradient25.Font = customFont48;
-            textGradient25.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnRemoveFolder.TextGradientDisabled = textGradient25;
+            textGradient25.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient26.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient26.BorderWidth = 1;
             textGradient26.Color1 = System.Drawing.Color.White;
@@ -2036,8 +2019,7 @@ namespace MPfm
             customFont49.UseAntiAliasing = true;
             customFont49.UseEmbeddedFont = true;
             textGradient26.Font = customFont49;
-            textGradient26.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnRemoveFolder.TextGradientMouseOver = textGradient26;
+            textGradient26.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnRemoveFolder, "Removes the selected folder(s) from your library.");
             this.btnRemoveFolder.UseVisualStyleBackColor = true;
             this.btnRemoveFolder.Click += new System.EventHandler(this.btnRemoveFolder_Click);
@@ -2121,8 +2103,7 @@ namespace MPfm
             customFont52.UseAntiAliasing = true;
             customFont52.UseEmbeddedFont = true;
             textGradient29.Font = customFont52;
-            textGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnLibrarySettings.TextGradientDefault = textGradient29;
+            textGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient30.BorderColor = System.Drawing.Color.DarkGray;
             textGradient30.BorderWidth = 1;
             textGradient30.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2137,8 +2118,7 @@ namespace MPfm
             customFont53.UseAntiAliasing = true;
             customFont53.UseEmbeddedFont = true;
             textGradient30.Font = customFont53;
-            textGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnLibrarySettings.TextGradientDisabled = textGradient30;
+            textGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient31.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient31.BorderWidth = 1;
             textGradient31.Color1 = System.Drawing.Color.White;
@@ -2153,8 +2133,7 @@ namespace MPfm
             customFont54.UseAntiAliasing = true;
             customFont54.UseEmbeddedFont = true;
             textGradient31.Font = customFont54;
-            textGradient31.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnLibrarySettings.TextGradientMouseOver = textGradient31;
+            textGradient31.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnLibrarySettings, "Displays the Library Settings tab.");
             this.btnLibrarySettings.UseVisualStyleBackColor = true;
             this.btnLibrarySettings.Click += new System.EventHandler(this.btnLibrarySettings_Click);
@@ -2185,8 +2164,7 @@ namespace MPfm
             customFont55.UseAntiAliasing = true;
             customFont55.UseEmbeddedFont = true;
             textGradient32.Font = customFont55;
-            textGradient32.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnGeneralSettings.TextGradientDefault = textGradient32;
+            textGradient32.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient33.BorderColor = System.Drawing.Color.DarkGray;
             textGradient33.BorderWidth = 1;
             textGradient33.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2201,8 +2179,7 @@ namespace MPfm
             customFont56.UseAntiAliasing = true;
             customFont56.UseEmbeddedFont = true;
             textGradient33.Font = customFont56;
-            textGradient33.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnGeneralSettings.TextGradientDisabled = textGradient33;
+            textGradient33.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient34.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient34.BorderWidth = 1;
             textGradient34.Color1 = System.Drawing.Color.White;
@@ -2217,8 +2194,7 @@ namespace MPfm
             customFont57.UseAntiAliasing = true;
             customFont57.UseEmbeddedFont = true;
             textGradient34.Font = customFont57;
-            textGradient34.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnGeneralSettings.TextGradientMouseOver = textGradient34;
+            textGradient34.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnGeneralSettings, "Displays the General Settings tab.");
             this.btnGeneralSettings.UseVisualStyleBackColor = true;
             this.btnGeneralSettings.Click += new System.EventHandler(this.btnGeneralSettings_Click);
@@ -2249,8 +2225,7 @@ namespace MPfm
             customFont58.UseAntiAliasing = true;
             customFont58.UseEmbeddedFont = true;
             textGradient35.Font = customFont58;
-            textGradient35.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAudioSettings.TextGradientDefault = textGradient35;
+            textGradient35.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient36.BorderColor = System.Drawing.Color.DarkGray;
             textGradient36.BorderWidth = 1;
             textGradient36.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2265,8 +2240,7 @@ namespace MPfm
             customFont59.UseAntiAliasing = true;
             customFont59.UseEmbeddedFont = true;
             textGradient36.Font = customFont59;
-            textGradient36.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAudioSettings.TextGradientDisabled = textGradient36;
+            textGradient36.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient37.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient37.BorderWidth = 1;
             textGradient37.Color1 = System.Drawing.Color.White;
@@ -2281,8 +2255,7 @@ namespace MPfm
             customFont60.UseAntiAliasing = true;
             customFont60.UseEmbeddedFont = true;
             textGradient37.Font = customFont60;
-            textGradient37.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAudioSettings.TextGradientMouseOver = textGradient37;
+            textGradient37.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnAudioSettings, "Displays the Audio Settings tab.");
             this.btnAudioSettings.UseVisualStyleBackColor = true;
             this.btnAudioSettings.Click += new System.EventHandler(this.btnAudioSettings_Click);

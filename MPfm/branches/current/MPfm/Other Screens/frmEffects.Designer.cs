@@ -2303,8 +2303,7 @@ namespace MPfm
             customFont44.UseAntiAliasing = true;
             customFont44.UseEmbeddedFont = true;
             textGradient2.Font = customFont44;
-            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAutoLevel.TextGradientDefault = textGradient2;
+            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient3.BorderColor = System.Drawing.Color.DarkGray;
             textGradient3.BorderWidth = 1;
             textGradient3.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2319,8 +2318,7 @@ namespace MPfm
             customFont45.UseAntiAliasing = true;
             customFont45.UseEmbeddedFont = true;
             textGradient3.Font = customFont45;
-            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAutoLevel.TextGradientDisabled = textGradient3;
+            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient4.BorderWidth = 1;
             textGradient4.Color1 = System.Drawing.Color.White;
@@ -2335,8 +2333,7 @@ namespace MPfm
             customFont46.UseAntiAliasing = true;
             customFont46.UseEmbeddedFont = true;
             textGradient4.Font = customFont46;
-            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnAutoLevel.TextGradientMouseOver = textGradient4;
+            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
             this.btnAutoLevel.UseVisualStyleBackColor = true;
             this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
@@ -2367,8 +2364,7 @@ namespace MPfm
             customFont47.UseAntiAliasing = true;
             customFont47.UseEmbeddedFont = true;
             textGradient5.Font = customFont47;
-            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetEQ.TextGradientDefault = textGradient5;
+            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient6.BorderColor = System.Drawing.Color.DarkGray;
             textGradient6.BorderWidth = 1;
             textGradient6.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2383,8 +2379,7 @@ namespace MPfm
             customFont48.UseAntiAliasing = true;
             customFont48.UseEmbeddedFont = true;
             textGradient6.Font = customFont48;
-            textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetEQ.TextGradientDisabled = textGradient6;
+            textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient7.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient7.BorderWidth = 1;
             textGradient7.Color1 = System.Drawing.Color.White;
@@ -2399,8 +2394,7 @@ namespace MPfm
             customFont49.UseAntiAliasing = true;
             customFont49.UseEmbeddedFont = true;
             textGradient7.Font = customFont49;
-            textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnResetEQ.TextGradientMouseOver = textGradient7;
+            textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnResetEQ, "Resets the equalizer bands to 0 dB.");
             this.btnResetEQ.UseVisualStyleBackColor = true;
             this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
@@ -2467,8 +2461,7 @@ namespace MPfm
             customFont51.UseAntiAliasing = true;
             customFont51.UseEmbeddedFont = true;
             textGradient8.Font = customFont51;
-            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSaveEQPreset.TextGradientDefault = textGradient8;
+            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient9.BorderColor = System.Drawing.Color.DarkGray;
             textGradient9.BorderWidth = 1;
             textGradient9.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2483,8 +2476,7 @@ namespace MPfm
             customFont52.UseAntiAliasing = true;
             customFont52.UseEmbeddedFont = true;
             textGradient9.Font = customFont52;
-            textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSaveEQPreset.TextGradientDisabled = textGradient9;
+            textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient10.BorderWidth = 1;
             textGradient10.Color1 = System.Drawing.Color.White;
@@ -2499,8 +2491,7 @@ namespace MPfm
             customFont53.UseAntiAliasing = true;
             customFont53.UseEmbeddedFont = true;
             textGradient10.Font = customFont53;
-            textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnSaveEQPreset.TextGradientMouseOver = textGradient10;
+            textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnSaveEQPreset, "Saves the current equalizer in a preset.");
             this.btnSaveEQPreset.UseVisualStyleBackColor = true;
             this.btnSaveEQPreset.Click += new System.EventHandler(this.btnSavePreset_Click);
@@ -2531,8 +2522,7 @@ namespace MPfm
             customFont54.UseAntiAliasing = true;
             customFont54.UseEmbeddedFont = true;
             textGradient11.Font = customFont54;
-            textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnDeleteEQPreset.TextGradientDefault = textGradient11;
+            textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient12.BorderColor = System.Drawing.Color.DarkGray;
             textGradient12.BorderWidth = 1;
             textGradient12.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -2547,8 +2537,7 @@ namespace MPfm
             customFont55.UseAntiAliasing = true;
             customFont55.UseEmbeddedFont = true;
             textGradient12.Font = customFont55;
-            textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnDeleteEQPreset.TextGradientDisabled = textGradient12;
+            textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             textGradient13.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             textGradient13.BorderWidth = 1;
             textGradient13.Color1 = System.Drawing.Color.White;
@@ -2563,8 +2552,7 @@ namespace MPfm
             customFont56.UseAntiAliasing = true;
             customFont56.UseEmbeddedFont = true;
             textGradient13.Font = customFont56;
-            textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnDeleteEQPreset.TextGradientMouseOver = textGradient13;
+            textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnDeleteEQPreset, "Deletes the currently selected preset.");
             this.btnDeleteEQPreset.UseVisualStyleBackColor = true;
             this.btnDeleteEQPreset.Click += new System.EventHandler(this.btnDeletePreset_Click);
