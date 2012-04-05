@@ -45,24 +45,21 @@ namespace MPfm.WindowsControls
         private EmbeddedFontCollection embeddedFonts = null;
 
         /// <summary>
-        /// Private value for the CustomFont property.
+        /// Private value for the Theme property.
         /// </summary>
-        private CustomFont customFont = null;
+        private LinkLabelTheme theme = null;
         /// <summary>
-        /// Defines the font to be used for rendering the control.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
+        public LinkLabelTheme Theme
         {
             get
             {
-                return customFont;
+                return theme;
             }
             set
             {
-                customFont = value;
-                Refresh();
+                theme = value;
             }
         }
 
@@ -75,8 +72,8 @@ namespace MPfm.WindowsControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            // Set default font
-            customFont = new CustomFont();
+            // Create default theme
+            theme = new LinkLabelTheme();
         }
 
         /// <summary>
@@ -131,7 +128,7 @@ namespace MPfm.WindowsControls
             Graphics g = pe.Graphics;
 
             // Use anti-aliasing?
-            if (CustomFont.UseAntiAliasing)
+            if (theme.TextGradient.Font.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -144,12 +141,12 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+            if (theme.TextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.TextGradient.Font.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.TextGradient.Font.EmbeddedFontName, theme.TextGradient.Font.Size, theme.TextGradient.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -164,7 +161,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                    font = new Font(theme.TextGradient.Font.StandardFontName, theme.TextGradient.Font.Size, theme.TextGradient.Font.ToFontStyle());
                 }
                 catch
                 {

@@ -137,15 +137,7 @@ namespace MPfm
             this.linkSaveLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.linkSaveLog.BackColor = System.Drawing.Color.Transparent;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = false;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = true;
-            customFont3.Size = 10F;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            this.linkSaveLog.CustomFont = customFont3;
+
             this.linkSaveLog.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkSaveLog.ForeColor = System.Drawing.Color.Gainsboro;
             this.linkSaveLog.Location = new System.Drawing.Point(484, 333);

@@ -1,5 +1,5 @@
 ﻿//
-// LabelTheme.cs: Theme object for the Label control.
+// LinkLabelTheme.cs: Theme object for the LinkLabel control.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -33,7 +33,7 @@ namespace MPfm.WindowsControls
     /// Theme object for the Label control.
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class LabelTheme
+    public class LinkLabelTheme
     {
         /// <summary>
         /// Private value for the IsBackgroundTransparent property.
@@ -78,9 +78,9 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Default constructor for the LabelTheme class.
+        /// Default constructor for the LinkLabelTheme class.
         /// </summary>
-        public LabelTheme()
+        public LinkLabelTheme()
         {
         }
     }

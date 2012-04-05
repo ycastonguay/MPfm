@@ -102,6 +102,7 @@
     <Compile Include="Fonts\EmbeddedFontCollection.cs" />
     <Compile Include="Fonts\EmbeddedFontHelper.cs" />
     <Compile Include="Fonts\CustomFontEditor.cs" />
+    <Compile Include="Labels\LinkLabelTheme.cs" />
     <Compile Include="Labels\LabelTheme.cs" />
     <Compile Include="Library\SongGridViewTheme.cs" />
     <Compile Include="Library\SongGridViewMode.cs" />
