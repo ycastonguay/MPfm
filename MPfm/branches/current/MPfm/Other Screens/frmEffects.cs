@@ -541,7 +541,7 @@ namespace MPfm
             for (int a = 0; a < 18; a++)
             {
                 FieldInfo infoFader = this.GetType().GetField("fader" + a.ToString(), BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-                MPfm.WindowsControls.VolumeFader fader = infoFader.GetValue(this) as MPfm.WindowsControls.VolumeFader;
+                MPfm.WindowsControls.Fader fader = infoFader.GetValue(this) as MPfm.WindowsControls.Fader;
                 preset.Bands[a].Gain = (float)fader.Value / 10;
             }
 
@@ -555,8 +555,8 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void fader_ValueChanged(object sender, EventArgs e)
         {
-            // Get track bar
-            VolumeFader fader = sender as VolumeFader;
+            // Get control
+            Fader fader = sender as Fader;
             int index = 0;
             int.TryParse(fader.Tag.ToString(), out index);
 
