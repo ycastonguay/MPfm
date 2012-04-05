@@ -265,19 +265,7 @@ namespace MPfm
             // lblGain17
             // 
             this.lblGain17.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain17.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain17.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain17.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8F;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseAntiAliasing = true;
-            customFont1.UseEmbeddedFont = true;
-            this.lblGain17.CustomFont = customFont1;
+
             this.lblGain17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain17.ForeColor = System.Drawing.Color.White;
             this.lblGain17.Location = new System.Drawing.Point(753, 423);
@@ -286,24 +274,12 @@ namespace MPfm
             this.lblGain17.TabIndex = 58;
             this.lblGain17.Text = "0 dB";
             this.lblGain17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain17.UseBackgroundGradient = false;
+
             // 
             // lbl17
             // 
             this.lbl17.BackColor = System.Drawing.Color.Transparent;
-            this.lbl17.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl17.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl17.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont2.EmbeddedFontName = "Junction";
-            customFont2.IsBold = false;
-            customFont2.IsItalic = false;
-            customFont2.IsUnderline = false;
-            customFont2.Size = 9F;
-            customFont2.StandardFontName = "Arial";
-            customFont2.UseAntiAliasing = true;
-            customFont2.UseEmbeddedFont = true;
-            this.lbl17.CustomFont = customFont2;
+
             this.lbl17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl17.ForeColor = System.Drawing.Color.White;
             this.lbl17.Location = new System.Drawing.Point(753, 404);
@@ -312,24 +288,12 @@ namespace MPfm
             this.lbl17.TabIndex = 57;
             this.lbl17.Text = "20 kHz";
             this.lbl17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl17.UseBackgroundGradient = false;
+
             // 
             // lblGain16
             // 
             this.lblGain16.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain16.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain16.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain16.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = false;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 8F;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            this.lblGain16.CustomFont = customFont3;
+
             this.lblGain16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain16.ForeColor = System.Drawing.Color.White;
             this.lblGain16.Location = new System.Drawing.Point(709, 423);
@@ -338,24 +302,12 @@ namespace MPfm
             this.lblGain16.TabIndex = 55;
             this.lblGain16.Text = "0 dB";
             this.lblGain16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain16.UseBackgroundGradient = false;
+
             // 
             // lbl16
             // 
             this.lbl16.BackColor = System.Drawing.Color.Transparent;
-            this.lbl16.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl16.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl16.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 9F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.lbl16.CustomFont = customFont4;
+
             this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl16.ForeColor = System.Drawing.Color.White;
             this.lbl16.Location = new System.Drawing.Point(709, 404);
@@ -364,24 +316,11 @@ namespace MPfm
             this.lbl16.TabIndex = 54;
             this.lbl16.Text = "14 kHz";
             this.lbl16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl16.UseBackgroundGradient = false;
+
             // 
             // lblGain15
             // 
-            this.lblGain15.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain15.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain15.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain15.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 8F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            this.lblGain15.CustomFont = customFont5;
+
             this.lblGain15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain15.ForeColor = System.Drawing.Color.White;
             this.lblGain15.Location = new System.Drawing.Point(665, 423);
@@ -390,24 +329,12 @@ namespace MPfm
             this.lblGain15.TabIndex = 52;
             this.lblGain15.Text = "0 dB";
             this.lblGain15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain15.UseBackgroundGradient = false;
+
             // 
             // lbl15
             // 
             this.lbl15.BackColor = System.Drawing.Color.Transparent;
-            this.lbl15.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl15.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl15.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont6.EmbeddedFontName = "Junction";
-            customFont6.IsBold = false;
-            customFont6.IsItalic = false;
-            customFont6.IsUnderline = false;
-            customFont6.Size = 9F;
-            customFont6.StandardFontName = "Arial";
-            customFont6.UseAntiAliasing = true;
-            customFont6.UseEmbeddedFont = true;
-            this.lbl15.CustomFont = customFont6;
+
             this.lbl15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl15.ForeColor = System.Drawing.Color.White;
             this.lbl15.Location = new System.Drawing.Point(665, 404);
@@ -416,24 +343,12 @@ namespace MPfm
             this.lbl15.TabIndex = 51;
             this.lbl15.Text = "10 kHz";
             this.lbl15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl15.UseBackgroundGradient = false;
+            
             // 
             // lblGain14
             // 
             this.lblGain14.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain14.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain14.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain14.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont7.EmbeddedFontName = "Junction";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 8F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            this.lblGain14.CustomFont = customFont7;
+
             this.lblGain14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain14.ForeColor = System.Drawing.Color.White;
             this.lblGain14.Location = new System.Drawing.Point(621, 423);
@@ -442,24 +357,12 @@ namespace MPfm
             this.lblGain14.TabIndex = 49;
             this.lblGain14.Text = "0 dB";
             this.lblGain14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain14.UseBackgroundGradient = false;
+
             // 
             // lbl14
             // 
             this.lbl14.BackColor = System.Drawing.Color.Transparent;
-            this.lbl14.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl14.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl14.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 9F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            this.lbl14.CustomFont = customFont8;
+
             this.lbl14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl14.ForeColor = System.Drawing.Color.White;
             this.lbl14.Location = new System.Drawing.Point(621, 404);
@@ -468,24 +371,12 @@ namespace MPfm
             this.lbl14.TabIndex = 48;
             this.lbl14.Text = "7 kHz";
             this.lbl14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl14.UseBackgroundGradient = false;
+
             // 
             // lblGain13
             // 
             this.lblGain13.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain13.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain13.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain13.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont9.EmbeddedFontName = "Junction";
-            customFont9.IsBold = false;
-            customFont9.IsItalic = false;
-            customFont9.IsUnderline = false;
-            customFont9.Size = 8F;
-            customFont9.StandardFontName = "Arial";
-            customFont9.UseAntiAliasing = true;
-            customFont9.UseEmbeddedFont = true;
-            this.lblGain13.CustomFont = customFont9;
+
             this.lblGain13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain13.ForeColor = System.Drawing.Color.White;
             this.lblGain13.Location = new System.Drawing.Point(577, 423);
@@ -494,24 +385,12 @@ namespace MPfm
             this.lblGain13.TabIndex = 46;
             this.lblGain13.Text = "0 dB";
             this.lblGain13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain13.UseBackgroundGradient = false;
+
             // 
             // lbl13
             // 
             this.lbl13.BackColor = System.Drawing.Color.Transparent;
-            this.lbl13.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl13.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl13.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont10.EmbeddedFontName = "Junction";
-            customFont10.IsBold = false;
-            customFont10.IsItalic = false;
-            customFont10.IsUnderline = false;
-            customFont10.Size = 9F;
-            customFont10.StandardFontName = "Arial";
-            customFont10.UseAntiAliasing = true;
-            customFont10.UseEmbeddedFont = true;
-            this.lbl13.CustomFont = customFont10;
+
             this.lbl13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl13.ForeColor = System.Drawing.Color.White;
             this.lbl13.Location = new System.Drawing.Point(577, 404);
@@ -520,24 +399,12 @@ namespace MPfm
             this.lbl13.TabIndex = 45;
             this.lbl13.Text = "5 kHz";
             this.lbl13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl13.UseBackgroundGradient = false;
+
             // 
             // lblGain12
             // 
             this.lblGain12.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain12.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain12.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain12.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont11.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont11.EmbeddedFontName = "Junction";
-            customFont11.IsBold = false;
-            customFont11.IsItalic = false;
-            customFont11.IsUnderline = false;
-            customFont11.Size = 8F;
-            customFont11.StandardFontName = "Arial";
-            customFont11.UseAntiAliasing = true;
-            customFont11.UseEmbeddedFont = true;
-            this.lblGain12.CustomFont = customFont11;
+
             this.lblGain12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain12.ForeColor = System.Drawing.Color.White;
             this.lblGain12.Location = new System.Drawing.Point(533, 423);
@@ -546,24 +413,12 @@ namespace MPfm
             this.lblGain12.TabIndex = 43;
             this.lblGain12.Text = "0 dB";
             this.lblGain12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain12.UseBackgroundGradient = false;
+
             // 
             // lbl12
             // 
             this.lbl12.BackColor = System.Drawing.Color.Transparent;
-            this.lbl12.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl12.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl12.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont12.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont12.EmbeddedFontName = "Junction";
-            customFont12.IsBold = false;
-            customFont12.IsItalic = false;
-            customFont12.IsUnderline = false;
-            customFont12.Size = 9F;
-            customFont12.StandardFontName = "Arial";
-            customFont12.UseAntiAliasing = true;
-            customFont12.UseEmbeddedFont = true;
-            this.lbl12.CustomFont = customFont12;
+
             this.lbl12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl12.ForeColor = System.Drawing.Color.White;
             this.lbl12.Location = new System.Drawing.Point(533, 404);
@@ -572,24 +427,12 @@ namespace MPfm
             this.lbl12.TabIndex = 42;
             this.lbl12.Text = "3.5 kHz";
             this.lbl12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl12.UseBackgroundGradient = false;
+
             // 
             // lblGain11
             // 
             this.lblGain11.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain11.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain11.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain11.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont13.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont13.EmbeddedFontName = "Junction";
-            customFont13.IsBold = false;
-            customFont13.IsItalic = false;
-            customFont13.IsUnderline = false;
-            customFont13.Size = 8F;
-            customFont13.StandardFontName = "Arial";
-            customFont13.UseAntiAliasing = true;
-            customFont13.UseEmbeddedFont = true;
-            this.lblGain11.CustomFont = customFont13;
+
             this.lblGain11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain11.ForeColor = System.Drawing.Color.White;
             this.lblGain11.Location = new System.Drawing.Point(489, 423);
@@ -598,24 +441,12 @@ namespace MPfm
             this.lblGain11.TabIndex = 40;
             this.lblGain11.Text = "0 dB";
             this.lblGain11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain11.UseBackgroundGradient = false;
+
             // 
             // lbl11
             // 
             this.lbl11.BackColor = System.Drawing.Color.Transparent;
-            this.lbl11.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl11.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl11.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont14.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont14.EmbeddedFontName = "Junction";
-            customFont14.IsBold = false;
-            customFont14.IsItalic = false;
-            customFont14.IsUnderline = false;
-            customFont14.Size = 9F;
-            customFont14.StandardFontName = "Arial";
-            customFont14.UseAntiAliasing = true;
-            customFont14.UseEmbeddedFont = true;
-            this.lbl11.CustomFont = customFont14;
+
             this.lbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl11.ForeColor = System.Drawing.Color.White;
             this.lbl11.Location = new System.Drawing.Point(489, 404);
@@ -624,24 +455,12 @@ namespace MPfm
             this.lbl11.TabIndex = 39;
             this.lbl11.Text = "2.5 kHz";
             this.lbl11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl11.UseBackgroundGradient = false;
+
             // 
             // lblGain10
             // 
             this.lblGain10.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain10.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain10.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain10.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont15.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont15.EmbeddedFontName = "Junction";
-            customFont15.IsBold = false;
-            customFont15.IsItalic = false;
-            customFont15.IsUnderline = false;
-            customFont15.Size = 8F;
-            customFont15.StandardFontName = "Arial";
-            customFont15.UseAntiAliasing = true;
-            customFont15.UseEmbeddedFont = true;
-            this.lblGain10.CustomFont = customFont15;
+
             this.lblGain10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain10.ForeColor = System.Drawing.Color.White;
             this.lblGain10.Location = new System.Drawing.Point(445, 423);
@@ -650,24 +469,12 @@ namespace MPfm
             this.lblGain10.TabIndex = 37;
             this.lblGain10.Text = "0 dB";
             this.lblGain10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain10.UseBackgroundGradient = false;
+
             // 
             // lbl10
             // 
             this.lbl10.BackColor = System.Drawing.Color.Transparent;
-            this.lbl10.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl10.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl10.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont16.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont16.EmbeddedFontName = "Junction";
-            customFont16.IsBold = false;
-            customFont16.IsItalic = false;
-            customFont16.IsUnderline = false;
-            customFont16.Size = 9F;
-            customFont16.StandardFontName = "Arial";
-            customFont16.UseAntiAliasing = true;
-            customFont16.UseEmbeddedFont = true;
-            this.lbl10.CustomFont = customFont16;
+
             this.lbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl10.ForeColor = System.Drawing.Color.White;
             this.lbl10.Location = new System.Drawing.Point(445, 404);
@@ -676,24 +483,12 @@ namespace MPfm
             this.lbl10.TabIndex = 36;
             this.lbl10.Text = "1.8 kHz";
             this.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl10.UseBackgroundGradient = false;
+            
             // 
             // lblGain9
             // 
             this.lblGain9.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain9.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain9.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain9.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont17.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont17.EmbeddedFontName = "Junction";
-            customFont17.IsBold = false;
-            customFont17.IsItalic = false;
-            customFont17.IsUnderline = false;
-            customFont17.Size = 8F;
-            customFont17.StandardFontName = "Arial";
-            customFont17.UseAntiAliasing = true;
-            customFont17.UseEmbeddedFont = true;
-            this.lblGain9.CustomFont = customFont17;
+
             this.lblGain9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain9.ForeColor = System.Drawing.Color.White;
             this.lblGain9.Location = new System.Drawing.Point(401, 423);
@@ -702,24 +497,12 @@ namespace MPfm
             this.lblGain9.TabIndex = 34;
             this.lblGain9.Text = "0 dB";
             this.lblGain9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain9.UseBackgroundGradient = false;
+
             // 
             // lbl9
             // 
             this.lbl9.BackColor = System.Drawing.Color.Transparent;
-            this.lbl9.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl9.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl9.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont18.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont18.EmbeddedFontName = "Junction";
-            customFont18.IsBold = false;
-            customFont18.IsItalic = false;
-            customFont18.IsUnderline = false;
-            customFont18.Size = 9F;
-            customFont18.StandardFontName = "Arial";
-            customFont18.UseAntiAliasing = true;
-            customFont18.UseEmbeddedFont = true;
-            this.lbl9.CustomFont = customFont18;
+
             this.lbl9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl9.ForeColor = System.Drawing.Color.White;
             this.lbl9.Location = new System.Drawing.Point(401, 404);
@@ -728,24 +511,12 @@ namespace MPfm
             this.lbl9.TabIndex = 33;
             this.lbl9.Text = "1.2 kHz";
             this.lbl9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl9.UseBackgroundGradient = false;
+
             // 
             // lblGain8
             // 
             this.lblGain8.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain8.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain8.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain8.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont19.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont19.EmbeddedFontName = "Junction";
-            customFont19.IsBold = false;
-            customFont19.IsItalic = false;
-            customFont19.IsUnderline = false;
-            customFont19.Size = 8F;
-            customFont19.StandardFontName = "Arial";
-            customFont19.UseAntiAliasing = true;
-            customFont19.UseEmbeddedFont = true;
-            this.lblGain8.CustomFont = customFont19;
+
             this.lblGain8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain8.ForeColor = System.Drawing.Color.White;
             this.lblGain8.Location = new System.Drawing.Point(357, 423);
@@ -754,24 +525,12 @@ namespace MPfm
             this.lblGain8.TabIndex = 31;
             this.lblGain8.Text = "0 dB";
             this.lblGain8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain8.UseBackgroundGradient = false;
+
             // 
             // lbl8
             // 
             this.lbl8.BackColor = System.Drawing.Color.Transparent;
-            this.lbl8.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl8.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl8.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont20.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont20.EmbeddedFontName = "Junction";
-            customFont20.IsBold = false;
-            customFont20.IsItalic = false;
-            customFont20.IsUnderline = false;
-            customFont20.Size = 9F;
-            customFont20.StandardFontName = "Arial";
-            customFont20.UseAntiAliasing = true;
-            customFont20.UseEmbeddedFont = true;
-            this.lbl8.CustomFont = customFont20;
+
             this.lbl8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl8.ForeColor = System.Drawing.Color.White;
             this.lbl8.Location = new System.Drawing.Point(357, 404);
@@ -780,24 +539,12 @@ namespace MPfm
             this.lbl8.TabIndex = 30;
             this.lbl8.Text = "880 Hz";
             this.lbl8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl8.UseBackgroundGradient = false;
+
             // 
             // lblGain7
             // 
             this.lblGain7.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain7.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain7.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain7.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont21.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont21.EmbeddedFontName = "Junction";
-            customFont21.IsBold = false;
-            customFont21.IsItalic = false;
-            customFont21.IsUnderline = false;
-            customFont21.Size = 8F;
-            customFont21.StandardFontName = "Arial";
-            customFont21.UseAntiAliasing = true;
-            customFont21.UseEmbeddedFont = true;
-            this.lblGain7.CustomFont = customFont21;
+
             this.lblGain7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain7.ForeColor = System.Drawing.Color.White;
             this.lblGain7.Location = new System.Drawing.Point(313, 423);
@@ -806,24 +553,12 @@ namespace MPfm
             this.lblGain7.TabIndex = 28;
             this.lblGain7.Text = "0 dB";
             this.lblGain7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain7.UseBackgroundGradient = false;
+
             // 
             // lbl7
             // 
             this.lbl7.BackColor = System.Drawing.Color.Transparent;
-            this.lbl7.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl7.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl7.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont22.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont22.EmbeddedFontName = "Junction";
-            customFont22.IsBold = false;
-            customFont22.IsItalic = false;
-            customFont22.IsUnderline = false;
-            customFont22.Size = 9F;
-            customFont22.StandardFontName = "Arial";
-            customFont22.UseAntiAliasing = true;
-            customFont22.UseEmbeddedFont = true;
-            this.lbl7.CustomFont = customFont22;
+
             this.lbl7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl7.ForeColor = System.Drawing.Color.White;
             this.lbl7.Location = new System.Drawing.Point(313, 404);
@@ -832,24 +567,12 @@ namespace MPfm
             this.lbl7.TabIndex = 27;
             this.lbl7.Text = "622 Hz";
             this.lbl7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl7.UseBackgroundGradient = false;
+
             // 
             // lblGain6
             // 
             this.lblGain6.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain6.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain6.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain6.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont23.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont23.EmbeddedFontName = "Junction";
-            customFont23.IsBold = false;
-            customFont23.IsItalic = false;
-            customFont23.IsUnderline = false;
-            customFont23.Size = 8F;
-            customFont23.StandardFontName = "Arial";
-            customFont23.UseAntiAliasing = true;
-            customFont23.UseEmbeddedFont = true;
-            this.lblGain6.CustomFont = customFont23;
+
             this.lblGain6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain6.ForeColor = System.Drawing.Color.White;
             this.lblGain6.Location = new System.Drawing.Point(269, 423);
@@ -858,24 +581,12 @@ namespace MPfm
             this.lblGain6.TabIndex = 25;
             this.lblGain6.Text = "0 dB";
             this.lblGain6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain6.UseBackgroundGradient = false;
+
             // 
             // lbl6
             // 
             this.lbl6.BackColor = System.Drawing.Color.Transparent;
-            this.lbl6.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl6.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl6.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont24.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont24.EmbeddedFontName = "Junction";
-            customFont24.IsBold = false;
-            customFont24.IsItalic = false;
-            customFont24.IsUnderline = false;
-            customFont24.Size = 9F;
-            customFont24.StandardFontName = "Arial";
-            customFont24.UseAntiAliasing = true;
-            customFont24.UseEmbeddedFont = true;
-            this.lbl6.CustomFont = customFont24;
+
             this.lbl6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl6.ForeColor = System.Drawing.Color.White;
             this.lbl6.Location = new System.Drawing.Point(269, 404);
@@ -884,24 +595,12 @@ namespace MPfm
             this.lbl6.TabIndex = 24;
             this.lbl6.Text = "440 Hz";
             this.lbl6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl6.UseBackgroundGradient = false;
+
             // 
             // lblGain5
             // 
             this.lblGain5.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain5.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain5.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain5.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont25.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont25.EmbeddedFontName = "Junction";
-            customFont25.IsBold = false;
-            customFont25.IsItalic = false;
-            customFont25.IsUnderline = false;
-            customFont25.Size = 8F;
-            customFont25.StandardFontName = "Arial";
-            customFont25.UseAntiAliasing = true;
-            customFont25.UseEmbeddedFont = true;
-            this.lblGain5.CustomFont = customFont25;
+
             this.lblGain5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain5.ForeColor = System.Drawing.Color.White;
             this.lblGain5.Location = new System.Drawing.Point(225, 423);
@@ -910,24 +609,12 @@ namespace MPfm
             this.lblGain5.TabIndex = 22;
             this.lblGain5.Text = "0 dB";
             this.lblGain5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain5.UseBackgroundGradient = false;
+
             // 
             // lbl5
             // 
             this.lbl5.BackColor = System.Drawing.Color.Transparent;
-            this.lbl5.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl5.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl5.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont26.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont26.EmbeddedFontName = "Junction";
-            customFont26.IsBold = false;
-            customFont26.IsItalic = false;
-            customFont26.IsUnderline = false;
-            customFont26.Size = 9F;
-            customFont26.StandardFontName = "Arial";
-            customFont26.UseAntiAliasing = true;
-            customFont26.UseEmbeddedFont = true;
-            this.lbl5.CustomFont = customFont26;
+
             this.lbl5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl5.ForeColor = System.Drawing.Color.White;
             this.lbl5.Location = new System.Drawing.Point(225, 404);
@@ -936,24 +623,12 @@ namespace MPfm
             this.lbl5.TabIndex = 21;
             this.lbl5.Text = "311 Hz";
             this.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl5.UseBackgroundGradient = false;
+
             // 
             // lblGain4
             // 
             this.lblGain4.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont27.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont27.EmbeddedFontName = "Junction";
-            customFont27.IsBold = false;
-            customFont27.IsItalic = false;
-            customFont27.IsUnderline = false;
-            customFont27.Size = 8F;
-            customFont27.StandardFontName = "Arial";
-            customFont27.UseAntiAliasing = true;
-            customFont27.UseEmbeddedFont = true;
-            this.lblGain4.CustomFont = customFont27;
+
             this.lblGain4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain4.ForeColor = System.Drawing.Color.White;
             this.lblGain4.Location = new System.Drawing.Point(181, 423);
@@ -962,24 +637,12 @@ namespace MPfm
             this.lblGain4.TabIndex = 19;
             this.lblGain4.Text = "0 dB";
             this.lblGain4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain4.UseBackgroundGradient = false;
+
             // 
             // lbl4
             // 
             this.lbl4.BackColor = System.Drawing.Color.Transparent;
-            this.lbl4.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl4.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl4.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont28.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont28.EmbeddedFontName = "Junction";
-            customFont28.IsBold = false;
-            customFont28.IsItalic = false;
-            customFont28.IsUnderline = false;
-            customFont28.Size = 9F;
-            customFont28.StandardFontName = "Arial";
-            customFont28.UseAntiAliasing = true;
-            customFont28.UseEmbeddedFont = true;
-            this.lbl4.CustomFont = customFont28;
+
             this.lbl4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl4.ForeColor = System.Drawing.Color.White;
             this.lbl4.Location = new System.Drawing.Point(181, 404);
@@ -988,24 +651,12 @@ namespace MPfm
             this.lbl4.TabIndex = 18;
             this.lbl4.Text = "220 Hz";
             this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl4.UseBackgroundGradient = false;
+
             // 
             // lblGain3
             // 
             this.lblGain3.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont29.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont29.EmbeddedFontName = "Junction";
-            customFont29.IsBold = false;
-            customFont29.IsItalic = false;
-            customFont29.IsUnderline = false;
-            customFont29.Size = 8F;
-            customFont29.StandardFontName = "Arial";
-            customFont29.UseAntiAliasing = true;
-            customFont29.UseEmbeddedFont = true;
-            this.lblGain3.CustomFont = customFont29;
+
             this.lblGain3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain3.ForeColor = System.Drawing.Color.White;
             this.lblGain3.Location = new System.Drawing.Point(137, 423);
@@ -1014,24 +665,12 @@ namespace MPfm
             this.lblGain3.TabIndex = 16;
             this.lblGain3.Text = "0 dB";
             this.lblGain3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain3.UseBackgroundGradient = false;
+
             // 
             // lbl3
             // 
             this.lbl3.BackColor = System.Drawing.Color.Transparent;
-            this.lbl3.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl3.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl3.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont30.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont30.EmbeddedFontName = "Junction";
-            customFont30.IsBold = false;
-            customFont30.IsItalic = false;
-            customFont30.IsUnderline = false;
-            customFont30.Size = 9F;
-            customFont30.StandardFontName = "Arial";
-            customFont30.UseAntiAliasing = true;
-            customFont30.UseEmbeddedFont = true;
-            this.lbl3.CustomFont = customFont30;
+
             this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl3.ForeColor = System.Drawing.Color.White;
             this.lbl3.Location = new System.Drawing.Point(137, 404);
@@ -1040,24 +679,12 @@ namespace MPfm
             this.lbl3.TabIndex = 15;
             this.lbl3.Text = "156 Hz";
             this.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl3.UseBackgroundGradient = false;
+
             // 
             // lblGain2
             // 
             this.lblGain2.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont31.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont31.EmbeddedFontName = "Junction";
-            customFont31.IsBold = false;
-            customFont31.IsItalic = false;
-            customFont31.IsUnderline = false;
-            customFont31.Size = 8F;
-            customFont31.StandardFontName = "Arial";
-            customFont31.UseAntiAliasing = true;
-            customFont31.UseEmbeddedFont = true;
-            this.lblGain2.CustomFont = customFont31;
+
             this.lblGain2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain2.ForeColor = System.Drawing.Color.White;
             this.lblGain2.Location = new System.Drawing.Point(93, 423);
@@ -1066,24 +693,12 @@ namespace MPfm
             this.lblGain2.TabIndex = 13;
             this.lblGain2.Text = "0 dB";
             this.lblGain2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain2.UseBackgroundGradient = false;
+
             // 
             // lbl2
             // 
             this.lbl2.BackColor = System.Drawing.Color.Transparent;
-            this.lbl2.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl2.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl2.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont32.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont32.EmbeddedFontName = "Junction";
-            customFont32.IsBold = false;
-            customFont32.IsItalic = false;
-            customFont32.IsUnderline = false;
-            customFont32.Size = 9F;
-            customFont32.StandardFontName = "Arial";
-            customFont32.UseAntiAliasing = true;
-            customFont32.UseEmbeddedFont = true;
-            this.lbl2.CustomFont = customFont32;
+
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl2.ForeColor = System.Drawing.Color.White;
             this.lbl2.Location = new System.Drawing.Point(93, 404);
@@ -1092,24 +707,12 @@ namespace MPfm
             this.lbl2.TabIndex = 12;
             this.lbl2.Text = "110 Hz";
             this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl2.UseBackgroundGradient = false;
+
             // 
             // lblGain1
             // 
             this.lblGain1.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont33.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont33.EmbeddedFontName = "Junction";
-            customFont33.IsBold = false;
-            customFont33.IsItalic = false;
-            customFont33.IsUnderline = false;
-            customFont33.Size = 8F;
-            customFont33.StandardFontName = "Arial";
-            customFont33.UseAntiAliasing = true;
-            customFont33.UseEmbeddedFont = true;
-            this.lblGain1.CustomFont = customFont33;
+
             this.lblGain1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain1.ForeColor = System.Drawing.Color.White;
             this.lblGain1.Location = new System.Drawing.Point(49, 423);
@@ -1118,24 +721,12 @@ namespace MPfm
             this.lblGain1.TabIndex = 10;
             this.lblGain1.Text = "0 dB";
             this.lblGain1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain1.UseBackgroundGradient = false;
+
             // 
             // lbl1
             // 
             this.lbl1.BackColor = System.Drawing.Color.Transparent;
-            this.lbl1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont34.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont34.EmbeddedFontName = "Junction";
-            customFont34.IsBold = false;
-            customFont34.IsItalic = false;
-            customFont34.IsUnderline = false;
-            customFont34.Size = 9F;
-            customFont34.StandardFontName = "Arial";
-            customFont34.UseAntiAliasing = true;
-            customFont34.UseEmbeddedFont = true;
-            this.lbl1.CustomFont = customFont34;
+
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1.ForeColor = System.Drawing.Color.White;
             this.lbl1.Location = new System.Drawing.Point(49, 404);
@@ -1144,24 +735,12 @@ namespace MPfm
             this.lbl1.TabIndex = 9;
             this.lbl1.Text = "77 Hz";
             this.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl1.UseBackgroundGradient = false;
+
             // 
             // lblGain0
             // 
             this.lblGain0.BackColor = System.Drawing.Color.Transparent;
-            this.lblGain0.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGain0.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblGain0.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont35.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont35.EmbeddedFontName = "Junction";
-            customFont35.IsBold = false;
-            customFont35.IsItalic = false;
-            customFont35.IsUnderline = false;
-            customFont35.Size = 8F;
-            customFont35.StandardFontName = "Arial";
-            customFont35.UseAntiAliasing = true;
-            customFont35.UseEmbeddedFont = true;
-            this.lblGain0.CustomFont = customFont35;
+
             this.lblGain0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain0.ForeColor = System.Drawing.Color.White;
             this.lblGain0.Location = new System.Drawing.Point(6, 423);
@@ -1170,24 +749,12 @@ namespace MPfm
             this.lblGain0.TabIndex = 7;
             this.lblGain0.Text = "0 dB";
             this.lblGain0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGain0.UseBackgroundGradient = false;
+
             // 
             // lbl0
             // 
             this.lbl0.BackColor = System.Drawing.Color.Transparent;
-            this.lbl0.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl0.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl0.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont36.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont36.EmbeddedFontName = "Junction";
-            customFont36.IsBold = false;
-            customFont36.IsItalic = false;
-            customFont36.IsUnderline = false;
-            customFont36.Size = 9F;
-            customFont36.StandardFontName = "Arial";
-            customFont36.UseAntiAliasing = true;
-            customFont36.UseEmbeddedFont = true;
-            this.lbl0.CustomFont = customFont36;
+
             this.lbl0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl0.ForeColor = System.Drawing.Color.White;
             this.lbl0.Location = new System.Drawing.Point(6, 404);
@@ -1196,24 +763,12 @@ namespace MPfm
             this.lbl0.TabIndex = 6;
             this.lbl0.Text = "55 Hz";
             this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl0.UseBackgroundGradient = false;
+
             // 
             // lbl0dB
             // 
             this.lbl0dB.BackColor = System.Drawing.Color.Transparent;
-            this.lbl0dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl0dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl0dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont37.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont37.EmbeddedFontName = "Junction";
-            customFont37.IsBold = false;
-            customFont37.IsItalic = false;
-            customFont37.IsUnderline = false;
-            customFont37.Size = 10F;
-            customFont37.StandardFontName = "Arial";
-            customFont37.UseAntiAliasing = true;
-            customFont37.UseEmbeddedFont = true;
-            this.lbl0dB.CustomFont = customFont37;
+
             this.lbl0dB.ForeColor = System.Drawing.Color.White;
             this.lbl0dB.Location = new System.Drawing.Point(800, 211);
             this.lbl0dB.Name = "lbl0dB";
@@ -1221,24 +776,12 @@ namespace MPfm
             this.lbl0dB.TabIndex = 59;
             this.lbl0dB.Text = "  0 dB";
             this.lbl0dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl0dB.UseBackgroundGradient = false;
+
             // 
             // lbl_6dB
             // 
             this.lbl_6dB.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_6dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl_6dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl_6dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont38.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont38.EmbeddedFontName = "Junction";
-            customFont38.IsBold = false;
-            customFont38.IsItalic = false;
-            customFont38.IsUnderline = false;
-            customFont38.Size = 10F;
-            customFont38.StandardFontName = "Arial";
-            customFont38.UseAntiAliasing = true;
-            customFont38.UseEmbeddedFont = true;
-            this.lbl_6dB.CustomFont = customFont38;
+
             this.lbl_6dB.ForeColor = System.Drawing.Color.White;
             this.lbl_6dB.Location = new System.Drawing.Point(800, 382);
             this.lbl_6dB.Name = "lbl_6dB";
@@ -1246,24 +789,12 @@ namespace MPfm
             this.lbl_6dB.TabIndex = 60;
             this.lbl_6dB.Text = "- 6 dB";
             this.lbl_6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl_6dB.UseBackgroundGradient = false;
+
             // 
             // lbl6dB
             // 
             this.lbl6dB.BackColor = System.Drawing.Color.Transparent;
-            this.lbl6dB.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbl6dB.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbl6dB.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont39.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont39.EmbeddedFontName = "Junction";
-            customFont39.IsBold = false;
-            customFont39.IsItalic = false;
-            customFont39.IsUnderline = false;
-            customFont39.Size = 10F;
-            customFont39.StandardFontName = "Arial";
-            customFont39.UseAntiAliasing = true;
-            customFont39.UseEmbeddedFont = true;
-            this.lbl6dB.CustomFont = customFont39;
+
             this.lbl6dB.ForeColor = System.Drawing.Color.White;
             this.lbl6dB.Location = new System.Drawing.Point(800, 28);
             this.lbl6dB.Name = "lbl6dB";
@@ -1271,7 +802,7 @@ namespace MPfm
             this.lbl6dB.TabIndex = 61;
             this.lbl6dB.Text = "+ 6 dB";
             this.lbl6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl6dB.UseBackgroundGradient = false;
+
             // 
             // tableLayout
             // 
@@ -2112,19 +1643,7 @@ namespace MPfm
             this.lblEQOn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQOn.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQOn.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEQOn.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblEQOn.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont40.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont40.EmbeddedFontName = "Junction";
-            customFont40.IsBold = false;
-            customFont40.IsItalic = false;
-            customFont40.IsUnderline = false;
-            customFont40.Size = 8F;
-            customFont40.StandardFontName = "Arial";
-            customFont40.UseAntiAliasing = true;
-            customFont40.UseEmbeddedFont = true;
-            this.lblEQOn.CustomFont = customFont40;
+
             this.lblEQOn.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQOn.ForeColor = System.Drawing.Color.Black;
             this.lblEQOn.Location = new System.Drawing.Point(18, 47);
@@ -2134,7 +1653,7 @@ namespace MPfm
             this.lblEQOn.Text = " EQ On";
             this.lblEQOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQOn, "Enables/disables the 18-band equalizer.");
-            this.lblEQOn.UseBackgroundGradient = false;
+
             // 
             // chkEQOn
             // 
@@ -2224,19 +1743,7 @@ namespace MPfm
             this.lblEQBandwidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQBandwidth.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQBandwidth.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEQBandwidth.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblEQBandwidth.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont42.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont42.EmbeddedFontName = "Junction";
-            customFont42.IsBold = false;
-            customFont42.IsItalic = false;
-            customFont42.IsUnderline = false;
-            customFont42.Size = 8F;
-            customFont42.StandardFontName = "Arial";
-            customFont42.UseAntiAliasing = true;
-            customFont42.UseEmbeddedFont = true;
-            this.lblEQBandwidth.CustomFont = customFont42;
+
             this.lblEQBandwidth.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQBandwidth.ForeColor = System.Drawing.Color.Black;
             this.lblEQBandwidth.Location = new System.Drawing.Point(4, 103);
@@ -2246,26 +1753,14 @@ namespace MPfm
             this.lblEQBandwidth.Text = "Bandwidth:";
             this.lblEQBandwidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQBandwidth, "Equalizer Bandwidth (adjusts the width of each band).");
-            this.lblEQBandwidth.UseBackgroundGradient = false;
+
             // 
             // lblEQQ
             // 
             this.lblEQQ.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQQ.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEQQ.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblEQQ.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont43.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont43.EmbeddedFontName = "Junction";
-            customFont43.IsBold = false;
-            customFont43.IsItalic = false;
-            customFont43.IsUnderline = false;
-            customFont43.Size = 8F;
-            customFont43.StandardFontName = "Arial";
-            customFont43.UseAntiAliasing = true;
-            customFont43.UseEmbeddedFont = true;
-            this.lblEQQ.CustomFont = customFont43;
+
             this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQQ.ForeColor = System.Drawing.Color.Black;
             this.lblEQQ.Location = new System.Drawing.Point(4, 62);
@@ -2275,7 +1770,7 @@ namespace MPfm
             this.lblEQQ.Text = "Q:";
             this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQQ, "Equalizer Q (adjusts the sharpness of each band)");
-            this.lblEQQ.UseBackgroundGradient = false;
+
             // 
             // btnAutoLevel
             // 
@@ -2404,19 +1899,7 @@ namespace MPfm
             this.lblEQChanged.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQChanged.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQChanged.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEQChanged.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblEQChanged.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont50.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont50.EmbeddedFontName = "";
-            customFont50.IsBold = false;
-            customFont50.IsItalic = false;
-            customFont50.IsUnderline = false;
-            customFont50.Size = 8F;
-            customFont50.StandardFontName = "Arial";
-            customFont50.UseAntiAliasing = true;
-            customFont50.UseEmbeddedFont = false;
-            this.lblEQChanged.CustomFont = customFont50;
+
             this.lblEQChanged.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQChanged.ForeColor = System.Drawing.Color.White;
             this.lblEQChanged.Location = new System.Drawing.Point(4, 323);
@@ -2425,7 +1908,7 @@ namespace MPfm
             this.lblEQChanged.TabIndex = 68;
             this.lblEQChanged.Text = "EQ changed";
             this.lblEQChanged.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEQChanged.UseBackgroundGradient = false;
+
             this.lblEQChanged.Visible = false;
             // 
             // txtEQPresetName
@@ -2562,19 +2045,7 @@ namespace MPfm
             this.lblEQName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEQName.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQName.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEQName.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblEQName.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont57.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont57.EmbeddedFontName = "Junction";
-            customFont57.IsBold = false;
-            customFont57.IsItalic = false;
-            customFont57.IsUnderline = false;
-            customFont57.Size = 8F;
-            customFont57.StandardFontName = "Arial";
-            customFont57.UseAntiAliasing = true;
-            customFont57.UseEmbeddedFont = true;
-            this.lblEQName.CustomFont = customFont57;
+
             this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQName.ForeColor = System.Drawing.Color.Black;
             this.lblEQName.Location = new System.Drawing.Point(4, 21);
@@ -2584,7 +2055,7 @@ namespace MPfm
             this.lblEQName.Text = "Name:";
             this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQName, "Equalizer preset name.");
-            this.lblEQName.UseBackgroundGradient = false;
+
             // 
             // panelZeroLine
             // 

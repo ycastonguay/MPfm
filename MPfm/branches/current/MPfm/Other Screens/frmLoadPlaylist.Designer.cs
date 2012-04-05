@@ -66,15 +66,6 @@ namespace MPfm
             // 
             this.lblPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPercentage.BackColor = System.Drawing.Color.Transparent;
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8F;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseAntiAliasing = true;
-            customFont1.UseEmbeddedFont = true;
-            this.lblPercentage.CustomFont = customFont1;
             this.lblPercentage.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPercentage.ForeColor = System.Drawing.Color.White;
             this.lblPercentage.Location = new System.Drawing.Point(560, 26);
@@ -103,15 +94,7 @@ namespace MPfm
             this.lblFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFilePath.BackColor = System.Drawing.Color.Transparent;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = true;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 8F;
-            customFont3.StandardFontName = "Arial Unicode MS";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            this.lblFilePath.CustomFont = customFont3;
+
             this.lblFilePath.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFilePath.ForeColor = System.Drawing.Color.White;
             this.lblFilePath.Location = new System.Drawing.Point(34, 4);
@@ -123,15 +106,7 @@ namespace MPfm
             // lblFile
             // 
             this.lblFile.BackColor = System.Drawing.Color.Transparent;
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 8F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            this.lblFile.CustomFont = customFont4;
+
             this.lblFile.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFile.ForeColor = System.Drawing.Color.White;
             this.lblFile.Location = new System.Drawing.Point(3, 4);

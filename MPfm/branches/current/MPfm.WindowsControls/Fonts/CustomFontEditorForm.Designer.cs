@@ -104,15 +104,7 @@
             // 
             // lblPreview
             //             
-            this.lblPreview.BackColor = System.Drawing.Color.Transparent;
-            customFont1.EmbeddedFontName = "";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseEmbeddedFont = false;
-            this.lblPreview.CustomFont = customFont1;            
+            this.lblPreview.BackColor = System.Drawing.Color.Transparent;        
             this.lblPreview.Location = new System.Drawing.Point(6, 20);
             this.lblPreview.Name = "lblPreview";
             this.lblPreview.Size = new System.Drawing.Size(435, 44);

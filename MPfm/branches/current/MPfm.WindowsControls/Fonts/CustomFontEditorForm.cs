@@ -123,7 +123,7 @@ namespace MPfm.WindowsControls
             chkIsUnderline.Checked = CustomFont.IsUnderline;
 
             // Refresh preview
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
 
             // Set text
@@ -175,7 +175,7 @@ namespace MPfm.WindowsControls
 
             // Set preview font            
             CustomFont.EmbeddedFontName = font.Name;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
 
@@ -200,7 +200,7 @@ namespace MPfm.WindowsControls
             {
                 // Set font properties
                 CustomFont.StandardFontName = font;
-                lblPreview.CustomFont = CustomFont;
+                lblPreview.Theme.TextGradient.Font = CustomFont;
                 lblPreview.Refresh();
             }
         }
@@ -225,7 +225,7 @@ namespace MPfm.WindowsControls
 
             // Set font properties
             CustomFont.UseEmbeddedFont = radioUseCustomFont.Checked;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
 
@@ -249,7 +249,7 @@ namespace MPfm.WindowsControls
 
             // Set font properties
             CustomFont.UseEmbeddedFont = radioUseCustomFont.Checked;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
 
@@ -271,7 +271,7 @@ namespace MPfm.WindowsControls
 
             // Update font            
             CustomFont.Size = trackFontSize.Value;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
 
@@ -290,7 +290,7 @@ namespace MPfm.WindowsControls
 
             // Set bold
             CustomFont.IsBold = chkIsBold.Checked;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
 
@@ -309,7 +309,7 @@ namespace MPfm.WindowsControls
 
             // Set italic
             CustomFont.IsItalic = chkIsItalic.Checked;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
 
@@ -328,7 +328,7 @@ namespace MPfm.WindowsControls
 
             // Set underline
             CustomFont.IsUnderline = chkIsUnderline.Checked;
-            lblPreview.CustomFont = CustomFont;
+            lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
     }

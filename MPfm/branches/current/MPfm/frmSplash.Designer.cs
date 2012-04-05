@@ -54,15 +54,7 @@ namespace MPfm
             // 
             // lblStatus
             // 
-            this.lblStatus.BackColor = System.Drawing.Color.Transparent;
-            customFont1.EmbeddedFontName = "TitilliumText22L Lt";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 9;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseEmbeddedFont = true;
-            this.lblStatus.CustomFont = customFont1;
+            this.lblStatus.BackColor = System.Drawing.Color.Transparent;            
             this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.White;
             this.lblStatus.Location = new System.Drawing.Point(5, 481);
@@ -75,14 +67,7 @@ namespace MPfm
             // lblVersion
             // 
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
-            customFont2.EmbeddedFontName = "Droid Sans Mono";
-            customFont2.IsBold = false;
-            customFont2.IsItalic = false;
-            customFont2.IsUnderline = false;
-            customFont2.Size = 9;
-            customFont2.StandardFontName = "Arial";
-            customFont2.UseEmbeddedFont = true;
-            this.lblVersion.CustomFont = customFont2;
+
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
             this.lblVersion.ForeColor = System.Drawing.Color.White;
             this.lblVersion.Location = new System.Drawing.Point(7, 8);

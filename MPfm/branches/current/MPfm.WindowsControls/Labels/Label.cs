@@ -46,119 +46,24 @@ namespace MPfm.WindowsControls
         /// </summary>
         private EmbeddedFontCollection embeddedFonts = null;
 
-        #region Background Properties
-
         /// <summary>
-        /// Private value for the UseBackgroundGradient property.
+        /// Private value for the Theme property.
         /// </summary>
-        private bool useBackgroundGradient = false;
+        private LabelTheme theme = null;
         /// <summary>
-        /// Defines if the background gradient should be used or not.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Defines if the background gradient should be used or not.")]
-        public bool UseBackgroundGradient
+        public LabelTheme Theme
         {
             get
             {
-                return useBackgroundGradient;
+                return theme;
             }
             set
             {
-                useBackgroundGradient = value;
+                theme = value;
             }
         }
-
-        /// <summary>
-        /// Private value for the BackgroundGradientColor1 property.
-        /// </summary>
-        private Color backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
-        public Color BackgroundGradientColor1
-        {
-            get
-            {
-                return backgroundGradientColor1;
-            }
-            set
-            {
-                backgroundGradientColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the BackgroundGradientColor2 property.
-        /// </summary>
-        private Color backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color BackgroundGradientColor2
-        {
-            get
-            {
-                return backgroundGradientColor2;
-            }
-            set
-            {
-                backgroundGradientColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the BackgroundGradientMode property.
-        /// </summary>
-        private LinearGradientMode backgroundGradientMode = LinearGradientMode.Vertical;
-        /// <summary>
-        /// Background gradient mode.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
-        public LinearGradientMode BackgroundGradientMode
-        {
-            get
-            {
-                return backgroundGradientMode;
-            }
-            set
-            {
-                backgroundGradientMode = value;
-            }
-        }
-
-        #endregion
-
-        #region Font Properties
-
-        /// <summary>
-        /// Private value for the CustomFont property.
-        /// </summary>
-        private CustomFont customFont = null;
-        /// <summary>
-        /// Defines the Font to be used for rendering the control.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]        
-        public CustomFont CustomFont
-        {
-            get
-            {
-                return customFont;
-            }
-            set
-            {
-                customFont = value;
-                Refresh();                
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Default constructor for the Label class.
@@ -169,8 +74,8 @@ namespace MPfm.WindowsControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);        
             
-            // Set default Font
-            customFont = new CustomFont();             
+            // Create default theme
+            theme = new LabelTheme();
         }
 
         /// <summary>
@@ -227,7 +132,7 @@ namespace MPfm.WindowsControls
                 Graphics g = pe.Graphics;
 
                 // Use anti-aliasing?
-                if (CustomFont.UseAntiAliasing)
+                if (theme.TextGradient.Font.UseAntiAliasing)
                 {
                     // Set text anti-aliasing to ClearType (best looking AA)
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -240,12 +145,12 @@ namespace MPfm.WindowsControls
                 Font Font = null;                
 
                 // Make sure the embedded Font name needs to be loaded and is valid
-                if (CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(CustomFont.EmbeddedFontName))
+                if (theme.TextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.TextGradient.Font.EmbeddedFontName))
                 {
                     try
                     {
                         // Get embedded Font
-                        Font = Tools.LoadEmbeddedFont(embeddedFonts, CustomFont.EmbeddedFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        Font = Tools.LoadEmbeddedFont(embeddedFonts, theme.TextGradient.Font.EmbeddedFontName, theme.TextGradient.Font.Size, theme.TextGradient.Font.ToFontStyle());
                     }
                     catch
                     {
@@ -260,7 +165,7 @@ namespace MPfm.WindowsControls
                     try
                     {
                         // Try to get standard Font
-                        Font = new Font(CustomFont.StandardFontName, CustomFont.Size, CustomFont.ToFontStyle());
+                        Font = new Font(theme.TextGradient.Font.StandardFontName, theme.TextGradient.Font.Size, theme.TextGradient.Font.ToFontStyle());
                     }
                     catch
                     {
@@ -270,11 +175,11 @@ namespace MPfm.WindowsControls
                 }
 
                 // Check if the gradient background should be used
-                if (useBackgroundGradient)
+                if (!theme.IsBackgroundTransparent)
                 {                    
                     // Draw background gradient (cover -1 pixel for some refresh bug)
                     Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                    LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, backgroundGradientColor1, backgroundGradientColor2, backgroundGradientMode);
+                    LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.TextGradient.Color1, theme.TextGradient.Color2, theme.TextGradient.GradientMode);
                     g.FillRectangle(brushBackground, rectBody);
                     brushBackground.Dispose();
                     brushBackground = null;

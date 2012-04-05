@@ -103,25 +103,12 @@ namespace MPfm
             this.lblEditing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEditing.BackColor = System.Drawing.Color.Transparent;
-            this.lblEditing.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEditing.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblEditing.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            customFont2.EmbeddedFontName = "Junction";
-            customFont2.IsBold = false;
-            customFont2.IsItalic = false;
-            customFont2.IsUnderline = false;
-            customFont2.Size = 8F;
-            customFont2.StandardFontName = "Arial";
-            customFont2.UseAntiAliasing = true;
-            customFont2.UseEmbeddedFont = true;
-            this.lblEditing.CustomFont = customFont2;
             this.lblEditing.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEditing.Location = new System.Drawing.Point(3, 32);
             this.lblEditing.Name = "lblEditing";
             this.lblEditing.Size = new System.Drawing.Size(626, 17);
             this.lblEditing.TabIndex = 66;
-            this.lblEditing.Text = "Editing";
-            this.lblEditing.UseBackgroundGradient = false;
+            this.lblEditing.Text = "Editing";            
             // 
             // btnSave
             // 
