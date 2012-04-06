@@ -156,36 +156,29 @@ namespace MPfm.WindowsControls
             }
         }
 
-        #endregion
-
-        #region Font Properties
-
         /// <summary>
-        /// Private value for the CustomFont property.
+        /// Private value for the Theme property.
         /// </summary>
-        private CustomFont customFont = null;
+        private ScrollBarTheme theme = null;
         /// <summary>
-        /// Defines the font to be used for rendering the control.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
+        public ScrollBarTheme Theme
         {
             get
             {
-                return customFont;
+                return theme;
             }
             set
             {
-                customFont = value;
-                Refresh();
+                theme = value;
             }
         }
 
         #endregion
 
         #region Constructor
-        
+
         /// <summary>
         /// Default constructor for Label.
         /// </summary>
@@ -195,8 +188,8 @@ namespace MPfm.WindowsControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            // Create default font
-            customFont = new WindowsControls.CustomFont();
+            // Create default theme
+            theme = new ScrollBarTheme();
 
             // Create timer for mouse down
             timerMouseDown = new Timer();
@@ -332,15 +325,11 @@ namespace MPfm.WindowsControls
             // Get graphics from event
             Graphics g = pe.Graphics;
 
-            // Use anti-aliasing?
-            if (CustomFont.UseAntiAliasing)
-            {
-                // Set text anti-aliasing to ClearType (best looking AA)
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            // Set text anti-aliasing to ClearType (best looking AA)
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                // Set smoothing mode for paths
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-            }
+            // Set smoothing mode for paths
+            g.SmoothingMode = SmoothingMode.AntiAlias;        
 
             // Call paint background
             base.OnPaintBackground(pe);
