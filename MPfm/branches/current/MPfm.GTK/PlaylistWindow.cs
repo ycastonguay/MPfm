@@ -22,12 +22,62 @@ using System;
 
 namespace MPfm.GTK
 {
+	/// <summary>
+	/// Playlist window.
+	/// </summary>
 	public partial class PlaylistWindow : Gtk.Window
 	{
-		public PlaylistWindow() : 
+		/// <summary>
+		/// Reference to the main window.
+		/// </summary>
+		private MainWindow main = null;
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MPfm.GTK.PlaylistWindow"/> class.
+		/// </summary>
+		/// <param name='main'>Reference to the main window.</param>
+		public PlaylistWindow(MainWindow main) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.Build();
+			
+			// Set reference to main window
+			this.main = main;
+		}
+
+		protected void OnActionNewClicked(object sender, System.EventArgs e)
+		{
+			
+		}
+
+		protected void OnActionOpenClicked(object sender, System.EventArgs e)
+		{
+			
+		}
+
+		protected void OnActionSaveClicked(object sender, System.EventArgs e)
+		{
+			
+		}
+
+		protected void OnActionSaveAsClicked(object sender, System.EventArgs e)
+		{
+			
+		}
+		
+		/// <summary>
+		/// Raises the delete event (when the form is closing).
+		/// Prevents the form from closing by hiding it instead.
+		/// </summary>
+		/// <param name='o'>Object</param>
+		/// <param name='args'>Event arguments</param>
+		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
+		{
+			// Prevent window from closing
+			args.RetVal = true;
+			
+			// Hide window instead
+			this.HideAll();
 		}
 	}
 }

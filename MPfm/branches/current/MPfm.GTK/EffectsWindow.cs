@@ -22,12 +22,42 @@ using System;
 
 namespace MPfm.GTK
 {
+	/// <summary>
+	/// Effects window.
+	/// </summary>
 	public partial class EffectsWindow : Gtk.Window
 	{
-		public EffectsWindow() : 
+		/// <summary>
+		/// Reference to the main window.
+		/// </summary>
+		private MainWindow main = null;
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MPfm.GTK.EffectsWindow"/> class.
+		/// </summary>
+		/// <param name='main'>Reference to the main window.</param>
+		public EffectsWindow(MainWindow main) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.Build();
+			
+			// Set reference to main window
+			this.main = main;
+		}
+
+		/// <summary>
+		/// Raises the delete event (when the form is closing).
+		/// Prevents the form from closing by hiding it instead.
+		/// </summary>
+		/// <param name='o'>Object</param>
+		/// <param name='args'>Event arguments</param>
+		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
+		{
+			// Prevent window from closing
+			args.RetVal = true;
+			
+			// Hide window instead
+			this.HideAll();
 		}
 	}
 }

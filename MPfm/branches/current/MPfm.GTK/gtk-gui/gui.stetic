@@ -1017,6 +1017,7 @@ WAV</property>
     <property name="Visible">False</property>
     <property name="Title" translatable="yes">Settings</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox3">
         <property name="MemberName" />
@@ -1059,6 +1060,7 @@ WAV</property>
     <property name="Visible">False</property>
     <property name="Title" translatable="yes">Playlist</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
@@ -1070,12 +1072,13 @@ WAV</property>
             <child>
               <widget class="Gtk.Button" id="actionNew">
                 <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens audio file(s) from your hard disk.</property>
+                <property name="Tooltip" translatable="yes">Creates a new empty playlist.</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextAndIcon</property>
                 <property name="Icon">stock:gtk-new Menu</property>
                 <property name="Label" translatable="yes">New</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnActionNewClicked" />
               </widget>
               <packing>
                 <property name="Position">0</property>
@@ -1087,12 +1090,13 @@ WAV</property>
             <child>
               <widget class="Gtk.Button" id="actionOpen">
                 <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens audio file(s) from your hard disk.</property>
+                <property name="Tooltip" translatable="yes">Opens a playlist file (M3U, M3U8, PLS, XSPF).</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextAndIcon</property>
                 <property name="Icon">stock:gtk-open Menu</property>
                 <property name="Label" translatable="yes">Open</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnActionOpenClicked" />
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -1104,12 +1108,13 @@ WAV</property>
             <child>
               <widget class="Gtk.Button" id="actionSave">
                 <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens audio file(s) from your hard disk.</property>
+                <property name="Tooltip" translatable="yes">Saves the current playlist.</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextAndIcon</property>
                 <property name="Icon">stock:gtk-save Menu</property>
                 <property name="Label" translatable="yes">Save</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnActionSaveClicked" />
               </widget>
               <packing>
                 <property name="Position">2</property>
@@ -1121,12 +1126,13 @@ WAV</property>
             <child>
               <widget class="Gtk.Button" id="actionSaveAs">
                 <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens audio file(s) from your hard disk.</property>
+                <property name="Tooltip" translatable="yes">Saves the current playlist under a different format/file name.</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextAndIcon</property>
                 <property name="Icon">stock:gtk-save-as Menu</property>
                 <property name="Label" translatable="yes">Save As</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnActionSaveAsClicked" />
               </widget>
               <packing>
                 <property name="Position">3</property>
@@ -1171,6 +1177,7 @@ WAV</property>
     <property name="Visible">False</property>
     <property name="Title" translatable="yes">Effects</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox2">
         <property name="MemberName" />

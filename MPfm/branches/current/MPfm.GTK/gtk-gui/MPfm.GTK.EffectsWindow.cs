@@ -24,6 +24,7 @@ namespace MPfm.GTK
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 300;
 			this.Hide ();
+			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		}
 	}
 }

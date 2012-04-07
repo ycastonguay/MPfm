@@ -16,6 +16,9 @@ using MPfm.UI;
 
 namespace MPfm.GTK
 {
+	/// <summary>
+	/// Main window.
+	/// </summary>
 	public partial class MainWindow: Gtk.Window
 	{
 		private string currentDirectory = string.Empty;
@@ -93,6 +96,9 @@ namespace MPfm.GTK
 			//#endif
 		}
 	
+		/// <summary>
+		/// Exits the application.
+		/// </summary>
 		protected void ExitApplication()
 		{
 			// Dispose controller
@@ -103,13 +109,19 @@ namespace MPfm.GTK
 			Application.Quit();
 		}
 	
-		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
+		/// <summary>
+		/// Raises the delete event (when the form is closing).
+		/// Exits the application.
+		/// </summary>
+		/// <param name='o'>Object</param>
+		/// <param name='args'>Event arguments</param>
+		protected void OnDeleteEvent(object sender, DeleteEventArgs a)
 		{
 			ExitApplication();
 			a.RetVal = true;
 		}
 	
-		protected void HandlePlayerOnPlaylistIndexChanged (PlayerPlaylistIndexChangedData data)
+		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
 		{
 			// Check if the playback has stopped
 			if(data.IsPlaybackStopped)
@@ -121,7 +133,7 @@ namespace MPfm.GTK
 			RefreshSongInformation();
 		}
 	
-		protected void HandleTimerSongPositionElapsed (object sender, ElapsedEventArgs e)
+		protected void HandleTimerSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
 			// Get position
 			PlayerPositionEntity position = controller.GetPlayerPosition();
@@ -138,6 +150,9 @@ namespace MPfm.GTK
 			});
 		}
 	
+		/// <summary>
+		/// Creates the song browser columns.
+		/// </summary>
 		protected void CreateSongBrowserColumns()
 		{
 			Gtk.TreeViewColumn colPlaybackIcon = new Gtk.TreeViewColumn();
@@ -200,6 +215,10 @@ namespace MPfm.GTK
 			//colSongTitle.AddAttribute(cellSongTitle, "text", 0);
 		}
 	
+		/// <summary>
+		/// Refreshes the song browser.
+		/// </summary>
+		/// <param name='audioFiles'>List of audio files to display in the Song Browser.</param>
 		protected void RefreshSongBrowser(List<AudioFile> audioFiles)
 		{
 			// Create store
@@ -213,6 +232,13 @@ namespace MPfm.GTK
 			treeSongBrowser.Model = musicListStore;
 		}
 	
+		/// <summary>
+		/// Renders a cell from the Song Browser.
+		/// </summary>
+		/// <param name='column'>Column</param>
+		/// <param name='cell'>Cell</param>
+		/// <param name='model'>Model</param>
+		/// <param name='iter'>Iter</param>
 		private void RenderSongBrowserCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			// Get model data
@@ -233,6 +259,9 @@ namespace MPfm.GTK
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
 	
+		/// <summary>
+		/// Refreshes the song information.
+		/// </summary>
 		protected void RefreshSongInformation()
 		{
 			// Check if the current item is valid
@@ -288,11 +317,23 @@ namespace MPfm.GTK
 	
 		#region Action Events
 	
+		/// <summary>
+		/// Raises the Exit action activated event.
+		/// Exits the application.
+		/// </summary>
+		/// <param name='sender'>Event sender</param>
+		/// <param name='e'>Event arguments</param>
 		protected void OnExitActionActivated(object sender, System.EventArgs e)
 		{
 			ExitApplication();
 		}
-	
+
+		/// <summary>
+		/// Raises the Open action activated event.
+		/// Opens a file browser to select audio file(s) to play.
+		/// </summary>
+		/// <param name='sender'>Event sender</param>
+		/// <param name='e'>Event arguments</param>
 		protected void OnOpenActionActivated(object sender, System.EventArgs e)
 		{
 			// Create dialog box
@@ -328,7 +369,7 @@ namespace MPfm.GTK
 			// Destroy dialog
 			dialog.Destroy();
 		}
-	
+
 		protected void OnPlayClicked(object sender, System.EventArgs e)
 		{
 			if(audioFiles == null)
@@ -345,13 +386,14 @@ namespace MPfm.GTK
 			// Start timer
 			timerSongPosition.Start();
 		}
-	
+
 		protected void OnPauseClicked(object sender, System.EventArgs e)
 		{
 			// Pause player
 			controller.Player.Pause();
 		}
 	
+
 		protected void OnStopClicked(object sender, System.EventArgs e)
 		{
 			// Check if the player is playing
@@ -365,6 +407,7 @@ namespace MPfm.GTK
 			}
 		}
 	
+
 		protected void OnPreviousClicked(object sender, System.EventArgs e)
 		{
 			// Go to previous song
@@ -405,40 +448,40 @@ namespace MPfm.GTK
 	
 		protected void OnPlaylistClicked(object sender, System.EventArgs e)
 		{
-			// Check if the window is already opened
-			if(windowPlaylist != null)
+			// Check if the window exists
+			if(windowPlaylist == null)
 			{
-				return;
+				// Create window
+				windowPlaylist = new PlaylistWindow(this);			
 			}
 			
-			// Create and display window
-			windowPlaylist = new PlaylistWindow();			
+			// Display window			
 			windowPlaylist.ShowAll();	
 		}
 	
 		protected void OnEffectsClicked(object sender, System.EventArgs e)
 		{
-			// Check if the window is already opened
-			if(windowEffects != null)
+			// Check if the window exists
+			if(windowEffects == null)
 			{
-				return;
+				// Create window
+				windowEffects = new EffectsWindow(this);			
 			}
 			
-			// Create and display window
-			windowEffects = new EffectsWindow();					
+			// Display window			
 			windowEffects.ShowAll();				
 		}
 	
 		protected void OnSettingsClicked(object sender, System.EventArgs e)
 		{			
-			// Check if the window is already opened
-			if(windowSettings != null)
+			// Check if the window exists
+			if(windowSettings == null)
 			{
-				return;
+				// Create window
+				windowSettings = new SettingsWindow(this);			
 			}
 			
-			// Create and display window
-			windowSettings = new SettingsWindow();
+			// Display window			
 			windowSettings.ShowAll();				
 		}
 	

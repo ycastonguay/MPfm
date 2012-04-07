@@ -675,7 +675,7 @@ namespace MPfm.Player
                 //BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
             }
 
-            // Default BASS.NET configuration values for Windows:
+            // Default BASS.NET configuration values for Windows *AND* Linux:
             //
             // BASS_CONFIG_BUFFER: 500
             // BASS_CONFIG_UPDATEPERIOD: 100
@@ -691,6 +691,9 @@ namespace MPfm.Player
             else if (OS.Type == OSType.Linux)
             {				
 				// Default
+				// 10ms update period does not work under Linux. Major stuttering
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 1000); 
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);	
             }
             else if (OS.Type == OSType.MacOSX)
             {

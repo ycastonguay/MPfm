@@ -49,7 +49,7 @@ namespace MPfm.GTK
 			this.hbox1.Spacing = 6;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.actionNew = new global::Gtk.Button ();
-			this.actionNew.TooltipMarkup = "Opens audio file(s) from your hard disk.";
+			this.actionNew.TooltipMarkup = "Creates a new empty playlist.";
 			this.actionNew.CanFocus = true;
 			this.actionNew.Name = "actionNew";
 			this.actionNew.UseUnderline = true;
@@ -76,7 +76,7 @@ namespace MPfm.GTK
 			w10.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.actionOpen = new global::Gtk.Button ();
-			this.actionOpen.TooltipMarkup = "Opens audio file(s) from your hard disk.";
+			this.actionOpen.TooltipMarkup = "Opens a playlist file (M3U, M3U8, PLS, XSPF).";
 			this.actionOpen.CanFocus = true;
 			this.actionOpen.Name = "actionOpen";
 			this.actionOpen.UseUnderline = true;
@@ -103,7 +103,7 @@ namespace MPfm.GTK
 			w19.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.actionSave = new global::Gtk.Button ();
-			this.actionSave.TooltipMarkup = "Opens audio file(s) from your hard disk.";
+			this.actionSave.TooltipMarkup = "Saves the current playlist.";
 			this.actionSave.CanFocus = true;
 			this.actionSave.Name = "actionSave";
 			this.actionSave.UseUnderline = true;
@@ -130,7 +130,7 @@ namespace MPfm.GTK
 			w28.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.actionSaveAs = new global::Gtk.Button ();
-			this.actionSaveAs.TooltipMarkup = "Opens audio file(s) from your hard disk.";
+			this.actionSaveAs.TooltipMarkup = "Saves the current playlist under a different format/file name.";
 			this.actionSaveAs.CanFocus = true;
 			this.actionSaveAs.Name = "actionSaveAs";
 			this.actionSaveAs.UseUnderline = true;
@@ -179,6 +179,11 @@ namespace MPfm.GTK
 			this.DefaultWidth = 816;
 			this.DefaultHeight = 300;
 			this.Hide ();
+			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.actionNew.Clicked += new global::System.EventHandler (this.OnActionNewClicked);
+			this.actionOpen.Clicked += new global::System.EventHandler (this.OnActionOpenClicked);
+			this.actionSave.Clicked += new global::System.EventHandler (this.OnActionSaveClicked);
+			this.actionSaveAs.Clicked += new global::System.EventHandler (this.OnActionSaveAsClicked);
 		}
 	}
 }
