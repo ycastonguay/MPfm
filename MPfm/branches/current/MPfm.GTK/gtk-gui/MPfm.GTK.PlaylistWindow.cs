@@ -38,14 +38,14 @@ namespace MPfm.GTK
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.PlaylistWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Playlist");
-			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.Icon = new global::Gdk.Pixbuf (global::System.IO.Path.Combine (global::System.AppDomain.CurrentDomain.BaseDirectory, "./icon48.png"));
+			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			// Container child MPfm.GTK.PlaylistWindow.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.hbox1 = new global::Gtk.HBox ();
-			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.actionNew = new global::Gtk.Button ();
@@ -64,7 +64,7 @@ namespace MPfm.GTK
 			w3.Add (w4);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w6 = new global::Gtk.Label ();
-			w6.LabelProp = global::Mono.Unix.Catalog.GetString ("New");
+			w6.LabelProp = global::Mono.Unix.Catalog.GetString ("New Playlist");
 			w6.UseUnderline = true;
 			w3.Add (w6);
 			w2.Add (w3);
@@ -76,7 +76,7 @@ namespace MPfm.GTK
 			w10.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.actionOpen = new global::Gtk.Button ();
-			this.actionOpen.TooltipMarkup = "Opens a playlist file (M3U, M3U8, PLS, XSPF).";
+			this.actionOpen.TooltipMarkup = "Opens an existing playlist file (M3U, M3U8, PLS, XSPF).";
 			this.actionOpen.CanFocus = true;
 			this.actionOpen.Name = "actionOpen";
 			this.actionOpen.UseUnderline = true;
@@ -91,7 +91,7 @@ namespace MPfm.GTK
 			w12.Add (w13);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w15 = new global::Gtk.Label ();
-			w15.LabelProp = global::Mono.Unix.Catalog.GetString ("Open");
+			w15.LabelProp = global::Mono.Unix.Catalog.GetString ("Open Playlist");
 			w15.UseUnderline = true;
 			w12.Add (w15);
 			w11.Add (w12);
@@ -118,7 +118,7 @@ namespace MPfm.GTK
 			w21.Add (w22);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w24 = new global::Gtk.Label ();
-			w24.LabelProp = global::Mono.Unix.Catalog.GetString ("Save");
+			w24.LabelProp = global::Mono.Unix.Catalog.GetString ("Save Playlist");
 			w24.UseUnderline = true;
 			w21.Add (w24);
 			w20.Add (w21);
@@ -145,7 +145,7 @@ namespace MPfm.GTK
 			w30.Add (w31);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w33 = new global::Gtk.Label ();
-			w33.LabelProp = global::Mono.Unix.Catalog.GetString ("Save As");
+			w33.LabelProp = global::Mono.Unix.Catalog.GetString ("Save Playlist As");
 			w33.UseUnderline = true;
 			w30.Add (w33);
 			w29.Add (w30);

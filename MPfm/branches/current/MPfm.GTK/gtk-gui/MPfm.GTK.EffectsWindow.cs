@@ -12,7 +12,7 @@ namespace MPfm.GTK
 			// Widget MPfm.GTK.EffectsWindow
 			this.Name = "MPfm.GTK.EffectsWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Effects");
-			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			// Container child MPfm.GTK.EffectsWindow.Gtk.Container+ContainerChild
 			this.vbox2 = new global::Gtk.VBox ();
 			this.vbox2.Name = "vbox2";

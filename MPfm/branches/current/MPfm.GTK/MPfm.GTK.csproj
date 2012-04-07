@@ -63,16 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="SettingsWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.SettingsWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.MainWindow.cs" />
-    <Compile Include="PlaylistWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.PlaylistWindow.cs" />
-    <Compile Include="EffectsWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.EffectsWindow.cs" />
+    <Compile Include="Windows\MainWindow.cs" />
+    <Compile Include="Windows\PlaylistWindow.cs" />
+    <Compile Include="Windows\SettingsWindow.cs" />
+    <Compile Include="Windows\EffectsWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -98,7 +98,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icon48.png" />
     <None Include="Lib\x64\libbass.so" />
     <None Include="Lib\x64\libbass_aac.so" />
     <None Include="Lib\x64\libbass_ac3.so" />
@@ -131,5 +130,11 @@
     <Folder Include="Lib\" />
     <Folder Include="Lib\x86\" />
     <Folder Include="Lib\x64\" />
+    <Folder Include="Windows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon48.png">
+      <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
+    </Content>
   </ItemGroup>
 </Project>

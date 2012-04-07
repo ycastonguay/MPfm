@@ -12,7 +12,7 @@ namespace MPfm.GTK
 			// Widget MPfm.GTK.SettingsWindow
 			this.Name = "MPfm.GTK.SettingsWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Settings");
-			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			// Container child MPfm.GTK.SettingsWindow.Gtk.Container+ContainerChild
 			this.vbox3 = new global::Gtk.VBox ();
 			this.vbox3.Name = "vbox3";

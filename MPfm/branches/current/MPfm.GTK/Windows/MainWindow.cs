@@ -21,6 +21,7 @@ namespace MPfm.GTK
 	/// </summary>
 	public partial class MainWindow: Gtk.Window
 	{
+		// Private variables
 		private string currentDirectory = string.Empty;
 		
 		private MainWindowController controller = null;
@@ -43,7 +44,7 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
 		/// </summary>
-		public MainWindow (): base (Gtk.WindowType.Toplevel)
+		public MainWindow(): base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
 	
@@ -149,6 +150,8 @@ namespace MPfm.GTK
 				}
 			});
 		}
+		
+		#region Refresh Methods
 	
 		/// <summary>
 		/// Creates the song browser columns.
@@ -287,7 +290,7 @@ namespace MPfm.GTK
 				hscaleSongPosition.Adjustment.Upper = controller.Player.Playlist.CurrentItem.LengthBytes;
 			}
 		}
-	
+			
 	    /// <summary>
 	    /// Refreshes the "Repeat" button in the main window toolbar.
 	    /// </summary>
@@ -314,6 +317,8 @@ namespace MPfm.GTK
 				actionRepeatType.Label = "Repeat Type (" + repeatOff + ")";
 	        }
 	    }
+		
+		#endregion
 	
 		#region Action Events
 	
@@ -393,7 +398,6 @@ namespace MPfm.GTK
 			controller.Player.Pause();
 		}
 	
-
 		protected void OnStopClicked(object sender, System.EventArgs e)
 		{
 			// Check if the player is playing
@@ -407,7 +411,6 @@ namespace MPfm.GTK
 			}
 		}
 	
-
 		protected void OnPreviousClicked(object sender, System.EventArgs e)
 		{
 			// Go to previous song
@@ -528,7 +531,6 @@ namespace MPfm.GTK
 			//isSongPositionChanging = false;
 		}
 	
-	
 		protected void OnSongPositionMoveSlider (object o, Gtk.MoveSliderArgs args)
 		{
 
@@ -542,6 +544,7 @@ namespace MPfm.GTK
 			//controller.Player.SetPosition(args.RetVal);
 
 		}
+		
 		#endregion
 	}
 }
