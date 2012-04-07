@@ -1685,7 +1685,7 @@ namespace MPfm
             //toolStripMain.Height;
 
             // Update the whole library
-            //UpdateLibrary();
+            UpdateLibrary();
         }
 
         /// <summary>

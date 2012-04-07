@@ -129,7 +129,6 @@ namespace MPfm
             backgroundGradient1.Color1 = System.Drawing.Color.LightGray;
             backgroundGradient1.Color2 = System.Drawing.Color.Gray;
             backgroundGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelEditLoop.BackgroundGradient = backgroundGradient1;
             this.panelEditLoop.Controls.Add(this.btnEndPositionGoTo);
             this.panelEditLoop.Controls.Add(this.btnEndPositionPunchIn);
             this.panelEditLoop.Controls.Add(this.label1);
@@ -183,7 +182,6 @@ namespace MPfm
             customFont35.UseEmbeddedFont = true;
             textGradient20.Font = customFont35;
             textGradient20.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelEditLoop.TextGradientHeader = textGradient20;
             // 
             // btnEndPositionGoTo
             // 
@@ -518,7 +516,6 @@ namespace MPfm
             backgroundGradient2.Color1 = System.Drawing.Color.LightGray;
             backgroundGradient2.Color2 = System.Drawing.Color.Gray;
             backgroundGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelWarning.BackgroundGradient = backgroundGradient2;
             this.panelWarning.Controls.Add(this.pictureBox1);
             this.panelWarning.Controls.Add(this.lblWarning);
             this.panelWarning.ExpandedHeight = 200;
@@ -547,7 +544,6 @@ namespace MPfm
             customFont17.UseEmbeddedFont = true;
             textGradient13.Font = customFont17;
             textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelWarning.TextGradientHeader = textGradient13;
             // 
             // pictureBox1
             // 

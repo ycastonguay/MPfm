@@ -833,7 +833,6 @@ namespace MPfm
             backgroundGradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelEqualizer.BackgroundGradient = backgroundGradient1;
             this.panelEqualizer.Controls.Add(this.fader17);
             this.panelEqualizer.Controls.Add(this.fader16);
             this.panelEqualizer.Controls.Add(this.fader15);
@@ -920,7 +919,6 @@ namespace MPfm
             customFont59.UseEmbeddedFont = true;
             textGradient15.Font = customFont59;
             textGradient15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelEqualizer.TextGradientHeader = textGradient15;
             // 
             // fader17
             // 
@@ -1595,7 +1593,6 @@ namespace MPfm
             backgroundGradient56.Color1 = System.Drawing.Color.LightGray;
             backgroundGradient56.Color2 = System.Drawing.Color.Gray;
             backgroundGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelPreset.BackgroundGradient = backgroundGradient56;
             this.panelPreset.Controls.Add(this.comboEQPreset);
             this.panelPreset.Controls.Add(this.lblEQOn);
             this.panelPreset.Controls.Add(this.chkEQOn);
@@ -1625,7 +1622,6 @@ namespace MPfm
             customFont41.UseEmbeddedFont = true;
             textGradient1.Font = customFont41;
             textGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelPreset.TextGradientHeader = textGradient1;
             // 
             // comboEQPreset
             // 
@@ -1675,7 +1671,6 @@ namespace MPfm
             backgroundGradient57.Color1 = System.Drawing.Color.LightGray;
             backgroundGradient57.Color2 = System.Drawing.Color.Gray;
             backgroundGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.BackgroundGradient = backgroundGradient57;
             this.panelInformation.Controls.Add(this.txtEQBandwidth);
             this.panelInformation.Controls.Add(this.txtEQQ);
             this.panelInformation.Controls.Add(this.lblEQBandwidth);
@@ -1713,7 +1708,6 @@ namespace MPfm
             customFont58.UseEmbeddedFont = true;
             textGradient14.Font = customFont58;
             textGradient14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.TextGradientHeader = textGradient14;
             // 
             // txtEQBandwidth
             // 

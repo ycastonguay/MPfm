@@ -44,51 +44,24 @@ namespace MPfm.WindowsControls
         /// </summary>
         private EmbeddedFontCollection embeddedFonts = null;
 
-        #region Theme Properties
-
         /// <summary>
-        /// Private value for the TextGradientHeader property.
+        /// Private value for the Theme property.
         /// </summary>
-        private TextGradient textGradientHeader = new TextGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1, new CustomFont("Junction", 8.0f, Color.Black));
+        private PanelTheme theme = null;
         /// <summary>
-        /// Defines the header text gradient.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Header text gradient.")]
-        public TextGradient TextGradientHeader
+        public PanelTheme Theme
         {
             get
             {
-                return textGradientHeader;
+                return theme;
             }
             set
             {
-                textGradientHeader = value;
+                theme = value;
             }
         }
-
-        /// <summary>
-        /// Private value for the BackgroundGradient property.
-        /// </summary>
-        private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1);
-        /// <summary>
-        /// Defines the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Background gradient.")]
-        public BackgroundGradient BackgroundGradient
-        {
-            get
-            {
-                return backgroundGradient;
-            }
-            set
-            {
-                backgroundGradient = value;
-            }
-        }
-
-        #endregion
 
         #region Header Properties
 
@@ -235,6 +208,9 @@ namespace MPfm.WindowsControls
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+
+            // Create default theme
+            theme = new PanelTheme();
         }
 
 
@@ -337,7 +313,7 @@ namespace MPfm.WindowsControls
             Graphics g = pe.Graphics;
 
             // Use anti-aliasing?
-            if (textGradientHeader.Font.UseAntiAliasing)
+            if (theme.TextGradientHeader.Font.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -350,12 +326,12 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (textGradientHeader.Font.UseEmbeddedFont && !String.IsNullOrEmpty(textGradientHeader.Font.EmbeddedFontName))
+            if (theme.TextGradientHeader.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.TextGradientHeader.Font.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, textGradientHeader.Font.EmbeddedFontName, textGradientHeader.Font.Size, textGradientHeader.Font.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.TextGradientHeader.Font.EmbeddedFontName, theme.TextGradientHeader.Font.Size, theme.TextGradientHeader.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -370,7 +346,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(textGradientHeader.Font.StandardFontName, textGradientHeader.Font.Size, textGradientHeader.Font.ToFontStyle());
+                    font = new Font(theme.TextGradientHeader.Font.StandardFontName, theme.TextGradientHeader.Font.Size, theme.TextGradientHeader.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -384,19 +360,19 @@ namespace MPfm.WindowsControls
             {
                 // Draw gradient
                 Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, backgroundGradient.Color1, backgroundGradient.Color2, backgroundGradient.GradientMode);
+                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
                 g.FillRectangle(brushBody, rectBody);
                 brushBody.Dispose();
                 brushBody = null;
             }
 
             // Draw header
-            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), textGradientHeader.Color1, textGradientHeader.Color2, textGradientHeader.GradientMode);
+            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), theme.TextGradientHeader.Color1, theme.TextGradientHeader.Color2, theme.TextGradientHeader.GradientMode);
             g.FillRectangle(brushHeader, 0, 0, ClientRectangle.Width, headerHeight);
             brushHeader.Dispose();
             brushHeader = null;
 
-            SolidBrush brushFont = new SolidBrush(textGradientHeader.Font.Color);
+            SolidBrush brushFont = new SolidBrush(theme.TextGradientHeader.Font.Color);
             SizeF sizeString = g.MeasureString(headerTitle, font);
 
             float headerTitleY = ((float)headerHeight - sizeString.Height) / 2;

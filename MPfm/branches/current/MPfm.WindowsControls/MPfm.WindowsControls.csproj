@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Misc\BackgroundGradient.cs" />
     <Compile Include="Misc\Gradient.cs" />
+    <Compile Include="Panel-Forms\PanelTheme.cs" />
     <Compile Include="ScrollBar\HScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>

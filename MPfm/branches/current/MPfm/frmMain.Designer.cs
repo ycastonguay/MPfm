@@ -1073,7 +1073,6 @@ namespace MPfm
             backgroundGradient26.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient26.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient26.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLibrary.BackgroundGradient = backgroundGradient26;
             this.panelLibrary.Controls.Add(this.panelUpdateLibraryProgress);
             this.panelLibrary.Controls.Add(this.lblFilterBySoundFormat);
             this.panelLibrary.Controls.Add(this.treeLibrary);
@@ -1104,7 +1103,6 @@ namespace MPfm
             customFont81.UseEmbeddedFont = true;
             textGradient90.Font = customFont81;
             textGradient90.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLibrary.TextGradientHeader = textGradient90;
             // 
             // panelUpdateLibraryProgress
             // 
@@ -1115,7 +1113,6 @@ namespace MPfm
             backgroundGradient27.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient27.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient27.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelUpdateLibraryProgress.BackgroundGradient = backgroundGradient27;
             this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryRemainingTime);
             this.panelUpdateLibraryProgress.Controls.Add(this.btnCancelUpdateLibrary);
             this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryCurrentFileValue);
@@ -1147,7 +1144,6 @@ namespace MPfm
             customFont79.UseEmbeddedFont = true;
             textGradient88.Font = customFont79;
             textGradient88.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelUpdateLibraryProgress.TextGradientHeader = textGradient88;
             // 
             // lblUpdateLibraryRemainingTime
             // 
@@ -1451,7 +1447,6 @@ namespace MPfm
             backgroundGradient28.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient28.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient28.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentSong.BackgroundGradient = backgroundGradient28;
             this.panelCurrentSong.Controls.Add(this.lblCurrentFilePath);
             this.panelCurrentSong.Controls.Add(this.panelInformation);
             this.panelCurrentSong.Controls.Add(this.picAlbum);
@@ -1490,7 +1485,6 @@ namespace MPfm
             customFont101.UseEmbeddedFont = true;
             textGradient120.Font = customFont101;
             textGradient120.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentSong.TextGradientHeader = textGradient120;
             // 
             // lblCurrentFilePath
             // 
@@ -1532,7 +1526,6 @@ namespace MPfm
             backgroundGradient29.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient29.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.BackgroundGradient = backgroundGradient29;
             this.panelInformation.Controls.Add(this.lblFrequency);
             this.panelInformation.Controls.Add(this.lblFrequencyTitle);
             this.panelInformation.Controls.Add(this.lblBitrate);
@@ -1565,7 +1558,6 @@ namespace MPfm
             customFont85.UseEmbeddedFont = true;
             textGradient98.Font = customFont85;
             textGradient98.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelInformation.TextGradientHeader = textGradient98;
             // 
             // lblFrequency
             // 
@@ -1743,7 +1735,6 @@ namespace MPfm
             backgroundGradient30.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient30.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelActions.BackgroundGradient = backgroundGradient30;
             this.panelActions.Controls.Add(this.lblSearchWeb);
             this.panelActions.Controls.Add(this.linkEditSongMetadata);
             this.panelActions.Controls.Add(this.linkSearchLyrics);
@@ -1775,7 +1766,6 @@ namespace MPfm
             customFont87.UseEmbeddedFont = true;
             textGradient104.Font = customFont87;
             textGradient104.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelActions.TextGradientHeader = textGradient104;
             // 
             // lblSearchWeb
             // 
@@ -1976,7 +1966,6 @@ namespace MPfm
             backgroundGradient31.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient31.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient31.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentPosition.BackgroundGradient = backgroundGradient31;
             this.panelCurrentPosition.Controls.Add(this.lblCurrentPosition);
             this.panelCurrentPosition.ExpandedHeight = 200;
             this.panelCurrentPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2004,7 +1993,6 @@ namespace MPfm
             customFont91.UseEmbeddedFont = true;
             textGradient108.Font = customFont91;
             textGradient108.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelCurrentPosition.TextGradientHeader = textGradient108;
             // 
             // lblCurrentPosition
             // 
@@ -2075,7 +2063,6 @@ namespace MPfm
             backgroundGradient32.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient32.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient32.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLength.BackgroundGradient = backgroundGradient32;
             this.panelLength.Controls.Add(this.lblLength);
             this.panelLength.ExpandedHeight = 200;
             this.panelLength.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2103,7 +2090,6 @@ namespace MPfm
             customFont93.UseEmbeddedFont = true;
             textGradient111.Font = customFont93;
             textGradient111.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLength.TextGradientHeader = textGradient111;
             // 
             // lblLength
             // 
@@ -2134,7 +2120,6 @@ namespace MPfm
             backgroundGradient33.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient33.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient33.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelVolume.BackgroundGradient = backgroundGradient33;
             this.panelVolume.Controls.Add(this.picDistortionWarning);
             this.panelVolume.Controls.Add(this.outputMeter);
             this.panelVolume.Controls.Add(this.faderVolume);
@@ -2165,7 +2150,6 @@ namespace MPfm
             customFont96.UseEmbeddedFont = true;
             textGradient113.Font = customFont96;
             textGradient113.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelVolume.TextGradientHeader = textGradient113;
             // 
             // picDistortionWarning
             // 
@@ -2298,7 +2282,6 @@ namespace MPfm
             backgroundGradient40.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient40.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient40.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongPosition.BackgroundGradient = backgroundGradient40;
             this.panelSongPosition.Controls.Add(this.lblSongPercentage);
             this.panelSongPosition.Controls.Add(this.lblSongPosition);
             this.panelSongPosition.Controls.Add(this.trackPosition);
@@ -2328,7 +2311,6 @@ namespace MPfm
             customFont98.UseEmbeddedFont = true;
             textGradient116.Font = customFont98;
             textGradient116.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongPosition.TextGradientHeader = textGradient116;
             // 
             // lblSongPercentage
             // 
@@ -2430,7 +2412,6 @@ namespace MPfm
             backgroundGradient44.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient44.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient44.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelTimeShifting.BackgroundGradient = backgroundGradient44;
             this.panelTimeShifting.Controls.Add(this.lblTimeShifting);
             this.panelTimeShifting.Controls.Add(this.linkResetTimeShifting);
             this.panelTimeShifting.Controls.Add(this.trackTimeShifting);
@@ -2460,7 +2441,6 @@ namespace MPfm
             customFont100.UseEmbeddedFont = true;
             textGradient119.Font = customFont100;
             textGradient119.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelTimeShifting.TextGradientHeader = textGradient119;
             // 
             // lblTimeShifting
             // 
@@ -2582,7 +2562,6 @@ namespace MPfm
             backgroundGradient48.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient48.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient48.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLoopsMarkers.BackgroundGradient = backgroundGradient48;
             this.panelLoopsMarkers.Controls.Add(this.splitWaveFormLoopsMarkers);
             this.panelLoopsMarkers.ExpandedHeight = 266;
             this.panelLoopsMarkers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2609,7 +2588,6 @@ namespace MPfm
             customFont130.UseEmbeddedFont = true;
             textGradient150.Font = customFont130;
             textGradient150.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelLoopsMarkers.TextGradientHeader = textGradient150;
             this.panelLoopsMarkers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panelLoopsMarkers_MouseDoubleClick);
             // 
             // splitWaveFormLoopsMarkers
@@ -3445,7 +3423,6 @@ namespace MPfm
             backgroundGradient49.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient49.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient49.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowser.BackgroundGradient = backgroundGradient49;
             this.panelSongBrowser.Controls.Add(this.viewSongs2);
             this.panelSongBrowser.Controls.Add(this.panelSongBrowserToolbar);
             this.panelSongBrowser.ExpandedHeight = 200;
@@ -3473,7 +3450,6 @@ namespace MPfm
             customFont142.UseEmbeddedFont = true;
             textGradient162.Font = customFont142;
             textGradient162.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowser.TextGradientHeader = textGradient162;
             // 
             // viewSongs2
             // 
@@ -3536,7 +3512,6 @@ namespace MPfm
             backgroundGradient50.Color1 = System.Drawing.Color.Gainsboro;
             backgroundGradient50.Color2 = System.Drawing.Color.LightGray;
             backgroundGradient50.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowserToolbar.BackgroundGradient = backgroundGradient50;
             this.panelSongBrowserToolbar.Controls.Add(this.txtSearch);
             this.panelSongBrowserToolbar.Controls.Add(this.lblSearchFor);
             this.panelSongBrowserToolbar.Controls.Add(this.btnPlaySelectedSong);
@@ -3567,7 +3542,6 @@ namespace MPfm
             customFont141.UseEmbeddedFont = true;
             textGradient161.Font = customFont141;
             textGradient161.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelSongBrowserToolbar.TextGradientHeader = textGradient161;
             // 
             // txtSearch
             // 

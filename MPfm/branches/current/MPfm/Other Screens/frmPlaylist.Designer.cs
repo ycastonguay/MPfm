@@ -152,7 +152,6 @@ namespace MPfm
             backgroundGradient1.Color1 = System.Drawing.Color.LightGray;
             backgroundGradient1.Color2 = System.Drawing.Color.Gray;
             backgroundGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelToolbar.BackgroundGradient = backgroundGradient1;
             this.panelToolbar.Controls.Add(this.button1);
             this.panelToolbar.Controls.Add(this.btnOpenPlaylist);
             this.panelToolbar.Controls.Add(this.btnRemoveSongs);
@@ -185,7 +184,6 @@ namespace MPfm
             customFont22.UseEmbeddedFont = true;
             textGradient22.Font = customFont22;
             textGradient22.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.panelToolbar.TextGradientHeader = textGradient22;
             // 
             // button1
             // 
