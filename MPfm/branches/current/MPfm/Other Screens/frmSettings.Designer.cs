@@ -1215,7 +1215,7 @@ namespace MPfm
             textGradient40.BorderWidth = 1;
             textGradient40.Color1 = System.Drawing.Color.LightGray;
             textGradient40.Color2 = System.Drawing.Color.Gray;
-            customFont40.Color = System.Drawing.Color.Black;
+            customFont40.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             customFont40.EmbeddedFontName = "TitilliumText22L Lt";
             customFont40.IsBold = true;
             customFont40.IsItalic = false;
@@ -1446,10 +1446,10 @@ namespace MPfm
             // 
             this.panelAudioSettingsOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            backgroundGradient13.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient13.BorderColor = System.Drawing.Color.LightGray;
             backgroundGradient13.BorderWidth = 1;
-            backgroundGradient13.Color1 = System.Drawing.Color.LightGray;
-            backgroundGradient13.Color2 = System.Drawing.Color.Gray;
+            backgroundGradient13.Color1 = System.Drawing.Color.Gainsboro;
+            backgroundGradient13.Color2 = System.Drawing.Color.Silver;
             backgroundGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.panelAudioSettingsOutput.BackgroundGradient = backgroundGradient13;
             this.panelAudioSettingsOutput.Controls.Add(this.label3);
@@ -1472,9 +1472,9 @@ namespace MPfm
             this.panelAudioSettingsOutput.TabIndex = 102;
             textGradient34.BorderColor = System.Drawing.Color.DarkGray;
             textGradient34.BorderWidth = 1;
-            textGradient34.Color1 = System.Drawing.Color.White;
-            textGradient34.Color2 = System.Drawing.Color.LightGray;
-            customFont34.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            textGradient34.Color1 = System.Drawing.Color.DarkGray;
+            textGradient34.Color2 = System.Drawing.Color.DimGray;
+            customFont34.Color = System.Drawing.Color.White;
             customFont34.EmbeddedFontName = "Junction";
             customFont34.IsBold = true;
             customFont34.IsItalic = false;

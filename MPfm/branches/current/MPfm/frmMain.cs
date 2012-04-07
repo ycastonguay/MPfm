@@ -1301,7 +1301,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void miFileAddFile_Click(object sender, EventArgs e)
+        private void miFileAddFiles_Click(object sender, EventArgs e)
         {
             // Display dialog
             if (dialogAddFiles.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
@@ -1350,12 +1350,12 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user clicks on the "File -> Open an audio file" menu item.
+        /// Occurs when the user clicks on the "File -> Open an audio files" menu item.
         /// Pops an open file dialog to let the user select the file to play.
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void miFileOpenAudioFile_Click(object sender, EventArgs e)
+        private void miFileOpenAudioFiles_Click(object sender, EventArgs e)
         {
             // Display dialog
             if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
@@ -1680,8 +1680,12 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void btnUpdateLibrary_Click(object sender, EventArgs e)
         {
+            // Display contextual menu            
+            //menuToolbarLibrary.Show(btnUpdateLibrary, new Point(0, btnUpdateLibrary.Height));
+            //toolStripMain.Height;
+
             // Update the whole library
-            UpdateLibrary();
+            //UpdateLibrary();
         }
 
         /// <summary>

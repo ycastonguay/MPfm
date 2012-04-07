@@ -323,14 +323,14 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user clicks on the "Load playlist" button.
+        /// Occurs when the user clicks on the "Open playlist" button.
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void btnLoadPlaylist_Click(object sender, EventArgs e)
+        private void btnOpenPlaylist_Click(object sender, EventArgs e)
         {
             // Display contextual menu
-            menuLoadPlaylist.Show(btnLoadPlaylist, new Point(0, btnLoadPlaylist.Height));
+            menuLoadPlaylist.Show(btnOpenPlaylist, new Point(0, btnOpenPlaylist.Height));
         }
 
         /// <summary>
