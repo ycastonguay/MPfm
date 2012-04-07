@@ -897,8 +897,8 @@ namespace MPfm.WindowsControls
             Pen pen = null;
             SolidBrush brush = null;
             LinearGradientBrush brushGradient = null;
-            Color colorNowPlaying1 = theme.LineNowPlayingColor1;
-            Color colorNowPlaying2 = theme.LineNowPlayingColor2;
+            Color colorNowPlaying1 = theme.RowNowPlayingTextGradient.Color1;
+            Color colorNowPlaying2 = theme.RowNowPlayingTextGradient.Color2;
             int offsetX = 0;
             int offsetY = 0;
             int albumCoverStartIndex = 0;
@@ -914,13 +914,13 @@ namespace MPfm.WindowsControls
             Font fontDefaultBold = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (theme.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.Font.EmbeddedFontName))
+            if (theme.RowTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.RowTextGradient.Font.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded fonts
-                    fontDefault = Tools.LoadEmbeddedFont(embeddedFonts, theme.Font.EmbeddedFontName, theme.Font.Size, theme.Font.ToFontStyle());
-                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, theme.Font.EmbeddedFontName, theme.Font.Size, theme.Font.ToFontStyle() | FontStyle.Bold);
+                    fontDefault = Tools.LoadEmbeddedFont(embeddedFonts, theme.RowTextGradient.Font.EmbeddedFontName, theme.RowTextGradient.Font.Size, theme.RowTextGradient.Font.ToFontStyle());
+                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, theme.RowTextGradient.Font.EmbeddedFontName, theme.RowTextGradient.Font.Size, theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
                 }
                 catch
                 {
@@ -936,8 +936,8 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    fontDefault = new Font(theme.Font.StandardFontName, theme.Font.Size, theme.Font.ToFontStyle());
-                    fontDefaultBold = new Font(theme.Font.StandardFontName, theme.Font.Size, theme.Font.ToFontStyle() | FontStyle.Bold);
+                    fontDefault = new Font(theme.RowTextGradient.Font.StandardFontName, theme.RowTextGradient.Font.Size, theme.RowTextGradient.Font.ToFontStyle());
+                    fontDefaultBold = new Font(theme.RowTextGradient.Font.StandardFontName, theme.RowTextGradient.Font.Size, theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
                 }
                 catch
                 {
@@ -1012,16 +1012,16 @@ namespace MPfm.WindowsControls
                 Rectangle rectBackground = new Rectangle(albumArtColumnWidth - hScrollBar.Value, offsetY, lineBackgroundWidth, songCache.LineHeight);                
                 
                 // Set default line background color
-                Color colorBackground1 = theme.LineColor1;
-                Color colorBackground2 = theme.LineColor2;
+                Color colorBackground1 = theme.RowTextGradient.Color1;
+                Color colorBackground2 = theme.RowTextGradient.Color2;
 
                 // Check conditions to determine background color
                 if ((mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) || 
                     (mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
                 {
                     // Set color             
-                    colorBackground1 = theme.LineNowPlayingColor1;
-                    colorBackground2 = theme.LineNowPlayingColor2;
+                    colorBackground1 = theme.RowNowPlayingTextGradient.Color1;
+                    colorBackground2 = theme.RowNowPlayingTextGradient.Color2;
                 }
 
                 // Check if item is selected
@@ -1106,7 +1106,7 @@ namespace MPfm.WindowsControls
                                 nowPlayingSongFound = true;
 
                                 // Draw outer circle
-                                brushGradient = new LinearGradientBrush(rectNowPlaying, Color.FromArgb(50, theme.IconNowPlayingColor1.R, theme.IconNowPlayingColor1.G, theme.IconNowPlayingColor1.B), theme.IconNowPlayingColor2, timerAnimationNowPlayingCount % 360);
+                                brushGradient = new LinearGradientBrush(rectNowPlaying, Color.FromArgb(50, theme.IconNowPlayingGradient.Color1.R, theme.IconNowPlayingGradient.Color1.G, theme.IconNowPlayingGradient.Color1.B), theme.IconNowPlayingGradient.Color2, timerAnimationNowPlayingCount % 360);
                                 g.FillEllipse(brushGradient, rectNowPlaying);
                                 brushGradient.Dispose();
                                 brushGradient = null;
@@ -1184,7 +1184,7 @@ namespace MPfm.WindowsControls
                                 {
                                     // Draw album cover background
                                     Rectangle rectAlbumCover = new Rectangle(0 - hScrollBar.Value, y, songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
-                                    brushGradient = new LinearGradientBrush(rectAlbumCover, theme.AlbumCoverBackgroundColor1, theme.AlbumCoverBackgroundColor2, 90);
+                                    brushGradient = new LinearGradientBrush(rectAlbumCover, theme.AlbumCoverBackgroundGradient.Color1, theme.AlbumCoverBackgroundGradient.Color2, theme.AlbumCoverBackgroundGradient.GradientMode);
                                     g.FillRectangle(brushGradient, rectAlbumCover);
                                     brushGradient.Dispose();
                                     brushGradient = null;
@@ -1371,7 +1371,7 @@ namespace MPfm.WindowsControls
 
                                     // Draw horizontal line to distinguish albums
                                     // Part 1: Draw line over grid
-                                    pen = new Pen(theme.AlbumCoverBackgroundColor1);
+                                    pen = new Pen(theme.AlbumCoverBackgroundGradient.Color1);
                                     g.DrawLine(pen, new Point(columns[0].Width, y), new Point(ClientRectangle.Width, y));
                                     pen.Dispose();
                                     pen = null;
@@ -1483,7 +1483,7 @@ namespace MPfm.WindowsControls
                                 stringFormat.Alignment = StringAlignment.Near;
 
                                 // Check if this is the artist name column
-                                brush = new SolidBrush(theme.LineForeColor);
+                                brush = new SolidBrush(theme.RowTextGradient.Font.Color);
                                 if (column.FieldName == "ArtistName" || column.FieldName == "DiscTrackNumber")
                                 {
                                     // Use bold for artist name
@@ -1514,7 +1514,7 @@ namespace MPfm.WindowsControls
 
             // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
             Rectangle rectBackgroundHeader = new Rectangle(0, -1, ClientRectangle.Width, songCache.LineHeight + 1);
-            brushGradient = new LinearGradientBrush(rectBackgroundHeader, theme.HeaderColor1, theme.HeaderColor2, 90);
+            brushGradient = new LinearGradientBrush(rectBackgroundHeader, theme.HeaderTextGradient.Color1, theme.HeaderTextGradient.Color2, 90);
             g.FillRectangle(brushGradient, rectBackgroundHeader);
             brushGradient.Dispose();
             brushGradient = null;
@@ -1547,7 +1547,7 @@ namespace MPfm.WindowsControls
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
                         rect = new Rectangle(offsetX - hScrollBar.Value, -1, column.Width, songCache.LineHeight + 1);
-                        brushGradient = new LinearGradientBrush(rect, theme.HeaderHoverColor1, theme.HeaderHoverColor2, 90);
+                        brushGradient = new LinearGradientBrush(rect, theme.HeaderHoverTextGradient.Color1, theme.HeaderHoverTextGradient.Color2, 90);
                         g.FillRectangle(brushGradient, rect);
                         brushGradient.Dispose();
                         brushGradient = null;
@@ -1568,7 +1568,7 @@ namespace MPfm.WindowsControls
                         // Display title                
                         Rectangle rectTitle = new Rectangle(offsetX - hScrollBar.Value, theme.Padding / 2, column.Width, songCache.LineHeight - theme.Padding + 2);
                         stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-                        brush = new SolidBrush(theme.HeaderForeColor);
+                        brush = new SolidBrush(theme.HeaderTextGradient.Font.Color);
                         g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
                         brush.Dispose();
                         brush = null;
@@ -1612,7 +1612,7 @@ namespace MPfm.WindowsControls
                         }
 
                         // Draw triangle
-                        pen = new Pen(theme.HeaderForeColor);
+                        pen = new Pen(theme.HeaderTextGradient.Font.Color);
                         g.DrawPolygon(pen, ptTriangle);
                         pen.Dispose();
                         pen = null;
@@ -2717,7 +2717,7 @@ namespace MPfm.WindowsControls
             Font fontDefaultBold = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (theme.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.Font.EmbeddedFontName))
+            if (theme.RowTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.RowTextGradient.Font.EmbeddedFontName))
             {
                 try
                 {
@@ -2725,7 +2725,7 @@ namespace MPfm.WindowsControls
                     EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
 
                     // Get embedded fonts                    
-                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, theme.Font.EmbeddedFontName, theme.Font.Size, theme.Font.ToFontStyle() | FontStyle.Bold);
+                    fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, theme.RowTextGradient.Font.EmbeddedFontName, theme.RowTextGradient.Font.Size, theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
                 }
                 catch
                 {
@@ -2740,7 +2740,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font                    
-                    fontDefaultBold = new Font(theme.Font.StandardFontName, theme.Font.Size, theme.Font.ToFontStyle() | FontStyle.Bold);
+                    fontDefaultBold = new Font(theme.RowTextGradient.Font.StandardFontName, theme.RowTextGradient.Font.Size, theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
                 }
                 catch
                 {

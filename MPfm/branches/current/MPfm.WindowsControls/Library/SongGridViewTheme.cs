@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Drawing.Drawing2D;
 
 namespace MPfm.WindowsControls
 {
@@ -36,310 +37,140 @@ namespace MPfm.WindowsControls
         #region Header
 
         /// <summary>
-        /// Private value for the HeaderColor1 property.
+        /// Private value for the HeaderTextGradient property.
         /// </summary>
-        private Color headerColor1 = Color.FromArgb(165, 165, 165);
+        private TextGradient headerTextGradient = new TextGradient(Color.FromArgb(165, 165, 165), Color.FromArgb(195, 195, 195), LinearGradientMode.Horizontal, 
+                                                                   Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(60, 60, 60)));
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the header text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("First color of the header background gradient.")]
-        public Color HeaderColor1
+        [Category("Header"), Browsable(true), Description("Header text gradient.")]
+        public TextGradient HeaderTextGradient
         {
             get
             {
-                return headerColor1;
+                return headerTextGradient;
             }
             set
             {
-                headerColor1 = value;
+                headerTextGradient = value;
             }
         }
 
         /// <summary>
-        /// Private value for the HeaderColor2 property.
+        /// Private value for the HeaderHoverTextGradient property.
         /// </summary>
-        private Color headerColor2 = Color.FromArgb(195, 195, 195);
+        private TextGradient headerHoverTextGradient = new TextGradient(Color.FromArgb(145, 145, 145), Color.FromArgb(175, 175, 175), LinearGradientMode.Horizontal,
+                                                                        Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(60, 60, 60)));
         /// <summary>
-        /// Second color of the background gradient.
+        /// Defines the header text gradient (when the mouse cursor is over the header).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("Second color of the header background gradient.")]
-        public Color HeaderColor2
+        [Category("Header"), Browsable(true), Description("Header text gradient (when the mouse cursor is over the header).")]
+        public TextGradient HeaderHoverTextGradient
         {
             get
             {
-                return headerColor2;
+                return headerHoverTextGradient;
             }
             set
             {
-                headerColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderHoverColor1 property.
-        /// </summary>
-        private Color headerHoverColor1 = Color.FromArgb(145, 145, 145);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("First color of the header background gradient when the mouse cursor is over the header.")]
-        public Color HeaderHoverColor1
-        {
-            get
-            {
-                return headerHoverColor1;
-            }
-            set
-            {
-                headerHoverColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderHoverColor2 property.
-        /// </summary>
-        private Color headerHoverColor2 = Color.FromArgb(175, 175, 175);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Header"), Browsable(true), Description("First color of the header background gradient when the mouse cursor is over the header.")]
-        public Color HeaderHoverColor2
-        {
-            get
-            {
-                return headerHoverColor2;
-            }
-            set
-            {
-                headerHoverColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the HeaderForeColor property.
-        /// </summary>
-        private Color headerForeColor = Color.FromArgb(60, 60, 60);
-        /// <summary>
-        /// Fore font color used in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Header"), Browsable(true), Description("Fore color used when drawing the header font and other glyphs (such as the orderby icon).")]
-        public Color HeaderForeColor
-        {
-            get
-            {
-                return headerForeColor;
-            }
-            set
-            {
-                headerForeColor = value;
+                headerHoverTextGradient = value;
             }
         }
 
         #endregion
 
-        #region Line
+        #region Row
 
         /// <summary>
-        /// Private value for the LineColor1 property.
+        /// Private value for the RowTextGradient property.
         /// </summary>
-        private Color lineColor1 = Color.FromArgb(215, 215, 215);
+        private TextGradient rowTextGradient = new TextGradient(Color.FromArgb(215, 215, 215), Color.FromArgb(235, 235, 235), LinearGradientMode.Horizontal, 
+                                                                Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(0, 0, 0)));
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the row text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Line"), Browsable(true), Description("First color of the line background gradient.")]
-        public Color LineColor1
+        [Category("Row"), Browsable(true), Description("Row text gradient.")]
+        public TextGradient RowTextGradient
         {
             get
             {
-                return lineColor1;
+                return rowTextGradient;
             }
             set
             {
-                lineColor1 = value;
+                rowTextGradient = value;
             }
         }
 
         /// <summary>
-        /// Private value for the LineColor2 property.
+        /// Private value for the RowNowPlayingTextGradient property.
         /// </summary>
-        private Color lineColor2 = Color.FromArgb(235, 235, 235);
+        private TextGradient rowNowPlayingTextGradient = new TextGradient(Color.FromArgb(135, 235, 135), Color.FromArgb(155, 255, 155), LinearGradientMode.Horizontal,
+                                                                          Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(0, 0, 0)));
         /// <summary>
-        /// Second color of the background gradient.
+        /// Defines the row text gradient (when the song is currently playing).
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Line"), Browsable(true), Description("Second color of the line background gradient.")]
-        public Color LineColor2
+        [Category("Row"), Browsable(true), Description("Row text gradient (when the song is currently playing).")]
+        public TextGradient RowNowPlayingTextGradient
         {
             get
             {
-                return lineColor2;
+                return rowNowPlayingTextGradient;
             }
             set
             {
-                lineColor2 = value;
+                rowNowPlayingTextGradient = value;
             }
         }
 
         /// <summary>
-        /// Private value for the LineNowPlayingColor1 property.
+        /// Private value for the IconNowPlayingGradient property.
         /// </summary>
-        private Color lineNowPlayingColor1 = Color.FromArgb(135, 235, 135);
+        private Gradient iconNowPlayingGradient = new Gradient(Color.FromArgb(250, 200, 250), Color.FromArgb(25, 150, 25), LinearGradientMode.Horizontal);
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the icon gradient next to the song currently playing.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Line"), Browsable(true), Description("First color of the line background gradient when the line is now playing.")]
-        public Color LineNowPlayingColor1
+        [Category("Row"), Browsable(true), Description("Icon gradient next to the song currently playing.")]
+        public Gradient IconNowPlayingGradient
         {
             get
             {
-                return lineNowPlayingColor1;
+                return iconNowPlayingGradient;
             }
             set
             {
-                lineNowPlayingColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineNowPlayingColor2 property.
-        /// </summary>
-        private Color lineNowPlayingColor2 = Color.FromArgb(155, 255, 155);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Line"), Browsable(true), Description("Second color of the line background gradient when the line is now playing.")]
-        public Color LineNowPlayingColor2
-        {
-            get
-            {
-                return lineNowPlayingColor2;
-            }
-            set
-            {
-                lineNowPlayingColor2 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the LineForeColor property.
-        /// </summary>
-        private Color lineForeColor = Color.FromArgb(0, 0, 0);
-        /// <summary>
-        /// Fore font color used in the header.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue("")]
-        [Category("Line"), Browsable(true), Description("Fore color used when drawing the line font.")]
-        public Color LineForeColor
-        {
-            get
-            {
-                return lineForeColor;
-            }
-            set
-            {
-                lineForeColor = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the IconNowPlayingColor1 property.
-        /// </summary>
-        private Color iconNowPlayingColor1 = Color.FromArgb(250, 200, 250);
-        /// <summary>
-        /// First color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Line"), Browsable(true), Description("First color of the animated icon displaying the currently playing song.")]
-        public Color IconNowPlayingColor1
-        {
-            get
-            {
-                return iconNowPlayingColor1;
-            }
-            set
-            {
-                iconNowPlayingColor1 = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the IconNowPlayingColor2 property.
-        /// </summary>
-        private Color iconNowPlayingColor2 = Color.FromArgb(25, 150, 25);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Line"), Browsable(true), Description("Second color of the animated icon displaying the currently playing song.")]
-        public Color IconNowPlayingColor2
-        {
-            get
-            {
-                return iconNowPlayingColor2;
-            }
-            set
-            {
-                iconNowPlayingColor2 = value;
+                iconNowPlayingGradient = value;
             }
         }
 
         #endregion
 
-        #region Album Covers
-
         /// <summary>
-        /// Private value for the AlbumCoverBackgroundColor1 property.
+        /// Private value for the AlbumCoverBackgroundGradient property.
         /// </summary>
-        private Color albumCoverBackgroundColor1 = Color.FromArgb(55, 55, 55);
+        private BackgroundGradient albumCoverBackgroundGradient = new BackgroundGradient(Color.FromArgb(55, 55, 55), Color.FromArgb(75, 75, 75), LinearGradientMode.Horizontal, Color.Gray, 0);
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the album cover background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Album Covers"), Browsable(true), Description("First color of the album cover background gradient.")]
-        public Color AlbumCoverBackgroundColor1
+        [Category("General"), Browsable(true), Description("Album cover background gradient.")]
+        public BackgroundGradient AlbumCoverBackgroundGradient
         {
             get
             {
-                return albumCoverBackgroundColor1;
+                return albumCoverBackgroundGradient;
             }
             set
             {
-                albumCoverBackgroundColor1 = value;
+                albumCoverBackgroundGradient = value;
             }
         }
-
-        /// <summary>
-        /// Private value for the AlbumCoverBackgroundColor2 property.
-        /// </summary>
-        private Color albumCoverBackgroundColor2 = Color.FromArgb(75, 75, 75);
-        /// <summary>
-        /// Second color of the background gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Album Covers"), Browsable(true), Description("Second color of the album cover background gradient.")]
-        public Color AlbumCoverBackgroundColor2
-        {
-            get
-            {
-                return albumCoverBackgroundColor2;
-            }
-            set
-            {
-                albumCoverBackgroundColor2 = value;
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Private value for the Padding property.
@@ -363,36 +194,10 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the Font property.
-        /// </summary>
-        private CustomFont font = new CustomFont();
-        /// <summary>
-        /// Defines the font used in the control.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("General"), Browsable(true), Description("Font used to render the control.")]
-        public CustomFont Font
-        {
-            get
-            {
-                return font;
-            }
-            set
-            {
-                font = value;
-            }
-        }
-
-        /// <summary>
         /// Default constructor for the SongGridViewTheme class.
         /// </summary>
         public SongGridViewTheme()
         {
-            // Set default values
-            font = new CustomFont();
-            font.EmbeddedFontName = "Junction";
-            font.Size = 8;
-            font.UseEmbeddedFont = true;
         }
     }
 }
