@@ -29,7 +29,11 @@ namespace MPfm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            MPfm.WindowsControls.LabelTheme labelTheme1 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient1 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme2 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient2 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSplash));
             this.timerUpdateGUI = new System.Windows.Forms.Timer(this.components);
@@ -54,7 +58,7 @@ namespace MPfm
             // 
             // lblStatus
             // 
-            this.lblStatus.BackColor = System.Drawing.Color.Transparent;            
+            this.lblStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.White;
             this.lblStatus.Location = new System.Drawing.Point(5, 481);
@@ -63,11 +67,28 @@ namespace MPfm
             this.lblStatus.TabIndex = 50;
             this.lblStatus.Text = "Initializing tracing...";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme1.IsBackgroundTransparent = true;
+            textGradient1.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient1.BorderWidth = 1;
+            textGradient1.Color1 = System.Drawing.Color.LightGray;
+            textGradient1.Color2 = System.Drawing.Color.Gray;
+            customFont1.Color = System.Drawing.Color.Black;
+            customFont1.EmbeddedFontName = "Junction";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 8F;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseAntiAliasing = true;
+            customFont1.UseEmbeddedFont = true;
+            textGradient1.Font = customFont1;
+            textGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            labelTheme1.TextGradient = textGradient1;
+            this.lblStatus.Theme = labelTheme1;
             // 
             // lblVersion
             // 
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
-
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9F);
             this.lblVersion.ForeColor = System.Drawing.Color.White;
             this.lblVersion.Location = new System.Drawing.Point(7, 8);
@@ -76,6 +97,24 @@ namespace MPfm
             this.lblVersion.TabIndex = 55;
             this.lblVersion.Text = "0.0.0.0";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme2.IsBackgroundTransparent = true;
+            textGradient2.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient2.BorderWidth = 1;
+            textGradient2.Color1 = System.Drawing.Color.LightGray;
+            textGradient2.Color2 = System.Drawing.Color.Gray;
+            customFont2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont2.EmbeddedFontName = "Droid Sans Mono";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 9F;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseAntiAliasing = true;
+            customFont2.UseEmbeddedFont = true;
+            textGradient2.Font = customFont2;
+            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            labelTheme2.TextGradient = textGradient2;
+            this.lblVersion.Theme = labelTheme2;
             // 
             // pictureBackground
             // 

@@ -887,14 +887,7 @@ namespace MPfm
             backgroundGradient6.Color1 = System.Drawing.Color.LightGray;
             backgroundGradient6.Color2 = System.Drawing.Color.Gray;
             backgroundGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.trackTimeShifting.BackgroundGradient = backgroundGradient6;
-            this.trackTimeShifting.CenterLineColor = System.Drawing.Color.Gray;
-            this.trackTimeShifting.CenterLineShadowColor = System.Drawing.Color.Black;
-            this.trackTimeShifting.FaderGradientColor1 = System.Drawing.Color.White;
-            this.trackTimeShifting.FaderGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.trackTimeShifting.FaderHeight = 8;
-            this.trackTimeShifting.FaderShadowGradientColor1 = System.Drawing.Color.Gray;
-            this.trackTimeShifting.FaderShadowGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.trackTimeShifting.FaderWidth = 16;
             this.trackTimeShifting.Location = new System.Drawing.Point(0, 17);
             this.trackTimeShifting.Maximum = 50;

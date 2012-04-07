@@ -85,6 +85,7 @@
       <DependentUpon>WaveFormDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Buttons-Toolbars\ButtonTheme.cs" />
+    <Compile Include="Buttons-Toolbars\TrackBarTheme.cs" />
     <Compile Include="Buttons-Toolbars\TrackBar.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -46,7 +46,9 @@ namespace MPfm.WindowsControls
         private float valueRelativeToValueRange = 0;
         private float valueRange = 0;
 
-        // Private variables
+        /// <summary>
+        /// Private value for the MouseButtonDown property.
+        /// </summary>
         private bool mouseButtonDown = false;
         /// <summary>
         /// Indicates if a mouse button is down.
@@ -59,30 +61,24 @@ namespace MPfm.WindowsControls
             }
         }
 
-        #region Background Properties
-
         /// <summary>
-        /// Private value for the BackgroundGradient property.
+        /// Private value for the Theme property.
         /// </summary>
-        private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.Gray, 1);
+        private TrackBarTheme theme = null;
         /// <summary>
-        /// Defines the background gradient.
+        /// Defines the current theme used for rendering the control.
         /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Background gradient.")]
-        public BackgroundGradient BackgroundGradient
+        public TrackBarTheme Theme
         {
             get
             {
-                return backgroundGradient;
+                return theme;
             }
             set
             {
-                backgroundGradient = value;
+                theme = value;
             }
         }
-
-        #endregion
 
         #region Track Bar Properties
 
@@ -160,115 +156,7 @@ namespace MPfm.WindowsControls
             {
                 stepSize = value;
             }
-        }       
-        
-        private Color faderGradientColor1 = Color.LightGray;
-        /// <summary>
-        /// First color of the fader gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("First color of the fader gradient.")]
-        public Color FaderGradientColor1
-        {
-            get
-            {
-                return faderGradientColor1;
-            }
-            set
-            {
-                faderGradientColor1 = value;
-            }
-        }
-
-        private Color faderGradientColor2 = Color.Gray;
-        /// <summary>
-        /// Second color of the fader gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Second color of the fader gradient.")]
-        public Color FaderGradientColor2
-        {
-            get
-            {
-                return faderGradientColor2;
-            }
-            set
-            {
-                faderGradientColor2 = value;
-            }
-        }
-
-        private Color faderShadowGradientColor1 = Color.DarkGray;
-        /// <summary>
-        /// First color of the fader shadow gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("First color of the fader shadow gradient.")]
-        public Color FaderShadowGradientColor1
-        {
-            get
-            {
-                return faderShadowGradientColor1;
-            }
-            set
-            {
-                faderShadowGradientColor1 = value;
-            }
-        }
-
-        private Color faderShadowGradientColor2 = Color.DarkGray;
-        /// <summary>
-        /// Second color of the fader shadow gradient.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Second color of the fader shadow gradient.")]
-        public Color FaderShadowGradientColor2
-        {
-            get
-            {
-                return faderShadowGradientColor2;
-            }
-            set
-            {
-                faderShadowGradientColor2 = value;
-            }
-        }
-
-        private Color centerLineColor = Color.Black;
-        /// <summary>
-        /// Color used when drawing the center line.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Color used when drawing the center line.")]
-        public Color CenterLineColor
-        {
-            get
-            {
-                return centerLineColor;
-            }
-            set
-            {
-                centerLineColor = value;
-            }
-        }
-
-        private Color centerLineShadowColor = Color.DarkGray;
-        /// <summary>
-        /// Color used when drawing the center line shadow.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Color used when drawing the center line shadow.")]
-        public Color CenterLineShadowColor
-        {
-            get
-            {
-                return centerLineShadowColor;
-            }
-            set
-            {
-                centerLineShadowColor = value;
-            }
-        }
+        }                       
 
         #endregion
 
@@ -359,9 +247,12 @@ namespace MPfm.WindowsControls
         /// Default constructor for TrackBar.
         /// </summary>
         public TrackBar() : base()
-        {
+        {            
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                      ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+
+            // Create default theme
+            theme = new TrackBarTheme();
         }
 
         #region Paint Events
@@ -397,7 +288,7 @@ namespace MPfm.WindowsControls
 
             // Draw background gradient (cover -1 pixel for some refresh bug)
             Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, backgroundGradient.Color1, backgroundGradient.Color2, backgroundGradient.GradientMode);
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
             g.FillRectangle(brushBackground, rectBody);
             brushBackground.Dispose();
             brushBackground = null;
@@ -413,12 +304,12 @@ namespace MPfm.WindowsControls
             float trackX2 = Width - Margin; // add margin from right
             float trackY = Height / 2; // right in the center
 
-            pen = new Pen(CenterLineShadowColor);
+            pen = new Pen(theme.CenterLineShadowColor);
             g.DrawLine(pen, new PointF(trackX + 1, trackY + 1), new PointF(trackX2 + 1, trackY + 1));
             pen.Dispose();
             pen = null;
 
-            pen = new Pen(CenterLineColor);
+            pen = new Pen(theme.CenterLineColor);
             g.DrawLine(pen, new PointF(trackX, trackY), new PointF(trackX2, trackY));
             pen.Dispose();
             pen = null;
@@ -452,17 +343,17 @@ namespace MPfm.WindowsControls
             RectangleF rectFaderRight = new RectangleF(faderX + FaderWidth - 8, (Height / 2) - (FaderHeight / 2), 8, FaderHeight);
             RectangleF rectFaderCenter = new RectangleF(faderX + 4, (Height / 2) - (FaderHeight / 2), FaderWidth - 8, FaderHeight);
 
-            brushGradient = new LinearGradientBrush(rectFaderLeft, FaderGradientColor1, FaderGradientColor2, LinearGradientMode.Horizontal);
+            brushGradient = new LinearGradientBrush(rectFaderLeft, theme.FaderGradient.Color1, theme.FaderGradient.Color2, theme.FaderGradient.GradientMode);
             g.FillEllipse(brushGradient, rectFaderLeft);
             brushGradient.Dispose();
             brushGradient = null;
 
-            brushGradient = new LinearGradientBrush(rectFaderRight, FaderGradientColor1, FaderGradientColor2, LinearGradientMode.Horizontal);
+            brushGradient = new LinearGradientBrush(rectFaderRight, theme.FaderGradient.Color1, theme.FaderGradient.Color2, theme.FaderGradient.GradientMode);
             g.FillEllipse(brushGradient, rectFaderRight);
             brushGradient.Dispose();
             brushGradient = null;
 
-            brush = new SolidBrush(FaderGradientColor2);
+            brush = new SolidBrush(theme.FaderGradient.Color2);
             g.FillRectangle(brush, rectFaderCenter);
             brush.Dispose();
             brush = null;
@@ -471,18 +362,18 @@ namespace MPfm.WindowsControls
             RectangleF rectFaderInsideLeft = new RectangleF(faderX + 2, (Height / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
             RectangleF rectFaderInsideRight = new RectangleF(faderX + FaderWidth - 6, (Height / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
 
-            brushGradient = new LinearGradientBrush(rectFaderInsideLeft, FaderShadowGradientColor1, FaderShadowGradientColor2, LinearGradientMode.Horizontal);
+            brushGradient = new LinearGradientBrush(rectFaderInsideLeft, theme.FaderShadowGradient.Color1, theme.FaderShadowGradient.Color2, theme.FaderShadowGradient.GradientMode);
             g.FillEllipse(brushGradient, rectFaderInsideLeft);
             brushGradient.Dispose();
             brushGradient = null;
 
-            brushGradient = new LinearGradientBrush(rectFaderInsideRight, FaderShadowGradientColor1, FaderShadowGradientColor2, LinearGradientMode.Horizontal);
+            brushGradient = new LinearGradientBrush(rectFaderInsideRight, theme.FaderShadowGradient.Color1, theme.FaderShadowGradient.Color2, theme.FaderShadowGradient.GradientMode);
             g.FillEllipse(brushGradient, rectFaderInsideRight);
             brushGradient.Dispose();
             brushGradient = null;
 
             // Draw center of fader
-            pen = new Pen(FaderShadowGradientColor2);
+            pen = new Pen(theme.FaderShadowGradient.Color2);
             g.DrawLine(pen, new PointF(tickCenterX, (Height / 2) - (FaderHeight / 2)), new PointF(tickCenterX, (Height / 2) - (FaderHeight / 2) + FaderHeight));
             pen.Dispose();
             pen = null;
