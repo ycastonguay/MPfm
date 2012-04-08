@@ -84,6 +84,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Fore font color used when displaying the volume peak in decibels (drop shadow under text).
         /// </summary>
+        [XmlIgnore]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Fonts"), Browsable(true), Description("Fore font color used when displaying the volume peak in decibels (drop shadow under text).")]
         public Color FontShadowColor
@@ -162,6 +163,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// The color of the 0db line drawn on the output meter.
         /// </summary>
+        [XmlIgnore]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Display"), Browsable(true), Description("The color of the 0db line drawn on the output meter.")]
         public Color Meter0dbLineColor
@@ -198,6 +200,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// The color of the peak line drawn on the output meter.
         /// </summary>
+        [XmlIgnore]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Display"), Browsable(true), Description("The color of the peak line drawn on the output meter.")]
         public Color MeterPeakLineColor
