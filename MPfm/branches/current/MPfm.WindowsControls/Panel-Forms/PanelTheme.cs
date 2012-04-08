@@ -36,23 +36,23 @@ namespace MPfm.WindowsControls
     public class PanelTheme
     {
         /// <summary>
-        /// Private value for the TextGradientHeader property.
+        /// Private value for the HeaderTextGradient property.
         /// </summary>
-        private TextGradient textGradientHeader = new TextGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1, new CustomFont("Junction", 8.0f, Color.Black));
+        private TextGradient headerTextGradient = new TextGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1, new CustomFont("Junction", 8.0f, Color.Black));
         /// <summary>
         /// Defines the header text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Theme"), Browsable(true), Description("Header text gradient.")]
-        public TextGradient TextGradientHeader
+        public TextGradient HeaderTextGradient
         {
             get
             {
-                return textGradientHeader;
+                return headerTextGradient;
             }
             set
             {
-                textGradientHeader = value;
+                headerTextGradient = value;
             }
         }
 

@@ -175,6 +175,7 @@ namespace MPfm.WindowsControls
 
             // Set preview font            
             CustomFont.EmbeddedFontName = font.Name;
+            CustomFont.UseEmbeddedFont = true;
             lblPreview.Theme.TextGradient.Font = CustomFont;
             lblPreview.Refresh();
         }
@@ -200,6 +201,7 @@ namespace MPfm.WindowsControls
             {
                 // Set font properties
                 CustomFont.StandardFontName = font;
+                CustomFont.UseEmbeddedFont = false;
                 lblPreview.Theme.TextGradient.Font = CustomFont;
                 lblPreview.Refresh();
             }

@@ -313,7 +313,7 @@ namespace MPfm.WindowsControls
             Graphics g = pe.Graphics;
 
             // Use anti-aliasing?
-            if (theme.TextGradientHeader.Font.UseAntiAliasing)
+            if (theme.HeaderTextGradient.Font.UseAntiAliasing)
             {
                 // Set text anti-aliasing to ClearType (best looking AA)
                 g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -326,12 +326,12 @@ namespace MPfm.WindowsControls
             Font font = null;
 
             // Make sure the embedded font name needs to be loaded and is valid
-            if (theme.TextGradientHeader.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.TextGradientHeader.Font.EmbeddedFontName))
+            if (theme.HeaderTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.HeaderTextGradient.Font.EmbeddedFontName))
             {
                 try
                 {
                     // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.TextGradientHeader.Font.EmbeddedFontName, theme.TextGradientHeader.Font.Size, theme.TextGradientHeader.Font.ToFontStyle());
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.HeaderTextGradient.Font.EmbeddedFontName, theme.HeaderTextGradient.Font.Size, theme.HeaderTextGradient.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -346,7 +346,7 @@ namespace MPfm.WindowsControls
                 try
                 {
                     // Try to get standard font
-                    font = new Font(theme.TextGradientHeader.Font.StandardFontName, theme.TextGradientHeader.Font.Size, theme.TextGradientHeader.Font.ToFontStyle());
+                    font = new Font(theme.HeaderTextGradient.Font.StandardFontName, theme.HeaderTextGradient.Font.Size, theme.HeaderTextGradient.Font.ToFontStyle());
                 }
                 catch
                 {
@@ -367,12 +367,12 @@ namespace MPfm.WindowsControls
             }
 
             // Draw header
-            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), theme.TextGradientHeader.Color1, theme.TextGradientHeader.Color2, theme.TextGradientHeader.GradientMode);
+            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), theme.HeaderTextGradient.Color1, theme.HeaderTextGradient.Color2, theme.HeaderTextGradient.GradientMode);
             g.FillRectangle(brushHeader, 0, 0, ClientRectangle.Width, headerHeight);
             brushHeader.Dispose();
             brushHeader = null;
 
-            SolidBrush brushFont = new SolidBrush(theme.TextGradientHeader.Font.Color);
+            SolidBrush brushFont = new SolidBrush(theme.HeaderTextGradient.Font.Color);
             SizeF sizeString = g.MeasureString(headerTitle, font);
 
             float headerTitleY = ((float)headerHeight - sizeString.Height) / 2;

@@ -200,9 +200,10 @@ namespace MPfm.WindowsControls
             }
 
             // Draw background gradient
+            Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
             LinearGradientBrush brushBackground = null;
-            brushBackground = new LinearGradientBrush(e.ClipRectangle, gradient.Color1, gradient.Color2, gradient.GradientMode);
-            g.FillRectangle(brushBackground, ClientRectangle);
+            brushBackground = new LinearGradientBrush(rectBackground, gradient.Color1, gradient.Color2, gradient.GradientMode);
+            g.FillRectangle(brushBackground, rectBackground);
             brushBackground.Dispose();
             brushBackground = null;
 
@@ -210,7 +211,7 @@ namespace MPfm.WindowsControls
             if (gradient.BorderWidth > 0)
             {
                 Pen penBorder = new Pen(gradient.BorderColor);
-                g.DrawRectangle(penBorder, 0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+                g.DrawRectangle(penBorder, 0, 0, rectBackground.Width - 3, rectBackground.Height - 3);
                 penBorder.Dispose();
                 penBorder = null;
             }
