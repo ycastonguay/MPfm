@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace MPfm.WindowsControls
 {
@@ -34,106 +35,56 @@ namespace MPfm.WindowsControls
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class WaveFormDisplayTheme
     {
-        #region Background Properties
-
         /// <summary>
-        /// Private value for the BackgroundGradientColor1 property.
+        /// Private value for the BackgroundGradient property.
         /// </summary>
-        private Color backgroundGradientColor1 = Color.FromArgb(0, 0, 0);
+        private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.FromArgb(20, 20, 20), Color.FromArgb(50, 50, 50), LinearGradientMode.Vertical, Color.Gray, 0);
         /// <summary>
-        /// First color of the background gradient.
+        /// Defines the output meter background gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("First color of the background gradient.")]
-        public Color BackgroundGradientColor1
+        [Category("Theme"), Browsable(true), Description("Output meter background gradient.")]
+        public BackgroundGradient BackgroundGradient
         {
             get
             {
-                return backgroundGradientColor1;
+                return backgroundGradient;
             }
             set
             {
-                backgroundGradientColor1 = value;
+                backgroundGradient = value;
             }
         }
 
         /// <summary>
-        /// Private value for the BackgroundGradientColor2 property.
+        /// Private value for the CurrentPositionTextGradient property.
         /// </summary>
-        private Color backgroundGradientColor2 = Color.FromArgb(50, 50, 50);
+        private TextGradient currentPositionTextGradient = new TextGradient(Color.RoyalBlue, Color.DarkBlue, LinearGradientMode.Vertical, Color.DarkGray, 0, new CustomFont("Droid Sans Mono", 8.0f, Color.White));
         /// <summary>
-        /// Second color of the background gradient.
+        /// Defines the current position text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Second color of the background gradient.")]
-        public Color BackgroundGradientColor2
+        [Category("Theme"), Browsable(true), Description("Current position text gradient.")]
+        public TextGradient CurrentPositionTextGradient
         {
             get
             {
-                return backgroundGradientColor2;
+                return currentPositionTextGradient;
             }
             set
             {
-                backgroundGradientColor2 = value;
+                currentPositionTextGradient = value;
             }
         }
-
-        /// <summary>
-        /// Private value for the BackgroundGradientMode property.
-        /// </summary>
-        private LinearGradientMode backgroundGradientMode = LinearGradientMode.Vertical;
-        /// <summary>
-        /// Background gradient mode.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Background"), Browsable(true), Description("Background gradient mode.")]
-        public LinearGradientMode BackgroundGradientMode
-        {
-            get
-            {
-                return backgroundGradientMode;
-            }
-            set
-            {
-                backgroundGradientMode = value;
-            }
-        }
-
-        #endregion
-
-        #region Font Properties
-
-        /// <summary>
-        /// Private value for the CustomFont property.
-        /// </summary>
-        private CustomFont customFont = null;
-        /// <summary>
-        /// Defines the font to be used for rendering the control.
-        /// </summary>
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Font used for rendering the control.")]
-        public CustomFont CustomFont
-        {
-            get
-            {
-                return customFont;
-            }
-            set
-            {
-                customFont = value;
-            }
-        }
-
-        #endregion
-
 
         /// <summary>
         /// Private value for the WaveFormColor property.
         /// </summary>
         private Color waveFormColor = Color.Yellow;
         /// <summary>
-        /// Color used when drawing the wave form.
+        /// Defines the color used when drawing the wave form.
         /// </summary>
+        [XmlIgnore]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Category("Display"), Browsable(true), Description("Color used when drawing the wave form.")]
         public Color WaveFormColor
@@ -147,16 +98,35 @@ namespace MPfm.WindowsControls
                 waveFormColor = value;
             }
         }
+        /// <summary>
+        /// Gets/sets the wave form color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
+        /// </summary>
+        [Browsable(false)]
+        [XmlElement(ElementName = "WaveFormColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int WaveFormColorInt
+        {
+            get
+            {
+                return waveFormColor.ToArgb();
+            }
+            set
+            {
+                waveFormColor = Color.FromArgb(value);
+            }
+        }
 
         /// <summary>
         /// Private value for the CursorColor property.
         /// </summary>
-        private Color cursorColor = Color.RoyalBlue;
+        private Color cursorColor = Color.DarkBlue;
         /// <summary>
-        /// Color used when drawing the current song position cursor over the wave form.
+        /// Defines the color used when drawing the cursor over the wave form.
         /// </summary>
+        [XmlIgnore]
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Display"), Browsable(true), Description("Color used when drawing the current song position cursor over the wave form.")]
+        [Category("Display"), Browsable(true), Description("Color used when drawing the cursor over the wave form.")]
         public Color CursorColor
         {
             get
@@ -168,17 +138,30 @@ namespace MPfm.WindowsControls
                 cursorColor = value;
             }
         }
+        /// <summary>
+        /// Gets/sets the cursor color using a 32-bit integer (ARGB).
+        /// This is used for serializing the Color structure in XML.
+        /// </summary>
+        [Browsable(false)]
+        [XmlElement(ElementName = "CursorColor")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int CursorColorInt
+        {
+            get
+            {
+                return cursorColor.ToArgb();
+            }
+            set
+            {
+                cursorColor = Color.FromArgb(value);
+            }
+        }
 
         /// <summary>
         /// Default constructor for the WaveFormDisplayTheme class.
         /// </summary>
         public WaveFormDisplayTheme()
         {            
-            // Set default values
-            customFont = new CustomFont();
-            customFont.EmbeddedFontName = "Droid Sans Mono";
-            customFont.Size = 8;
-            customFont.UseEmbeddedFont = true;
         }
     }
 }

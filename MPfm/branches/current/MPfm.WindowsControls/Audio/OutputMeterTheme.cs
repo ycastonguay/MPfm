@@ -159,6 +159,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the Meter0dbLineColor property.
+        /// </summary>
         private Color meter0dbLineColor = Color.DarkGray;
         /// <summary>
         /// The color of the 0db line drawn on the output meter.
@@ -196,6 +199,9 @@ namespace MPfm.WindowsControls
             }
         }
 
+        /// <summary>
+        /// Private value for the MeterPeakLineColor property.
+        /// </summary>
         private Color meterPeakLineColor = Color.LightGray;
         /// <summary>
         /// The color of the peak line drawn on the output meter.

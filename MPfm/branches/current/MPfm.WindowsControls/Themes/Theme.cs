@@ -118,6 +118,25 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the WaveFormDisplay property.
+        /// </summary>
+        private WaveFormDisplayTheme waveFormDisplay = null;
+        /// <summary>
+        /// Theme object for the WaveFormDisplay control.
+        /// </summary>
+        public WaveFormDisplayTheme WaveFormDisplay
+        {
+            get
+            {
+                return waveFormDisplay;
+            }
+            set
+            {
+                waveFormDisplay = value;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the Theme class.
         /// </summary>
         public Theme()
@@ -127,6 +146,7 @@ namespace MPfm.WindowsControls
             secondaryWindow = new SecondaryWindowTheme();
             songGridView = new SongGridViewTheme();
             outputMeter = new OutputMeterTheme();
+            waveFormDisplay = new WaveFormDisplayTheme();
         }
     }
 }

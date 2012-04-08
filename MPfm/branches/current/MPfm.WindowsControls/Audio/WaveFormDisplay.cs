@@ -1295,7 +1295,7 @@ namespace MPfm.WindowsControls
 
                     // Draw background gradient
                     Rectangle rectBackground = new Rectangle(0, 0, widthAvailable, heightAvailable);
-                    brushGradient = new LinearGradientBrush(rectBackground, theme.BackgroundGradientColor1, theme.BackgroundGradientColor2, theme.BackgroundGradientMode);
+                    brushGradient = new LinearGradientBrush(rectBackground, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
                     g.FillRectangle(brushGradient, rectBackground);
                     brushGradient.Dispose();
                     brushGradient = null;
@@ -1528,7 +1528,7 @@ namespace MPfm.WindowsControls
                 g.DrawImage(bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
 
                 // Use anti-aliasing?
-                if (theme.CustomFont.UseAntiAliasing)
+                if (theme.CurrentPositionTextGradient.Font.UseAntiAliasing)
                 {
                     // Set text anti-aliasing to ClearType (best looking AA)
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -1541,12 +1541,12 @@ namespace MPfm.WindowsControls
                 Font font = null;
 
                 // Make sure the embedded font name needs to be loaded and is valid
-                if (theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(theme.CustomFont.EmbeddedFontName))
+                if (theme.CurrentPositionTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.CurrentPositionTextGradient.Font.EmbeddedFontName))
                 {
                     try
                     {
                         // Get embedded font
-                        font = Tools.LoadEmbeddedFont(embeddedFonts, theme.CustomFont.EmbeddedFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
+                        font = Tools.LoadEmbeddedFont(embeddedFonts, theme.CurrentPositionTextGradient.Font.EmbeddedFontName, theme.CurrentPositionTextGradient.Font.Size, theme.CurrentPositionTextGradient.Font.ToFontStyle());
                     }
                     catch
                     {
@@ -1561,7 +1561,7 @@ namespace MPfm.WindowsControls
                     try
                     {
                         // Try to get standard font
-                        font = new Font(theme.CustomFont.StandardFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
+                        font = new Font(theme.CurrentPositionTextGradient.Font.StandardFontName, theme.CurrentPositionTextGradient.Font.Size, theme.CurrentPositionTextGradient.Font.ToFontStyle());
                     }
                     catch
                     {

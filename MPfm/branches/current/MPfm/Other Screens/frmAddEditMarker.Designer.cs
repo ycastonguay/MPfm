@@ -234,9 +234,6 @@ namespace MPfm
     "s\\om-0gycd01\\Peak Files\\";
             this.waveForm.Size = new System.Drawing.Size(581, 79);
             this.waveForm.TabIndex = 92;
-            waveFormDisplayTheme1.BackgroundGradientColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            waveFormDisplayTheme1.BackgroundGradientColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            waveFormDisplayTheme1.BackgroundGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             waveFormDisplayTheme1.CursorColor = System.Drawing.Color.RoyalBlue;
             customFont5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             customFont5.EmbeddedFontName = "Droid Sans Mono";
@@ -247,7 +244,6 @@ namespace MPfm
             customFont5.StandardFontName = "Arial";
             customFont5.UseAntiAliasing = true;
             customFont5.UseEmbeddedFont = true;
-            waveFormDisplayTheme1.CustomFont = customFont5;
             waveFormDisplayTheme1.WaveFormColor = System.Drawing.Color.Yellow;
             this.waveForm.Theme = waveFormDisplayTheme1;
             this.waveForm.Zoom = 100F;
