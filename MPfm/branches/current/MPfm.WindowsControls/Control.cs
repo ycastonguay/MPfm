@@ -1,5 +1,5 @@
 ﻿//
-// ControlExtensions.cs: This static class adds extension methods to the Control class.
+// Control.cs: This control adds a method for loading embedded fonts.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //

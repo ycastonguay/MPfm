@@ -89,6 +89,10 @@
     <Compile Include="Buttons-Toolbars\TrackBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Containers\FlowLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Containers\FlowLayoutPanelTheme.cs" />
     <Compile Include="Fonts\CustomFont.cs" />
     <Compile Include="Fonts\CustomFontEditorForm.cs">
       <SubType>Form</SubType>
@@ -122,7 +126,8 @@
     </Compile>
     <Compile Include="Misc\BackgroundGradient.cs" />
     <Compile Include="Misc\Gradient.cs" />
-    <Compile Include="Panel-Forms\PanelTheme.cs" />
+    <Compile Include="Containers\PanelTheme.cs" />
+    <Compile Include="Misc\PaintHelper.cs" />
     <Compile Include="ScrollBar\HScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -137,7 +142,7 @@
     </Compile>
     <Compile Include="ScrollBar\ScrollBarTheme.cs" />
     <Compile Include="Misc\TextGradient.cs" />
-    <Compile Include="Panel-Forms\Form.cs">
+    <Compile Include="Containers\Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Labels\Label.cs">
@@ -152,7 +157,7 @@
     <Compile Include="Lists\ReorderListView.Designer.cs">
       <DependentUpon>ReorderListView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panel-Forms\Panel.cs">
+    <Compile Include="Containers\Panel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Buttons-Toolbars\ToolStrip.cs">
