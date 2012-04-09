@@ -60,6 +60,7 @@ namespace MPfm.WindowsControls
             set
             {
                 theme = value;
+                Refresh();
             }
         }
 

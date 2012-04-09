@@ -279,12 +279,7 @@ namespace MPfm.WindowsControls
                 }
                 else if (ImageAlign == ContentAlignment.MiddleLeft)
                 {
-                    //g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
-
-                    // height = 100, image height = 10
-                    // to center middle y: (height / 2) - (image height /2)
-
-                    Point pt = new Point(4, (e.ClipRectangle.Height / 2) - (Image.Height / 2));
+                    Point pt = new Point(4, (ClientRectangle.Height / 2) - (Image.Height / 2));
                     g.DrawImage(Image, pt);
                 }
                 else if (ImageAlign == ContentAlignment.MiddleCenter)
@@ -301,12 +296,12 @@ namespace MPfm.WindowsControls
                 }
                 else if (ImageAlign == ContentAlignment.TopCenter)
                 {
-                    Point pt = new Point((e.ClipRectangle.Width - Image.Width) / 2, 5);
+                    Point pt = new Point((ClientRectangle.Width - Image.Width) / 2, 5);
                     g.DrawImage(Image, pt);
                 }
                 else if (ImageAlign == ContentAlignment.TopRight)
                 {
-                    Point pt = new Point(e.ClipRectangle.Width - Image.Width - 2, 5);
+                    Point pt = new Point(ClientRectangle.Width - Image.Width - 2, 5);
                     g.DrawImage(Image, pt);
                 }
             }
