@@ -8,7 +8,19 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/MPfm.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MPfm.GTK.MainWindow" design-size="1157 685">
+  <icon-factory>
+    <icon-set id="stock_repeat">
+      <source>
+        <property name="Image">stock:stock_repeat Menu</property>
+      </source>
+    </icon-set>
+    <icon-set id="stock_volume">
+      <source>
+        <property name="Image">stock:stock_volume Menu</property>
+      </source>
+    </icon-set>
+  </icon-factory>
+  <widget class="Gtk.Window" id="MPfm.GTK.MainWindow" design-size="1759 748">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -21,23 +33,6 @@
         <property name="ShortLabel" translatable="yes">Exit</property>
         <property name="StockId">gtk-quit</property>
         <signal name="Activated" handler="OnExitActionActivated" />
-      </action>
-      <action id="OpenAudioFileSAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open audio file(s)...</property>
-        <property name="ShortLabel" translatable="yes">Open audio file(s)...</property>
-      </action>
-      <action id="OpenAudioFileSAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open audio file(s)...</property>
-        <property name="ShortLabel" translatable="yes">Open audio file(s)...</property>
-      </action>
-      <action id="actionOpen">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open audio file(s)...</property>
-        <property name="ShortLabel" translatable="yes">Open audio file(s)...</property>
-        <property name="StockId">gtk-open</property>
-        <signal name="Activated" handler="OnOpenActionActivated" />
       </action>
       <action id="HelpAction">
         <property name="Type">Action</property>
@@ -57,11 +52,6 @@
         <property name="StockId">gtk-help</property>
         <signal name="Activated" handler="OnHelpActionContentsActivated" />
       </action>
-      <action id="ActionAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Action</property>
-        <property name="ShortLabel" translatable="yes">Action</property>
-      </action>
       <action id="actionAbout1">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">About MPfm</property>
@@ -78,7 +68,7 @@
         <property name="Label" translatable="yes">Play</property>
         <property name="ShortLabel" translatable="yes">Play</property>
         <property name="StockId">gtk-media-play</property>
-        <signal name="Activated" handler="OnPlayClicked" />
+        <signal name="Activated" handler="OnActionPlayActivated" />
       </action>
       <action id="actionPause">
         <property name="Type">Action</property>
@@ -108,12 +98,83 @@
         <property name="StockId">gtk-media-next</property>
         <signal name="Activated" handler="OnNextClicked" />
       </action>
-      <action id="actionRepeatType">
+      <action id="RepeatTypeOffAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Repeat Type (Off)</property>
         <property name="ShortLabel" translatable="yes">Repeat Type (Off)</property>
-        <property name="StockId">gtk-refresh</property>
+        <property name="StockId">stock_repeat</property>
         <signal name="Activated" handler="OnRepeatClicked" />
+      </action>
+      <action id="actionOpen">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Open Audio Files</property>
+        <property name="ShortLabel" translatable="yes">Open Audio Files</property>
+        <property name="StockId">gtk-open</property>
+        <signal name="Activated" handler="OnOpenActionActivated" />
+      </action>
+      <action id="applyAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-apply</property>
+      </action>
+      <action id="disconnectAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-disconnect</property>
+      </action>
+      <action id="actionUpdateLibrary">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Update Library</property>
+        <property name="ShortLabel" translatable="yes">Update Library</property>
+        <property name="StockId">gtk-refresh</property>
+      </action>
+      <action id="preferencesAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-preferences</property>
+      </action>
+      <action id="PlayAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Play</property>
+        <property name="ShortLabel" translatable="yes">Play</property>
+      </action>
+      <action id="executeAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-execute</property>
+      </action>
+      <action id="unindentAction">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-unindent</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+      </action>
+      <action id="zoomInAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-zoom-in</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+      </action>
+      <action id="EffectsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Effects</property>
+        <property name="ShortLabel" translatable="yes">Effects</property>
+        <property name="StockId">stock_volume</property>
+      </action>
+      <action id="WindowsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Windows</property>
+        <property name="ShortLabel" translatable="yes">Windows</property>
+      </action>
+      <action id="dndMultipleAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Playlist</property>
+        <property name="ShortLabel" translatable="yes">Playlist</property>
+        <property name="StockId">gtk-dnd-multiple</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -125,13 +186,11 @@
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
-        <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.MenuBar" id="menubar1">
+          <widget class="Gtk.MenuBar" id="menubarMain">
             <property name="MemberName" />
-            <node name="menubar1" type="Menubar">
+            <node name="menubarMain" type="Menubar">
               <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="actionOpen" />
                 <node type="Menuitem" action="actionExit" />
               </node>
               <node type="Menu" action="PlaybackAction">
@@ -140,8 +199,9 @@
                 <node type="Menuitem" action="actionStop" />
                 <node type="Menuitem" action="actionPrevious" />
                 <node type="Menuitem" action="actionNext" />
-                <node type="Menuitem" action="actionRepeatType" />
+                <node type="Menuitem" action="RepeatTypeOffAction" />
               </node>
+              <node type="Menu" action="WindowsAction" />
               <node type="Menu" action="HelpAction">
                 <node type="Menuitem" action="helpAction" />
                 <node type="Menuitem" action="actionAbout1" />
@@ -156,257 +216,27 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HBox" id="hbox1">
+          <widget class="Gtk.Toolbar" id="toolbarMain">
             <property name="MemberName" />
-            <property name="Spacing">6</property>
-            <child>
-              <widget class="Gtk.Button" id="btnOpen">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens audio file(s) from your hard disk.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-open Menu</property>
-                <property name="Label" translatable="yes">Open Audio Files</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnOpenActionActivated" />
-              </widget>
-              <packing>
-                <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.VSeparator" id="vseparator1">
-                <property name="MemberName" />
-              </widget>
-              <packing>
-                <property name="Position">1</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnUpdateLibrary">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Updates the audio file library.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-execute Menu</property>
-                <property name="Label" translatable="yes">Update Library</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnUpdateLibraryClicked" />
-              </widget>
-              <packing>
-                <property name="Position">2</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.VSeparator" id="vseparator2">
-                <property name="MemberName" />
-              </widget>
-              <packing>
-                <property name="Position">3</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnPlay">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Starts the playback.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-media-play Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnPlayClicked" />
-              </widget>
-              <packing>
-                <property name="Position">4</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnPause">
-                <property name="MemberName" />
-                <property name="Sensitive">False</property>
-                <property name="Tooltip" translatable="yes">Pauses the playback.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-media-pause Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnPauseClicked" />
-              </widget>
-              <packing>
-                <property name="Position">5</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnStop">
-                <property name="MemberName" />
-                <property name="Sensitive">False</property>
-                <property name="Tooltip" translatable="yes">Stops the playback.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-media-stop Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnStopClicked" />
-              </widget>
-              <packing>
-                <property name="Position">6</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnPrevious">
-                <property name="MemberName" />
-                <property name="Sensitive">False</property>
-                <property name="Tooltip" translatable="yes">Skips to the previous song in the playlist.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-media-previous Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnPreviousClicked" />
-              </widget>
-              <packing>
-                <property name="Position">7</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnNext">
-                <property name="MemberName" />
-                <property name="Sensitive">False</property>
-                <property name="Tooltip" translatable="yes">Skips to the next song in the playlist.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-media-next Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnNextClicked" />
-              </widget>
-              <packing>
-                <property name="Position">8</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnRepeat">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Changes the repeat type (Off/Playlist/Song).</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-refresh Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnRepeatClicked" />
-              </widget>
-              <packing>
-                <property name="Position">9</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Label" id="lblRepeatType">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Indicates the current player repeat type</property>
-                <property name="LabelProp" translatable="yes">[RepeatType]</property>
-              </widget>
-              <packing>
-                <property name="Position">10</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.VSeparator" id="vseparator3">
-                <property name="MemberName" />
-              </widget>
-              <packing>
-                <property name="Position">11</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnPlaylist">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens the Playlist window.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Playlist</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnPlaylistClicked" />
-              </widget>
-              <packing>
-                <property name="Position">12</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnEffects">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens the Effects window.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Effects</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnEffectsClicked" />
-              </widget>
-              <packing>
-                <property name="Position">13</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="btnSettings">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens the Settings window.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Settings</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnSettingsClicked" />
-              </widget>
-              <packing>
-                <property name="Position">14</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder />
-            </child>
+            <property name="ShowArrow">False</property>
+            <property name="ButtonStyle">Both</property>
+            <property name="IconSize">Menu</property>
+            <node name="toolbarMain" type="Toolbar">
+              <node type="Toolitem" action="actionOpen" />
+              <node type="Separator" />
+              <node type="Toolitem" action="actionUpdateLibrary" />
+              <node type="Separator" />
+              <node type="Toolitem" action="actionPlay" />
+              <node type="Toolitem" action="actionPause" />
+              <node type="Toolitem" action="actionStop" />
+              <node type="Toolitem" action="actionPrevious" />
+              <node type="Toolitem" action="actionNext" />
+              <node type="Toolitem" action="RepeatTypeOffAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="dndMultipleAction" />
+              <node type="Toolitem" action="EffectsAction" />
+              <node type="Toolitem" action="preferencesAction" />
+            </node>
           </widget>
           <packing>
             <property name="Position">1</property>
@@ -448,6 +278,7 @@
                                     <child>
                                       <widget class="Gtk.Label" id="lblLibrary1">
                                         <property name="MemberName" />
+                                        <property name="Xalign">0</property>
                                         <property name="LabelProp" translatable="yes">Filter by Sound Format:</property>
                                       </widget>
                                       <packing>
@@ -461,9 +292,13 @@
                                       <widget class="Gtk.ComboBox" id="combobox1">
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
-                                        <property name="Items" translatable="yes">MP3
+                                        <property name="Items" translatable="yes">All
+FLAC
+MP3
+MPC
 OGG
-WAV</property>
+WAV
+WV</property>
                                         <property name="Active">0</property>
                                       </widget>
                                       <packing>
@@ -474,21 +309,7 @@ WAV</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
-                                        <property name="MemberName" />
-                                        <property name="ShadowType">In</property>
-                                        <child>
-                                          <widget class="Gtk.TreeView" id="treeSongBrowser1">
-                                            <property name="MemberName" />
-                                            <property name="CanFocus">True</property>
-                                            <property name="ShowScrollbars">True</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">2</property>
-                                        <property name="AutoSize">True</property>
-                                      </packing>
+                                      <placeholder />
                                     </child>
                                   </widget>
                                 </child>
@@ -684,56 +505,6 @@ WAV</property>
                                                 <property name="Fill">False</property>
                                               </packing>
                                             </child>
-                                            <child>
-                                              <widget class="Gtk.Expander" id="expander8">
-                                                <property name="MemberName" />
-                                                <property name="CanFocus">True</property>
-                                                <property name="Expanded">True</property>
-                                                <child>
-                                                  <widget class="Gtk.VBox" id="vbox16">
-                                                    <property name="MemberName" />
-                                                    <property name="Spacing">6</property>
-                                                    <child>
-                                                      <widget class="Gtk.Alignment" id="alignment3">
-                                                        <property name="MemberName" />
-                                                        <child>
-                                                          <placeholder />
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="Position">0</property>
-                                                        <property name="AutoSize">True</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder />
-                                                    </child>
-                                                    <child>
-                                                      <placeholder />
-                                                    </child>
-                                                    <child>
-                                                      <placeholder />
-                                                    </child>
-                                                  </widget>
-                                                </child>
-                                                <child>
-                                                  <widget class="Gtk.Label" id="GtkLabel25">
-                                                    <property name="MemberName" />
-                                                    <property name="LabelProp" translatable="yes">Information</property>
-                                                    <property name="UseUnderline">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="type">label_item</property>
-                                                  </packing>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="Position">2</property>
-                                                <property name="AutoSize">True</property>
-                                                <property name="Expand">False</property>
-                                                <property name="Fill">False</property>
-                                              </packing>
-                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="Position">0</property>
@@ -754,7 +525,7 @@ WAV</property>
                                                 <property name="Upper">100</property>
                                                 <property name="PageIncrement">10</property>
                                                 <property name="StepIncrement">1</property>
-                                                <property name="Value">6</property>
+                                                <property name="Value">40</property>
                                                 <property name="DrawValue">False</property>
                                                 <property name="Digits">0</property>
                                                 <property name="ValuePos">Top</property>
@@ -862,84 +633,162 @@ WAV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Expander" id="expander4">
+                              <widget class="Gtk.HBox" id="hbox1">
                                 <property name="MemberName" />
-                                <property name="CanFocus">True</property>
+                                <property name="Spacing">6</property>
                                 <child>
-                                  <widget class="Gtk.VBox" id="vbox12">
+                                  <widget class="Gtk.Button" id="btnOpen">
                                     <property name="MemberName" />
-                                    <property name="Spacing">6</property>
-                                    <child>
-                                      <widget class="Gtk.Button" id="btnEditSongMetadata">
-                                        <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Type">TextOnly</property>
-                                        <property name="Label" translatable="yes">Edit Song Metadata</property>
-                                        <property name="UseUnderline">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">0</property>
-                                        <property name="AutoSize">True</property>
-                                        <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="Gtk.Button" id="btnSearchGuitarTabs">
-                                        <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Type">TextOnly</property>
-                                        <property name="Label" translatable="yes">Search for Guitar Tabs</property>
-                                        <property name="UseUnderline">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">1</property>
-                                        <property name="AutoSize">True</property>
-                                        <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="Gtk.Button" id="btnSearchBassTabs">
-                                        <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Type">TextOnly</property>
-                                        <property name="Label" translatable="yes">Search for Bass Tabs</property>
-                                        <property name="UseUnderline">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">2</property>
-                                        <property name="AutoSize">True</property>
-                                        <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="Gtk.Button" id="btnSearchLyrics">
-                                        <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Type">TextOnly</property>
-                                        <property name="Label" translatable="yes">Search for Lyrics</property>
-                                        <property name="UseUnderline">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">3</property>
-                                        <property name="AutoSize">True</property>
-                                        <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
-                                      </packing>
-                                    </child>
-                                  </widget>
-                                </child>
-                                <child>
-                                  <widget class="Gtk.Label" id="GtkLabel27">
-                                    <property name="MemberName" />
-                                    <property name="LabelProp" translatable="yes">Actions</property>
+                                    <property name="Tooltip" translatable="yes">Opens audio file(s) from your hard disk.</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextAndIcon</property>
+                                    <property name="Icon">stock:gtk-open Menu</property>
+                                    <property name="Label" translatable="yes">Open Audio Files</property>
                                     <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnOpenActionActivated" />
                                   </widget>
                                   <packing>
-                                    <property name="type">label_item</property>
+                                    <property name="Position">0</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.VSeparator" id="vseparator1">
+                                    <property name="MemberName" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">1</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Button" id="btnUpdateLibrary">
+                                    <property name="MemberName" />
+                                    <property name="Tooltip" translatable="yes">Updates the audio file library.</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextAndIcon</property>
+                                    <property name="Icon">stock:gtk-execute Menu</property>
+                                    <property name="Label" translatable="yes">Update Library</property>
+                                    <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnUpdateLibraryClicked" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">2</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.VSeparator" id="vseparator2">
+                                    <property name="MemberName" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">3</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <placeholder />
+                                </child>
+                                <child>
+                                  <placeholder />
+                                </child>
+                                <child>
+                                  <placeholder />
+                                </child>
+                                <child>
+                                  <placeholder />
+                                </child>
+                                <child>
+                                  <placeholder />
+                                </child>
+                                <child>
+                                  <placeholder />
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lblRepeatType">
+                                    <property name="MemberName" />
+                                    <property name="Tooltip" translatable="yes">Indicates the current player repeat type</property>
+                                    <property name="LabelProp" translatable="yes">[RepeatType]</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">10</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.VSeparator" id="vseparator3">
+                                    <property name="MemberName" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">11</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Button" id="btnPlaylist">
+                                    <property name="MemberName" />
+                                    <property name="Tooltip" translatable="yes">Opens the Playlist window.</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextOnly</property>
+                                    <property name="Label" translatable="yes">Playlist</property>
+                                    <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnPlaylistClicked" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">12</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Button" id="btnEffects">
+                                    <property name="MemberName" />
+                                    <property name="Tooltip" translatable="yes">Opens the Effects window.</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextOnly</property>
+                                    <property name="Label" translatable="yes">Effects</property>
+                                    <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnEffectsClicked" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">13</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Button" id="btnSettings">
+                                    <property name="MemberName" />
+                                    <property name="Tooltip" translatable="yes">Opens the Settings window.</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Type">TextOnly</property>
+                                    <property name="Label" translatable="yes">Settings</property>
+                                    <property name="UseUnderline">True</property>
+                                    <signal name="Clicked" handler="OnSettingsClicked" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">14</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <placeholder />
                                 </child>
                               </widget>
                               <packing>

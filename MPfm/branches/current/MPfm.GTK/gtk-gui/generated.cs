@@ -10,6 +10,12 @@ namespace Stetic
 		{
 			if ((Stetic.Gui.initialized == false)) {
 				Stetic.Gui.initialized = true;
+				global::Gtk.IconFactory w1 = new global::Gtk.IconFactory ();
+				global::Gtk.IconSet w2 = new global::Gtk.IconSet (global::Stetic.IconLoader.LoadIcon (iconRenderer, "stock_repeat", global::Gtk.IconSize.Menu));
+				w1.Add ("stock_repeat", w2);
+				global::Gtk.IconSet w3 = new global::Gtk.IconSet (global::Stetic.IconLoader.LoadIcon (iconRenderer, "stock_volume", global::Gtk.IconSize.Menu));
+				w1.Add ("stock_volume", w3);
+				w1.AddDefault ();
 			}
 		}
 	}

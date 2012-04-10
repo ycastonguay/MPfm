@@ -62,6 +62,8 @@ namespace MPfm.GTK
 			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 10"));
 			this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 	
+			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));			
+			
 			//this.drawingArea1.SetSizeRequest(200, 200);
 	
 			//drawingArea1.GdkWindow.//
@@ -304,17 +306,17 @@ namespace MPfm.GTK
 	        if (controller.Player.RepeatType == RepeatType.Playlist)
 	        {
 				lblRepeatType.Text = repeatPlaylist;
-				actionRepeatType.Label = "Repeat Type (" + repeatPlaylist + ")";
+				//actionRepeatType.Label = "Repeat Type (" + repeatPlaylist + ")";
 	        }
 	        else if (controller.Player.RepeatType == RepeatType.Song)
 	        {
 				lblRepeatType.Text = repeatSong;
-				actionRepeatType.Label = "Repeat Type (" + repeatSong + ")";
+				//actionRepeatType.Label = "Repeat Type (" + repeatSong + ")";
 	        }
 	        else
 	        {
 				lblRepeatType.Text = repeatOff;
-				actionRepeatType.Label = "Repeat Type (" + repeatOff + ")";
+				//actionRepeatType.Label = "Repeat Type (" + repeatOff + ")";
 	        }
 	    }
 		
@@ -545,6 +547,11 @@ namespace MPfm.GTK
 
 		}
 		
+		protected void OnActionPlayActivated (object sender, System.EventArgs e)
+		{
+			
+		}
+
 		#endregion
 	}
 }
