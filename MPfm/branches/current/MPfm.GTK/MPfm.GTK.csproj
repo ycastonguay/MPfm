@@ -8,7 +8,7 @@
     <ProjectGuid>{2273DAAF-55C6-4422-BD3D-2DCDEA09DBCC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MPfm.GTK</RootNamespace>
-    <AssemblyName>MPfm</AssemblyName>
+    <AssemblyName>mpfm</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

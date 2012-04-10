@@ -97,6 +97,9 @@ namespace MPfm.GTK
 			//#if VER_LINUX
 			//		device.Name = "LINUX";
 			//#endif
+			
+			this.cboSoundFormat.GrabFocus();
+			//this.hscaleSongPosition.GrabFocus();
 		}
 	
 		/// <summary>
@@ -304,19 +307,16 @@ namespace MPfm.GTK
 	
 	        // Display the repeat type
 	        if (controller.Player.RepeatType == RepeatType.Playlist)
-	        {
-				lblRepeatType.Text = repeatPlaylist;
-				//actionRepeatType.Label = "Repeat Type (" + repeatPlaylist + ")";
+	        {				
+				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
 	        }
 	        else if (controller.Player.RepeatType == RepeatType.Song)
-	        {
-				lblRepeatType.Text = repeatSong;
-				//actionRepeatType.Label = "Repeat Type (" + repeatSong + ")";
+	        {				
+				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
 	        }
 	        else
-	        {
-				lblRepeatType.Text = repeatOff;
-				//actionRepeatType.Label = "Repeat Type (" + repeatOff + ")";
+	        {				
+				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatOff + ")";
 	        }
 	    }
 		
@@ -376,8 +376,12 @@ namespace MPfm.GTK
 			// Destroy dialog
 			dialog.Destroy();
 		}
-
-		protected void OnPlayClicked(object sender, System.EventArgs e)
+		
+		protected void OnActionUpdateLibraryActivated(object sender, System.EventArgs e)
+		{			
+		}		
+					
+		protected void OnActionPlayActivated(object sender, System.EventArgs e)
 		{
 			if(audioFiles == null)
 			{
@@ -393,27 +397,31 @@ namespace MPfm.GTK
 			// Start timer
 			timerSongPosition.Start();
 		}
-
-		protected void OnPauseClicked(object sender, System.EventArgs e)
-		{
-			// Pause player
-			controller.Player.Pause();
-		}
-	
-		protected void OnStopClicked(object sender, System.EventArgs e)
+		
+		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
 			// Check if the player is playing
 			if(controller.Player.IsPlaying)
 			{
-				// Stop player
-				controller.Player.Stop();
-		
-				// Stop timer
-				timerSongPosition.Stop();
+				// Pause player
+				controller.Player.Pause();
 			}
 		}
-	
-		protected void OnPreviousClicked(object sender, System.EventArgs e)
+		
+		protected void OnActionStopActivated(object sender, System.EventArgs e)
+		{
+			// Check if the player is playing
+			if(controller.Player.IsPlaying)
+			{
+				// Stop timer
+				timerSongPosition.Stop();
+				
+				// Stop player
+				controller.Player.Stop();
+			}
+		}
+		
+		protected void OnActionPreviousActivated(object sender, System.EventArgs e)
 		{
 			// Go to previous song
 			controller.Player.Previous();
@@ -421,8 +429,8 @@ namespace MPfm.GTK
 			// Refresh controls
 			RefreshSongInformation();
 		}
-	
-		protected void OnNextClicked(object sender, System.EventArgs e)
+
+		protected void OnActionNextActivated(object sender, System.EventArgs e)
 		{
 			// Go to next song
 			controller.Player.Next();
@@ -430,8 +438,8 @@ namespace MPfm.GTK
 			// Refresh controls
 			RefreshSongInformation();
 		}
-	
-		protected void OnRepeatClicked(object sender, System.EventArgs e)
+
+		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
 		{
 	        // Cycle through the repeat types
 	        if (controller.Player.RepeatType == RepeatType.Off)
@@ -450,8 +458,8 @@ namespace MPfm.GTK
 	        // Update repeat button
 	        RefreshRepeatButton();
 		}
-	
-		protected void OnPlaylistClicked(object sender, System.EventArgs e)
+
+		protected void OnActionPlaylistActivated(object sender, System.EventArgs e)
 		{
 			// Check if the window exists
 			if(windowPlaylist == null)
@@ -463,8 +471,8 @@ namespace MPfm.GTK
 			// Display window			
 			windowPlaylist.ShowAll();	
 		}
-	
-		protected void OnEffectsClicked(object sender, System.EventArgs e)
+
+		protected void OnActionEffectsActivated(object sender, System.EventArgs e)
 		{
 			// Check if the window exists
 			if(windowEffects == null)
@@ -474,11 +482,11 @@ namespace MPfm.GTK
 			}
 			
 			// Display window			
-			windowEffects.ShowAll();				
+			windowEffects.ShowAll();	
 		}
-	
-		protected void OnSettingsClicked(object sender, System.EventArgs e)
-		{			
+		
+		protected void OnActionSettingsActivated(object sender, System.EventArgs e)
+		{
 			// Check if the window exists
 			if(windowSettings == null)
 			{
@@ -487,14 +495,9 @@ namespace MPfm.GTK
 			}
 			
 			// Display window			
-			windowSettings.ShowAll();				
+			windowSettings.ShowAll();		
 		}
-	
-		protected void OnUpdateLibraryClicked(object sender, System.EventArgs e)
-		{
-	
-		}
-	
+
 		protected void OnAboutActionActivated(object sender, System.EventArgs e)
 		{
 			string text = this.Title + "\nMPfm: Music Player for Musicians is © 2011-2012 Yanick Castonguay and is released under the GPLv3 license.";
@@ -533,12 +536,12 @@ namespace MPfm.GTK
 			//isSongPositionChanging = false;
 		}
 	
-		protected void OnSongPositionMoveSlider (object o, Gtk.MoveSliderArgs args)
+		protected void OnSongPositionMoveSlider(object o, Gtk.MoveSliderArgs args)
 		{
 
 		}
 	
-		protected void OnSongPositionChangeValue (object o, Gtk.ChangeValueArgs args)
+		protected void OnSongPositionChangeValue(object o, Gtk.ChangeValueArgs args)
 		{
 			//if(args.Scroll == ScrollType.Jump)
 	
@@ -546,12 +549,7 @@ namespace MPfm.GTK
 			//controller.Player.SetPosition(args.RetVal);
 
 		}
-		
-		protected void OnActionPlayActivated (object sender, System.EventArgs e)
-		{
-			
-		}
-
+				
 		#endregion
 	}
 }
