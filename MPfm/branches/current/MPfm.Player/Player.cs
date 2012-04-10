@@ -595,19 +595,52 @@ namespace MPfm.Player
 			else // Linux or Mac OS X
 			{				
 				// Load BASS library
-				Base.GetBASSVersion();
-				
-				// Load FX and MIX plugins
-				Base.GetFxPluginVersion();
-				Base.GetMixPluginVersion();
-				
-				// Get current directory
-				string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+				Tracing.Log("Player init -- Checking BASS library and plugin versions...");
+				int bassVersion = Base.GetBASSVersion();				
+				int bassFxVersion = Base.GetFxPluginVersion();
+				int bassMixVersion = Base.GetMixPluginVersion();
+				Tracing.Log("Player init -- BASS Version: " + bassVersion);
+				Tracing.Log("Player init -- BASS FX Version: " + bassFxVersion);
+				Tracing.Log("Player init -- BASS Mix Version: " + bassMixVersion);
 
+				// Check OS type
 	            if (OS.Type == OSType.Linux)
 	            {				
+					// Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)								
+					string pluginPath = string.Empty;				
+					string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);				
+					
+					// Check in the current directory first
+					if(!File.Exists(exePath + "/libbassflac.so"))
+					{
+						// Check in /usr/lib/mpfm
+						if(!File.Exists("/usr/lib/mpfm/libbassflac.so"))
+						{
+							// Check in /opt/lib/mpfm
+							if(!File.Exists("/opt/lib/mpfm/libbassflac.so"))
+							{
+								// The plugins could not be found!
+								throw new Exception("The BASS plugins could not be found either in the current directory, in /usr/lib/mpfm or in /opt/lib/mpfm!");
+							}
+							else
+							{
+								pluginPath = "/opt/lib/mpfm";
+							}						
+						}
+						else
+						{
+							pluginPath = "/usr/lib/mpfm";
+						}
+					}
+					else
+					{					
+						pluginPath = exePath;
+					}
+					
 	                // Load decoding plugins
-					flacPluginHandle = Base.LoadPlugin (exePath + "/libbassflac.so");
+					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.so");
+					wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.so");
+					mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.so");
 	            }
 	            else if (OS.Type == OSType.MacOSX)
 	            {
@@ -616,7 +649,7 @@ namespace MPfm.Player
 	                // Load decoding plugins
 	            }
 			}
-    
+						
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
             currentEQPreset = new EQPreset();
@@ -624,7 +657,7 @@ namespace MPfm.Player
             // Initialize device
             if (initializeDevice)
             {
-                Tracing.Log("Player init -- Initializing device,,,");
+                Tracing.Log("Player init -- Initializing device...");
                 InitializeDevice(device, mixerSampleRate);
             }
         }
