@@ -62,7 +62,16 @@ namespace MPfm.GTK
 			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 10"));
 			this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 	
-			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));			
+			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
+			
+			this.lblLibrary.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));								
+			this.lblMarkers.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+			this.lblLoops.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+			this.lblSongBrowser.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+						
+			this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			//this.cboSoundFormat.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));  // doesn't work
 			
 			//this.drawingArea1.SetSizeRequest(200, 200);
 	
