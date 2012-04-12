@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace MPfm.WindowsControls
 {
@@ -55,6 +56,59 @@ namespace MPfm.WindowsControls
                 penBorder.Dispose();
                 penBorder = null;
             }
+        }
+
+        /// <summary>
+        /// Sets the properties necessary for rendering anti-aliased text on the Graphics object.
+        /// </summary>
+        /// <param name="g">Graphics object</param>
+        public static void SetAntiAliasing(Graphics g)
+        {
+            // Set text anti-aliasing to ClearType (best looking AA)
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+            // Set smoothing mode for paths
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+        }
+
+        /// <summary>
+        /// Loads a standard or embedded font from MPfm.Fonts.
+        /// </summary>
+        /// <param name="embeddedFonts">Embedded font collection</param>
+        /// <param name="customFont">Custom font</param>
+        /// <returns>Font object</returns>
+        public static Font LoadFont(EmbeddedFontCollection embeddedFonts, CustomFont customFont)
+        {
+            // Create custom Font
+            Font font = null;
+
+            // Make sure the embedded Font name needs to be loaded and is valid
+            if (customFont.UseEmbeddedFont && !String.IsNullOrEmpty(customFont.EmbeddedFontName))
+            {
+                try
+                {
+                    // Get embedded Font
+                    font = Tools.LoadEmbeddedFont(embeddedFonts, customFont.EmbeddedFontName, customFont.Size, customFont.ToFontStyle());
+                }
+                catch
+                {
+                }
+            }
+
+            // Check if Font is null
+            if (font == null)
+            {
+                try
+                {
+                    // Try to get standard Font
+                    font = new Font(customFont.StandardFontName, customFont.Size, customFont.ToFontStyle());
+                }
+                catch
+                {
+                }
+            }
+
+            return font;
         }
     }
 }
