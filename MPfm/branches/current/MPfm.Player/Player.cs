@@ -76,13 +76,12 @@ namespace MPfm.Player
 
         // Plugin handles
         private int fxEQHandle;
-        //private int aacPluginHandle = 0;
-        //private Dictionary<int, string> plugins = null;
+        private int aacPluginHandle = 0;        
         private int apePluginHandle = 0;
         private int flacPluginHandle = 0;
         private int mpcPluginHandle = 0;
-        //private int ofrPluginHandle = 0;
-        //private int ttaPluginHandle = 0;
+        private int ofrPluginHandle = 0;
+        private int ttaPluginHandle = 0;
         private int wvPluginHandle = 0;
         private int wmaPluginHandle = 0;
 
@@ -794,15 +793,25 @@ namespace MPfm.Player
         {
             // Dispose plugins
             Base.FreeFxPlugin();
-            //Base.FreePlugin(aacPluginHandle);
-            Base.FreePlugin(apePluginHandle);
-            Base.FreePlugin(flacPluginHandle);
-            Base.FreePlugin(mpcPluginHandle);
-            //Base.FreePlugin(ofrPluginHandle);
-            //Base.FreePlugin(ttaPluginHandle);
-            Base.FreePlugin(wvPluginHandle);
-            Base.FreePlugin(wmaPluginHandle);
-            //Base.FreePluginDirectory(plugins);            
+			
+			// Free plugins if they have been loaded successfully
+			if(aacPluginHandle > 0)			
+            	Base.FreePlugin(aacPluginHandle);
+			if(apePluginHandle > 0)			
+            	Base.FreePlugin(apePluginHandle);
+			if(flacPluginHandle > 0)			
+            	Base.FreePlugin(flacPluginHandle);
+			if(mpcPluginHandle > 0)
+            	Base.FreePlugin(mpcPluginHandle);
+			if(ofrPluginHandle > 0)
+            	Base.FreePlugin(ofrPluginHandle);
+			if(ttaPluginHandle > 0)
+            	Base.FreePlugin(ttaPluginHandle);
+			if(wvPluginHandle > 0)
+            	Base.FreePlugin(wvPluginHandle);
+			if(wmaPluginHandle > 0)
+            	Base.FreePlugin(wmaPluginHandle);
+			
         }        
 
         /// <summary>
