@@ -115,7 +115,6 @@ namespace MPfm
             this.lblEstimatedTimeLeft.Size = new System.Drawing.Size(287, 23);
             this.lblEstimatedTimeLeft.TabIndex = 67;
             this.lblEstimatedTimeLeft.Text = "Estimated time left :";
-            this.lblEstimatedTimeLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTimeElapsed
             // 
@@ -130,7 +129,6 @@ namespace MPfm
             this.lblTimeElapsed.Size = new System.Drawing.Size(197, 23);
             this.lblTimeElapsed.TabIndex = 66;
             this.lblTimeElapsed.Text = "Time elapsed :";
-            this.lblTimeElapsed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // linkSaveLog
             // 
@@ -193,7 +191,6 @@ namespace MPfm
             this.lblProgress.Size = new System.Drawing.Size(775, 26);
             this.lblProgress.TabIndex = 59;
             this.lblProgress.Text = "Progress";
-            this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelLog
             // 
@@ -256,7 +253,6 @@ namespace MPfm
             this.lblMessage.Size = new System.Drawing.Size(773, 23);
             this.lblMessage.TabIndex = 49;
             this.lblMessage.Text = "Message";
-            this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTitle
             // 
@@ -269,7 +265,6 @@ namespace MPfm
             this.lblTitle.Size = new System.Drawing.Size(685, 22);
             this.lblTitle.TabIndex = 44;
             this.lblTitle.Text = "Title";
-            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmUpdateLibraryStatus
             // 

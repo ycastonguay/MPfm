@@ -65,8 +65,7 @@ namespace MPfm
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(608, 22);
             this.lblStatus.TabIndex = 50;
-            this.lblStatus.Text = "Initializing tracing...";
-            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblStatus.Text = "Initializing tracing...";            
             labelTheme1.IsBackgroundTransparent = true;
             textGradient1.BorderColor = System.Drawing.Color.DarkGray;
             textGradient1.BorderWidth = 1;
@@ -96,7 +95,6 @@ namespace MPfm
             this.lblVersion.Size = new System.Drawing.Size(62, 16);
             this.lblVersion.TabIndex = 55;
             this.lblVersion.Text = "0.0.0.0";
-            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme2.IsBackgroundTransparent = true;
             textGradient2.BorderColor = System.Drawing.Color.DarkGray;
             textGradient2.BorderWidth = 1;

@@ -273,7 +273,6 @@ namespace MPfm
             this.lblGain17.Size = new System.Drawing.Size(48, 19);
             this.lblGain17.TabIndex = 58;
             this.lblGain17.Text = "0 dB";
-            this.lblGain17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl17
@@ -287,7 +286,6 @@ namespace MPfm
             this.lbl17.Size = new System.Drawing.Size(48, 19);
             this.lbl17.TabIndex = 57;
             this.lbl17.Text = "20 kHz";
-            this.lbl17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain16
@@ -301,7 +299,6 @@ namespace MPfm
             this.lblGain16.Size = new System.Drawing.Size(48, 19);
             this.lblGain16.TabIndex = 55;
             this.lblGain16.Text = "0 dB";
-            this.lblGain16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl16
@@ -315,7 +312,6 @@ namespace MPfm
             this.lbl16.Size = new System.Drawing.Size(48, 19);
             this.lbl16.TabIndex = 54;
             this.lbl16.Text = "14 kHz";
-            this.lbl16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain15
@@ -328,7 +324,6 @@ namespace MPfm
             this.lblGain15.Size = new System.Drawing.Size(48, 19);
             this.lblGain15.TabIndex = 52;
             this.lblGain15.Text = "0 dB";
-            this.lblGain15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl15
@@ -342,7 +337,6 @@ namespace MPfm
             this.lbl15.Size = new System.Drawing.Size(48, 19);
             this.lbl15.TabIndex = 51;
             this.lbl15.Text = "10 kHz";
-            this.lbl15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             
             // 
             // lblGain14
@@ -356,7 +350,6 @@ namespace MPfm
             this.lblGain14.Size = new System.Drawing.Size(48, 19);
             this.lblGain14.TabIndex = 49;
             this.lblGain14.Text = "0 dB";
-            this.lblGain14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl14
@@ -370,7 +363,6 @@ namespace MPfm
             this.lbl14.Size = new System.Drawing.Size(48, 19);
             this.lbl14.TabIndex = 48;
             this.lbl14.Text = "7 kHz";
-            this.lbl14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain13
@@ -384,7 +376,6 @@ namespace MPfm
             this.lblGain13.Size = new System.Drawing.Size(48, 19);
             this.lblGain13.TabIndex = 46;
             this.lblGain13.Text = "0 dB";
-            this.lblGain13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl13
@@ -398,7 +389,6 @@ namespace MPfm
             this.lbl13.Size = new System.Drawing.Size(48, 19);
             this.lbl13.TabIndex = 45;
             this.lbl13.Text = "5 kHz";
-            this.lbl13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain12
@@ -412,7 +402,6 @@ namespace MPfm
             this.lblGain12.Size = new System.Drawing.Size(48, 19);
             this.lblGain12.TabIndex = 43;
             this.lblGain12.Text = "0 dB";
-            this.lblGain12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl12
@@ -426,7 +415,6 @@ namespace MPfm
             this.lbl12.Size = new System.Drawing.Size(48, 19);
             this.lbl12.TabIndex = 42;
             this.lbl12.Text = "3.5 kHz";
-            this.lbl12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain11
@@ -440,7 +428,6 @@ namespace MPfm
             this.lblGain11.Size = new System.Drawing.Size(48, 19);
             this.lblGain11.TabIndex = 40;
             this.lblGain11.Text = "0 dB";
-            this.lblGain11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl11
@@ -454,7 +441,6 @@ namespace MPfm
             this.lbl11.Size = new System.Drawing.Size(48, 19);
             this.lbl11.TabIndex = 39;
             this.lbl11.Text = "2.5 kHz";
-            this.lbl11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain10
@@ -468,7 +454,6 @@ namespace MPfm
             this.lblGain10.Size = new System.Drawing.Size(48, 19);
             this.lblGain10.TabIndex = 37;
             this.lblGain10.Text = "0 dB";
-            this.lblGain10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl10
@@ -482,7 +467,6 @@ namespace MPfm
             this.lbl10.Size = new System.Drawing.Size(48, 19);
             this.lbl10.TabIndex = 36;
             this.lbl10.Text = "1.8 kHz";
-            this.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             
             // 
             // lblGain9
@@ -496,7 +480,6 @@ namespace MPfm
             this.lblGain9.Size = new System.Drawing.Size(48, 19);
             this.lblGain9.TabIndex = 34;
             this.lblGain9.Text = "0 dB";
-            this.lblGain9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl9
@@ -510,7 +493,6 @@ namespace MPfm
             this.lbl9.Size = new System.Drawing.Size(48, 19);
             this.lbl9.TabIndex = 33;
             this.lbl9.Text = "1.2 kHz";
-            this.lbl9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain8
@@ -524,7 +506,6 @@ namespace MPfm
             this.lblGain8.Size = new System.Drawing.Size(48, 19);
             this.lblGain8.TabIndex = 31;
             this.lblGain8.Text = "0 dB";
-            this.lblGain8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl8
@@ -538,7 +519,6 @@ namespace MPfm
             this.lbl8.Size = new System.Drawing.Size(48, 19);
             this.lbl8.TabIndex = 30;
             this.lbl8.Text = "880 Hz";
-            this.lbl8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain7
@@ -552,7 +532,6 @@ namespace MPfm
             this.lblGain7.Size = new System.Drawing.Size(48, 19);
             this.lblGain7.TabIndex = 28;
             this.lblGain7.Text = "0 dB";
-            this.lblGain7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl7
@@ -566,7 +545,6 @@ namespace MPfm
             this.lbl7.Size = new System.Drawing.Size(48, 19);
             this.lbl7.TabIndex = 27;
             this.lbl7.Text = "622 Hz";
-            this.lbl7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain6
@@ -580,7 +558,6 @@ namespace MPfm
             this.lblGain6.Size = new System.Drawing.Size(48, 19);
             this.lblGain6.TabIndex = 25;
             this.lblGain6.Text = "0 dB";
-            this.lblGain6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl6
@@ -594,7 +571,6 @@ namespace MPfm
             this.lbl6.Size = new System.Drawing.Size(48, 19);
             this.lbl6.TabIndex = 24;
             this.lbl6.Text = "440 Hz";
-            this.lbl6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain5
@@ -608,7 +584,6 @@ namespace MPfm
             this.lblGain5.Size = new System.Drawing.Size(48, 19);
             this.lblGain5.TabIndex = 22;
             this.lblGain5.Text = "0 dB";
-            this.lblGain5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl5
@@ -622,7 +597,6 @@ namespace MPfm
             this.lbl5.Size = new System.Drawing.Size(48, 19);
             this.lbl5.TabIndex = 21;
             this.lbl5.Text = "311 Hz";
-            this.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain4
@@ -636,7 +610,6 @@ namespace MPfm
             this.lblGain4.Size = new System.Drawing.Size(48, 19);
             this.lblGain4.TabIndex = 19;
             this.lblGain4.Text = "0 dB";
-            this.lblGain4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl4
@@ -650,7 +623,6 @@ namespace MPfm
             this.lbl4.Size = new System.Drawing.Size(48, 19);
             this.lbl4.TabIndex = 18;
             this.lbl4.Text = "220 Hz";
-            this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain3
@@ -664,7 +636,6 @@ namespace MPfm
             this.lblGain3.Size = new System.Drawing.Size(48, 19);
             this.lblGain3.TabIndex = 16;
             this.lblGain3.Text = "0 dB";
-            this.lblGain3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl3
@@ -678,7 +649,6 @@ namespace MPfm
             this.lbl3.Size = new System.Drawing.Size(48, 19);
             this.lbl3.TabIndex = 15;
             this.lbl3.Text = "156 Hz";
-            this.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain2
@@ -692,7 +662,6 @@ namespace MPfm
             this.lblGain2.Size = new System.Drawing.Size(48, 19);
             this.lblGain2.TabIndex = 13;
             this.lblGain2.Text = "0 dB";
-            this.lblGain2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl2
@@ -706,7 +675,6 @@ namespace MPfm
             this.lbl2.Size = new System.Drawing.Size(48, 19);
             this.lbl2.TabIndex = 12;
             this.lbl2.Text = "110 Hz";
-            this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain1
@@ -720,7 +688,6 @@ namespace MPfm
             this.lblGain1.Size = new System.Drawing.Size(48, 19);
             this.lblGain1.TabIndex = 10;
             this.lblGain1.Text = "0 dB";
-            this.lblGain1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl1
@@ -734,7 +701,6 @@ namespace MPfm
             this.lbl1.Size = new System.Drawing.Size(48, 19);
             this.lbl1.TabIndex = 9;
             this.lbl1.Text = "77 Hz";
-            this.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lblGain0
@@ -748,7 +714,6 @@ namespace MPfm
             this.lblGain0.Size = new System.Drawing.Size(48, 19);
             this.lblGain0.TabIndex = 7;
             this.lblGain0.Text = "0 dB";
-            this.lblGain0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl0
@@ -762,7 +727,6 @@ namespace MPfm
             this.lbl0.Size = new System.Drawing.Size(48, 19);
             this.lbl0.TabIndex = 6;
             this.lbl0.Text = "55 Hz";
-            this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // lbl0dB
@@ -775,7 +739,6 @@ namespace MPfm
             this.lbl0dB.Size = new System.Drawing.Size(47, 19);
             this.lbl0dB.TabIndex = 59;
             this.lbl0dB.Text = "  0 dB";
-            this.lbl0dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
             // 
             // lbl_6dB
@@ -788,7 +751,6 @@ namespace MPfm
             this.lbl_6dB.Size = new System.Drawing.Size(48, 19);
             this.lbl_6dB.TabIndex = 60;
             this.lbl_6dB.Text = "- 6 dB";
-            this.lbl_6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
             // 
             // lbl6dB
@@ -801,7 +763,6 @@ namespace MPfm
             this.lbl6dB.Size = new System.Drawing.Size(48, 19);
             this.lbl6dB.TabIndex = 61;
             this.lbl6dB.Text = "+ 6 dB";
-            this.lbl6dB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
             // 
             // tableLayout
@@ -1647,7 +1608,6 @@ namespace MPfm
             this.lblEQOn.Size = new System.Drawing.Size(73, 16);
             this.lblEQOn.TabIndex = 64;
             this.lblEQOn.Text = " EQ On";
-            this.lblEQOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQOn, "Enables/disables the 18-band equalizer.");
 
             // 
@@ -1745,7 +1705,6 @@ namespace MPfm
             this.lblEQBandwidth.Size = new System.Drawing.Size(112, 14);
             this.lblEQBandwidth.TabIndex = 73;
             this.lblEQBandwidth.Text = "Bandwidth:";
-            this.lblEQBandwidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQBandwidth, "Equalizer Bandwidth (adjusts the width of each band).");
 
             // 
@@ -1762,7 +1721,6 @@ namespace MPfm
             this.lblEQQ.Size = new System.Drawing.Size(112, 14);
             this.lblEQQ.TabIndex = 71;
             this.lblEQQ.Text = "Q:";
-            this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQQ, "Equalizer Q (adjusts the sharpness of each band)");
 
             // 
@@ -1901,7 +1859,6 @@ namespace MPfm
             this.lblEQChanged.Size = new System.Drawing.Size(101, 16);
             this.lblEQChanged.TabIndex = 68;
             this.lblEQChanged.Text = "EQ changed";
-            this.lblEQChanged.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
             this.lblEQChanged.Visible = false;
             // 
@@ -2047,7 +2004,6 @@ namespace MPfm
             this.lblEQName.Size = new System.Drawing.Size(112, 14);
             this.lblEQName.TabIndex = 60;
             this.lblEQName.Text = "Name:";
-            this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip.SetToolTip(this.lblEQName, "Equalizer preset name.");
 
             // 

@@ -73,7 +73,6 @@ namespace MPfm
             this.lblPercentage.Size = new System.Drawing.Size(37, 17);
             this.lblPercentage.TabIndex = 82;
             this.lblPercentage.Text = "100%";
-            this.lblPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnCancel
             // 

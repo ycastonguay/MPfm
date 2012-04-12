@@ -39,7 +39,7 @@ namespace MPfm.WindowsControls
     /// This label control is based on the System.Windows.Forms.Label control.
     /// It adds support for embedded Fonts and anti-aliasing.
     /// </summary>
-    public class Label : System.Windows.Forms.Label
+    public class Label : Control
     {
         /// <summary>
         /// Embedded font collection used for drawing.
@@ -72,7 +72,7 @@ namespace MPfm.WindowsControls
         {
             // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);        
+                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);        
             
             // Create default theme
             theme = new LabelTheme();
@@ -165,7 +165,7 @@ namespace MPfm.WindowsControls
                 SolidBrush brushFont = new SolidBrush(ForeColor);
 
                 // Check alignment
-                if (TextAlign == ContentAlignment.TopLeft)
+                if (theme.TextAlign == ContentAlignment.TopLeft)
                 {
                     // Top left
                     g.DrawString(Text, font, brushFont, 2, 2);
@@ -176,46 +176,46 @@ namespace MPfm.WindowsControls
                     SizeF sizeString = g.MeasureString(this.Text, font);
 
                     // Draw string depending on alignment
-                    if (TextAlign == ContentAlignment.BottomLeft)
+                    if (theme.TextAlign == ContentAlignment.BottomLeft)
                     {
                         // Bottom left
                         g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.BottomCenter)
+                    else if (theme.TextAlign == ContentAlignment.BottomCenter)
                     {
                         // Bottom center
                         g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.BottomRight)
+                    else if (theme.TextAlign == ContentAlignment.BottomRight)
                     {
                         // Bottom right
                         g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.MiddleLeft)
+                    else if (theme.TextAlign == ContentAlignment.MiddleLeft)
                     {
                         // Middle left
                         g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.MiddleCenter)
+                    else if (theme.TextAlign == ContentAlignment.MiddleCenter)
                     {
                         // Middle center
                         g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.MiddleRight)
+                    else if (theme.TextAlign == ContentAlignment.MiddleRight)
                     {
                         // Middle right
                         g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.TopLeft)
+                    else if (theme.TextAlign == ContentAlignment.TopLeft)
                     {
 
                     }
-                    else if (this.TextAlign == ContentAlignment.TopCenter)
+                    else if (theme.TextAlign == ContentAlignment.TopCenter)
                     {
                         // Top center
                         g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
                     }
-                    else if (this.TextAlign == ContentAlignment.TopRight)
+                    else if (theme.TextAlign == ContentAlignment.TopRight)
                     {
                         // Top right
                         g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
@@ -238,6 +238,17 @@ namespace MPfm.WindowsControls
             {                
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Occurs when the Text property value changes.
+        /// Refreshes the control.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
+            Refresh();
         }
     }
 }
