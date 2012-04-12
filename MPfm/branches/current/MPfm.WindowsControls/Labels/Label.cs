@@ -42,11 +42,6 @@ namespace MPfm.WindowsControls
     public class Label : Control
     {
         /// <summary>
-        /// Embedded font collection used for drawing.
-        /// </summary>
-        private EmbeddedFontCollection embeddedFonts = null;
-
-        /// <summary>
         /// Private value for the Theme property.
         /// </summary>
         private LabelTheme theme = null;
@@ -76,48 +71,6 @@ namespace MPfm.WindowsControls
             
             // Create default theme
             theme = new LabelTheme();
-        }
-
-        /// <summary>
-        /// Occurs when the control is created.
-        /// </summary>
-        protected override void OnCreateControl()
-        {
-            // Call base event method
-            base.OnCreateControl();
-
-            // Load embedded fonts
-            LoadEmbeddedFonts();
-        }
-
-        /// <summary>
-        /// Loads the embedded fonts for rendering.
-        /// </summary>
-        protected void LoadEmbeddedFonts()
-        {
-            // Check if design time or run time            
-            if (Tools.IsDesignTime())
-            {
-                // This only exists when running in design time and cannot be run in the constructor                
-                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
-                string path = string.Empty;
-                if (typeResService != null)
-                {
-                    // Get path
-                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
-                }
-
-                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll               
-                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
-
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
-            }
-            else
-            {
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-            }
         }
 
         /// <summary>

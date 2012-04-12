@@ -1189,7 +1189,6 @@ namespace MPfm
             this.linkResetTimeShifting.BackColor = System.Drawing.Color.Transparent;
             this.linkResetTimeShifting.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkResetTimeShifting.ForeColor = System.Drawing.Color.LightGray;
-            this.linkResetTimeShifting.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.linkResetTimeShifting.Location = new System.Drawing.Point(1, 34);
             this.linkResetTimeShifting.Name = "linkResetTimeShifting";
             this.linkResetTimeShifting.Size = new System.Drawing.Size(34, 12);

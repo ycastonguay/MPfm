@@ -145,7 +145,6 @@ namespace MPfm
             this.linkSaveLog.TabStop = true;
             this.linkSaveLog.Text = "Save log to file";
             this.linkSaveLog.Visible = false;
-            this.linkSaveLog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSaveLog_LinkClicked);
             // 
             // btnOK
             // 

@@ -37,13 +37,8 @@ namespace MPfm.WindowsControls
     /// This link label control is based on the System.Windows.Forms.LinkLabel control.
     /// It adds support for embedded fonts and anti-aliasing.
     /// </summary>
-    public class LinkLabel : System.Windows.Forms.LinkLabel
+    public class LinkLabel : Control
     {
-        /// <summary>
-        /// Embedded font collection used for drawing.
-        /// </summary>
-        private EmbeddedFontCollection embeddedFonts = null;
-
         /// <summary>
         /// Private value for the Theme property.
         /// </summary>
@@ -70,52 +65,13 @@ namespace MPfm.WindowsControls
         {
             // Set styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+                ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
 
             // Create default theme
             theme = new LinkLabelTheme();
-        }
 
-        /// <summary>
-        /// Occurs when the control is created.
-        /// </summary>
-        protected override void OnCreateControl()
-        {
-            // Call base event method
-            base.OnCreateControl();
-
-            // Load embedded fonts
-            LoadEmbeddedFonts();
-        }
-
-        /// <summary>
-        /// Loads the embedded fonts for rendering.
-        /// </summary>
-        protected void LoadEmbeddedFonts()
-        {
-            // Check if design time or run time            
-            if (Tools.IsDesignTime())
-            {
-                // This only exists when running in design time and cannot be run in the constructor                
-                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
-                string path = string.Empty;
-                if (typeResService != null)
-                {
-                    // Get path
-                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
-                }
-
-                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll               
-                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
-
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
-            }
-            else
-            {
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-            }
+            // Set default cursor
+            Cursor = Cursors.Hand;
         }
 
         /// <summary>
@@ -180,39 +136,39 @@ namespace MPfm.WindowsControls
             SolidBrush brushFont = new SolidBrush(ForeColor);
 
             // Draw string depending on alignment
-            if (TextAlign == ContentAlignment.BottomLeft)
+            if (theme.TextAlign == ContentAlignment.BottomLeft)
             {
                 g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
             }
-            else if (this.TextAlign == ContentAlignment.BottomCenter)
+            else if (theme.TextAlign == ContentAlignment.BottomCenter)
             {
                 g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
             }
-            else if (this.TextAlign == ContentAlignment.BottomRight)
+            else if (theme.TextAlign == ContentAlignment.BottomRight)
             {
                 g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
             }
-            else if (this.TextAlign == ContentAlignment.MiddleLeft)
+            else if (theme.TextAlign == ContentAlignment.MiddleLeft)
             {
                 g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
             }
-            else if (this.TextAlign == ContentAlignment.MiddleCenter)
+            else if (theme.TextAlign == ContentAlignment.MiddleCenter)
             {
                 g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
             }
-            else if (this.TextAlign == ContentAlignment.MiddleRight)
+            else if (theme.TextAlign == ContentAlignment.MiddleRight)
             {
                 g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
             }
-            else if (this.TextAlign == ContentAlignment.TopLeft)
+            else if (theme.TextAlign == ContentAlignment.TopLeft)
             {
                 g.DrawString(Text, font, brushFont, 2, 2);
             }
-            else if (this.TextAlign == ContentAlignment.TopCenter)
+            else if (theme.TextAlign == ContentAlignment.TopCenter)
             {
                 g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
             }
-            else if (this.TextAlign == ContentAlignment.TopRight)
+            else if (theme.TextAlign == ContentAlignment.TopRight)
             {
                 g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
             }
@@ -227,6 +183,17 @@ namespace MPfm.WindowsControls
                 font.Dispose();
                 font = null;
             }                
+        }
+
+        /// <summary>
+        /// Occurs when the Text property value changes.
+        /// Refreshes the control.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
+            Refresh();
         }
     }
 }
