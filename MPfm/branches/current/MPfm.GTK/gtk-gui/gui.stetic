@@ -380,17 +380,30 @@ WV</property>
                 <property name="Spacing">6</property>
                 <property name="BorderWidth">4</property>
                 <child>
-                  <widget class="Gtk.Expander" id="expander6">
+                  <widget class="Gtk.VBox" id="vboxCurrentSong">
                     <property name="MemberName" />
-                    <property name="CanFocus">True</property>
-                    <property name="Expanded">True</property>
+                    <property name="Spacing">6</property>
                     <child>
-                      <widget class="Gtk.HBox" id="hbox10">
+                      <widget class="Gtk.Label" id="lblCurrentSong">
+                        <property name="MemberName" />
+                        <property name="Xalign">0</property>
+                        <property name="LabelProp" translatable="yes">Current Song</property>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.HBox" id="hbox4">
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.Image" id="image19">
+                          <widget class="Gtk.Image" id="image286">
                             <property name="MemberName" />
+                            <property name="Pixbuf">stock:gtk-about Menu</property>
                           </widget>
                           <packing>
                             <property name="Position">0</property>
@@ -400,11 +413,11 @@ WV</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.VBox" id="vbox14">
+                          <widget class="Gtk.VBox" id="vbox3">
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.HBox" id="hbox12">
+                              <widget class="Gtk.HBox" id="hbox5">
                                 <property name="MemberName" />
                                 <property name="Spacing">6</property>
                                 <child>
@@ -471,81 +484,6 @@ WV</property>
                                     <property name="Fill">False</property>
                                   </packing>
                                 </child>
-                                <child>
-                                  <widget class="Gtk.VBox" id="vbox6">
-                                    <property name="MemberName" />
-                                    <property name="Spacing">6</property>
-                                    <child>
-                                      <widget class="Gtk.Expander" id="expander10">
-                                        <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Expanded">True</property>
-                                        <child>
-                                          <widget class="Gtk.Label" id="lblCurrentPosition">
-                                            <property name="MemberName" />
-                                            <property name="Xalign">0</property>
-                                            <property name="LabelProp" translatable="yes">[Position]</property>
-                                          </widget>
-                                        </child>
-                                        <child>
-                                          <widget class="Gtk.Label" id="GtkLabel26">
-                                            <property name="MemberName" />
-                                            <property name="LabelProp" translatable="yes">Song Position</property>
-                                            <property name="UseUnderline">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="type">label_item</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">0</property>
-                                        <property name="AutoSize">True</property>
-                                        <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="Gtk.Expander" id="expander9">
-                                        <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Expanded">True</property>
-                                        <child>
-                                          <widget class="Gtk.Label" id="lblLength">
-                                            <property name="MemberName" />
-                                            <property name="Xalign">0</property>
-                                            <property name="LabelProp" translatable="yes">[Length]</property>
-                                          </widget>
-                                        </child>
-                                        <child>
-                                          <widget class="Gtk.Label" id="GtkLabel19">
-                                            <property name="MemberName" />
-                                            <property name="LabelProp" translatable="yes">Length</property>
-                                            <property name="UseUnderline">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="type">label_item</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="Position">1</property>
-                                        <property name="AutoSize">True</property>
-                                        <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <placeholder />
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="Position">1</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="Expand">False</property>
-                                    <property name="Fill">False</property>
-                                  </packing>
-                                </child>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -555,35 +493,178 @@ WV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Expander" id="expander3">
+                              <widget class="Gtk.HBox" id="hbox6">
                                 <property name="MemberName" />
-                                <property name="CanFocus">True</property>
-                                <property name="Expanded">True</property>
+                                <property name="Spacing">6</property>
                                 <child>
-                                  <widget class="Gtk.HScale" id="hscaleSongPosition">
+                                  <widget class="Gtk.VBox" id="vbox5">
                                     <property name="MemberName" />
-                                    <property name="CanFocus">True</property>
-                                    <property name="Upper">100</property>
-                                    <property name="PageIncrement">10</property>
-                                    <property name="StepIncrement">1</property>
-                                    <property name="Value">40</property>
-                                    <property name="DrawValue">False</property>
-                                    <property name="Digits">0</property>
-                                    <property name="ValuePos">Top</property>
-                                    <signal name="ButtonPressEvent" handler="OnSongPositionButtonPressEvent" />
-                                    <signal name="ButtonReleaseEvent" handler="OnSongPositionButtonReleaseEvent" />
-                                    <signal name="MoveSlider" handler="OnSongPositionMoveSlider" />
-                                    <signal name="ChangeValue" handler="OnSongPositionChangeValue" />
-                                  </widget>
-                                </child>
-                                <child>
-                                  <widget class="Gtk.Label" id="GtkLabel20">
-                                    <property name="MemberName" />
-                                    <property name="LabelProp" translatable="yes">Song Position</property>
-                                    <property name="UseUnderline">True</property>
+                                    <property name="Spacing">6</property>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblPosition">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">Position</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">0</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblCurrentPosition">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">[Position]</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">1</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
                                   </widget>
                                   <packing>
-                                    <property name="type">label_item</property>
+                                    <property name="Position">0</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.VBox" id="vbox6">
+                                    <property name="MemberName" />
+                                    <property name="Spacing">6</property>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblLength">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">Length</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">0</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblCurrentLength">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">[Length]</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">1</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">1</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.VBox" id="vbox7">
+                                    <property name="MemberName" />
+                                    <property name="Spacing">6</property>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblSongPosition">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">Song Position</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">0</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="Gtk.HScale" id="hscaleSongPosition">
+                                        <property name="MemberName" />
+                                        <property name="CanFocus">True</property>
+                                        <property name="Upper">100</property>
+                                        <property name="PageIncrement">10</property>
+                                        <property name="StepIncrement">1</property>
+                                        <property name="Value">40</property>
+                                        <property name="DrawValue">False</property>
+                                        <property name="Digits">0</property>
+                                        <property name="ValuePos">Top</property>
+                                        <signal name="ButtonPressEvent" handler="OnSongPositionButtonPressEvent" />
+                                        <signal name="ButtonReleaseEvent" handler="OnSongPositionButtonReleaseEvent" />
+                                        <signal name="MoveSlider" handler="OnSongPositionMoveSlider" />
+                                        <signal name="ChangeValue" handler="OnSongPositionChangeValue" />
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">1</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">2</property>
+                                    <property name="AutoSize">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.VBox" id="vbox8">
+                                    <property name="MemberName" />
+                                    <property name="Spacing">6</property>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblTimeShifting">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">Time Shifting</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">0</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="Gtk.HScale" id="hscaleTimeShifting">
+                                        <property name="MemberName" />
+                                        <property name="CanFocus">True</property>
+                                        <property name="Lower">50</property>
+                                        <property name="Upper">150</property>
+                                        <property name="PageIncrement">10</property>
+                                        <property name="StepIncrement">1</property>
+                                        <property name="Value">100</property>
+                                        <property name="DrawValue">True</property>
+                                        <property name="Digits">0</property>
+                                        <property name="ValuePos">Left</property>
+                                        <signal name="ButtonPressEvent" handler="OnSongPositionButtonPressEvent" />
+                                        <signal name="ButtonReleaseEvent" handler="OnSongPositionButtonReleaseEvent" />
+                                        <signal name="MoveSlider" handler="OnSongPositionMoveSlider" />
+                                        <signal name="ChangeValue" handler="OnSongPositionChangeValue" />
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">1</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">3</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -597,46 +678,18 @@ WV</property>
                           </widget>
                           <packing>
                             <property name="Position">1</property>
-                            <property name="AutoSize">True</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
+                            <property name="AutoSize">False</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.HBox" id="hbox11">
+                          <widget class="Gtk.VBox" id="vbox9">
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Expander" id="expander7">
+                              <widget class="Gtk.Label" id="lblVolume">
                                 <property name="MemberName" />
-                                <property name="CanFocus">True</property>
-                                <property name="Expanded">True</property>
-                                <child>
-                                  <widget class="Gtk.VScale" id="vscaleVolume">
-                                    <property name="MemberName" />
-                                    <property name="Tooltip" translatable="yes">Changes the playback volume (in percentage).</property>
-                                    <property name="CanFocus">True</property>
-                                    <property name="Inverted">True</property>
-                                    <property name="Upper">100</property>
-                                    <property name="PageIncrement">10</property>
-                                    <property name="StepIncrement">1</property>
-                                    <property name="Value">100</property>
-                                    <property name="DrawValue">True</property>
-                                    <property name="Digits">0</property>
-                                    <property name="ValuePos">Bottom</property>
-                                    <signal name="ValueChanged" handler="OnVolumeValueChanged" />
-                                  </widget>
-                                </child>
-                                <child>
-                                  <widget class="Gtk.Label" id="GtkLabel24">
-                                    <property name="MemberName" />
-                                    <property name="LabelProp" translatable="yes">Volume</property>
-                                    <property name="UseUnderline">True</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="type">label_item</property>
-                                  </packing>
-                                </child>
+                                <property name="Xalign">0</property>
+                                <property name="LabelProp" translatable="yes">Volume</property>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -645,8 +698,29 @@ WV</property>
                                 <property name="Fill">False</property>
                               </packing>
                             </child>
+                            <child>
+                              <widget class="Gtk.VScale" id="vscaleVolume">
+                                <property name="MemberName" />
+                                <property name="Tooltip" translatable="yes">Changes the playback volume (in percentage).</property>
+                                <property name="CanFocus">True</property>
+                                <property name="Inverted">True</property>
+                                <property name="Upper">100</property>
+                                <property name="PageIncrement">10</property>
+                                <property name="StepIncrement">1</property>
+                                <property name="Value">100</property>
+                                <property name="DrawValue">True</property>
+                                <property name="Digits">0</property>
+                                <property name="ValuePos">Bottom</property>
+                                <signal name="ValueChanged" handler="OnVolumeValueChanged" />
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                              </packing>
+                            </child>
                           </widget>
                           <packing>
+                            <property name="PackType">End</property>
                             <property name="Position">2</property>
                             <property name="AutoSize">True</property>
                             <property name="Expand">False</property>
@@ -654,15 +728,11 @@ WV</property>
                           </packing>
                         </child>
                       </widget>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Label" id="GtkLabel23">
-                        <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">Current Song</property>
-                        <property name="UseUnderline">True</property>
-                      </widget>
                       <packing>
-                        <property name="type">label_item</property>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
                       </packing>
                     </child>
                   </widget>
@@ -674,10 +744,10 @@ WV</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.VPaned" id="vpaned1">
+                  <widget class="Gtk.VPaned" id="vpanedLoopsMarkersSongBrowser">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Position">154</property>
+                    <property name="Position">150</property>
                     <child>
                       <widget class="Gtk.HPaned" id="hpanedLoopsMarkers">
                         <property name="MemberName" />

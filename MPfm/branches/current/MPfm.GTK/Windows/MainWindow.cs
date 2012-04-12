@@ -65,12 +65,23 @@ namespace MPfm.GTK
 			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
 			
 			this.lblLibrary.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));								
+			this.lblCurrentSong.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblMarkers.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblLoops.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblSongBrowser.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 						
-			this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			
+			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+			this.lblCurrentLength.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+			
+			this.lblPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblLength.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblSongPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblTimeShifting.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblVolume.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			
 			//this.cboSoundFormat.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));  // doesn't work
 			
 			//this.drawingArea1.SetSizeRequest(200, 200);
@@ -290,7 +301,7 @@ namespace MPfm.GTK
 		        lblSongTitle.Text = string.Empty;
 		        lblSongFilePath.Text = "No song currently playing.";
 				lblCurrentPosition.Text = "0:00.000";
-		        lblLength.Text = "0:00.000";
+		        lblCurrentLength.Text = "0:00.000";
 				hscaleSongPosition.Value = 0;
 			}
 			else
@@ -300,7 +311,7 @@ namespace MPfm.GTK
 		        lblAlbumTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.AlbumTitle;
 		        lblSongTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.Title;
 		        lblSongFilePath.Text = controller.Player.Playlist.CurrentItem.AudioFile.FilePath;
-		        lblLength.Text = controller.Player.Playlist.CurrentItem.LengthString;
+		        lblCurrentLength.Text = controller.Player.Playlist.CurrentItem.LengthString;
 				hscaleSongPosition.Adjustment.Upper = controller.Player.Playlist.CurrentItem.LengthBytes;
 			}
 		}
