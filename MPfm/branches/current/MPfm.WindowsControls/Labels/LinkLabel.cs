@@ -1,6 +1,6 @@
 //
-// LinkLabel.cs: This link label control is based on the System.Windows.Forms.LinkLabel control.
-//               It adds support for embedded fonts and anti-aliasing.
+// LinkLabel.cs: This label control is similar to the System.Windows.Forms.Label class but 
+//               adds support for embedded Fonts and anti-aliasing.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -34,8 +34,8 @@ using System.Reflection;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This link label control is based on the System.Windows.Forms.LinkLabel control.
-    /// It adds support for embedded fonts and anti-aliasing.
+    /// This link label control is similar to the System.Windows.Forms.Label class but 
+    /// adds support for embedded Fonts and anti-aliasing.
     /// </summary>
     public class LinkLabel : Control
     {
@@ -46,6 +46,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the current theme used for rendering the control.
         /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Theme object for this control.")]
         public LinkLabelTheme Theme
         {
             get
@@ -55,6 +57,27 @@ namespace MPfm.WindowsControls
             set
             {
                 theme = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the TextAlign property.
+        /// </summary>
+        private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
+        /// <summary>
+        /// Defines the text alignment used in the header text gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the header text gradient.")]
+        public ContentAlignment TextAlign
+        {
+            get
+            {
+                return textAlign;
+            }
+            set
+            {
+                textAlign = value;
             }
         }
 
@@ -86,103 +109,43 @@ namespace MPfm.WindowsControls
             // Use anti-aliasing?
             if (theme.TextGradient.Font.UseAntiAliasing)
             {
-                // Set text anti-aliasing to ClearType (best looking AA)
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-                // Set smoothing mode for paths
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set anti-aliasing
+                PaintHelper.SetAntiAliasing(g);
             }
 
-            // Create custom font
-            Font font = null;
+            // Get font
+            Font font = PaintHelper.LoadFont(embeddedFonts, theme.TextGradient.Font);
 
-            // Make sure the embedded font name needs to be loaded and is valid
-            if (theme.TextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.TextGradient.Font.EmbeddedFontName))
-            {
-                try
-                {
-                    // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.TextGradient.Font.EmbeddedFontName, theme.TextGradient.Font.Size, theme.TextGradient.Font.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
-            }
-
-            // Check if font is null
+            // If the embedded font could not be loaded, get the default font
             if (font == null)
             {
-                try
-                {
-                    // Try to get standard font
-                    font = new Font(theme.TextGradient.Font.StandardFontName, theme.TextGradient.Font.Size, theme.TextGradient.Font.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
+                // Use default Font instead
+                font = this.Font;
             }
 
-            // Call paint background
-            base.OnPaintBackground(pe);
-
-            // Measure string            
-            SizeF sizeString = g.MeasureString(this.Text, font);
-
-            // Create brush
-            SolidBrush brushFont = new SolidBrush(ForeColor);
-
-            // Draw string depending on alignment
-            if (theme.TextAlign == ContentAlignment.BottomLeft)
+            // Check if the gradient background should be used
+            if (!theme.IsBackgroundTransparent)
             {
-                g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
+                // Draw background gradient (cover -1 pixel for some refresh bug)
+                Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
+                PaintHelper.RenderBackgroundGradient(g, rectBody, theme.TextGradient);
             }
-            else if (theme.TextAlign == ContentAlignment.BottomCenter)
+            else
             {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.BottomRight)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.MiddleLeft)
-            {
-                g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.MiddleCenter)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.MiddleRight)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.TopLeft)
-            {
-                g.DrawString(Text, font, brushFont, 2, 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.TopCenter)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
-            }
-            else if (theme.TextAlign == ContentAlignment.TopRight)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
+                // Call paint background
+                base.OnPaintBackground(pe); // CPU intensive when transparent
             }
 
-            // Dispose stuff
-            brushFont.Dispose();
-            brushFont = null;
+            // Render text
+            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color);
 
-            // Dispose font if necessary
+            // Dispose font
             if (font != null && font != this.Font)
             {
+                // Dispose Font
                 font.Dispose();
                 font = null;
-            }                
+            }         
         }
 
         /// <summary>

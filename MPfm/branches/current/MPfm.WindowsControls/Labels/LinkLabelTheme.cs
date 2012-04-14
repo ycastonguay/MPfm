@@ -78,25 +78,6 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the TextAlign property.
-        /// </summary>
-        private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
-        /// <summary>
-        /// Defines the text alignment.
-        /// </summary>
-        public ContentAlignment TextAlign
-        {
-            get
-            {
-                return textAlign;
-            }
-            set
-            {
-                textAlign = value;
-            }
-        }
-
-        /// <summary>
         /// Default constructor for the LinkLabelTheme class.
         /// </summary>
         public LinkLabelTheme()
