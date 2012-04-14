@@ -84,7 +84,7 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Private value for the TextAlign property.
+        /// Private value for the IsAutoSized property.
         /// </summary>
         private bool isAutoSized = false;
         /// <summary>
@@ -151,8 +151,13 @@ namespace MPfm.WindowsControls
                     // Measure string                
                     SizeF sizeString = g.MeasureString(Text, font);
 
+                    // Add padding
+                    Size sizeControl = sizeString.ToSize();
+                    sizeControl.Width += theme.TextGradient.Padding * 2;
+                    sizeControl.Height += theme.TextGradient.Padding * 2;
+
                     // Resize control
-                    this.Size = sizeString.ToSize();
+                    this.Size = sizeControl;
                 }
 
                 // Check if the gradient background should be used

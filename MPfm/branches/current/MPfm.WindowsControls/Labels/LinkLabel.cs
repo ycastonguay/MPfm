@@ -82,6 +82,27 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the IsAutoSized property.
+        /// </summary>
+        private bool isAutoSized = false;
+        /// <summary>
+        /// Defines if the control should be auto-sized.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines if the control should be auto-sized.")]
+        public bool IsAutoSized
+        {
+            get
+            {
+                return isAutoSized;
+            }
+            set
+            {
+                isAutoSized = value;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the LinkLabel class.
         /// </summary>
         public LinkLabel()
@@ -121,6 +142,21 @@ namespace MPfm.WindowsControls
             {
                 // Use default Font instead
                 font = this.Font;
+            }
+
+            // Check for auto-size
+            if (isAutoSized)
+            {
+                // Measure string                
+                SizeF sizeString = g.MeasureString(Text, font);
+
+                // Add padding
+                Size sizeControl = sizeString.ToSize();
+                sizeControl.Width += theme.TextGradient.Padding * 2;
+                sizeControl.Height += theme.TextGradient.Padding * 2;
+
+                // Resize control
+                this.Size = sizeControl;
             }
 
             // Check if the gradient background should be used
