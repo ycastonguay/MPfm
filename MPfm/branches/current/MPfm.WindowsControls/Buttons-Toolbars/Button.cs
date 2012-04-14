@@ -190,11 +190,10 @@ namespace MPfm.WindowsControls
                 font = this.Font;
             }
 
-            // Draw background gradient (cover -1 pixel for some refresh bug)
-            //Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            //Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
-            Rectangle rectBody = new Rectangle(ClientRectangle.Location, ClientRectangle.Size);
-            PaintHelper.RenderBackgroundGradient(g, rectBody, gradient);
+            // Draw background gradient (cover -1 pixel to fix graphic bug) 
+            Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+            Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+            PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, gradient);
 
             // Render text
             PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, gradient.Font.Color);

@@ -90,21 +90,32 @@ namespace MPfm.WindowsControls
         /// Renders a gradient using the BackgroundGradient properties.
         /// </summary>
         /// <param name="g">Graphics object to render to</param>
-        /// <param name="rect">Rectangle filling the gradient</param>
+        /// <param name="rect">Rectangle filling the gradient and used for the border</param>
         /// <param name="gradient">BackgroundGradient object</param>
         public static void RenderBackgroundGradient(Graphics g, Rectangle rect, BackgroundGradient gradient)
         {
+            RenderBackgroundGradient(g, rect, rect, gradient);
+        }
+
+        /// <summary>
+        /// Renders a gradient using the BackgroundGradient properties.
+        /// </summary>
+        /// <param name="g">Graphics object to render to</param>
+        /// <param name="rectGradient">Rectangle filling the gradient</param>
+        /// <param name="rectBorder">Rectangle used for the border</param>
+        /// <param name="gradient">BackgroundGradient object</param>
+        public static void RenderBackgroundGradient(Graphics g, Rectangle rectGradient, Rectangle rectBorder, BackgroundGradient gradient)
+        {
             // Render gradient background
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rect, gradient.Color1, gradient.Color2, gradient.GradientMode);
-            g.FillRectangle(brushBackground, rect);
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rectGradient, gradient.Color1, gradient.Color2, gradient.GradientMode);
+            g.FillRectangle(brushBackground, rectGradient);
             brushBackground.Dispose();
             brushBackground = null;
 
             // Check if a border needs to be rendered
             if (gradient.BorderWidth > 0)
             {
-                // Render border
-                Rectangle rectBorder = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                // Render border                
                 Pen penBorder = new Pen(gradient.BorderColor, gradient.BorderWidth);
                 g.DrawRectangle(penBorder, rectBorder);
                 penBorder.Dispose();

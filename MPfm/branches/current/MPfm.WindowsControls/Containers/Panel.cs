@@ -337,7 +337,7 @@ namespace MPfm.WindowsControls
             }
 
             // Draw background gradient
-            Rectangle rectBody = new Rectangle(ClientRectangle.Location, ClientRectangle.Size);
+            Rectangle rectBody = new Rectangle(-1, -1, ClientRectangle.Width + 1, ClientRectangle.Height + 1);            
             if (headerExpanded)
             {
                 rectBody.Height -= headerHeight - 1;
