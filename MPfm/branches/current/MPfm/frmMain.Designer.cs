@@ -909,8 +909,8 @@ namespace MPfm
             this.btnOpenAudioFiles.Image = global::MPfm.Properties.Resources.folder_page;
             this.btnOpenAudioFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenAudioFiles.Name = "btnOpenAudioFiles";
-            this.btnOpenAudioFiles.Size = new System.Drawing.Size(37, 34);
-            this.btnOpenAudioFiles.Text = "Open";
+            this.btnOpenAudioFiles.Size = new System.Drawing.Size(92, 34);
+            this.btnOpenAudioFiles.Text = "Open Audio Files";
             this.btnOpenAudioFiles.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnOpenAudioFiles.ToolTipText = "Opens audio files or a playlist file to play.";
             this.btnOpenAudioFiles.Click += new System.EventHandler(this.miFileOpenAudioFiles_Click);
@@ -1107,6 +1107,7 @@ namespace MPfm
             this.panelLibrary.Controls.Add(this.comboSoundFormat);
             this.panelLibrary.ExpandedHeight = 200;
             this.panelLibrary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelLibrary.HeaderAutoSize = true;
             this.panelLibrary.HeaderExpandable = false;
             this.panelLibrary.HeaderExpanded = true;
             this.panelLibrary.HeaderHeight = 22;
@@ -1116,6 +1117,7 @@ namespace MPfm
             this.panelLibrary.Name = "panelLibrary";
             this.panelLibrary.Size = new System.Drawing.Size(202, 710);
             this.panelLibrary.TabIndex = 65;
+            this.panelLibrary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient2.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient2.BorderWidth = 0;
             backgroundGradient2.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
@@ -1151,6 +1153,7 @@ namespace MPfm
             this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryMessage);
             this.panelUpdateLibraryProgress.ExpandedHeight = 56;
             this.panelUpdateLibraryProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelUpdateLibraryProgress.HeaderAutoSize = true;
             this.panelUpdateLibraryProgress.HeaderExpandable = false;
             this.panelUpdateLibraryProgress.HeaderExpanded = true;
             this.panelUpdateLibraryProgress.HeaderHeight = 16;
@@ -1160,6 +1163,7 @@ namespace MPfm
             this.panelUpdateLibraryProgress.Name = "panelUpdateLibraryProgress";
             this.panelUpdateLibraryProgress.Size = new System.Drawing.Size(203, 102);
             this.panelUpdateLibraryProgress.TabIndex = 64;
+            this.panelUpdateLibraryProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient1.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient1.BorderWidth = 0;
             backgroundGradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
@@ -1196,8 +1200,8 @@ namespace MPfm
             this.lblUpdateLibraryRemainingTime.Size = new System.Drawing.Size(196, 16);
             this.lblUpdateLibraryRemainingTime.TabIndex = 82;
             this.lblUpdateLibraryRemainingTime.Text = "14 mins remaining";
+            this.lblUpdateLibraryRemainingTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme1.IsBackgroundTransparent = true;
-            labelTheme1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient1.BorderColor = System.Drawing.Color.DarkGray;
             textGradient1.BorderWidth = 1;
             textGradient1.Color1 = System.Drawing.Color.LightGray;
@@ -1291,8 +1295,8 @@ namespace MPfm
             this.lblUpdateLibraryCurrentFileValue.Size = new System.Drawing.Size(199, 14);
             this.lblUpdateLibraryCurrentFileValue.TabIndex = 76;
             this.lblUpdateLibraryCurrentFileValue.Text = "Current file:";
+            this.lblUpdateLibraryCurrentFileValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme2.IsBackgroundTransparent = true;
-            labelTheme2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient5.BorderColor = System.Drawing.Color.DarkGray;
             textGradient5.BorderWidth = 1;
             textGradient5.Color1 = System.Drawing.Color.LightGray;
@@ -1332,8 +1336,8 @@ namespace MPfm
             this.lblUpdateLibraryMessage.Size = new System.Drawing.Size(197, 14);
             this.lblUpdateLibraryMessage.TabIndex = 63;
             this.lblUpdateLibraryMessage.Text = "Current file:";
+            this.lblUpdateLibraryMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme3.IsBackgroundTransparent = true;
-            labelTheme3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient6.BorderColor = System.Drawing.Color.DarkGray;
             textGradient6.BorderWidth = 1;
             textGradient6.Color1 = System.Drawing.Color.LightGray;
@@ -1362,13 +1366,13 @@ namespace MPfm
             this.lblFilterBySoundFormat.Size = new System.Drawing.Size(128, 14);
             this.lblFilterBySoundFormat.TabIndex = 61;
             this.lblFilterBySoundFormat.Text = "Filter by Sound Format:";
+            this.lblFilterBySoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme4.IsBackgroundTransparent = true;
-            labelTheme4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient8.BorderColor = System.Drawing.Color.DarkGray;
             textGradient8.BorderWidth = 1;
             textGradient8.Color1 = System.Drawing.Color.LightGray;
             textGradient8.Color2 = System.Drawing.Color.Gray;
-            customFont8.Color = System.Drawing.Color.Black;
+            customFont8.Color = System.Drawing.Color.White;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -1497,6 +1501,7 @@ namespace MPfm
             this.panelCurrentSong.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCurrentSong.ExpandedHeight = 178;
             this.panelCurrentSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelCurrentSong.HeaderAutoSize = true;
             this.panelCurrentSong.HeaderExpanded = true;
             this.panelCurrentSong.HeaderHeight = 22;
             this.panelCurrentSong.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1506,6 +1511,7 @@ namespace MPfm
             this.panelCurrentSong.Name = "panelCurrentSong";
             this.panelCurrentSong.Size = new System.Drawing.Size(798, 178);
             this.panelCurrentSong.TabIndex = 26;
+            this.panelCurrentSong.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient22.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient22.BorderWidth = 0;
             backgroundGradient22.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
@@ -1542,8 +1548,8 @@ namespace MPfm
             this.lblCurrentFilePath.Size = new System.Drawing.Size(355, 27);
             this.lblCurrentFilePath.TabIndex = 59;
             this.lblCurrentFilePath.Text = "File Path";
+            this.lblCurrentFilePath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme5.IsBackgroundTransparent = true;
-            labelTheme5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient10.BorderColor = System.Drawing.Color.DarkGray;
             textGradient10.BorderWidth = 1;
             textGradient10.Color1 = System.Drawing.Color.LightGray;
@@ -1573,6 +1579,7 @@ namespace MPfm
             this.panelInformation.Controls.Add(this.lblSoundFormatTitle);
             this.panelInformation.ExpandedHeight = 56;
             this.panelInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelInformation.HeaderAutoSize = true;
             this.panelInformation.HeaderExpandable = false;
             this.panelInformation.HeaderExpanded = true;
             this.panelInformation.HeaderHeight = 16;
@@ -1582,8 +1589,9 @@ namespace MPfm
             this.panelInformation.Name = "panelInformation";
             this.panelInformation.Size = new System.Drawing.Size(100, 104);
             this.panelInformation.TabIndex = 55;
+            this.panelInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient3.BorderWidth = 1;
+            backgroundGradient3.BorderWidth = 0;
             backgroundGradient3.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient3.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1618,13 +1626,13 @@ namespace MPfm
             this.lblFrequency.Size = new System.Drawing.Size(82, 10);
             this.lblFrequency.TabIndex = 65;
             this.lblFrequency.Text = "Frequency";
+            this.lblFrequency.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme6.IsBackgroundTransparent = true;
-            labelTheme6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient11.BorderColor = System.Drawing.Color.DarkGray;
             textGradient11.BorderWidth = 1;
             textGradient11.Color1 = System.Drawing.Color.LightGray;
             textGradient11.Color2 = System.Drawing.Color.Gray;
-            customFont11.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont11.Color = System.Drawing.Color.White;
             customFont11.EmbeddedFontName = "Droid Sans Mono";
             customFont11.IsBold = false;
             customFont11.IsItalic = false;
@@ -1650,13 +1658,13 @@ namespace MPfm
             this.lblFrequencyTitle.Size = new System.Drawing.Size(82, 10);
             this.lblFrequencyTitle.TabIndex = 64;
             this.lblFrequencyTitle.Text = "Frequency";
+            this.lblFrequencyTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme7.IsBackgroundTransparent = true;
-            labelTheme7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient12.BorderColor = System.Drawing.Color.DarkGray;
             textGradient12.BorderWidth = 1;
             textGradient12.Color1 = System.Drawing.Color.LightGray;
             textGradient12.Color2 = System.Drawing.Color.Gray;
-            customFont12.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont12.Color = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
@@ -1682,8 +1690,8 @@ namespace MPfm
             this.lblBitrate.Size = new System.Drawing.Size(82, 10);
             this.lblBitrate.TabIndex = 63;
             this.lblBitrate.Text = "Bitrate";
+            this.lblBitrate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme8.IsBackgroundTransparent = true;
-            labelTheme8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient13.BorderColor = System.Drawing.Color.DarkGray;
             textGradient13.BorderWidth = 1;
             textGradient13.Color1 = System.Drawing.Color.LightGray;
@@ -1705,8 +1713,8 @@ namespace MPfm
             this.lblBitrateTitle.Size = new System.Drawing.Size(82, 10);
             this.lblBitrateTitle.TabIndex = 62;
             this.lblBitrateTitle.Text = "Bitrate";
+            this.lblBitrateTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme9.IsBackgroundTransparent = true;
-            labelTheme9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient14.BorderColor = System.Drawing.Color.DarkGray;
             textGradient14.BorderWidth = 1;
             textGradient14.Color1 = System.Drawing.Color.LightGray;
@@ -1728,8 +1736,8 @@ namespace MPfm
             this.lblSoundFormat.Size = new System.Drawing.Size(82, 10);
             this.lblSoundFormat.TabIndex = 61;
             this.lblSoundFormat.Text = "Sound Format";
+            this.lblSoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme10.IsBackgroundTransparent = true;
-            labelTheme10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient15.BorderColor = System.Drawing.Color.DarkGray;
             textGradient15.BorderWidth = 1;
             textGradient15.Color1 = System.Drawing.Color.LightGray;
@@ -1751,8 +1759,8 @@ namespace MPfm
             this.lblSoundFormatTitle.Size = new System.Drawing.Size(82, 10);
             this.lblSoundFormatTitle.TabIndex = 60;
             this.lblSoundFormatTitle.Text = "Sound Format";
+            this.lblSoundFormatTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme11.IsBackgroundTransparent = true;
-            labelTheme11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient16.BorderColor = System.Drawing.Color.DarkGray;
             textGradient16.BorderWidth = 1;
             textGradient16.Color1 = System.Drawing.Color.LightGray;
@@ -1784,6 +1792,7 @@ namespace MPfm
             this.panelActions.Controls.Add(this.linkSearchGuitarTabs);
             this.panelActions.ExpandedHeight = 56;
             this.panelActions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelActions.HeaderAutoSize = true;
             this.panelActions.HeaderExpandable = false;
             this.panelActions.HeaderExpanded = true;
             this.panelActions.HeaderHeight = 16;
@@ -1793,8 +1802,9 @@ namespace MPfm
             this.panelActions.Name = "panelActions";
             this.panelActions.Size = new System.Drawing.Size(100, 104);
             this.panelActions.TabIndex = 58;
+            this.panelActions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient4.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient4.BorderWidth = 1;
+            backgroundGradient4.BorderWidth = 0;
             backgroundGradient4.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient4.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -1829,8 +1839,8 @@ namespace MPfm
             this.lblSearchWeb.Size = new System.Drawing.Size(96, 14);
             this.lblSearchWeb.TabIndex = 63;
             this.lblSearchWeb.Text = "Search the web:";
+            this.lblSearchWeb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme12.IsBackgroundTransparent = true;
-            labelTheme12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient18.BorderColor = System.Drawing.Color.DarkGray;
             textGradient18.BorderWidth = 1;
             textGradient18.Color1 = System.Drawing.Color.LightGray;
@@ -1957,8 +1967,8 @@ namespace MPfm
             this.lblCurrentSongTitle.Size = new System.Drawing.Size(355, 25);
             this.lblCurrentSongTitle.TabIndex = 44;
             this.lblCurrentSongTitle.Text = "Song Title";
+            this.lblCurrentSongTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme13.IsBackgroundTransparent = true;
-            labelTheme13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient24.BorderColor = System.Drawing.Color.DarkGray;
             textGradient24.BorderWidth = 1;
             textGradient24.Color1 = System.Drawing.Color.LightGray;
@@ -2015,6 +2025,7 @@ namespace MPfm
             this.panelCurrentPosition.Controls.Add(this.lblCurrentPosition);
             this.panelCurrentPosition.ExpandedHeight = 200;
             this.panelCurrentPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelCurrentPosition.HeaderAutoSize = true;
             this.panelCurrentPosition.HeaderExpandable = false;
             this.panelCurrentPosition.HeaderExpanded = true;
             this.panelCurrentPosition.HeaderHeight = 16;
@@ -2024,8 +2035,9 @@ namespace MPfm
             this.panelCurrentPosition.Name = "panelCurrentPosition";
             this.panelCurrentPosition.Size = new System.Drawing.Size(96, 48);
             this.panelCurrentPosition.TabIndex = 21;
+            this.panelCurrentPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient5.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient5.BorderWidth = 1;
+            backgroundGradient5.BorderWidth = 0;
             backgroundGradient5.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient5.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -2058,13 +2070,13 @@ namespace MPfm
             this.lblCurrentPosition.Size = new System.Drawing.Size(96, 32);
             this.lblCurrentPosition.TabIndex = 23;
             this.lblCurrentPosition.Text = "0:00.000";
+            this.lblCurrentPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             labelTheme14.IsBackgroundTransparent = true;
-            labelTheme14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             textGradient26.BorderColor = System.Drawing.Color.DarkGray;
             textGradient26.BorderWidth = 1;
             textGradient26.Color1 = System.Drawing.Color.LightGray;
             textGradient26.Color2 = System.Drawing.Color.Gray;
-            customFont18.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont18.Color = System.Drawing.Color.White;
             customFont18.EmbeddedFontName = "Droid Sans Mono";
             customFont18.IsBold = false;
             customFont18.IsItalic = false;
@@ -2116,6 +2128,7 @@ namespace MPfm
             this.panelLength.Controls.Add(this.lblLength);
             this.panelLength.ExpandedHeight = 200;
             this.panelLength.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelLength.HeaderAutoSize = true;
             this.panelLength.HeaderExpandable = false;
             this.panelLength.HeaderExpanded = true;
             this.panelLength.HeaderHeight = 16;
@@ -2125,8 +2138,9 @@ namespace MPfm
             this.panelLength.Name = "panelLength";
             this.panelLength.Size = new System.Drawing.Size(96, 48);
             this.panelLength.TabIndex = 50;
+            this.panelLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient6.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient6.BorderWidth = 1;
+            backgroundGradient6.BorderWidth = 0;
             backgroundGradient6.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient6.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -2159,8 +2173,8 @@ namespace MPfm
             this.lblLength.Size = new System.Drawing.Size(96, 32);
             this.lblLength.TabIndex = 23;
             this.lblLength.Text = "0:00.000";
+            this.lblLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             labelTheme15.IsBackgroundTransparent = true;
-            labelTheme15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             textGradient29.BorderColor = System.Drawing.Color.DarkGray;
             textGradient29.BorderWidth = 1;
             textGradient29.Color1 = System.Drawing.Color.LightGray;
@@ -2179,6 +2193,7 @@ namespace MPfm
             this.panelVolume.Controls.Add(this.lblVolume);
             this.panelVolume.ExpandedHeight = 56;
             this.panelVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelVolume.HeaderAutoSize = true;
             this.panelVolume.HeaderExpandable = false;
             this.panelVolume.HeaderExpanded = true;
             this.panelVolume.HeaderHeight = 16;
@@ -2188,8 +2203,9 @@ namespace MPfm
             this.panelVolume.Name = "panelVolume";
             this.panelVolume.Size = new System.Drawing.Size(78, 153);
             this.panelVolume.TabIndex = 56;
+            this.panelVolume.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient13.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient13.BorderWidth = 1;
+            backgroundGradient13.BorderWidth = 0;
             backgroundGradient13.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient13.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -2314,13 +2330,13 @@ namespace MPfm
             this.lblVolume.Size = new System.Drawing.Size(68, 15);
             this.lblVolume.TabIndex = 30;
             this.lblVolume.Text = "100%";
+            this.lblVolume.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             labelTheme16.IsBackgroundTransparent = true;
-            labelTheme16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             textGradient31.BorderColor = System.Drawing.Color.DarkGray;
             textGradient31.BorderWidth = 1;
             textGradient31.Color1 = System.Drawing.Color.LightGray;
             textGradient31.Color2 = System.Drawing.Color.Gray;
-            customFont23.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont23.Color = System.Drawing.Color.White;
             customFont23.EmbeddedFontName = "Droid Sans Mono";
             customFont23.IsBold = false;
             customFont23.IsItalic = false;
@@ -2343,6 +2359,7 @@ namespace MPfm
             this.panelSongPosition.Controls.Add(this.trackPosition);
             this.panelSongPosition.ExpandedHeight = 200;
             this.panelSongPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSongPosition.HeaderAutoSize = true;
             this.panelSongPosition.HeaderExpandable = false;
             this.panelSongPosition.HeaderExpanded = true;
             this.panelSongPosition.HeaderHeight = 16;
@@ -2352,8 +2369,9 @@ namespace MPfm
             this.panelSongPosition.Name = "panelSongPosition";
             this.panelSongPosition.Size = new System.Drawing.Size(265, 48);
             this.panelSongPosition.TabIndex = 52;
+            this.panelSongPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient17.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient17.BorderWidth = 1;
+            backgroundGradient17.BorderWidth = 0;
             backgroundGradient17.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient17.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -2387,13 +2405,13 @@ namespace MPfm
             this.lblSongPercentage.Size = new System.Drawing.Size(57, 12);
             this.lblSongPercentage.TabIndex = 30;
             this.lblSongPercentage.Text = "0 %";
+            this.lblSongPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             labelTheme17.IsBackgroundTransparent = true;
-            labelTheme17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient33.BorderColor = System.Drawing.Color.DarkGray;
             textGradient33.BorderWidth = 1;
             textGradient33.Color1 = System.Drawing.Color.LightGray;
             textGradient33.Color2 = System.Drawing.Color.Gray;
-            customFont25.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont25.Color = System.Drawing.Color.White;
             customFont25.EmbeddedFontName = "Droid Sans Mono";
             customFont25.IsBold = false;
             customFont25.IsItalic = false;
@@ -2419,8 +2437,8 @@ namespace MPfm
             this.lblSongPosition.Size = new System.Drawing.Size(152, 12);
             this.lblSongPosition.TabIndex = 64;
             this.lblSongPosition.Text = "0:00.000";
+            this.lblSongPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme18.IsBackgroundTransparent = true;
-            labelTheme18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient34.BorderColor = System.Drawing.Color.DarkGray;
             textGradient34.BorderWidth = 1;
             textGradient34.Color1 = System.Drawing.Color.LightGray;
@@ -2477,6 +2495,7 @@ namespace MPfm
             this.panelTimeShifting.Controls.Add(this.trackTimeShifting);
             this.panelTimeShifting.ExpandedHeight = 200;
             this.panelTimeShifting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelTimeShifting.HeaderAutoSize = true;
             this.panelTimeShifting.HeaderExpandable = false;
             this.panelTimeShifting.HeaderExpanded = true;
             this.panelTimeShifting.HeaderHeight = 16;
@@ -2486,8 +2505,9 @@ namespace MPfm
             this.panelTimeShifting.Name = "panelTimeShifting";
             this.panelTimeShifting.Size = new System.Drawing.Size(100, 48);
             this.panelTimeShifting.TabIndex = 53;
+            this.panelTimeShifting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient21.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient21.BorderWidth = 1;
+            backgroundGradient21.BorderWidth = 0;
             backgroundGradient21.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             backgroundGradient21.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             backgroundGradient21.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
@@ -2520,8 +2540,8 @@ namespace MPfm
             this.lblTimeShifting.Size = new System.Drawing.Size(42, 12);
             this.lblTimeShifting.TabIndex = 30;
             this.lblTimeShifting.Text = "0 %";
+            this.lblTimeShifting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             labelTheme19.IsBackgroundTransparent = true;
-            labelTheme19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient36.BorderColor = System.Drawing.Color.DarkGray;
             textGradient36.BorderWidth = 1;
             textGradient36.Color1 = System.Drawing.Color.LightGray;
@@ -2628,6 +2648,7 @@ namespace MPfm
             this.panelLoopsMarkers.Controls.Add(this.splitWaveFormLoopsMarkers);
             this.panelLoopsMarkers.ExpandedHeight = 266;
             this.panelLoopsMarkers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelLoopsMarkers.HeaderAutoSize = true;
             this.panelLoopsMarkers.HeaderExpandable = false;
             this.panelLoopsMarkers.HeaderHeight = 22;
             this.panelLoopsMarkers.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2637,6 +2658,7 @@ namespace MPfm
             this.panelLoopsMarkers.Name = "panelLoopsMarkers";
             this.panelLoopsMarkers.Size = new System.Drawing.Size(798, 158);
             this.panelLoopsMarkers.TabIndex = 23;
+            this.panelLoopsMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient24.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient24.BorderWidth = 0;
             backgroundGradient24.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
@@ -2788,8 +2810,8 @@ namespace MPfm
             this.lblLoops.Size = new System.Drawing.Size(42, 14);
             this.lblLoops.TabIndex = 85;
             this.lblLoops.Text = "Loops";
+            this.lblLoops.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme20.IsBackgroundTransparent = true;
-            labelTheme20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             textGradient41.BorderColor = System.Drawing.Color.DarkGray;
             textGradient41.BorderWidth = 1;
             textGradient41.Color1 = System.Drawing.Color.LightGray;
@@ -3280,8 +3302,8 @@ namespace MPfm
             this.lblMarkers.Size = new System.Drawing.Size(54, 14);
             this.lblMarkers.TabIndex = 72;
             this.lblMarkers.Text = "Markers";
+            this.lblMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme21.IsBackgroundTransparent = true;
-            labelTheme21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             textGradient57.BorderColor = System.Drawing.Color.DarkGray;
             textGradient57.BorderWidth = 1;
             textGradient57.Color1 = System.Drawing.Color.LightGray;
@@ -3578,6 +3600,7 @@ namespace MPfm
             this.panelSongBrowser.Controls.Add(this.panelSongBrowserToolbar);
             this.panelSongBrowser.ExpandedHeight = 200;
             this.panelSongBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSongBrowser.HeaderAutoSize = true;
             this.panelSongBrowser.HeaderExpandable = false;
             this.panelSongBrowser.HeaderHeight = 22;
             this.panelSongBrowser.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3587,6 +3610,7 @@ namespace MPfm
             this.panelSongBrowser.Name = "panelSongBrowser";
             this.panelSongBrowser.Size = new System.Drawing.Size(798, 294);
             this.panelSongBrowser.TabIndex = 25;
+            this.panelSongBrowser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient27.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient27.BorderWidth = 0;
             backgroundGradient27.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
@@ -3724,6 +3748,7 @@ namespace MPfm
             this.panelSongBrowserToolbar.Controls.Add(this.btnEditSongMetadata);
             this.panelSongBrowserToolbar.ExpandedHeight = 25;
             this.panelSongBrowserToolbar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSongBrowserToolbar.HeaderAutoSize = true;
             this.panelSongBrowserToolbar.HeaderExpandable = false;
             this.panelSongBrowserToolbar.HeaderExpanded = true;
             this.panelSongBrowserToolbar.HeaderHeight = 0;
@@ -3732,6 +3757,7 @@ namespace MPfm
             this.panelSongBrowserToolbar.Name = "panelSongBrowserToolbar";
             this.panelSongBrowserToolbar.Size = new System.Drawing.Size(801, 25);
             this.panelSongBrowserToolbar.TabIndex = 73;
+            this.panelSongBrowserToolbar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient26.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient26.BorderWidth = 1;
             backgroundGradient26.Color1 = System.Drawing.Color.Gainsboro;
@@ -3774,8 +3800,8 @@ namespace MPfm
             this.lblSearchFor.Size = new System.Drawing.Size(76, 10);
             this.lblSearchFor.TabIndex = 73;
             this.lblSearchFor.Text = "Search for :";
+            this.lblSearchFor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             labelTheme22.IsBackgroundTransparent = true;
-            labelTheme22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             textGradient75.BorderColor = System.Drawing.Color.DarkGray;
             textGradient75.BorderWidth = 1;
             textGradient75.Color1 = System.Drawing.Color.LightGray;

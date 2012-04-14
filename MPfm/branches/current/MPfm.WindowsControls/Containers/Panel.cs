@@ -37,13 +37,8 @@ namespace MPfm.WindowsControls
     /// This panel control is based on the System.Windows.Forms.Panel control.
     /// It adds custom drawing, gradient backgrounds and other features.
     /// </summary>
-    public class Panel : System.Windows.Forms.Panel
+    public class Panel : Control
     {
-        /// <summary>
-        /// Embedded font collection used for drawing.
-        /// </summary>
-        private EmbeddedFontCollection embeddedFonts = null;
-
         /// <summary>
         /// Private value for the Theme property.
         /// </summary>
@@ -51,6 +46,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the current theme used for rendering the control.
         /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Theme object for this control.")]
         public PanelTheme Theme
         {
             get
@@ -61,6 +58,27 @@ namespace MPfm.WindowsControls
             {
                 theme = value;
                 Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Private value for the TextAlign property.
+        /// </summary>
+        private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
+        /// <summary>
+        /// Defines the text alignment used in the header text gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the header text gradient.")]
+        public ContentAlignment TextAlign
+        {
+            get
+            {
+                return textAlign;
+            }
+            set
+            {
+                textAlign = value;
             }
         }
 
@@ -89,6 +107,25 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the HeaderAutoSize property.
+        /// </summary>
+        private bool headerAutoSize = true;
+        /// <summary>
+        /// Defines if the header height is auto sized depending on the font size.
+        /// </summary>
+        public bool HeaderAutoSize
+        {
+            get
+            {
+                return headerAutoSize;
+            }
+            set
+            {
+                headerAutoSize = value;
+            }
+        }
+
+        /// <summary>
         /// Private value for the HeaderHeight property.
         /// </summary>
         private int headerHeight = 0;
@@ -106,8 +143,20 @@ namespace MPfm.WindowsControls
             }
             set
             {
-                headerHeight = value;
+                // Make sure the header height is not 0
+                if (headerHeight > 0)
+                {
+                    // Calculate diff and change position of child controls
+                    int diff = value - headerHeight;
+                    foreach (System.Windows.Forms.Control ctrl in Controls)
+                    {
+                        ctrl.Location = new Point(ctrl.Location.X, ctrl.Location.Y + diff);
+                    }
+                }
 
+                // Set value and refresh control
+                headerHeight = value;
+                Refresh();
             }
         }
 
@@ -214,49 +263,6 @@ namespace MPfm.WindowsControls
             theme = new PanelTheme();
         }
 
-
-        /// <summary>
-        /// Occurs when the control is created.
-        /// </summary>
-        protected override void OnCreateControl()
-        {
-            // Call base event method
-            base.OnCreateControl();
-
-            // Load embedded fonts
-            LoadEmbeddedFonts();
-        }
-
-        /// <summary>
-        /// Loads the embedded fonts for rendering.
-        /// </summary>
-        protected void LoadEmbeddedFonts()
-        {
-            // Check if design time or run time            
-            if (Tools.IsDesignTime())
-            {
-                // This only exists when running in design time and cannot be run in the constructor                
-                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
-                string path = string.Empty;
-                if (typeResService != null)
-                {
-                    // Get path
-                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
-                }
-
-                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll               
-                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
-
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
-            }
-            else
-            {
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-            }
-        }
-
         #region Expand Methods
 
         /// <summary>
@@ -316,84 +322,36 @@ namespace MPfm.WindowsControls
             // Use anti-aliasing?
             if (theme.HeaderTextGradient.Font.UseAntiAliasing)
             {
-                // Set text anti-aliasing to ClearType (best looking AA)
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-                // Set smoothing mode for paths
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set anti-aliasing
+                PaintHelper.SetAntiAliasing(g);
             }
 
-            // Create custom font
-            Font font = null;
+            // Get font
+            Font font = PaintHelper.LoadFont(embeddedFonts, theme.HeaderTextGradient.Font);
 
-            // Make sure the embedded font name needs to be loaded and is valid
-            if (theme.HeaderTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.HeaderTextGradient.Font.EmbeddedFontName))
-            {
-                try
-                {
-                    // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.HeaderTextGradient.Font.EmbeddedFontName, theme.HeaderTextGradient.Font.Size, theme.HeaderTextGradient.Font.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
-            }
-
-            // Check if font is null
+            // If the embedded font could not be loaded, get the default font
             if (font == null)
             {
-                try
-                {
-                    // Try to get standard font
-                    font = new Font(theme.HeaderTextGradient.Font.StandardFontName, theme.HeaderTextGradient.Font.Size, theme.HeaderTextGradient.Font.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
+                // Use default Font instead
+                font = this.Font;
             }
 
-            // Draw body
+            // Draw background gradient
+            Rectangle rectBody = new Rectangle(ClientRectangle.Location, ClientRectangle.Size);
             if (headerExpanded)
             {
-                // Draw gradient
-                Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                LinearGradientBrush brushBody = new LinearGradientBrush(rectBody, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
-                g.FillRectangle(brushBody, rectBody);
-                brushBody.Dispose();
-                brushBody = null;
+                rectBody.Height -= headerHeight - 1;
+                rectBody.Y = headerHeight - 1;
             }
+            PaintHelper.RenderBackgroundGradient(g, rectBody, theme.BackgroundGradient);
 
-            // Draw header
-            LinearGradientBrush brushHeader = new LinearGradientBrush(new Rectangle(0, 0, ClientRectangle.Width, headerHeight + 4), theme.HeaderTextGradient.Color1, theme.HeaderTextGradient.Color2, theme.HeaderTextGradient.GradientMode);
-            g.FillRectangle(brushHeader, 0, 0, ClientRectangle.Width, headerHeight);
-            brushHeader.Dispose();
-            brushHeader = null;
-
-            SolidBrush brushFont = new SolidBrush(theme.HeaderTextGradient.Font.Color);
-            SizeF sizeString = g.MeasureString(headerTitle, font);
-
-            float headerTitleY = ((float)headerHeight - sizeString.Height) / 2;
-
-            if (HeaderTextAlign == ContentAlignment.MiddleCenter)
-            {
-                g.DrawString(headerTitle, font, brushFont, (Width - sizeString.Width) / 2, headerTitleY);
+            // Draw header gradient
+            if (headerHeight > 0)
+            {                
+                Rectangle rectHeader = new Rectangle(0, 0, ClientRectangle.Width, headerHeight);
+                PaintHelper.RenderBackgroundGradient(g, rectHeader, theme.HeaderTextGradient);
+                PaintHelper.RenderTextWithAlignment(g, rectHeader, font, HeaderTitle, TextAlign, theme.HeaderTextGradient.Font.Color);
             }
-            else if (HeaderTextAlign == ContentAlignment.MiddleRight)
-            {
-                g.DrawString(headerTitle, font, brushFont, Width - sizeString.Width, headerTitleY);
-            }
-            else
-            {
-                g.DrawString(headerTitle, font, brushFont, 2, headerTitleY);
-            }
-
-            // Dispose stuff
-            brushFont.Dispose();
-            brushFont = null;
 
             // Dispose font if necessary
             if (font != null && font != this.Font)

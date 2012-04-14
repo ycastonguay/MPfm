@@ -34,31 +34,6 @@ namespace MPfm.WindowsControls
     public static class PaintHelper
     {
         /// <summary>
-        /// Renders a gradient using the BackgroundGradient properties.
-        /// </summary>
-        /// <param name="g">Graphics object to render to</param>
-        /// <param name="rect">Rectangle filling the gradient</param>
-        /// <param name="gradient">BackgroundGradient object</param>
-        public static void RenderBackgroundGradient(Graphics g, Rectangle rect, BackgroundGradient gradient)
-        {
-            // Render gradient background
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rect, gradient.Color1, gradient.Color2, gradient.GradientMode);
-            g.FillRectangle(brushBackground, rect);
-            brushBackground.Dispose();
-            brushBackground = null;
-
-            // Check if a border needs to be rendered
-            if (gradient.BorderWidth > 0)
-            {
-                // Render border
-                Pen penBorder = new Pen(gradient.BorderColor, gradient.BorderWidth);
-                g.DrawRectangle(penBorder, rect);
-                penBorder.Dispose();
-                penBorder = null;
-            }
-        }
-
-        /// <summary>
         /// Sets the properties necessary for rendering anti-aliased text on the Graphics object.
         /// </summary>
         /// <param name="g">Graphics object</param>
@@ -109,6 +84,105 @@ namespace MPfm.WindowsControls
             }
 
             return font;
+        }
+
+        /// <summary>
+        /// Renders a gradient using the BackgroundGradient properties.
+        /// </summary>
+        /// <param name="g">Graphics object to render to</param>
+        /// <param name="rect">Rectangle filling the gradient</param>
+        /// <param name="gradient">BackgroundGradient object</param>
+        public static void RenderBackgroundGradient(Graphics g, Rectangle rect, BackgroundGradient gradient)
+        {
+            // Render gradient background
+            LinearGradientBrush brushBackground = new LinearGradientBrush(rect, gradient.Color1, gradient.Color2, gradient.GradientMode);
+            g.FillRectangle(brushBackground, rect);
+            brushBackground.Dispose();
+            brushBackground = null;
+
+            // Check if a border needs to be rendered
+            if (gradient.BorderWidth > 0)
+            {
+                // Render border
+                Rectangle rectBorder = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                Pen penBorder = new Pen(gradient.BorderColor, gradient.BorderWidth);
+                g.DrawRectangle(penBorder, rectBorder);
+                penBorder.Dispose();
+                penBorder = null;
+            }
+        }
+
+        /// <summary>
+        /// Renders text with alignment.
+        /// </summary>
+        /// <param name="g">Graphics object to render to</param>
+        /// <param name="rect">Rectangle representing the text area</param>
+        /// <param name="font">Font</param>
+        /// <param name="text">Text to render</param>
+        /// <param name="align">Alignment</param>
+        /// <param name="color">Fore color</param>
+        public static void RenderTextWithAlignment(Graphics g, Rectangle rect, Font font, string text, ContentAlignment align, Color color)
+        {
+            // Create brush
+            SolidBrush brushFont = new SolidBrush(color);
+
+            // Check alignment
+            if (align == ContentAlignment.TopLeft)
+            {
+                // Top left
+                g.DrawString(text, font, brushFont, 2, 2);
+            }
+            else
+            {
+                // Measure string            
+                SizeF sizeString = g.MeasureString(text, font);
+
+                // Draw string depending on alignment
+                if (align == ContentAlignment.BottomLeft)
+                {
+                    // Bottom left
+                    g.DrawString(text, font, brushFont, 2, (rect.Height - sizeString.Height) - 2);
+                }
+                else if (align == ContentAlignment.BottomCenter)
+                {
+                    // Bottom center
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, (rect.Height - sizeString.Height) - 2);
+                }
+                else if (align == ContentAlignment.BottomRight)
+                {
+                    // Bottom right
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - 2, (rect.Height - sizeString.Height) - 2);
+                }
+                else if (align == ContentAlignment.MiddleLeft)
+                {
+                    // Middle left
+                    g.DrawString(text, font, brushFont, 2, (rect.Height - sizeString.Height) / 2);
+                }
+                else if (align == ContentAlignment.MiddleCenter)
+                {
+                    // Middle center
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, (rect.Height - sizeString.Height) / 2);
+                }
+                else if (align == ContentAlignment.MiddleRight)
+                {
+                    // Middle right
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - 2, (rect.Height - sizeString.Height) / 2);
+                }
+                else if (align == ContentAlignment.TopCenter)
+                {
+                    // Top center
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, 2);
+                }
+                else if (align == ContentAlignment.TopRight)
+                {
+                    // Top right
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - 2, 2);
+                }
+            }
+
+            // Dispose stuff
+            brushFont.Dispose();
+            brushFont = null;
         }
     }
 }

@@ -1,6 +1,6 @@
 //
-// Label.cs: This label control is based on the System.Windows.Forms.Label control.
-//           It adds support for embedded Fonts and anti-aliasing.
+// Label.cs: This label control is similar to the System.Windows.Forms.Label class but 
+//           adds support for embedded Fonts and anti-aliasing.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -36,8 +36,8 @@ using System.Reflection;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This label control is based on the System.Windows.Forms.Label control.
-    /// It adds support for embedded Fonts and anti-aliasing.
+    /// This label control is similar to the System.Windows.Forms.Label class but 
+    /// adds support for embedded Fonts and anti-aliasing.
     /// </summary>
     public class Label : Control
     {
@@ -48,6 +48,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the current theme used for rendering the control.
         /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Theme object for this control.")]
         public LabelTheme Theme
         {
             get
@@ -57,6 +59,27 @@ namespace MPfm.WindowsControls
             set
             {
                 theme = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the TextAlign property.
+        /// </summary>
+        private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
+        /// <summary>
+        /// Defines the text alignment used in the header text gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the header text gradient.")]
+        public ContentAlignment TextAlign
+        {
+            get
+            {
+                return textAlign;
+            }
+            set
+            {
+                textAlign = value;
             }
         }
 
@@ -114,70 +137,8 @@ namespace MPfm.WindowsControls
                     base.OnPaintBackground(pe); // CPU intensive when transparent
                 }
 
-                // Create brush
-                SolidBrush brushFont = new SolidBrush(ForeColor);
-
-                // Check alignment
-                if (theme.TextAlign == ContentAlignment.TopLeft)
-                {
-                    // Top left
-                    g.DrawString(Text, font, brushFont, 2, 2);
-                }
-                else
-                {
-                    // Measure string            
-                    SizeF sizeString = g.MeasureString(this.Text, font);
-
-                    // Draw string depending on alignment
-                    if (theme.TextAlign == ContentAlignment.BottomLeft)
-                    {
-                        // Bottom left
-                        g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.BottomCenter)
-                    {
-                        // Bottom center
-                        g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.BottomRight)
-                    {
-                        // Bottom right
-                        g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.MiddleLeft)
-                    {
-                        // Middle left
-                        g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.MiddleCenter)
-                    {
-                        // Middle center
-                        g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.MiddleRight)
-                    {
-                        // Middle right
-                        g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.TopLeft)
-                    {
-
-                    }
-                    else if (theme.TextAlign == ContentAlignment.TopCenter)
-                    {
-                        // Top center
-                        g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
-                    }
-                    else if (theme.TextAlign == ContentAlignment.TopRight)
-                    {
-                        // Top right
-                        g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
-                    }
-                }
-
-                // Dispose stuff
-                brushFont.Dispose();
-                brushFont = null;
+                // Render text
+                PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color);
 
                 // Dispose font
                 if (font != null && font != this.Font)
