@@ -137,7 +137,7 @@ namespace MPfm.WindowsControls
             }
 
             // Render text
-            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color);
+            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color, theme.TextGradient.Padding);
 
             // Dispose font
             if (font != null && font != this.Font)

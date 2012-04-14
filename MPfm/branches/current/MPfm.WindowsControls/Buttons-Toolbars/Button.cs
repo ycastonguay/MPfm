@@ -196,7 +196,7 @@ namespace MPfm.WindowsControls
             PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, gradient);
 
             // Render text
-            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, gradient.Font.Color);
+            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, gradient.Font.Color, gradient.Padding);
 
             // Render image
             if (image != null)

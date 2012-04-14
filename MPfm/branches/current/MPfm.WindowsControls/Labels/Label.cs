@@ -84,6 +84,27 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the TextAlign property.
+        /// </summary>
+        private bool isAutoSized = false;
+        /// <summary>
+        /// Defines if the control should be auto-sized.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines if the control should be auto-sized.")]
+        public bool IsAutoSized
+        {
+            get
+            {
+                return isAutoSized;
+            }
+            set
+            {
+                isAutoSized = value;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the Label class.
         /// </summary>
         public Label()
@@ -124,6 +145,16 @@ namespace MPfm.WindowsControls
                     font = this.Font;
                 }
 
+                // Check for auto-size
+                if (isAutoSized)
+                {
+                    // Measure string                
+                    SizeF sizeString = g.MeasureString(Text, font);
+
+                    // Resize control
+                    this.Size = sizeString.ToSize();
+                }
+
                 // Check if the gradient background should be used
                 if (!theme.IsBackgroundTransparent)
                 {                   
@@ -138,7 +169,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Render text
-                PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color);
+                PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color, theme.TextGradient.Padding);
 
                 // Dispose font
                 if (font != null && font != this.Font)

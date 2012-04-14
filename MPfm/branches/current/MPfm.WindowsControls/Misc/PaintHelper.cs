@@ -132,7 +132,8 @@ namespace MPfm.WindowsControls
         /// <param name="text">Text to render</param>
         /// <param name="align">Alignment</param>
         /// <param name="color">Fore color</param>
-        public static void RenderTextWithAlignment(Graphics g, Rectangle rect, Font font, string text, ContentAlignment align, Color color)
+        /// <param name="padding">Padding (space between borders and text)</param>
+        public static void RenderTextWithAlignment(Graphics g, Rectangle rect, Font font, string text, ContentAlignment align, Color color, int padding)
         {
             // Create brush
             SolidBrush brushFont = new SolidBrush(color);
@@ -141,7 +142,7 @@ namespace MPfm.WindowsControls
             if (align == ContentAlignment.TopLeft)
             {
                 // Top left
-                g.DrawString(text, font, brushFont, 2, 2);
+                g.DrawString(text, font, brushFont, padding, padding);
             }
             else
             {
@@ -152,22 +153,22 @@ namespace MPfm.WindowsControls
                 if (align == ContentAlignment.BottomLeft)
                 {
                     // Bottom left
-                    g.DrawString(text, font, brushFont, 2, (rect.Height - sizeString.Height) - 2);
+                    g.DrawString(text, font, brushFont, padding, (rect.Height - sizeString.Height) - padding);
                 }
                 else if (align == ContentAlignment.BottomCenter)
                 {
                     // Bottom center
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, (rect.Height - sizeString.Height) - 2);
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, (rect.Height - sizeString.Height) - padding);
                 }
                 else if (align == ContentAlignment.BottomRight)
                 {
                     // Bottom right
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - 2, (rect.Height - sizeString.Height) - 2);
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - padding, (rect.Height - sizeString.Height) - padding);
                 }
                 else if (align == ContentAlignment.MiddleLeft)
                 {
                     // Middle left
-                    g.DrawString(text, font, brushFont, 2, (rect.Height - sizeString.Height) / 2);
+                    g.DrawString(text, font, brushFont, padding, (rect.Height - sizeString.Height) / 2);
                 }
                 else if (align == ContentAlignment.MiddleCenter)
                 {
@@ -177,17 +178,17 @@ namespace MPfm.WindowsControls
                 else if (align == ContentAlignment.MiddleRight)
                 {
                     // Middle right
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - 2, (rect.Height - sizeString.Height) / 2);
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - padding, (rect.Height - sizeString.Height) / 2);
                 }
                 else if (align == ContentAlignment.TopCenter)
                 {
                     // Top center
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, 2);
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, padding);
                 }
                 else if (align == ContentAlignment.TopRight)
                 {
                     // Top right
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - 2, 2);
+                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - padding, padding);
                 }
             }
 

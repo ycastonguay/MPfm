@@ -350,7 +350,7 @@ namespace MPfm.WindowsControls
             {                
                 Rectangle rectHeader = new Rectangle(0, 0, ClientRectangle.Width, headerHeight);
                 PaintHelper.RenderBackgroundGradient(g, rectHeader, theme.HeaderTextGradient);
-                PaintHelper.RenderTextWithAlignment(g, rectHeader, font, HeaderTitle, TextAlign, theme.HeaderTextGradient.Font.Color);
+                PaintHelper.RenderTextWithAlignment(g, rectHeader, font, HeaderTitle, TextAlign, theme.HeaderTextGradient.Font.Color, theme.HeaderTextGradient.Padding);
             }
 
             // Dispose font if necessary

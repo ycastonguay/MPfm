@@ -50,7 +50,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the font used for text rendering.
         /// </summary>
-        [Category("Text"), Browsable(true), Description("Defines the font used for text rendering.")]
+        [Category("Text"), Browsable(true), Description("Font used for text rendering.")]
         public CustomFont Font
         {
             get
@@ -60,6 +60,26 @@ namespace MPfm.WindowsControls
             set
             {
                 font = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Padding property.
+        /// </summary>
+        private int padding = 2;
+        /// <summary>
+        /// Defines the padding size (space between borders and text).
+        /// </summary>
+        [Category("Text"), Browsable(true), Description("Padding size (space between borders and text).")]
+        public int Padding
+        {
+            get
+            {
+                return padding;
+            }
+            set
+            {
+                padding = value;
             }
         }
 
