@@ -1782,7 +1782,6 @@ namespace MPfm
             textGradient4.Font = customFont46;
             textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
-            this.btnAutoLevel.UseVisualStyleBackColor = true;
             this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
             // 
             // btnResetEQ
@@ -1843,7 +1842,6 @@ namespace MPfm
             textGradient7.Font = customFont49;
             textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnResetEQ, "Resets the equalizer bands to 0 dB.");
-            this.btnResetEQ.UseVisualStyleBackColor = true;
             this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
             // 
             // lblEQChanged
@@ -1927,7 +1925,6 @@ namespace MPfm
             textGradient10.Font = customFont53;
             textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnSaveEQPreset, "Saves the current equalizer in a preset.");
-            this.btnSaveEQPreset.UseVisualStyleBackColor = true;
             this.btnSaveEQPreset.Click += new System.EventHandler(this.btnSavePreset_Click);
             // 
             // btnDeleteEQPreset
@@ -1988,7 +1985,6 @@ namespace MPfm
             textGradient13.Font = customFont56;
             textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnDeleteEQPreset, "Deletes the currently selected preset.");
-            this.btnDeleteEQPreset.UseVisualStyleBackColor = true;
             this.btnDeleteEQPreset.Click += new System.EventHandler(this.btnDeletePreset_Click);
             // 
             // lblEQName

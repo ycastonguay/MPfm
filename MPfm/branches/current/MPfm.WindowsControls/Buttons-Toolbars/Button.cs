@@ -1,6 +1,6 @@
 //
-// Button.cs: This button control is based on the System.Windows.Forms.Button control.
-//            It adds custom drawing and other features.
+// Button.cs: This button control is similar to the System.Windows.Forms.Button class 
+//            but adds support for embedded Fonts and anti-aliasing.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -34,16 +34,11 @@ using System.ComponentModel.Design;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This button control is based on System.Windows.Forms.Button.
-    /// It adds support for embedded fonts and anti-aliasing, gradient backgrounds, and more.
+    /// This button control is similar to the System.Windows.Forms.Button class but 
+    /// adds support for embedded Fonts and anti-aliasing.
     /// </summary>
-    public class Button : System.Windows.Forms.Button
+    public class Button : Control
     {
-        /// <summary>
-        /// Embedded font collection used for drawing.
-        /// </summary>
-        private EmbeddedFontCollection embeddedFonts = null;
-
         /// <summary>
         /// Private value for the IsMouseOver property.
         /// </summary>
@@ -66,6 +61,8 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Defines the current theme used for rendering the control.
         /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Theme object for this control.")]
         public ButtonTheme Theme
         {
             get
@@ -75,6 +72,68 @@ namespace MPfm.WindowsControls
             set
             {
                 theme = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the TextAlign property.
+        /// </summary>
+        private ContentAlignment textAlign = ContentAlignment.MiddleRight;
+        /// <summary>
+        /// Defines the text alignment used in the text gradient.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the text gradient.")]
+        public ContentAlignment TextAlign
+        {
+            get
+            {
+                return textAlign;
+            }
+            set
+            {
+                textAlign = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the ImageAlign property.
+        /// </summary>
+        private ContentAlignment imageAlign = ContentAlignment.MiddleLeft;
+        /// <summary>
+        /// Defines the image alignement used when rendering the button icon
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines the image alignement used when rendering the button icon.")]
+        public ContentAlignment ImageAlign
+        {
+            get
+            {
+                return imageAlign;
+            }
+            set
+            {
+                imageAlign = value;
+            }
+        }
+
+        /// <summary>
+        /// Private value for the Image property.
+        /// </summary>
+        private Image image = null;
+        /// <summary>
+        /// Defines the image used when rendering the button icon.
+        /// If null, no image will be shown.
+        /// </summary>
+        public Image Image
+        {
+            get
+            {
+                return image;
+            }
+            set
+            {
+                image = value;
             }
         }
 
@@ -89,48 +148,6 @@ namespace MPfm.WindowsControls
 
             // Create default theme
             theme = new ButtonTheme();
-        }
-
-        /// <summary>
-        /// Occurs when the control is created.
-        /// </summary>
-        protected override void OnCreateControl()
-        {
-            // Call base event method
-            base.OnCreateControl();
-
-            // Load embedded fonts
-            LoadEmbeddedFonts();
-        }
-
-        /// <summary>
-        /// Loads the embedded fonts for rendering.
-        /// </summary>
-        protected void LoadEmbeddedFonts()
-        {
-            // Check if design time or run time            
-            if (Tools.IsDesignTime())
-            {
-                // This only exists when running in design time and cannot be run in the constructor                
-                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
-                string path = string.Empty;
-                if (typeResService != null)
-                {
-                    // Get path
-                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
-                }
-
-                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll               
-                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
-
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
-            }
-            else
-            {
-                // Get embedded font collection
-                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-            }
         }
 
         #region Paint Events
@@ -159,151 +176,33 @@ namespace MPfm.WindowsControls
             // Use anti-aliasing?
             if (gradient.Font.UseAntiAliasing)
             {
-                // Set text anti-aliasing to ClearType (best looking AA)
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-                // Set smoothing mode for paths
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set anti-aliasing
+                PaintHelper.SetAntiAliasing(g);
             }
 
-            // Create custom font
-            Font font = null;
+            // Get font
+            Font font = PaintHelper.LoadFont(embeddedFonts, gradient.Font);
 
-            // Make sure the embedded font name needs to be loaded and is valid
-            if (gradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(gradient.Font.EmbeddedFontName))
-            {
-                try
-                {
-                    // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, gradient.Font.EmbeddedFontName, gradient.Font.Size, gradient.Font.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
-            }
-
-            // Check if font is null
+            // If the embedded font could not be loaded, get the default font
             if (font == null)
             {
-                try
-                {
-                    // Try to get standard font
-                    font = new Font(gradient.Font.StandardFontName, gradient.Font.Size, gradient.Font.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
+                // Use default Font instead
+                font = this.Font;
             }
 
-            // Draw background gradient
-            Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
-            LinearGradientBrush brushBackground = null;
-            brushBackground = new LinearGradientBrush(rectBackground, gradient.Color1, gradient.Color2, gradient.GradientMode);
-            g.FillRectangle(brushBackground, rectBackground);
-            brushBackground.Dispose();
-            brushBackground = null;
+            // Draw background gradient (cover -1 pixel for some refresh bug)
+            //Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
+            //Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+            Rectangle rectBody = new Rectangle(ClientRectangle.Location, ClientRectangle.Size);
+            PaintHelper.RenderBackgroundGradient(g, rectBody, gradient);
 
-            // Draw border
-            if (gradient.BorderWidth > 0)
-            {
-                Pen penBorder = new Pen(gradient.BorderColor);
-                g.DrawRectangle(penBorder, 0, 0, rectBackground.Width - 3, rectBackground.Height - 3);
-                penBorder.Dispose();
-                penBorder = null;
-            }
+            // Render text
+            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, gradient.Font.Color);
 
-            // Measure string and place it depending on alignment
-            SizeF sizeString = g.MeasureString(this.Text, font);
-
-            // Draw text
-            SolidBrush brushFont = new SolidBrush(gradient.Font.Color);
-            if (TextAlign == ContentAlignment.BottomLeft)
-            {
-                g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
-            }
-            else if (this.TextAlign == ContentAlignment.BottomCenter)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
-            }
-            else if (this.TextAlign == ContentAlignment.BottomRight)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
-            }
-            else if (this.TextAlign == ContentAlignment.MiddleLeft)
-            {
-                g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) / 2);
-            }
-            else if (this.TextAlign == ContentAlignment.MiddleCenter)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
-            }
-            else if (this.TextAlign == ContentAlignment.MiddleRight)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
-            }
-            else if (this.TextAlign == ContentAlignment.TopLeft)
-            {
-                g.DrawString(Text, font, brushFont, 2, 2);
-            }
-            else if (this.TextAlign == ContentAlignment.TopCenter)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, 2);
-            }
-            else if (this.TextAlign == ContentAlignment.TopRight)
-            {
-                g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, 2);
-            }
-
-            // Dispose brush
-            brushFont.Dispose();
-            brushFont = null;
-
-            // Draw Image
-            if (this.Image != null)
-            {
-                if (ImageAlign == ContentAlignment.BottomLeft)
-                {
-                    //g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
-                }
-                else if (ImageAlign == ContentAlignment.BottomCenter)
-                {
-                    //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
-                }
-                else if (ImageAlign == ContentAlignment.BottomRight)
-                {
-                    //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
-                }
-                else if (ImageAlign == ContentAlignment.MiddleLeft)
-                {
-                    Point pt = new Point(4, (ClientRectangle.Height / 2) - (Image.Height / 2));
-                    g.DrawImage(Image, pt);
-                }
-                else if (ImageAlign == ContentAlignment.MiddleCenter)
-                {
-                    //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
-                }
-                else if (ImageAlign == ContentAlignment.MiddleRight)
-                {
-                    //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
-                }
-                else if (ImageAlign == ContentAlignment.TopLeft)
-                {
-                    g.DrawImage(Image, new Point(4, 4));
-                }
-                else if (ImageAlign == ContentAlignment.TopCenter)
-                {
-                    Point pt = new Point((ClientRectangle.Width - Image.Width) / 2, 5);
-                    g.DrawImage(Image, pt);
-                }
-                else if (ImageAlign == ContentAlignment.TopRight)
-                {
-                    Point pt = new Point(ClientRectangle.Width - Image.Width - 2, 5);
-                    g.DrawImage(Image, pt);
-                }
+            // Render image
+            if (image != null)
+            {                
+                PaintHelper.RenderImageWithAlignment(g, ClientRectangle, Image, ImageAlign);
             }
 
             // Draw bitmap on control

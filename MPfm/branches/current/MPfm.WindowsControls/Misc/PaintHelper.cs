@@ -116,7 +116,7 @@ namespace MPfm.WindowsControls
         /// Renders text with alignment.
         /// </summary>
         /// <param name="g">Graphics object to render to</param>
-        /// <param name="rect">Rectangle representing the text area</param>
+        /// <param name="rect">Rectangle representing the area where the content should be aligned</param>
         /// <param name="font">Font</param>
         /// <param name="text">Text to render</param>
         /// <param name="align">Alignment</param>
@@ -183,6 +183,57 @@ namespace MPfm.WindowsControls
             // Dispose stuff
             brushFont.Dispose();
             brushFont = null;
+        }
+
+        /// <summary>
+        /// Renders an image with alignment using a 1:1 ratio.
+        /// </summary>
+        /// <param name="g">Graphics object to render to</param>
+        /// <param name="rect">Rectangle representing the area where the content should be aligned</param>
+        /// <param name="image">Image to render</param>
+        /// <param name="align">Alignment</param>
+        public static void RenderImageWithAlignment(Graphics g, Rectangle rect, Image image, ContentAlignment align)
+        {
+            // Check alignment
+            if (align == ContentAlignment.BottomLeft)
+            {
+                //g.DrawString(Text, font, brushFont, 2, (this.Height - sizeString.Height) - 2);
+            }
+            else if (align == ContentAlignment.BottomCenter)
+            {
+                //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) - 2);
+            }
+            else if (align == ContentAlignment.BottomRight)
+            {
+                //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) - 2);
+            }
+            else if (align == ContentAlignment.MiddleLeft)
+            {
+                Point pt = new Point(4, (rect.Height / 2) - (image.Height / 2));
+                g.DrawImage(image, pt);
+            }
+            else if (align == ContentAlignment.MiddleCenter)
+            {
+                //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) / 2, (this.Height - sizeString.Height) / 2);
+            }
+            else if (align == ContentAlignment.MiddleRight)
+            {
+                //g.DrawString(Text, font, brushFont, (this.Width - sizeString.Width) - 2, (this.Height - sizeString.Height) / 2);
+            }
+            else if (align == ContentAlignment.TopLeft)
+            {
+                g.DrawImage(image, new Point(4, 4));
+            }
+            else if (align == ContentAlignment.TopCenter)
+            {
+                Point pt = new Point((rect.Width - image.Width) / 2, 5);
+                g.DrawImage(image, pt);
+            }
+            else if (align == ContentAlignment.TopRight)
+            {
+                Point pt = new Point(rect.Width - image.Width - 2, 5);
+                g.DrawImage(image, pt);
+            }
         }
     }
 }

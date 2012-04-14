@@ -403,7 +403,6 @@ namespace MPfm
             textGradient4.Font = customFont13;
             textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnGoTo, "Sets the current song position to the marker position.");
-            this.btnGoTo.UseVisualStyleBackColor = true;
             this.btnGoTo.Click += new System.EventHandler(this.btnGoTo_Click);
             // 
             // btnPunchIn
@@ -464,7 +463,6 @@ namespace MPfm
             textGradient7.Font = customFont16;
             textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnPunchIn, "Sets the marker position to the current song position.");
-            this.btnPunchIn.UseVisualStyleBackColor = true;
             this.btnPunchIn.Click += new System.EventHandler(this.btnPunchIn_Click);
             // 
             // lblPositionPCMValue
@@ -601,7 +599,6 @@ namespace MPfm
             textGradient10.Font = customFont23;
             textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnSave, "Saves the current marker.");
-            this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnClose
@@ -663,7 +660,6 @@ namespace MPfm
             textGradient13.Font = customFont26;
             textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnClose, "Closes the window.");
-            this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // toolTip

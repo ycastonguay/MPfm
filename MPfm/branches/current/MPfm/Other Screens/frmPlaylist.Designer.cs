@@ -247,7 +247,6 @@ namespace MPfm
             buttonTheme1.TextGradientMouseOver = textGradient3;
             this.button1.Theme = buttonTheme1;
             this.toolTip.SetToolTip(this.button1, "Shuffles the playlist items.");
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // btnOpenPlaylist
             // 
@@ -311,7 +310,6 @@ namespace MPfm
             buttonTheme2.TextGradientMouseOver = textGradient6;
             this.btnOpenPlaylist.Theme = buttonTheme2;
             this.toolTip.SetToolTip(this.btnOpenPlaylist, "Opens an existing playlist file (M3U, M3U8, PLS, XSPF).");
-            this.btnOpenPlaylist.UseVisualStyleBackColor = true;
             this.btnOpenPlaylist.Click += new System.EventHandler(this.btnOpenPlaylist_Click);
             // 
             // btnRemoveSongs
@@ -376,7 +374,6 @@ namespace MPfm
             buttonTheme3.TextGradientMouseOver = textGradient9;
             this.btnRemoveSongs.Theme = buttonTheme3;
             this.toolTip.SetToolTip(this.btnRemoveSongs, "Removes the selected songs from the playlist.");
-            this.btnRemoveSongs.UseVisualStyleBackColor = true;
             this.btnRemoveSongs.Click += new System.EventHandler(this.btnRemoveSongs_Click);
             // 
             // btnRenamePlaylist
@@ -440,7 +437,6 @@ namespace MPfm
             textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme4.TextGradientMouseOver = textGradient12;
             this.btnRenamePlaylist.Theme = buttonTheme4;
-            this.btnRenamePlaylist.UseVisualStyleBackColor = true;
             this.btnRenamePlaylist.Visible = false;
             this.btnRenamePlaylist.Click += new System.EventHandler(this.btnRenamePlaylist_Click);
             // 
@@ -506,7 +502,6 @@ namespace MPfm
             buttonTheme5.TextGradientMouseOver = textGradient15;
             this.btnSavePlaylistAs.Theme = buttonTheme5;
             this.toolTip.SetToolTip(this.btnSavePlaylistAs, "Saves the current playlist under a different format/file name.");
-            this.btnSavePlaylistAs.UseVisualStyleBackColor = true;
             this.btnSavePlaylistAs.Click += new System.EventHandler(this.btnSavePlaylistAs_Click);
             // 
             // btnSavePlaylist
@@ -571,7 +566,6 @@ namespace MPfm
             buttonTheme6.TextGradientMouseOver = textGradient18;
             this.btnSavePlaylist.Theme = buttonTheme6;
             this.toolTip.SetToolTip(this.btnSavePlaylist, "Saves the current playlist.");
-            this.btnSavePlaylist.UseVisualStyleBackColor = true;
             this.btnSavePlaylist.Click += new System.EventHandler(this.btnSavePlaylist_Click);
             // 
             // btnNewPlaylist
@@ -636,7 +630,6 @@ namespace MPfm
             buttonTheme7.TextGradientMouseOver = textGradient21;
             this.btnNewPlaylist.Theme = buttonTheme7;
             this.toolTip.SetToolTip(this.btnNewPlaylist, "Creates a new empty playlist.");
-            this.btnNewPlaylist.UseVisualStyleBackColor = true;
             this.btnNewPlaylist.Click += new System.EventHandler(this.btnNewPlaylist_Click);
             // 
             // viewSongs2

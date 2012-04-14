@@ -363,7 +363,6 @@ namespace MPfm
             textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme1.TextGradientMouseOver = textGradient3;
             this.btnSaveTheme.Theme = buttonTheme1;
-            this.btnSaveTheme.UseVisualStyleBackColor = true;
             this.btnSaveTheme.Click += new System.EventHandler(this.btnSaveTheme_Click);
             // 
             // btnApplyTheme
@@ -427,7 +426,6 @@ namespace MPfm
             textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme2.TextGradientMouseOver = textGradient6;
             this.btnApplyTheme.Theme = buttonTheme2;
-            this.btnApplyTheme.UseVisualStyleBackColor = true;
             this.btnApplyTheme.Click += new System.EventHandler(this.btnApplyTheme_Click);
             // 
             // btnNewTheme
@@ -491,7 +489,6 @@ namespace MPfm
             textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme3.TextGradientMouseOver = textGradient9;
             this.btnNewTheme.Theme = buttonTheme3;
-            this.btnNewTheme.UseVisualStyleBackColor = true;
             this.btnNewTheme.Click += new System.EventHandler(this.btnNewTheme_Click);
             // 
             // lblCurrentThemeTitle
@@ -1386,7 +1383,6 @@ namespace MPfm
             textGradient31.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme4.TextGradientMouseOver = textGradient31;
             this.btnPlaySelectedSong.Theme = buttonTheme4;
-            this.btnPlaySelectedSong.UseVisualStyleBackColor = true;
             // 
             // panelCurrentPosition
             // 
@@ -1983,7 +1979,6 @@ namespace MPfm
             textGradient52.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme5.TextGradientMouseOver = textGradient52;
             this.btnSaveThemeAs.Theme = buttonTheme5;
-            this.btnSaveThemeAs.UseVisualStyleBackColor = true;
             // 
             // lblThemeTitle
             // 
@@ -2167,7 +2162,6 @@ namespace MPfm
             textGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme6.TextGradientMouseOver = textGradient57;
             this.btnLoadTheme.Theme = buttonTheme6;
-            this.btnLoadTheme.UseVisualStyleBackColor = true;
             this.btnLoadTheme.Click += new System.EventHandler(this.btnLoadTheme_Click);
             // 
             // btnRemoveTheme
@@ -2232,7 +2226,6 @@ namespace MPfm
             textGradient60.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme7.TextGradientMouseOver = textGradient60;
             this.btnRemoveTheme.Theme = buttonTheme7;
-            this.btnRemoveTheme.UseVisualStyleBackColor = true;
             // 
             // frmThemes
             // 

@@ -67,10 +67,10 @@ namespace MPfm.WindowsControls
         /// </summary>
         private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
         /// <summary>
-        /// Defines the text alignment used in the header text gradient.
+        /// Defines the text alignment used in the text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the header text gradient.")]
+        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the text gradient.")]
         public ContentAlignment TextAlign
         {
             get

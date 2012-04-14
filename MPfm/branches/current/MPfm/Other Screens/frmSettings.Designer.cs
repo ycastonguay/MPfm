@@ -913,7 +913,6 @@ namespace MPfm
             buttonTheme1.TextGradientMouseOver = textGradient13;
             this.btnPeakFileCustomDirectoryBrowse.Theme = buttonTheme1;
             this.toolTip.SetToolTip(this.btnPeakFileCustomDirectoryBrowse, "Click here to select a custom directory for saving peak files.");
-            this.btnPeakFileCustomDirectoryBrowse.UseVisualStyleBackColor = true;
             this.btnPeakFileCustomDirectoryBrowse.Click += new System.EventHandler(this.btnPeakFileCustomDirectoryBrowse_Click);
             // 
             // lblPeakFileCustomDirectory
@@ -1360,7 +1359,6 @@ namespace MPfm
             buttonTheme2.TextGradientMouseOver = textGradient25;
             this.btnTestSaveAudioSettings.Theme = buttonTheme2;
             this.toolTip.SetToolTip(this.btnTestSaveAudioSettings, "Click here to test the currently selected audio settings.");
-            this.btnTestSaveAudioSettings.UseVisualStyleBackColor = true;
             this.btnTestSaveAudioSettings.Click += new System.EventHandler(this.btnTestSaveAudioSettings_Click);
             // 
             // btnResetToDefault
@@ -1426,7 +1424,6 @@ namespace MPfm
             this.btnResetToDefault.Theme = buttonTheme3;
             this.toolTip.SetToolTip(this.btnResetToDefault, "Click here to reset the audio settings to the recommended values for your system." +
         "");
-            this.btnResetToDefault.UseVisualStyleBackColor = true;
             this.btnResetToDefault.Click += new System.EventHandler(this.btnResetToDefault_Click);
             // 
             // panelAudioSettingsOutput
@@ -2057,7 +2054,6 @@ namespace MPfm
             buttonTheme4.TextGradientMouseOver = textGradient43;
             this.btnAddFolder.Theme = buttonTheme4;
             this.toolTip.SetToolTip(this.btnAddFolder, "Adds a folder to the library.");
-            this.btnAddFolder.UseVisualStyleBackColor = true;
             this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
             // 
             // btnResetLibrary
@@ -2123,7 +2119,6 @@ namespace MPfm
             this.btnResetLibrary.Theme = buttonTheme5;
             this.toolTip.SetToolTip(this.btnResetLibrary, "Resets the library by removing all folders. The audio files are NOT deleted from " +
         "the hard disk.");
-            this.btnResetLibrary.UseVisualStyleBackColor = true;
             this.btnResetLibrary.Click += new System.EventHandler(this.btnResetLibrary_Click);
             // 
             // listViewFolders
@@ -2219,7 +2214,6 @@ namespace MPfm
             buttonTheme6.TextGradientMouseOver = textGradient49;
             this.btnRemoveFolder.Theme = buttonTheme6;
             this.toolTip.SetToolTip(this.btnRemoveFolder, "Removes the selected folder(s) from your library.");
-            this.btnRemoveFolder.UseVisualStyleBackColor = true;
             this.btnRemoveFolder.Click += new System.EventHandler(this.btnRemoveFolder_Click);
             // 
             // dialogAddFolder
@@ -2335,7 +2329,6 @@ namespace MPfm
             buttonTheme7.TextGradientMouseOver = textGradient54;
             this.btnLibrarySettings.Theme = buttonTheme7;
             this.toolTip.SetToolTip(this.btnLibrarySettings, "Displays the Library Settings tab.");
-            this.btnLibrarySettings.UseVisualStyleBackColor = true;
             this.btnLibrarySettings.Click += new System.EventHandler(this.btnLibrarySettings_Click);
             // 
             // btnGeneralSettings
@@ -2400,7 +2393,6 @@ namespace MPfm
             buttonTheme8.TextGradientMouseOver = textGradient57;
             this.btnGeneralSettings.Theme = buttonTheme8;
             this.toolTip.SetToolTip(this.btnGeneralSettings, "Displays the General Settings tab.");
-            this.btnGeneralSettings.UseVisualStyleBackColor = true;
             this.btnGeneralSettings.Click += new System.EventHandler(this.btnGeneralSettings_Click);
             // 
             // btnAudioSettings
@@ -2465,7 +2457,6 @@ namespace MPfm
             buttonTheme9.TextGradientMouseOver = textGradient60;
             this.btnAudioSettings.Theme = buttonTheme9;
             this.toolTip.SetToolTip(this.btnAudioSettings, "Displays the Audio Settings tab.");
-            this.btnAudioSettings.UseVisualStyleBackColor = true;
             this.btnAudioSettings.Click += new System.EventHandler(this.btnAudioSettings_Click);
             // 
             // dialogOpenTheme

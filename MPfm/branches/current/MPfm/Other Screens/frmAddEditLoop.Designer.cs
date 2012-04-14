@@ -241,7 +241,6 @@ namespace MPfm
             textGradient3.Font = customFont3;
             textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnEndPositionGoTo, "Sets the current song position to the loop end position.");
-            this.btnEndPositionGoTo.UseVisualStyleBackColor = true;
             this.btnEndPositionGoTo.Click += new System.EventHandler(this.btnEndPositionGoTo_Click);
             // 
             // btnEndPositionPunchIn
@@ -302,7 +301,6 @@ namespace MPfm
             textGradient6.Font = customFont6;
             textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnEndPositionPunchIn, "Sets the loop end position to the current song position.");
-            this.btnEndPositionPunchIn.UseVisualStyleBackColor = true;
             this.btnEndPositionPunchIn.Click += new System.EventHandler(this.btnEndPositionPunchIn_Click);
             // 
             // label1
@@ -418,7 +416,6 @@ namespace MPfm
             textGradient9.Font = customFont11;
             textGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnStartPositionGoTo, "Sets the current song position to the loop start position.");
-            this.btnStartPositionGoTo.UseVisualStyleBackColor = true;
             this.btnStartPositionGoTo.Click += new System.EventHandler(this.btnStartPositionGoTo_Click);
             // 
             // btnStartPositionPunchIn
@@ -479,7 +476,6 @@ namespace MPfm
             textGradient12.Font = customFont14;
             textGradient12.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnStartPositionPunchIn, "Sets the loop start position to the current song position.");
-            this.btnStartPositionPunchIn.UseVisualStyleBackColor = true;
             this.btnStartPositionPunchIn.Click += new System.EventHandler(this.btnStartPositionPunchIn_Click);
             // 
             // lblPosition
@@ -819,7 +815,6 @@ namespace MPfm
             textGradient16.Font = customFont31;
             textGradient16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnSave, "Saves the current loop.");
-            this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnClose
@@ -881,7 +876,6 @@ namespace MPfm
             textGradient19.Font = customFont34;
             textGradient19.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;            
             this.toolTip.SetToolTip(this.btnClose, "Closes the window.");
-            this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // toolTip

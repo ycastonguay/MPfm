@@ -1281,7 +1281,6 @@ namespace MPfm
             textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme1.TextGradientMouseOver = textGradient4;
             this.btnCancelUpdateLibrary.Theme = buttonTheme1;
-            this.btnCancelUpdateLibrary.UseVisualStyleBackColor = false;
             // 
             // lblUpdateLibraryCurrentFileValue
             // 
@@ -2894,7 +2893,6 @@ namespace MPfm
             textGradient44.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme2.TextGradientMouseOver = textGradient44;
             this.btnPlayLoop.Theme = buttonTheme2;
-            this.btnPlayLoop.UseVisualStyleBackColor = false;
             this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
             // 
             // btnStopLoop
@@ -2961,7 +2959,6 @@ namespace MPfm
             textGradient47.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme3.TextGradientMouseOver = textGradient47;
             this.btnStopLoop.Theme = buttonTheme3;
-            this.btnStopLoop.UseVisualStyleBackColor = false;
             // 
             // btnAddLoop
             // 
@@ -3027,7 +3024,6 @@ namespace MPfm
             textGradient50.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme4.TextGradientMouseOver = textGradient50;
             this.btnAddLoop.Theme = buttonTheme4;
-            this.btnAddLoop.UseVisualStyleBackColor = false;
             this.btnAddLoop.Click += new System.EventHandler(this.btnAddLoop_Click);
             // 
             // btnEditLoop
@@ -3094,7 +3090,6 @@ namespace MPfm
             textGradient53.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme5.TextGradientMouseOver = textGradient53;
             this.btnEditLoop.Theme = buttonTheme5;
-            this.btnEditLoop.UseVisualStyleBackColor = false;
             this.btnEditLoop.Click += new System.EventHandler(this.btnEditLoop_Click);
             // 
             // btnRemoveLoop
@@ -3161,7 +3156,6 @@ namespace MPfm
             textGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme6.TextGradientMouseOver = textGradient56;
             this.btnRemoveLoop.Theme = buttonTheme6;
-            this.btnRemoveLoop.UseVisualStyleBackColor = false;
             this.btnRemoveLoop.Click += new System.EventHandler(this.btnRemoveLoop_Click);
             // 
             // viewLoops
@@ -3386,7 +3380,6 @@ namespace MPfm
             textGradient60.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme7.TextGradientMouseOver = textGradient60;
             this.btnAddMarker.Theme = buttonTheme7;
-            this.btnAddMarker.UseVisualStyleBackColor = false;
             this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
             // 
             // btnEditMarker
@@ -3453,7 +3446,6 @@ namespace MPfm
             textGradient63.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme8.TextGradientMouseOver = textGradient63;
             this.btnEditMarker.Theme = buttonTheme8;
-            this.btnEditMarker.UseVisualStyleBackColor = false;
             this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
             // 
             // btnRemoveMarker
@@ -3520,7 +3512,6 @@ namespace MPfm
             textGradient66.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme9.TextGradientMouseOver = textGradient66;
             this.btnRemoveMarker.Theme = buttonTheme9;
-            this.btnRemoveMarker.UseVisualStyleBackColor = false;
             this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
             // 
             // btnGoToMarker
@@ -3587,7 +3578,6 @@ namespace MPfm
             textGradient69.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme10.TextGradientMouseOver = textGradient69;
             this.btnGoToMarker.Theme = buttonTheme10;
-            this.btnGoToMarker.UseVisualStyleBackColor = false;
             this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
             // 
             // panelSongBrowser
@@ -3881,7 +3871,6 @@ namespace MPfm
             textGradient78.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme11.TextGradientMouseOver = textGradient78;
             this.btnPlaySelectedSong.Theme = buttonTheme11;
-            this.btnPlaySelectedSong.UseVisualStyleBackColor = true;
             this.btnPlaySelectedSong.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // btnAddSongToPlaylist
@@ -3945,7 +3934,6 @@ namespace MPfm
             textGradient81.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme12.TextGradientMouseOver = textGradient81;
             this.btnAddSongToPlaylist.Theme = buttonTheme12;
-            this.btnAddSongToPlaylist.UseVisualStyleBackColor = true;
             this.btnAddSongToPlaylist.Click += new System.EventHandler(this.btnAddSongToPlaylist_Click);
             // 
             // btnEditSongMetadata
@@ -4009,7 +3997,6 @@ namespace MPfm
             textGradient84.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             buttonTheme13.TextGradientMouseOver = textGradient84;
             this.btnEditSongMetadata.Theme = buttonTheme13;
-            this.btnEditSongMetadata.UseVisualStyleBackColor = true;
             this.btnEditSongMetadata.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
             // 
             // imageListSongBrowser

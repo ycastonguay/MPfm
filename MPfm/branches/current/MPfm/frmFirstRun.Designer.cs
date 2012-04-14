@@ -264,7 +264,6 @@
             this.btnTestAudioSettings.TabIndex = 80;
             this.btnTestAudioSettings.Text = "Test audio settings";
             this.btnTestAudioSettings.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTestAudioSettings.UseVisualStyleBackColor = true;
             this.btnTestAudioSettings.Click += new System.EventHandler(this.btnTestAudioSettings_Click);
             // 
             // panelNote
@@ -384,7 +383,6 @@
             this.btnNext.TabIndex = 73;
             this.btnNext.Text = "Save settings and continue";
             this.btnNext.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnCancelWizard
@@ -400,7 +398,6 @@
             this.btnCancelWizard.TabIndex = 78;
             this.btnCancelWizard.Text = "Cancel wizard and exit";
             this.btnCancelWizard.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnCancelWizard.UseVisualStyleBackColor = true;
             this.btnCancelWizard.Click += new System.EventHandler(this.btnCancelWizard_Click);
             // 
             // openFile

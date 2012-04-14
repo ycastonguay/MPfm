@@ -1,5 +1,5 @@
 //
-// LinkLabel.cs: This label control is similar to the System.Windows.Forms.Label class but 
+// LinkLabel.cs: This label control is similar to the System.Windows.Forms.LinkLabel class but 
 //               adds support for embedded Fonts and anti-aliasing.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -34,7 +34,7 @@ using System.Reflection;
 namespace MPfm.WindowsControls
 {
     /// <summary>
-    /// This link label control is similar to the System.Windows.Forms.Label class but 
+    /// This link label control is similar to the System.Windows.Forms.LinkLabel class but 
     /// adds support for embedded Fonts and anti-aliasing.
     /// </summary>
     public class LinkLabel : Control
@@ -65,10 +65,10 @@ namespace MPfm.WindowsControls
         /// </summary>
         private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
         /// <summary>
-        /// Defines the text alignment used in the header text gradient.
+        /// Defines the text alignment used in the text gradient.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the header text gradient.")]
+        [Category("Theme"), Browsable(true), Description("Defines the text alignement used in the text gradient.")]
         public ContentAlignment TextAlign
         {
             get
