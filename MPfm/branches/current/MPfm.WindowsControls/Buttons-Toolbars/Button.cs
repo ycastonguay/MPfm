@@ -138,6 +138,27 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Private value for the IsAutoSized property.
+        /// </summary>
+        private bool isAutoSized = false;
+        /// <summary>
+        /// Defines if the control should be automatically resized depending on its content.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Theme"), Browsable(true), Description("Defines if the control should be automatically resized depending on its content.")]
+        public bool IsAutoSized
+        {
+            get
+            {
+                return isAutoSized;
+            }
+            set
+            {
+                isAutoSized = value;
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the Button class.
         /// </summary>
         public Button()
@@ -188,6 +209,107 @@ namespace MPfm.WindowsControls
             {
                 // Use default Font instead
                 font = this.Font;
+            }
+
+            // Check for auto-size
+            if (isAutoSized)
+            {
+                // Measure string                
+                SizeF sizeString = g.MeasureString(Text, font);
+                Size sizeControl = sizeString.ToSize();
+
+                // Add image size (if available)
+                if (Image != null)
+                {
+                    bool sameLineWidth = false;
+                    bool sameLineHeight = false;
+
+                    // Check alignment (left/center/right)
+                    if ((ImageAlign == ContentAlignment.TopLeft || ImageAlign == ContentAlignment.MiddleLeft || ImageAlign == ContentAlignment.BottomLeft) &&
+                        (TextAlign == ContentAlignment.TopLeft || TextAlign == ContentAlignment.MiddleLeft || TextAlign == ContentAlignment.BottomLeft))
+                    {
+                        sameLineWidth = true;
+                    }
+                    else if ((ImageAlign == ContentAlignment.TopCenter || ImageAlign == ContentAlignment.MiddleCenter || ImageAlign == ContentAlignment.BottomCenter) &&
+                              (TextAlign == ContentAlignment.TopCenter || TextAlign == ContentAlignment.MiddleCenter || TextAlign == ContentAlignment.BottomCenter))
+                    {
+                        sameLineWidth = true;
+                    }
+                    else if ((ImageAlign == ContentAlignment.TopRight || ImageAlign == ContentAlignment.MiddleRight || ImageAlign == ContentAlignment.BottomRight) &&
+                             (TextAlign == ContentAlignment.TopRight || TextAlign == ContentAlignment.MiddleRight || TextAlign == ContentAlignment.BottomRight))
+                    {
+                        sameLineWidth = true;
+                    }
+                    // Check alignment (top/middle/bottom)
+                    if ((ImageAlign == ContentAlignment.TopCenter || ImageAlign == ContentAlignment.TopLeft || ImageAlign == ContentAlignment.TopRight) &&
+                        (TextAlign == ContentAlignment.TopCenter || TextAlign == ContentAlignment.TopLeft || TextAlign == ContentAlignment.TopRight))
+                    {
+                        sameLineHeight = true;
+                    }
+                    else if ((ImageAlign == ContentAlignment.MiddleCenter || ImageAlign == ContentAlignment.MiddleLeft || ImageAlign == ContentAlignment.MiddleRight) &&
+                              (TextAlign == ContentAlignment.MiddleCenter || TextAlign == ContentAlignment.MiddleLeft || TextAlign == ContentAlignment.MiddleRight))
+                    {
+                        sameLineHeight = true;
+                    }
+                    else if ((ImageAlign == ContentAlignment.BottomCenter || ImageAlign == ContentAlignment.BottomLeft || ImageAlign == ContentAlignment.BottomRight) &&
+                             (TextAlign == ContentAlignment.BottomCenter || TextAlign == ContentAlignment.BottomLeft || TextAlign == ContentAlignment.BottomRight))
+                    {
+                        sameLineHeight = true;
+                    }
+
+                    // Calculate size
+                    if (sameLineWidth)
+                    {
+                        // Take the widest between the two
+                        if (Image.Width > sizeString.Width)
+                        {
+                            sizeControl.Width = image.Width;
+                        }
+                        else
+                        {
+                            sizeControl.Width = (int)sizeString.Width;
+                        }
+                    }
+                    else
+                    {
+                        // Add two width + padding
+                        sizeControl.Width = image.Width + gradient.Padding + (int)sizeString.Width;
+                    }
+                    if (sameLineHeight)
+                    {
+                        // Take the highest between the two                        
+                        if (Image.Height > sizeString.Height)
+                        {
+                            sizeControl.Height = image.Height;
+                        }
+                        else
+                        {
+                            sizeControl.Height = (int)sizeString.Height;
+                        }
+                    }
+                    else
+                    {
+                        // Add two height + 3x padding                        
+                        sizeControl.Height = image.Height + gradient.Padding + (int)sizeString.Height;
+                    }
+                }
+                else
+                {
+                    // No image; easy, just center with padding.
+                    sizeControl = sizeString.ToSize();
+                }
+
+                // Add padding                
+                sizeControl.Width += gradient.Padding * 2;
+                sizeControl.Height += gradient.Padding * 2;
+
+                // Resize control only if size is different
+                if (Size.Width != sizeControl.Width ||
+                    Size.Height != sizeControl.Height)
+                {
+                    // Update control size
+                    this.Size = sizeControl;
+                }                
             }
 
             // Draw background gradient (cover -1 pixel to fix graphic bug) 

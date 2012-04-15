@@ -337,7 +337,7 @@ namespace MPfm.WindowsControls
             }
 
             // Draw background gradient
-            Rectangle rectBody = new Rectangle(-1, -1, ClientRectangle.Width + 1, ClientRectangle.Height + 1);            
+            Rectangle rectBody = new Rectangle(-1, -1, ClientRectangle.Width + 1, ClientRectangle.Height + 1);
             if (headerExpanded)
             {
                 rectBody.Height -= headerHeight - 1;
@@ -347,8 +347,8 @@ namespace MPfm.WindowsControls
 
             // Draw header gradient
             if (headerHeight > 0)
-            {                
-                Rectangle rectHeader = new Rectangle(0, 0, ClientRectangle.Width, headerHeight);
+            {
+                Rectangle rectHeader = new Rectangle(-1, -1, ClientRectangle.Width + 1, headerHeight + 1);                
                 PaintHelper.RenderBackgroundGradient(g, rectHeader, theme.HeaderTextGradient);
                 PaintHelper.RenderTextWithAlignment(g, rectHeader, font, HeaderTitle, TextAlign, theme.HeaderTextGradient.Font.Color, theme.HeaderTextGradient.Padding);
             }

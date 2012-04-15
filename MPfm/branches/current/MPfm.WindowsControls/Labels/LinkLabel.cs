@@ -86,10 +86,10 @@ namespace MPfm.WindowsControls
         /// </summary>
         private bool isAutoSized = false;
         /// <summary>
-        /// Defines if the control should be auto-sized.
+        /// Defines if the control should be automatically resized depending on its content.
         /// </summary>
         [RefreshProperties(RefreshProperties.Repaint)]
-        [Category("Theme"), Browsable(true), Description("Defines if the control should be auto-sized.")]
+        [Category("Theme"), Browsable(true), Description("Defines if the control should be automatically resized depending on its content.")]
         public bool IsAutoSized
         {
             get
@@ -155,8 +155,13 @@ namespace MPfm.WindowsControls
                 sizeControl.Width += theme.TextGradient.Padding * 2;
                 sizeControl.Height += theme.TextGradient.Padding * 2;
 
-                // Resize control
-                this.Size = sizeControl;
+                // Resize control only if size is different
+                if (Size.Width != sizeControl.Width ||
+                    Size.Height != sizeControl.Height)
+                {
+                    // Update control size
+                    this.Size = sizeControl;
+                }   
             }
 
             // Check if the gradient background should be used
