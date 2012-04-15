@@ -249,7 +249,7 @@ namespace MPfm.WindowsControls
         public TrackBar() : base()
         {            
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                     ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+                     ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
 
             // Create default theme
             theme = new TrackBarTheme();
@@ -280,19 +280,23 @@ namespace MPfm.WindowsControls
             Bitmap bmp = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
             Graphics g = Graphics.FromImage(bmp);
 
-            // Set text anti-aliasing to ClearType (best looking AA)
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            // Set anti-aliasing
+            PaintHelper.SetAntiAliasing(g);
 
-            // Set smoothing mode for paths
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
-            // Draw background gradient (cover -1 pixel for some refresh bug)
-            Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
-            g.FillRectangle(brushBackground, rectBody);
-            brushBackground.Dispose();
-            brushBackground = null;
-
+            // Check if the gradient background should be used
+            if (!theme.IsBackgroundTransparent)
+            {
+                // Draw background gradient (cover -1 pixel to fix graphic bug) 
+                Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+                Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+                PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.BackgroundGradient);
+            }
+            else
+            {
+                // Call paint background
+                base.OnPaintBackground(pe); // CPU intensive when transparent
+            }
+ 
             // Return if value range is zero
             if (valueRange == 0)
             {

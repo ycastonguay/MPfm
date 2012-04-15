@@ -336,20 +336,21 @@ namespace MPfm.WindowsControls
                 font = this.Font;
             }
 
-            // Draw background gradient
-            Rectangle rectBody = new Rectangle(-1, -1, ClientRectangle.Width + 1, ClientRectangle.Height + 1);
+            // Draw background gradient (cover -1 pixel to fix graphic bug) 
+            Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
             if (headerExpanded)
             {
-                rectBody.Height -= headerHeight - 1;
-                rectBody.Y = headerHeight - 1;
-            }
-            PaintHelper.RenderBackgroundGradient(g, rectBody, theme.BackgroundGradient);
+                rectBackground.Height -= headerHeight - 1;
+                rectBackground.Y = headerHeight - 1;
+            }            
+            Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+            PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.BackgroundGradient);            
 
             // Draw header gradient
             if (headerHeight > 0)
             {
-                Rectangle rectHeader = new Rectangle(-1, -1, ClientRectangle.Width + 1, headerHeight + 1);                
-                PaintHelper.RenderBackgroundGradient(g, rectHeader, theme.HeaderTextGradient);
+                Rectangle rectHeader = new Rectangle(-1, -1, ClientRectangle.Width + 1, headerHeight + 1);
+                PaintHelper.RenderBackgroundGradient(g, rectHeader, rectBorder, theme.HeaderTextGradient);                                
                 PaintHelper.RenderTextWithAlignment(g, rectHeader, font, HeaderTitle, TextAlign, theme.HeaderTextGradient.Font.Color, theme.HeaderTextGradient.Padding);
             }
 

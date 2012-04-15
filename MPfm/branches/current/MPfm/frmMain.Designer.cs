@@ -2278,8 +2278,8 @@ namespace MPfm
             this.panelVolume.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient14.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient14.BorderWidth = 0;
-            backgroundGradient14.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            backgroundGradient14.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            backgroundGradient14.Color1 = System.Drawing.Color.Yellow;
+            backgroundGradient14.Color2 = System.Drawing.Color.Navy;
             backgroundGradient14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             panelTheme7.BackgroundGradient = backgroundGradient14;
             textGradient32.BorderColor = System.Drawing.Color.DarkGray;
@@ -2358,6 +2358,7 @@ namespace MPfm
             // 
             // faderVolume
             // 
+            this.faderVolume.BackColor = System.Drawing.Color.Transparent;
             this.faderVolume.FaderHeight = 28;
             this.faderVolume.FaderWidth = 10;
             this.faderVolume.Location = new System.Drawing.Point(0, 17);
@@ -2388,6 +2389,7 @@ namespace MPfm
             backgroundGradient13.Color2 = System.Drawing.Color.Gainsboro;
             backgroundGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             faderTheme1.FaderShadowGradient = backgroundGradient13;
+            faderTheme1.IsBackgroundTransparent = true;
             this.faderVolume.Theme = faderTheme1;
             this.faderVolume.Value = 50;
             this.faderVolume.OnFaderValueChanged += new MPfm.WindowsControls.Fader.FaderValueChanged(this.faderVolume_OnFaderValueChanged);
@@ -2447,8 +2449,8 @@ namespace MPfm
             this.panelSongPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient18.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient18.BorderWidth = 0;
-            backgroundGradient18.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            backgroundGradient18.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            backgroundGradient18.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            backgroundGradient18.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             backgroundGradient18.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             panelTheme8.BackgroundGradient = backgroundGradient18;
             textGradient35.BorderColor = System.Drawing.Color.DarkGray;
@@ -2473,7 +2475,7 @@ namespace MPfm
             // lblSongPercentage
             // 
             this.lblSongPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSongPercentage.BackColor = System.Drawing.Color.Transparent;
+            this.lblSongPercentage.BackColor = System.Drawing.Color.Black;
             this.lblSongPercentage.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPercentage.ForeColor = System.Drawing.Color.White;
             this.lblSongPercentage.IsAutoSized = false;
@@ -2507,7 +2509,7 @@ namespace MPfm
             // 
             this.lblSongPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSongPosition.BackColor = System.Drawing.Color.Transparent;
+            this.lblSongPosition.BackColor = System.Drawing.Color.Black;
             this.lblSongPosition.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPosition.ForeColor = System.Drawing.Color.White;
             this.lblSongPosition.IsAutoSized = false;
@@ -2532,6 +2534,7 @@ namespace MPfm
             // 
             this.trackPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackPosition.BackColor = System.Drawing.Color.Transparent;
             this.trackPosition.FaderHeight = 8;
             this.trackPosition.FaderWidth = 16;
             this.trackPosition.Location = new System.Drawing.Point(0, 17);
@@ -2561,6 +2564,7 @@ namespace MPfm
             backgroundGradient17.Color2 = System.Drawing.Color.DarkGray;
             backgroundGradient17.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             trackBarTheme1.FaderShadowGradient = backgroundGradient17;
+            trackBarTheme1.IsBackgroundTransparent = true;
             this.trackPosition.Theme = trackBarTheme1;
             this.trackPosition.Value = 5;
             this.trackPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackPosition_MouseDown);
@@ -2588,8 +2592,8 @@ namespace MPfm
             this.panelTimeShifting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient22.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient22.BorderWidth = 0;
-            backgroundGradient22.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            backgroundGradient22.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            backgroundGradient22.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            backgroundGradient22.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             backgroundGradient22.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             panelTheme9.BackgroundGradient = backgroundGradient22;
             textGradient38.BorderColor = System.Drawing.Color.DarkGray;
@@ -2669,6 +2673,7 @@ namespace MPfm
             // 
             // trackTimeShifting
             // 
+            this.trackTimeShifting.BackColor = System.Drawing.Color.Transparent;
             this.trackTimeShifting.FaderHeight = 8;
             this.trackTimeShifting.FaderWidth = 16;
             this.trackTimeShifting.Location = new System.Drawing.Point(0, 17);
@@ -2699,6 +2704,7 @@ namespace MPfm
             backgroundGradient21.Color2 = System.Drawing.Color.DarkGray;
             backgroundGradient21.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             trackBarTheme2.FaderShadowGradient = backgroundGradient21;
+            trackBarTheme2.IsBackgroundTransparent = true;
             this.trackTimeShifting.Theme = trackBarTheme2;
             this.trackTimeShifting.OnTrackBarValueChanged += new MPfm.WindowsControls.TrackBar.TrackBarValueChanged(this.trackTimeShiftingNew_OnTrackBarValueChanged);
             // 

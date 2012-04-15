@@ -167,10 +167,11 @@ namespace MPfm.WindowsControls
 
                 // Check if the gradient background should be used
                 if (!theme.IsBackgroundTransparent)
-                {                   
-                    // Draw background gradient (cover -1 pixel for some refresh bug)
-                    Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-                    PaintHelper.RenderBackgroundGradient(g, rectBody, theme.TextGradient);
+                {
+                    // Draw background gradient (cover -1 pixel to fix graphic bug) 
+                    Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+                    Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+                    PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.TextGradient);                    
                 }
                 else
                 {
