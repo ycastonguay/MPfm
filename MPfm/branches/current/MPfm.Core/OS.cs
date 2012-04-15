@@ -49,7 +49,18 @@ namespace MPfm.Core
 					osType = OSType.Windows;
 					break;
 				case PlatformID.Unix:
-					osType = OSType.Linux;
+					// Sometimes Mac OS X is detected as Unix.
+					// The version returned by Linux is actually the kernel version, so it is not higher than 3 at the moment.
+					// Mac OS X returns a higher number (Unix 11.3 when I tested under Mac OS X 10.7.3), so we can detect the platform that way.
+					// Source: http://lists.ximian.com/pipermail/mono-osx/2007-December/001094.html
+					if(Environment.OSVersion.Version.Major > 8)
+					{
+						osType = OSType.MacOSX;
+					}
+					else
+					{
+						osType = OSType.Linux;
+					}
 					break;
 				case PlatformID.MacOSX:
 					osType = OSType.MacOSX;
