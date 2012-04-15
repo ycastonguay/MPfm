@@ -643,9 +643,25 @@ namespace MPfm.Player
 	            }
 	            else if (OS.Type == OSType.MacOSX)
 	            {
-	                // Load BASS library
-	
-	                // Load decoding plugins
+					// Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)								
+					string pluginPath = string.Empty;				
+					string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);				
+					
+					// Check in the current directory first
+					if(!File.Exists(exePath + "/libbassflac.dylib"))
+					{
+						// The plugins could not be found!
+						throw new Exception("The BASS plugins could not be found in the current directory!");
+					}
+					else
+					{
+						pluginPath = exePath;
+					}
+					
+				    // Load decoding plugins
+					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
+					wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
+					mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
 	            }
 			}
 						
