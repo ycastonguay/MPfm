@@ -167,6 +167,8 @@ namespace MPfm.UI
 			}
 			else if(OS.Type == OSType.MacOSX)
 			{
+				// TODO: Check if this directory is OK for future Mac App Store 
+				homeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
 			}
 
 			// Check if the MPfm home directory exists

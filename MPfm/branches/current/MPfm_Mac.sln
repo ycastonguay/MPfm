@@ -103,7 +103,7 @@ Global
 		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MPfm.GTK\MPfm.GTK.csproj
+		StartupItem = MPfm.Mac\MPfm.Mac.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
