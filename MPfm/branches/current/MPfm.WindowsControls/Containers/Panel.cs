@@ -37,8 +37,13 @@ namespace MPfm.WindowsControls
     /// This panel control is based on the System.Windows.Forms.Panel control.
     /// It adds custom drawing, gradient backgrounds and other features.
     /// </summary>
-    public class Panel : Control
+    public class Panel : System.Windows.Forms.Panel
     {
+        /// <summary>
+        /// Embedded font collection used for drawing.
+        /// </summary>
+        protected EmbeddedFontCollection embeddedFonts = null;
+
         /// <summary>
         /// Private value for the Theme property.
         /// </summary>
@@ -261,6 +266,48 @@ namespace MPfm.WindowsControls
 
             // Create default theme
             theme = new PanelTheme();
+        }
+
+        
+        /// <summary>
+        /// Triggered when the control is created.
+        /// </summary>
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+
+            LoadEmbeddedFonts();
+        }
+
+        /// <summary>
+        /// Loads the embedded fonts for rendering.
+        /// </summary>
+        protected void LoadEmbeddedFonts()
+        {
+            // Check if design time or run time            
+            if (Tools.IsDesignTime())
+            {
+                // This only exists when running in design time and cannot be run in the constructor                
+                ITypeResolutionService typeResService = GetService(typeof(ITypeResolutionService)) as ITypeResolutionService;
+                string path = string.Empty;
+                if (typeResService != null)
+                {
+                    // Get path
+                    path = typeResService.GetPathOfAssembly(Assembly.GetExecutingAssembly().GetName());
+                }
+
+                // Example path: D:\Code\MPfm\Branches\Current\MPfm.WindowsControls\obj\Debug\MPfm.WindowsControls.dll
+                // We want to get the path for MPfm.Fonts.dll.
+                string fontsPath = path.Replace("MPfm.WindowsControls", "MPfm.Fonts").Replace("MPfm.Fonts.dll", "");
+
+                // Get embedded font collection
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts(fontsPath);
+            }
+            else
+            {
+                // Get embedded font collection
+                embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
+            }
         }
 
         #region Expand Methods
