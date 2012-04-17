@@ -51,7 +51,7 @@ namespace MPfm.GTK
 	        // Set form title
 	        this.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 	
-			// Set application icon (visible in GNOME but not UNITY)
+			// Set application icon (for some reason it is not visible on Unity)
 			this.SetIconFromFile("icon48.png");
 	
 			// Get default font name
@@ -59,8 +59,8 @@ namespace MPfm.GTK
 			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
 			this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
 			this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 10"));
-			this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
+			this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 	
 			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
 			
@@ -75,27 +75,24 @@ namespace MPfm.GTK
 			
 			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblCurrentLength.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			
+						
 			this.lblPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblLength.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblSongPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblTimeShifting.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblInformation.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblVolume.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			
-			//this.cboSoundFormat.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));  // doesn't work
-			
-			//this.drawingArea1.SetSizeRequest(200, 200);
+			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+					
+			// Set temporary album cover
+			Pixbuf stuff = new Pixbuf("icon48.png");
+			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
+			this.imageAlbumCover.Pixbuf = stuff;
 	
-			//drawingArea1.GdkWindow.//
-	
-//			layout = new Pango.Layout(this.PangoContext);
-//			layout.Width = Pango.Units.FromPixels(200);
-//			layout.Wrap = Pango.WrapMode.Word;
-//			layout.Alignment = Pango.Alignment.Left;
-//			layout.FontDescription = Pango.FontDescription.FromString("Ubuntu 14");
-	
-			// Create controller
-			// TODO: BUG CANNOT QUIT THE APPLICATION SINCE MOVING PLAYER TO CONTROLLER.
+			// Create controller			
 			controller = new MainWindowController();
 	
 			// Create player
@@ -299,7 +296,7 @@ namespace MPfm.GTK
 		        lblArtistName.Text = string.Empty;
 		        lblAlbumTitle.Text = string.Empty;
 		        lblSongTitle.Text = string.Empty;
-		        lblSongFilePath.Text = "No song currently playing.";
+		        lblSongFilePath.Text = string.Empty;
 				lblCurrentPosition.Text = "0:00.000";
 		        lblCurrentLength.Text = "0:00.000";
 				hscaleSongPosition.Value = 0;

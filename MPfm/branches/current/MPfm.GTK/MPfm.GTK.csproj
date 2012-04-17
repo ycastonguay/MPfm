@@ -124,7 +124,9 @@
     <None Include="Lib\x86\libbass_mpc.so" />
     <None Include="Lib\x86\libbass_tta.so" />
     <None Include="Lib\x86\libbasswv.so" />
-    <None Include="Bass.Net.dll.config" />
+    <None Include="Bass.Net.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -135,6 +137,7 @@
   <ItemGroup>
     <Content Include="icon48.png">
       <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 </Project>
