@@ -2188,8 +2188,8 @@ namespace MPfm
 
                 // Set format labels
                 lblSoundFormat.Text = Path.GetExtension(player.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();
-                lblBitrate.Text = player.Playlist.CurrentItem.AudioFile.Bitrate.ToString();
-                lblFrequency.Text = player.Playlist.CurrentItem.AudioFile.SampleRate.ToString();
+                lblBitrate.Text = player.Playlist.CurrentItem.AudioFile.Bitrate.ToString() + "kbps";
+                lblFrequency.Text = player.Playlist.CurrentItem.AudioFile.SampleRate.ToString() + "Hz";
 
                 // Get length
                 long length = player.Playlist.CurrentItem.Channel.GetLength();

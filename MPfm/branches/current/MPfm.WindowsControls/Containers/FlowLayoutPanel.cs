@@ -76,8 +76,20 @@ namespace MPfm.WindowsControls
             // Skip base event to prevent flicker
             //base.OnPaintBackground(e);
 
-            // Render background gradient
-            PaintHelper.RenderBackgroundGradient(e.Graphics, ClientRectangle, theme.BackgroundGradient);
+
+            // Check if the gradient background should be used
+            if (!theme.IsBackgroundTransparent)
+            {
+                // Draw background gradient (cover -1 pixel to fix graphic bug) 
+                Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+                Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);                
+                PaintHelper.RenderBackgroundGradient(e.Graphics, rectBackground, rectBorder, theme.BackgroundGradient);
+            }
+            else
+            {
+                // Call paint background
+                base.OnPaintBackground(e); // CPU intensive when transparent
+            }
         }
 
         /// <summary>

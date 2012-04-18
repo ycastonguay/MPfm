@@ -36,6 +36,27 @@ namespace MPfm.WindowsControls
     public class FlowLayoutPanelTheme
     {
         /// <summary>
+        /// Private value for the IsBackgroundTransparent property.
+        /// </summary>
+        private bool isBackgroundTransparent = false;
+        /// <summary>
+        /// Defines if the background is visible or not.
+        /// </summary>
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Category("Background"), Browsable(true), Description("Defines if the background is visible or not.")]
+        public bool IsBackgroundTransparent
+        {
+            get
+            {
+                return isBackgroundTransparent;
+            }
+            set
+            {
+                isBackgroundTransparent = value;
+            }
+        }
+
+        /// <summary>
         /// Private value for the BackgroundGradient property.
         /// </summary>
         private BackgroundGradient backgroundGradient = new BackgroundGradient(Color.LightGray, Color.Gray, LinearGradientMode.Vertical, Color.DarkGray, 1);

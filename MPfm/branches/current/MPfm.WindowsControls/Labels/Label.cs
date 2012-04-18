@@ -156,6 +156,16 @@ namespace MPfm.WindowsControls
                     sizeControl.Width += theme.TextGradient.Padding * 2;
                     sizeControl.Height += theme.TextGradient.Padding * 2;
 
+                    // Make sure the control has a minimum of 1px/1px
+                    if (sizeControl.Width == 0)
+                    {
+                        sizeControl.Width = 1;
+                    }
+                    if (sizeControl.Height == 0)
+                    {
+                        sizeControl.Height = 1;
+                    }
+
                     // Resize control only if size is different
                     if (Size.Width != sizeControl.Width ||
                         Size.Height != sizeControl.Height)
