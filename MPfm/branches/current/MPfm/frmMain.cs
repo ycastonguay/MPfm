@@ -590,13 +590,14 @@ namespace MPfm
                 frmSplash.SetStatus("Applying configuration...");
 
                 // Resetting display
-                lblCurrentAlbumTitle.Text = "";
-                lblCurrentArtistName.Text = "";
-                lblCurrentSongTitle.Text = "";
-                lblCurrentFilePath.Text = "";
-                lblBitrate.Text = "";
-                lblSoundFormat.Text = "";
-                lblFrequency.Text = "";                
+                lblCurrentAlbumTitle.Text = string.Empty;
+                lblCurrentArtistName.Text = string.Empty;
+                lblCurrentSongTitle.Text = string.Empty;
+                lblCurrentFilePath.Text = string.Empty;
+                lblBitrate.Text = string.Empty;
+                lblSoundFormat.Text = string.Empty;
+                lblBitsPerSample.Text = string.Empty;
+                lblFrequency.Text = string.Empty;                
 
                 // Load window configuration (position, size, column sizes, etc.)
                 LoadWindowConfiguration();
@@ -2042,6 +2043,7 @@ namespace MPfm
                 lblCurrentPosition.Text = "0:00.000";
                 lblLength.Text = "0:00.000";
                 lblSoundFormat.Text = string.Empty;
+                lblBitsPerSample.Text = string.Empty;
                 lblBitrate.Text = string.Empty;
                 lblFrequency.Text = string.Empty;
                 picAlbum.Image = null;
@@ -2188,8 +2190,9 @@ namespace MPfm
 
                 // Set format labels
                 lblSoundFormat.Text = Path.GetExtension(player.Playlist.CurrentItem.AudioFile.FilePath).Replace(".", "").ToUpper();
-                lblBitrate.Text = player.Playlist.CurrentItem.AudioFile.Bitrate.ToString() + "kbps";
-                lblFrequency.Text = player.Playlist.CurrentItem.AudioFile.SampleRate.ToString() + "Hz";
+                lblBitrate.Text = player.Playlist.CurrentItem.AudioFile.Bitrate.ToString() + " kbps";
+                lblBitsPerSample.Text = player.Playlist.CurrentItem.AudioFile.BitsPerSample.ToString() + " bits"; 
+                lblFrequency.Text = player.Playlist.CurrentItem.AudioFile.SampleRate.ToString() + " Hz";
 
                 // Get length
                 long length = player.Playlist.CurrentItem.Channel.GetLength();
