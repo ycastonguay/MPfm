@@ -249,17 +249,6 @@ namespace MPfm
             MPfm.WindowsControls.BackgroundGradient backgroundGradient30 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient84 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont81 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient29 = new MPfm.WindowsControls.BackgroundGradient();
-            MPfm.WindowsControls.TextGradient textGradient80 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont77 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient81 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont78 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.Gradient gradient1 = new MPfm.WindowsControls.Gradient();
-            MPfm.WindowsControls.TextGradient textGradient82 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont79 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient83 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont80 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.PanelTheme panelTheme12 = new MPfm.WindowsControls.PanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient28 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient79 = new MPfm.WindowsControls.TextGradient();
@@ -288,6 +277,17 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont74 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient78 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont75 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.SongGridViewTheme songGridViewTheme1 = new MPfm.WindowsControls.SongGridViewTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient29 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.TextGradient textGradient80 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont77 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient81 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont78 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.Gradient gradient1 = new MPfm.WindowsControls.Gradient();
+            MPfm.WindowsControls.TextGradient textGradient82 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont79 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient83 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont80 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -340,7 +340,6 @@ namespace MPfm
             this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
             this.btnNextSong = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRepeat = new System.Windows.Forms.ToolStripButton();
             this.btnShuffle = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -441,13 +440,14 @@ namespace MPfm
             this.btnRemoveMarker = new MPfm.WindowsControls.Button();
             this.btnGoToMarker = new MPfm.WindowsControls.Button();
             this.panelSongBrowser = new MPfm.WindowsControls.Panel();
-            this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
+            this.tableLayoutPanelSongBrowser = new System.Windows.Forms.TableLayoutPanel();
             this.panelSongBrowserToolbar = new MPfm.WindowsControls.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblSearchFor = new MPfm.WindowsControls.Label();
             this.btnPlaySelectedSong = new MPfm.WindowsControls.Button();
             this.btnAddSongToPlaylist = new MPfm.WindowsControls.Button();
             this.btnEditSongMetadata = new MPfm.WindowsControls.Button();
+            this.viewSongs2 = new MPfm.WindowsControls.SongGridView();
             this.imageListSongBrowser = new System.Windows.Forms.ImageList(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -476,7 +476,6 @@ namespace MPfm
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tableLayoutPanelSongBrowser = new System.Windows.Forms.TableLayoutPanel();
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -526,10 +525,10 @@ namespace MPfm
             this.tableLayoutPanelMarkers.SuspendLayout();
             this.flowLayoutPanelMarkers.SuspendLayout();
             this.panelSongBrowser.SuspendLayout();
+            this.tableLayoutPanelSongBrowser.SuspendLayout();
             this.panelSongBrowserToolbar.SuspendLayout();
             this.menuTray.SuspendLayout();
             this.menuToolbarLibrary.SuspendLayout();
-            this.tableLayoutPanelSongBrowser.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuSongBrowser
@@ -913,7 +912,6 @@ namespace MPfm
             this.btnStop,
             this.btnPreviousSong,
             this.btnNextSong,
-            this.toolStripSeparator14,
             this.btnRepeat,
             this.btnShuffle,
             this.toolStripSeparator6,
@@ -947,7 +945,7 @@ namespace MPfm
             // 
             // btnUpdateLibrary
             // 
-            this.btnUpdateLibrary.Image = ((System.Drawing.Image)(resources.GetObject("btnUpdateLibrary.Image")));
+            this.btnUpdateLibrary.Image = global::MPfm.Properties.Resources.arrow_rotate_clockwise;
             this.btnUpdateLibrary.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUpdateLibrary.Name = "btnUpdateLibrary";
             this.btnUpdateLibrary.Size = new System.Drawing.Size(82, 34);
@@ -1015,14 +1013,9 @@ namespace MPfm
             this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
             // 
-            // toolStripSeparator14
-            // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 37);
-            // 
             // btnRepeat
             // 
-            this.btnRepeat.Image = ((System.Drawing.Image)(resources.GetObject("btnRepeat.Image")));
+            this.btnRepeat.Image = global::MPfm.Properties.Resources.control_repeat;
             this.btnRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRepeat.Name = "btnRepeat";
             this.btnRepeat.Size = new System.Drawing.Size(72, 34);
@@ -1038,6 +1031,7 @@ namespace MPfm
             this.btnShuffle.Size = new System.Drawing.Size(46, 34);
             this.btnShuffle.Text = "Shuffle";
             this.btnShuffle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnShuffle.Visible = false;
             this.btnShuffle.Click += new System.EventHandler(this.btnShuffle_Click);
             // 
             // toolStripSeparator6
@@ -1526,6 +1520,7 @@ namespace MPfm
             // panelCurrentSong
             // 
             this.panelCurrentSong.AutoSize = true;
+            this.panelCurrentSong.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelCurrentSong.BackColor = System.Drawing.Color.Black;
             this.panelCurrentSong.Controls.Add(this.tableLayoutPanelCurrentSong);
             this.panelCurrentSong.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1826,6 +1821,9 @@ namespace MPfm
             // 
             // flowLayoutPanelInformation
             // 
+            this.flowLayoutPanelInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelInformation.AutoSize = true;
             this.flowLayoutPanelInformation.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanelInformation.Controls.Add(this.lblSoundFormat);
@@ -1836,7 +1834,7 @@ namespace MPfm
             this.flowLayoutPanelInformation.Location = new System.Drawing.Point(0, 19);
             this.flowLayoutPanelInformation.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelInformation.Name = "flowLayoutPanelInformation";
-            this.flowLayoutPanelInformation.Size = new System.Drawing.Size(99, 85);
+            this.flowLayoutPanelInformation.Size = new System.Drawing.Size(99, 90);
             this.flowLayoutPanelInformation.TabIndex = 67;
             backgroundGradient4.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient4.BorderWidth = 0;
@@ -2025,6 +2023,9 @@ namespace MPfm
             // 
             // flowLayoutPanelActions
             // 
+            this.flowLayoutPanelActions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelActions.AutoSize = true;
             this.flowLayoutPanelActions.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanelActions.Controls.Add(this.linkEditSongMetadata);
@@ -2080,6 +2081,7 @@ namespace MPfm
             textGradient19.Padding = 2;
             linkLabelTheme1.TextGradient = textGradient19;
             this.linkEditSongMetadata.Theme = linkLabelTheme1;
+            this.linkEditSongMetadata.Click += new System.EventHandler(this.linkEditSongMetadata_Click);
             // 
             // lblSearchWeb
             // 
@@ -2090,7 +2092,7 @@ namespace MPfm
             this.lblSearchWeb.Location = new System.Drawing.Point(0, 18);
             this.lblSearchWeb.Margin = new System.Windows.Forms.Padding(0);
             this.lblSearchWeb.Name = "lblSearchWeb";
-            this.lblSearchWeb.Size = new System.Drawing.Size(85, 18);
+            this.lblSearchWeb.Size = new System.Drawing.Size(91, 18);
             this.lblSearchWeb.TabIndex = 63;
             this.lblSearchWeb.Text = "Search the web:";
             this.lblSearchWeb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2099,12 +2101,12 @@ namespace MPfm
             textGradient20.BorderWidth = 1;
             textGradient20.Color1 = System.Drawing.Color.LightGray;
             textGradient20.Color2 = System.Drawing.Color.Gray;
-            customFont20.Color = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            customFont20.Color = System.Drawing.Color.Gainsboro;
             customFont20.EmbeddedFontName = "Junction";
             customFont20.IsBold = false;
             customFont20.IsItalic = false;
             customFont20.IsUnderline = false;
-            customFont20.Size = 7.5F;
+            customFont20.Size = 8F;
             customFont20.StandardFontName = "Arial";
             customFont20.UseAntiAliasing = true;
             customFont20.UseEmbeddedFont = true;
@@ -2138,6 +2140,7 @@ namespace MPfm
             textGradient21.Padding = 2;
             linkLabelTheme2.TextGradient = textGradient21;
             this.linkSearchGuitarTabs.Theme = linkLabelTheme2;
+            this.linkSearchGuitarTabs.Click += new System.EventHandler(this.linkSearchGuitarTabs_Click);
             // 
             // linkSearchBassTabs
             // 
@@ -2163,6 +2166,7 @@ namespace MPfm
             textGradient22.Padding = 2;
             linkLabelTheme3.TextGradient = textGradient22;
             this.linkSearchBassTabs.Theme = linkLabelTheme3;
+            this.linkSearchBassTabs.Click += new System.EventHandler(this.linkSearchBassTabs_Click);
             // 
             // linkSearchLyrics
             // 
@@ -2188,6 +2192,7 @@ namespace MPfm
             textGradient23.Padding = 2;
             linkLabelTheme4.TextGradient = textGradient23;
             this.linkSearchLyrics.Theme = linkLabelTheme4;
+            this.linkSearchLyrics.Click += new System.EventHandler(this.linkSearchLyrics_Click);
             // 
             // tableLayoutPanelCurrentSongCenterLine2
             // 
@@ -2372,7 +2377,7 @@ namespace MPfm
             customFont23.EmbeddedFontName = "Droid Sans Mono";
             customFont23.IsBold = false;
             customFont23.IsItalic = false;
-            customFont23.IsUnderline = false;
+            customFont23.IsUnderline = true;
             customFont23.Size = 8F;
             customFont23.StandardFontName = "Arial";
             customFont23.UseAntiAliasing = true;
@@ -2382,6 +2387,7 @@ namespace MPfm
             textGradient26.Padding = 2;
             linkLabelTheme5.TextGradient = textGradient26;
             this.linkResetTimeShifting.Theme = linkLabelTheme5;
+            this.linkResetTimeShifting.Click += new System.EventHandler(this.linkResetTimeShifting_Click);
             // 
             // panelSongPosition
             // 
@@ -2453,6 +2459,7 @@ namespace MPfm
             this.trackPosition.BackColor = System.Drawing.Color.Transparent;
             this.tableLayoutPanel1.SetColumnSpan(this.trackPosition, 2);
             this.trackPosition.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackPosition.Enabled = false;
             this.trackPosition.FaderHeight = 10;
             this.trackPosition.Location = new System.Drawing.Point(3, 3);
             this.trackPosition.Maximum = 999;
@@ -3043,7 +3050,7 @@ namespace MPfm
             this.splitLoopsMarkers.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.splitLoopsMarkers.Panel2.Controls.Add(this.tableLayoutPanelMarkers);
             this.splitLoopsMarkers.Size = new System.Drawing.Size(799, 61);
-            this.splitLoopsMarkers.SplitterDistance = 397;
+            this.splitLoopsMarkers.SplitterDistance = 396;
             this.splitLoopsMarkers.TabIndex = 74;
             // 
             // tableLayoutPanelLoops
@@ -3059,7 +3066,7 @@ namespace MPfm
             this.tableLayoutPanelLoops.RowCount = 2;
             this.tableLayoutPanelLoops.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLoops.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLoops.Size = new System.Drawing.Size(397, 61);
+            this.tableLayoutPanelLoops.Size = new System.Drawing.Size(396, 61);
             this.tableLayoutPanelLoops.TabIndex = 61;
             // 
             // flowLayoutPanelLoops
@@ -3077,7 +3084,7 @@ namespace MPfm
             this.flowLayoutPanelLoops.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelLoops.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelLoops.Name = "flowLayoutPanelLoops";
-            this.flowLayoutPanelLoops.Size = new System.Drawing.Size(397, 20);
+            this.flowLayoutPanelLoops.Size = new System.Drawing.Size(396, 20);
             this.flowLayoutPanelLoops.TabIndex = 60;
             // 
             // lblLoops
@@ -3480,7 +3487,7 @@ namespace MPfm
             this.viewLoops.Location = new System.Drawing.Point(0, 20);
             this.viewLoops.Margin = new System.Windows.Forms.Padding(0);
             this.viewLoops.Name = "viewLoops";
-            this.viewLoops.Size = new System.Drawing.Size(397, 41);
+            this.viewLoops.Size = new System.Drawing.Size(396, 41);
             this.viewLoops.SmallImageList = this.imageList;
             this.viewLoops.TabIndex = 74;
             this.viewLoops.UseCompatibleStateImageBehavior = false;
@@ -3526,7 +3533,7 @@ namespace MPfm
             this.tableLayoutPanelMarkers.RowCount = 2;
             this.tableLayoutPanelMarkers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMarkers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelMarkers.Size = new System.Drawing.Size(398, 61);
+            this.tableLayoutPanelMarkers.Size = new System.Drawing.Size(399, 61);
             this.tableLayoutPanelMarkers.TabIndex = 60;
             // 
             // viewMarkers
@@ -3546,7 +3553,7 @@ namespace MPfm
             this.viewMarkers.Location = new System.Drawing.Point(0, 20);
             this.viewMarkers.Margin = new System.Windows.Forms.Padding(0);
             this.viewMarkers.Name = "viewMarkers";
-            this.viewMarkers.Size = new System.Drawing.Size(398, 41);
+            this.viewMarkers.Size = new System.Drawing.Size(399, 41);
             this.viewMarkers.TabIndex = 70;
             this.viewMarkers.UseCompatibleStateImageBehavior = false;
             this.viewMarkers.View = System.Windows.Forms.View.Details;
@@ -3582,7 +3589,7 @@ namespace MPfm
             this.flowLayoutPanelMarkers.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelMarkers.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelMarkers.Name = "flowLayoutPanelMarkers";
-            this.flowLayoutPanelMarkers.Size = new System.Drawing.Size(398, 20);
+            this.flowLayoutPanelMarkers.Size = new System.Drawing.Size(399, 20);
             this.flowLayoutPanelMarkers.TabIndex = 76;
             // 
             // lblMarkers
@@ -3940,110 +3947,24 @@ namespace MPfm
             panelTheme13.HeaderTextGradient = textGradient84;
             this.panelSongBrowser.Theme = panelTheme13;
             // 
-            // viewSongs2
+            // tableLayoutPanelSongBrowser
             // 
-            this.viewSongs2.CanChangeOrderBy = true;
-            this.viewSongs2.CanMoveColumns = true;
-            this.viewSongs2.CanReorderItems = false;
-            this.viewSongs2.CanResizeColumns = true;
-            this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;
-            this.viewSongs2.DisplayDebugInformation = false;
-            this.viewSongs2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewSongs2.ImageCacheSize = 10;
-            this.viewSongs2.Location = new System.Drawing.Point(0, 25);
-            this.viewSongs2.Margin = new System.Windows.Forms.Padding(0);
-            this.viewSongs2.Name = "viewSongs2";
-            this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
-            this.viewSongs2.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
-            this.viewSongs2.OrderByAscending = true;
-            this.viewSongs2.OrderByFieldName = "";
-            this.viewSongs2.Size = new System.Drawing.Size(799, 178);
-            this.viewSongs2.TabIndex = 74;
-            this.viewSongs2.Text = "songGridView1";
-            backgroundGradient29.BorderColor = System.Drawing.Color.Gray;
-            backgroundGradient29.BorderWidth = 0;
-            backgroundGradient29.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
-            backgroundGradient29.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
-            backgroundGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            songGridViewTheme1.AlbumCoverBackgroundGradient = backgroundGradient29;
-            textGradient80.BorderColor = System.Drawing.Color.Gray;
-            textGradient80.BorderWidth = 0;
-            textGradient80.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
-            textGradient80.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            customFont77.Color = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            customFont77.EmbeddedFontName = "Junction";
-            customFont77.IsBold = false;
-            customFont77.IsItalic = false;
-            customFont77.IsUnderline = false;
-            customFont77.Size = 8F;
-            customFont77.StandardFontName = "Arial";
-            customFont77.UseAntiAliasing = true;
-            customFont77.UseEmbeddedFont = true;
-            textGradient80.Font = customFont77;
-            textGradient80.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            textGradient80.Padding = 2;
-            songGridViewTheme1.HeaderHoverTextGradient = textGradient80;
-            textGradient81.BorderColor = System.Drawing.Color.Gray;
-            textGradient81.BorderWidth = 0;
-            textGradient81.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
-            textGradient81.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
-            customFont78.Color = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            customFont78.EmbeddedFontName = "Junction";
-            customFont78.IsBold = false;
-            customFont78.IsItalic = false;
-            customFont78.IsUnderline = false;
-            customFont78.Size = 8F;
-            customFont78.StandardFontName = "Arial";
-            customFont78.UseAntiAliasing = true;
-            customFont78.UseEmbeddedFont = true;
-            textGradient81.Font = customFont78;
-            textGradient81.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            textGradient81.Padding = 2;
-            songGridViewTheme1.HeaderTextGradient = textGradient81;
-            gradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            gradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
-            gradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            songGridViewTheme1.IconNowPlayingGradient = gradient1;
-            songGridViewTheme1.Padding = 6;
-            textGradient82.BorderColor = System.Drawing.Color.Gray;
-            textGradient82.BorderWidth = 0;
-            textGradient82.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
-            textGradient82.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
-            customFont79.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont79.EmbeddedFontName = "Junction";
-            customFont79.IsBold = false;
-            customFont79.IsItalic = false;
-            customFont79.IsUnderline = false;
-            customFont79.Size = 8F;
-            customFont79.StandardFontName = "Arial";
-            customFont79.UseAntiAliasing = true;
-            customFont79.UseEmbeddedFont = true;
-            textGradient82.Font = customFont79;
-            textGradient82.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            textGradient82.Padding = 2;
-            songGridViewTheme1.RowNowPlayingTextGradient = textGradient82;
-            textGradient83.BorderColor = System.Drawing.Color.Gray;
-            textGradient83.BorderWidth = 0;
-            textGradient83.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            textGradient83.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            customFont80.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont80.EmbeddedFontName = "Junction";
-            customFont80.IsBold = false;
-            customFont80.IsItalic = false;
-            customFont80.IsUnderline = false;
-            customFont80.Size = 8F;
-            customFont80.StandardFontName = "Arial";
-            customFont80.UseAntiAliasing = true;
-            customFont80.UseEmbeddedFont = true;
-            textGradient83.Font = customFont80;
-            textGradient83.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            textGradient83.Padding = 2;
-            songGridViewTheme1.RowTextGradient = textGradient83;
-            this.viewSongs2.Theme = songGridViewTheme1;
-            this.viewSongs2.OnSelectedIndexChanged += new MPfm.WindowsControls.SongGridView.SelectedIndexChanged(this.viewSongs2_OnSelectedIndexChanged);
-            this.viewSongs2.OnColumnClick += new MPfm.WindowsControls.SongGridView.ColumnClick(this.viewSongs2_OnColumnClick);
-            this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
+            this.tableLayoutPanelSongBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelSongBrowser.AutoSize = true;
+            this.tableLayoutPanelSongBrowser.ColumnCount = 1;
+            this.tableLayoutPanelSongBrowser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelSongBrowser.Controls.Add(this.panelSongBrowserToolbar, 0, 0);
+            this.tableLayoutPanelSongBrowser.Controls.Add(this.viewSongs2, 0, 1);
+            this.tableLayoutPanelSongBrowser.Location = new System.Drawing.Point(0, 24);
+            this.tableLayoutPanelSongBrowser.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanelSongBrowser.Name = "tableLayoutPanelSongBrowser";
+            this.tableLayoutPanelSongBrowser.RowCount = 2;
+            this.tableLayoutPanelSongBrowser.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelSongBrowser.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelSongBrowser.Size = new System.Drawing.Size(799, 203);
+            this.tableLayoutPanelSongBrowser.TabIndex = 75;
             // 
             // panelSongBrowserToolbar
             // 
@@ -4332,6 +4253,111 @@ namespace MPfm
             this.btnEditSongMetadata.Theme = buttonTheme13;
             this.btnEditSongMetadata.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
             // 
+            // viewSongs2
+            // 
+            this.viewSongs2.CanChangeOrderBy = true;
+            this.viewSongs2.CanMoveColumns = true;
+            this.viewSongs2.CanReorderItems = false;
+            this.viewSongs2.CanResizeColumns = true;
+            this.viewSongs2.ContextMenuStrip = this.menuSongBrowser;
+            this.viewSongs2.DisplayDebugInformation = false;
+            this.viewSongs2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewSongs2.ImageCacheSize = 10;
+            this.viewSongs2.Location = new System.Drawing.Point(0, 25);
+            this.viewSongs2.Margin = new System.Windows.Forms.Padding(0);
+            this.viewSongs2.Name = "viewSongs2";
+            this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
+            this.viewSongs2.OrderByAscending = true;
+            this.viewSongs2.OrderByFieldName = "";
+            this.viewSongs2.Size = new System.Drawing.Size(799, 178);
+            this.viewSongs2.TabIndex = 74;
+            this.viewSongs2.Text = "songGridView1";
+            backgroundGradient29.BorderColor = System.Drawing.Color.Gray;
+            backgroundGradient29.BorderWidth = 0;
+            backgroundGradient29.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            backgroundGradient29.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            backgroundGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            songGridViewTheme1.AlbumCoverBackgroundGradient = backgroundGradient29;
+            textGradient80.BorderColor = System.Drawing.Color.Gray;
+            textGradient80.BorderWidth = 0;
+            textGradient80.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            textGradient80.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            customFont77.Color = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            customFont77.EmbeddedFontName = "Junction";
+            customFont77.IsBold = false;
+            customFont77.IsItalic = false;
+            customFont77.IsUnderline = false;
+            customFont77.Size = 8F;
+            customFont77.StandardFontName = "Arial";
+            customFont77.UseAntiAliasing = true;
+            customFont77.UseEmbeddedFont = true;
+            textGradient80.Font = customFont77;
+            textGradient80.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            textGradient80.Padding = 2;
+            songGridViewTheme1.HeaderHoverTextGradient = textGradient80;
+            textGradient81.BorderColor = System.Drawing.Color.Gray;
+            textGradient81.BorderWidth = 0;
+            textGradient81.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            textGradient81.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            customFont78.Color = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            customFont78.EmbeddedFontName = "Junction";
+            customFont78.IsBold = false;
+            customFont78.IsItalic = false;
+            customFont78.IsUnderline = false;
+            customFont78.Size = 8F;
+            customFont78.StandardFontName = "Arial";
+            customFont78.UseAntiAliasing = true;
+            customFont78.UseEmbeddedFont = true;
+            textGradient81.Font = customFont78;
+            textGradient81.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            textGradient81.Padding = 2;
+            songGridViewTheme1.HeaderTextGradient = textGradient81;
+            gradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            gradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(150)))), ((int)(((byte)(25)))));
+            gradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            songGridViewTheme1.IconNowPlayingGradient = gradient1;
+            songGridViewTheme1.Padding = 6;
+            textGradient82.BorderColor = System.Drawing.Color.Gray;
+            textGradient82.BorderWidth = 0;
+            textGradient82.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(235)))), ((int)(((byte)(135)))));
+            textGradient82.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(255)))), ((int)(((byte)(155)))));
+            customFont79.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont79.EmbeddedFontName = "Junction";
+            customFont79.IsBold = false;
+            customFont79.IsItalic = false;
+            customFont79.IsUnderline = false;
+            customFont79.Size = 8F;
+            customFont79.StandardFontName = "Arial";
+            customFont79.UseAntiAliasing = true;
+            customFont79.UseEmbeddedFont = true;
+            textGradient82.Font = customFont79;
+            textGradient82.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            textGradient82.Padding = 2;
+            songGridViewTheme1.RowNowPlayingTextGradient = textGradient82;
+            textGradient83.BorderColor = System.Drawing.Color.Gray;
+            textGradient83.BorderWidth = 0;
+            textGradient83.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            textGradient83.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            customFont80.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont80.EmbeddedFontName = "Junction";
+            customFont80.IsBold = false;
+            customFont80.IsItalic = false;
+            customFont80.IsUnderline = false;
+            customFont80.Size = 8F;
+            customFont80.StandardFontName = "Arial";
+            customFont80.UseAntiAliasing = true;
+            customFont80.UseEmbeddedFont = true;
+            textGradient83.Font = customFont80;
+            textGradient83.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            textGradient83.Padding = 2;
+            songGridViewTheme1.RowTextGradient = textGradient83;
+            this.viewSongs2.Theme = songGridViewTheme1;
+            this.viewSongs2.OnSelectedIndexChanged += new MPfm.WindowsControls.SongGridView.SelectedIndexChanged(this.viewSongs2_OnSelectedIndexChanged);
+            this.viewSongs2.OnColumnClick += new MPfm.WindowsControls.SongGridView.ColumnClick(this.viewSongs2_OnColumnClick);
+            this.viewSongs2.DoubleClick += new System.EventHandler(this.viewSongs2_DoubleClick);
+            // 
             // imageListSongBrowser
             // 
             this.imageListSongBrowser.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSongBrowser.ImageStream")));
@@ -4550,25 +4576,6 @@ namespace MPfm
             this.toolStripMenuItem4.Text = "Add folder to library...";
             this.toolStripMenuItem4.Visible = false;
             // 
-            // tableLayoutPanelSongBrowser
-            // 
-            this.tableLayoutPanelSongBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelSongBrowser.AutoSize = true;
-            this.tableLayoutPanelSongBrowser.ColumnCount = 1;
-            this.tableLayoutPanelSongBrowser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelSongBrowser.Controls.Add(this.panelSongBrowserToolbar, 0, 0);
-            this.tableLayoutPanelSongBrowser.Controls.Add(this.viewSongs2, 0, 1);
-            this.tableLayoutPanelSongBrowser.Location = new System.Drawing.Point(0, 24);
-            this.tableLayoutPanelSongBrowser.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanelSongBrowser.Name = "tableLayoutPanelSongBrowser";
-            this.tableLayoutPanelSongBrowser.RowCount = 2;
-            this.tableLayoutPanelSongBrowser.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelSongBrowser.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelSongBrowser.Size = new System.Drawing.Size(799, 203);
-            this.tableLayoutPanelSongBrowser.TabIndex = 75;
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4649,11 +4656,11 @@ namespace MPfm
             this.flowLayoutPanelMarkers.ResumeLayout(false);
             this.panelSongBrowser.ResumeLayout(false);
             this.panelSongBrowser.PerformLayout();
+            this.tableLayoutPanelSongBrowser.ResumeLayout(false);
             this.panelSongBrowserToolbar.ResumeLayout(false);
             this.panelSongBrowserToolbar.PerformLayout();
             this.menuTray.ResumeLayout(false);
             this.menuToolbarLibrary.ResumeLayout(false);
-            this.tableLayoutPanelSongBrowser.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4808,7 +4815,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem miHelpLicense;
         private System.Windows.Forms.ToolStripButton btnShuffle;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         public System.Windows.Forms.ToolStripButton btnThemes;
         private System.Windows.Forms.ToolStripButton btnOpenAudioFiles;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;

@@ -2009,10 +2009,9 @@ namespace MPfm
                 btnPlay.Enabled = false;
                 btnNextSong.Enabled = (Player.Playlist.CurrentItemIndex < Player.Playlist.Items.Count - 1) ? true : false;
                 btnPreviousSong.Enabled = (Player.Playlist.CurrentItemIndex == 0) ? false : true;
-
-                // Mantis 0000042
-                // Reset the pause button icon
                 btnPause.Checked = false;
+                trackPosition.Enabled = true;
+                trackTimeShifting.Enabled = true;
 
                 // Set the play icon in the song browser                
                 RefreshSongBrowserPlayIcon(Player.Playlist.CurrentItem.AudioFile.Id);
@@ -2034,6 +2033,8 @@ namespace MPfm
                 btnNextSong.Enabled = false;
                 btnPreviousSong.Enabled = false;
                 btnPlay.Enabled = true;
+                trackPosition.Enabled = false;
+                trackTimeShifting.Enabled = false;                
 
                 // Nothing is playing, then display "stop" song information                
                 lblCurrentArtistName.Text = string.Empty;
@@ -2564,6 +2565,9 @@ namespace MPfm
                 waveFormMarkersLoops.CancelWaveFormLoading();
             }
 
+            // Reset time shifting value
+            trackTimeShifting.Value = 0;
+
             // Stop song
             player.Stop();
 
@@ -2685,7 +2689,7 @@ namespace MPfm
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
-        private void linkResetTimeShifting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkResetTimeShifting_Click(object sender, EventArgs e)
         {
             trackTimeShifting.Value = 0;
         }
@@ -2694,8 +2698,8 @@ namespace MPfm
         /// Occurs when the user clicks on the "Edit Song Metadata" link in the "Actions" panel.
         /// </summary>
         /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void linkEditSongMetadata_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        /// <param name="e">Event arguments</param>        
+        private void linkEditSongMetadata_Click(object sender, EventArgs e)
         {
             // Check for null
             if (!Player.IsPlaying)
@@ -2746,8 +2750,8 @@ namespace MPfm
         /// Opens the default browser and searches for guitar tabs featuring the current song.
         /// </summary>
         /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void linkSearchGuitarTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        /// <param name="e">Event arguments</param>        
+        private void linkSearchGuitarTabs_Click(object sender, EventArgs e)
         {
             // Make sure the player is playing
             if (Player != null && Player.IsPlaying)
@@ -2761,8 +2765,8 @@ namespace MPfm
         /// Opens the default browser and searches for bass tabs featuring the current song.
         /// </summary>
         /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void linkSearchBassTabs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        /// <param name="e">Event arguments</param>        
+        private void linkSearchBassTabs_Click(object sender, EventArgs e)
         {
             // Make sure the player is playing
             if (Player != null && Player.IsPlaying)
@@ -2776,8 +2780,8 @@ namespace MPfm
         /// Opens the default browser and searches for lyrics featuring the current song.
         /// </summary>
         /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void linkSearchLyrics_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        /// <param name="e">Event arguments</param>6
+        private void linkSearchLyrics_Click(object sender, EventArgs e)
         {
             // Make sure the player is playing
             if (Player != null && Player.IsPlaying)
