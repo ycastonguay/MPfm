@@ -2478,7 +2478,8 @@ namespace MPfm
         /// Plays the selected song query in the Song Browser. The playback can be paused to seeked to a specific 
         /// position before playing. Refreshes UI controls.
         /// </summary>
-        public void Play(SongQuery query, Guid audioFileId)
+        //public void Play(SongQuery query, Guid audioFileId)
+        public void Play(SongQuery query, string audioFilePath)
         {
             try
             {
@@ -2512,10 +2513,12 @@ namespace MPfm
                 player.Playlist.AddItems(audioFiles);
 
                 // Set initial item
-                if (audioFileId != Guid.Empty)
+                //if (audioFileId != Guid.Empty)
+                if (!String.IsNullOrEmpty(audioFilePath))
                 {
                     // Set current item
-                    player.Playlist.GoTo(audioFileId);
+                    //player.Playlist.GoTo(audioFileId);
+                    player.Playlist.GoTo(audioFilePath);
                 }
 
                 // Start playback
@@ -2539,7 +2542,8 @@ namespace MPfm
             }
 
             // Play selected song
-            Play(querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
+            //Play(querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
+            Play(querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.FilePath);
         } 
 
         /// <summary>
@@ -3512,6 +3516,13 @@ namespace MPfm
 
             // Set filter
             filterAudioFileFormat = audioFileFormat;
+                        
+            // Update song browser query
+            if (treeLibrary.SelectedNode != null)
+            {
+                TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibrary.SelectedNode.Tag;
+                querySongBrowser = metadata.Query;
+            }
 
             // Check if init is done
             if (IsInitDone)
