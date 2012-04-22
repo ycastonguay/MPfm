@@ -90,9 +90,9 @@ namespace MPfm.WindowsControls
         /// Renders a gradient using the BackgroundGradient properties.
         /// </summary>
         /// <param name="g">Graphics object to render to</param>
-        /// <param name="rect">Rectangle filling the gradient and used for the border</param>
+        /// <param name="rect">Rectangle to fill (used for gradient and border)</param>
         /// <param name="gradient">BackgroundGradient object</param>
-        public static void RenderBackgroundGradient(Graphics g, Rectangle rect, BackgroundGradient gradient)
+        public static void RenderBackgroundGradient(Graphics g, RectangleF rect, BackgroundGradient gradient)
         {
             RenderBackgroundGradient(g, rect, rect, gradient);
         }
@@ -101,14 +101,27 @@ namespace MPfm.WindowsControls
         /// Renders a gradient using the BackgroundGradient properties.
         /// </summary>
         /// <param name="g">Graphics object to render to</param>
-        /// <param name="rectGradient">Rectangle filling the gradient</param>
+        /// <param name="rect">Rectangle to fill with gradient</param>
         /// <param name="rectBorder">Rectangle used for the border</param>
         /// <param name="gradient">BackgroundGradient object</param>
-        public static void RenderBackgroundGradient(Graphics g, Rectangle rectGradient, Rectangle rectBorder, BackgroundGradient gradient)
+        public static void RenderBackgroundGradient(Graphics g, RectangleF rect, RectangleF rectBorder, BackgroundGradient gradient)
+        {
+            RenderBackgroundGradient(g, rect, rectBorder, rect, gradient);
+        }
+
+        /// <summary>
+        /// Renders a gradient using the BackgroundGradient properties.
+        /// </summary>
+        /// <param name="g">Graphics object to render to</param>
+        /// <param name="rect">Rectangle to fill with the gradient</param>        
+        /// <param name="rectBorder">Rectangle used for the border</param>
+        /// <param name="rectGradient">Rectangle defining the gradient size</param>
+        /// <param name="gradient">BackgroundGradient object</param>
+        public static void RenderBackgroundGradient(Graphics g, RectangleF rect, RectangleF rectBorder, RectangleF rectGradient, BackgroundGradient gradient)
         {
             // Render gradient background
             LinearGradientBrush brushBackground = new LinearGradientBrush(rectGradient, gradient.Color1, gradient.Color2, gradient.GradientMode);
-            g.FillRectangle(brushBackground, rectGradient);
+            g.FillRectangle(brushBackground, rect);
             brushBackground.Dispose();
             brushBackground = null;
 
@@ -117,7 +130,7 @@ namespace MPfm.WindowsControls
             {
                 // Render border                
                 Pen penBorder = new Pen(gradient.BorderColor, gradient.BorderWidth);
-                g.DrawRectangle(penBorder, rectBorder);
+                g.DrawRectangle(penBorder, Rectangle.Round(rectBorder));
                 penBorder.Dispose();
                 penBorder = null;
             }

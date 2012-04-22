@@ -241,52 +241,24 @@ namespace MPfm.WindowsControls
             // Use anti-aliasing?
             if (theme.CustomFont.UseAntiAliasing)
             {
-                // Set text anti-aliasing to ClearType (best looking AA)
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-                // Set smoothing mode for paths
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                // Set anti-aliasing
+                PaintHelper.SetAntiAliasing(g);
             }
 
-            // Create custom font
-            Font font = null;
+            // Get font
+            Font font = PaintHelper.LoadFont(embeddedFonts, theme.CustomFont);
 
-            // Make sure the embedded font name needs to be loaded and is valid
-            if (theme.CustomFont.UseEmbeddedFont && !String.IsNullOrEmpty(theme.CustomFont.EmbeddedFontName))
-            {
-                try
-                {
-                    // Get embedded font
-                    font = Tools.LoadEmbeddedFont(embeddedFonts, theme.CustomFont.EmbeddedFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
-            }
-
-            // Check if font is null
+            // If the embedded font could not be loaded, get the default font
             if (font == null)
             {
-                try
-                {
-                    // Try to get standard font
-                    font = new Font(theme.CustomFont.StandardFontName, theme.CustomFont.Size, theme.CustomFont.ToFontStyle());
-                }
-                catch
-                {
-                    // Use default font instead
-                    font = this.Font;
-                }
+                // Use default Font instead
+                font = this.Font;
             }
-            
-            // Draw background gradient (cover -1 pixel for some refresh bug)
-            Rectangle rectBody = new Rectangle(-1, -1, Width + 1, Height + 1);
-            LinearGradientBrush brushBackground = new LinearGradientBrush(rectBody, theme.BackgroundGradient.Color1, theme.BackgroundGradient.Color2, theme.BackgroundGradient.GradientMode);
-            g.FillRectangle(brushBackground, rectBody);
-            brushBackground.Dispose();
-            brushBackground = null;
+
+            // Draw background gradient (cover -1 pixel to fix graphic bug) 
+            Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+            Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+            PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.BackgroundGradient);            
 
             // If the wave data is empty, skip rendering 
             if (WaveDataHistory == null || WaveDataHistory.Count == 0)
@@ -323,9 +295,6 @@ namespace MPfm.WindowsControls
                 // Set the dB range to display (-100 to +10dB)
                 float dbRangeToDisplay = 110;
 
-                // Get the related shits (+10, makes 110 possible height)
-                //float dbDisplay = maxDB + 10;
-
                 // Get multiplier (110 height to 330 == 3)
                 float scaleMultiplier = ClientRectangle.Height / dbRangeToDisplay;
 
@@ -359,25 +328,20 @@ namespace MPfm.WindowsControls
                     height = 1;
                 }
 
-                // Create rectangle for bar
-                RectangleF rect = new RectangleF(0, 110 - barHeight, barWidth, height);
-
-                // Create linear gradient brush covering the bar
-                RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
-                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradient.Color1, theme.MeterGradient.Color2, theme.MeterGradient.GradientMode);
+                // Create rectangle for bar                
+                RectangleF rect = new RectangleF(0, ClientRectangle.Height - barHeight, barWidth, height);
+                RectangleF rectGradient = new RectangleF(0, ClientRectangle.Height, barWidth, height);
+                BackgroundGradient gradient = theme.MeterGradient;
+                // Check for distortion
                 //if (maxLeftDB >= 0.2f)
                 //{
-                //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
+                //    gradient = theme.MeterDistortionGradient;
                 //}
-
-                // Draw rectangle and dispose objects
-                g.FillRectangle(brushBar, rect);
-                brushBar.Dispose();
-                brushBar = null;
+                PaintHelper.RenderBackgroundGradient(g, rect, rect, rectGradient, gradient);
 
                 // Draw peak line
                 pen = new Pen(theme.MeterPeakLineColor);
-                g.DrawLine(pen, new PointF(0, 110 - (peakLeftDB + 100)), new PointF(barWidth, 110 - (peakLeftDB + 100)));
+                g.DrawLine(pen, new PointF(0, ClientRectangle.Height - (peakLeftDB + 100)), new PointF(barWidth, ClientRectangle.Height - (peakLeftDB + 100)));
                 pen.Dispose();
                 pen = null;
 
@@ -410,21 +374,16 @@ namespace MPfm.WindowsControls
                     height = 1;
                 }
 
-                // Create rectangle for bar
+                // Create rectangle for bar                
                 rect = new RectangleF(barWidth, Height - barHeight, barWidth, height);
-
-                // Create linear gradient brush covering the bar
-                rectGrad = new RectangleF(barWidth, 110, barWidth, height);
-                brushBar = new LinearGradientBrush(rectGrad, theme.MeterGradient.Color1, theme.MeterGradient.Color2, theme.MeterGradient.GradientMode);
-                //if (maxRightDB >= 0.2f)
+                rectGradient = new RectangleF(barWidth, ClientRectangle.Height, barWidth, height);
+                gradient = theme.MeterGradient;
+                // Check for distortion
+                //if (maxLeftDB >= 0.2f)
                 //{
-                //    brushBar = new LinearGradientBrush(rectGrad, MeterDistortionGradientColor1, MeterDistortionGradientColor2, LinearGradientMode.Vertical);
+                //    gradient = theme.MeterDistortionGradient;
                 //}
-
-                // Draw rectangle and dispose objects
-                g.FillRectangle(brushBar, rect);
-                brushBar.Dispose();
-                brushBar = null;
+                PaintHelper.RenderBackgroundGradient(g, rect, rect, rectGradient, gradient);
 
                 // Draw number of db      
                 strDB = maxRightDB.ToString("00.0");
@@ -435,7 +394,7 @@ namespace MPfm.WindowsControls
 
                 // Draw peak line
                 pen = new Pen(theme.MeterPeakLineColor);
-                g.DrawLine(pen, new PointF(barWidth, 110 - (peakRightDB + 100)), new PointF(barWidth * 2, 110 - (peakRightDB + 100)));
+                g.DrawLine(pen, new PointF(barWidth, ClientRectangle.Height - (peakRightDB + 100)), new PointF(barWidth * 2, ClientRectangle.Height - (peakRightDB + 100)));
                 pen.Dispose();
                 pen = null;
 
@@ -458,55 +417,55 @@ namespace MPfm.WindowsControls
             }
             else
             {
-                float max = 0.0f;
-                if (DisplayType == OutputMeterDisplayType.LeftChannel)
-                {
-                    max = WaveDataHistory[0].leftMax;
-                }
-                else if (DisplayType == OutputMeterDisplayType.RightChannel)
-                {
-                    max = WaveDataHistory[0].rightMax;
-                }
-                else if (DisplayType == OutputMeterDisplayType.Mix)
-                {
-                    max = WaveDataHistory[0].mixMax;
-                }
+                //float max = 0.0f;
+                //if (DisplayType == OutputMeterDisplayType.LeftChannel)
+                //{
+                //    max = WaveDataHistory[0].leftMax;
+                //}
+                //else if (DisplayType == OutputMeterDisplayType.RightChannel)
+                //{
+                //    max = WaveDataHistory[0].rightMax;
+                //}
+                //else if (DisplayType == OutputMeterDisplayType.Mix)
+                //{
+                //    max = WaveDataHistory[0].mixMax;
+                //}
 
-                // at 10ms refresh, get last value.
-                float maxDB = 20.0f * (float)Math.Log10(max);
+                //// at 10ms refresh, get last value.
+                //float maxDB = 20.0f * (float)Math.Log10(max);
 
-                // Set the dB range to display (-100 to +10dB)
-                float dbRangeToDisplay = 110;
+                //// Set the dB range to display (-100 to +10dB)
+                //float dbRangeToDisplay = 110;
 
-                // Get the related shits (+10, makes 110 possible height)
-                //float dbDisplay = maxDB + 10;
+                //// Get the related value (+10, makes 110 possible height)
+                ////float dbDisplay = maxDB + 10;
 
-                // Get multiplier (110 height to 330 == 3)
-                float scaleMultiplier = ClientRectangle.Height / dbRangeToDisplay;
+                //// Get multiplier (110 height to 330 == 3)
+                //float scaleMultiplier = ClientRectangle.Height / dbRangeToDisplay;
 
-                // Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
-                //float barHeight = scaleMultiplier * (maxDB + 100);
-                float barHeight = maxDB + 100;
+                //// Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
+                ////float barHeight = scaleMultiplier * (maxDB + 100);
+                //float barHeight = maxDB + 100;
 
-                float height = barHeight;
-                if (height == 0)
-                {
-                    // LinearBrush doesnt like 0 
-                    height = 1;
-                }
+                //float height = barHeight;
+                //if (height == 0)
+                //{
+                //    // LinearBrush doesnt like 0 
+                //    height = 1;
+                //}
 
-                RectangleF rect = new RectangleF(0, Height - barHeight, barWidth, height);
-                RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
-                LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, Color.LightGreen, Color.DarkGreen, LinearGradientMode.Vertical);
-                if (maxDB >= 0)
-                {
-                    brushBar = new LinearGradientBrush(rectGrad, Color.Red, Color.DarkRed, LinearGradientMode.Vertical);
-                }
-                g.FillRectangle(brushBar, rect);
-                brushBar.Dispose();
-                brushBar = null;
+                //RectangleF rect = new RectangleF(0, Height - barHeight, barWidth, height);
+                //RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
+                //LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, Color.LightGreen, Color.DarkGreen, LinearGradientMode.Vertical);
+                //if (maxDB >= 0)
+                //{
+                //    brushBar = new LinearGradientBrush(rectGrad, Color.Red, Color.DarkRed, LinearGradientMode.Vertical);
+                //}
+                //g.FillRectangle(brushBar, rect);
+                //brushBar.Dispose();
+                //brushBar = null;
 
-                g.DrawString(maxDB.ToString("0.0"), Font, Brushes.White, new PointF(0, 0));
+                //g.DrawString(maxDB.ToString("0.0"), Font, Brushes.White, new PointF(0, 0));
             }
 
             // Dispose font if necessary
