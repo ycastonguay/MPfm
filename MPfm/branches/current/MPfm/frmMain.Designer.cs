@@ -476,6 +476,7 @@ namespace MPfm
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerUpdateSongPositionPanel = new System.Windows.Forms.Timer(this.components);
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -4576,6 +4577,10 @@ namespace MPfm
             this.toolStripMenuItem4.Text = "Add folder to library...";
             this.toolStripMenuItem4.Visible = false;
             // 
+            // timerUpdateSongPositionPanel
+            // 
+            this.timerUpdateSongPositionPanel.Tick += new System.EventHandler(this.timerUpdateSongPositionPanel_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4855,7 +4860,8 @@ namespace MPfm
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private WindowsControls.TrackBar trackTimeShifting;
         private WindowsControls.Label lblTimeShifting;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSongBrowser;        
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSongBrowser;
+        public System.Windows.Forms.Timer timerUpdateSongPositionPanel;        
     }
 }
 

@@ -1081,6 +1081,47 @@ namespace MPfm
         }
 
         /// <summary>
+        /// Occurs when the timer for updating the Song Position panel controls has expired.
+        /// Updates the song position UI and other things.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void timerUpdateSongPositionPanel_Tick(object sender, EventArgs e)
+        {
+            // Check for valid objects
+            if (player == null || !player.IsPlaying ||
+                player.Playlist == null || player.Playlist.CurrentItem == null || player.Playlist.CurrentItem.Channel == null)
+            {
+                return;
+            }
+
+            try
+            {
+                //// Get position
+                //long positionBytes = player.GetPosition();
+                //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                //long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
+                //string position = Conversion.MillisecondsToTimeString((ulong)positionMS);
+
+                //// Update the song position
+                //if (!songPositionChanging)
+                //{
+                //    // Get ratio
+                //    float ratio = (float)positionSamples / (float)player.Playlist.CurrentItem.LengthSamples;
+                //    trackPosition.Value = Convert.ToInt32(ratio * 1000);
+
+                //    // Set time on seek control
+                //    lblSongPosition.Text = position;
+                //    lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
+                //}
+            }
+            catch
+            {
+                // Just don't do anything, this might be because the playlist items are now gone.
+            }
+        }
+
+        /// <summary>
         /// Occurs when the timer for updating the song position has expired.
         /// Updates the song position UI and other things.
         /// </summary>
@@ -1163,6 +1204,7 @@ namespace MPfm
                     // Refresh controls
                     btnAddMarker.Enabled = false;
                     timerSongPosition.Enabled = false;
+                    timerUpdateSongPositionPanel.Enabled = false;
                     waveFormMarkersLoops.Clear();
                     RefreshSongControls();
                     RefreshMarkers();
@@ -1448,6 +1490,7 @@ namespace MPfm
 
             // Start timer
             timerSongPosition.Enabled = true;
+            timerUpdateSongPositionPanel.Enabled = true;
 
             // Make sure the user cannot add markers and loops
             btnAddLoop.Enabled = false;
@@ -1721,6 +1764,7 @@ namespace MPfm
                 btnPause.Checked = false;
                 miTrayPause.Checked = false;
                 timerSongPosition.Enabled = true;
+                timerUpdateSongPositionPanel.Enabled = true;
                 timerUpdateOutputMeter.Enabled = true;
             }
             else
@@ -1728,6 +1772,7 @@ namespace MPfm
                 btnPause.Checked = true;
                 miTrayPause.Checked = true;
                 timerSongPosition.Enabled = false;
+                timerUpdateSongPositionPanel.Enabled = false;
                 timerUpdateOutputMeter.Enabled = false;
             }
 
@@ -2462,6 +2507,7 @@ namespace MPfm
 
             // Start song position timer
             timerSongPosition.Enabled = true;
+            timerUpdateSongPositionPanel.Enabled = true;
 
             // Check if the audio file exists in the database
             AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(player.Playlist.CurrentItem.AudioFile.Id);
@@ -4122,6 +4168,7 @@ namespace MPfm
             // Show/hide tooltips
             formSettings.toolTip.Active = enable;
         }
+
 
     }
 
