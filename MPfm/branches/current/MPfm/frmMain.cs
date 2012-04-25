@@ -690,7 +690,7 @@ namespace MPfm
                 if (currentNodeType == "AllArtists")
                 {
                     // Set selected node
-                    treeLibrary.SelectedNode = nodeAllArtists;
+                    treeLibraryBrowser.SelectedNode = nodeAllArtists;
 
                     // Refresh song browser
                     RefreshSongBrowser();
@@ -702,7 +702,7 @@ namespace MPfm
                 else if (currentNodeType == "AllAlbums")
                 {
                     // Set selected node
-                    treeLibrary.SelectedNode = nodeAllAlbums;
+                    treeLibraryBrowser.SelectedNode = nodeAllAlbums;
 
                     // Refresh song browser
                     RefreshSongBrowser();
@@ -714,7 +714,7 @@ namespace MPfm
                 else if (currentNodeType == "AllSongs")
                 {
                     // Set selected node
-                    treeLibrary.SelectedNode = nodeAllSongs;
+                    treeLibraryBrowser.SelectedNode = nodeAllSongs;
 
                     // Refresh song browser
                     RefreshSongBrowser();
@@ -726,7 +726,7 @@ namespace MPfm
                 else if (currentNodeType == "AllPlaylists")
                 {
                     // Set selected node
-                    treeLibrary.SelectedNode = nodeAllPlaylists;
+                    treeLibraryBrowser.SelectedNode = nodeAllPlaylists;
 
                     // Refresh song browser
                     RefreshSongBrowser();
@@ -2128,7 +2128,7 @@ namespace MPfm
         public void RefreshSongBrowser()
         {
             // If no node has been selected
-            if (treeLibrary.SelectedNode == null)
+            if (treeLibraryBrowser.SelectedNode == null)
             {
                 // Filter all songs
                 RefreshSongBrowser(new SongQuery());
@@ -2136,7 +2136,7 @@ namespace MPfm
             }
            
             // Cast the tree node metadata            
-            TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibrary.SelectedNode.Tag;           
+            TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibraryBrowser.SelectedNode.Tag;           
 
             // Set the current song browser query from the selected node metadata            
             querySongBrowser = metadata.Query;
@@ -2363,10 +2363,10 @@ namespace MPfm
             TreeNode selectedNode = null;
 
             // Supress repainting the TreeView until we're done (to prevent flicker)
-            treeLibrary.BeginUpdate();
+            treeLibraryBrowser.BeginUpdate();
 
             // Make sure the tree is empty
-            treeLibrary.Nodes.Clear();
+            treeLibraryBrowser.Nodes.Clear();
 
             // Create the main nodes
             nodeAllSongs = new TreeNode("All Songs");
@@ -2409,17 +2409,17 @@ namespace MPfm
             //}
 
             // Add main nodes to the treeview
-            treeLibrary.Nodes.Add(nodeAllSongs);
-            treeLibrary.Nodes.Add(nodeAllArtists);
-            treeLibrary.Nodes.Add(nodeAllAlbums);
+            treeLibraryBrowser.Nodes.Add(nodeAllSongs);
+            treeLibraryBrowser.Nodes.Add(nodeAllArtists);
+            treeLibraryBrowser.Nodes.Add(nodeAllAlbums);
             //treeLibrary.Nodes.Add(nodeAllPlaylists);
             //treeLibrary.Nodes.Add(nodeRecentlyPlayed);
 
             // Set selected node
-            treeLibrary.SelectedNode = selectedNode;
+            treeLibraryBrowser.SelectedNode = selectedNode;
 
             // Set update done
-            treeLibrary.EndUpdate();
+            treeLibraryBrowser.EndUpdate();
         }
 
         /// <summary>
@@ -3008,7 +3008,7 @@ namespace MPfm
             if (result != null && result.TreeNodeToUpdate != null)
             {
                 // Supress repainting the TreeView until we're done (to prevent flicker)
-                treeLibrary.BeginUpdate();
+                treeLibraryBrowser.BeginUpdate();
 
                 // Remove the "expanding" notice and remove the dummy tree node
                 result.TreeNodeToUpdate.Text = result.TreeNodeToUpdate.Text.Replace(" (expanding...)", string.Empty);
@@ -3040,7 +3040,7 @@ namespace MPfm
                             if (!IsInitDone && result.ArtistName == initOpenNodeArtist && albumTitle == initOpenNodeArtistAlbum)
                             {
                                 // Set node as selected
-                                treeLibrary.SelectedNode = nodeAlbum;
+                                treeLibraryBrowser.SelectedNode = nodeAlbum;
                             }
                         }
                     }
@@ -3081,7 +3081,7 @@ namespace MPfm
                             if (!IsInitDone && artistName == initOpenNodeArtist)
                             {
                                 // Set node as selected
-                                treeLibrary.SelectedNode = nodeArtist;
+                                treeLibraryBrowser.SelectedNode = nodeArtist;
                             }
                         }
                     }
@@ -3090,7 +3090,7 @@ namespace MPfm
                     if (!IsInitDone && !String.IsNullOrEmpty(initOpenNodeArtistAlbum))
                     {
                         // The artist node must be expanded
-                        treeLibrary.SelectedNode.Expand();
+                        treeLibraryBrowser.SelectedNode.Expand();
                     }
                     else if (!IsInitDone)
                     {
@@ -3135,7 +3135,7 @@ namespace MPfm
                         if (!IsInitDone && albumTitle == initOpenNodeAlbum)
                         {
                             // Set node as selected
-                            treeLibrary.SelectedNode = nodeAlbum;
+                            treeLibraryBrowser.SelectedNode = nodeAlbum;
                         }
                     }
 
@@ -3143,7 +3143,7 @@ namespace MPfm
                     if (!IsInitDone && !String.IsNullOrEmpty(initOpenNodeAlbum))
                     {
                         // The artist node must be expanded
-                        treeLibrary.SelectedNode.Expand();
+                        treeLibraryBrowser.SelectedNode.Expand();
                     }
                 }
                 else if (result.OperationType == WorkerTreeLibraryOperationType.GetPlaylists)
@@ -3187,7 +3187,7 @@ namespace MPfm
             }
 
             // Set update to end
-            treeLibrary.EndUpdate();
+            treeLibraryBrowser.EndUpdate();
         }
 
         #endregion
@@ -3314,7 +3314,7 @@ namespace MPfm
         {
             if (e.Button == MouseButtons.Right)
             {
-                treeLibrary.SelectedNode = e.Node;
+                treeLibraryBrowser.SelectedNode = e.Node;
             }
         }
 
@@ -3472,10 +3472,10 @@ namespace MPfm
         private void menuLibrary_Opening(object sender, CancelEventArgs e)
         {
             // Get the point where the mouse cursor is
-            Point pt = treeLibrary.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y));
+            Point pt = treeLibraryBrowser.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y));
 
             // Get the tree node at that point
-            TreeNode node = treeLibrary.GetNodeAt(pt.X, pt.Y);
+            TreeNode node = treeLibraryBrowser.GetNodeAt(pt.X, pt.Y);
 
             // Is the node null?
             if (node == null)
@@ -3568,9 +3568,9 @@ namespace MPfm
             filterAudioFileFormat = audioFileFormat;
                         
             // Update song browser query
-            if (treeLibrary.SelectedNode != null)
+            if (treeLibraryBrowser.SelectedNode != null)
             {
-                TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibrary.SelectedNode.Tag;
+                TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibraryBrowser.SelectedNode.Tag;
                 querySongBrowser = metadata.Query;
             }
 
@@ -4149,12 +4149,12 @@ namespace MPfm
             if (show)
             {
                 // The update library progress panel is 102 pixels high.
-                treeLibrary.Height -= 102;
+                treeLibraryBrowser.Height -= 102;
                 panelUpdateLibraryProgress.Visible = true;
             }
             else
             {
-                treeLibrary.Height += 102;
+                treeLibraryBrowser.Height += 102;
                 panelUpdateLibraryProgress.Visible = false;
             }
         }
