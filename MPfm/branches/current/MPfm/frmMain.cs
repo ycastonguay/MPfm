@@ -804,6 +804,9 @@ namespace MPfm
             WindowConfiguration windowMain = Config.Windows.Windows.FirstOrDefault(x => x.Name.ToUpper() == "MAIN");
             if(windowMain != null)
             {
+                // Set splitter distance
+                splitFirst.SplitterDistance = Config.GetKeyValueGeneric<int>("WindowSplitterDistance") ?? 175;
+
                 // Check if the window needs to use the default position (center screen)
                 if(windowMain.UseDefaultPosition)
                 {
@@ -850,9 +853,6 @@ namespace MPfm
                 {
                     WindowState = FormWindowState.Normal;
                 }
-
-                // Set splitter distance
-                splitFirst.SplitterDistance = Config.GetKeyValueGeneric<int>("WindowSplitterDistance") ?? 175;
 
                 // Load song browser column widths
                 foreach (SongGridViewColumn column in Config.Controls.SongGridView.Columns)
@@ -4168,8 +4168,6 @@ namespace MPfm
             // Show/hide tooltips
             formSettings.toolTip.Active = enable;
         }
-
-
     }
 
     #region Classes and enums
