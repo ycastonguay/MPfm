@@ -804,6 +804,10 @@ namespace MPfm
             WindowConfiguration windowMain = Config.Windows.Windows.FirstOrDefault(x => x.Name.ToUpper() == "MAIN");
             if(windowMain != null)
             {
+                // Set size
+                Width = windowMain.Width;
+                Height = windowMain.Height;
+
                 // Set splitter distance
                 splitFirst.SplitterDistance = Config.GetKeyValueGeneric<int>("WindowSplitterDistance") ?? 175;
 
@@ -839,10 +843,6 @@ namespace MPfm
 
                     Location = new Point(x, y);
                 }
-
-                // Set size
-                Width = windowMain.Width;
-                Height = windowMain.Height;
 
                 // Set maximized state
                 if (windowMain.Maximized)

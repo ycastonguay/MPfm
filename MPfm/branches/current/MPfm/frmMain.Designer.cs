@@ -476,6 +476,7 @@ namespace MPfm
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.timerUpdateSongPositionPanel = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.tableLayoutPanelLibrary = new System.Windows.Forms.TableLayoutPanel();
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -529,6 +530,7 @@ namespace MPfm
             this.flowLayoutPanelSongBrowserToolbar.SuspendLayout();
             this.menuTray.SuspendLayout();
             this.menuToolbarLibrary.SuspendLayout();
+            this.tableLayoutPanelLibrary.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuSongBrowser
@@ -1130,10 +1132,7 @@ namespace MPfm
             // 
             // panelLibrary
             // 
-            this.panelLibrary.Controls.Add(this.panelUpdateLibraryProgress);
-            this.panelLibrary.Controls.Add(this.lblFilterBySoundFormat);
-            this.panelLibrary.Controls.Add(this.treeLibrary);
-            this.panelLibrary.Controls.Add(this.comboSoundFormat);
+            this.panelLibrary.Controls.Add(this.tableLayoutPanelLibrary);
             this.panelLibrary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLibrary.ExpandedHeight = 200;
             this.panelLibrary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1178,13 +1177,13 @@ namespace MPfm
             // 
             // panelUpdateLibraryProgress
             // 
-            this.panelUpdateLibraryProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLibrary.SetColumnSpan(this.panelUpdateLibraryProgress, 2);
             this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryRemainingTime);
             this.panelUpdateLibraryProgress.Controls.Add(this.btnCancelUpdateLibrary);
             this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryCurrentFileValue);
             this.panelUpdateLibraryProgress.Controls.Add(this.progressUpdateLibrary);
             this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryMessage);
+            this.panelUpdateLibraryProgress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUpdateLibraryProgress.ExpandedHeight = 56;
             this.panelUpdateLibraryProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelUpdateLibraryProgress.HeaderAutoSize = true;
@@ -1193,9 +1192,9 @@ namespace MPfm
             this.panelUpdateLibraryProgress.HeaderHeight = 16;
             this.panelUpdateLibraryProgress.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelUpdateLibraryProgress.HeaderTitle = "Update Library Progress";
-            this.panelUpdateLibraryProgress.Location = new System.Drawing.Point(0, 436);
+            this.panelUpdateLibraryProgress.Location = new System.Drawing.Point(3, 414);
             this.panelUpdateLibraryProgress.Name = "panelUpdateLibraryProgress";
-            this.panelUpdateLibraryProgress.Size = new System.Drawing.Size(204, 102);
+            this.panelUpdateLibraryProgress.Size = new System.Drawing.Size(197, 102);
             this.panelUpdateLibraryProgress.TabIndex = 64;
             this.panelUpdateLibraryProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient1.BorderColor = System.Drawing.Color.DarkGray;
@@ -1233,7 +1232,7 @@ namespace MPfm
             this.lblUpdateLibraryRemainingTime.IsAutoSized = false;
             this.lblUpdateLibraryRemainingTime.Location = new System.Drawing.Point(2, 81);
             this.lblUpdateLibraryRemainingTime.Name = "lblUpdateLibraryRemainingTime";
-            this.lblUpdateLibraryRemainingTime.Size = new System.Drawing.Size(197, 16);
+            this.lblUpdateLibraryRemainingTime.Size = new System.Drawing.Size(190, 16);
             this.lblUpdateLibraryRemainingTime.TabIndex = 82;
             this.lblUpdateLibraryRemainingTime.Text = "14 mins remaining";
             this.lblUpdateLibraryRemainingTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1266,7 +1265,7 @@ namespace MPfm
             this.btnCancelUpdateLibrary.Image = null;
             this.btnCancelUpdateLibrary.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancelUpdateLibrary.IsAutoSized = false;
-            this.btnCancelUpdateLibrary.Location = new System.Drawing.Point(149, 58);
+            this.btnCancelUpdateLibrary.Location = new System.Drawing.Point(142, 58);
             this.btnCancelUpdateLibrary.Name = "btnCancelUpdateLibrary";
             this.btnCancelUpdateLibrary.Size = new System.Drawing.Size(50, 20);
             this.btnCancelUpdateLibrary.TabIndex = 81;
@@ -1335,7 +1334,7 @@ namespace MPfm
             this.lblUpdateLibraryCurrentFileValue.IsAutoSized = false;
             this.lblUpdateLibraryCurrentFileValue.Location = new System.Drawing.Point(1, 36);
             this.lblUpdateLibraryCurrentFileValue.Name = "lblUpdateLibraryCurrentFileValue";
-            this.lblUpdateLibraryCurrentFileValue.Size = new System.Drawing.Size(200, 14);
+            this.lblUpdateLibraryCurrentFileValue.Size = new System.Drawing.Size(193, 14);
             this.lblUpdateLibraryCurrentFileValue.TabIndex = 76;
             this.lblUpdateLibraryCurrentFileValue.Text = "Current file:";
             this.lblUpdateLibraryCurrentFileValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1365,7 +1364,7 @@ namespace MPfm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressUpdateLibrary.Location = new System.Drawing.Point(5, 58);
             this.progressUpdateLibrary.Name = "progressUpdateLibrary";
-            this.progressUpdateLibrary.Size = new System.Drawing.Size(140, 20);
+            this.progressUpdateLibrary.Size = new System.Drawing.Size(133, 20);
             this.progressUpdateLibrary.TabIndex = 75;
             // 
             // lblUpdateLibraryMessage
@@ -1378,7 +1377,7 @@ namespace MPfm
             this.lblUpdateLibraryMessage.IsAutoSized = false;
             this.lblUpdateLibraryMessage.Location = new System.Drawing.Point(1, 21);
             this.lblUpdateLibraryMessage.Name = "lblUpdateLibraryMessage";
-            this.lblUpdateLibraryMessage.Size = new System.Drawing.Size(198, 14);
+            this.lblUpdateLibraryMessage.Size = new System.Drawing.Size(191, 14);
             this.lblUpdateLibraryMessage.TabIndex = 63;
             this.lblUpdateLibraryMessage.Text = "Current file:";
             this.lblUpdateLibraryMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1405,12 +1404,14 @@ namespace MPfm
             // lblFilterBySoundFormat
             // 
             this.lblFilterBySoundFormat.BackColor = System.Drawing.Color.Transparent;
+            this.lblFilterBySoundFormat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblFilterBySoundFormat.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFilterBySoundFormat.ForeColor = System.Drawing.Color.White;
             this.lblFilterBySoundFormat.IsAutoSized = false;
-            this.lblFilterBySoundFormat.Location = new System.Drawing.Point(2, 29);
+            this.lblFilterBySoundFormat.Location = new System.Drawing.Point(0, 0);
+            this.lblFilterBySoundFormat.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.lblFilterBySoundFormat.Name = "lblFilterBySoundFormat";
-            this.lblFilterBySoundFormat.Size = new System.Drawing.Size(128, 14);
+            this.lblFilterBySoundFormat.Size = new System.Drawing.Size(128, 29);
             this.lblFilterBySoundFormat.TabIndex = 61;
             this.lblFilterBySoundFormat.Text = "Filter by Sound Format:";
             this.lblFilterBySoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1433,24 +1434,23 @@ namespace MPfm
             textGradient8.Padding = 2;
             labelTheme4.TextGradient = textGradient8;
             this.lblFilterBySoundFormat.Theme = labelTheme4;
-            this.toolTip.SetToolTip(this.lblFilterBySoundFormat, "The Library content is filtered by this value.");
+            this.toolTip.SetToolTip(this.lblFilterBySoundFormat, "The Library tree view items are filtered by this value.");
             // 
             // treeLibrary
             // 
-            this.treeLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeLibrary.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tableLayoutPanelLibrary.SetColumnSpan(this.treeLibrary, 2);
             this.treeLibrary.ContextMenuStrip = this.menuLibrary;
+            this.treeLibrary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeLibrary.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeLibrary.HideSelection = false;
             this.treeLibrary.ImageIndex = 0;
             this.treeLibrary.ImageList = this.imageList;
-            this.treeLibrary.Location = new System.Drawing.Point(0, 53);
+            this.treeLibrary.Location = new System.Drawing.Point(0, 29);
             this.treeLibrary.Margin = new System.Windows.Forms.Padding(0);
             this.treeLibrary.Name = "treeLibrary";
             this.treeLibrary.SelectedImageIndex = 0;
-            this.treeLibrary.Size = new System.Drawing.Size(204, 386);
+            this.treeLibrary.Size = new System.Drawing.Size(203, 382);
             this.treeLibrary.TabIndex = 3;
             this.treeLibrary.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeLibrary_BeforeExpand);
             this.treeLibrary.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeLibrary_BeforeSelect);
@@ -1503,16 +1503,16 @@ namespace MPfm
             // 
             // comboSoundFormat
             // 
-            this.comboSoundFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboSoundFormat.BackColor = System.Drawing.Color.Gainsboro;
+            this.comboSoundFormat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboSoundFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboSoundFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboSoundFormat.ForeColor = System.Drawing.Color.Black;
             this.comboSoundFormat.FormattingEnabled = true;
-            this.comboSoundFormat.Location = new System.Drawing.Point(135, 27);
+            this.comboSoundFormat.Location = new System.Drawing.Point(135, 4);
+            this.comboSoundFormat.Margin = new System.Windows.Forms.Padding(4);
             this.comboSoundFormat.Name = "comboSoundFormat";
-            this.comboSoundFormat.Size = new System.Drawing.Size(65, 21);
+            this.comboSoundFormat.Size = new System.Drawing.Size(64, 21);
             this.comboSoundFormat.TabIndex = 28;
             this.comboSoundFormat.SelectedIndexChanged += new System.EventHandler(this.comboSoundFormat_SelectedIndexChanged);
             // 
@@ -1583,8 +1583,10 @@ namespace MPfm
             // 
             // tableLayoutPanelCurrentSong
             // 
-            this.tableLayoutPanelCurrentSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tableLayoutPanelCurrentSong.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelCurrentSong.AutoSize = true;
             this.tableLayoutPanelCurrentSong.BackColor = System.Drawing.Color.Transparent;
             this.tableLayoutPanelCurrentSong.ColumnCount = 3;
             this.tableLayoutPanelCurrentSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1598,7 +1600,7 @@ namespace MPfm
             this.tableLayoutPanelCurrentSong.Name = "tableLayoutPanelCurrentSong";
             this.tableLayoutPanelCurrentSong.RowCount = 1;
             this.tableLayoutPanelCurrentSong.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelCurrentSong.Size = new System.Drawing.Size(796, 165);
+            this.tableLayoutPanelCurrentSong.Size = new System.Drawing.Size(798, 165);
             this.tableLayoutPanelCurrentSong.TabIndex = 68;
             // 
             // tableLayoutPanelCurrentSongCenter
@@ -1616,7 +1618,7 @@ namespace MPfm
             this.tableLayoutPanelCurrentSongCenter.RowCount = 2;
             this.tableLayoutPanelCurrentSongCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelCurrentSongCenter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelCurrentSongCenter.Size = new System.Drawing.Size(561, 165);
+            this.tableLayoutPanelCurrentSongCenter.Size = new System.Drawing.Size(563, 165);
             this.tableLayoutPanelCurrentSongCenter.TabIndex = 75;
             // 
             // tableLayoutPanelCurrentSongCenterLine1
@@ -1636,7 +1638,7 @@ namespace MPfm
             this.tableLayoutPanelCurrentSongCenterLine1.Name = "tableLayoutPanelCurrentSongCenterLine1";
             this.tableLayoutPanelCurrentSongCenterLine1.RowCount = 1;
             this.tableLayoutPanelCurrentSongCenterLine1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelCurrentSongCenterLine1.Size = new System.Drawing.Size(561, 109);
+            this.tableLayoutPanelCurrentSongCenterLine1.Size = new System.Drawing.Size(563, 109);
             this.tableLayoutPanelCurrentSongCenterLine1.TabIndex = 77;
             // 
             // flowLayoutPanelSongInformation
@@ -1651,7 +1653,7 @@ namespace MPfm
             this.flowLayoutPanelSongInformation.Location = new System.Drawing.Point(2, 0);
             this.flowLayoutPanelSongInformation.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.flowLayoutPanelSongInformation.Name = "flowLayoutPanelSongInformation";
-            this.flowLayoutPanelSongInformation.Size = new System.Drawing.Size(354, 109);
+            this.flowLayoutPanelSongInformation.Size = new System.Drawing.Size(356, 109);
             this.flowLayoutPanelSongInformation.TabIndex = 66;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
@@ -1807,7 +1809,7 @@ namespace MPfm
             this.panelInformation.HeaderHeight = 16;
             this.panelInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelInformation.HeaderTitle = "Information";
-            this.panelInformation.Location = new System.Drawing.Point(461, 0);
+            this.panelInformation.Location = new System.Drawing.Point(463, 0);
             this.panelInformation.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.panelInformation.Name = "panelInformation";
             this.panelInformation.Size = new System.Drawing.Size(100, 109);
@@ -2009,7 +2011,7 @@ namespace MPfm
             this.panelActions.HeaderHeight = 16;
             this.panelActions.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelActions.HeaderTitle = "Actions";
-            this.panelActions.Location = new System.Drawing.Point(359, 0);
+            this.panelActions.Location = new System.Drawing.Point(361, 0);
             this.panelActions.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.panelActions.Name = "panelActions";
             this.panelActions.Size = new System.Drawing.Size(100, 109);
@@ -2238,7 +2240,7 @@ namespace MPfm
             this.tableLayoutPanelCurrentSongCenterLine2.Name = "tableLayoutPanelCurrentSongCenterLine2";
             this.tableLayoutPanelCurrentSongCenterLine2.RowCount = 1;
             this.tableLayoutPanelCurrentSongCenterLine2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelCurrentSongCenterLine2.Size = new System.Drawing.Size(561, 65);
+            this.tableLayoutPanelCurrentSongCenterLine2.Size = new System.Drawing.Size(563, 65);
             this.tableLayoutPanelCurrentSongCenterLine2.TabIndex = 76;
             // 
             // panelTimeShifting
@@ -2254,7 +2256,7 @@ namespace MPfm
             this.panelTimeShifting.HeaderHeight = 16;
             this.panelTimeShifting.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelTimeShifting.HeaderTitle = "Time Shifting";
-            this.panelTimeShifting.Location = new System.Drawing.Point(461, 0);
+            this.panelTimeShifting.Location = new System.Drawing.Point(463, 0);
             this.panelTimeShifting.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.panelTimeShifting.Name = "panelTimeShifting";
             this.panelTimeShifting.Size = new System.Drawing.Size(100, 65);
@@ -2431,7 +2433,7 @@ namespace MPfm
             this.panelSongPosition.Location = new System.Drawing.Point(204, 0);
             this.panelSongPosition.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.panelSongPosition.Name = "panelSongPosition";
-            this.panelSongPosition.Size = new System.Drawing.Size(255, 65);
+            this.panelSongPosition.Size = new System.Drawing.Size(257, 65);
             this.panelSongPosition.TabIndex = 52;
             this.panelSongPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient15.BorderColor = System.Drawing.Color.DarkGray;
@@ -2477,7 +2479,7 @@ namespace MPfm
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(254, 40);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(256, 40);
             this.tableLayoutPanel1.TabIndex = 77;
             // 
             // trackPosition
@@ -2490,7 +2492,7 @@ namespace MPfm
             this.trackPosition.Location = new System.Drawing.Point(3, 3);
             this.trackPosition.Maximum = 999;
             this.trackPosition.Name = "trackPosition";
-            this.trackPosition.Size = new System.Drawing.Size(248, 16);
+            this.trackPosition.Size = new System.Drawing.Size(250, 16);
             this.trackPosition.StepSize = 5;
             this.trackPosition.TabIndex = 31;
             this.trackPosition.Text = "TrackBar1";
@@ -2531,7 +2533,7 @@ namespace MPfm
             this.lblSongPosition.Location = new System.Drawing.Point(0, 22);
             this.lblSongPosition.Margin = new System.Windows.Forms.Padding(0);
             this.lblSongPosition.Name = "lblSongPosition";
-            this.lblSongPosition.Size = new System.Drawing.Size(127, 22);
+            this.lblSongPosition.Size = new System.Drawing.Size(128, 22);
             this.lblSongPosition.TabIndex = 64;
             this.lblSongPosition.Text = "0:00.000";
             this.lblSongPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2562,10 +2564,10 @@ namespace MPfm
             this.lblSongPercentage.Font = new System.Drawing.Font("Lucida Console", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSongPercentage.ForeColor = System.Drawing.Color.White;
             this.lblSongPercentage.IsAutoSized = false;
-            this.lblSongPercentage.Location = new System.Drawing.Point(127, 22);
+            this.lblSongPercentage.Location = new System.Drawing.Point(128, 22);
             this.lblSongPercentage.Margin = new System.Windows.Forms.Padding(0);
             this.lblSongPercentage.Name = "lblSongPercentage";
-            this.lblSongPercentage.Size = new System.Drawing.Size(127, 22);
+            this.lblSongPercentage.Size = new System.Drawing.Size(128, 22);
             this.lblSongPercentage.TabIndex = 30;
             this.lblSongPercentage.Text = "0 %";
             this.lblSongPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2754,7 +2756,7 @@ namespace MPfm
             this.panelVolume.HeaderHeight = 16;
             this.panelVolume.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelVolume.HeaderTitle = "Volume";
-            this.panelVolume.Location = new System.Drawing.Point(718, 0);
+            this.panelVolume.Location = new System.Drawing.Point(720, 0);
             this.panelVolume.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.panelVolume.Name = "panelVolume";
             this.panelVolume.Size = new System.Drawing.Size(78, 165);
@@ -3102,8 +3104,6 @@ namespace MPfm
             // 
             // flowLayoutPanelLoops
             // 
-            this.flowLayoutPanelLoops.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelLoops.AutoSize = true;
             this.flowLayoutPanelLoops.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.flowLayoutPanelLoops.Controls.Add(this.lblLoops);
@@ -3112,6 +3112,7 @@ namespace MPfm
             this.flowLayoutPanelLoops.Controls.Add(this.btnAddLoop);
             this.flowLayoutPanelLoops.Controls.Add(this.btnEditLoop);
             this.flowLayoutPanelLoops.Controls.Add(this.btnRemoveLoop);
+            this.flowLayoutPanelLoops.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelLoops.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelLoops.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelLoops.Name = "flowLayoutPanelLoops";
@@ -3121,12 +3122,13 @@ namespace MPfm
             // lblLoops
             // 
             this.lblLoops.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoops.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblLoops.ForeColor = System.Drawing.Color.White;
             this.lblLoops.IsAutoSized = false;
             this.lblLoops.Location = new System.Drawing.Point(3, 3);
             this.lblLoops.Name = "lblLoops";
-            this.lblLoops.Size = new System.Drawing.Size(42, 14);
+            this.lblLoops.Size = new System.Drawing.Size(42, 16);
             this.lblLoops.TabIndex = 85;
             this.lblLoops.Text = "Loops";
             this.lblLoops.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3614,8 +3616,6 @@ namespace MPfm
             // 
             // flowLayoutPanelMarkers
             // 
-            this.flowLayoutPanelMarkers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelMarkers.AutoSize = true;
             this.flowLayoutPanelMarkers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.flowLayoutPanelMarkers.Controls.Add(this.lblMarkers);
@@ -3623,6 +3623,7 @@ namespace MPfm
             this.flowLayoutPanelMarkers.Controls.Add(this.btnAddMarker);
             this.flowLayoutPanelMarkers.Controls.Add(this.btnEditMarker);
             this.flowLayoutPanelMarkers.Controls.Add(this.btnRemoveMarker);
+            this.flowLayoutPanelMarkers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelMarkers.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelMarkers.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelMarkers.Name = "flowLayoutPanelMarkers";
@@ -3632,12 +3633,13 @@ namespace MPfm
             // lblMarkers
             // 
             this.lblMarkers.BackColor = System.Drawing.Color.Transparent;
+            this.lblMarkers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblMarkers.ForeColor = System.Drawing.Color.White;
             this.lblMarkers.IsAutoSized = false;
             this.lblMarkers.Location = new System.Drawing.Point(3, 3);
             this.lblMarkers.Name = "lblMarkers";
-            this.lblMarkers.Size = new System.Drawing.Size(54, 14);
+            this.lblMarkers.Size = new System.Drawing.Size(54, 16);
             this.lblMarkers.TabIndex = 72;
             this.lblMarkers.Text = "Markers";
             this.lblMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4268,15 +4270,15 @@ namespace MPfm
             customFont75.UseEmbeddedFont = true;
             textGradient78.Font = customFont75;
             textGradient78.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient78.Padding = 5;
+            textGradient78.Padding = 2;
             labelTheme22.TextGradient = textGradient78;
             this.lblSearchFor.Theme = labelTheme22;
             this.toolTip.SetToolTip(this.lblSearchFor, "Filters the songs by the value found in the Search text box.");
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(481, 0);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(0);
+            this.txtSearch.Location = new System.Drawing.Point(481, 1);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(177, 22);
             this.txtSearch.TabIndex = 74;
@@ -4616,6 +4618,29 @@ namespace MPfm
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Information";
             // 
+            // tableLayoutPanelLibrary
+            // 
+            this.tableLayoutPanelLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLibrary.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanelLibrary.ColumnCount = 2;
+            this.tableLayoutPanelLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLibrary.Controls.Add(this.panelUpdateLibraryProgress, 0, 2);
+            this.tableLayoutPanelLibrary.Controls.Add(this.treeLibrary, 0, 1);
+            this.tableLayoutPanelLibrary.Controls.Add(this.comboSoundFormat, 1, 0);
+            this.tableLayoutPanelLibrary.Controls.Add(this.lblFilterBySoundFormat, 0, 0);
+            this.tableLayoutPanelLibrary.Location = new System.Drawing.Point(0, 22);
+            this.tableLayoutPanelLibrary.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanelLibrary.Name = "tableLayoutPanelLibrary";
+            this.tableLayoutPanelLibrary.RowCount = 3;
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLibrary.Size = new System.Drawing.Size(203, 519);
+            this.tableLayoutPanelLibrary.TabIndex = 62;
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4651,6 +4676,7 @@ namespace MPfm
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.panelCurrentSong.ResumeLayout(false);
+            this.panelCurrentSong.PerformLayout();
             this.tableLayoutPanelCurrentSong.ResumeLayout(false);
             this.tableLayoutPanelCurrentSong.PerformLayout();
             this.tableLayoutPanelCurrentSongCenter.ResumeLayout(false);
@@ -4702,6 +4728,7 @@ namespace MPfm
             this.flowLayoutPanelSongBrowserToolbar.PerformLayout();
             this.menuTray.ResumeLayout(false);
             this.menuToolbarLibrary.ResumeLayout(false);
+            this.tableLayoutPanelLibrary.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4898,7 +4925,8 @@ namespace MPfm
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSongBrowser;
         public System.Windows.Forms.Timer timerUpdateSongPositionPanel;
         public System.Windows.Forms.ToolTip toolTip;
-        private WindowsControls.FlowLayoutPanel flowLayoutPanelSongBrowserToolbar;        
+        private WindowsControls.FlowLayoutPanel flowLayoutPanelSongBrowserToolbar;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelLibrary;        
     }
 }
 
