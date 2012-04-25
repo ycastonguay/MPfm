@@ -217,13 +217,6 @@ namespace MPfm
             MPfm.WindowsControls.LabelTheme labelTheme21 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient55 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont52 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.ButtonTheme buttonTheme7 = new MPfm.WindowsControls.ButtonTheme();
-            MPfm.WindowsControls.TextGradient textGradient56 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont53 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient57 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont54 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient58 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont55 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.ButtonTheme buttonTheme8 = new MPfm.WindowsControls.ButtonTheme();
             MPfm.WindowsControls.TextGradient textGradient59 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont56 = new MPfm.WindowsControls.CustomFont();
@@ -245,6 +238,13 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont63 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient67 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont64 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.ButtonTheme buttonTheme7 = new MPfm.WindowsControls.ButtonTheme();
+            MPfm.WindowsControls.TextGradient textGradient56 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont53 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient57 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont54 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient58 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont55 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.PanelTheme panelTheme13 = new MPfm.WindowsControls.PanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient30 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient84 = new MPfm.WindowsControls.TextGradient();
@@ -477,6 +477,7 @@ namespace MPfm
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.timerUpdateSongPositionPanel = new System.Windows.Forms.Timer(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -968,6 +969,7 @@ namespace MPfm
             this.btnPlay.Size = new System.Drawing.Size(31, 34);
             this.btnPlay.Text = "Play";
             this.btnPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPlay.ToolTipText = "Starts the playback from the first item of the playlist.";
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // btnPause
@@ -979,6 +981,7 @@ namespace MPfm
             this.btnPause.Size = new System.Drawing.Size(41, 34);
             this.btnPause.Text = "Pause";
             this.btnPause.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPause.ToolTipText = "Pauses the playback.";
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // btnStop
@@ -990,6 +993,7 @@ namespace MPfm
             this.btnStop.Size = new System.Drawing.Size(33, 34);
             this.btnStop.Text = "Stop";
             this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStop.ToolTipText = "Stops the playback.";
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnPreviousSong
@@ -1001,6 +1005,7 @@ namespace MPfm
             this.btnPreviousSong.Size = new System.Drawing.Size(81, 34);
             this.btnPreviousSong.Text = "Previous Song";
             this.btnPreviousSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPreviousSong.ToolTipText = "Skips to the previous song in the playlist.";
             this.btnPreviousSong.Click += new System.EventHandler(this.btnPreviousSong_Click);
             // 
             // btnNextSong
@@ -1012,6 +1017,7 @@ namespace MPfm
             this.btnNextSong.Size = new System.Drawing.Size(61, 34);
             this.btnNextSong.Text = "Next Song";
             this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnNextSong.ToolTipText = "Skips to the next song in the playlist.";
             this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
             // 
             // btnRepeat
@@ -1022,6 +1028,7 @@ namespace MPfm
             this.btnRepeat.Size = new System.Drawing.Size(72, 34);
             this.btnRepeat.Text = "Repeat (Off)";
             this.btnRepeat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRepeat.ToolTipText = "Cycles through the repeat types.";
             this.btnRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
             // 
             // btnShuffle
@@ -1032,6 +1039,7 @@ namespace MPfm
             this.btnShuffle.Size = new System.Drawing.Size(46, 34);
             this.btnShuffle.Text = "Shuffle";
             this.btnShuffle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnShuffle.ToolTipText = "Shuffles";
             this.btnShuffle.Visible = false;
             this.btnShuffle.Click += new System.EventHandler(this.btnShuffle_Click);
             // 
@@ -1048,6 +1056,7 @@ namespace MPfm
             this.btnEffects.Size = new System.Drawing.Size(46, 34);
             this.btnEffects.Text = "Effects";
             this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnEffects.ToolTipText = "Opens the Effects window.";
             this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);
             // 
             // btnPlaylist
@@ -1058,6 +1067,7 @@ namespace MPfm
             this.btnPlaylist.Size = new System.Drawing.Size(44, 34);
             this.btnPlaylist.Text = "Playlist";
             this.btnPlaylist.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPlaylist.ToolTipText = "Opens the Playlist window.";
             this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
             // btnVisualizer
@@ -1068,6 +1078,7 @@ namespace MPfm
             this.btnVisualizer.Size = new System.Drawing.Size(59, 34);
             this.btnVisualizer.Text = "Visualizer";
             this.btnVisualizer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVisualizer.ToolTipText = "Opens the Visualizer window.";
             this.btnVisualizer.Visible = false;
             this.btnVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
             // 
@@ -1079,6 +1090,7 @@ namespace MPfm
             this.btnThemes.Size = new System.Drawing.Size(49, 34);
             this.btnThemes.Text = "Themes";
             this.btnThemes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThemes.ToolTipText = "Opens the Themes window.";
             this.btnThemes.Click += new System.EventHandler(this.btnThemes_Click);
             // 
             // btnSettings
@@ -1089,6 +1101,7 @@ namespace MPfm
             this.btnSettings.Size = new System.Drawing.Size(50, 34);
             this.btnSettings.Text = "Settings";
             this.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSettings.ToolTipText = "Opens the Settings window.";
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // dialogAddFolder
@@ -1162,6 +1175,8 @@ namespace MPfm
             textGradient9.Padding = 2;
             panelTheme2.HeaderTextGradient = textGradient9;
             this.panelLibrary.Theme = panelTheme2;
+            this.toolTip.SetToolTip(this.panelLibrary, "This area displays the Library contents. Select an item in the tree view to brows" +
+        "e the songs in the Song Browser.");
             // 
             // panelUpdateLibraryProgress
             // 
@@ -1229,7 +1244,7 @@ namespace MPfm
             textGradient1.BorderWidth = 1;
             textGradient1.Color1 = System.Drawing.Color.LightGray;
             textGradient1.Color2 = System.Drawing.Color.Gray;
-            customFont1.Color = System.Drawing.Color.Black;
+            customFont1.Color = System.Drawing.Color.Gainsboro;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -1331,7 +1346,7 @@ namespace MPfm
             textGradient5.BorderWidth = 1;
             textGradient5.Color1 = System.Drawing.Color.LightGray;
             textGradient5.Color2 = System.Drawing.Color.Gray;
-            customFont5.Color = System.Drawing.Color.Black;
+            customFont5.Color = System.Drawing.Color.Gainsboro;
             customFont5.EmbeddedFontName = "Junction";
             customFont5.IsBold = false;
             customFont5.IsItalic = false;
@@ -1374,7 +1389,7 @@ namespace MPfm
             textGradient6.BorderWidth = 1;
             textGradient6.Color1 = System.Drawing.Color.LightGray;
             textGradient6.Color2 = System.Drawing.Color.Gray;
-            customFont6.Color = System.Drawing.Color.Black;
+            customFont6.Color = System.Drawing.Color.Gainsboro;
             customFont6.EmbeddedFontName = "Junction";
             customFont6.IsBold = false;
             customFont6.IsItalic = false;
@@ -1420,6 +1435,7 @@ namespace MPfm
             textGradient8.Padding = 2;
             labelTheme4.TextGradient = textGradient8;
             this.lblFilterBySoundFormat.Theme = labelTheme4;
+            this.toolTip.SetToolTip(this.lblFilterBySoundFormat, "The Library content is filtered by this value.");
             // 
             // treeLibrary
             // 
@@ -1503,7 +1519,7 @@ namespace MPfm
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel.BackColor = System.Drawing.Color.Black;
             this.tableLayoutPanel.ColumnCount = 1;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.Controls.Add(this.panelCurrentSong, 0, 0);
@@ -1528,6 +1544,7 @@ namespace MPfm
             this.panelCurrentSong.ExpandedHeight = 178;
             this.panelCurrentSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelCurrentSong.HeaderAutoSize = true;
+            this.panelCurrentSong.HeaderExpandable = false;
             this.panelCurrentSong.HeaderExpanded = true;
             this.panelCurrentSong.HeaderHeight = 22;
             this.panelCurrentSong.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1562,6 +1579,8 @@ namespace MPfm
             textGradient37.Padding = 2;
             panelTheme10.HeaderTextGradient = textGradient37;
             this.panelCurrentSong.Theme = panelTheme10;
+            this.toolTip.SetToolTip(this.panelCurrentSong, "This area contains the mixer parameters (time shifting, volume) and information a" +
+        "bout the currently playing song.");
             // 
             // tableLayoutPanelCurrentSong
             // 
@@ -1633,7 +1652,7 @@ namespace MPfm
             this.flowLayoutPanelSongInformation.Location = new System.Drawing.Point(2, 0);
             this.flowLayoutPanelSongInformation.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.flowLayoutPanelSongInformation.Name = "flowLayoutPanelSongInformation";
-            this.flowLayoutPanelSongInformation.Size = new System.Drawing.Size(355, 109);
+            this.flowLayoutPanelSongInformation.Size = new System.Drawing.Size(354, 109);
             this.flowLayoutPanelSongInformation.TabIndex = 66;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
@@ -1789,10 +1808,10 @@ namespace MPfm
             this.panelInformation.HeaderHeight = 16;
             this.panelInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelInformation.HeaderTitle = "Information";
-            this.panelInformation.Location = new System.Drawing.Point(462, 0);
+            this.panelInformation.Location = new System.Drawing.Point(461, 0);
             this.panelInformation.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.panelInformation.Name = "panelInformation";
-            this.panelInformation.Size = new System.Drawing.Size(99, 109);
+            this.panelInformation.Size = new System.Drawing.Size(100, 109);
             this.panelInformation.TabIndex = 55;
             this.panelInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             backgroundGradient5.BorderColor = System.Drawing.Color.DarkGray;
@@ -1835,7 +1854,7 @@ namespace MPfm
             this.flowLayoutPanelInformation.Location = new System.Drawing.Point(0, 19);
             this.flowLayoutPanelInformation.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelInformation.Name = "flowLayoutPanelInformation";
-            this.flowLayoutPanelInformation.Size = new System.Drawing.Size(99, 90);
+            this.flowLayoutPanelInformation.Size = new System.Drawing.Size(100, 90);
             this.flowLayoutPanelInformation.TabIndex = 67;
             backgroundGradient4.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient4.BorderWidth = 0;
@@ -1991,7 +2010,7 @@ namespace MPfm
             this.panelActions.HeaderHeight = 16;
             this.panelActions.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelActions.HeaderTitle = "Actions";
-            this.panelActions.Location = new System.Drawing.Point(360, 0);
+            this.panelActions.Location = new System.Drawing.Point(359, 0);
             this.panelActions.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.panelActions.Name = "panelActions";
             this.panelActions.Size = new System.Drawing.Size(100, 109);
@@ -2082,6 +2101,7 @@ namespace MPfm
             textGradient19.Padding = 2;
             linkLabelTheme1.TextGradient = textGradient19;
             this.linkEditSongMetadata.Theme = linkLabelTheme1;
+            this.toolTip.SetToolTip(this.linkEditSongMetadata, "Opens a window to edit the song metadata (tags).");
             this.linkEditSongMetadata.Click += new System.EventHandler(this.linkEditSongMetadata_Click);
             // 
             // lblSearchWeb
@@ -2141,6 +2161,8 @@ namespace MPfm
             textGradient21.Padding = 2;
             linkLabelTheme2.TextGradient = textGradient21;
             this.linkSearchGuitarTabs.Theme = linkLabelTheme2;
+            this.toolTip.SetToolTip(this.linkSearchGuitarTabs, "Opens an Internet browser window and searches for guitar tabs for the current son" +
+        "g.");
             this.linkSearchGuitarTabs.Click += new System.EventHandler(this.linkSearchGuitarTabs_Click);
             // 
             // linkSearchBassTabs
@@ -2167,6 +2189,8 @@ namespace MPfm
             textGradient22.Padding = 2;
             linkLabelTheme3.TextGradient = textGradient22;
             this.linkSearchBassTabs.Theme = linkLabelTheme3;
+            this.toolTip.SetToolTip(this.linkSearchBassTabs, "Opens an Internet browser window and searches for bass tabs for the current song." +
+        "");
             this.linkSearchBassTabs.Click += new System.EventHandler(this.linkSearchBassTabs_Click);
             // 
             // linkSearchLyrics
@@ -2193,6 +2217,7 @@ namespace MPfm
             textGradient23.Padding = 2;
             linkLabelTheme4.TextGradient = textGradient23;
             this.linkSearchLyrics.Theme = linkLabelTheme4;
+            this.toolTip.SetToolTip(this.linkSearchLyrics, "Opens an Internet browser window and searches for lyrics for the current song.");
             this.linkSearchLyrics.Click += new System.EventHandler(this.linkSearchLyrics_Click);
             // 
             // tableLayoutPanelCurrentSongCenterLine2
@@ -2388,6 +2413,7 @@ namespace MPfm
             textGradient26.Padding = 2;
             linkLabelTheme5.TextGradient = textGradient26;
             this.linkResetTimeShifting.Theme = linkLabelTheme5;
+            this.toolTip.SetToolTip(this.linkResetTimeShifting, "Resets the time shifting value to 0%.");
             this.linkResetTimeShifting.Click += new System.EventHandler(this.linkResetTimeShifting_Click);
             // 
             // panelSongPosition
@@ -2905,6 +2931,7 @@ namespace MPfm
             // 
             // splitLoopsMarkersSongBrowser
             // 
+            this.splitLoopsMarkersSongBrowser.BackColor = System.Drawing.Color.DimGray;
             this.splitLoopsMarkersSongBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitLoopsMarkersSongBrowser.Location = new System.Drawing.Point(0, 189);
             this.splitLoopsMarkersSongBrowser.Margin = new System.Windows.Forms.Padding(0);
@@ -2942,7 +2969,7 @@ namespace MPfm
             this.panelLoopsMarkers.Location = new System.Drawing.Point(0, 0);
             this.panelLoopsMarkers.Margin = new System.Windows.Forms.Padding(0);
             this.panelLoopsMarkers.Name = "panelLoopsMarkers";
-            this.panelLoopsMarkers.Size = new System.Drawing.Size(799, 122);
+            this.panelLoopsMarkers.Size = new System.Drawing.Size(799, 126);
             this.panelLoopsMarkers.TabIndex = 23;
             this.panelLoopsMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient27.BorderColor = System.Drawing.Color.DarkGray;
@@ -2969,6 +2996,8 @@ namespace MPfm
             textGradient68.Padding = 2;
             panelTheme11.HeaderTextGradient = textGradient68;
             this.panelLoopsMarkers.Theme = panelTheme11;
+            this.toolTip.SetToolTip(this.panelLoopsMarkers, "This area defines the loops and markers used for the current song. Right-click on" +
+        " the wave form display for more options.");
             this.panelLoopsMarkers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panelLoopsMarkers_MouseDoubleClick);
             // 
             // splitWaveFormLoopsMarkers
@@ -3188,6 +3217,7 @@ namespace MPfm
             textGradient42.Padding = 2;
             buttonTheme2.TextGradientMouseOver = textGradient42;
             this.btnPlayLoop.Theme = buttonTheme2;
+            this.toolTip.SetToolTip(this.btnPlayLoop, "Plays the currently selected loop.");
             this.btnPlayLoop.Click += new System.EventHandler(this.btnPlayLoop_Click);
             // 
             // btnStopLoop
@@ -3258,6 +3288,7 @@ namespace MPfm
             textGradient45.Padding = 2;
             buttonTheme3.TextGradientMouseOver = textGradient45;
             this.btnStopLoop.Theme = buttonTheme3;
+            this.toolTip.SetToolTip(this.btnStopLoop, "Stops the currently playing loop.");
             // 
             // btnAddLoop
             // 
@@ -3327,6 +3358,7 @@ namespace MPfm
             textGradient48.Padding = 2;
             buttonTheme4.TextGradientMouseOver = textGradient48;
             this.btnAddLoop.Theme = buttonTheme4;
+            this.toolTip.SetToolTip(this.btnAddLoop, "Opens a window to add a new loop.");
             this.btnAddLoop.Click += new System.EventHandler(this.btnAddLoop_Click);
             // 
             // btnEditLoop
@@ -3397,6 +3429,7 @@ namespace MPfm
             textGradient51.Padding = 2;
             buttonTheme5.TextGradientMouseOver = textGradient51;
             this.btnEditLoop.Theme = buttonTheme5;
+            this.toolTip.SetToolTip(this.btnEditLoop, "Opens a window to edit the currently selected loop.");
             this.btnEditLoop.Click += new System.EventHandler(this.btnEditLoop_Click);
             // 
             // btnRemoveLoop
@@ -3467,6 +3500,7 @@ namespace MPfm
             textGradient54.Padding = 2;
             buttonTheme6.TextGradientMouseOver = textGradient54;
             this.btnRemoveLoop.Theme = buttonTheme6;
+            this.toolTip.SetToolTip(this.btnRemoveLoop, "Removes the currently selected loop.");
             this.btnRemoveLoop.Click += new System.EventHandler(this.btnRemoveLoop_Click);
             // 
             // viewLoops
@@ -3583,10 +3617,10 @@ namespace MPfm
             this.flowLayoutPanelMarkers.AutoSize = true;
             this.flowLayoutPanelMarkers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.flowLayoutPanelMarkers.Controls.Add(this.lblMarkers);
+            this.flowLayoutPanelMarkers.Controls.Add(this.btnGoToMarker);
             this.flowLayoutPanelMarkers.Controls.Add(this.btnAddMarker);
             this.flowLayoutPanelMarkers.Controls.Add(this.btnEditMarker);
             this.flowLayoutPanelMarkers.Controls.Add(this.btnRemoveMarker);
-            this.flowLayoutPanelMarkers.Controls.Add(this.btnGoToMarker);
             this.flowLayoutPanelMarkers.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelMarkers.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanelMarkers.Name = "flowLayoutPanelMarkers";
@@ -3634,83 +3668,13 @@ namespace MPfm
             this.btnAddMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnAddMarker.Image")));
             this.btnAddMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddMarker.IsAutoSized = false;
-            this.btnAddMarker.Location = new System.Drawing.Point(60, 0);
+            this.btnAddMarker.Location = new System.Drawing.Point(114, 0);
             this.btnAddMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddMarker.Name = "btnAddMarker";
             this.btnAddMarker.Size = new System.Drawing.Size(50, 20);
             this.btnAddMarker.TabIndex = 73;
             this.btnAddMarker.Text = "Add";
             this.btnAddMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient56.BorderColor = System.Drawing.Color.DimGray;
-            textGradient56.BorderWidth = 0;
-            textGradient56.Color1 = System.Drawing.Color.LightGray;
-            textGradient56.Color2 = System.Drawing.Color.Gray;
-            customFont53.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont53.EmbeddedFontName = "Junction";
-            customFont53.IsBold = false;
-            customFont53.IsItalic = false;
-            customFont53.IsUnderline = false;
-            customFont53.Size = 7.5F;
-            customFont53.StandardFontName = "Arial";
-            customFont53.UseAntiAliasing = true;
-            customFont53.UseEmbeddedFont = true;
-            textGradient56.Font = customFont53;
-            textGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient56.Padding = 2;
-            buttonTheme7.TextGradientDefault = textGradient56;
-            textGradient57.BorderColor = System.Drawing.Color.Gainsboro;
-            textGradient57.BorderWidth = 0;
-            textGradient57.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient57.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont54.Color = System.Drawing.Color.LightGray;
-            customFont54.EmbeddedFontName = "Junction";
-            customFont54.IsBold = false;
-            customFont54.IsItalic = false;
-            customFont54.IsUnderline = false;
-            customFont54.Size = 7.5F;
-            customFont54.StandardFontName = "Arial";
-            customFont54.UseAntiAliasing = true;
-            customFont54.UseEmbeddedFont = true;
-            textGradient57.Font = customFont54;
-            textGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient57.Padding = 2;
-            buttonTheme7.TextGradientDisabled = textGradient57;
-            textGradient58.BorderColor = System.Drawing.Color.Gray;
-            textGradient58.BorderWidth = 1;
-            textGradient58.Color1 = System.Drawing.Color.White;
-            textGradient58.Color2 = System.Drawing.Color.LightGray;
-            customFont55.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            customFont55.EmbeddedFontName = "Junction";
-            customFont55.IsBold = false;
-            customFont55.IsItalic = false;
-            customFont55.IsUnderline = false;
-            customFont55.Size = 7.5F;
-            customFont55.StandardFontName = "Arial";
-            customFont55.UseAntiAliasing = true;
-            customFont55.UseEmbeddedFont = true;
-            textGradient58.Font = customFont55;
-            textGradient58.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient58.Padding = 2;
-            buttonTheme7.TextGradientMouseOver = textGradient58;
-            this.btnAddMarker.Theme = buttonTheme7;
-            this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
-            // 
-            // btnEditMarker
-            // 
-            this.btnEditMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnEditMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditMarker.Enabled = false;
-            this.btnEditMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnEditMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnEditMarker.Image")));
-            this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditMarker.IsAutoSized = false;
-            this.btnEditMarker.Location = new System.Drawing.Point(110, 0);
-            this.btnEditMarker.Margin = new System.Windows.Forms.Padding(0);
-            this.btnEditMarker.Name = "btnEditMarker";
-            this.btnEditMarker.Size = new System.Drawing.Size(48, 20);
-            this.btnEditMarker.TabIndex = 74;
-            this.btnEditMarker.Text = "Edit";
-            this.btnEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient59.BorderColor = System.Drawing.Color.DimGray;
             textGradient59.BorderWidth = 0;
             textGradient59.Color1 = System.Drawing.Color.LightGray;
@@ -3762,25 +3726,26 @@ namespace MPfm
             textGradient61.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient61.Padding = 2;
             buttonTheme8.TextGradientMouseOver = textGradient61;
-            this.btnEditMarker.Theme = buttonTheme8;
-            this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
+            this.btnAddMarker.Theme = buttonTheme8;
+            this.toolTip.SetToolTip(this.btnAddMarker, "Opens a window to add a new marker.");
+            this.btnAddMarker.Click += new System.EventHandler(this.btnAddMarker_Click);
             // 
-            // btnRemoveMarker
+            // btnEditMarker
             // 
-            this.btnRemoveMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnRemoveMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemoveMarker.Enabled = false;
-            this.btnRemoveMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnRemoveMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveMarker.Image")));
-            this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRemoveMarker.IsAutoSized = false;
-            this.btnRemoveMarker.Location = new System.Drawing.Point(158, 0);
-            this.btnRemoveMarker.Margin = new System.Windows.Forms.Padding(0);
-            this.btnRemoveMarker.Name = "btnRemoveMarker";
-            this.btnRemoveMarker.Size = new System.Drawing.Size(70, 20);
-            this.btnRemoveMarker.TabIndex = 75;
-            this.btnRemoveMarker.Text = "Remove";
-            this.btnRemoveMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnEditMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditMarker.Enabled = false;
+            this.btnEditMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnEditMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnEditMarker.Image")));
+            this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditMarker.IsAutoSized = false;
+            this.btnEditMarker.Location = new System.Drawing.Point(164, 0);
+            this.btnEditMarker.Margin = new System.Windows.Forms.Padding(0);
+            this.btnEditMarker.Name = "btnEditMarker";
+            this.btnEditMarker.Size = new System.Drawing.Size(48, 20);
+            this.btnEditMarker.TabIndex = 74;
+            this.btnEditMarker.Text = "Edit";
+            this.btnEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient62.BorderColor = System.Drawing.Color.DimGray;
             textGradient62.BorderWidth = 0;
             textGradient62.Color1 = System.Drawing.Color.LightGray;
@@ -3832,25 +3797,26 @@ namespace MPfm
             textGradient64.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient64.Padding = 2;
             buttonTheme9.TextGradientMouseOver = textGradient64;
-            this.btnRemoveMarker.Theme = buttonTheme9;
-            this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
+            this.btnEditMarker.Theme = buttonTheme9;
+            this.toolTip.SetToolTip(this.btnEditMarker, "Opens a window to edit the currently selected marker.");
+            this.btnEditMarker.Click += new System.EventHandler(this.btnEditMarker_Click);
             // 
-            // btnGoToMarker
+            // btnRemoveMarker
             // 
-            this.btnGoToMarker.BackColor = System.Drawing.Color.Silver;
-            this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGoToMarker.Enabled = false;
-            this.btnGoToMarker.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnGoToMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnGoToMarker.Image")));
-            this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGoToMarker.IsAutoSized = false;
-            this.btnGoToMarker.Location = new System.Drawing.Point(228, 0);
-            this.btnGoToMarker.Margin = new System.Windows.Forms.Padding(0);
-            this.btnGoToMarker.Name = "btnGoToMarker";
-            this.btnGoToMarker.Size = new System.Drawing.Size(54, 20);
-            this.btnGoToMarker.TabIndex = 76;
-            this.btnGoToMarker.Text = "Go to";
-            this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRemoveMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnRemoveMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemoveMarker.Enabled = false;
+            this.btnRemoveMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnRemoveMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveMarker.Image")));
+            this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRemoveMarker.IsAutoSized = false;
+            this.btnRemoveMarker.Location = new System.Drawing.Point(212, 0);
+            this.btnRemoveMarker.Margin = new System.Windows.Forms.Padding(0);
+            this.btnRemoveMarker.Name = "btnRemoveMarker";
+            this.btnRemoveMarker.Size = new System.Drawing.Size(70, 20);
+            this.btnRemoveMarker.TabIndex = 75;
+            this.btnRemoveMarker.Text = "Remove";
+            this.btnRemoveMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient65.BorderColor = System.Drawing.Color.DimGray;
             textGradient65.BorderWidth = 0;
             textGradient65.Color1 = System.Drawing.Color.LightGray;
@@ -3902,7 +3868,79 @@ namespace MPfm
             textGradient67.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient67.Padding = 2;
             buttonTheme10.TextGradientMouseOver = textGradient67;
-            this.btnGoToMarker.Theme = buttonTheme10;
+            this.btnRemoveMarker.Theme = buttonTheme10;
+            this.toolTip.SetToolTip(this.btnRemoveMarker, "Removes the currently selected marker.");
+            this.btnRemoveMarker.Click += new System.EventHandler(this.btnRemoveMarker_Click);
+            // 
+            // btnGoToMarker
+            // 
+            this.btnGoToMarker.BackColor = System.Drawing.Color.Silver;
+            this.btnGoToMarker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGoToMarker.Enabled = false;
+            this.btnGoToMarker.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnGoToMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnGoToMarker.Image")));
+            this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGoToMarker.IsAutoSized = false;
+            this.btnGoToMarker.Location = new System.Drawing.Point(60, 0);
+            this.btnGoToMarker.Margin = new System.Windows.Forms.Padding(0);
+            this.btnGoToMarker.Name = "btnGoToMarker";
+            this.btnGoToMarker.Size = new System.Drawing.Size(54, 20);
+            this.btnGoToMarker.TabIndex = 76;
+            this.btnGoToMarker.Text = "Go to";
+            this.btnGoToMarker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            textGradient56.BorderColor = System.Drawing.Color.DimGray;
+            textGradient56.BorderWidth = 0;
+            textGradient56.Color1 = System.Drawing.Color.LightGray;
+            textGradient56.Color2 = System.Drawing.Color.Gray;
+            customFont53.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont53.EmbeddedFontName = "Junction";
+            customFont53.IsBold = false;
+            customFont53.IsItalic = false;
+            customFont53.IsUnderline = false;
+            customFont53.Size = 7.5F;
+            customFont53.StandardFontName = "Arial";
+            customFont53.UseAntiAliasing = true;
+            customFont53.UseEmbeddedFont = true;
+            textGradient56.Font = customFont53;
+            textGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient56.Padding = 2;
+            buttonTheme7.TextGradientDefault = textGradient56;
+            textGradient57.BorderColor = System.Drawing.Color.Gainsboro;
+            textGradient57.BorderWidth = 0;
+            textGradient57.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            textGradient57.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont54.Color = System.Drawing.Color.LightGray;
+            customFont54.EmbeddedFontName = "Junction";
+            customFont54.IsBold = false;
+            customFont54.IsItalic = false;
+            customFont54.IsUnderline = false;
+            customFont54.Size = 7.5F;
+            customFont54.StandardFontName = "Arial";
+            customFont54.UseAntiAliasing = true;
+            customFont54.UseEmbeddedFont = true;
+            textGradient57.Font = customFont54;
+            textGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient57.Padding = 2;
+            buttonTheme7.TextGradientDisabled = textGradient57;
+            textGradient58.BorderColor = System.Drawing.Color.Gray;
+            textGradient58.BorderWidth = 1;
+            textGradient58.Color1 = System.Drawing.Color.White;
+            textGradient58.Color2 = System.Drawing.Color.LightGray;
+            customFont55.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customFont55.EmbeddedFontName = "Junction";
+            customFont55.IsBold = false;
+            customFont55.IsItalic = false;
+            customFont55.IsUnderline = false;
+            customFont55.Size = 7.5F;
+            customFont55.StandardFontName = "Arial";
+            customFont55.UseAntiAliasing = true;
+            customFont55.UseEmbeddedFont = true;
+            textGradient58.Font = customFont55;
+            textGradient58.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient58.Padding = 2;
+            buttonTheme7.TextGradientMouseOver = textGradient58;
+            this.btnGoToMarker.Theme = buttonTheme7;
+            this.toolTip.SetToolTip(this.btnGoToMarker, "Sets the current song position to the selected marker.");
             this.btnGoToMarker.Click += new System.EventHandler(this.btnGoToMarker_Click);
             // 
             // panelSongBrowser
@@ -3947,6 +3985,7 @@ namespace MPfm
             textGradient84.Padding = 2;
             panelTheme13.HeaderTextGradient = textGradient84;
             this.panelSongBrowser.Theme = panelTheme13;
+            this.toolTip.SetToolTip(this.panelSongBrowser, "This area displays the songs currently selected in the Library tree view.");
             // 
             // tableLayoutPanelSongBrowser
             // 
@@ -4015,7 +4054,7 @@ namespace MPfm
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(496, 2);
+            this.txtSearch.Location = new System.Drawing.Point(479, 2);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(177, 20);
             this.txtSearch.TabIndex = 74;
@@ -4027,7 +4066,7 @@ namespace MPfm
             this.lblSearchFor.Font = new System.Drawing.Font("Arial", 8F);
             this.lblSearchFor.ForeColor = System.Drawing.Color.Black;
             this.lblSearchFor.IsAutoSized = false;
-            this.lblSearchFor.Location = new System.Drawing.Point(423, 6);
+            this.lblSearchFor.Location = new System.Drawing.Point(406, 6);
             this.lblSearchFor.Name = "lblSearchFor";
             this.lblSearchFor.Size = new System.Drawing.Size(76, 10);
             this.lblSearchFor.TabIndex = 73;
@@ -4052,6 +4091,7 @@ namespace MPfm
             textGradient69.Padding = 2;
             labelTheme22.TextGradient = textGradient69;
             this.lblSearchFor.Theme = labelTheme22;
+            this.toolTip.SetToolTip(this.lblSearchFor, "Filters the songs by the value found in the Search text box.");
             // 
             // btnPlaySelectedSong
             // 
@@ -4062,9 +4102,9 @@ namespace MPfm
             this.btnPlaySelectedSong.IsAutoSized = false;
             this.btnPlaySelectedSong.Location = new System.Drawing.Point(0, 0);
             this.btnPlaySelectedSong.Name = "btnPlaySelectedSong";
-            this.btnPlaySelectedSong.Size = new System.Drawing.Size(140, 25);
+            this.btnPlaySelectedSong.Size = new System.Drawing.Size(132, 25);
             this.btnPlaySelectedSong.TabIndex = 68;
-            this.btnPlaySelectedSong.Text = "Play selected song(s)";
+            this.btnPlaySelectedSong.Text = "Play selected songs";
             this.btnPlaySelectedSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient70.BorderColor = System.Drawing.Color.DarkGray;
             textGradient70.BorderWidth = 0;
@@ -4118,6 +4158,7 @@ namespace MPfm
             textGradient72.Padding = 2;
             buttonTheme11.TextGradientMouseOver = textGradient72;
             this.btnPlaySelectedSong.Theme = buttonTheme11;
+            this.toolTip.SetToolTip(this.btnPlaySelectedSong, "Plays the currently selected songs.");
             this.btnPlaySelectedSong.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // btnAddSongToPlaylist
@@ -4127,11 +4168,11 @@ namespace MPfm
             this.btnAddSongToPlaylist.Image = ((System.Drawing.Image)(resources.GetObject("btnAddSongToPlaylist.Image")));
             this.btnAddSongToPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddSongToPlaylist.IsAutoSized = false;
-            this.btnAddSongToPlaylist.Location = new System.Drawing.Point(272, 0);
+            this.btnAddSongToPlaylist.Location = new System.Drawing.Point(264, 0);
             this.btnAddSongToPlaylist.Name = "btnAddSongToPlaylist";
-            this.btnAddSongToPlaylist.Size = new System.Drawing.Size(147, 25);
+            this.btnAddSongToPlaylist.Size = new System.Drawing.Size(138, 25);
             this.btnAddSongToPlaylist.TabIndex = 72;
-            this.btnAddSongToPlaylist.Text = "Add song(s) to playlist";
+            this.btnAddSongToPlaylist.Text = "Add songs to playlist";
             this.btnAddSongToPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient73.BorderColor = System.Drawing.Color.DarkGray;
             textGradient73.BorderWidth = 0;
@@ -4185,6 +4226,7 @@ namespace MPfm
             textGradient75.Padding = 2;
             buttonTheme12.TextGradientMouseOver = textGradient75;
             this.btnAddSongToPlaylist.Theme = buttonTheme12;
+            this.toolTip.SetToolTip(this.btnAddSongToPlaylist, "Adds the currently selected songs to the playlist.");
             this.btnAddSongToPlaylist.Click += new System.EventHandler(this.btnAddSongToPlaylist_Click);
             // 
             // btnEditSongMetadata
@@ -4194,7 +4236,7 @@ namespace MPfm
             this.btnEditSongMetadata.Image = ((System.Drawing.Image)(resources.GetObject("btnEditSongMetadata.Image")));
             this.btnEditSongMetadata.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditSongMetadata.IsAutoSized = false;
-            this.btnEditSongMetadata.Location = new System.Drawing.Point(140, 0);
+            this.btnEditSongMetadata.Location = new System.Drawing.Point(132, 0);
             this.btnEditSongMetadata.Name = "btnEditSongMetadata";
             this.btnEditSongMetadata.Size = new System.Drawing.Size(132, 25);
             this.btnEditSongMetadata.TabIndex = 71;
@@ -4252,6 +4294,7 @@ namespace MPfm
             textGradient78.Padding = 2;
             buttonTheme13.TextGradientMouseOver = textGradient78;
             this.btnEditSongMetadata.Theme = buttonTheme13;
+            this.toolTip.SetToolTip(this.btnEditSongMetadata, "Opens a window to edit the metadata (tags) of the currently selected song.");
             this.btnEditSongMetadata.Click += new System.EventHandler(this.btnEditSongMetadata_Click);
             // 
             // viewSongs2
@@ -4581,6 +4624,13 @@ namespace MPfm
             // 
             this.timerUpdateSongPositionPanel.Tick += new System.EventHandler(this.timerUpdateSongPositionPanel_Tick);
             // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Information";
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4861,7 +4911,8 @@ namespace MPfm
         private WindowsControls.TrackBar trackTimeShifting;
         private WindowsControls.Label lblTimeShifting;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSongBrowser;
-        public System.Windows.Forms.Timer timerUpdateSongPositionPanel;        
+        public System.Windows.Forms.Timer timerUpdateSongPositionPanel;
+        public System.Windows.Forms.ToolTip toolTip;        
     }
 }
 
