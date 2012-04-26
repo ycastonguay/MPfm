@@ -2524,8 +2524,7 @@ namespace MPfm
         /// <summary>
         /// Plays the selected song query in the Song Browser. The playback can be paused to seeked to a specific 
         /// position before playing. Refreshes UI controls.
-        /// </summary>
-        //public void Play(SongQuery query, Guid audioFileId)
+        /// </summary>        
         public void Play(SongQuery query, string audioFilePath)
         {
             try
@@ -2588,8 +2587,7 @@ namespace MPfm
                 return;
             }
 
-            // Play selected song
-            //Play(querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.Id);
+            // Play selected song            
             Play(querySongBrowser, viewSongs2.SelectedItems[0].AudioFile.FilePath);
         } 
 
@@ -3567,19 +3565,15 @@ namespace MPfm
             // Set filter
             filterAudioFileFormat = audioFileFormat;
                         
-            // Update song browser query
-            if (treeLibraryBrowser.SelectedNode != null)
-            {
-                TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)treeLibraryBrowser.SelectedNode.Tag;
-                querySongBrowser = metadata.Query;
-            }
+            // Reset Library Browser tree view selection and Song Browser query
+            treeLibraryBrowser.SelectedNode = null;
+            querySongBrowser = new SongQuery();
 
             // Check if init is done
             if (IsInitDone)
             {
                 // Set configuration                
-                Config.SetKeyValue("FilterSoundFormat", audioFileFormat.ToString());
-                Config.Save();
+                Config.SetKeyValue("FilterSoundFormat", audioFileFormat.ToString());                
 
                 // Refresh all controls
                 RefreshAll();
@@ -3594,52 +3588,6 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void miTreeLibraryAddSongsToPlaylist_Click(object sender, EventArgs e)
         {
-            //// Get selected node
-            //TreeNode node = treeLibrary.SelectedNode;
-
-
-            //// Check for null
-            //if (node == null)
-            //{
-            //    return;
-            //}
-
-            //// Get the node metadata
-            //TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)node.Tag;
-
-            //// Check for null
-            //if (metadata == null)
-            //{
-            //    return;
-            //}
-
-            //// Build a playlist based on node type
-            //PlaylistDTO playlist = null;
-            //if (metadata.NodeType == TreeLibraryNodeType.Artist)
-            //{
-            //    // Generate playlist from library
-            //    playlist = Player.Library.GeneratePlaylistFromArtist(FilterSoundFormat, metadata.Query.ArtistName);
-            //}
-            //else if (metadata.NodeType == TreeLibraryNodeType.ArtistAlbum)
-            //{
-            //    // Generate playlist from library
-            //    playlist = Player.Library.GeneratePlaylistFromAlbum(FilterSoundFormat, metadata.Query.ArtistName, metadata.Query.AlbumTitle);
-            //}
-
-            //// If the playlist is valid, add songs to current playlist
-            //if (playlist != null)
-            //{
-            //    // Add each song to current playlist
-            //    //foreach (SongDTO song in playlist.Songs)
-            //    foreach(PlaylistSongDTO playlistSong in playlist.Songs)
-            //    {
-            //        // Add song to playlist
-            //        Player.AddSongToPlaylist(playlistSong.Song.SongId);
-            //    }
-
-            //    // Refresh playlist window
-            //    formPlaylist.RefreshPlaylist();
-            //}
         }
 
         /// <summary>
