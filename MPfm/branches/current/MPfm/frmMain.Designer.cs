@@ -34,6 +34,29 @@ namespace MPfm
             MPfm.WindowsControls.BackgroundGradient backgroundGradient2 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient10 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont10 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme1 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient1 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.PanelTheme panelTheme1 = new MPfm.WindowsControls.PanelTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient1 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.TextGradient textGradient8 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme2 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient2 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.ButtonTheme buttonTheme1 = new MPfm.WindowsControls.ButtonTheme();
+            MPfm.WindowsControls.TextGradient textGradient3 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient4 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient5 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme3 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient6 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme4 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient7 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme5 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient9 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont9 = new MPfm.WindowsControls.CustomFont();
@@ -266,29 +289,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont79 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient83 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont80 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme1 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient1 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme4 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient7 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme3 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient6 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.ButtonTheme buttonTheme1 = new MPfm.WindowsControls.ButtonTheme();
-            MPfm.WindowsControls.TextGradient textGradient3 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient4 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient5 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme2 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient2 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.PanelTheme panelTheme1 = new MPfm.WindowsControls.PanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient1 = new MPfm.WindowsControls.BackgroundGradient();
-            MPfm.WindowsControls.TextGradient textGradient8 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
             this.menuSongBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaySong = new System.Windows.Forms.ToolStripMenuItem();
             this.miEditSong = new System.Windows.Forms.ToolStripMenuItem();
@@ -350,14 +350,22 @@ namespace MPfm
             this.dialogAddFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.splitFirst = new System.Windows.Forms.SplitContainer();
             this.panelLibraryBrowser = new MPfm.WindowsControls.Panel();
+            this.tableLayoutPanelLibrary = new System.Windows.Forms.TableLayoutPanel();
+            this.lblPeakFileWarning = new MPfm.WindowsControls.Label();
+            this.panelUpdateLibraryProgress = new MPfm.WindowsControls.Panel();
+            this.lblUpdateLibraryRemainingTime = new MPfm.WindowsControls.Label();
+            this.btnCancelUpdateLibrary = new MPfm.WindowsControls.Button();
+            this.lblUpdateLibraryCurrentFileValue = new MPfm.WindowsControls.Label();
+            this.progressUpdateLibrary = new System.Windows.Forms.ProgressBar();
+            this.lblUpdateLibraryMessage = new MPfm.WindowsControls.Label();
             this.lblFilterBySoundFormat = new MPfm.WindowsControls.Label();
+            this.comboSoundFormat = new System.Windows.Forms.ComboBox();
             this.treeLibraryBrowser = new System.Windows.Forms.TreeView();
             this.menuLibrary = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miTreeLibraryPlaySongs = new System.Windows.Forms.ToolStripMenuItem();
             this.miTreeLibraryAddSongsToPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.miTreeLibraryRemoveSongsFromLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.miTreeLibraryDeletePlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboSoundFormat = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panelCurrentSong = new MPfm.WindowsControls.Panel();
             this.tableLayoutPanelCurrentSong = new System.Windows.Forms.TableLayoutPanel();
@@ -409,7 +417,7 @@ namespace MPfm
             this.splitLoopsMarkers = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanelLoops = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanelLoops = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblLoops = new MPfm.WindowsControls.Label();
+            this.label1 = new MPfm.WindowsControls.Label();
             this.btnPlayLoop = new MPfm.WindowsControls.Button();
             this.btnStopLoop = new MPfm.WindowsControls.Button();
             this.btnAddLoop = new MPfm.WindowsControls.Button();
@@ -471,14 +479,6 @@ namespace MPfm
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.timerUpdateSongPositionPanel = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.tableLayoutPanelLibrary = new System.Windows.Forms.TableLayoutPanel();
-            this.lblPeakFileWarning = new MPfm.WindowsControls.Label();
-            this.lblUpdateLibraryMessage = new MPfm.WindowsControls.Label();
-            this.progressUpdateLibrary = new System.Windows.Forms.ProgressBar();
-            this.lblUpdateLibraryCurrentFileValue = new MPfm.WindowsControls.Label();
-            this.btnCancelUpdateLibrary = new MPfm.WindowsControls.Button();
-            this.lblUpdateLibraryRemainingTime = new MPfm.WindowsControls.Label();
-            this.panelUpdateLibraryProgress = new MPfm.WindowsControls.Panel();
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -487,6 +487,8 @@ namespace MPfm
             this.splitFirst.Panel2.SuspendLayout();
             this.splitFirst.SuspendLayout();
             this.panelLibraryBrowser.SuspendLayout();
+            this.tableLayoutPanelLibrary.SuspendLayout();
+            this.panelUpdateLibraryProgress.SuspendLayout();
             this.menuLibrary.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.panelCurrentSong.SuspendLayout();
@@ -530,8 +532,6 @@ namespace MPfm
             this.flowLayoutPanelSongBrowserToolbar.SuspendLayout();
             this.menuTray.SuspendLayout();
             this.menuToolbarLibrary.SuspendLayout();
-            this.tableLayoutPanelLibrary.SuspendLayout();
-            this.panelUpdateLibraryProgress.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuSongBrowser
@@ -1155,6 +1155,292 @@ namespace MPfm
             this.toolTip.SetToolTip(this.panelLibraryBrowser, "This area displays the Library contents. Select an item in the tree view to brows" +
         "e the songs in the Song Browser.");
             // 
+            // tableLayoutPanelLibrary
+            // 
+            this.tableLayoutPanelLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLibrary.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanelLibrary.ColumnCount = 2;
+            this.tableLayoutPanelLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLibrary.Controls.Add(this.lblPeakFileWarning, 0, 1);
+            this.tableLayoutPanelLibrary.Controls.Add(this.panelUpdateLibraryProgress, 0, 3);
+            this.tableLayoutPanelLibrary.Controls.Add(this.lblFilterBySoundFormat, 0, 0);
+            this.tableLayoutPanelLibrary.Controls.Add(this.comboSoundFormat, 1, 0);
+            this.tableLayoutPanelLibrary.Controls.Add(this.treeLibraryBrowser, 0, 2);
+            this.tableLayoutPanelLibrary.Location = new System.Drawing.Point(0, 22);
+            this.tableLayoutPanelLibrary.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanelLibrary.Name = "tableLayoutPanelLibrary";
+            this.tableLayoutPanelLibrary.RowCount = 4;
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLibrary.Size = new System.Drawing.Size(237, 541);
+            this.tableLayoutPanelLibrary.TabIndex = 62;
+            // 
+            // lblPeakFileWarning
+            // 
+            this.lblPeakFileWarning.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanelLibrary.SetColumnSpan(this.lblPeakFileWarning, 2);
+            this.lblPeakFileWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPeakFileWarning.ForeColor = System.Drawing.Color.White;
+            this.lblPeakFileWarning.IsAutoSized = true;
+            this.lblPeakFileWarning.Location = new System.Drawing.Point(0, 32);
+            this.lblPeakFileWarning.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.lblPeakFileWarning.Name = "lblPeakFileWarning";
+            this.lblPeakFileWarning.Size = new System.Drawing.Size(195, 18);
+            this.lblPeakFileWarning.TabIndex = 84;
+            this.lblPeakFileWarning.Text = "Peak file directory size is 50000 MB.";
+            this.lblPeakFileWarning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme1.IsBackgroundTransparent = true;
+            textGradient1.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient1.BorderWidth = 1;
+            textGradient1.Color1 = System.Drawing.Color.LightGray;
+            textGradient1.Color2 = System.Drawing.Color.Gray;
+            customFont1.Color = System.Drawing.Color.White;
+            customFont1.EmbeddedFontName = "Junction";
+            customFont1.IsBold = false;
+            customFont1.IsItalic = false;
+            customFont1.IsUnderline = false;
+            customFont1.Size = 8F;
+            customFont1.StandardFontName = "Arial";
+            customFont1.UseAntiAliasing = true;
+            customFont1.UseEmbeddedFont = true;
+            textGradient1.Font = customFont1;
+            textGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient1.Padding = 2;
+            labelTheme1.TextGradient = textGradient1;
+            this.lblPeakFileWarning.Theme = labelTheme1;
+            this.toolTip.SetToolTip(this.lblPeakFileWarning, "The Library tree view items are filtered by this value.");
+            // 
+            // panelUpdateLibraryProgress
+            // 
+            this.tableLayoutPanelLibrary.SetColumnSpan(this.panelUpdateLibraryProgress, 2);
+            this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryRemainingTime);
+            this.panelUpdateLibraryProgress.Controls.Add(this.btnCancelUpdateLibrary);
+            this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryCurrentFileValue);
+            this.panelUpdateLibraryProgress.Controls.Add(this.progressUpdateLibrary);
+            this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryMessage);
+            this.panelUpdateLibraryProgress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelUpdateLibraryProgress.ExpandedHeight = 56;
+            this.panelUpdateLibraryProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelUpdateLibraryProgress.HeaderAutoSize = true;
+            this.panelUpdateLibraryProgress.HeaderExpandable = false;
+            this.panelUpdateLibraryProgress.HeaderExpanded = true;
+            this.panelUpdateLibraryProgress.HeaderHeight = 16;
+            this.panelUpdateLibraryProgress.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelUpdateLibraryProgress.HeaderTitle = "Update Library Progress";
+            this.panelUpdateLibraryProgress.Location = new System.Drawing.Point(3, 404);
+            this.panelUpdateLibraryProgress.Name = "panelUpdateLibraryProgress";
+            this.panelUpdateLibraryProgress.Size = new System.Drawing.Size(231, 134);
+            this.panelUpdateLibraryProgress.TabIndex = 83;
+            this.panelUpdateLibraryProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            backgroundGradient1.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient1.BorderWidth = 0;
+            backgroundGradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            backgroundGradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            backgroundGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            panelTheme1.BackgroundGradient = backgroundGradient1;
+            textGradient8.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient8.BorderWidth = 0;
+            textGradient8.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            textGradient8.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont8.Color = System.Drawing.Color.White;
+            customFont8.EmbeddedFontName = "Junction";
+            customFont8.IsBold = false;
+            customFont8.IsItalic = false;
+            customFont8.IsUnderline = false;
+            customFont8.Size = 8F;
+            customFont8.StandardFontName = "Arial";
+            customFont8.UseAntiAliasing = true;
+            customFont8.UseEmbeddedFont = true;
+            textGradient8.Font = customFont8;
+            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient8.Padding = 2;
+            panelTheme1.HeaderTextGradient = textGradient8;
+            this.panelUpdateLibraryProgress.Theme = panelTheme1;
+            // 
+            // lblUpdateLibraryRemainingTime
+            // 
+            this.lblUpdateLibraryRemainingTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUpdateLibraryRemainingTime.BackColor = System.Drawing.Color.Transparent;
+            this.lblUpdateLibraryRemainingTime.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUpdateLibraryRemainingTime.ForeColor = System.Drawing.Color.Silver;
+            this.lblUpdateLibraryRemainingTime.IsAutoSized = false;
+            this.lblUpdateLibraryRemainingTime.Location = new System.Drawing.Point(2, 81);
+            this.lblUpdateLibraryRemainingTime.Name = "lblUpdateLibraryRemainingTime";
+            this.lblUpdateLibraryRemainingTime.Size = new System.Drawing.Size(224, 16);
+            this.lblUpdateLibraryRemainingTime.TabIndex = 82;
+            this.lblUpdateLibraryRemainingTime.Text = "14 mins remaining";
+            this.lblUpdateLibraryRemainingTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme2.IsBackgroundTransparent = true;
+            textGradient2.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient2.BorderWidth = 1;
+            textGradient2.Color1 = System.Drawing.Color.LightGray;
+            textGradient2.Color2 = System.Drawing.Color.Gray;
+            customFont2.Color = System.Drawing.Color.Gainsboro;
+            customFont2.EmbeddedFontName = "Junction";
+            customFont2.IsBold = false;
+            customFont2.IsItalic = false;
+            customFont2.IsUnderline = false;
+            customFont2.Size = 8F;
+            customFont2.StandardFontName = "Arial";
+            customFont2.UseAntiAliasing = true;
+            customFont2.UseEmbeddedFont = true;
+            textGradient2.Font = customFont2;
+            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient2.Padding = 2;
+            labelTheme2.TextGradient = textGradient2;
+            this.lblUpdateLibraryRemainingTime.Theme = labelTheme2;
+            // 
+            // btnCancelUpdateLibrary
+            // 
+            this.btnCancelUpdateLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelUpdateLibrary.BackColor = System.Drawing.Color.Silver;
+            this.btnCancelUpdateLibrary.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelUpdateLibrary.Font = new System.Drawing.Font("Arial", 7.5F);
+            this.btnCancelUpdateLibrary.Image = null;
+            this.btnCancelUpdateLibrary.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCancelUpdateLibrary.IsAutoSized = false;
+            this.btnCancelUpdateLibrary.Location = new System.Drawing.Point(176, 58);
+            this.btnCancelUpdateLibrary.Name = "btnCancelUpdateLibrary";
+            this.btnCancelUpdateLibrary.Size = new System.Drawing.Size(50, 20);
+            this.btnCancelUpdateLibrary.TabIndex = 81;
+            this.btnCancelUpdateLibrary.Text = "Cancel";
+            this.btnCancelUpdateLibrary.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            textGradient3.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient3.BorderWidth = 1;
+            textGradient3.Color1 = System.Drawing.Color.LightGray;
+            textGradient3.Color2 = System.Drawing.Color.Gray;
+            customFont3.Color = System.Drawing.Color.Black;
+            customFont3.EmbeddedFontName = "Junction";
+            customFont3.IsBold = false;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 8F;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
+            customFont3.UseEmbeddedFont = true;
+            textGradient3.Font = customFont3;
+            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient3.Padding = 2;
+            buttonTheme1.TextGradientDefault = textGradient3;
+            textGradient4.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient4.BorderWidth = 1;
+            textGradient4.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            textGradient4.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont4.Color = System.Drawing.Color.LightGray;
+            customFont4.EmbeddedFontName = "Junction";
+            customFont4.IsBold = false;
+            customFont4.IsItalic = false;
+            customFont4.IsUnderline = false;
+            customFont4.Size = 8F;
+            customFont4.StandardFontName = "Arial";
+            customFont4.UseAntiAliasing = true;
+            customFont4.UseEmbeddedFont = true;
+            textGradient4.Font = customFont4;
+            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient4.Padding = 2;
+            buttonTheme1.TextGradientDisabled = textGradient4;
+            textGradient5.BorderColor = System.Drawing.Color.Gray;
+            textGradient5.BorderWidth = 1;
+            textGradient5.Color1 = System.Drawing.Color.White;
+            textGradient5.Color2 = System.Drawing.Color.LightGray;
+            customFont5.Color = System.Drawing.Color.Black;
+            customFont5.EmbeddedFontName = "Junction";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 8F;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
+            customFont5.UseEmbeddedFont = true;
+            textGradient5.Font = customFont5;
+            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient5.Padding = 2;
+            buttonTheme1.TextGradientMouseOver = textGradient5;
+            this.btnCancelUpdateLibrary.Theme = buttonTheme1;
+            // 
+            // lblUpdateLibraryCurrentFileValue
+            // 
+            this.lblUpdateLibraryCurrentFileValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUpdateLibraryCurrentFileValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblUpdateLibraryCurrentFileValue.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUpdateLibraryCurrentFileValue.ForeColor = System.Drawing.Color.White;
+            this.lblUpdateLibraryCurrentFileValue.IsAutoSized = false;
+            this.lblUpdateLibraryCurrentFileValue.Location = new System.Drawing.Point(1, 36);
+            this.lblUpdateLibraryCurrentFileValue.Name = "lblUpdateLibraryCurrentFileValue";
+            this.lblUpdateLibraryCurrentFileValue.Size = new System.Drawing.Size(227, 14);
+            this.lblUpdateLibraryCurrentFileValue.TabIndex = 76;
+            this.lblUpdateLibraryCurrentFileValue.Text = "Current file:";
+            this.lblUpdateLibraryCurrentFileValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme3.IsBackgroundTransparent = true;
+            textGradient6.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient6.BorderWidth = 1;
+            textGradient6.Color1 = System.Drawing.Color.LightGray;
+            textGradient6.Color2 = System.Drawing.Color.Gray;
+            customFont6.Color = System.Drawing.Color.Gainsboro;
+            customFont6.EmbeddedFontName = "Junction";
+            customFont6.IsBold = false;
+            customFont6.IsItalic = false;
+            customFont6.IsUnderline = false;
+            customFont6.Size = 8F;
+            customFont6.StandardFontName = "Arial";
+            customFont6.UseAntiAliasing = true;
+            customFont6.UseEmbeddedFont = true;
+            textGradient6.Font = customFont6;
+            textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient6.Padding = 2;
+            labelTheme3.TextGradient = textGradient6;
+            this.lblUpdateLibraryCurrentFileValue.Theme = labelTheme3;
+            // 
+            // progressUpdateLibrary
+            // 
+            this.progressUpdateLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressUpdateLibrary.Location = new System.Drawing.Point(5, 58);
+            this.progressUpdateLibrary.Name = "progressUpdateLibrary";
+            this.progressUpdateLibrary.Size = new System.Drawing.Size(167, 20);
+            this.progressUpdateLibrary.TabIndex = 75;
+            // 
+            // lblUpdateLibraryMessage
+            // 
+            this.lblUpdateLibraryMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUpdateLibraryMessage.BackColor = System.Drawing.Color.Transparent;
+            this.lblUpdateLibraryMessage.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUpdateLibraryMessage.ForeColor = System.Drawing.Color.Silver;
+            this.lblUpdateLibraryMessage.IsAutoSized = false;
+            this.lblUpdateLibraryMessage.Location = new System.Drawing.Point(1, 21);
+            this.lblUpdateLibraryMessage.Name = "lblUpdateLibraryMessage";
+            this.lblUpdateLibraryMessage.Size = new System.Drawing.Size(225, 14);
+            this.lblUpdateLibraryMessage.TabIndex = 63;
+            this.lblUpdateLibraryMessage.Text = "Current file:";
+            this.lblUpdateLibraryMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme4.IsBackgroundTransparent = true;
+            textGradient7.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient7.BorderWidth = 1;
+            textGradient7.Color1 = System.Drawing.Color.LightGray;
+            textGradient7.Color2 = System.Drawing.Color.Gray;
+            customFont7.Color = System.Drawing.Color.Gainsboro;
+            customFont7.EmbeddedFontName = "Junction";
+            customFont7.IsBold = false;
+            customFont7.IsItalic = false;
+            customFont7.IsUnderline = false;
+            customFont7.Size = 8F;
+            customFont7.StandardFontName = "Arial";
+            customFont7.UseAntiAliasing = true;
+            customFont7.UseEmbeddedFont = true;
+            textGradient7.Font = customFont7;
+            textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient7.Padding = 2;
+            labelTheme4.TextGradient = textGradient7;
+            this.lblUpdateLibraryMessage.Theme = labelTheme4;
+            // 
             // lblFilterBySoundFormat
             // 
             this.lblFilterBySoundFormat.BackColor = System.Drawing.Color.Transparent;
@@ -1165,7 +1451,7 @@ namespace MPfm
             this.lblFilterBySoundFormat.Location = new System.Drawing.Point(0, 0);
             this.lblFilterBySoundFormat.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.lblFilterBySoundFormat.Name = "lblFilterBySoundFormat";
-            this.lblFilterBySoundFormat.Size = new System.Drawing.Size(128, 29);
+            this.lblFilterBySoundFormat.Size = new System.Drawing.Size(130, 29);
             this.lblFilterBySoundFormat.TabIndex = 61;
             this.lblFilterBySoundFormat.Text = "Filter by Sound Format:";
             this.lblFilterBySoundFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1189,6 +1475,21 @@ namespace MPfm
             labelTheme5.TextGradient = textGradient9;
             this.lblFilterBySoundFormat.Theme = labelTheme5;
             this.toolTip.SetToolTip(this.lblFilterBySoundFormat, "The Library tree view items are filtered by this value.");
+            // 
+            // comboSoundFormat
+            // 
+            this.comboSoundFormat.BackColor = System.Drawing.Color.Gainsboro;
+            this.comboSoundFormat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboSoundFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboSoundFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboSoundFormat.ForeColor = System.Drawing.Color.Black;
+            this.comboSoundFormat.FormattingEnabled = true;
+            this.comboSoundFormat.Location = new System.Drawing.Point(137, 4);
+            this.comboSoundFormat.Margin = new System.Windows.Forms.Padding(4);
+            this.comboSoundFormat.Name = "comboSoundFormat";
+            this.comboSoundFormat.Size = new System.Drawing.Size(96, 21);
+            this.comboSoundFormat.TabIndex = 28;
+            this.comboSoundFormat.SelectedIndexChanged += new System.EventHandler(this.comboSoundFormat_SelectedIndexChanged);
             // 
             // treeLibraryBrowser
             // 
@@ -1254,21 +1555,6 @@ namespace MPfm
             this.miTreeLibraryDeletePlaylist.Name = "miTreeLibraryDeletePlaylist";
             this.miTreeLibraryDeletePlaylist.Size = new System.Drawing.Size(185, 22);
             this.miTreeLibraryDeletePlaylist.Text = "Delete playlist";
-            // 
-            // comboSoundFormat
-            // 
-            this.comboSoundFormat.BackColor = System.Drawing.Color.Gainsboro;
-            this.comboSoundFormat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboSoundFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboSoundFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboSoundFormat.ForeColor = System.Drawing.Color.Black;
-            this.comboSoundFormat.FormattingEnabled = true;
-            this.comboSoundFormat.Location = new System.Drawing.Point(135, 4);
-            this.comboSoundFormat.Margin = new System.Windows.Forms.Padding(4);
-            this.comboSoundFormat.Name = "comboSoundFormat";
-            this.comboSoundFormat.Size = new System.Drawing.Size(98, 21);
-            this.comboSoundFormat.TabIndex = 28;
-            this.comboSoundFormat.SelectedIndexChanged += new System.EventHandler(this.comboSoundFormat_SelectedIndexChanged);
             // 
             // tableLayoutPanel
             // 
@@ -2860,7 +3146,7 @@ namespace MPfm
             // 
             this.flowLayoutPanelLoops.AutoSize = true;
             this.flowLayoutPanelLoops.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.flowLayoutPanelLoops.Controls.Add(this.lblLoops);
+            this.flowLayoutPanelLoops.Controls.Add(this.label1);
             this.flowLayoutPanelLoops.Controls.Add(this.btnPlayLoop);
             this.flowLayoutPanelLoops.Controls.Add(this.btnStopLoop);
             this.flowLayoutPanelLoops.Controls.Add(this.btnAddLoop);
@@ -2873,19 +3159,19 @@ namespace MPfm
             this.flowLayoutPanelLoops.Size = new System.Drawing.Size(464, 22);
             this.flowLayoutPanelLoops.TabIndex = 60;
             // 
-            // lblLoops
+            // label1
             // 
-            this.lblLoops.BackColor = System.Drawing.Color.Transparent;
-            this.lblLoops.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.lblLoops.ForeColor = System.Drawing.Color.White;
-            this.lblLoops.IsAutoSized = false;
-            this.lblLoops.Location = new System.Drawing.Point(3, 3);
-            this.lblLoops.Name = "lblLoops";
-            this.lblLoops.Size = new System.Drawing.Size(42, 16);
-            this.lblLoops.TabIndex = 85;
-            this.lblLoops.Text = "Loops";
-            this.lblLoops.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.IsAutoSized = true;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 18);
+            this.label1.TabIndex = 85;
+            this.label1.Text = "Markers";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             labelTheme21.IsBackgroundTransparent = true;
             textGradient40.BorderColor = System.Drawing.Color.DarkGray;
             textGradient40.BorderWidth = 1;
@@ -2902,9 +3188,9 @@ namespace MPfm
             customFont37.UseEmbeddedFont = true;
             textGradient40.Font = customFont37;
             textGradient40.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient40.Padding = 0;
+            textGradient40.Padding = 2;
             labelTheme21.TextGradient = textGradient40;
-            this.lblLoops.Theme = labelTheme21;
+            this.label1.Theme = labelTheme21;
             // 
             // btnPlayLoop
             // 
@@ -2915,7 +3201,7 @@ namespace MPfm
             this.btnPlayLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnPlayLoop.Image")));
             this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPlayLoop.IsAutoSized = true;
-            this.btnPlayLoop.Location = new System.Drawing.Point(48, 0);
+            this.btnPlayLoop.Location = new System.Drawing.Point(52, 0);
             this.btnPlayLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlayLoop.Name = "btnPlayLoop";
             this.btnPlayLoop.Size = new System.Drawing.Size(50, 22);
@@ -2986,7 +3272,7 @@ namespace MPfm
             this.btnStopLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnStopLoop.Image")));
             this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStopLoop.IsAutoSized = true;
-            this.btnStopLoop.Location = new System.Drawing.Point(98, 0);
+            this.btnStopLoop.Location = new System.Drawing.Point(102, 0);
             this.btnStopLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnStopLoop.Name = "btnStopLoop";
             this.btnStopLoop.Size = new System.Drawing.Size(53, 22);
@@ -3057,7 +3343,7 @@ namespace MPfm
             this.btnAddLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnAddLoop.Image")));
             this.btnAddLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddLoop.IsAutoSized = true;
-            this.btnAddLoop.Location = new System.Drawing.Point(151, 0);
+            this.btnAddLoop.Location = new System.Drawing.Point(155, 0);
             this.btnAddLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddLoop.Name = "btnAddLoop";
             this.btnAddLoop.Size = new System.Drawing.Size(50, 22);
@@ -3128,7 +3414,7 @@ namespace MPfm
             this.btnEditLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnEditLoop.Image")));
             this.btnEditLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditLoop.IsAutoSized = true;
-            this.btnEditLoop.Location = new System.Drawing.Point(201, 0);
+            this.btnEditLoop.Location = new System.Drawing.Point(205, 0);
             this.btnEditLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnEditLoop.Name = "btnEditLoop";
             this.btnEditLoop.Size = new System.Drawing.Size(49, 22);
@@ -3199,7 +3485,7 @@ namespace MPfm
             this.btnRemoveLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveLoop.Image")));
             this.btnRemoveLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveLoop.IsAutoSized = true;
-            this.btnRemoveLoop.Location = new System.Drawing.Point(250, 0);
+            this.btnRemoveLoop.Location = new System.Drawing.Point(254, 0);
             this.btnRemoveLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemoveLoop.Name = "btnRemoveLoop";
             this.btnRemoveLoop.Size = new System.Drawing.Size(70, 22);
@@ -3387,13 +3673,13 @@ namespace MPfm
             // lblMarkers
             // 
             this.lblMarkers.BackColor = System.Drawing.Color.Transparent;
-            this.lblMarkers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblMarkers.ForeColor = System.Drawing.Color.White;
-            this.lblMarkers.IsAutoSized = false;
-            this.lblMarkers.Location = new System.Drawing.Point(3, 3);
+            this.lblMarkers.IsAutoSized = true;
+            this.lblMarkers.Location = new System.Drawing.Point(0, 0);
+            this.lblMarkers.Margin = new System.Windows.Forms.Padding(0);
             this.lblMarkers.Name = "lblMarkers";
-            this.lblMarkers.Size = new System.Drawing.Size(54, 16);
+            this.lblMarkers.Size = new System.Drawing.Size(52, 18);
             this.lblMarkers.TabIndex = 72;
             this.lblMarkers.Text = "Markers";
             this.lblMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3413,7 +3699,7 @@ namespace MPfm
             customFont53.UseEmbeddedFont = true;
             textGradient56.Font = customFont53;
             textGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient56.Padding = 0;
+            textGradient56.Padding = 2;
             labelTheme22.TextGradient = textGradient56;
             this.lblMarkers.Theme = labelTheme22;
             // 
@@ -3426,7 +3712,7 @@ namespace MPfm
             this.btnGoToMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnGoToMarker.Image")));
             this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGoToMarker.IsAutoSized = true;
-            this.btnGoToMarker.Location = new System.Drawing.Point(60, 0);
+            this.btnGoToMarker.Location = new System.Drawing.Point(52, 0);
             this.btnGoToMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnGoToMarker.Name = "btnGoToMarker";
             this.btnGoToMarker.Size = new System.Drawing.Size(56, 22);
@@ -3497,7 +3783,7 @@ namespace MPfm
             this.btnAddMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnAddMarker.Image")));
             this.btnAddMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddMarker.IsAutoSized = true;
-            this.btnAddMarker.Location = new System.Drawing.Point(116, 0);
+            this.btnAddMarker.Location = new System.Drawing.Point(108, 0);
             this.btnAddMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddMarker.Name = "btnAddMarker";
             this.btnAddMarker.Size = new System.Drawing.Size(50, 22);
@@ -3568,7 +3854,7 @@ namespace MPfm
             this.btnEditMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnEditMarker.Image")));
             this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditMarker.IsAutoSized = true;
-            this.btnEditMarker.Location = new System.Drawing.Point(166, 0);
+            this.btnEditMarker.Location = new System.Drawing.Point(158, 0);
             this.btnEditMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnEditMarker.Name = "btnEditMarker";
             this.btnEditMarker.Size = new System.Drawing.Size(49, 22);
@@ -3639,7 +3925,7 @@ namespace MPfm
             this.btnRemoveMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveMarker.Image")));
             this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveMarker.IsAutoSized = true;
-            this.btnRemoveMarker.Location = new System.Drawing.Point(215, 0);
+            this.btnRemoveMarker.Location = new System.Drawing.Point(207, 0);
             this.btnRemoveMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemoveMarker.Name = "btnRemoveMarker";
             this.btnRemoveMarker.Size = new System.Drawing.Size(70, 22);
@@ -4372,292 +4658,6 @@ namespace MPfm
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Information";
             // 
-            // tableLayoutPanelLibrary
-            // 
-            this.tableLayoutPanelLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelLibrary.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanelLibrary.ColumnCount = 2;
-            this.tableLayoutPanelLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLibrary.Controls.Add(this.lblPeakFileWarning, 0, 1);
-            this.tableLayoutPanelLibrary.Controls.Add(this.panelUpdateLibraryProgress, 0, 3);
-            this.tableLayoutPanelLibrary.Controls.Add(this.lblFilterBySoundFormat, 0, 0);
-            this.tableLayoutPanelLibrary.Controls.Add(this.comboSoundFormat, 1, 0);
-            this.tableLayoutPanelLibrary.Controls.Add(this.treeLibraryBrowser, 0, 2);
-            this.tableLayoutPanelLibrary.Location = new System.Drawing.Point(0, 22);
-            this.tableLayoutPanelLibrary.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanelLibrary.Name = "tableLayoutPanelLibrary";
-            this.tableLayoutPanelLibrary.RowCount = 4;
-            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLibrary.Size = new System.Drawing.Size(237, 541);
-            this.tableLayoutPanelLibrary.TabIndex = 62;
-            // 
-            // lblPeakFileWarning
-            // 
-            this.lblPeakFileWarning.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanelLibrary.SetColumnSpan(this.lblPeakFileWarning, 2);
-            this.lblPeakFileWarning.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPeakFileWarning.ForeColor = System.Drawing.Color.White;
-            this.lblPeakFileWarning.IsAutoSized = true;
-            this.lblPeakFileWarning.Location = new System.Drawing.Point(0, 32);
-            this.lblPeakFileWarning.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.lblPeakFileWarning.Name = "lblPeakFileWarning";
-            this.lblPeakFileWarning.Size = new System.Drawing.Size(195, 18);
-            this.lblPeakFileWarning.TabIndex = 84;
-            this.lblPeakFileWarning.Text = "Peak file directory size is 50000 MB.";
-            this.lblPeakFileWarning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme1.IsBackgroundTransparent = true;
-            textGradient1.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient1.BorderWidth = 1;
-            textGradient1.Color1 = System.Drawing.Color.LightGray;
-            textGradient1.Color2 = System.Drawing.Color.Gray;
-            customFont1.Color = System.Drawing.Color.White;
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
-            customFont1.IsItalic = false;
-            customFont1.IsUnderline = false;
-            customFont1.Size = 8F;
-            customFont1.StandardFontName = "Arial";
-            customFont1.UseAntiAliasing = true;
-            customFont1.UseEmbeddedFont = true;
-            textGradient1.Font = customFont1;
-            textGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient1.Padding = 2;
-            labelTheme1.TextGradient = textGradient1;
-            this.lblPeakFileWarning.Theme = labelTheme1;
-            this.toolTip.SetToolTip(this.lblPeakFileWarning, "The Library tree view items are filtered by this value.");
-            // 
-            // lblUpdateLibraryMessage
-            // 
-            this.lblUpdateLibraryMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUpdateLibraryMessage.BackColor = System.Drawing.Color.Transparent;
-            this.lblUpdateLibraryMessage.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUpdateLibraryMessage.ForeColor = System.Drawing.Color.Silver;
-            this.lblUpdateLibraryMessage.IsAutoSized = false;
-            this.lblUpdateLibraryMessage.Location = new System.Drawing.Point(1, 21);
-            this.lblUpdateLibraryMessage.Name = "lblUpdateLibraryMessage";
-            this.lblUpdateLibraryMessage.Size = new System.Drawing.Size(225, 14);
-            this.lblUpdateLibraryMessage.TabIndex = 63;
-            this.lblUpdateLibraryMessage.Text = "Current file:";
-            this.lblUpdateLibraryMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme4.IsBackgroundTransparent = true;
-            textGradient7.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient7.BorderWidth = 1;
-            textGradient7.Color1 = System.Drawing.Color.LightGray;
-            textGradient7.Color2 = System.Drawing.Color.Gray;
-            customFont7.Color = System.Drawing.Color.Gainsboro;
-            customFont7.EmbeddedFontName = "Junction";
-            customFont7.IsBold = false;
-            customFont7.IsItalic = false;
-            customFont7.IsUnderline = false;
-            customFont7.Size = 8F;
-            customFont7.StandardFontName = "Arial";
-            customFont7.UseAntiAliasing = true;
-            customFont7.UseEmbeddedFont = true;
-            textGradient7.Font = customFont7;
-            textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient7.Padding = 2;
-            labelTheme4.TextGradient = textGradient7;
-            this.lblUpdateLibraryMessage.Theme = labelTheme4;
-            // 
-            // progressUpdateLibrary
-            // 
-            this.progressUpdateLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressUpdateLibrary.Location = new System.Drawing.Point(5, 58);
-            this.progressUpdateLibrary.Name = "progressUpdateLibrary";
-            this.progressUpdateLibrary.Size = new System.Drawing.Size(167, 20);
-            this.progressUpdateLibrary.TabIndex = 75;
-            // 
-            // lblUpdateLibraryCurrentFileValue
-            // 
-            this.lblUpdateLibraryCurrentFileValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUpdateLibraryCurrentFileValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblUpdateLibraryCurrentFileValue.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUpdateLibraryCurrentFileValue.ForeColor = System.Drawing.Color.White;
-            this.lblUpdateLibraryCurrentFileValue.IsAutoSized = false;
-            this.lblUpdateLibraryCurrentFileValue.Location = new System.Drawing.Point(1, 36);
-            this.lblUpdateLibraryCurrentFileValue.Name = "lblUpdateLibraryCurrentFileValue";
-            this.lblUpdateLibraryCurrentFileValue.Size = new System.Drawing.Size(227, 14);
-            this.lblUpdateLibraryCurrentFileValue.TabIndex = 76;
-            this.lblUpdateLibraryCurrentFileValue.Text = "Current file:";
-            this.lblUpdateLibraryCurrentFileValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme3.IsBackgroundTransparent = true;
-            textGradient6.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient6.BorderWidth = 1;
-            textGradient6.Color1 = System.Drawing.Color.LightGray;
-            textGradient6.Color2 = System.Drawing.Color.Gray;
-            customFont6.Color = System.Drawing.Color.Gainsboro;
-            customFont6.EmbeddedFontName = "Junction";
-            customFont6.IsBold = false;
-            customFont6.IsItalic = false;
-            customFont6.IsUnderline = false;
-            customFont6.Size = 8F;
-            customFont6.StandardFontName = "Arial";
-            customFont6.UseAntiAliasing = true;
-            customFont6.UseEmbeddedFont = true;
-            textGradient6.Font = customFont6;
-            textGradient6.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient6.Padding = 2;
-            labelTheme3.TextGradient = textGradient6;
-            this.lblUpdateLibraryCurrentFileValue.Theme = labelTheme3;
-            // 
-            // btnCancelUpdateLibrary
-            // 
-            this.btnCancelUpdateLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelUpdateLibrary.BackColor = System.Drawing.Color.Silver;
-            this.btnCancelUpdateLibrary.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelUpdateLibrary.Font = new System.Drawing.Font("Arial", 7.5F);
-            this.btnCancelUpdateLibrary.Image = null;
-            this.btnCancelUpdateLibrary.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelUpdateLibrary.IsAutoSized = false;
-            this.btnCancelUpdateLibrary.Location = new System.Drawing.Point(176, 58);
-            this.btnCancelUpdateLibrary.Name = "btnCancelUpdateLibrary";
-            this.btnCancelUpdateLibrary.Size = new System.Drawing.Size(50, 20);
-            this.btnCancelUpdateLibrary.TabIndex = 81;
-            this.btnCancelUpdateLibrary.Text = "Cancel";
-            this.btnCancelUpdateLibrary.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient3.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient3.BorderWidth = 1;
-            textGradient3.Color1 = System.Drawing.Color.LightGray;
-            textGradient3.Color2 = System.Drawing.Color.Gray;
-            customFont3.Color = System.Drawing.Color.Black;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = false;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 8F;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            textGradient3.Font = customFont3;
-            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient3.Padding = 2;
-            buttonTheme1.TextGradientDefault = textGradient3;
-            textGradient4.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient4.BorderWidth = 1;
-            textGradient4.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient4.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont4.Color = System.Drawing.Color.LightGray;
-            customFont4.EmbeddedFontName = "Junction";
-            customFont4.IsBold = false;
-            customFont4.IsItalic = false;
-            customFont4.IsUnderline = false;
-            customFont4.Size = 8F;
-            customFont4.StandardFontName = "Arial";
-            customFont4.UseAntiAliasing = true;
-            customFont4.UseEmbeddedFont = true;
-            textGradient4.Font = customFont4;
-            textGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient4.Padding = 2;
-            buttonTheme1.TextGradientDisabled = textGradient4;
-            textGradient5.BorderColor = System.Drawing.Color.Gray;
-            textGradient5.BorderWidth = 1;
-            textGradient5.Color1 = System.Drawing.Color.White;
-            textGradient5.Color2 = System.Drawing.Color.LightGray;
-            customFont5.Color = System.Drawing.Color.Black;
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 8F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            textGradient5.Font = customFont5;
-            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient5.Padding = 2;
-            buttonTheme1.TextGradientMouseOver = textGradient5;
-            this.btnCancelUpdateLibrary.Theme = buttonTheme1;
-            // 
-            // lblUpdateLibraryRemainingTime
-            // 
-            this.lblUpdateLibraryRemainingTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUpdateLibraryRemainingTime.BackColor = System.Drawing.Color.Transparent;
-            this.lblUpdateLibraryRemainingTime.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUpdateLibraryRemainingTime.ForeColor = System.Drawing.Color.Silver;
-            this.lblUpdateLibraryRemainingTime.IsAutoSized = false;
-            this.lblUpdateLibraryRemainingTime.Location = new System.Drawing.Point(2, 81);
-            this.lblUpdateLibraryRemainingTime.Name = "lblUpdateLibraryRemainingTime";
-            this.lblUpdateLibraryRemainingTime.Size = new System.Drawing.Size(224, 16);
-            this.lblUpdateLibraryRemainingTime.TabIndex = 82;
-            this.lblUpdateLibraryRemainingTime.Text = "14 mins remaining";
-            this.lblUpdateLibraryRemainingTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme2.IsBackgroundTransparent = true;
-            textGradient2.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient2.BorderWidth = 1;
-            textGradient2.Color1 = System.Drawing.Color.LightGray;
-            textGradient2.Color2 = System.Drawing.Color.Gray;
-            customFont2.Color = System.Drawing.Color.Gainsboro;
-            customFont2.EmbeddedFontName = "Junction";
-            customFont2.IsBold = false;
-            customFont2.IsItalic = false;
-            customFont2.IsUnderline = false;
-            customFont2.Size = 8F;
-            customFont2.StandardFontName = "Arial";
-            customFont2.UseAntiAliasing = true;
-            customFont2.UseEmbeddedFont = true;
-            textGradient2.Font = customFont2;
-            textGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient2.Padding = 2;
-            labelTheme2.TextGradient = textGradient2;
-            this.lblUpdateLibraryRemainingTime.Theme = labelTheme2;
-            // 
-            // panelUpdateLibraryProgress
-            // 
-            this.tableLayoutPanelLibrary.SetColumnSpan(this.panelUpdateLibraryProgress, 2);
-            this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryRemainingTime);
-            this.panelUpdateLibraryProgress.Controls.Add(this.btnCancelUpdateLibrary);
-            this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryCurrentFileValue);
-            this.panelUpdateLibraryProgress.Controls.Add(this.progressUpdateLibrary);
-            this.panelUpdateLibraryProgress.Controls.Add(this.lblUpdateLibraryMessage);
-            this.panelUpdateLibraryProgress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelUpdateLibraryProgress.ExpandedHeight = 56;
-            this.panelUpdateLibraryProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelUpdateLibraryProgress.HeaderAutoSize = true;
-            this.panelUpdateLibraryProgress.HeaderExpandable = false;
-            this.panelUpdateLibraryProgress.HeaderExpanded = true;
-            this.panelUpdateLibraryProgress.HeaderHeight = 16;
-            this.panelUpdateLibraryProgress.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelUpdateLibraryProgress.HeaderTitle = "Update Library Progress";
-            this.panelUpdateLibraryProgress.Location = new System.Drawing.Point(3, 404);
-            this.panelUpdateLibraryProgress.Name = "panelUpdateLibraryProgress";
-            this.panelUpdateLibraryProgress.Size = new System.Drawing.Size(231, 134);
-            this.panelUpdateLibraryProgress.TabIndex = 83;
-            this.panelUpdateLibraryProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            backgroundGradient1.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient1.BorderWidth = 0;
-            backgroundGradient1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            backgroundGradient1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            backgroundGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            panelTheme1.BackgroundGradient = backgroundGradient1;
-            textGradient8.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient8.BorderWidth = 0;
-            textGradient8.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            textGradient8.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont8.Color = System.Drawing.Color.White;
-            customFont8.EmbeddedFontName = "Junction";
-            customFont8.IsBold = false;
-            customFont8.IsItalic = false;
-            customFont8.IsUnderline = false;
-            customFont8.Size = 8F;
-            customFont8.StandardFontName = "Arial";
-            customFont8.UseAntiAliasing = true;
-            customFont8.UseEmbeddedFont = true;
-            textGradient8.Font = customFont8;
-            textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient8.Padding = 2;
-            panelTheme1.HeaderTextGradient = textGradient8;
-            this.panelUpdateLibraryProgress.Theme = panelTheme1;
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4685,6 +4685,8 @@ namespace MPfm
             ((System.ComponentModel.ISupportInitialize)(this.splitFirst)).EndInit();
             this.splitFirst.ResumeLayout(false);
             this.panelLibraryBrowser.ResumeLayout(false);
+            this.tableLayoutPanelLibrary.ResumeLayout(false);
+            this.panelUpdateLibraryProgress.ResumeLayout(false);
             this.menuLibrary.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
@@ -4741,8 +4743,6 @@ namespace MPfm
             this.flowLayoutPanelSongBrowserToolbar.PerformLayout();
             this.menuTray.ResumeLayout(false);
             this.menuToolbarLibrary.ResumeLayout(false);
-            this.tableLayoutPanelLibrary.ResumeLayout(false);
-            this.panelUpdateLibraryProgress.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4897,7 +4897,6 @@ namespace MPfm
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelLoops;
-        private WindowsControls.Label lblLoops;
         private WindowsControls.Button btnPlayLoop;
         private WindowsControls.Button btnStopLoop;
         private WindowsControls.Button btnAddLoop;
@@ -4939,7 +4938,8 @@ namespace MPfm
         private WindowsControls.Button btnCancelUpdateLibrary;
         private WindowsControls.Label lblUpdateLibraryCurrentFileValue;
         private System.Windows.Forms.ProgressBar progressUpdateLibrary;
-        private WindowsControls.Label lblUpdateLibraryMessage;        
+        private WindowsControls.Label lblUpdateLibraryMessage;
+        private WindowsControls.Label label1;        
     }
 }
 

@@ -169,6 +169,7 @@ namespace MPfm
             if (!SaveGeneralConfig())
             {
                 // Cancel
+                e.Cancel = true;
                 return;
             }
 
@@ -1245,12 +1246,12 @@ namespace MPfm
             if (chkShowTray.Checked)
             {
                 // Set label color
-                lblHideTray.ForeColor = Color.Black;
+                lblHideTray.Theme.TextGradient.Font.Color = Color.Black;
             }
             else
             {
                 // Set label color
-                lblHideTray.ForeColor = Color.FromArgb(80, 80, 80);
+                lblHideTray.Theme.TextGradient.Font.Color = Color.FromArgb(80, 80, 80);
             }
 
             // Enable checkboxes depending on value
@@ -1260,13 +1261,16 @@ namespace MPfm
             if (chkPeakFileDisplayWarning.Checked)
             {
                 // Set label color                
-                lblPeakFileDisplayWarningUnit.ForeColor = Color.Black;
+                lblPeakFileDisplayWarningUnit.Theme.TextGradient.Font.Color = Color.Black;
             }
             else
             {
                 // Set label color                
-                lblPeakFileDisplayWarningUnit.ForeColor = Color.FromArgb(80, 80, 80);
+                lblPeakFileDisplayWarningUnit.Theme.TextGradient.Font.Color = Color.FromArgb(80, 80, 80);
             }
+
+            lblHideTray.Refresh();
+            lblPeakFileDisplayWarningUnit.Refresh();
         }
 
         /// <summary>
