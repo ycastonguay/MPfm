@@ -159,6 +159,22 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
+        /// Overrides the Text property to force refresh on text change.
+        /// </summary>
+        public override string Text
+        {
+            get
+            {
+                return base.Text;
+            }
+            set
+            {
+                base.Text = value;
+                Refresh();
+            }
+        }
+
+        /// <summary>
         /// Default constructor for the Button class.
         /// </summary>
         public Button()

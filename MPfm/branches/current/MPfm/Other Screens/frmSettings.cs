@@ -1050,12 +1050,7 @@ namespace MPfm
         /// <param name="e">Event arguments</param>
         private void numericUpdatePeriod_ValueChanged(object sender, EventArgs e)
         {
-            // Set state 
-            if (!initializing)
-            {
-                audioSettingsState = AudioSettingsState.NotTested;
-                RefreshAudioSettingsState();
-            }
+
         }
 
         /// <summary>
@@ -1302,8 +1297,8 @@ namespace MPfm
             btnAudioSettings.Enabled = false;
             btnLibrarySettings.Enabled = true;
 
-            panelGeneralSettings.Visible = false;
             panelAudioSettings.Visible = true;
+            panelGeneralSettings.Visible = false;            
             panelLibrarySettings.Visible = false;
         }
 
@@ -1319,9 +1314,9 @@ namespace MPfm
             btnAudioSettings.Enabled = true;
             btnLibrarySettings.Enabled = false;
 
-            panelGeneralSettings.Visible = false;
-            panelAudioSettings.Visible = false;
             panelLibrarySettings.Visible = true;
+            panelGeneralSettings.Visible = false;
+            panelAudioSettings.Visible = false;            
         }
     }
 
