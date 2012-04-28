@@ -89,6 +89,10 @@
     <Compile Include="Buttons-Toolbars\TrackBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Containers\TableLayoutPanelTheme.cs" />
+    <Compile Include="Containers\TableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Containers\FlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -25,6 +25,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.Windows.Forms;
 
 namespace MPfm.WindowsControls
 {
@@ -146,7 +147,7 @@ namespace MPfm.WindowsControls
         /// <param name="align">Alignment</param>
         /// <param name="color">Fore color</param>
         /// <param name="padding">Padding (space between borders and text)</param>
-        public static void RenderTextWithAlignment(Graphics g, Rectangle rect, Font font, string text, ContentAlignment align, Color color, int padding)
+        public static void RenderTextWithAlignment(Graphics g, RectangleF rect, Font font, string text, ContentAlignment align, Color color, int padding)
         {
             // Create brush
             SolidBrush brushFont = new SolidBrush(color);
@@ -161,6 +162,15 @@ namespace MPfm.WindowsControls
             {
                 // Measure string            
                 SizeF sizeString = g.MeasureString(text, font);
+                Size sizeString2 = TextRenderer.MeasureText(text, font);
+
+                float remainingWidth = rect.Width - sizeString.Width;
+                float remainingHeight = rect.Height - sizeString.Height;
+
+                float stuffWidth = rect.Width / 2;
+                float stuffHeight = rect.Height / 2;
+                float stuffBWidth = sizeString.Width / 2;
+                float stuffBHeight = sizeString.Height / 2;
 
                 // Draw string depending on alignment
                 if (align == ContentAlignment.BottomLeft)
@@ -181,17 +191,42 @@ namespace MPfm.WindowsControls
                 else if (align == ContentAlignment.MiddleLeft)
                 {
                     // Middle left
-                    g.DrawString(text, font, brushFont, padding, (rect.Height - sizeString.Height) / 2);
+                    //g.DrawString(text, font, brushFont, padding, (rect.Height - sizeString.Height) / 2);
+
+                    StringFormat format = new StringFormat();
+                    format.FormatFlags = StringFormatFlags.NoWrap;
+                    format.LineAlignment = StringAlignment.Center;
+                    format.Alignment = StringAlignment.Near;
+
+                    //RectangleF rectWithPadding = rect;
+                    RectangleF rectWithPadding = RectangleF.Inflate(rect, 0, 0);
+                    rectWithPadding.X = padding;                    
+                    rectWithPadding.Y -= 1;
+
+                    //g.FillRectangle(Brushes.HotPink, rectWithPadding);
+                    g.DrawString(text, font, brushFont, rectWithPadding, format);                    
+
                 }
                 else if (align == ContentAlignment.MiddleCenter)
                 {
-                    // Middle center
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) / 2, (rect.Height - sizeString.Height) / 2);
+                    StringFormat format = new StringFormat();
+                    format.LineAlignment = StringAlignment.Center;
+                    format.Alignment = StringAlignment.Center;
+
+                    //g.FillRectangle(Brushes.Blue, rect);
+                    g.DrawString(text, font, brushFont, rect, format);
                 }
                 else if (align == ContentAlignment.MiddleRight)
                 {
-                    // Middle right
-                    g.DrawString(text, font, brushFont, (rect.Width - sizeString.Width) - padding, (rect.Height - sizeString.Height) / 2);
+                    StringFormat format = new StringFormat();
+                    format.LineAlignment = StringAlignment.Center;
+                    format.Alignment = StringAlignment.Far;
+
+                    RectangleF rectWithPadding = RectangleF.Inflate(rect, -padding, 0);
+                    rectWithPadding.Y -= 1;
+
+                    //g.FillRectangle(Brushes.HotPink, rectWithPadding);
+                    g.DrawString(text, font, brushFont, rectWithPadding, format);                    
                 }
                 else if (align == ContentAlignment.TopCenter)
                 {

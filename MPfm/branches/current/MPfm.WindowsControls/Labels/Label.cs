@@ -149,7 +149,9 @@ namespace MPfm.WindowsControls
                 if (isAutoSized)
                 {
                     // Measure string                
-                    SizeF sizeString = g.MeasureString(Text, font);
+                    StringFormat format = new StringFormat();
+                    format.FormatFlags = StringFormatFlags.NoWrap;
+                    SizeF sizeString = g.MeasureString(Text, font, new PointF(0, 0), format);
 
                     // Add padding
                     Size sizeControl = sizeString.ToSize();
@@ -171,7 +173,7 @@ namespace MPfm.WindowsControls
                         Size.Height != sizeControl.Height)
                     {
                         // Update control size
-                        this.Size = sizeControl;
+                        this.Size = sizeControl;                        
                     }   
                 }
 
@@ -189,7 +191,7 @@ namespace MPfm.WindowsControls
                     base.OnPaintBackground(pe); // CPU intensive when transparent
                 }
 
-                // Render text
+                // Render text                
                 PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color, theme.TextGradient.Padding);
 
                 // Dispose font
