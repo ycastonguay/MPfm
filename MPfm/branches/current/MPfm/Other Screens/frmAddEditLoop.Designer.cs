@@ -47,18 +47,18 @@ namespace MPfm
             MPfm.WindowsControls.LabelTheme labelTheme2 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient2 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont2 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme4 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient4 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme3 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient3 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme6 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient6 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme4 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient4 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont4 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme5 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient5 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont5 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme6 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient6 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont6 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme7 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient7 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
@@ -117,6 +117,18 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont33 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TableLayoutPanelTheme tableLayoutPanelTheme3 = new MPfm.WindowsControls.TableLayoutPanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient5 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.LabelTheme labelTheme13 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient27 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme14 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient28 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme15 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient29 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme16 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient30 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme17 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient31 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
@@ -139,18 +151,6 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient9 = new MPfm.WindowsControls.BackgroundGradient();
-            MPfm.WindowsControls.LabelTheme labelTheme16 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient30 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme15 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient29 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme14 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient28 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme13 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient27 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
             this.panelEditLoop = new MPfm.WindowsControls.Panel();
             this.panelWarning = new System.Windows.Forms.Panel();
             this.lblWarning = new MPfm.WindowsControls.Label();
@@ -159,16 +159,16 @@ namespace MPfm
             this.panelLoopLength = new MPfm.WindowsControls.Panel();
             this.tableLoopLength = new MPfm.WindowsControls.TableLayoutPanel();
             this.lblLoopLength = new MPfm.WindowsControls.Label();
-            this.lblLoopLengthValue = new MPfm.WindowsControls.Label();
             this.lblLoopLengthPCM = new MPfm.WindowsControls.Label();
-            this.lblLoopLengthPCMValue = new MPfm.WindowsControls.Label();
+            this.lblLoopLengthValue = new MPfm.WindowsControls.Label();
             this.lblLoopLengthPCMBytes = new MPfm.WindowsControls.Label();
+            this.lblLoopLengthPCMValue = new MPfm.WindowsControls.Label();
             this.lblLoopLengthPCMBytesValue = new MPfm.WindowsControls.Label();
             this.panelLoopInformation = new MPfm.WindowsControls.Panel();
             this.tableLoopInformation = new MPfm.WindowsControls.TableLayoutPanel();
-            this.txtName = new System.Windows.Forms.TextBox();
             this.comboEndPositionMarker = new System.Windows.Forms.ComboBox();
             this.lblEndPositionMarker = new MPfm.WindowsControls.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
             this.lblStartPositionMarker = new MPfm.WindowsControls.Label();
             this.lblName = new MPfm.WindowsControls.Label();
             this.comboStartPositionMarker = new System.Windows.Forms.ComboBox();
@@ -182,16 +182,16 @@ namespace MPfm
             this.lblStartPosition = new MPfm.WindowsControls.Label();
             this.panelSongInformation = new MPfm.WindowsControls.Panel();
             this.tableSongInformation = new MPfm.WindowsControls.TableLayoutPanel();
+            this.lblAlbumTitleValue = new MPfm.WindowsControls.Label();
+            this.lblAlbumTitle = new MPfm.WindowsControls.Label();
+            this.lblArtistNameValue = new MPfm.WindowsControls.Label();
+            this.lblArtistName = new MPfm.WindowsControls.Label();
             this.lblSongTitle = new MPfm.WindowsControls.Label();
             this.lblSongTitleValue = new MPfm.WindowsControls.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
             this.flowToolbar = new MPfm.WindowsControls.FlowLayoutPanel();
-            this.lblArtistName = new MPfm.WindowsControls.Label();
-            this.lblArtistNameValue = new MPfm.WindowsControls.Label();
-            this.lblAlbumTitle = new MPfm.WindowsControls.Label();
-            this.lblAlbumTitleValue = new MPfm.WindowsControls.Label();
             this.panelEditLoop.SuspendLayout();
             this.panelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -222,7 +222,7 @@ namespace MPfm
             this.panelEditLoop.HeaderTitle = "Edit Loop";
             this.panelEditLoop.Location = new System.Drawing.Point(0, 26);
             this.panelEditLoop.Name = "panelEditLoop";
-            this.panelEditLoop.Size = new System.Drawing.Size(678, 368);
+            this.panelEditLoop.Size = new System.Drawing.Size(584, 350);
             this.panelEditLoop.TabIndex = 65;
             this.panelEditLoop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient8.BorderColor = System.Drawing.Color.DarkGray;
@@ -256,7 +256,7 @@ namespace MPfm
             this.panelWarning.BackColor = System.Drawing.Color.Transparent;
             this.panelWarning.Controls.Add(this.lblWarning);
             this.panelWarning.Controls.Add(this.pictureBox1);
-            this.panelWarning.Location = new System.Drawing.Point(475, 3);
+            this.panelWarning.Location = new System.Drawing.Point(381, 3);
             this.panelWarning.Name = "panelWarning";
             this.panelWarning.Size = new System.Drawing.Size(200, 25);
             this.panelWarning.TabIndex = 112;
@@ -322,7 +322,7 @@ namespace MPfm
             this.tableLoop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLoop.Size = new System.Drawing.Size(678, 338);
+            this.tableLoop.Size = new System.Drawing.Size(584, 320);
             this.tableLoop.TabIndex = 111;
             backgroundGradient7.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient7.BorderWidth = 0;
@@ -349,7 +349,7 @@ namespace MPfm
             this.panelLoopLength.Location = new System.Drawing.Point(6, 221);
             this.panelLoopLength.Margin = new System.Windows.Forms.Padding(6);
             this.panelLoopLength.Name = "panelLoopLength";
-            this.panelLoopLength.Size = new System.Drawing.Size(666, 92);
+            this.panelLoopLength.Size = new System.Drawing.Size(572, 92);
             this.panelLoopLength.TabIndex = 104;
             this.panelLoopLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient2.BorderColor = System.Drawing.Color.DarkGray;
@@ -397,7 +397,7 @@ namespace MPfm
             this.tableLoopLength.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLoopLength.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLoopLength.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLoopLength.Size = new System.Drawing.Size(666, 72);
+            this.tableLoopLength.Size = new System.Drawing.Size(572, 72);
             this.tableLoopLength.TabIndex = 113;
             backgroundGradient1.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient1.BorderWidth = 0;
@@ -440,6 +440,38 @@ namespace MPfm
             labelTheme2.TextGradient = textGradient2;
             this.lblLoopLength.Theme = labelTheme2;
             // 
+            // lblLoopLengthPCM
+            // 
+            this.lblLoopLengthPCM.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCM.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblLoopLengthPCM.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthPCM.IsAutoSized = false;
+            this.lblLoopLengthPCM.Location = new System.Drawing.Point(3, 27);
+            this.lblLoopLengthPCM.Name = "lblLoopLengthPCM";
+            this.lblLoopLengthPCM.Size = new System.Drawing.Size(94, 18);
+            this.lblLoopLengthPCM.TabIndex = 94;
+            this.lblLoopLengthPCM.Text = "Samples :";
+            this.lblLoopLengthPCM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme3.IsBackgroundTransparent = true;
+            textGradient3.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient3.BorderWidth = 1;
+            textGradient3.Color1 = System.Drawing.Color.LightGray;
+            textGradient3.Color2 = System.Drawing.Color.Gray;
+            customFont3.Color = System.Drawing.Color.Black;
+            customFont3.EmbeddedFontName = "Junction";
+            customFont3.IsBold = false;
+            customFont3.IsItalic = false;
+            customFont3.IsUnderline = false;
+            customFont3.Size = 8F;
+            customFont3.StandardFontName = "Arial";
+            customFont3.UseAntiAliasing = true;
+            customFont3.UseEmbeddedFont = true;
+            textGradient3.Font = customFont3;
+            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient3.Padding = 2;
+            labelTheme3.TextGradient = textGradient3;
+            this.lblLoopLengthPCM.Theme = labelTheme3;
+            // 
             // lblLoopLengthValue
             // 
             this.lblLoopLengthValue.BackColor = System.Drawing.Color.Transparent;
@@ -473,37 +505,37 @@ namespace MPfm
             labelTheme4.TextGradient = textGradient4;
             this.lblLoopLengthValue.Theme = labelTheme4;
             // 
-            // lblLoopLengthPCM
+            // lblLoopLengthPCMBytes
             // 
-            this.lblLoopLengthPCM.BackColor = System.Drawing.Color.Transparent;
-            this.lblLoopLengthPCM.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblLoopLengthPCM.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoopLengthPCM.IsAutoSized = false;
-            this.lblLoopLengthPCM.Location = new System.Drawing.Point(3, 27);
-            this.lblLoopLengthPCM.Name = "lblLoopLengthPCM";
-            this.lblLoopLengthPCM.Size = new System.Drawing.Size(94, 18);
-            this.lblLoopLengthPCM.TabIndex = 94;
-            this.lblLoopLengthPCM.Text = "Samples :";
-            this.lblLoopLengthPCM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme3.IsBackgroundTransparent = true;
-            textGradient3.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient3.BorderWidth = 1;
-            textGradient3.Color1 = System.Drawing.Color.LightGray;
-            textGradient3.Color2 = System.Drawing.Color.Gray;
-            customFont3.Color = System.Drawing.Color.Black;
-            customFont3.EmbeddedFontName = "Junction";
-            customFont3.IsBold = false;
-            customFont3.IsItalic = false;
-            customFont3.IsUnderline = false;
-            customFont3.Size = 8F;
-            customFont3.StandardFontName = "Arial";
-            customFont3.UseAntiAliasing = true;
-            customFont3.UseEmbeddedFont = true;
-            textGradient3.Font = customFont3;
-            textGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient3.Padding = 2;
-            labelTheme3.TextGradient = textGradient3;
-            this.lblLoopLengthPCM.Theme = labelTheme3;
+            this.lblLoopLengthPCMBytes.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoopLengthPCMBytes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblLoopLengthPCMBytes.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopLengthPCMBytes.IsAutoSized = false;
+            this.lblLoopLengthPCMBytes.Location = new System.Drawing.Point(3, 51);
+            this.lblLoopLengthPCMBytes.Name = "lblLoopLengthPCMBytes";
+            this.lblLoopLengthPCMBytes.Size = new System.Drawing.Size(94, 18);
+            this.lblLoopLengthPCMBytes.TabIndex = 96;
+            this.lblLoopLengthPCMBytes.Text = "Bytes :";
+            this.lblLoopLengthPCMBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme5.IsBackgroundTransparent = true;
+            textGradient5.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient5.BorderWidth = 1;
+            textGradient5.Color1 = System.Drawing.Color.LightGray;
+            textGradient5.Color2 = System.Drawing.Color.Gray;
+            customFont5.Color = System.Drawing.Color.Black;
+            customFont5.EmbeddedFontName = "Junction";
+            customFont5.IsBold = false;
+            customFont5.IsItalic = false;
+            customFont5.IsUnderline = false;
+            customFont5.Size = 8F;
+            customFont5.StandardFontName = "Arial";
+            customFont5.UseAntiAliasing = true;
+            customFont5.UseEmbeddedFont = true;
+            textGradient5.Font = customFont5;
+            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient5.Padding = 2;
+            labelTheme5.TextGradient = textGradient5;
+            this.lblLoopLengthPCMBytes.Theme = labelTheme5;
             // 
             // lblLoopLengthPCMValue
             // 
@@ -537,38 +569,6 @@ namespace MPfm
             textGradient6.Padding = 2;
             labelTheme6.TextGradient = textGradient6;
             this.lblLoopLengthPCMValue.Theme = labelTheme6;
-            // 
-            // lblLoopLengthPCMBytes
-            // 
-            this.lblLoopLengthPCMBytes.BackColor = System.Drawing.Color.Transparent;
-            this.lblLoopLengthPCMBytes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblLoopLengthPCMBytes.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoopLengthPCMBytes.IsAutoSized = false;
-            this.lblLoopLengthPCMBytes.Location = new System.Drawing.Point(3, 51);
-            this.lblLoopLengthPCMBytes.Name = "lblLoopLengthPCMBytes";
-            this.lblLoopLengthPCMBytes.Size = new System.Drawing.Size(94, 18);
-            this.lblLoopLengthPCMBytes.TabIndex = 96;
-            this.lblLoopLengthPCMBytes.Text = "Bytes :";
-            this.lblLoopLengthPCMBytes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme5.IsBackgroundTransparent = true;
-            textGradient5.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient5.BorderWidth = 1;
-            textGradient5.Color1 = System.Drawing.Color.LightGray;
-            textGradient5.Color2 = System.Drawing.Color.Gray;
-            customFont5.Color = System.Drawing.Color.Black;
-            customFont5.EmbeddedFontName = "Junction";
-            customFont5.IsBold = false;
-            customFont5.IsItalic = false;
-            customFont5.IsUnderline = false;
-            customFont5.Size = 8F;
-            customFont5.StandardFontName = "Arial";
-            customFont5.UseAntiAliasing = true;
-            customFont5.UseEmbeddedFont = true;
-            textGradient5.Font = customFont5;
-            textGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient5.Padding = 2;
-            labelTheme5.TextGradient = textGradient5;
-            this.lblLoopLengthPCMBytes.Theme = labelTheme5;
             // 
             // lblLoopLengthPCMBytesValue
             // 
@@ -620,7 +620,7 @@ namespace MPfm
             this.panelLoopInformation.Location = new System.Drawing.Point(6, 104);
             this.panelLoopInformation.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
             this.panelLoopInformation.Name = "panelLoopInformation";
-            this.panelLoopInformation.Size = new System.Drawing.Size(666, 111);
+            this.panelLoopInformation.Size = new System.Drawing.Size(572, 111);
             this.panelLoopInformation.TabIndex = 104;
             this.panelLoopInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient4.BorderColor = System.Drawing.Color.DarkGray;
@@ -683,7 +683,7 @@ namespace MPfm
             this.tableLoopInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoopInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoopInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLoopInformation.Size = new System.Drawing.Size(666, 91);
+            this.tableLoopInformation.Size = new System.Drawing.Size(572, 91);
             this.tableLoopInformation.TabIndex = 113;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
@@ -693,17 +693,6 @@ namespace MPfm
             tableLayoutPanelTheme2.BackgroundGradient = backgroundGradient3;
             tableLayoutPanelTheme2.IsBackgroundTransparent = false;
             this.tableLoopInformation.Theme = tableLayoutPanelTheme2;
-            // 
-            // txtName
-            // 
-            this.tableLoopInformation.SetColumnSpan(this.txtName, 5);
-            this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtName.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtName.Location = new System.Drawing.Point(103, 3);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(441, 21);
-            this.txtName.TabIndex = 68;
-            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // comboEndPositionMarker
             // 
@@ -752,6 +741,17 @@ namespace MPfm
             labelTheme8.TextGradient = textGradient9;
             this.lblEndPositionMarker.Theme = labelTheme8;
             this.toolTip.SetToolTip(this.lblEndPositionMarker, "List of markers matching the loop end position.");
+            // 
+            // txtName
+            // 
+            this.tableLoopInformation.SetColumnSpan(this.txtName, 5);
+            this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtName.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.Location = new System.Drawing.Point(103, 3);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(441, 21);
+            this.txtName.TabIndex = 68;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblStartPositionMarker
             // 
@@ -881,7 +881,7 @@ namespace MPfm
             textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient13.Padding = 4;
             buttonTheme1.TextGradientDisabled = textGradient13;
-            textGradient14.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            textGradient14.BorderColor = System.Drawing.Color.Gray;
             textGradient14.BorderWidth = 1;
             textGradient14.Color1 = System.Drawing.Color.White;
             textGradient14.Color2 = System.Drawing.Color.LightGray;
@@ -950,7 +950,7 @@ namespace MPfm
             textGradient16.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient16.Padding = 4;
             buttonTheme2.TextGradientDisabled = textGradient16;
-            textGradient17.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            textGradient17.BorderColor = System.Drawing.Color.Gray;
             textGradient17.BorderWidth = 1;
             textGradient17.Color1 = System.Drawing.Color.White;
             textGradient17.Color2 = System.Drawing.Color.LightGray;
@@ -1019,7 +1019,7 @@ namespace MPfm
             textGradient19.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient19.Padding = 4;
             buttonTheme3.TextGradientDisabled = textGradient19;
-            textGradient20.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            textGradient20.BorderColor = System.Drawing.Color.Gray;
             textGradient20.BorderWidth = 1;
             textGradient20.Color1 = System.Drawing.Color.White;
             textGradient20.Color2 = System.Drawing.Color.LightGray;
@@ -1088,7 +1088,7 @@ namespace MPfm
             textGradient22.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient22.Padding = 4;
             buttonTheme4.TextGradientDisabled = textGradient22;
-            textGradient23.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            textGradient23.BorderColor = System.Drawing.Color.Gray;
             textGradient23.BorderWidth = 1;
             textGradient23.Color1 = System.Drawing.Color.White;
             textGradient23.Color2 = System.Drawing.Color.LightGray;
@@ -1213,7 +1213,7 @@ namespace MPfm
             this.panelSongInformation.Location = new System.Drawing.Point(6, 6);
             this.panelSongInformation.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
             this.panelSongInformation.Name = "panelSongInformation";
-            this.panelSongInformation.Size = new System.Drawing.Size(666, 92);
+            this.panelSongInformation.Size = new System.Drawing.Size(572, 92);
             this.panelSongInformation.TabIndex = 103;
             this.panelSongInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient6.BorderColor = System.Drawing.Color.DarkGray;
@@ -1273,6 +1273,136 @@ namespace MPfm
             tableLayoutPanelTheme3.BackgroundGradient = backgroundGradient5;
             tableLayoutPanelTheme3.IsBackgroundTransparent = false;
             this.tableSongInformation.Theme = tableLayoutPanelTheme3;
+            // 
+            // lblAlbumTitleValue
+            // 
+            this.lblAlbumTitleValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblAlbumTitleValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblAlbumTitleValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAlbumTitleValue.IsAutoSized = false;
+            this.lblAlbumTitleValue.Location = new System.Drawing.Point(100, 27);
+            this.lblAlbumTitleValue.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.lblAlbumTitleValue.Name = "lblAlbumTitleValue";
+            this.lblAlbumTitleValue.Size = new System.Drawing.Size(563, 18);
+            this.lblAlbumTitleValue.TabIndex = 117;
+            this.lblAlbumTitleValue.Text = "Song :";
+            this.lblAlbumTitleValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme13.IsBackgroundTransparent = true;
+            textGradient27.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient27.BorderWidth = 1;
+            textGradient27.Color1 = System.Drawing.Color.LightGray;
+            textGradient27.Color2 = System.Drawing.Color.Gray;
+            customFont27.Color = System.Drawing.Color.Black;
+            customFont27.EmbeddedFontName = "Junction";
+            customFont27.IsBold = false;
+            customFont27.IsItalic = false;
+            customFont27.IsUnderline = false;
+            customFont27.Size = 8F;
+            customFont27.StandardFontName = "Arial";
+            customFont27.UseAntiAliasing = true;
+            customFont27.UseEmbeddedFont = true;
+            textGradient27.Font = customFont27;
+            textGradient27.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient27.Padding = 2;
+            labelTheme13.TextGradient = textGradient27;
+            this.lblAlbumTitleValue.Theme = labelTheme13;
+            // 
+            // lblAlbumTitle
+            // 
+            this.lblAlbumTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblAlbumTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblAlbumTitle.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAlbumTitle.IsAutoSized = false;
+            this.lblAlbumTitle.Location = new System.Drawing.Point(3, 27);
+            this.lblAlbumTitle.Name = "lblAlbumTitle";
+            this.lblAlbumTitle.Size = new System.Drawing.Size(94, 18);
+            this.lblAlbumTitle.TabIndex = 116;
+            this.lblAlbumTitle.Text = "Album Title :";
+            this.lblAlbumTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme14.IsBackgroundTransparent = true;
+            textGradient28.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient28.BorderWidth = 1;
+            textGradient28.Color1 = System.Drawing.Color.LightGray;
+            textGradient28.Color2 = System.Drawing.Color.Gray;
+            customFont28.Color = System.Drawing.Color.Black;
+            customFont28.EmbeddedFontName = "Junction";
+            customFont28.IsBold = false;
+            customFont28.IsItalic = false;
+            customFont28.IsUnderline = false;
+            customFont28.Size = 8F;
+            customFont28.StandardFontName = "Arial";
+            customFont28.UseAntiAliasing = true;
+            customFont28.UseEmbeddedFont = true;
+            textGradient28.Font = customFont28;
+            textGradient28.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient28.Padding = 2;
+            labelTheme14.TextGradient = textGradient28;
+            this.lblAlbumTitle.Theme = labelTheme14;
+            // 
+            // lblArtistNameValue
+            // 
+            this.lblArtistNameValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblArtistNameValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblArtistNameValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArtistNameValue.IsAutoSized = false;
+            this.lblArtistNameValue.Location = new System.Drawing.Point(100, 3);
+            this.lblArtistNameValue.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.lblArtistNameValue.Name = "lblArtistNameValue";
+            this.lblArtistNameValue.Size = new System.Drawing.Size(563, 18);
+            this.lblArtistNameValue.TabIndex = 115;
+            this.lblArtistNameValue.Text = "Song :";
+            this.lblArtistNameValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme15.IsBackgroundTransparent = true;
+            textGradient29.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient29.BorderWidth = 1;
+            textGradient29.Color1 = System.Drawing.Color.LightGray;
+            textGradient29.Color2 = System.Drawing.Color.Gray;
+            customFont29.Color = System.Drawing.Color.Black;
+            customFont29.EmbeddedFontName = "Junction";
+            customFont29.IsBold = false;
+            customFont29.IsItalic = false;
+            customFont29.IsUnderline = false;
+            customFont29.Size = 8F;
+            customFont29.StandardFontName = "Arial";
+            customFont29.UseAntiAliasing = true;
+            customFont29.UseEmbeddedFont = true;
+            textGradient29.Font = customFont29;
+            textGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient29.Padding = 2;
+            labelTheme15.TextGradient = textGradient29;
+            this.lblArtistNameValue.Theme = labelTheme15;
+            // 
+            // lblArtistName
+            // 
+            this.lblArtistName.BackColor = System.Drawing.Color.Transparent;
+            this.lblArtistName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblArtistName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArtistName.IsAutoSized = false;
+            this.lblArtistName.Location = new System.Drawing.Point(3, 3);
+            this.lblArtistName.Name = "lblArtistName";
+            this.lblArtistName.Size = new System.Drawing.Size(94, 18);
+            this.lblArtistName.TabIndex = 114;
+            this.lblArtistName.Text = "Artist Name :";
+            this.lblArtistName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme16.IsBackgroundTransparent = true;
+            textGradient30.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient30.BorderWidth = 1;
+            textGradient30.Color1 = System.Drawing.Color.LightGray;
+            textGradient30.Color2 = System.Drawing.Color.Gray;
+            customFont30.Color = System.Drawing.Color.Black;
+            customFont30.EmbeddedFontName = "Junction";
+            customFont30.IsBold = false;
+            customFont30.IsItalic = false;
+            customFont30.IsUnderline = false;
+            customFont30.Size = 8F;
+            customFont30.StandardFontName = "Arial";
+            customFont30.UseAntiAliasing = true;
+            customFont30.UseEmbeddedFont = true;
+            textGradient30.Font = customFont30;
+            textGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient30.Padding = 2;
+            labelTheme16.TextGradient = textGradient30;
+            this.lblArtistName.Theme = labelTheme16;
             // 
             // lblSongTitle
             // 
@@ -1494,7 +1624,7 @@ namespace MPfm
             this.flowToolbar.Location = new System.Drawing.Point(0, 0);
             this.flowToolbar.Margin = new System.Windows.Forms.Padding(0);
             this.flowToolbar.Name = "flowToolbar";
-            this.flowToolbar.Size = new System.Drawing.Size(678, 26);
+            this.flowToolbar.Size = new System.Drawing.Size(584, 26);
             this.flowToolbar.TabIndex = 112;
             backgroundGradient9.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient9.BorderWidth = 0;
@@ -1505,146 +1635,15 @@ namespace MPfm
             flowLayoutPanelTheme1.IsBackgroundTransparent = false;
             this.flowToolbar.Theme = flowLayoutPanelTheme1;
             // 
-            // lblArtistName
-            // 
-            this.lblArtistName.BackColor = System.Drawing.Color.Transparent;
-            this.lblArtistName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblArtistName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArtistName.IsAutoSized = false;
-            this.lblArtistName.Location = new System.Drawing.Point(3, 3);
-            this.lblArtistName.Name = "lblArtistName";
-            this.lblArtistName.Size = new System.Drawing.Size(94, 18);
-            this.lblArtistName.TabIndex = 114;
-            this.lblArtistName.Text = "Artist Name :";
-            this.lblArtistName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme16.IsBackgroundTransparent = true;
-            textGradient30.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient30.BorderWidth = 1;
-            textGradient30.Color1 = System.Drawing.Color.LightGray;
-            textGradient30.Color2 = System.Drawing.Color.Gray;
-            customFont30.Color = System.Drawing.Color.Black;
-            customFont30.EmbeddedFontName = "Junction";
-            customFont30.IsBold = false;
-            customFont30.IsItalic = false;
-            customFont30.IsUnderline = false;
-            customFont30.Size = 8F;
-            customFont30.StandardFontName = "Arial";
-            customFont30.UseAntiAliasing = true;
-            customFont30.UseEmbeddedFont = true;
-            textGradient30.Font = customFont30;
-            textGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient30.Padding = 2;
-            labelTheme16.TextGradient = textGradient30;
-            this.lblArtistName.Theme = labelTheme16;
-            // 
-            // lblArtistNameValue
-            // 
-            this.lblArtistNameValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblArtistNameValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblArtistNameValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArtistNameValue.IsAutoSized = false;
-            this.lblArtistNameValue.Location = new System.Drawing.Point(100, 3);
-            this.lblArtistNameValue.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-            this.lblArtistNameValue.Name = "lblArtistNameValue";
-            this.lblArtistNameValue.Size = new System.Drawing.Size(563, 18);
-            this.lblArtistNameValue.TabIndex = 115;
-            this.lblArtistNameValue.Text = "Song :";
-            this.lblArtistNameValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme15.IsBackgroundTransparent = true;
-            textGradient29.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient29.BorderWidth = 1;
-            textGradient29.Color1 = System.Drawing.Color.LightGray;
-            textGradient29.Color2 = System.Drawing.Color.Gray;
-            customFont29.Color = System.Drawing.Color.Black;
-            customFont29.EmbeddedFontName = "Junction";
-            customFont29.IsBold = false;
-            customFont29.IsItalic = false;
-            customFont29.IsUnderline = false;
-            customFont29.Size = 8F;
-            customFont29.StandardFontName = "Arial";
-            customFont29.UseAntiAliasing = true;
-            customFont29.UseEmbeddedFont = true;
-            textGradient29.Font = customFont29;
-            textGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient29.Padding = 2;
-            labelTheme15.TextGradient = textGradient29;
-            this.lblArtistNameValue.Theme = labelTheme15;
-            // 
-            // lblAlbumTitle
-            // 
-            this.lblAlbumTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblAlbumTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAlbumTitle.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAlbumTitle.IsAutoSized = false;
-            this.lblAlbumTitle.Location = new System.Drawing.Point(3, 27);
-            this.lblAlbumTitle.Name = "lblAlbumTitle";
-            this.lblAlbumTitle.Size = new System.Drawing.Size(94, 18);
-            this.lblAlbumTitle.TabIndex = 116;
-            this.lblAlbumTitle.Text = "Album Title :";
-            this.lblAlbumTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme14.IsBackgroundTransparent = true;
-            textGradient28.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient28.BorderWidth = 1;
-            textGradient28.Color1 = System.Drawing.Color.LightGray;
-            textGradient28.Color2 = System.Drawing.Color.Gray;
-            customFont28.Color = System.Drawing.Color.Black;
-            customFont28.EmbeddedFontName = "Junction";
-            customFont28.IsBold = false;
-            customFont28.IsItalic = false;
-            customFont28.IsUnderline = false;
-            customFont28.Size = 8F;
-            customFont28.StandardFontName = "Arial";
-            customFont28.UseAntiAliasing = true;
-            customFont28.UseEmbeddedFont = true;
-            textGradient28.Font = customFont28;
-            textGradient28.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient28.Padding = 2;
-            labelTheme14.TextGradient = textGradient28;
-            this.lblAlbumTitle.Theme = labelTheme14;
-            // 
-            // lblAlbumTitleValue
-            // 
-            this.lblAlbumTitleValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblAlbumTitleValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAlbumTitleValue.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAlbumTitleValue.IsAutoSized = false;
-            this.lblAlbumTitleValue.Location = new System.Drawing.Point(100, 27);
-            this.lblAlbumTitleValue.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-            this.lblAlbumTitleValue.Name = "lblAlbumTitleValue";
-            this.lblAlbumTitleValue.Size = new System.Drawing.Size(563, 18);
-            this.lblAlbumTitleValue.TabIndex = 117;
-            this.lblAlbumTitleValue.Text = "Song :";
-            this.lblAlbumTitleValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme13.IsBackgroundTransparent = true;
-            textGradient27.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient27.BorderWidth = 1;
-            textGradient27.Color1 = System.Drawing.Color.LightGray;
-            textGradient27.Color2 = System.Drawing.Color.Gray;
-            customFont27.Color = System.Drawing.Color.Black;
-            customFont27.EmbeddedFontName = "Junction";
-            customFont27.IsBold = false;
-            customFont27.IsItalic = false;
-            customFont27.IsUnderline = false;
-            customFont27.Size = 8F;
-            customFont27.StandardFontName = "Arial";
-            customFont27.UseAntiAliasing = true;
-            customFont27.UseEmbeddedFont = true;
-            textGradient27.Font = customFont27;
-            textGradient27.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient27.Padding = 2;
-            labelTheme13.TextGradient = textGradient27;
-            this.lblAlbumTitleValue.Theme = labelTheme13;
-            // 
             // frmAddEditLoop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(678, 394);
+            this.ClientSize = new System.Drawing.Size(584, 376);
             this.ControlBox = false;
             this.Controls.Add(this.flowToolbar);
             this.Controls.Add(this.panelEditLoop);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MinimumSize = new System.Drawing.Size(400, 245);
+            this.MinimumSize = new System.Drawing.Size(600, 410);
             this.Name = "frmAddEditLoop";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

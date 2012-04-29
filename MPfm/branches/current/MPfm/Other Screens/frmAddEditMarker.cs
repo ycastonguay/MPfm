@@ -79,21 +79,23 @@ namespace MPfm
         /// Initializes the controls depending on the window mode.
         /// </summary>
         private void Initialize()
-        {
+        {            
             // Set song labels
-            lblSongValue.Text = audioFile.Title + " (" + audioFile.ArtistName + ")";
+            lblArtistNameValue.Text = audioFile.ArtistName;
+            lblAlbumTitleValue.Text = audioFile.AlbumTitle;
+            lblSongTitleValue.Text = audioFile.Title;
 
             // Set labels depending on mode
             if (mode == AddEditMarkerWindowMode.Add)
             {
-                panelEditMarker.HeaderTitle = "Add marker";
-                Text = "Add marker";
+                panelEditMarker.HeaderTitle = "Add Marker";
+                Text = "Add Marker";
             }
             else if (mode == AddEditMarkerWindowMode.Edit)
             {
-                panelEditMarker.HeaderTitle = "Edit marker";
+                panelEditMarker.HeaderTitle = "Edit Marker";
                 panelEditMarker.Refresh();
-                Text = "Edit marker";
+                Text = "Edit Marker";
 
                 // Fetch marker from database                
                 Marker marker = Main.Library.Gateway.SelectMarker(markerId);
@@ -108,9 +110,12 @@ namespace MPfm
                 txtName.Text = marker.Name;
                 txtComments.Text = marker.Comments;
                 txtPosition.Text = marker.Position;
-                lblPositionPCMValue.Text = marker.PositionSamples.ToString();
-                lblPositionPCMBytesValue.Text = marker.PositionBytes.ToString();
+                lblMarkerPositionSamplesValue.Text = marker.PositionSamples.ToString();
+                lblMarkerPositionBytesValue.Text = marker.PositionBytes.ToString();
             }
+
+            // Validate form
+            ValidateForm();
         }
 
         /// <summary>
@@ -132,9 +137,9 @@ namespace MPfm
         {
             // Get PCM and PCM bytes values
             long pcm = 0;
-            long.TryParse(lblPositionPCMValue.Text, out pcm);
+            long.TryParse(lblMarkerPositionSamplesValue.Text, out pcm);
             long pcmBytes = 0;
-            long.TryParse(lblPositionPCMBytesValue.Text, out pcmBytes);
+            long.TryParse(lblMarkerPositionBytesValue.Text, out pcmBytes);
 
             // Create a new marker or fetch the existing marker from the database            
             Marker marker = null;
@@ -206,8 +211,8 @@ namespace MPfm
 
             // Update controls
             txtPosition.Text = position;
-            lblPositionPCMValue.Text = positionSamples.ToString();
-            lblPositionPCMBytesValue.Text = positionBytes.ToString();
+            lblMarkerPositionSamplesValue.Text = positionSamples.ToString();
+            lblMarkerPositionBytesValue.Text = positionBytes.ToString();
         }
 
         /// <summary>
@@ -226,7 +231,7 @@ namespace MPfm
 
             // Set position
             uint position = 0;
-            uint.TryParse(lblPositionPCMBytesValue.Text, out position);            
+            uint.TryParse(lblMarkerPositionBytesValue.Text, out position);            
             Main.Player.SetPosition(position);
         }
 
@@ -255,9 +260,9 @@ namespace MPfm
             uint bytes = ConvertAudio.ToPCMBytes(samples, 16, 2);
 
             // Set new values
-            lblPositionMSValue.Text = totalMS.ToString();
-            lblPositionPCMValue.Text = samples.ToString();
-            lblPositionPCMBytesValue.Text = bytes.ToString();
+            lblMarkerPositionMSValue.Text = totalMS.ToString();
+            lblMarkerPositionSamplesValue.Text = samples.ToString();
+            lblMarkerPositionBytesValue.Text = bytes.ToString();
 
             // Validate form
             ValidateForm();
