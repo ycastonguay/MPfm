@@ -172,7 +172,7 @@ namespace MPfm
             // Reset buttons
             btnCancel.Enabled = true;
             btnOK.Enabled = false;
-            linkSaveLog.Visible = false;
+            btnSaveLog.Enabled = false;
 
             // Reset log
             sbLog = new StringBuilder(1000);
@@ -229,12 +229,12 @@ namespace MPfm
         }
 
         /// <summary>
-        /// Occurs when the user clicks on the "Save Log" link.
+        /// Occurs when the user clicks on the "Save Log" button.
         /// Displays a "Save file to" dialog and saves the log as a text file.
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void linkSaveLog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnSaveLog_Click(object sender, EventArgs e)
         {
             // Generate the name of the log
             saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
@@ -311,7 +311,7 @@ namespace MPfm
             // Set buttons
             btnCancel.Enabled = false;
             btnOK.Enabled = true;
-            linkSaveLog.Visible = true;
+            btnSaveLog.Enabled = true;
         }
 
         /// <summary>
@@ -565,5 +565,6 @@ namespace MPfm
         }
 
         #endregion
+
     }
 }
