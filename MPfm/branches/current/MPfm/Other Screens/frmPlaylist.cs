@@ -43,7 +43,6 @@ namespace MPfm
     public partial class frmPlaylist : MPfm.WindowsControls.Form
     {
         // Private variables        
-        private frmRenameSavePlaylist formRenameSavePlaylist = null;
         private frmLoadPlaylist formLoadPlaylist = null;
 
         /// <summary>
@@ -370,29 +369,6 @@ namespace MPfm
         private void btnSavePlaylistAs_Click(object sender, EventArgs e)
         {
             SavePlaylistAs();
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Rename playlist" button.
-        /// Display a modal dialog to the user requesting the new playlist name.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnRenamePlaylist_Click(object sender, EventArgs e)
-        {
-            // Create window
-            formRenameSavePlaylist = new frmRenameSavePlaylist(Main, RenameSavePlaylistWindowMode.RenamePlaylist);
-
-            // Set window location
-            formRenameSavePlaylist.Location = new Point(this.Location.X + 50, this.Location.Y + 50);
-            //formRenameSavePlaylist.txtName.Text = Main.Player.Playlist.Name;
-
-            // Show Save Playlist dialog
-            if (formRenameSavePlaylist.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            {
-                // Refresh the window title
-                RefreshTitle();
-            }
         }
 
         /// <summary>
