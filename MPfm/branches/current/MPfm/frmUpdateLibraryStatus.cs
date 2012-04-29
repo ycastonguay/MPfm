@@ -204,9 +204,11 @@ namespace MPfm
         {
             // Refresh controls on the main form
             Cursor.Current = Cursors.WaitCursor;
-            Main.RefreshAll();
-            //main.RefreshSongBrowser();
-            //main.RefreshTreeLibrary();
+
+            // Reset query and refresh all controls
+            Main.ResetQuery();
+            //Main.RefreshAll();            
+
             Cursor.Current = Cursors.Default;
 
             // Close this form

@@ -4131,6 +4131,15 @@ namespace MPfm
             if (formUpdateLibraryStatus != null)
                 formUpdateLibraryStatus.toolTip.Active = enable;
         }
+
+        /// <summary>
+        /// Resets the current song browser query and refreshes all controls.
+        /// </summary>
+        public void ResetQuery()
+        {
+            querySongBrowser = new SongQuery();
+            RefreshAll();
+        }
     }
 
     #region Classes and enums
