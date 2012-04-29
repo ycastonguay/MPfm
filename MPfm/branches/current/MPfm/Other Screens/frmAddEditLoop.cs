@@ -88,7 +88,9 @@ namespace MPfm
         private void Initialize()
         {
             // Set song labels
-            lblSongValue.Text = audioFile.Title + " (" + audioFile.ArtistName + ")";
+            lblArtistNameValue.Text = audioFile.ArtistName;
+            lblAlbumTitleValue.Text = audioFile.AlbumTitle;
+            lblSongTitleValue.Text = audioFile.Title;
 
             // Refresh markers
             RefreshMarkers();
@@ -96,14 +98,14 @@ namespace MPfm
             // Set labels depending on mode
             if (mode == AddEditLoopWindowMode.Add)
             {
-                panelEditLoop.HeaderTitle = "Add loop";
-                Text = "Add loop";
+                panelEditLoop.HeaderTitle = "Add Loop";
+                Text = "Add Loop";
             }
             else if (mode == AddEditLoopWindowMode.Edit)
             {
-                panelEditLoop.HeaderTitle = "Edit loop";
+                panelEditLoop.HeaderTitle = "Edit Loop";
                 panelEditLoop.Refresh();
-                Text = "Edit loop";
+                Text = "Edit Loop";
 
                 // Fetch loop from database                
                 Loop loop = Main.Library.Gateway.SelectLoop(loopId);
