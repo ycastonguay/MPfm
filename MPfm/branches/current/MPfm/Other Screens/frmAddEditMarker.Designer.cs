@@ -232,7 +232,7 @@ namespace MPfm
             this.txtComments.Location = new System.Drawing.Point(103, 61);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(441, 63);
+            this.txtComments.Size = new System.Drawing.Size(441, 66);
             this.txtComments.TabIndex = 96;
             // 
             // lblComments
@@ -403,7 +403,7 @@ namespace MPfm
             textGradient29.Padding = 5;
             buttonTheme3.TextGradientMouseOver = textGradient29;
             this.btnSave.Theme = buttonTheme3;
-            this.toolTip.SetToolTip(this.btnSave, "Saves the current loop.");
+            this.toolTip.SetToolTip(this.btnSave, "Saves the current marker.");
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnClose
@@ -848,7 +848,7 @@ namespace MPfm
             this.tableMarkerInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableMarkerInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableMarkerInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableMarkerInformation.Size = new System.Drawing.Size(572, 127);
+            this.tableMarkerInformation.Size = new System.Drawing.Size(572, 130);
             this.tableMarkerInformation.TabIndex = 113;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
@@ -1370,6 +1370,7 @@ namespace MPfm
             // frmAddEditMarker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(584, 414);
             this.ControlBox = false;
             this.Controls.Add(this.flowToolbar);

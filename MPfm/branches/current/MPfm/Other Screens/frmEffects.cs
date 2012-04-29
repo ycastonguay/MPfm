@@ -581,5 +581,15 @@ namespace MPfm
         }
 
         #endregion
+
+        /// <summary>
+        /// Occurs when the user clicks on the "EQ On" label.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void lblEQOn_Click(object sender, EventArgs e)
+        {
+            chkEQOn.Checked = !chkEQOn.Checked;
+        }
     }
 }
