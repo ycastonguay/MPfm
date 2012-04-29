@@ -1291,7 +1291,10 @@ namespace MPfm.WindowsControls
 
                     // Create bitmap buffer with the drawing zone size
                     bitmapWaveForm = new Bitmap(widthAvailable, heightAvailable);
-                    g = Graphics.FromImage(bitmapWaveForm);                    
+                    g = Graphics.FromImage(bitmapWaveForm);
+
+                    // Set anti-aliasing
+                    PaintHelper.SetAntiAliasing(g);
 
                     // Draw background gradient
                     Rectangle rectBackground = new Rectangle(0, 0, widthAvailable, heightAvailable);
@@ -1524,51 +1527,21 @@ namespace MPfm.WindowsControls
                 Bitmap bmp = new Bitmap(Bounds.Width, Bounds.Height);
                 g = Graphics.FromImage(bmp);                
 
-                // Draw wave form bitmap                
-                g.DrawImage(bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
+                // Set anti-aliasing
+                PaintHelper.SetAntiAliasing(g);
 
-                // Use anti-aliasing?
-                if (theme.CurrentPositionTextGradient.Font.UseAntiAliasing)
-                {
-                    // Set text anti-aliasing to ClearType (best looking AA)
-                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                // Get font
+                Font font = PaintHelper.LoadFont(embeddedFonts, theme.CurrentPositionTextGradient.Font);
 
-                    // Set smoothing mode for paths
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-                }
-
-                // Create custom font
-                Font font = null;
-
-                // Make sure the embedded font name needs to be loaded and is valid
-                if (theme.CurrentPositionTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(theme.CurrentPositionTextGradient.Font.EmbeddedFontName))
-                {
-                    try
-                    {
-                        // Get embedded font
-                        font = Tools.LoadEmbeddedFont(embeddedFonts, theme.CurrentPositionTextGradient.Font.EmbeddedFontName, theme.CurrentPositionTextGradient.Font.Size, theme.CurrentPositionTextGradient.Font.ToFontStyle());
-                    }
-                    catch
-                    {
-                        // Use default font instead
-                        font = this.Font;
-                    }
-                }
-
-                // Check if font is null
+                // If the embedded font could not be loaded, get the default font
                 if (font == null)
                 {
-                    try
-                    {
-                        // Try to get standard font
-                        font = new Font(theme.CurrentPositionTextGradient.Font.StandardFontName, theme.CurrentPositionTextGradient.Font.Size, theme.CurrentPositionTextGradient.Font.ToFontStyle());
-                    }
-                    catch
-                    {
-                        // Use default font instead
-                        font = this.Font;
-                    }
+                    // Use default Font instead
+                    font = this.Font;
                 }
+
+                // Draw wave form bitmap                
+                g.DrawImage(bitmapWaveForm, new Rectangle(0, 0, Width, heightAvailable), (int)ScrollX, 0, Width, heightAvailable, GraphicsUnit.Pixel);
 
                 // Is the wave form loading in a background thread?
                 if (IsLoading)
@@ -1623,26 +1596,9 @@ namespace MPfm.WindowsControls
                         // Get rectangle
                         RectangleF rectPosition = GetCurrentPositionRect();
 
-                        //// Measure string
-                        //SizeF sizeText = g.MeasureString(PositionTime, Font);
-
-                        //// Check if there's enough space at the left of the cursor to display the time
-                        //float x = 0;
-                        //if (xCursor < sizeText.Width)
-                        //{
-                        //    // Display the time string at the right of the cursor
-                        //    x = xCursor;
-                        //}
-                        //else
-                        //{
-                        //    // Display the time string at the left of the cursor
-                        //    x = xCursor - sizeText.Width - 4;
-                        //}
-
                         // Draw position background
                         color = Color.FromArgb(200, theme.CursorColor);
-                        brush = new SolidBrush(color);
-                        //g.FillRectangle(brush, new RectangleF(x, 0, sizeText.Width + 4, sizeText.Height + 4));
+                        brush = new SolidBrush(color);                        
                         g.FillRectangle(brush, rectPosition);
                         brush.Dispose();
                         brush = null;
@@ -1650,7 +1606,6 @@ namespace MPfm.WindowsControls
                         // Draw text
                         color = Color.FromArgb(255, Color.White);
                         brush = new SolidBrush(color);
-                        //g.DrawString(PositionTime, Font, brush, new PointF(x + 2, 2));
                         g.DrawString(PositionTime, Font, brush, new PointF(rectPosition.X + 2, 2));
                         brush.Dispose();
                         brush = null;
@@ -2019,8 +1974,8 @@ namespace MPfm.WindowsControls
         }
 
         /// <summary>
-        /// Returns a rectangle defining the surface used to draw the current position in text (including the padding).;
-        /// </summary>
+        /// Returns a rectangle defining the surface used to draw the current position in text (including the padding).
+        /// </summary>        
         /// <returns>Rectangle (float values)</returns>
         public RectangleF GetCurrentPositionRect()
         {
@@ -2033,6 +1988,16 @@ namespace MPfm.WindowsControls
                 // Create graphics object
                 using (Graphics g = Graphics.FromImage(image))
                 {
+                    //// Get font
+                    //Font font = PaintHelper.LoadFont(embeddedFonts, theme.CurrentPositionTextGradient.Font);
+
+                    //// If the embedded font could not be loaded, get the default font
+                    //if (font == null)
+                    //{
+                    //    // Use default Font instead
+                    //    font = this.Font;
+                    //}
+
                     // Measure string
                     SizeF sizeText = g.MeasureString(PositionTime, Font);
 
