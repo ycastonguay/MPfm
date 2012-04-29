@@ -626,6 +626,7 @@
             textGradient14.Padding = 2;
             buttonTheme1.TextGradientMouseOver = textGradient14;
             this.btnTestAudioSettings.Theme = buttonTheme1;
+            this.toolTip.SetToolTip(this.btnTestAudioSettings, "Tests the currently selected audio settings.");
             this.btnTestAudioSettings.Click += new System.EventHandler(this.btnTestAudioSettings_Click);
             // 
             // panelNote
@@ -903,6 +904,7 @@
             textGradient23.Padding = 2;
             buttonTheme2.TextGradientMouseOver = textGradient23;
             this.btnNext.Theme = buttonTheme2;
+            this.toolTip.SetToolTip(this.btnNext, "Saves settings and loads the application for the first time.");
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnCancelWizard
@@ -971,6 +973,7 @@
             textGradient26.Padding = 2;
             buttonTheme3.TextGradientMouseOver = textGradient26;
             this.btnCancelWizard.Theme = buttonTheme3;
+            this.toolTip.SetToolTip(this.btnCancelWizard, "Cancels the wizard and exits the application.");
             this.btnCancelWizard.Click += new System.EventHandler(this.btnCancelWizard_Click);
             // 
             // openFile
@@ -984,7 +987,7 @@
             this.toolTip.BackColor = System.Drawing.Color.DimGray;
             this.toolTip.ForeColor = System.Drawing.Color.White;
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.toolTip.ToolTipTitle = "Edit Song Metadata";
+            this.toolTip.ToolTipTitle = "First Run";
             // 
             // frmFirstRun
             // 

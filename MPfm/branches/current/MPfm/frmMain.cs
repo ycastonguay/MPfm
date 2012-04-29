@@ -3703,6 +3703,7 @@ namespace MPfm
             {
                 // Create window and show as dialog                
                 formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.Playlist.CurrentItem.AudioFile, Guid.Empty);
+                formAddEditMarker.toolTip.Active = Config.GetKeyValueGeneric<bool>("ShowTooltips").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTooltips").Value : true;
                 formAddEditMarker.ShowDialog(this);
             }
         }
@@ -3855,7 +3856,8 @@ namespace MPfm
             //}
 
             // Create window and show as dialog
-            formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.Playlist.CurrentItem.AudioFile, Guid.Empty);
+            formAddEditLoop = new frmAddEditLoop(this, AddEditLoopWindowMode.Add, Player.Playlist.CurrentItem.AudioFile, Guid.Empty);            
+            formAddEditLoop.toolTip.Active = Config.GetKeyValueGeneric<bool>("ShowTooltips").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTooltips").Value : true;
             formAddEditLoop.ShowDialog(this);            
         }
 
@@ -4114,7 +4116,20 @@ namespace MPfm
         public void EnableTooltips(bool enable)
         {
             // Show/hide tooltips
-            formSettings.toolTip.Active = enable;
+            if (formAddEditLoop != null)
+                formAddEditLoop.toolTip.Active = enable;
+            if (formAddEditMarker != null)
+                formAddEditMarker.toolTip.Active = enable;
+            if (formEditSongMetadata != null)
+                formEditSongMetadata.toolTip.Active = enable;
+            if (formEffects != null)
+                formEffects.toolTip.Active = enable;
+            if (formPlaylist != null)
+                formPlaylist.toolTip.Active = enable;
+            if (formSettings != null)
+                formSettings.toolTip.Active = enable;
+            if (formUpdateLibraryStatus != null)
+                formUpdateLibraryStatus.toolTip.Active = enable;
         }
     }
 
