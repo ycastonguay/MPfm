@@ -1071,6 +1071,7 @@ namespace MPfm
             this.btnThemes.Text = "Themes";
             this.btnThemes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnThemes.ToolTipText = "Opens the Themes window.";
+            this.btnThemes.Visible = false;
             this.btnThemes.Click += new System.EventHandler(this.btnThemes_Click);
             // 
             // btnSettings
@@ -1684,6 +1685,7 @@ namespace MPfm
             // flowLayoutPanelSongInformation
             // 
             this.flowLayoutPanelSongInformation.AutoSize = true;
+            this.flowLayoutPanelSongInformation.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanelSongInformation.Controls.Add(this.lblCurrentArtistName);
             this.flowLayoutPanelSongInformation.Controls.Add(this.lblCurrentAlbumTitle);
             this.flowLayoutPanelSongInformation.Controls.Add(this.lblCurrentSongTitle);
@@ -4083,7 +4085,7 @@ namespace MPfm
             this.btnPlaySelectedSong.Location = new System.Drawing.Point(0, 0);
             this.btnPlaySelectedSong.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlaySelectedSong.Name = "btnPlaySelectedSong";
-            this.btnPlaySelectedSong.Size = new System.Drawing.Size(134, 24);
+            this.btnPlaySelectedSong.Size = new System.Drawing.Size(147, 24);
             this.btnPlaySelectedSong.TabIndex = 68;
             this.btnPlaySelectedSong.Text = "Play selected songs";
             this.btnPlaySelectedSong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -4096,7 +4098,7 @@ namespace MPfm
             customFont67.IsBold = false;
             customFont67.IsItalic = false;
             customFont67.IsUnderline = false;
-            customFont67.Size = 8F;
+            customFont67.Size = 9F;
             customFont67.StandardFontName = "Arial";
             customFont67.UseAntiAliasing = true;
             customFont67.UseEmbeddedFont = true;
@@ -4113,7 +4115,7 @@ namespace MPfm
             customFont68.IsBold = false;
             customFont68.IsItalic = false;
             customFont68.IsUnderline = false;
-            customFont68.Size = 8F;
+            customFont68.Size = 9F;
             customFont68.StandardFontName = "Arial";
             customFont68.UseAntiAliasing = true;
             customFont68.UseEmbeddedFont = true;
@@ -4130,7 +4132,7 @@ namespace MPfm
             customFont69.IsBold = false;
             customFont69.IsItalic = false;
             customFont69.IsUnderline = false;
-            customFont69.Size = 8F;
+            customFont69.Size = 9F;
             customFont69.StandardFontName = "Arial";
             customFont69.UseAntiAliasing = true;
             customFont69.UseEmbeddedFont = true;
@@ -4149,10 +4151,10 @@ namespace MPfm
             this.btnEditSongMetadata.Image = ((System.Drawing.Image)(resources.GetObject("btnEditSongMetadata.Image")));
             this.btnEditSongMetadata.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditSongMetadata.IsAutoSized = true;
-            this.btnEditSongMetadata.Location = new System.Drawing.Point(134, 0);
+            this.btnEditSongMetadata.Location = new System.Drawing.Point(147, 0);
             this.btnEditSongMetadata.Margin = new System.Windows.Forms.Padding(0);
             this.btnEditSongMetadata.Name = "btnEditSongMetadata";
-            this.btnEditSongMetadata.Size = new System.Drawing.Size(133, 24);
+            this.btnEditSongMetadata.Size = new System.Drawing.Size(146, 24);
             this.btnEditSongMetadata.TabIndex = 71;
             this.btnEditSongMetadata.Text = "Edit song metadata";
             this.btnEditSongMetadata.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -4165,7 +4167,7 @@ namespace MPfm
             customFont70.IsBold = false;
             customFont70.IsItalic = false;
             customFont70.IsUnderline = false;
-            customFont70.Size = 8F;
+            customFont70.Size = 9F;
             customFont70.StandardFontName = "Arial";
             customFont70.UseAntiAliasing = true;
             customFont70.UseEmbeddedFont = true;
@@ -4182,7 +4184,7 @@ namespace MPfm
             customFont71.IsBold = false;
             customFont71.IsItalic = false;
             customFont71.IsUnderline = false;
-            customFont71.Size = 8F;
+            customFont71.Size = 9F;
             customFont71.StandardFontName = "Arial";
             customFont71.UseAntiAliasing = true;
             customFont71.UseEmbeddedFont = true;
@@ -4199,7 +4201,7 @@ namespace MPfm
             customFont72.IsBold = false;
             customFont72.IsItalic = false;
             customFont72.IsUnderline = false;
-            customFont72.Size = 8F;
+            customFont72.Size = 9F;
             customFont72.StandardFontName = "Arial";
             customFont72.UseAntiAliasing = true;
             customFont72.UseEmbeddedFont = true;
@@ -4218,10 +4220,10 @@ namespace MPfm
             this.btnAddSongToPlaylist.Image = ((System.Drawing.Image)(resources.GetObject("btnAddSongToPlaylist.Image")));
             this.btnAddSongToPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddSongToPlaylist.IsAutoSized = true;
-            this.btnAddSongToPlaylist.Location = new System.Drawing.Point(267, 0);
+            this.btnAddSongToPlaylist.Location = new System.Drawing.Point(293, 0);
             this.btnAddSongToPlaylist.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddSongToPlaylist.Name = "btnAddSongToPlaylist";
-            this.btnAddSongToPlaylist.Size = new System.Drawing.Size(141, 24);
+            this.btnAddSongToPlaylist.Size = new System.Drawing.Size(155, 24);
             this.btnAddSongToPlaylist.TabIndex = 72;
             this.btnAddSongToPlaylist.Text = "Add songs to playlist";
             this.btnAddSongToPlaylist.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -4234,7 +4236,7 @@ namespace MPfm
             customFont73.IsBold = false;
             customFont73.IsItalic = false;
             customFont73.IsUnderline = false;
-            customFont73.Size = 8F;
+            customFont73.Size = 9F;
             customFont73.StandardFontName = "Arial";
             customFont73.UseAntiAliasing = true;
             customFont73.UseEmbeddedFont = true;
@@ -4251,7 +4253,7 @@ namespace MPfm
             customFont74.IsBold = false;
             customFont74.IsItalic = false;
             customFont74.IsUnderline = false;
-            customFont74.Size = 8F;
+            customFont74.Size = 9F;
             customFont74.StandardFontName = "Arial";
             customFont74.UseAntiAliasing = true;
             customFont74.UseEmbeddedFont = true;
@@ -4268,7 +4270,7 @@ namespace MPfm
             customFont75.IsBold = false;
             customFont75.IsItalic = false;
             customFont75.IsUnderline = false;
-            customFont75.Size = 8F;
+            customFont75.Size = 9F;
             customFont75.StandardFontName = "Arial";
             customFont75.UseAntiAliasing = true;
             customFont75.UseEmbeddedFont = true;
@@ -4287,7 +4289,7 @@ namespace MPfm
             this.lblSearchFor.Font = new System.Drawing.Font("Arial", 8F);
             this.lblSearchFor.ForeColor = System.Drawing.Color.Black;
             this.lblSearchFor.IsAutoSized = false;
-            this.lblSearchFor.Location = new System.Drawing.Point(408, 0);
+            this.lblSearchFor.Location = new System.Drawing.Point(448, 0);
             this.lblSearchFor.Margin = new System.Windows.Forms.Padding(0);
             this.lblSearchFor.Name = "lblSearchFor";
             this.lblSearchFor.Size = new System.Drawing.Size(73, 24);
@@ -4317,7 +4319,7 @@ namespace MPfm
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(481, 1);
+            this.txtSearch.Location = new System.Drawing.Point(521, 1);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(177, 22);

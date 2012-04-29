@@ -226,6 +226,8 @@ namespace MPfm
             MPfm.WindowsControls.BackgroundGradient backgroundGradient56 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient41 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont41 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TableLayoutPanelTheme tableLayoutPanelTheme1 = new MPfm.WindowsControls.TableLayoutPanelTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient55 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.LabelTheme labelTheme40 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient40 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont40 = new MPfm.WindowsControls.CustomFont();
@@ -233,26 +235,17 @@ namespace MPfm
             MPfm.WindowsControls.BackgroundGradient backgroundGradient58 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient57 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont57 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme43 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient44 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont44 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient57 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.LabelTheme labelTheme41 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient42 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont42 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme42 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient43 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.ButtonTheme buttonTheme3 = new MPfm.WindowsControls.ButtonTheme();
-            MPfm.WindowsControls.TextGradient textGradient51 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient52 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont52 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient53 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont53 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.ButtonTheme buttonTheme4 = new MPfm.WindowsControls.ButtonTheme();
-            MPfm.WindowsControls.TextGradient textGradient54 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont54 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient55 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont55 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient56 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont56 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme43 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient44 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont44 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.ButtonTheme buttonTheme1 = new MPfm.WindowsControls.ButtonTheme();
             MPfm.WindowsControls.TextGradient textGradient45 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont45 = new MPfm.WindowsControls.CustomFont();
@@ -267,13 +260,20 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont49 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient50 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont50 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme41 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient42 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont42 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient57 = new MPfm.WindowsControls.BackgroundGradient();
-            MPfm.WindowsControls.TableLayoutPanelTheme tableLayoutPanelTheme1 = new MPfm.WindowsControls.TableLayoutPanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient55 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.ButtonTheme buttonTheme3 = new MPfm.WindowsControls.ButtonTheme();
+            MPfm.WindowsControls.TextGradient textGradient51 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont51 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient52 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont52 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient53 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont53 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.ButtonTheme buttonTheme4 = new MPfm.WindowsControls.ButtonTheme();
+            MPfm.WindowsControls.TextGradient textGradient54 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont54 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient55 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont55 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient56 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont56 = new MPfm.WindowsControls.CustomFont();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEffects));
             this.lblGain17 = new MPfm.WindowsControls.Label();
             this.lbl17 = new MPfm.WindowsControls.Label();
@@ -335,30 +335,30 @@ namespace MPfm
             this.fader1 = new MPfm.WindowsControls.Fader();
             this.fader0 = new MPfm.WindowsControls.Fader();
             this.panelPreset = new MPfm.WindowsControls.Panel();
+            this.tablePreset = new MPfm.WindowsControls.TableLayoutPanel();
             this.comboEQPreset = new System.Windows.Forms.ComboBox();
-            this.lblEQOn = new MPfm.WindowsControls.Label();
             this.chkEQOn = new System.Windows.Forms.CheckBox();
+            this.lblEQOn = new MPfm.WindowsControls.Label();
             this.panelPresetInformation = new MPfm.WindowsControls.Panel();
-            this.txtEQBandwidth = new System.Windows.Forms.MaskedTextBox();
+            this.flowPresetInformation = new MPfm.WindowsControls.FlowLayoutPanel();
+            this.lblEQName = new MPfm.WindowsControls.Label();
+            this.txtEQPresetName = new System.Windows.Forms.TextBox();
+            this.lblEQQ = new MPfm.WindowsControls.Label();
             this.txtEQQ = new System.Windows.Forms.MaskedTextBox();
             this.lblEQBandwidth = new MPfm.WindowsControls.Label();
-            this.lblEQQ = new MPfm.WindowsControls.Label();
-            this.btnAutoLevel = new MPfm.WindowsControls.Button();
-            this.btnResetEQ = new MPfm.WindowsControls.Button();
-            this.txtEQPresetName = new System.Windows.Forms.TextBox();
+            this.txtEQBandwidth = new System.Windows.Forms.MaskedTextBox();
             this.btnSaveEQPreset = new MPfm.WindowsControls.Button();
             this.btnDeleteEQPreset = new MPfm.WindowsControls.Button();
-            this.lblEQName = new MPfm.WindowsControls.Label();
+            this.btnAutoLevel = new MPfm.WindowsControls.Button();
+            this.btnResetEQ = new MPfm.WindowsControls.Button();
             this.panelZeroLine = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.flowPresetInformation = new MPfm.WindowsControls.FlowLayoutPanel();
-            this.tablePreset = new MPfm.WindowsControls.TableLayoutPanel();
             this.tableLayout.SuspendLayout();
             this.panelEqualizer.SuspendLayout();
             this.panelPreset.SuspendLayout();
+            this.tablePreset.SuspendLayout();
             this.panelPresetInformation.SuspendLayout();
             this.flowPresetInformation.SuspendLayout();
-            this.tablePreset.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblGain17
@@ -1616,6 +1616,7 @@ namespace MPfm
             this.tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayout.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.tableLayout.Location = new System.Drawing.Point(0, 0);
+            this.tableLayout.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayout.Name = "tableLayout";
             this.tableLayout.RowCount = 3;
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -1623,7 +1624,7 @@ namespace MPfm
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayout.Size = new System.Drawing.Size(1001, 455);
+            this.tableLayout.Size = new System.Drawing.Size(988, 455);
             this.tableLayout.TabIndex = 62;
             // 
             // panelEqualizer
@@ -1698,9 +1699,10 @@ namespace MPfm
             this.panelEqualizer.HeaderHeight = 22;
             this.panelEqualizer.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelEqualizer.HeaderTitle = "Equalizer (18 bands)";
-            this.panelEqualizer.Location = new System.Drawing.Point(4, 4);
+            this.panelEqualizer.Location = new System.Drawing.Point(1, 1);
+            this.panelEqualizer.Margin = new System.Windows.Forms.Padding(0);
             this.panelEqualizer.Name = "panelEqualizer";
-            this.panelEqualizer.Size = new System.Drawing.Size(993, 450);
+            this.panelEqualizer.Size = new System.Drawing.Size(986, 450);
             this.panelEqualizer.TabIndex = 26;
             this.panelEqualizer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient59.BorderColor = System.Drawing.Color.DarkGray;
@@ -2432,6 +2434,7 @@ namespace MPfm
             // 
             // panelPreset
             // 
+            this.panelPreset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelPreset.Controls.Add(this.tablePreset);
             this.panelPreset.ExpandedHeight = 56;
             this.panelPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2441,7 +2444,7 @@ namespace MPfm
             this.panelPreset.HeaderHeight = 20;
             this.panelPreset.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelPreset.HeaderTitle = "Preset";
-            this.panelPreset.Location = new System.Drawing.Point(860, 24);
+            this.panelPreset.Location = new System.Drawing.Point(853, 24);
             this.panelPreset.Name = "panelPreset";
             this.panelPreset.Size = new System.Drawing.Size(130, 72);
             this.panelPreset.TabIndex = 65;
@@ -2471,6 +2474,30 @@ namespace MPfm
             panelTheme1.HeaderTextGradient = textGradient41;
             this.panelPreset.Theme = panelTheme1;
             // 
+            // tablePreset
+            // 
+            this.tablePreset.ColumnCount = 2;
+            this.tablePreset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tablePreset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePreset.Controls.Add(this.comboEQPreset, 0, 0);
+            this.tablePreset.Controls.Add(this.chkEQOn, 0, 1);
+            this.tablePreset.Controls.Add(this.lblEQOn, 1, 1);
+            this.tablePreset.Location = new System.Drawing.Point(0, 20);
+            this.tablePreset.Name = "tablePreset";
+            this.tablePreset.RowCount = 2;
+            this.tablePreset.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tablePreset.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePreset.Size = new System.Drawing.Size(130, 52);
+            this.tablePreset.TabIndex = 87;
+            backgroundGradient55.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient55.BorderWidth = 0;
+            backgroundGradient55.Color1 = System.Drawing.Color.LightGray;
+            backgroundGradient55.Color2 = System.Drawing.Color.Gray;
+            backgroundGradient55.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tableLayoutPanelTheme1.BackgroundGradient = backgroundGradient55;
+            tableLayoutPanelTheme1.IsBackgroundTransparent = false;
+            this.tablePreset.Theme = tableLayoutPanelTheme1;
+            // 
             // comboEQPreset
             // 
             this.tablePreset.SetColumnSpan(this.comboEQPreset, 2);
@@ -2481,9 +2508,24 @@ namespace MPfm
             this.comboEQPreset.Location = new System.Drawing.Point(6, 6);
             this.comboEQPreset.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
             this.comboEQPreset.Name = "comboEQPreset";
-            this.comboEQPreset.Size = new System.Drawing.Size(115, 23);
+            this.comboEQPreset.Size = new System.Drawing.Size(118, 23);
             this.comboEQPreset.TabIndex = 70;
             this.comboEQPreset.SelectedIndexChanged += new System.EventHandler(this.comboEQPreset_SelectedIndexChanged);
+            // 
+            // chkEQOn
+            // 
+            this.chkEQOn.AutoSize = true;
+            this.chkEQOn.BackColor = System.Drawing.Color.Transparent;
+            this.chkEQOn.Checked = true;
+            this.chkEQOn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEQOn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkEQOn.Location = new System.Drawing.Point(6, 35);
+            this.chkEQOn.Margin = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.chkEQOn.Name = "chkEQOn";
+            this.chkEQOn.Size = new System.Drawing.Size(15, 14);
+            this.chkEQOn.TabIndex = 65;
+            this.chkEQOn.UseVisualStyleBackColor = false;
+            this.chkEQOn.CheckedChanged += new System.EventHandler(this.chkEQOn_CheckedChanged);
             // 
             // lblEQOn
             // 
@@ -2495,7 +2537,7 @@ namespace MPfm
             this.lblEQOn.Location = new System.Drawing.Point(21, 35);
             this.lblEQOn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.lblEQOn.Name = "lblEQOn";
-            this.lblEQOn.Size = new System.Drawing.Size(103, 14);
+            this.lblEQOn.Size = new System.Drawing.Size(106, 14);
             this.lblEQOn.TabIndex = 64;
             this.lblEQOn.Text = " EQ On";
             this.lblEQOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2521,23 +2563,9 @@ namespace MPfm
             this.toolTip.SetToolTip(this.lblEQOn, "Enables/disables the 18-band equalizer.");
             this.lblEQOn.Click += new System.EventHandler(this.lblEQOn_Click);
             // 
-            // chkEQOn
-            // 
-            this.chkEQOn.AutoSize = true;
-            this.chkEQOn.BackColor = System.Drawing.Color.Transparent;
-            this.chkEQOn.Checked = true;
-            this.chkEQOn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEQOn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkEQOn.Location = new System.Drawing.Point(6, 35);
-            this.chkEQOn.Margin = new System.Windows.Forms.Padding(6, 3, 0, 3);
-            this.chkEQOn.Name = "chkEQOn";
-            this.chkEQOn.Size = new System.Drawing.Size(15, 14);
-            this.chkEQOn.TabIndex = 65;
-            this.chkEQOn.UseVisualStyleBackColor = false;
-            this.chkEQOn.CheckedChanged += new System.EventHandler(this.chkEQOn_CheckedChanged);
-            // 
             // panelPresetInformation
             // 
+            this.panelPresetInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelPresetInformation.Controls.Add(this.flowPresetInformation);
             this.panelPresetInformation.ExpandedHeight = 56;
             this.panelPresetInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2547,7 +2575,7 @@ namespace MPfm
             this.panelPresetInformation.HeaderHeight = 20;
             this.panelPresetInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelPresetInformation.HeaderTitle = "Preset Information";
-            this.panelPresetInformation.Location = new System.Drawing.Point(860, 99);
+            this.panelPresetInformation.Location = new System.Drawing.Point(853, 99);
             this.panelPresetInformation.Name = "panelPresetInformation";
             this.panelPresetInformation.Size = new System.Drawing.Size(130, 348);
             this.panelPresetInformation.TabIndex = 64;
@@ -2577,17 +2605,109 @@ namespace MPfm
             panelTheme2.HeaderTextGradient = textGradient57;
             this.panelPresetInformation.Theme = panelTheme2;
             // 
-            // txtEQBandwidth
+            // flowPresetInformation
             // 
-            this.txtEQBandwidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEQBandwidth.Location = new System.Drawing.Point(6, 105);
-            this.txtEQBandwidth.Margin = new System.Windows.Forms.Padding(6, 0, 3, 3);
-            this.txtEQBandwidth.Mask = "00.00";
-            this.txtEQBandwidth.Name = "txtEQBandwidth";
-            this.txtEQBandwidth.ReadOnly = true;
-            this.txtEQBandwidth.Size = new System.Drawing.Size(118, 21);
-            this.txtEQBandwidth.TabIndex = 88;
-            this.txtEQBandwidth.Text = "0250";
+            this.flowPresetInformation.Controls.Add(this.lblEQName);
+            this.flowPresetInformation.Controls.Add(this.txtEQPresetName);
+            this.flowPresetInformation.Controls.Add(this.lblEQQ);
+            this.flowPresetInformation.Controls.Add(this.txtEQQ);
+            this.flowPresetInformation.Controls.Add(this.lblEQBandwidth);
+            this.flowPresetInformation.Controls.Add(this.txtEQBandwidth);
+            this.flowPresetInformation.Controls.Add(this.btnSaveEQPreset);
+            this.flowPresetInformation.Controls.Add(this.btnDeleteEQPreset);
+            this.flowPresetInformation.Controls.Add(this.btnAutoLevel);
+            this.flowPresetInformation.Controls.Add(this.btnResetEQ);
+            this.flowPresetInformation.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowPresetInformation.Location = new System.Drawing.Point(0, 20);
+            this.flowPresetInformation.Name = "flowPresetInformation";
+            this.flowPresetInformation.Size = new System.Drawing.Size(130, 328);
+            this.flowPresetInformation.TabIndex = 87;
+            backgroundGradient57.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient57.BorderWidth = 0;
+            backgroundGradient57.Color1 = System.Drawing.Color.LightGray;
+            backgroundGradient57.Color2 = System.Drawing.Color.Gray;
+            backgroundGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient57;
+            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
+            this.flowPresetInformation.Theme = flowLayoutPanelTheme1;
+            // 
+            // lblEQName
+            // 
+            this.lblEQName.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEQName.ForeColor = System.Drawing.Color.Black;
+            this.lblEQName.IsAutoSized = false;
+            this.lblEQName.Location = new System.Drawing.Point(6, 6);
+            this.lblEQName.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+            this.lblEQName.Name = "lblEQName";
+            this.lblEQName.Size = new System.Drawing.Size(118, 14);
+            this.lblEQName.TabIndex = 60;
+            this.lblEQName.Text = "Name :";
+            this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme41.IsBackgroundTransparent = true;
+            textGradient42.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient42.BorderWidth = 1;
+            textGradient42.Color1 = System.Drawing.Color.LightGray;
+            textGradient42.Color2 = System.Drawing.Color.Gray;
+            customFont42.Color = System.Drawing.Color.Black;
+            customFont42.EmbeddedFontName = "Junction";
+            customFont42.IsBold = false;
+            customFont42.IsItalic = false;
+            customFont42.IsUnderline = false;
+            customFont42.Size = 8F;
+            customFont42.StandardFontName = "Arial";
+            customFont42.UseAntiAliasing = true;
+            customFont42.UseEmbeddedFont = true;
+            textGradient42.Font = customFont42;
+            textGradient42.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient42.Padding = 0;
+            labelTheme41.TextGradient = textGradient42;
+            this.lblEQName.Theme = labelTheme41;
+            this.toolTip.SetToolTip(this.lblEQName, "Equalizer preset name.");
+            // 
+            // txtEQPresetName
+            // 
+            this.txtEQPresetName.Location = new System.Drawing.Point(6, 23);
+            this.txtEQPresetName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+            this.txtEQPresetName.Name = "txtEQPresetName";
+            this.txtEQPresetName.Size = new System.Drawing.Size(117, 21);
+            this.txtEQPresetName.TabIndex = 67;
+            // 
+            // lblEQQ
+            // 
+            this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
+            this.lblEQQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEQQ.ForeColor = System.Drawing.Color.Black;
+            this.lblEQQ.IsAutoSized = false;
+            this.lblEQQ.Location = new System.Drawing.Point(6, 47);
+            this.lblEQQ.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.lblEQQ.Name = "lblEQQ";
+            this.lblEQQ.Size = new System.Drawing.Size(118, 14);
+            this.lblEQQ.TabIndex = 71;
+            this.lblEQQ.Text = "Q :";
+            this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme42.IsBackgroundTransparent = true;
+            textGradient43.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient43.BorderWidth = 1;
+            textGradient43.Color1 = System.Drawing.Color.LightGray;
+            textGradient43.Color2 = System.Drawing.Color.Gray;
+            customFont43.Color = System.Drawing.Color.Black;
+            customFont43.EmbeddedFontName = "Junction";
+            customFont43.IsBold = false;
+            customFont43.IsItalic = false;
+            customFont43.IsUnderline = false;
+            customFont43.Size = 8F;
+            customFont43.StandardFontName = "Arial";
+            customFont43.UseAntiAliasing = true;
+            customFont43.UseEmbeddedFont = true;
+            textGradient43.Font = customFont43;
+            textGradient43.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient43.Padding = 0;
+            labelTheme42.TextGradient = textGradient43;
+            this.lblEQQ.Theme = labelTheme42;
+            this.toolTip.SetToolTip(this.lblEQQ, "Equalizer Q (adjusts the sharpness of each band)");
             // 
             // txtEQQ
             // 
@@ -2637,188 +2757,17 @@ namespace MPfm
             this.lblEQBandwidth.Theme = labelTheme43;
             this.toolTip.SetToolTip(this.lblEQBandwidth, "Equalizer Bandwidth (adjusts the width of each band).");
             // 
-            // lblEQQ
+            // txtEQBandwidth
             // 
-            this.lblEQQ.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblEQQ.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQQ.ForeColor = System.Drawing.Color.Black;
-            this.lblEQQ.IsAutoSized = false;
-            this.lblEQQ.Location = new System.Drawing.Point(6, 47);
-            this.lblEQQ.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.lblEQQ.Name = "lblEQQ";
-            this.lblEQQ.Size = new System.Drawing.Size(118, 14);
-            this.lblEQQ.TabIndex = 71;
-            this.lblEQQ.Text = "Q :";
-            this.lblEQQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme42.IsBackgroundTransparent = true;
-            textGradient43.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient43.BorderWidth = 1;
-            textGradient43.Color1 = System.Drawing.Color.LightGray;
-            textGradient43.Color2 = System.Drawing.Color.Gray;
-            customFont43.Color = System.Drawing.Color.Black;
-            customFont43.EmbeddedFontName = "Junction";
-            customFont43.IsBold = false;
-            customFont43.IsItalic = false;
-            customFont43.IsUnderline = false;
-            customFont43.Size = 8F;
-            customFont43.StandardFontName = "Arial";
-            customFont43.UseAntiAliasing = true;
-            customFont43.UseEmbeddedFont = true;
-            textGradient43.Font = customFont43;
-            textGradient43.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient43.Padding = 0;
-            labelTheme42.TextGradient = textGradient43;
-            this.lblEQQ.Theme = labelTheme42;
-            this.toolTip.SetToolTip(this.lblEQQ, "Equalizer Q (adjusts the sharpness of each band)");
-            // 
-            // btnAutoLevel
-            // 
-            this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAutoLevel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
-            this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAutoLevel.IsAutoSized = false;
-            this.btnAutoLevel.Location = new System.Drawing.Point(6, 200);
-            this.btnAutoLevel.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.btnAutoLevel.Name = "btnAutoLevel";
-            this.btnAutoLevel.Size = new System.Drawing.Size(118, 28);
-            this.btnAutoLevel.TabIndex = 70;
-            this.btnAutoLevel.Text = "Auto Level";
-            this.btnAutoLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient51.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient51.BorderWidth = 1;
-            textGradient51.Color1 = System.Drawing.Color.LightGray;
-            textGradient51.Color2 = System.Drawing.Color.Gray;
-            customFont51.Color = System.Drawing.Color.Black;
-            customFont51.EmbeddedFontName = "Junction";
-            customFont51.IsBold = false;
-            customFont51.IsItalic = false;
-            customFont51.IsUnderline = false;
-            customFont51.Size = 9F;
-            customFont51.StandardFontName = "Arial";
-            customFont51.UseAntiAliasing = true;
-            customFont51.UseEmbeddedFont = true;
-            textGradient51.Font = customFont51;
-            textGradient51.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient51.Padding = 4;
-            buttonTheme3.TextGradientDefault = textGradient51;
-            textGradient52.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient52.BorderWidth = 1;
-            textGradient52.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient52.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont52.Color = System.Drawing.Color.LightGray;
-            customFont52.EmbeddedFontName = "Junction";
-            customFont52.IsBold = false;
-            customFont52.IsItalic = false;
-            customFont52.IsUnderline = false;
-            customFont52.Size = 9F;
-            customFont52.StandardFontName = "Arial";
-            customFont52.UseAntiAliasing = true;
-            customFont52.UseEmbeddedFont = true;
-            textGradient52.Font = customFont52;
-            textGradient52.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient52.Padding = 4;
-            buttonTheme3.TextGradientDisabled = textGradient52;
-            textGradient53.BorderColor = System.Drawing.Color.Gray;
-            textGradient53.BorderWidth = 1;
-            textGradient53.Color1 = System.Drawing.Color.White;
-            textGradient53.Color2 = System.Drawing.Color.LightGray;
-            customFont53.Color = System.Drawing.Color.Black;
-            customFont53.EmbeddedFontName = "Junction";
-            customFont53.IsBold = false;
-            customFont53.IsItalic = false;
-            customFont53.IsUnderline = false;
-            customFont53.Size = 9F;
-            customFont53.StandardFontName = "Arial";
-            customFont53.UseAntiAliasing = true;
-            customFont53.UseEmbeddedFont = true;
-            textGradient53.Font = customFont53;
-            textGradient53.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient53.Padding = 4;
-            buttonTheme3.TextGradientMouseOver = textGradient53;
-            this.btnAutoLevel.Theme = buttonTheme3;
-            this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
-            this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
-            // 
-            // btnResetEQ
-            // 
-            this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetEQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnResetEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
-            this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnResetEQ.IsAutoSized = false;
-            this.btnResetEQ.Location = new System.Drawing.Point(6, 234);
-            this.btnResetEQ.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.btnResetEQ.Name = "btnResetEQ";
-            this.btnResetEQ.Size = new System.Drawing.Size(118, 28);
-            this.btnResetEQ.TabIndex = 69;
-            this.btnResetEQ.Text = "Reset EQ";
-            this.btnResetEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient54.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient54.BorderWidth = 1;
-            textGradient54.Color1 = System.Drawing.Color.LightGray;
-            textGradient54.Color2 = System.Drawing.Color.Gray;
-            customFont54.Color = System.Drawing.Color.Black;
-            customFont54.EmbeddedFontName = "Junction";
-            customFont54.IsBold = false;
-            customFont54.IsItalic = false;
-            customFont54.IsUnderline = false;
-            customFont54.Size = 9F;
-            customFont54.StandardFontName = "Arial";
-            customFont54.UseAntiAliasing = true;
-            customFont54.UseEmbeddedFont = true;
-            textGradient54.Font = customFont54;
-            textGradient54.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient54.Padding = 4;
-            buttonTheme4.TextGradientDefault = textGradient54;
-            textGradient55.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient55.BorderWidth = 1;
-            textGradient55.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient55.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont55.Color = System.Drawing.Color.LightGray;
-            customFont55.EmbeddedFontName = "Junction";
-            customFont55.IsBold = false;
-            customFont55.IsItalic = false;
-            customFont55.IsUnderline = false;
-            customFont55.Size = 9F;
-            customFont55.StandardFontName = "Arial";
-            customFont55.UseAntiAliasing = true;
-            customFont55.UseEmbeddedFont = true;
-            textGradient55.Font = customFont55;
-            textGradient55.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient55.Padding = 4;
-            buttonTheme4.TextGradientDisabled = textGradient55;
-            textGradient56.BorderColor = System.Drawing.Color.Gray;
-            textGradient56.BorderWidth = 1;
-            textGradient56.Color1 = System.Drawing.Color.White;
-            textGradient56.Color2 = System.Drawing.Color.LightGray;
-            customFont56.Color = System.Drawing.Color.Black;
-            customFont56.EmbeddedFontName = "Junction";
-            customFont56.IsBold = false;
-            customFont56.IsItalic = false;
-            customFont56.IsUnderline = false;
-            customFont56.Size = 9F;
-            customFont56.StandardFontName = "Arial";
-            customFont56.UseAntiAliasing = true;
-            customFont56.UseEmbeddedFont = true;
-            textGradient56.Font = customFont56;
-            textGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient56.Padding = 4;
-            buttonTheme4.TextGradientMouseOver = textGradient56;
-            this.btnResetEQ.Theme = buttonTheme4;
-            this.toolTip.SetToolTip(this.btnResetEQ, "Resets the equalizer bands to 0 dB.");
-            this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
-            // 
-            // txtEQPresetName
-            // 
-            this.txtEQPresetName.Location = new System.Drawing.Point(6, 23);
-            this.txtEQPresetName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
-            this.txtEQPresetName.Name = "txtEQPresetName";
-            this.txtEQPresetName.Size = new System.Drawing.Size(117, 21);
-            this.txtEQPresetName.TabIndex = 67;
+            this.txtEQBandwidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEQBandwidth.Location = new System.Drawing.Point(6, 105);
+            this.txtEQBandwidth.Margin = new System.Windows.Forms.Padding(6, 0, 3, 3);
+            this.txtEQBandwidth.Mask = "00.00";
+            this.txtEQBandwidth.Name = "txtEQBandwidth";
+            this.txtEQBandwidth.ReadOnly = true;
+            this.txtEQBandwidth.Size = new System.Drawing.Size(118, 21);
+            this.txtEQBandwidth.TabIndex = 88;
+            this.txtEQBandwidth.Text = "0250";
             // 
             // btnSaveEQPreset
             // 
@@ -2960,40 +2909,145 @@ namespace MPfm
             this.toolTip.SetToolTip(this.btnDeleteEQPreset, "Deletes the currently selected preset.");
             this.btnDeleteEQPreset.Click += new System.EventHandler(this.btnDeletePreset_Click);
             // 
-            // lblEQName
+            // btnAutoLevel
             // 
-            this.lblEQName.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEQName.ForeColor = System.Drawing.Color.Black;
-            this.lblEQName.IsAutoSized = false;
-            this.lblEQName.Location = new System.Drawing.Point(6, 6);
-            this.lblEQName.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
-            this.lblEQName.Name = "lblEQName";
-            this.lblEQName.Size = new System.Drawing.Size(118, 14);
-            this.lblEQName.TabIndex = 60;
-            this.lblEQName.Text = "Name :";
-            this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme41.IsBackgroundTransparent = true;
-            textGradient42.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient42.BorderWidth = 1;
-            textGradient42.Color1 = System.Drawing.Color.LightGray;
-            textGradient42.Color2 = System.Drawing.Color.Gray;
-            customFont42.Color = System.Drawing.Color.Black;
-            customFont42.EmbeddedFontName = "Junction";
-            customFont42.IsBold = false;
-            customFont42.IsItalic = false;
-            customFont42.IsUnderline = false;
-            customFont42.Size = 8F;
-            customFont42.StandardFontName = "Arial";
-            customFont42.UseAntiAliasing = true;
-            customFont42.UseEmbeddedFont = true;
-            textGradient42.Font = customFont42;
-            textGradient42.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient42.Padding = 0;
-            labelTheme41.TextGradient = textGradient42;
-            this.lblEQName.Theme = labelTheme41;
-            this.toolTip.SetToolTip(this.lblEQName, "Equalizer preset name.");
+            this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAutoLevel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
+            this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAutoLevel.IsAutoSized = false;
+            this.btnAutoLevel.Location = new System.Drawing.Point(6, 200);
+            this.btnAutoLevel.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.btnAutoLevel.Name = "btnAutoLevel";
+            this.btnAutoLevel.Size = new System.Drawing.Size(118, 28);
+            this.btnAutoLevel.TabIndex = 70;
+            this.btnAutoLevel.Text = "Auto Level";
+            this.btnAutoLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            textGradient51.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient51.BorderWidth = 1;
+            textGradient51.Color1 = System.Drawing.Color.LightGray;
+            textGradient51.Color2 = System.Drawing.Color.Gray;
+            customFont51.Color = System.Drawing.Color.Black;
+            customFont51.EmbeddedFontName = "Junction";
+            customFont51.IsBold = false;
+            customFont51.IsItalic = false;
+            customFont51.IsUnderline = false;
+            customFont51.Size = 9F;
+            customFont51.StandardFontName = "Arial";
+            customFont51.UseAntiAliasing = true;
+            customFont51.UseEmbeddedFont = true;
+            textGradient51.Font = customFont51;
+            textGradient51.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient51.Padding = 4;
+            buttonTheme3.TextGradientDefault = textGradient51;
+            textGradient52.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient52.BorderWidth = 1;
+            textGradient52.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            textGradient52.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont52.Color = System.Drawing.Color.LightGray;
+            customFont52.EmbeddedFontName = "Junction";
+            customFont52.IsBold = false;
+            customFont52.IsItalic = false;
+            customFont52.IsUnderline = false;
+            customFont52.Size = 9F;
+            customFont52.StandardFontName = "Arial";
+            customFont52.UseAntiAliasing = true;
+            customFont52.UseEmbeddedFont = true;
+            textGradient52.Font = customFont52;
+            textGradient52.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient52.Padding = 4;
+            buttonTheme3.TextGradientDisabled = textGradient52;
+            textGradient53.BorderColor = System.Drawing.Color.Gray;
+            textGradient53.BorderWidth = 1;
+            textGradient53.Color1 = System.Drawing.Color.White;
+            textGradient53.Color2 = System.Drawing.Color.LightGray;
+            customFont53.Color = System.Drawing.Color.Black;
+            customFont53.EmbeddedFontName = "Junction";
+            customFont53.IsBold = false;
+            customFont53.IsItalic = false;
+            customFont53.IsUnderline = false;
+            customFont53.Size = 9F;
+            customFont53.StandardFontName = "Arial";
+            customFont53.UseAntiAliasing = true;
+            customFont53.UseEmbeddedFont = true;
+            textGradient53.Font = customFont53;
+            textGradient53.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient53.Padding = 4;
+            buttonTheme3.TextGradientMouseOver = textGradient53;
+            this.btnAutoLevel.Theme = buttonTheme3;
+            this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
+            this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
+            // 
+            // btnResetEQ
+            // 
+            this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnResetEQ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnResetEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
+            this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnResetEQ.IsAutoSized = false;
+            this.btnResetEQ.Location = new System.Drawing.Point(6, 234);
+            this.btnResetEQ.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.btnResetEQ.Name = "btnResetEQ";
+            this.btnResetEQ.Size = new System.Drawing.Size(118, 28);
+            this.btnResetEQ.TabIndex = 69;
+            this.btnResetEQ.Text = "Reset EQ";
+            this.btnResetEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            textGradient54.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient54.BorderWidth = 1;
+            textGradient54.Color1 = System.Drawing.Color.LightGray;
+            textGradient54.Color2 = System.Drawing.Color.Gray;
+            customFont54.Color = System.Drawing.Color.Black;
+            customFont54.EmbeddedFontName = "Junction";
+            customFont54.IsBold = false;
+            customFont54.IsItalic = false;
+            customFont54.IsUnderline = false;
+            customFont54.Size = 9F;
+            customFont54.StandardFontName = "Arial";
+            customFont54.UseAntiAliasing = true;
+            customFont54.UseEmbeddedFont = true;
+            textGradient54.Font = customFont54;
+            textGradient54.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient54.Padding = 4;
+            buttonTheme4.TextGradientDefault = textGradient54;
+            textGradient55.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient55.BorderWidth = 1;
+            textGradient55.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            textGradient55.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont55.Color = System.Drawing.Color.LightGray;
+            customFont55.EmbeddedFontName = "Junction";
+            customFont55.IsBold = false;
+            customFont55.IsItalic = false;
+            customFont55.IsUnderline = false;
+            customFont55.Size = 9F;
+            customFont55.StandardFontName = "Arial";
+            customFont55.UseAntiAliasing = true;
+            customFont55.UseEmbeddedFont = true;
+            textGradient55.Font = customFont55;
+            textGradient55.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient55.Padding = 4;
+            buttonTheme4.TextGradientDisabled = textGradient55;
+            textGradient56.BorderColor = System.Drawing.Color.Gray;
+            textGradient56.BorderWidth = 1;
+            textGradient56.Color1 = System.Drawing.Color.White;
+            textGradient56.Color2 = System.Drawing.Color.LightGray;
+            customFont56.Color = System.Drawing.Color.Black;
+            customFont56.EmbeddedFontName = "Junction";
+            customFont56.IsBold = false;
+            customFont56.IsItalic = false;
+            customFont56.IsUnderline = false;
+            customFont56.Size = 9F;
+            customFont56.StandardFontName = "Arial";
+            customFont56.UseAntiAliasing = true;
+            customFont56.UseEmbeddedFont = true;
+            textGradient56.Font = customFont56;
+            textGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient56.Padding = 4;
+            buttonTheme4.TextGradientMouseOver = textGradient56;
+            this.btnResetEQ.Theme = buttonTheme4;
+            this.toolTip.SetToolTip(this.btnResetEQ, "Resets the equalizer bands to 0 dB.");
+            this.btnResetEQ.Click += new System.EventHandler(this.btnResetEQ_Click);
             // 
             // panelZeroLine
             // 
@@ -3010,60 +3064,10 @@ namespace MPfm
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Effects";
             // 
-            // flowPresetInformation
-            // 
-            this.flowPresetInformation.Controls.Add(this.lblEQName);
-            this.flowPresetInformation.Controls.Add(this.txtEQPresetName);
-            this.flowPresetInformation.Controls.Add(this.lblEQQ);
-            this.flowPresetInformation.Controls.Add(this.txtEQQ);
-            this.flowPresetInformation.Controls.Add(this.lblEQBandwidth);
-            this.flowPresetInformation.Controls.Add(this.txtEQBandwidth);
-            this.flowPresetInformation.Controls.Add(this.btnSaveEQPreset);
-            this.flowPresetInformation.Controls.Add(this.btnDeleteEQPreset);
-            this.flowPresetInformation.Controls.Add(this.btnAutoLevel);
-            this.flowPresetInformation.Controls.Add(this.btnResetEQ);
-            this.flowPresetInformation.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowPresetInformation.Location = new System.Drawing.Point(0, 20);
-            this.flowPresetInformation.Name = "flowPresetInformation";
-            this.flowPresetInformation.Size = new System.Drawing.Size(130, 328);
-            this.flowPresetInformation.TabIndex = 87;
-            backgroundGradient57.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient57.BorderWidth = 1;
-            backgroundGradient57.Color1 = System.Drawing.Color.LightGray;
-            backgroundGradient57.Color2 = System.Drawing.Color.Gray;
-            backgroundGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient57;
-            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
-            this.flowPresetInformation.Theme = flowLayoutPanelTheme1;
-            // 
-            // tablePreset
-            // 
-            this.tablePreset.ColumnCount = 2;
-            this.tablePreset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tablePreset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tablePreset.Controls.Add(this.comboEQPreset, 0, 0);
-            this.tablePreset.Controls.Add(this.chkEQOn, 0, 1);
-            this.tablePreset.Controls.Add(this.lblEQOn, 1, 1);
-            this.tablePreset.Location = new System.Drawing.Point(0, 20);
-            this.tablePreset.Name = "tablePreset";
-            this.tablePreset.RowCount = 2;
-            this.tablePreset.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tablePreset.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tablePreset.Size = new System.Drawing.Size(127, 52);
-            this.tablePreset.TabIndex = 87;
-            backgroundGradient55.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient55.BorderWidth = 1;
-            backgroundGradient55.Color1 = System.Drawing.Color.LightGray;
-            backgroundGradient55.Color2 = System.Drawing.Color.Gray;
-            backgroundGradient55.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tableLayoutPanelTheme1.BackgroundGradient = backgroundGradient55;
-            tableLayoutPanelTheme1.IsBackgroundTransparent = false;
-            this.tablePreset.Theme = tableLayoutPanelTheme1;
-            // 
             // frmEffects
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1001, 455);
+            this.ClientSize = new System.Drawing.Size(988, 455);
             this.Controls.Add(this.tableLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -3077,11 +3081,11 @@ namespace MPfm
             this.tableLayout.ResumeLayout(false);
             this.panelEqualizer.ResumeLayout(false);
             this.panelPreset.ResumeLayout(false);
+            this.tablePreset.ResumeLayout(false);
+            this.tablePreset.PerformLayout();
             this.panelPresetInformation.ResumeLayout(false);
             this.flowPresetInformation.ResumeLayout(false);
             this.flowPresetInformation.PerformLayout();
-            this.tablePreset.ResumeLayout(false);
-            this.tablePreset.PerformLayout();
             this.ResumeLayout(false);
 
         }

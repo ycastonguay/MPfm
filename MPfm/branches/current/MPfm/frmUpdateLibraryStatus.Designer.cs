@@ -87,12 +87,12 @@ namespace MPfm
             this.workerUpdateLibrary = new System.ComponentModel.BackgroundWorker();
             this.workerTimer = new System.ComponentModel.BackgroundWorker();
             this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
-            this.panelEditMarker = new MPfm.WindowsControls.Panel();
+            this.panelUpdateLibrary = new MPfm.WindowsControls.Panel();
             this.tableMarker = new MPfm.WindowsControls.TableLayoutPanel();
             this.panelErrorLog = new MPfm.WindowsControls.Panel();
             this.lbLog = new MPfm.WindowsControls.ListBox();
-            this.panelSongInformation = new MPfm.WindowsControls.Panel();
-            this.tableSongInformation = new MPfm.WindowsControls.TableLayoutPanel();
+            this.panelStatus = new MPfm.WindowsControls.Panel();
+            this.tableStatus = new MPfm.WindowsControls.TableLayoutPanel();
             this.lblTitle = new MPfm.WindowsControls.Label();
             this.lblProgress = new MPfm.WindowsControls.Label();
             this.lblTimeElapsed = new MPfm.WindowsControls.Label();
@@ -103,11 +103,11 @@ namespace MPfm
             this.btnOK = new MPfm.WindowsControls.Button();
             this.btnCancel = new MPfm.WindowsControls.Button();
             this.btnSaveLog = new MPfm.WindowsControls.Button();
-            this.panelEditMarker.SuspendLayout();
+            this.panelUpdateLibrary.SuspendLayout();
             this.tableMarker.SuspendLayout();
             this.panelErrorLog.SuspendLayout();
-            this.panelSongInformation.SuspendLayout();
-            this.tableSongInformation.SuspendLayout();
+            this.panelStatus.SuspendLayout();
+            this.tableStatus.SuspendLayout();
             this.flowToolbar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,25 +130,25 @@ namespace MPfm
             this.saveLogDialog.Filter = "Text files|*.txt|All files|*.*";
             this.saveLogDialog.Title = "Please choose a filename ";
             // 
-            // panelEditMarker
+            // panelUpdateLibrary
             // 
-            this.panelEditMarker.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panelUpdateLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelEditMarker.Controls.Add(this.tableMarker);
-            this.panelEditMarker.ExpandedHeight = 200;
-            this.panelEditMarker.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelEditMarker.HeaderAutoSize = true;
-            this.panelEditMarker.HeaderExpandable = false;
-            this.panelEditMarker.HeaderExpanded = true;
-            this.panelEditMarker.HeaderHeight = 30;
-            this.panelEditMarker.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelEditMarker.HeaderTitle = "Update Library";
-            this.panelEditMarker.Location = new System.Drawing.Point(0, 26);
-            this.panelEditMarker.Name = "panelEditMarker";
-            this.panelEditMarker.Size = new System.Drawing.Size(800, 349);
-            this.panelEditMarker.TabIndex = 115;
-            this.panelEditMarker.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelUpdateLibrary.Controls.Add(this.tableMarker);
+            this.panelUpdateLibrary.ExpandedHeight = 200;
+            this.panelUpdateLibrary.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelUpdateLibrary.HeaderAutoSize = true;
+            this.panelUpdateLibrary.HeaderExpandable = false;
+            this.panelUpdateLibrary.HeaderExpanded = true;
+            this.panelUpdateLibrary.HeaderHeight = 30;
+            this.panelUpdateLibrary.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelUpdateLibrary.HeaderTitle = "Update Library";
+            this.panelUpdateLibrary.Location = new System.Drawing.Point(0, 26);
+            this.panelUpdateLibrary.Name = "panelUpdateLibrary";
+            this.panelUpdateLibrary.Size = new System.Drawing.Size(800, 349);
+            this.panelUpdateLibrary.TabIndex = 115;
+            this.panelUpdateLibrary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient5.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient5.BorderWidth = 0;
             backgroundGradient5.Color1 = System.Drawing.Color.LightGray;
@@ -172,7 +172,7 @@ namespace MPfm
             textGradient8.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient8.Padding = 2;
             panelTheme3.HeaderTextGradient = textGradient8;
-            this.panelEditMarker.Theme = panelTheme3;
+            this.panelUpdateLibrary.Theme = panelTheme3;
             // 
             // tableMarker
             // 
@@ -183,7 +183,7 @@ namespace MPfm
             this.tableMarker.ColumnCount = 1;
             this.tableMarker.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableMarker.Controls.Add(this.panelErrorLog, 0, 1);
-            this.tableMarker.Controls.Add(this.panelSongInformation, 0, 0);
+            this.tableMarker.Controls.Add(this.panelStatus, 0, 0);
             this.tableMarker.Location = new System.Drawing.Point(0, 30);
             this.tableMarker.Name = "tableMarker";
             this.tableMarker.RowCount = 2;
@@ -276,25 +276,25 @@ namespace MPfm
             this.lbLog.Size = new System.Drawing.Size(785, 154);
             this.lbLog.TabIndex = 0;
             // 
-            // panelSongInformation
+            // panelStatus
             // 
-            this.panelSongInformation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelSongInformation.Controls.Add(this.tableSongInformation);
-            this.panelSongInformation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSongInformation.ExpandedHeight = 200;
-            this.panelSongInformation.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSongInformation.HeaderAutoSize = true;
-            this.panelSongInformation.HeaderExpandable = false;
-            this.panelSongInformation.HeaderExpanded = true;
-            this.panelSongInformation.HeaderHeight = 20;
-            this.panelSongInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.panelSongInformation.HeaderTitle = "Status";
-            this.panelSongInformation.Location = new System.Drawing.Point(6, 6);
-            this.panelSongInformation.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
-            this.panelSongInformation.Name = "panelSongInformation";
-            this.panelSongInformation.Size = new System.Drawing.Size(788, 126);
-            this.panelSongInformation.TabIndex = 103;
-            this.panelSongInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelStatus.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelStatus.Controls.Add(this.tableStatus);
+            this.panelStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelStatus.ExpandedHeight = 200;
+            this.panelStatus.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelStatus.HeaderAutoSize = true;
+            this.panelStatus.HeaderExpandable = false;
+            this.panelStatus.HeaderExpanded = true;
+            this.panelStatus.HeaderHeight = 20;
+            this.panelStatus.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panelStatus.HeaderTitle = "Status";
+            this.panelStatus.Location = new System.Drawing.Point(6, 6);
+            this.panelStatus.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
+            this.panelStatus.Name = "panelStatus";
+            this.panelStatus.Size = new System.Drawing.Size(788, 126);
+            this.panelStatus.TabIndex = 103;
+            this.panelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
             backgroundGradient3.Color1 = System.Drawing.Color.WhiteSmoke;
@@ -318,34 +318,34 @@ namespace MPfm
             textGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient7.Padding = 2;
             panelTheme2.HeaderTextGradient = textGradient7;
-            this.panelSongInformation.Theme = panelTheme2;
+            this.panelStatus.Theme = panelTheme2;
             // 
-            // tableSongInformation
+            // tableStatus
             // 
-            this.tableSongInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tableStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableSongInformation.AutoSize = true;
-            this.tableSongInformation.BackColor = System.Drawing.Color.Transparent;
-            this.tableSongInformation.ColumnCount = 3;
-            this.tableSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableSongInformation.Controls.Add(this.lblTitle, 0, 0);
-            this.tableSongInformation.Controls.Add(this.lblProgress, 1, 3);
-            this.tableSongInformation.Controls.Add(this.lblTimeElapsed, 0, 3);
-            this.tableSongInformation.Controls.Add(this.lblEstimatedTimeLeft, 2, 3);
-            this.tableSongInformation.Controls.Add(this.progressBar, 0, 2);
-            this.tableSongInformation.Controls.Add(this.lblMessage, 0, 1);
-            this.tableSongInformation.Location = new System.Drawing.Point(0, 20);
-            this.tableSongInformation.Name = "tableSongInformation";
-            this.tableSongInformation.RowCount = 4;
-            this.tableSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableSongInformation.Size = new System.Drawing.Size(788, 106);
-            this.tableSongInformation.TabIndex = 95;
+            this.tableStatus.AutoSize = true;
+            this.tableStatus.BackColor = System.Drawing.Color.Transparent;
+            this.tableStatus.ColumnCount = 3;
+            this.tableStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableStatus.Controls.Add(this.lblTitle, 0, 0);
+            this.tableStatus.Controls.Add(this.lblProgress, 1, 3);
+            this.tableStatus.Controls.Add(this.lblTimeElapsed, 0, 3);
+            this.tableStatus.Controls.Add(this.lblEstimatedTimeLeft, 2, 3);
+            this.tableStatus.Controls.Add(this.progressBar, 0, 2);
+            this.tableStatus.Controls.Add(this.lblMessage, 0, 1);
+            this.tableStatus.Location = new System.Drawing.Point(0, 20);
+            this.tableStatus.Name = "tableStatus";
+            this.tableStatus.RowCount = 4;
+            this.tableStatus.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableStatus.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableStatus.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableStatus.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableStatus.Size = new System.Drawing.Size(788, 106);
+            this.tableStatus.TabIndex = 95;
             backgroundGradient2.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient2.BorderWidth = 0;
             backgroundGradient2.Color1 = System.Drawing.Color.WhiteSmoke;
@@ -353,12 +353,12 @@ namespace MPfm
             backgroundGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             tableLayoutPanelTheme1.BackgroundGradient = backgroundGradient2;
             tableLayoutPanelTheme1.IsBackgroundTransparent = false;
-            this.tableSongInformation.Theme = tableLayoutPanelTheme1;
+            this.tableStatus.Theme = tableLayoutPanelTheme1;
             // 
             // lblTitle
             // 
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
-            this.tableSongInformation.SetColumnSpan(this.lblTitle, 3);
+            this.tableStatus.SetColumnSpan(this.lblTitle, 3);
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTitle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.LightGray;
@@ -488,7 +488,7 @@ namespace MPfm
             // 
             // progressBar
             // 
-            this.tableSongInformation.SetColumnSpan(this.progressBar, 3);
+            this.tableStatus.SetColumnSpan(this.progressBar, 3);
             this.progressBar.Location = new System.Drawing.Point(6, 54);
             this.progressBar.Margin = new System.Windows.Forms.Padding(6);
             this.progressBar.Name = "progressBar";
@@ -498,7 +498,7 @@ namespace MPfm
             // lblMessage
             // 
             this.lblMessage.BackColor = System.Drawing.Color.Transparent;
-            this.tableSongInformation.SetColumnSpan(this.lblMessage, 3);
+            this.tableStatus.SetColumnSpan(this.lblMessage, 3);
             this.lblMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMessage.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.White;
@@ -761,7 +761,7 @@ namespace MPfm
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(800, 373);
             this.ControlBox = false;
-            this.Controls.Add(this.panelEditMarker);
+            this.Controls.Add(this.panelUpdateLibrary);
             this.Controls.Add(this.flowToolbar);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -772,12 +772,12 @@ namespace MPfm
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update Library";
             this.Shown += new System.EventHandler(this.frmUpdateLibraryStatus_Shown);
-            this.panelEditMarker.ResumeLayout(false);
+            this.panelUpdateLibrary.ResumeLayout(false);
             this.tableMarker.ResumeLayout(false);
             this.panelErrorLog.ResumeLayout(false);
-            this.panelSongInformation.ResumeLayout(false);
-            this.panelSongInformation.PerformLayout();
-            this.tableSongInformation.ResumeLayout(false);
+            this.panelStatus.ResumeLayout(false);
+            this.panelStatus.PerformLayout();
+            this.tableStatus.ResumeLayout(false);
             this.flowToolbar.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -799,11 +799,11 @@ namespace MPfm
         private WindowsControls.FlowLayoutPanel flowToolbar;
         private WindowsControls.Button btnOK;
         private WindowsControls.Button btnCancel;
-        private WindowsControls.Panel panelEditMarker;
+        private WindowsControls.Panel panelUpdateLibrary;
         private WindowsControls.TableLayoutPanel tableMarker;
         private WindowsControls.Panel panelErrorLog;
-        private WindowsControls.Panel panelSongInformation;
-        private WindowsControls.TableLayoutPanel tableSongInformation;
+        private WindowsControls.Panel panelStatus;
+        private WindowsControls.TableLayoutPanel tableStatus;
         private WindowsControls.Button btnSaveLog;
     }
 }

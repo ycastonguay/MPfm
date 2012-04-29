@@ -143,12 +143,6 @@
     <Compile Include="Other Screens\frmVisualizer.Designer.cs">
       <DependentUpon>frmVisualizer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmRenameSavePlaylist.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Other Screens\frmRenameSavePlaylist.Designer.cs">
-      <DependentUpon>frmRenameSavePlaylist.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmUpdateLibraryStatus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,10 +210,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Other Screens\frmVisualizer.resx">
       <DependentUpon>frmVisualizer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmRenameSavePlaylist.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmRenameSavePlaylist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Other Screens\frmEffects.resx">
       <SubType>Designer</SubType>
