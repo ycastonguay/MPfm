@@ -1394,7 +1394,7 @@ namespace MPfm.Player
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
                 // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
-                outputPosition = (long)((float)outputPosition * 1.5f);
+                outputPosition = (long)((float)outputPosition * 1.5f);                
             }
 
             // Add the offset position
@@ -1452,6 +1452,7 @@ namespace MPfm.Player
             mixerChannel.Lock(true);            
 
             // Check if this is a FLAC file over 44100Hz
+            long bytesOffset = bytes;
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
                 // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
@@ -1469,7 +1470,7 @@ namespace MPfm.Player
             SetSyncCallback((length - (bytes * 2))); // + buffered));
 
             // Set offset position (for calulating current position)
-            positionOffset = bytes;
+            positionOffset = bytesOffset;
 
             // Unlock channel
             mixerChannel.Lock(false);

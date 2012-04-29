@@ -1140,8 +1140,8 @@ namespace MPfm
             {
                 // Get position
                 long positionBytes = player.GetPosition();
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);                
+                long positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);                
                 string position = Conversion.MillisecondsToTimeString((ulong)positionMS);                
 
                 // Set UI            
