@@ -268,21 +268,21 @@ namespace MPfm
             // Clear sub items
             miLoadPlaylistLibrary.DropDownItems.Clear();
 
-            // Fetch list of playlists from database
-            List<PlaylistFile> playlistFiles = Main.Library.Gateway.SelectPlaylistFiles();
+            //// Fetch list of playlists from database
+            //List<PlaylistFile> playlistFiles = Main.Library.Gateway.SelectPlaylistFiles();
 
-            // Add items to menu
-            foreach(PlaylistFile playlistFile in playlistFiles)
-            {
-                // Extract file name without extension
-                string fileName = Path.GetFileNameWithoutExtension(playlistFile.FilePath);
+            //// Add items to menu
+            //foreach (PlaylistFile playlistFile in playlistFiles)
+            //{
+            //    // Extract file name without extension
+            //    string fileName = Path.GetFileNameWithoutExtension(playlistFile.FilePath);
 
-                // Add item
-                ToolStripItem item = miLoadPlaylistLibrary.DropDownItems.Add(fileName);
-                item.Tag = playlistFile.FilePath;
-                item.ToolTipText = playlistFile.FilePath;
-                item.Click += new EventHandler(miLoadPlaylistLibraryItem_Click);               
-            }
+            //    // Add item
+            //    ToolStripItem item = miLoadPlaylistLibrary.DropDownItems.Add(fileName);
+            //    item.Tag = playlistFile.FilePath;
+            //    item.ToolTipText = playlistFile.FilePath;
+            //    item.Click += new EventHandler(miLoadPlaylistLibraryItem_Click);
+            //}
         }
 
         #endregion

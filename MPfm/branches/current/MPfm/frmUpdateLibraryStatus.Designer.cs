@@ -28,6 +28,7 @@ namespace MPfm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             MPfm.WindowsControls.PanelTheme panelTheme3 = new MPfm.WindowsControls.PanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient5 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient8 = new MPfm.WindowsControls.TextGradient();
@@ -103,6 +104,7 @@ namespace MPfm
             this.btnOK = new MPfm.WindowsControls.Button();
             this.btnCancel = new MPfm.WindowsControls.Button();
             this.btnSaveLog = new MPfm.WindowsControls.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelUpdateLibrary.SuspendLayout();
             this.tableMarker.SuspendLayout();
             this.panelErrorLog.SuspendLayout();
@@ -246,6 +248,7 @@ namespace MPfm
             textGradient1.Padding = 2;
             panelTheme1.HeaderTextGradient = textGradient1;
             this.panelErrorLog.Theme = panelTheme1;
+            this.toolTip.SetToolTip(this.panelErrorLog, "This area indicates which audio files could not be imported into the library.");
             // 
             // lbLog
             // 
@@ -319,6 +322,7 @@ namespace MPfm
             textGradient7.Padding = 2;
             panelTheme2.HeaderTextGradient = textGradient7;
             this.panelStatus.Theme = panelTheme2;
+            this.toolTip.SetToolTip(this.panelStatus, "This area indicates the current process status.");
             // 
             // tableStatus
             // 
@@ -489,6 +493,7 @@ namespace MPfm
             // progressBar
             // 
             this.tableStatus.SetColumnSpan(this.progressBar, 3);
+            this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar.Location = new System.Drawing.Point(6, 54);
             this.progressBar.Margin = new System.Windows.Forms.Padding(6);
             this.progressBar.Name = "progressBar";
@@ -617,6 +622,7 @@ namespace MPfm
             textGradient11.Padding = 5;
             buttonTheme1.TextGradientMouseOver = textGradient11;
             this.btnOK.Theme = buttonTheme1;
+            this.toolTip.SetToolTip(this.btnOK, "Closes the window.");
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
@@ -685,6 +691,7 @@ namespace MPfm
             textGradient14.Padding = 5;
             buttonTheme2.TextGradientMouseOver = textGradient14;
             this.btnCancel.Theme = buttonTheme2;
+            this.toolTip.SetToolTip(this.btnCancel, "Cancels the current operation.");
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSaveLog
@@ -753,7 +760,15 @@ namespace MPfm
             textGradient17.Padding = 5;
             buttonTheme3.TextGradientMouseOver = textGradient17;
             this.btnSaveLog.Theme = buttonTheme3;
+            this.toolTip.SetToolTip(this.btnSaveLog, "Saves the error log to a text file.");
             this.btnSaveLog.Click += new System.EventHandler(this.btnSaveLog_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Edit Song Metadata";
             // 
             // frmUpdateLibraryStatus
             // 
@@ -805,5 +820,6 @@ namespace MPfm
         private WindowsControls.Panel panelStatus;
         private WindowsControls.TableLayoutPanel tableStatus;
         private WindowsControls.Button btnSaveLog;
+        public System.Windows.Forms.ToolTip toolTip;
     }
 }

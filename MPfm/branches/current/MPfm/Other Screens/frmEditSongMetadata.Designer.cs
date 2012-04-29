@@ -36,8 +36,6 @@ namespace MPfm
             MPfm.WindowsControls.LabelTheme labelTheme1 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient1 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient2 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.ButtonTheme buttonTheme1 = new MPfm.WindowsControls.ButtonTheme();
             MPfm.WindowsControls.TextGradient textGradient3 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont3 = new MPfm.WindowsControls.CustomFont();
@@ -52,13 +50,15 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont7 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient8 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont8 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient2 = new MPfm.WindowsControls.BackgroundGradient();
             this.propertyGridTags = new System.Windows.Forms.PropertyGrid();
             this.panelEditSongMetadata = new MPfm.WindowsControls.Panel();
             this.lblEditing = new MPfm.WindowsControls.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.flowToolbar = new MPfm.WindowsControls.FlowLayoutPanel();
             this.btnSave = new MPfm.WindowsControls.Button();
             this.btnClose = new MPfm.WindowsControls.Button();
+            this.flowToolbar = new MPfm.WindowsControls.FlowLayoutPanel();
             this.panelEditSongMetadata.SuspendLayout();
             this.flowToolbar.SuspendLayout();
             this.SuspendLayout();
@@ -161,27 +161,6 @@ namespace MPfm
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Edit Song Metadata";
             // 
-            // flowToolbar
-            // 
-            this.flowToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowToolbar.AutoSize = true;
-            this.flowToolbar.Controls.Add(this.btnSave);
-            this.flowToolbar.Controls.Add(this.btnClose);
-            this.flowToolbar.Location = new System.Drawing.Point(0, 0);
-            this.flowToolbar.Margin = new System.Windows.Forms.Padding(0);
-            this.flowToolbar.Name = "flowToolbar";
-            this.flowToolbar.Size = new System.Drawing.Size(633, 26);
-            this.flowToolbar.TabIndex = 114;
-            backgroundGradient2.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient2.BorderWidth = 0;
-            backgroundGradient2.Color1 = System.Drawing.Color.LightGray;
-            backgroundGradient2.Color2 = System.Drawing.Color.Gray;
-            backgroundGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient2;
-            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
-            this.flowToolbar.Theme = flowLayoutPanelTheme1;
-            // 
             // btnSave
             // 
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -248,7 +227,7 @@ namespace MPfm
             textGradient5.Padding = 5;
             buttonTheme1.TextGradientMouseOver = textGradient5;
             this.btnSave.Theme = buttonTheme1;
-            this.toolTip.SetToolTip(this.btnSave, "Saves the current loop.");
+            this.toolTip.SetToolTip(this.btnSave, "Saves the current audio file metadata.");
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnClose
@@ -319,6 +298,27 @@ namespace MPfm
             this.btnClose.Theme = buttonTheme2;
             this.toolTip.SetToolTip(this.btnClose, "Closes the window without saving.");
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // flowToolbar
+            // 
+            this.flowToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowToolbar.AutoSize = true;
+            this.flowToolbar.Controls.Add(this.btnSave);
+            this.flowToolbar.Controls.Add(this.btnClose);
+            this.flowToolbar.Location = new System.Drawing.Point(0, 0);
+            this.flowToolbar.Margin = new System.Windows.Forms.Padding(0);
+            this.flowToolbar.Name = "flowToolbar";
+            this.flowToolbar.Size = new System.Drawing.Size(633, 26);
+            this.flowToolbar.TabIndex = 114;
+            backgroundGradient2.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient2.BorderWidth = 0;
+            backgroundGradient2.Color1 = System.Drawing.Color.LightGray;
+            backgroundGradient2.Color2 = System.Drawing.Color.Gray;
+            backgroundGradient2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient2;
+            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
+            this.flowToolbar.Theme = flowLayoutPanelTheme1;
             // 
             // frmEditSongMetadata
             // 

@@ -85,6 +85,8 @@ namespace MPfm
             MPfm.WindowsControls.CustomFont customFont22 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient2 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.TableLayoutPanelTheme tableLayoutPanelTheme1 = new MPfm.WindowsControls.TableLayoutPanelTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient3 = new MPfm.WindowsControls.BackgroundGradient();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.menuPlaylist = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miPlaylistPlaySong = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,9 +108,11 @@ namespace MPfm
             this.miLoadPlaylistLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.flowToolbar = new MPfm.WindowsControls.FlowLayoutPanel();
+            this.tablePlaylist = new MPfm.WindowsControls.TableLayoutPanel();
             this.menuPlaylist.SuspendLayout();
             this.menuLoadPlaylist.SuspendLayout();
             this.flowToolbar.SuspendLayout();
+            this.tablePlaylist.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageList
@@ -571,12 +575,13 @@ namespace MPfm
             this.viewSongs2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewSongs2.ImageCacheSize = 10;
             this.viewSongs2.Location = new System.Drawing.Point(0, 24);
+            this.viewSongs2.Margin = new System.Windows.Forms.Padding(0);
             this.viewSongs2.Name = "viewSongs2";
             this.viewSongs2.NowPlayingAudioFileId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.viewSongs2.NowPlayingPlaylistItemId = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.viewSongs2.OrderByAscending = true;
             this.viewSongs2.OrderByFieldName = "";
-            this.viewSongs2.Size = new System.Drawing.Size(772, 332);
+            this.viewSongs2.Size = new System.Drawing.Size(771, 330);
             this.viewSongs2.TabIndex = 75;
             this.viewSongs2.Text = "songGridView1";
             backgroundGradient1.BorderColor = System.Drawing.Color.Gray;
@@ -738,7 +743,7 @@ namespace MPfm
             this.flowToolbar.Location = new System.Drawing.Point(0, 0);
             this.flowToolbar.Margin = new System.Windows.Forms.Padding(0);
             this.flowToolbar.Name = "flowToolbar";
-            this.flowToolbar.Size = new System.Drawing.Size(772, 24);
+            this.flowToolbar.Size = new System.Drawing.Size(771, 24);
             this.flowToolbar.TabIndex = 114;
             backgroundGradient2.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient2.BorderWidth = 0;
@@ -749,12 +754,35 @@ namespace MPfm
             flowLayoutPanelTheme1.IsBackgroundTransparent = false;
             this.flowToolbar.Theme = flowLayoutPanelTheme1;
             // 
+            // tablePlaylist
+            // 
+            this.tablePlaylist.BackColor = System.Drawing.Color.Transparent;
+            this.tablePlaylist.ColumnCount = 1;
+            this.tablePlaylist.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePlaylist.Controls.Add(this.flowToolbar, 0, 0);
+            this.tablePlaylist.Controls.Add(this.viewSongs2, 0, 1);
+            this.tablePlaylist.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tablePlaylist.Location = new System.Drawing.Point(0, 0);
+            this.tablePlaylist.Name = "tablePlaylist";
+            this.tablePlaylist.RowCount = 2;
+            this.tablePlaylist.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tablePlaylist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePlaylist.Size = new System.Drawing.Size(771, 354);
+            this.tablePlaylist.TabIndex = 115;
+            backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient3.BorderWidth = 1;
+            backgroundGradient3.Color1 = System.Drawing.Color.LightGray;
+            backgroundGradient3.Color2 = System.Drawing.Color.Gray;
+            backgroundGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tableLayoutPanelTheme1.BackgroundGradient = backgroundGradient3;
+            tableLayoutPanelTheme1.IsBackgroundTransparent = true;
+            this.tablePlaylist.Theme = tableLayoutPanelTheme1;
+            // 
             // frmPlaylist
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(771, 354);
-            this.Controls.Add(this.flowToolbar);
-            this.Controls.Add(this.viewSongs2);
+            this.Controls.Add(this.tablePlaylist);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(300, 200);
@@ -767,8 +795,9 @@ namespace MPfm
             this.menuPlaylist.ResumeLayout(false);
             this.menuLoadPlaylist.ResumeLayout(false);
             this.flowToolbar.ResumeLayout(false);
+            this.tablePlaylist.ResumeLayout(false);
+            this.tablePlaylist.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -795,5 +824,6 @@ namespace MPfm
         private WindowsControls.Button button1;
         public System.Windows.Forms.ToolTip toolTip;
         private WindowsControls.FlowLayoutPanel flowToolbar;
+        private WindowsControls.TableLayoutPanel tablePlaylist;
     }
 }

@@ -200,8 +200,11 @@ namespace MPfm.WindowsControls
 
                     //RectangleF rectWithPadding = rect;
                     RectangleF rectWithPadding = RectangleF.Inflate(rect, 0, 0);
-                    rectWithPadding.X = padding;                    
-                    rectWithPadding.Y -= 1;
+                    rectWithPadding.X = padding;
+                   
+                    // Fix for the Junction font
+                    if(font.Name.ToUpper() == "JUNCTION")
+                        rectWithPadding.Y -= 1;
 
                     //g.FillRectangle(Brushes.HotPink, rectWithPadding);
                     g.DrawString(text, font, brushFont, rectWithPadding, format);                    
@@ -213,6 +216,10 @@ namespace MPfm.WindowsControls
                     format.LineAlignment = StringAlignment.Center;
                     format.Alignment = StringAlignment.Center;
 
+                    // Fix for the Junction font
+                    if (font.Name.ToUpper() == "JUNCTION")
+                        rect.Y -= 1;
+
                     //g.FillRectangle(Brushes.Blue, rect);
                     g.DrawString(text, font, brushFont, rect, format);
                 }
@@ -223,7 +230,10 @@ namespace MPfm.WindowsControls
                     format.Alignment = StringAlignment.Far;
 
                     RectangleF rectWithPadding = RectangleF.Inflate(rect, -padding, 0);
-                    rectWithPadding.Y -= 1;
+                    
+                    // Fix for the Junction font
+                    if (font.Name.ToUpper() == "JUNCTION")
+                        rectWithPadding.Y -= 1;
 
                     //g.FillRectangle(Brushes.HotPink, rectWithPadding);
                     g.DrawString(text, font, brushFont, rectWithPadding, format);                    

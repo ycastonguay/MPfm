@@ -417,7 +417,7 @@ namespace MPfm
             this.splitLoopsMarkers = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanelLoops = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanelLoops = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new MPfm.WindowsControls.Label();
+            this.lblLoops = new MPfm.WindowsControls.Label();
             this.btnPlayLoop = new MPfm.WindowsControls.Button();
             this.btnStopLoop = new MPfm.WindowsControls.Button();
             this.btnAddLoop = new MPfm.WindowsControls.Button();
@@ -3148,7 +3148,7 @@ namespace MPfm
             // 
             this.flowLayoutPanelLoops.AutoSize = true;
             this.flowLayoutPanelLoops.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.flowLayoutPanelLoops.Controls.Add(this.label1);
+            this.flowLayoutPanelLoops.Controls.Add(this.lblLoops);
             this.flowLayoutPanelLoops.Controls.Add(this.btnPlayLoop);
             this.flowLayoutPanelLoops.Controls.Add(this.btnStopLoop);
             this.flowLayoutPanelLoops.Controls.Add(this.btnAddLoop);
@@ -3161,19 +3161,19 @@ namespace MPfm
             this.flowLayoutPanelLoops.Size = new System.Drawing.Size(464, 22);
             this.flowLayoutPanelLoops.TabIndex = 60;
             // 
-            // label1
+            // lblLoops
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.IsAutoSized = true;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 18);
-            this.label1.TabIndex = 85;
-            this.label1.Text = "Markers";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblLoops.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoops.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.lblLoops.ForeColor = System.Drawing.Color.White;
+            this.lblLoops.IsAutoSized = true;
+            this.lblLoops.Location = new System.Drawing.Point(4, 0);
+            this.lblLoops.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLoops.Name = "lblLoops";
+            this.lblLoops.Size = new System.Drawing.Size(43, 20);
+            this.lblLoops.TabIndex = 85;
+            this.lblLoops.Text = "Loops";
+            this.lblLoops.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             labelTheme21.IsBackgroundTransparent = true;
             textGradient40.BorderColor = System.Drawing.Color.DarkGray;
             textGradient40.BorderWidth = 1;
@@ -3181,10 +3181,10 @@ namespace MPfm
             textGradient40.Color2 = System.Drawing.Color.Gray;
             customFont37.Color = System.Drawing.Color.White;
             customFont37.EmbeddedFontName = "Junction";
-            customFont37.IsBold = true;
+            customFont37.IsBold = false;
             customFont37.IsItalic = false;
             customFont37.IsUnderline = false;
-            customFont37.Size = 8F;
+            customFont37.Size = 9F;
             customFont37.StandardFontName = "Arial";
             customFont37.UseAntiAliasing = true;
             customFont37.UseEmbeddedFont = true;
@@ -3192,7 +3192,7 @@ namespace MPfm
             textGradient40.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient40.Padding = 2;
             labelTheme21.TextGradient = textGradient40;
-            this.label1.Theme = labelTheme21;
+            this.lblLoops.Theme = labelTheme21;
             // 
             // btnPlayLoop
             // 
@@ -3203,7 +3203,7 @@ namespace MPfm
             this.btnPlayLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnPlayLoop.Image")));
             this.btnPlayLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPlayLoop.IsAutoSized = true;
-            this.btnPlayLoop.Location = new System.Drawing.Point(52, 0);
+            this.btnPlayLoop.Location = new System.Drawing.Point(51, 0);
             this.btnPlayLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlayLoop.Name = "btnPlayLoop";
             this.btnPlayLoop.Size = new System.Drawing.Size(50, 22);
@@ -3274,7 +3274,7 @@ namespace MPfm
             this.btnStopLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnStopLoop.Image")));
             this.btnStopLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStopLoop.IsAutoSized = true;
-            this.btnStopLoop.Location = new System.Drawing.Point(102, 0);
+            this.btnStopLoop.Location = new System.Drawing.Point(101, 0);
             this.btnStopLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnStopLoop.Name = "btnStopLoop";
             this.btnStopLoop.Size = new System.Drawing.Size(53, 22);
@@ -3345,7 +3345,7 @@ namespace MPfm
             this.btnAddLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnAddLoop.Image")));
             this.btnAddLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddLoop.IsAutoSized = true;
-            this.btnAddLoop.Location = new System.Drawing.Point(155, 0);
+            this.btnAddLoop.Location = new System.Drawing.Point(154, 0);
             this.btnAddLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddLoop.Name = "btnAddLoop";
             this.btnAddLoop.Size = new System.Drawing.Size(50, 22);
@@ -3416,7 +3416,7 @@ namespace MPfm
             this.btnEditLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnEditLoop.Image")));
             this.btnEditLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditLoop.IsAutoSized = true;
-            this.btnEditLoop.Location = new System.Drawing.Point(205, 0);
+            this.btnEditLoop.Location = new System.Drawing.Point(204, 0);
             this.btnEditLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnEditLoop.Name = "btnEditLoop";
             this.btnEditLoop.Size = new System.Drawing.Size(49, 22);
@@ -3487,7 +3487,7 @@ namespace MPfm
             this.btnRemoveLoop.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveLoop.Image")));
             this.btnRemoveLoop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveLoop.IsAutoSized = true;
-            this.btnRemoveLoop.Location = new System.Drawing.Point(254, 0);
+            this.btnRemoveLoop.Location = new System.Drawing.Point(253, 0);
             this.btnRemoveLoop.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemoveLoop.Name = "btnRemoveLoop";
             this.btnRemoveLoop.Size = new System.Drawing.Size(70, 22);
@@ -3678,10 +3678,10 @@ namespace MPfm
             this.lblMarkers.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.lblMarkers.ForeColor = System.Drawing.Color.White;
             this.lblMarkers.IsAutoSized = true;
-            this.lblMarkers.Location = new System.Drawing.Point(0, 0);
-            this.lblMarkers.Margin = new System.Windows.Forms.Padding(0);
+            this.lblMarkers.Location = new System.Drawing.Point(4, 0);
+            this.lblMarkers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMarkers.Name = "lblMarkers";
-            this.lblMarkers.Size = new System.Drawing.Size(52, 18);
+            this.lblMarkers.Size = new System.Drawing.Size(56, 20);
             this.lblMarkers.TabIndex = 72;
             this.lblMarkers.Text = "Markers";
             this.lblMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3692,10 +3692,10 @@ namespace MPfm
             textGradient56.Color2 = System.Drawing.Color.Gray;
             customFont53.Color = System.Drawing.Color.White;
             customFont53.EmbeddedFontName = "Junction";
-            customFont53.IsBold = true;
+            customFont53.IsBold = false;
             customFont53.IsItalic = false;
             customFont53.IsUnderline = false;
-            customFont53.Size = 8F;
+            customFont53.Size = 9F;
             customFont53.StandardFontName = "Arial";
             customFont53.UseAntiAliasing = true;
             customFont53.UseEmbeddedFont = true;
@@ -3714,7 +3714,7 @@ namespace MPfm
             this.btnGoToMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnGoToMarker.Image")));
             this.btnGoToMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGoToMarker.IsAutoSized = true;
-            this.btnGoToMarker.Location = new System.Drawing.Point(52, 0);
+            this.btnGoToMarker.Location = new System.Drawing.Point(64, 0);
             this.btnGoToMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnGoToMarker.Name = "btnGoToMarker";
             this.btnGoToMarker.Size = new System.Drawing.Size(56, 22);
@@ -3785,7 +3785,7 @@ namespace MPfm
             this.btnAddMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnAddMarker.Image")));
             this.btnAddMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddMarker.IsAutoSized = true;
-            this.btnAddMarker.Location = new System.Drawing.Point(108, 0);
+            this.btnAddMarker.Location = new System.Drawing.Point(120, 0);
             this.btnAddMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddMarker.Name = "btnAddMarker";
             this.btnAddMarker.Size = new System.Drawing.Size(50, 22);
@@ -3856,7 +3856,7 @@ namespace MPfm
             this.btnEditMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnEditMarker.Image")));
             this.btnEditMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditMarker.IsAutoSized = true;
-            this.btnEditMarker.Location = new System.Drawing.Point(158, 0);
+            this.btnEditMarker.Location = new System.Drawing.Point(170, 0);
             this.btnEditMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnEditMarker.Name = "btnEditMarker";
             this.btnEditMarker.Size = new System.Drawing.Size(49, 22);
@@ -3927,7 +3927,7 @@ namespace MPfm
             this.btnRemoveMarker.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveMarker.Image")));
             this.btnRemoveMarker.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveMarker.IsAutoSized = true;
-            this.btnRemoveMarker.Location = new System.Drawing.Point(207, 0);
+            this.btnRemoveMarker.Location = new System.Drawing.Point(219, 0);
             this.btnRemoveMarker.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemoveMarker.Name = "btnRemoveMarker";
             this.btnRemoveMarker.Size = new System.Drawing.Size(70, 22);
@@ -4941,7 +4941,7 @@ namespace MPfm
         private WindowsControls.Label lblUpdateLibraryCurrentFileValue;
         private System.Windows.Forms.ProgressBar progressUpdateLibrary;
         private WindowsControls.Label lblUpdateLibraryMessage;
-        private WindowsControls.Label label1;        
+        private WindowsControls.Label lblLoops;        
     }
 }
 
