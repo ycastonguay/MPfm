@@ -389,7 +389,7 @@ namespace MPfm
             this.toolTip.BackColor = System.Drawing.Color.DimGray;
             this.toolTip.ForeColor = System.Drawing.Color.White;
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.toolTip.ToolTipTitle = "Information";
+            this.toolTip.ToolTipTitle = "Settings";
             // 
             // btnTestSaveAudioSettings
             // 

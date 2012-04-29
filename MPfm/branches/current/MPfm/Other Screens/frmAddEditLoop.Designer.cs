@@ -1638,7 +1638,7 @@ namespace MPfm
             // frmAddEditLoop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(584, 376);
+            this.ClientSize = new System.Drawing.Size(584, 394);
             this.ControlBox = false;
             this.Controls.Add(this.flowToolbar);
             this.Controls.Add(this.panelEditLoop);

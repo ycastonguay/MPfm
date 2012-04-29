@@ -88,6 +88,7 @@ namespace MPfm
             this.workerUpdateLibrary = new System.ComponentModel.BackgroundWorker();
             this.workerTimer = new System.ComponentModel.BackgroundWorker();
             this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelUpdateLibrary = new MPfm.WindowsControls.Panel();
             this.tableMarker = new MPfm.WindowsControls.TableLayoutPanel();
             this.panelErrorLog = new MPfm.WindowsControls.Panel();
@@ -104,7 +105,6 @@ namespace MPfm
             this.btnOK = new MPfm.WindowsControls.Button();
             this.btnCancel = new MPfm.WindowsControls.Button();
             this.btnSaveLog = new MPfm.WindowsControls.Button();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelUpdateLibrary.SuspendLayout();
             this.tableMarker.SuspendLayout();
             this.panelErrorLog.SuspendLayout();
@@ -131,6 +131,13 @@ namespace MPfm
             this.saveLogDialog.FileName = "log.txt";
             this.saveLogDialog.Filter = "Text files|*.txt|All files|*.*";
             this.saveLogDialog.Title = "Please choose a filename ";
+            // 
+            // toolTip
+            // 
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Update Library";
             // 
             // panelUpdateLibrary
             // 
@@ -762,13 +769,6 @@ namespace MPfm
             this.btnSaveLog.Theme = buttonTheme3;
             this.toolTip.SetToolTip(this.btnSaveLog, "Saves the error log to a text file.");
             this.btnSaveLog.Click += new System.EventHandler(this.btnSaveLog_Click);
-            // 
-            // toolTip
-            // 
-            this.toolTip.BackColor = System.Drawing.Color.DimGray;
-            this.toolTip.ForeColor = System.Drawing.Color.White;
-            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.toolTip.ToolTipTitle = "Edit Song Metadata";
             // 
             // frmUpdateLibraryStatus
             // 
