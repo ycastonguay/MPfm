@@ -1193,7 +1193,7 @@ namespace MPfm
             {
                 // Temporary fix for not crashing the application while transitioning to a new song and updating the library at the same time
                 // (SQLite cannot be accessed from multiple threads at the same time).
-                if (formUpdateLibraryStatus.Visible)
+                if (formUpdateLibraryStatus != null && formUpdateLibraryStatus.Visible)
                 {
                     // Stop playback 
                     Stop();

@@ -713,18 +713,23 @@ namespace MPfm
         #region Audio Settings Tab Events
 
         /// <summary>
-        /// Occurs when the user selects a driver or an output type using the combo boxes.
+        /// Occurs when the user selects a new item in the Driver combo box.
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        private void cboDriverOrOutputType_SelectedIndexChanged(object sender, EventArgs e)
-        {      
+        private void cboDrivers_SelectedIndexChanged(object sender, EventArgs e)
+        {
             // Get selected driver
             DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
             // Check driver type
             if (driver.DriverType == DriverType.DirectSound)
             {
+                // Show the appropriate panel
+                panelAudioSettingsMixerDirectSound.Height = 76;
+                panelAudioSettingsMixerASIO.Height = 20;
+                //panelAudioSettingsMixerASIO.Visible = false;     
+
                 // Set combo box data source
                 cboOutputDevices.DataSource = devicesDirectSound;
 
@@ -732,7 +737,13 @@ namespace MPfm
                 Device defaultDevice = devicesDirectSound.FirstOrDefault(x => x.IsDefault);
             }
             else if (driver.DriverType == DriverType.ASIO)
-            {   
+            {
+                // Show the appropriate panel
+                panelAudioSettingsMixerASIO.Height = 76;
+                panelAudioSettingsMixerDirectSound.Height = 20;
+                //panelAudioSettingsMixerDirectSound.Visible = false;
+                //panelAudioSettingsMixerASIO.Visible = true;                
+
                 // Check the number of devices
                 if (devicesASIO.Count == 0)
                 {
@@ -746,7 +757,10 @@ namespace MPfm
                 cboOutputDevices.DataSource = devicesASIO;
 
                 // Find default device
-                Device defaultDevice = devicesASIO.FirstOrDefault(x => x.IsDefault);                
+                Device defaultDevice = devicesASIO.FirstOrDefault(x => x.IsDefault);
+
+                // Refresh ASIO panel
+                //RefreshASIOPanel();
             }
             else if (driver.DriverType == DriverType.WASAPI)
             {
@@ -764,6 +778,31 @@ namespace MPfm
 
                 // Find default device
                 Device defaultDevice = devicesWASAPI.FirstOrDefault(x => x.IsDefault);
+            }
+
+            // Set state 
+            if (!initializing)
+            {
+                audioSettingsState = AudioSettingsState.NotTested;
+                RefreshAudioSettingsState();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user selects a new item in the Output Device combo box.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void cboOutputDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get selected driver
+            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            // Check if driver is ASIO
+            if (driver.DriverType == DriverType.ASIO)
+            {
+                // Refresh ASIO panel
+                RefreshASIOPanel();
             }
 
             // Set state 
@@ -1317,6 +1356,58 @@ namespace MPfm
             panelLibrarySettings.Visible = true;
             panelGeneralSettings.Visible = false;
             panelAudioSettings.Visible = false;            
+        }
+
+        /// <summary>
+        /// Occurs when the user clicks on the "Open ASIO Control Panel" button.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void btnOpenASIOControlPanel_Click(object sender, EventArgs e)
+        {
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            //// Get selected device
+            //Device device = (Device)cboOutputDevices.SelectedItem;            
+
+            //try
+            //{
+            //    // Get device info (force init if not done yet)
+            //    ASIOInfo info = Base.GetASIOInfo(!Main.Player.IsPlaying, device.Id, 44100);
+
+            //    // Open control panel
+            //    Base.ASIO_ControlPanel();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "Error loading ASIO control panel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+        }
+
+        /// <summary>
+        /// Refreshes the information inside the ASIO panel.
+        /// </summary>
+        public void RefreshASIOPanel()
+        {
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+
+            //// Get selected device
+            //Device device = (Device)cboOutputDevices.SelectedItem;
+
+            //try
+            //{
+            //    // Get device info (force init if not done yet)
+            //    ASIOInfo info = Base.GetASIOInfo(!Main.Player.IsPlaying, device.Id, 44100);
+
+            //    // Update UI
+            //    lblASIOLatencyValue.Text = info.Latency.ToString();        
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "Error loading ASIO control panel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
     }
 

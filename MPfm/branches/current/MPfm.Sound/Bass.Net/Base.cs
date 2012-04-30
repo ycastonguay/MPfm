@@ -453,5 +453,78 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         #endregion
+
+        #region ASIO Methods
+        
+        /// <summary>
+        /// Opens the ASIO control panel of the currently initialized device.
+        /// </summary>
+        public static void ASIO_ControlPanel()
+        {
+            bool success = BassAsio.BASS_ASIO_ControlPanel();
+            if (!success)
+            {
+                throw new Exception("Could not load the ASIO Control Panel for this sound card.");
+            }
+        }
+        
+        /// <summary>
+        /// Returns information about the ASIO device.
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <param name="sampleRate">Sample rate</param>
+        /// <returns>ASIOInfo data structure</returns>
+        public static ASIOInfo GetASIOInfo(bool initializeBass, int deviceId, int sampleRate)
+        {
+            // Declare variables
+            ASIOInfo info = new ASIOInfo();
+
+            try
+            {
+                if (initializeBass)
+                {
+                    //Base.Init();
+                }
+
+                try
+                {
+                    // Initialize ASIO device
+                    if (!BassAsio.BASS_ASIO_Init(deviceId, BASSASIOInit.BASS_ASIO_DEFAULT))
+                    {
+                        // Check for error (throw exception if the error is found)
+                        CheckForError();
+                    }
+                }
+                catch
+                {
+
+                }
+
+                // Get ASIO device information                
+                info.Latency = BassAsio.BASS_ASIO_GetLatency(false);
+                info.SampleRate = (int)BassAsio.BASS_ASIO_GetRate();
+                info.Info = BassAsio.BASS_ASIO_GetInfo();
+
+                // Free ASIO device
+                //bool success = BassAsio.BASS_ASIO_Free();
+                //if (!success)
+                //{
+                //    CheckForError();
+                //}
+
+                if (initializeBass)
+                {
+                    //Base.Free();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return info;
+        }
+
+        #endregion
     }
 }
