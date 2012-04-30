@@ -1191,6 +1191,15 @@ namespace MPfm
             // Invoke UI updates
             MethodInvoker methodUIUpdate = delegate
             {
+                // Temporary fix for not crashing the application while transitioning to a new song and updating the library at the same time
+                // (SQLite cannot be accessed from multiple threads at the same time).
+                if (formUpdateLibraryStatus.Visible)
+                {
+                    // Stop playback 
+                    Stop();
+                    return;
+                }
+
                 // Check if the event data is null
                 if (data.AudioFileEnded != null)
                 {
