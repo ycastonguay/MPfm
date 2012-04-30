@@ -1545,7 +1545,7 @@ namespace MPfm
             this.btnOpenASIOControlPanel.Image = global::MPfm.Properties.Resources.application_view_detail;
             this.btnOpenASIOControlPanel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOpenASIOControlPanel.IsAutoSized = true;
-            this.btnOpenASIOControlPanel.Location = new System.Drawing.Point(176, 28);
+            this.btnOpenASIOControlPanel.Location = new System.Drawing.Point(430, 28);
             this.btnOpenASIOControlPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnOpenASIOControlPanel.Name = "btnOpenASIOControlPanel";
             this.btnOpenASIOControlPanel.Size = new System.Drawing.Size(167, 28);

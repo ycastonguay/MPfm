@@ -674,7 +674,7 @@ namespace MPfm
             // 
             // miFileUpdateLibrary
             // 
-            this.miFileUpdateLibrary.Image = ((System.Drawing.Image)(resources.GetObject("miFileUpdateLibrary.Image")));
+            this.miFileUpdateLibrary.Image = global::MPfm.Properties.Resources.arrow_rotate_clockwise;
             this.miFileUpdateLibrary.Name = "miFileUpdateLibrary";
             this.miFileUpdateLibrary.Size = new System.Drawing.Size(178, 22);
             this.miFileUpdateLibrary.Text = "&Update Library";
@@ -696,8 +696,8 @@ namespace MPfm
             // windowsToolStripMenuItem
             // 
             this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miWindowsPlaylist,
             this.miWindowsEffects,
+            this.miWindowsPlaylist,
             this.miWindowsVisualizer,
             this.miWindowsSettings});
             this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
@@ -708,7 +708,7 @@ namespace MPfm
             // 
             this.miWindowsPlaylist.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsPlaylist.Image")));
             this.miWindowsPlaylist.Name = "miWindowsPlaylist";
-            this.miWindowsPlaylist.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsPlaylist.Size = new System.Drawing.Size(152, 22);
             this.miWindowsPlaylist.Text = "&Playlist";
             this.miWindowsPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
@@ -716,7 +716,7 @@ namespace MPfm
             // 
             this.miWindowsEffects.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsEffects.Image")));
             this.miWindowsEffects.Name = "miWindowsEffects";
-            this.miWindowsEffects.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsEffects.Size = new System.Drawing.Size(152, 22);
             this.miWindowsEffects.Text = "&Effects";
             this.miWindowsEffects.Click += new System.EventHandler(this.btnEffects_Click);
             // 
@@ -724,7 +724,7 @@ namespace MPfm
             // 
             this.miWindowsVisualizer.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsVisualizer.Image")));
             this.miWindowsVisualizer.Name = "miWindowsVisualizer";
-            this.miWindowsVisualizer.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsVisualizer.Size = new System.Drawing.Size(152, 22);
             this.miWindowsVisualizer.Text = "&Visualizer";
             this.miWindowsVisualizer.Visible = false;
             this.miWindowsVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
@@ -733,7 +733,7 @@ namespace MPfm
             // 
             this.miWindowsSettings.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsSettings.Image")));
             this.miWindowsSettings.Name = "miWindowsSettings";
-            this.miWindowsSettings.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsSettings.Size = new System.Drawing.Size(152, 22);
             this.miWindowsSettings.Text = "&Settings";
             this.miWindowsSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 

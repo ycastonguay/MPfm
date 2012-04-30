@@ -222,7 +222,7 @@ namespace MPfm
             this.panelEditLoop.HeaderTitle = "Edit Loop";
             this.panelEditLoop.Location = new System.Drawing.Point(0, 26);
             this.panelEditLoop.Name = "panelEditLoop";
-            this.panelEditLoop.Size = new System.Drawing.Size(584, 350);
+            this.panelEditLoop.Size = new System.Drawing.Size(584, 353);
             this.panelEditLoop.TabIndex = 65;
             this.panelEditLoop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient8.BorderColor = System.Drawing.Color.DarkGray;
@@ -322,7 +322,7 @@ namespace MPfm
             this.tableLoop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoop.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLoop.Size = new System.Drawing.Size(584, 320);
+            this.tableLoop.Size = new System.Drawing.Size(584, 323);
             this.tableLoop.TabIndex = 111;
             backgroundGradient7.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient7.BorderWidth = 0;
@@ -1638,7 +1638,7 @@ namespace MPfm
             // frmAddEditLoop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(584, 394);
+            this.ClientSize = new System.Drawing.Size(584, 378);
             this.ControlBox = false;
             this.Controls.Add(this.flowToolbar);
             this.Controls.Add(this.panelEditLoop);
