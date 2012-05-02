@@ -40,6 +40,8 @@ namespace MPfm.GTK
 	
 		private Gdk.Pixbuf appIcon = null;
 		private StatusIcon statusIcon = null;
+		
+        private MPfm.Library.Library library = null;
 	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -94,11 +96,14 @@ namespace MPfm.GTK
 	
 			// Create controller			
 			controller = new MainWindowController();
-	
+				
 			// Create player
 			controller.CreatePlayer();
 			controller.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-	
+						
+			// Create library
+			controller.CreateLibrary();			
+			
 			// Create song position timer
 			timerSongPosition = new Timer(100);
 			timerSongPosition.Elapsed += HandleTimerSongPositionElapsed;
@@ -374,7 +379,7 @@ namespace MPfm.GTK
 			if(dialog.Run() == (int)ResponseType.Accept)
 			{
 				//player.PlayFiles(dialog.Filenames.ToList());
-	
+				
 				// Create list of audio files
 				audioFiles = new List<AudioFile>();
 	
@@ -395,7 +400,8 @@ namespace MPfm.GTK
 		}
 		
 		protected void OnActionUpdateLibraryActivated(object sender, System.EventArgs e)
-		{			
+		{
+			controller.Library.UpdateLibrary(MPfm.Library.UpdateLibraryMode.SpecificFolder, null, "/media/Data1/Flac/Amon Tobin");
 		}		
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
@@ -490,7 +496,7 @@ namespace MPfm.GTK
 		}
 
 		protected void OnActionEffectsActivated(object sender, System.EventArgs e)
-		{
+		{							
 			// Check if the window exists
 			if(windowEffects == null)
 			{

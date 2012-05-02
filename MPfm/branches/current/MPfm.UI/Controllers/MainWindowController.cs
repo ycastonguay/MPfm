@@ -116,6 +116,18 @@ namespace MPfm.UI
 				return player;
 			}
 		}
+		
+		private MPfm.Library.Library library = null;
+		/// <summary>
+		/// Returns the current instance of the Library class.
+		/// </summary>
+		public MPfm.Library.Library Library
+		{
+			get
+			{
+				return library;
+			}
+		}
 
 		#endregion
 
@@ -217,6 +229,94 @@ namespace MPfm.UI
 			// Create player
 			player = new MPfm.Player.Player(device, 44100, 100, 10, true);
 			//player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+		}
+		
+		public void CreateLibrary()
+		{
+            try
+            {
+                // Check if the database file exists
+                if (!File.Exists(databaseFilePath))
+                {                    
+                    // Create database file
+                    //frmSplash.SetStatus("Creating database file...");
+                    MPfm.Library.Library.CreateDatabaseFile(databaseFilePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error initializing MPfm: Could not create database file!", ex);
+            }
+			
+            try
+            {
+                // Check current database version
+                string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(databaseFilePath);
+
+                // Extract major/minor
+                string[] currentVersionSplit = databaseVersion.Split('.');
+
+                // Check integrity of the setting value (should be split in 2)
+                if (currentVersionSplit.Length != 2)
+                {
+                    throw new Exception("Error fetching database version; the setting value is invalid!");
+                }
+
+                int currentMajor = 0;
+                int currentMinor = 0;
+                int.TryParse(currentVersionSplit[0], out currentMajor);
+                int.TryParse(currentVersionSplit[1], out currentMinor);
+
+                // Is this earlier than 1.04?
+                if (currentMajor == 1 && currentMinor < 4)
+                {
+                    // Set buffer size
+                    //Config.Audio.Mixer.BufferSize = 1000;
+                }
+
+                // Check if the database needs to be updated
+                MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(databaseFilePath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
+            }
+			
+		    try
+            {
+                // Load library
+                Tracing.Log("Main form init -- Loading library...");
+                //frmSplash.SetStatus("Loading library...");                
+                library = new Library.Library(databaseFilePath);
+				library.OnUpdateLibraryFinished += HandleLibraryOnUpdateLibraryFinished;
+				library.OnUpdateLibraryProgress += HandleLibraryOnUpdateLibraryProgress;
+            }
+            catch
+            {
+				throw;
+                // Set error in splash and hide splash
+                //frmSplash.SetStatus("Error initializing library!");
+                //frmSplash.HideSplash();
+
+                // Display message box with error
+                //this.TopMost = true;
+                //MessageBox.Show("There was an error while initializing the library.\nYou can delete the MPfm.Database.db file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Tracing.Log("Main form init -- Library init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
+                
+                // Exit application
+                //Application.Exit();
+                //return;
+            }
+		}
+
+		protected void HandleLibraryOnUpdateLibraryProgress (MPfm.Library.OldUpdateLibraryProgressData data)
+		{
+			
+		}
+
+		protected void HandleLibraryOnUpdateLibraryFinished (MPfm.Library.UpdateLibraryFinishedData data)
+		{
+			
 		}
 
 		/// <summary>

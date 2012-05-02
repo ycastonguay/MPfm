@@ -68,7 +68,18 @@ namespace MPfm.Library
         {
             // Initialize factory
             Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");
-            factory = DbProviderFactories.GetFactory("System.Data.SQLite");
+			
+			// Load the correct assembly depending on platform
+			if(OS.Type == OSType.Windows)
+			{
+				// Load assembly (System.Data.SQLite project)
+            	factory = DbProviderFactories.GetFactory("System.Data.SQLite");
+			}
+			else
+			{
+				// Load assembly (Mono native assembly)
+				factory = DbProviderFactories.GetFactory("Mono.Data.SQLite");
+			}
             this.databaseFilePath = databaseFilePath;
         }
 
