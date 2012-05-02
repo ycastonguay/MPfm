@@ -11,6 +11,8 @@ namespace MPfm.Mac
 	{
 		private MPfm.UI.MainWindowController controller = null;
 		
+		private NSTimer timer = null;
+		
 		#region Constructors
 		
 		// Called when created from unmanaged code
@@ -35,20 +37,60 @@ namespace MPfm.Mac
 		// Shared initialization code
 		void Initialize()
 		{
-			controller = new MPfm.UI.MainWindowController();
-			controller.CreatePlayer();
+						
+			
+			
+			//controller.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+			//controller.Player.OnPlaylistIndexChanged += HandleControllerPlayerOnPlaylistIndexChanged;
+		}
+		
+		public override void WindowDidLoad()
+		{
+			base.WindowDidLoad ();			
+		}
+		
+		public override void AwakeFromNib()
+		{
+			//using(NSAutoreleasePool pool = new NSAutoreleasePool())
+			//{			
+				controller = new MPfm.UI.MainWindowController();
+				controller.CreatePlayer();
+			//}
+			
+			lblArtistName.StringValue = "Test223";		
+			
+			
+			timer = NSTimer.CreateRepeatingScheduledTimer(0.1, delegate {  
+			
+				//BeginInvokeOnMainThread(delegate() {
+				if(controller.Player.IsPlaying)
+				{
+					
+					PlayerPositionEntity position = controller.GetPlayerPosition();
+					
+					lblPosition.StringValue = position.Position;
+							//using(NSAutoreleasePool pool = new NSAutoreleasePool())
+			//{	
+					//lblPosition.StringValue = DateTime.Now.ToLongTimeString();
+					//lblPosition.StringValue = controller.Player.GetPosition().ToString() + " " + DateTime.Now.ToLongTimeString();
+				}
+				//}
+				//});
+				
+			});
+		}
+
+		void HandleControllerPlayerOnPlaylistIndexChanged(MPfm.Player.PlayerPlaylistIndexChangedData data)
+		{
+			
 		}
 		
 		#endregion
-
-		partial void _ButtonClick(NSObject sender)
-		{		
-			//List<string> files = new List<string>();
-			//files.Add("/Users/animal/Documents/test.ogg");			
-			//controller.Player.PlayFiles(files);
+		
+		partial void toolbarOpenAudioFiles_Click(NSObject sender)
+		{
 			
-//			_Label1.StringValue = "Hello";
-//			
+			
 			var openPanel = new NSOpenPanel();
 			openPanel.ReleasedWhenClosed = true;
 			openPanel.AllowsMultipleSelection = true;
@@ -57,11 +99,32 @@ namespace MPfm.Mac
 			var result = openPanel.RunModal();
 			if(result == 1)
 			{
-				_Label1.StringValue = openPanel.Filename;
+				lblSongPath.StringValue = openPanel.Filename;
+				
+				List<string> files = openPanel.Filenames.ToList();
+				
+							//using(NSAutoreleasePool pool = new NSAutoreleasePool())
+			//{	
+				controller.Player.PlayFiles(files);
+				//}
+				
+				//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
+				//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = controller.Player.GetPosition().ToString(); });
+				//timer = NSTimer.CreateRepeatingScheduledTimer(1,  BeginInvokeOnMainThread(delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
+				
+				
 			}
+		}
+		
+		partial void _ButtonClick(NSObject sender)
+		{
+			//List<string> files = new List<string>();
+			//files.Add("/Users/animal/Documents/test.ogg");			
+			//controller.Player.PlayFiles(files);
 			
-			List<string> files = openPanel.Filenames.ToList();
-			controller.Player.PlayFiles(files);
+//			_Label1.StringValue = "Hello";
+//			
+			lblArtistName.StringValue = "Stuff";
 		}
 
 		//strongly typed window accessor

@@ -12,16 +12,59 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSTextField _Label1 { get; set; }
+		MonoMac.AppKit.NSToolbar toolbarMain { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblArtistName { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblAlbumTitle { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSongTitle { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSongPath { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
 		[Action ("_ButtonClick:")]
 		partial void _ButtonClick (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarOpenAudioFiles_Click:")]
+		partial void toolbarOpenAudioFiles_Click (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (_Label1 != null) {
-				_Label1.Dispose ();
-				_Label1 = null;
+			if (toolbarMain != null) {
+				toolbarMain.Dispose ();
+				toolbarMain = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblSongTitle != null) {
+				lblSongTitle.Dispose ();
+				lblSongTitle = null;
+			}
+
+			if (lblSongPath != null) {
+				lblSongPath.Dispose ();
+				lblSongPath = null;
+			}
+
+			if (lblPosition != null) {
+				lblPosition.Dispose ();
+				lblPosition = null;
 			}
 		}
 	}

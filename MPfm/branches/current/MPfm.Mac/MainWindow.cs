@@ -26,6 +26,7 @@ namespace MPfm.Mac
 		// Shared initialization code
 		void Initialize()
 		{
+			//Toolbar.Items
 		}
 		
 		#endregion
