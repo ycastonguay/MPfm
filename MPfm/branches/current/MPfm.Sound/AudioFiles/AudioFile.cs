@@ -45,13 +45,17 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
-        [Browsable(false)]
+        [Browsable(false), DatabaseFieldNameAttribute("AudioFileId")]
 		public Guid Id
 		{
 			get
 			{
 				return id;
 			}
+            set
+            {
+                id = value;
+            }
 		}
 
         /// <summary>
@@ -125,6 +129,10 @@ namespace MPfm.Sound
 			{
 				return filePath;
 			}
+            set
+            {
+                filePath = value;
+            }
 		}
 
 		/// <summary>
@@ -545,8 +553,16 @@ namespace MPfm.Sound
 
 		#endregion
 
+        /// <summary>
+        /// Constructor for the AudioFile class. This constructor does not set any value.
+        /// The FilePath property should at least be filled manually.
+        /// </summary>
+        public AudioFile()
+        {
+        }
+
 		/// <summary>
-		/// Default constructor for AudioFile. Requires the path to the audio file.
+		/// Default constructor for the AudioFile class. Requires the path to the audio file.
 		/// Will raise an exception if the file doesn't exists.
 		/// </summary>
 		/// <param name="filePath">Full path to the audio file</param>

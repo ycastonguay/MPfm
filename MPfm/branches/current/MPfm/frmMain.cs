@@ -2520,7 +2520,7 @@ namespace MPfm
 
             // Check if the audio file exists in the database
             AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(player.Playlist.CurrentItem.AudioFile.Id);
-            if(audioFileDatabase != null)
+            if (audioFileDatabase != null)
             {
                 // Update the first audio file in the database (in case the metadata has changed)
                 Library.Gateway.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);

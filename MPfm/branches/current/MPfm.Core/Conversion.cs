@@ -343,5 +343,18 @@ namespace MPfm.Core
             // Return the default value
             return default(T);
         }
+
+        /// <summary>
+        /// Returns the value of an enum, as specified in the generics parameter.
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="value">Value</param>
+        /// <returns>Enum with value</returns>
+        public static T GetEnumValue<T>(string value) where T : struct
+        {
+            T obj = new T();
+            Enum.TryParse<T>(value, out obj);
+            return obj;
+        }
 	}
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,7 +43,7 @@
     <OutputPath>..\Output\Debug_Linux\</OutputPath>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>    
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,7 +51,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
-    <WarningLevel>4</WarningLevel>    
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,6 +70,7 @@
     <Compile Include="ColorManipulation.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Conversion.cs" />
+    <Compile Include="DatabaseFieldNameAttribute.cs" />
     <Compile Include="XMLHelper.cs" />
     <Compile Include="ImageManipulation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -26,6 +26,7 @@ using System.Data.Common;
 using System.Data.Linq;
 using System.Data.SQLite;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using MPfm.Core;
 
@@ -85,6 +86,16 @@ namespace MPfm.Library
         {
             // Create new database file
             SQLiteConnection.CreateFile(databaseFilePath);            
+        }
+
+
+        protected DbConnection GenerateConnection()
+        {
+            // Open connection
+            DbConnection connection = factory.CreateConnection();
+            connection.ConnectionString = "Data Source=" + databaseFilePath;                
+
+            return connection;
         }
 
         /// <summary>
@@ -200,27 +211,201 @@ namespace MPfm.Library
         /// <param name="sql">Query to execute</param>
         /// <returns>DataTable with data</returns>
         protected DataTable Select(string sql)
+        {            
+            DbDataAdapter adapter = null;
+            DbCommand command = null;
+            try
+            {
+                // Open connection
+                OpenConnection();
+
+                // Create command
+                command = factory.CreateCommand();
+                command.CommandText = sql;
+                command.Connection = connection;
+
+                // Fill table
+                DataTable table = new DataTable();                
+                FillDataTable(command, table);
+
+                // Close connection
+                CloseConnection();
+
+                return table;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (adapter != null)
+                    adapter.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Executes a select query and returns a list of objects as specified in the generics type.
+        /// </summary>
+        /// <typeparam name="T">Object tye to fill</typeparam>
+        /// <param name="sql">Query to execute</param>
+        /// <returns>List of objects</returns>
+        protected List<T> Select<T>(string sql) where T : new()
         {
-            // Open connection
-            OpenConnection();
+            // Declare variables
+            DbConnection connection = null;
+            DbDataReader reader = null;            
+            DbCommand command = null;
+            List<T> list = new List<T>();
+            Dictionary<string, string> dictMap = new Dictionary<string, string>();
 
-            // Create command
-            DbCommand command = factory.CreateCommand();
-            command.CommandText = sql;
-            command.Connection = connection;
+            try
+            {                
+                // Create map by scanning properties
+                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                foreach (PropertyInfo propertyInfo in propertyInfos)
+                {                    
+                    // Scan attributes
+                    object[] attributes = propertyInfo.GetCustomAttributes(true);
+                    foreach (object attribute in attributes)
+                    {
+                        // Try to cast into attribute map
+                        DatabaseFieldNameAttribute attrMap = attribute as DatabaseFieldNameAttribute;
+                        if (attrMap != null)
+                        {
+                            // Add item to dictionary
+                            dictMap.Add(attrMap.DatabaseFieldName, propertyInfo.Name);
+                        }
+                    }
+                }
 
-            // Create adapter
-            DbDataAdapter adapter = factory.CreateDataAdapter();
-            adapter.SelectCommand = command;
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
 
-            // Fill table
-            DataTable table = new DataTable();
-            adapter.Fill(table);            
+                // Create command
+                command = factory.CreateCommand();
+                command.CommandText = sql;
+                command.Connection = connection;
 
-            // Close connection
-            CloseConnection();
+                // Create and execute reader
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    // Create object and fill data
+                    T data = new T();
 
-            return table;
+                    // Cycle through columns
+                    for (int a = 0; a < reader.FieldCount; a++)
+                    {
+                        // Get column info
+                        string fieldName = reader.GetName(a);
+                        Type fieldType = reader.GetFieldType(a);
+                        object fieldValue = reader.GetValue(a);
+
+                        // Check for map
+                        string propertyName = fieldName;                        
+                        if(dictMap.ContainsKey(fieldName))
+                        {
+                            propertyName = dictMap[fieldName];
+                        }
+
+                        // Get property info and fill column if valid
+                        PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+                        if (info != null)
+                        {
+                            try
+                            {                         
+                                // Set value to null
+                                if (fieldValue is System.DBNull)
+                                    fieldValue = null;                                
+
+                                // Check if the type is an enum                                    
+                                if (info.PropertyType.IsEnum)
+                                {
+                                    // Try to cast dynamically
+                                    MethodInfo castMethod = typeof(Conversion).GetMethod("GetEnumValue").MakeGenericMethod(info.PropertyType);
+                                    fieldValue = castMethod.Invoke(null, new object[] { fieldValue.ToString() });
+                                }                                
+                                else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
+                                {
+                                    // Guid aren't supported in SQLite, so they are stored as strings.
+                                    fieldValue = new Guid(fieldValue.ToString());                                    
+                                }
+                                else if (info.PropertyType.FullName != fieldType.FullName)
+                                {
+                                    // Call a convert method in the Convert static class, if available
+                                    MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
+                                    if (castMethod != null)
+                                    {
+                                        object stuff = castMethod.Invoke(null, new object[] { fieldValue });
+                                        fieldValue = stuff;
+                                    }
+                                }
+
+                                // Set property value
+                                info.SetValue(data, fieldValue, null);
+                            }
+                            catch
+                            {
+                                throw;
+                            }
+                        }
+                    }
+
+                    // Add item to list
+                    list.Add(data);
+                }
+                
+                return list;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Clean up reader and connection
+                if (reader != null)
+                    reader.Close();
+
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Fills a DataTable object from a DbCommand. This method is a workaround to a SQLite bug in Mono:
+        /// https://bugzilla.xamarin.com/show_bug.cgi?id=2128
+        /// </summary>
+        /// <param name="command">Command to execute</param>
+        /// <param name="dt">DataTable object to fill</param>
+        private static void FillDataTable(DbCommand command, DataTable dt)
+        {
+            var reader = command.ExecuteReader();
+            var len = reader.FieldCount;
+            var values = new object[len];
+
+            // Create the DataTable columns
+            for (int i = 0; i < len; i++)
+                dt.Columns.Add(reader.GetName(i), reader.GetFieldType(i));
+                       
+            // Add data rows
+            dt.BeginLoadData();
+            while (reader.Read())
+            {
+                // Add values
+                for (int i = 0; i < len; i++)
+                    values[i] = reader[i];
+
+                // Add row
+                dt.Rows.Add(values);
+            }
+            dt.EndLoadData();
+
+            // Dispose
+            reader.Close();
+            reader.Dispose();
         }
 
         /// <summary>
