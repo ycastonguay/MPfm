@@ -144,6 +144,11 @@ namespace MPfm.Library
             {
                 return "null";
             }
+            else if (value.GetType().FullName.ToUpper() == "SYSTEM.BOOLEAN")
+            {
+                int newValue = ((bool)value) ? 1 : 0;
+                return newValue.ToString();
+            }
             else if (value.GetType().FullName.ToUpper() == "SYSTEM.STRING" ||
                      value.GetType().FullName.ToUpper() == "SYSTEM.GUID" ||
                      value.GetType().IsEnum)
@@ -262,45 +267,6 @@ namespace MPfm.Library
         {
             // Compact database
             Execute("VACUUM;");
-        }
-
-        /// <summary>
-        /// Executes a select query and returns a DataTable object.
-        /// </summary>
-        /// <param name="sql">Query to execute</param>
-        /// <returns>DataTable with data</returns>
-        protected DataTable Select(string sql)
-        {
-            DbDataAdapter adapter = null;
-            DbCommand command = null;
-            try
-            {
-                // Open connection
-                OpenConnection();
-
-                // Create command
-                command = factory.CreateCommand();
-                command.CommandText = sql;
-                command.Connection = connection;
-
-                // Fill table
-                DataTable table = new DataTable();
-                FillDataTable(command, table);
-
-                // Close connection
-                CloseConnection();
-
-                return table;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                if (adapter != null)
-                    adapter.Dispose();
-            }
         }
 
         /// <summary>
@@ -747,40 +713,6 @@ namespace MPfm.Library
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
-        }
-
-        /// <summary>
-        /// Fills a DataTable object from a DbCommand. This method is a workaround to a SQLite bug in Mono:
-        /// https://bugzilla.xamarin.com/show_bug.cgi?id=2128
-        /// </summary>
-        /// <param name="command">Command to execute</param>
-        /// <param name="dt">DataTable object to fill</param>
-        private static void FillDataTable(DbCommand command, DataTable dt)
-        {
-            var reader = command.ExecuteReader();
-            var len = reader.FieldCount;
-            var values = new object[len];
-
-            // Create the DataTable columns
-            for (int i = 0; i < len; i++)
-                dt.Columns.Add(reader.GetName(i), reader.GetFieldType(i));
-                       
-            // Add data rows
-            dt.BeginLoadData();
-            while (reader.Read())
-            {
-                // Add values
-                for (int i = 0; i < len; i++)
-                    values[i] = reader[i];
-
-                // Add row
-                dt.Rows.Add(values);
-            }
-            dt.EndLoadData();
-
-            // Dispose
-            reader.Close();
-            reader.Dispose();
         }
 
         ///// <summary>
