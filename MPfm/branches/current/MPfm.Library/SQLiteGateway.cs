@@ -88,7 +88,10 @@ namespace MPfm.Library
             SQLiteConnection.CreateFile(databaseFilePath);            
         }
 
-
+        /// <summary>
+        /// Generates a DbConnection based on the current database file path.
+        /// </summary>
+        /// <returns>DbConnection</returns>
         protected DbConnection GenerateConnection()
         {
             // Open connection
@@ -96,6 +99,62 @@ namespace MPfm.Library
             connection.ConnectionString = "Data Source=" + databaseFilePath;                
 
             return connection;
+        }
+
+        /// <summary>
+        /// Returns the list of properties which have different database field names.
+        /// </summary>
+        /// <typeparam name="T">Object to scan (generic)</typeparam>
+        /// <returns>Dictionary of DatabaseFieldName/PropertyName</returns>
+        protected Dictionary<string, string> GetMap<T>()
+        {
+            // Create map by scanning properties
+            Dictionary<string, string> dictMap = new Dictionary<string, string>();
+            PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                // Scan attributes
+                object[] attributes = propertyInfo.GetCustomAttributes(true);
+                foreach (object attribute in attributes)
+                {
+                    // Try to cast into attribute map
+                    DatabaseFieldAttribute attrMap = attribute as DatabaseFieldAttribute;
+                    if (attrMap != null)
+                    {
+                        // Add item to dictionary
+                        dictMap.Add(attrMap.DatabaseFieldName, propertyInfo.Name);
+                    }
+                }
+            }
+
+            return dictMap;
+        }
+
+        /// <summary>
+        /// Formats a value for a SQL command.
+        /// If the value type is String or Guid, quotes will be added to the value.
+        /// If the value type is DBNull, a null value will be added (without quotes).
+        /// </summary>
+        /// <param name="value">Value to format</param>
+        /// <returns>Formatted value</returns>
+        protected string FormatSQLValue(object value)
+        {           
+            // Check value type
+            if (value == null)
+            {
+                return "null";
+            }
+            else if (value.GetType().FullName.ToUpper() == "SYSTEM.STRING" ||
+                     value.GetType().FullName.ToUpper() == "SYSTEM.GUID" ||
+                     value.GetType().IsEnum)
+            {
+                // Replace single quotes by two quotes
+                return "'" + value.ToString().Replace("'", "''") + "'";
+            }
+            else
+            {
+                return value.ToString();
+            }
         }
 
         /// <summary>
@@ -257,28 +316,10 @@ namespace MPfm.Library
             DbDataReader reader = null;            
             DbCommand command = null;
             List<T> list = new List<T>();
-            Dictionary<string, string> dictMap = new Dictionary<string, string>();
+            Dictionary<string, string> dictMap = GetMap<T>();
 
             try
             {                
-                // Create map by scanning properties
-                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                foreach (PropertyInfo propertyInfo in propertyInfos)
-                {                    
-                    // Scan attributes
-                    object[] attributes = propertyInfo.GetCustomAttributes(true);
-                    foreach (object attribute in attributes)
-                    {
-                        // Try to cast into attribute map
-                        DatabaseFieldNameAttribute attrMap = attribute as DatabaseFieldNameAttribute;
-                        if (attrMap != null)
-                        {
-                            // Add item to dictionary
-                            dictMap.Add(attrMap.DatabaseFieldName, propertyInfo.Name);
-                        }
-                    }
-                }
-
                 // Create and open connection
                 connection = GenerateConnection();
                 connection.Open();
@@ -338,8 +379,7 @@ namespace MPfm.Library
                                     MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
                                     if (castMethod != null)
                                     {
-                                        object stuff = castMethod.Invoke(null, new object[] { fieldValue });
-                                        fieldValue = stuff;
+                                        fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
                                     }
                                 }
 
@@ -369,6 +409,101 @@ namespace MPfm.Library
                 if (reader != null)
                     reader.Close();
 
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Updates an object into the database.
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="obj">Object to update</param>
+        /// <param name="tableName">Database table name</param>
+        /// <param name="where">Dictionary containing the where clause (equals to)</param>
+        /// <returns>Number of rows affected</returns>
+        protected int Update<T>(T obj, string tableName, Dictionary<string, object> where)
+        {            
+            // Declare variables
+            DbConnection connection = null;            
+            DbCommand command = null;
+            Dictionary<string, string> dictMap = GetMap<T>();
+            StringBuilder sql = new StringBuilder();
+
+            try
+            {
+                // Generate query
+                sql.AppendLine("UPDATE [" + tableName + "] SET ");
+
+                // Scan through properties
+                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                for (int a = 0; a < propertyInfos.Length; a++)
+                {
+                    // Get property info
+                    PropertyInfo propertyInfo = propertyInfos[a];
+
+                    // Make sure the property has a setter
+                    if (propertyInfo.GetSetMethod() != null)
+                    {
+                        // Check for map
+                        string fieldName = propertyInfo.Name;                    
+                        if (dictMap.ContainsValue(propertyInfo.Name))
+                        {
+                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name); 
+                        }
+
+                        // Add database field name
+                        sql.Append("[" + fieldName + "]=");
+
+                        // Get value and determine how to add field value
+                        object value = propertyInfo.GetValue(obj, null);
+                        sql.Append(FormatSQLValue(value));
+
+                        // Add a comma if this isn't the last item
+                        if (a < propertyInfos.Length - 1)
+                        {
+                            sql.Append(", ");
+                        }
+                        sql.Append("\n");
+                    }
+                }
+
+                // Generate where clause
+                sql.AppendLine(" WHERE ");
+                for(int a = 0; a < where.Count; a++)
+                {
+                    KeyValuePair<string, object> keyValue = where.ElementAt(a);
+                    sql.AppendLine("[" + keyValue.Key + "]=");
+                    sql.Append(FormatSQLValue(keyValue.Value));
+
+                    // Add an AND keyword if this isn't the last item
+                    if (a < where.Count - 1)
+                    {
+                        sql.Append(" AND ");
+                    }
+                    sql.Append("\n");
+                }
+
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
+
+                // Create command
+                command = factory.CreateCommand();
+                command.CommandText = sql.ToString();
+                command.Connection = connection;
+
+                // Execute command
+                int count = command.ExecuteNonQuery();
+                return count;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }

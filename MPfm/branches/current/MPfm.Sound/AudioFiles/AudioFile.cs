@@ -45,7 +45,7 @@ namespace MPfm.Sound
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
-        [Browsable(false), DatabaseFieldNameAttribute("AudioFileId")]
+        [Browsable(false), DatabaseField(true, "AudioFileId")]
 		public Guid Id
 		{
 			get
