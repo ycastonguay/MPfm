@@ -510,6 +510,111 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Inserts an object into the database.
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="obj">Object to insert</param>
+        /// <param name="tableName">Database table name</param>        
+        /// <returns>Number of rows affected</returns>
+        protected int Insert<T>(T obj, string tableName)
+        {
+            // Declare variables
+            DbConnection connection = null;
+            DbCommand command = null;
+            Dictionary<string, string> dictMap = GetMap<T>();
+            StringBuilder sql = new StringBuilder();
+
+            try
+            {
+                // Generate query
+                sql.AppendLine("INSERT INTO [" + tableName + "] (");
+
+                // Scan through properties to set column names
+                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                for (int a = 0; a < propertyInfos.Length; a++)
+                {
+                    // Get property info
+                    PropertyInfo propertyInfo = propertyInfos[a];
+
+                    // Make sure the property has a setter
+                    if (propertyInfo.GetSetMethod() != null)
+                    {
+                        // Check for map
+                        string fieldName = propertyInfo.Name;
+                        if (dictMap.ContainsValue(propertyInfo.Name))
+                        {
+                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
+                        }
+
+                        // Add database field name
+                        sql.Append("[" + fieldName + "]");
+
+                        // Add a comma if this isn't the last item
+                        if (a < propertyInfos.Length - 1)
+                        {
+                            sql.Append(", ");
+                        }
+                        sql.Append("\n");
+                    }
+                }
+                sql.AppendLine(") VALUES (");
+
+                // Scan through properties and set values
+                for (int a = 0; a < propertyInfos.Length; a++)
+                {
+                    // Get property info
+                    PropertyInfo propertyInfo = propertyInfos[a];
+
+                    // Make sure the property has a setter
+                    if (propertyInfo.GetSetMethod() != null)
+                    {
+                        // Check for map
+                        string fieldName = propertyInfo.Name;
+                        if (dictMap.ContainsValue(propertyInfo.Name))
+                        {
+                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
+                        }
+
+                        // Get value and determine how to add field value
+                        object value = propertyInfo.GetValue(obj, null);
+                        sql.Append(FormatSQLValue(value));
+
+                        // Add a comma if this isn't the last item
+                        if (a < propertyInfos.Length - 1)
+                        {
+                            sql.Append(", ");
+                        }
+                        sql.Append("\n");
+                    }
+                }
+                sql.AppendLine(") ");
+
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
+
+                // Create command
+                command = factory.CreateCommand();
+                command.CommandText = sql.ToString();
+                command.Connection = connection;
+
+                // Execute command
+                int count = command.ExecuteNonQuery();
+                return count;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Close and clean up connection
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
+        /// <summary>
         /// Fills a DataTable object from a DbCommand. This method is a workaround to a SQLite bug in Mono:
         /// https://bugzilla.xamarin.com/show_bug.cgi?id=2128
         /// </summary>
