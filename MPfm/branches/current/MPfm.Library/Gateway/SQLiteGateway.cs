@@ -40,11 +40,10 @@ namespace MPfm.Library
     /// - SingleOrDefault -- replaced with FirstOrDefault.
     /// - compare database varchar to Guid.ToString() -- need to cast guid into string before using value in LIN
     /// </summary>
-    public class SQLiteGateway
+    public class SQLiteGateway : ISQLiteGateway
     {
         // Private variables        
-        private DbProviderFactory factory = null;
-        private DbConnection connection = null;
+        private DbProviderFactory factory = null;        
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.
@@ -92,7 +91,7 @@ namespace MPfm.Library
         /// Generates a DbConnection based on the current database file path.
         /// </summary>
         /// <returns>DbConnection</returns>
-        protected DbConnection GenerateConnection()
+        public DbConnection GenerateConnection()
         {
             // Open connection
             DbConnection connection = factory.CreateConnection();
@@ -106,7 +105,7 @@ namespace MPfm.Library
         /// </summary>
         /// <typeparam name="T">Object to scan (generic)</typeparam>
         /// <returns>Dictionary of DatabaseFieldName/PropertyName</returns>
-        protected Dictionary<string, string> GetMap<T>()
+        public Dictionary<string, string> GetMap<T>()
         {
             // Create map by scanning properties
             Dictionary<string, string> dictMap = new Dictionary<string, string>();
@@ -137,7 +136,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="value">Value to format</param>
         /// <returns>Formatted value</returns>
-        protected string FormatSQLValue(object value)
+        public string FormatSQLValue(object value)
         {           
             // Check value type
             if (value == null)
@@ -163,79 +162,39 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Opens the database connection. 
-        /// Raises an exception if the connection cannot be opened.
-        /// </summary>
-        protected void OpenConnection()
-        {
-            // Check if the connection is still open
-            if (connection != null && connection.State != ConnectionState.Closed)
-            {
-                // Throw exception
-                //throw new Exception("Cannot open database connection; the connection is already opened!");
-                return;
-            }
-
-            try
-            {
-                // Open connection
-                connection = factory.CreateConnection();
-                connection.ConnectionString = "Data Source=" + databaseFilePath;
-                connection.Open();
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Closes the database connection. 
-        /// Raises an exception if the connection cannot be closed.
-        /// </summary>
-        protected void CloseConnection()
-        {
-            // Check if the connection is still open
-            if (connection == null || connection.State == ConnectionState.Closed)
-            {
-                // Throw exception
-                //throw new Exception("Cannot close database connection; the connection isn't opened!");
-                return;
-            }
-
-            try
-            {
-                // Close connection
-                connection.Close();
-                connection.Dispose();
-                connection = null;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
         /// Executes a SQL query and returns the number of rows affected.
         /// </summary>
         /// <param name="sql">SQL query</param>
         /// <returns>Number of rows affected</returns>
-        protected int Execute(string sql)
+        public int Execute(string sql)
         {
-            // Open connection
-            OpenConnection();
+            // Declare variables
+            DbConnection connection = null;            
+            DbCommand command = null;            
 
-            // Create command
-            DbCommand command = factory.CreateCommand();
-            command.CommandText = sql;
-            command.Connection = connection;
-            int rows = command.ExecuteNonQuery();
+            try
+            {
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
 
-            // Close connection
-            CloseConnection();
+                // Create and execute command
+                command = factory.CreateCommand();
+                command.CommandText = sql;
+                command.Connection = connection;
+                int rows = command.ExecuteNonQuery();
 
-            return rows;
+                return rows;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
         }
 
         /// <summary>
@@ -243,21 +202,35 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="sql">SQL query</param>
         /// <returns>Scalar query value</returns>
-        protected object ExecuteScalar(string sql)
+        public object ExecuteScalar(string sql)
         {
-            // Open connection
-            OpenConnection();
+            // Declare variables
+            DbConnection connection = null;
+            DbCommand command = null;
 
-            // Create command
-            DbCommand command = factory.CreateCommand();
-            command.CommandText = sql;
-            command.Connection = connection;
-            object obj = command.ExecuteScalar();
+            try
+            {
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
 
-            // Close connection
-            CloseConnection();
+                // Create and execute command
+                command = factory.CreateCommand();
+                command.CommandText = sql;
+                command.Connection = connection;
+                object obj = command.ExecuteScalar();
 
-            return obj;
+                return obj;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
         }
 
         /// <summary>
@@ -274,7 +247,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="sql">Query to execute (must have only one field in the select statement)</param>
         /// <returns>List of objects</returns>
-        protected List<object> SelectList(string sql)
+        public List<object> SelectList(string sql)
         {
             // Declare variables
             DbConnection connection = null;
@@ -324,7 +297,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="sql">Query to execute (must have only two fields in the select statement)</param>
         /// <returns>List of tuple</returns>
-        protected List<Tuple<object, object>> SelectTuple(string sql)
+        public List<Tuple<object, object>> SelectTuple(string sql)
         {
             // Declare variables
             DbConnection connection = null;
@@ -377,7 +350,7 @@ namespace MPfm.Library
         /// <typeparam name="T">Object tye to fill</typeparam>
         /// <param name="sql">Query to execute</param>
         /// <returns>Object</returns>
-        protected T SelectOne<T>(string sql) where T : new()
+        public T SelectOne<T>(string sql) where T : new()
         {
             // Select first from list
             List<T> list = Select<T>(sql);
@@ -394,7 +367,7 @@ namespace MPfm.Library
         /// <typeparam name="T">Object tye to fill</typeparam>
         /// <param name="sql">Query to execute</param>
         /// <returns>List of objects</returns>
-        protected List<T> Select<T>(string sql) where T : new()
+        public List<T> Select<T>(string sql) where T : new()
         {
             // Declare variables
             DbConnection connection = null;
@@ -508,7 +481,7 @@ namespace MPfm.Library
         /// <param name="whereFieldName">Where clause field name (followed by equals to)</param>
         /// <param name="whereValue">Where clause field value</param>
         /// <returns>Number of rows affected</returns>
-        protected int Update<T>(T obj, string tableName, string whereFieldName, object whereValue)
+        public int Update<T>(T obj, string tableName, string whereFieldName, object whereValue)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add(whereFieldName, whereValue);
@@ -523,7 +496,7 @@ namespace MPfm.Library
         /// <param name="tableName">Database table name</param>
         /// <param name="where">Dictionary containing the where clause (equals to)</param>
         /// <returns>Number of rows affected</returns>
-        protected int Update<T>(T obj, string tableName, Dictionary<string, object> where)
+        public int Update<T>(T obj, string tableName, Dictionary<string, object> where)
         {            
             // Declare variables
             DbConnection connection = null;            
@@ -617,7 +590,7 @@ namespace MPfm.Library
         /// <param name="obj">Object to insert</param>
         /// <param name="tableName">Database table name</param>        
         /// <returns>Number of rows affected</returns>
-        protected int Insert<T>(T obj, string tableName)
+        public int Insert<T>(T obj, string tableName)
         {
             // Declare variables
             DbConnection connection = null;
@@ -766,7 +739,7 @@ namespace MPfm.Library
         /// <param name="tableName">Table name</param>
         /// <param name="idFieldName">Id field name</param>
         /// <param name="id">DTO id</param>
-        protected void Delete(string tableName, string idFieldName, Guid id)
+        public void Delete(string tableName, string idFieldName, Guid id)
         {
             Execute("DELETE FROM " + tableName + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
         }
@@ -775,7 +748,7 @@ namespace MPfm.Library
         /// Deletes all rows from a database table.
         /// </summary>
         /// <param name="tableName">Database table name</param>
-        protected void Delete(string tableName)
+        public void Delete(string tableName)
         {
             Execute("DELETE FROM " + tableName);
         }
@@ -785,7 +758,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="tableName">Database table name</param>
         /// <param name="where">Where clause</param>
-        protected void Delete(string tableName, string where)
+        public void Delete(string tableName, string where)
         {
             Execute("DELETE FROM " + tableName + " WHERE " + where);
         }
