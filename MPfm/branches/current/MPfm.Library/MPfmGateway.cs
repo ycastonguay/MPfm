@@ -187,13 +187,10 @@ namespace MPfm.Library
             }
 
             // Select distinct
-            DataTable table = Select(sql);
-
-            // Convert into a list of strings
-            for (int a = 0; a < table.Rows.Count; a++)
+            List<object> list = SelectList(sql);
+            foreach (object obj in list)
             {
-                // Add string to list
-                artists.Add(table.Rows[a][0].ToString());
+                artists.Add(obj.ToString());
             }
 
             return artists;
@@ -227,14 +224,12 @@ namespace MPfm.Library
             }
 
             // Select distinct
-            DataTable table = Select(sql);
-
-            // Convert into a list of strings
-            for (int a = 0; a < table.Rows.Count; a++)
+            List<Tuple<object, object>> listTuple = SelectTuple(sql);
+            foreach (Tuple<object, object> tuple in listTuple)
             {
                 // Get values
-                string artistName = table.Rows[a]["ArtistName"].ToString();
-                string albumTitle = table.Rows[a]["AlbumTitle"].ToString();
+                string artistName = tuple.Item1.ToString();
+                string albumTitle = tuple.Item2.ToString();
 
                 // Add value to dictionary
                 if (albums.ContainsKey(artistName))
@@ -245,49 +240,49 @@ namespace MPfm.Library
                 {
                     albums.Add(artistName, new List<string>() { albumTitle });
                 }
-            }            
+            }      
 
             return albums;
         }
 
-        /// <summary>
-        /// Returns the distinct list of album titles with the path of at least one song of the album from the database, 
-        /// using the sound format filter passed in the soundFormat parameter. This is useful for displaying album art
-        /// for example (no need to return all songs from every album).
-        /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
-        /// <returns>List of distinct album titles with file paths</returns>
-        public Dictionary<string, string> SelectDistinctAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
-        {
-            // Create dictionary
-            Dictionary<string, string> albums = new Dictionary<string, string>();
+        ///// <summary>
+        ///// Returns the distinct list of album titles with the path of at least one song of the album from the database, 
+        ///// using the sound format filter passed in the soundFormat parameter. This is useful for displaying album art
+        ///// for example (no need to return all songs from every album).
+        ///// </summary>
+        ///// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
+        ///// <returns>List of distinct album titles with file paths</returns>
+        //public Dictionary<string, string> SelectDistinctAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
+        //{
+        //    // Create dictionary
+        //    Dictionary<string, string> albums = new Dictionary<string, string>();
 
-            // Set query
-            string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles";
-            if (audioFileFormat != AudioFileFormat.All)
-            {
-                sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
-            }
+        //    // Set query
+        //    string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles";
+        //    if (audioFileFormat != AudioFileFormat.All)
+        //    {
+        //        sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
+        //    }
 
-            // Select distinct
-            DataTable table = Select(sql);
+        //    // Select distinct
+        //    DataTable table = Select(sql);
 
-            // Convert into a list of strings
-            for (int a = 0; a < table.Rows.Count; a++)
-            {
-                // Get values                
-                string albumTitle = table.Rows[a]["AlbumTitle"].ToString();
-                string filePath = table.Rows[a]["FilePath"].ToString();
+        //    // Convert into a list of strings
+        //    for (int a = 0; a < table.Rows.Count; a++)
+        //    {
+        //        // Get values                
+        //        string albumTitle = table.Rows[a]["AlbumTitle"].ToString();
+        //        string filePath = table.Rows[a]["FilePath"].ToString();
 
-                // Add item to dictionary
-                if (!albums.ContainsKey(albumTitle))
-                {
-                    albums.Add(albumTitle, filePath);
-                }
-            }
+        //        // Add item to dictionary
+        //        if (!albums.ContainsKey(albumTitle))
+        //        {
+        //            albums.Add(albumTitle, filePath);
+        //        }
+        //    }
 
-            return albums;
-        }
+        //    return albums;
+        //}
 
         /// <summary>
         /// Updates the play count of an audio file and sets the last playback datetime.
@@ -319,20 +314,8 @@ namespace MPfm.Library
         /// <returns>Folder</returns>
         public Folder SelectFolderByPath(string path)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Folders WHERE FolderPath = '" + path + "'");
-            
-            // Convert to DTO
-            List<Folder> folders = ConvertLibrary.Folders(table);
-
-            // Check results
-            if (folders.Count > 0)
-            {
-                // Return first result
-                return folders[0];
-            }
-
-            return null;
+            Folder folder = SelectOne<Folder>("SELECT * FROM Folders WHERE FolderPath = '" + path + "'");
+            return folder;
         }
 
         /// <summary>
@@ -341,12 +324,7 @@ namespace MPfm.Library
         /// <returns>List of folders</returns>
         public List<Folder> SelectFolders()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Folders");
-
-            // Convert to DTO
-            List<Folder> folders = ConvertLibrary.Folders(table);
-
+            List<Folder> folders = Select<Folder>("SELECT * FROM Folders");
             return folders;
         }
 
@@ -393,12 +371,7 @@ namespace MPfm.Library
         /// <returns>List of EQPresets</returns>
         public List<EQPreset> SelectEQPresets()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM EQPresets");
-
-            // Convert to DTO
-            List<EQPreset> eqs = ConvertLibrary.EQPresets(table);
-
+            List<EQPreset> eqs = Select<EQPreset>("SELECT * FROM EQPresets");
             return eqs;
         }
 
@@ -409,20 +382,8 @@ namespace MPfm.Library
         /// <returns>EQPreset</returns>
         public EQPreset SelectEQPreset(string name)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM EQPresets WHERE Name = '" + name + "'");
-
-            // Convert to DTO
-            List<EQPreset> eqs = ConvertLibrary.EQPresets(table);
-
-            // Check results
-            if (eqs.Count > 0)
-            {
-                // Return first result
-                return eqs[0];
-            }
-
-            return null;
+            EQPreset preset = SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE Name = '" + name + "'");
+            return preset;
         }
 
         /// <summary>
@@ -463,13 +424,8 @@ namespace MPfm.Library
         /// <returns>List of Markers</returns>
         public List<Marker> SelectMarkers()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Markers");
-
-            // Convert to DTO
-            List<Marker> dtos = ConvertLibrary.Markers(table);
-
-            return dtos;
+            List<Marker> markers = Select<Marker>("SELECT * FROM Markers");
+            return markers;
         }
 
         /// <summary>
@@ -479,13 +435,8 @@ namespace MPfm.Library
         /// <returns>List of Markers</returns>
         public List<Marker> SelectMarkers(Guid audioFileId)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Markers WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY PositionBytes");
-
-            // Convert to DTO
-            List<Marker> dtos = ConvertLibrary.Markers(table);
-
-            return dtos;
+            List<Marker> markers = Select<Marker>("SELECT * FROM Markers");
+            return markers;
         }
 
         /// <summary>
@@ -495,20 +446,8 @@ namespace MPfm.Library
         /// <returns>Marker</returns>
         public Marker SelectMarker(Guid markerId)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Markers WHERE MarkerId = '" + markerId.ToString() + "'");
-
-            // Convert to DTO
-            List<Marker> dtos = ConvertLibrary.Markers(table);
-
-            // Check results
-            if (dtos.Count > 0)
-            {
-                // Return first result
-                return dtos[0];
-            }
-
-            return null;
+            Marker marker = SelectOne<Marker>("SELECT * FROM Markers WHERE MarkerId = '" + markerId.ToString() + "'");
+            return marker;
         }
 
         /// <summary>
@@ -549,12 +488,7 @@ namespace MPfm.Library
         /// <returns>List of Loops</returns>
         public List<Loop> SelectLoops()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Loops");
-
-            // Convert to Loop list
-            List<Loop> loops = ConvertLibrary.Loops(table);
-
+            List<Loop> loops = Select<Loop>("SELECT * FROM Loops");
             return loops;
         }
 
@@ -565,12 +499,7 @@ namespace MPfm.Library
         /// <returns>List of Loops</returns>
         public List<Loop> SelectLoops(Guid audioFileId)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Loops WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
-
-            // Convert to Loop list
-            List<Loop> loops = ConvertLibrary.Loops(table);
-
+            List<Loop> loops = Select<Loop>("SELECT * FROM Loops  WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
             return loops;
         }
 
@@ -581,20 +510,8 @@ namespace MPfm.Library
         /// <returns>Loop</returns>
         public Loop SelectLoop(Guid loopId)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
-
-            // Convert to Loop list
-            List<Loop> loops = ConvertLibrary.Loops(table);
-
-            // Check results
-            if (loops.Count > 0)
-            {
-                // Return first result
-                return loops[0];
-            }
-
-            return null;
+            Loop loop = SelectOne<Loop>("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
+            return loop;
         }
 
         /// <summary>
@@ -899,13 +816,8 @@ namespace MPfm.Library
         /// <returns>List of settings</returns>
         public List<Setting> SelectSettings()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Settings");
-
-            // Convert to DTO
-            List<Setting> dtos = ConvertLibrary.Settings(table);
-
-            return dtos;
+            List<Setting> settings = Select<Setting>("SELECT * FROM Settings");
+            return settings;
         }
 
         /// <summary>
@@ -915,20 +827,8 @@ namespace MPfm.Library
         /// <returns>Setting object</returns>
         public Setting SelectSetting(string name)
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM Settings WHERE SettingName = '" + name + "'");
-
-            // Convert to list
-            List<Setting> settings = ConvertLibrary.Settings(table);
-
-            // Check results
-            if (settings.Count > 0)
-            {
-                // Return first result
-                return settings[0];
-            }
-
-            return null;
+            Setting setting = SelectOne<Setting>("SELECT * FROM Settings WHERE SettingName = '" + name + "'");
+            return setting;
         }
 
         /// <summary>
@@ -985,13 +885,8 @@ namespace MPfm.Library
         /// <returns>List of playlist files</returns>
         public List<PlaylistFile> SelectPlaylistFiles()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM PlaylistFiles");
-
-            // Convert to DTO
-            List<PlaylistFile> dtos = ConvertLibrary.PlaylistFiles(table);
-
-            return dtos;
+            List<PlaylistFile> playlistFiles = Select<PlaylistFile>("SELECT * FROM PlaylistFiles");
+            return playlistFiles;
         }
 
         /// <summary>

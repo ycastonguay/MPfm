@@ -304,6 +304,107 @@ namespace MPfm.Library
         }
 
         /// <summary>
+        /// Selects a list of objects.
+        /// </summary>
+        /// <param name="sql">Query to execute (must have only one field in the select statement)</param>
+        /// <returns>List of objects</returns>
+        protected List<object> SelectList(string sql)
+        {
+            // Declare variables
+            DbConnection connection = null;
+            DbDataReader reader = null;
+            DbCommand command = null;
+            List<object> list = new List<object>();
+
+            try
+            {
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
+
+                // Create command
+                command = factory.CreateCommand();
+                command.CommandText = sql;
+                command.Connection = connection;
+
+                // Create and execute reader
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    // Add key/value to dictionary
+                    object field = reader.GetValue(0);
+                    list.Add(field);
+                }
+
+                return list;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Clean up reader and connection
+                if (reader != null)
+                    reader.Close();
+
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Selects a list of tuples of two objects.
+        /// </summary>
+        /// <param name="sql">Query to execute (must have only two fields in the select statement)</param>
+        /// <returns>List of tuple</returns>
+        protected List<Tuple<object, object>> SelectTuple(string sql)
+        {
+            // Declare variables
+            DbConnection connection = null;
+            DbDataReader reader = null;
+            DbCommand command = null;            
+            List<Tuple<object, object>> listTuple = new List<Tuple<object, object>>();
+
+            try
+            {
+                // Create and open connection
+                connection = GenerateConnection();
+                connection.Open();
+
+                // Create command
+                command = factory.CreateCommand();
+                command.CommandText = sql;
+                command.Connection = connection;
+
+                // Create and execute reader
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    // Add key/value to dictionary
+                    object field1 = reader.GetValue(0);
+                    object field2 = reader.GetValue(1);                    
+                    listTuple.Add(new Tuple<object, object>(field1, field2));
+                }
+
+                return listTuple;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Clean up reader and connection
+                if (reader != null)
+                    reader.Close();
+
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
+        /// <summary>
         /// Executes a select query and returns the first item of a list of objects as specified in 
         /// the generics type.
         /// </summary>
@@ -682,84 +783,50 @@ namespace MPfm.Library
             reader.Dispose();
         }
 
-        /// <summary>
-        /// Updates a DataTable into the database (useful for insert/update/delete).
-        /// </summary>
-        /// <param name="table">DataTable to update</param>
-        /// <param name="sql">Base query to select item to update/insert/delete</param>
-        protected void UpdateDataTable(DataTable table, string sql)
-        {
-            // Open connection
-            OpenConnection();
+        ///// <summary>
+        ///// Updates a DataTable into the database using a transaction (useful for insert/update/delete).
+        ///// </summary>
+        ///// <param name="table">DataTable to update</param>
+        ///// <param name="sql">Base query to select item to update/insert/delete</param>
+        //protected void UpdateDataTableTransaction(DataTable table, string sql)
+        //{
+        //    // Open connection
+        //    OpenConnection();
 
-            // Create command
-            DbCommand command = factory.CreateCommand();
-            command.CommandText = sql;
-            command.Connection = connection;
+        //    // Create transaction
+        //    DbTransaction transaction = connection.BeginTransaction();
 
-            // Create adapter
-            DbDataAdapter adapter = factory.CreateDataAdapter();
-            adapter.SelectCommand = command;
+        //    // Create command
+        //    DbCommand command = factory.CreateCommand();
+        //    command.CommandText = sql;
+        //    command.Connection = connection;            
 
-            // Create command builder
-            DbCommandBuilder builder = factory.CreateCommandBuilder();
-            builder.DataAdapter = adapter;
+        //    // Create adapter
+        //    DbDataAdapter adapter = factory.CreateDataAdapter();
+        //    adapter.SelectCommand = command;
 
-            // Get the insert, update and delete commands
-            adapter.InsertCommand = builder.GetInsertCommand();
-            adapter.UpdateCommand = builder.GetUpdateCommand();
-            adapter.DeleteCommand = builder.GetDeleteCommand();
+        //    // Create command builder
+        //    DbCommandBuilder builder = factory.CreateCommandBuilder();
+        //    builder.DataAdapter = adapter;
 
-            adapter.Update(table);
+        //    // Get the insert, update and delete commands
+        //    adapter.InsertCommand = builder.GetInsertCommand();
+        //    adapter.UpdateCommand = builder.GetUpdateCommand();
+        //    adapter.DeleteCommand = builder.GetDeleteCommand();
 
-            // Close connection
-            CloseConnection();
-        }
+        //    adapter.Update(table);
 
-        /// <summary>
-        /// Updates a DataTable into the database using a transaction (useful for insert/update/delete).
-        /// </summary>
-        /// <param name="table">DataTable to update</param>
-        /// <param name="sql">Base query to select item to update/insert/delete</param>
-        protected void UpdateDataTableTransaction(DataTable table, string sql)
-        {
-            // Open connection
-            OpenConnection();
+        //    transaction.Commit();
 
-            // Create transaction
-            DbTransaction transaction = connection.BeginTransaction();
+        //    // Dispose stuff            
+        //    adapter.Dispose();
+        //    builder.Dispose();
+        //    command.Dispose();
+        //    transaction.Dispose();            
 
-            // Create command
-            DbCommand command = factory.CreateCommand();
-            command.CommandText = sql;
-            command.Connection = connection;            
-
-            // Create adapter
-            DbDataAdapter adapter = factory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-
-            // Create command builder
-            DbCommandBuilder builder = factory.CreateCommandBuilder();
-            builder.DataAdapter = adapter;
-
-            // Get the insert, update and delete commands
-            adapter.InsertCommand = builder.GetInsertCommand();
-            adapter.UpdateCommand = builder.GetUpdateCommand();
-            adapter.DeleteCommand = builder.GetDeleteCommand();
-
-            adapter.Update(table);
-
-            transaction.Commit();
-
-            // Dispose stuff            
-            adapter.Dispose();
-            builder.Dispose();
-            command.Dispose();
-            transaction.Dispose();            
-
-            // Close connection
-            CloseConnection();
-        }
+        //    // Close connection
+        //    CloseConnection();
+        //}
 
         /// <summary>
         /// Deletes an item from the database.
@@ -770,22 +837,6 @@ namespace MPfm.Library
         protected void Delete(string tableName, string idFieldName, Guid id)
         {
             Execute("DELETE FROM " + tableName + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
-
-            //// Get item to delete
-            //string baseQuery = "SELECT * FROM " + tableName;
-            //DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
-
-            //// Check if the row was found
-            //if (table.Rows.Count == 0)
-            //{
-            //    throw new Exception("Could not find the item to delete (TableName: " + tableName + " | Id: " + id.ToString() + ")");
-            //}
-
-            //// Delete row in DataTable
-            //table.Rows[0].Delete();
-
-            //// Update row into database
-            //UpdateDataTable(table, baseQuery);
         }
 
         /// <summary>

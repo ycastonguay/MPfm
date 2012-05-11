@@ -1055,26 +1055,26 @@ namespace MPfm.Library
             return gateway.SelectDistinctAlbumTitles(audioFileFormat);
         }
 
-        /// <summary>
-        /// Returns a list of distinct album titles with the file path of one of the audio files
-        /// of the album. This method is useful to display album covers.
-        /// </summary>
-        /// <returns>List of album titles with file path</returns>
-        public Dictionary<string, string> SelectAlbumTitlesWithFilePaths()
-        {
-            return SelectAlbumTitlesWithFilePaths(AudioFileFormat.All);
-        }
+        ///// <summary>
+        ///// Returns a list of distinct album titles with the file path of one of the audio files
+        ///// of the album. This method is useful to display album covers.
+        ///// </summary>
+        ///// <returns>List of album titles with file path</returns>
+        //public Dictionary<string, string> SelectAlbumTitlesWithFilePaths()
+        //{
+        //    return SelectAlbumTitlesWithFilePaths(AudioFileFormat.All);
+        //}
 
-        /// <summary>
-        /// Returns a list of distinct album titles with the file path of one of the audio files
-        /// of the album, using the filter passed in the soundFormat parameter.
-        /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <returns>List of album titles with file path</returns>
-        public Dictionary<string, string> SelectAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
-        {
-            return gateway.SelectDistinctAlbumTitlesWithFilePaths(audioFileFormat);
-        }
+        ///// <summary>
+        ///// Returns a list of distinct album titles with the file path of one of the audio files
+        ///// of the album, using the filter passed in the soundFormat parameter.
+        ///// </summary>
+        ///// <param name="audioFileFormat">Audio file format filter</param>
+        ///// <returns>List of album titles with file path</returns>
+        //public Dictionary<string, string> SelectAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
+        //{
+        //    return gateway.SelectDistinctAlbumTitlesWithFilePaths(audioFileFormat);
+        //}
 
         #endregion
 
