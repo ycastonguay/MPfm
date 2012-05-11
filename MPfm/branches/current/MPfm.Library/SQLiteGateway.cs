@@ -270,7 +270,7 @@ namespace MPfm.Library
         /// <param name="sql">Query to execute</param>
         /// <returns>DataTable with data</returns>
         protected DataTable Select(string sql)
-        {            
+        {
             DbDataAdapter adapter = null;
             DbCommand command = null;
             try
@@ -284,7 +284,7 @@ namespace MPfm.Library
                 command.Connection = connection;
 
                 // Fill table
-                DataTable table = new DataTable();                
+                DataTable table = new DataTable();
                 FillDataTable(command, table);
 
                 // Close connection
@@ -301,6 +301,24 @@ namespace MPfm.Library
                 if (adapter != null)
                     adapter.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Executes a select query and returns the first item of a list of objects as specified in 
+        /// the generics type.
+        /// </summary>
+        /// <typeparam name="T">Object tye to fill</typeparam>
+        /// <param name="sql">Query to execute</param>
+        /// <returns>Object</returns>
+        protected T SelectOne<T>(string sql) where T : new()
+        {
+            // Select first from list
+            List<T> list = Select<T>(sql);
+            if (list != null && list.Count > 0)
+            {
+                return list[0];
+            }
+            return default(T);
         }
 
         /// <summary>
@@ -412,6 +430,22 @@ namespace MPfm.Library
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
+        }
+
+        /// <summary>
+        /// Updates an object into the database.
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="obj">Object to update</param>
+        /// <param name="tableName">Database table name</param>
+        /// <param name="whereFieldName">Where clause field name (followed by equals to)</param>
+        /// <param name="whereValue">Where clause field value</param>
+        /// <returns>Number of rows affected</returns>
+        protected int Update<T>(T obj, string tableName, string whereFieldName, object whereValue)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add(whereFieldName, whereValue);
+            return Update<T>(obj, tableName, dict);
         }
 
         /// <summary>
