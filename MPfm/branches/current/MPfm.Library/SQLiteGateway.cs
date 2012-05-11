@@ -762,54 +762,6 @@ namespace MPfm.Library
         }
 
         /// <summary>
-        /// Inserts an item into the database.
-        /// </summary>
-        /// <param name="tableName">Table name</param>
-        /// <param name="idFieldName">Id field name</param>
-        /// <param name="dto">Object</param>
-        protected void Insert(string tableName, string idFieldName, object dto)
-        {
-            // Get empty result set
-            string baseQuery = "SELECT * FROM " + tableName;
-            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
-
-            // Add new row to data table
-            DataRow newRow = table.NewRow();
-            table.Rows.Add(newRow);
-            ConvertLibrary.ToRow(ref newRow, dto);
-
-            // Insert new row into database
-            UpdateDataTable(table, baseQuery);
-        }
-
-        /// <summary>
-        /// Updates an item in the database.
-        /// </summary>
-        /// <param name="tableName">Table name</param>
-        /// <param name="idFieldName">Id field name</param>
-        /// <param name="id">DTO id</param>
-        /// <param name="dto">DTO</param>
-        protected void Update(string tableName, string idFieldName, Guid id, object dto)
-        {
-            // Get item to update
-            string baseQuery = "SELECT * FROM " + tableName;
-            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
-
-            // Check if the row was found
-            if (table.Rows.Count == 0)
-            {
-                throw new Exception("Could not find the item to update (TableName: " + tableName + " | Id: " + id.ToString() + ")");
-            }
-
-            // Update row in DataTable
-            DataRow row = table.Rows[0];
-            ConvertLibrary.ToRow(ref row, dto);
-
-            // Update row into database
-            UpdateDataTable(table, baseQuery);
-        }
-
-        /// <summary>
         /// Deletes an item from the database.
         /// </summary>
         /// <param name="tableName">Table name</param>

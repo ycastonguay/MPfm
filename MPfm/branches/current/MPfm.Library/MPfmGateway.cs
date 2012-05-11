@@ -78,12 +78,7 @@ namespace MPfm.Library
         /// <returns>List of AudioFiles</returns>
         public List<AudioFile> SelectAudioFiles()
         {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM AudioFiles");
-
-            // Convert object
-            List<AudioFile> audioFiles = ConvertLibrary.AudioFiles(table);
-
+            List<AudioFile> audioFiles = Select<AudioFile>("SELECT * FROM AudioFiles");
             return audioFiles;
         }
 
@@ -93,21 +88,9 @@ namespace MPfm.Library
         /// <param name="audioFileId">Audio file unique identifier</param>
         /// <returns>AudioFile</returns>
         public AudioFile SelectAudioFile(Guid audioFileId)
-        {
-            // Fetch data
-            DataTable table = Select("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
-
-            // Convert to DTO
-            List<AudioFile> audioFiles = ConvertLibrary.AudioFiles(table);
-
-            // Check results
-            if (audioFiles.Count > 0)
-            {
-                // Return first result
-                return audioFiles[0];
-            }
-
-            return null;
+        {            
+            AudioFile audioFile = SelectOne<AudioFile>("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+            return audioFile;
         }
 
         /// <summary>
@@ -115,47 +98,45 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="audioFile">AudioFile to insert</param>
         public void InsertAudioFile(AudioFile audioFile)
-        {
-            // Insert song
-            Insert("AudioFiles", "AudioFileId", audioFile);
+        {            
+            Insert<AudioFile>(audioFile, "AudioFiles");            
         }
 
-        /// <summary>
-        /// Inserts new audio files into the database.
-        /// </summary>
-        /// <param name="audioFiles">List of AudioFiles to insert</param>
-        public void InsertAudioFiles(List<AudioFile> audioFiles)
-        {
-            // Insert song
-            //Insert("AudioFiles", "AudioFileId", audioFiles);
-            string tableName = "AudioFiles";
-            string idFieldName = "AudioFileId";
+        ///// <summary>
+        ///// Inserts new audio files into the database.
+        ///// </summary>
+        ///// <param name="audioFiles">List of AudioFiles to insert</param>
+        //public void InsertAudioFiles(List<AudioFile> audioFiles)
+        //{
+        //    // Insert song
+        //    //Insert("AudioFiles", "AudioFileId", audioFiles);
+        //    string tableName = "AudioFiles";
+        //    string idFieldName = "AudioFileId";
 
-            // Get empty result set
-            string baseQuery = "SELECT * FROM " + tableName;
-            DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
+        //    // Get empty result set
+        //    string baseQuery = "SELECT * FROM " + tableName;
+        //    DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
 
-            // Loop through objects
-            foreach (AudioFile audioFile in audioFiles)
-            {
-                // Add new row to data table
-                DataRow newRow = table.NewRow();
-                table.Rows.Add(newRow);
-                ConvertLibrary.ToRow(ref newRow, audioFile);
-            }
+        //    // Loop through objects
+        //    foreach (AudioFile audioFile in audioFiles)
+        //    {
+        //        // Add new row to data table
+        //        DataRow newRow = table.NewRow();
+        //        table.Rows.Add(newRow);
+        //        ConvertLibrary.ToRow(ref newRow, audioFile);
+        //    }
 
-            // Insert new row into database
-            UpdateDataTableTransaction(table, baseQuery);
-        }
+        //    // Insert new row into database
+        //    UpdateDataTableTransaction(table, baseQuery);
+        //}
 
         /// <summary>
         /// Updates an existing audio file to the database.
         /// </summary>
         /// <param name="audioFile">AudioFile to update</param>
         public void UpdateAudioFile(AudioFile audioFile)
-        {
-            // Update song
-            Update("AudioFiles", "AudioFileId", audioFile.Id, audioFile);
+        {            
+            Update<AudioFile>(audioFile, "AudioFiles", "AudioFileId", audioFile.Id.ToString());
         }
 
         /// <summary>
@@ -163,8 +144,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="audioFileId">AudioFile to delete</param>
         public void DeleteAudioFile(Guid audioFileId)
-        {
-            // Delete song
+        {            
             Delete("AudioFiles", "AudioFileId", audioFileId);
         }
 
@@ -380,8 +360,8 @@ namespace MPfm.Library
             // Insert new folder
             Folder folder = new Folder();
             folder.FolderPath = folderPath;
-            folder.IsRecursive = recursive;
-            Insert("Folders", "FolderId", folder);
+            folder.IsRecursive = recursive;            
+            Insert<Folder>(folder, "Folders");
         }
 
         /// <summary>
@@ -450,9 +430,8 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="eq">EQ preset to insert</param>
         public void InsertEqualizer(EQPreset eq)
-        {
-            // Insert item
-            Insert("EQPresets", "EQPresetId", eq);
+        {            
+            Insert<EQPreset>(eq, "EQPresets");            
         }
 
         /// <summary>
@@ -460,9 +439,8 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="eq">EQ preset to update</param>
         public void UpdateEqualizer(EQPreset eq)
-        {
-            // Update item
-            Update("EQPresets", "EQPresetId", eq.EQPresetId, eq);
+        {            
+            Update<EQPreset>(eq, "EQPresets", "EQPresetId", eq.EQPresetId);            
         }
 
         /// <summary>
@@ -539,8 +517,7 @@ namespace MPfm.Library
         /// <param name="dto">Marker to insert</param>
         public void InsertMarker(Marker dto)
         {
-            // Insert marker
-            Insert("Markers", "MarkerId", dto);
+            Insert<Marker>(dto, "Markers");
         }
 
         /// <summary>
@@ -548,9 +525,8 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="dto">Marker to update</param>
         public void UpdateMarker(Marker dto)
-        {
-            // Update marker
-            Update("Markers", "MarkerId", dto.MarkerId, dto);
+        {            
+            Update<Marker>(dto, "Markers", "MarkerId", dto.MarkerId.ToString());
         }
 
         /// <summary>
@@ -626,9 +602,8 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="dto">Loop to insert</param>
         public void InsertLoop(Loop dto)
-        {
-            // Insert loop
-            Insert("Loops", "LoopId", dto);
+        {            
+            Insert<Loop>(dto, "Loops");
         }
 
         /// <summary>
@@ -637,8 +612,7 @@ namespace MPfm.Library
         /// <param name="dto">Loop to update</param>
         public void UpdateLoop(Loop dto)
         {
-            // Update loop
-            Update("Loops", "LoopId", dto.LoopId, dto);
+            Update<Loop>(dto, "Loops", "LoopId", dto.LoopId.ToString());
         }
 
         /// <summary>
@@ -979,8 +953,7 @@ namespace MPfm.Library
         /// <param name="dto">Setting to insert</param>
         public void InsertSetting(Setting dto)
         {
-            // Insert setting
-            Insert("Settings", "SettingId", dto);
+            Insert<Setting>(dto, "Settings");
         }
 
         /// <summary>
@@ -989,8 +962,7 @@ namespace MPfm.Library
         /// <param name="dto">Setting to update</param>
         public void UpdateSetting(Setting dto)
         {
-            // Update setting
-            Update("Settings", "SettingId", dto.SettingId, dto);
+            Update<Setting>(dto, "Settings", "SettingId", dto.SettingId.ToString());
         }
 
         /// <summary>
@@ -1028,8 +1000,7 @@ namespace MPfm.Library
         /// <param name="dto">Playlist file</param>
         public void InsertPlaylistFile(PlaylistFile dto)
         {
-            // Insert playlist file
-            Insert("PlaylistFiles", "FilePath", dto);
+            Insert<PlaylistFile>(dto, "PlaylistFiles");
         }
 
         /// <summary>
@@ -1137,8 +1108,8 @@ namespace MPfm.Library
             history.AudioFileId = audioFileId;
             history.EventDateTime = DateTime.Now;
 
-            // Insert history            
-            Insert("History", "HistoryId", history);
+            // Insert history
+            Insert<History>(history, "History");
         }
 
         /// <summary>
@@ -1154,7 +1125,7 @@ namespace MPfm.Library
             history.EventDateTime = eventDateTime;
 
             // Insert history            
-            Insert("History", "HistoryId", history);
+            Insert<History>(history, "History");
         }
 
         #endregion
