@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Debug/mpfm.exe" internal="true" />
+    <widget-library name="../../Output/Debug_Linux/mpfm.exe" internal="true" />
   </import>
   <icon-factory>
     <icon-set id="stock_repeat">
@@ -884,7 +884,7 @@ WV</property>
                                 <property name="ShowArrow">False</property>
                                 <property name="ButtonStyle">Icons</property>
                                 <property name="IconSize">Menu</property>
-                                <node name="toolbarMain" type="Toolbar">
+                                <node name="toolbarMain1" type="Toolbar">
                                   <node type="Toolitem" action="mediaPlayAction2" />
                                   <node type="Toolitem" action="mediaStopAction1" />
                                   <node type="Toolitem" action="addAction2" />
@@ -944,7 +944,7 @@ WV</property>
                                 <property name="ShowArrow">False</property>
                                 <property name="ButtonStyle">Icons</property>
                                 <property name="IconSize">Menu</property>
-                                <node name="toolbarMain" type="Toolbar">
+                                <node name="toolbarMain2" type="Toolbar">
                                   <node type="Toolitem" action="addAction3" />
                                   <node type="Toolitem" action="removeAction2" />
                                   <node type="Toolitem" action="editAction3" />
@@ -1316,6 +1316,200 @@ WV</property>
           <placeholder />
         </child>
       </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="MPfm.GTK.UpdateLibraryWindow" design-size="691 426">
+    <action-group name="Default">
+      <action id="actionOK">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-apply</property>
+      </action>
+      <action id="actionCancel">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-cancel</property>
+      </action>
+      <action id="actionSaveLog">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-floppy</property>
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Update Library</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox1">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.Toolbar" id="toolbar">
+            <property name="MemberName" />
+            <property name="ShowArrow">False</property>
+            <node name="toolbar" type="Toolbar">
+              <node type="Toolitem" action="actionOK" />
+              <node type="Toolitem" action="actionCancel" />
+              <node type="Toolitem" action="actionSaveLog" />
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="lblStatus">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Status</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.VBox" id="vbox2">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <property name="BorderWidth">3</property>
+            <child>
+              <widget class="Gtk.Label" id="lblTitle">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">Updating stuff stuff stuff stuff stuff stuff stuff</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="lblSubtitle">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">Updating stuff stuff stuff stuff stuff stuff stuff Updating stuff stuff stuff stuff stuff stuff stuff</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ProgressBar" id="progressbar">
+                <property name="MemberName" />
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+                <property name="Padding">3</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.HBox" id="hbox1">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.Label" id="label3">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">Estimated Time Left: 20 minutes</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="lblPercentage">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">60.58 %</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="label5">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">Estimated Time Left: 20 minutes</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">3</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="lblErrorLog">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Error Log</property>
+          </widget>
+          <packing>
+            <property name="Position">3</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="ShadowType">In</property>
+            <property name="BorderWidth">3</property>
+            <child>
+              <widget class="Gtk.TextView" id="textviewErrorLog">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
+                <property name="Text" translatable="yes" />
+                <property name="LeftMargin">3</property>
+                <property name="RightMargin">3</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">4</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="MPfm.GTK.UpdateLibraryWindow" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">UpdateLibraryWindow</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <placeholder />
     </child>
   </widget>
 </stetic-interface>

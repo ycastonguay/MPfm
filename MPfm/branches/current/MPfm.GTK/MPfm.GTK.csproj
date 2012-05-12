@@ -35,7 +35,7 @@
     <OutputPath>..\Output\Debug_Linux\</OutputPath>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>    
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,8 +43,8 @@
     <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
-    <WarningLevel>4</WarningLevel>    
-  </PropertyGroup>  
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
@@ -90,6 +90,8 @@
     <Compile Include="Windows\PlaylistWindow.cs" />
     <Compile Include="Windows\SettingsWindow.cs" />
     <Compile Include="Windows\EffectsWindow.cs" />
+    <Compile Include="Windows\UpdateLibraryWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.UpdateLibraryWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -24,11 +24,12 @@ namespace MPfm.GTK
 		// Private variables
 		private string currentDirectory = string.Empty;
 		
-		private MainWindowController controller = null;
+		private MainWindowPresenter presenter = null;
 		
 		private SettingsWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;
 		private EffectsWindow windowEffects = null;
+		private UpdateLibraryWindow windowUpdateLibrary = null;
 	
 		private Pango.Layout layout = null;
 	
@@ -95,14 +96,14 @@ namespace MPfm.GTK
 			this.imageAlbumCover.Pixbuf = stuff;
 	
 			// Create controller			
-			controller = new MainWindowController();
+			presenter = new MainWindowPresenter();
 				
 			// Create player
-			controller.CreatePlayer();
-			controller.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+			presenter.CreatePlayer();
+			presenter.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
 						
 			// Create library
-			controller.CreateLibrary();			
+			presenter.CreateLibrary();			
 			
 			// Create song position timer
 			timerSongPosition = new Timer(100);
@@ -130,8 +131,8 @@ namespace MPfm.GTK
 		protected void ExitApplication()
 		{
 			// Dispose controller
-			controller.Dispose();
-			controller = null;
+			presenter.Dispose();
+			presenter = null;
 	
 			// Exit application
 			Application.Quit();
@@ -164,7 +165,7 @@ namespace MPfm.GTK
 		protected void HandleTimerSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
 			// Get position
-			PlayerPositionEntity position = controller.GetPlayerPosition();
+			PlayerPositionEntity position = presenter.GetPlayerPosition();
 	
 			// Invoke UI changes
 			Gtk.Application.Invoke(delegate{
@@ -295,7 +296,7 @@ namespace MPfm.GTK
 		protected void RefreshSongInformation()
 		{
 			// Check if the current item is valid
-			if(controller.Player.Playlist.CurrentItem == null)
+			if(presenter.Player.Playlist.CurrentItem == null)
 			{
 		        // Set empty values
 		        lblArtistName.Text = string.Empty;
@@ -309,12 +310,12 @@ namespace MPfm.GTK
 			else
 			{
 		        // Set metadata and file path labels
-		        lblArtistName.Text = controller.Player.Playlist.CurrentItem.AudioFile.ArtistName;
-		        lblAlbumTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.AlbumTitle;
-		        lblSongTitle.Text = controller.Player.Playlist.CurrentItem.AudioFile.Title;
-		        lblSongFilePath.Text = controller.Player.Playlist.CurrentItem.AudioFile.FilePath;
-		        lblCurrentLength.Text = controller.Player.Playlist.CurrentItem.LengthString;
-				hscaleSongPosition.Adjustment.Upper = controller.Player.Playlist.CurrentItem.LengthBytes;
+		        lblArtistName.Text = presenter.Player.Playlist.CurrentItem.AudioFile.ArtistName;
+		        lblAlbumTitle.Text = presenter.Player.Playlist.CurrentItem.AudioFile.AlbumTitle;
+		        lblSongTitle.Text = presenter.Player.Playlist.CurrentItem.AudioFile.Title;
+		        lblSongFilePath.Text = presenter.Player.Playlist.CurrentItem.AudioFile.FilePath;
+		        lblCurrentLength.Text = presenter.Player.Playlist.CurrentItem.LengthString;
+				hscaleSongPosition.Adjustment.Upper = presenter.Player.Playlist.CurrentItem.LengthBytes;
 			}
 		}
 			
@@ -328,11 +329,11 @@ namespace MPfm.GTK
 	        string repeatSong = "Song";
 	
 	        // Display the repeat type
-	        if (controller.Player.RepeatType == RepeatType.Playlist)
+	        if (presenter.Player.RepeatType == RepeatType.Playlist)
 	        {				
 				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
 	        }
-	        else if (controller.Player.RepeatType == RepeatType.Song)
+	        else if (presenter.Player.RepeatType == RepeatType.Song)
 	        {				
 				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
 	        }
@@ -401,7 +402,16 @@ namespace MPfm.GTK
 		
 		protected void OnActionUpdateLibraryActivated(object sender, System.EventArgs e)
 		{
-			controller.Library.UpdateLibrary(MPfm.Library.UpdateLibraryMode.SpecificFolder, null, "/media/Data1/Flac/Amon Tobin");
+			// Check if the window exists
+			if(windowUpdateLibrary == null)
+			{
+				// Create window
+				windowUpdateLibrary = new UpdateLibraryWindow(this);			
+			}
+			
+			// Display window			
+			windowUpdateLibrary.ShowAll();		
+			//controller.Library.UpdateLibrary(MPfm.Library.UpdateLibraryMode.SpecificFolder, null, "/media/Data1/Flac/Amon Tobin");
 		}		
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
@@ -412,7 +422,7 @@ namespace MPfm.GTK
 			}
 	
 			// Play playlist
-			controller.Player.PlayFiles(audioFiles);
+			presenter.Player.PlayFiles(audioFiles);
 	
 			// Refresh song information
 			RefreshSongInformation();
@@ -424,30 +434,30 @@ namespace MPfm.GTK
 		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
 			// Check if the player is playing
-			if(controller.Player.IsPlaying)
+			if(presenter.Player.IsPlaying)
 			{
 				// Pause player
-				controller.Player.Pause();
+				presenter.Player.Pause();
 			}
 		}
 		
 		protected void OnActionStopActivated(object sender, System.EventArgs e)
 		{
 			// Check if the player is playing
-			if(controller.Player.IsPlaying)
+			if(presenter.Player.IsPlaying)
 			{
 				// Stop timer
 				timerSongPosition.Stop();
 				
 				// Stop player
-				controller.Player.Stop();
+				presenter.Player.Stop();
 			}
 		}
 		
 		protected void OnActionPreviousActivated(object sender, System.EventArgs e)
 		{
 			// Go to previous song
-			controller.Player.Previous();
+			presenter.Player.Previous();
 	
 			// Refresh controls
 			RefreshSongInformation();
@@ -456,7 +466,7 @@ namespace MPfm.GTK
 		protected void OnActionNextActivated(object sender, System.EventArgs e)
 		{
 			// Go to next song
-			controller.Player.Next();
+			presenter.Player.Next();
 	
 			// Refresh controls
 			RefreshSongInformation();
@@ -465,17 +475,17 @@ namespace MPfm.GTK
 		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
 		{
 	        // Cycle through the repeat types
-	        if (controller.Player.RepeatType == RepeatType.Off)
+	        if (presenter.Player.RepeatType == RepeatType.Off)
 	        {
-	            controller.Player.RepeatType = RepeatType.Playlist;
+	            presenter.Player.RepeatType = RepeatType.Playlist;
 	        }
-	        else if (controller.Player.RepeatType == RepeatType.Playlist)
+	        else if (presenter.Player.RepeatType == RepeatType.Playlist)
 	        {
-	            controller.Player.RepeatType = RepeatType.Song;
+	            presenter.Player.RepeatType = RepeatType.Song;
 	        }
 	        else
 	        {
-	            controller.Player.RepeatType = RepeatType.Off;
+	            presenter.Player.RepeatType = RepeatType.Off;
 	        }
 	
 	        // Update repeat button
@@ -541,7 +551,7 @@ namespace MPfm.GTK
 		{
 			// Set player volume
 			float value = ((float)vscaleVolume.Value / 100);
-			controller.Player.Volume = value;
+			presenter.Player.Volume = value;
 		}
 	
 		protected void OnSongPositionValueChanged(object sender, System.EventArgs e)
