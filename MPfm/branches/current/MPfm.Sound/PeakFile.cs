@@ -38,6 +38,8 @@ using MPfm.Core;
 
 namespace MPfm.Sound
 {
+#if (!MACOSX && !LINUX)			
+	
     /// <summary>
     /// The PeakFile class can generate peak files asynchronously using multiple threads with Reactive Extensions.
     /// It is also cancellable. Use the ProcessData event to get the progress.
@@ -853,5 +855,6 @@ namespace MPfm.Sound
 
         }
     }
+	
+#endif	
 }
-

@@ -12,19 +12,19 @@ using MPfm.Core;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
-using MPfm.UI;
+using MPfm.MVP;
 
 namespace MPfm.GTK
 {
 	/// <summary>
 	/// Main window.
 	/// </summary>
-	public partial class MainWindow: Gtk.Window
+	public partial class MainWindow: Gtk.Window, IMainView
 	{
 		// Private variables
 		private string currentDirectory = string.Empty;
 		
-		private MainWindowPresenter presenter = null;
+		private MainPresenter presenter = null;
 		
 		private SettingsWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;
@@ -95,8 +95,8 @@ namespace MPfm.GTK
 			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
 			this.imageAlbumCover.Pixbuf = stuff;
 	
-			// Create controller			
-			presenter = new MainWindowPresenter();
+			// Create controller
+			presenter = new MainPresenter(this);
 				
 			// Create player
 			presenter.CreatePlayer();

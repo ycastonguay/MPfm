@@ -42,7 +42,7 @@
     <OutputPath>..\Output\Debug_Linux\</OutputPath>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>    
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +50,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
-    <WarningLevel>4</WarningLevel>    
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

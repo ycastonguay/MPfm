@@ -4,12 +4,17 @@ namespace MPfm.GTK
 {
 	public partial class SettingsWindow
 	{
+		private global::Gtk.UIManager UIManager;
 		private global::Gtk.VBox vbox3;
 		
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget MPfm.GTK.SettingsWindow
+			this.UIManager = new global::Gtk.UIManager ();
+			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
+			this.UIManager.InsertActionGroup (w1, 0);
+			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.SettingsWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Settings");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
@@ -21,7 +26,7 @@ namespace MPfm.GTK
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 400;
+			this.DefaultWidth = 625;
 			this.DefaultHeight = 300;
 			this.Hide ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);

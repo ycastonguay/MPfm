@@ -59,6 +59,21 @@ namespace MPfm.GTK
 			// Hide window instead
 			this.HideAll();			
 		}
+
+		protected void OnActionCancelActivated (object sender, System.EventArgs e)
+		{
+			
+		}
+
+		protected void OnActionOKActivated (object sender, System.EventArgs e)
+		{
+			
+		}
+
+		protected void OnActionSaveLogActivated (object sender, System.EventArgs e)
+		{
+			
+		}
 	}
 }
 
