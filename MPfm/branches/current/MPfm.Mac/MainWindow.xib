@@ -281,10 +281,7 @@
 								<string key="NSToolbarItemPaletteLabel">Repeat (Off)</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<object class="NSCustomResource" key="NSToolbarItemImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSRefreshTemplate</string>
-								</object>
+								<reference key="NSToolbarItemImage" ref="653864281"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{0, 0}</string>
@@ -791,6 +788,7 @@
 											<string key="NSFrame">{{406, 339}, {21, 123}}</string>
 											<reference key="NSSuperview" ref="383311531"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="1046729574"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSliderCell" key="NSCell" id="439886931">
@@ -815,6 +813,7 @@
 											<string key="NSFrame">{{18, 288}, {415, 21}}</string>
 											<reference key="NSSuperview" ref="383311531"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="1052423460"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSliderCell" key="NSCell" id="165234188">
@@ -839,7 +838,7 @@
 											<string key="NSFrame">{{17, 334}, {387, 17}}</string>
 											<reference key="NSSuperview" ref="383311531"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1052423460"/>
+											<reference key="NSNextKeyView" ref="543387294"/>
 											<string key="NSReuseIdentifierKey">_NS:1505</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="909039052">
@@ -1058,6 +1057,86 @@
 						<reference key="destination" ref="367090875"/>
 					</object>
 					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarPlay:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="220397474"/>
+					</object>
+					<int key="connectionID">87</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarStop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="422932690"/>
+					</object>
+					<int key="connectionID">88</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarNext:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="462500111"/>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarPrevious:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="936804220"/>
+					</object>
+					<int key="connectionID">91</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarUpdateLibrary:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="52746378"/>
+					</object>
+					<int key="connectionID">92</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarEffects:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="132600826"/>
+					</object>
+					<int key="connectionID">93</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarPlaylist:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="134700849"/>
+					</object>
+					<int key="connectionID">94</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarPreferences:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="271922043"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarRepeatType:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="717299365"/>
+					</object>
+					<int key="connectionID">96</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toolbarPause:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="958550511"/>
+					</object>
+					<int key="connectionID">97</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1665,7 +1744,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">86</int>
+			<int key="maxID">97</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1686,10 +1765,30 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_ButtonClick:</string>
+							<string>toolbarEffects:</string>
+							<string>toolbarNext:</string>
 							<string>toolbarOpenAudioFiles_Click:</string>
+							<string>toolbarPause:</string>
+							<string>toolbarPlay:</string>
+							<string>toolbarPlaylist:</string>
+							<string>toolbarPreferences:</string>
+							<string>toolbarPrevious:</string>
+							<string>toolbarRepeatType:</string>
+							<string>toolbarStop:</string>
+							<string>toolbarUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -1699,7 +1798,17 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_ButtonClick:</string>
+							<string>toolbarEffects:</string>
+							<string>toolbarNext:</string>
 							<string>toolbarOpenAudioFiles_Click:</string>
+							<string>toolbarPause:</string>
+							<string>toolbarPlay:</string>
+							<string>toolbarPlaylist:</string>
+							<string>toolbarPreferences:</string>
+							<string>toolbarPrevious:</string>
+							<string>toolbarRepeatType:</string>
+							<string>toolbarStop:</string>
+							<string>toolbarUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1708,7 +1817,47 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">toolbarEffects:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarNext:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">toolbarOpenAudioFiles_Click:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarPause:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarPlay:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarPlaylist:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarPreferences:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarPrevious:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarRepeatType:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarStop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toolbarUpdateLibrary:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -1796,7 +1945,6 @@
 				<string>NSMenuCheckmark</string>
 				<string>NSMenuMixedState</string>
 				<string>NSPreferencesGeneral</string>
-				<string>NSRefreshTemplate</string>
 			</object>
 			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1804,7 +1952,6 @@
 				<string>{11, 11}</string>
 				<string>{10, 3}</string>
 				<string>{32, 32}</string>
-				<string>{10, 12}</string>
 			</object>
 		</object>
 	</data>

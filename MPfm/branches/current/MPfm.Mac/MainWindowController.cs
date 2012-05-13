@@ -5,14 +5,21 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
+using MPfm.Sound;
 
 namespace MPfm.Mac
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IMainView
 	{
-		private MPfm.MVP.MainPresenter presenter = null;
-		
+		private MPfm.MVP.MainPresenter presenter = null;		
 		private NSTimer timer = null;
+		
+		//strongly typed window accessor00
+		public new MainWindow Window {
+			get {
+				return (MainWindow)base.Window;
+			}
+		}
 		
 		#region Constructors
 		
@@ -33,7 +40,7 @@ namespace MPfm.Mac
 		public MainWindowController() : base ("MainWindow")
 		{
 			Initialize();
-		}
+		}		
 		
 		// Shared initialization code
 		void Initialize()
@@ -41,11 +48,7 @@ namespace MPfm.Mac
 			
 #if (MACOSX)						
 			Console.WriteLine("stuff");			
-#endif
-			
-			
-			//controller.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-			//controller.Player.OnPlaylistIndexChanged += HandleControllerPlayerOnPlaylistIndexChanged;
+#endif			
 		}
 		
 		public override void WindowDidLoad()
@@ -55,97 +58,102 @@ namespace MPfm.Mac
 		
 		public override void AwakeFromNib()
 		{
-			//using(NSAutoreleasePool pool = new NSAutoreleasePool())
-			//{			
+			// Create presenter
 			presenter = new MPfm.MVP.MainPresenter(this);
-			presenter.CreatePlayer();
-			presenter.CreateLibrary();
-			
-			presenter.Library.Gateway.InsertFolder("/var/test/", true);
-			//}
-			
-			List<MPfm.Library.Folder> folders = presenter.Library.Gateway.SelectFolders();
-			
-			lblArtistName.StringValue = "Test223";		
-			
-#if (MACOS2X)						
-				lblArtistName.StringValue = "Hello I'm a Mac";
-#endif
-
-			
-			timer = NSTimer.CreateRepeatingScheduledTimer(0.1, delegate {  
-			
-			//BeginInvokeOnMainThread(delegate() {
-			if(presenter.Player.IsPlaying)
-			{
-				
-				PlayerPositionEntity position = presenter.GetPlayerPosition();
-				
-				lblPosition.StringValue = position.Position;
-						//using(NSAutoreleasePool pool = new NSAutoreleasePool())
-		//{	
-				//lblPosition.StringValue = DateTime.Now.ToLongTimeString();
-				//lblPosition.StringValue = controller.Player.GetPosition().ToString() + " " + DateTime.Now.ToLongTimeString();
-			}
-			//}
-			//});
-				
-			});
-		}
-
-		void HandleControllerPlayerOnPlaylistIndexChanged(MPfm.Player.PlayerPlaylistIndexChangedData data)
-		{
-			
 		}
 		
 		#endregion
 		
 		partial void toolbarOpenAudioFiles_Click(NSObject sender)
-		{
-			
-			
+		{			
+			// Create open file panel
 			var openPanel = new NSOpenPanel();
 			openPanel.ReleasedWhenClosed = true;
 			openPanel.AllowsMultipleSelection = true;
-			openPanel.Prompt = "Please select a file";
+			openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3" };
+			openPanel.Title = "Please select audio files to play";
+			openPanel.Prompt = "Add to playlist";
 //			
 			var result = openPanel.RunModal();
 			if(result == 1)
 			{
-				lblSongPath.StringValue = openPanel.Filename;
-				
-				List<string> files = openPanel.Filenames.ToList();
-				
-							//using(NSAutoreleasePool pool = new NSAutoreleasePool())
-			//{	
-				presenter.Player.PlayFiles(files);
-				//}
-				
-				//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
-				//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = controller.Player.GetPosition().ToString(); });
-				//timer = NSTimer.CreateRepeatingScheduledTimer(1,  BeginInvokeOnMainThread(delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
-				
-				
+				List<string> files = openPanel.Urls.Select(x => x.Path).ToList();
+				presenter.Player.Playlist.Clear();
+				presenter.Player.Playlist.AddItems(files);				
 			}
+			
+			//using(NSAutoreleasePool pool = new NSAutoreleasePool())
+			//{	
+				
+			//}
+				
+			//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
+			//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = controller.Player.GetPosition().ToString(); });
+			//timer = NSTimer.CreateRepeatingScheduledTimer(1,  BeginInvokeOnMainThread(delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });							
 		}
 		
-		partial void _ButtonClick(NSObject sender)
+		partial void toolbarPlay(NSObject sender)
 		{
-			//List<string> files = new List<string>();
-			//files.Add("/Users/animal/Documents/test.ogg");			
-			//controller.Player.PlayFiles(files);
-			
-//			_Label1.StringValue = "Hello";
-//			
-			lblArtistName.StringValue = "Stuff";
+			presenter.Play();	
 		}
-
-		//strongly typed window accessor
-		public new MainWindow Window {
-			get {
-				return (MainWindow)base.Window;
-			}
+		
+		partial void toolbarPause(NSObject sender)
+		{
+			presenter.Pause();
+		}
+		
+		partial void toolbarStop(NSObject sender)
+		{
+			presenter.Stop();
+		}
+		
+		partial void toolbarNext(NSObject sender)
+		{
+			presenter.Next();
+		}
+		
+		partial void toolbarPrevious(NSObject sender)
+		{
+			presenter.Previous();
+		}
+		
+		partial void toolbarRepeatType(NSObject sender)
+		{
+			presenter.RepeatType();
+		}
+		
+		partial void toolbarUpdateLibrary(NSObject sender)
+		{
+			
+		}
+		
+		partial void toolbarPlaylist(NSObject sender)
+		{
+			
+		}
+		
+		partial void toolbarEffects(NSObject sender)
+		{
+			
+		}
+			
+		partial void toolbarPreferences(NSObject sender)
+		{
+			
+		}
+		
+		public void RefreshPlayerPosition(PlayerPositionEntity entity)
+		{
+			lblPosition.StringValue = entity.Position;
+		}
+		
+		public void RefreshSongInformation(SongInformationEntity entity)
+		{									
+			lblArtistName.StringValue = entity.ArtistName;
+			lblAlbumTitle.StringValue = entity.AlbumTitle;
+			lblSongTitle.StringValue = entity.Title;
+			lblSongPath.StringValue = entity.FilePath;
+			lblPosition.StringValue = entity.Position;
 		}
 	}
 }
-

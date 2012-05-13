@@ -34,6 +34,36 @@ namespace MPfm.Mac
 
 		[Action ("toolbarOpenAudioFiles_Click:")]
 		partial void toolbarOpenAudioFiles_Click (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarPlay:")]
+		partial void toolbarPlay (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarStop:")]
+		partial void toolbarStop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarNext:")]
+		partial void toolbarNext (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarPrevious:")]
+		partial void toolbarPrevious (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarUpdateLibrary:")]
+		partial void toolbarUpdateLibrary (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarEffects:")]
+		partial void toolbarEffects (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarPlaylist:")]
+		partial void toolbarPlaylist (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarPreferences:")]
+		partial void toolbarPreferences (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarRepeatType:")]
+		partial void toolbarRepeatType (MonoMac.Foundation.NSObject sender);
+
+		[Action ("toolbarPause:")]
+		partial void toolbarPause (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
