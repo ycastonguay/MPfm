@@ -66,17 +66,6 @@ namespace MPfm.GTK
 	
 			// Create controller
 			presenter = new MainPresenter(this);
-				
-			// Create player
-			//presenter.CreatePlayer();
-			//presenter.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-						
-			// Create library
-			//presenter.CreateLibrary();			
-			
-//			// Create song position timer
-//			timerSongPosition = new Timer(100);
-//			timerSongPosition.Elapsed += HandleTimerSongPositionElapsed;
 			
 			// Create song browser columns
 			CreateSongBrowserColumns();
@@ -130,7 +119,7 @@ namespace MPfm.GTK
 	
 			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
 			
-			this.lblLibrary.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));								
+			this.lblLibraryBrowser.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));								
 			this.lblCurrentSong.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblMarkers.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblLoops.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
@@ -524,6 +513,16 @@ namespace MPfm.GTK
 
 		}
 				
+		protected void OnActionAddFolderActivated (object sender, System.EventArgs e)
+		{
+			
+		}
+
+		protected void OnActionAddFilesActivated (object sender, System.EventArgs e)
+		{
+			
+		}
+
 		#endregion
 		
 

@@ -20,7 +20,7 @@
       </source>
     </icon-set>
   </icon-factory>
-  <widget class="Gtk.Window" id="MPfm.GTK.MainWindow" design-size="962 748">
+  <widget class="Gtk.Window" id="MPfm.GTK.MainWindow" design-size="911 646">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -34,18 +34,13 @@
         <property name="StockId">gtk-quit</property>
         <signal name="Activated" handler="OnExitActionActivated" />
       </action>
-      <action id="HelpAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Help</property>
-        <property name="ShortLabel" translatable="yes">Help</property>
-      </action>
       <action id="actionAbout">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">About MPfm</property>
         <property name="ShortLabel" translatable="yes">About MPfm</property>
         <signal name="Activated" handler="OnAboutActionActivated" />
       </action>
-      <action id="helpAction">
+      <action id="actionHelp">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Help</property>
         <property name="ShortLabel" translatable="yes">Help</property>
@@ -106,22 +101,12 @@
         <property name="StockId">stock_repeat</property>
         <signal name="Activated" handler="OnActionRepeatTypeActivated" />
       </action>
-      <action id="actionOpen">
+      <action id="openAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open Audio Files</property>
+        <property name="Label" translatable="yes">Open audio files...</property>
         <property name="ShortLabel" translatable="yes">Open Audio Files</property>
         <property name="StockId">gtk-open</property>
         <signal name="Activated" handler="OnOpenActionActivated" />
-      </action>
-      <action id="applyAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-apply</property>
-      </action>
-      <action id="disconnectAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-disconnect</property>
       </action>
       <action id="actionUpdateLibrary">
         <property name="Type">Action</property>
@@ -136,32 +121,6 @@
         <property name="ShortLabel" translatable="yes">Settings</property>
         <property name="StockId">gtk-preferences</property>
         <signal name="Activated" handler="OnActionSettingsActivated" />
-      </action>
-      <action id="PlayAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Play</property>
-        <property name="ShortLabel" translatable="yes">Play</property>
-      </action>
-      <action id="executeAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-execute</property>
-      </action>
-      <action id="unindentAction">
-        <property name="Type">Radio</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-unindent</property>
-        <property name="DrawAsRadio">False</property>
-        <property name="Active">False</property>
-        <property name="Value">0</property>
-        <property name="Group">group1</property>
-      </action>
-      <action id="zoomInAction">
-        <property name="Type">Toggle</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-zoom-in</property>
-        <property name="DrawAsRadio">False</property>
-        <property name="Active">False</property>
       </action>
       <action id="actionEffects">
         <property name="Type">Action</property>
@@ -182,95 +141,59 @@
         <property name="StockId">gtk-dnd-multiple</property>
         <signal name="Activated" handler="OnActionPlaylistActivated" />
       </action>
-      <action id="addAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-add</property>
-      </action>
-      <action id="removeAction">
+      <action id="actionRemoveLoop">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-remove</property>
       </action>
-      <action id="editAction">
+      <action id="actionAddMarker">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-add</property>
+      </action>
+      <action id="actionRemoveMarker">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-remove</property>
+      </action>
+      <action id="actionEditLoop">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-edit</property>
       </action>
-      <action id="mediaPlayAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-media-play</property>
-      </action>
-      <action id="mediaStopAction">
+      <action id="actionStopLoop">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-media-stop</property>
       </action>
-      <action id="goForwardAction">
+      <action id="actionEditMarker">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-edit</property>
+      </action>
+      <action id="actionGoToMarker">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-go-forward</property>
       </action>
-      <action id="mediaPlayAction1">
+      <action id="actionAddFiles">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-media-play</property>
-      </action>
-      <action id="editAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-edit</property>
-      </action>
-      <action id="addAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
+        <property name="Label" translatable="yes">Add files to library...</property>
+        <property name="ShortLabel" translatable="yes">Add files to library...</property>
         <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnActionAddFilesActivated" />
       </action>
-      <action id="addAction2">
+      <action id="actionAddFolder">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
+        <property name="Label" translatable="yes">Add folder to library...</property>
+        <property name="ShortLabel" translatable="yes">Add folder to library...</property>
         <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnActionAddFolderActivated" />
       </action>
-      <action id="removeAction1">
+      <action id="HelpAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-remove</property>
-      </action>
-      <action id="addAction3">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-add</property>
-      </action>
-      <action id="removeAction2">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-remove</property>
-      </action>
-      <action id="editAction2">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-edit</property>
-      </action>
-      <action id="mediaPlayAction2">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-media-play</property>
-      </action>
-      <action id="mediaStopAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-media-stop</property>
-      </action>
-      <action id="editAction3">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-edit</property>
-      </action>
-      <action id="goForwardAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-go-forward</property>
+        <property name="Label" translatable="yes">Help</property>
+        <property name="ShortLabel" translatable="yes">Help</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -287,6 +210,13 @@
             <property name="MemberName" />
             <node name="menubarMain" type="Menubar">
               <node type="Menu" action="FileAction">
+                <node type="Menuitem" action="actionAddFiles" />
+                <node type="Menuitem" action="actionAddFolder" />
+                <node type="Separator" />
+                <node type="Menuitem" action="openAction" />
+                <node type="Separator" />
+                <node type="Menuitem" action="actionUpdateLibrary" />
+                <node type="Separator" />
                 <node type="Menuitem" action="actionExit" />
               </node>
               <node type="Menu" action="PlaybackAction">
@@ -299,8 +229,8 @@
               </node>
               <node type="Menu" action="WindowsAction" />
               <node type="Menu" action="HelpAction">
-                <node type="Menuitem" action="helpAction" />
-                <node type="Menuitem" action="aboutAction" />
+                <node type="Menuitem" action="actionHelp" />
+                <node type="Menuitem" action="actionAbout" />
               </node>
             </node>
           </widget>
@@ -318,7 +248,7 @@
             <property name="ButtonStyle">Icons</property>
             <property name="IconSize">SmallToolbar</property>
             <node name="toolbarMain" type="Toolbar">
-              <node type="Toolitem" action="actionOpen" />
+              <node type="Toolitem" action="openAction" />
               <node type="Separator" />
               <node type="Toolitem" action="actionUpdateLibrary" />
               <node type="Separator" />
@@ -352,10 +282,10 @@
                 <property name="Spacing">6</property>
                 <property name="BorderWidth">4</property>
                 <child>
-                  <widget class="Gtk.Label" id="lblLibrary">
+                  <widget class="Gtk.Label" id="lblLibraryBrowser">
                     <property name="MemberName" />
                     <property name="Xalign">0</property>
-                    <property name="LabelProp" translatable="yes">Library</property>
+                    <property name="LabelProp" translatable="yes">Library Browser</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -402,7 +332,7 @@ WV</property>
                     <property name="MemberName" />
                     <property name="ShadowType">In</property>
                     <child>
-                      <widget class="Gtk.TreeView" id="treeSongBrowser1">
+                      <widget class="Gtk.TreeView" id="treeLibraryBrowser">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
@@ -704,7 +634,7 @@ WV</property>
                                         <property name="Upper">100</property>
                                         <property name="PageIncrement">10</property>
                                         <property name="StepIncrement">1</property>
-                                        <property name="Value">40</property>
+                                        <property name="Value">42</property>
                                         <property name="DrawValue">False</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
@@ -879,17 +809,15 @@ WV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Toolbar" id="toolbarMain1">
+                              <widget class="Gtk.Toolbar" id="toolbarLoops">
                                 <property name="MemberName" />
                                 <property name="ShowArrow">False</property>
                                 <property name="ButtonStyle">Icons</property>
                                 <property name="IconSize">Menu</property>
-                                <node name="toolbarMain1" type="Toolbar">
-                                  <node type="Toolitem" action="mediaPlayAction2" />
-                                  <node type="Toolitem" action="mediaStopAction1" />
-                                  <node type="Toolitem" action="addAction2" />
-                                  <node type="Toolitem" action="editAction2" />
-                                  <node type="Toolitem" action="removeAction1" />
+                                <node name="toolbarLoops" type="Toolbar">
+                                  <node type="Toolitem" action="actionStopLoop" />
+                                  <node type="Toolitem" action="actionEditLoop" />
+                                  <node type="Toolitem" action="actionRemoveLoop" />
                                 </node>
                               </widget>
                               <packing>
@@ -904,7 +832,7 @@ WV</property>
                                 <property name="MemberName" />
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.TreeView" id="treeSongBrowser2">
+                                  <widget class="Gtk.TreeView" id="treeLoops">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
@@ -939,16 +867,16 @@ WV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Toolbar" id="toolbarMain2">
+                              <widget class="Gtk.Toolbar" id="toolbarMarkers">
                                 <property name="MemberName" />
                                 <property name="ShowArrow">False</property>
                                 <property name="ButtonStyle">Icons</property>
                                 <property name="IconSize">Menu</property>
-                                <node name="toolbarMain2" type="Toolbar">
-                                  <node type="Toolitem" action="addAction3" />
-                                  <node type="Toolitem" action="removeAction2" />
-                                  <node type="Toolitem" action="editAction3" />
-                                  <node type="Toolitem" action="goForwardAction1" />
+                                <node name="toolbarMarkers" type="Toolbar">
+                                  <node type="Toolitem" action="actionGoToMarker" />
+                                  <node type="Toolitem" action="actionAddMarker" />
+                                  <node type="Toolitem" action="actionRemoveMarker" />
+                                  <node type="Toolitem" action="actionEditMarker" />
                                 </node>
                               </widget>
                               <packing>
@@ -963,7 +891,7 @@ WV</property>
                                 <property name="MemberName" />
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.TreeView" id="treeSongBrowser3">
+                                  <widget class="Gtk.TreeView" id="treeMarkers">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
@@ -1004,7 +932,7 @@ WV</property>
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Button" id="button2">
+                              <widget class="Gtk.Button" id="btnPlaySelectedSongs">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
@@ -1020,7 +948,7 @@ WV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="button11">
+                              <widget class="Gtk.Button" id="btnEditSongMetadata">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
@@ -1036,7 +964,7 @@ WV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="button12">
+                              <widget class="Gtk.Button" id="btnAddToPlaylist">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
@@ -1065,7 +993,7 @@ WV</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Entry" id="entry1">
+                              <widget class="Gtk.Entry" id="txtSearch">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="IsEditable">True</property>
@@ -1075,9 +1003,6 @@ WV</property>
                                 <property name="Position">4</property>
                                 <property name="AutoSize">True</property>
                               </packing>
-                            </child>
-                            <child>
-                              <placeholder />
                             </child>
                           </widget>
                           <packing>
