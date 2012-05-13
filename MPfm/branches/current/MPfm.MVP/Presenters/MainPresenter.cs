@@ -39,7 +39,7 @@ namespace MPfm.MVP
 		// Private variables		
 		private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
-		private IMainView view = null;
+		private readonly IMainView view = null;
 		private Timer timerRefreshSongPosition = null;
 
 		#region Directories and File Paths
@@ -141,6 +141,12 @@ namespace MPfm.MVP
 		/// </summary>
 		public MainPresenter(IMainView view)
 		{
+			// Validate parameters
+			if(view == null)
+			{
+				throw new ArgumentNullException("The view parameter is null!");
+			}
+						
 			// Set properties
 			this.view = view;
 			

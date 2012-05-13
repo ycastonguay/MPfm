@@ -72,6 +72,9 @@
       <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="Mono.Posix" />
+    <Reference Include="Ninject">
+      <HintPath>Lib\Ninject.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -146,6 +149,7 @@
     <None Include="Bass.Net.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Lib\Ninject.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
