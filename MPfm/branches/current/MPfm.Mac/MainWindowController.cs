@@ -1,15 +1,16 @@
+#define MACOSX
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.UI;
+using MPfm.MVP;
 
 namespace MPfm.Mac
 {
-	public partial class MainWindowController : MonoMac.AppKit.NSWindowController
+	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IMainView
 	{
-		private MPfm.UI.MainWindowController controller = null;
+		private MPfm.MVP.MainPresenter presenter = null;
 		
 		private NSTimer timer = null;
 		
@@ -37,7 +38,10 @@ namespace MPfm.Mac
 		// Shared initialization code
 		void Initialize()
 		{
-						
+			
+#if (MACOSX)						
+			Console.WriteLine("stuff");			
+#endif
 			
 			
 			//controller.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
@@ -53,29 +57,38 @@ namespace MPfm.Mac
 		{
 			//using(NSAutoreleasePool pool = new NSAutoreleasePool())
 			//{			
-				controller = new MPfm.UI.MainWindowController();
-				controller.CreatePlayer();
+			presenter = new MPfm.MVP.MainPresenter(this);
+			presenter.CreatePlayer();
+			presenter.CreateLibrary();
+			
+			presenter.Library.Gateway.InsertFolder("/var/test/", true);
 			//}
+			
+			List<MPfm.Library.Folder> folders = presenter.Library.Gateway.SelectFolders();
 			
 			lblArtistName.StringValue = "Test223";		
 			
+#if (MACOS2X)						
+				lblArtistName.StringValue = "Hello I'm a Mac";
+#endif
+
 			
 			timer = NSTimer.CreateRepeatingScheduledTimer(0.1, delegate {  
 			
-				//BeginInvokeOnMainThread(delegate() {
-				if(controller.Player.IsPlaying)
-				{
-					
-					PlayerPositionEntity position = controller.GetPlayerPosition();
-					
-					lblPosition.StringValue = position.Position;
-							//using(NSAutoreleasePool pool = new NSAutoreleasePool())
-			//{	
-					//lblPosition.StringValue = DateTime.Now.ToLongTimeString();
-					//lblPosition.StringValue = controller.Player.GetPosition().ToString() + " " + DateTime.Now.ToLongTimeString();
-				}
-				//}
-				//});
+			//BeginInvokeOnMainThread(delegate() {
+			if(presenter.Player.IsPlaying)
+			{
+				
+				PlayerPositionEntity position = presenter.GetPlayerPosition();
+				
+				lblPosition.StringValue = position.Position;
+						//using(NSAutoreleasePool pool = new NSAutoreleasePool())
+		//{	
+				//lblPosition.StringValue = DateTime.Now.ToLongTimeString();
+				//lblPosition.StringValue = controller.Player.GetPosition().ToString() + " " + DateTime.Now.ToLongTimeString();
+			}
+			//}
+			//});
 				
 			});
 		}
@@ -105,7 +118,7 @@ namespace MPfm.Mac
 				
 							//using(NSAutoreleasePool pool = new NSAutoreleasePool())
 			//{	
-				controller.Player.PlayFiles(files);
+				presenter.Player.PlayFiles(files);
 				//}
 				
 				//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
