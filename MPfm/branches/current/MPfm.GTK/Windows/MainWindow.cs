@@ -329,10 +329,10 @@ namespace MPfm.GTK
 		{
 			// Create dialog box
 			Gtk.FileChooserDialog dialog = 
-				new Gtk.FileChooserDialog("Select the audio file(s) to play.", 
+				new Gtk.FileChooserDialog("Select the audio files to play.", 
 			                                  this, FileChooserAction.Open, 
 			                                  "Cancel", ResponseType.Cancel, 
-			                                  "Open", ResponseType.Accept);
+			                                  "Add to playlist", ResponseType.Accept);
 			
 			// Let the user choose multiple files
 			dialog.SelectMultiple = true;
@@ -346,15 +346,7 @@ namespace MPfm.GTK
 				
 				// Create list of audio files
 				audioFiles = new List<AudioFile>();
-//	
-//				// Read audio files
-//				for(int a = 0; a < dialog.Filenames.Length; a++)
-//				{
-//					// Create audio file and add to list
-//					AudioFile audioFile = new AudioFile(dialog.Filenames[a]);
-//					audioFiles.Add(audioFile);
-//				}
-//	
+
 				// Refresh song browser
 				RefreshSongBrowser(audioFiles);
 			}
@@ -362,13 +354,56 @@ namespace MPfm.GTK
 			// Destroy dialog
 			dialog.Destroy();
 		}
+
+		protected void OnActionAddFilesActivated (object sender, System.EventArgs e)
+		{
+			// Create dialog box
+			Gtk.FileChooserDialog dialog = 
+				new Gtk.FileChooserDialog("Select the audio files to add to the library.", 
+			                                  this, FileChooserAction.Open, 
+			                                  "Cancel", ResponseType.Cancel, 
+			                                  "Add files to library", ResponseType.Accept);
+			
+			// Let the user choose multiple files
+			dialog.SelectMultiple = true;			
+	
+			// Show dialog box
+			if(dialog.Run() == (int)ResponseType.Accept)
+			{
+				
+			}
+							
+			// Destroy dialog
+			dialog.Destroy();
+		}		
+									
+		protected void OnActionAddFolderActivated (object sender, System.EventArgs e)
+		{
+			// Create dialog box			
+			Gtk.FileChooserDialog dialog = 
+				new Gtk.FileChooserDialog("Select the audio files to add to the library.", 
+			                                  this, FileChooserAction.SelectFolder, 
+			                                  "Cancel", ResponseType.Cancel, 
+			                                  "Add folder to library", ResponseType.Accept);
+						
+			// Let the user choose multiple files
+			dialog.SelectMultiple = true;						
+	
+			// Show dialog box
+			if(dialog.Run() == (int)ResponseType.Accept)
+			{
+				//dialog.Filenames
+			}
+							
+			// Destroy dialog
+			dialog.Destroy();
+		}
 		
 		protected void OnActionUpdateLibraryActivated(object sender, System.EventArgs e)
 		{
-			// Check if the window exists
+			// Create window if it doesn't exists
 			if(windowUpdateLibrary == null)
-			{
-				// Create window
+			{				
 				windowUpdateLibrary = new UpdateLibraryWindow(this);			
 			}
 			
@@ -424,10 +459,9 @@ namespace MPfm.GTK
 
 		protected void OnActionPlaylistActivated(object sender, System.EventArgs e)
 		{
-			// Check if the window exists
+			// Create window if it doesn't exists
 			if(windowPlaylist == null)
-			{
-				// Create window
+			{				
 				windowPlaylist = new PlaylistWindow(this);			
 			}
 			
@@ -437,10 +471,9 @@ namespace MPfm.GTK
 
 		protected void OnActionEffectsActivated(object sender, System.EventArgs e)
 		{							
-			// Check if the window exists
+			// Create window if it doesn't exists
 			if(windowEffects == null)
-			{
-				// Create window
+			{				
 				windowEffects = new EffectsWindow(this);			
 			}
 			
@@ -450,10 +483,9 @@ namespace MPfm.GTK
 		
 		protected void OnActionSettingsActivated(object sender, System.EventArgs e)
 		{
-			// Check if the window exists
+			// Create window if it doesn't exists
 			if(windowSettings == null)
-			{
-				// Create window
+			{				
 				windowSettings = new SettingsWindow(this);			
 			}
 			
@@ -511,16 +543,6 @@ namespace MPfm.GTK
 			//int test = (int)args.Args[1];
 			//controller.Player.SetPosition(args.RetVal);
 
-		}
-				
-		protected void OnActionAddFolderActivated (object sender, System.EventArgs e)
-		{
-			
-		}
-
-		protected void OnActionAddFilesActivated (object sender, System.EventArgs e)
-		{
-			
 		}
 
 		#endregion

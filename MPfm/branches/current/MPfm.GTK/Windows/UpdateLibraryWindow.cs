@@ -19,13 +19,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using MPfm.MVP;
 
 namespace MPfm.GTK
 {
 	/// <summary>
 	/// Update Library window.
 	/// </summary>
-	public partial class UpdateLibraryWindow : Gtk.Window
+	public partial class UpdateLibraryWindow : Gtk.Window, IUpdateLibraryView
 	{
 		/// <summary>
 		/// Reference to the main window.
@@ -73,6 +74,12 @@ namespace MPfm.GTK
 		protected void OnActionSaveLogActivated (object sender, System.EventArgs e)
 		{
 			
+		}
+		
+		public void RefreshStatus(UpdateLibraryEntity entity)
+		{
+			lblTitle.Text = entity.Title;
+			lblSubtitle.Text = entity.Subtitle;			
 		}
 	}
 }

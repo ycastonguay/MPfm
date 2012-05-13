@@ -30,8 +30,8 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Update Library window view interface.
 	/// </summary>
-	public interface IUpdateLibrary
+	public interface IUpdateLibraryView
 	{
-		void RefreshStatus();
+		void RefreshStatus(UpdateLibraryEntity entity);
 	}
 }

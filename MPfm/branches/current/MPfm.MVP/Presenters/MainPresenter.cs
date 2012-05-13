@@ -160,6 +160,24 @@ namespace MPfm.MVP
 			CreatePlayer();
 			CreateLibrary();
 		}
+
+		/// <summary>
+		/// Releases all resource used by the <see cref="MPfm.UI.MainWindowPresenter"/> object.
+		/// </summary>
+		/// <remarks>
+		/// Call <see cref="Dispose"/> when you are finished using the <see cref="MPfm.UI.MainWindowPresenter"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="MPfm.UI.MainWindowPresenter"/> in an unusable state. After
+		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="MPfm.UI.MainWindowPresenter"/>
+		/// so the garbage collector can reclaim the memory that the <see cref="MPfm.UI.MainWindowPresenter"/> was occupying.
+		/// </remarks>
+		public void Dispose()
+		{
+			// Dispose player
+			player.Dispose();
+			player = null;
+		}
+
+		#endregion
 		
 		/// <summary>
 		/// Handles the timer update position elapsed.
@@ -182,24 +200,28 @@ namespace MPfm.MVP
 			// Send changes to view
 			view.RefreshPlayerPosition(entity);
 		}
-
+		
 		/// <summary>
-		/// Releases all resource used by the <see cref="MPfm.UI.MainWindowPresenter"/> object.
+		/// Handles the player playlist index changed event.
 		/// </summary>
-		/// <remarks>
-		/// Call <see cref="Dispose"/> when you are finished using the <see cref="MPfm.UI.MainWindowPresenter"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="MPfm.UI.MainWindowPresenter"/> in an unusable state. After
-		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="MPfm.UI.MainWindowPresenter"/>
-		/// so the garbage collector can reclaim the memory that the <see cref="MPfm.UI.MainWindowPresenter"/> was occupying.
-		/// </remarks>
-		public void Dispose()
+		/// <param name='data'>
+		/// Playlist index changed data.
+		/// </param>
+		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
 		{
-			// Dispose player
-			player.Dispose();
-			player = null;
+			// Refresh song information
+			RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
+		}		
+		
+		protected void HandleLibraryOnUpdateLibraryProgress (MPfm.Library.OldUpdateLibraryProgressData data)
+		{
+			
 		}
 
-		#endregion
+		protected void HandleLibraryOnUpdateLibraryFinished (MPfm.Library.UpdateLibraryFinishedData data)
+		{
+			
+		}
 
 		/// <summary>
 		/// Creates the configuration.
@@ -269,18 +291,6 @@ namespace MPfm.MVP
 			// Create player
 			player = new MPfm.Player.Player(device, 44100, 100, 10, true);
 			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-		}
-		
-		/// <summary>
-		/// Handles the player playlist index changed event.
-		/// </summary>
-		/// <param name='data'>
-		/// Playlist index changed data.
-		/// </param>
-		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
-		{
-			// Refresh song information
-			RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
 		}
 		
 		/// <summary>
@@ -366,16 +376,6 @@ namespace MPfm.MVP
                 //return;
             }
 		}
-
-		protected void HandleLibraryOnUpdateLibraryProgress (MPfm.Library.OldUpdateLibraryProgressData data)
-		{
-			
-		}
-
-		protected void HandleLibraryOnUpdateLibraryFinished (MPfm.Library.UpdateLibraryFinishedData data)
-		{
-			
-		}
 		
 		/// <summary>
 		/// Starts playback.
@@ -455,6 +455,14 @@ namespace MPfm.MVP
 		{
 		}
 		
+		public void AddFilesToLibrary(List<string> filePaths)
+		{
+		}
+		
+		public void AddFolderToLibrary(string folderPath)
+		{
+		}		
+		
 		/// <summary>
 		/// Refreshes the song information on the main view.
 		/// </summary>
@@ -476,7 +484,7 @@ namespace MPfm.MVP
 			
 			// Update view
 			view.RefreshSongInformation(entity);
-		}
+		}	
 	}
 }
 

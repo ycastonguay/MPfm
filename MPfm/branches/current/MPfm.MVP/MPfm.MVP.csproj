@@ -50,6 +50,9 @@
     <Reference Include="Ninject">
       <HintPath>Lib\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>Lib\AutoMapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -61,6 +64,7 @@
     <Compile Include="Presenters\IMainPresenter.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Models\SongInformationEntity.cs" />
+    <Compile Include="Models\UpdateLibraryEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -90,5 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Lib\Ninject.dll" />
+    <None Include="Lib\AutoMapper.dll" />
   </ItemGroup>
 </Project>

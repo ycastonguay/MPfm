@@ -1,5 +1,5 @@
-//
-// IMainPresenter.cs: Main window presenter interface.
+﻿//
+// UpdateLibraryEntity.cs: Data structure repesenting the current update library status.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,29 +19,19 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-	/// Main window presenter interface.
-	/// </summary>
-	public interface IMainPresenter
-	{
-		// Playback
-		void Play();
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();		
-		
-		// UI
-		void AddFilesToLibrary(List<string> filePaths);
-		void AddFolderToLibrary(string folderPath);		
-	}
+    /// <summary>
+    /// Data structure repesenting the current update library status.
+    /// </summary>
+    public class UpdateLibraryEntity
+    {
+		public string Title { get; set; }
+		public string Subtitle { get; set; }
+		public float PercentageDone { get; set; }		
+    }
 }
 
