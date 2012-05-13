@@ -1,5 +1,5 @@
 //
-// MainWindowPresenter.cs: Main window presenter.
+// MainPresenter.cs: Main window presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,9 +19,11 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Timers;
 using MPfm.Core;
 using MPfm.Player;
 using MPfm.Sound;
@@ -32,12 +34,13 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Main window presenter.
 	/// </summary>
-	public class MainPresenter : IDisposable
+	public class MainPresenter : IDisposable, IMainPresenter
 	{
 		// Private variables		
 		private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
 		private IMainView view = null;
+		private Timer timerRefreshSongPosition = null;
 
 		#region Directories and File Paths
 
@@ -141,8 +144,37 @@ namespace MPfm.MVP
 			// Set properties
 			this.view = view;
 			
-			// Create configuration
+			// Create update position timer
+			timerRefreshSongPosition = new Timer();			
+			timerRefreshSongPosition.Interval = 100;
+			timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
+			
+			// Initialize components
 			CreateConfiguration();
+			CreatePlayer();
+			CreateLibrary();
+		}
+		
+		/// <summary>
+		/// Handles the timer update position elapsed.
+		/// </summary>
+		/// <param name='sender'>
+		/// Sender.
+		/// </param>
+		/// <param name='e'>
+		/// E.
+		/// </param>
+		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
+		{
+			// Create entity
+			PlayerPositionEntity entity = new PlayerPositionEntity();
+			entity.PositionBytes = player.GetPosition();
+    		entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+    		entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
+    		entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+			
+			// Send changes to view
+			view.RefreshPlayerPosition(entity);
 		}
 
 		/// <summary>
@@ -166,7 +198,7 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Creates the configuration.
 		/// </summary>
-		public void CreateConfiguration()
+		private void CreateConfiguration()
 		{
 			// Get assembly directory
 			string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -217,8 +249,11 @@ namespace MPfm.MVP
 
 			// Check for configuration file
 		}
-
-		public void CreatePlayer()
+		
+		/// <summary>
+		/// Creates and initializes the player.
+		/// </summary>
+		private void CreatePlayer()
 		{
 			// Create device
 			Device device = new Device();
@@ -227,10 +262,28 @@ namespace MPfm.MVP
 
 			// Create player
 			player = new MPfm.Player.Player(device, 44100, 100, 10, true);
-			//player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
 		}
 		
-		public void CreateLibrary()
+		/// <summary>
+		/// Handles the player playlist index changed event.
+		/// </summary>
+		/// <param name='data'>
+		/// Playlist index changed data.
+		/// </param>
+		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
+		{
+			// Refresh song information
+			view.RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
+		}
+		
+		/// <summary>
+		/// Creates and initializes the library.
+		/// </summary>
+		/// <exception cref='Exception'>
+		/// Represents errors that occur during application execution.
+		/// </exception>
+		private void CreateLibrary()
 		{
             try
             {
@@ -317,21 +370,80 @@ namespace MPfm.MVP
 		{
 			
 		}
-
+		
 		/// <summary>
-		/// Returns the current player position, if playing.
+		/// Starts playback.
 		/// </summary>
-		/// <returns>Entity containing the player position in different formats.</returns>
-		public PlayerPositionEntity GetPlayerPosition()
+		public void Play()
 		{
-			// Create entity
-			PlayerPositionEntity entity = new PlayerPositionEntity();
-			entity.PositionBytes = player.GetPosition();
-    		entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-    		entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
-    		entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-
-			return entity;
+			// Start playback
+			player.Play();
+	
+			// Refresh song information
+			view.RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+			
+			// Start timer
+			timerRefreshSongPosition.Start();
+		}
+		
+		/// <summary>
+		/// Stops playback.
+		/// </summary>
+		public void Stop()
+		{
+			// Check if the player is playing
+			if(player.IsPlaying)
+			{
+				// Stop timer
+				timerRefreshSongPosition.Stop();
+				
+				// Stop player
+				player.Stop();
+			}
+		}
+		
+		/// <summary>
+		/// Pauses playback.
+		/// </summary>
+		public void Pause()
+		{
+			// Check if the player is playing
+			if(player.IsPlaying)
+			{
+				// Pause player
+				player.Pause();
+			}
+		}
+		
+		/// <summary>
+		/// Skips to the next song in the playlist.
+		/// </summary>
+		public void Next()
+		{
+			// Go to next song
+			player.Next();
+	
+			// Refresh controls
+			view.RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+		}
+		
+		/// <summary>
+		/// Skips to the previous song in the playlist.
+		/// </summary>
+		public void Previous()
+		{
+			// Go to previous song
+			player.Previous();
+	
+			// Refresh controls
+			view.RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+		}
+		
+		/// <summary>
+		/// Cycles through the repeat types (Off, Song, Playlist).
+		/// </summary>
+		public void RepeatType()
+		{
 		}
 	}
 }

@@ -1,5 +1,5 @@
 //
-// IMainView.cs: Main window view interface.
+// IUpdateLibraryView.cs: Update Library window view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -28,24 +28,10 @@ using MPfm.Sound;
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Main window view interface.
+	/// Update Library window view interface.
 	/// </summary>
-	public interface IMainView
+	public interface IUpdateLibrary
 	{
-		/// <summary>
-		/// This method is called when the song position needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Player position entity.
-		/// </param>
-		void RefreshPlayerPosition(PlayerPositionEntity entity);
-		/// <summary>
-		/// This method is called when the song information needs to be refreshed.
-		/// </summary>
-		/// <param name='audioFile'>
-		/// Audio file.
-		/// </param>
-		void RefreshSongInformation(AudioFile audioFile);
+		void RefreshStatus();
 	}
 }
-

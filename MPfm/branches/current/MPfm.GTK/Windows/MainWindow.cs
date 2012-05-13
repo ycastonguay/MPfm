@@ -35,7 +35,6 @@ namespace MPfm.GTK
 	
 		private List<AudioFile> audioFiles = null;
 		private TestDevice testDevice = null;
-		private Timer timerSongPosition = null;
 	
 		private bool isSongPositionChanging = false;
 	
@@ -56,7 +55,71 @@ namespace MPfm.GTK
 	
 			// Set application icon (for some reason it is not visible on Unity)
 			this.SetIconFromFile("icon48.png");
+			
+			// Set font properties
+			SetFontProperties();
+					
+			// Set temporary album cover
+			Pixbuf stuff = new Pixbuf("icon48.png");
+			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
+			this.imageAlbumCover.Pixbuf = stuff;
 	
+			// Create controller
+			presenter = new MainPresenter(this);
+				
+			// Create player
+			//presenter.CreatePlayer();
+			//presenter.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+						
+			// Create library
+			//presenter.CreateLibrary();			
+			
+//			// Create song position timer
+//			timerSongPosition = new Timer(100);
+//			timerSongPosition.Elapsed += HandleTimerSongPositionElapsed;
+			
+			// Create song browser columns
+			CreateSongBrowserColumns();
+			RefreshSongBrowser(new List<AudioFile>());
+	
+			// Refresh other stuff
+			RefreshRepeatButton();
+			RefreshSongInformation(null);
+	
+			//#if VER_LINUX
+			//		device.Name = "LINUX";
+			//#endif
+			
+			this.cboSoundFormat.GrabFocus();			
+		}
+	
+		/// <summary>
+		/// Exits the application.
+		/// </summary>
+		protected void ExitApplication()
+		{
+			// Dispose controller
+			presenter.Dispose();
+			presenter = null;
+	
+			// Exit application
+			Application.Quit();
+		}
+	
+		/// <summary>
+		/// Raises the delete event (when the form is closing).
+		/// Exits the application.
+		/// </summary>
+		/// <param name='o'>Object</param>
+		/// <param name='args'>Event arguments</param>
+		protected void OnDeleteEvent(object sender, DeleteEventArgs a)
+		{
+			ExitApplication();
+			a.RetVal = true;
+		}
+		
+		private void SetFontProperties()
+		{				
 			// Get default font name
 			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;
 			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
@@ -89,66 +152,7 @@ namespace MPfm.GTK
 			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-					
-			// Set temporary album cover
-			Pixbuf stuff = new Pixbuf("icon48.png");
-			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
-			this.imageAlbumCover.Pixbuf = stuff;
-	
-			// Create controller
-			presenter = new MainPresenter(this);
-				
-			// Create player
-			presenter.CreatePlayer();
-			presenter.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-						
-			// Create library
-			presenter.CreateLibrary();			
-			
-			// Create song position timer
-			timerSongPosition = new Timer(100);
-			timerSongPosition.Elapsed += HandleTimerSongPositionElapsed;
-			
-			// Create song browser columns
-			CreateSongBrowserColumns();
-			RefreshSongBrowser(new List<AudioFile>());
-	
-			// Refresh other stuff
-			RefreshRepeatButton();
-			RefreshSongInformation();
-	
-			//#if VER_LINUX
-			//		device.Name = "LINUX";
-			//#endif
-			
-			this.cboSoundFormat.GrabFocus();
-			//this.hscaleSongPosition.GrabFocus();
-		}
-	
-		/// <summary>
-		/// Exits the application.
-		/// </summary>
-		protected void ExitApplication()
-		{
-			// Dispose controller
-			presenter.Dispose();
-			presenter = null;
-	
-			// Exit application
-			Application.Quit();
-		}
-	
-		/// <summary>
-		/// Raises the delete event (when the form is closing).
-		/// Exits the application.
-		/// </summary>
-		/// <param name='o'>Object</param>
-		/// <param name='args'>Event arguments</param>
-		protected void OnDeleteEvent(object sender, DeleteEventArgs a)
-		{
-			ExitApplication();
-			a.RetVal = true;
-		}
+		}				
 	
 		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
 		{
@@ -159,24 +163,47 @@ namespace MPfm.GTK
 			}
 	
 			// Refresh song information
-			RefreshSongInformation();
+			RefreshSongInformation(null);
 		}
-	
-		protected void HandleTimerSongPositionElapsed(object sender, ElapsedEventArgs e)
+				
+		public void RefreshPlayerPosition(PlayerPositionEntity entity)
 		{
-			// Get position
-			PlayerPositionEntity position = presenter.GetPlayerPosition();
-	
 			// Invoke UI changes
 			Gtk.Application.Invoke(delegate{
-				lblCurrentPosition.Text = position.Position.ToString();
+				lblCurrentPosition.Text = entity.Position.ToString();
 	
 				// Check if the user is currently changing the position
 				if(!isSongPositionChanging)
 				{
-					hscaleSongPosition.Value = position.PositionBytes;
+					hscaleSongPosition.Value = entity.PositionBytes;
 				}
 			});
+		}
+		
+		public void RefreshSongInformation(AudioFile audioFile)
+		{
+			// Check if the current item is valid
+			if(audioFile == null)
+			{
+		        // Set empty values
+		        lblArtistName.Text = string.Empty;
+		        lblAlbumTitle.Text = string.Empty;
+		        lblSongTitle.Text = string.Empty;
+		        lblSongFilePath.Text = string.Empty;
+				lblCurrentPosition.Text = "0:00.000";
+		        lblCurrentLength.Text = "0:00.000";
+				hscaleSongPosition.Value = 0;
+			}
+			else
+			{
+		        // Set metadata and file path labels
+		        lblArtistName.Text = audioFile.ArtistName;
+		        lblAlbumTitle.Text = audioFile.AlbumTitle;
+		        lblSongTitle.Text = audioFile.Title;
+		        lblSongFilePath.Text = audioFile.FilePath;
+		        lblCurrentLength.Text = audioFile.Length;
+				//hscaleSongPosition.Adjustment.Upper = audioFile
+			}
 		}
 		
 		#region Refresh Methods
@@ -289,35 +316,6 @@ namespace MPfm.GTK
 			// Set cell text
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
-	
-		/// <summary>
-		/// Refreshes the song information.
-		/// </summary>
-		protected void RefreshSongInformation()
-		{
-			// Check if the current item is valid
-			if(presenter.Player.Playlist.CurrentItem == null)
-			{
-		        // Set empty values
-		        lblArtistName.Text = string.Empty;
-		        lblAlbumTitle.Text = string.Empty;
-		        lblSongTitle.Text = string.Empty;
-		        lblSongFilePath.Text = string.Empty;
-				lblCurrentPosition.Text = "0:00.000";
-		        lblCurrentLength.Text = "0:00.000";
-				hscaleSongPosition.Value = 0;
-			}
-			else
-			{
-		        // Set metadata and file path labels
-		        lblArtistName.Text = presenter.Player.Playlist.CurrentItem.AudioFile.ArtistName;
-		        lblAlbumTitle.Text = presenter.Player.Playlist.CurrentItem.AudioFile.AlbumTitle;
-		        lblSongTitle.Text = presenter.Player.Playlist.CurrentItem.AudioFile.Title;
-		        lblSongFilePath.Text = presenter.Player.Playlist.CurrentItem.AudioFile.FilePath;
-		        lblCurrentLength.Text = presenter.Player.Playlist.CurrentItem.LengthString;
-				hscaleSongPosition.Adjustment.Upper = presenter.Player.Playlist.CurrentItem.LengthBytes;
-			}
-		}
 			
 	    /// <summary>
 	    /// Refreshes the "Repeat" button in the main window toolbar.
@@ -379,23 +377,25 @@ namespace MPfm.GTK
 			// Show dialog box
 			if(dialog.Run() == (int)ResponseType.Accept)
 			{
-				//player.PlayFiles(dialog.Filenames.ToList());
+				// Replace playlist
+				presenter.Player.Playlist.Clear();
+				presenter.Player.Playlist.AddItems(dialog.Filenames.ToList());
 				
 				// Create list of audio files
 				audioFiles = new List<AudioFile>();
-	
-				// Read audio files
-				for(int a = 0; a < dialog.Filenames.Length; a++)
-				{
-					// Create audio file and add to list
-					AudioFile audioFile = new AudioFile(dialog.Filenames[a]);
-					audioFiles.Add(audioFile);
-				}
-	
+//	
+//				// Read audio files
+//				for(int a = 0; a < dialog.Filenames.Length; a++)
+//				{
+//					// Create audio file and add to list
+//					AudioFile audioFile = new AudioFile(dialog.Filenames[a]);
+//					audioFiles.Add(audioFile);
+//				}
+//	
 				// Refresh song browser
 				RefreshSongBrowser(audioFiles);
 			}
-	
+				
 			// Destroy dialog
 			dialog.Destroy();
 		}
@@ -416,60 +416,27 @@ namespace MPfm.GTK
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
 		{
-			if(audioFiles == null)
-			{
-				return;
-			}
-	
-			// Play playlist
-			presenter.Player.PlayFiles(audioFiles);
-	
-			// Refresh song information
-			RefreshSongInformation();
-	
-			// Start timer
-			timerSongPosition.Start();
+			presenter.Play();
 		}
 		
 		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
-			// Check if the player is playing
-			if(presenter.Player.IsPlaying)
-			{
-				// Pause player
-				presenter.Player.Pause();
-			}
+			presenter.Pause();
 		}
 		
 		protected void OnActionStopActivated(object sender, System.EventArgs e)
 		{
-			// Check if the player is playing
-			if(presenter.Player.IsPlaying)
-			{
-				// Stop timer
-				timerSongPosition.Stop();
-				
-				// Stop player
-				presenter.Player.Stop();
-			}
+			presenter.Stop();
 		}
 		
 		protected void OnActionPreviousActivated(object sender, System.EventArgs e)
 		{
-			// Go to previous song
-			presenter.Player.Previous();
-	
-			// Refresh controls
-			RefreshSongInformation();
+			presenter.Previous();
 		}
 
 		protected void OnActionNextActivated(object sender, System.EventArgs e)
 		{
-			// Go to next song
-			presenter.Player.Next();
-	
-			// Refresh controls
-			RefreshSongInformation();
+			presenter.Next();
 		}
 
 		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
@@ -584,5 +551,7 @@ namespace MPfm.GTK
 		}
 				
 		#endregion
+		
+
 	}
 }

@@ -1,5 +1,5 @@
 //
-// IMainView.cs: Main window view interface.
+// IMainPresenter.cs: Main window presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -22,30 +22,20 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Main window view interface.
+	/// Main window presenter interface.
 	/// </summary>
-	public interface IMainView
+	public interface IMainPresenter
 	{
-		/// <summary>
-		/// This method is called when the song position needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Player position entity.
-		/// </param>
-		void RefreshPlayerPosition(PlayerPositionEntity entity);
-		/// <summary>
-		/// This method is called when the song information needs to be refreshed.
-		/// </summary>
-		/// <param name='audioFile'>
-		/// Audio file.
-		/// </param>
-		void RefreshSongInformation(AudioFile audioFile);
+		void Play();
+		void Stop();
+		void Pause();
+		void Next();
+		void Previous();
+		void RepeatType();		
 	}
 }
 

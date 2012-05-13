@@ -51,10 +51,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="Services\IMainView.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Services\IMainService.cs" />
+    <Compile Include="Presenters\IMainPresenter.cs" />
+    <Compile Include="Views\IUpdateLibraryView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
