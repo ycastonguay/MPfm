@@ -57,6 +57,7 @@
     <Compile Include="Services\IMainService.cs" />
     <Compile Include="Presenters\IMainPresenter.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
+    <Compile Include="Models\SongInformationEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

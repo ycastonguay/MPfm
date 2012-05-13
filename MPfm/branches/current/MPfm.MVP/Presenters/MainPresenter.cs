@@ -274,7 +274,7 @@ namespace MPfm.MVP
 		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
 		{
 			// Refresh song information
-			view.RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
+			RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
 		}
 		
 		/// <summary>
@@ -380,7 +380,7 @@ namespace MPfm.MVP
 			player.Play();
 	
 			// Refresh song information
-			view.RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
 			
 			// Start timer
 			timerRefreshSongPosition.Start();
@@ -399,6 +399,9 @@ namespace MPfm.MVP
 				
 				// Stop player
 				player.Stop();
+				
+				// Refresh song information
+				RefreshSongInformation(null);
 			}
 		}
 		
@@ -424,7 +427,7 @@ namespace MPfm.MVP
 			player.Next();
 	
 			// Refresh controls
-			view.RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
 		}
 		
 		/// <summary>
@@ -436,7 +439,7 @@ namespace MPfm.MVP
 			player.Previous();
 	
 			// Refresh controls
-			view.RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
 		}
 		
 		/// <summary>
@@ -444,6 +447,29 @@ namespace MPfm.MVP
 		/// </summary>
 		public void RepeatType()
 		{
+		}
+		
+		/// <summary>
+		/// Refreshes the song information on the main view.
+		/// </summary>
+		/// <param name='audioFile'>
+		/// Audio file.
+		/// </param>
+		private void RefreshSongInformation(AudioFile audioFile)
+		{
+			// Create entity
+			SongInformationEntity entity = new SongInformationEntity();
+			if(audioFile != null)
+			{
+				entity.ArtistName = audioFile.ArtistName;
+				entity.AlbumTitle = audioFile.AlbumTitle;
+				entity.Title = audioFile.Title;
+				entity.FilePath = audioFile.FilePath;
+				entity.Length = audioFile.Length;
+			}
+			
+			// Update view
+			view.RefreshSongInformation(entity);
 		}
 	}
 }

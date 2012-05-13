@@ -1,5 +1,5 @@
-//
-// IMainView.cs: Main window view interface.
+﻿//
+// SongInformationEntity.cs: Data structure repesenting song information.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,33 +19,31 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-	/// Main window view interface.
-	/// </summary>
-	public interface IMainView
-	{
+    /// <summary>
+    /// Data structure repesenting song information.
+    /// </summary>
+    public class SongInformationEntity
+    {
+		public string ArtistName { get; set; }
+		public string AlbumTitle { get; set; }
+		public string Title { get; set; }
+		public string FilePath { get; set; }		
+		public string Length { get; set; }
+		public string Position { get; set; }
+		
 		/// <summary>
-		/// This method is called when the song position needs to be refreshed.
+		/// Initializes a new instance of the <see cref="MPfm.MVP.SongInformationEntity"/> class.
 		/// </summary>
-		/// <param name='entity'>
-		/// Player position entity.
-		/// </param>
-		void RefreshPlayerPosition(PlayerPositionEntity entity);
-		/// <summary>
-		/// This method is called when the song information needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Song information entity.
-		/// </param>
-		void RefreshSongInformation(SongInformationEntity entity);
+		public SongInformationEntity()
+		{
+			Length = "0:00.000";
+			Position = "0:00.000";
+		}
 	}
 }
 

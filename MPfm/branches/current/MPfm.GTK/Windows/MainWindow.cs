@@ -84,7 +84,7 @@ namespace MPfm.GTK
 	
 			// Refresh other stuff
 			RefreshRepeatButton();
-			RefreshSongInformation(null);
+			RefreshSongInformation(new SongInformationEntity());
 	
 			//#if VER_LINUX
 			//		device.Name = "LINUX";
@@ -152,18 +152,6 @@ namespace MPfm.GTK
 			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-		}				
-	
-		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
-		{
-			// Check if the playback has stopped
-			if(data.IsPlaybackStopped)
-			{
-				return;
-			}
-	
-			// Refresh song information
-			RefreshSongInformation(null);
 		}
 				
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -180,30 +168,16 @@ namespace MPfm.GTK
 			});
 		}
 		
-		public void RefreshSongInformation(AudioFile audioFile)
+		public void RefreshSongInformation(SongInformationEntity entity)
 		{
-			// Check if the current item is valid
-			if(audioFile == null)
-			{
-		        // Set empty values
-		        lblArtistName.Text = string.Empty;
-		        lblAlbumTitle.Text = string.Empty;
-		        lblSongTitle.Text = string.Empty;
-		        lblSongFilePath.Text = string.Empty;
-				lblCurrentPosition.Text = "0:00.000";
-		        lblCurrentLength.Text = "0:00.000";
-				hscaleSongPosition.Value = 0;
-			}
-			else
-			{
-		        // Set metadata and file path labels
-		        lblArtistName.Text = audioFile.ArtistName;
-		        lblAlbumTitle.Text = audioFile.AlbumTitle;
-		        lblSongTitle.Text = audioFile.Title;
-		        lblSongFilePath.Text = audioFile.FilePath;
-		        lblCurrentLength.Text = audioFile.Length;
-				//hscaleSongPosition.Adjustment.Upper = audioFile
-			}
+	        // Refresh labels
+	        lblArtistName.Text = entity.ArtistName;
+	        lblAlbumTitle.Text = entity.AlbumTitle;
+	        lblSongTitle.Text = entity.Title;
+	        lblSongFilePath.Text = entity.FilePath;
+	        lblCurrentLength.Text = entity.Length;
+			lblCurrentPosition.Text = entity.Position;
+			//hscaleSongPosition.Adjustment.Upper = audioFile			
 		}
 		
 		#region Refresh Methods
