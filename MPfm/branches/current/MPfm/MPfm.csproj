@@ -99,6 +99,7 @@
     <Compile Include="Configuration\Controls\ControlsSongGridViewQueryConfigurationSection.cs" />
     <Compile Include="Configuration\General\GeneralConfigurationKeyValue.cs" />
     <Compile Include="Configuration\General\GeneralConfigurationSection.cs" />
+    <Compile Include="Configuration\IMPfmConfiguration.cs" />
     <Compile Include="Configuration\MPfmConfiguration.cs" />
     <Compile Include="Configuration\Windows\WindowConfiguration.cs" />
     <Compile Include="Configuration\Windows\WindowsConfigurationSection.cs" />

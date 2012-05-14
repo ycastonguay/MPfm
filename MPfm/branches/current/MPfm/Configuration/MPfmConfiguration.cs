@@ -33,7 +33,7 @@ namespace MPfm
     /// <summary>
     /// Custom XML configuration framework for MPfm.
     /// </summary>
-    public class MPfmConfiguration
+    public class MPfmConfiguration : IMPfmConfiguration
     {
         #region Properties
         

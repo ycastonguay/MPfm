@@ -36,7 +36,7 @@ namespace MPfm.Sound.BassNetWrapper
     /// <summary>
     /// Defines a mixer channel to be used with BASS.NET.
     /// </summary>
-    public class MixerChannel : Channel
+    public class MixerChannel : Channel, IMixerChannel
     {        
         #region Constructor
         

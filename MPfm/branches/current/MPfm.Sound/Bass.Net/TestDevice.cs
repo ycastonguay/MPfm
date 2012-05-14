@@ -40,7 +40,7 @@ namespace MPfm.Sound.BassNetWrapper
     /// <summary>
     /// Defines a simple class to test an audio file against an audio device.
     /// </summary>
-    public class TestDevice
+    public class TestDevice : ITestDevice
     {
         #region Private variables
 
