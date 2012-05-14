@@ -19,6 +19,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -38,27 +39,39 @@ namespace MPfm.MVP
 		// Private variables
 		private IUpdateLibraryView view = null;
 		private IMainPresenter mainPresenter = null;
+		private ILibraryService libraryService = null;
 		private IUpdateLibraryService updateLibraryService = null;
+		private BackgroundWorker worker = null;
 		
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.UpdateLibraryPresenter"/> class.
 		/// </summary>
-		public UpdateLibraryPresenter(IUpdateLibraryView view, IMainPresenter mainPresenter, IUpdateLibraryService updateLibraryService)
+		public UpdateLibraryPresenter(IUpdateLibraryView view, IMainPresenter mainPresenter, ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
 		{
 			// Check for null
 			if(view == null)
 				throw new ArgumentNullException("The view parameter cannot be null!");
 			if(mainPresenter == null)
 				throw new ArgumentNullException("The mainPresenter parameter cannot be null!");
+			if(libraryService == null)
+				throw new ArgumentNullException("The libraryService parameter cannot be null!");
 			if(updateLibraryService == null)
 				throw new ArgumentNullException("The updateLibraryService parameter cannot be null!");
 
 			// Set properties
 			this.view = view;
 			this.mainPresenter = mainPresenter;
-			this.updateLibraryService = updateLibraryService;			
+			this.libraryService = libraryService;
+			this.updateLibraryService = updateLibraryService;
+			
+			// Create worker
+			worker = new BackgroundWorker();
+			
+			
+			// Start the update
+			StartUpdate();
 		}
 
 		/// <summary>
@@ -92,8 +105,27 @@ namespace MPfm.MVP
 			
 		#endregion
 		
-		private void UpdateStatus()
+		private void StartUpdate()
 		{
+			// TODO: Add in a background worker		
+			UpdateLibrary();
+		}
+		
+		private void UpdateLibrary()
+		{					
+			// Check for broken file paths
+			RefreshStatus("Checking for broken file paths", "Checking if songs have been deleted on your hard disk but not removed from the library...");
+			libraryService.RemoveAudioFilesWithBrokenFilePaths();
+			RefreshStatus("DONE", string.Empty);
+		}
+		
+		private void RefreshStatus(string title, string subtitle)
+		{
+			// Create entity and update view
+			UpdateLibraryEntity entity = new UpdateLibraryEntity();
+			entity.Title = title;
+			entity.Subtitle = subtitle;
+			view.RefreshStatus(entity);
 		}
 	}
 }

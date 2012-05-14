@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using MPfm.Sound;
 
 namespace MPfm.Library
@@ -29,6 +30,45 @@ namespace MPfm.Library
     /// </summary>
     public class LibraryService : ILibraryService
     {
+		// Private variables
+		private readonly IMPfmGateway gateway = null;
 		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MPfm.Library.UpdateLibraryService"/> class.
+		/// </summary>
+		/// <param name='gateway'>
+		/// MPfm Gateway.
+		/// </param>
+		/// <exception cref='ArgumentNullException'>
+		/// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
+		/// </exception>
+		public LibraryService(MPfmGateway gateway)
+		{
+			// Check for null
+			if(gateway == null)
+				throw new ArgumentNullException("The gateway parameter cannot be null!");
+				
+			// Set gateway
+			this.gateway = gateway;
+		}
+		
+		/// <summary>
+		/// Removes the audio files with broken file paths (i.e. that do not exist anymore on the hard drive).
+		/// </summary>
+		public void RemoveAudioFilesWithBrokenFilePaths()
+		{
+            // Get all audio files
+            List<AudioFile> files = gateway.SelectAudioFiles();
+
+            // For each audio file
+            for (int a = 0; a < files.Count; a++)
+            {
+                // If the file doesn't exist, delete the audio file from the database
+                if (!File.Exists(files[a].FilePath))
+                {
+                    gateway.DeleteAudioFile(files[a].Id);
+                }
+            }
+		}	
     }
 }

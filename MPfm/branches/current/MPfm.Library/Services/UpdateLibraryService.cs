@@ -30,6 +30,7 @@ namespace MPfm.Library
     /// </summary>
     public class UpdateLibraryService : IUpdateLibraryService
     {
+		// Private variables
 		private readonly IMPfmGateway gateway = null;
 		
 		/// <summary>

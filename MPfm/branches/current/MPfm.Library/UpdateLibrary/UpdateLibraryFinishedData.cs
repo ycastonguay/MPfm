@@ -1,5 +1,5 @@
 ﻿//
-// ILibraryService.cs: Interface for the LibraryService class.
+// UpdateLibraryFinishedData.cs: Data structure for UpdateLibrary.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,15 +20,21 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
 
 namespace MPfm.Library
 {
     /// <summary>
-    /// Interface for the LibraryService class.
+    /// Defines the data structure for the Update Library finished event.
     /// </summary>
-    public interface ILibraryService
+    public class UpdateLibraryFinishedData
     {
-		void RemoveAudioFilesWithBrokenFilePaths();
+        /// <summary>
+        /// Indicates if the update library process was successful.
+        /// </summary>
+        public bool Successful { get; set; }
+        /// <summary>
+        /// Indicates if the update library process was canceled.
+        /// </summary>
+        public bool Cancelled { get; set; }
     }
 }

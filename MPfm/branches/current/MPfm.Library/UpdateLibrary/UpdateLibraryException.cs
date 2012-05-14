@@ -1,5 +1,6 @@
 ﻿//
-// ILibraryService.cs: Interface for the LibraryService class.
+// UpdateLibraryException.cs: Defines a custom exception for the 
+//                            Update Library background process.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,15 +21,14 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
 
 namespace MPfm.Library
 {
     /// <summary>
-    /// Interface for the LibraryService class.
+    /// Defines a custom exception for the Update Library background process.
     /// </summary>
-    public interface ILibraryService
+    [Serializable]
+    public class UpdateLibraryException : Exception
     {
-		void RemoveAudioFilesWithBrokenFilePaths();
     }
 }

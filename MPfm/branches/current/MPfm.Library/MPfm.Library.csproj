@@ -95,6 +95,12 @@
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Services\UpdateLibraryService.cs" />
     <Compile Include="Services\IUpdateLibraryService.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -137,5 +143,6 @@
   -->
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="UpdateLibrary\" />
   </ItemGroup>
 </Project>

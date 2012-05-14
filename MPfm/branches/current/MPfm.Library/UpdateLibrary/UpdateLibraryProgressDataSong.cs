@@ -1,5 +1,5 @@
 ﻿//
-// ILibraryService.cs: Interface for the LibraryService class.
+// UpdateLibraryProgressDataSong.cs: Data structure for UpdateLibrary.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,15 +20,30 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
+using System.Drawing;
 
 namespace MPfm.Library
 {
     /// <summary>
-    /// Interface for the LibraryService class.
+    /// Defines the data for a song passed in the Update Library background progress data structure.
     /// </summary>
-    public interface ILibraryService
+    public class UpdateLibraryProgressDataSong
     {
-		void RemoveAudioFilesWithBrokenFilePaths();
+        /// <summary>
+        /// Artist name.
+        /// </summary>
+        public string ArtistName { get; set; }
+        /// <summary>
+        /// Album title.
+        /// </summary>
+        public string AlbumTitle { get; set; }
+        /// <summary>
+        /// Song title.
+        /// </summary>
+        public string SongTitle { get; set; }
+        /// <summary>
+        /// Album cover.
+        /// </summary>
+        public Image Cover { get; set; }    
     }
 }

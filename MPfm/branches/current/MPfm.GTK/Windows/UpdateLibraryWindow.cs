@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using MPfm.Library;
 using MPfm.MVP;
 
 namespace MPfm.GTK
@@ -28,10 +29,9 @@ namespace MPfm.GTK
 	/// </summary>
 	public partial class UpdateLibraryWindow : Gtk.Window, IUpdateLibraryView
 	{
-		/// <summary>
-		/// Reference to the main window.
-		/// </summary>
+		// Private variables
 		private MainWindow main = null;
+		private IUpdateLibraryPresenter presenter = null;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.GTK.SettingsWindow"/> class.
@@ -44,6 +44,10 @@ namespace MPfm.GTK
 			
 			// Set reference to main window
 			this.main = main;
+			
+			// Create presenter						
+			MPfmGateway gateway = main.Presenter.Library.Gateway;			
+			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway), new UpdateLibraryService(gateway));			
 		}
 		
 		/// <summary>

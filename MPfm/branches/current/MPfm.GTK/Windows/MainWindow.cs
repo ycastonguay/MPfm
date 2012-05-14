@@ -25,6 +25,13 @@ namespace MPfm.GTK
 		private string currentDirectory = string.Empty;
 		
 		private MainPresenter presenter = null;
+		public MainPresenter Presenter
+		{
+			get
+			{
+				return presenter;
+			}
+		}
 		
 		private SettingsWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;

@@ -1,5 +1,5 @@
 ﻿//
-// ILibraryService.cs: Interface for the LibraryService class.
+// UpdateLibraryMode.cs: Defines the modes of the Update Library process.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,15 +20,25 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
 
 namespace MPfm.Library
 {
     /// <summary>
-    /// Interface for the LibraryService class.
+    /// Defines the modes of the Update Library process.
     /// </summary>
-    public interface ILibraryService
+    public enum UpdateLibraryMode
     {
-		void RemoveAudioFilesWithBrokenFilePaths();
+        /// <summary>
+        /// Updates the whole library.
+        /// </summary>
+        WholeLibrary = 0, 
+        /// <summary>
+        /// Updates specific files.
+        /// </summary>
+        SpecificFiles = 1, 
+        /// <summary>
+        /// Updates a specific folder.
+        /// </summary>
+        SpecificFolder = 2
     }
 }
