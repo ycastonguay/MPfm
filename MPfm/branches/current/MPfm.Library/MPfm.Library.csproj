@@ -80,16 +80,13 @@
     <Reference Include="Mono.Data.Sqlite" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gateway\IMPfmGateway.cs" />
     <Compile Include="Gateway\ISQLiteGateway.cs" />
     <Compile Include="Gateway\MPfmGateway.cs" />
+    <Compile Include="ILibrary.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />
     <Compile Include="Objects\Setting.cs" />
-    <Compile Include="UpdateLibrary\UpdateLibraryStep.cs" />
-    <Compile Include="UpdateLibrary\UpdateLibraryDoneData.cs" />
-    <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
-    <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
-    <Compile Include="UpdateLibrary\UpdateLibrary.cs" />
     <Compile Include="Gateway\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Library.cs" />

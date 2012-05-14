@@ -38,7 +38,7 @@ namespace MPfm.Library
     /// It acts as a facade to select, insert, update and delete data from the
     /// MPfm database.
     /// </summary>
-    public class MPfmGateway : SQLiteGateway
+    public class MPfmGateway : SQLiteGateway, IMPfmGateway
     {        
         /// <summary>
         /// Default constructor for the MPfmGateway class.
