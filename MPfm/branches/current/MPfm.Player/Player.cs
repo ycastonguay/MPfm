@@ -42,7 +42,7 @@ namespace MPfm.Player
     /// The Player class manages audio playback through playlists and supports
     /// multiple driver types and devices.
     /// </summary>
-    public class Player
+    public class Player : MPfm.Player.IPlayer
     {
         /// <summary>
         /// Timer for the player.
