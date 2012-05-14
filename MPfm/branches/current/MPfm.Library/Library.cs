@@ -50,7 +50,7 @@ namespace MPfm.Library
         /// Delegate for the OnUpdateLibraryProgress event.
         /// </summary>
         /// <param name="data">OnUpdateLibraryProgress data structure</param>
-        public delegate void UpdateLibraryProgress(OldUpdateLibraryProgressData data);
+        public delegate void UpdateLibraryProgress(UpdateLibraryProgressData data);
         /// <summary>
         /// This event is fired every time a file is added to the library.
         /// </summary>
@@ -471,7 +471,7 @@ namespace MPfm.Library
             if (OnUpdateLibraryProgress != null)
             {
                 // Create data
-                OldUpdateLibraryProgressData data = new OldUpdateLibraryProgressData();
+                UpdateLibraryProgressData data = new UpdateLibraryProgressData();
                 data.Title = title;
                 data.Message = message;
                 data.Percentage = percentage;
@@ -592,7 +592,7 @@ namespace MPfm.Library
                 RefreshCache();
 
                 // Cancel thread if necessary
-                if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
+                if (CancelUpdateLibrary) throw new UpdateLibraryException();
 
                 // Determine the update library mode
                 if (arg.Mode == UpdateLibraryMode.WholeLibrary)
@@ -602,7 +602,7 @@ namespace MPfm.Library
                     RemoveAudioFilesWithBrokenFilePaths();
 
                     // Cancel thread if necessary
-                    if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
+                    if (CancelUpdateLibrary) throw new UpdateLibraryException();
 
                     // Search for new media in the library folders
                     UpdateLibraryReportProgress("Searching for media files", "Searching media files in library folders");
@@ -636,7 +636,7 @@ namespace MPfm.Library
                 audioFilesToUpdate = audioFilesToUpdate.Except(playlistFilePaths).ToList();                 
 
                 // Cancel thread if necessary
-                if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
+                if (CancelUpdateLibrary) throw new UpdateLibraryException();
 
                 // Add new media (if media found!)
                 if (mediaFiles.Count > 0)
@@ -645,20 +645,20 @@ namespace MPfm.Library
                 }                
 
                 // Cancel thread if necessary
-                if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
+                if (CancelUpdateLibrary) throw new UpdateLibraryException();
 
                 // Refreshing cache
                 UpdateLibraryReportProgress("Refreshing cache", "Refreshing cache...", 100);
                 RefreshCache();
 
                 // Cancel thread if necessary
-                if (CancelUpdateLibrary) throw new OldUpdateLibraryException();
+                if (CancelUpdateLibrary) throw new UpdateLibraryException();
 
                 // Compact database
                 UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);                
                 gateway.CompactDatabase();
             }
-            catch (OldUpdateLibraryException ex)
+            catch (UpdateLibraryException ex)
             {
                 UpdateLibraryReportProgress("The update process was canceled: " + ex.Message, "Canceled by user");
                 e.Cancel = true;
@@ -719,7 +719,7 @@ namespace MPfm.Library
                 if (CancelUpdateLibrary)
                 {
                     // Sends a cancel exception
-                    throw new OldUpdateLibraryException();
+                    throw new UpdateLibraryException();
                 }
 
                 // If the file doesn't exist, delete the audio file from the database
@@ -787,7 +787,7 @@ namespace MPfm.Library
             if (CancelUpdateLibrary)
             {
                 // Sends a cancel exception
-                throw new OldUpdateLibraryException();
+                throw new UpdateLibraryException();
             }
 
             // Get the directory information
@@ -867,7 +867,7 @@ namespace MPfm.Library
                 if (CancelUpdateLibrary)
                 {
                     // Sends a cancel exception
-                    throw new OldUpdateLibraryException();
+                    throw new UpdateLibraryException();
                 }
 
                 addNewFilesCount++;
@@ -895,7 +895,7 @@ namespace MPfm.Library
             if (CancelUpdateLibrary)
             {
                 // Sends a cancel exception
-                throw new OldUpdateLibraryException();
+                throw new UpdateLibraryException();
             }
                         
             try
@@ -1671,7 +1671,7 @@ namespace MPfm.Library
     /// Defines a custom exception for the Update Library background process.
     /// </summary>
     [Serializable]
-    public class OldUpdateLibraryException : Exception
+    public class UpdateLibraryException : Exception
     {
 
     }
@@ -1679,7 +1679,7 @@ namespace MPfm.Library
     /// <summary>
     /// Defines the data structure for the Update Library background process progress event.
     /// </summary>
-    public class OldUpdateLibraryProgressData
+    public class UpdateLibraryProgressData
     {
         /// <summary>
         /// Title to display.

@@ -28,6 +28,7 @@ using MPfm.Core;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
+using AutoMapper;
 
 namespace MPfm.MVP
 {
@@ -150,6 +151,8 @@ namespace MPfm.MVP
 			// Set properties
 			this.view = view;
 			
+			Mapper.CreateMap<AudioFile, SongInformationEntity>();
+			
 			// Create update position timer
 			timerRefreshSongPosition = new Timer();			
 			timerRefreshSongPosition.Interval = 100;
@@ -213,7 +216,7 @@ namespace MPfm.MVP
 			RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
 		}		
 		
-		protected void HandleLibraryOnUpdateLibraryProgress (MPfm.Library.OldUpdateLibraryProgressData data)
+		protected void HandleLibraryOnUpdateLibraryProgress (MPfm.Library.UpdateLibraryProgressData data)
 		{
 			
 		}
@@ -455,10 +458,22 @@ namespace MPfm.MVP
 		{
 		}
 		
+		/// <summary>
+		/// Adds audio files to the library.
+		/// </summary>
+		/// <param name='filePaths'>
+		/// List of file paths.
+		/// </param>
 		public void AddFilesToLibrary(List<string> filePaths)
 		{
 		}
 		
+		/// <summary>
+		/// Adds a folder to the library.
+		/// </summary>
+		/// <param name='folderPath'>
+		/// Folder path.
+		/// </param>
 		public void AddFolderToLibrary(string folderPath)
 		{
 		}		
@@ -471,16 +486,8 @@ namespace MPfm.MVP
 		/// </param>
 		private void RefreshSongInformation(AudioFile audioFile)
 		{
-			// Create entity
-			SongInformationEntity entity = new SongInformationEntity();
-			if(audioFile != null)
-			{
-				entity.ArtistName = audioFile.ArtistName;
-				entity.AlbumTitle = audioFile.AlbumTitle;
-				entity.Title = audioFile.Title;
-				entity.FilePath = audioFile.FilePath;
-				entity.Length = audioFile.Length;
-			}
+			// Map entity
+			SongInformationEntity entity = Mapper.Map<AudioFile, SongInformationEntity>(audioFile);
 			
 			// Update view
 			view.RefreshSongInformation(entity);

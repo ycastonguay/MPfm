@@ -39,7 +39,7 @@ namespace MPfm.Library
     /// MPfm database.
     /// </summary>
     public class MPfmGateway : SQLiteGateway, IMPfmGateway
-    {        
+    {
         /// <summary>
         /// Default constructor for the MPfmGateway class.
         /// </summary>

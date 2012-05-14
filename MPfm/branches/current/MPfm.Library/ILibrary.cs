@@ -32,29 +32,38 @@ namespace MPfm.Library
         List<AudioFile> AudioFiles { get; }
         bool CancelUpdateLibrary { get; set; }
         MPfmGateway Gateway { get; }
+		
         event Library.UpdateLibraryFinished OnUpdateLibraryFinished;
         event Library.UpdateLibraryProgress OnUpdateLibraryProgress;
+		
         void AddAudioFilesToLibrary(List<string> filePaths);
         void RefreshCache();
         void RemoveAudioFilesWithBrokenFilePaths();
         void RemoveSongsFromLibrary(string folderPath);
-        void ResetLibrary();
+        
         List<string> SearchMediaFilesInFolders();
         List<string> SearchMediaFilesInFolders(string folderPath, bool recursive);
-        Dictionary<string, List<string>> SelectAlbumTitles();
+        
+		Dictionary<string, List<string>> SelectAlbumTitles();
         Dictionary<string, List<string>> SelectAlbumTitles(AudioFileFormat audioFileFormat);
-        List<string> SelectArtistAlbumTitles(string artistName);
+        
+		List<string> SelectArtistAlbumTitles(string artistName);
         List<string> SelectArtistAlbumTitles(string artistName, AudioFileFormat audioFileFormat);
-        List<string> SelectArtistNames();
+        
+		List<string> SelectArtistNames();
         List<string> SelectArtistNames(AudioFileFormat audioFileFormat);
-        AudioFile SelectAudioFile(Guid audioFileId);
+        
+		AudioFile SelectAudioFile(Guid audioFileId);
         List<AudioFile> SelectAudioFiles();
         List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat);
         List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending);
         List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName);
         List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle);
         List<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms);
+		
         void UpdateAudioFilePlayCount(Guid audioFileId);
+		
+		void ResetLibrary();
         void UpdateLibrary();
         void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
         void UpdateLibraryReportProgress(string title, string message);
