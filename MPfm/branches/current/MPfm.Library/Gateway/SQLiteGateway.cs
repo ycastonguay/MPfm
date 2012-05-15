@@ -247,7 +247,7 @@ namespace MPfm.Library
         /// </summary>
         /// <param name="sql">Query to execute (must have only one field in the select statement)</param>
         /// <returns>List of objects</returns>
-        public List<object> SelectList(string sql)
+        public IEnumerable<object> SelectList(string sql)
         {
             // Declare variables
             DbConnection connection = null;

@@ -29,6 +29,12 @@ namespace MPfm.Library
     /// </summary>
     public interface ILibraryService
     {
+		IEnumerable<string> SelectFilePaths();
+		IEnumerable<Folder> SelectFolders();
 		void RemoveAudioFilesWithBrokenFilePaths();
+		
+		void AddFiles(List<string> filePaths);
+		void AddFolder(string folderPath, bool recursive);
+		void UpdateLibrary();
     }
 }

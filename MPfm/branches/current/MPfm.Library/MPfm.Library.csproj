@@ -93,8 +93,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ILibraryService.cs" />
     <Compile Include="Services\LibraryService.cs" />
-    <Compile Include="Services\UpdateLibraryService.cs" />
-    <Compile Include="Services\IUpdateLibraryService.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />

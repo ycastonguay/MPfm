@@ -54,6 +54,8 @@ namespace MPfm.Library
         void InsertSetting(Setting dto);
         void InsertSetting(string name, string value);
         void ResetLibrary();
+		
+		IEnumerable<string> SelectFilePaths();
         AudioFile SelectAudioFile(Guid audioFileId);
         List<AudioFile> SelectAudioFiles();
         Dictionary<string, List<string>> SelectDistinctAlbumTitles();

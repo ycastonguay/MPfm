@@ -187,7 +187,7 @@ namespace MPfm.Library
             }
 
             // Select distinct
-            List<object> list = SelectList(sql);
+            IEnumerable<object> list = SelectList(sql);
             foreach (object obj in list)
             {
                 artists.Add(obj.ToString());
@@ -244,6 +244,16 @@ namespace MPfm.Library
 
             return albums;
         }
+		
+		/// <summary>
+		/// Returns the list of file paths in the Song table.
+		/// </summary>
+		/// <returns>List of file paths</returns>
+		public IEnumerable<string> SelectFilePaths()
+		{
+			IEnumerable<object> listObjects = SelectList("SELECT FilePath FROM AudioFiles");
+			return listObjects.Select(x => x.ToString());
+		}
 
         ///// <summary>
         ///// Returns the distinct list of album titles with the path of at least one song of the album from the database, 

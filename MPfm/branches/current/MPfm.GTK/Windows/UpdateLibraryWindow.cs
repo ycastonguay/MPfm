@@ -47,7 +47,7 @@ namespace MPfm.GTK
 			
 			// Create presenter						
 			MPfmGateway gateway = main.Presenter.Library.Gateway;			
-			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway), new UpdateLibraryService(gateway));			
+			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway));			
 		}
 		
 		/// <summary>

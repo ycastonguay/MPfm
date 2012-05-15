@@ -53,6 +53,24 @@ namespace MPfm.Library
 		}
 		
 		/// <summary>
+		/// Returns the list of configured folders in the database.
+		/// </summary>
+		/// <returns>List of folders</returns>
+		public IEnumerable<Folder> SelectFolders()
+		{
+			return gateway.SelectFolders();
+		}
+		
+		/// <summary>
+		/// Returns the list of audio file paths from the Song table.
+		/// </summary>
+		/// <returns>List of file paths</returns>
+		public IEnumerable<string> SelectFilePaths()
+		{
+			return gateway.SelectFilePaths();
+		}
+		
+		/// <summary>
 		/// Removes the audio files with broken file paths (i.e. that do not exist anymore on the hard drive).
 		/// </summary>
 		public void RemoveAudioFilesWithBrokenFilePaths()
@@ -70,5 +88,56 @@ namespace MPfm.Library
                 }
             }
 		}	
+		
+		public void AddFiles(List<string> filePaths)
+		{
+			//gateway.InsertAudioFile(
+		}
+	
+		public void AddFolder(string folderPath, bool recursive)
+		{		
+            // Check if the folder is already part of a configured folder
+            bool folderFound = false;
+
+            // Get the list of folders from the database                
+            List<Folder> folders = gateway.SelectFolders();
+
+            // Search through folders if the base found can be found
+            foreach (Folder folder in folders)
+            {
+                // Check if the base path is found in the configured path
+                if (folderPath.Contains(folder.FolderPath))
+                {
+                    // Set flag
+                    folderFound = true;
+                    break;
+                }
+            }
+
+            // Check if the user has entered a folder deeper than those configured
+            // i.e. The user enters F:\FLAC when F:\FLAC\Brian Eno is configured
+            foreach (Folder folder in folders)
+            {
+                // Check if the configured path is part of the specified path
+                if (folder.FolderPath.Contains(folderPath))
+                {
+                    // Delete this configured folder                        
+                    gateway.DeleteFolder(folder.FolderId);
+                }
+            }
+
+            // Add the folder to the list of configured folders
+            if (!folderFound)
+            {
+                // Add folder to database                    
+                gateway.InsertFolder(folderPath, true);
+			}
+		}
+	
+		public void UpdateLibrary()
+		{
+			// Cycle through 
+		}
+		
     }
 }

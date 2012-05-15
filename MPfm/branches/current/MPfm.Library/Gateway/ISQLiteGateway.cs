@@ -43,7 +43,7 @@ namespace MPfm.Library
         int Execute(string sql);
         object ExecuteScalar(string sql);
         void CompactDatabase();
-        List<object> SelectList(string sql);
+        IEnumerable<object> SelectList(string sql);
         List<Tuple<object, object>> SelectTuple(string sql);
         T SelectOne<T>(string sql) where T : new();
         List<T> Select<T>(string sql) where T : new();
