@@ -96,6 +96,7 @@ namespace MPfm.MVP
 	
 		public void Cancel()
 		{			
+			cancelUpdateLibrary = true;
 		}
 	
 		public void SaveLog(string filePath)
@@ -197,73 +198,42 @@ namespace MPfm.MVP
 	                {
 	                    // Get playlist file and insert into database
 	                    PlaylistFile playlistFile = new PlaylistFile(filePath);
-						
-						
+                    	libraryService.InsertPlaylistFile(playlistFile);
 						
 	                    // Display update
+						RefreshStatus("Adding media to the library", "Adding " + filePath);
 	                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong(), null);
 	                }
 	                else
 	                {
-	                    // Get audio file metadata
-	                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
-	
+	                    // Get audio file metadata and insert into database
+	                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
+                    	libraryService.InsertAudioFile(audioFile);
+
 	                    // Display update
+						RefreshStatus("Adding media to the library", "Adding " + filePath);
 	                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
 	                }
-					
+
 					// Calculate stats
 		            double percentCompleted = ((double)a / (double)filePathsToUpdate.Count()) * 100;
-
-					
-		            // Add audio file to the library
-		            //AddAudioFileToLibrary(file, percentCompleted, filePaths.Count, addNewFilesCount);
 		        }
-				
-				
-				//                // Get the list of audio files from the database (actually the cache)
-//                List<string> filePaths = AudioFiles.Select(x => x.FilePath).ToList();
-//
-//                // Get the list of playlist file paths from database
-//                List<string> playlistFilePaths = Gateway.SelectPlaylistFiles().Select(x => x.FilePath).ToList();
-//
-//                // Compare list of files from database with list of files found on hard disk
-//                List<string> audioFilesToUpdate = mediaFiles.Except(filePaths).ToList();
-//
-//                // Remove existing playlist files
-//                audioFilesToUpdate = audioFilesToUpdate.Except(playlistFilePaths).ToList();                 
-//
-//                // Cancel thread if necessary
-//                if (CancelUpdateLibrary) throw new UpdateLibraryException();
-//
-//                // Add new media (if media found!)
-//                if (mediaFiles.Count > 0)
-//                {
-//                    AddAudioFilesToLibrary(audioFilesToUpdate);                    
-//                }                
-//
-//                // Cancel thread if necessary
-//                if (CancelUpdateLibrary) throw new UpdateLibraryException();
-//
-//                // Refreshing cache
-//                UpdateLibraryReportProgress("Refreshing cache", "Refreshing cache...", 100);
-//                RefreshCache();
-//
-//                // Cancel thread if necessary
-//                if (CancelUpdateLibrary) throw new UpdateLibraryException();
-//
-//                // Compact database
-//                UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);                
-//                gateway.CompactDatabase();
+
+                // Cancel thread if necessary
+                if (cancelUpdateLibrary) throw new UpdateLibraryException();
+
+                // Compact database
+                RefreshStatus("Compacting database", "Compacting database...");
+                libraryService.CompactDatabase();
 			}
 			catch (UpdateLibraryException ex)
             {
-                //UpdateLibraryReportProgress("The update process was canceled: " + ex.Message, "Canceled by user");
+                RefreshStatus("The update process was canceled: " + ex.Message, "Canceled by user");
                 e.Cancel = true;
             }
             catch (Exception ex)
             {
-                //UpdateLibraryReportProgress("An error has occured: " + ex.Message, ex.StackTrace);
+                RefreshStatus("An error has occured: " + ex.Message, ex.StackTrace);
             }			
         }
 		
@@ -274,6 +244,8 @@ namespace MPfm.MVP
         /// <param name="e">Event argument</param>
         private void workerUpdateLibrary_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+			RefreshStatus("Done", "Done");
+			
 //            // Check if the event is registered
 //            if (OnUpdateLibraryFinished != null)
 //            {

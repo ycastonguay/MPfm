@@ -34,6 +34,10 @@ namespace MPfm.MVP
 		IEnumerable<Folder> SelectFolders();
 		void RemoveAudioFilesWithBrokenFilePaths();
 		
+		void InsertAudioFile(AudioFile audioFile);
+		void InsertPlaylistFile(PlaylistFile playlistFile);
+		
+		void CompactDatabase();
 		void AddFiles(List<string> filePaths);
 		void AddFolder(string folderPath, bool recursive);
 		void UpdateLibrary();

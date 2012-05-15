@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using MPfm.Library;
 
 namespace MPfm.MVP
 {
@@ -34,6 +35,7 @@ namespace MPfm.MVP
 		void OK();
 		void Cancel();
 		void SaveLog(string filePath);
+		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
 	}
 }
 

@@ -9,6 +9,7 @@ using Gtk;
 using Gdk;
 using Pango;
 using MPfm.Core;
+using MPfm.Library;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
@@ -399,7 +400,14 @@ namespace MPfm.GTK
 			// Show dialog box
 			if(dialog.Run() == (int)ResponseType.Accept)
 			{
-				//dialog.Filenames
+				// Create window if it doesn't exists
+				if(windowUpdateLibrary == null)
+				{				
+					windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.SpecificFolder, null, dialog.Filename);
+				}
+				
+				// Display window
+				windowUpdateLibrary.ShowAll();	
 			}
 							
 			// Destroy dialog
@@ -411,12 +419,11 @@ namespace MPfm.GTK
 			// Create window if it doesn't exists
 			if(windowUpdateLibrary == null)
 			{				
-				windowUpdateLibrary = new UpdateLibraryWindow(this);			
+				windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.WholeLibrary, null, null);			
 			}
 			
 			// Display window			
-			windowUpdateLibrary.ShowAll();		
-			//controller.Library.UpdateLibrary(MPfm.Library.UpdateLibraryMode.SpecificFolder, null, "/media/Data1/Flac/Amon Tobin");
+			windowUpdateLibrary.ShowAll();			
 		}		
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)

@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 using MPfm.Library;
 using MPfm.MVP;
 
@@ -37,7 +38,7 @@ namespace MPfm.GTK
 		/// Initializes a new instance of the <see cref="MPfm.GTK.SettingsWindow"/> class.
 		/// </summary>
 		/// <param name='main'>Reference to the main window.</param>
-		public UpdateLibraryWindow (MainWindow main) : 
+		public UpdateLibraryWindow (MainWindow main, UpdateLibraryMode mode, List<string> filePaths, string folderPath) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
@@ -47,7 +48,8 @@ namespace MPfm.GTK
 			
 			// Create presenter						
 			MPfmGateway gateway = main.Presenter.Library.Gateway;			
-			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway));			
+			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway));
+			presenter.UpdateLibrary(mode, filePaths, folderPath);
 		}
 		
 		/// <summary>
@@ -82,8 +84,11 @@ namespace MPfm.GTK
 		
 		public void RefreshStatus(UpdateLibraryEntity entity)
 		{
-			lblTitle.Text = entity.Title;
-			lblSubtitle.Text = entity.Subtitle;			
+			// Invoke UI changes
+			Gtk.Application.Invoke(delegate{
+				lblTitle.Text = entity.Title;
+				lblSubtitle.Text = entity.Subtitle;			
+			});
 		}
 	}
 }

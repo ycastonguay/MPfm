@@ -54,6 +54,14 @@ namespace MPfm.MVP
 		}
 		
 		/// <summary>
+		/// Compacts the database.
+		/// </summary>
+		public void CompactDatabase()
+		{
+			gateway.CompactDatabase();
+		}
+		
+		/// <summary>
 		/// Returns the list of configured folders in the database.
 		/// </summary>
 		/// <returns>List of folders</returns>
@@ -69,6 +77,24 @@ namespace MPfm.MVP
 		public IEnumerable<string> SelectFilePaths()
 		{
 			return gateway.SelectFilePaths();
+		}
+		
+		/// <summary>
+		/// Inserts an audio file into the database.
+		/// </summary>
+		/// <param name='audioFile'>Audio file to insert</param>
+		public void InsertAudioFile(AudioFile audioFile)
+		{
+			gateway.InsertAudioFile(audioFile);
+		}
+		
+		/// <summary>
+		/// Inserts a playlist file into the database.
+		/// </summary>
+		/// <param name='playlistFile'>Playlist file to insert</param>
+		public void InsertPlaylistFile(PlaylistFile playlistFile)
+		{
+			gateway.InsertPlaylistFile(playlistFile);
 		}
 		
 		/// <summary>
