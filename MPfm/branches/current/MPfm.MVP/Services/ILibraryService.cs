@@ -21,8 +21,9 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Sound;
+using MPfm.Library;
 
-namespace MPfm.Library
+namespace MPfm.MVP
 {
     /// <summary>
     /// Interface for the LibraryService class.

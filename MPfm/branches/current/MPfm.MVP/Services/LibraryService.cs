@@ -22,8 +22,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using MPfm.Sound;
+using MPfm.Library;
 
-namespace MPfm.Library
+namespace MPfm.MVP
 {
     /// <summary>
     /// Interface for the LibraryService class.
@@ -31,7 +32,7 @@ namespace MPfm.Library
     public class LibraryService : ILibraryService
     {
 		// Private variables
-		private readonly IMPfmGateway gateway = null;
+		private readonly MPfmGateway gateway = null;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.Library.UpdateLibraryService"/> class.
