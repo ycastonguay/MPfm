@@ -31,7 +31,7 @@ namespace MPfm.Library
     public class UpdateLibraryService : IUpdateLibraryService
     {
 		// Private variables
-		private readonly IMPfmGateway gateway = null;
+		private readonly IMPfmGateway gateway = null;		
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.Library.UpdateLibraryService"/> class.
@@ -50,10 +50,10 @@ namespace MPfm.Library
 				
 			// Set gateway
 			this.gateway = gateway;
-		}
+		}		
 		
 		#region IUpdateLibraryService implementation
-
+				
 		public void AddFiles(List<string> filePaths)
 		{
 			//gateway.InsertAudioFile(
@@ -96,10 +96,7 @@ namespace MPfm.Library
             {
                 // Add folder to database                    
                 gateway.InsertFolder(folderPath, true);
-			}			
-			
-			// Update library
-			UpdateLibrary();
+			}
 		}
 	
 		public void UpdateLibrary()
