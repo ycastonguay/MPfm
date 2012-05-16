@@ -43,43 +43,42 @@ namespace MPfm.GTK
 		{
 			this.Build ();
 			
-			// Set reference to main window
-			this.main = main;
+			// Set properties
+			this.main = main;			
 			
-			// Create presenter						
-			MPfmGateway gateway = main.Presenter.Library.Gateway;			
+			// Create presenter
+			MPfmGateway gateway = main.Presenter.Library.Gateway;
 			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway));
 			presenter.UpdateLibrary(mode, filePaths, folderPath);
+			
+			textviewErrorLog.GrabFocus();
 		}
 		
 		/// <summary>
 		/// Raises the delete event (when the form is closing).
-		/// Prevents the form from closing by hiding it instead.
 		/// </summary>
 		/// <param name='o'>Object</param>
 		/// <param name='args'>Event arguments</param>
 		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
-		{
-			// Prevent window from closing
-			args.RetVal = true;
-			
-			// Hide window instead
-			this.HideAll();			
+		{			
+			// Close window
+			args.RetVal = false;	
+			this.Destroy();
 		}
 
 		protected void OnActionCancelActivated (object sender, System.EventArgs e)
 		{
-			
+			presenter.Cancel();	
 		}
 
 		protected void OnActionOKActivated (object sender, System.EventArgs e)
 		{
-			
+			this.Destroy();
 		}
 
 		protected void OnActionSaveLogActivated (object sender, System.EventArgs e)
 		{
-			
+			//presenter.SaveLog();
 		}
 		
 		public void RefreshStatus(UpdateLibraryEntity entity)
@@ -89,6 +88,24 @@ namespace MPfm.GTK
 				lblTitle.Text = entity.Title;
 				lblSubtitle.Text = entity.Subtitle;			
 			});
+		}
+		
+		public void ProcessEnded(bool canceled)
+		{
+			if(canceled)
+			{
+				lblTitle.Text = "Library update canceled by user.";
+				lblSubtitle.Text = string.Empty;
+			}
+			else
+			{
+				lblTitle.Text = "Library updated successfully.";
+				lblSubtitle.Text = string.Empty;
+			}
+			
+			actionCancel.Sensitive = false;
+			actionOK.Sensitive = true;
+			actionSaveLog.Sensitive = true;
 		}
 	}
 }

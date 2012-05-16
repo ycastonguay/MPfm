@@ -31,11 +31,10 @@ namespace MPfm.MVP
 	/// Update Library window presenter interface.
 	/// </summary>
 	public interface IUpdateLibraryPresenter
-	{
-		void OK();
-		void Cancel();
-		void SaveLog(string filePath);
+	{		
 		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
+		void Cancel();
+		void SaveLog(string filePath);		
 	}
 }
 

@@ -54,7 +54,7 @@ namespace MPfm.GTK
 			this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
 			this.toolbar.Name = "toolbar";
 			this.toolbar.ShowArrow = false;
-			this.toolbar.ToolbarStyle = ((global::Gtk.ToolbarStyle)(2));
+			this.toolbar.ToolbarStyle = ((global::Gtk.ToolbarStyle)(0));
 			this.vboxMain.Add (this.toolbar);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.toolbar]));
 			w2.Position = 0;
@@ -78,7 +78,6 @@ namespace MPfm.GTK
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblTitle]));
 			w3.Position = 0;
 			w3.Expand = false;
-			w3.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.lblSubtitle = new global::Gtk.Label ();
 			this.lblSubtitle.Name = "lblSubtitle";
@@ -170,6 +169,7 @@ namespace MPfm.GTK
 			this.DefaultWidth = 691;
 			this.DefaultHeight = 426;
 			this.Show ();
+			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.actionOK.Activated += new global::System.EventHandler (this.OnActionOKActivated);
 			this.actionCancel.Activated += new global::System.EventHandler (this.OnActionCancelActivated);
 			this.actionSaveLog.Activated += new global::System.EventHandler (this.OnActionSaveLogActivated);

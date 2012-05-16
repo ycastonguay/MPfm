@@ -373,8 +373,8 @@ namespace MPfm.GTK
 			                                  "Add files to library", ResponseType.Accept);
 			
 			// Let the user choose multiple files
-			dialog.SelectMultiple = true;			
-	
+			dialog.SelectMultiple = true;
+			
 			// Show dialog box
 			if(dialog.Run() == (int)ResponseType.Accept)
 			{
@@ -385,7 +385,7 @@ namespace MPfm.GTK
 			dialog.Destroy();
 		}		
 									
-		protected void OnActionAddFolderActivated (object sender, System.EventArgs e)
+		protected void OnActionAddFolderActivated(object sender, System.EventArgs e)
 		{
 			// Create dialog box			
 			Gtk.FileChooserDialog dialog = 
@@ -395,18 +395,19 @@ namespace MPfm.GTK
 			                                  "Add folder to library", ResponseType.Accept);
 						
 			// Let the user choose multiple files
-			dialog.SelectMultiple = true;						
+			//dialog.SelectMultiple = true;						
 	
 			// Show dialog box
 			if(dialog.Run() == (int)ResponseType.Accept)
-			{
-				// Create window if it doesn't exists
-				if(windowUpdateLibrary == null)
-				{				
-					windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.SpecificFolder, null, dialog.Filename);
+			{			
+				// Destroy window if it still exists
+				if(windowUpdateLibrary != null)
+				{								
+					windowUpdateLibrary.Destroy();				
 				}
 				
-				// Display window
+				// Create and display window
+				windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.SpecificFolder, null, dialog.Filename);		
 				windowUpdateLibrary.ShowAll();	
 			}
 							
@@ -416,13 +417,14 @@ namespace MPfm.GTK
 		
 		protected void OnActionUpdateLibraryActivated(object sender, System.EventArgs e)
 		{
-			// Create window if it doesn't exists
-			if(windowUpdateLibrary == null)
-			{				
-				windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.WholeLibrary, null, null);			
+			// Destroy window if it still exists
+			if(windowUpdateLibrary != null)
+			{								
+				windowUpdateLibrary.Destroy();				
 			}
 			
-			// Display window			
+			// Create and display window
+			windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.WholeLibrary, null, null);		
 			windowUpdateLibrary.ShowAll();			
 		}		
 					

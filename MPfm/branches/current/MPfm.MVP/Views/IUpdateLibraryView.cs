@@ -33,5 +33,6 @@ namespace MPfm.MVP
 	public interface IUpdateLibraryView
 	{
 		void RefreshStatus(UpdateLibraryEntity entity);
+		void ProcessEnded(bool canceled);
 	}
 }

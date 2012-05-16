@@ -25,11 +25,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
+#if (MACOSX || LINUX)
+using Mono.Unix;
+using Mono.Unix.Native;
+#endif
 
 namespace MPfm.MVP
 {
@@ -90,12 +95,9 @@ namespace MPfm.MVP
 		
 		#region IUpdateLibraryPresenter implementation
 			
-		public void OK()
-		{			
-		}
-	
 		public void Cancel()
 		{			
+			// Cancel process
 			cancelUpdateLibrary = true;
 		}
 	
@@ -185,38 +187,45 @@ namespace MPfm.MVP
 		        for(int a = 0; a < filePathsToUpdate.Count(); a++)
 		        {
 					// Cancel update library process if necessary
-                	if (cancelUpdateLibrary) throw new UpdateLibraryException();							           
-					
+	                if (cancelUpdateLibrary) throw new UpdateLibraryException();							           				
+						
 					// Get current file path
 					string filePath = filePathsToUpdate.ElementAt(a);
 					
-	                // Check if this is a playlist file
-	                if (filePath.ToUpper().Contains(".M3U") ||
-	                    filePath.ToUpper().Contains(".M3U8") ||
-	                    filePath.ToUpper().Contains(".PLS") ||
-	                    filePath.ToUpper().Contains(".XSPF"))
-	                {
-	                    // Get playlist file and insert into database
-	                    PlaylistFile playlistFile = new PlaylistFile(filePath);
-                    	libraryService.InsertPlaylistFile(playlistFile);
-						
-	                    // Display update
-						RefreshStatus("Adding media to the library", "Adding " + filePath);
-	                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong(), null);
-	                }
-	                else
-	                {
-	                    // Get audio file metadata and insert into database
-	                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
-                    	libraryService.InsertAudioFile(audioFile);
-
-	                    // Display update
-						RefreshStatus("Adding media to the library", "Adding " + filePath);
-	                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
-	                }
-
-					// Calculate stats
-		            double percentCompleted = ((double)a / (double)filePathsToUpdate.Count()) * 100;
+					try
+					{									
+		                // Check if this is a playlist file
+		                if (filePath.ToUpper().Contains(".M3U") ||
+		                    filePath.ToUpper().Contains(".M3U8") ||
+		                    filePath.ToUpper().Contains(".PLS") ||
+		                    filePath.ToUpper().Contains(".XSPF"))
+		                {
+		                    // Get playlist file and insert into database
+		                    PlaylistFile playlistFile = new PlaylistFile(filePath);
+	                    	libraryService.InsertPlaylistFile(playlistFile);
+							
+		                    // Display update
+							RefreshStatus("Adding media to the library", "Adding " + filePath);
+		                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong(), null);
+		                }
+		                else
+		                {
+		                    // Get audio file metadata and insert into database
+		                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
+	                    	libraryService.InsertAudioFile(audioFile);
+	
+		                    // Display update
+							RefreshStatus("Adding media to the library", "Adding " + filePath);
+		                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
+		                }
+	
+						// Calculate stats
+			            double percentCompleted = ((double)a / (double)filePathsToUpdate.Count()) * 100;
+					}
+					catch
+					{
+						RefreshStatus("File could not be added!", filePath);
+					}
 		        }
 
                 // Cancel thread if necessary
@@ -243,25 +252,9 @@ namespace MPfm.MVP
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event argument</param>
         private void workerUpdateLibrary_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-			RefreshStatus("Done", "Done");
-			
-//            // Check if the event is registered
-//            if (OnUpdateLibraryFinished != null)
-//            {
-//                // Create data
-//                UpdateLibraryFinishedData data = new UpdateLibraryFinishedData();
-//
-//                if (!e.Cancelled)
-//                {
-//                    data.Successful = true;
-//                }
-//
-//                data.Cancelled = e.Cancelled;
-//
-//                // Fire event
-//                OnUpdateLibraryFinished(data);
-//            }
+        {	
+			// Update view
+			view.ProcessEnded(e.Cancelled);
         }
 		
 		/// <summary>
@@ -311,12 +304,51 @@ namespace MPfm.MVP
         public List<string> SearchMediaFilesInFolders(string folderPath, bool recursive)
         {
 			// Declare variables
-            List<string> arrayFiles = new List<string>();
-
-            // Get the directory information
+            List<string> arrayFiles = new List<string>();			
+			string extensionsSupported = string.Empty;
+						
+			// Set status
+			RefreshStatus("Searching for media files", "Searching for media files in library folder " + folderPath);
+			
+			// Set supported extensions
+#if MACOSX            
+			extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$";
+#elif LINUX
+            extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$";
+#elif (!MACOSX && !LINUX)
+			extensionsSupported = @"WAV;MP3;FLAC;OGG;MPC;WV;WMA;APE;M3U;M3U8;PLS;XSPF";
+#endif
+						
+#if (MACOSX || LINUX)
+			
+			// Get Unix-style directory information (i.e. case sensitive file names)
+			UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
+			
+            // For each directory, search for new directories
+            foreach (UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
+            {			
+				// Check if entry is a directory
+				if(fileInfo.IsDirectory && recursive)
+				{
+                    // Search for media filess in that directory                    
+                	List<string> listMediaFiles = SearchMediaFilesInFolders(fileInfo.FullName, true);
+                	arrayFiles.AddRange(listMediaFiles);					
+				}
+				
+				// Does the file match a supported extension
+				Match match = Regex.Match(fileInfo.FullName, @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$", RegexOptions.IgnoreCase);
+				if(match.Success)
+				{
+					// Add file
+                    arrayFiles.Add(fileInfo.FullName);
+				}				
+            }
+            
+#else
+        	
+            // Get Windows-style directory information
             DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);                        
-            RefreshStatus("Searching for media files", "Searching for media files in library folder " + folderPath);
-
+            
             // Check for sub directories if recursive
             if (recursive)
             {
@@ -328,13 +360,10 @@ namespace MPfm.MVP
                     arrayFiles.AddRange(listSongs);
                 }
             }
-
-            // Populate list of supported extensions
-            List<string> extensionsSupported = new List<string>()
-			{ "WAV", "MP3", "FLAC", "OGG", "MPC", "APE", "WV", "WMA", "M3U", "M3U8", "PLS", "XSPF" };
-
+			
+			string[] extensions = extensionsSupported.Split(new string[]{";"}, StringSplitOptions.RemoveEmptyEntries);
             // For each extension supported
-            foreach (string extension in extensionsSupported)
+            foreach (string extension in extensions)
             {
                 foreach (FileInfo fileInfo in rootDirectoryInfo.GetFiles("*." + extension))
                 {
@@ -342,6 +371,8 @@ namespace MPfm.MVP
                     arrayFiles.Add(fileInfo.FullName);
                 }
             }
+						
+#endif				
 
             return arrayFiles;
         }

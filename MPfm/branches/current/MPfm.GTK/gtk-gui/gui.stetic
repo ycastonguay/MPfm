@@ -1273,6 +1273,7 @@ WV</property>
     <property name="Title" translatable="yes">Update Library</property>
     <property name="WindowPosition">Center</property>
     <property name="Modal">True</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vboxMain">
         <property name="MemberName" />
@@ -1281,7 +1282,7 @@ WV</property>
           <widget class="Gtk.Toolbar" id="toolbar">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
-            <property name="ButtonStyle">Both</property>
+            <property name="ButtonStyle">Icons</property>
             <node name="toolbar" type="Toolbar">
               <node type="Toolitem" action="actionOK" />
               <node type="Toolitem" action="actionCancel" />
@@ -1315,9 +1316,8 @@ WV</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
-                    <property name="AutoSize">True</property>
+                    <property name="AutoSize">False</property>
                     <property name="Expand">False</property>
-                    <property name="Fill">False</property>
                   </packing>
                 </child>
                 <child>
@@ -1327,7 +1327,7 @@ WV</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
-                    <property name="AutoSize">True</property>
+                    <property name="AutoSize">False</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
                   </packing>
@@ -1394,7 +1394,7 @@ WV</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
               </packing>
@@ -1434,7 +1434,7 @@ WV</property>
           </widget>
           <packing>
             <property name="Position">1</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
           </packing>
         </child>
       </widget>
