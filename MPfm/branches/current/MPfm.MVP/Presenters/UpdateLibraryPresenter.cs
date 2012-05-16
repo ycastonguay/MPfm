@@ -151,18 +151,18 @@ namespace MPfm.MVP
                 if (arg.Mode == UpdateLibraryMode.WholeLibrary)
                 {
                     // Remove broken songs from the library
-                    RefreshStatus("Checking for broken file paths", "Checking if songs have been deleted on your hard disk but not removed from the library...");
+					view.RefreshStatus(new UpdateLibraryEntity() {
+						Title = "Checking for broken file paths",
+						Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library..",
+						PercentageDone = 0
+					});
                     libraryService.RemoveAudioFilesWithBrokenFilePaths();
 
                     // Cancel update library process if necessary
                     if (cancelUpdateLibrary) throw new UpdateLibraryException();
 
-                    // Search for new media in the library folders
-                    RefreshStatus("Searching for media files", "Searching media files in library folders");
+                    // Search for new media in the library folders                    
                     filePaths = SearchMediaFilesInFolders();
-
-                    // Update the media count
-                    RefreshStatus("Searching media files", filePaths.Count.ToString() + " media files found.");
                 }
                 else if (arg.Mode == UpdateLibraryMode.SpecificFiles)
                 {           
@@ -171,8 +171,7 @@ namespace MPfm.MVP
                 }
                 else if (arg.Mode == UpdateLibraryMode.SpecificFolder)
                 {
-                    // Search the files in the specified folder
-                    RefreshStatus("Searching for media files", "Searching media files in " + arg.FolderPath);
+                    // Search the files in the specified folder                    
                     filePaths = SearchMediaFilesInFolders(arg.FolderPath, true);
                 }
 				
@@ -189,8 +188,9 @@ namespace MPfm.MVP
 					// Cancel update library process if necessary
 	                if (cancelUpdateLibrary) throw new UpdateLibraryException();							           				
 						
-					// Get current file path
-					string filePath = filePathsToUpdate.ElementAt(a);
+					// Get current file path and calculate stats
+					string filePath = filePathsToUpdate.ElementAt(a);											
+			        float percentCompleted = ((float)a / (float)filePathsToUpdate.Count());
 					
 					try
 					{									
@@ -202,47 +202,55 @@ namespace MPfm.MVP
 		                {
 		                    // Get playlist file and insert into database
 		                    PlaylistFile playlistFile = new PlaylistFile(filePath);
-	                    	libraryService.InsertPlaylistFile(playlistFile);
-							
-		                    // Display update
-							RefreshStatus("Adding media to the library", "Adding " + filePath);
-		                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong(), null);
+	                    	libraryService.InsertPlaylistFile(playlistFile);							
 		                }
 		                else
 		                {
 		                    // Get audio file metadata and insert into database
 		                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
 	                    	libraryService.InsertAudioFile(audioFile);
-	
-		                    // Display update
-							RefreshStatus("Adding media to the library", "Adding " + filePath);
-		                    //UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
 		                }
-	
-						// Calculate stats
-			            double percentCompleted = ((double)a / (double)filePathsToUpdate.Count()) * 100;
+						
+						// Display update
+						view.RefreshStatus(new UpdateLibraryEntity() {
+							Title = "Adding media file to the library",
+							Subtitle = "Adding " + filePath,
+							PercentageDone = percentCompleted,
+							FileIndex = a,
+							FileCount = filePathsToUpdate.Count()								
+						});		                    
 					}
-					catch
+					catch (Exception ex)
 					{
-						RefreshStatus("File could not be added!", filePath);
+						view.AddToLog("File could not be added: " + filePath);
 					}
 		        }
 
                 // Cancel thread if necessary
                 if (cancelUpdateLibrary) throw new UpdateLibraryException();
 
-                // Compact database
-                RefreshStatus("Compacting database", "Compacting database...");
+                // Compact database						
+				view.RefreshStatus(new UpdateLibraryEntity() {
+					Title = "Compacting database",
+					Subtitle = "Compacting database...",
+					PercentageDone = 100
+				});                
                 libraryService.CompactDatabase();
 			}
 			catch (UpdateLibraryException ex)
             {
-                RefreshStatus("The update process was canceled: " + ex.Message, "Canceled by user");
+				view.RefreshStatus(new UpdateLibraryEntity() {
+					Title = "Update process canceled",
+					Subtitle = "The update process was canceled by the user."
+				});                
                 e.Cancel = true;
             }
             catch (Exception ex)
             {
-                RefreshStatus("An error has occured: " + ex.Message, ex.StackTrace);
+				view.RefreshStatus(new UpdateLibraryEntity() {
+					Title = "Error updating library",
+					Subtitle = "An error has occured: " + ex.Message + "\n" + ex.StackTrace
+				});                
             }			
         }
 		
@@ -256,20 +264,6 @@ namespace MPfm.MVP
 			// Update view
 			view.ProcessEnded(e.Cancelled);
         }
-		
-		/// <summary>
-		/// Sends a status update to the view.
-		/// </summary>
-		/// <param name="title">Title</param>
-		/// <param name="subtitle">Subtitle</param>
-		private void RefreshStatus(string title, string subtitle)
-		{
-			// Create entity and update view
-			UpdateLibraryEntity entity = new UpdateLibraryEntity();
-			entity.Title = title;
-			entity.Subtitle = subtitle;
-			view.RefreshStatus(entity);
-		}
 				
         /// <summary>
         /// Searches for songs in all configured folders.
@@ -286,8 +280,7 @@ namespace MPfm.MVP
             // For each registered folder
             foreach (Folder folder in folders)
             {
-                // Search for media files in the folder
-                RefreshStatus("Searching for media files", "Searching for media files in library folder " + folder.FolderPath);
+				// Search for media files
                 List<string> newFiles = SearchMediaFilesInFolders(folder.FolderPath, (bool)folder.IsRecursive);
                 files.AddRange(newFiles);
             }
@@ -307,8 +300,12 @@ namespace MPfm.MVP
             List<string> arrayFiles = new List<string>();			
 			string extensionsSupported = string.Empty;
 						
-			// Set status
-			RefreshStatus("Searching for media files", "Searching for media files in library folder " + folderPath);
+			// Refresh status
+			view.RefreshStatus(new UpdateLibraryEntity() {
+				Title = "Searching for media files",
+				Subtitle = "Searching for media files in library folder " + folderPath,
+				PercentageDone = 0
+			});    
 			
 			// Set supported extensions
 #if MACOSX            

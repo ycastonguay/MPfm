@@ -90,6 +90,7 @@ namespace MPfm.GTK
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.progressbar = new global::Gtk.ProgressBar ();
 			this.progressbar.Name = "progressbar";
+			this.progressbar.Fraction = 1;
 			this.vbox2.Add (this.progressbar);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.progressbar]));
 			w5.Position = 2;

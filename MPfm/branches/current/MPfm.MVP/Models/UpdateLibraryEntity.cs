@@ -31,7 +31,9 @@ namespace MPfm.MVP
     {
 		public string Title { get; set; }
 		public string Subtitle { get; set; }
-		public float PercentageDone { get; set; }		
+		public float PercentageDone { get; set; }
+		public int FileCount { get; set; }
+		public int FileIndex { get; set; }
     }
 }
 

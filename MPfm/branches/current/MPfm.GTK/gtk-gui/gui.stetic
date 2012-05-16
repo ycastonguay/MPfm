@@ -1335,6 +1335,7 @@ WV</property>
                 <child>
                   <widget class="Gtk.ProgressBar" id="progressbar">
                     <property name="MemberName" />
+                    <property name="Fraction">1</property>
                   </widget>
                   <packing>
                     <property name="Position">2</property>

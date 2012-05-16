@@ -86,8 +86,18 @@ namespace MPfm.GTK
 			// Invoke UI changes
 			Gtk.Application.Invoke(delegate{
 				lblTitle.Text = entity.Title;
-				lblSubtitle.Text = entity.Subtitle;			
+				lblSubtitle.Text = entity.Subtitle;
+				lblPercentage.Text = entity.PercentageDone.ToString("00.00%");
+				progressbar.Fraction = entity.PercentageDone;
 			});
+		}
+		
+		public void AddToLog(string entry)
+		{
+			// Invoke UI changes
+			Gtk.Application.Invoke(delegate{
+				textviewErrorLog.Buffer.Text += entry + "\n";
+			});			
 		}
 		
 		public void ProcessEnded(bool canceled)
