@@ -1,6 +1,8 @@
 using System;
 using System.Reflection;
 using Gtk;
+using MPfm.MVP;
+using Ninject;
 
 namespace MPfm.GTK
 {
@@ -12,7 +14,10 @@ namespace MPfm.GTK
 		{
 			// Get current directory
 			string currentDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
+			
+			IKernel kernel = Bootstrapper.GetServiceLocator();
+			
+			
 			Application.Init ();
 			mainWindow = new MainWindow ();
 			mainWindow.Icon = new Gdk.Pixbuf(currentDirectory + "/icon48.png");

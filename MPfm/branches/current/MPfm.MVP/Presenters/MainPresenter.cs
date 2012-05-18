@@ -149,9 +149,7 @@ namespace MPfm.MVP
 			}
 						
 			// Set properties
-			this.view = view;
-			
-			Mapper.CreateMap<AudioFile, SongInformationEntity>();
+			this.view = view;					
 			
 			// Create update position timer
 			timerRefreshSongPosition = new Timer();			

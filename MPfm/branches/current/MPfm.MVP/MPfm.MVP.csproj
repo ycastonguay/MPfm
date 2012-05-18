@@ -70,6 +70,8 @@
     <Compile Include="Models\SongInformationEntity.cs" />
     <Compile Include="Models\UpdateLibraryEntity.cs" />
     <Compile Include="Presenters\IUpdateLibraryPresenter.cs" />
+    <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Bootstrapper\LibraryModule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -94,5 +96,8 @@
   <ItemGroup>
     <None Include="Lib\Ninject.dll" />
     <None Include="Lib\AutoMapper.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bootstrapper\" />
   </ItemGroup>
 </Project>
