@@ -365,13 +365,17 @@ namespace MPfm.MVP
 				// Check if entry is a directory
 				if(fileInfo.IsDirectory && recursive)
 				{
-                    // Search for media filess in that directory                    
-                	List<string> listMediaFiles = SearchMediaFilesInFolders(fileInfo.FullName, true);
-                	arrayFiles.AddRange(listMediaFiles);					
+					// Make sure this isn't an Apple index directory
+					if(!fileInfo.Name.StartsWith(".Apple"))
+					{					
+                    	// Search for media filess in that directory                    
+                		List<string> listMediaFiles = SearchMediaFilesInFolders(fileInfo.FullName, true);
+                		arrayFiles.AddRange(listMediaFiles);					
+					}
 				}
 				
 				// Does the file match a supported extension
-				Match match = Regex.Match(fileInfo.FullName, @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$", RegexOptions.IgnoreCase);
+				Match match = Regex.Match(fileInfo.FullName, extensionsSupported, RegexOptions.IgnoreCase);
 				if(match.Success)
 				{
 					// Add file
@@ -390,9 +394,13 @@ namespace MPfm.MVP
                 // For each directory, search for new directories
                 foreach (DirectoryInfo directoryInfo in rootDirectoryInfo.GetDirectories())
                 {
-                    // Search for songs in that directory                    
-                    List<string> listSongs = SearchMediaFilesInFolders(directoryInfo.FullName, recursive);
-                    arrayFiles.AddRange(listSongs);
+					// Make sure this isn't an Apple index directory
+					if(!fileInfo.Name.StartsWith(".Apple"))
+					{					
+	                    // Search for songs in that directory                    
+	                    List<string> listSongs = SearchMediaFilesInFolders(directoryInfo.FullName, recursive);
+	                    arrayFiles.AddRange(listSongs);
+					}
                 }
             }
 			
