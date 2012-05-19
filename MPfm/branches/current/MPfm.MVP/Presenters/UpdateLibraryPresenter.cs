@@ -69,8 +69,29 @@ namespace MPfm.MVP
 			this.updateLibraryService = updateLibraryService;
 			
 			// Set events
-			//this.updateLibraryService.
+            this.updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
+            this.updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
 		}
+
+        /// <summary>
+        /// Raises when the Update Library service needs to update its consumer.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        protected void updateLibraryService_RaiseRefreshStatusEvent(object sender, RefreshStatusEventArgs e)
+        {            
+            view.RefreshStatus(e.Entity);
+        }
+
+        /// <summary>
+        /// Raises when the Update Library service needs to tell its consumer that the process has ended.
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
+        {
+            view.ProcessEnded(e.Canceled);   
+        }
 
 		/// <summary>
 		/// Releases all resources used by the <see cref="MPfm.UI.UpdateLibraryPresenter"/> object.

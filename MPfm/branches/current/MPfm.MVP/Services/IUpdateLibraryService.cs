@@ -31,7 +31,10 @@ namespace MPfm.MVP
 	/// Update Library window presenter interface.
 	/// </summary>
 	public interface IUpdateLibraryService
-	{		
+	{
+        event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;
+        event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
+
 		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
 		void Cancel();
 		void SaveLog(string filePath);		

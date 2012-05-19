@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -68,9 +69,6 @@
     </Reference>
     <Reference Include="Bass.Net">
       <HintPath>Lib\Bass.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive">
-      <HintPath>Lib\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
@@ -133,6 +131,7 @@
     <Content Include="Lib\bass_mpc.dll" />
     <Content Include="Lib\bass_ofr.dll" />
     <Content Include="Lib\bass_tta.dll" />
+    <Content Include="Lib\System.Reactive.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
