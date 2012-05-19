@@ -48,7 +48,9 @@ namespace MPfm.GTK
 			
 			// Create presenter
 			MPfmGateway gateway = main.Presenter.Library.Gateway;
-			presenter = new UpdateLibraryPresenter(this, main.Presenter, new LibraryService(gateway));
+			LibraryService libraryService = new LibraryService(gateway);
+			UpdateLibraryService updateLibraryService = new UpdateLibraryService(libraryService);
+			presenter = new UpdateLibraryPresenter(this, libraryService, updateLibraryService);
 			presenter.UpdateLibrary(mode, filePaths, folderPath);
 			
 			textviewErrorLog.GrabFocus();

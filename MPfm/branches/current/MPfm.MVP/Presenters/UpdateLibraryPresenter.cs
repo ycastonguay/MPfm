@@ -45,37 +45,31 @@ namespace MPfm.MVP
 	{
 		// Private variables
 		private IUpdateLibraryView view = null;
-		private IMainPresenter mainPresenter = null;
 		private ILibraryService libraryService = null;		
-		private BackgroundWorker workerUpdateLibrary = null;
-		private bool cancelUpdateLibrary = false;
+		private IUpdateLibraryService updateLibraryService = null;
 		
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.UpdateLibraryPresenter"/> class.
 		/// </summary>
-		public UpdateLibraryPresenter(IUpdateLibraryView view, IMainPresenter mainPresenter, ILibraryService libraryService)
+		public UpdateLibraryPresenter(IUpdateLibraryView view, ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
 		{
 			// Check for null
 			if(view == null)
 				throw new ArgumentNullException("The view parameter cannot be null!");
-			if(mainPresenter == null)
-				throw new ArgumentNullException("The mainPresenter parameter cannot be null!");
 			if(libraryService == null)
 				throw new ArgumentNullException("The libraryService parameter cannot be null!");
+			if(updateLibraryService == null)
+				throw new ArgumentNullException("The updateLibraryService parameter cannot be null!");
 
 			// Set properties
-			this.view = view;
-			this.mainPresenter = mainPresenter;
+			this.view = view;			
 			this.libraryService = libraryService;
-					
-			// Create worker
-			workerUpdateLibrary = new BackgroundWorker();
-            workerUpdateLibrary.WorkerReportsProgress = true;
-            workerUpdateLibrary.WorkerSupportsCancellation = true;
-            workerUpdateLibrary.DoWork += new DoWorkEventHandler(workerUpdateLibrary_DoWork);
-            workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);
+			this.updateLibraryService = updateLibraryService;
+			
+			// Set events
+			//this.updateLibraryService.
 		}
 
 		/// <summary>
@@ -95,284 +89,21 @@ namespace MPfm.MVP
 		
 		#region IUpdateLibraryPresenter implementation
 			
+		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+		{
+			updateLibraryService.UpdateLibrary(mode, filePaths, folderPath);
+		}
+		
 		public void Cancel()
-		{			
-			// Cancel process
-			cancelUpdateLibrary = true;
+		{	
+			updateLibraryService.Cancel();
 		}
 	
 		public void SaveLog(string filePath)
 		{			
+			updateLibraryService.SaveLog(filePath);
 		}
 			
 		#endregion
-		
-		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
-		{					
-            // Create argument
-            UpdateLibraryArgument arg = new UpdateLibraryArgument();
-            arg.Mode = mode;
-            arg.FilePaths = filePaths;
-            arg.FolderPath = folderPath;
-			
-			// Make sure all private variables are reset
-			cancelUpdateLibrary = false;
-
-			// If the mode is SpecificFolder
-            if (mode == UpdateLibraryMode.SpecificFolder)
-            {
-				// Add folder to library
-				libraryService.AddFolder(folderPath, true);
-            }
-			else if(mode == UpdateLibraryMode.SpecificFiles)
-			{
-				// Add files to library
-				libraryService.AddFiles(filePaths);
-			}
-
-            // Start the background process using the arguments
-            workerUpdateLibrary.RunWorkerAsync(arg);
-		}		
-		
-        protected void workerUpdateLibrary_DoWork(object sender, DoWorkEventArgs e)
-        {
-			// Declare variables
-            List<string> filePaths = new List<string>();    
-			
-            // Get argument
-            UpdateLibraryArgument arg = (UpdateLibraryArgument)e.Argument;
-						
-			try
-			{			
-				// Cancel update library process if necessary
-            	if (cancelUpdateLibrary) throw new UpdateLibraryException();
-				
-				// Determine the update library mode
-                if (arg.Mode == UpdateLibraryMode.WholeLibrary)
-                {
-                    // Remove broken songs from the library
-					view.RefreshStatus(new UpdateLibraryEntity() {
-						Title = "Checking for broken file paths",
-						Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library..",
-						PercentageDone = 0
-					});
-                    libraryService.RemoveAudioFilesWithBrokenFilePaths();
-
-                    // Cancel update library process if necessary
-                    if (cancelUpdateLibrary) throw new UpdateLibraryException();
-
-                    // Search for new media in the library folders                    
-                    filePaths = SearchMediaFilesInFolders();
-                }
-                else if (arg.Mode == UpdateLibraryMode.SpecificFiles)
-                {           
-                    // Set the media files passed in the argument
-                    filePaths = arg.FilePaths;
-                }
-                else if (arg.Mode == UpdateLibraryMode.SpecificFolder)
-                {
-                    // Search the files in the specified folder                    
-                    filePaths = SearchMediaFilesInFolders(arg.FolderPath, true);
-                }
-				
-				// Cancel update library process if necessary
-                if (cancelUpdateLibrary) throw new UpdateLibraryException();
-				
-				// Get the list of audio files from the database
-				IEnumerable<string> filePathsDatabase = libraryService.SelectFilePaths();				
-				IEnumerable<string> filePathsToUpdate = filePaths.Except(filePathsDatabase);
-					
-		        // Loop through files
-		        for(int a = 0; a < filePathsToUpdate.Count(); a++)
-		        {
-					// Cancel update library process if necessary
-	                if (cancelUpdateLibrary) throw new UpdateLibraryException();							           				
-						
-					// Get current file path and calculate stats
-					string filePath = filePathsToUpdate.ElementAt(a);											
-			        float percentCompleted = ((float)a / (float)filePathsToUpdate.Count());
-					
-					try
-					{									
-		                // Check if this is a playlist file
-		                if (filePath.ToUpper().Contains(".M3U") ||
-		                    filePath.ToUpper().Contains(".M3U8") ||
-		                    filePath.ToUpper().Contains(".PLS") ||
-		                    filePath.ToUpper().Contains(".XSPF"))
-		                {
-		                    // Get playlist file and insert into database
-		                    PlaylistFile playlistFile = new PlaylistFile(filePath);
-	                    	libraryService.InsertPlaylistFile(playlistFile);							
-		                }
-		                else
-		                {
-		                    // Get audio file metadata and insert into database
-		                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
-	                    	libraryService.InsertAudioFile(audioFile);
-		                }
-						
-						// Display update
-						view.RefreshStatus(new UpdateLibraryEntity() {
-							Title = "Adding media file to the library",
-							Subtitle = "Adding " + filePath,
-							PercentageDone = percentCompleted,
-							FileIndex = a,
-							FileCount = filePathsToUpdate.Count()								
-						});		                    
-					}
-					catch (Exception ex)
-					{
-						view.AddToLog("File could not be added: " + filePath);
-					}
-		        }
-
-                // Cancel thread if necessary
-                if (cancelUpdateLibrary) throw new UpdateLibraryException();
-
-                // Compact database						
-				view.RefreshStatus(new UpdateLibraryEntity() {
-					Title = "Compacting database",
-					Subtitle = "Compacting database...",
-					PercentageDone = 100
-				});                
-                libraryService.CompactDatabase();
-			}
-			catch (UpdateLibraryException ex)
-            {
-				view.RefreshStatus(new UpdateLibraryEntity() {
-					Title = "Update process canceled",
-					Subtitle = "The update process was canceled by the user."
-				});                
-                e.Cancel = true;
-            }
-            catch (Exception ex)
-            {
-				view.RefreshStatus(new UpdateLibraryEntity() {
-					Title = "Error updating library",
-					Subtitle = "An error has occured: " + ex.Message + "\n" + ex.StackTrace
-				});                
-            }			
-        }
-		
-		/// <summary>
-        /// Fires when the update library process is over.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event argument</param>
-        private void workerUpdateLibrary_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {	
-			// Update view
-			view.ProcessEnded(e.Cancelled);
-        }
-				
-        /// <summary>
-        /// Searches for songs in all configured folders.
-        /// </summary>
-        /// <returns>List of songs (file paths)</returns>
-        public List<string> SearchMediaFilesInFolders()
-        {
-            // List of files
-            List<string> files = new List<string>();            
-
-            // Get registered folders            
-            IEnumerable<Folder> folders = libraryService.SelectFolders();
-
-            // For each registered folder
-            foreach (Folder folder in folders)
-            {
-				// Search for media files
-                List<string> newFiles = SearchMediaFilesInFolders(folder.FolderPath, (bool)folder.IsRecursive);
-                files.AddRange(newFiles);
-            }
-
-            return files;
-        }
-
-        /// <summary>
-        /// Searches for songs in a specific folder, using recursivity or not.
-        /// </summary>
-        /// <param name="folderPath">Path to search</param>
-        /// <param name="recursive">Recursive (if true, will search for sub-folders)</param>
-        /// <returns>List of songs (file paths)</returns>
-        public List<string> SearchMediaFilesInFolders(string folderPath, bool recursive)
-        {
-			// Declare variables
-            List<string> arrayFiles = new List<string>();			
-			string extensionsSupported = string.Empty;
-						
-			// Refresh status
-			view.RefreshStatus(new UpdateLibraryEntity() {
-				Title = "Searching for media files",
-				Subtitle = "Searching for media files in library folder " + folderPath,
-				PercentageDone = 0
-			});    
-			
-			// Set supported extensions
-#if MACOSX            
-			extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$";
-#elif LINUX
-            extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$";
-#elif (!MACOSX && !LINUX)
-			extensionsSupported = @"WAV;MP3;FLAC;OGG;MPC;WV;WMA;APE;M3U;M3U8;PLS;XSPF";
-#endif
-						
-#if (MACOSX || LINUX)
-			
-			// Get Unix-style directory information (i.e. case sensitive file names)
-			UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
-			
-            // For each directory, search for new directories
-            foreach (UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
-            {			
-				// Check if entry is a directory
-				if(fileInfo.IsDirectory && recursive)
-				{
-                    // Search for media filess in that directory                    
-                	List<string> listMediaFiles = SearchMediaFilesInFolders(fileInfo.FullName, true);
-                	arrayFiles.AddRange(listMediaFiles);					
-				}
-				
-				// Does the file match a supported extension
-				Match match = Regex.Match(fileInfo.FullName, @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$", RegexOptions.IgnoreCase);
-				if(match.Success)
-				{
-					// Add file
-                    arrayFiles.Add(fileInfo.FullName);
-				}				
-            }
-            
-#else
-        	
-            // Get Windows-style directory information
-            DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);                        
-            
-            // Check for sub directories if recursive
-            if (recursive)
-            {
-                // For each directory, search for new directories
-                foreach (DirectoryInfo directoryInfo in rootDirectoryInfo.GetDirectories())
-                {
-                    // Search for songs in that directory                    
-                    List<string> listSongs = SearchMediaFilesInFolders(directoryInfo.FullName, recursive);
-                    arrayFiles.AddRange(listSongs);
-                }
-            }
-			
-			string[] extensions = extensionsSupported.Split(new string[]{";"}, StringSplitOptions.RemoveEmptyEntries);
-            // For each extension supported
-            foreach (string extension in extensions)
-            {
-                foreach (FileInfo fileInfo in rootDirectoryInfo.GetFiles("*." + extension))
-                {
-                    // Add file
-                    arrayFiles.Add(fileInfo.FullName);
-                }
-            }
-						
-#endif				
-
-            return arrayFiles;
-        }
 	}
 }
-

@@ -1,5 +1,5 @@
 ﻿//
-// UpdateLibraryEntity.cs: Data structure repesenting the current update library status.
+// ProcessEndedEventArgs.cs: Process ended event arguments.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -24,18 +24,24 @@ using System.Reflection;
 
 namespace MPfm.MVP
 {
-    /// <summary>
-    /// Data structure repesenting the current update library status.
-    /// </summary>
-    public class UpdateLibraryEntity
-    {
-		public string Title { get; set; }
-		public string Subtitle { get; set; }
-		public string FilePath { get; set; }
-		public float PercentageDone { get; set; }		
-		public int FileCount { get; set; }
-		public int FileIndex { get; set; }
-		public Exception Exception { get; set; }
-    }
+	/// <summary>
+	/// Process ended event arguments.
+	/// </summary>
+	public class ProcessEndedEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Defines if the process was canceled or not.
+		/// </summary>
+		public bool Canceled { get; set; }
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MPfm.MVP.ProcessEndedEventArgs"/> class.
+		/// </summary>
+		/// <param name='canceled'>Defines if the process was canceled or not.</param>
+		public ProcessEndedEventArgs(bool canceled)
+		{
+			this.Canceled = canceled;
+		}
+	}
 }
 

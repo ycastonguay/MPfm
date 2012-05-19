@@ -72,6 +72,10 @@
     <Compile Include="Presenters\IUpdateLibraryPresenter.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\LibraryModule.cs" />
+    <Compile Include="Services\IUpdateLibraryService.cs" />
+    <Compile Include="Services\UpdateLibraryService.cs" />
+    <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
+    <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

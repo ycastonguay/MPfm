@@ -1,5 +1,5 @@
 ﻿//
-// LibraryService.cs: This service is used for interacting with the library database.
+// LibraryService.cs: Service used for interacting with the library database.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -27,7 +27,7 @@ using MPfm.Library;
 namespace MPfm.MVP
 {
     /// <summary>
-    /// Interface for the LibraryService class.
+    /// Service used for interacting with the library database.
     /// </summary>
     public class LibraryService : ILibraryService
     {

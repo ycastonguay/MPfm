@@ -1,5 +1,5 @@
 ﻿//
-// UpdateLibraryEntity.cs: Data structure repesenting the current update library status.
+// RefreshStatusEventArgs.cs: Refresh status event arguments.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -24,18 +24,24 @@ using System.Reflection;
 
 namespace MPfm.MVP
 {
-    /// <summary>
-    /// Data structure repesenting the current update library status.
-    /// </summary>
-    public class UpdateLibraryEntity
-    {
-		public string Title { get; set; }
-		public string Subtitle { get; set; }
-		public string FilePath { get; set; }
-		public float PercentageDone { get; set; }		
-		public int FileCount { get; set; }
-		public int FileIndex { get; set; }
-		public Exception Exception { get; set; }
-    }
+	/// <summary>
+	/// Refresh status event arguments.
+	/// </summary>
+	public class RefreshStatusEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Gets or sets the entity.
+		/// </summary>
+		public UpdateLibraryEntity Entity { get; set; }
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MPfm.MVP.RefreshStatusEventArgs"/> class.
+		/// </summary>
+		/// <param name='entity'>Entity for updating library</param>
+		public RefreshStatusEventArgs(UpdateLibraryEntity entity)
+		{
+			this.Entity = entity;
+		}
+	}
 }
 

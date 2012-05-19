@@ -1,5 +1,5 @@
-﻿//
-// UpdateLibraryEntity.cs: Data structure repesenting the current update library status.
+//
+// IUpdateLibraryPresenter.cs: Update Library window presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,23 +19,22 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using MPfm.Library;
 
 namespace MPfm.MVP
 {
-    /// <summary>
-    /// Data structure repesenting the current update library status.
-    /// </summary>
-    public class UpdateLibraryEntity
-    {
-		public string Title { get; set; }
-		public string Subtitle { get; set; }
-		public string FilePath { get; set; }
-		public float PercentageDone { get; set; }		
-		public int FileCount { get; set; }
-		public int FileIndex { get; set; }
-		public Exception Exception { get; set; }
-    }
+	/// <summary>
+	/// Update Library window presenter interface.
+	/// </summary>
+	public interface IUpdateLibraryService
+	{		
+		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
+		void Cancel();
+		void SaveLog(string filePath);		
+	}
 }
 
