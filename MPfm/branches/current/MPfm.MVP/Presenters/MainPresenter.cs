@@ -253,7 +253,7 @@ namespace MPfm.MVP
 				}
 				catch(Exception ex)
 				{
-					//throw new Exception("Could not create the application home directory (" + homeDirectory + ")!", ex);
+					throw new Exception("Could not create the application home directory (" + homeDirectory + ")!", ex);
 				}
 			}
 

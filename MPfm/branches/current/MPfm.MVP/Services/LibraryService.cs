@@ -32,7 +32,7 @@ namespace MPfm.MVP
     public class LibraryService : ILibraryService
     {
 		// Private variables
-		private readonly MPfmGateway gateway = null;
+		private readonly IMPfmGateway gateway = null;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.Library.UpdateLibraryService"/> class.
@@ -43,7 +43,7 @@ namespace MPfm.MVP
 		/// <exception cref='ArgumentNullException'>
 		/// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
 		/// </exception>
-		public LibraryService(MPfmGateway gateway)
+		public LibraryService(IMPfmGateway gateway)
 		{
 			// Check for null
 			if(gateway == null)

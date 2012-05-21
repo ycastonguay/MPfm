@@ -6,14 +6,17 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.Sound;
+using Ninject;
 
 namespace MPfm.Mac
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IMainView
 	{
-		private MPfm.MVP.MainPresenter presenter = null;		
+		private MainPresenter presenter = null;		
 		private NSTimer timer = null;
-		
+		private NSOpenPanel openPanel = null;
+		private UpdateLibraryWindowController updateLibraryWindowController = null;
+
 		//strongly typed window accessor00
 		public new MainWindow Window {
 			get {
@@ -45,10 +48,11 @@ namespace MPfm.Mac
 		// Shared initialization code
 		void Initialize()
 		{
-			
-#if (MACOSX)						
-			Console.WriteLine("stuff");			
-#endif			
+			// Initialize bootstrapper
+			IKernel kernel = Bootstrapper.GetServiceLocator();
+
+			// Create presenter
+			presenter = new MPfm.MVP.MainPresenter(this);
 		}
 		
 		public override void WindowDidLoad()
@@ -58,38 +62,34 @@ namespace MPfm.Mac
 		
 		public override void AwakeFromNib()
 		{
-			// Create presenter
-			presenter = new MPfm.MVP.MainPresenter(this);
+
 		}
 		
 		#endregion
 		
 		partial void toolbarOpenAudioFiles_Click(NSObject sender)
-		{			
-			// Create open file panel
-			var openPanel = new NSOpenPanel();
-			openPanel.ReleasedWhenClosed = true;
-			openPanel.AllowsMultipleSelection = true;
-			openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3" };
-			openPanel.Title = "Please select audio files to play";
-			openPanel.Prompt = "Add to playlist";
-//			
-			var result = openPanel.RunModal();
-			if(result == 1)
+		{	
+			// Open panel to choose audio files to play
+			IEnumerable<string> filePaths = null;
+			using(NSOpenPanel openPanel = new NSOpenPanel())
 			{
-				List<string> files = openPanel.Urls.Select(x => x.Path).ToList();
-				presenter.Player.Playlist.Clear();
-				presenter.Player.Playlist.AddItems(files);				
+				openPanel.ReleasedWhenClosed = true;
+				openPanel.AllowsMultipleSelection = true;
+				openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG" };
+				openPanel.Title = "Please select audio files to play";
+				openPanel.Prompt = "Add to playlist";	
+				openPanel.RunModal();
+
+				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
-			
-			//using(NSAutoreleasePool pool = new NSAutoreleasePool())
-			//{	
-				
-			//}
-				
-			//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });
-			//timer = NSTimer.CreateRepeatingScheduledTimer(1, delegate{ lblPosition.StringValue = controller.Player.GetPosition().ToString(); });
-			//timer = NSTimer.CreateRepeatingScheduledTimer(1,  BeginInvokeOnMainThread(delegate{ lblPosition.StringValue = DateTime.Now.ToLongTimeString(); });							
+
+			// Check if files were found
+			if(filePaths != null && filePaths.Count() > 0)
+			{
+				presenter.Player.Playlist.Clear();
+				presenter.Player.Playlist.AddItems(filePaths.ToList());
+				presenter.Play();
+			}
 		}
 		
 		partial void toolbarPlay(NSObject sender)
@@ -124,7 +124,9 @@ namespace MPfm.Mac
 		
 		partial void toolbarUpdateLibrary(NSObject sender)
 		{
-			
+			updateLibraryWindowController = new UpdateLibraryWindowController(); //MPfm.Library.UpdateLibraryMode.WholeLibrary, null);// null, null);
+			updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
+			updateLibraryWindowController.StartProcess(MPfm.Library.UpdateLibraryMode.WholeLibrary, null, null);
 		}
 		
 		partial void toolbarPlaylist(NSObject sender)
@@ -139,7 +141,7 @@ namespace MPfm.Mac
 			
 		partial void toolbarPreferences(NSObject sender)
 		{
-			
+
 		}
 		
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -157,3 +159,4 @@ namespace MPfm.Mac
 		}
 	}
 }
+

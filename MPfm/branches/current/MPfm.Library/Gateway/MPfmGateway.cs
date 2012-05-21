@@ -1035,5 +1035,9 @@ namespace MPfm.Library
 
         #endregion
 
+		public void CompactDatabase()
+		{
+			base.CompactDatabase();
+		}
     }
 }

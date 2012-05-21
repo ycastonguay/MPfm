@@ -29,7 +29,7 @@ namespace MPfm.Library
     /// <summary>
     /// Interface for the MPfmGateway class.
     /// </summary>
-    interface IMPfmGateway
+    public interface IMPfmGateway
     {
         void DeleteAudioFile(Guid audioFileId);
         void DeleteAudioFiles(string basePath);
@@ -81,5 +81,7 @@ namespace MPfm.Library
         void UpdateMarker(Marker dto);
         void UpdatePlayCount(Guid audioFileId);
         void UpdateSetting(Setting dto);
+
+		void CompactDatabase();
     }
 }
