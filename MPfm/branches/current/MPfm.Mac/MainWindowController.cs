@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MPfm.Library;
 using MPfm.MVP;
 using MPfm.Sound;
 using Ninject;
@@ -66,16 +67,67 @@ namespace MPfm.Mac
 		}
 		
 		#endregion
-		
-		partial void toolbarOpenAudioFiles_Click(NSObject sender)
-		{	
+
+		partial void actionAddFilesToLibrary(NSObject sender)
+		{
+			// Open panel to choose audio files
+			IEnumerable<string> filePaths = null;
+			using(NSOpenPanel openPanel = new NSOpenPanel())
+			{
+				openPanel.CanChooseDirectories = false;
+				openPanel.CanChooseFiles = true;
+				openPanel.ReleasedWhenClosed = true;
+				openPanel.AllowsMultipleSelection = true;
+				openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
+				openPanel.Title = "Please select audio files to add to the library";
+				openPanel.Prompt = "Add to library";
+				openPanel.RunModal();
+
+				filePaths = openPanel.Urls.Select(x => x.Path);
+			}
+
+			// Check if files were found
+			if(filePaths != null && filePaths.Count() > 0)
+			{
+				StartUpdateLibrary(UpdateLibraryMode.SpecificFiles, filePaths.ToList(), null);
+			}
+		}
+
+		partial void actionAddFolderLibrary(NSObject sender)
+		{
+			// Open panel to choose folder
+			string folderPath = string.Empty;
+			using(NSOpenPanel openPanel = new NSOpenPanel())
+			{
+				openPanel.CanChooseDirectories = true;
+				openPanel.CanChooseFiles = false;
+				openPanel.ReleasedWhenClosed = true;
+				openPanel.AllowsMultipleSelection = false;
+				openPanel.Title = "Please select a folder to add to the library";
+				openPanel.Prompt = "Add to library";	
+				openPanel.RunModal();
+
+				folderPath = openPanel.Url.Path;
+			}
+
+			// Check if the folder is valid
+			if(!String.IsNullOrEmpty(folderPath))
+			{
+				StartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, folderPath);
+			}
+		}
+
+		partial void actionOpenAudioFiles(NSObject sender)
+		{
 			// Open panel to choose audio files to play
 			IEnumerable<string> filePaths = null;
 			using(NSOpenPanel openPanel = new NSOpenPanel())
 			{
+				openPanel.CanChooseDirectories = false;
+				openPanel.CanChooseFiles = true;
 				openPanel.ReleasedWhenClosed = true;
 				openPanel.AllowsMultipleSelection = true;
-				openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG" };
+				openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
 				openPanel.Title = "Please select audio files to play";
 				openPanel.Prompt = "Add to playlist";	
 				openPanel.RunModal();
@@ -91,55 +143,53 @@ namespace MPfm.Mac
 				presenter.Play();
 			}
 		}
-		
-		partial void toolbarPlay(NSObject sender)
+
+		partial void actionUpdateLibrary(NSObject sender)
 		{
-			presenter.Play();	
+			StartUpdateLibrary(UpdateLibraryMode.WholeLibrary, null, null);
 		}
-		
-		partial void toolbarPause(NSObject sender)
+
+		partial void actionPlay(NSObject sender)
+		{
+			presenter.Play();
+		}
+
+		partial void actionPause(NSObject sender)
 		{
 			presenter.Pause();
 		}
-		
-		partial void toolbarStop(NSObject sender)
+
+		partial void actionStop(NSObject sender)
 		{
 			presenter.Stop();
 		}
-		
-		partial void toolbarNext(NSObject sender)
-		{
-			presenter.Next();
-		}
-		
-		partial void toolbarPrevious(NSObject sender)
+
+		partial void actionPrevious(NSObject sender)
 		{
 			presenter.Previous();
 		}
-		
-		partial void toolbarRepeatType(NSObject sender)
+
+		partial void actionNext(NSObject sender)
+		{
+			presenter.Next();
+		}
+
+		partial void actionRepeatType(NSObject sender)
 		{
 			presenter.RepeatType();
 		}
-		
-		partial void toolbarUpdateLibrary(NSObject sender)
+
+		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
-			updateLibraryWindowController = new UpdateLibraryWindowController(); //MPfm.Library.UpdateLibraryMode.WholeLibrary, null);// null, null);
-			updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
-			updateLibraryWindowController.StartProcess(MPfm.Library.UpdateLibraryMode.WholeLibrary, null, null);
+
 		}
-		
-		partial void toolbarPlaylist(NSObject sender)
+
+		partial void actionOpenEffectsWindow(NSObject sender)
 		{
-			
+
 		}
-		
-		partial void toolbarEffects(NSObject sender)
-		{
-			
-		}
-			
-		partial void toolbarPreferences(NSObject sender)
+
+		partial void actionOpenPreferencesWindow(NSObject sender)
 		{
 
 		}
@@ -157,6 +207,19 @@ namespace MPfm.Mac
 			lblSongPath.StringValue = entity.FilePath;
 			lblPosition.StringValue = entity.Position;
 		}
+
+		private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+		{
+			// Create window and start process
+			if(updateLibraryWindowController != null) {
+				updateLibraryWindowController.Dispose();
+			}
+
+			updateLibraryWindowController = new UpdateLibraryWindowController();
+			updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
+			updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
+		}
+
 	}
 }
 

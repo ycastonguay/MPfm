@@ -93,10 +93,10 @@
 													<string>public.url</string>
 												</object>
 											</object>
-											<string key="NSFrameSize">{549, 72}</string>
+											<string key="NSFrameSize">{549, 57}</string>
 											<reference key="NSSuperview" ref="139550380"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="908124853"/>
+											<reference key="NSNextKeyView" ref="569607521"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<object class="NSTextContainer" key="NSTextContainer" id="273465089">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -247,7 +247,7 @@
 							<string key="NSFrame">{{20, 54}, {566, 183}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="569607521"/>
+							<reference key="NSNextKeyView" ref="139550380"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="908124853"/>
@@ -257,7 +257,7 @@
 						<object class="NSTextField" id="258715889">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 332}, {572, 17}}</string>
+							<string key="NSFrame">{{17, 330}, {572, 17}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="167593312"/>
@@ -265,12 +265,12 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="30351969">
 								<int key="NSCellFlags">68288064</int>
-								<int key="NSCellFlags2">138413056</int>
+								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">Label</string>
-								<object class="NSFont" key="NSSupport" id="391987477">
+								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">13</double>
-									<int key="NSfFlags">1044</int>
+									<double key="NSSize">12</double>
+									<int key="NSfFlags">16</int>
 								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="258715889"/>
@@ -291,7 +291,7 @@
 						<object class="NSTextField" id="167593312">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 307}, {572, 17}}</string>
+							<string key="NSFrame">{{17, 305}, {572, 17}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1020714831"/>
@@ -299,9 +299,13 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="471984112">
 								<int key="NSCellFlags">68288064</int>
-								<int key="NSCellFlags2">138413056</int>
+								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">Label</string>
-								<reference key="NSSupport" ref="391987477"/>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">10</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="167593312"/>
 								<reference key="NSBackgroundColor" ref="286954675"/>
@@ -311,7 +315,7 @@
 						<object class="NSTextField" id="603579452">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 258}, {572, 17}}</string>
+							<string key="NSFrame">{{17, 262}, {572, 13}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="308654894"/>
@@ -321,7 +325,11 @@
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">138413056</int>
 								<string key="NSContents">Label</string>
-								<reference key="NSSupport" ref="391987477"/>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande-Bold</string>
+									<double key="NSSize">10</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="603579452"/>
 								<reference key="NSBackgroundColor" ref="286954675"/>
@@ -337,7 +345,7 @@
 							<reference key="NSNextKeyView" ref="603579452"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSHuggingPriority">{250, 250}</string>
-							<int key="NSpiFlags">16399</int>
+							<int key="NSpiFlags">16397</int>
 							<double key="NSMaxValue">100</double>
 						</object>
 						<object class="NSButton" id="27014899">
@@ -346,14 +354,17 @@
 							<string key="NSFrame">{{510, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1063490640">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">OK</string>
-								<reference key="NSSupport" ref="391987477"/>
+								<object class="NSFont" key="NSSupport" id="391987477">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">13</double>
+									<int key="NSfFlags">1044</int>
+								</object>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="27014899"/>
 								<int key="NSButtonFlags">-2038284033</int>
@@ -514,6 +525,22 @@
 					</object>
 					<int key="connectionID">82</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">progressBar</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1020714831"/>
+					</object>
+					<int key="connectionID">83</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblPercentageDone</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="603579452"/>
+					</object>
+					<int key="connectionID">84</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -559,13 +586,13 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="258715889"/>
-							<reference ref="167593312"/>
 							<reference ref="1020714831"/>
 							<reference ref="603579452"/>
 							<reference ref="308654894"/>
 							<reference ref="27014899"/>
 							<reference ref="515129650"/>
 							<reference ref="856648173"/>
+							<reference ref="167593312"/>
 						</object>
 						<reference key="parent" ref="748157544"/>
 					</object>
@@ -755,7 +782,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">82</int>
+			<int key="maxID">84</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -817,8 +844,10 @@
 							<string>btnCancel</string>
 							<string>btnOK</string>
 							<string>btnSaveLog</string>
+							<string>lblPercentageDone</string>
 							<string>lblSubtitle</string>
 							<string>lblTitle</string>
+							<string>progressBar</string>
 							<string>scrollViewErrorLog</string>
 							<string>textViewErrorLog</string>
 						</object>
@@ -829,6 +858,8 @@
 							<string>NSButton</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSProgressIndicator</string>
 							<string>NSScrollView</string>
 							<string>NSTextView</string>
 						</object>
@@ -840,8 +871,10 @@
 							<string>btnCancel</string>
 							<string>btnOK</string>
 							<string>btnSaveLog</string>
+							<string>lblPercentageDone</string>
 							<string>lblSubtitle</string>
 							<string>lblTitle</string>
+							<string>progressBar</string>
 							<string>scrollViewErrorLog</string>
 							<string>textViewErrorLog</string>
 						</object>
@@ -860,12 +893,20 @@
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">lblPercentageDone</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">lblSubtitle</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">lblTitle</string>
 								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">progressBar</string>
+								<string key="candidateClassName">NSProgressIndicator</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">scrollViewErrorLog</string>

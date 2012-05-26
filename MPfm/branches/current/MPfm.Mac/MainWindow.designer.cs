@@ -29,41 +29,44 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
-		[Action ("_ButtonClick:")]
-		partial void _ButtonClick (MonoMac.Foundation.NSObject sender);
+		[Action ("actionAddFilesToLibrary:")]
+		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarOpenAudioFiles_Click:")]
-		partial void toolbarOpenAudioFiles_Click (MonoMac.Foundation.NSObject sender);
+		[Action ("actionAddFolderLibrary:")]
+		partial void actionAddFolderLibrary (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarPlay:")]
-		partial void toolbarPlay (MonoMac.Foundation.NSObject sender);
+		[Action ("actionOpenAudioFiles:")]
+		partial void actionOpenAudioFiles (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarStop:")]
-		partial void toolbarStop (MonoMac.Foundation.NSObject sender);
+		[Action ("actionUpdateLibrary:")]
+		partial void actionUpdateLibrary (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarNext:")]
-		partial void toolbarNext (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPlay:")]
+		partial void actionPlay (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarPrevious:")]
-		partial void toolbarPrevious (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPause:")]
+		partial void actionPause (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarUpdateLibrary:")]
-		partial void toolbarUpdateLibrary (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPrevious:")]
+		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarEffects:")]
-		partial void toolbarEffects (MonoMac.Foundation.NSObject sender);
+		[Action ("actionNext:")]
+		partial void actionNext (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarPlaylist:")]
-		partial void toolbarPlaylist (MonoMac.Foundation.NSObject sender);
+		[Action ("actionStop:")]
+		partial void actionStop (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarPreferences:")]
-		partial void toolbarPreferences (MonoMac.Foundation.NSObject sender);
+		[Action ("actionRepeatType:")]
+		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarRepeatType:")]
-		partial void toolbarRepeatType (MonoMac.Foundation.NSObject sender);
+		[Action ("actionOpenPlaylistWindow:")]
+		partial void actionOpenPlaylistWindow (MonoMac.Foundation.NSObject sender);
 
-		[Action ("toolbarPause:")]
-		partial void toolbarPause (MonoMac.Foundation.NSObject sender);
+		[Action ("actionOpenEffectsWindow:")]
+		partial void actionOpenEffectsWindow (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionOpenPreferencesWindow:")]
+		partial void actionOpenPreferencesWindow (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

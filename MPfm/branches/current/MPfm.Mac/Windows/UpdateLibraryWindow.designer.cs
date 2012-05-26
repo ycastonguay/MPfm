@@ -12,6 +12,12 @@ namespace MPfm.Mac
 	partial class UpdateLibraryWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSProgressIndicator progressBar { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPercentageDone { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton btnCancel { get; set; }
 
 		[Outlet]
@@ -43,6 +49,16 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (progressBar != null) {
+				progressBar.Dispose ();
+				progressBar = null;
+			}
+
+			if (lblPercentageDone != null) {
+				lblPercentageDone.Dispose ();
+				lblPercentageDone = null;
+			}
+
 			if (btnCancel != null) {
 				btnCancel.Dispose ();
 				btnCancel = null;

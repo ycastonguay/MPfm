@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11D50</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">2182</string>
@@ -1019,14 +1019,6 @@
 					<int key="connectionID">59</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarOpenAudioFiles_Click:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1054465936"/>
-					</object>
-					<int key="connectionID">60</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">lblAlbumTitle</string>
 						<reference key="source" ref="1001"/>
@@ -1060,83 +1052,91 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarPlay:</string>
+						<string key="label">actionOpenAudioFiles:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1054465936"/>
+					</object>
+					<int key="connectionID">98</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionPlay:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="220397474"/>
 					</object>
-					<int key="connectionID">87</int>
+					<int key="connectionID">99</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarStop:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="422932690"/>
-					</object>
-					<int key="connectionID">88</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarNext:</string>
+						<string key="label">actionNext:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="462500111"/>
 					</object>
-					<int key="connectionID">89</int>
+					<int key="connectionID">101</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarPrevious:</string>
+						<string key="label">actionPrevious:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="936804220"/>
 					</object>
-					<int key="connectionID">91</int>
+					<int key="connectionID">102</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarUpdateLibrary:</string>
+						<string key="label">actionUpdateLibrary:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="52746378"/>
 					</object>
-					<int key="connectionID">92</int>
+					<int key="connectionID">103</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarEffects:</string>
+						<string key="label">actionOpenEffectsWindow:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="132600826"/>
 					</object>
-					<int key="connectionID">93</int>
+					<int key="connectionID">104</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarPlaylist:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="134700849"/>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarPreferences:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="271922043"/>
-					</object>
-					<int key="connectionID">95</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarRepeatType:</string>
+						<string key="label">actionRepeatType:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="717299365"/>
 					</object>
-					<int key="connectionID">96</int>
+					<int key="connectionID">105</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toolbarPause:</string>
+						<string key="label">actionPause:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="958550511"/>
 					</object>
-					<int key="connectionID">97</int>
+					<int key="connectionID">106</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionOpenPlaylistWindow:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="134700849"/>
+					</object>
+					<int key="connectionID">107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionOpenPreferencesWindow:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="271922043"/>
+					</object>
+					<int key="connectionID">108</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionStop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="422932690"/>
+					</object>
+					<int key="connectionID">109</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1744,7 +1744,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">97</int>
+			<int key="maxID">109</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1764,21 +1764,23 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_ButtonClick:</string>
-							<string>toolbarEffects:</string>
-							<string>toolbarNext:</string>
-							<string>toolbarOpenAudioFiles_Click:</string>
-							<string>toolbarPause:</string>
-							<string>toolbarPlay:</string>
-							<string>toolbarPlaylist:</string>
-							<string>toolbarPreferences:</string>
-							<string>toolbarPrevious:</string>
-							<string>toolbarRepeatType:</string>
-							<string>toolbarStop:</string>
-							<string>toolbarUpdateLibrary:</string>
+							<string>actionAddFilesToLibrary:</string>
+							<string>actionAddFolderLibrary:</string>
+							<string>actionNext:</string>
+							<string>actionOpenAudioFiles:</string>
+							<string>actionOpenEffectsWindow:</string>
+							<string>actionOpenPlaylistWindow:</string>
+							<string>actionOpenPreferencesWindow:</string>
+							<string>actionPause:</string>
+							<string>actionPlay:</string>
+							<string>actionPrevious:</string>
+							<string>actionRepeatType:</string>
+							<string>actionStop:</string>
+							<string>actionUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1797,67 +1799,72 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_ButtonClick:</string>
-							<string>toolbarEffects:</string>
-							<string>toolbarNext:</string>
-							<string>toolbarOpenAudioFiles_Click:</string>
-							<string>toolbarPause:</string>
-							<string>toolbarPlay:</string>
-							<string>toolbarPlaylist:</string>
-							<string>toolbarPreferences:</string>
-							<string>toolbarPrevious:</string>
-							<string>toolbarRepeatType:</string>
-							<string>toolbarStop:</string>
-							<string>toolbarUpdateLibrary:</string>
+							<string>actionAddFilesToLibrary:</string>
+							<string>actionAddFolderLibrary:</string>
+							<string>actionNext:</string>
+							<string>actionOpenAudioFiles:</string>
+							<string>actionOpenEffectsWindow:</string>
+							<string>actionOpenPlaylistWindow:</string>
+							<string>actionOpenPreferencesWindow:</string>
+							<string>actionPause:</string>
+							<string>actionPlay:</string>
+							<string>actionPrevious:</string>
+							<string>actionRepeatType:</string>
+							<string>actionStop:</string>
+							<string>actionUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">_ButtonClick:</string>
+								<string key="name">actionAddFilesToLibrary:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarEffects:</string>
+								<string key="name">actionAddFolderLibrary:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarNext:</string>
+								<string key="name">actionNext:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarOpenAudioFiles_Click:</string>
+								<string key="name">actionOpenAudioFiles:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarPause:</string>
+								<string key="name">actionOpenEffectsWindow:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarPlay:</string>
+								<string key="name">actionOpenPlaylistWindow:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarPlaylist:</string>
+								<string key="name">actionOpenPreferencesWindow:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarPreferences:</string>
+								<string key="name">actionPause:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarPrevious:</string>
+								<string key="name">actionPlay:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarRepeatType:</string>
+								<string key="name">actionPrevious:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarStop:</string>
+								<string key="name">actionRepeatType:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toolbarUpdateLibrary:</string>
+								<string key="name">actionStop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionUpdateLibrary:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>

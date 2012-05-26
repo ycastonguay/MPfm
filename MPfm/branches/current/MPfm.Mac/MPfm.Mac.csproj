@@ -59,11 +59,12 @@
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
-    <CreatePackage>false</CreatePackage>
+    <CreatePackage>true</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <LinkMode>Full</LinkMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -76,7 +77,7 @@
       <HintPath>..\MPfm.Sound\Lib\Bass.Net.dll</HintPath>
     </Reference>
     <Reference Include="taglib-sharp">
-      <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
+      <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite">
       <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.dll</HintPath>
@@ -132,6 +133,7 @@
     </None>
     <None Include="Lib\AutoMapper.dll" />
     <None Include="Lib\Ninject.dll" />
+    <None Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />

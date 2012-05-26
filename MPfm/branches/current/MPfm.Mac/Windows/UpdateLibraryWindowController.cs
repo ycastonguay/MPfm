@@ -127,6 +127,8 @@ namespace MPfm.Mac
 		{
 			lblTitle.StringValue = entity.Title;
 			lblSubtitle.StringValue = entity.Subtitle;
+			lblPercentageDone.StringValue = (entity.PercentageDone * 100).ToString() + " %";
+			progressBar.DoubleValue = (double)entity.PercentageDone * 100;
 		}
 
 		public void AddToLog(string entry)
