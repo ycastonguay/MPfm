@@ -14,25 +14,38 @@ using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.MVP;
+using Ninject;
+using Ninject.Parameters;
 
 namespace MPfm.GTK
 {
 	/// <summary>
 	/// Main window.
 	/// </summary>
-	public partial class MainWindow: Gtk.Window, IMainView
+	public partial class MainWindow: Gtk.Window, IPlayerView, ILibraryBrowserView
 	{
 		// Private variables
 		private string currentDirectory = string.Empty;
 		
-		private MainPresenter presenter = null;
-		public MainPresenter Presenter
+		private PlayerPresenter presenterPlayer = null;
+		public PlayerPresenter PresenterPlayer
 		{
 			get
 			{
-				return presenter;
+				return presenterPlayer;
 			}
 		}
+		
+		private IMPfmGateway gateway = null;
+		public IMPfmGateway Gateway		
+		{
+			get
+			{
+				return gateway;
+			}
+		}
+		
+		private ILibraryBrowserPresenter presenterLibraryBrowser = null;
 		
 		private SettingsWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;
@@ -49,7 +62,8 @@ namespace MPfm.GTK
 		private Gdk.Pixbuf appIcon = null;
 		private StatusIcon statusIcon = null;
 		
-        private MPfm.Library.Library library = null;
+		private Gtk.TreeStore storeLibraryBrowser = null;
+		private Gtk.ListStore storeSongBrowser = null;		        
 	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -72,21 +86,27 @@ namespace MPfm.GTK
 			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
 			this.imageAlbumCover.Pixbuf = stuff;
 	
-			// Create controller
-			presenter = new MainPresenter(this);
+			// Create gateway
+			gateway = Bootstrapper.GetKernel().Get<IMPfmGateway>();
+			
+			// Create presenters											
+			presenterPlayer = new PlayerPresenter(this);
+			LibraryService libraryService = new LibraryService(gateway);
+			presenterLibraryBrowser = new LibraryBrowserPresenter(this, libraryService);
 			
 			// Create song browser columns
-			CreateSongBrowserColumns();
+			InitializeSongBrowser();
 			RefreshSongBrowser(new List<AudioFile>());
+			
+			// Create and refresh library browser
+			InitializeLibraryBrowser();
+			RefreshLibraryBrowser(null);
 	
 			// Refresh other stuff
 			RefreshRepeatButton();
 			RefreshSongInformation(new SongInformationEntity());
-	
-			//#if VER_LINUX
-			//		device.Name = "LINUX";
-			//#endif
 			
+			// Set focus to something else than the toolbar (for some reason, the first button is selected)
 			this.cboSoundFormat.GrabFocus();			
 		}
 	
@@ -96,8 +116,8 @@ namespace MPfm.GTK
 		protected void ExitApplication()
 		{
 			// Dispose controller
-			presenter.Dispose();
-			presenter = null;
+			presenterPlayer.Dispose();
+			presenterPlayer = null;
 	
 			// Exit application
 			Application.Quit();
@@ -182,8 +202,11 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Creates the song browser columns.
 		/// </summary>
-		protected void CreateSongBrowserColumns()
+		protected void InitializeSongBrowser()
 		{
+			// Create store
+			storeSongBrowser = new Gtk.ListStore(typeof(AudioFile));
+
 			Gtk.TreeViewColumn colPlaybackIcon = new Gtk.TreeViewColumn();
 			Gtk.TreeViewColumn colTrackNumber = new Gtk.TreeViewColumn();
 			Gtk.TreeViewColumn colArtistName = new Gtk.TreeViewColumn();
@@ -238,29 +261,23 @@ namespace MPfm.GTK
 			treeSongBrowser.AppendColumn(colLength);
 			treeSongBrowser.AppendColumn(colArtistName);
 			treeSongBrowser.AppendColumn(colAlbumTitle);
-	
-			//colArtistName.AddAttribute(cellArtistName, "text", 0);
-			//colAlbumTitle.AddAttribute(cellAlbumTitle, "text", 0);
-			//colSongTitle.AddAttribute(cellSongTitle, "text", 0);
 		}
-	
+		
 		/// <summary>
 		/// Refreshes the song browser.
 		/// </summary>
 		/// <param name='audioFiles'>List of audio files to display in the Song Browser.</param>
 		protected void RefreshSongBrowser(List<AudioFile> audioFiles)
 		{
-			// Create store
-			Gtk.ListStore musicListStore = new Gtk.ListStore(typeof(AudioFile));
 			foreach(AudioFile audioFile in audioFiles)
 			{
-				musicListStore.AppendValues(audioFile);
+				storeSongBrowser.AppendValues(audioFile);
 			}
 	
 			// Set model
-			treeSongBrowser.Model = musicListStore;
+			treeSongBrowser.Model = storeSongBrowser;
 		}
-	
+		
 		/// <summary>
 		/// Renders a cell from the Song Browser.
 		/// </summary>
@@ -287,6 +304,125 @@ namespace MPfm.GTK
 			// Set cell text
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
+				
+		protected void InitializeLibraryBrowser()
+		{
+			// Create store
+			storeLibraryBrowser = new Gtk.TreeStore(typeof(LibraryBrowserEntity));						
+
+			// Hide header
+			treeLibraryBrowser.HeadersVisible = false;
+
+			// Set events
+			treeLibraryBrowser.RowExpanded += HandleTreeLibraryBrowserRowExpanded;
+			
+			// Create title column
+			Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
+			Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();	
+			colTitle.Data.Add("Property", "Title");
+			colTitle.PackStart(cellTitle, true);
+			colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderLibraryBrowserCell));
+			treeLibraryBrowser.AppendColumn(colTitle);			
+		}
+
+		protected void HandleTreeLibraryBrowserRowExpanded(object o, RowExpandedArgs args)
+		{
+			// Get data
+			LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(args.Iter, 0);			
+			
+			// Determine type
+			if(entity.Type == LibraryBrowserEntityType.Artists)
+			{
+				// Check for dummy node				
+				TreeIter iter;
+				storeLibraryBrowser.IterChildren(out iter, args.Iter);
+				LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);
+				if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
+				{							
+					// Fill new rows
+					storeLibraryBrowser.AppendValues(args.Iter, new LibraryBrowserEntity(){
+						Type = LibraryBrowserEntityType.Artist,
+						Title = "HELLOES"
+					});
+				
+					// Remove dummy node
+					storeLibraryBrowser.Remove(ref iter);
+				}				
+			}		
+		}
+		
+		protected void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> items)
+		{
+			// Get first level nodes and add to tree store
+			IEnumerable<LibraryBrowserEntity> entities = presenterLibraryBrowser.GetFirstLevelNodes();			
+			foreach(LibraryBrowserEntity entity in entities)
+			{
+				// Add tree iter
+				Gtk.TreeIter iter = storeLibraryBrowser.AppendValues(entity);
+				
+				// Scan through subitems
+				foreach(LibraryBrowserEntity entitySub in entity.SubItems)
+				{
+					// The first subitems are always dummy or static.
+					storeLibraryBrowser.AppendValues(iter, entitySub);
+				}
+			}
+						
+			// Set model
+			treeLibraryBrowser.Model = storeLibraryBrowser;
+		}
+		
+		protected void CreateLibraryBrowserStore(Gtk.TreeStore store, Nullable<Gtk.TreeIter> iter, IEnumerable<LibraryBrowserEntity> items)
+		{
+			
+			// Loop through entities
+			foreach(LibraryBrowserEntity entity in items)
+			{
+				Nullable<Gtk.TreeIter> currentIter = null;
+				if(iter == null)
+				{
+					currentIter = store.AppendValues(entity);
+				}
+				else
+				{
+					store.AppendValues(iter, entity);
+					currentIter = iter;
+				}
+				
+				// Create new iter and subiters
+				if(entity.SubItems != null)
+				{					
+					CreateLibraryBrowserStore(store, currentIter, entity.SubItems);
+				}
+			}
+		}
+	
+		/// <summary>
+		/// Renders a cell from the Song Browser.
+		/// </summary>
+		/// <param name='column'>Column</param>
+		/// <param name='cell'>Cell</param>
+		/// <param name='model'>Model</param>
+		/// <param name='iter'>Iter</param>
+		private void RenderLibraryBrowserCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+		{
+			// Get model data
+			LibraryBrowserEntity entity = (LibraryBrowserEntity)model.GetValue(iter, 0);
+	
+			// Get property name
+			string property = (string)column.Data["Property"];
+			if(String.IsNullOrEmpty(property))
+			{
+				return;
+			}
+	
+			// Get value
+			PropertyInfo propertyInfo = typeof(LibraryBrowserEntity).GetProperty(property);
+			object propertyValue = propertyInfo.GetValue(entity, null);
+	
+			// Set cell text
+			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
+		}
 			
 	    /// <summary>
 	    /// Refreshes the "Repeat" button in the main window toolbar.
@@ -298,11 +434,11 @@ namespace MPfm.GTK
 	        string repeatSong = "Song";
 	
 	        // Display the repeat type
-	        if (presenter.Player.RepeatType == RepeatType.Playlist)
+	        if (presenterPlayer.Player.RepeatType == RepeatType.Playlist)
 	        {				
 				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
 	        }
-	        else if (presenter.Player.RepeatType == RepeatType.Song)
+	        else if (presenterPlayer.Player.RepeatType == RepeatType.Song)
 	        {				
 				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
 	        }
@@ -349,8 +485,8 @@ namespace MPfm.GTK
 			if(dialog.Run() == (int)ResponseType.Accept)
 			{
 				// Replace playlist
-				presenter.Player.Playlist.Clear();
-				presenter.Player.Playlist.AddItems(dialog.Filenames.ToList());
+				presenterPlayer.Player.Playlist.Clear();
+				presenterPlayer.Player.Playlist.AddItems(dialog.Filenames.ToList());
 				
 				// Create list of audio files
 				audioFiles = new List<AudioFile>();
@@ -430,43 +566,43 @@ namespace MPfm.GTK
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
 		{
-			presenter.Play();
+			presenterPlayer.Play();
 		}
 		
 		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
-			presenter.Pause();
+			presenterPlayer.Pause();
 		}
 		
 		protected void OnActionStopActivated(object sender, System.EventArgs e)
 		{
-			presenter.Stop();
+			presenterPlayer.Stop();
 		}
 		
 		protected void OnActionPreviousActivated(object sender, System.EventArgs e)
 		{
-			presenter.Previous();
+			presenterPlayer.Previous();
 		}
 
 		protected void OnActionNextActivated(object sender, System.EventArgs e)
 		{
-			presenter.Next();
+			presenterPlayer.Next();
 		}
 
 		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
 		{
 	        // Cycle through the repeat types
-	        if (presenter.Player.RepeatType == RepeatType.Off)
+	        if (presenterPlayer.Player.RepeatType == RepeatType.Off)
 	        {
-	            presenter.Player.RepeatType = RepeatType.Playlist;
+	            presenterPlayer.Player.RepeatType = RepeatType.Playlist;
 	        }
-	        else if (presenter.Player.RepeatType == RepeatType.Playlist)
+	        else if (presenterPlayer.Player.RepeatType == RepeatType.Playlist)
 	        {
-	            presenter.Player.RepeatType = RepeatType.Song;
+	            presenterPlayer.Player.RepeatType = RepeatType.Song;
 	        }
 	        else
 	        {
-	            presenter.Player.RepeatType = RepeatType.Off;
+	            presenterPlayer.Player.RepeatType = RepeatType.Off;
 	        }
 	
 	        // Update repeat button
@@ -529,7 +665,7 @@ namespace MPfm.GTK
 		{
 			// Set player volume
 			float value = ((float)vscaleVolume.Value / 100);
-			presenter.Player.Volume = value;
+			presenterPlayer.Player.Volume = value;
 		}
 	
 		protected void OnSongPositionValueChanged(object sender, System.EventArgs e)
@@ -562,7 +698,6 @@ namespace MPfm.GTK
 		}
 
 		#endregion
-		
-
+				
 	}
 }

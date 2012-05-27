@@ -1,5 +1,5 @@
 //
-// Bootstrapper.cs: Singleton static class for bootstrapping the application.
+// IPlayerView.cs: Player view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,47 +19,33 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
 using MPfm.Sound;
-using AutoMapper;
-using Ninject;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Singleton static class for bootstrapping the application.
-	/// Configures AutoMapper and Ninject.
+	/// Player view interface.
 	/// </summary>
-	public static class Bootstrapper
+	public interface IPlayerView
 	{
 		/// <summary>
-		/// Instance of the Ninject StandardKernel.
+		/// This method is called when the song position needs to be refreshed.
 		/// </summary>
-		private static IKernel kernel;
-		
+		/// <param name='entity'>
+		/// Player position entity.
+		/// </param>
+		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		/// <summary>
-		/// Constructor for the Bootstrapper static class.
+		/// This method is called when the song information needs to be refreshed.
 		/// </summary>
-		static Bootstrapper()
-		{
-			// Create Ninject kernel
-			kernel = new StandardKernel(new LibraryModule());			
-			
-			// Configure Automapper
-			Mapper.CreateMap<AudioFile, SongInformationEntity>();
-		}
-		
-		/// <summary>
-		/// Returns the instance of the StandardKernel for resolving dependencies.
-		/// </summary>
-		/// <returns>StandardKernel</returns>		
-		public static IKernel GetKernel()
-		{
-			return kernel;
-		}
+		/// <param name='entity'>
+		/// Song information entity.
+		/// </param>
+		void RefreshSongInformation(SongInformationEntity entity);
 	}
 }
 

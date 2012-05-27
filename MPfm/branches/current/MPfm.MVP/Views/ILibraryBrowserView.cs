@@ -1,5 +1,5 @@
 //
-// LibraryModule.cs: Configuration module for Ninject.
+// ILibraryBrowserView.cs: Library browser view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,27 +19,15 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
-using MPfm.Sound;
-using Ninject;
+using System.Collections.Generic;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Configuration module for Ninject.
+	/// Library browser view interface.
 	/// </summary>
-	public class LibraryModule : Ninject.Modules.NinjectModule
+	public interface ILibraryBrowserView
 	{
-		/// <summary>
-		/// Loads Ninject configuration.
-		/// </summary>
-		public override void Load()
-		{			
-			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);			
-		}		
 	}
 }
 

@@ -1,5 +1,5 @@
-//
-// LibraryModule.cs: Configuration module for Ninject.
+﻿//
+// SongBrowserFilterEntity.cs: Data structure repesenting a filter for the song browser.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,27 +19,24 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
-using MPfm.Sound;
-using Ninject;
+using System.IO;
+using System.Reflection;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-	/// Configuration module for Ninject.
-	/// </summary>
-	public class LibraryModule : Ninject.Modules.NinjectModule
+    /// <summary>
+    /// Data structure repesenting a filter for the song browser.
+    /// </summary>
+	public class SongBrowserFilterEntity
 	{
 		/// <summary>
-		/// Loads Ninject configuration.
+		/// Field name.
 		/// </summary>
-		public override void Load()
-		{			
-			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);			
-		}		
+		public string FieldName { get; set; }
+		/// <summary>
+		/// Filter value.
+		/// </summary>
+		public string Value { get; set; }
 	}
 }
 

@@ -40,6 +40,6 @@ namespace MPfm.MVP
 		void CompactDatabase();
 		void AddFiles(List<string> filePaths);
 		void AddFolder(string folderPath, bool recursive);
-		void UpdateLibrary();
+		
     }
 }

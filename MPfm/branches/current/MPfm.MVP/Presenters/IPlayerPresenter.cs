@@ -1,5 +1,5 @@
 //
-// IMainView.cs: Main window view interface.
+// IPlayerPresenter.cs: Player presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,33 +19,29 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Main window view interface.
+	/// Player presenter interface.
 	/// </summary>
-	public interface IMainView
+	public interface IPlayerPresenter
 	{
-		/// <summary>
-		/// This method is called when the song position needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Player position entity.
-		/// </param>
-		void RefreshPlayerPosition(PlayerPositionEntity entity);
-		/// <summary>
-		/// This method is called when the song information needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Song information entity.
-		/// </param>
-		void RefreshSongInformation(SongInformationEntity entity);
+		// Playback
+		void Play();
+		void Stop();
+		void Pause();
+		void Next();
+		void Previous();
+		void RepeatType();		
+		
+		// UI
+		void AddFilesToLibrary(List<string> filePaths);
+		void AddFolderToLibrary(string folderPath);		
 	}
 }
 

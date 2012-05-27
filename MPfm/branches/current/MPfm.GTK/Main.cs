@@ -13,10 +13,7 @@ namespace MPfm.GTK
 		public static void Main (string[] args)
 		{
 			// Get current directory
-			string currentDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-			
-			IKernel kernel = Bootstrapper.GetServiceLocator();
-			
+			string currentDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);								
 			
 			Application.Init ();
 			mainWindow = new MainWindow ();

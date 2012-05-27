@@ -159,12 +159,13 @@ namespace MPfm.MVP
                 // Add folder to database                    
                 gateway.InsertFolder(folderPath, true);
 			}
-		}
-	
-		public void UpdateLibrary()
+		}		
+		
+		public List<string> SelectDistinctArtists(AudioFileFormat format)
 		{
-			// Cycle through 
+			return gateway.SelectDistinctArtistNames(format);
 		}
+		
 		
     }
 }

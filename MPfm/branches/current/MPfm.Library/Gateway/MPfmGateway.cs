@@ -48,7 +48,7 @@ namespace MPfm.Library
             : base(databaseFilePath)
         {
         }
-
+		
         /// <summary>
         /// Executes an SQL statement.
         /// </summary>

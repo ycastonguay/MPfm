@@ -1,5 +1,5 @@
 //
-// IMainPresenter.cs: Main window presenter interface.
+// ILibraryBrowserPresenter.cs: Library browser presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,28 +20,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Main window presenter interface.
+	/// Library browser presenter interface.
 	/// </summary>
-	public interface IMainPresenter
+	public interface ILibraryBrowserPresenter
 	{
-		// Playback
-		void Play();
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();		
-		
-		// UI
-		void AddFilesToLibrary(List<string> filePaths);
-		void AddFolderToLibrary(string folderPath);		
+		IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
+		IEnumerable<LibraryBrowserEntity> GetArtistNodes();
+		IEnumerable<LibraryBrowserEntity> GetAlbumNodes();
+		IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(string artistName);
 	}
 }
 

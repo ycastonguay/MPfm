@@ -1,5 +1,5 @@
 //
-// MainPresenter.cs: Main window presenter.
+// PlayerPresenter.cs: Player presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -33,79 +33,15 @@ using AutoMapper;
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Main window presenter.
+	/// Player presenter.
 	/// </summary>
-	public class MainPresenter : IDisposable, IMainPresenter
+	public class PlayerPresenter : IDisposable, IPlayerPresenter
 	{
 		// Private variables		
 		private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
-		private readonly IMainView view = null;
+		private readonly IPlayerView view = null;
 		private Timer timerRefreshSongPosition = null;
-
-		#region Directories and File Paths
-
-		private string assemblyDirectory = string.Empty;
-		/// <summary>
-		/// Returns the current assembly directory.
-		/// </summary>
-		public string AssemblyDirectory
-		{
-			get
-			{
-				return assemblyDirectory;
-			}
-		}
-
-		private string homeDirectory = string.Empty;
-		/// <summary>
-		/// Returns the current user home directory.
-		/// </summary>
-		public string HomeDirectory
-		{
-			get
-			{
-				return homeDirectory;
-			}
-		}
-
-		private string configurationFilePath = string.Empty;
-		/// <summary>
-		/// Returns the current user configuration file path.
-		/// </summary>
-		public string ConfigurationFilePath
-		{
-			get
-			{
-				return configurationFilePath;
-			}
-		}
-
-		private string databaseFilePath = string.Empty;
-		/// <summary>
-		/// Returns the current user database file path.
-		/// </summary>
-		public string DatabaseFilePath
-		{
-			get
-			{
-				return databaseFilePath;
-			}
-		}
-
-		private string logFilePath = string.Empty;
-		/// <summary>
-		/// Returns the current user log file path.
-		/// </summary>
-		public string LogFilePath
-		{
-			get
-			{
-				return logFilePath;
-			}
-		}
-
-		#endregion
 
 		#region Other Properties
 
@@ -121,26 +57,14 @@ namespace MPfm.MVP
 			}
 		}
 		
-		private MPfm.Library.Library library = null;
-		/// <summary>
-		/// Returns the current instance of the Library class.
-		/// </summary>
-		public MPfm.Library.Library Library
-		{
-			get
-			{
-				return library;
-			}
-		}
-
 		#endregion
 
 		#region Constructor and Dispose
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.MainPresenter"/> class.
+		/// Initializes a new instance of the <see cref="MPfm.UI.PlayerPresenter"/> class.
 		/// </summary>
-		public MainPresenter(IMainView view)
+		public PlayerPresenter(IPlayerView view)
 		{
 			// Validate parameters
 			if(view == null)
@@ -229,49 +153,16 @@ namespace MPfm.MVP
 		/// </summary>
 		private void CreateConfiguration()
 		{
-			// Get assembly directory
-			string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-			// Get home directory depending on platform
-			string homeDirectory = string.Empty;
-			
-#if (MACOSX)
-        	homeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
-#elif (LINUX)
-			homeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
-#elif (!MACOSX && !LINUX)						
-			homeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
-#endif
-
-			// Check if the MPfm home directory exists
-			if(!Directory.Exists(homeDirectory))
-			{
-				try
-				{
-					// Create directory
-					Directory.CreateDirectory(homeDirectory);
-				}
-				catch(Exception ex)
-				{
-					throw new Exception("Could not create the application home directory (" + homeDirectory + ")!", ex);
-				}
-			}
-
-			// Generate file paths
-			configurationFilePath = Path.Combine(homeDirectory, "MPfm.Configuration.xml");
-			databaseFilePath = Path.Combine(homeDirectory, "MPfm.Database.db");
-			logFilePath = Path.Combine(homeDirectory, "MPfm.Log.txt");
-
             // Check if trace file exists
-            if (!File.Exists(logFilePath))
+            if (!File.Exists(ConfigurationHelper.LogFilePath))
             {
                 // Create file
-                fileTracing = File.Create(logFilePath);
+                fileTracing = File.Create(ConfigurationHelper.LogFilePath);
             }
             else
             {
                 // Open file
-                fileTracing = File.Open(logFilePath, FileMode.Append);
+                fileTracing = File.Open(ConfigurationHelper.LogFilePath, FileMode.Append);
             }
             textTraceListener = new TextWriterTraceListener(fileTracing);
             Trace.Listeners.Add(textTraceListener);
@@ -305,11 +196,11 @@ namespace MPfm.MVP
             try
             {
                 // Check if the database file exists
-                if (!File.Exists(databaseFilePath))
+                if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
                 {                    
                     // Create database file
                     //frmSplash.SetStatus("Creating database file...");
-                    MPfm.Library.Library.CreateDatabaseFile(databaseFilePath);
+                    MPfm.Library.Library.CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
                 }
             }
             catch (Exception ex)
@@ -320,7 +211,7 @@ namespace MPfm.MVP
             try
             {
                 // Check current database version
-                string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(databaseFilePath);
+                string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(ConfigurationHelper.DatabaseFilePath);
 
                 // Extract major/minor
                 string[] currentVersionSplit = databaseVersion.Split('.');
@@ -344,7 +235,7 @@ namespace MPfm.MVP
                 }
 
                 // Check if the database needs to be updated
-                MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(databaseFilePath);
+                MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(ConfigurationHelper.DatabaseFilePath);
             }
             catch (Exception ex)
             {
@@ -356,9 +247,9 @@ namespace MPfm.MVP
                 // Load library
                 Tracing.Log("Main form init -- Loading library...");
                 //frmSplash.SetStatus("Loading library...");                
-                library = new Library.Library(databaseFilePath);
-				library.OnUpdateLibraryFinished += HandleLibraryOnUpdateLibraryFinished;
-				library.OnUpdateLibraryProgress += HandleLibraryOnUpdateLibraryProgress;
+                //library = new Library.Library(databaseFilePath);
+				//library.OnUpdateLibraryFinished += HandleLibraryOnUpdateLibraryFinished;
+				//library.OnUpdateLibraryProgress += HandleLibraryOnUpdateLibraryProgress;
             }
             catch
             {
@@ -489,7 +380,7 @@ namespace MPfm.MVP
 			
 			// Update view
 			view.RefreshSongInformation(entity);
-		}	
+		}			
 	}
 }
 
