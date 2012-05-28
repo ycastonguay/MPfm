@@ -1,5 +1,5 @@
 //
-// IPlayerPresenter.cs: Player presenter interface.
+// AudioFileCache.cs: Singleton for caching audio file metadata.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -22,26 +22,35 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Timers;
+using MPfm.Core;
+using MPfm.Library;
+using MPfm.MVP;
+using MPfm.Player;
+using MPfm.Sound;
+using AutoMapper;
+using Ninject;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Player presenter interface.
+	/// Singleton for caching audio file metadata.
 	/// </summary>
-	public interface IPlayerPresenter
+	public static class AudioFileCache
 	{
-		// Playback
-		void Play();
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();		
+		private static AudioFileCacheService service;
+	
+		static AudioFileCache()
+		{			
+			service = Bootstrapper.GetKernel().Get<AudioFileCacheService>();
+		}
 		
-		// UI
-		void AddFilesToLibrary(List<string> filePaths);
-		void AddFolderToLibrary(string folderPath);		
+		public static AudioFileCacheService GetService()
+		{
+			return service;
+		}
 	}
 }
 

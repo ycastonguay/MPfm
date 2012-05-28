@@ -1,5 +1,5 @@
 //
-// ILibraryBrowserPresenter.cs: Library browser presenter interface.
+// IPlayerPresenter.cs: Player presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,19 +20,26 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Library browser presenter interface.
+	/// Player presenter interface.
 	/// </summary>
-	public interface ILibraryBrowserPresenter
+	public interface IPlayerPresenter
 	{
-		IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
-		IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format);
-		IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format);
-		IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName);
+		// Playback
+		void Play();
+		void Play(IEnumerable<AudioFile> audioFiles);
+		void Stop();
+		void Pause();
+		void Next();
+		void Previous();
+		void RepeatType();		
 	}
 }
 

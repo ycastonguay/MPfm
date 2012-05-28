@@ -1,5 +1,5 @@
 //
-// SongBrowserPresenter.cs: Song browser presenter.
+// AudioFileCacheService.cs: Service used for interacting with the audio file metadata cache.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -26,21 +26,22 @@ using System.Linq;
 using System.Reflection;
 using System.Timers;
 using MPfm.Core;
+using MPfm.Library;
+using MPfm.MVP;
 using MPfm.Player;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
 using AutoMapper;
+using Ninject;
 
 namespace MPfm.MVP
-{
+{	
 	/// <summary>
-	/// Song browser presenter.
+	/// Service used for interacting with the audio file metadata cache.
 	/// </summary>
-	public class SongBrowserPresenter : ISongBrowserPresenter
+	public class AudioFileCacheService : IAudioFileCacheService
 	{
 		private readonly ISongBrowserView view = null;
-		private readonly IPlayerPresenter playerPresenter = null;
-		private readonly ILibraryService libraryService = null;
+		private readonly ILibraryService service = null;
 		
 		private List<AudioFile> audioFiles = null;
 		public List<AudioFile> AudioFiles
@@ -54,38 +55,23 @@ namespace MPfm.MVP
 		#region Constructor and Dispose
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.SongBrowserPresenter"/> class.
+		/// Initializes a new instance of the <see cref="MPfm.MVP.AudioFileCacheService"/> class.
 		/// </summary>
-		public SongBrowserPresenter(ISongBrowserView view, IPlayerPresenter playerPresenter, ILibraryService libraryService)
+		public AudioFileCacheService(ILibraryService service)
 		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
-			if(playerPresenter == null)			
-				throw new ArgumentNullException("The playerPresenter parameter is null!");				
-			if(libraryService == null)
-				throw new ArgumentNullException("The libraryService parameter is null!");
+			if(service == null)			
+				throw new ArgumentNullException("The service parameter is null!");
 						
 			// Set properties
-			this.view = view;
-			this.playerPresenter = playerPresenter;
-			this.libraryService = libraryService;			
+			this.service = service;
 			
 			// Load cache
-			
-			
-			audioFiles = libraryService.SelectAudioFiles().ToList();
+			audioFiles = service.SelectAudioFiles().ToList();
 		}
 
 		#endregion		
 		
 		#region ISongBrowserPresenter implementation
-
-//		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string searchTerms)
-//		{			
-//			return service.SelectAudioFiles(format, string.Empty, true, artistName, albumTitle, searchTerms);		
-//		}
-		
 		
         /// <summary>
         /// Selects all the audio files from the cache.
@@ -157,11 +143,114 @@ namespace MPfm.MVP
         /// <returns>List of AudioFiles</returns>
         public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
         {
-			return AudioFileCache.GetService().SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, albumTitle, searchTerms);
+            try
+            {
+                IEnumerable<AudioFile> queryAudioFiles = null;
+
+                // Check for default order by (ignore ascending)
+                if (String.IsNullOrEmpty(orderBy))
+                {
+                    // Set query
+                    queryAudioFiles = from s in audioFiles
+                                      orderby s.ArtistName, s.AlbumTitle, s.FileType, s.DiscNumber, s.TrackNumber
+                                      select s;
+                }
+                else
+                {
+                    // Check for orderby ascending/descending
+                    if (orderByAscending)
+                    {
+                        // Set query
+                        queryAudioFiles = from s in audioFiles
+                                          orderby GetPropertyValue(s, orderBy)
+                                          select s;
+                    }
+                    else
+                    {
+                        // Set query
+                        queryAudioFiles = from s in audioFiles
+                                          orderby GetPropertyValue(s, orderBy) descending
+                                          select s;                        
+                    }
+                }
+
+                // Check if artistName is null
+                if (!String.IsNullOrEmpty(artistName))
+                {
+                    // Add the artist condition to the query
+                    queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName == artistName);                    
+                }
+
+                // Check if albumTitle is null
+                if (!String.IsNullOrEmpty(albumTitle))
+                {
+                    // Add the artist condition to the query
+                    queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == albumTitle);                    
+                }
+
+                // Check if searchTerms is null
+                if (!String.IsNullOrEmpty(searchTerms))
+                {
+                    // Split search terms
+                    string[] searchTermsSplit = searchTerms.Split(new string[] { " " }, StringSplitOptions.None);
+                    
+                    // Loop through search terms
+                    foreach (string searchTerm in searchTermsSplit)
+                    {
+                        // Add the artist condition to the query
+                        queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName.ToUpper().Contains(searchTerm.ToUpper()) ||
+                                                                     s.AlbumTitle.ToUpper().Contains(searchTerm.ToUpper()) ||
+                                                                     s.Title.ToUpper().Contains(searchTerm.ToUpper()));
+                    }
+                }
+
+                // Check for audio file format filter
+                if (audioFileFormat == AudioFileFormat.All)
+                {
+                    // 
+                }
+                else
+                {
+                    // Set filter by file type
+                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == audioFileFormat);
+                }
+
+                //// Check for default order by
+                //if (String.IsNullOrEmpty(orderBy))
+                //{
+                //    // Add order by
+                //    querySongs = querySongs.OrderBy(s => s.ArtistName).ThenBy(s => s.AlbumTitle).ThenBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber);
+                //}
+                //else
+                //{
+                //    // Custom order by
+                //    querySongs = querySongs.OrderBy("");
+                //}
+
+                // Execute query
+                return queryAudioFiles.ToList();
+            }
+            catch (Exception ex)
+            {
+                //Tracing.Log(ex);
+                throw;
+            }
         }
 		
 		#endregion
-
+					
+		/// <summary>
+        /// Fetches the property value of an object.
+        /// </summary>
+        /// <param name="obj">Object</param>
+        /// <param name="property">Property</param>
+        /// <returns>Value</returns>
+        private static object GetPropertyValue(object obj, string property)
+        {
+            PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
+            return propertyInfo.GetValue(obj, null);
+        }
 	}
+	
 }
 

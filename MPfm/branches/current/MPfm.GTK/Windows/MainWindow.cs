@@ -88,15 +88,14 @@ namespace MPfm.GTK
 			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
 			this.imageAlbumCover.Pixbuf = stuff;
 						
-			LibraryService libraryService = Bootstrapper.GetKernel().Get<LibraryService>();
-			
+			LibraryService libraryService = Bootstrapper.GetKernel().Get<LibraryService>();			
 			//Bootstrapper.GetKernel().Bind<ILibraryBrowserView>().ToSelf();
 			//LibraryBrowserPresenter test = Bootstrapper.GetKernel().Get<LibraryBrowserPresenter>();
 			
 			// Create presenters
 			playerPresenter = new PlayerPresenter(this);
-			libraryBrowserPresenter = new LibraryBrowserPresenter(this, libraryService);
-			songBrowserPresenter = new SongBrowserPresenter(this, libraryService);
+			libraryBrowserPresenter = new LibraryBrowserPresenter(this, playerPresenter, libraryService);
+			songBrowserPresenter = new SongBrowserPresenter(this, playerPresenter, libraryService);
 			
 			// Create song browser columns
 			InitializeSongBrowser();
@@ -775,6 +774,7 @@ namespace MPfm.GTK
 				RefreshSongBrowser(audioFiles);
 			}
 		}
+		
 		#endregion
 				
 	}

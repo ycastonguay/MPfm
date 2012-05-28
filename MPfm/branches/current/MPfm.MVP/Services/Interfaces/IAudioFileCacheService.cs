@@ -1,5 +1,5 @@
 //
-// Bootstrapper.cs: Singleton static class for bootstrapping the application.
+// IAudioFileCacheService.cs: Interface for the AudioFileCacheService class.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -36,36 +36,18 @@ using Ninject;
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Singleton static class for bootstrapping the application.
-	/// Configures AutoMapper and Ninject.
+	/// Interface for the AudioFileCacheService class.
 	/// </summary>
-	public static class Bootstrapper
-	{
-		/// <summary>
-		/// Instance of the Ninject StandardKernel.
-		/// </summary>
-		private static IKernel kernel;
-		
-		/// <summary>
-		/// Constructor for the Bootstrapper static class.
-		/// </summary>
-		static Bootstrapper()
-		{
-			// Create Ninject kernel
-			kernel = new StandardKernel(new LibraryModule());
-			
-			// Configure Automapper
-			Mapper.CreateMap<AudioFile, SongInformationEntity>();
-		}
-		
-		/// <summary>
-		/// Returns the instance of the StandardKernel for resolving dependencies.
-		/// </summary>
-		/// <returns>StandardKernel</returns>		
-		public static IKernel GetKernel()
-		{
-			return kernel;
-		}
+	public interface IAudioFileCacheService
+	{		
+		//IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
+		IEnumerable<AudioFile> SelectAudioFiles();
+        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat);
+        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending);
+        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName);
+        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle);
+        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms);
+        
 	}
 }
 

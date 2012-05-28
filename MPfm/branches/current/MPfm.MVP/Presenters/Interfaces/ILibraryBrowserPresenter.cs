@@ -1,5 +1,5 @@
 //
-// LibraryModule.cs: Configuration module for Ninject.
+// ILibraryBrowserPresenter.cs: Library browser presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,28 +19,24 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
+using System.Collections.Generic;
 using MPfm.Sound;
-using Ninject;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Configuration module for Ninject.
+	/// Library browser presenter interface.
 	/// </summary>
-	public class LibraryModule : Ninject.Modules.NinjectModule
+	public interface ILibraryBrowserPresenter
 	{
-		/// <summary>
-		/// Loads Ninject configuration.
-		/// </summary>
-		public override void Load()
-		{			
-			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);
-			Bind<ILibraryService>().To<LibraryService>();
-		}		
+		IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
+		IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format);
+		IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format);
+		IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName);
+		
+		//void SelectItem(SongBrowserFilterEntity entity);
+		//void DoubleClickItem(SongBrowserFilterEntity entity);
+		//void ExpandItem(SongBrowserFilterEntity entity);
 	}
 }
 

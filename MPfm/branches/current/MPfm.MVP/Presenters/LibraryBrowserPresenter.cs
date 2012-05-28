@@ -39,24 +39,28 @@ namespace MPfm.MVP
 	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
 	{
 		private readonly ILibraryBrowserView view = null;
-		private readonly ILibraryService service = null;
+		private readonly IPlayerPresenter playerPresenter = null;
+		private readonly ILibraryService libraryService = null;		
 		
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.LibraryBrowserPresenter"/> class.
 		/// </summary>
-		public LibraryBrowserPresenter(ILibraryBrowserView view, ILibraryService service)
+		public LibraryBrowserPresenter(ILibraryBrowserView view, IPlayerPresenter playerPresenter, ILibraryService libraryService)
 		{
 			// Validate parameters
 			if(view == null)			
 				throw new ArgumentNullException("The view parameter is null!");
-			if(service == null)			
-				throw new ArgumentNullException("The service parameter is null!");
+			if(playerPresenter == null)			
+				throw new ArgumentNullException("The playerPresenter parameter is null!");				
+			if(libraryService == null)			
+				throw new ArgumentNullException("The libraryService parameter is null!");
 						
 			// Set properties
-			this.view = view;					
-			this.service = service;
+			this.view = view;
+			this.playerPresenter = playerPresenter;
+			this.libraryService = libraryService;
 		}
 
 		#endregion		
@@ -98,7 +102,7 @@ namespace MPfm.MVP
 		{
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
 			
-			List<string> artists = service.SelectDistinctArtistNames(format);
+			List<string> artists = libraryService.SelectDistinctArtistNames(format);
 			foreach(string artist in artists)
 			{
 				list.Add(new LibraryBrowserEntity(){
@@ -138,7 +142,7 @@ namespace MPfm.MVP
 			List<string> albums = new List<string>();
 			
 			// Get distinct album titles
-			Dictionary<string, List<string>> albumTitles = service.SelectDistinctAlbumTitles(format, artistName);
+			Dictionary<string, List<string>> albumTitles = libraryService.SelectDistinctAlbumTitles(format, artistName);
 				       
             // For each song                    
             foreach (KeyValuePair<string, List<string>> keyValue in albumTitles)
@@ -168,6 +172,11 @@ namespace MPfm.MVP
 			
 			return list;
 		}
+		
+//		public void DoubleClickItem(SongBrowserFilterEntity entity)
+//		{
+//			playerPresenter.Play();
+//		}
 		
 		#endregion
 	}

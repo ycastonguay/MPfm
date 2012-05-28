@@ -58,33 +58,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Services\ILibraryService.cs" />
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
-    <Compile Include="Services\IMainService.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Models\SongInformationEntity.cs" />
     <Compile Include="Models\UpdateLibraryEntity.cs" />
-    <Compile Include="Presenters\IUpdateLibraryPresenter.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\LibraryModule.cs" />
-    <Compile Include="Services\IUpdateLibraryService.cs" />
     <Compile Include="Services\UpdateLibraryService.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
-    <Compile Include="Presenters\IPlayerPresenter.cs" />
     <Compile Include="Presenters\PlayerPresenter.cs" />
     <Compile Include="Views\IPlayerView.cs" />
     <Compile Include="Models\LibraryBrowserEntity.cs" />
     <Compile Include="Models\SongBrowserFilterEntity.cs" />
     <Compile Include="Views\ILibraryBrowserView.cs" />
-    <Compile Include="Presenters\ILibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\LibraryBrowserPresenter.cs" />
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Presenters\SongBrowserPresenter.cs" />
     <Compile Include="Views\ISongBrowserView.cs" />
-    <Compile Include="Presenters\ISongBrowserPresenter.cs" />
+    <Compile Include="Cache\AudioFileCache.cs" />
+    <Compile Include="Services\AudioFileCacheService.cs" />
+    <Compile Include="Presenters\Interfaces\ILibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISongBrowserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IUpdateLibraryPresenter.cs" />
+    <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
+    <Compile Include="Services\Interfaces\ILibraryService.cs" />
+    <Compile Include="Services\Interfaces\IMainService.cs" />
+    <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -113,5 +116,8 @@
   <ItemGroup>
     <Folder Include="Bootstrapper\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Cache\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Presenters\Interfaces\" />
   </ItemGroup>
 </Project>

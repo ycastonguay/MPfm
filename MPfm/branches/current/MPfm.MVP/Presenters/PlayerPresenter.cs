@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Timers;
 using MPfm.Core;
@@ -285,6 +286,20 @@ namespace MPfm.MVP
 		}
 		
 		/// <summary>
+		/// Starts the playback of a new playlist.
+		/// </summary>
+		/// <param name='audioFiles'>List of audio files</param>		
+		public void Play(IEnumerable<AudioFile> audioFiles)
+		{
+			// Replace playlist
+			player.Playlist.Clear();
+			player.Playlist.AddItems(audioFiles.ToList());
+			
+			// Start playback
+			Play();
+		}
+		
+		/// <summary>
 		/// Stops playback.
 		/// </summary>
 		public void Stop()
@@ -346,26 +361,6 @@ namespace MPfm.MVP
 		public void RepeatType()
 		{
 		}
-		
-		/// <summary>
-		/// Adds audio files to the library.
-		/// </summary>
-		/// <param name='filePaths'>
-		/// List of file paths.
-		/// </param>
-		public void AddFilesToLibrary(List<string> filePaths)
-		{
-		}
-		
-		/// <summary>
-		/// Adds a folder to the library.
-		/// </summary>
-		/// <param name='folderPath'>
-		/// Folder path.
-		/// </param>
-		public void AddFolderToLibrary(string folderPath)
-		{
-		}		
 		
 		/// <summary>
 		/// Refreshes the song information on the main view.
