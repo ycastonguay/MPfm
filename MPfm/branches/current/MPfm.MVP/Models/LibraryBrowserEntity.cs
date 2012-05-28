@@ -46,6 +46,11 @@ namespace MPfm.MVP
 		/// Sub items (to create a tree view hierarchy).
 		/// </summary>
 		public IEnumerable<LibraryBrowserEntity> SubItems { get; set; }
+		
+		public LibraryBrowserEntity()
+		{
+			Filter = new SongBrowserFilterEntity();
+		}
 	}
 	
 	/// <summary>

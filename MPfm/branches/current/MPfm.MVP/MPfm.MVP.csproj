@@ -82,6 +82,9 @@
     <Compile Include="Presenters\ILibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\LibraryBrowserPresenter.cs" />
     <Compile Include="Helpers\ConfigurationHelper.cs" />
+    <Compile Include="Presenters\SongBrowserPresenter.cs" />
+    <Compile Include="Views\ISongBrowserView.cs" />
+    <Compile Include="Presenters\ISongBrowserPresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

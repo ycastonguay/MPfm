@@ -34,6 +34,9 @@ namespace MPfm.MVP
 		IEnumerable<Folder> SelectFolders();
 		void RemoveAudioFilesWithBrokenFilePaths();
 		
+		IEnumerable<AudioFile> SelectAudioFiles();
+		IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
+		
 		void InsertAudioFile(AudioFile audioFile);
 		void InsertPlaylistFile(PlaylistFile playlistFile);
 		

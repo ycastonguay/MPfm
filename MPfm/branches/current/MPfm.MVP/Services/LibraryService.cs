@@ -22,8 +22,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using MPfm.Sound;
 using MPfm.Library;
+using System.Reflection;
 
 namespace MPfm.MVP
 {
@@ -79,6 +81,21 @@ namespace MPfm.MVP
 		{
 			return gateway.SelectFilePaths();
 		}
+		
+		public IEnumerable<AudioFile> SelectAudioFiles()
+		{
+			return gateway.SelectAudioFiles();			
+		}
+		
+		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
+		{
+			return gateway.SelectAudioFiles(format, artistName, albumTitle, search);			
+		}
+		
+		
+		
+		
+		
 		
 		/// <summary>
 		/// Inserts an audio file into the database.

@@ -104,7 +104,11 @@ namespace MPfm.MVP
 				list.Add(new LibraryBrowserEntity(){
 					Title = artist,
 					Type = LibraryBrowserEntityType.Artist,
-					SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node	
+					Filter = new SongBrowserFilterEntity(){
+						Format = format,
+						ArtistName = artist
+					},
+					SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node					
 				});
 			}
 			
@@ -153,7 +157,12 @@ namespace MPfm.MVP
 			{
 				list.Add(new LibraryBrowserEntity(){
 					Title = album,
-					Type = LibraryBrowserEntityType.Album					
+					Type = LibraryBrowserEntityType.Album,
+					Filter = new SongBrowserFilterEntity(){
+						Format = format,
+						ArtistName = artistName,
+						AlbumTitle = album						
+					}
 				});
 			}
 			

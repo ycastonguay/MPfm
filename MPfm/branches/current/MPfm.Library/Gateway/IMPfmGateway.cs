@@ -58,6 +58,7 @@ namespace MPfm.Library
 		IEnumerable<string> SelectFilePaths();
         AudioFile SelectAudioFile(Guid audioFileId);
         List<AudioFile> SelectAudioFiles();
+		List<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
         Dictionary<string, List<string>> SelectDistinctAlbumTitles();
         Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat, string artistName);

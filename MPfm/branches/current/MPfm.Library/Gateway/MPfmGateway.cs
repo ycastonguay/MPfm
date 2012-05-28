@@ -81,6 +81,49 @@ namespace MPfm.Library
             List<AudioFile> audioFiles = Select<AudioFile>("SELECT * FROM AudioFiles");
             return audioFiles;
         }
+		
+		public List<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
+		{
+			StringBuilder sql = new StringBuilder();
+			sql.AppendLine("SELECT * FROM AudioFiles ");
+			
+			if(format != AudioFileFormat.All || !String.IsNullOrEmpty(artistName) || !String.IsNullOrEmpty(albumTitle) || !String.IsNullOrEmpty(search))
+			{
+				sql.AppendLine(" WHERE ");
+				
+				int count = 0;
+				if(format != AudioFileFormat.All)
+				{
+					count++;
+					sql.AppendLine(" [FileType] = '" + format.ToString() + "'");
+				}
+				if(!String.IsNullOrEmpty(artistName))
+				{
+					count++;
+					if(count > 1)
+					{
+						sql.AppendLine(" AND ");
+					}
+					sql.AppendLine(" [ArtistName] = '" + artistName + "' ");
+				}
+				if(!String.IsNullOrEmpty(albumTitle))
+				{
+					count++;
+					if(count > 1)
+					{
+						sql.AppendLine(" AND ");
+					}
+					sql.AppendLine(" [ArtistName] = '" + albumTitle + "' ");
+				}
+				if(!String.IsNullOrEmpty(search))
+				{
+
+				}			
+			}
+			
+			List<AudioFile> audioFiles = Select<AudioFile>(sql.ToString());
+			return audioFiles;
+		}
 
         /// <summary>
         /// Selects a specific audio file from the database by its identifier.
@@ -736,102 +779,6 @@ namespace MPfm.Library
         //    catch (Exception ex)
         //    {
         //        Tracing.Log("MPfm.Library (DataAccess) --  Error in DeletePlaylist(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
-
-        #endregion
-
-        #region Playlist Items
-
-        //public static List<PlaylistSong> SelectPlaylistSongs(Guid playlistId)
-        //{
-        //    List<PlaylistSong> playlistSongs = null;
-
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            string strId = playlistId.ToString();
-        //            playlistSongs = context.PlaylistSongs.Where(x => x.PlaylistId == strId).OrderBy(x => x.Position).ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectPlaylistSongs(): " + ex.Message);
-        //        throw ex;
-        //    }
-
-        //    return playlistSongs;
-        //}
-
-        ///// <summary>
-        ///// Inserts a playlist song into the database.
-        ///// </summary>
-        ///// <param name="playlistSong">PlaylistSong to insert</param>
-        //public static void InsertPlaylistSong(PlaylistSong playlistSong)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Add to database
-        //            context.AddToPlaylistSongs(playlistSong);
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertPlaylistSong(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Inserts a list of playlist songs into the database.
-        ///// </summary>
-        ///// <param name="playlistSongs">PlaylistSongs to insert</param>
-        //public static void InsertPlaylistSongs(List<PlaylistSong> playlistSongs)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Add to database
-        //            foreach (PlaylistSong playlistSong in playlistSongs)
-        //            {
-        //                context.AddToPlaylistSongs(playlistSong);
-        //            }
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertPlaylistSongs(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Deletes the playlist songs of a specific playlist.
-        ///// </summary>
-        ///// <param name="playlistId">Playlist identifier</param>
-        //public static void DeletePlaylistSongs(Guid playlistId)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            ExecuteSql(context, "DELETE FROM PlaylistSongs WHERE PlaylistId = @PlaylistId", new SQLiteParameter("PlaylistId", playlistId.ToString()));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in DeletePlaylistSongs(): " + ex.Message);
         //        throw ex;
         //    }
         //}

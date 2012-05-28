@@ -861,6 +861,8 @@ namespace MPfm.GTK
 			this.actionAddFiles.Activated += new global::System.EventHandler (this.OnActionAddFilesActivated);
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
 			this.cboSoundFormat.Changed += new global::System.EventHandler (this.OnSoundFormatChanged);
+			this.treeLibraryBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeLibraryBrowserRowActivated);
+			this.treeLibraryBrowser.CursorChanged += new global::System.EventHandler (this.OnTreeLibraryBrowserCursorChanged);
 			this.hscaleSongPosition.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnSongPositionButtonPressEvent);
 			this.hscaleSongPosition.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnSongPositionButtonReleaseEvent);
 			this.hscaleSongPosition.MoveSlider += new global::Gtk.MoveSliderHandler (this.OnSongPositionMoveSlider);

@@ -330,6 +330,8 @@
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
+                        <signal name="RowActivated" handler="OnTreeLibraryBrowserRowActivated" />
+                        <signal name="CursorChanged" handler="OnTreeLibraryBrowserCursorChanged" />
                       </widget>
                     </child>
                   </widget>

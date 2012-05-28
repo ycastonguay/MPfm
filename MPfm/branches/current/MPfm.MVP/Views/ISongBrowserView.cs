@@ -1,5 +1,5 @@
-﻿//
-// SongBrowserFilterEntity.cs: Data structure repesenting a filter for the song browser.
+//
+// ISongBrowserView.cs: Song browser view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,20 +19,15 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
-using System.Reflection;
-using MPfm.Sound;
+using System.Collections.Generic;
 
 namespace MPfm.MVP
 {
-    /// <summary>
-    /// Data structure repesenting a filter for the song browser.
-    /// </summary>
-	public class SongBrowserFilterEntity
+	/// <summary>
+	/// Song browser view interface.
+	/// </summary>
+	public interface ISongBrowserView
 	{
-		public AudioFileFormat Format { get; set; }
-		public string ArtistName { get; set; }
-		public string AlbumTitle { get; set; }		
 	}
 }
 
