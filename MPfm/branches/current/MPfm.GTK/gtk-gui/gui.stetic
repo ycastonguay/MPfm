@@ -311,14 +311,8 @@
                   <widget class="Gtk.ComboBox" id="cboSoundFormat">
                     <property name="MemberName" />
                     <property name="IsTextCombo">True</property>
-                    <property name="Items" translatable="yes">All
-FLAC
-MP3
-MPC
-OGG
-WAV
-WV</property>
-                    <property name="Active">0</property>
+                    <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="OnSoundFormatChanged" />
                   </widget>
                   <packing>
                     <property name="Position">2</property>

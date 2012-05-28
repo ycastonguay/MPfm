@@ -246,15 +246,7 @@ namespace MPfm.GTK
 			w5.Fill = false;
 			// Container child vboxLeft.Gtk.Box+BoxChild
 			this.cboSoundFormat = global::Gtk.ComboBox.NewText ();
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("All"));
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("FLAC"));
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("MP3"));
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("MPC"));
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("OGG"));
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("WAV"));
-			this.cboSoundFormat.AppendText (global::Mono.Unix.Catalog.GetString ("WV"));
 			this.cboSoundFormat.Name = "cboSoundFormat";
-			this.cboSoundFormat.Active = 0;
 			this.vboxLeft.Add (this.cboSoundFormat);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vboxLeft [this.cboSoundFormat]));
 			w6.Position = 2;
@@ -868,6 +860,7 @@ namespace MPfm.GTK
 			this.actionPlaylist.Activated += new global::System.EventHandler (this.OnActionPlaylistActivated);
 			this.actionAddFiles.Activated += new global::System.EventHandler (this.OnActionAddFilesActivated);
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
+			this.cboSoundFormat.Changed += new global::System.EventHandler (this.OnSoundFormatChanged);
 			this.hscaleSongPosition.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnSongPositionButtonPressEvent);
 			this.hscaleSongPosition.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnSongPositionButtonReleaseEvent);
 			this.hscaleSongPosition.MoveSlider += new global::Gtk.MoveSliderHandler (this.OnSongPositionMoveSlider);

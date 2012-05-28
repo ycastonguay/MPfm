@@ -202,43 +202,63 @@ namespace MPfm.Library
         /// <returns>List of distinct album titles per artist</returns>
         public Dictionary<string, List<string>> SelectDistinctAlbumTitles()
         {
-            return SelectDistinctAlbumTitles(AudioFileFormat.All);
+            return SelectDistinctAlbumTitles(AudioFileFormat.All, string.Empty);
         }
+		
+        /// <summary>
+        /// Returns the distinct list of album titles per artist from the database.        
+        /// </summary>        
+        /// <returns>List of distinct album titles per artist</returns>
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat)
+        {
+            return SelectDistinctAlbumTitles(audioFileFormat, string.Empty);
+        }		
 
         /// <summary>
         /// Returns the distinct list of album titles per artist from the database, using the sound format
         /// filter passed in the soundFormat parameter.
         /// </summary>
         /// <param name="audioFileFormat">Audio file format filter</param>
+        /// <param name="artistName">Artist name filter</param>
         /// <returns>List of distinct album titles per artist</returns>
-        public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat)
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat, string artistName)
         {
             // Create dictionary
             Dictionary<string, List<string>> albums = new Dictionary<string, List<string>>();
 
             // Set query
-            string sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles";
-            if (audioFileFormat != AudioFileFormat.All)
+            StringBuilder sql = new StringBuilder();
+			sql.AppendLine("SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles ");
+			if (audioFileFormat != AudioFileFormat.All && !String.IsNullOrEmpty(artistName))
+			{				
+				sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' AND ArtistName = '" + artistName + "'");
+			}
+            else if (audioFileFormat != AudioFileFormat.All)
             {
-                sql = "SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
+                sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' ");
             }
+			else if(!String.IsNullOrEmpty(artistName))
+			{
+				sql.AppendLine(" WHERE ArtistName = '" + artistName.ToString() + "' ");
+			}
+			sql.AppendLine(" ORDER BY ArtistName");
 
             // Select distinct
-            List<Tuple<object, object>> listTuple = SelectTuple(sql);
+            List<Tuple<object, object>> listTuple = SelectTuple(sql.ToString());
             foreach (Tuple<object, object> tuple in listTuple)
             {
                 // Get values
-                string artistName = tuple.Item1.ToString();
-                string albumTitle = tuple.Item2.ToString();
+                string artistNameDistinct = tuple.Item1.ToString();
+                string albumTitleDistinct = tuple.Item2.ToString();
 
                 // Add value to dictionary
-                if (albums.ContainsKey(artistName))
+                if (albums.ContainsKey(artistNameDistinct))
                 {
-                    albums[artistName].Add(albumTitle);
+                    albums[artistNameDistinct].Add(albumTitleDistinct);
                 }
                 else
                 {
-                    albums.Add(artistName, new List<string>() { albumTitle });
+                    albums.Add(artistNameDistinct, new List<string>() { albumTitleDistinct });
                 }
             }      
 

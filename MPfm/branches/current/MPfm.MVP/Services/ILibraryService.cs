@@ -41,5 +41,8 @@ namespace MPfm.MVP
 		void AddFiles(List<string> filePaths);
 		void AddFolder(string folderPath, bool recursive);
 		
+		List<string> SelectDistinctArtistNames(AudioFileFormat format);
+		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
+		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
     }
 }

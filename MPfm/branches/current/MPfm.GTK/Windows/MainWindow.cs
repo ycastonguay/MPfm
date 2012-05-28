@@ -63,7 +63,8 @@ namespace MPfm.GTK
 		private StatusIcon statusIcon = null;
 		
 		private Gtk.TreeStore storeLibraryBrowser = null;
-		private Gtk.ListStore storeSongBrowser = null;		        
+		private Gtk.ListStore storeSongBrowser = null;
+		private Gtk.ListStore storeAudioFileFormat = null;
 	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -100,14 +101,30 @@ namespace MPfm.GTK
 			
 			// Create and refresh library browser
 			InitializeLibraryBrowser();
-			RefreshLibraryBrowser(null);
+			RefreshLibraryBrowser();
 	
 			// Refresh other stuff
 			RefreshRepeatButton();
-			RefreshSongInformation(new SongInformationEntity());
+			RefreshSongInformation(new SongInformationEntity());		
+			
+			// Fill sound format combo box
+			storeAudioFileFormat = new ListStore(typeof(string));			
+			storeAudioFileFormat.AppendValues("All");
+			storeAudioFileFormat.AppendValues("FLAC");
+			storeAudioFileFormat.AppendValues("MP3");					
+			storeAudioFileFormat.AppendValues("MPC");
+			storeAudioFileFormat.AppendValues("OGG");
+			storeAudioFileFormat.AppendValues("WAV");
+			storeAudioFileFormat.AppendValues("WV");
+			cboSoundFormat.Model = storeAudioFileFormat;								
+			
+			// Select first item
+			Gtk.TreeIter iter;
+			cboSoundFormat.Model.IterNthChild(out iter, 0);
+			cboSoundFormat.SetActiveIter(iter);
 			
 			// Set focus to something else than the toolbar (for some reason, the first button is selected)
-			this.cboSoundFormat.GrabFocus();			
+			cboSoundFormat.GrabFocus();	
 		}
 	
 		/// <summary>
@@ -330,42 +347,68 @@ namespace MPfm.GTK
 			// Get data
 			LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(args.Iter, 0);			
 			
-			// Determine type
-			if(entity.Type == LibraryBrowserEntityType.Artists)
-			{
-				// Check for dummy node				
-				TreeIter iter;
-				storeLibraryBrowser.IterChildren(out iter, args.Iter);
-				LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);
-				if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
-				{							
-					// Fill new rows
-					storeLibraryBrowser.AppendValues(args.Iter, new LibraryBrowserEntity(){
-						Type = LibraryBrowserEntityType.Artist,
-						Title = "HELLOES"
-					});
-				
-					// Remove dummy node
-					storeLibraryBrowser.Remove(ref iter);
+			// Get current audio file format
+			Gtk.TreeIter iter;
+			AudioFileFormat format;
+			cboSoundFormat.GetActiveIter(out iter);
+			string filter = storeAudioFileFormat.GetValue(iter, 0).ToString();
+			Enum.TryParse<AudioFileFormat>(filter, out format);
+
+			// Check for dummy node		
+			storeLibraryBrowser.IterChildren(out iter, args.Iter);
+			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);			
+			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
+			{	
+				// Determine type
+				if(entity.Type == LibraryBrowserEntityType.Artists)
+				{
+					// Fetch artist names
+					IEnumerable<LibraryBrowserEntity> artists = presenterLibraryBrowser.GetArtistNodes(format);
+					foreach(LibraryBrowserEntity artist in artists)
+					{
+						// Add artist node
+						Gtk.TreeIter iterArtist = storeLibraryBrowser.AppendValues(args.Iter, artist);					
+						
+						// The first subitems are always dummy or static.
+						foreach(LibraryBrowserEntity entitySub in artist.SubItems)													
+							storeLibraryBrowser.AppendValues(iterArtist, entitySub);					
+					}
+				}								
+				else if(entity.Type == LibraryBrowserEntityType.Albums)
+				{
+					// Fetch album titles					
+					IEnumerable<LibraryBrowserEntity> albums = presenterLibraryBrowser.GetAlbumNodes(format);
+					foreach(LibraryBrowserEntity album in albums)
+						storeLibraryBrowser.AppendValues(args.Iter, album);
+				}
+				else if(entity.Type == LibraryBrowserEntityType.Artist)
+				{
+					// Fetch album titles					
+					IEnumerable<LibraryBrowserEntity> albums = presenterLibraryBrowser.GetArtistAlbumNodes(format, entity.Title);
+					foreach(LibraryBrowserEntity album in albums)
+						storeLibraryBrowser.AppendValues(args.Iter, album);
 				}				
+			
+				// Remove dummy node
+				storeLibraryBrowser.Remove(ref iter);						
 			}		
 		}
 		
-		protected void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> items)
+		protected void RefreshLibraryBrowser()
 		{
+			// Clear list
+			storeLibraryBrowser.Clear();			
+			
 			// Get first level nodes and add to tree store
-			IEnumerable<LibraryBrowserEntity> entities = presenterLibraryBrowser.GetFirstLevelNodes();			
+			IEnumerable<LibraryBrowserEntity> entities = presenterLibraryBrowser.GetFirstLevelNodes();
 			foreach(LibraryBrowserEntity entity in entities)
 			{
 				// Add tree iter
 				Gtk.TreeIter iter = storeLibraryBrowser.AppendValues(entity);
 				
-				// Scan through subitems
-				foreach(LibraryBrowserEntity entitySub in entity.SubItems)
-				{
-					// The first subitems are always dummy or static.
+				// The first subitems are always dummy or static.
+				foreach(LibraryBrowserEntity entitySub in entity.SubItems)				
 					storeLibraryBrowser.AppendValues(iter, entitySub);
-				}
 			}
 						
 			// Set model
@@ -373,8 +416,7 @@ namespace MPfm.GTK
 		}
 		
 		protected void CreateLibraryBrowserStore(Gtk.TreeStore store, Nullable<Gtk.TreeIter> iter, IEnumerable<LibraryBrowserEntity> items)
-		{
-			
+		{			
 			// Loop through entities
 			foreach(LibraryBrowserEntity entity in items)
 			{
@@ -697,6 +739,11 @@ namespace MPfm.GTK
 
 		}
 
+		protected void OnSoundFormatChanged(object sender, System.EventArgs e)
+		{
+			RefreshLibraryBrowser();
+		}
+		
 		#endregion
 				
 	}

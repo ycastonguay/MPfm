@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using MPfm.Sound;
 using MPfm.Library;
@@ -161,11 +162,19 @@ namespace MPfm.MVP
 			}
 		}		
 		
-		public List<string> SelectDistinctArtists(AudioFileFormat format)
+		public List<string> SelectDistinctArtistNames(AudioFileFormat format)
 		{
 			return gateway.SelectDistinctArtistNames(format);
 		}
 		
+		public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format)
+		{
+			return gateway.SelectDistinctAlbumTitles(format);
+		}
 		
+		public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName)
+		{
+			return gateway.SelectDistinctAlbumTitles(format, artistName);
+		}
     }
 }

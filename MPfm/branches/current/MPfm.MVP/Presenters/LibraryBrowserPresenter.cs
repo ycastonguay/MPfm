@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Timers;
 using MPfm.Core;
@@ -93,11 +94,19 @@ namespace MPfm.MVP
 		/// <returns>
 		/// List of artist names.
 		/// </returns>
-		public IEnumerable<LibraryBrowserEntity> GetArtistNodes()
+		public IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format)
 		{
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
 			
-			
+			List<string> artists = service.SelectDistinctArtistNames(format);
+			foreach(string artist in artists)
+			{
+				list.Add(new LibraryBrowserEntity(){
+					Title = artist,
+					Type = LibraryBrowserEntityType.Artist,
+					SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node	
+				});
+			}
 			
 			return list;
 		}
@@ -105,27 +114,49 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Returns a list of distinct album titles.
 		/// </summary>
-		/// <returns>
-		/// List of album titles.
-		/// </returns>
-		public IEnumerable<LibraryBrowserEntity> GetAlbumNodes()
+		/// <param name='format'>Audio file format</param>		
+		/// <returns>List of album titles</returns>		
+		public IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format)
 		{
-			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
-			return list;
+			return GetArtistAlbumNodes(format, string.Empty);	
 		}
 	
 		/// <summary>
 		/// Returns a list of distinct album titles of a specific artist.
 		/// </summary>
-		/// <returns>
-		/// List of album titles.
-		/// </returns>
-		/// <param name='artistName'>
-		/// Artist name.
-		/// </param>
-		public IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(string artistName)
+		/// <param name='format'>Audio file format</param>
+		/// <param name='artistName'>Artist name</param>
+		/// <returns>List of album titles</returns>		
+		public IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName)
 		{
+			// Declare variables
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
+			List<string> albums = new List<string>();
+			
+			// Get distinct album titles
+			Dictionary<string, List<string>> albumTitles = service.SelectDistinctAlbumTitles(format, artistName);
+				       
+            // For each song                    
+            foreach (KeyValuePair<string, List<string>> keyValue in albumTitles)
+            {
+                foreach (string albumTitle in keyValue.Value)
+                {
+                    albums.Add(albumTitle);
+                }
+            }
+
+            // Order the albums by title
+            albums = albums.OrderBy(x => x).ToList();
+			
+			// Convert to entities
+			foreach(string album in albums)
+			{
+				list.Add(new LibraryBrowserEntity(){
+					Title = album,
+					Type = LibraryBrowserEntityType.Album					
+				});
+			}
+			
 			return list;
 		}
 		

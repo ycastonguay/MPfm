@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Sound;
 
 namespace MPfm.MVP
 {
@@ -29,9 +30,9 @@ namespace MPfm.MVP
 	public interface ILibraryBrowserPresenter
 	{
 		IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
-		IEnumerable<LibraryBrowserEntity> GetArtistNodes();
-		IEnumerable<LibraryBrowserEntity> GetAlbumNodes();
-		IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(string artistName);
+		IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format);
+		IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format);
+		IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName);
 	}
 }
 

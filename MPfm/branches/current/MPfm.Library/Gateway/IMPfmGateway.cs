@@ -60,6 +60,7 @@ namespace MPfm.Library
         List<AudioFile> SelectAudioFiles();
         Dictionary<string, List<string>> SelectDistinctAlbumTitles();
         Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat);
+		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat, string artistName);
         List<string> SelectDistinctArtistNames();
         List<string> SelectDistinctArtistNames(AudioFileFormat audioFileFormat);
         EQPreset SelectEQPreset(string name);
