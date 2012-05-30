@@ -195,6 +195,11 @@
         <property name="Label" translatable="yes">Help</property>
         <property name="ShortLabel" translatable="yes">Help</property>
       </action>
+      <action id="actionPlayLoop">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-media-play</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MPfm: Music Player for Musicians</property>
@@ -811,6 +816,7 @@
                                 <property name="ButtonStyle">Icons</property>
                                 <property name="IconSize">Menu</property>
                                 <node name="toolbarLoops" type="Toolbar">
+                                  <node type="Toolitem" action="actionPlayLoop" />
                                   <node type="Toolitem" action="actionStopLoop" />
                                   <node type="Toolitem" action="actionEditLoop" />
                                   <node type="Toolitem" action="actionRemoveLoop" />
@@ -1076,7 +1082,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.PlaylistWindow" design-size="816 300">
+  <widget class="Gtk.Window" id="MPfm.GTK.PlaylistWindow" design-size="816 303">
     <action-group name="Default">
       <action id="newAction">
         <property name="Type">Action</property>
@@ -1100,6 +1106,30 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-save-as</property>
       </action>
+      <action id="actionNewPlaylist">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-new</property>
+        <signal name="Activated" handler="OnActionNewPlaylistActivated" />
+      </action>
+      <action id="actionOpenPlaylist">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-open</property>
+        <signal name="Activated" handler="OnActionOpenPlaylistActivated" />
+      </action>
+      <action id="actionSavePlaylist">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-save</property>
+        <signal name="Activated" handler="OnActionSavePlaylistActivated" />
+      </action>
+      <action id="actionSavePlaylistAs">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-save-as</property>
+        <signal name="Activated" handler="OnActionSavePlaylistAsActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Visible">False</property>
@@ -1110,86 +1140,16 @@
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
-        <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.HBox" id="hbox1">
+          <widget class="Gtk.Toolbar" id="toolbar">
             <property name="MemberName" />
-            <property name="Spacing">6</property>
-            <child>
-              <widget class="Gtk.Button" id="actionNew">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Creates a new empty playlist.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-new Menu</property>
-                <property name="Label" translatable="yes">New Playlist</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnActionNewClicked" />
-              </widget>
-              <packing>
-                <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="actionOpen">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Opens an existing playlist file (M3U, M3U8, PLS, XSPF).</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-open Menu</property>
-                <property name="Label" translatable="yes">Open Playlist</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnActionOpenClicked" />
-              </widget>
-              <packing>
-                <property name="Position">1</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="actionSave">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Saves the current playlist.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-save Menu</property>
-                <property name="Label" translatable="yes">Save Playlist</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnActionSaveClicked" />
-              </widget>
-              <packing>
-                <property name="Position">2</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="actionSaveAs">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Saves the current playlist under a different format/file name.</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-save-as Menu</property>
-                <property name="Label" translatable="yes">Save Playlist As</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnActionSaveAsClicked" />
-              </widget>
-              <packing>
-                <property name="Position">3</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder />
-            </child>
+            <property name="ShowArrow">False</property>
+            <node name="toolbar" type="Toolbar">
+              <node type="Toolitem" action="actionNewPlaylist" />
+              <node type="Toolitem" action="actionOpenPlaylist" />
+              <node type="Toolitem" action="actionSavePlaylist" />
+              <node type="Toolitem" action="actionSavePlaylistAs" />
+            </node>
           </widget>
           <packing>
             <property name="Position">0</property>
@@ -1203,7 +1163,7 @@
             <property name="MemberName" />
             <property name="ShadowType">In</property>
             <child>
-              <widget class="Gtk.TreeView" id="treeSongBrowser">
+              <widget class="Gtk.TreeView" id="treePlaylistBrowser">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="ShowScrollbars">True</property>
