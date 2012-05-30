@@ -40,6 +40,10 @@ namespace MPfm.MVP
 		{			
 			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);
 			Bind<ILibraryService>().To<LibraryService>();
+			
+			Bind<IPlayerPresenter>().To<PlayerPresenter>();
+			Bind<ISongBrowserPresenter>().To<SongBrowserPresenter>();
+			Bind<ILibraryBrowserPresenter>().To<LibraryBrowserPresenter>();
 		}		
 	}
 }

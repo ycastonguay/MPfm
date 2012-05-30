@@ -16,7 +16,9 @@ namespace MPfm.GTK
 			string currentDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);								
 			
 			Application.Init ();
-			mainWindow = new MainWindow ();
+			
+			mainWindow = Bootstrapper.GetKernel().Get<MainWindow>();			
+			//mainWindow = new MainWindow ();
 			mainWindow.Icon = new Gdk.Pixbuf(currentDirectory + "/icon48.png");
 
 			mainWindow.ShowAll();

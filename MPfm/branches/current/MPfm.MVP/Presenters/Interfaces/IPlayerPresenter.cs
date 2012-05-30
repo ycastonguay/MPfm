@@ -32,7 +32,11 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface IPlayerPresenter
 	{
-		// Playback
+		MPfm.Player.Player Player { get; }
+		
+		void Dispose();
+		void BindView(IPlayerView view);		
+		
 		void Play();
 		void Play(IEnumerable<AudioFile> audioFiles);
 		void Stop();

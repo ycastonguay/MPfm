@@ -27,8 +27,8 @@ namespace MPfm.GTK
 		// Private variables
 		private string currentDirectory = string.Empty;
 		
-		private PlayerPresenter playerPresenter = null;
-		public PlayerPresenter PlayerPresenter
+		private IPlayerPresenter playerPresenter = null;
+		public IPlayerPresenter PlayerPresenter
 		{
 			get
 			{
@@ -70,10 +70,22 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
 		/// </summary>
-		public MainWindow(): base (Gtk.WindowType.Toplevel)
+		public MainWindow(IPlayerPresenter playerPresenter, 
+		                  ISongBrowserPresenter songBrowserPresenter,
+		                  ILibraryBrowserPresenter libraryBrowserPresenter): base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
 	
+			// Set properties
+			this.playerPresenter = playerPresenter;
+			this.songBrowserPresenter = songBrowserPresenter;
+			this.libraryBrowserPresenter = libraryBrowserPresenter;
+
+			// Bind views
+			this.playerPresenter.BindView(this);
+			this.songBrowserPresenter.BindView(this);
+			this.libraryBrowserPresenter.BindView(this);
+			
 	        // Set form title
 	        this.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 	
@@ -88,15 +100,6 @@ namespace MPfm.GTK
 			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
 			this.imageAlbumCover.Pixbuf = stuff;
 						
-			LibraryService libraryService = Bootstrapper.GetKernel().Get<LibraryService>();			
-			//Bootstrapper.GetKernel().Bind<ILibraryBrowserView>().ToSelf();
-			//LibraryBrowserPresenter test = Bootstrapper.GetKernel().Get<LibraryBrowserPresenter>();
-			
-			// Create presenters
-			playerPresenter = new PlayerPresenter(this);
-			libraryBrowserPresenter = new LibraryBrowserPresenter(this, playerPresenter, libraryService);
-			songBrowserPresenter = new SongBrowserPresenter(this, playerPresenter, libraryService);
-			
 			// Create song browser columns
 			InitializeSongBrowser();
 			RefreshSongBrowser(new List<AudioFile>());

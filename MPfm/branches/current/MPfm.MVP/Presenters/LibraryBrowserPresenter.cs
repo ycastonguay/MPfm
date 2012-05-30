@@ -38,8 +38,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
 	{
-		private readonly ILibraryBrowserView view = null;
-		private readonly IPlayerPresenter playerPresenter = null;
+		private ILibraryBrowserView view = null;		
 		private readonly ILibraryService libraryService = null;		
 		
 		#region Constructor and Dispose
@@ -47,25 +46,33 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.LibraryBrowserPresenter"/> class.
 		/// </summary>
-		public LibraryBrowserPresenter(ILibraryBrowserView view, IPlayerPresenter playerPresenter, ILibraryService libraryService)
+		public LibraryBrowserPresenter(ILibraryService libraryService)
 		{
 			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
-			if(playerPresenter == null)			
-				throw new ArgumentNullException("The playerPresenter parameter is null!");				
 			if(libraryService == null)			
 				throw new ArgumentNullException("The libraryService parameter is null!");
 						
-			// Set properties
-			this.view = view;
-			this.playerPresenter = playerPresenter;
+			// Set properties			
 			this.libraryService = libraryService;
 		}
 
 		#endregion		
 		
 		#region ILibraryBrowserPresenter implementation
+		
+		/// <summary>
+		/// Binds the view to its implementation.
+		/// </summary>
+		/// <param name='view'>Library Browser view implementation</param>	
+		public void BindView(ILibraryBrowserView view)
+		{
+			// Validate parameters 
+			if(view == null)			
+				throw new ArgumentNullException("The view parameter is null!");
+			
+			// Set property
+			this.view = view;
+		}
 		
 		/// <summary>
 		/// Returns the first level nodes of the library browser.

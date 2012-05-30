@@ -36,12 +36,12 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Player presenter.
 	/// </summary>
-	public class PlayerPresenter : IDisposable, IPlayerPresenter
+	public class PlayerPresenter : IPlayerPresenter
 	{
 		// Private variables		
 		private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
-		private readonly IPlayerView view = null;
+		private IPlayerView view = null;
 		private Timer timerRefreshSongPosition = null;
 
 		#region Other Properties
@@ -65,17 +65,8 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.PlayerPresenter"/> class.
 		/// </summary>
-		public PlayerPresenter(IPlayerView view)
-		{
-			// Validate parameters
-			if(view == null)
-			{
-				throw new ArgumentNullException("The view parameter is null!");
-			}
-						
-			// Set properties
-			this.view = view;					
-			
+		public PlayerPresenter()
+		{	
 			// Create update position timer
 			timerRefreshSongPosition = new Timer();			
 			timerRefreshSongPosition.Interval = 100;
@@ -104,6 +95,20 @@ namespace MPfm.MVP
 		}
 
 		#endregion
+		
+		/// <summary>
+		/// Binds the view to its implementation.
+		/// </summary>
+		/// <param name='view'>Player view implementation</param>		
+		public void BindView(IPlayerView view)
+		{
+			// Validate parameters
+			if(view == null)			
+				throw new ArgumentNullException("The view parameter is null!");			
+						
+			// Set properties
+			this.view = view;	
+		}
 		
 		/// <summary>
 		/// Handles the timer update position elapsed.

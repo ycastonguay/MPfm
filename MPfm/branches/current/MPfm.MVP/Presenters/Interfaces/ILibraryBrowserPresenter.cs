@@ -29,6 +29,8 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface ILibraryBrowserPresenter
 	{
+		void BindView(ILibraryBrowserView view);
+		
 		IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
 		IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format);
 		IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format);

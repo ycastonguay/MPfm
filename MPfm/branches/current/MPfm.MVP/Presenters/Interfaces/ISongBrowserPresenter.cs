@@ -29,7 +29,8 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface ISongBrowserPresenter
 	{		
-		//IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
+		void BindView(ISongBrowserView view);
+		
 		IEnumerable<AudioFile> SelectAudioFiles();
         IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat);
         IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending);

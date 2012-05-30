@@ -53,18 +53,15 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.UpdateLibraryPresenter"/> class.
 		/// </summary>
-		public UpdateLibraryPresenter(IUpdateLibraryView view, ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
+		public UpdateLibraryPresenter(ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
 		{
 			// Check for null
-			if(view == null)
-				throw new ArgumentNullException("The view parameter cannot be null!");
 			if(libraryService == null)
 				throw new ArgumentNullException("The libraryService parameter cannot be null!");
 			if(updateLibraryService == null)
 				throw new ArgumentNullException("The updateLibraryService parameter cannot be null!");
 
 			// Set properties
-			this.view = view;			
 			this.libraryService = libraryService;
 			this.updateLibraryService = updateLibraryService;
 			
@@ -110,6 +107,20 @@ namespace MPfm.MVP
 		
 		#region IUpdateLibraryPresenter implementation
 			
+		/// <summary>
+		/// Binds the view to its implementation.
+		/// </summary>
+		/// <param name='view'>Update Library view implementation</param>	
+		public void BindView(IUpdateLibraryView view)
+		{
+			// Validate parameters 
+			if(view == null)			
+				throw new ArgumentNullException("The view parameter is null!");
+			
+			// Set property
+			this.view = view;
+		}
+		
 		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
 		{
 			updateLibraryService.UpdateLibrary(mode, filePaths, folderPath);

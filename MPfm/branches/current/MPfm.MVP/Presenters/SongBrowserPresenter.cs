@@ -38,54 +38,41 @@ namespace MPfm.MVP
 	/// </summary>
 	public class SongBrowserPresenter : ISongBrowserPresenter
 	{
-		private readonly ISongBrowserView view = null;
-		private readonly IPlayerPresenter playerPresenter = null;
+		private ISongBrowserView view = null;		
 		private readonly ILibraryService libraryService = null;
-		
-		private List<AudioFile> audioFiles = null;
-		public List<AudioFile> AudioFiles
-		{
-			get
-			{
-				return audioFiles;
-			}
-		}
 		
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.SongBrowserPresenter"/> class.
 		/// </summary>
-		public SongBrowserPresenter(ISongBrowserView view, IPlayerPresenter playerPresenter, ILibraryService libraryService)
+		public SongBrowserPresenter(ILibraryService libraryService)
 		{
 			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
-			if(playerPresenter == null)			
-				throw new ArgumentNullException("The playerPresenter parameter is null!");				
 			if(libraryService == null)
 				throw new ArgumentNullException("The libraryService parameter is null!");
 						
-			// Set properties
-			this.view = view;
-			this.playerPresenter = playerPresenter;
-			this.libraryService = libraryService;			
-			
-			// Load cache
-			
-			
-			audioFiles = libraryService.SelectAudioFiles().ToList();
+			// Set properties			
+			this.libraryService = libraryService;
 		}
 
 		#endregion		
 		
 		#region ISongBrowserPresenter implementation
-
-//		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string searchTerms)
-//		{			
-//			return service.SelectAudioFiles(format, string.Empty, true, artistName, albumTitle, searchTerms);		
-//		}
 		
+		/// <summary>
+		/// Binds the view to its implementation.
+		/// </summary>
+		/// <param name='view'>Song Browser view implementation</param>	
+		public void BindView(ISongBrowserView view)
+		{
+			// Validate parameters 
+			if(view == null)			
+				throw new ArgumentNullException("The view parameter is null!");
+			
+			// Set property
+			this.view = view;
+		}	
 		
         /// <summary>
         /// Selects all the audio files from the cache.
