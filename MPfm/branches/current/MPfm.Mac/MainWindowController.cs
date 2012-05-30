@@ -11,11 +11,12 @@ using Ninject;
 
 namespace MPfm.Mac
 {
-	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IMainView
+	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IPlayerView, ISongBrowserView, ILibraryBrowserView
 	{
-		private MainPresenter presenter = null;		
-		private NSTimer timer = null;
-		private NSOpenPanel openPanel = null;
+		private readonly IPlayerPresenter playerPresenter = null;
+		private readonly ISongBrowserPresenter songBrowserPresenter = null;
+		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
+
 		private UpdateLibraryWindowController updateLibraryWindowController = null;
 
 		//strongly typed window accessor00
@@ -30,32 +31,30 @@ namespace MPfm.Mac
 		// Called when created from unmanaged code
 		public MainWindowController(IntPtr handle) : base (handle)
 		{
-			Initialize();
 		}
 		
 		// Called when created directly from a XIB file
 		[Export ("initWithCoder:")]
 		public MainWindowController(NSCoder coder) : base (coder)
 		{
-			Initialize();
 		}
 		
 		// Call to load from the XIB/NIB file
-		public MainWindowController() : base ("MainWindow")
+		public MainWindowController(IPlayerPresenter playerPresenter,
+		                            ISongBrowserPresenter songBrowserPresenter,
+		                            ILibraryBrowserPresenter libraryBrowserPresenter) : base ("MainWindow")
 		{
-			Initialize();
-		}		
-		
-		// Shared initialization code
-		void Initialize()
-		{
-			// Initialize bootstrapper
-			IKernel kernel = Bootstrapper.GetServiceLocator();
+			// Set properties
+			this.playerPresenter = playerPresenter;
+			this.songBrowserPresenter = songBrowserPresenter;
+			this.libraryBrowserPresenter = libraryBrowserPresenter;
 
-			// Create presenter
-			presenter = new MPfm.MVP.MainPresenter(this);
-		}
-		
+			// Bind views
+			this.playerPresenter.BindView(this);
+			this.songBrowserPresenter.BindView(this);
+			this.libraryBrowserPresenter.BindView(this);
+		}		
+
 		public override void WindowDidLoad()
 		{
 			base.WindowDidLoad ();			
@@ -138,9 +137,9 @@ namespace MPfm.Mac
 			// Check if files were found
 			if(filePaths != null && filePaths.Count() > 0)
 			{
-				presenter.Player.Playlist.Clear();
-				presenter.Player.Playlist.AddItems(filePaths.ToList());
-				presenter.Play();
+				//playerPresenter.Player.Playlist.Clear();
+				//playerPresenter.Player.Playlist.AddItems(filePaths.ToList());
+				playerPresenter.Play(filePaths);
 			}
 		}
 
@@ -151,32 +150,32 @@ namespace MPfm.Mac
 
 		partial void actionPlay(NSObject sender)
 		{
-			presenter.Play();
+			playerPresenter.Play();
 		}
 
 		partial void actionPause(NSObject sender)
 		{
-			presenter.Pause();
+			playerPresenter.Pause();
 		}
 
 		partial void actionStop(NSObject sender)
 		{
-			presenter.Stop();
+			playerPresenter.Stop();
 		}
 
 		partial void actionPrevious(NSObject sender)
 		{
-			presenter.Previous();
+			playerPresenter.Previous();
 		}
 
 		partial void actionNext(NSObject sender)
 		{
-			presenter.Next();
+			playerPresenter.Next();
 		}
 
 		partial void actionRepeatType(NSObject sender)
 		{
-			presenter.RepeatType();
+			playerPresenter.RepeatType();
 		}
 
 		partial void actionOpenPlaylistWindow(NSObject sender)

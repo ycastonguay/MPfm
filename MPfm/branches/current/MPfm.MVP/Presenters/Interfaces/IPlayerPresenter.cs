@@ -39,6 +39,7 @@ namespace MPfm.MVP
 		
 		void Play();
 		void Play(IEnumerable<AudioFile> audioFiles);
+		void Play(IEnumerable<string> filePaths);
 		void Stop();
 		void Pause();
 		void Next();

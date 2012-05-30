@@ -3,6 +3,8 @@ using System.Drawing;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
+using Ninject;
+using MPfm.MVP;
 
 namespace MPfm.Mac
 {
@@ -16,7 +18,7 @@ namespace MPfm.Mac
 
 		public override void FinishedLaunching(NSObject notification)
 		{
-			mainWindowController = new MainWindowController();
+			mainWindowController = Bootstrapper.GetKernel().Get<MainWindowController>();
 			mainWindowController.Window.MakeKeyAndOrderFront(this);
 		}
 	}

@@ -303,6 +303,20 @@ namespace MPfm.MVP
 			// Start playback
 			Play();
 		}
+
+		/// <summary>
+		/// Starts the playback of a new playlist.
+		/// </summary>
+		/// <param name='filePaths'>List of audio file paths</param>
+		public void Play(IEnumerable<string> filePaths)
+		{
+			// Replace playlist
+			player.Playlist.Clear();
+			player.Playlist.AddItems(filePaths.ToList());
+			
+			// Start playback
+			Play();
+		}
 		
 		/// <summary>
 		/// Stops playback.

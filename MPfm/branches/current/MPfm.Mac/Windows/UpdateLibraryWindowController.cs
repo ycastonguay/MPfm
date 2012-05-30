@@ -49,10 +49,10 @@ namespace MPfm.Mac
 
 			// Create presenter
 			presenter = new UpdateLibraryPresenter(
-				this,
 				libraryService,
 				updateLibraryService
 			);
+			presenter.BindView(this);
 
 			// Center window
 			Window.Center();
