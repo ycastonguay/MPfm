@@ -33,6 +33,7 @@ namespace MPfm.GTK
 		private global::Gtk.Action actionAddFiles;
 		private global::Gtk.Action actionAddFolder;
 		private global::Gtk.Action HelpAction;
+		private global::Gtk.Action actionPlayLoop;
 		private global::Gtk.VBox vboxMain;
 		private global::Gtk.MenuBar menubarMain;
 		private global::Gtk.Toolbar toolbarMain;
@@ -183,6 +184,8 @@ namespace MPfm.GTK
 			this.HelpAction = new global::Gtk.Action ("HelpAction", global::Mono.Unix.Catalog.GetString ("Help"), null, null);
 			this.HelpAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Help");
 			w1.Add (this.HelpAction, null);
+			this.actionPlayLoop = new global::Gtk.Action ("actionPlayLoop", null, null, "gtk-media-play");
+			w1.Add (this.actionPlayLoop, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.MainWindow";
@@ -619,7 +622,7 @@ namespace MPfm.GTK
 			w42.Expand = false;
 			w42.Fill = false;
 			// Container child vboxLoops.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarLoops'><toolitem name='actionStopLoop' action='actionStopLoop'/><toolitem name='actionEditLoop' action='actionEditLoop'/><toolitem name='actionRemoveLoop' action='actionRemoveLoop'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarLoops'><toolitem name='actionPlayLoop' action='actionPlayLoop'/><toolitem name='actionStopLoop' action='actionStopLoop'/><toolitem name='actionEditLoop' action='actionEditLoop'/><toolitem name='actionRemoveLoop' action='actionRemoveLoop'/></toolbar></ui>");
 			this.toolbarLoops = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarLoops")));
 			this.toolbarLoops.Name = "toolbarLoops";
 			this.toolbarLoops.ShowArrow = false;

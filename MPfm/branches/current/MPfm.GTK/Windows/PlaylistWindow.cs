@@ -43,26 +43,9 @@ namespace MPfm.GTK
 			
 			// Set reference to main window
 			this.main = main;
-		}
-
-		protected void OnActionNewClicked(object sender, System.EventArgs e)
-		{
 			
-		}
-
-		protected void OnActionOpenClicked(object sender, System.EventArgs e)
-		{
-			
-		}
-
-		protected void OnActionSaveClicked(object sender, System.EventArgs e)
-		{
-			
-		}
-
-		protected void OnActionSaveAsClicked(object sender, System.EventArgs e)
-		{
-			
+			// Set focus to something else than the toolbar
+			treePlaylistBrowser.GrabFocus();
 		}
 		
 		/// <summary>
@@ -79,6 +62,23 @@ namespace MPfm.GTK
 			// Hide window instead
 			this.HideAll();
 		}
+
+		protected void OnActionNewPlaylistActivated (object sender, System.EventArgs e)
+		{
+		}
+
+		protected void OnActionOpenPlaylistActivated (object sender, System.EventArgs e)
+		{
+		}
+
+		protected void OnActionSavePlaylistActivated (object sender, System.EventArgs e)
+		{
+		}
+
+		protected void OnActionSavePlaylistAsActivated (object sender, System.EventArgs e)
+		{
+		}
+
 	}
 }
 

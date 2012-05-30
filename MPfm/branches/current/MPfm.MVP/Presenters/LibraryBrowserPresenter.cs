@@ -40,20 +40,24 @@ namespace MPfm.MVP
 	{
 		private ILibraryBrowserView view = null;		
 		private readonly ILibraryService libraryService = null;		
+		private readonly IPlayerPresenter playerPresenter = null;
 		
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.LibraryBrowserPresenter"/> class.
 		/// </summary>
-		public LibraryBrowserPresenter(ILibraryService libraryService)
+		public LibraryBrowserPresenter(IPlayerPresenter playerPresenter, ILibraryService libraryService)
 		{
 			// Validate parameters
+			if(playerPresenter == null)			
+				throw new ArgumentNullException("The playerPresenter parameter is null!");		
 			if(libraryService == null)			
 				throw new ArgumentNullException("The libraryService parameter is null!");
 						
 			// Set properties			
 			this.libraryService = libraryService;
+			this.playerPresenter = playerPresenter;
 		}
 
 		#endregion		

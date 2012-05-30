@@ -39,9 +39,11 @@ namespace MPfm.MVP
 		public override void Load()
 		{			
 			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);
-			Bind<ILibraryService>().To<LibraryService>();
 			
-			Bind<IPlayerPresenter>().To<PlayerPresenter>();
+			Bind<ILibraryService>().To<LibraryService>().InSingletonScope();
+			Bind<IAudioFileCacheService>().To<AudioFileCacheService>().InSingletonScope();
+			
+			Bind<IPlayerPresenter>().To<PlayerPresenter>().InSingletonScope();
 			Bind<ISongBrowserPresenter>().To<SongBrowserPresenter>();
 			Bind<ILibraryBrowserPresenter>().To<LibraryBrowserPresenter>();
 		}		

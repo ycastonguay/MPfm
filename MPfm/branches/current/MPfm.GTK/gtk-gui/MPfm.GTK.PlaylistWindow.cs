@@ -9,14 +9,14 @@ namespace MPfm.GTK
 		private global::Gtk.Action openAction;
 		private global::Gtk.Action saveAction;
 		private global::Gtk.Action saveAsAction;
+		private global::Gtk.Action actionNewPlaylist;
+		private global::Gtk.Action actionOpenPlaylist;
+		private global::Gtk.Action actionSavePlaylist;
+		private global::Gtk.Action actionSavePlaylistAs;
 		private global::Gtk.VBox vbox1;
-		private global::Gtk.HBox hbox1;
-		private global::Gtk.Button actionNew;
-		private global::Gtk.Button actionOpen;
-		private global::Gtk.Button actionSave;
-		private global::Gtk.Button actionSaveAs;
+		private global::Gtk.Toolbar toolbar;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
-		private global::Gtk.TreeView treeSongBrowser;
+		private global::Gtk.TreeView treePlaylistBrowser;
 		
 		protected virtual void Build ()
 		{
@@ -34,6 +34,14 @@ namespace MPfm.GTK
 			w1.Add (this.saveAction, null);
 			this.saveAsAction = new global::Gtk.Action ("saveAsAction", null, null, "gtk-save-as");
 			w1.Add (this.saveAsAction, null);
+			this.actionNewPlaylist = new global::Gtk.Action ("actionNewPlaylist", null, null, "gtk-new");
+			w1.Add (this.actionNewPlaylist, null);
+			this.actionOpenPlaylist = new global::Gtk.Action ("actionOpenPlaylist", null, null, "gtk-open");
+			w1.Add (this.actionOpenPlaylist, null);
+			this.actionSavePlaylist = new global::Gtk.Action ("actionSavePlaylist", null, null, "gtk-save");
+			w1.Add (this.actionSavePlaylist, null);
+			this.actionSavePlaylistAs = new global::Gtk.Action ("actionSavePlaylistAs", null, null, "gtk-save-as");
+			w1.Add (this.actionSavePlaylistAs, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.PlaylistWindow";
@@ -42,149 +50,40 @@ namespace MPfm.GTK
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			// Container child MPfm.GTK.PlaylistWindow.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
-			this.vbox1.Name = "vbox1";
-			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.hbox1 = new global::Gtk.HBox ();
-			this.hbox1.Name = "hbox1";
-			this.hbox1.Spacing = 6;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.actionNew = new global::Gtk.Button ();
-			this.actionNew.TooltipMarkup = "Creates a new empty playlist.";
-			this.actionNew.CanFocus = true;
-			this.actionNew.Name = "actionNew";
-			this.actionNew.UseUnderline = true;
-			// Container child actionNew.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w2 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w3 = new global::Gtk.HBox ();
-			w3.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w4 = new global::Gtk.Image ();
-			w4.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-new", global::Gtk.IconSize.Menu);
-			w3.Add (w4);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w6 = new global::Gtk.Label ();
-			w6.LabelProp = global::Mono.Unix.Catalog.GetString ("New Playlist");
-			w6.UseUnderline = true;
-			w3.Add (w6);
-			w2.Add (w3);
-			this.actionNew.Add (w2);
-			this.hbox1.Add (this.actionNew);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.actionNew]));
-			w10.Position = 0;
-			w10.Expand = false;
-			w10.Fill = false;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.actionOpen = new global::Gtk.Button ();
-			this.actionOpen.TooltipMarkup = "Opens an existing playlist file (M3U, M3U8, PLS, XSPF).";
-			this.actionOpen.CanFocus = true;
-			this.actionOpen.Name = "actionOpen";
-			this.actionOpen.UseUnderline = true;
-			// Container child actionOpen.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w11 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w12 = new global::Gtk.HBox ();
-			w12.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w13 = new global::Gtk.Image ();
-			w13.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-open", global::Gtk.IconSize.Menu);
-			w12.Add (w13);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w15 = new global::Gtk.Label ();
-			w15.LabelProp = global::Mono.Unix.Catalog.GetString ("Open Playlist");
-			w15.UseUnderline = true;
-			w12.Add (w15);
-			w11.Add (w12);
-			this.actionOpen.Add (w11);
-			this.hbox1.Add (this.actionOpen);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.actionOpen]));
-			w19.Position = 1;
-			w19.Expand = false;
-			w19.Fill = false;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.actionSave = new global::Gtk.Button ();
-			this.actionSave.TooltipMarkup = "Saves the current playlist.";
-			this.actionSave.CanFocus = true;
-			this.actionSave.Name = "actionSave";
-			this.actionSave.UseUnderline = true;
-			// Container child actionSave.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w20 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w21 = new global::Gtk.HBox ();
-			w21.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w22 = new global::Gtk.Image ();
-			w22.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-save", global::Gtk.IconSize.Menu);
-			w21.Add (w22);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w24 = new global::Gtk.Label ();
-			w24.LabelProp = global::Mono.Unix.Catalog.GetString ("Save Playlist");
-			w24.UseUnderline = true;
-			w21.Add (w24);
-			w20.Add (w21);
-			this.actionSave.Add (w20);
-			this.hbox1.Add (this.actionSave);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.actionSave]));
-			w28.Position = 2;
-			w28.Expand = false;
-			w28.Fill = false;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.actionSaveAs = new global::Gtk.Button ();
-			this.actionSaveAs.TooltipMarkup = "Saves the current playlist under a different format/file name.";
-			this.actionSaveAs.CanFocus = true;
-			this.actionSaveAs.Name = "actionSaveAs";
-			this.actionSaveAs.UseUnderline = true;
-			// Container child actionSaveAs.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w29 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w30 = new global::Gtk.HBox ();
-			w30.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w31 = new global::Gtk.Image ();
-			w31.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-save-as", global::Gtk.IconSize.Menu);
-			w30.Add (w31);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w33 = new global::Gtk.Label ();
-			w33.LabelProp = global::Mono.Unix.Catalog.GetString ("Save Playlist As");
-			w33.UseUnderline = true;
-			w30.Add (w33);
-			w29.Add (w30);
-			this.actionSaveAs.Add (w29);
-			this.hbox1.Add (this.actionSaveAs);
-			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.actionSaveAs]));
-			w37.Position = 3;
-			w37.Expand = false;
-			w37.Fill = false;
-			this.vbox1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-			w38.Position = 0;
-			w38.Expand = false;
-			w38.Fill = false;
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='actionNewPlaylist' action='actionNewPlaylist'/><toolitem name='actionOpenPlaylist' action='actionOpenPlaylist'/><toolitem name='actionSavePlaylist' action='actionSavePlaylist'/><toolitem name='actionSavePlaylistAs' action='actionSavePlaylistAs'/></toolbar></ui>");
+			this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
+			this.toolbar.Name = "toolbar";
+			this.toolbar.ShowArrow = false;
+			this.vbox1.Add (this.toolbar);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.toolbar]));
+			w2.Position = 0;
+			w2.Expand = false;
+			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-			this.treeSongBrowser = new global::Gtk.TreeView ();
-			this.treeSongBrowser.CanFocus = true;
-			this.treeSongBrowser.Name = "treeSongBrowser";
-			this.GtkScrolledWindow.Add (this.treeSongBrowser);
+			this.treePlaylistBrowser = new global::Gtk.TreeView ();
+			this.treePlaylistBrowser.CanFocus = true;
+			this.treePlaylistBrowser.Name = "treePlaylistBrowser";
+			this.GtkScrolledWindow.Add (this.treePlaylistBrowser);
 			this.vbox1.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
-			w40.Position = 1;
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
+			w4.Position = 1;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 816;
-			this.DefaultHeight = 300;
+			this.DefaultHeight = 303;
 			this.Hide ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
-			this.actionNew.Clicked += new global::System.EventHandler (this.OnActionNewClicked);
-			this.actionOpen.Clicked += new global::System.EventHandler (this.OnActionOpenClicked);
-			this.actionSave.Clicked += new global::System.EventHandler (this.OnActionSaveClicked);
-			this.actionSaveAs.Clicked += new global::System.EventHandler (this.OnActionSaveAsClicked);
+			this.actionNewPlaylist.Activated += new global::System.EventHandler (this.OnActionNewPlaylistActivated);
+			this.actionOpenPlaylist.Activated += new global::System.EventHandler (this.OnActionOpenPlaylistActivated);
+			this.actionSavePlaylist.Activated += new global::System.EventHandler (this.OnActionSavePlaylistActivated);
+			this.actionSavePlaylistAs.Activated += new global::System.EventHandler (this.OnActionSavePlaylistAsActivated);
 		}
 	}
 }

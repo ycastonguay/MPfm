@@ -78,7 +78,6 @@
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Presenters\SongBrowserPresenter.cs" />
     <Compile Include="Views\ISongBrowserView.cs" />
-    <Compile Include="Cache\AudioFileCache.cs" />
     <Compile Include="Services\AudioFileCacheService.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPlayerPresenter.cs" />
@@ -116,7 +115,6 @@
   <ItemGroup>
     <Folder Include="Bootstrapper\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Cache\" />
     <Folder Include="Services\Interfaces\" />
     <Folder Include="Presenters\Interfaces\" />
   </ItemGroup>

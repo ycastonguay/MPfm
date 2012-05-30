@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using Gtk;
 using MPfm.MVP;
@@ -12,16 +13,13 @@ namespace MPfm.GTK
 
 		public static void Main (string[] args)
 		{
-			// Get current directory
-			string currentDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);								
+			Application.Init();
 			
-			Application.Init ();
-			
-			mainWindow = Bootstrapper.GetKernel().Get<MainWindow>();			
-			//mainWindow = new MainWindow ();
-			mainWindow.Icon = new Gdk.Pixbuf(currentDirectory + "/icon48.png");
-
+			// Let Ninject create the MainWindow for us
+			mainWindow = Bootstrapper.GetKernel().Get<MainWindow>();						
+			mainWindow.Icon = new Gdk.Pixbuf(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/icon48.png");
 			mainWindow.ShowAll();
+						
 			Application.Run();
 		}
 	}

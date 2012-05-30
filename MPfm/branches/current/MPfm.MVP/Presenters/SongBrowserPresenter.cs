@@ -30,6 +30,7 @@ using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using AutoMapper;
+using Ninject;
 
 namespace MPfm.MVP
 {
@@ -38,22 +39,32 @@ namespace MPfm.MVP
 	/// </summary>
 	public class SongBrowserPresenter : ISongBrowserPresenter
 	{
-		private ISongBrowserView view = null;		
+		private ISongBrowserView view = null;
+		private readonly IAudioFileCacheService audioFileCacheService = null;
 		private readonly ILibraryService libraryService = null;
+		private readonly IPlayerPresenter playerPresenter = null;
 		
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.SongBrowserPresenter"/> class.
 		/// </summary>
-		public SongBrowserPresenter(ILibraryService libraryService)
+		public SongBrowserPresenter(IPlayerPresenter playerPresenter, 
+		                            ILibraryService libraryService,
+		                            IAudioFileCacheService audioFileCacheService)
 		{
 			// Validate parameters
-			if(libraryService == null)
+			if(playerPresenter == null)
+				throw new ArgumentNullException("The playerPresenter parameter is null!");
+			if(libraryService == null)				
 				throw new ArgumentNullException("The libraryService parameter is null!");
-						
-			// Set properties			
+			if(audioFileCacheService == null)				
+				throw new ArgumentNullException("The audioFileCacheService parameter is null!");
+			
+			// Set properties
+			this.playerPresenter = playerPresenter;
 			this.libraryService = libraryService;
+			this.audioFileCacheService = audioFileCacheService;
 		}
 
 		#endregion		
@@ -143,8 +154,8 @@ namespace MPfm.MVP
         /// <param name="searchTerms">Search terms</param>
         /// <returns>List of AudioFiles</returns>
         public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
-        {
-			return AudioFileCache.GetService().SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, albumTitle, searchTerms);
+        {			
+			return audioFileCacheService.SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, albumTitle, searchTerms);
         }
 		
 		#endregion

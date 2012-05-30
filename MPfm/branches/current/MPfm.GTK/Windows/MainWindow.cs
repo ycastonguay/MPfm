@@ -74,7 +74,7 @@ namespace MPfm.GTK
 		                  ISongBrowserPresenter songBrowserPresenter,
 		                  ILibraryBrowserPresenter libraryBrowserPresenter): base (Gtk.WindowType.Toplevel)
 		{
-			Build ();
+			Build();
 	
 			// Set properties
 			this.playerPresenter = playerPresenter;
