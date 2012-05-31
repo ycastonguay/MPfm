@@ -38,19 +38,17 @@ namespace MPfm.MVP
 	/// </summary>
 	public class PlayerPresenter : IPlayerPresenter
 	{
-		// Private variables		
-		private Stream fileTracing = null;
-        private TextWriterTraceListener textTraceListener = null;
+		// Private variables
 		private IPlayerView view = null;
 		private Timer timerRefreshSongPosition = null;
 
 		#region Other Properties
 
-		private MPfm.Player.Player player = null;
+		private MPfm.Player.IPlayer player = null;
 		/// <summary>
 		/// Returns the current instance of the Player class.
 		/// </summary>
-		public MPfm.Player.Player Player
+		public MPfm.Player.IPlayer Player
 		{
 			get
 			{
@@ -71,11 +69,15 @@ namespace MPfm.MVP
 			timerRefreshSongPosition = new Timer();			
 			timerRefreshSongPosition.Interval = 100;
 			timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
-			
-			// Initialize components
-			CreateConfiguration();
-			CreatePlayer();
-			CreateLibrary();
+						
+			// Create device
+			Device device = new Device();
+			device.DriverType = DriverType.DirectSound;
+			device.Id = -1;
+
+			// Create player
+			player = new MPfm.Player.Player(device, 44100, 100, 10, true);
+			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;	
 		}
 
 		/// <summary>
@@ -142,137 +144,6 @@ namespace MPfm.MVP
 		{
 			// Refresh song information
 			RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
-		}		
-		
-		protected void HandleLibraryOnUpdateLibraryProgress (MPfm.Library.UpdateLibraryProgressData data)
-		{
-			
-		}
-
-		protected void HandleLibraryOnUpdateLibraryFinished (MPfm.Library.UpdateLibraryFinishedData data)
-		{
-			
-		}
-
-		/// <summary>
-		/// Creates the configuration.
-		/// </summary>
-		private void CreateConfiguration()
-		{
-            // Check if trace file exists
-            if (!File.Exists(ConfigurationHelper.LogFilePath))
-            {
-                // Create file
-                fileTracing = File.Create(ConfigurationHelper.LogFilePath);
-            }
-            else
-            {
-                // Open file
-                fileTracing = File.Open(ConfigurationHelper.LogFilePath, FileMode.Append);
-            }
-            textTraceListener = new TextWriterTraceListener(fileTracing);
-            Trace.Listeners.Add(textTraceListener);
-
-			// Check for configuration file
-		}
-		
-		/// <summary>
-		/// Creates and initializes the player.
-		/// </summary>
-		private void CreatePlayer()
-		{
-			// Create device
-			Device device = new Device();
-			device.DriverType = DriverType.DirectSound;
-			device.Id = -1;
-
-			// Create player
-			player = new MPfm.Player.Player(device, 44100, 100, 10, true);
-			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-		}
-		
-		/// <summary>
-		/// Creates and initializes the library.
-		/// </summary>
-		/// <exception cref='Exception'>
-		/// Represents errors that occur during application execution.
-		/// </exception>
-		private void CreateLibrary()
-		{
-            try
-            {
-                // Check if the database file exists
-                if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
-                {                    
-                    // Create database file
-                    //frmSplash.SetStatus("Creating database file...");
-                    MPfm.Library.Library.CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error initializing MPfm: Could not create database file!", ex);
-            }
-			
-            try
-            {
-                // Check current database version
-                string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(ConfigurationHelper.DatabaseFilePath);
-
-                // Extract major/minor
-                string[] currentVersionSplit = databaseVersion.Split('.');
-
-                // Check integrity of the setting value (should be split in 2)
-                if (currentVersionSplit.Length != 2)
-                {
-                    throw new Exception("Error fetching database version; the setting value is invalid!");
-                }
-
-                int currentMajor = 0;
-                int currentMinor = 0;
-                int.TryParse(currentVersionSplit[0], out currentMajor);
-                int.TryParse(currentVersionSplit[1], out currentMinor);
-
-                // Is this earlier than 1.04?
-                if (currentMajor == 1 && currentMinor < 4)
-                {
-                    // Set buffer size
-                    //Config.Audio.Mixer.BufferSize = 1000;
-                }
-
-                // Check if the database needs to be updated
-                MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(ConfigurationHelper.DatabaseFilePath);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
-            }
-			
-		    try
-            {
-                // Load library
-                Tracing.Log("Main form init -- Loading library...");
-                //frmSplash.SetStatus("Loading library...");                
-                //library = new Library.Library(databaseFilePath);
-				//library.OnUpdateLibraryFinished += HandleLibraryOnUpdateLibraryFinished;
-				//library.OnUpdateLibraryProgress += HandleLibraryOnUpdateLibraryProgress;
-            }
-            catch
-            {
-				throw;
-                // Set error in splash and hide splash
-                //frmSplash.SetStatus("Error initializing library!");
-                //frmSplash.HideSplash();
-
-                // Display message box with error
-                //this.TopMost = true;
-                //MessageBox.Show("There was an error while initializing the library.\nYou can delete the MPfm.Database.db file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Tracing.Log("Main form init -- Library init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
-                
-                // Exit application
-                //Application.Exit();
-                //return;
-            }
 		}
 		
 		/// <summary>

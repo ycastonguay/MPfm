@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using MPfm.Library;
 using MPfm.MVP;
+using Ninject;
 
 namespace MPfm.GTK
 {
@@ -30,27 +31,23 @@ namespace MPfm.GTK
 	/// </summary>
 	public partial class UpdateLibraryWindow : Gtk.Window, IUpdateLibraryView
 	{
-		// Private variables
-		private MainWindow main = null;
+		// Private variables		
 		private IUpdateLibraryPresenter presenter = null;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.GTK.SettingsWindow"/> class.
-		/// </summary>
-		/// <param name='main'>Reference to the main window.</param>
-		public UpdateLibraryWindow (MainWindow main, UpdateLibraryMode mode, List<string> filePaths, string folderPath) : 
+		/// </summary>		
+		public UpdateLibraryWindow (UpdateLibraryMode mode, List<string> filePaths, string folderPath) : 
 				base(Gtk.WindowType.Toplevel)
 		{
-			this.Build ();
-			
-			// Set properties
-			this.main = main;			
+			this.Build ();	
 			
 			// Create presenter			
-			LibraryService libraryService = new LibraryService(main.Gateway);
-			UpdateLibraryService updateLibraryService = new UpdateLibraryService(libraryService);
+			var libraryService = Bootstrapper.GetKernel().Get<LibraryService>();
+			var updateLibraryService = Bootstrapper.GetKernel().Get<UpdateLibraryService>();
 			presenter = new UpdateLibraryPresenter(libraryService, updateLibraryService);
 			presenter.BindView(this);
+			
 			presenter.UpdateLibrary(mode, filePaths, folderPath);
 			
 			textviewErrorLog.GrabFocus();
@@ -63,9 +60,8 @@ namespace MPfm.GTK
 		/// <param name='args'>Event arguments</param>
 		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
 		{			
-			// Close window
-			args.RetVal = false;	
-			this.Destroy();
+			args.RetVal = true;	
+			//this.Destroy();
 		}
 
 		protected void OnActionCancelActivated (object sender, System.EventArgs e)

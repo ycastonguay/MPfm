@@ -40,12 +40,14 @@ namespace MPfm.MVP
 		{			
 			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);
 			
+			Bind<IInitializationService>().To<InitializationService>().InSingletonScope();
 			Bind<ILibraryService>().To<LibraryService>().InSingletonScope();
-			Bind<IAudioFileCacheService>().To<AudioFileCacheService>().InSingletonScope();
+			Bind<IAudioFileCacheService>().To<AudioFileCacheService>().InSingletonScope();			
 			
 			Bind<IPlayerPresenter>().To<PlayerPresenter>().InSingletonScope();
 			Bind<ISongBrowserPresenter>().To<SongBrowserPresenter>();
 			Bind<ILibraryBrowserPresenter>().To<LibraryBrowserPresenter>();
+			Bind<IUpdateLibraryPresenter>().To<UpdateLibraryPresenter>();
 		}		
 	}
 }

@@ -28,7 +28,7 @@ namespace MPfm.Player
     /// <summary>
     /// Interface for the Player class.
     /// </summary>
-    interface IPlayer
+    public interface IPlayer
     {
         int BufferSize { get; set; }
         EQPreset CurrentEQPreset { get; set; }

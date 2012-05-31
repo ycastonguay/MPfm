@@ -27,26 +27,10 @@ namespace MPfm.GTK
 		// Private variables
 		private string currentDirectory = string.Empty;
 		
-		private IPlayerPresenter playerPresenter = null;
-		public IPlayerPresenter PlayerPresenter
-		{
-			get
-			{
-				return playerPresenter;
-			}
-		}
-		
-		private IMPfmGateway gateway = null;
-		public IMPfmGateway Gateway		
-		{
-			get
-			{
-				return gateway;
-			}
-		}
-		
-		private ILibraryBrowserPresenter libraryBrowserPresenter = null;
-		private ISongBrowserPresenter songBrowserPresenter = null;
+		private readonly IPlayerPresenter playerPresenter = null;		
+		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
+		private readonly ISongBrowserPresenter songBrowserPresenter = null;
+		private readonly IInitializationService initializationService = null;
 		
 		private SettingsWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;
@@ -70,13 +54,15 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
 		/// </summary>
-		public MainWindow(IPlayerPresenter playerPresenter, 
+		public MainWindow(IInitializationService initializationService,
+						  IPlayerPresenter playerPresenter, 
 		                  ISongBrowserPresenter songBrowserPresenter,
 		                  ILibraryBrowserPresenter libraryBrowserPresenter): base (Gtk.WindowType.Toplevel)
 		{
 			Build();
 	
 			// Set properties
+			this.initializationService = initializationService;
 			this.playerPresenter = playerPresenter;
 			this.songBrowserPresenter = songBrowserPresenter;
 			this.libraryBrowserPresenter = libraryBrowserPresenter;
@@ -99,6 +85,10 @@ namespace MPfm.GTK
 			Pixbuf stuff = new Pixbuf("icon48.png");
 			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
 			this.imageAlbumCover.Pixbuf = stuff;
+			
+			// Initialize configuration and library
+			initializationService.CreateConfiguration();
+			initializationService.CreateLibrary();
 						
 			// Create song browser columns
 			InitializeSongBrowser();
@@ -138,8 +128,7 @@ namespace MPfm.GTK
 		protected void ExitApplication()
 		{
 			// Dispose controller
-			playerPresenter.Dispose();
-			playerPresenter = null;
+			playerPresenter.Dispose();			
 	
 			// Exit application
 			Application.Quit();
@@ -585,7 +574,7 @@ namespace MPfm.GTK
 				}
 				
 				// Create and display window
-				windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.SpecificFolder, null, dialog.Filename);		
+				windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.SpecificFolder, null, dialog.Filename);		
 				windowUpdateLibrary.ShowAll();	
 			}
 							
@@ -602,8 +591,8 @@ namespace MPfm.GTK
 			}
 			
 			// Create and display window
-			windowUpdateLibrary = new UpdateLibraryWindow(this, UpdateLibraryMode.WholeLibrary, null, null);		
-			windowUpdateLibrary.ShowAll();			
+			windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.WholeLibrary, null, null);		
+			windowUpdateLibrary.ShowAll();
 		}		
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
