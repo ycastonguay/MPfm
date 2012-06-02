@@ -13,6 +13,7 @@ namespace MPfm.Mac
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IPlayerView, ISongBrowserView, ILibraryBrowserView
 	{
+		private readonly IInitializationService initializationService = null;
 		private readonly IPlayerPresenter playerPresenter = null;
 		private readonly ISongBrowserPresenter songBrowserPresenter = null;
 		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
@@ -40,7 +41,8 @@ namespace MPfm.Mac
 		}
 		
 		// Call to load from the XIB/NIB file
-		public MainWindowController(IPlayerPresenter playerPresenter,
+		public MainWindowController(IInitializationService initializationService,
+									IPlayerPresenter playerPresenter,
 		                            ISongBrowserPresenter songBrowserPresenter,
 		                            ILibraryBrowserPresenter libraryBrowserPresenter) : base ("MainWindow")
 		{
@@ -48,6 +50,7 @@ namespace MPfm.Mac
 			this.playerPresenter = playerPresenter;
 			this.songBrowserPresenter = songBrowserPresenter;
 			this.libraryBrowserPresenter = libraryBrowserPresenter;
+			this.initializationService = initializationService;
 
 			// Bind views
 			this.playerPresenter.BindView(this);
@@ -57,7 +60,7 @@ namespace MPfm.Mac
 
 		public override void WindowDidLoad()
 		{
-			base.WindowDidLoad ();			
+			base.WindowDidLoad();			
 		}
 		
 		public override void AwakeFromNib()
@@ -217,6 +220,34 @@ namespace MPfm.Mac
 			updateLibraryWindowController = new UpdateLibraryWindowController();
 			updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
 			updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
+		}
+
+	}
+
+	public class DataTest : NSOutlineViewDataSource
+	{
+		public DataTest()
+		{
+		}
+
+		public override NSObject GetChild(NSOutlineView outlineView, int childIndex, NSObject ofItem)
+		{
+			return new NSString("Test");
+		}
+
+		public override bool ItemExpandable(NSOutlineView outlineView, NSObject item)
+		{
+			return false;
+		}
+
+		public override int GetChildrenCount(NSOutlineView outlineView, NSObject item)
+		{
+			return 10;
+		}
+
+		public override NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn forTableColumn, NSObject byItem)
+		{
+			return new NSString("Test Value");
 		}
 
 	}
