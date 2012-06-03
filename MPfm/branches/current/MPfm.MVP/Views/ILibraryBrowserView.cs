@@ -28,6 +28,8 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface ILibraryBrowserView
 	{
+		void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
+		void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData);
 	}
 }
 

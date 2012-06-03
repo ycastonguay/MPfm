@@ -29,12 +29,18 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface ILibraryBrowserPresenter
 	{
+		AudioFileFormat Filter { get; }
+		
 		void BindView(ILibraryBrowserView view);
 		
-		IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
-		IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format);
-		IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format);
-		IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName);
+		void SetAudioFileFormatFilter(AudioFileFormat format);
+		
+		void TreeNodeExpanded(LibraryBrowserEntity entity, object userData);
+		
+		//IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes();
+		//IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format);
+		//IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format);
+		//IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName);
 		
 		//void SelectItem(SongBrowserFilterEntity entity);
 		//void DoubleClickItem(SongBrowserFilterEntity entity);

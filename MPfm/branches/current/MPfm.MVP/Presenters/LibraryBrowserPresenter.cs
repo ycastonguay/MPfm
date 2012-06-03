@@ -38,6 +38,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
 	{
+		public AudioFileFormat Filter { get; private set; }
 		private ILibraryBrowserView view = null;		
 		private readonly ILibraryService libraryService = null;		
 		private readonly IPlayerPresenter playerPresenter = null;
@@ -58,6 +59,9 @@ namespace MPfm.MVP
 			// Set properties			
 			this.libraryService = libraryService;
 			this.playerPresenter = playerPresenter;
+			
+			// Set default filter
+			Filter = AudioFileFormat.All;
 		}
 
 		#endregion		
@@ -76,6 +80,32 @@ namespace MPfm.MVP
 			
 			// Set property
 			this.view = view;
+			
+			// Refresh view (first level nodes)
+			view.RefreshLibraryBrowser(GetFirstLevelNodes());
+		}
+		
+		public void SetAudioFileFormatFilter(AudioFileFormat format)
+		{
+			// Refresh view (first level nodes)
+			view.RefreshLibraryBrowser(GetFirstLevelNodes());
+		}
+		
+		public void TreeNodeExpanded(LibraryBrowserEntity entity, object userData)
+		{
+			// Check node type
+			if(entity.Type == LibraryBrowserEntityType.Artists)
+			{
+				view.RefreshLibraryBrowserNode(entity, GetArtistNodes(Filter), userData);
+			}
+			else if(entity.Type == LibraryBrowserEntityType.Albums)
+			{
+				view.RefreshLibraryBrowserNode(entity, GetAlbumNodes(Filter), userData);
+			}
+			else if(entity.Type == LibraryBrowserEntityType.Artist)
+			{
+				view.RefreshLibraryBrowserNode(entity, GetArtistAlbumNodes(Filter, entity.Filter.ArtistName), userData);
+			}
 		}
 		
 		/// <summary>
@@ -84,7 +114,7 @@ namespace MPfm.MVP
 		/// <returns>
 		/// First level nodes.
 		/// </returns>
-		public IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes()
+		private IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes()
 		{
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
 			
@@ -109,7 +139,7 @@ namespace MPfm.MVP
 		/// <returns>
 		/// List of artist names.
 		/// </returns>
-		public IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format)
+		private IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format)
 		{
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
 			
@@ -135,7 +165,7 @@ namespace MPfm.MVP
 		/// </summary>
 		/// <param name='format'>Audio file format</param>		
 		/// <returns>List of album titles</returns>		
-		public IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format)
+		private IEnumerable<LibraryBrowserEntity> GetAlbumNodes(AudioFileFormat format)
 		{
 			return GetArtistAlbumNodes(format, string.Empty);	
 		}
@@ -146,7 +176,7 @@ namespace MPfm.MVP
 		/// <param name='format'>Audio file format</param>
 		/// <param name='artistName'>Artist name</param>
 		/// <returns>List of album titles</returns>		
-		public IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName)
+		private IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName)
 		{
 			// Declare variables
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
