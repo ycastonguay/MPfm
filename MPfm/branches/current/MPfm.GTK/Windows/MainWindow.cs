@@ -8,6 +8,8 @@ using System.Timers;
 using Gtk;
 using Gdk;
 using Pango;
+using Mono.Posix;
+using Mono.Unix;
 using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
@@ -16,6 +18,7 @@ using MPfm.Sound.BassNetWrapper;
 using MPfm.MVP;
 using Ninject;
 using Ninject.Parameters;
+using System.Drawing.Imaging;
 
 namespace MPfm.GTK
 {
@@ -75,11 +78,6 @@ namespace MPfm.GTK
 			
 			// Set font properties
 			SetFontProperties();
-					
-			// Set temporary album cover
-			Pixbuf stuff = new Pixbuf("icon48.png");
-			stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
-			this.imageAlbumCover.Pixbuf = stuff;
 			
 			// Initialize configuration and library
 			initializationService.CreateConfiguration();
@@ -210,8 +208,78 @@ namespace MPfm.GTK
 			lblCurrentBitrate.Text = entity.BitrateString;
 			lblCurrentSampleRate.Text = entity.SampleRateString;
 			lblCurrentBitsPerSample.Text = entity.BitsPerSampleString;
+						
+			//Pixbuf stuff = new Pixbuf("icon48.png");
+			//stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
+			//this.imageAlbumCover.Pixbuf = stuff;
 			
-			//hscaleSongPosition.Adjustment.Upper = audioFile			
+			System.Drawing.Image drawingImage = AudioFile.ExtractImageForAudioFile(entity.FilePath);			
+			
+			if(drawingImage != null)
+			{
+				// Resize image
+				drawingImage = MPfm.Core.ImageManipulation.ResizeImage(drawingImage, 150, 150);
+				
+				// Set album cover
+				imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);
+			}
+			else
+			{
+				// Get Unix-style directory information (i.e. case sensitive file names)
+				if(!String.IsNullOrEmpty(entity.FilePath))
+				{
+					try
+					{
+						bool imageFound = false;
+						string folderPath = System.IO.Path.GetDirectoryName(entity.FilePath);
+						UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
+						
+						// For each directory, search for new directories
+						UnixFileSystemInfo[] infos = rootDirectoryInfo.GetFileSystemEntries();
+		            	foreach (UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
+		            	{
+							// Check if the file matches
+							string fileName = fileInfo.Name.ToUpper();
+							if((fileName.EndsWith(".JPG") ||
+							    fileName.EndsWith(".JPEG") ||
+							    fileName.EndsWith(".PNG") ||
+							    fileName.EndsWith(".GIF")) &&
+							   (fileName.StartsWith("FOLDER") ||
+							 	fileName.StartsWith("COVER")))
+							{
+								// Get image from file
+								imageFound = true;
+								Pixbuf imageCover = new Pixbuf(fileInfo.FullName);
+								imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
+								this.imageAlbumCover.Pixbuf = imageCover;
+							}
+						}
+						
+						// Set empty image if not cover not found
+						if(!imageFound)
+						{
+							this.imageAlbumCover.Pixbuf = null;
+						}
+					}
+					catch
+					{
+						this.imageAlbumCover.Pixbuf = null;
+					}
+				}
+				else
+				{
+					// Set empty album cover
+					imageAlbumCover.Pixbuf = null;
+				}
+			}
+			
+			// Check if image cover is still empty
+			if(imageAlbumCover.Pixbuf == null)
+			{				
+				Pixbuf imageCover = new Pixbuf("black.png");
+				imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
+				this.imageAlbumCover.Pixbuf = imageCover;
+			}			
 		}
 		
 		#region Song Browser Methods
@@ -600,7 +668,7 @@ namespace MPfm.GTK
 		
 		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
-			playerPresenter.Pause();
+			playerPresenter.Pause();			
 		}
 		
 		protected void OnActionStopActivated(object sender, System.EventArgs e)
@@ -810,6 +878,15 @@ namespace MPfm.GTK
 		}
 		
 		#endregion
-				
+	
+		private static Gdk.Pixbuf ImageToPixbuf(System.Drawing.Image image)
+		{
+			using (MemoryStream stream = new MemoryStream()) {
+				image.Save(stream, ImageFormat.Bmp);
+				stream.Position = 0;
+				Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream);
+				return pixbuf;
+			}
+		}
 	}
 }

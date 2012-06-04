@@ -27,6 +27,10 @@ using System.IO;
 using System.Text;
 using MPfm.Core;
 using Un4seen.Bass.AddOn.Tags;
+#if (MACOSX || LINUX)
+using Mono.Unix;
+using Mono.Unix.Native;
+#endif
 
 namespace MPfm.Sound
 {
@@ -691,23 +695,23 @@ namespace MPfm.Sound
 
                 try
                 {
-                    // Check if there's a Xing header
-                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(filePath, firstBlockPosition);
-
-                    // Check if the read was successful
-                    if (xingHeader.Status == XingInfoHeaderStatus.Successful)
-                    {
-                        // Set property value
-                        //m_xingInfoHeader = xingHeader;
-                        mp3EncoderDelay = xingHeader.EncoderDelay;
-                        mp3EncoderPadding = xingHeader.EncoderPadding;
-                        mp3EncoderVersion = xingHeader.EncoderVersion;
-                        mp3HeaderType = xingHeader.HeaderType;
-                    }
+//                    // Check if there's a Xing header
+//                    XingInfoHeaderData xingHeader = XingInfoHeaderReader.ReadXingInfoHeader(filePath, firstBlockPosition);
+//
+//                    // Check if the read was successful
+//                    if (xingHeader.Status == XingInfoHeaderStatus.Successful)
+//                    {
+//                        // Set property value
+//                        //m_xingInfoHeader = xingHeader;
+//                        mp3EncoderDelay = xingHeader.EncoderDelay;
+//                        mp3EncoderPadding = xingHeader.EncoderPadding;
+//                        mp3EncoderVersion = xingHeader.EncoderVersion;
+//                        mp3HeaderType = xingHeader.HeaderType;
+//                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Do nothing; this information is not vital
+                    throw ex;
                 }
 			}
             else if (fileType == AudioFileFormat.FLAC)
@@ -1386,7 +1390,6 @@ namespace MPfm.Sound
                 // Get tags using TagLib
                 using (TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath))
                 {
-
                     // Can we get the image from the ID3 tags?
                     if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
                     {
@@ -1402,6 +1405,8 @@ namespace MPfm.Sound
             {
                 // Check in the same folder for an image representing the album cover
                 string folderPath = Path.GetDirectoryName(filePath);
+				
+#if (!MACOSX && !LINUX)
 
                 // Get the directory information
                 DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);
@@ -1427,9 +1432,12 @@ namespace MPfm.Sound
                     {
                         Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
                     }
-                }
-            }
-
+                }	
+			
+#endif
+				
+			}
+				
             return imageCover;
         }
 	}
