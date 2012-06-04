@@ -104,6 +104,7 @@ namespace MPfm.MVP
 		public void AudioFileFormatFilterChanged(AudioFileFormat format)
 		{
 			// Refresh view (first level nodes)
+			this.Filter = format;
 			view.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
 		

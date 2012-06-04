@@ -220,8 +220,9 @@ namespace MPfm.MVP
 				// Stop player
 				player.Stop();
 				
-				// Refresh song information
-				RefreshSongInformation(null);
+				// Refresh view with empty information
+				view.RefreshSongInformation(new SongInformationEntity());
+				//view.RefreshPlayerPosition(new PlayerPositionEntity());				
 			}
 		}
 		
@@ -276,7 +277,7 @@ namespace MPfm.MVP
 		/// Audio file.
 		/// </param>
 		private void RefreshSongInformation(AudioFile audioFile)
-		{
+		{			
 			// Map entity
 			SongInformationEntity entity = Mapper.Map<AudioFile, SongInformationEntity>(audioFile);
 			if(audioFile != null)
