@@ -42,7 +42,7 @@ namespace MPfm.MVP
 	/// <summary>
 	///	Service used for updating the library with new audio files using a background worker.
 	/// </summary>
-	public class UpdateLibraryService : IDisposable, IUpdateLibraryService
+	public class UpdateLibraryService : IUpdateLibraryService
 	{
 		// Private variables
 		private ILibraryService libraryService = null;		
@@ -125,19 +125,32 @@ namespace MPfm.MVP
 		#endregion
 		
 		#region IUpdateLibraryPresenter implementation
-			
+		
+		/// <summary>
+		/// Cancels the update library process.
+		/// </summary>
 		public void Cancel()
 		{			
 			// Cancel process
 			cancelUpdateLibrary = true;
 		}
-	
+
+		/// <summary>
+		/// Saves the update library process log to the specified file path.
+		/// </summary>
+		/// <param name='filePath'>Log file path</param>
 		public void SaveLog(string filePath)
 		{			
 		}
 			
 		#endregion
 		
+		/// <summary>
+		/// Starts the update library process in a background thread.		
+		/// </summary>
+		/// <param name='mode'>Update library mode</param>
+		/// <param name='filePaths'>Audio file paths to add to the database</param>
+		/// <param name='folderPath'>Folder path to add to the database</param>
 		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
 		{					
             // Create argument
@@ -165,6 +178,11 @@ namespace MPfm.MVP
             workerUpdateLibrary.RunWorkerAsync(arg);
 		}		
 		
+		/// <summary>
+		/// Occurs when the update library process background worker needs to do its job.
+		/// </summary>
+		/// <param name='sender'>Object sender</param>
+		/// <param name='e'>Event arguments</param>
         protected void workerUpdateLibrary_DoWork(object sender, DoWorkEventArgs e)
         {
 			// Declare variables

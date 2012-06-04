@@ -38,11 +38,12 @@ namespace MPfm.MVP
 	/// </summary>
 	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
 	{
-		public AudioFileFormat Filter { get; private set; }
 		private ILibraryBrowserView view = null;		
 		private readonly ILibraryService libraryService = null;		
 		private readonly IPlayerPresenter playerPresenter = null;
 		private readonly ISongBrowserPresenter songBrowserPresenter = null;
+		
+		public AudioFileFormat Filter { get; private set; }
 		
 		#region Constructor and Dispose
 
@@ -89,17 +90,31 @@ namespace MPfm.MVP
 			view.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
 		
+		/// <summary>
+		/// Sets the audio file format filter.
+		/// </summary>
+		/// <param name='format'>Audio file format</param>
 		public void SetAudioFileFormatFilter(AudioFileFormat format)
 		{
 			// Refresh view (first level nodes)
 			view.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
 		
+		/// <summary>
+		/// Call this method when a tree node has been selected to update the Song Browser.
+		/// </summary>
+		/// <param name='entity'>Library Browser entity</param>
 		public void TreeNodeSelected(LibraryBrowserEntity entity)
 		{
 			songBrowserPresenter.ChangeQuery(entity.Query);			
 		}
 		
+		/// <summary>
+		/// Call this method when the tree node has expanded to fetch the additional tree nodes to add to the tree.
+		/// The view is updated when the data has been extracted from the database.
+		/// </summary>
+		/// <param name='entity'>Library Browser entity</param>
+		/// <param name='userData'>User data (i.e. tree node object)</param>
 		public void TreeNodeExpanded(LibraryBrowserEntity entity, object userData)
 		{
 			// Check node type
@@ -116,6 +131,10 @@ namespace MPfm.MVP
 				view.RefreshLibraryBrowserNode(entity, GetArtistAlbumNodes(Filter, entity.Query.ArtistName), userData);
 			}
 		}
+		
+		#endregion
+		
+		#region Data Methods
 		
 		/// <summary>
 		/// Returns the first level nodes of the library browser.
@@ -222,11 +241,6 @@ namespace MPfm.MVP
 			
 			return list;
 		}
-		
-//		public void DoubleClickItem(SongBrowserFilterEntity entity)
-//		{
-//			playerPresenter.Play();
-//		}
 		
 		#endregion
 	}

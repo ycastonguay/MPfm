@@ -41,9 +41,8 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Update Library window presenter.
 	/// </summary>
-	public class UpdateLibraryPresenter : IDisposable, IUpdateLibraryPresenter
-	{
-		// Private variables
+	public class UpdateLibraryPresenter : IUpdateLibraryPresenter
+	{		
 		private IUpdateLibraryView view = null;
 		private ILibraryService libraryService = null;		
 		private IUpdateLibraryService updateLibraryService = null;
@@ -90,19 +89,6 @@ namespace MPfm.MVP
             view.ProcessEnded(e.Canceled);   
         }
 
-		/// <summary>
-		/// Releases all resources used by the <see cref="MPfm.UI.UpdateLibraryPresenter"/> object.
-		/// </summary>
-		/// <remarks>
-		/// Call <see cref="Dispose"/> when you are finished using the <see cref="MPfm.UI.UpdateLibraryPresenter"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="MPfm.UI.UpdateLibraryPresenter"/> in an unusable state. After
-		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="MPfm.UI.UpdateLibraryPresenter"/>
-		/// so the garbage collector can reclaim the memory that the <see cref="MPfm.UI.UpdateLibraryPresenter"/> was occupying.
-		/// </remarks>
-		public void Dispose()
-		{
-		}
-
 		#endregion
 		
 		#region IUpdateLibraryPresenter implementation
@@ -121,16 +107,30 @@ namespace MPfm.MVP
 			this.view = view;
 		}
 		
+		/// <summary>
+		/// Starts the update library process in a background thread. 
+		/// The Update Library view will be updated during progress.
+		/// </summary>
+		/// <param name='mode'>Update library mode</param>
+		/// <param name='filePaths'>Audio file paths to add to the database</param>
+		/// <param name='folderPath'>Folder path to add to the database</param>
 		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
 		{
 			updateLibraryService.UpdateLibrary(mode, filePaths, folderPath);
 		}
 		
+		/// <summary>
+		/// Cancels the update library process.
+		/// </summary>
 		public void Cancel()
 		{	
 			updateLibraryService.Cancel();
 		}
-	
+
+		/// <summary>
+		/// Saves the update library process log to the specified file path.
+		/// </summary>
+		/// <param name='filePath'>Log file path</param>
 		public void SaveLog(string filePath)
 		{			
 			updateLibraryService.SaveLog(filePath);

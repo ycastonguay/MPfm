@@ -34,7 +34,8 @@ namespace MPfm.MVP
 	{
         event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;
         event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
-
+		
+		void Dispose();
 		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
 		void Cancel();
 		void SaveLog(string filePath);		

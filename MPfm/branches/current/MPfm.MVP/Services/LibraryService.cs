@@ -82,21 +82,28 @@ namespace MPfm.MVP
 			return gateway.SelectFilePaths();
 		}
 		
+		/// <summary>
+		/// Selects all audio file metadata from the database.
+		/// </summary>
+		/// <returns>List of audio files</returns>
 		public IEnumerable<AudioFile> SelectAudioFiles()
 		{
 			return gateway.SelectAudioFiles();			
 		}
 		
+		/// <summary>
+		/// Selects audio file metadata from the database by creating a query based on the method parameters.
+		/// </summary>		
+		/// <param name='format'>Audio file format</param>
+		/// <param name='artistName'>Artist name</param>
+		/// <param name='albumTitle'>Album title</param>
+		/// <param name='search'>Search terms</param>
+		/// <returns>List of audio files</returns>
 		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
 		{
 			return gateway.SelectAudioFiles(format, artistName, albumTitle, search);			
 		}
-		
-		
-		
-		
-		
-		
+				
 		/// <summary>
 		/// Inserts an audio file into the database.
 		/// </summary>

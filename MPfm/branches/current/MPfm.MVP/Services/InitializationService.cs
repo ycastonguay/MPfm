@@ -129,26 +129,10 @@ namespace MPfm.MVP
             {
                 // Load library
                 Tracing.Log("Main form init -- Loading library...");
-                //frmSplash.SetStatus("Loading library...");                
-                //library = new Library.Library(databaseFilePath);
-				//library.OnUpdateLibraryFinished += HandleLibraryOnUpdateLibraryFinished;
-				//library.OnUpdateLibraryProgress += HandleLibraryOnUpdateLibraryProgress;
             }
             catch
             {
 				throw;
-                // Set error in splash and hide splash
-                //frmSplash.SetStatus("Error initializing library!");
-                //frmSplash.HideSplash();
-
-                // Display message box with error
-                //this.TopMost = true;
-                //MessageBox.Show("There was an error while initializing the library.\nYou can delete the MPfm.Database.db file in the MPfm application data folder (" + applicationDataFolderPath + ") to reset the library.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error initializing library!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Tracing.Log("Main form init -- Library init error: " + ex.Message + "\nStack trace: " + ex.StackTrace);
-                
-                // Exit application
-                //Application.Exit();
-                //return;
             }
 		}
 

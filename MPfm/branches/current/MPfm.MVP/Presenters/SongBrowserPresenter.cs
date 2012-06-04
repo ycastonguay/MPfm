@@ -87,6 +87,10 @@ namespace MPfm.MVP
 			this.view = view;
 		}
 		
+		/// <summary>
+		/// Changes the Song Browser query and updates the Song Browser view.
+		/// </summary>
+		/// <param name='query'>New query</param>
 		public void ChangeQuery(SongBrowserQueryEntity query)
 		{
 			// Set query
