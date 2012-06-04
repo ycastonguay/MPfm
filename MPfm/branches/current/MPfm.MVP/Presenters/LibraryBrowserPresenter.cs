@@ -42,23 +42,27 @@ namespace MPfm.MVP
 		private ILibraryBrowserView view = null;		
 		private readonly ILibraryService libraryService = null;		
 		private readonly IPlayerPresenter playerPresenter = null;
+		private readonly ISongBrowserPresenter songBrowserPresenter = null;
 		
 		#region Constructor and Dispose
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.LibraryBrowserPresenter"/> class.
+		/// Initializes a new instance of the <see cref="MPfm.MVP.LibraryBrowserPresenter"/> class.
 		/// </summary>
-		public LibraryBrowserPresenter(IPlayerPresenter playerPresenter, ILibraryService libraryService)
+		public LibraryBrowserPresenter(IPlayerPresenter playerPresenter, ISongBrowserPresenter songBrowserPresenter, ILibraryService libraryService)
 		{
 			// Validate parameters
 			if(playerPresenter == null)			
-				throw new ArgumentNullException("The playerPresenter parameter is null!");		
+				throw new ArgumentNullException("The playerPresenter parameter is null!");
+			if(songBrowserPresenter == null)			
+				throw new ArgumentNullException("The songBrowserPresenter parameter is null!");
 			if(libraryService == null)			
 				throw new ArgumentNullException("The libraryService parameter is null!");
 						
 			// Set properties			
 			this.libraryService = libraryService;
 			this.playerPresenter = playerPresenter;
+			this.songBrowserPresenter = songBrowserPresenter;
 			
 			// Set default filter
 			Filter = AudioFileFormat.All;
@@ -91,6 +95,11 @@ namespace MPfm.MVP
 			view.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
 		
+		public void TreeNodeSelected(LibraryBrowserEntity entity)
+		{
+			songBrowserPresenter.ChangeQuery(entity.Query);			
+		}
+		
 		public void TreeNodeExpanded(LibraryBrowserEntity entity, object userData)
 		{
 			// Check node type
@@ -104,7 +113,7 @@ namespace MPfm.MVP
 			}
 			else if(entity.Type == LibraryBrowserEntityType.Artist)
 			{
-				view.RefreshLibraryBrowserNode(entity, GetArtistAlbumNodes(Filter, entity.Filter.ArtistName), userData);
+				view.RefreshLibraryBrowserNode(entity, GetArtistAlbumNodes(Filter, entity.Query.ArtistName), userData);
 			}
 		}
 		
@@ -149,7 +158,7 @@ namespace MPfm.MVP
 				list.Add(new LibraryBrowserEntity(){
 					Title = artist,
 					Type = LibraryBrowserEntityType.Artist,
-					Filter = new SongBrowserFilterEntity(){
+					Query = new SongBrowserQueryEntity(){
 						Format = format,
 						ArtistName = artist
 					},
@@ -203,7 +212,7 @@ namespace MPfm.MVP
 				list.Add(new LibraryBrowserEntity(){
 					Title = album,
 					Type = LibraryBrowserEntityType.Album,
-					Filter = new SongBrowserFilterEntity(){
+					Query = new SongBrowserQueryEntity(){
 						Format = format,
 						ArtistName = artistName,
 						AlbumTitle = album						

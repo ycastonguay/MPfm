@@ -41,7 +41,7 @@ namespace MPfm.MVP
 	public class AudioFileCacheService : IAudioFileCacheService
 	{
 		private readonly ISongBrowserView view = null;
-		private readonly ILibraryService service = null;
+		private readonly ILibraryService libraryService = null;
 		
 		private List<AudioFile> audioFiles = null;
 		public List<AudioFile> AudioFiles
@@ -57,98 +57,43 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.MVP.AudioFileCacheService"/> class.
 		/// </summary>
-		public AudioFileCacheService(ILibraryService service)
+		public AudioFileCacheService(ILibraryService libraryService)
 		{
-			if(service == null)			
-				throw new ArgumentNullException("The service parameter is null!");
+			if(libraryService == null)			
+				throw new ArgumentNullException("The libraryService parameter is null!");
 						
 			// Set properties
-			this.service = service;
+			this.libraryService = libraryService;
 			
-			// Load cache
-			audioFiles = service.SelectAudioFiles().ToList();
+			// Refresh cache
+			RefreshCache();
 		}
 
 		#endregion		
 		
-		#region ISongBrowserPresenter implementation
+		#region IAudioFileCacheService implementation
 		
-        /// <summary>
-        /// Selects all the audio files from the cache.
-        /// </summary>
-        /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles()
-        {
-            return SelectAudioFiles(AudioFileFormat.All, string.Empty, true, string.Empty, string.Empty, string.Empty);
-        }
-
-        /// <summary>
+		/// <summary>
+		/// Refreshes the audio file metadata cache.
+		/// </summary>
+		public void RefreshCache()
+		{
+			audioFiles = libraryService.SelectAudioFiles().ToList();
+		}
+        
+		/// <summary>
         /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter</param>
+        /// <param name="query">Song browser query</param>
         /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat)
-        {
-            return SelectAudioFiles(audioFileFormat, string.Empty, true, string.Empty, string.Empty, string.Empty);
-        }
-
-        /// <summary>
-        /// Selects audio files from the song cache, filtered by different parameters.
-        /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="orderBy">Order by field name</param>
-        /// <param name="orderByAscending">Order by (ascending) field name</param>
-        /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending)
-        {
-            return SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, string.Empty, string.Empty, string.Empty);
-        }
-
-        /// <summary>
-        /// Selects audio files from the song cache, filtered by different parameters.
-        /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="orderBy">Order by field name</param>
-        /// <param name="orderByAscending">Order by (ascending) field name</param>
-        /// <param name="artistName">Artist name</param>
-        /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName)
-        {
-            return SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, string.Empty, string.Empty);
-        }
-
-        /// <summary>
-        /// Selects audio files from the song cache, filtered by different parameters.
-        /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="orderBy">Order by field name</param>
-        /// <param name="orderByAscending">Order by (ascending) field name</param>
-        /// <param name="artistName">Artist name</param>
-        /// <param name="albumTitle">Album title</param>        
-        /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle)
-        {
-            return SelectAudioFiles(audioFileFormat, orderBy, orderByAscending, artistName, albumTitle, string.Empty);
-        }
-
-        /// <summary>
-        /// Selects audio files from the song cache, filtered by different parameters.
-        /// </summary>
-        /// <param name="audioFileFormat">Audio file format filter</param>
-        /// <param name="orderBy">Order by field name</param>
-        /// <param name="orderByAscending">Order by (ascending) field name</param>
-        /// <param name="artistName">Artist name</param>
-        /// <param name="albumTitle">Album title</param>
-        /// <param name="searchTerms">Search terms</param>
-        /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms)
+        public IEnumerable<AudioFile> SelectAudioFiles(SongBrowserQueryEntity query)
         {
             try
             {
                 IEnumerable<AudioFile> queryAudioFiles = null;
 
                 // Check for default order by (ignore ascending)
-                if (String.IsNullOrEmpty(orderBy))
+                if (String.IsNullOrEmpty(query.OrderBy))
                 {
                     // Set query
                     queryAudioFiles = from s in audioFiles
@@ -158,41 +103,41 @@ namespace MPfm.MVP
                 else
                 {
                     // Check for orderby ascending/descending
-                    if (orderByAscending)
+                    if (query.OrderByAscending)
                     {
                         // Set query
                         queryAudioFiles = from s in audioFiles
-                                          orderby GetPropertyValue(s, orderBy)
+                                          orderby GetPropertyValue(s, query.OrderBy)
                                           select s;
                     }
                     else
                     {
                         // Set query
                         queryAudioFiles = from s in audioFiles
-                                          orderby GetPropertyValue(s, orderBy) descending
+                                          orderby GetPropertyValue(s, query.OrderBy) descending
                                           select s;                        
                     }
                 }
 
                 // Check if artistName is null
-                if (!String.IsNullOrEmpty(artistName))
+                if (!String.IsNullOrEmpty(query.ArtistName))
                 {
                     // Add the artist condition to the query
-                    queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName == artistName);                    
+                    queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName == query.ArtistName);                    
                 }
 
                 // Check if albumTitle is null
-                if (!String.IsNullOrEmpty(albumTitle))
+                if (!String.IsNullOrEmpty(query.AlbumTitle))
                 {
                     // Add the artist condition to the query
-                    queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == albumTitle);                    
+                    queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == query.AlbumTitle);                    
                 }
 
                 // Check if searchTerms is null
-                if (!String.IsNullOrEmpty(searchTerms))
+                if (!String.IsNullOrEmpty(query.SearchTerms))
                 {
                     // Split search terms
-                    string[] searchTermsSplit = searchTerms.Split(new string[] { " " }, StringSplitOptions.None);
+                    string[] searchTermsSplit = query.SearchTerms.Split(new string[] { " " }, StringSplitOptions.None);
                     
                     // Loop through search terms
                     foreach (string searchTerm in searchTermsSplit)
@@ -205,14 +150,14 @@ namespace MPfm.MVP
                 }
 
                 // Check for audio file format filter
-                if (audioFileFormat == AudioFileFormat.All)
+                if (query.Format == AudioFileFormat.All)
                 {
                     // 
                 }
                 else
                 {
                     // Set filter by file type
-                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == audioFileFormat);
+                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == query.Format);
                 }
 
                 //// Check for default order by

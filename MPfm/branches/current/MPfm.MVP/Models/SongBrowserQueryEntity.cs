@@ -1,5 +1,5 @@
-//
-// ISongBrowserPresenter.cs: Song browser presenter interface.
+﻿//
+// SongBrowserQueryEntity.cs: Data structure representing a song browser query.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,19 +20,29 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Song browser presenter interface.
+	/// Data structure representing a song browser query.
 	/// </summary>
-	public interface ISongBrowserPresenter
-	{	
-		SongBrowserQueryEntity Query { get; }
+	public class SongBrowserQueryEntity
+	{
+		public AudioFileFormat Format { get; set; }
+		public string OrderBy { get; set; }
+		public bool OrderByAscending { get; set; }
+		public string ArtistName { get; set ; }
+		public string AlbumTitle { get; set ; }
+		public string SearchTerms { get; set ; }
 		
-		void BindView(ISongBrowserView view);
-		void ChangeQuery(SongBrowserQueryEntity query);
+		public SongBrowserQueryEntity()
+		{
+			Format = AudioFileFormat.All;
+			OrderByAscending = true;
+		}
 	}
 }
 

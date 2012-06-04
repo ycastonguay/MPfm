@@ -72,7 +72,6 @@
     <Compile Include="Presenters\PlayerPresenter.cs" />
     <Compile Include="Views\IPlayerView.cs" />
     <Compile Include="Models\LibraryBrowserEntity.cs" />
-    <Compile Include="Models\SongBrowserFilterEntity.cs" />
     <Compile Include="Views\ILibraryBrowserView.cs" />
     <Compile Include="Presenters\LibraryBrowserPresenter.cs" />
     <Compile Include="Helpers\ConfigurationHelper.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
     <Compile Include="Services\InitializationService.cs" />
     <Compile Include="Services\Interfaces\IInitializationService.cs" />
+    <Compile Include="Models\SongBrowserQueryEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

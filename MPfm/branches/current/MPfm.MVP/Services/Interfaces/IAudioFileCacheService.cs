@@ -39,15 +39,9 @@ namespace MPfm.MVP
 	/// Interface for the AudioFileCacheService class.
 	/// </summary>
 	public interface IAudioFileCacheService
-	{		
-		//IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
-		IEnumerable<AudioFile> SelectAudioFiles();
-        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat);
-        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending);
-        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName);
-        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle);
-        IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat audioFileFormat, string orderBy, bool orderByAscending, string artistName, string albumTitle, string searchTerms);
-        
+	{
+		void RefreshCache();
+		IEnumerable<AudioFile> SelectAudioFiles(SongBrowserQueryEntity query);    
 	}
 }
 

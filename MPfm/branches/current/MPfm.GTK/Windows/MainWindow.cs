@@ -88,23 +88,18 @@ namespace MPfm.GTK
 			// Initialize browsers
 			InitializeSongBrowser();
 			InitializeLibraryBrowser();
-			
+
 			// Bind views
 			this.playerPresenter.BindView(this);
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
-						
-			// Create song browser columns
-			
-			RefreshSongBrowser(new List<AudioFile>());
-			
-			// Create and refresh library browser
-			
-			//RefreshLibraryBrowser();
+
+			// Force refresh song browser to create columns
+			RefreshSongBrowser(new List<AudioFile>());		
 	
 			// Refresh other stuff
 			RefreshRepeatButton();
-			RefreshSongInformation(new SongInformationEntity());		
+			RefreshSongInformation(new SongInformationEntity());			
 			
 			// Fill sound format combo box
 			storeAudioFileFormat = new ListStore(typeof(string));			
@@ -282,7 +277,7 @@ namespace MPfm.GTK
 		/// Refreshes the song browser.
 		/// </summary>
 		/// <param name='audioFiles'>List of audio files to display in the Song Browser.</param>
-		protected void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
+		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
 		{					
 			// Add audio files
 			storeSongBrowser.Clear();
@@ -464,7 +459,7 @@ namespace MPfm.GTK
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
 		
-		public AudioFileFormat GetCurrentAudioFileFormatFilter()
+		private AudioFileFormat GetCurrentAudioFileFormatFilter()
 		{
 			// Get current audio file format
 			Gtk.TreeIter iter;
@@ -743,12 +738,10 @@ namespace MPfm.GTK
 	
 			//int test = (int)args.Args[1];
 			//controller.Player.SetPosition(args.RetVal);
-
 		}
 
 		protected void OnSoundFormatChanged(object sender, System.EventArgs e)
-		{
-			// Set filter
+		{			
 			libraryBrowserPresenter.SetAudioFileFormatFilter(GetCurrentAudioFileFormatFilter());
 		}
 		
@@ -774,14 +767,10 @@ namespace MPfm.GTK
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity
-				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);				
-				
-				// Get audio files from database
-				IEnumerable<AudioFile> audioFiles = songBrowserPresenter.SelectAudioFiles(entity.Filter.Format, string.Empty, true, entity.Filter.ArtistName, entity.Filter.AlbumTitle, string.Empty);
-				
-				// Refresh song browser
-				RefreshSongBrowser(audioFiles);
+				// Get entity and change query 
+				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
+				libraryBrowserPresenter.TreeNodeSelected(entity);
+				//songBrowserPresenter.ChangeQuery(entity.Query);
 			}
 		}
 		

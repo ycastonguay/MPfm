@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Sound;
 
 namespace MPfm.MVP
 {
@@ -28,6 +29,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface ISongBrowserView
 	{
+		void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles);
 	}
 }
 

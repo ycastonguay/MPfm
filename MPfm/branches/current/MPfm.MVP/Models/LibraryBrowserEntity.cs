@@ -41,7 +41,7 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Item filter.
 		/// </summary>
-		public SongBrowserFilterEntity Filter { get; set; }
+		public SongBrowserQueryEntity Query { get; set; }
 		/// <summary>
 		/// Sub items (to create a tree view hierarchy).
 		/// </summary>
@@ -49,7 +49,7 @@ namespace MPfm.MVP
 		
 		public LibraryBrowserEntity()
 		{
-			Filter = new SongBrowserFilterEntity();
+			Query = new SongBrowserQueryEntity();
 		}
 	}
 	
