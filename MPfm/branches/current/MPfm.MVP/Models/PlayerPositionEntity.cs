@@ -41,6 +41,10 @@ namespace MPfm.MVP
         /// Player current position (in milliseconds).
         /// </summary>
         public long PositionMS { get; set; }
+		/// <summary>
+		/// Player current position (in percentage).
+		/// </summary>
+		public float PositionPercentage { get; set; }		
         /// <summary>
         /// Player current position (in time string, such as 00:00.000).
         /// </summary>

@@ -129,6 +129,7 @@ namespace MPfm.MVP
     		entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
     		entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
     		entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+			entity.PositionPercentage = ((float)player.GetPosition() / (float)player.Playlist.CurrentItem.LengthBytes) * 100;
 			
 			// Send changes to view
 			view.RefreshPlayerPosition(entity);
@@ -184,6 +185,22 @@ namespace MPfm.MVP
 			// Replace playlist
 			player.Playlist.Clear();
 			player.Playlist.AddItems(filePaths.ToList());
+			
+			// Start playback
+			Play();
+		}
+		
+		/// <summary>
+		/// Starts the playback of a new playlist at a specific position.
+		/// </summary>
+		/// <param name='audioFiles'>List of audio files</param>
+		/// <param name='startAudioFilePath'>File path of the first playlist item to play</param>
+		public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
+		{
+			// Replace playlist
+			player.Playlist.Clear();
+			player.Playlist.AddItems(audioFiles.ToList());
+			player.Playlist.GoTo(startAudioFilePath);
 			
 			// Start playback
 			Play();
@@ -262,6 +279,14 @@ namespace MPfm.MVP
 		{
 			// Map entity
 			SongInformationEntity entity = Mapper.Map<AudioFile, SongInformationEntity>(audioFile);
+			if(audioFile != null)
+			{
+				entity.BitsPerSampleString = entity.BitsPerSample.ToString() + " bits";
+				entity.SampleRateString = entity.SampleRate.ToString() + " Hz";
+				entity.BitrateString = entity.Bitrate.ToString() + " kbps";
+				if(entity.FileType != AudioFileFormat.All)					
+					entity.FileTypeString = entity.FileType.ToString();								
+			}			
 			
 			// Update view
 			view.RefreshSongInformation(entity);

@@ -101,6 +101,16 @@ namespace MPfm.MVP
 			view.RefreshSongBrowser(audioFiles);
 		}
 		
+		/// <summary>
+		/// Call this method when the table row has been double clicked.
+		/// This will start a new playlist in the Player presenter.
+		/// </summary>
+		/// <param name='audioFile'>Audio file</param>
+		public void TableRowDoubleClicked(AudioFile audioFile)
+		{			
+			playerPresenter.Play(audioFileCacheService.SelectAudioFiles(Query), audioFile.FilePath);
+		}
+		
 		#endregion
 
 	}

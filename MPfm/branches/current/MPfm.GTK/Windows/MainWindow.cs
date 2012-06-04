@@ -179,6 +179,7 @@ namespace MPfm.GTK
 			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 		}
 				
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -190,7 +191,7 @@ namespace MPfm.GTK
 				// Check if the user is currently changing the position
 				if(!isSongPositionChanging)
 				{
-					hscaleSongPosition.Value = entity.PositionBytes;
+					hscaleSongPosition.Value = (double)(entity.PositionPercentage * 100);
 				}
 			});
 		}
@@ -201,9 +202,15 @@ namespace MPfm.GTK
 	        lblArtistName.Text = entity.ArtistName;
 	        lblAlbumTitle.Text = entity.AlbumTitle;
 	        lblSongTitle.Text = entity.Title;
-	        lblSongFilePath.Text = entity.FilePath;
-	        lblCurrentLength.Text = entity.Length;
+	        lblSongFilePath.Text = entity.FilePath;	        
 			lblCurrentPosition.Text = entity.Position;
+			lblCurrentLength.Text = entity.Length;
+						
+			lblCurrentFileType.Text = entity.FileTypeString;
+			lblCurrentBitrate.Text = entity.BitrateString;
+			lblCurrentSampleRate.Text = entity.SampleRateString;
+			lblCurrentBitsPerSample.Text = entity.BitsPerSampleString;
+			
 			//hscaleSongPosition.Adjustment.Upper = audioFile			
 		}
 		
@@ -327,9 +334,6 @@ namespace MPfm.GTK
 			// Hide header
 			treeLibraryBrowser.HeadersVisible = false;
 
-			// Set events
-			treeLibraryBrowser.RowExpanded += HandleTreeLibraryBrowserRowExpanded;
-			
 			// Create title column
 			Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
 			Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();	
@@ -361,25 +365,6 @@ namespace MPfm.GTK
 					CreateLibraryBrowserStore(store, currentIter, entity.SubItems);
 				}
 			}
-		}
-
-		protected void HandleTreeLibraryBrowserRowExpanded(object o, RowExpandedArgs args)
-		{
-			// Get data
-			Gtk.TreeIter iter;
-			LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(args.Iter, 0);						
-
-			// Check for dummy node		
-			storeLibraryBrowser.IterChildren(out iter, args.Iter);
-			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);			
-			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
-			{	
-				// Send update to presenter
-				libraryBrowserPresenter.TreeNodeExpanded(entity, args.Iter);
-
-				// Remove dummy node
-				storeLibraryBrowser.Remove(ref iter);						
-			}		
 		}
 		
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
@@ -742,21 +727,29 @@ namespace MPfm.GTK
 
 		protected void OnSoundFormatChanged(object sender, System.EventArgs e)
 		{			
-			libraryBrowserPresenter.SetAudioFileFormatFilter(GetCurrentAudioFileFormatFilter());
+			libraryBrowserPresenter.AudioFileFormatFilterChanged(GetCurrentAudioFileFormatFilter());
 		}
 		
 		/// <summary>
-		/// Raises the library browser row activated event (when the user double-clicks on an item).
+		/// Raises the Library Browser row activated event (when the user double-clicks on an item).
 		/// </summary>
 		/// <param name='sender'>Event sender</param>
 		/// <param name='e'>Event arguments</param>
-		protected void OnTreeLibraryBrowserRowActivated(object o, Gtk.RowActivatedArgs args)
+		protected void OnTreeLibraryBrowserRowActivated(object sender, Gtk.RowActivatedArgs args)
 		{
-			
+			// Get selected item
+			TreeModel model;
+			TreeIter iter;	
+			if((sender as TreeView).Selection.GetSelected(out model, out iter))
+			{
+				// Get entity and change query 
+				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
+				libraryBrowserPresenter.TreeNodeDoubleClicked(entity);				
+			}
 		}
 		
 		/// <summary>
-		/// Raises the library browser cursor changed event (when the user selects an item).
+		/// Raises the Library Browser cursor changed event (when the user selects an item).
 		/// </summary>
 		/// <param name='sender'>Event sender</param>
 		/// <param name='e'>Event arguments</param>
@@ -771,6 +764,48 @@ namespace MPfm.GTK
 				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
 				libraryBrowserPresenter.TreeNodeSelected(entity);
 				//songBrowserPresenter.ChangeQuery(entity.Query);
+			}
+		}
+		
+		/// <summary>
+		/// Raises the Library Browser row expanded event (when the user expands an item).
+		/// </summary>
+		/// <param name='sender'>Event sender</param>
+		/// <param name='e'>Event arguments</param>
+		protected void OnTreeLibraryBrowserRowExpanded(object sender, Gtk.RowExpandedArgs args)
+		{
+			// Get data
+			Gtk.TreeIter iter;
+			LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(args.Iter, 0);						
+
+			// Check for dummy node		
+			storeLibraryBrowser.IterChildren(out iter, args.Iter);
+			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);			
+			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
+			{	
+				// Send update to presenter
+				libraryBrowserPresenter.TreeNodeExpanded(entity, args.Iter);
+
+				// Remove dummy node
+				storeLibraryBrowser.Remove(ref iter);						
+			}	
+		}
+
+		/// <summary>
+		/// Raises the Song Bowser row activated event (when the user double-clicks on the row).
+		/// </summary>
+		/// <param name='sender'>Event sender</param>
+		/// <param name='e'>Event arguments</param>
+		protected void OnTreeSongBrowserRowActivated (object sender, Gtk.RowActivatedArgs args)
+		{
+			// Get selected item
+			TreeModel model;
+			TreeIter iter;	
+			if((sender as TreeView).Selection.GetSelected(out model, out iter))
+			{
+				// Get entity and change query 
+				AudioFile audioFile = (AudioFile)storeSongBrowser.GetValue(iter, 0);				
+				songBrowserPresenter.TableRowDoubleClicked(audioFile);
 			}
 		}
 		

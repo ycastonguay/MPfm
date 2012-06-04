@@ -337,6 +337,7 @@
                         <property name="ShowScrollbars">True</property>
                         <signal name="RowActivated" handler="OnTreeLibraryBrowserRowActivated" />
                         <signal name="CursorChanged" handler="OnTreeLibraryBrowserCursorChanged" />
+                        <signal name="RowExpanded" handler="OnTreeLibraryBrowserRowExpanded" />
                       </widget>
                     </child>
                   </widget>
@@ -491,10 +492,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.Label" id="lblCurrentBitrate">
+                                      <widget class="Gtk.Label" id="lblCurrentSampleRate">
                                         <property name="MemberName" />
                                         <property name="Xalign">0</property>
-                                        <property name="LabelProp" translatable="yes">320kbps</property>
+                                        <property name="LabelProp" translatable="yes">44100 Hz</property>
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -504,13 +505,26 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.Label" id="lblCurrentSampleRate">
+                                      <widget class="Gtk.Label" id="lblCurrentBitsPerSample">
                                         <property name="MemberName" />
                                         <property name="Xalign">0</property>
-                                        <property name="LabelProp" translatable="yes">44100Hz</property>
+                                        <property name="LabelProp" translatable="yes">16 bits</property>
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
+                                        <property name="AutoSize">True</property>
+                                        <property name="Expand">False</property>
+                                        <property name="Fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="Gtk.Label" id="lblCurrentBitrate">
+                                        <property name="MemberName" />
+                                        <property name="Xalign">0</property>
+                                        <property name="LabelProp" translatable="yes">320 kbps</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="Position">4</property>
                                         <property name="AutoSize">True</property>
                                         <property name="Expand">False</property>
                                         <property name="Fill">False</property>
@@ -632,10 +646,9 @@
                                       <widget class="Gtk.HScale" id="hscaleSongPosition">
                                         <property name="MemberName" />
                                         <property name="CanFocus">True</property>
-                                        <property name="Upper">100</property>
+                                        <property name="Upper">9999</property>
                                         <property name="PageIncrement">10</property>
                                         <property name="StepIncrement">1</property>
-                                        <property name="Value">42</property>
                                         <property name="DrawValue">False</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
@@ -1023,6 +1036,7 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="ShowScrollbars">True</property>
+                                <signal name="RowActivated" handler="OnTreeSongBrowserRowActivated" />
                               </widget>
                             </child>
                           </widget>

@@ -33,6 +33,7 @@ namespace MPfm.MVP
 		
 		void BindView(ISongBrowserView view);
 		void ChangeQuery(SongBrowserQueryEntity query);
+		
+		void TableRowDoubleClicked(AudioFile audioFile);
 	}
 }
-

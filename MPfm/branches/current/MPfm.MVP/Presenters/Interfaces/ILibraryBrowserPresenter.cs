@@ -33,10 +33,11 @@ namespace MPfm.MVP
 		
 		void BindView(ILibraryBrowserView view);
 		
-		void SetAudioFileFormatFilter(AudioFileFormat format);
+		void AudioFileFormatFilterChanged(AudioFileFormat format);
 		
 		void TreeNodeExpanded(LibraryBrowserEntity entity, object userData);
 		void TreeNodeSelected(LibraryBrowserEntity entity);
+		void TreeNodeDoubleClicked(LibraryBrowserEntity entity);
 	}
 }
 

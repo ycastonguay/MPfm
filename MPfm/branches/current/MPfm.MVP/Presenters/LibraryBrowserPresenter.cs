@@ -39,7 +39,8 @@ namespace MPfm.MVP
 	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
 	{
 		private ILibraryBrowserView view = null;		
-		private readonly ILibraryService libraryService = null;		
+		private readonly ILibraryService libraryService = null;
+		private readonly IAudioFileCacheService audioFileCacheService = null;
 		private readonly IPlayerPresenter playerPresenter = null;
 		private readonly ISongBrowserPresenter songBrowserPresenter = null;
 		
@@ -50,7 +51,10 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.MVP.LibraryBrowserPresenter"/> class.
 		/// </summary>
-		public LibraryBrowserPresenter(IPlayerPresenter playerPresenter, ISongBrowserPresenter songBrowserPresenter, ILibraryService libraryService)
+		public LibraryBrowserPresenter(IPlayerPresenter playerPresenter, 
+		                               ISongBrowserPresenter songBrowserPresenter, 
+		                               ILibraryService libraryService,
+		                               IAudioFileCacheService audioFileCacheService)
 		{
 			// Validate parameters
 			if(playerPresenter == null)			
@@ -59,11 +63,14 @@ namespace MPfm.MVP
 				throw new ArgumentNullException("The songBrowserPresenter parameter is null!");
 			if(libraryService == null)			
 				throw new ArgumentNullException("The libraryService parameter is null!");
+			if(audioFileCacheService == null)			
+				throw new ArgumentNullException("The audioFileCacheService parameter is null!");			
 						
-			// Set properties			
-			this.libraryService = libraryService;
+			// Set properties
 			this.playerPresenter = playerPresenter;
 			this.songBrowserPresenter = songBrowserPresenter;
+			this.libraryService = libraryService;
+			this.audioFileCacheService = audioFileCacheService;			
 			
 			// Set default filter
 			Filter = AudioFileFormat.All;
@@ -91,10 +98,10 @@ namespace MPfm.MVP
 		}
 		
 		/// <summary>
-		/// Sets the audio file format filter.
+		/// Call this method when the Audio File Format combo box selected value has changed.
 		/// </summary>
 		/// <param name='format'>Audio file format</param>
-		public void SetAudioFileFormatFilter(AudioFileFormat format)
+		public void AudioFileFormatFilterChanged(AudioFileFormat format)
 		{
 			// Refresh view (first level nodes)
 			view.RefreshLibraryBrowser(GetFirstLevelNodes());
@@ -130,6 +137,16 @@ namespace MPfm.MVP
 			{
 				view.RefreshLibraryBrowserNode(entity, GetArtistAlbumNodes(Filter, entity.Query.ArtistName), userData);
 			}
+		}
+		
+		/// <summary>
+		/// Call this method when the tree node has been double clicked. 
+		/// This will start a new playlist in the Player presenter.
+		/// </summary>
+		/// <param name='entity'>Library Browser entity</param>
+		public void TreeNodeDoubleClicked(LibraryBrowserEntity entity)
+		{
+			playerPresenter.Play(audioFileCacheService.SelectAudioFiles(entity.Query));
 		}
 		
 		#endregion

@@ -21,6 +21,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using MPfm.Sound;
 
 namespace MPfm.MVP
 {
@@ -32,9 +33,20 @@ namespace MPfm.MVP
 		public string ArtistName { get; set; }
 		public string AlbumTitle { get; set; }
 		public string Title { get; set; }
-		public string FilePath { get; set; }		
+		public string FilePath { get; set; }
+		public AudioFileFormat FileType { get; set; }
+		
 		public string Length { get; set; }
-		public string Position { get; set; }
+		public string Position { get; set; }		
+		
+		public int Bitrate { get; set; }
+		public int BitsPerSample { get; set; }
+		public int SampleRate { get; set; }
+		
+		public string FileTypeString { get; set; }
+		public string BitrateString { get; set; }
+		public string BitsPerSampleString { get; set; }
+		public string SampleRateString { get; set; }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.MVP.SongInformationEntity"/> class.
@@ -43,6 +55,9 @@ namespace MPfm.MVP
 		{
 			Length = "0:00.000";
 			Position = "0:00.000";
+			SampleRate = 44100;
+			BitsPerSample = 16;
+			Bitrate = 128;
 		}
 	}
 }
