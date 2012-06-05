@@ -16,11 +16,21 @@
     // Check BASS version
     if (HIWORD(BASS_GetVersion()) != BASSVERSION)
     {
-        //[NSException raise:@"Invalid BASS version!"];
         NSException* e = [NSException exceptionWithName:@"InvalidBASSVersionException"
                                       reason:@"Invalid BASS version!" userInfo:nil];
         @throw e;
     }
+    
+    // Initialize BASS
+    if(!BASS_Init(-1, 44100, 0, NULL, NULL))
+    {
+        NSException* e = [NSException exceptionWithName:@"BASSInitFailedException"
+                                                 reason:@"Failed to initialize BASS!" userInfo:nil];
+        @throw e;
+    }
+    
+    // Free BASS
+    BASS_Free();
 }
 
 - (void)play

@@ -73,20 +73,20 @@
 		915188AE1579D3D800C5B3B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		915188B01579D3D800C5B3B8 /* MPfmPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmPlayerViewController.h; sourceTree = "<group>"; };
 		915188B11579D3D800C5B3B8 /* MPfmPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmPlayerViewController.m; sourceTree = "<group>"; };
-		915188B31579D3D800C5B3B8 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = MPfm/first.png; sourceTree = "<group>"; };
-		915188B51579D3D800C5B3B8 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "first@2x.png"; path = "MPfm/first@2x.png"; sourceTree = "<group>"; };
+		915188B31579D3D800C5B3B8 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		915188B51579D3D800C5B3B8 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		915188B71579D3D800C5B3B8 /* MPfmLibraryBrowserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmLibraryBrowserViewController.h; sourceTree = "<group>"; };
 		915188B81579D3D800C5B3B8 /* MPfmLibraryBrowserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmLibraryBrowserViewController.m; sourceTree = "<group>"; };
-		915188BA1579D3D800C5B3B8 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = second.png; path = MPfm/second.png; sourceTree = "<group>"; };
-		915188BC1579D3D800C5B3B8 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "second@2x.png"; path = "MPfm/second@2x.png"; sourceTree = "<group>"; };
+		915188BA1579D3D800C5B3B8 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		915188BC1579D3D800C5B3B8 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		915188C31579D3D800C5B3B8 /* MPfmTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPfmTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		915188C41579D3D800C5B3B8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		915188CC1579D3D800C5B3B8 /* MPfmTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPfmTests-Info.plist"; sourceTree = "<group>"; };
 		915188CE1579D3D800C5B3B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		915188D01579D3D800C5B3B8 /* MPfmTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmTests.h; sourceTree = "<group>"; };
 		915188D11579D3D800C5B3B8 /* MPfmTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmTests.m; sourceTree = "<group>"; };
-		915188DC1579D52700C5B3B8 /* MPfmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPfmPlayer.h; path = Core/MPfmPlayer.h; sourceTree = "<group>"; };
-		915188DD1579D52700C5B3B8 /* MPfmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPfmPlayer.m; path = Core/MPfmPlayer.m; sourceTree = "<group>"; };
+		915188DC1579D52700C5B3B8 /* MPfmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPfmPlayer.h; sourceTree = "<group>"; };
+		915188DD1579D52700C5B3B8 /* MPfmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPfmPlayer.m; sourceTree = "<group>"; };
 		915188E61579DB6C00C5B3B8 /* PlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerView.xib; path = iPhone/Views/PlayerView.xib; sourceTree = SOURCE_ROOT; };
 		915188EF1579DF8B00C5B3B8 /* MPfmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPfmViewController.h; sourceTree = "<group>"; };
 		915188F01579DF8B00C5B3B8 /* MPfmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPfmViewController.m; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 				915188DC1579D52700C5B3B8 /* MPfmPlayer.h */,
 				915188DD1579D52700C5B3B8 /* MPfmPlayer.m */,
 			);
-			name = Core;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		915188E41579DB5D00C5B3B8 /* iPhone */ = {
@@ -258,7 +258,7 @@
 				915188BA1579D3D800C5B3B8 /* second.png */,
 				915188BC1579D3D800C5B3B8 /* second@2x.png */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		91641A85157DA4690035728D /* BASS */ = {
