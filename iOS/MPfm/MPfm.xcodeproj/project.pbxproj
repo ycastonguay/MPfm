@@ -16,16 +16,20 @@
 		91219C8D157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91219C8B157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard */; };
 		91219C90157DBAA8005DE38F /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */; };
 		91219C93157DBAA8005DE38F /* MPfmFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C92157DBAA8005DE38F /* MPfmFirstViewController.m */; };
-		91219C95157DBAA8005DE38F /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 91219C94157DBAA8005DE38F /* first.png */; };
-		91219C97157DBAA8005DE38F /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91219C96157DBAA8005DE38F /* first@2x.png */; };
 		91219C9A157DBAA8005DE38F /* MPfmSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C99157DBAA8005DE38F /* MPfmSecondViewController.m */; };
-		91219C9C157DBAA8005DE38F /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 91219C9B157DBAA8005DE38F /* second.png */; };
-		91219C9E157DBAA8005DE38F /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91219C9D157DBAA8005DE38F /* second@2x.png */; };
 		91219CA6157DBAA8005DE38F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219CA5157DBAA8005DE38F /* SenTestingKit.framework */; };
 		91219CA7157DBAA8005DE38F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C79157DBAA8005DE38F /* UIKit.framework */; };
 		91219CA8157DBAA8005DE38F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C7B157DBAA8005DE38F /* Foundation.framework */; };
 		91219CB0157DBAA8005DE38F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91219CAE157DBAA8005DE38F /* InfoPlist.strings */; };
 		91219CB3157DBAA8005DE38F /* MPfmTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219CB2157DBAA8005DE38F /* MPfmTests.m */; };
+		9172373C157DBFF800B33E1C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9172373B157DBFF800B33E1C /* AudioToolbox.framework */; };
+		9172373F157DC00200B33E1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9172373E157DC00200B33E1C /* SystemConfiguration.framework */; };
+		91723741157DC00C00B33E1C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723740157DC00C00B33E1C /* CFNetwork.framework */; };
+		91723743157DC01200B33E1C /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723742157DC01200B33E1C /* CoreMIDI.framework */; };
+		91723749157DC05300B33E1C /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 91723745157DC05300B33E1C /* first.png */; };
+		9172374A157DC05300B33E1C /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91723746157DC05300B33E1C /* first@2x.png */; };
+		9172374B157DC05300B33E1C /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 91723747157DC05300B33E1C /* second.png */; };
+		9172374C157DC05300B33E1C /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91723748157DC05300B33E1C /* second@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,18 +57,22 @@
 		91219C8F157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		91219C91157DBAA8005DE38F /* MPfmFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmFirstViewController.h; sourceTree = "<group>"; };
 		91219C92157DBAA8005DE38F /* MPfmFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmFirstViewController.m; sourceTree = "<group>"; };
-		91219C94157DBAA8005DE38F /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		91219C96157DBAA8005DE38F /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		91219C98157DBAA8005DE38F /* MPfmSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmSecondViewController.h; sourceTree = "<group>"; };
 		91219C99157DBAA8005DE38F /* MPfmSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmSecondViewController.m; sourceTree = "<group>"; };
-		91219C9B157DBAA8005DE38F /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		91219C9D157DBAA8005DE38F /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		91219CA4157DBAA8005DE38F /* MPfmTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPfmTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91219CA5157DBAA8005DE38F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		91219CAD157DBAA8005DE38F /* MPfmTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPfmTests-Info.plist"; sourceTree = "<group>"; };
 		91219CAF157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		91219CB1157DBAA8005DE38F /* MPfmTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmTests.h; sourceTree = "<group>"; };
 		91219CB2157DBAA8005DE38F /* MPfmTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmTests.m; sourceTree = "<group>"; };
+		9172373B157DBFF800B33E1C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9172373E157DC00200B33E1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		91723740157DC00C00B33E1C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		91723742157DC01200B33E1C /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		91723745157DC05300B33E1C /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		91723746157DC05300B33E1C /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		91723747157DC05300B33E1C /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		91723748157DC05300B33E1C /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +80,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91723743157DC01200B33E1C /* CoreMIDI.framework in Frameworks */,
+				91723741157DC00C00B33E1C /* CFNetwork.framework in Frameworks */,
+				9172373F157DC00200B33E1C /* SystemConfiguration.framework in Frameworks */,
+				9172373C157DBFF800B33E1C /* AudioToolbox.framework in Frameworks */,
 				91219C7A157DBAA8005DE38F /* UIKit.framework in Frameworks */,
 				91219C7C157DBAA8005DE38F /* Foundation.framework in Frameworks */,
 				91219C7E157DBAA8005DE38F /* CoreGraphics.framework in Frameworks */,
@@ -94,6 +106,7 @@
 		91219C6A157DBAA8005DE38F = {
 			isa = PBXGroup;
 			children = (
+				91723744157DC01D00B33E1C /* Resources */,
 				91219C7F157DBAA8005DE38F /* MPfm */,
 				91219CAB157DBAA8005DE38F /* MPfmTests */,
 				91219C78157DBAA8005DE38F /* Frameworks */,
@@ -113,6 +126,10 @@
 		91219C78157DBAA8005DE38F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				91723742157DC01200B33E1C /* CoreMIDI.framework */,
+				91723740157DC00C00B33E1C /* CFNetwork.framework */,
+				9172373E157DC00200B33E1C /* SystemConfiguration.framework */,
+				9172373B157DBFF800B33E1C /* AudioToolbox.framework */,
 				91219C79157DBAA8005DE38F /* UIKit.framework */,
 				91219C7B157DBAA8005DE38F /* Foundation.framework */,
 				91219C7D157DBAA8005DE38F /* CoreGraphics.framework */,
@@ -130,12 +147,8 @@
 				91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */,
 				91219C91157DBAA8005DE38F /* MPfmFirstViewController.h */,
 				91219C92157DBAA8005DE38F /* MPfmFirstViewController.m */,
-				91219C94157DBAA8005DE38F /* first.png */,
-				91219C96157DBAA8005DE38F /* first@2x.png */,
 				91219C98157DBAA8005DE38F /* MPfmSecondViewController.h */,
 				91219C99157DBAA8005DE38F /* MPfmSecondViewController.m */,
-				91219C9B157DBAA8005DE38F /* second.png */,
-				91219C9D157DBAA8005DE38F /* second@2x.png */,
 				91219C80157DBAA8005DE38F /* Supporting Files */,
 			);
 			path = MPfm;
@@ -169,6 +182,17 @@
 				91219CAE157DBAA8005DE38F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91723744157DC01D00B33E1C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				91723745157DC05300B33E1C /* first.png */,
+				91723746157DC05300B33E1C /* first@2x.png */,
+				91723747157DC05300B33E1C /* second.png */,
+				91723748157DC05300B33E1C /* second@2x.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,10 +269,10 @@
 				91219C84157DBAA8005DE38F /* InfoPlist.strings in Resources */,
 				91219C8D157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard in Resources */,
 				91219C90157DBAA8005DE38F /* MainStoryboard_iPad.storyboard in Resources */,
-				91219C95157DBAA8005DE38F /* first.png in Resources */,
-				91219C97157DBAA8005DE38F /* first@2x.png in Resources */,
-				91219C9C157DBAA8005DE38F /* second.png in Resources */,
-				91219C9E157DBAA8005DE38F /* second@2x.png in Resources */,
+				91723749157DC05300B33E1C /* first.png in Resources */,
+				9172374A157DC05300B33E1C /* first@2x.png in Resources */,
+				9172374B157DC05300B33E1C /* second.png in Resources */,
+				9172374C157DC05300B33E1C /* second@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +490,7 @@
 				91219CB8157DBAA8005DE38F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		91219CB9157DBAA8005DE38F /* Build configuration list for PBXNativeTarget "MPfmTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +499,7 @@
 				91219CBB157DBAA8005DE38F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
