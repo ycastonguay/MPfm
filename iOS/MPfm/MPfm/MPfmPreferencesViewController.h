@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MPfmSecondViewController : UIViewController
+@interface MPfmPreferencesViewController : UIViewController
 
 @end

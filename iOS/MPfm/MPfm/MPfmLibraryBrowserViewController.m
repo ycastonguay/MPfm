@@ -1,18 +1,14 @@
 //
-//  MPfmFirstViewController.m
+//  MPfmLibraryBrowserViewController.m
 //  MPfm
 //
-//  Created by Yanick Castonguay on 12-06-04.
+//  Created by Yanick Castonguay on 12-06-05.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MPfmFirstViewController.h"
+#import "MPfmLibraryBrowserViewController.h"
 
-@interface MPfmFirstViewController ()
-
-@end
-
-@implementation MPfmFirstViewController
+@implementation MPfmLibraryBrowserViewController
 
 - (void)viewDidLoad
 {

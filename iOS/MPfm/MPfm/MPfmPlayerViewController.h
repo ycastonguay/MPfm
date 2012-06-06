@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MPfmPlayer.h"
 
-@interface MPfmFirstViewController : UIViewController
+@interface MPfmPlayerViewController : UIViewController {
+    NSTimer *timer;
+}
+
+@property (retain) MPfmPlayer* player;
+@property (retain) NSTimer *timer;
 
 @end

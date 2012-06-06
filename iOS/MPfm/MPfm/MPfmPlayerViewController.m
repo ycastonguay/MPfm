@@ -1,23 +1,30 @@
 //
-//  MPfmSecondViewController.m
+//  MPfmFirstViewController.m
 //  MPfm
 //
 //  Created by Yanick Castonguay on 12-06-04.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MPfmSecondViewController.h"
+#import "MPfmPlayerViewController.h"
 
-@interface MPfmSecondViewController ()
+@interface MPfmPlayerViewController ()
 
 @end
 
-@implementation MPfmSecondViewController
+@implementation MPfmPlayerViewController
+
+@synthesize player, timer;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	
+    // Do any additional setup after loading the view, typically from a nib.
+    
+    // Create player
+    player = [[MPfmPlayer alloc] initWithOptions:44100];
+    int sampleRate = player.sampleRate;
 }
 
 - (void)viewDidUnload

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		91121C55157ED920009254E5 /* MPfmLibraryBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91121C54157ED920009254E5 /* MPfmLibraryBrowserViewController.m */; };
+		91121C59157EE144009254E5 /* MPfmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 91121C58157EE144009254E5 /* MPfmPlayer.m */; };
 		91219C7A157DBAA8005DE38F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C79157DBAA8005DE38F /* UIKit.framework */; };
 		91219C7C157DBAA8005DE38F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C7B157DBAA8005DE38F /* Foundation.framework */; };
 		91219C7E157DBAA8005DE38F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C7D157DBAA8005DE38F /* CoreGraphics.framework */; };
@@ -15,8 +17,8 @@
 		91219C8A157DBAA8005DE38F /* MPfmAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C89157DBAA8005DE38F /* MPfmAppDelegate.m */; };
 		91219C8D157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91219C8B157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard */; };
 		91219C90157DBAA8005DE38F /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */; };
-		91219C93157DBAA8005DE38F /* MPfmFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C92157DBAA8005DE38F /* MPfmFirstViewController.m */; };
-		91219C9A157DBAA8005DE38F /* MPfmSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C99157DBAA8005DE38F /* MPfmSecondViewController.m */; };
+		91219C93157DBAA8005DE38F /* MPfmPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C92157DBAA8005DE38F /* MPfmPlayerViewController.m */; };
+		91219C9A157DBAA8005DE38F /* MPfmPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C99157DBAA8005DE38F /* MPfmPreferencesViewController.m */; };
 		91219CA6157DBAA8005DE38F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219CA5157DBAA8005DE38F /* SenTestingKit.framework */; };
 		91219CA7157DBAA8005DE38F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C79157DBAA8005DE38F /* UIKit.framework */; };
 		91219CA8157DBAA8005DE38F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C7B157DBAA8005DE38F /* Foundation.framework */; };
@@ -34,6 +36,7 @@
 		91723753157DC1C400B33E1C /* libbass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9172374F157DC1C400B33E1C /* libbass.a */; };
 		91723754157DC1C400B33E1C /* libbassflac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723750157DC1C400B33E1C /* libbassflac.a */; };
 		91723755157DC1C400B33E1C /* libbasswv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723751157DC1C400B33E1C /* libbasswv.a */; };
+		91DD4736157F08EC006847B1 /* MPfmPlaylist.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DD4735157F08EC006847B1 /* MPfmPlaylist.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		91121C53157ED920009254E5 /* MPfmLibraryBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPfmLibraryBrowserViewController.h; sourceTree = "<group>"; };
+		91121C54157ED920009254E5 /* MPfmLibraryBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPfmLibraryBrowserViewController.m; sourceTree = "<group>"; };
+		91121C57157EE144009254E5 /* MPfmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPfmPlayer.h; sourceTree = "<group>"; };
+		91121C58157EE144009254E5 /* MPfmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPfmPlayer.m; sourceTree = "<group>"; };
+		91121C5A157EE369009254E5 /* bass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bass.h; path = "../../../../../Downloads/bass24-osx/bass.h"; sourceTree = "<group>"; };
 		91219C75157DBAA8005DE38F /* MPfm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPfm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91219C79157DBAA8005DE38F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		91219C7B157DBAA8005DE38F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -59,10 +67,10 @@
 		91219C89157DBAA8005DE38F /* MPfmAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmAppDelegate.m; sourceTree = "<group>"; };
 		91219C8C157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		91219C8F157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		91219C91157DBAA8005DE38F /* MPfmFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmFirstViewController.h; sourceTree = "<group>"; };
-		91219C92157DBAA8005DE38F /* MPfmFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmFirstViewController.m; sourceTree = "<group>"; };
-		91219C98157DBAA8005DE38F /* MPfmSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmSecondViewController.h; sourceTree = "<group>"; };
-		91219C99157DBAA8005DE38F /* MPfmSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmSecondViewController.m; sourceTree = "<group>"; };
+		91219C91157DBAA8005DE38F /* MPfmPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmPlayerViewController.h; sourceTree = "<group>"; };
+		91219C92157DBAA8005DE38F /* MPfmPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmPlayerViewController.m; sourceTree = "<group>"; };
+		91219C98157DBAA8005DE38F /* MPfmPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmPreferencesViewController.h; sourceTree = "<group>"; };
+		91219C99157DBAA8005DE38F /* MPfmPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmPreferencesViewController.m; sourceTree = "<group>"; };
 		91219CA4157DBAA8005DE38F /* MPfmTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPfmTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91219CA5157DBAA8005DE38F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		91219CAD157DBAA8005DE38F /* MPfmTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MPfmTests-Info.plist"; sourceTree = "<group>"; };
@@ -81,6 +89,8 @@
 		9172374F157DC1C400B33E1C /* libbass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbass.a; sourceTree = "<group>"; };
 		91723750157DC1C400B33E1C /* libbassflac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbassflac.a; sourceTree = "<group>"; };
 		91723751157DC1C400B33E1C /* libbasswv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbasswv.a; sourceTree = "<group>"; };
+		91DD4734157F08EC006847B1 /* MPfmPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPfmPlaylist.h; sourceTree = "<group>"; };
+		91DD4735157F08EC006847B1 /* MPfmPlaylist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPfmPlaylist.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,14 +125,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		91121C56157EE11B009254E5 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				91121C57157EE144009254E5 /* MPfmPlayer.h */,
+				91121C58157EE144009254E5 /* MPfmPlayer.m */,
+				91DD4734157F08EC006847B1 /* MPfmPlaylist.h */,
+				91DD4735157F08EC006847B1 /* MPfmPlaylist.m */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
 		91219C6A157DBAA8005DE38F = {
 			isa = PBXGroup;
 			children = (
-				9172374D157DC16F00B33E1C /* Other Frameworks */,
-				91723744157DC01D00B33E1C /* Resources */,
+				91121C56157EE11B009254E5 /* Player */,
 				91219C7F157DBAA8005DE38F /* MPfm */,
 				91219CAB157DBAA8005DE38F /* MPfmTests */,
+				91723744157DC01D00B33E1C /* Resources */,
 				91219C78157DBAA8005DE38F /* Frameworks */,
+				9172374D157DC16F00B33E1C /* Other Frameworks */,
 				91219C76157DBAA8005DE38F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -158,11 +180,13 @@
 				91219C89157DBAA8005DE38F /* MPfmAppDelegate.m */,
 				91219C8B157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard */,
 				91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */,
-				91219C91157DBAA8005DE38F /* MPfmFirstViewController.h */,
-				91219C92157DBAA8005DE38F /* MPfmFirstViewController.m */,
-				91219C98157DBAA8005DE38F /* MPfmSecondViewController.h */,
-				91219C99157DBAA8005DE38F /* MPfmSecondViewController.m */,
+				91219C91157DBAA8005DE38F /* MPfmPlayerViewController.h */,
+				91219C92157DBAA8005DE38F /* MPfmPlayerViewController.m */,
+				91219C98157DBAA8005DE38F /* MPfmPreferencesViewController.h */,
+				91219C99157DBAA8005DE38F /* MPfmPreferencesViewController.m */,
 				91219C80157DBAA8005DE38F /* Supporting Files */,
+				91121C53157ED920009254E5 /* MPfmLibraryBrowserViewController.h */,
+				91121C54157ED920009254E5 /* MPfmLibraryBrowserViewController.m */,
 			);
 			path = MPfm;
 			sourceTree = "<group>";
@@ -211,6 +235,7 @@
 		9172374D157DC16F00B33E1C /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				91121C5A157EE369009254E5 /* bass.h */,
 				9172374E157DC1C400B33E1C /* libbass_fx.a */,
 				9172374F157DC1C400B33E1C /* libbass.a */,
 				91723750157DC1C400B33E1C /* libbassflac.a */,
@@ -333,8 +358,11 @@
 			files = (
 				91219C86157DBAA8005DE38F /* main.m in Sources */,
 				91219C8A157DBAA8005DE38F /* MPfmAppDelegate.m in Sources */,
-				91219C93157DBAA8005DE38F /* MPfmFirstViewController.m in Sources */,
-				91219C9A157DBAA8005DE38F /* MPfmSecondViewController.m in Sources */,
+				91219C93157DBAA8005DE38F /* MPfmPlayerViewController.m in Sources */,
+				91219C9A157DBAA8005DE38F /* MPfmPreferencesViewController.m in Sources */,
+				91121C55157ED920009254E5 /* MPfmLibraryBrowserViewController.m in Sources */,
+				91121C59157EE144009254E5 /* MPfmPlayer.m in Sources */,
+				91DD4736157F08EC006847B1 /* MPfmPlaylist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
