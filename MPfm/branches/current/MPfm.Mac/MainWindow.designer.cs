@@ -12,6 +12,9 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblLength { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSOutlineView viewLibraryBrowser { get; set; }
 
 		[Outlet]
@@ -76,6 +79,11 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (lblLength != null) {
+				lblLength.Dispose ();
+				lblLength = null;
+			}
+
 			if (viewLibraryBrowser != null) {
 				viewLibraryBrowser.Dispose ();
 				viewLibraryBrowser = null;

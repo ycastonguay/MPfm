@@ -235,12 +235,13 @@ namespace MPfm.Mac
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)
-		{									
-			lblArtistName.StringValue = entity.ArtistName;
-			lblAlbumTitle.StringValue = entity.AlbumTitle;
-			lblSongTitle.StringValue = entity.Title;
-			lblSongPath.StringValue = entity.FilePath;
-			lblPosition.StringValue = entity.Position;
+        {									
+            lblArtistName.StringValue = entity.ArtistName;
+            lblAlbumTitle.StringValue = entity.AlbumTitle;
+            lblSongTitle.StringValue = entity.Title;
+            lblSongPath.StringValue = entity.FilePath;
+            lblPosition.StringValue = entity.Position;
+            lblLength.StringValue = entity.Length;
 		}
 
 		private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
@@ -269,7 +270,7 @@ namespace MPfm.Mac
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
 			// Set Library Browser data source
-			libraryBrowserDataSource = new LibraryBrowserDataSource(entities);
+			libraryBrowserDataSource = new LibraryBrowserDataSource(entities, this.libraryBrowserPresenter);
 			viewLibraryBrowser.DataSource = libraryBrowserDataSource;
 		}
 

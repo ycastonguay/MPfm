@@ -124,22 +124,59 @@ namespace MPfm.MVP
 		/// <param name='entity'>Library Browser entity</param>
 		/// <param name='userData'>User data (i.e. tree node object)</param>
 		public void TreeNodeExpanded(LibraryBrowserEntity entity, object userData)
-		{
-			// Check node type
-			if(entity.Type == LibraryBrowserEntityType.Artists)
-			{
-				view.RefreshLibraryBrowserNode(entity, GetArtistNodes(Filter), userData);
-			}
-			else if(entity.Type == LibraryBrowserEntityType.Albums)
-			{
-				view.RefreshLibraryBrowserNode(entity, GetAlbumNodes(Filter), userData);
-			}
-			else if(entity.Type == LibraryBrowserEntityType.Artist)
-			{
-				view.RefreshLibraryBrowserNode(entity, GetArtistAlbumNodes(Filter, entity.Query.ArtistName), userData);
-			}
+        {
+            // Check node type
+            if (entity.Type == LibraryBrowserEntityType.Artists)
+            {
+                view.RefreshLibraryBrowserNode(
+                    entity,
+                    GetArtistNodes(Filter),
+                    userData
+                );
+            } 
+            else if (entity.Type == LibraryBrowserEntityType.Albums)
+            {
+                view.RefreshLibraryBrowserNode(
+                    entity,
+                    GetAlbumNodes(Filter),
+                    userData
+                );
+            } 
+            else if (entity.Type == LibraryBrowserEntityType.Artist)
+            {
+                view.RefreshLibraryBrowserNode(
+                    entity,
+                    GetArtistAlbumNodes(Filter, entity.Query.ArtistName),
+                    userData
+                );
+            }
 		}
-		
+
+        /// <summary>
+        /// Call this method on Mac OS X when adding the subitems of the LibraryBrowserDataSource.
+        /// This method returns the list of nodes to add to the NSOutlineView.
+        /// </summary>
+        /// <param name='entity'>Library Browser entity</param>
+        /// <returns>List of nodes to ad to the NSOutlineView</returns>
+        public IEnumerable<LibraryBrowserEntity> TreeNodeExpandable(LibraryBrowserEntity entity)
+        {
+            // Check node type
+            if (entity.Type == LibraryBrowserEntityType.Artists)
+            {
+                return GetArtistNodes(Filter);
+            } 
+            else if (entity.Type == LibraryBrowserEntityType.Albums)
+            {
+                return GetAlbumNodes(Filter);
+            } 
+            else if (entity.Type == LibraryBrowserEntityType.Artist)
+            {
+                return GetArtistAlbumNodes(Filter, entity.Query.ArtistName);
+            }
+
+            return null;
+        }
+
 		/// <summary>
 		/// Call this method when the tree node has been double clicked. 
 		/// This will start a new playlist in the Player presenter.
@@ -149,7 +186,7 @@ namespace MPfm.MVP
 		{
 			playerPresenter.Play(audioFileCacheService.SelectAudioFiles(entity.Query));
 		}
-		
+
 		#endregion
 		
 		#region Data Methods

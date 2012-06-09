@@ -34,10 +34,21 @@ namespace MPfm.Mac
 	/// </summary>
 	public class LibraryBrowserDataSource : NSOutlineViewDataSource
 	{
+        private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
+
 		public List<LibraryBrowserItem> Items { get; private set; }
 
-		public LibraryBrowserDataSource(IEnumerable<LibraryBrowserEntity> entities)
-		{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserDataSource"/> class.
+        /// </summary>
+        /// <param name='entities'>List of LibraryBrowserEntity</param>
+        /// <param name='libraryBrowserPresenter'>Library Browser Presenter (necessary to get additional data for the data source)</param>
+		public LibraryBrowserDataSource(IEnumerable<LibraryBrowserEntity> entities, 
+                                        ILibraryBrowserPresenter libraryBrowserPresenter)
+        {
+            // Set properties
+            this.libraryBrowserPresenter = libraryBrowserPresenter;
+
 			// Create list of items
 			Items = new List<LibraryBrowserItem>();
 			foreach(LibraryBrowserEntity entity in entities)
@@ -57,9 +68,22 @@ namespace MPfm.Mac
 		}
 
 		public override bool ItemExpandable(NSOutlineView outlineView, NSObject item)
-		{
-			// Cast item and return subitem count
-			LibraryBrowserItem libraryBrowserItem = (LibraryBrowserItem)item;
+        {
+            // Cast item and return subitem count
+            LibraryBrowserItem libraryBrowserItem = (LibraryBrowserItem)item;
+
+            // Check for dummy nodes
+            if (libraryBrowserItem.SubItems.Count > 0 && libraryBrowserItem.SubItems [0].Entity.Type == LibraryBrowserEntityType.Dummy)
+            {
+                // Extract more data
+                IEnumerable<LibraryBrowserEntity> entities = libraryBrowserPresenter.TreeNodeExpandable(libraryBrowserItem.Entity);
+
+                // Clear subitems (dummy node) and fill with actual nodes
+                libraryBrowserItem.SubItems.Clear();
+                foreach (LibraryBrowserEntity entity in entities)
+                    libraryBrowserItem.SubItems.Add(new LibraryBrowserItem(entity));
+            }
+
 			return (libraryBrowserItem.SubItems.Count > 0) ? true : false;
 		}
 

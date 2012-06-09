@@ -36,6 +36,7 @@ namespace MPfm.MVP
 		void AudioFileFormatFilterChanged(AudioFileFormat format);
 		
 		void TreeNodeExpanded(LibraryBrowserEntity entity, object userData);
+        IEnumerable<LibraryBrowserEntity> TreeNodeExpandable(LibraryBrowserEntity entity);
 		void TreeNodeSelected(LibraryBrowserEntity entity);
 		void TreeNodeDoubleClicked(LibraryBrowserEntity entity);
 	}
