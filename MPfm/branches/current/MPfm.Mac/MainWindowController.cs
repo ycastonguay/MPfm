@@ -53,11 +53,6 @@ namespace MPfm.Mac
 			this.songBrowserPresenter = songBrowserPresenter;
 			this.libraryBrowserPresenter = libraryBrowserPresenter;
 			this.initializationService = initializationService;
-
-			// Bind views
-			this.playerPresenter.BindView(this);
-			this.songBrowserPresenter.BindView(this);
-			this.libraryBrowserPresenter.BindView(this);
 		}		
 
 		public override void WindowDidLoad()
@@ -67,10 +62,6 @@ namespace MPfm.Mac
 		
 		public override void AwakeFromNib()
 		{
-			// Set Library Browser data source
-			libraryBrowserDataSource = new LibraryBrowserDataSource();
-			viewLibraryBrowser.DataSource = libraryBrowserDataSource;
-
 			// Add items to Sound Format combo box
 			cboSoundFormat.RemoveAllItems();
 			cboSoundFormat.AddItem("All");
@@ -80,6 +71,11 @@ namespace MPfm.Mac
 			cboSoundFormat.AddItem("MPC");
 			cboSoundFormat.AddItem("WAV");
 			cboSoundFormat.AddItem("WV");
+
+			// Bind views
+			this.playerPresenter.BindView(this);
+			this.songBrowserPresenter.BindView(this);
+			this.libraryBrowserPresenter.BindView(this);
 		}
 		
 		#endregion
@@ -249,7 +245,9 @@ namespace MPfm.Mac
 
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
-		
+			// Set Library Browser data source
+			libraryBrowserDataSource = new LibraryBrowserDataSource(entities);
+			viewLibraryBrowser.DataSource = libraryBrowserDataSource;
 		}
 
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
@@ -260,40 +258,5 @@ namespace MPfm.Mac
 		#endregion
 	}
 
-	public class LibraryBrowserDataSource : NSOutlineViewDataSource
-	{
-		public List<NSString> values = null;
-
-		public LibraryBrowserDataSource()
-		{
-			values = new List<NSString>();
-			values.Add(new NSString("Test1"));
-			values.Add(new NSString("Test2"));
-			values.Add(new NSString("Test3"));
-			values.Add(new NSString("Test4"));
-			values.Add(new NSString("Test5"));
-		}
-
-		public override NSObject GetChild(NSOutlineView outlineView, int childIndex, NSObject ofItem)
-		{
-			return values[childIndex];
-		}
-
-		public override bool ItemExpandable(NSOutlineView outlineView, NSObject item)
-		{
-			return false;
-		}
-
-		public override int GetChildrenCount(NSOutlineView outlineView, NSObject item)
-		{
-			return values.Count;
-		}
-
-		public override NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn forTableColumn, NSObject byItem)
-		{
-			return values[0];
-		}
-
-	}
 }
 

@@ -110,6 +110,8 @@
     <Compile Include="Views\LibraryBrowser.designer.cs">
       <DependentUpon>LibraryBrowser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\LibraryBrowserDataSource.cs" />
+    <Compile Include="Objects\LibraryBrowserItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -172,5 +174,6 @@
     <Folder Include="Lib\" />
     <Folder Include="Windows\" />
     <Folder Include="Views\" />
+    <Folder Include="Objects\" />
   </ItemGroup>
 </Project>
