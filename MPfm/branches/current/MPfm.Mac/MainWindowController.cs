@@ -20,6 +20,8 @@ namespace MPfm.Mac
 
 		private UpdateLibraryWindowController updateLibraryWindowController = null;
 
+		private LibraryBrowserDataSource libraryBrowserDataSource = null;
+
 		//strongly typed window accessor00
 		public new MainWindow Window {
 			get {
@@ -65,7 +67,19 @@ namespace MPfm.Mac
 		
 		public override void AwakeFromNib()
 		{
+			// Set Library Browser data source
+			libraryBrowserDataSource = new LibraryBrowserDataSource();
+			viewLibraryBrowser.DataSource = libraryBrowserDataSource;
 
+			// Add items to Sound Format combo box
+			cboSoundFormat.RemoveAllItems();
+			cboSoundFormat.AddItem("All");
+			cboSoundFormat.AddItem("FLAC");
+			cboSoundFormat.AddItem("OGG");
+			cboSoundFormat.AddItem("MP3");
+			cboSoundFormat.AddItem("MPC");
+			cboSoundFormat.AddItem("WAV");
+			cboSoundFormat.AddItem("WV");
 		}
 		
 		#endregion
@@ -222,17 +236,47 @@ namespace MPfm.Mac
 			updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
 		}
 
+		#region ISongBrowserView implementation
+
+		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
+		{
+
+		}
+
+		#endregion
+
+		#region ILibraryBrowserView implementation
+
+		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+		{
+		
+		}
+
+		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
+		{
+		
+		}
+
+		#endregion
 	}
 
-	public class DataTest : NSOutlineViewDataSource
+	public class LibraryBrowserDataSource : NSOutlineViewDataSource
 	{
-		public DataTest()
+		public List<NSString> values = null;
+
+		public LibraryBrowserDataSource()
 		{
+			values = new List<NSString>();
+			values.Add(new NSString("Test1"));
+			values.Add(new NSString("Test2"));
+			values.Add(new NSString("Test3"));
+			values.Add(new NSString("Test4"));
+			values.Add(new NSString("Test5"));
 		}
 
 		public override NSObject GetChild(NSOutlineView outlineView, int childIndex, NSObject ofItem)
 		{
-			return new NSString("Test");
+			return values[childIndex];
 		}
 
 		public override bool ItemExpandable(NSOutlineView outlineView, NSObject item)
@@ -242,12 +286,12 @@ namespace MPfm.Mac
 
 		public override int GetChildrenCount(NSOutlineView outlineView, NSObject item)
 		{
-			return 10;
+			return values.Count;
 		}
 
 		public override NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn forTableColumn, NSObject byItem)
 		{
-			return new NSString("Test Value");
+			return values[0];
 		}
 
 	}

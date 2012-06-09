@@ -12,6 +12,12 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSOutlineView viewLibraryBrowser { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSToolbar toolbarMain { get; set; }
 
 		[Outlet]
@@ -47,14 +53,14 @@ namespace MPfm.Mac
 		[Action ("actionPause:")]
 		partial void actionPause (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionStop:")]
+		partial void actionStop (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionNext:")]
 		partial void actionNext (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionStop:")]
-		partial void actionStop (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRepeatType:")]
 		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
@@ -70,6 +76,16 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (viewLibraryBrowser != null) {
+				viewLibraryBrowser.Dispose ();
+				viewLibraryBrowser = null;
+			}
+
+			if (cboSoundFormat != null) {
+				cboSoundFormat.Dispose ();
+				cboSoundFormat = null;
+			}
+
 			if (toolbarMain != null) {
 				toolbarMain.Dispose ();
 				toolbarMain = null;

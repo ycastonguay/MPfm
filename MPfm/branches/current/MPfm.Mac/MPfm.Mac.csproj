@@ -105,11 +105,17 @@
     <Compile Include="Windows\UpdateLibraryWindow.designer.cs">
       <DependentUpon>UpdateLibraryWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LibraryBrowser.cs" />
+    <Compile Include="Views\LibraryBrowserController.cs" />
+    <Compile Include="Views\LibraryBrowser.designer.cs">
+      <DependentUpon>LibraryBrowser.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="Windows\UpdateLibraryWindow.xib" />
+    <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -165,5 +171,6 @@
   <ItemGroup>
     <Folder Include="Lib\" />
     <Folder Include="Windows\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 </Project>
