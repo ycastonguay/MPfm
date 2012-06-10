@@ -18,7 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#define MACOSX
+using MonoMac.CoreGraphics;
+
+//#define MACOSX
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,7 @@ using MPfm.Library;
 using MPfm.MVP;
 using MPfm.Sound;
 using Ninject;
+using System.Drawing;
 
 namespace MPfm.Mac
 {
@@ -42,9 +45,8 @@ namespace MPfm.Mac
 		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
 
 		private UpdateLibraryWindowController updateLibraryWindowController = null;
-
+        private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		private LibraryBrowserDataSource libraryBrowserDataSource = null;
-
         private List<NSImage> listImages = null;
 
 		//strongly typed window accessor00
@@ -88,11 +90,11 @@ namespace MPfm.Mac
 		{
 			base.WindowDidLoad();			
 		}
-		
-        private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 
 		public override void AwakeFromNib()
         {
+            splitMain.Delegate = new MainSplitViewDelegate();
+
             // Add items to Sound Format combo box
             cboSoundFormat.RemoveAllItems();
             cboSoundFormat.AddItem("All");
@@ -231,6 +233,14 @@ namespace MPfm.Mac
 			StartUpdateLibrary(UpdateLibraryMode.WholeLibrary, null, null);
 		}
 
+        partial void actionSoundFormatChanged(NSObject sender)
+        {
+            // Set audio file format filter in presenter
+            AudioFileFormat format;
+            Enum.TryParse<AudioFileFormat>(cboSoundFormat.TitleOfSelectedItem, out format);
+            libraryBrowserPresenter.AudioFileFormatFilterChanged(format);
+        }
+
 		partial void actionPlay(NSObject sender)
 		{
 			playerPresenter.Play();
@@ -290,6 +300,10 @@ namespace MPfm.Mac
             lblSongPath.StringValue = entity.FilePath;
             lblPosition.StringValue = entity.Position;
             lblLength.StringValue = entity.Length;
+
+            NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
+            if(image != null)
+                imageAlbumCover.Image = image;
 		}
 
 		private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
@@ -327,6 +341,7 @@ namespace MPfm.Mac
 		}
 
 		#endregion
+
 	}
 }
 

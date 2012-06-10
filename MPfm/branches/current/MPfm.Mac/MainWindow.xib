@@ -545,7 +545,7 @@
 										</object>
 										<object class="NSPopUpButton" id="861752916">
 											<reference key="NSNextResponder" ref="1023919491"/>
-											<int key="NSvFlags">267</int>
+											<int key="NSvFlags">266</int>
 											<string key="NSFrame">{{150, 415}, {64, 26}}</string>
 											<reference key="NSSuperview" ref="1023919491"/>
 											<reference key="NSWindow"/>
@@ -1201,7 +1201,7 @@
 																			<string key="NSFrameSize">{647, 98}</string>
 																			<reference key="NSSuperview" ref="628665911"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="679588447"/>
+																			<reference key="NSNextKeyView" ref="234049385"/>
 																			<string key="NSReuseIdentifierKey">_NS:13</string>
 																			<bool key="NSEnabled">YES</bool>
 																			<object class="NSTableHeaderView" key="NSHeaderView" id="608358240">
@@ -1323,7 +1323,6 @@
 																	<string key="NSFrame">{{1, 119}, {223, 15}}</string>
 																	<reference key="NSSuperview" ref="901815034"/>
 																	<reference key="NSWindow"/>
-																	<reference key="NSNextKeyView"/>
 																	<string key="NSReuseIdentifierKey">_NS:60</string>
 																	<int key="NSsFlags">1</int>
 																	<reference key="NSTarget" ref="901815034"/>
@@ -1350,7 +1349,7 @@
 															<string key="NSFrameSize">{649, 116}</string>
 															<reference key="NSSuperview" ref="744588613"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="234049385"/>
+															<reference key="NSNextKeyView" ref="628665911"/>
 															<string key="NSReuseIdentifierKey">_NS:9</string>
 															<int key="NSsFlags">133682</int>
 															<reference key="NSVScroller" ref="679588447"/>
@@ -2029,6 +2028,30 @@
 						<reference key="destination" ref="1046729574"/>
 					</object>
 					<int key="connectionID">171</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionSoundFormatChanged:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="861752916"/>
+					</object>
+					<int key="connectionID">172</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">splitMain</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="251289205"/>
+					</object>
+					<int key="connectionID">173</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">imageAlbumCover</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="718200274"/>
+					</object>
+					<int key="connectionID">174</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3056,7 +3079,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">171</int>
+			<int key="maxID">174</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3087,11 +3110,13 @@
 							<string>actionPlay:</string>
 							<string>actionPrevious:</string>
 							<string>actionRepeatType:</string>
+							<string>actionSoundFormatChanged:</string>
 							<string>actionStop:</string>
 							<string>actionUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3122,6 +3147,7 @@
 							<string>actionPlay:</string>
 							<string>actionPrevious:</string>
 							<string>actionRepeatType:</string>
+							<string>actionSoundFormatChanged:</string>
 							<string>actionStop:</string>
 							<string>actionUpdateLibrary:</string>
 						</object>
@@ -3172,6 +3198,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">actionSoundFormatChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">actionStop:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -3186,6 +3216,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cboSoundFormat</string>
+							<string>imageAlbumCover</string>
 							<string>lblAlbumTitle</string>
 							<string>lblArtistName</string>
 							<string>lblLength</string>
@@ -3193,12 +3224,14 @@
 							<string>lblSongPath</string>
 							<string>lblSongTitle</string>
 							<string>sliderPosition</string>
+							<string>splitMain</string>
 							<string>toolbarMain</string>
 							<string>viewLibraryBrowser</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSPopUpButton</string>
+							<string>NSImageView</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -3206,6 +3239,7 @@
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>SongPositionSlider</string>
+							<string>NSSplitView</string>
 							<string>NSToolbar</string>
 							<string>NSOutlineView</string>
 						</object>
@@ -3215,6 +3249,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cboSoundFormat</string>
+							<string>imageAlbumCover</string>
 							<string>lblAlbumTitle</string>
 							<string>lblArtistName</string>
 							<string>lblLength</string>
@@ -3222,6 +3257,7 @@
 							<string>lblSongPath</string>
 							<string>lblSongTitle</string>
 							<string>sliderPosition</string>
+							<string>splitMain</string>
 							<string>toolbarMain</string>
 							<string>viewLibraryBrowser</string>
 						</object>
@@ -3230,6 +3266,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">cboSoundFormat</string>
 								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">imageAlbumCover</string>
+								<string key="candidateClassName">NSImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">lblAlbumTitle</string>
@@ -3258,6 +3298,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">sliderPosition</string>
 								<string key="candidateClassName">SongPositionSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">splitMain</string>
+								<string key="candidateClassName">NSSplitView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">toolbarMain</string>

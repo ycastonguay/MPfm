@@ -12,6 +12,12 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSImageView imageAlbumCover { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSplitView splitMain { get; set; }
+
+		[Outlet]
 		MPfm.Mac.SongPositionSlider sliderPosition { get; set; }
 
 		[Outlet]
@@ -53,6 +59,9 @@ namespace MPfm.Mac
 		[Action ("actionUpdateLibrary:")]
 		partial void actionUpdateLibrary (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionSoundFormatChanged:")]
+		partial void actionSoundFormatChanged (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionPlay:")]
 		partial void actionPlay (MonoMac.Foundation.NSObject sender);
 
@@ -82,6 +91,16 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (imageAlbumCover != null) {
+				imageAlbumCover.Dispose ();
+				imageAlbumCover = null;
+			}
+
+			if (splitMain != null) {
+				splitMain.Dispose ();
+				splitMain = null;
+			}
+
 			if (sliderPosition != null) {
 				sliderPosition.Dispose ();
 				sliderPosition = null;

@@ -88,6 +88,7 @@
     <Reference Include="Ninject">
       <HintPath>Lib\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="Objects\LibraryBrowserItem.cs" />
     <Compile Include="Controls\SongPositionSlider.cs" />
     <Compile Include="Objects\LibraryBrowserOutlineViewDelegate.cs" />
+    <Compile Include="Objects\MainSplitViewDelegate.cs" />
+    <Compile Include="Helpers\AlbumCoverHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -190,6 +193,7 @@
     <Folder Include="Objects\" />
     <Folder Include="Controls\" />
     <Folder Include="Resources\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
