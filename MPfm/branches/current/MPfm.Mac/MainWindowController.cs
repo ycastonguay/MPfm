@@ -45,6 +45,8 @@ namespace MPfm.Mac
 
 		private LibraryBrowserDataSource libraryBrowserDataSource = null;
 
+        private List<NSImage> listImages = null;
+
 		//strongly typed window accessor00
 		public new MainWindow Window {
 			get {
@@ -107,8 +109,36 @@ namespace MPfm.Mac
             viewLibraryBrowser.AllowsMultipleSelection = false;
             viewLibraryBrowser.DoubleClick += HandleDoubleClick;
 
+            // Load images
+            listImages = new List<NSImage>() {
+                new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-backward", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-forward", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources", string.Empty))
+            };
+
+            // Load images in toolbar
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = listImages[0];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = listImages[1];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = listImages[2];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = listImages[3];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = listImages[4];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = listImages[5];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = listImages[6];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = listImages[7];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = listImages[8];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = listImages[9];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = listImages[10];
+
 			// Bind views
-			this.playerPresenter.BindView(this);
+            this.playerPresenter.BindView(this);
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 		}
@@ -130,8 +160,8 @@ namespace MPfm.Mac
 				openPanel.CanChooseFiles = true;
 				openPanel.ReleasedWhenClosed = true;
 				openPanel.AllowsMultipleSelection = true;
-				openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
-				openPanel.Title = "Please select audio files to add to the library";
+                openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
+                openPanel.Title = "Please select audio files to add to the library";
 				openPanel.Prompt = "Add to library";
 				openPanel.RunModal();
 
