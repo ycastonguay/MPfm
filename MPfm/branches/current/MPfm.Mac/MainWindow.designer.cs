@@ -12,6 +12,18 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblFileType { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblBitsPerSample { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSampleRate { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblBitrate { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSImageView imageAlbumCover { get; set; }
 
 		[Outlet]
@@ -91,6 +103,26 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (lblFileType != null) {
+				lblFileType.Dispose ();
+				lblFileType = null;
+			}
+
+			if (lblBitsPerSample != null) {
+				lblBitsPerSample.Dispose ();
+				lblBitsPerSample = null;
+			}
+
+			if (lblSampleRate != null) {
+				lblSampleRate.Dispose ();
+				lblSampleRate = null;
+			}
+
+			if (lblBitrate != null) {
+				lblBitrate.Dispose ();
+				lblBitrate = null;
+			}
+
 			if (imageAlbumCover != null) {
 				imageAlbumCover.Dispose ();
 				imageAlbumCover = null;

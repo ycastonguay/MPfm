@@ -301,6 +301,11 @@ namespace MPfm.Mac
             lblPosition.StringValue = entity.Position;
             lblLength.StringValue = entity.Length;
 
+            lblFileType.StringValue = entity.FileTypeString;
+            lblBitrate.StringValue = entity.BitrateString;
+            lblBitsPerSample.StringValue = entity.BitsPerSampleString;
+            lblSampleRate.StringValue = entity.SampleRateString;
+
             NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
             if(image != null)
                 imageAlbumCover.Image = image;
