@@ -95,6 +95,7 @@ namespace MPfm.Mac
 			cboSoundFormat.AddItem("WAV");
 			cboSoundFormat.AddItem("WV");
 
+
 			// Bind views
 			this.playerPresenter.BindView(this);
 			this.songBrowserPresenter.BindView(this);
@@ -281,6 +282,5 @@ namespace MPfm.Mac
 
 		#endregion
 	}
-
 }
 

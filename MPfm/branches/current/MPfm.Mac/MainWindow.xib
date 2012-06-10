@@ -674,7 +674,6 @@
 															<string key="NSFrameSize">{199, 400}</string>
 															<reference key="NSSuperview" ref="897661416"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView"/>
 															<string key="NSReuseIdentifierKey">_NS:13</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="_NSCornerView" key="NSCornerView">
@@ -2023,6 +2022,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderPosition</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1046729574"/>
+					</object>
+					<int key="connectionID">171</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">Toolbar</string>
 						<reference key="source" ref="748157544"/>
 						<reference key="destination" ref="820365223"/>
@@ -2906,6 +2913,7 @@
 					<string>81.designableToolbarItemIdentifier</string>
 					<string>82.IBPluginDependency</string>
 					<string>82.designableToolbarItemIdentifier</string>
+					<string>83.CustomClassName</string>
 					<string>83.IBPluginDependency</string>
 					<string>84.IBPluginDependency</string>
 					<string>85.IBPluginDependency</string>
@@ -3027,6 +3035,7 @@
 					<string>toolbarRepeat</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>toolbarPause</string>
+					<string>SongPositionSlider</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3045,7 +3054,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">170</int>
+			<int key="maxID">171</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3181,6 +3190,7 @@
 							<string>lblPosition</string>
 							<string>lblSongPath</string>
 							<string>lblSongTitle</string>
+							<string>sliderPosition</string>
 							<string>toolbarMain</string>
 							<string>viewLibraryBrowser</string>
 						</object>
@@ -3193,6 +3203,7 @@
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
+							<string>SongPositionSlider</string>
 							<string>NSToolbar</string>
 							<string>NSOutlineView</string>
 						</object>
@@ -3208,6 +3219,7 @@
 							<string>lblPosition</string>
 							<string>lblSongPath</string>
 							<string>lblSongTitle</string>
+							<string>sliderPosition</string>
 							<string>toolbarMain</string>
 							<string>viewLibraryBrowser</string>
 						</object>
@@ -3242,6 +3254,10 @@
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">sliderPosition</string>
+								<string key="candidateClassName">SongPositionSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">toolbarMain</string>
 								<string key="candidateClassName">NSToolbar</string>
 							</object>
@@ -3254,6 +3270,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MainWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SongPositionSlider</string>
+					<string key="superclassName">NSSlider</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SongPositionSlider.h</string>
 					</object>
 				</object>
 			</object>

@@ -12,6 +12,9 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MPfm.Mac.SongPositionSlider sliderPosition { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
 
 		[Outlet]
@@ -79,6 +82,11 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (sliderPosition != null) {
+				sliderPosition.Dispose ();
+				sliderPosition = null;
+			}
+
 			if (lblLength != null) {
 				lblLength.Dispose ();
 				lblLength = null;

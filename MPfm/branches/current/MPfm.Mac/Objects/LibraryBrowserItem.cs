@@ -25,6 +25,7 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.MVP;
+using Ninject;
 
 namespace MPfm.Mac
 {
