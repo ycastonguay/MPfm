@@ -53,8 +53,10 @@ namespace MPfm.Mac
             // Get selected row and call presenter
             NSOutlineView outlineView = (NSOutlineView)notification.Object;
             LibraryBrowserItem item = (LibraryBrowserItem)outlineView.ItemAtRow(outlineView.SelectedRow);
-            libraryBrowserPresenter.TreeNodeSelected(item.Entity);
+
+            // Call presenter if a valid item has been found
+            if(item != null)
+                libraryBrowserPresenter.TreeNodeSelected(item.Entity);
         }
     }
 }
-

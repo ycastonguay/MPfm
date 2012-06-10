@@ -103,7 +103,26 @@ namespace MPfm.Mac
 		{
 			// Cast item and return NSString value
 			LibraryBrowserItem item = (LibraryBrowserItem)byItem;
-			return item.StringValue;
+
+            if(forTableColumn.DataCell.Identifier == "colLibraryBrowserIcon")
+            {
+                return ImageResources.images32x32[1];
+            }
+            else if(forTableColumn.DataCell.Identifier == "colLibraryBrowserText")
+            {
+                return item.StringValue;
+            }
+
+            if(forTableColumn.DataCell.CellType == NSCellType.Image)
+            {
+                return ImageResources.images32x32[0];
+            }
+            else if(forTableColumn.DataCell.CellType == NSCellType.Text)
+            {
+                return item.StringValue;
+            }
+
+			return null;
 		}
 	}
 }

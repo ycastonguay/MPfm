@@ -117,6 +117,7 @@
     <Compile Include="Objects\LibraryBrowserOutlineViewDelegate.cs" />
     <Compile Include="Objects\MainSplitViewDelegate.cs" />
     <Compile Include="Helpers\AlbumCoverHelper.cs" />
+    <Compile Include="Objects\ImageResources.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
