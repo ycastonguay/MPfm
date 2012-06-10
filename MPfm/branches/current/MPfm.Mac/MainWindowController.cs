@@ -70,12 +70,16 @@ namespace MPfm.Mac
 									IPlayerPresenter playerPresenter,
 		                            ISongBrowserPresenter songBrowserPresenter,
 		                            ILibraryBrowserPresenter libraryBrowserPresenter) : base ("MainWindow")
-		{
-			// Set properties
-			this.playerPresenter = playerPresenter;
-			this.songBrowserPresenter = songBrowserPresenter;
-			this.libraryBrowserPresenter = libraryBrowserPresenter;
-			this.initializationService = initializationService;
+        {
+            // Set properties
+            this.playerPresenter = playerPresenter;
+            this.songBrowserPresenter = songBrowserPresenter;
+            this.libraryBrowserPresenter = libraryBrowserPresenter;
+            this.initializationService = initializationService;
+
+            // Initialize configuration and library
+            initializationService.CreateConfiguration();
+            initializationService.CreateLibrary();
 		}		
 
 		public override void WindowDidLoad()
@@ -83,25 +87,37 @@ namespace MPfm.Mac
 			base.WindowDidLoad();			
 		}
 		
-		public override void AwakeFromNib()
-		{
-			// Add items to Sound Format combo box
-			cboSoundFormat.RemoveAllItems();
-			cboSoundFormat.AddItem("All");
-			cboSoundFormat.AddItem("FLAC");
-			cboSoundFormat.AddItem("OGG");
-			cboSoundFormat.AddItem("MP3");
-			cboSoundFormat.AddItem("MPC");
-			cboSoundFormat.AddItem("WAV");
-			cboSoundFormat.AddItem("WV");
+        private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 
+		public override void AwakeFromNib()
+        {
+            // Add items to Sound Format combo box
+            cboSoundFormat.RemoveAllItems();
+            cboSoundFormat.AddItem("All");
+            cboSoundFormat.AddItem("FLAC");
+            cboSoundFormat.AddItem("OGG");
+            cboSoundFormat.AddItem("MP3");
+            cboSoundFormat.AddItem("MPC");
+            cboSoundFormat.AddItem("WAV");
+            cboSoundFormat.AddItem("WV");
+
+            // Initialize and configure Library Browser
+            libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate();
+            viewLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
+            viewLibraryBrowser.AllowsMultipleSelection = false;
+            viewLibraryBrowser.DoubleClick += HandleDoubleClick;
 
 			// Bind views
 			this.playerPresenter.BindView(this);
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 		}
-		
+
+        void HandleDoubleClick(object sender, EventArgs e)
+        {
+            int z = 0;
+        }
+
 		#endregion
 
 		partial void actionAddFilesToLibrary(NSObject sender)
@@ -230,6 +246,11 @@ namespace MPfm.Mac
 
 		}
 		
+        protected void HandleSelectionDidChange(object sender, EventArgs e)
+        {
+            lblArtistName.StringValue = DateTime.Now.ToLongTimeString();    
+        }
+
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
 		{
 			lblPosition.StringValue = entity.Position;
@@ -260,8 +281,7 @@ namespace MPfm.Mac
 		#region ISongBrowserView implementation
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
-		{
-
+        {
 		}
 
 		#endregion
@@ -277,7 +297,7 @@ namespace MPfm.Mac
 
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
 		{
-		
+		    
 		}
 
 		#endregion

@@ -113,6 +113,7 @@
     <Compile Include="Objects\LibraryBrowserDataSource.cs" />
     <Compile Include="Objects\LibraryBrowserItem.cs" />
     <Compile Include="Controls\SongPositionSlider.cs" />
+    <Compile Include="Objects\LibraryBrowserOutlineViewDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
