@@ -245,15 +245,11 @@ namespace MPfm.Mac
 		{
 
 		}
-		
-        protected void HandleSelectionDidChange(object sender, EventArgs e)
-        {
-            lblArtistName.StringValue = DateTime.Now.ToLongTimeString();    
-        }
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
-		{
-			lblPosition.StringValue = entity.Position;
+        {
+            lblPosition.StringValue = entity.Position;
+            sliderPosition.FloatValue = entity.PositionPercentage * 100;
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)

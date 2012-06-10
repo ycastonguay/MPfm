@@ -674,6 +674,7 @@
 															<string key="NSFrameSize">{199, 400}</string>
 															<reference key="NSSuperview" ref="897661416"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView" ref="1055650328"/>
 															<string key="NSReuseIdentifierKey">_NS:13</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="_NSCornerView" key="NSCornerView">
@@ -710,8 +711,8 @@
 																		</object>
 																	</object>
 																	<object class="NSTextFieldCell" key="NSDataCell" id="719693043">
-																		<int key="NSCellFlags">337772096</int>
-																		<int key="NSCellFlags2">2048</int>
+																		<int key="NSCellFlags">69336641</int>
+																		<int key="NSCellFlags2">1073743872</int>
 																		<string key="NSContents">Text Cell</string>
 																		<reference key="NSSupport" ref="377541322"/>
 																		<reference key="NSControlView" ref="961501640"/>
@@ -1200,7 +1201,7 @@
 																			<string key="NSFrameSize">{647, 98}</string>
 																			<reference key="NSSuperview" ref="628665911"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="234049385"/>
+																			<reference key="NSNextKeyView" ref="679588447"/>
 																			<string key="NSReuseIdentifierKey">_NS:13</string>
 																			<bool key="NSEnabled">YES</bool>
 																			<object class="NSTableHeaderView" key="NSHeaderView" id="608358240">
@@ -1322,6 +1323,7 @@
 																	<string key="NSFrame">{{1, 119}, {223, 15}}</string>
 																	<reference key="NSSuperview" ref="901815034"/>
 																	<reference key="NSWindow"/>
+																	<reference key="NSNextKeyView"/>
 																	<string key="NSReuseIdentifierKey">_NS:60</string>
 																	<int key="NSsFlags">1</int>
 																	<reference key="NSTarget" ref="901815034"/>
@@ -1348,7 +1350,7 @@
 															<string key="NSFrameSize">{649, 116}</string>
 															<reference key="NSSuperview" ref="744588613"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="628665911"/>
+															<reference key="NSNextKeyView" ref="234049385"/>
 															<string key="NSReuseIdentifierKey">_NS:9</string>
 															<int key="NSsFlags">133682</int>
 															<reference key="NSVScroller" ref="679588447"/>
@@ -1632,9 +1634,9 @@
 																<string key="NSContents"/>
 																<string key="NSCellIdentifier">_NS:9</string>
 																<reference key="NSControlView" ref="1046729574"/>
-																<double key="NSMaxValue">100</double>
+																<double key="NSMaxValue">9999</double>
 																<double key="NSMinValue">0.0</double>
-																<double key="NSValue">50</double>
+																<double key="NSValue">0.0</double>
 																<double key="NSAltIncValue">0.0</double>
 																<int key="NSNumberOfTickMarks">0</int>
 																<int key="NSTickMarkPosition">1</int>
