@@ -1,6 +1,6 @@
 //
-// LibraryBrowserDataSource.cs: Data structure based on NSOutlineViewDataSource
-//                              for the Library Browser.
+// LibraryBrowserDataSource.cs: Class based on NSOutlineViewDataSource for 
+//                              providing the data for the Library Browser.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -30,7 +30,7 @@ using MPfm.MVP;
 namespace MPfm.Mac
 {
 	/// <summary>
-	/// Data structure based on NSOutlineViewDataSource for the Library Browser.
+	/// Class based on NSOutlineViewDataSource for providing the data for the Library Browser.
 	/// </summary>
 	public class LibraryBrowserDataSource : NSOutlineViewDataSource
 	{

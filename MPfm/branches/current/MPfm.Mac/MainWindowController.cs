@@ -47,6 +47,7 @@ namespace MPfm.Mac
 		private UpdateLibraryWindowController updateLibraryWindowController = null;
         private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		private LibraryBrowserDataSource libraryBrowserDataSource = null;
+        private SongBrowserDataSource songBrowserDataSource = null;
         private List<NSImage> listImages = null;
 
 		//strongly typed window accessor00
@@ -286,6 +287,36 @@ namespace MPfm.Mac
 
 		}
 
+        partial void actionAddSongToPlaylist(NSObject sender)
+        {
+
+        }
+
+        partial void actionEditSongMetadata(NSObject sender)
+        {
+
+        }
+
+        partial void actionPlaySelectedSong(NSObject sender)
+        {
+
+        }
+
+        partial void actionChangeTimeShifting(NSObject sender)
+        {
+
+        }
+
+        partial void actionChangeSongPosition(NSObject sender)
+        {
+
+        }
+
+        partial void actionChangeVolume(NSObject sender)
+        {
+
+        }
+
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
             lblPosition.StringValue = entity.Position;
@@ -327,6 +358,9 @@ namespace MPfm.Mac
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
+            // Set data source
+            songBrowserDataSource = new SongBrowserDataSource(audioFiles);
+            tableSongBrowser.DataSource = songBrowserDataSource;
 		}
 
 		#endregion
@@ -342,7 +376,7 @@ namespace MPfm.Mac
 
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
 		{
-		    
+		    // Not used in Cocoa.
 		}
 
 		#endregion

@@ -118,6 +118,8 @@
     <Compile Include="Objects\MainSplitViewDelegate.cs" />
     <Compile Include="Helpers\AlbumCoverHelper.cs" />
     <Compile Include="Objects\ImageResources.cs" />
+    <Compile Include="Objects\SongBrowserDataSource.cs" />
+    <Compile Include="Objects\SongBrowserItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />

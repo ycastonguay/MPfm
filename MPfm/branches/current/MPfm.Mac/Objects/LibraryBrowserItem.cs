@@ -1,5 +1,5 @@
 //
-// LibraryBrowserItems.cs: Library Browser item for the NSOutlineView.
+// LibraryBrowserItem.cs: Library Browser item for the NSOutlineView.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -31,6 +31,10 @@ namespace MPfm.Mac
 {
     /// <summary>
     /// Library Browser item for the NSOutlineView.
+    /// 
+    /// Note: In MonoMac, you cannot create NSObjects in a method; you must add them
+    /// to a static variable or an object, or the application will eventually crash
+    /// when the garbage collector will free the NSObject.
     /// </summary>
     public class LibraryBrowserItem : NSObject
     {

@@ -12,6 +12,24 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSSlider sliderTimeShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableSongBrowser { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSearchField searchSongBrowser { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTimeShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSlider sliderVolume { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblVolume { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblFileType { get; set; }
 
 		[Outlet]
@@ -100,9 +118,57 @@ namespace MPfm.Mac
 
 		[Action ("actionOpenPreferencesWindow:")]
 		partial void actionOpenPreferencesWindow (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeTimeShifting:")]
+		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPlaySelectedSong:")]
+		partial void actionPlaySelectedSong (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddSongToPlaylist:")]
+		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditSongMetadata:")]
+		partial void actionEditSongMetadata (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeSongPosition:")]
+		partial void actionChangeSongPosition (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeVolume:")]
+		partial void actionChangeVolume (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (sliderTimeShifting != null) {
+				sliderTimeShifting.Dispose ();
+				sliderTimeShifting = null;
+			}
+
+			if (tableSongBrowser != null) {
+				tableSongBrowser.Dispose ();
+				tableSongBrowser = null;
+			}
+
+			if (searchSongBrowser != null) {
+				searchSongBrowser.Dispose ();
+				searchSongBrowser = null;
+			}
+
+			if (lblTimeShifting != null) {
+				lblTimeShifting.Dispose ();
+				lblTimeShifting = null;
+			}
+
+			if (sliderVolume != null) {
+				sliderVolume.Dispose ();
+				sliderVolume = null;
+			}
+
+			if (lblVolume != null) {
+				lblVolume.Dispose ();
+				lblVolume = null;
+			}
+
 			if (lblFileType != null) {
 				lblFileType.Dispose ();
 				lblFileType = null;
