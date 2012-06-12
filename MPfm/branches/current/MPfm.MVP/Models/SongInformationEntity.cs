@@ -53,11 +53,23 @@ namespace MPfm.MVP
 		/// </summary>
 		public SongInformationEntity()
 		{
-			Length = "0:00.000";
-			Position = "0:00.000";
-			SampleRate = 44100;
-			BitsPerSample = 16;
-			Bitrate = 128;
+            ArtistName = string.Empty;
+            AlbumTitle = string.Empty;
+            Title = string.Empty;
+            FilePath = string.Empty;
+            FileType = AudioFileFormat.All;
+
+            Length = "0:00.000";
+            Position = "0:00.000";
+
+            Bitrate = 128;
+            BitsPerSample = 16;
+            SampleRate = 44100;
+
+            FileTypeString = string.Empty;
+            BitrateString = string.Empty;
+            BitsPerSampleString = string.Empty;
+            SampleRateString = string.Empty;
 		}
 	}
 }

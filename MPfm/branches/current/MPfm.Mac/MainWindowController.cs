@@ -324,7 +324,7 @@ namespace MPfm.Mac
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)
-        {									
+        {
             lblArtistName.StringValue = entity.ArtistName;
             lblAlbumTitle.StringValue = entity.AlbumTitle;
             lblSongTitle.StringValue = entity.Title;
@@ -337,9 +337,12 @@ namespace MPfm.Mac
             lblBitsPerSample.StringValue = entity.BitsPerSampleString;
             lblSampleRate.StringValue = entity.SampleRateString;
 
-            NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
-            if(image != null)
-                imageAlbumCover.Image = image;
+            if(!String.IsNullOrEmpty(entity.FilePath))
+            {
+                NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
+                if(image != null)
+                    imageAlbumCover.Image = image;
+            }
 		}
 
 		private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
