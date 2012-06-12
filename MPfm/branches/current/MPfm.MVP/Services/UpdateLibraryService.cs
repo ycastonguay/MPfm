@@ -413,7 +413,7 @@ namespace MPfm.MVP
                 foreach (DirectoryInfo directoryInfo in rootDirectoryInfo.GetDirectories())
                 {
 					// Make sure this isn't an Apple index directory
-					if(!fileInfo.Name.StartsWith(".Apple"))
+                    if (!directoryInfo.Name.StartsWith(".Apple"))
 					{					
 	                    // Search for songs in that directory                    
 	                    List<string> listSongs = SearchMediaFilesInFolders(directoryInfo.FullName, recursive);

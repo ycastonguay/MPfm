@@ -25,11 +25,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.IO;
 using System.IO.Compression;
+#if (!MACOSX && !LINUX)
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading;
+#endif
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -752,6 +754,8 @@ namespace MPfm.Sound
             }
         }
     }
+    	
+#endif
 
     /// <summary>
     /// Defines the data used with the OnProcessStarted event.
@@ -855,6 +859,5 @@ namespace MPfm.Sound
 
         }
     }
-	
-#endif	
+
 }
