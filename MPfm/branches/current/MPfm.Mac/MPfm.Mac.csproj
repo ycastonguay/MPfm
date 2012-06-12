@@ -186,6 +186,7 @@
     <Content Include="Resources\preferences-system.png" />
     <Content Include="Resources\audio-x-generic.png" />
     <Content Include="Resources\drive-harddisk.png" />
+    <Content Include="MPfm.icns" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
