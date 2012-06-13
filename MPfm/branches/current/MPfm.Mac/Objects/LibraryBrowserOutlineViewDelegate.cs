@@ -39,9 +39,9 @@ namespace MPfm.Mac
         /// <summary>
         /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserOutlineViewDelegate"/> class.
         /// </summary>
-        public LibraryBrowserOutlineViewDelegate()
+        public LibraryBrowserOutlineViewDelegate(ILibraryBrowserPresenter libraryBrowserPresenter)
         {
-            libraryBrowserPresenter = Bootstrapper.GetKernel().Get<ILibraryBrowserPresenter>();
+            this.libraryBrowserPresenter = libraryBrowserPresenter;
         }
 
         /// <summary>

@@ -45,10 +45,12 @@ namespace MPfm.Mac
 		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
 
 		private UpdateLibraryWindowController updateLibraryWindowController = null;
+
         private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		private LibraryBrowserDataSource libraryBrowserDataSource = null;
+
+        private SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
         private SongBrowserDataSource songBrowserDataSource = null;
-        private List<NSImage> listImages = null;
 
 		//strongly typed window accessor00
 		public new MainWindow Window {
@@ -107,49 +109,35 @@ namespace MPfm.Mac
             cboSoundFormat.AddItem("WV");
 
             // Initialize and configure Library Browser
-            libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate();
+            libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate(this.libraryBrowserPresenter);
             viewLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
             viewLibraryBrowser.AllowsMultipleSelection = false;
-            viewLibraryBrowser.DoubleClick += HandleDoubleClick;
+            viewLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
 
-            // Load images
-            listImages = new List<NSImage>() {
-                new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-backward", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-forward", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources", string.Empty))
-            };
+            // Initialize and configure Song Browser
+            songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate(this.songBrowserPresenter);
+            tableSongBrowser.Delegate = songBrowserOutlineViewDelegate;
+            tableSongBrowser.AllowsMultipleSelection = true;
+            tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
 
             // Load images in toolbar
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = listImages[0];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = listImages[1];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = listImages[2];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = listImages[3];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = listImages[4];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = listImages[5];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = listImages[6];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = listImages[7];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = listImages[8];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = listImages[9];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = listImages[10];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32[0];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32[1];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32[2];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32[3];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32[4];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32[5];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32[6];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32[7];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32[8];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32[9];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32[10];
 
 			// Bind views
             this.playerPresenter.BindView(this);
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 		}
-
-        void HandleDoubleClick(object sender, EventArgs e)
-        {
-            int z = 0;
-        }
 
 		#endregion
 
@@ -315,6 +303,32 @@ namespace MPfm.Mac
         partial void actionChangeVolume(NSObject sender)
         {
 
+        }
+        
+        protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
+        {
+            // Check for selection
+            if(viewLibraryBrowser.SelectedRow == -1)
+            {
+                return;
+            }
+
+            // Get selected item and start playback
+            LibraryBrowserItem item = (LibraryBrowserItem)viewLibraryBrowser.ItemAtRow(viewLibraryBrowser.SelectedRow);
+            libraryBrowserPresenter.TreeNodeDoubleClicked(item.Entity);
+        }
+
+        protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
+        {
+            // Check for selection
+            if(tableSongBrowser.SelectedRow == -1)
+            {
+                return;
+            }
+
+            // Get selected item and start playback
+            AudioFile audioFile = songBrowserDataSource.Items[tableSongBrowser.SelectedRow].AudioFile;
+            songBrowserPresenter.TableRowDoubleClicked(audioFile);
         }
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)

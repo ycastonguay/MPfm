@@ -120,6 +120,7 @@
     <Compile Include="Objects\ImageResources.cs" />
     <Compile Include="Objects\SongBrowserDataSource.cs" />
     <Compile Include="Objects\SongBrowserItem.cs" />
+    <Compile Include="Objects\SongBrowserTableViewDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
