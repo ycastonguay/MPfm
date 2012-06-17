@@ -40,8 +40,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface IInitializationService
 	{		
-		void CreateConfiguration();
-		void CreateLibrary();
+		void Initialize();		
 	}
 }
 

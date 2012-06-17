@@ -66,7 +66,7 @@ namespace MPfm.MVP
 			this.libraryService = libraryService;
 			
 			// Refresh cache
-			RefreshCache();
+			//RefreshCache();
 		}
 
 		#endregion		

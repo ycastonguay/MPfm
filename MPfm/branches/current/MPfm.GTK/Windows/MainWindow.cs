@@ -80,8 +80,7 @@ namespace MPfm.GTK
 			SetFontProperties();
 			
 			// Initialize configuration and library
-			initializationService.CreateConfiguration();
-			initializationService.CreateLibrary();
+			initializationService.Initialize();			
 			
 			// Initialize browsers
 			InitializeSongBrowser();

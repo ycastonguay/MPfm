@@ -43,12 +43,26 @@ namespace MPfm.MVP
 		/// </summary>
 		public InitializationService()
 		{
-		}		
+		}
+        
+        public void Initialize()
+        {
+            // Check if the .MPfm directory exists
+            string directoryPath = ConfigurationHelper.HomeDirectory;
+            if(!Directory.Exists(directoryPath))
+            {
+                // Create directory
+                Directory.CreateDirectory(directoryPath);
+            }                      
+            
+            CreateConfiguration();
+            CreateLibrary();
+        }
 		
 		/// <summary>
 		/// Creates the configuration.
 		/// </summary>
-		public void CreateConfiguration()
+		private void CreateConfiguration()
 		{
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
@@ -74,7 +88,7 @@ namespace MPfm.MVP
 		/// <exception cref='Exception'>
 		/// Represents errors that occur during application execution.
 		/// </exception>
-		public void CreateLibrary()
+		private void CreateLibrary()
 		{
             try
             {
