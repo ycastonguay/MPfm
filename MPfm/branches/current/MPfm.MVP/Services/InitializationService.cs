@@ -36,15 +36,21 @@ namespace MPfm.MVP
 		private Stream fileTracing = null;
         private TextWriterTraceListener textTraceListener = null;
 		
+        private IAudioFileCacheService audioFileCacheService = null;
+        
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.MVP.InitializationService"/> class.
 		/// </summary>
-		public InitializationService()
+		public InitializationService(IAudioFileCacheService audioFileCacheService)
 		{
+            this.audioFileCacheService = audioFileCacheService;
 		}
         
+        /// <summary>
+        /// Initializes the application (creates configuration, initializes library, cache, etc.).
+        /// </summary>
         public void Initialize()
         {
             // Check if the .MPfm directory exists
@@ -55,8 +61,14 @@ namespace MPfm.MVP
                 Directory.CreateDirectory(directoryPath);
             }                      
             
+            // Create configuration
             CreateConfiguration();
+            
+            // Create library
             CreateLibrary();
+            
+            // Refresh cache
+            audioFileCacheService.RefreshCache();
         }
 		
 		/// <summary>
