@@ -46,6 +46,9 @@ namespace MPfm.MVP
 		/// Song information entity.
 		/// </param>
 		void RefreshSongInformation(SongInformationEntity entity);
+
+        void RefreshPlayerVolume(PlayerVolumeEntity entity);
+        void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
 	}
 }
 

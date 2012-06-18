@@ -292,7 +292,7 @@ namespace MPfm.Mac
 
         partial void actionChangeTimeShifting(NSObject sender)
         {
-
+            playerPresenter.SetTimeShifting(sliderTimeShifting.FloatValue);
         }
 
         partial void actionChangeSongPosition(NSObject sender)
@@ -302,7 +302,7 @@ namespace MPfm.Mac
 
         partial void actionChangeVolume(NSObject sender)
         {
-
+            playerPresenter.SetVolume(sliderVolume.FloatValue);
         }
         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
@@ -330,6 +330,20 @@ namespace MPfm.Mac
             AudioFile audioFile = songBrowserDataSource.Items[tableSongBrowser.SelectedRow].AudioFile;
             songBrowserPresenter.TableRowDoubleClicked(audioFile);
         }
+
+        private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+        {
+            // Create window and start process
+            if(updateLibraryWindowController != null) {
+                updateLibraryWindowController.Dispose();
+            }
+
+            updateLibraryWindowController = new UpdateLibraryWindowController();
+            updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
+            updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
+        }
+
+        #region IPlayerView implementation
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
@@ -359,17 +373,21 @@ namespace MPfm.Mac
             }
 		}
 
-		private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
-		{
-			// Create window and start process
-			if(updateLibraryWindowController != null) {
-				updateLibraryWindowController.Dispose();
-			}
+        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        {
+            lblVolume.StringValue = entity.VolumeString;
+            if(sliderVolume.FloatValue != entity.Volume)
+                sliderVolume.FloatValue = entity.Volume;
+        }
 
-			updateLibraryWindowController = new UpdateLibraryWindowController();
-			updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
-			updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
-		}
+        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+            lblTimeShifting.StringValue = entity.TimeShiftingString;
+            if(sliderTimeShifting.FloatValue != entity.TimeShifting)
+                sliderTimeShifting.FloatValue = entity.TimeShifting;
+        }
+
+        #endregion
 
 		#region ISongBrowserView implementation
 

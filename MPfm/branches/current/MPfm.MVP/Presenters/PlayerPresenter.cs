@@ -291,7 +291,27 @@ namespace MPfm.MVP
 			
 			// Update view
 			view.RefreshSongInformation(entity);
-		}			
+		}
+
+        public void SetVolume(float volume)
+        {
+            // Set volume and refresh UI
+            player.Volume = volume / 100;
+            view.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
+                Volume = volume, 
+                VolumeString = volume.ToString("0") + " %" 
+            });
+        }
+
+        public void SetTimeShifting(float timeShifting)
+        {
+            // Set time shifting and refresh UI
+            player.TimeShifting = timeShifting;
+            view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
+                TimeShifting = timeShifting,
+                TimeShiftingString = timeShifting.ToString("0") + " %"
+            });
+        }
 	}
 }
 

@@ -88,6 +88,8 @@
     <Compile Include="Services\InitializationService.cs" />
     <Compile Include="Services\Interfaces\IInitializationService.cs" />
     <Compile Include="Models\SongBrowserQueryEntity.cs" />
+    <Compile Include="Models\PlayerVolumeEntity.cs" />
+    <Compile Include="Models\PlayerTimeShiftingEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

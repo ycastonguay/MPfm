@@ -1,5 +1,5 @@
-//
-// IPlayerPresenter.cs: Player presenter interface.
+﻿//
+// PlayerVolumeEntity.cs: Data structure repesenting the current player volume.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,36 +19,24 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Sound;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-	/// Player presenter interface.
-	/// </summary>
-	public interface IPlayerPresenter
-	{
-		MPfm.Player.IPlayer Player { get; }
-		
-		void Dispose();
-		void BindView(IPlayerView view);		
-		
-		void Play();
-		void Play(IEnumerable<AudioFile> audioFiles);
-		void Play(IEnumerable<string> filePaths);
-		void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();
-
-        void SetVolume(float volume);
-        void SetTimeShifting(float timeShifting);
-	}
+    /// <summary>
+    /// Data structure repesenting the current player volume.
+    /// </summary>
+    public class PlayerVolumeEntity
+    {
+        /// <summary>
+        /// Player volume (in float format, 0 to 100).
+        /// </summary>
+        public float Volume { get; set; }
+        /// <summary>
+        /// Player volume (in string format, 0 to 100%).
+        /// </summary>
+        public string VolumeString { get; set; }
+    }
 }
 

@@ -1,5 +1,5 @@
-//
-// IPlayerPresenter.cs: Player presenter interface.
+﻿//
+// PlayerTimeShiftingEntity.cs: Data structure repesenting the current player time shifting.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,36 +19,25 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Sound;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-	/// Player presenter interface.
-	/// </summary>
-	public interface IPlayerPresenter
-	{
-		MPfm.Player.IPlayer Player { get; }
-		
-		void Dispose();
-		void BindView(IPlayerView view);		
-		
-		void Play();
-		void Play(IEnumerable<AudioFile> audioFiles);
-		void Play(IEnumerable<string> filePaths);
-		void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();
-
-        void SetVolume(float volume);
-        void SetTimeShifting(float timeShifting);
-	}
+    /// <summary>
+    /// Data structure repesenting the current player time shifting.
+    /// </summary>
+    public class PlayerTimeShiftingEntity
+    {
+        /// <summary>
+        /// Player time shifting (in float format).
+        /// Value range from -100.0f (-100%) to 100.0f (+100%). To reset, set to 0.0f.
+        /// </summary>
+        public float TimeShifting { get; set; }
+        /// <summary>
+        /// Player time shifting (in string format, 50% to 150%).
+        /// </summary>
+        public string TimeShiftingString { get; set; }
+    }
 }
 
