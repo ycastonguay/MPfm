@@ -12,6 +12,48 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSButton btnPlayLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnStopLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnAddLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnEditLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnRemoveLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnGoToMarker { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnAddMarker { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnEditMarker { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnRemoveMarker { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableLoops { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnPlaySelectedSong { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnAddSongToPlaylist { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnEditSongMetadata { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSSlider sliderTimeShifting { get; set; }
 
 		[Outlet]
@@ -77,6 +119,33 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
+		[Action ("actionPlayLoop:")]
+		partial void actionPlayLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionStopLoop:")]
+		partial void actionStopLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddLoop:")]
+		partial void actionAddLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditLoop:")]
+		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveLoop:")]
+		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionGoToMarker:")]
+		partial void actionGoToMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddMarker:")]
+		partial void actionAddMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditMarker:")]
+		partial void actionEditMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveMarker:")]
+		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
 
@@ -119,17 +188,17 @@ namespace MPfm.Mac
 		[Action ("actionOpenPreferencesWindow:")]
 		partial void actionOpenPreferencesWindow (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionChangeTimeShifting:")]
-		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionPlaySelectedSong:")]
-		partial void actionPlaySelectedSong (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionAddSongToPlaylist:")]
 		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionEditSongMetadata:")]
 		partial void actionEditSongMetadata (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPlaySelectedSong:")]
+		partial void actionPlaySelectedSong (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeTimeShifting:")]
+		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionChangeSongPosition:")]
 		partial void actionChangeSongPosition (MonoMac.Foundation.NSObject sender);
@@ -139,6 +208,76 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnPlayLoop != null) {
+				btnPlayLoop.Dispose ();
+				btnPlayLoop = null;
+			}
+
+			if (btnStopLoop != null) {
+				btnStopLoop.Dispose ();
+				btnStopLoop = null;
+			}
+
+			if (btnAddLoop != null) {
+				btnAddLoop.Dispose ();
+				btnAddLoop = null;
+			}
+
+			if (btnEditLoop != null) {
+				btnEditLoop.Dispose ();
+				btnEditLoop = null;
+			}
+
+			if (btnRemoveLoop != null) {
+				btnRemoveLoop.Dispose ();
+				btnRemoveLoop = null;
+			}
+
+			if (btnGoToMarker != null) {
+				btnGoToMarker.Dispose ();
+				btnGoToMarker = null;
+			}
+
+			if (btnAddMarker != null) {
+				btnAddMarker.Dispose ();
+				btnAddMarker = null;
+			}
+
+			if (btnEditMarker != null) {
+				btnEditMarker.Dispose ();
+				btnEditMarker = null;
+			}
+
+			if (btnRemoveMarker != null) {
+				btnRemoveMarker.Dispose ();
+				btnRemoveMarker = null;
+			}
+
+			if (tableLoops != null) {
+				tableLoops.Dispose ();
+				tableLoops = null;
+			}
+
+			if (tableMarkers != null) {
+				tableMarkers.Dispose ();
+				tableMarkers = null;
+			}
+
+			if (btnPlaySelectedSong != null) {
+				btnPlaySelectedSong.Dispose ();
+				btnPlaySelectedSong = null;
+			}
+
+			if (btnAddSongToPlaylist != null) {
+				btnAddSongToPlaylist.Dispose ();
+				btnAddSongToPlaylist = null;
+			}
+
+			if (btnEditSongMetadata != null) {
+				btnEditSongMetadata.Dispose ();
+				btnEditSongMetadata = null;
+			}
+
 			if (sliderTimeShifting != null) {
 				sliderTimeShifting.Dispose ();
 				sliderTimeShifting = null;

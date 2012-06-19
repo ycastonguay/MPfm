@@ -3221,76 +3221,188 @@
 					<int key="connectionID">59</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="910895863"/>
-					</object>
-					<int key="connectionID">422</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="75239151"/>
-					</object>
-					<int key="connectionID">322</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="687453219"/>
-					</object>
-					<int key="connectionID">319</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="515665351"/>
-					</object>
-					<int key="connectionID">316</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="286339372"/>
-					</object>
-					<int key="connectionID">313</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnPlayLoop</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="18142398"/>
 					</object>
-					<int key="connectionID">310</int>
+					<int key="connectionID">452</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnStopLoop</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="286339372"/>
+					</object>
+					<int key="connectionID">453</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnAddLoop</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="515665351"/>
+					</object>
+					<int key="connectionID">454</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnEditLoop</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="687453219"/>
+					</object>
+					<int key="connectionID">455</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnRemoveLoop</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="75239151"/>
+					</object>
+					<int key="connectionID">456</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnGoToMarker</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="910895863"/>
+					</object>
+					<int key="connectionID">457</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnAddMarker</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="581136919"/>
 					</object>
-					<int key="connectionID">445</int>
+					<int key="connectionID">458</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnEditMarker</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="490911364"/>
 					</object>
-					<int key="connectionID">448</int>
+					<int key="connectionID">459</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">actionPlaySelectedSong:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnRemoveMarker</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="841914480"/>
 					</object>
-					<int key="connectionID">451</int>
+					<int key="connectionID">460</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionPlayLoop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="18142398"/>
+					</object>
+					<int key="connectionID">461</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionStopLoop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="286339372"/>
+					</object>
+					<int key="connectionID">462</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionAddLoop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="515665351"/>
+					</object>
+					<int key="connectionID">463</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionEditLoop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="687453219"/>
+					</object>
+					<int key="connectionID">464</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionRemoveLoop:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="75239151"/>
+					</object>
+					<int key="connectionID">465</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionGoToMarker:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="910895863"/>
+					</object>
+					<int key="connectionID">466</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionAddMarker:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="581136919"/>
+					</object>
+					<int key="connectionID">467</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionEditMarker:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="490911364"/>
+					</object>
+					<int key="connectionID">468</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionRemoveMarker:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="841914480"/>
+					</object>
+					<int key="connectionID">469</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">tableLoops</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="60825551"/>
+					</object>
+					<int key="connectionID">470</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">tableMarkers</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="77805709"/>
+					</object>
+					<int key="connectionID">471</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnPlaySelectedSong</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1066602912"/>
+					</object>
+					<int key="connectionID">474</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnAddSongToPlaylist</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="354745683"/>
+					</object>
+					<int key="connectionID">475</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">btnEditSongMetadata</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="913381339"/>
+					</object>
+					<int key="connectionID">476</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3497,7 +3609,6 @@
 									<int key="NSvFlags">266</int>
 									<string key="NSFrameSize">{50, 17}</string>
 									<reference key="NSSuperview" ref="623050336"/>
-									<reference key="NSNextKeyView"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="238471024">
@@ -5436,7 +5547,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">451</int>
+			<int key="maxID">476</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5458,11 +5569,16 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>actionAddFilesToLibrary:</string>
 							<string>actionAddFolderLibrary:</string>
+							<string>actionAddLoop:</string>
+							<string>actionAddMarker:</string>
 							<string>actionAddSongToPlaylist:</string>
 							<string>actionChangeSongPosition:</string>
 							<string>actionChangeTimeShifting:</string>
 							<string>actionChangeVolume:</string>
+							<string>actionEditLoop:</string>
+							<string>actionEditMarker:</string>
 							<string>actionEditSongMetadata:</string>
+							<string>actionGoToMarker:</string>
 							<string>actionNext:</string>
 							<string>actionOpenAudioFiles:</string>
 							<string>actionOpenEffectsWindow:</string>
@@ -5470,15 +5586,28 @@
 							<string>actionOpenPreferencesWindow:</string>
 							<string>actionPause:</string>
 							<string>actionPlay:</string>
+							<string>actionPlayLoop:</string>
 							<string>actionPlaySelectedSong:</string>
 							<string>actionPrevious:</string>
+							<string>actionRemoveLoop:</string>
+							<string>actionRemoveMarker:</string>
 							<string>actionRepeatType:</string>
 							<string>actionSoundFormatChanged:</string>
 							<string>actionStop:</string>
+							<string>actionStopLoop:</string>
 							<string>actionUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -5507,11 +5636,16 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>actionAddFilesToLibrary:</string>
 							<string>actionAddFolderLibrary:</string>
+							<string>actionAddLoop:</string>
+							<string>actionAddMarker:</string>
 							<string>actionAddSongToPlaylist:</string>
 							<string>actionChangeSongPosition:</string>
 							<string>actionChangeTimeShifting:</string>
 							<string>actionChangeVolume:</string>
+							<string>actionEditLoop:</string>
+							<string>actionEditMarker:</string>
 							<string>actionEditSongMetadata:</string>
+							<string>actionGoToMarker:</string>
 							<string>actionNext:</string>
 							<string>actionOpenAudioFiles:</string>
 							<string>actionOpenEffectsWindow:</string>
@@ -5519,11 +5653,15 @@
 							<string>actionOpenPreferencesWindow:</string>
 							<string>actionPause:</string>
 							<string>actionPlay:</string>
+							<string>actionPlayLoop:</string>
 							<string>actionPlaySelectedSong:</string>
 							<string>actionPrevious:</string>
+							<string>actionRemoveLoop:</string>
+							<string>actionRemoveMarker:</string>
 							<string>actionRepeatType:</string>
 							<string>actionSoundFormatChanged:</string>
 							<string>actionStop:</string>
+							<string>actionStopLoop:</string>
 							<string>actionUpdateLibrary:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -5534,6 +5672,14 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">actionAddFolderLibrary:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionAddLoop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionAddMarker:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -5553,7 +5699,19 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">actionEditLoop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionEditMarker:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">actionEditSongMetadata:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionGoToMarker:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -5585,11 +5743,23 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">actionPlayLoop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">actionPlaySelectedSong:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">actionPrevious:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionRemoveLoop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionRemoveMarker:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -5605,6 +5775,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">actionStopLoop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">actionUpdateLibrary:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -5614,6 +5788,18 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>btnAddLoop</string>
+							<string>btnAddMarker</string>
+							<string>btnAddSongToPlaylist</string>
+							<string>btnEditLoop</string>
+							<string>btnEditMarker</string>
+							<string>btnEditSongMetadata</string>
+							<string>btnGoToMarker</string>
+							<string>btnPlayLoop</string>
+							<string>btnPlaySelectedSong</string>
+							<string>btnRemoveLoop</string>
+							<string>btnRemoveMarker</string>
+							<string>btnStopLoop</string>
 							<string>cboSoundFormat</string>
 							<string>imageAlbumCover</string>
 							<string>lblAlbumTitle</string>
@@ -5633,12 +5819,26 @@
 							<string>sliderTimeShifting</string>
 							<string>sliderVolume</string>
 							<string>splitMain</string>
+							<string>tableLoops</string>
+							<string>tableMarkers</string>
 							<string>tableSongBrowser</string>
 							<string>toolbarMain</string>
 							<string>viewLibraryBrowser</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
 							<string>NSPopUpButton</string>
 							<string>NSImageView</string>
 							<string>NSTextField</string>
@@ -5659,6 +5859,8 @@
 							<string>NSSlider</string>
 							<string>NSSplitView</string>
 							<string>NSTableView</string>
+							<string>NSTableView</string>
+							<string>NSTableView</string>
 							<string>NSToolbar</string>
 							<string>NSOutlineView</string>
 						</object>
@@ -5667,6 +5869,18 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>btnAddLoop</string>
+							<string>btnAddMarker</string>
+							<string>btnAddSongToPlaylist</string>
+							<string>btnEditLoop</string>
+							<string>btnEditMarker</string>
+							<string>btnEditSongMetadata</string>
+							<string>btnGoToMarker</string>
+							<string>btnPlayLoop</string>
+							<string>btnPlaySelectedSong</string>
+							<string>btnRemoveLoop</string>
+							<string>btnRemoveMarker</string>
+							<string>btnStopLoop</string>
 							<string>cboSoundFormat</string>
 							<string>imageAlbumCover</string>
 							<string>lblAlbumTitle</string>
@@ -5686,12 +5900,62 @@
 							<string>sliderTimeShifting</string>
 							<string>sliderVolume</string>
 							<string>splitMain</string>
+							<string>tableLoops</string>
+							<string>tableMarkers</string>
 							<string>tableSongBrowser</string>
 							<string>toolbarMain</string>
 							<string>viewLibraryBrowser</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnAddLoop</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnAddMarker</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnAddSongToPlaylist</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnEditLoop</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnEditMarker</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnEditSongMetadata</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnGoToMarker</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnPlayLoop</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnPlaySelectedSong</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnRemoveLoop</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnRemoveMarker</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">btnStopLoop</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">cboSoundFormat</string>
 								<string key="candidateClassName">NSPopUpButton</string>
@@ -5767,6 +6031,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">splitMain</string>
 								<string key="candidateClassName">NSSplitView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tableLoops</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tableMarkers</string>
+								<string key="candidateClassName">NSTableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tableSongBrowser</string>
