@@ -50,8 +50,8 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("list-remove", "png", "Resources/16x16", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources/16x16", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/16x16", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources/16x16", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("go-last", "png", "Resources/16x16", string.Empty))
             };
 

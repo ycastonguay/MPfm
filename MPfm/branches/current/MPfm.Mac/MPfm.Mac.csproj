@@ -193,9 +193,9 @@
     <Content Include="Resources\16x16\go-last.png" />
     <Content Include="Resources\16x16\list-add.png" />
     <Content Include="Resources\16x16\list-remove.png" />
-    <Content Include="Resources\16x16\media-playback-pause.png" />
     <Content Include="Resources\16x16\media-playback-start.png" />
     <Content Include="Resources\16x16\accessories-text-editor.png" />
+    <Content Include="Resources\16x16\media-playback-stop.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

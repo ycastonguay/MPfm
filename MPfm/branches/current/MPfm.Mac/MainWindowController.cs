@@ -119,6 +119,20 @@ namespace MPfm.Mac
             tableSongBrowser.AllowsMultipleSelection = true;
             tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
 
+            // Load images
+            LoadImages();
+
+			// Bind views
+            this.playerPresenter.BindView(this);
+			this.songBrowserPresenter.BindView(this);
+			this.libraryBrowserPresenter.BindView(this);
+		}
+
+        /// <summary>
+        /// Loads the image resources in all controls.
+        /// </summary>
+        private void LoadImages()
+        {
             // Load images in toolbar
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32[0];
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32[1];
@@ -132,11 +146,20 @@ namespace MPfm.Mac
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32[9];
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32[10];
 
-			// Bind views
-            this.playerPresenter.BindView(this);
-			this.songBrowserPresenter.BindView(this);
-			this.libraryBrowserPresenter.BindView(this);
-		}
+            // Load button images
+            btnAddLoop.Image = ImageResources.images16x16[0];
+            btnAddMarker.Image = ImageResources.images16x16[0];
+            btnAddSongToPlaylist.Image = ImageResources.images16x16[0];
+            btnEditLoop.Image = ImageResources.images16x16[1];
+            btnEditMarker.Image = ImageResources.images16x16[1];
+            btnEditSongMetadata.Image = ImageResources.images16x16[1];
+            btnRemoveLoop.Image = ImageResources.images16x16[2];
+            btnRemoveMarker.Image = ImageResources.images16x16[2];
+            btnPlayLoop.Image = ImageResources.images16x16[3];
+            btnPlaySelectedSong.Image = ImageResources.images16x16[3];
+            btnStopLoop.Image = ImageResources.images16x16[4];
+            btnGoToMarker.Image = ImageResources.images16x16[5];
+        }
 
 		#endregion
 
