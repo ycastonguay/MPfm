@@ -192,8 +192,12 @@ namespace MPfm.Library
             }
             finally
             {
+                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
@@ -228,8 +232,12 @@ namespace MPfm.Library
             }
             finally
             {
+                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
@@ -285,10 +293,17 @@ namespace MPfm.Library
             {
                 // Clean up reader and connection
                 if (reader != null)
+                {
                     reader.Close();
+                    reader.Dispose();
+                }
 
+                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
@@ -336,10 +351,17 @@ namespace MPfm.Library
             {
                 // Clean up reader and connection
                 if (reader != null)
+                {
                     reader.Close();
+                    reader.Dispose();
+                }
 
+                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
@@ -465,10 +487,17 @@ namespace MPfm.Library
             {
                 // Clean up reader and connection
                 if (reader != null)
+                {
                     reader.Close();
+                    reader.Dispose();
+                }
 
+                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
@@ -579,7 +608,10 @@ namespace MPfm.Library
             {
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
@@ -682,9 +714,14 @@ namespace MPfm.Library
             }
             finally
             {
+                command.Dispose();
+
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 

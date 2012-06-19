@@ -85,8 +85,7 @@ namespace MPfm.Mac
             this.initializationService = initializationService;
 
             // Initialize configuration and library
-            initializationService.CreateConfiguration();
-            initializationService.CreateLibrary();
+            initializationService.Initialize();
 		}		
 
 		public override void WindowDidLoad()
