@@ -32,7 +32,7 @@ namespace MPfm.Mac
     public static class ImageResources
     {
         /// <summary>
-        /// Static list of 32x32px images.
+        /// Static list of 16x16px images.
         /// </summary>
         public static List<NSImage> images16x16 { get; private set; }
         /// <summary>
@@ -46,21 +46,28 @@ namespace MPfm.Mac
         static ImageResources()
         {
             // Load 16x16px images
-            images16x16 = new List<NSImage>();
+            images16x16 = new List<NSImage>() {
+                new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("list-remove", "png", "Resources/16x16", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources/16x16", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/16x16", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("go-last", "png", "Resources/16x16", string.Empty))
+            };
 
             // Load 32x32px images
             images32x32 = new List<NSImage>() {
-                new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-backward", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-forward", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources", string.Empty))
+                new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-backward", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-forward", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources/32x32", string.Empty))
             };
         }
     }

@@ -178,18 +178,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bass.Net.dll.config" />
-    <Content Include="Resources\document-open.png" />
-    <Content Include="Resources\media-playback-pause.png" />
-    <Content Include="Resources\media-playback-start.png" />
-    <Content Include="Resources\media-playback-stop.png" />
-    <Content Include="Resources\media-skip-backward.png" />
-    <Content Include="Resources\media-skip-forward.png" />
-    <Content Include="Resources\view-refresh.png" />
-    <Content Include="Resources\preferences-desktop.png" />
-    <Content Include="Resources\preferences-system.png" />
-    <Content Include="Resources\audio-x-generic.png" />
-    <Content Include="Resources\drive-harddisk.png" />
     <Content Include="MPfm.icns" />
+    <Content Include="Resources\32x32\document-open.png" />
+    <Content Include="Resources\32x32\audio-x-generic.png" />
+    <Content Include="Resources\32x32\drive-harddisk.png" />
+    <Content Include="Resources\32x32\media-playback-pause.png" />
+    <Content Include="Resources\32x32\media-playback-start.png" />
+    <Content Include="Resources\32x32\media-playback-stop.png" />
+    <Content Include="Resources\32x32\media-skip-forward.png" />
+    <Content Include="Resources\32x32\preferences-desktop.png" />
+    <Content Include="Resources\32x32\preferences-system.png" />
+    <Content Include="Resources\32x32\view-refresh.png" />
+    <Content Include="Resources\32x32\media-skip-backward.png" />
+    <Content Include="Resources\16x16\go-last.png" />
+    <Content Include="Resources\16x16\list-add.png" />
+    <Content Include="Resources\16x16\list-remove.png" />
+    <Content Include="Resources\16x16\media-playback-pause.png" />
+    <Content Include="Resources\16x16\media-playback-start.png" />
+    <Content Include="Resources\16x16\accessories-text-editor.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -199,6 +205,8 @@
     <Folder Include="Controls\" />
     <Folder Include="Resources\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Resources\32x32\" />
+    <Folder Include="Resources\16x16\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
