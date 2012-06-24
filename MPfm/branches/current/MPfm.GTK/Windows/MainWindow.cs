@@ -116,7 +116,7 @@ namespace MPfm.GTK
 			
 			// Set focus to something else than the toolbar (for some reason, the first button is selected)
 			cboSoundFormat.GrabFocus();
-			
+						
 			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
 		}
 	
@@ -777,37 +777,22 @@ namespace MPfm.GTK
 	
 		protected void OnVolumeValueChanged(object sender, System.EventArgs e)
 		{
-			// Set player volume
-			//float value = ((float)vscaleVolume.Value / 100);
+			// Set player volume			
 			playerPresenter.SetVolume((float)vscaleVolume.Value);
 		}
-	
-		protected void OnSongPositionValueChanged(object sender, System.EventArgs e)
-		{
-			bool stuff = false;
-		}
-	
-		protected void OnSongPositionButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
+		
+		[GLib.ConnectBefore]
+		protected void OnHscaleSongPositionButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
 		{
 			isSongPositionChanging = true;
 		}
-	
-		protected void OnSongPositionButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+		
+		[GLib.ConnectBefore]
+		protected void OnHscaleSongPositionButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			isSongPositionChanging = false;
-		}	
-	
-		protected void OnSongPositionMoveSlider(object o, Gtk.MoveSliderArgs args)
-		{
-			bool stuff = false;
-		}
-	
-		protected void OnSongPositionChangeValue(object o, Gtk.ChangeValueArgs args)
-		{
-			//if(args.Scroll == ScrollType.Jump)
-	
-			//int test = (int)args.Args[1];
-			//controller.Player.SetPosition(args.RetVal);
+			double value = hscaleSongPosition.Value;
+			isSongPositionChanging = false;			
+			lblLoops.Text = value.ToString("0.0");
 		}
 		
 		protected void OnTimeShiftingValueChanged(object sender, System.EventArgs e)

@@ -654,13 +654,12 @@
                                         <property name="Upper">9999</property>
                                         <property name="PageIncrement">10</property>
                                         <property name="StepIncrement">1</property>
+                                        <property name="Value">10</property>
                                         <property name="DrawValue">False</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
-                                        <signal name="ButtonPressEvent" handler="OnSongPositionButtonPressEvent" />
-                                        <signal name="ButtonReleaseEvent" handler="OnSongPositionButtonReleaseEvent" />
-                                        <signal name="MoveSlider" handler="OnSongPositionMoveSlider" />
-                                        <signal name="ChangeValue" handler="OnSongPositionChangeValue" />
+                                        <signal name="ButtonPressEvent" handler="OnHscaleSongPositionButtonPressEvent" />
+                                        <signal name="ButtonReleaseEvent" handler="OnHscaleSongPositionButtonReleaseEvent" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>

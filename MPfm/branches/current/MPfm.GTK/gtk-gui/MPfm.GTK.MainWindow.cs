@@ -514,6 +514,7 @@ namespace MPfm.GTK
 			this.hscaleSongPosition.Adjustment.Upper = 9999;
 			this.hscaleSongPosition.Adjustment.PageIncrement = 10;
 			this.hscaleSongPosition.Adjustment.StepIncrement = 1;
+			this.hscaleSongPosition.Adjustment.Value = 10;
 			this.hscaleSongPosition.DrawValue = false;
 			this.hscaleSongPosition.Digits = 0;
 			this.hscaleSongPosition.ValuePos = ((global::Gtk.PositionType)(2));
@@ -911,10 +912,8 @@ namespace MPfm.GTK
 			this.treeLibraryBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeLibraryBrowserRowActivated);
 			this.treeLibraryBrowser.CursorChanged += new global::System.EventHandler (this.OnTreeLibraryBrowserCursorChanged);
 			this.treeLibraryBrowser.RowExpanded += new global::Gtk.RowExpandedHandler (this.OnTreeLibraryBrowserRowExpanded);
-			this.hscaleSongPosition.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnSongPositionButtonPressEvent);
-			this.hscaleSongPosition.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnSongPositionButtonReleaseEvent);
-			this.hscaleSongPosition.MoveSlider += new global::Gtk.MoveSliderHandler (this.OnSongPositionMoveSlider);
-			this.hscaleSongPosition.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnSongPositionChangeValue);
+			this.hscaleSongPosition.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnHscaleSongPositionButtonPressEvent);
+			this.hscaleSongPosition.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnHscaleSongPositionButtonReleaseEvent);
 			this.hscaleTimeShifting.ValueChanged += new global::System.EventHandler (this.OnTimeShiftingValueChanged);
 			this.vscaleVolume.ValueChanged += new global::System.EventHandler (this.OnVolumeValueChanged);
 			this.treeSongBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeSongBrowserRowActivated);
