@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using Pango;
 
 namespace MPfm.GTK
 {
@@ -43,6 +44,52 @@ namespace MPfm.GTK
 			
 			// Set reference to main window
 			this.main = main;
+			
+			// Set font properties
+			SetFontProperties();
+		}
+		
+		private void SetFontProperties()
+		{				
+			// Get default font name
+			string defaultFontName = this.label1.Style.FontDescription.Family;
+			string label1FontName = defaultFontName + " 8";
+			this.label1.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label2.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label3.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label4.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label5.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label6.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label7.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label8.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label9.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label10.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label11.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label12.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label13.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label14.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label15.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label16.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label17.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label18.ModifyFont(FontDescription.FromString(label1FontName));			
+			this.label1Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label2Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label3Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label4Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label5Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label6Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label7Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label8Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label9Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label10Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label11Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label12Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label13Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label14Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label15Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label16Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label17Value.ModifyFont(FontDescription.FromString(label1FontName));
+			this.label18Value.ModifyFont(FontDescription.FromString(label1FontName));			
 		}
 
 		/// <summary>

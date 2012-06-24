@@ -5,7 +5,8 @@ namespace MPfm.GTK
 	public partial class SettingsWindow
 	{
 		private global::Gtk.UIManager UIManager;
-		private global::Gtk.VBox vbox3;
+		private global::Gtk.HBox hbox1;
+		private global::Gtk.HBox hbox2;
 		
 		protected virtual void Build ()
 		{
@@ -19,10 +20,17 @@ namespace MPfm.GTK
 			this.Title = global::Mono.Unix.Catalog.GetString ("Settings");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			// Container child MPfm.GTK.SettingsWindow.Gtk.Container+ContainerChild
-			this.vbox3 = new global::Gtk.VBox ();
-			this.vbox3.Name = "vbox3";
-			this.vbox3.Spacing = 6;
-			this.Add (this.vbox3);
+			this.hbox1 = new global::Gtk.HBox ();
+			this.hbox1.Name = "hbox1";
+			this.hbox1.Spacing = 6;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.hbox2 = new global::Gtk.HBox ();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			this.hbox1.Add (this.hbox2);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.hbox2]));
+			w2.Position = 0;
+			this.Add (this.hbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
