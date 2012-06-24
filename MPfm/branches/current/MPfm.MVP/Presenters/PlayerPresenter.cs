@@ -151,15 +151,22 @@ namespace MPfm.MVP
 		/// Starts playback.
 		/// </summary>
 		public void Play()
-		{
-			// Start playback
-			player.Play();
-	
-			// Refresh song information
-			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
-			
-			// Start timer
-			timerRefreshSongPosition.Start();
+		{            
+            try
+            {
+    			// Start playback
+    			player.Play();
+    	
+    			// Refresh song information
+    			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+    			
+    			// Start timer
+    			timerRefreshSongPosition.Start();
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
 		}
 		
 		/// <summary>
@@ -168,12 +175,19 @@ namespace MPfm.MVP
 		/// <param name='audioFiles'>List of audio files</param>		
 		public void Play(IEnumerable<AudioFile> audioFiles)
 		{
-			// Replace playlist
-			player.Playlist.Clear();
-			player.Playlist.AddItems(audioFiles.ToList());
-			
-			// Start playback
-			Play();
+            try
+            {
+    			// Replace playlist
+    			player.Playlist.Clear();
+    			player.Playlist.AddItems(audioFiles.ToList());
+    			
+    			// Start playback
+    			Play();
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
 		}
 
 		/// <summary>
@@ -182,12 +196,19 @@ namespace MPfm.MVP
 		/// <param name='filePaths'>List of audio file paths</param>
 		public void Play(IEnumerable<string> filePaths)
 		{
-			// Replace playlist
-			player.Playlist.Clear();
-			player.Playlist.AddItems(filePaths.ToList());
-			
-			// Start playback
-			Play();
+            try
+            {
+    			// Replace playlist
+    			player.Playlist.Clear();
+    			player.Playlist.AddItems(filePaths.ToList());
+    			
+    			// Start playback
+    			Play();
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
 		}
 		
 		/// <summary>
@@ -197,13 +218,20 @@ namespace MPfm.MVP
 		/// <param name='startAudioFilePath'>File path of the first playlist item to play</param>
 		public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
 		{
-			// Replace playlist
-			player.Playlist.Clear();
-			player.Playlist.AddItems(audioFiles.ToList());
-			player.Playlist.GoTo(startAudioFilePath);
-			
-			// Start playback
-			Play();
+            try
+            {
+    			// Replace playlist
+    			player.Playlist.Clear();
+    			player.Playlist.AddItems(audioFiles.ToList());
+    			player.Playlist.GoTo(startAudioFilePath);
+    			
+    			// Start playback
+    			Play();
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }                
 		}
 		
 		/// <summary>
@@ -211,32 +239,46 @@ namespace MPfm.MVP
 		/// </summary>
 		public void Stop()
 		{
-			// Check if the player is playing
-			if(player.IsPlaying)
-			{
-				// Stop timer
-				timerRefreshSongPosition.Stop();
-				
-				// Stop player
-				player.Stop();
-				
-				// Refresh view with empty information
-				view.RefreshSongInformation(new SongInformationEntity());
-				//view.RefreshPlayerPosition(new PlayerPositionEntity());				
-			}
-		}
+            try
+            {
+    			// Check if the player is playing
+    			if(player.IsPlaying)
+    			{
+    				// Stop timer
+    				timerRefreshSongPosition.Stop();
+    				
+    				// Stop player
+    				player.Stop();
+    				
+    				// Refresh view with empty information
+    				view.RefreshSongInformation(new SongInformationEntity());
+    				//view.RefreshPlayerPosition(new PlayerPositionEntity());				
+    			}
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
+        }
 		
 		/// <summary>
 		/// Pauses playback.
 		/// </summary>
 		public void Pause()
 		{
-			// Check if the player is playing
-			if(player.IsPlaying)
-			{
-				// Pause player
-				player.Pause();
-			}
+            try
+            {
+    			// Check if the player is playing
+    			if(player.IsPlaying)
+    			{
+    				// Pause player
+    				player.Pause();
+    			}
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
 		}
 		
 		/// <summary>
@@ -244,23 +286,37 @@ namespace MPfm.MVP
 		/// </summary>
 		public void Next()
 		{
-			// Go to next song
-			player.Next();
-	
-			// Refresh controls
-			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
-		}
+            try
+            {
+    			// Go to next song
+    			player.Next();
+    	
+    			// Refresh controls
+    			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
+        }
 		
 		/// <summary>
 		/// Skips to the previous song in the playlist.
 		/// </summary>
 		public void Previous()
-		{
-			// Go to previous song
-			player.Previous();
-	
-			// Refresh controls
-			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+		{            
+            try
+            {
+    			// Go to previous song
+    			player.Previous();
+    	
+    			// Refresh controls
+    			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }                
 		}
 		
 		/// <summary>
@@ -295,32 +351,58 @@ namespace MPfm.MVP
         
         public void SetPosition(float percentage)
         {
-            // Set position            
-            player.SetPosition((double)percentage);
+            try
+            {
+                // Set position            
+                player.SetPosition((double)percentage);
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }
         }
 
         public void SetVolume(float volume)
         {
-            // Set volume and refresh UI
-            player.Volume = volume / 100;
-            view.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
-                Volume = volume, 
-                VolumeString = volume.ToString("0") + " %" 
-            });
+            try
+            {
+                // Set volume and refresh UI
+                player.Volume = volume / 100;
+                view.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
+                    Volume = volume, 
+                    VolumeString = volume.ToString("0") + " %" 
+                });
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }                
         }
 
         public void SetTimeShifting(float timeShifting)
         {
-            // Convert scale from +50/+150 to -100/+100
-            float ratio = (timeShifting - 50) / 100;
-            float result = (ratio * 200) - 100;
-            
-            // Set time shifting and refresh UI
-            player.TimeShifting = result;
-            view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
-                TimeShifting = timeShifting,
-                TimeShiftingString = timeShifting.ToString("0") + " %"
-            });
+            try
+            {
+                // Convert scale from +50/+150 to -100/+100
+                float ratio = (timeShifting - 50) / 100;
+                float result = (ratio * 200) - 100;
+                
+                // Set time shifting and refresh UI
+                player.TimeShifting = result;
+                view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
+                    TimeShifting = timeShifting,
+                    TimeShiftingString = timeShifting.ToString("0") + " %"
+                });
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }                
+        }
+        
+        private void SetError(Exception ex)
+        {
+            view.PlayerError(ex);
         }
 	}
 }

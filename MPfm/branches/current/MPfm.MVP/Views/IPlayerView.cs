@@ -49,6 +49,8 @@ namespace MPfm.MVP
 
         void RefreshPlayerVolume(PlayerVolumeEntity entity);
         void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
+        
+        void PlayerError(Exception ex);
 	}
 }
 

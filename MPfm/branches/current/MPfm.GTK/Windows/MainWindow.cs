@@ -19,6 +19,7 @@ using MPfm.MVP;
 using Ninject;
 using Ninject.Parameters;
 using System.Drawing.Imaging;
+using System.Text;
 
 namespace MPfm.GTK
 {
@@ -766,8 +767,8 @@ namespace MPfm.GTK
 		    text += "\nThe BASS.NET audio library is © 2005-2012 radio42.";
 	
 			MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, text);
-			md.Run ();
-			md.Destroy ();
+			md.Run();
+			md.Destroy();
 		}
 	
 		protected void OnHelpActionContentsActivated(object sender, System.EventArgs e)
@@ -892,9 +893,24 @@ namespace MPfm.GTK
 			using (MemoryStream stream = new MemoryStream()) {
 				image.Save(stream, ImageFormat.Bmp);
 				stream.Position = 0;
-				Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream);
+				Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream);	
 				return pixbuf;
 			}
+		}
+		
+		public void PlayerError(Exception ex)
+		{
+			// Build text
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine("An error occured in the Player component:");
+			sb.AppendLine(ex.Message);
+			sb.AppendLine();
+			sb.AppendLine(ex.StackTrace);																
+			
+			// Display alert
+			MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+			md.Run();
+			md.Destroy();
 		}
 	}
 }
