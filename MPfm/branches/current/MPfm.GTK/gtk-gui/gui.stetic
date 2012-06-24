@@ -406,12 +406,13 @@
                                         <property name="MemberName" />
                                         <property name="Xalign">0</property>
                                         <property name="LabelProp" translatable="yes">Artist Name</property>
+                                        <property name="Wrap">True</property>
+                                        <property name="Ellipsize">End</property>
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
-                                        <property name="AutoSize">True</property>
+                                        <property name="AutoSize">False</property>
                                         <property name="Expand">False</property>
-                                        <property name="Fill">False</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -419,6 +420,8 @@
                                         <property name="MemberName" />
                                         <property name="Xalign">0</property>
                                         <property name="LabelProp" translatable="yes">Album Title</property>
+                                        <property name="Wrap">True</property>
+                                        <property name="Ellipsize">End</property>
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -432,6 +435,8 @@
                                         <property name="MemberName" />
                                         <property name="Xalign">0</property>
                                         <property name="LabelProp" translatable="yes">Song Title</property>
+                                        <property name="Wrap">True</property>
+                                        <property name="Ellipsize">End</property>
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -445,6 +450,8 @@
                                         <property name="MemberName" />
                                         <property name="Xalign">0</property>
                                         <property name="LabelProp" translatable="yes">Song File Path</property>
+                                        <property name="Wrap">True</property>
+                                        <property name="Ellipsize">End</property>
                                       </widget>
                                       <packing>
                                         <property name="Position">3</property>
@@ -456,9 +463,7 @@
                                   </widget>
                                   <packing>
                                     <property name="Position">0</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="Expand">False</property>
-                                    <property name="Fill">False</property>
+                                    <property name="AutoSize">False</property>
                                   </packing>
                                 </child>
                                 <child>

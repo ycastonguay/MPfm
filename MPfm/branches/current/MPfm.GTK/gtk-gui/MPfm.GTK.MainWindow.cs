@@ -323,16 +323,19 @@ namespace MPfm.GTK
 			this.lblArtistName.Name = "lblArtistName";
 			this.lblArtistName.Xalign = 0F;
 			this.lblArtistName.LabelProp = global::Mono.Unix.Catalog.GetString ("Artist Name");
+			this.lblArtistName.Wrap = true;
+			this.lblArtistName.Ellipsize = ((global::Pango.EllipsizeMode)(3));
 			this.vbox4.Add (this.lblArtistName);
 			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.lblArtistName]));
 			w12.Position = 0;
 			w12.Expand = false;
-			w12.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.lblAlbumTitle = new global::Gtk.Label ();
 			this.lblAlbumTitle.Name = "lblAlbumTitle";
 			this.lblAlbumTitle.Xalign = 0F;
 			this.lblAlbumTitle.LabelProp = global::Mono.Unix.Catalog.GetString ("Album Title");
+			this.lblAlbumTitle.Wrap = true;
+			this.lblAlbumTitle.Ellipsize = ((global::Pango.EllipsizeMode)(3));
 			this.vbox4.Add (this.lblAlbumTitle);
 			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.lblAlbumTitle]));
 			w13.Position = 1;
@@ -343,6 +346,8 @@ namespace MPfm.GTK
 			this.lblSongTitle.Name = "lblSongTitle";
 			this.lblSongTitle.Xalign = 0F;
 			this.lblSongTitle.LabelProp = global::Mono.Unix.Catalog.GetString ("Song Title");
+			this.lblSongTitle.Wrap = true;
+			this.lblSongTitle.Ellipsize = ((global::Pango.EllipsizeMode)(3));
 			this.vbox4.Add (this.lblSongTitle);
 			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.lblSongTitle]));
 			w14.Position = 2;
@@ -353,6 +358,8 @@ namespace MPfm.GTK
 			this.lblSongFilePath.Name = "lblSongFilePath";
 			this.lblSongFilePath.Xalign = 0F;
 			this.lblSongFilePath.LabelProp = global::Mono.Unix.Catalog.GetString ("Song File Path");
+			this.lblSongFilePath.Wrap = true;
+			this.lblSongFilePath.Ellipsize = ((global::Pango.EllipsizeMode)(3));
 			this.vbox4.Add (this.lblSongFilePath);
 			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.lblSongFilePath]));
 			w15.Position = 3;
@@ -361,8 +368,6 @@ namespace MPfm.GTK
 			this.hbox5.Add (this.vbox4);
 			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox4]));
 			w16.Position = 0;
-			w16.Expand = false;
-			w16.Fill = false;
 			// Container child hbox5.Gtk.Box+BoxChild
 			this.vbox10 = new global::Gtk.VBox ();
 			this.vbox10.Name = "vbox10";

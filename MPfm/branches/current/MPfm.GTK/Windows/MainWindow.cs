@@ -115,7 +115,9 @@ namespace MPfm.GTK
 			cboSoundFormat.SetActiveIter(iter);
 			
 			// Set focus to something else than the toolbar (for some reason, the first button is selected)
-			cboSoundFormat.GrabFocus();	
+			cboSoundFormat.GrabFocus();
+			
+			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
 		}
 	
 		/// <summary>
@@ -145,8 +147,7 @@ namespace MPfm.GTK
 		private void SetFontProperties()
 		{				
 			// Get default font name
-			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;
-			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
+			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;			
 			this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
 			this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
@@ -612,7 +613,7 @@ namespace MPfm.GTK
 			dialog.Destroy();
 		}
 
-		protected void OnActionAddFilesActivated (object sender, System.EventArgs e)
+		protected void OnActionAddFilesActivated(object sender, System.EventArgs e)
 		{
 			// Create dialog box
 			Gtk.FileChooserDialog dialog = 
@@ -783,22 +784,22 @@ namespace MPfm.GTK
 	
 		protected void OnSongPositionValueChanged(object sender, System.EventArgs e)
 		{
-	
+			bool stuff = false;
 		}
 	
 		protected void OnSongPositionButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
 		{
-			//isSongPositionChanging = true;
+			isSongPositionChanging = true;
 		}
 	
 		protected void OnSongPositionButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			//isSongPositionChanging = false;
-		}
+			isSongPositionChanging = false;
+		}	
 	
 		protected void OnSongPositionMoveSlider(object o, Gtk.MoveSliderArgs args)
 		{
-
+			bool stuff = false;
 		}
 	
 		protected void OnSongPositionChangeValue(object o, Gtk.ChangeValueArgs args)
