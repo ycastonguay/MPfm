@@ -79,7 +79,7 @@ namespace MPfm.GTK
 		private global::Gtk.Label label18;
 		private global::Gtk.Label label18Value;
 		private global::Gtk.VBox vboxPanel;
-		private global::Gtk.Label label19;
+		private global::Gtk.Label lblPreset;
 		private global::Gtk.ComboBox comboPreset;
 		private global::Gtk.CheckButton chkEQOn;
 		private global::Gtk.Label lblInformation;
@@ -169,6 +169,7 @@ namespace MPfm.GTK
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.WidthRequest = 40;
+			this.label2.Name = "label2";
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("77 Hz");
 			this.vbox4.Add (this.label2);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.label2]));
@@ -893,11 +894,11 @@ namespace MPfm.GTK
 			this.vboxPanel.Name = "vboxPanel";
 			this.vboxPanel.Spacing = 6;
 			// Container child vboxPanel.Gtk.Box+BoxChild
-			this.label19 = new global::Gtk.Label ();
-			this.label19.Name = "label19";
-			this.label19.LabelProp = global::Mono.Unix.Catalog.GetString ("Preset");
-			this.vboxPanel.Add (this.label19);
-			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.label19]));
+			this.lblPreset = new global::Gtk.Label ();
+			this.lblPreset.Name = "lblPreset";
+			this.lblPreset.LabelProp = global::Mono.Unix.Catalog.GetString ("Preset");
+			this.vboxPanel.Add (this.lblPreset);
+			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblPreset]));
 			w74.Position = 0;
 			w74.Expand = false;
 			w74.Fill = false;

@@ -25,7 +25,7 @@ namespace MPfm.GTK
 	/// <summary>
 	/// Settings window.
 	/// </summary>
-	public partial class SettingsWindow : Gtk.Window
+	public partial class PreferencesWindow : Gtk.Window
 	{
 		/// <summary>
 		/// Reference to the main window.
@@ -33,10 +33,10 @@ namespace MPfm.GTK
 		private MainWindow main = null;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.GTK.SettingsWindow"/> class.
+		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
 		/// </summary>
 		/// <param name='main'>Reference to the main window.</param>
-		public SettingsWindow (MainWindow main) : 
+		public PreferencesWindow (MainWindow main) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();

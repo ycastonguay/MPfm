@@ -86,16 +86,16 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.SettingsWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.MainWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.PlaylistWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.EffectsWindow.cs" />
     <Compile Include="Windows\MainWindow.cs" />
     <Compile Include="Windows\PlaylistWindow.cs" />
-    <Compile Include="Windows\SettingsWindow.cs" />
     <Compile Include="Windows\EffectsWindow.cs" />
     <Compile Include="Windows\UpdateLibraryWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.UpdateLibraryWindow.cs" />
+    <Compile Include="Windows\PreferencesWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.PreferencesWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

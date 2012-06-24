@@ -37,7 +37,7 @@ namespace MPfm.GTK
 		private IUpdateLibraryPresenter presenter = null;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.GTK.SettingsWindow"/> class.
+		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
 		/// </summary>		
 		public UpdateLibraryWindow (UpdateLibraryMode mode, List<string> filePaths, string folderPath) : 
 				base(Gtk.WindowType.Toplevel)

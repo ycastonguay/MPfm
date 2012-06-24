@@ -35,7 +35,7 @@ namespace MPfm.GTK
 		private readonly ISongBrowserPresenter songBrowserPresenter = null;
 		private readonly IInitializationService initializationService = null;
 		
-		private SettingsWindow windowSettings = null;
+		private PreferencesWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;
 		private EffectsWindow windowEffects = null;
 		private UpdateLibraryWindow windowUpdateLibrary = null;
@@ -752,7 +752,7 @@ namespace MPfm.GTK
 			// Create window if it doesn't exists
 			if(windowSettings == null)
 			{				
-				windowSettings = new SettingsWindow(this);			
+				windowSettings = new PreferencesWindow(this);			
 			}
 			
 			// Display window			
