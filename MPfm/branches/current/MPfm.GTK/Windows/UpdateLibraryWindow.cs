@@ -23,6 +23,8 @@ using System.Collections.Generic;
 using MPfm.Library;
 using MPfm.MVP;
 using Ninject;
+using Pango;
+using Gtk;
 
 namespace MPfm.GTK
 {
@@ -41,6 +43,9 @@ namespace MPfm.GTK
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();	
+						
+			// Set fonts
+			SetFontProperties();
 			
 			// Create presenter			
 			var libraryService = Bootstrapper.GetKernel().Get<LibraryService>();
@@ -51,6 +56,17 @@ namespace MPfm.GTK
 			presenter.UpdateLibrary(mode, filePaths, folderPath);
 			
 			textviewErrorLog.GrabFocus();
+		}
+		
+		private void SetFontProperties()
+		{				
+			// Get default font name
+			string defaultFontName = this.lblTitle.Style.FontDescription.Family;			
+			this.lblTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblSubtitle.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblPercentage.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblTimeElapsed.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblEstimatedTimeLeft.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 		}
 		
 		/// <summary>
@@ -83,19 +99,31 @@ namespace MPfm.GTK
 		{
 			// Invoke UI changes
 			Gtk.Application.Invoke(delegate{
-				lblTitle.Text = entity.Title;
-				lblSubtitle.Text = entity.Subtitle;
-				lblPercentage.Text = entity.PercentageDone.ToString("00.00%");
-				progressbar.Fraction = entity.PercentageDone;
+				
+				// Check for error
+				if(entity.Exception != null)
+				{
+					// Add error to log				
+					TextIter textIter = textviewErrorLog.Buffer.EndIter;
+					textviewErrorLog.Buffer.Insert(ref textIter, entity.FilePath + "\n");					
+					textviewErrorLog.ScrollToIter(textviewErrorLog.Buffer.EndIter, 0, false, 0, 0);
+				}
+				else
+				{			
+					lblTitle.Text = entity.Title;
+					lblSubtitle.Text = entity.Subtitle;
+					lblPercentage.Text = entity.PercentageDone.ToString("00.00%");
+					progressbar.Fraction = entity.PercentageDone;
+				}
 			});
 		}
 		
 		public void AddToLog(string entry)
 		{
-			// Invoke UI changes
-			Gtk.Application.Invoke(delegate{
-				textviewErrorLog.Buffer.Text += entry + "\n";
-			});			
+//			// Invoke UI changes
+//			Gtk.Application.Invoke(delegate{
+//				textviewErrorLog.Buffer.Text += entry + "\n";
+//			});			
 		}
 		
 		public void ProcessEnded(bool canceled)

@@ -1302,7 +1302,7 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.VBox" id="vbox3">
+          <widget class="Gtk.VBox" id="vboxMain1">
             <property name="MemberName" />
             <property name="Spacing">6</property>
             <property name="BorderWidth">6</property>
@@ -1314,6 +1314,7 @@
                 <child>
                   <widget class="Gtk.Label" id="lblTitle">
                     <property name="MemberName" />
+                    <property name="Xalign">0</property>
                     <property name="LabelProp" translatable="yes">Updating database...</property>
                   </widget>
                   <packing>
@@ -1325,13 +1326,16 @@
                 <child>
                   <widget class="Gtk.Label" id="lblSubtitle">
                     <property name="MemberName" />
+                    <property name="Xalign">0</property>
                     <property name="LabelProp" translatable="yes">Adding file /home/animal/Music/Flac/Neu</property>
+                    <property name="Wrap">True</property>
+                    <property name="Ellipsize">End</property>
+                    <property name="SingleLineMode">True</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
                     <property name="AutoSize">False</property>
                     <property name="Expand">False</property>
-                    <property name="Fill">False</property>
                   </packing>
                 </child>
                 <child>
@@ -1352,9 +1356,9 @@
                     <property name="MemberName" />
                     <property name="Spacing">6</property>
                     <child>
-                      <widget class="Gtk.Label" id="label3">
+                      <widget class="Gtk.Label" id="lblTimeElapsed">
                         <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">Estimated Time Left: 20 minutes</property>
+                        <property name="LabelProp" translatable="yes">Time elapsed: 0:00 minute</property>
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -1371,11 +1375,10 @@
                       <packing>
                         <property name="Position">1</property>
                         <property name="AutoSize">False</property>
-                        <property name="Fill">False</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="label5">
+                      <widget class="Gtk.Label" id="lblEstimatedTimeLeft">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">Estimated Time Left: 20 minutes</property>
                       </widget>
@@ -1405,7 +1408,7 @@
             <child>
               <widget class="Gtk.Label" id="lblErrorLog">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">Log</property>
+                <property name="LabelProp" translatable="yes">Error Log</property>
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -1423,6 +1426,7 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
+                    <property name="Editable">False</property>
                     <property name="Text" translatable="yes" />
                     <property name="LeftMargin">3</property>
                     <property name="RightMargin">3</property>
