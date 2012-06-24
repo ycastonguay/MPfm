@@ -688,21 +688,41 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.HScale" id="hscaleTimeShifting">
+                                      <widget class="Gtk.HBox" id="hbox2">
                                         <property name="MemberName" />
-                                        <property name="CanFocus">True</property>
-                                        <property name="Lower">50</property>
-                                        <property name="Upper">150</property>
-                                        <property name="PageIncrement">10</property>
-                                        <property name="StepIncrement">1</property>
-                                        <property name="Value">100</property>
-                                        <property name="DrawValue">True</property>
-                                        <property name="Digits">0</property>
-                                        <property name="ValuePos">Left</property>
-                                        <signal name="ButtonPressEvent" handler="OnSongPositionButtonPressEvent" />
-                                        <signal name="ButtonReleaseEvent" handler="OnSongPositionButtonReleaseEvent" />
-                                        <signal name="MoveSlider" handler="OnSongPositionMoveSlider" />
-                                        <signal name="ChangeValue" handler="OnSongPositionChangeValue" />
+                                        <property name="Spacing">6</property>
+                                        <child>
+                                          <widget class="Gtk.HScale" id="hscaleTimeShifting">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Lower">50</property>
+                                            <property name="Upper">150</property>
+                                            <property name="PageIncrement">10</property>
+                                            <property name="StepIncrement">1</property>
+                                            <property name="Value">100</property>
+                                            <property name="DrawValue">False</property>
+                                            <property name="Digits">0</property>
+                                            <property name="ValuePos">Left</property>
+                                            <signal name="ValueChanged" handler="OnTimeShiftingValueChanged" />
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting">
+                                            <property name="MemberName" />
+                                            <property name="Xalign">0</property>
+                                            <property name="LabelProp" translatable="yes">100 %</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">1</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="Expand">False</property>
+                                            <property name="Fill">False</property>
+                                          </packing>
+                                        </child>
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -760,7 +780,7 @@
                                 <property name="PageIncrement">10</property>
                                 <property name="StepIncrement">1</property>
                                 <property name="Value">100</property>
-                                <property name="DrawValue">True</property>
+                                <property name="DrawValue">False</property>
                                 <property name="Digits">0</property>
                                 <property name="ValuePos">Bottom</property>
                                 <signal name="ValueChanged" handler="OnVolumeValueChanged" />
@@ -768,6 +788,18 @@
                               <packing>
                                 <property name="Position">1</property>
                                 <property name="AutoSize">True</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Label" id="lblCurrentVolume">
+                                <property name="MemberName" />
+                                <property name="LabelProp" translatable="yes">100 %</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">2</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
                               </packing>
                             </child>
                           </widget>

@@ -305,8 +305,12 @@ namespace MPfm.MVP
 
         public void SetTimeShifting(float timeShifting)
         {
+            // Convert scale from +50/+150 to -100/+100
+            float ratio = (timeShifting - 50) / 100;
+            float result = (ratio * 200) - 100;
+            
             // Set time shifting and refresh UI
-            player.TimeShifting = timeShifting;
+            player.TimeShifting = result;
             view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
                 TimeShifting = timeShifting,
                 TimeShiftingString = timeShifting.ToString("0") + " %"

@@ -177,6 +177,9 @@ namespace MPfm.GTK
 			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+						
+			this.lblCurrentTimeShifting.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblCurrentVolume.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 		}
 				
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -547,6 +550,20 @@ namespace MPfm.GTK
 	        }
 	    }
 		
+        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+		{			
+			lblCurrentVolume.Text = entity.VolumeString;
+			if(entity.Volume != vscaleVolume.Value)
+				vscaleVolume.Value = (float)entity.Volume;			
+		}
+		
+        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+		{
+			lblCurrentTimeShifting.Text = entity.TimeShiftingString;
+			if(entity.TimeShifting != hscaleTimeShifting.Value)
+				hscaleTimeShifting.Value = (float)entity.TimeShifting;
+		}
+		
 		#endregion
 	
 		#region Action Events
@@ -760,8 +777,8 @@ namespace MPfm.GTK
 		protected void OnVolumeValueChanged(object sender, System.EventArgs e)
 		{
 			// Set player volume
-			float value = ((float)vscaleVolume.Value / 100);
-			playerPresenter.Player.Volume = value;
+			//float value = ((float)vscaleVolume.Value / 100);
+			playerPresenter.SetVolume((float)vscaleVolume.Value);
 		}
 	
 		protected void OnSongPositionValueChanged(object sender, System.EventArgs e)
@@ -790,6 +807,11 @@ namespace MPfm.GTK
 	
 			//int test = (int)args.Args[1];
 			//controller.Player.SetPosition(args.RetVal);
+		}
+		
+		protected void OnTimeShiftingValueChanged(object sender, System.EventArgs e)
+		{
+			playerPresenter.SetTimeShifting((float)hscaleTimeShifting.Value);
 		}
 
 		protected void OnSoundFormatChanged(object sender, System.EventArgs e)
