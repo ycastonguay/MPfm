@@ -790,9 +790,10 @@ namespace MPfm.GTK
 		[GLib.ConnectBefore]
 		protected void OnHscaleSongPositionButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			double value = hscaleSongPosition.Value;
-			isSongPositionChanging = false;			
-			lblLoops.Text = value.ToString("0.0");
+			// Set new position
+			float value = (float)hscaleSongPosition.Value / 100;
+			playerPresenter.SetPosition(value);
+			isSongPositionChanging = false;
 		}
 		
 		protected void OnTimeShiftingValueChanged(object sender, System.EventArgs e)

@@ -46,7 +46,8 @@ namespace MPfm.MVP
 		void Next();
 		void Previous();
 		void RepeatType();
-
+  
+        void SetPosition(float percentage);
         void SetVolume(float volume);
         void SetTimeShifting(float timeShifting);
 	}

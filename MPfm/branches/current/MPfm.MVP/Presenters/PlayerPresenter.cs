@@ -292,6 +292,12 @@ namespace MPfm.MVP
 			// Update view
 			view.RefreshSongInformation(entity);
 		}
+        
+        public void SetPosition(float percentage)
+        {
+            // Set position            
+            player.SetPosition((double)percentage);
+        }
 
         public void SetVolume(float volume)
         {
