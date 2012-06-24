@@ -192,6 +192,9 @@ namespace MPfm.Library
             }
             finally
             {
+				// Dispose command
+                command.Dispose();
+				
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
@@ -232,6 +235,9 @@ namespace MPfm.Library
             }
             finally
             {
+				// Dispose command
+                command.Dispose();
+				
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
@@ -297,6 +303,9 @@ namespace MPfm.Library
                     reader.Close();
                     reader.Dispose();
                 }
+				
+				// Dispose command
+                command.Dispose();
 
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
@@ -355,6 +364,9 @@ namespace MPfm.Library
                     reader.Close();
                     reader.Dispose();
                 }
+				
+				// Dispose command
+                command.Dispose();
 
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
@@ -491,6 +503,9 @@ namespace MPfm.Library
                     reader.Close();
                     reader.Dispose();
                 }
+				
+				// Dispose command
+                command.Dispose();
 
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
@@ -606,6 +621,9 @@ namespace MPfm.Library
             }
             finally
             {
+				// Dispose command
+                command.Dispose();
+				
                 // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
@@ -714,6 +732,7 @@ namespace MPfm.Library
             }
             finally
             {
+				// Dispose command
                 command.Dispose();
 
                 // Close and clean up connection
@@ -724,51 +743,6 @@ namespace MPfm.Library
                 }
             }
         }
-
-        ///// <summary>
-        ///// Updates a DataTable into the database using a transaction (useful for insert/update/delete).
-        ///// </summary>
-        ///// <param name="table">DataTable to update</param>
-        ///// <param name="sql">Base query to select item to update/insert/delete</param>
-        //protected void UpdateDataTableTransaction(DataTable table, string sql)
-        //{
-        //    // Open connection
-        //    OpenConnection();
-
-        //    // Create transaction
-        //    DbTransaction transaction = connection.BeginTransaction();
-
-        //    // Create command
-        //    DbCommand command = factory.CreateCommand();
-        //    command.CommandText = sql;
-        //    command.Connection = connection;            
-
-        //    // Create adapter
-        //    DbDataAdapter adapter = factory.CreateDataAdapter();
-        //    adapter.SelectCommand = command;
-
-        //    // Create command builder
-        //    DbCommandBuilder builder = factory.CreateCommandBuilder();
-        //    builder.DataAdapter = adapter;
-
-        //    // Get the insert, update and delete commands
-        //    adapter.InsertCommand = builder.GetInsertCommand();
-        //    adapter.UpdateCommand = builder.GetUpdateCommand();
-        //    adapter.DeleteCommand = builder.GetDeleteCommand();
-
-        //    adapter.Update(table);
-
-        //    transaction.Commit();
-
-        //    // Dispose stuff            
-        //    adapter.Dispose();
-        //    builder.Dispose();
-        //    command.Dispose();
-        //    transaction.Dispose();            
-
-        //    // Close connection
-        //    CloseConnection();
-        //}
 
         /// <summary>
         /// Deletes an item from the database.
