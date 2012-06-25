@@ -14,6 +14,16 @@
 
 @implementation MPfmPreferencesViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"Preferences", @"Preferences");
+        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

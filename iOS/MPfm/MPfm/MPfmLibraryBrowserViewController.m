@@ -10,9 +10,18 @@
 
 @implementation MPfmLibraryBrowserViewController
 
-- (void)viewDidLoad
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    [super viewDidLoad];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"Library Browser", @"Library Browser");
+        self.tabBarItem.image = [UIImage imageNamed:@"second"];
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{    [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 

@@ -16,6 +16,16 @@
 
 @synthesize player, timer;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"Player", @"Player");
+        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -24,7 +34,7 @@
     
     // Create player
     player = [[MPfmPlayer alloc] initWithOptions:44100];
-    int sampleRate = player.sampleRate;
+    //int sampleRate = player.sampleRate;
 }
 
 - (void)viewDidUnload

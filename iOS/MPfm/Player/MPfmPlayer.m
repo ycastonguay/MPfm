@@ -46,7 +46,7 @@
         [self initializePlayer];
         
     }
-    return self;    
+    return self;
 }
 
 - (void)initializePlayer {
@@ -54,10 +54,16 @@
     // Check BASS version
     if (HIWORD(BASS_GetVersion()) != BASSVERSION)
     {
-        //[NSException raise:@"Invalid BASS version!"];
         NSException* e = [NSException exceptionWithName:@"InvalidBASSVersionException"
                                                  reason:@"Invalid BASS version!" userInfo:nil];
         @throw e;
+    }
+    
+    if(!BASS_Init(-1, sampleRate, 0, NULL, NULL))
+    {
+        NSException* e = [NSException exceptionWithName:@"BASSInitFailedException"
+                                                 reason:@"Failed to initialize the BASS library!" userInfo:nil];
+        @throw e;        
     }
 }
 

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MPfmAppDelegate : UIResponder <UIApplicationDelegate>
+@interface MPfmAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end

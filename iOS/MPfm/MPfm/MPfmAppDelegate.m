@@ -7,13 +7,42 @@
 //
 
 #import "MPfmAppDelegate.h"
+#import "MPfmPlayerViewController.h"
+#import "MPfmPreferencesViewController.h"
+#import "MPfmLibraryBrowserViewController.h"
 
 @implementation MPfmAppDelegate
 
 @synthesize window = _window;
+@synthesize tabBarController = _tabBarController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Declare variables
+    UIViewController *playerViewController, *libraryBrowserViewController, *preferencesViewController;
+    
+    // Initialize window
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    // Initialize view controllers
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        // iPhone
+        playerViewController = [[MPfmPlayerViewController alloc] initWithNibName:@"MPfmPlayerViewController_iPhone" bundle:nil];
+        libraryBrowserViewController = [[MPfmLibraryBrowserViewController alloc] initWithNibName:@"MPfmLibraryBrowserViewController_iPhone" bundle:nil];
+        preferencesViewController = [[MPfmPreferencesViewController alloc] initWithNibName:@"MPfmPreferencesViewController_iPhone" bundle:nil];
+    }
+    else 
+    {
+        // iPad (nothing for now)
+    }
+    
+    // Initialize tab controller
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:playerViewController, libraryBrowserViewController, preferencesViewController, nil];
+    self.window.rootViewController = self.tabBarController;
+    [self.window makeKeyAndVisible];
+    
     // Override point for customization after application launch.
     return YES;
 }

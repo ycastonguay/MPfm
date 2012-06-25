@@ -15,8 +15,6 @@
 		91219C84157DBAA8005DE38F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91219C82157DBAA8005DE38F /* InfoPlist.strings */; };
 		91219C86157DBAA8005DE38F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C85157DBAA8005DE38F /* main.m */; };
 		91219C8A157DBAA8005DE38F /* MPfmAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C89157DBAA8005DE38F /* MPfmAppDelegate.m */; };
-		91219C8D157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91219C8B157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard */; };
-		91219C90157DBAA8005DE38F /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */; };
 		91219C93157DBAA8005DE38F /* MPfmPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C92157DBAA8005DE38F /* MPfmPlayerViewController.m */; };
 		91219C9A157DBAA8005DE38F /* MPfmPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219C99157DBAA8005DE38F /* MPfmPreferencesViewController.m */; };
 		91219CA6157DBAA8005DE38F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219CA5157DBAA8005DE38F /* SenTestingKit.framework */; };
@@ -37,6 +35,13 @@
 		91723754157DC1C400B33E1C /* libbassflac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723750157DC1C400B33E1C /* libbassflac.a */; };
 		91723755157DC1C400B33E1C /* libbasswv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723751157DC1C400B33E1C /* libbasswv.a */; };
 		91DD4736157F08EC006847B1 /* MPfmPlaylist.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DD4735157F08EC006847B1 /* MPfmPlaylist.m */; };
+		91DEFCEA159921A700966A3B /* MPfmPlayerViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DEFCE9159921A700966A3B /* MPfmPlayerViewController_iPhone.xib */; };
+		91DEFCEC159921BB00966A3B /* MPfmPreferencesViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DEFCEB159921BB00966A3B /* MPfmPreferencesViewController_iPhone.xib */; };
+		91DEFCEE159921D000966A3B /* MPfmLibraryBrowserViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DEFCED159921D000966A3B /* MPfmLibraryBrowserViewController_iPhone.xib */; };
+		91EC3A63159914010036CBD4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 91EC3A62159914010036CBD4 /* Default.png */; };
+		91EC3A65159914050036CBD4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91EC3A64159914050036CBD4 /* Default@2x.png */; };
+		91EC3A67159914340036CBD4 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 91EC3A66159914340036CBD4 /* icon57.png */; };
+		91EC3A69159914370036CBD4 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 91EC3A68159914370036CBD4 /* icon114.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,8 +70,6 @@
 		91219C87157DBAA8005DE38F /* MPfm-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPfm-Prefix.pch"; sourceTree = "<group>"; };
 		91219C88157DBAA8005DE38F /* MPfmAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmAppDelegate.h; sourceTree = "<group>"; };
 		91219C89157DBAA8005DE38F /* MPfmAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmAppDelegate.m; sourceTree = "<group>"; };
-		91219C8C157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		91219C8F157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		91219C91157DBAA8005DE38F /* MPfmPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmPlayerViewController.h; sourceTree = "<group>"; };
 		91219C92157DBAA8005DE38F /* MPfmPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmPlayerViewController.m; sourceTree = "<group>"; };
 		91219C98157DBAA8005DE38F /* MPfmPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmPreferencesViewController.h; sourceTree = "<group>"; };
@@ -91,6 +94,13 @@
 		91723751157DC1C400B33E1C /* libbasswv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbasswv.a; sourceTree = "<group>"; };
 		91DD4734157F08EC006847B1 /* MPfmPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPfmPlaylist.h; sourceTree = "<group>"; };
 		91DD4735157F08EC006847B1 /* MPfmPlaylist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPfmPlaylist.m; sourceTree = "<group>"; };
+		91DEFCE9159921A700966A3B /* MPfmPlayerViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPfmPlayerViewController_iPhone.xib; sourceTree = "<group>"; };
+		91DEFCEB159921BB00966A3B /* MPfmPreferencesViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPfmPreferencesViewController_iPhone.xib; sourceTree = "<group>"; };
+		91DEFCED159921D000966A3B /* MPfmLibraryBrowserViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPfmLibraryBrowserViewController_iPhone.xib; sourceTree = "<group>"; };
+		91EC3A62159914010036CBD4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
+		91EC3A64159914050036CBD4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
+		91EC3A66159914340036CBD4 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon57.png; path = ../icon57.png; sourceTree = "<group>"; };
+		91EC3A68159914370036CBD4 /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon114.png; path = ../icon114.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +155,7 @@
 				91723744157DC01D00B33E1C /* Resources */,
 				91219C78157DBAA8005DE38F /* Frameworks */,
 				9172374D157DC16F00B33E1C /* Other Frameworks */,
+				918DE17B1580555200546FF9 /* Other Sources */,
 				91219C76157DBAA8005DE38F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -176,17 +187,16 @@
 		91219C7F157DBAA8005DE38F /* MPfm */ = {
 			isa = PBXGroup;
 			children = (
+				91DEFCEF159924F100966A3B /* XIB */,
 				91219C88157DBAA8005DE38F /* MPfmAppDelegate.h */,
 				91219C89157DBAA8005DE38F /* MPfmAppDelegate.m */,
-				91219C8B157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard */,
-				91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */,
 				91219C91157DBAA8005DE38F /* MPfmPlayerViewController.h */,
 				91219C92157DBAA8005DE38F /* MPfmPlayerViewController.m */,
 				91219C98157DBAA8005DE38F /* MPfmPreferencesViewController.h */,
 				91219C99157DBAA8005DE38F /* MPfmPreferencesViewController.m */,
-				91219C80157DBAA8005DE38F /* Supporting Files */,
 				91121C53157ED920009254E5 /* MPfmLibraryBrowserViewController.h */,
 				91121C54157ED920009254E5 /* MPfmLibraryBrowserViewController.m */,
+				91219C80157DBAA8005DE38F /* Supporting Files */,
 			);
 			path = MPfm;
 			sourceTree = "<group>";
@@ -224,6 +234,10 @@
 		91723744157DC01D00B33E1C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				91EC3A68159914370036CBD4 /* icon114.png */,
+				91EC3A66159914340036CBD4 /* icon57.png */,
+				91EC3A62159914010036CBD4 /* Default.png */,
+				91EC3A64159914050036CBD4 /* Default@2x.png */,
 				91723745157DC05300B33E1C /* first.png */,
 				91723746157DC05300B33E1C /* first@2x.png */,
 				91723747157DC05300B33E1C /* second.png */,
@@ -242,6 +256,39 @@
 				91723751157DC1C400B33E1C /* libbasswv.a */,
 			);
 			path = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		918DE17B1580555200546FF9 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Other Sources";
+			sourceTree = "<group>";
+		};
+		91DEFCEF159924F100966A3B /* XIB */ = {
+			isa = PBXGroup;
+			children = (
+				91DEFCF11599250800966A3B /* iPad */,
+				91DEFCF01599250000966A3B /* iPhone */,
+			);
+			name = XIB;
+			sourceTree = "<group>";
+		};
+		91DEFCF01599250000966A3B /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				91DEFCE9159921A700966A3B /* MPfmPlayerViewController_iPhone.xib */,
+				91DEFCEB159921BB00966A3B /* MPfmPreferencesViewController_iPhone.xib */,
+				91DEFCED159921D000966A3B /* MPfmLibraryBrowserViewController_iPhone.xib */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		91DEFCF11599250800966A3B /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,12 +363,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				91219C84157DBAA8005DE38F /* InfoPlist.strings in Resources */,
-				91219C8D157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard in Resources */,
-				91219C90157DBAA8005DE38F /* MainStoryboard_iPad.storyboard in Resources */,
 				91723749157DC05300B33E1C /* first.png in Resources */,
 				9172374A157DC05300B33E1C /* first@2x.png in Resources */,
 				9172374B157DC05300B33E1C /* second.png in Resources */,
 				9172374C157DC05300B33E1C /* second@2x.png in Resources */,
+				91EC3A63159914010036CBD4 /* Default.png in Resources */,
+				91EC3A65159914050036CBD4 /* Default@2x.png in Resources */,
+				91EC3A67159914340036CBD4 /* icon57.png in Resources */,
+				91EC3A69159914370036CBD4 /* icon114.png in Resources */,
+				91DEFCEA159921A700966A3B /* MPfmPlayerViewController_iPhone.xib in Resources */,
+				91DEFCEC159921BB00966A3B /* MPfmPreferencesViewController_iPhone.xib in Resources */,
+				91DEFCEE159921D000966A3B /* MPfmLibraryBrowserViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,22 +443,6 @@
 				91219C83157DBAA8005DE38F /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		91219C8B157DBAA8005DE38F /* MainStoryboard_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				91219C8C157DBAA8005DE38F /* en */,
-			);
-			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		91219C8E157DBAA8005DE38F /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				91219C8F157DBAA8005DE38F /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		91219CAE157DBAA8005DE38F /* InfoPlist.strings */ = {
