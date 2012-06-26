@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MPfmLibraryBrowserViewController : UIViewController
+@interface MPfmLibraryBrowserViewController : UITableViewController
 
 @end

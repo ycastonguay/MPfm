@@ -1,0 +1,3 @@
+TagLib wrapper for MacRuby. Currently it only fetches song title, artist name and album name.
+
+Based on http://www.macruby.org/documentation/reading-an-mp3-with-macruby.html

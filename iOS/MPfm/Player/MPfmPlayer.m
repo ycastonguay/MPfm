@@ -8,6 +8,7 @@
 
 #import "MPfmPlayer.h"
 #import "bass.h"
+//#import "taglib.h"
 
 @implementation MPfmPlayer
 
@@ -26,6 +27,8 @@
         
         // Initialize player
         [self initializePlayer];
+        
+        
 
     }
     return self;

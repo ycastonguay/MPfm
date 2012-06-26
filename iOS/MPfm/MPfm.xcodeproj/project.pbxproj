@@ -22,6 +22,9 @@
 		91219CA8157DBAA8005DE38F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91219C7B157DBAA8005DE38F /* Foundation.framework */; };
 		91219CB0157DBAA8005DE38F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91219CAE157DBAA8005DE38F /* InfoPlist.strings */; };
 		91219CB3157DBAA8005DE38F /* MPfmTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91219CB2157DBAA8005DE38F /* MPfmTests.m */; };
+		916BC92D15993BEE0045ABD8 /* TestTagLib.mm in Sources */ = {isa = PBXBuildFile; fileRef = 916BC92C15993BEE0045ABD8 /* TestTagLib.mm */; };
+		916BC98115996A190045ABD8 /* libTagLibCocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 916BC97F1599696D0045ABD8 /* libTagLibCocoaTouch.a */; };
+		916E842B1599709C00DDED63 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 916E842A1599709C00DDED63 /* libz.dylib */; };
 		9172373C157DBFF800B33E1C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9172373B157DBFF800B33E1C /* AudioToolbox.framework */; };
 		9172373F157DC00200B33E1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9172373E157DC00200B33E1C /* SystemConfiguration.framework */; };
 		91723741157DC00C00B33E1C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91723740157DC00C00B33E1C /* CFNetwork.framework */; };
@@ -52,6 +55,13 @@
 			remoteGlobalIDString = 91219C74157DBAA8005DE38F;
 			remoteInfo = MPfm;
 		};
+		916BC97E1599696D0045ABD8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 916BC9771599696D0045ABD8 /* TagLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9193A4191599343300556D1A;
+			remoteInfo = TagLibCocoaTouch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +90,11 @@
 		91219CAF157DBAA8005DE38F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		91219CB1157DBAA8005DE38F /* MPfmTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPfmTests.h; sourceTree = "<group>"; };
 		91219CB2157DBAA8005DE38F /* MPfmTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPfmTests.m; sourceTree = "<group>"; };
+		916BC92B15993BEE0045ABD8 /* TestTagLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTagLib.h; sourceTree = "<group>"; };
+		916BC92C15993BEE0045ABD8 /* TestTagLib.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TestTagLib.mm; sourceTree = "<group>"; };
+		916BC93515993E590045ABD8 /* libTagLibCocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTagLibCocoaTouch.a; sourceTree = "<group>"; };
+		916BC9771599696D0045ABD8 /* TagLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TagLib.xcodeproj; path = ../TagLib/TagLib.xcodeproj; sourceTree = "<group>"; };
+		916E842A1599709C00DDED63 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		9172373B157DBFF800B33E1C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9172373E157DC00200B33E1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		91723740157DC00C00B33E1C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -108,6 +123,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				916E842B1599709C00DDED63 /* libz.dylib in Frameworks */,
+				916BC98115996A190045ABD8 /* libTagLibCocoaTouch.a in Frameworks */,
 				91723743157DC01200B33E1C /* CoreMIDI.framework in Frameworks */,
 				91723741157DC00C00B33E1C /* CFNetwork.framework in Frameworks */,
 				9172373F157DC00200B33E1C /* SystemConfiguration.framework in Frameworks */,
@@ -142,6 +159,8 @@
 				91121C58157EE144009254E5 /* MPfmPlayer.m */,
 				91DD4734157F08EC006847B1 /* MPfmPlaylist.h */,
 				91DD4735157F08EC006847B1 /* MPfmPlaylist.m */,
+				916BC92B15993BEE0045ABD8 /* TestTagLib.h */,
+				916BC92C15993BEE0045ABD8 /* TestTagLib.mm */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -149,6 +168,8 @@
 		91219C6A157DBAA8005DE38F = {
 			isa = PBXGroup;
 			children = (
+				916E842A1599709C00DDED63 /* libz.dylib */,
+				916BC9771599696D0045ABD8 /* TagLib.xcodeproj */,
 				91121C56157EE11B009254E5 /* Player */,
 				91219C7F157DBAA8005DE38F /* MPfm */,
 				91219CAB157DBAA8005DE38F /* MPfmTests */,
@@ -231,6 +252,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		916BC9781599696D0045ABD8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				916BC97F1599696D0045ABD8 /* libTagLibCocoaTouch.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		91723744157DC01D00B33E1C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +278,7 @@
 		9172374D157DC16F00B33E1C /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				916BC93515993E590045ABD8 /* libTagLibCocoaTouch.a */,
 				91121C5A157EE369009254E5 /* bass.h */,
 				9172374E157DC1C400B33E1C /* libbass_fx.a */,
 				9172374F157DC1C400B33E1C /* libbass.a */,
@@ -349,6 +379,12 @@
 			mainGroup = 91219C6A157DBAA8005DE38F;
 			productRefGroup = 91219C76157DBAA8005DE38F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 916BC9781599696D0045ABD8 /* Products */;
+					ProjectRef = 916BC9771599696D0045ABD8 /* TagLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				91219C74157DBAA8005DE38F /* MPfm */,
@@ -356,6 +392,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		916BC97F1599696D0045ABD8 /* libTagLibCocoaTouch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTagLibCocoaTouch.a;
+			remoteRef = 916BC97E1599696D0045ABD8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		91219C73157DBAA8005DE38F /* Resources */ = {
@@ -415,6 +461,7 @@
 				91121C55157ED920009254E5 /* MPfmLibraryBrowserViewController.m in Sources */,
 				91121C59157EE144009254E5 /* MPfmPlayer.m in Sources */,
 				91DD4736157F08EC006847B1 /* MPfmPlaylist.m in Sources */,
+				916BC92D15993BEE0045ABD8 /* TestTagLib.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +523,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_PLUGIN_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -495,6 +543,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_PLUGIN_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
@@ -508,10 +557,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPfm/MPfm-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"/Users/animal/Projects/svn-base/iOS/TagLib/\"";
+				IBC_PLUGIN_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "MPfm/MPfm-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Other Frameworks\"",
+					"\"$(SRCROOT)/../../../../Desktop\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -523,10 +575,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPfm/MPfm-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"/Users/animal/Projects/svn-base/iOS/TagLib/\"";
+				IBC_PLUGIN_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "MPfm/MPfm-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Other Frameworks\"",
+					"\"$(SRCROOT)/../../../../Desktop\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

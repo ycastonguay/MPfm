@@ -11,6 +11,9 @@
 #import "MPfmPreferencesViewController.h"
 #import "MPfmLibraryBrowserViewController.h"
 
+#import "TagLib.h"
+#import "Stuff.h"
+
 @implementation MPfmAppDelegate
 
 @synthesize window = _window;
@@ -19,7 +22,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Declare variables
-    UIViewController *playerViewController, *libraryBrowserViewController, *preferencesViewController;
+    UIViewController *playerViewController, *preferencesViewController;
+    UITableViewController *libraryBrowserViewController;
+    UINavigationController *navigationController;
     
     // Initialize window
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -37,11 +42,18 @@
         // iPad (nothing for now)
     }
     
+    // Initialize navigation controller
+    navigationController = [[UINavigationController alloc] initWithRootViewController:libraryBrowserViewController];    
+    
     // Initialize tab controller
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:playerViewController, libraryBrowserViewController, preferencesViewController, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:playerViewController, navigationController, preferencesViewController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
+    
+    Stuff *stuff = [[Stuff alloc] init];
+    [stuff initializeStuff:@""];
+    
     
     // Override point for customization after application launch.
     return YES;

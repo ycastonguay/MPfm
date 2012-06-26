@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TagLib.h"
+#import "Stuff.h"
 
 @interface MPfmAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 

@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Player", @"Player");
+        self.title = NSLocalizedString(@"Now Playing", @"Now Playing");
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
     }
     return self;
