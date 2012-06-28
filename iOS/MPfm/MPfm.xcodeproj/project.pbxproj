@@ -555,6 +555,8 @@
 		91219CB7157DBAA8005DE38F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPfm/MPfm-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"/Users/animal/Projects/svn-base/iOS/TagLib/\"";
@@ -566,6 +568,7 @@
 					"\"$(SRCROOT)/../../../../Desktop\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -573,6 +576,9 @@
 		91219CB8157DBAA8005DE38F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MPfm/MPfm-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"/Users/animal/Projects/svn-base/iOS/TagLib/\"";
@@ -584,6 +590,9 @@
 					"\"$(SRCROOT)/../../../../Desktop\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
