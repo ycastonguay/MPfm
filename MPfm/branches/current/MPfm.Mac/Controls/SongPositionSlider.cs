@@ -35,30 +35,62 @@ namespace MPfm.Mac
     [Register("SongPositionSlider")]
     public class SongPositionSlider : NSSlider
     {
-        private ILibraryBrowserPresenter libraryBrowserPresenter = null;
+        private IPlayerPresenter playerPresenter = null;
+
+        private bool isMouseDown = false;
 
         [Export("init")]
         public SongPositionSlider() : base(NSObjectFlag.Empty)
         {
-            libraryBrowserPresenter = Bootstrapper.GetKernel().Get<ILibraryBrowserPresenter>();
+            playerPresenter = Bootstrapper.GetKernel().Get<IPlayerPresenter>();
+            this.Continuous = true;
         }
 
         // Called when created from unmanaged code
         public SongPositionSlider(IntPtr handle) : base (handle)
         {
-            libraryBrowserPresenter = Bootstrapper.GetKernel().Get<ILibraryBrowserPresenter>();
+            playerPresenter = Bootstrapper.GetKernel().Get<IPlayerPresenter>();
+            this.Continuous = true;
         }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
         {
+            // Set flag
+            isMouseDown = true;
+
             base.MouseDown(theEvent);
 
+            // Call mouse up 
+            this.MouseUp(theEvent);
+        }
 
+        [Export("mouseUp:")]
+        public override void MouseUp(NSEvent theEvent)
+        {
+            // Call super class
+            base.MouseUp(theEvent);
 
-            //NSView view = this.Superview;
-            //view.controll
+            // Get value
+            float value = this.FloatValue;
 
+            // Set flag
+            isMouseDown = false;
+
+            // Set player position
+            playerPresenter.SetPosition(value / 100);
+        }
+
+        [Export("didChangeValue:")]
+        public override void DidChangeValue(string forKey)
+        {
+            base.DidChangeValue(forKey);
+        }       
+
+        public void SetPosition(float position)
+        {
+            if(!isMouseDown)
+                this.FloatValue = position;
         }
     }
 }

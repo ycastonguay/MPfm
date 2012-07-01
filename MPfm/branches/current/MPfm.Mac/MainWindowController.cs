@@ -31,6 +31,7 @@ using MPfm.MVP;
 using MPfm.Sound;
 using Ninject;
 using System.Drawing;
+using System.Text;
 
 namespace MPfm.Mac
 {
@@ -299,7 +300,6 @@ namespace MPfm.Mac
 
         partial void actionAddSongToPlaylist(NSObject sender)
         {
-
         }
 
         partial void actionEditSongMetadata(NSObject sender)
@@ -370,7 +370,7 @@ namespace MPfm.Mac
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
             lblPosition.StringValue = entity.Position;
-            sliderPosition.FloatValue = entity.PositionPercentage * 100;
+            sliderPosition.SetPosition(entity.PositionPercentage * 100);
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)
@@ -387,12 +387,13 @@ namespace MPfm.Mac
             lblBitsPerSample.StringValue = entity.BitsPerSampleString;
             lblSampleRate.StringValue = entity.SampleRateString;
 
-            if(!String.IsNullOrEmpty(entity.FilePath))
-            {
-                NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
-                if(image != null)
-                    imageAlbumCover.Image = image;
-            }
+            // CRASH BUG HERE
+//            if(!String.IsNullOrEmpty(entity.FilePath))
+//            {
+//                NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
+//                if(image != null)
+//                    imageAlbumCover.Image = image;
+//            }
 		}
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
@@ -407,6 +408,25 @@ namespace MPfm.Mac
             lblTimeShifting.StringValue = entity.TimeShiftingString;
             if(sliderTimeShifting.FloatValue != entity.TimeShifting)
                 sliderTimeShifting.FloatValue = entity.TimeShifting;
+        }
+
+        public void PlayerError(Exception ex)
+        {
+            // Display error in a message box
+            using(NSAlert alert = new NSAlert())
+            {
+                // Build text
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("An error occured in the Player component:");
+                sb.AppendLine(ex.Message);
+                sb.AppendLine();
+                sb.AppendLine(ex.StackTrace);
+
+                // Display alert
+                alert.MessageText = sb.ToString();
+                alert.AlertStyle = NSAlertStyle.Critical;
+                alert.RunModal();
+            }
         }
 
         #endregion
