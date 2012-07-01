@@ -46,6 +46,9 @@ namespace MPfm.Mac
 		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
 
 		private UpdateLibraryWindowController updateLibraryWindowController = null;
+        private PlaylistWindowController playlistWindowController = null;
+        private EffectsWindowController effectsWindowController = null;
+        private PreferencesWindowController preferencesWindowController = null;
 
         private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		private LibraryBrowserDataSource libraryBrowserDataSource = null;
@@ -122,6 +125,11 @@ namespace MPfm.Mac
 
             // Load images
             LoadImages();
+
+            // Create controllers
+            playlistWindowController = new PlaylistWindowController();
+            effectsWindowController = new EffectsWindowController();
+            preferencesWindowController = new PreferencesWindowController();
 
 			// Bind views
             this.playerPresenter.BindView(this);
@@ -285,17 +293,20 @@ namespace MPfm.Mac
 
 		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
-
+            // Show window
+            playlistWindowController.Window.MakeKeyAndOrderFront(this);          
 		}
 
 		partial void actionOpenEffectsWindow(NSObject sender)
 		{
-
+            // Show window
+            effectsWindowController.Window.MakeKeyAndOrderFront(this);          
 		}
 
 		partial void actionOpenPreferencesWindow(NSObject sender)
 		{
-
+            // Show window
+            preferencesWindowController.Window.MakeKeyAndOrderFront(this);
 		}
 
         partial void actionAddSongToPlaylist(NSObject sender)

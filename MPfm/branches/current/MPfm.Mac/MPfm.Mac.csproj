@@ -102,7 +102,6 @@
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\UpdateLibraryWindow.cs" />
-    <Compile Include="Windows\UpdateLibraryWindowController.cs" />
     <Compile Include="Windows\UpdateLibraryWindow.designer.cs">
       <DependentUpon>UpdateLibraryWindow.cs</DependentUpon>
     </Compile>
@@ -121,12 +120,31 @@
     <Compile Include="Objects\SongBrowserDataSource.cs" />
     <Compile Include="Objects\SongBrowserItem.cs" />
     <Compile Include="Objects\SongBrowserTableViewDelegate.cs" />
+    <Compile Include="Windows\Controllers\UpdateLibraryWindowController.cs" />
+    <Compile Include="Windows\PlaylistWindow.cs" />
+    <Compile Include="Windows\PlaylistWindow.designer.cs">
+      <DependentUpon>PlaylistWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EffectsWindow.cs" />
+    <Compile Include="Windows\EffectsWindow.designer.cs">
+      <DependentUpon>EffectsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PreferencesWindow.cs" />
+    <Compile Include="Windows\PreferencesWindow.designer.cs">
+      <DependentUpon>PreferencesWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\EffectsWindowController.cs" />
+    <Compile Include="Windows\Controllers\PlaylistWindowController.cs" />
+    <Compile Include="Windows\Controllers\PreferencesWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
     <InterfaceDefinition Include="MainMenu.xib" />
-    <InterfaceDefinition Include="Windows\UpdateLibraryWindow.xib" />
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
+    <InterfaceDefinition Include="Windows\XIB\UpdateLibraryWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\PlaylistWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\PreferencesWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -207,6 +225,8 @@
     <Folder Include="Helpers\" />
     <Folder Include="Resources\32x32\" />
     <Folder Include="Resources\16x16\" />
+    <Folder Include="Windows\XIB\" />
+    <Folder Include="Windows\Controllers\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
