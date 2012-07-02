@@ -24,11 +24,11 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("MPfm MVP Components")]
-[assembly: AssemblyDescription("Contains the MPfm Model-View-Presenter classes.")]
+[assembly: AssemblyTitle("MPfm: Music Player for Musicians")]
+[assembly: AssemblyDescription("Music player made for musicians, by musicians.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yanick Castonguay")]
-[assembly: AssemblyProduct("MPfm (Music Player for Musicians)")]
+[assembly: AssemblyProduct("MPfm: Music Player for Musicians (Linux)")]
 [assembly: AssemblyCopyright("Copyright © 2011-2012 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -39,3 +39,10 @@ using System.Runtime.CompilerServices;
 
 [assembly: AssemblyVersion("0.6.0.1")]
 [assembly: AssemblyFileVersion("0.6.0.1")]
+
+// The following attributes are used to specify the signing key for the assembly, 
+// if desired. See the Mono documentation for more information about signing.
+
+//[assembly: AssemblyDelaySign(false)]
+//[assembly: AssemblyKeyFile("")]
+

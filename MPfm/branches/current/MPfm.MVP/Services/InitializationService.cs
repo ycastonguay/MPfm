@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using MPfm.Core;
+using System.Reflection;
 
 namespace MPfm.MVP
 {	
@@ -59,8 +60,15 @@ namespace MPfm.MVP
             {
                 // Create directory
                 Directory.CreateDirectory(directoryPath);
-            }                      
-            
+            }
+
+            // Create trace listener and start logging
+            CreateTraceListener();
+            Tracing.Log("====================================================================");
+            Tracing.Log("MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
+            Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
+            Tracing.Log("InitializationService.Initialize -- Starting initialization...");
+    
             // Create configuration
             CreateConfiguration();
             
@@ -70,12 +78,12 @@ namespace MPfm.MVP
             // Refresh cache
             audioFileCacheService.RefreshCache();
         }
-		
-		/// <summary>
-		/// Creates the configuration.
-		/// </summary>
-		private void CreateConfiguration()
-		{
+
+        /// <summary>
+        /// Creates the trace listener.
+        /// </summary>
+        private void CreateTraceListener()
+        {
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
             {
@@ -89,10 +97,16 @@ namespace MPfm.MVP
             }
             textTraceListener = new TextWriterTraceListener(fileTracing);
             Trace.Listeners.Add(textTraceListener);
-
-			// Check for configuration file
-		}
+        }
 		
+		/// <summary>
+		/// Creates the configuration.
+		/// </summary>
+		private void CreateConfiguration()
+		{
+            // Check for configuration file
+            Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");			
+		}
 		
 		/// <summary>
 		/// Creates and initializes the library.
@@ -105,10 +119,11 @@ namespace MPfm.MVP
             try
             {
                 // Check if the database file exists
+                Tracing.Log("InitializationService.CreateLibrary -- Checking if the database file exists...");
                 if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
                 {                    
                     // Create database file
-                    //frmSplash.SetStatus("Creating database file...");
+                    Tracing.Log("InitializationService.CreateLibrary -- Creating new database file...");
                     MPfm.Library.Library.CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
                 }
             }
@@ -144,22 +159,13 @@ namespace MPfm.MVP
                 }
 
                 // Check if the database needs to be updated
+                Tracing.Log("InitializationService.CreateLibrary -- Database version is " + databaseVersion + ". Checking if the database version needs to be updated...");
                 MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(ConfigurationHelper.DatabaseFilePath);
             }
             catch (Exception ex)
             {
                 throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
-            }
-			
-		    try
-            {
-                // Load library
-                Tracing.Log("Main form init -- Loading library...");
-            }
-            catch
-            {
-				throw;
-            }
+            }			
 		}
 
 		#endregion

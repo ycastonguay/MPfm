@@ -155,12 +155,15 @@ namespace MPfm.MVP
             try
             {
     			// Start playback
+                Tracing.Log("PlayerPresenter.Play -- Starting playback...");
     			player.Play();
     	
     			// Refresh song information
-    			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+    			Tracing.Log("PlayerPresenter.Play -- Refreshing song information...");
+                RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
     			
     			// Start timer
+                Tracing.Log("PlayerPresenter.Play -- Starting timer...");
     			timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -178,10 +181,12 @@ namespace MPfm.MVP
             try
             {
     			// Replace playlist
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Clearing playlist and adding items...");
     			player.Playlist.Clear();
     			player.Playlist.AddItems(audioFiles.ToList());
     			
     			// Start playback
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Starting playback...");
     			Play();
             }
             catch(Exception ex)
@@ -199,10 +204,12 @@ namespace MPfm.MVP
             try
             {
     			// Replace playlist
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Clearing playlist and adding items...");
     			player.Playlist.Clear();
     			player.Playlist.AddItems(filePaths.ToList());
     			
     			// Start playback
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Starting playback...");
     			Play();
             }
             catch(Exception ex)
@@ -221,11 +228,14 @@ namespace MPfm.MVP
             try
             {
     			// Replace playlist
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Clearing playlist and adding items...");
     			player.Playlist.Clear();
     			player.Playlist.AddItems(audioFiles.ToList());
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Skipping to item " + startAudioFilePath + " in playlist...");
     			player.Playlist.GoTo(startAudioFilePath);
     			
     			// Start playback
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Starting playback...");
     			Play();
             }
             catch(Exception ex)
@@ -245,14 +255,16 @@ namespace MPfm.MVP
     			if(player.IsPlaying)
     			{
     				// Stop timer
+                    Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
     				timerRefreshSongPosition.Stop();
     				
     				// Stop player
+                    Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
     				player.Stop();
     				
     				// Refresh view with empty information
+                    Tracing.Log("PlayerPresenter.Stop -- Refresh song information with empty entity...");
     				view.RefreshSongInformation(new SongInformationEntity());
-    				//view.RefreshPlayerPosition(new PlayerPositionEntity());				
     			}
             }
             catch(Exception ex)
@@ -272,6 +284,7 @@ namespace MPfm.MVP
     			if(player.IsPlaying)
     			{
     				// Pause player
+                    Tracing.Log("PlayerPresenter.Stop -- Pausing playback...");
     				player.Pause();
     			}
             }
@@ -289,9 +302,11 @@ namespace MPfm.MVP
             try
             {
     			// Go to next song
+                Tracing.Log("PlayerPresenter.Next -- Skipping to next item in playlist...");
     			player.Next();
     	
     			// Refresh controls
+                Tracing.Log("PlayerPresenter.Next -- Refreshing song information...");
     			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
             }
             catch(Exception ex)
@@ -308,10 +323,12 @@ namespace MPfm.MVP
             try
             {
     			// Go to previous song
+                Tracing.Log("PlayerPresenter.Previous -- Skipping to previous item in playlist...");
     			player.Previous();
     	
     			// Refresh controls
     			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+                Tracing.Log("PlayerPresenter.Previous -- Refreshing song information...");
             }
             catch(Exception ex)
             {
@@ -353,7 +370,8 @@ namespace MPfm.MVP
         {
             try
             {
-                // Set position            
+                // Set position
+                Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
                 player.SetPosition((double)percentage);
             }
             catch(Exception ex)
@@ -367,6 +385,7 @@ namespace MPfm.MVP
             try
             {
                 // Set volume and refresh UI
+                Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
                 player.Volume = volume / 100;
                 view.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
@@ -388,6 +407,7 @@ namespace MPfm.MVP
                 float result = (ratio * 200) - 100;
                 
                 // Set time shifting and refresh UI
+                Tracing.Log("PlayerPresenter.SetTimeShifting -- Setting time shifting to " + timeShifting.ToString("0.00") + "%");
                 player.TimeShifting = result;
                 view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
                     TimeShifting = timeShifting,

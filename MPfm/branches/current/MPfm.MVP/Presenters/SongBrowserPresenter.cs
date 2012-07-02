@@ -96,8 +96,14 @@ namespace MPfm.MVP
 			// Set query
 			this.Query = query;
 			
-			// Refresh view
+			// Get audio files
+            Tracing.Log("SongBrowserPresenter.ChangeQuery -- Getting audio files (Format: " + query.Format.ToString() + 
+                        " | Artist: " + query.ArtistName + " | Album: " + query.AlbumTitle + " | OrderBy: " + query.OrderBy + 
+                        " | OrderByAscending: " + query.OrderByAscending.ToString() + " | Search terms: " + query.SearchTerms + ")");
 			IEnumerable<AudioFile> audioFiles = audioFileCacheService.SelectAudioFiles(query);
+
+            // Refresh view
+            Tracing.Log("SongBrowserPresenter.ChangeQuery -- Refreshing song browser...");
 			view.RefreshSongBrowser(audioFiles);
 		}
 		
@@ -108,12 +114,12 @@ namespace MPfm.MVP
 		/// <param name='audioFile'>Audio file</param>
 		public void TableRowDoubleClicked(AudioFile audioFile)
 		{			
+            Tracing.Log("SongBrowserPresenter.TableRowDoubleClicked -- Calling PlayerPresenter.Play with item " + audioFile.Title + "...");
 			playerPresenter.Play(audioFileCacheService.SelectAudioFiles(Query), audioFile.FilePath);
 		}
 		
 		#endregion
 
 	}
-
 }
 

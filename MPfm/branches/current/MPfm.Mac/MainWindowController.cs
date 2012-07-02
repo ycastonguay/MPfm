@@ -32,6 +32,8 @@ using MPfm.Sound;
 using Ninject;
 using System.Drawing;
 using System.Text;
+using MPfm.Core;
+using System.Reflection;
 
 namespace MPfm.Mac
 {
@@ -99,6 +101,10 @@ namespace MPfm.Mac
 
 		public override void AwakeFromNib()
         {
+            // Set main window title
+            this.Window.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
+
+            // Create split delegate
             splitMain.Delegate = new MainSplitViewDelegate();
 
             // Add items to Sound Format combo box
@@ -346,22 +352,56 @@ namespace MPfm.Mac
                 return;
             }
 
-            // Get selected item and start playback
-            LibraryBrowserItem item = (LibraryBrowserItem)viewLibraryBrowser.ItemAtRow(viewLibraryBrowser.SelectedRow);
-            libraryBrowserPresenter.TreeNodeDoubleClicked(item.Entity);
+            try
+            {
+                // Get selected item and start playback
+                Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Getting library browser item...");
+                LibraryBrowserItem item = (LibraryBrowserItem)viewLibraryBrowser.ItemAtRow(viewLibraryBrowser.SelectedRow);
+                Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Calling LibraryBrowserPresenter.TreeNodeDoubleClicked...");
+                libraryBrowserPresenter.TreeNodeDoubleClicked(item.Entity);
+            } 
+            catch (Exception ex)
+            {
+                // Build text
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Library Browser):");
+                sb.AppendLine(ex.Message);
+                sb.AppendLine();
+                sb.AppendLine(ex.StackTrace);
+
+                // Show alert
+                Tracing.Log(sb.ToString());
+                CocoaHelper.ShowCriticalAlert(sb.ToString());
+            }
         }
 
         protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
         {
             // Check for selection
-            if(tableSongBrowser.SelectedRow == -1)
+            if (tableSongBrowser.SelectedRow == -1)
             {
                 return;
             }
 
-            // Get selected item and start playback
-            AudioFile audioFile = songBrowserDataSource.Items[tableSongBrowser.SelectedRow].AudioFile;
-            songBrowserPresenter.TableRowDoubleClicked(audioFile);
+            try
+            {
+                // Get selected item and start playback
+                AudioFile audioFile = songBrowserDataSource.Items [tableSongBrowser.SelectedRow].AudioFile;
+                songBrowserPresenter.TableRowDoubleClicked(audioFile);
+            } 
+            catch (Exception ex)
+            {
+                // Build text
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Song Browser):");
+                sb.AppendLine(ex.Message);
+                sb.AppendLine();
+                sb.AppendLine(ex.StackTrace);
+
+                // Show alert
+                Tracing.Log(sb.ToString());
+                CocoaHelper.ShowCriticalAlert(sb.ToString());
+            }
         }
 
         private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
@@ -426,21 +466,16 @@ namespace MPfm.Mac
 
         public void PlayerError(Exception ex)
         {
-            // Display error in a message box
-            using(NSAlert alert = new NSAlert())
-            {
-                // Build text
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Player component:");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
+            // Build text
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("An error occured in the Player component:");
+            sb.AppendLine(ex.Message);
+            sb.AppendLine();
+            sb.AppendLine(ex.StackTrace);
 
-                // Display alert
-                alert.MessageText = sb.ToString();
-                alert.AlertStyle = NSAlertStyle.Critical;
-                alert.RunModal();
-            }
+            // Show alert
+            Tracing.Log(sb.ToString());
+            CocoaHelper.ShowCriticalAlert(sb.ToString());
         }
 
         #endregion

@@ -26,6 +26,7 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <OutputPath>bin\Debug</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -37,6 +38,7 @@
     <CreatePackage>false</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <OutputPath>bin\Release</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +51,7 @@
     <CreatePackage>false</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <OutputPath>bin\Debug_Linux</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -136,6 +139,8 @@
     <Compile Include="Windows\Controllers\EffectsWindowController.cs" />
     <Compile Include="Windows\Controllers\PlaylistWindowController.cs" />
     <Compile Include="Windows\Controllers\PreferencesWindowController.cs" />
+    <Compile Include="Helpers\CocoaHelper.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
