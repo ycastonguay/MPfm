@@ -380,8 +380,11 @@ namespace MPfm.Mac
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
-            lblPosition.StringValue = entity.Position;
-            sliderPosition.SetPosition(entity.PositionPercentage * 100);
+            using (var p = new NSAutoreleasePool ())
+            {
+                lblPosition.StringValue = entity.Position;
+                sliderPosition.SetPosition(entity.PositionPercentage * 100);
+            }
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)

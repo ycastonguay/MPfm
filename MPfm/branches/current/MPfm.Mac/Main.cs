@@ -31,10 +31,13 @@ namespace MPfm.Mac
     /// </summary>
 	class MainClass
 	{
-		static void Main(string [] args)
-		{
-			NSApplication.Init();
-			NSApplication.Main(args);
+		static void Main(string[] args)
+        {
+            NSApplication.Init();
+            using (var p = new NSAutoreleasePool ())
+            {
+                NSApplication.Main(args);
+            }
 		}
 	}
 }	
