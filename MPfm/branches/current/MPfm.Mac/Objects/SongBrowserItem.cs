@@ -35,6 +35,8 @@ namespace MPfm.Mac
     public class SongBrowserItem : NSObject
     {
         public AudioFile AudioFile { get; private set; }
+        public NSObject Null { get; private set; }
+        public Dictionary<string, NSString> KeyValues { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MPfm.Mac.SongBrowserItem"/> class.
@@ -44,6 +46,17 @@ namespace MPfm.Mac
         {
             // Set entity and NSObject values
             this.AudioFile = audioFile;
+
+            // Set null object
+            Null = new NSObject();
+
+            // Add key/values
+            KeyValues = new Dictionary<string, NSString>();
+            KeyValues.Add("TrackNumber", new NSString(AudioFile.TrackNumber.ToString()));
+            KeyValues.Add("Title", new NSString(audioFile.Title));
+            KeyValues.Add("ArtistName", new NSString(audioFile.ArtistName));
+            KeyValues.Add("AlbumTitle", new NSString(audioFile.AlbumTitle));
+            KeyValues.Add("Length", new NSString(AudioFile.Length));
         }
     }
 }

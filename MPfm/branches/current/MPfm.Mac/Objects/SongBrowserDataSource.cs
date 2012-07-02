@@ -64,29 +64,11 @@ namespace MPfm.Mac
             if(tableColumnName == "IsPlaying")
             {
                 // If something else than NSImage is returned, the application crashes...
-                return new NSImage(new SizeF(16, 16));
+                //return new NSImage(new SizeF(16, 16));
+                return ImageResources.images16x16[0];
             }
 
-            // Use reflection get property value
-            object propertyValue = null;
-            PropertyInfo propertyInfo = typeof(AudioFile).GetProperty(tableColumnName, BindingFlags.Public | BindingFlags.Instance);
-            if(propertyInfo != null)
-            {
-                propertyValue = propertyInfo.GetValue(Items[row].AudioFile, null);
-    
-                // Try to cast value to string
-                try
-                {
-                    string stringValue = propertyValue.ToString();
-                    return new NSString(stringValue);
-                }
-                catch
-                {
-                    return new NSObject();
-                }
-            }
-
-            return new NSObject();
+            return Items[row].KeyValues[tableColumnName];
         }
 	}
 }
