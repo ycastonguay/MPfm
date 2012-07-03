@@ -298,6 +298,12 @@ namespace MPfm.Mac
 			playerPresenter.RepeatType();
 		}
 
+        partial void actionOpenMainWindow(NSObject sender)
+        {
+            // Show window
+            this.Window.MakeKeyAndOrderFront(this);
+        }
+
 		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
             // Show window

@@ -119,33 +119,6 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
-		[Action ("actionPlayLoop:")]
-		partial void actionPlayLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionStopLoop:")]
-		partial void actionStopLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionAddLoop:")]
-		partial void actionAddLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionEditLoop:")]
-		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionRemoveLoop:")]
-		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionGoToMarker:")]
-		partial void actionGoToMarker (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionAddMarker:")]
-		partial void actionAddMarker (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionEditMarker:")]
-		partial void actionEditMarker (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionRemoveMarker:")]
-		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
 
@@ -179,6 +152,9 @@ namespace MPfm.Mac
 		[Action ("actionRepeatType:")]
 		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionOpenMainWindow:")]
+		partial void actionOpenMainWindow (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionOpenPlaylistWindow:")]
 		partial void actionOpenPlaylistWindow (MonoMac.Foundation.NSObject sender);
 
@@ -205,6 +181,33 @@ namespace MPfm.Mac
 
 		[Action ("actionChangeVolume:")]
 		partial void actionChangeVolume (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPlayLoop:")]
+		partial void actionPlayLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionStopLoop:")]
+		partial void actionStopLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddLoop:")]
+		partial void actionAddLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditLoop:")]
+		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveLoop:")]
+		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionGoToMarker:")]
+		partial void actionGoToMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddMarker:")]
+		partial void actionAddMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditMarker:")]
+		partial void actionEditMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveMarker:")]
+		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
