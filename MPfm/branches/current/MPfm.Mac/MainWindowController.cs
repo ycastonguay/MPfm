@@ -103,6 +103,7 @@ namespace MPfm.Mac
         {
             // Set main window title
             this.Window.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
+            Tracing.Log("MainWindowController.AwakeFromNib -- Initializing user interface...");
 
             // Create split delegate
             splitMain.Delegate = new MainSplitViewDelegate();

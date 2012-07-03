@@ -76,7 +76,7 @@ namespace MPfm.MVP
 			device.Id = -1;
 
 			// Create player
-			player = new MPfm.Player.Player(device, 44100, 100, 10, true);
+			player = new MPfm.Player.Player(device, 44100, 1000, 10, true);
 			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;	
 		}
 

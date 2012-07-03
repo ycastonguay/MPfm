@@ -1640,19 +1640,30 @@ namespace MPfm.Player
             // Validate that the main channel exists
             if (mixerChannel == null)
             {
-                throw new Exception("Error removing EQ: The main channel doesn't exist!");
+                Tracing.Log("Player.RemoveEQ -- Error removing EQ: The main channel doesn't exist!");
+                return;
             }
 
             // Check if the EQ is enabled
             if (!isEQEnabled)
             {
-                throw new Exception("Error removing EQ: The EQ isn't activated!");
+                Tracing.Log("Player.RemoveEQ -- Error removing EQ: The EQ isn't activated!");
+                return;
             }
 
-            // Remove EQ
-            mixerChannel.RemoveFX(fxEQHandle);
-            fxEQHandle = 0;
-            isEQEnabled = false;
+            try
+            {
+                // Remove EQ 
+                Tracing.Log("Player.RemoveEQ -- Removing EQ...");
+                mixerChannel.RemoveFX(fxEQHandle);
+                fxEQHandle = 0;
+                isEQEnabled = false;
+            } 
+            catch (Exception ex)
+            {
+                // Add error to log, but this error isn't critical, so we can continue execution
+                Tracing.Log("Player.RemoveEQ -- Error removing EQ: " + ex.Message + "\n" + ex.StackTrace);
+            }
         }
 
         /// <summary>
