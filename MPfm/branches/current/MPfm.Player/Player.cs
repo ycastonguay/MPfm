@@ -119,7 +119,9 @@ namespace MPfm.Player
         #endregion
 
         #region Properties
-        
+
+        public bool IsSettingPosition { get; private set; }
+
         /// <summary>
         /// Private value for the IsPlaying property.
         /// </summary>
@@ -1384,8 +1386,12 @@ namespace MPfm.Player
                 return 0;
             }
 
+            if(IsSettingPosition)
+                return 0;
+
             // Get main channel position
             long outputPosition = mixerChannel.GetPosition(fxChannel.Handle);            
+            //long outputPosition = Playlist.CurrentItem.Channel.GetPosition();
 
             // Divide by 2 (floating point)
             outputPosition /= 2;            
@@ -1435,6 +1441,7 @@ namespace MPfm.Player
                 return;
             }
 
+
             // Check if WASAPI
             if (device.DriverType == DriverType.WASAPI)
             {
@@ -1450,30 +1457,35 @@ namespace MPfm.Player
 
             // Lock channel            
             mixerChannel.Lock(true);            
+            IsSettingPosition = true;
 
             // Check if this is a FLAC file over 44100Hz
-            long bytesOffset = bytes;
+            positionOffset = bytes;
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
                 // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                 bytes = (long)((float)bytes / 1.5f);
-            }   
+            }
+
+            // http://www.un4seen.com/forum/?topic=10570.0;hl=decode+channel+position+mixer
+            mixerChannel.Stop();
+            //Playlist.CurrentItem.Channel.Stop();
 
             // Set position for the decode channel (needs to be in floating point)
-            Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
-
-            // Set main channel position to 0 (clear buffer)            
+            Playlist.CurrentItem.Channel.SetPosition(0); // Flush buffer
             fxChannel.SetPosition(0);
             mixerChannel.SetPosition(0);
+            Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
 
             // Set new callback (length already in floating point)
             SetSyncCallback((length - (bytes * 2))); // + buffered));
 
-            // Set offset position (for calulating current position)
-            positionOffset = bytesOffset;
+            mixerChannel.Play(false);
 
             // Unlock channel
             mixerChannel.Lock(false);
+
+            IsSettingPosition = false;
         }
 
         /// <summary>
@@ -1888,6 +1900,8 @@ namespace MPfm.Player
                 // Clear current loop
                 currentLoop = null;
 
+                Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
+
                 // Check if this is the last item to play                
                 if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
                 {
@@ -1914,31 +1928,39 @@ namespace MPfm.Player
                     }
 
                     // This is the end of the playlist                    
+                    Tracing.Log("StreamCallback -- Playlist is over!");
                     return (int)BASSStreamProc.BASS_STREAMPROC_END;
                 }
                 else
                 {
-                    // Set next playlist index                    
+                    // Set next playlist index
+                    Tracing.Log("StreamCallback -- Setting next playlist index...");
                     currentMixPlaylistIndex++;
                 }
 
                 // Lock main channel
+                Tracing.Log("StreamCallback -- Locking channel...");
                 mixerChannel.Lock(true);
 
                 // Get main channel position
+                Tracing.Log("StreamCallback -- Getting main channel position...");
                 long position = mixerChannel.GetPosition(fxChannel.Handle);
 
                 // Get remanining data in buffer
+                Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
                 int buffered = mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
 
                 // Get length of the next audio file to play
+                Tracing.Log("StreamCallback -- Getting current channel length (mix index)...");
                 long audioLength = Playlist.Items[currentMixPlaylistIndex].Channel.GetLength();
 
                 // Set sync                
+                Tracing.Log("StreamCallback -- Setting new sync...");
                 long syncPos = position + buffered + audioLength;
                 SetSyncCallback(syncPos);
 
                 // Unlock main channel
+                Tracing.Log("StreamCallback -- Unlocking channel...");
                 mixerChannel.Lock(false);
 
                 // Return data from the new channel

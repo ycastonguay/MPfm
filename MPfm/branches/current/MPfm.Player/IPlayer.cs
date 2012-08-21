@@ -35,6 +35,7 @@ namespace MPfm.Player
         Loop CurrentLoop { get; }
         Device Device { get; }
         Channel FXChannel { get; }
+        bool IsSettingPosition { get; }
         bool IsDeviceInitialized { get; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }

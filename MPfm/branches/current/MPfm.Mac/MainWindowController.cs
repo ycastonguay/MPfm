@@ -448,13 +448,12 @@ namespace MPfm.Mac
             lblBitsPerSample.StringValue = entity.BitsPerSampleString;
             lblSampleRate.StringValue = entity.SampleRateString;
 
-            // CRASH BUG HERE
-//            if(!String.IsNullOrEmpty(entity.FilePath))
-//            {
-//                NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
-//                if(image != null)
-//                    imageAlbumCover.Image = image;
-//            }
+            if(!String.IsNullOrEmpty(entity.FilePath))
+            {
+                NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
+                if(image != null)
+                    imageAlbumCover.Image = image;
+            }
 		}
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)

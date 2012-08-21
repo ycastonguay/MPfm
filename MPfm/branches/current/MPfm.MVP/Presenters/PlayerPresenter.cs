@@ -123,6 +123,10 @@ namespace MPfm.MVP
 		/// </param>
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
+            // Check player
+            if(player.IsSettingPosition)
+                return;
+
 			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
 			entity.PositionBytes = player.GetPosition();
@@ -372,7 +376,9 @@ namespace MPfm.MVP
             {
                 // Set position
                 Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
+                timerRefreshSongPosition.Stop();
                 player.SetPosition((double)percentage);
+                timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
