@@ -32,5 +32,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface ISplashView
 	{
+        void RefreshStatus(string message);
+        void InitDone();
 	}
 }

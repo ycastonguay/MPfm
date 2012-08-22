@@ -61,9 +61,9 @@
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
-    <CreatePackage>false</CreatePackage>
+    <CreatePackage>true</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
-    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <LinkMode>Full</LinkMode>
@@ -232,6 +232,10 @@
     <Content Include="Resources\32x32\document-new.png" />
     <Content Include="Resources\32x32\document-save-as.png" />
     <Content Include="Resources\32x32\document-save.png" />
+    <Content Include="Resources\Splash.png" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
+    <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L.otf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -245,6 +249,7 @@
     <Folder Include="Resources\16x16\" />
     <Folder Include="Windows\XIB\" />
     <Folder Include="Windows\Controllers\" />
+    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

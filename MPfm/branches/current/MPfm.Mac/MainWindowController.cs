@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Text;
 using MPfm.Core;
 using System.Reflection;
+using MonoMac.CoreText;
 
 namespace MPfm.Mac
 {
@@ -44,7 +45,8 @@ namespace MPfm.Mac
     //[Register("NSWindow")]
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IPlayerView, ISongBrowserView, ILibraryBrowserView
 	{
-		private readonly IInitializationService initializationService = null;
+        NSFont fontTest;
+
 		private readonly IPlayerPresenter playerPresenter = null;
 		private readonly ISongBrowserPresenter songBrowserPresenter = null;
 		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
@@ -81,8 +83,7 @@ namespace MPfm.Mac
 		}
 		
 		// Call to load from the XIB/NIB file
-		public MainWindowController(IInitializationService initializationService,
-									IPlayerPresenter playerPresenter,
+		public MainWindowController(IPlayerPresenter playerPresenter,
 		                            ISongBrowserPresenter songBrowserPresenter,
 		                            ILibraryBrowserPresenter libraryBrowserPresenter) : base ("MainWindow")
         {
@@ -90,10 +91,6 @@ namespace MPfm.Mac
             this.playerPresenter = playerPresenter;
             this.songBrowserPresenter = songBrowserPresenter;
             this.libraryBrowserPresenter = libraryBrowserPresenter;
-            this.initializationService = initializationService;
-
-            // Initialize configuration and library
-            initializationService.Initialize();
 		}		
 
 		public override void WindowDidLoad()
@@ -145,7 +142,11 @@ namespace MPfm.Mac
             this.playerPresenter.BindView(this);
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
+
+            //this.Window.ContentView.AddSubview(
 		}
+
+        CTFont ctFont;
 
         private void SetTheme()
         {
@@ -158,6 +159,28 @@ namespace MPfm.Mac
             viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
             viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
             viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+
+//            string urlString = NSBundle.MainBundle.PathForResource("TitilliumTitle20", "otf", "Resources/Fonts", string.Empty);
+//            CGDataProvider dataProvider = new CGDataProvider(urlString);
+//            //NSData fontData = NSData.FromFile(urlString);
+//            CGFont cgFont = CGFont.CreateFromProvider(dataProvider);
+//            //NSFont font = NSFont.
+//
+//
+//            //CTFontDescriptor desc = new CTFontDescriptor("TitilliumTitle20", 12.0f);
+            //ctFont = new CTFont(cgFont, 12.0f, desc);
+            //NSFont font = NSFont.
+
+            // Set fonts
+//            fontTest = NSFont.FromFontName("TitilliumText20", 22);
+//            lblArtistName.Font = fontTest;
+//            lblAlbumTitle.Font = fontTest;
+//            lblSongTitle.Font = fontTest;
+//            lblSongPath.Font = fontTest;
+            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L", 22);
+            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L", 16);
+            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L", 14);
+            lblSongPath.Font = NSFont.FromFontName("TitilliumText25L", 11);            
         }
 
         /// <summary>

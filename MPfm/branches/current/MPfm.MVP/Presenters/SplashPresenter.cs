@@ -32,16 +32,22 @@ namespace MPfm.MVP
 	/// Splash screen presenter.
 	/// </summary>
 	public class SplashPresenter : ISplashPresenter
-	{
+	{       
+        public delegate void InitializeSplashDelegate();
+
         ISplashView view;
+        InitializeSplashDelegate initializeSplashDelegate;
+        readonly IInitializationService initializationService;
 
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.MVP.SplashPresenter"/> class.
 		/// </summary>
-		public SplashPresenter()
+		public SplashPresenter(IInitializationService initializationService)
 		{
+            this.initializationService = initializationService;
+            initializeSplashDelegate = new InitializeSplashDelegate(InitializeAsync);
 		}
 
 		#endregion		
@@ -64,9 +70,22 @@ namespace MPfm.MVP
 
         public void Initialize()
         {
+            // Initialize configuration and library
+            //initializationService.Initialize();
+            initializeSplashDelegate.BeginInvoke(InitializeAsyncCallback, initializeSplashDelegate);
         }
 		
 		#endregion
 
+        public void InitializeAsync()
+        {
+            initializationService.Initialize();
+        }
+        
+        public void InitializeAsyncCallback(IAsyncResult result)
+        {
+            object state = result.AsyncState;
+            view.InitDone();
+        }
 	}
 }

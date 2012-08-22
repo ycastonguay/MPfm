@@ -42,6 +42,7 @@ namespace MPfm.Mac
 				return (LibraryBrowser)base.View;
 			}
 		}
+
 	}
 }
 

@@ -39,6 +39,7 @@ namespace MPfm.Mac
         /// Static list of 32x32px images.
         /// </summary>
         public static List<NSImage> images32x32 { get; private set; }
+        public static NSImage imageSplash { get; private set; }
 
         /// <summary>
         /// Constructor for the ImageResources static class.
@@ -72,7 +73,9 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/32x32", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32", string.Empty))
             };
+
+            // Load splash image
+            imageSplash = new NSImage(NSBundle.MainBundle.PathForResource("Splash", "png", "Resources", string.Empty));
         }
     }
 }
-
