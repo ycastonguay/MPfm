@@ -12,6 +12,27 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewLeftHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewRightHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewNowPlaying { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewLibraryBrowser { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewLeft { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewRight { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton btnPlayLoop { get; set; }
 
 		[Outlet]
@@ -94,9 +115,6 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSOutlineView viewLibraryBrowser { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
@@ -211,6 +229,41 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (outlineLibraryBrowser != null) {
+				outlineLibraryBrowser.Dispose ();
+				outlineLibraryBrowser = null;
+			}
+
+			if (viewLeftHeader != null) {
+				viewLeftHeader.Dispose ();
+				viewLeftHeader = null;
+			}
+
+			if (viewRightHeader != null) {
+				viewRightHeader.Dispose ();
+				viewRightHeader = null;
+			}
+
+			if (viewNowPlaying != null) {
+				viewNowPlaying.Dispose ();
+				viewNowPlaying = null;
+			}
+
+			if (viewLibraryBrowser != null) {
+				viewLibraryBrowser.Dispose ();
+				viewLibraryBrowser = null;
+			}
+
+			if (viewLeft != null) {
+				viewLeft.Dispose ();
+				viewLeft = null;
+			}
+
+			if (viewRight != null) {
+				viewRight.Dispose ();
+				viewRight = null;
+			}
+
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
@@ -349,11 +402,6 @@ namespace MPfm.Mac
 			if (lblLength != null) {
 				lblLength.Dispose ();
 				lblLength = null;
-			}
-
-			if (viewLibraryBrowser != null) {
-				viewLibraryBrowser.Dispose ();
-				viewLibraryBrowser = null;
 			}
 
 			if (cboSoundFormat != null) {

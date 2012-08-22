@@ -38,8 +38,10 @@ using System.Reflection;
 namespace MPfm.Mac
 {
     /// <summary>
+    /// 
     /// Main window controller.
     /// </summary>
+    //[Register("NSWindow")]
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IPlayerView, ISongBrowserView, ILibraryBrowserView
 	{
 		private readonly IInitializationService initializationService = null;
@@ -120,9 +122,9 @@ namespace MPfm.Mac
 
             // Initialize and configure Library Browser
             libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate(this.libraryBrowserPresenter);
-            viewLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
-            viewLibraryBrowser.AllowsMultipleSelection = false;
-            viewLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
+            outlineLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
+            outlineLibraryBrowser.AllowsMultipleSelection = false;
+            outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
 
             // Initialize and configure Song Browser
             songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate(this.songBrowserPresenter);
@@ -130,8 +132,9 @@ namespace MPfm.Mac
             tableSongBrowser.AllowsMultipleSelection = true;
             tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
 
-            // Load images
+            // Load images and set theme
             LoadImages();
+            SetTheme();
 
             // Create controllers
             playlistWindowController = new PlaylistWindowController();
@@ -143,6 +146,19 @@ namespace MPfm.Mac
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 		}
+
+        private void SetTheme()
+        {
+            // Set colors
+            viewLeftHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+            viewLeftHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+            viewRightHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+            viewRightHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+            viewLibraryBrowser.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+            viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+            viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+        }
 
         /// <summary>
         /// Loads the image resources in all controls.
@@ -350,11 +366,47 @@ namespace MPfm.Mac
         {
             playerPresenter.SetVolume(sliderVolume.FloatValue);
         }
+
+        partial void actionPlayLoop(NSObject sender)
+        {
+        }
+
+        partial void actionStopLoop(NSObject sender)
+        {
+        }
+
+        partial void actionAddLoop(NSObject sender)
+        {
+        }
+
+        partial void actionEditLoop(NSObject sender)
+        {           
+        }
+
+        partial void actionRemoveLoop(NSObject sender)
+        {
+        }
+
+        partial void actionGoToMarker(NSObject sender)
+        {
+        }
+
+        partial void actionAddMarker(NSObject sender)
+        {
+        }
+
+        partial void actionEditMarker(NSObject sender)
+        {
+        }
+
+        partial void actionRemoveMarker(NSObject sender)
+        {
+        }
         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
         {
             // Check for selection
-            if(viewLibraryBrowser.SelectedRow == -1)
+            if(outlineLibraryBrowser.SelectedRow == -1)
             {
                 return;
             }
@@ -363,7 +415,7 @@ namespace MPfm.Mac
             {
                 // Get selected item and start playback
                 Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Getting library browser item...");
-                LibraryBrowserItem item = (LibraryBrowserItem)viewLibraryBrowser.ItemAtRow(viewLibraryBrowser.SelectedRow);
+                LibraryBrowserItem item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
                 Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Calling LibraryBrowserPresenter.TreeNodeDoubleClicked...");
                 libraryBrowserPresenter.TreeNodeDoubleClicked(item.Entity);
             } 
@@ -503,7 +555,7 @@ namespace MPfm.Mac
 		{
 			// Set Library Browser data source
 			libraryBrowserDataSource = new LibraryBrowserDataSource(entities, this.libraryBrowserPresenter);
-			viewLibraryBrowser.DataSource = libraryBrowserDataSource;
+			outlineLibraryBrowser.DataSource = libraryBrowserDataSource;
 		}
 
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)

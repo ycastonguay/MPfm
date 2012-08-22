@@ -141,6 +141,7 @@
     <Compile Include="Windows\Controllers\PreferencesWindowController.cs" />
     <Compile Include="Helpers\CocoaHelper.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Controls\MPfmView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
