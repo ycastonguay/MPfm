@@ -45,6 +45,37 @@ namespace MPfm.Mac
                 return (PlaylistWindow)base.Window;
             }
         }
+
+        public override void AwakeFromNib()
+        {
+            base.AwakeFromNib();
+
+            LoadImages();
+        }
+
+        private void LoadImages()
+        {
+            // Load images in toolbar
+            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarNewPlaylist").Image = ImageResources.images32x32[11];
+            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarLoadPlaylist").Image = ImageResources.images32x32[0];
+            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarSavePlaylist").Image = ImageResources.images32x32[12];
+            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarSaveAsPlaylist").Image = ImageResources.images32x32[13];
+        }
+
+        partial void actionNewPlaylist(NSObject sender)
+        {
+        }
+
+        partial void actionLoadPlaylist(NSObject sender)
+        {
+        }
+
+        partial void actionSavePlaylist(NSObject sender)
+        {
+        }
+
+        partial void actionSaveAsPlaylist(NSObject sender)
+        {
+        }
     }
 }
-

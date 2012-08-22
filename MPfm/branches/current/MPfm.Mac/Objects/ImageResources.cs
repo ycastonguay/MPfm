@@ -67,7 +67,10 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources/32x32", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources/32x32", string.Empty)),
                 new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources/32x32", string.Empty)),
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources/32x32", string.Empty))
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("document-new", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/32x32", string.Empty)),
+                new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32", string.Empty))
             };
         }
     }

@@ -142,6 +142,11 @@
     <Compile Include="Helpers\CocoaHelper.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Controls\MPfmView.cs" />
+    <Compile Include="Windows\SplashWindow.cs" />
+    <Compile Include="Windows\SplashWindow.designer.cs">
+      <DependentUpon>SplashWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SplashWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -151,6 +156,7 @@
     <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PlaylistWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PreferencesWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SplashWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -220,6 +226,12 @@
     <Content Include="Resources\16x16\media-playback-start.png" />
     <Content Include="Resources\16x16\accessories-text-editor.png" />
     <Content Include="Resources\16x16\media-playback-stop.png" />
+    <Content Include="Resources\16x16\document-new.png" />
+    <Content Include="Resources\16x16\document-save-as.png" />
+    <Content Include="Resources\16x16\document-save.png" />
+    <Content Include="Resources\32x32\document-new.png" />
+    <Content Include="Resources\32x32\document-save-as.png" />
+    <Content Include="Resources\32x32\document-save.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

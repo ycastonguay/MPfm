@@ -90,6 +90,9 @@
     <Compile Include="Models\SongBrowserQueryEntity.cs" />
     <Compile Include="Models\PlayerVolumeEntity.cs" />
     <Compile Include="Models\PlayerTimeShiftingEntity.cs" />
+    <Compile Include="Presenters\SplashPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
+    <Compile Include="Views\ISplashView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
