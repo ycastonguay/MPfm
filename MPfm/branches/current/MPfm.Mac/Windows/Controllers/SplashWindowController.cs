@@ -79,28 +79,6 @@ namespace MPfm.Mac
             splashPresenter.Initialize();
         }
 
-        public void Test()
-        {
-//            NSMutableDictionary dict = new NSMutableDictionary();
-//            dict.Add(NSViewAnimation.TargetKey, Window);
-//            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeOutEffect);
-//
-//            NSViewAnimation anim = new NSViewAnimation(new NSMutableDictionary[] { dict });
-//            //anim.SetValuesForKeysWithDictionary(dict);
-//            //anim.Duration = 2;
-//            anim.StartAnimation();
-
-            NSAnimationContext.BeginGrouping();
-            NSAnimationContext.CurrentContext.Duration = 0.5;
-            //NSObject obj = splashWindowController.Window.Animator;
-            //NSWindow window = (NSWindow)splashWindowController.Window.Animator;
-            //((NSWindow)Window.Animator).AlphaValue = 0;
-            ((NSImageView)imageView.Animator).AlphaValue = 0;
-            //window.AlphaValue = 0;
-            NSAnimationContext.EndGrouping();
-            int a = 0;
-        }
-
         #region ISplashView implementation
 
         public void RefreshStatus(string message)
@@ -109,9 +87,20 @@ namespace MPfm.Mac
 
         public void InitDone()
         {
-            // Load screens
-            AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
-            appDelegate.LoadScreens();
+            InvokeOnMainThread(delegate {
+
+//                // Fade in splash screen
+//                NSMutableDictionary dict = new NSMutableDictionary();
+//                dict.Add(NSViewAnimation.TargetKey, Window);
+//                dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeOutEffect);
+//                NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+//                anim.Duration = 0.4f;
+//                anim.StartAnimation();
+
+                // Load screens
+                AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
+                appDelegate.LoadScreens();
+            });
         }
 
         #endregion

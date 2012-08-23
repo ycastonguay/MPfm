@@ -651,14 +651,11 @@ namespace MPfm.Player
                     // Try to get the plugins in the current path
                     string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-                    // Check if the application is running from a bundle directory
-                    if(!exePath.ToUpper().Contains("MPFM.APP"))
+#if DEBUG
                         pluginPath = exePath;
-                    else
+#else
                         pluginPath = exePath.Replace("MonoBundle", "Resources");
-
-                    Tracing.Log("ExePath: " + exePath);
-                    Tracing.Log("PluginPath: " + pluginPath);
+#endif
 
                     // Check in the current directory first
                     if(!File.Exists(pluginPath + "/libbassflac.dylib"))
@@ -668,11 +665,8 @@ namespace MPfm.Player
                     }
 
 				    // Load decoding plugins
-                    Tracing.Log("Loading plugin " + pluginPath + "/libbassflac.dylib");
 					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
-                    Tracing.Log("Loading plugin " + pluginPath + "/libbasswv.dylib");
                     wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
-                    Tracing.Log("Loading plugin " + pluginPath + "/libbass_mpc.dylib");
                     mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
 	            }
 			}

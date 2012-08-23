@@ -95,7 +95,7 @@ namespace MPfm.Mac
 
 		public override void WindowDidLoad()
 		{
-			base.WindowDidLoad();			
+            base.WindowDidLoad();
 		}
 
 		public override void AwakeFromNib()
