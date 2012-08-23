@@ -647,23 +647,33 @@ namespace MPfm.Player
 	            {
 					// Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)								
 					string pluginPath = string.Empty;				
-					string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);				
 					
-					// Check in the current directory first
-					if(!File.Exists(exePath + "/libbassflac.dylib"))
-					{
-						// The plugins could not be found!
-						throw new Exception("The BASS plugins could not be found in the current directory!");
-					}
-					else
-					{
-						pluginPath = exePath;
-					}
-					
+                    // Try to get the plugins in the current path
+                    string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                    // Check if the application is running from a bundle directory
+                    if(!exePath.ToUpper().Contains("MPFM.APP"))
+                        pluginPath = exePath;
+                    else
+                        pluginPath = exePath.Replace("MonoBundle", "Resources");
+
+                    Tracing.Log("ExePath: " + exePath);
+                    Tracing.Log("PluginPath: " + pluginPath);
+
+                    // Check in the current directory first
+                    if(!File.Exists(pluginPath + "/libbassflac.dylib"))
+                    {
+                        // The plugins could not be found!
+                        throw new Exception("The BASS plugins could not be found in the current directory!");
+                    }
+
 				    // Load decoding plugins
+                    Tracing.Log("Loading plugin " + pluginPath + "/libbassflac.dylib");
 					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
-					wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
-					mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
+                    Tracing.Log("Loading plugin " + pluginPath + "/libbasswv.dylib");
+                    wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
+                    Tracing.Log("Loading plugin " + pluginPath + "/libbass_mpc.dylib");
+                    mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
 	            }
 			}
 						

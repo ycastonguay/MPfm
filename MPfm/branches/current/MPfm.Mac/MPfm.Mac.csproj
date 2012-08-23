@@ -10,64 +10,64 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MPfm.Mac</RootNamespace>
     <AssemblyName>MPfm</AssemblyName>
-    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <SynchReleaseVersion>False</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <DefineConstants>DEBUG;MACOSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <EnableCodeSigning>false</EnableCodeSigning>
-    <CreatePackage>false</CreatePackage>
-    <EnablePackageSigning>false</EnablePackageSigning>
-    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <ConsolePause>False</ConsolePause>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <OutputPath>bin\Debug</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <EnableCodeSigning>false</EnableCodeSigning>
-    <CreatePackage>false</CreatePackage>
-    <EnablePackageSigning>false</EnablePackageSigning>
-    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <ConsolePause>False</ConsolePause>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
     <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>MACOSX</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>false</EnableCodeSigning>
-    <CreatePackage>false</CreatePackage>
-    <EnablePackageSigning>false</EnablePackageSigning>
-    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
     <OutputPath>bin\Debug_Linux</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>..\Output\Debug_Mac</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>false</EnableCodeSigning>
-    <CreatePackage>true</CreatePackage>
-    <EnablePackageSigning>false</EnablePackageSigning>
-    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>True</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
-    <LinkMode>Full</LinkMode>
-    <Externalconsole>true</Externalconsole>
+    <Externalconsole>True</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -82,9 +82,6 @@
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper">
       <HintPath>Lib\AutoMapper.dll</HintPath>
     </Reference>
@@ -92,6 +89,7 @@
       <HintPath>Lib\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix" />
+    <Reference Include="Mono.Data.Sqlite" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -160,24 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="libbass_mpc.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libbassflac.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libbassmix.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libbasswv.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libbass.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libbass_fx.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Lib\AutoMapper.dll" />
     <None Include="Lib\Ninject.dll" />
     <None Include="Lib\taglib-sharp.dll" />
@@ -236,6 +216,25 @@
     <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
     <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
     <Content Include="Resources\Fonts\TitilliumText25L.otf" />
+    <Content Include="MPfm.Mac.exe.config" />
+    <Content Include="libbass.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_mpc.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbassflac.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbassmix.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbasswv.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_fx.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

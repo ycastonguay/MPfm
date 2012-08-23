@@ -45,6 +45,8 @@ namespace MPfm.MVP
 		/// Instance of the Ninject StandardKernel.
 		/// </summary>
 		private static IKernel kernel;
+
+        static LibraryModule module;
 		
 		/// <summary>
 		/// Constructor for the Bootstrapper static class.
@@ -52,7 +54,8 @@ namespace MPfm.MVP
 		static Bootstrapper()
 		{
 			// Create Ninject kernel
-			kernel = new StandardKernel(new LibraryModule());
+            module = new LibraryModule();
+			kernel = new StandardKernel(module);
 			
 			// Configure Automapper
 			Mapper.CreateMap<AudioFile, SongInformationEntity>();

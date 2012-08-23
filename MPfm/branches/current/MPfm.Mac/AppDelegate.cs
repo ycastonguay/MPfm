@@ -47,6 +47,7 @@ namespace MPfm.Mac
 
 		public override void FinishedLaunching(NSObject notification)
 		{
+            //Bootstrapper.GetKernel()
             splashWindowController = Bootstrapper.GetKernel().Get<SplashWindowController>();
             splashWindowController.Window.MakeKeyAndOrderFront(this);
 		}

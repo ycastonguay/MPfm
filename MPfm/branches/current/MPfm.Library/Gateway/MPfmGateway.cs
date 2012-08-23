@@ -47,6 +47,7 @@ namespace MPfm.Library
         public MPfmGateway(string databaseFilePath) 
             : base(databaseFilePath)
         {
+
         }
 		
         /// <summary>
