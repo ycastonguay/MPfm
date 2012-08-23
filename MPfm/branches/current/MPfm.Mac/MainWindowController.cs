@@ -146,8 +146,6 @@ namespace MPfm.Mac
             //this.Window.ContentView.AddSubview(
 		}
 
-        CTFont ctFont;
-
         private void SetTheme()
         {
             // Set colors
@@ -160,27 +158,38 @@ namespace MPfm.Mac
             viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
             viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
 
-//            string urlString = NSBundle.MainBundle.PathForResource("TitilliumTitle20", "otf", "Resources/Fonts", string.Empty);
-//            CGDataProvider dataProvider = new CGDataProvider(urlString);
-//            //NSData fontData = NSData.FromFile(urlString);
-//            CGFont cgFont = CGFont.CreateFromProvider(dataProvider);
-//            //NSFont font = NSFont.
-//
-//
-//            //CTFontDescriptor desc = new CTFontDescriptor("TitilliumTitle20", 12.0f);
-            //ctFont = new CTFont(cgFont, 12.0f, desc);
-            //NSFont font = NSFont.
+            // Set label fonts
+            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-999wt", 22);
+            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
+            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-400wt", 16);
+            lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
 
-            // Set fonts
-//            fontTest = NSFont.FromFontName("TitilliumText20", 22);
-//            lblArtistName.Font = fontTest;
-//            lblAlbumTitle.Font = fontTest;
-//            lblSongTitle.Font = fontTest;
-//            lblSongPath.Font = fontTest;
-            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L", 22);
-            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L", 16);
-            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L", 14);
-            lblSongPath.Font = NSFont.FromFontName("TitilliumText25L", 11);            
+            lblSampleRate.Font = NSFont.FromFontName("Junction", 11);
+            lblBitrate.Font = NSFont.FromFontName("Junction", 11);
+            lblFileType.Font = NSFont.FromFontName("Junction", 11);
+            lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11);
+
+            // Set cell fonts for Library Browser
+            NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
+            columnText.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+
+            // Set cell fonts for Song Browser
+            NSTableColumn columnTrackNumber = tableSongBrowser.FindTableColumn(new NSString("columnTrackNumber"));
+            NSTableColumn columnTitle = tableSongBrowser.FindTableColumn(new NSString("columnTitle"));
+            NSTableColumn columnLength = tableSongBrowser.FindTableColumn(new NSString("columnLength"));
+            NSTableColumn columnArtistName = tableSongBrowser.FindTableColumn(new NSString("columnArtistName"));
+            NSTableColumn columnAlbumTitle = tableSongBrowser.FindTableColumn(new NSString("columnAlbumTitle"));
+            columnTrackNumber.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnTrackNumber.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnTitle.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnLength.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnLength.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnArtistName.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnArtistName.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnAlbumTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnAlbumTitle.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+
         }
 
         /// <summary>

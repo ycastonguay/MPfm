@@ -486,6 +486,7 @@
 															<object class="NSMutableArray" key="NSTableColumns">
 																<bool key="EncodedWithXMLCoder">YES</bool>
 																<object class="NSTableColumn" id="112563079">
+																	<string key="NSIdentifier">columnText</string>
 																	<double key="NSWidth">214</double>
 																	<double key="NSMinWidth">16</double>
 																	<double key="NSMaxWidth">1000</double>
@@ -1118,7 +1119,7 @@
 												<object class="NSTextField" id="674473322">
 													<reference key="NSNextResponder" ref="119174785"/>
 													<int key="NSvFlags">266</int>
-													<string key="NSFrame">{{189, 67}, {387, 17}}</string>
+													<string key="NSFrame">{{189, 65}, {387, 17}}</string>
 													<reference key="NSSuperview" ref="119174785"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="444525798"/>
@@ -1144,7 +1145,7 @@
 												<object class="NSTextField" id="817639556">
 													<reference key="NSNextResponder" ref="119174785"/>
 													<int key="NSvFlags">266</int>
-													<string key="NSFrame">{{189, 92}, {387, 18}}</string>
+													<string key="NSFrame">{{189, 86}, {387, 24}}</string>
 													<reference key="NSSuperview" ref="119174785"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="674473322"/>
@@ -1174,7 +1175,7 @@
 												<object class="NSTextField" id="972335185">
 													<reference key="NSNextResponder" ref="119174785"/>
 													<int key="NSvFlags">266</int>
-													<string key="NSFrame">{{189, 117}, {387, 19}}</string>
+													<string key="NSFrame">{{189, 112}, {387, 24}}</string>
 													<reference key="NSSuperview" ref="119174785"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="817639556"/>
@@ -5866,7 +5867,7 @@
 							<string>NSToolbar</string>
 							<string>MPfmView</string>
 							<string>MPfmView</string>
-							<string>NSOutlineView</string>
+							<string>MPfmView</string>
 							<string>MPfmView</string>
 							<string>MPfmView</string>
 							<string>MPfmView</string>
@@ -6075,7 +6076,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">viewLibraryBrowser</string>
-								<string key="candidateClassName">NSOutlineView</string>
+								<string key="candidateClassName">MPfmView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">viewNowPlaying</string>

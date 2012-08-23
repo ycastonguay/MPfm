@@ -265,6 +265,15 @@
     <Content Include="libbass_fx.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Fonts\TitilliumText25L001.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L002.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L003.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L004.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L005.otf" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L001.otf" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L002.otf" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L003.otf" />
+    <Content Include="Resources\Fonts\Junction.otf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
