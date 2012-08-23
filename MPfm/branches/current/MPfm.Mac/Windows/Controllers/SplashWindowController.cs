@@ -64,6 +64,10 @@ namespace MPfm.Mac
             //this.Window.SetFrameTopLeftPoint(new PointF(x, y));
             this.Window.SetFrameOrigin(new PointF(x, y));
             this.Window.Display();
+
+            // Set fonts
+            lblMessage.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13.0f);
+            lblMessage.StringValue = "Loading player...";
         }
 
         public override void WindowDidLoad()
@@ -100,6 +104,8 @@ namespace MPfm.Mac
                 // Load screens
                 AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
                 appDelegate.LoadScreens();
+
+                lblMessage.StringValue = "Initialization successful!";
             });
         }
 

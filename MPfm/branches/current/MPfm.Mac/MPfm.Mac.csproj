@@ -274,6 +274,8 @@
     <Content Include="Resources\Fonts\TitilliumMaps29L002.otf" />
     <Content Include="Resources\Fonts\TitilliumMaps29L003.otf" />
     <Content Include="Resources\Fonts\Junction.otf" />
+    <Content Include="Resources\Fonts\Inconsolata.otf" />
+    <Content Include="Resources\Fonts\DroidSansMono.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

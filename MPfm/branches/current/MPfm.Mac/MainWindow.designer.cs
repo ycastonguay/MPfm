@@ -12,6 +12,18 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MPfm.Mac.MPfmView viewTimeShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewSongPosition { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewInformation { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewVolume { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
 
 		[Outlet]
@@ -137,6 +149,36 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleLoops { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleMarkers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleSongBrowser { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleCurrentSong { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleLibraryBrowser { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleSongPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleInformation { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleVolume { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleTimeShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblFilterBySoundFormat { get; set; }
+
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
 
@@ -229,6 +271,26 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (viewTimeShifting != null) {
+				viewTimeShifting.Dispose ();
+				viewTimeShifting = null;
+			}
+
+			if (viewSongPosition != null) {
+				viewSongPosition.Dispose ();
+				viewSongPosition = null;
+			}
+
+			if (viewInformation != null) {
+				viewInformation.Dispose ();
+				viewInformation = null;
+			}
+
+			if (viewVolume != null) {
+				viewVolume.Dispose ();
+				viewVolume = null;
+			}
+
 			if (outlineLibraryBrowser != null) {
 				outlineLibraryBrowser.Dispose ();
 				outlineLibraryBrowser = null;
@@ -437,6 +499,56 @@ namespace MPfm.Mac
 			if (lblPosition != null) {
 				lblPosition.Dispose ();
 				lblPosition = null;
+			}
+
+			if (lblTitleLoops != null) {
+				lblTitleLoops.Dispose ();
+				lblTitleLoops = null;
+			}
+
+			if (lblTitleMarkers != null) {
+				lblTitleMarkers.Dispose ();
+				lblTitleMarkers = null;
+			}
+
+			if (lblTitleSongBrowser != null) {
+				lblTitleSongBrowser.Dispose ();
+				lblTitleSongBrowser = null;
+			}
+
+			if (lblTitleCurrentSong != null) {
+				lblTitleCurrentSong.Dispose ();
+				lblTitleCurrentSong = null;
+			}
+
+			if (lblTitleLibraryBrowser != null) {
+				lblTitleLibraryBrowser.Dispose ();
+				lblTitleLibraryBrowser = null;
+			}
+
+			if (lblSubtitleSongPosition != null) {
+				lblSubtitleSongPosition.Dispose ();
+				lblSubtitleSongPosition = null;
+			}
+
+			if (lblSubtitleInformation != null) {
+				lblSubtitleInformation.Dispose ();
+				lblSubtitleInformation = null;
+			}
+
+			if (lblSubtitleVolume != null) {
+				lblSubtitleVolume.Dispose ();
+				lblSubtitleVolume = null;
+			}
+
+			if (lblSubtitleTimeShifting != null) {
+				lblSubtitleTimeShifting.Dispose ();
+				lblSubtitleTimeShifting = null;
+			}
+
+			if (lblFilterBySoundFormat != null) {
+				lblFilterBySoundFormat.Dispose ();
+				lblFilterBySoundFormat = null;
 			}
 		}
 	}

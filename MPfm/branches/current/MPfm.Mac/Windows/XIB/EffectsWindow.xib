@@ -3,28 +3,28 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2182</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>NSPopUpButton</string>
-			<string>NSMenuItem</string>
-			<string>NSMenu</string>
-			<string>NSTextFieldCell</string>
 			<string>NSButton</string>
 			<string>NSButtonCell</string>
+			<string>NSCustomObject</string>
+			<string>NSMenu</string>
+			<string>NSMenuItem</string>
+			<string>NSPopUpButton</string>
+			<string>NSPopUpButtonCell</string>
 			<string>NSSlider</string>
 			<string>NSSliderCell</string>
-			<string>NSCustomObject</string>
+			<string>NSTextField</string>
+			<string>NSTextFieldCell</string>
 			<string>NSView</string>
 			<string>NSWindowTemplate</string>
-			<string>NSTextField</string>
-			<string>NSPopUpButtonCell</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -78,7 +78,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -103,7 +103,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -138,14 +138,9 @@
 										<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 									</object>
 								</object>
-								<object class="NSColor" key="NSTextColor" id="884540627">
-									<int key="NSColorSpace">6</int>
-									<string key="NSCatalogName">System</string>
-									<string key="NSColorName">controlTextColor</string>
-									<object class="NSColor" key="NSColor" id="737879140">
-										<int key="NSColorSpace">3</int>
-										<bytes key="NSWhite">MAA</bytes>
-									</object>
+								<object class="NSColor" key="NSTextColor" id="325702186">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC44NQA</bytes>
 								</object>
 							</object>
 						</object>
@@ -166,7 +161,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="340344923"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="876044966">
@@ -186,7 +181,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="876044966"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="132121804">
@@ -206,7 +201,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="132121804"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="836057169">
@@ -228,7 +223,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -253,7 +248,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -276,7 +271,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="780200292"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="972042997">
@@ -296,7 +291,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="972042997"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="722391021">
@@ -316,7 +311,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="722391021"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="961430797">
@@ -336,7 +331,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="961430797"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="743876036">
@@ -358,7 +353,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -383,7 +378,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -406,7 +401,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="607424189"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="959422622">
@@ -426,7 +421,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="959422622"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="468011864">
@@ -446,7 +441,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="468011864"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="946218537">
@@ -466,7 +461,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="946218537"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="1058522856">
@@ -488,7 +483,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -513,7 +508,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -536,7 +531,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="548373969"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="397015602">
@@ -556,7 +551,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="397015602"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="775638181">
@@ -576,7 +571,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="775638181"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="939815465">
@@ -596,7 +591,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="939815465"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="401222174">
@@ -618,7 +613,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -643,7 +638,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -666,7 +661,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="83363208"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="94764624">
@@ -686,7 +681,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="94764624"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="1065076509">
@@ -706,7 +701,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="1065076509"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="549965171">
@@ -726,7 +721,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="549965171"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="252877569">
@@ -748,7 +743,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -773,7 +768,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -796,7 +791,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="15190915"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="867379650">
@@ -816,7 +811,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="867379650"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="133980750">
@@ -836,7 +831,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="133980750"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="508375140">
@@ -856,7 +851,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="508375140"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="147311720">
@@ -878,7 +873,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -903,7 +898,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -926,7 +921,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="1031851347"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="914180043">
@@ -946,7 +941,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="914180043"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="584312256">
@@ -966,7 +961,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="584312256"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="55323511">
@@ -986,7 +981,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="55323511"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="302410227">
@@ -1008,7 +1003,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -1033,7 +1028,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -1056,7 +1051,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="190097202"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="117994620">
@@ -1076,7 +1071,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="117994620"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="102773653">
@@ -1096,7 +1091,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="102773653"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="409011177">
@@ -1116,7 +1111,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="409011177"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSSlider" id="1056834863">
@@ -1138,7 +1133,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -1163,7 +1158,7 @@
 								<double key="NSMinValue">-6</double>
 								<double key="NSValue">0.0</double>
 								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">30</int>
+								<int key="NSNumberOfTickMarks">31</int>
 								<int key="NSTickMarkPosition">0</int>
 								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 								<bool key="NSVertical">YES</bool>
@@ -1186,7 +1181,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="929311575"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="651146622">
@@ -1206,7 +1201,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="651146622"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="1052367797">
@@ -1226,7 +1221,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="1052367797"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="507922135">
@@ -1246,7 +1241,7 @@
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="507922135"/>
 								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSTextColor" ref="325702186"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="602683761">
@@ -1269,8 +1264,14 @@
 								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="602683761"/>
-								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<object class="NSColor" key="NSBackgroundColor" id="700864200">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MSAwAA</bytes>
+								</object>
+								<object class="NSColor" key="NSTextColor" id="558853368">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC44NQA</bytes>
+								</object>
 							</object>
 						</object>
 						<object class="NSTextField" id="171215609">
@@ -1289,8 +1290,8 @@
 								<reference key="NSSupport" ref="314863751"/>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="171215609"/>
-								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSBackgroundColor" ref="700864200"/>
+								<reference key="NSTextColor" ref="558853368"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="560008722">
@@ -1313,8 +1314,14 @@
 								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="560008722"/>
-								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<object class="NSColor" key="NSBackgroundColor" id="918494504">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
+								<object class="NSColor" key="NSTextColor" id="274469379">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC45NTgyMjg3ODY1AA</bytes>
+								</object>
 							</object>
 						</object>
 						<object class="NSTextField" id="330053666">
@@ -1333,8 +1340,8 @@
 								<reference key="NSSupport" ref="29"/>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="330053666"/>
-								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSBackgroundColor" ref="918494504"/>
+								<reference key="NSTextColor" ref="274469379"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="36230070">
@@ -1353,8 +1360,34 @@
 								<reference key="NSSupport" ref="314863751"/>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="36230070"/>
-								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSBackgroundColor" ref="918494504"/>
+								<object class="NSColor" key="NSTextColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC44NDk4NTE3MzM2AA</bytes>
+								</object>
+							</object>
+						</object>
+						<object class="NSTextField" id="61221466">
+							<reference key="NSNextResponder" ref="312036702"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{813, 283}, {73, 16}}</string>
+							<reference key="NSSuperview" ref="312036702"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="330053666"/>
+							<string key="NSReuseIdentifierKey">_NS:1505</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="574273321">
+								<int key="NSCellFlags">68288064</int>
+								<int key="NSCellFlags2">4195328</int>
+								<string key="NSContents">EQ On</string>
+								<reference key="NSSupport" ref="314863751"/>
+								<string key="NSCellIdentifier">_NS:1505</string>
+								<reference key="NSControlView" ref="61221466"/>
+								<reference key="NSBackgroundColor" ref="918494504"/>
+								<object class="NSColor" key="NSTextColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC44NQA</bytes>
+								</object>
 							</object>
 						</object>
 						<object class="NSTextField" id="940715680">
@@ -1373,8 +1406,8 @@
 								<reference key="NSSupport" ref="314863751"/>
 								<string key="NSCellIdentifier">_NS:1505</string>
 								<reference key="NSControlView" ref="940715680"/>
-								<reference key="NSBackgroundColor" ref="677632354"/>
-								<reference key="NSTextColor" ref="884540627"/>
+								<reference key="NSBackgroundColor" ref="700864200"/>
+								<reference key="NSTextColor" ref="558853368"/>
 							</object>
 						</object>
 						<object class="NSPopUpButton" id="594018445">
@@ -1460,16 +1493,16 @@
 						<object class="NSButton" id="477364386">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{792, 281}, {61, 18}}</string>
+							<string key="NSFrame">{{793, 281}, {61, 18}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="330053666"/>
+							<reference key="NSNextKeyView" ref="61221466"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="659387881">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">EQ On</string>
+								<string key="NSContents"/>
 								<reference key="NSSupport" ref="314863751"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="477364386"/>
@@ -1509,16 +1542,16 @@
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
 									<string key="NSColorName">textBackgroundColor</string>
-									<object class="NSColor" key="NSColor">
-										<int key="NSColorSpace">3</int>
-										<bytes key="NSWhite">MQA</bytes>
-									</object>
+									<reference key="NSColor" ref="918494504"/>
 								</object>
 								<object class="NSColor" key="NSTextColor">
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
 									<string key="NSColorName">textColor</string>
-									<reference key="NSColor" ref="737879140"/>
+									<object class="NSColor" key="NSColor">
+										<int key="NSColorSpace">3</int>
+										<bytes key="NSWhite">MAA</bytes>
+									</object>
 								</object>
 							</object>
 						</object>
@@ -1640,6 +1673,438 @@
 					</object>
 					<int key="connectionID">6</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ0</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="27243701"/>
+					</object>
+					<int key="connectionID">428</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ1</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="970314883"/>
+					</object>
+					<int key="connectionID">429</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ2</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="836057169"/>
+					</object>
+					<int key="connectionID">430</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ3</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="344302703"/>
+					</object>
+					<int key="connectionID">431</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ4</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="743876036"/>
+					</object>
+					<int key="connectionID">432</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ5</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="866738661"/>
+					</object>
+					<int key="connectionID">433</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ6</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1058522856"/>
+					</object>
+					<int key="connectionID">434</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ7</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="315647857"/>
+					</object>
+					<int key="connectionID">435</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ8</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="401222174"/>
+					</object>
+					<int key="connectionID">436</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ9</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="522722470"/>
+					</object>
+					<int key="connectionID">437</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ10</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="252877569"/>
+					</object>
+					<int key="connectionID">438</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ11</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="904486609"/>
+					</object>
+					<int key="connectionID">439</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ12</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="147311720"/>
+					</object>
+					<int key="connectionID">440</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ13</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="406674315"/>
+					</object>
+					<int key="connectionID">441</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ14</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="302410227"/>
+					</object>
+					<int key="connectionID">442</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ15</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1014743135"/>
+					</object>
+					<int key="connectionID">443</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ16</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1056834863"/>
+					</object>
+					<int key="connectionID">444</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sliderEQ17</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="806025779"/>
+					</object>
+					<int key="connectionID">445</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ0</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="354522438"/>
+					</object>
+					<int key="connectionID">446</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ1</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="876044966"/>
+					</object>
+					<int key="connectionID">447</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ2</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="780200292"/>
+					</object>
+					<int key="connectionID">448</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ3</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="722391021"/>
+					</object>
+					<int key="connectionID">449</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ4</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="607424189"/>
+					</object>
+					<int key="connectionID">450</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ5</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="468011864"/>
+					</object>
+					<int key="connectionID">451</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ6</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="548373969"/>
+					</object>
+					<int key="connectionID">452</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ7</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="775638181"/>
+					</object>
+					<int key="connectionID">453</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ8</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="83363208"/>
+					</object>
+					<int key="connectionID">454</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ9</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1065076509"/>
+					</object>
+					<int key="connectionID">455</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ10</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="15190915"/>
+					</object>
+					<int key="connectionID">456</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ11</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="133980750"/>
+					</object>
+					<int key="connectionID">457</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ12</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1031851347"/>
+					</object>
+					<int key="connectionID">458</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ13</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="584312256"/>
+					</object>
+					<int key="connectionID">459</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ14</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="190097202"/>
+					</object>
+					<int key="connectionID">460</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ15</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="102773653"/>
+					</object>
+					<int key="connectionID">461</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ16</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="929311575"/>
+					</object>
+					<int key="connectionID">462</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQ17</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1052367797"/>
+					</object>
+					<int key="connectionID">463</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue0</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="340344923"/>
+					</object>
+					<int key="connectionID">464</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue1</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="132121804"/>
+					</object>
+					<int key="connectionID">465</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue2</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="972042997"/>
+					</object>
+					<int key="connectionID">466</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue3</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="961430797"/>
+					</object>
+					<int key="connectionID">467</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue4</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="959422622"/>
+					</object>
+					<int key="connectionID">468</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue5</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="946218537"/>
+					</object>
+					<int key="connectionID">469</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue6</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="397015602"/>
+					</object>
+					<int key="connectionID">470</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue7</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="939815465"/>
+					</object>
+					<int key="connectionID">471</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue8</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="94764624"/>
+					</object>
+					<int key="connectionID">472</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue9</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="549965171"/>
+					</object>
+					<int key="connectionID">473</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue10</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="867379650"/>
+					</object>
+					<int key="connectionID">474</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue11</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="508375140"/>
+					</object>
+					<int key="connectionID">475</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue12</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="914180043"/>
+					</object>
+					<int key="connectionID">476</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue13</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="55323511"/>
+					</object>
+					<int key="connectionID">477</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue14</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="117994620"/>
+					</object>
+					<int key="connectionID">478</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue15</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="409011177"/>
+					</object>
+					<int key="connectionID">479</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue16</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="651146622"/>
+					</object>
+					<int key="connectionID">480</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblEQValue17</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="507922135"/>
+					</object>
+					<int key="connectionID">481</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1751,6 +2216,7 @@
 							<reference ref="946381499"/>
 							<reference ref="927975342"/>
 							<reference ref="837342823"/>
+							<reference ref="61221466"/>
 						</object>
 						<reference key="parent" ref="748157544"/>
 					</object>
@@ -2722,6 +3188,20 @@
 						<reference key="object" ref="516634758"/>
 						<reference key="parent" ref="837342823"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">402</int>
+						<reference key="object" ref="61221466"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="574273321"/>
+						</object>
+						<reference key="parent" ref="312036702"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">403</int>
+						<reference key="object" ref="574273321"/>
+						<reference key="parent" ref="61221466"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2832,6 +3312,7 @@
 					<string>243.IBPluginDependency</string>
 					<string>25.IBPluginDependency</string>
 					<string>26.IBPluginDependency</string>
+					<string>3.CustomClassName</string>
 					<string>3.IBPluginDependency</string>
 					<string>345.IBPluginDependency</string>
 					<string>346.IBPluginDependency</string>
@@ -2875,6 +3356,8 @@
 					<string>399.IBPluginDependency</string>
 					<string>400.IBPluginDependency</string>
 					<string>401.IBPluginDependency</string>
+					<string>402.IBPluginDependency</string>
+					<string>403.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2982,6 +3465,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>MPfmView</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3039,7 +3525,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">401</int>
+			<int key="maxID">481</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3055,9 +3541,413 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">EffectsWindowController</string>
 					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>lblEQ0</string>
+							<string>lblEQ1</string>
+							<string>lblEQ10</string>
+							<string>lblEQ11</string>
+							<string>lblEQ12</string>
+							<string>lblEQ13</string>
+							<string>lblEQ14</string>
+							<string>lblEQ15</string>
+							<string>lblEQ16</string>
+							<string>lblEQ17</string>
+							<string>lblEQ2</string>
+							<string>lblEQ3</string>
+							<string>lblEQ4</string>
+							<string>lblEQ5</string>
+							<string>lblEQ6</string>
+							<string>lblEQ7</string>
+							<string>lblEQ8</string>
+							<string>lblEQ9</string>
+							<string>lblEQValue0</string>
+							<string>lblEQValue1</string>
+							<string>lblEQValue10</string>
+							<string>lblEQValue11</string>
+							<string>lblEQValue12</string>
+							<string>lblEQValue13</string>
+							<string>lblEQValue14</string>
+							<string>lblEQValue15</string>
+							<string>lblEQValue16</string>
+							<string>lblEQValue17</string>
+							<string>lblEQValue2</string>
+							<string>lblEQValue3</string>
+							<string>lblEQValue4</string>
+							<string>lblEQValue5</string>
+							<string>lblEQValue6</string>
+							<string>lblEQValue7</string>
+							<string>lblEQValue8</string>
+							<string>lblEQValue9</string>
+							<string>sliderEQ0</string>
+							<string>sliderEQ1</string>
+							<string>sliderEQ10</string>
+							<string>sliderEQ11</string>
+							<string>sliderEQ12</string>
+							<string>sliderEQ13</string>
+							<string>sliderEQ14</string>
+							<string>sliderEQ15</string>
+							<string>sliderEQ16</string>
+							<string>sliderEQ17</string>
+							<string>sliderEQ2</string>
+							<string>sliderEQ3</string>
+							<string>sliderEQ4</string>
+							<string>sliderEQ5</string>
+							<string>sliderEQ6</string>
+							<string>sliderEQ7</string>
+							<string>sliderEQ8</string>
+							<string>sliderEQ9</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+							<string>NSSlider</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>lblEQ0</string>
+							<string>lblEQ1</string>
+							<string>lblEQ10</string>
+							<string>lblEQ11</string>
+							<string>lblEQ12</string>
+							<string>lblEQ13</string>
+							<string>lblEQ14</string>
+							<string>lblEQ15</string>
+							<string>lblEQ16</string>
+							<string>lblEQ17</string>
+							<string>lblEQ2</string>
+							<string>lblEQ3</string>
+							<string>lblEQ4</string>
+							<string>lblEQ5</string>
+							<string>lblEQ6</string>
+							<string>lblEQ7</string>
+							<string>lblEQ8</string>
+							<string>lblEQ9</string>
+							<string>lblEQValue0</string>
+							<string>lblEQValue1</string>
+							<string>lblEQValue10</string>
+							<string>lblEQValue11</string>
+							<string>lblEQValue12</string>
+							<string>lblEQValue13</string>
+							<string>lblEQValue14</string>
+							<string>lblEQValue15</string>
+							<string>lblEQValue16</string>
+							<string>lblEQValue17</string>
+							<string>lblEQValue2</string>
+							<string>lblEQValue3</string>
+							<string>lblEQValue4</string>
+							<string>lblEQValue5</string>
+							<string>lblEQValue6</string>
+							<string>lblEQValue7</string>
+							<string>lblEQValue8</string>
+							<string>lblEQValue9</string>
+							<string>sliderEQ0</string>
+							<string>sliderEQ1</string>
+							<string>sliderEQ10</string>
+							<string>sliderEQ11</string>
+							<string>sliderEQ12</string>
+							<string>sliderEQ13</string>
+							<string>sliderEQ14</string>
+							<string>sliderEQ15</string>
+							<string>sliderEQ16</string>
+							<string>sliderEQ17</string>
+							<string>sliderEQ2</string>
+							<string>sliderEQ3</string>
+							<string>sliderEQ4</string>
+							<string>sliderEQ5</string>
+							<string>sliderEQ6</string>
+							<string>sliderEQ7</string>
+							<string>sliderEQ8</string>
+							<string>sliderEQ9</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ0</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ1</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ10</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ11</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ12</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ13</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ14</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ15</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ16</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ17</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ2</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ3</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ4</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ5</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ6</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ7</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ8</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQ9</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue0</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue1</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue10</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue11</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue12</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue13</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue14</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue15</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue16</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue17</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue2</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue3</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue4</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue5</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue6</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue7</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue8</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblEQValue9</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ0</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ1</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ10</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ11</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ12</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ13</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ14</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ15</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ16</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ17</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ2</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ3</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ4</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ5</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ6</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ7</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ8</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">sliderEQ9</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/EffectsWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MPfmView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MPfmView.h</string>
 					</object>
 				</object>
 			</object>

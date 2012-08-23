@@ -13,12 +13,20 @@ namespace MPfm.Mac
 	{
 		[Outlet]
 		MonoMac.AppKit.NSImageView imageView { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMessage { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (imageView != null) {
 				imageView.Dispose ();
 				imageView = null;
+			}
+
+			if (lblMessage != null) {
+				lblMessage.Dispose ();
+				lblMessage = null;
 			}
 		}
 	}

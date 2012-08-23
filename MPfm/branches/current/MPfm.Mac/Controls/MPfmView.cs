@@ -37,8 +37,11 @@ namespace MPfm.Mac
     {
         private bool isMouseDown = false;
 
+        public bool IsHeaderVisible { get; set; }
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
+        public CGColor HeaderGradientColor1 { get; set; }
+        public CGColor HeaderGradientColor2 { get; set; }
 
         [Export("init")]
         public MPfmView() : base(NSObjectFlag.Empty)
@@ -56,6 +59,12 @@ namespace MPfm.Mac
         {
             GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
             GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
+            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
+            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
+            //GradientColor1 = new CGColor(0.0f, 1.0f, 0.0f);
+            //GradientColor2 = new CGColor(1.0f, 0.0f, 1.0f);
+            //HeaderGradientColor1 = new CGColor(1.0f, 0.0f, 0.0f);
+            //HeaderGradientColor2 = new CGColor(0.0f, 0.0f, 1.0f);
         }
 
         [Export("mouseDown:")]
@@ -84,27 +93,56 @@ namespace MPfm.Mac
         {
             base.DrawRect(dirtyRect);
 
-            CGGradient gradient;
-            CGColorSpace colorSpace;
-            PointF ptStart;
-            PointF ptEnd;
+            CGGradient gradientBackground;
+            CGGradient gradientHeader;
+            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
 
-            float[] locationList = new float[] { 1.0f, 0.0f };
-            List<float> colorList = new List<float>();
-            colorList.AddRange(GradientColor1.Components);
-            colorList.AddRange(GradientColor2.Components);
-
-            colorSpace = CGColorSpace.CreateDeviceRGB();
-            gradient = new CGGradient(colorSpace, colorList.ToArray(), locationList);
-            ptStart = new PointF(0, 0);
-            ptEnd = new PointF(0, Bounds.Height);
-
+            float[] locationListBackground = new float[] { 1.0f, 0.0f };
+            List<float> colorListBackground = new List<float>();
+            colorListBackground.AddRange(GradientColor1.Components);
+            colorListBackground.AddRange(GradientColor2.Components);
+            float[] locationListHeader = new float[] { 1.0f, 0.0f };
+            List<float> colorListHeader = new List<float>();
+            colorListHeader.AddRange(HeaderGradientColor1.Components);
+            colorListHeader.AddRange(HeaderGradientColor2.Components);
+            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
+            gradientHeader = new CGGradient(colorSpace, colorListHeader.ToArray(), locationListHeader);
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+
+            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
             context.SaveState();
-            context.AddRect(dirtyRect);
+            context.AddRect(rectBackground);
             context.Clip();
-            context.DrawLinearGradient(gradient, ptStart, ptEnd, CGGradientDrawingOptions.DrawsBeforeStartLocation);
+            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
             context.RestoreState();
+
+            if (IsHeaderVisible)
+            {
+                RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
+                context.SaveState();
+                context.AddRect(rectHeader);
+                context.Clip();
+                context.DrawLinearGradient(gradientHeader, new PointF(0, Bounds.Height - 24), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
+                context.RestoreState();
+                           
+//                context.SaveState();
+//                context.SetStrokeColor(new CGColor(0.4f, 1.0f));
+//                context.StrokeRect(Get1pxRect(new RectangleF(0, 0, Bounds.Width, Bounds.Height - 24)));
+//                context.RestoreState();
+            }
+
+            context.SaveState();
+            context.SetStrokeColor(new CGColor(0.35f, 1.0f));
+            context.StrokeRect(Get1pxRect(Bounds));
+            context.RestoreState();
+
         }
+
+        RectangleF Get1pxRect(RectangleF rect)
+        {
+            RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
+            return newRect;
+        }
+           
     }
 }

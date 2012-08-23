@@ -149,29 +149,53 @@ namespace MPfm.Mac
         private void SetTheme()
         {
             // Set colors
-            viewLeftHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-            viewLeftHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-            viewRightHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-            viewRightHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-            viewLibraryBrowser.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-            viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-            viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+//            viewLeftHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+//            viewLeftHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+//            viewRightHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+//            viewRightHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+//            viewLibraryBrowser.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+//            viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+//            viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
+//            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+            viewInformation.IsHeaderVisible = true;
+            viewSongPosition.IsHeaderVisible = true;
+            viewVolume.IsHeaderVisible = true;
+            viewTimeShifting.IsHeaderVisible = true;
 
             // Set label fonts
             lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-999wt", 22);
             lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
-            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-400wt", 16);
+            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 16);
             lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
 
-            lblSampleRate.Font = NSFont.FromFontName("Junction", 11);
-            lblBitrate.Font = NSFont.FromFontName("Junction", 11);
-            lblFileType.Font = NSFont.FromFontName("Junction", 11);
-            lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11);
+            lblSampleRate.Font = NSFont.FromFontName("Junction", 11.4f);
+            lblBitrate.Font = NSFont.FromFontName("Junction", 11.4f);
+            lblFileType.Font = NSFont.FromFontName("Junction", 11.4f);
+            lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11.4f);
+            lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11.4f);
+
+            lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
+            lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
+            lblTitleLoops.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
+            lblTitleMarkers.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
+            lblTitleSongBrowser.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
+
+            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
+            lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
+            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
+            lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
+
+            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
+            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
+            lblTimeShifting.Font = NSFont.FromFontName("DroidSansMono", 11f);
+            lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
+
+            cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
+            searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
-            columnText.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnText.DataCell.Font = NSFont.FromFontName("Junction", 11f);
 
             // Set cell fonts for Song Browser
             NSTableColumn columnTrackNumber = tableSongBrowser.FindTableColumn(new NSString("columnTrackNumber"));
@@ -179,16 +203,52 @@ namespace MPfm.Mac
             NSTableColumn columnLength = tableSongBrowser.FindTableColumn(new NSString("columnLength"));
             NSTableColumn columnArtistName = tableSongBrowser.FindTableColumn(new NSString("columnArtistName"));
             NSTableColumn columnAlbumTitle = tableSongBrowser.FindTableColumn(new NSString("columnAlbumTitle"));
-            columnTrackNumber.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnTrackNumber.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnTitle.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnLength.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnLength.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnArtistName.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnArtistName.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnAlbumTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11.5f);
-            columnAlbumTitle.DataCell.Font = NSFont.FromFontName("Junction", 11.5f);
+            columnTrackNumber.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnTrackNumber.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnTitle.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLength.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLength.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnArtistName.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnArtistName.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnAlbumTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnAlbumTitle.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+
+            // Set cell fonts for Loops
+            NSTableColumn columnLoopName = tableLoops.FindTableColumn(new NSString("columnLoopName"));
+            NSTableColumn columnLoopLength = tableLoops.FindTableColumn(new NSString("columnLoopLength"));
+            NSTableColumn columnLoopStartPosition = tableLoops.FindTableColumn(new NSString("columnLoopStartPosition"));
+            NSTableColumn columnLoopEndPosition = tableLoops.FindTableColumn(new NSString("columnLoopEndPosition"));
+            columnLoopName.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopName.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopLength.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopLength.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopStartPosition.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopStartPosition.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopEndPosition.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopEndPosition.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+
+            // Set cell fonts for Markers
+            NSTableColumn columnMarkerName = tableMarkers.FindTableColumn(new NSString("columnMarkerName"));
+            NSTableColumn columnMarkerPosition = tableMarkers.FindTableColumn(new NSString("columnMarkerPosition"));
+            NSTableColumn columnMarkerComments = tableMarkers.FindTableColumn(new NSString("columnMarkerComments"));
+            columnMarkerName.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnMarkerName.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnMarkerPosition.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnMarkerPosition.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnMarkerComments.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnMarkerComments.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+
+            btnPlayLoop.Font = NSFont.FromFontName("Junction", 11f);
+            btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
+            btnAddLoop.Font = NSFont.FromFontName("Junction", 11f);
+            btnEditLoop.Font = NSFont.FromFontName("Junction", 11f);
+            btnRemoveLoop.Font = NSFont.FromFontName("Junction", 11f);
+
+            btnGoToMarker.Font = NSFont.FromFontName("Junction", 11f);
+            btnAddMarker.Font = NSFont.FromFontName("Junction", 11f);
+            btnEditMarker.Font = NSFont.FromFontName("Junction", 11f);
+            btnRemoveMarker.Font = NSFont.FromFontName("Junction", 11f);
 
         }
 
