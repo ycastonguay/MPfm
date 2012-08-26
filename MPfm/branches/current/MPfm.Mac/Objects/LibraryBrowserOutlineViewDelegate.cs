@@ -21,9 +21,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using MonoMac.ObjCRuntime;
+
 using MPfm.MVP;
 using Ninject;
 
@@ -34,7 +37,7 @@ namespace MPfm.Mac
     /// </summary>
     public class LibraryBrowserOutlineViewDelegate : NSOutlineViewDelegate
     {
-        private ILibraryBrowserPresenter libraryBrowserPresenter = null;
+        ILibraryBrowserPresenter libraryBrowserPresenter = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserOutlineViewDelegate"/> class.
@@ -57,6 +60,39 @@ namespace MPfm.Mac
             // Call presenter if a valid item has been found
             if(item != null)
                 libraryBrowserPresenter.TreeNodeSelected(item.Entity);
+        }
+
+        [Export("outlineView:viewForTableColumn:item:")]
+        public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
+        {
+            // Cast item
+            LibraryBrowserItem libraryBrowserItem = (LibraryBrowserItem)item;
+
+            // Create view
+            NSTableCellView view = (NSTableCellView)outlineView.MakeView("cellLibrary", this);
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            view.TextField.StringValue = libraryBrowserItem.Entity.Title;
+
+            // Check icon
+            if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.AllSongs)
+            {
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "database");
+            } 
+            else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artists)
+            {
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "group");
+            } 
+            else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Album ||
+                     libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Albums)
+            {
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "cd");
+            } 
+            else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artist)
+            {
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "user");
+            } 
+
+            return view;
         }
     }
 }

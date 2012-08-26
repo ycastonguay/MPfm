@@ -105,7 +105,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="MonoMac" />
     <Reference Include="Bass.Net">
       <HintPath>..\MPfm.Sound\Lib\Bass.Net.dll</HintPath>
     </Reference>
@@ -120,6 +119,9 @@
     </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="MonoMac">
+      <HintPath>Lib\MonoMac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -175,6 +177,8 @@
       <DependentUpon>SplashWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Controllers\SplashWindowController.cs" />
+    <Compile Include="Controls\MPfmButton.cs" />
+    <Compile Include="Objects\SongBrowserSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -191,6 +195,7 @@
     <None Include="Lib\AutoMapper.dll" />
     <None Include="Lib\Ninject.dll" />
     <None Include="Lib\taglib-sharp.dll" />
+    <None Include="Lib\MonoMac.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
@@ -276,6 +281,10 @@
     <Content Include="Resources\Fonts\Junction.otf" />
     <Content Include="Resources\Fonts\Inconsolata.otf" />
     <Content Include="Resources\Fonts\DroidSansMono.ttf" />
+    <Content Include="Resources\16x16\group.png" />
+    <Content Include="Resources\16x16\cd.png" />
+    <Content Include="Resources\16x16\user.png" />
+    <Content Include="Resources\16x16\database.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

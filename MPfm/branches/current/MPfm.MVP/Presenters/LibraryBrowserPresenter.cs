@@ -210,7 +210,12 @@ namespace MPfm.MVP
 		private IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes()
 		{
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
-			
+
+            list.Add(new LibraryBrowserEntity(){
+                Title = "All Songs",
+                Type = LibraryBrowserEntityType.AllSongs
+            });           
+
 			list.Add(new LibraryBrowserEntity(){
 				Title = "Artists",
 				Type = LibraryBrowserEntityType.Artists,

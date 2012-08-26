@@ -45,22 +45,21 @@ namespace MPfm.Mac
     //[Register("NSWindow")]
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IPlayerView, ISongBrowserView, ILibraryBrowserView
 	{
-        NSFont fontTest;
+		readonly IPlayerPresenter playerPresenter = null;
+		readonly ISongBrowserPresenter songBrowserPresenter = null;
+		readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
 
-		private readonly IPlayerPresenter playerPresenter = null;
-		private readonly ISongBrowserPresenter songBrowserPresenter = null;
-		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
+		UpdateLibraryWindowController updateLibraryWindowController = null;
+        PlaylistWindowController playlistWindowController = null;
+        EffectsWindowController effectsWindowController = null;
+        PreferencesWindowController preferencesWindowController = null;
 
-		private UpdateLibraryWindowController updateLibraryWindowController = null;
-        private PlaylistWindowController playlistWindowController = null;
-        private EffectsWindowController effectsWindowController = null;
-        private PreferencesWindowController preferencesWindowController = null;
+        LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
+		LibraryBrowserDataSource libraryBrowserDataSource = null;
 
-        private LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
-		private LibraryBrowserDataSource libraryBrowserDataSource = null;
-
-        private SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
-        private SongBrowserDataSource songBrowserDataSource = null;
+        SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
+        SongBrowserDataSource songBrowserDataSource = null;
+        SongBrowserSource songBrowserSource = null;
 
 		//strongly typed window accessor00
 		public new MainWindow Window {
@@ -635,8 +634,8 @@ namespace MPfm.Mac
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
             // Set data source
-            songBrowserDataSource = new SongBrowserDataSource(audioFiles);
-            tableSongBrowser.DataSource = songBrowserDataSource;
+            songBrowserSource = new SongBrowserSource(audioFiles);
+            tableSongBrowser.Source = songBrowserSource;
 		}
 
 		#endregion

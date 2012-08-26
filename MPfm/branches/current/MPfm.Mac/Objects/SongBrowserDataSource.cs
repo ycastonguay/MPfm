@@ -70,6 +70,7 @@ namespace MPfm.Mac
 
             return Items[row].KeyValues[tableColumnName];
         }
+
 	}
 }
 

@@ -59,7 +59,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public enum LibraryBrowserEntityType
 	{
-		Dummy = 0, Artists = 1, Albums = 2, Artist = 3, ArtistAlbum = 4, Album = 5
+		AllSongs = 0, Artists = 1, Albums = 2, Artist = 3, ArtistAlbum = 4, Album = 5, Dummy = 100
 	}
 }
 

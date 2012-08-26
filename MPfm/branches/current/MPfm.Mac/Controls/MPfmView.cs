@@ -55,10 +55,25 @@ namespace MPfm.Mac
             Initialize();
         }
 
+        public MPfmView(RectangleF frameRect) : base(frameRect)
+        {
+            Initialize();
+        }
+
+        public MPfmView(NSObjectFlag t) : base(t)
+        {
+            Initialize();
+        }
+
+        public MPfmView(NSCoder coder) : base(coder)
+        {
+            Initialize();
+        }
+
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-            GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
+            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
+            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
             HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
             HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
             //GradientColor1 = new CGColor(0.0f, 1.0f, 0.0f);
