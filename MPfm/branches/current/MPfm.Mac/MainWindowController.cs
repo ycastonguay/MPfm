@@ -142,8 +142,15 @@ namespace MPfm.Mac
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 
-            scrollViewLibraryBrowser.SetSynchronizedScrollView(scrollViewSongBrowser);
-            scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewLibraryBrowser);
+            //scrollViewAlbumCovers.FocusRingType = NSFocusRingType.None;
+            //scrollViewSongBrowser.FocusRingType = NSFocusRingType.None;
+            scrollViewSongBrowser.BorderType = NSBorderType.NoBorder;
+            scrollViewAlbumCovers.BorderType = NSBorderType.NoBorder;
+            scrollViewAlbumCovers.HasHorizontalScroller = false;
+            scrollViewAlbumCovers.HasVerticalScroller = false;
+
+            scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
+            scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
 		}
 
         private void SetTheme()

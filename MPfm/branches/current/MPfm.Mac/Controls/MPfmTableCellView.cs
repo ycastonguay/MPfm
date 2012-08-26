@@ -37,14 +37,8 @@ namespace MPfm.Mac
     {
         private bool isMouseDown = false;
 
-        [Outlet]
-        public NSTextField SecondaryTextField { get; set; }
-
-        public bool IsHeaderVisible { get; set; }
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
-        public CGColor HeaderGradientColor1 { get; set; }
-        public CGColor HeaderGradientColor2 { get; set; }
 
         [Export("init")]
         public MPfmTableCellView() : base(NSObjectFlag.Empty)
@@ -60,49 +54,13 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-//            SecondaryTextField = new NSTextField(new RectangleF(0, 0, 50, 50));
-//            SecondaryTextField.StringValue = "HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLO\n\n\n\n\nHELLO";
-//            SecondaryTextField.BackgroundColor = NSColor.Blue;
-//            this.AddSubview(SecondaryTextField);
-
-
             GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
             GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
-            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
-            //GradientColor1 = new CGColor(0.0f, 1.0f, 0.0f);
-            //GradientColor2 = new CGColor(1.0f, 0.0f, 1.0f);
-            //HeaderGradientColor1 = new CGColor(1.0f, 0.0f, 0.0f);
-            //HeaderGradientColor2 = new CGColor(0.0f, 0.0f, 1.0f);
-        }
-
-        public void Test()
-        {
-            SecondaryTextField.BackgroundColor = NSColor.Green;
-        }
-
-        public override void AwakeFromNib()
-        {
-            base.AwakeFromNib();
-
-
-
-            SecondaryTextField.DrawsBackground = true;
-            SecondaryTextField.BackgroundColor = NSColor.Green;
-            SecondaryTextField.TextColor = NSColor.Blue;
-            SecondaryTextField.StringValue = "AWAKE";
-
-            //if(this.TextField.StringValue.ToUpper() == "ARTISTS")
-                //SecondaryTextField.Frame = new RectangleF(0, 0, 100, 100);
-
-            SecondaryTextField.Bordered = true;
-            SecondaryTextField.SetNeedsDisplay();
         }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
         {
-
             // Set flag
             isMouseDown = true;
 
@@ -120,62 +78,6 @@ namespace MPfm.Mac
 
             // Set flag
             isMouseDown = false;
-        }
-//
-//        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
-//        {
-//            base.DrawRect(dirtyRect);
-//
-//            CGGradient gradientBackground;
-//            CGGradient gradientHeader;
-//            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-//
-//            float[] locationListBackground = new float[] { 1.0f, 0.0f };
-//            List<float> colorListBackground = new List<float>();
-//            colorListBackground.AddRange(GradientColor1.Components);
-//            colorListBackground.AddRange(GradientColor2.Components);
-//            float[] locationListHeader = new float[] { 1.0f, 0.0f };
-//            List<float> colorListHeader = new List<float>();
-//            colorListHeader.AddRange(HeaderGradientColor1.Components);
-//            colorListHeader.AddRange(HeaderGradientColor2.Components);
-//            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
-//            gradientHeader = new CGGradient(colorSpace, colorListHeader.ToArray(), locationListHeader);
-//            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-//
-//            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-//            context.SaveState();
-//            context.AddRect(rectBackground);
-//            context.Clip();
-//            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-//            context.RestoreState();
-//
-//            if (IsHeaderVisible)
-//            {
-//                RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
-//                context.SaveState();
-//                context.AddRect(rectHeader);
-//                context.Clip();
-//                context.DrawLinearGradient(gradientHeader, new PointF(0, Bounds.Height - 24), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-//                context.RestoreState();
-//                           
-////                context.SaveState();
-////                context.SetStrokeColor(new CGColor(0.4f, 1.0f));
-////                context.StrokeRect(Get1pxRect(new RectangleF(0, 0, Bounds.Width, Bounds.Height - 24)));
-////                context.RestoreState();
-//            }
-//
-//            context.SaveState();
-//            context.SetStrokeColor(new CGColor(0.35f, 1.0f));
-//            context.StrokeRect(Get1pxRect(Bounds));
-//            context.RestoreState();
-//
-//        }
-//
-//        RectangleF Get1pxRect(RectangleF rect)
-//        {
-//            RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
-//            return newRect;
-//        }
-           
+        }           
     }
 }

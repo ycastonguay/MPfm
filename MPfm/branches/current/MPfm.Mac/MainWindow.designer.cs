@@ -12,6 +12,12 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSTableView tableViewAlbumCovers { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmScrollView scrollViewAlbumCovers { get; set; }
+
+		[Outlet]
 		MPfm.Mac.MPfmScrollView scrollViewLibraryBrowser { get; set; }
 
 		[Outlet]
@@ -277,6 +283,16 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (tableViewAlbumCovers != null) {
+				tableViewAlbumCovers.Dispose ();
+				tableViewAlbumCovers = null;
+			}
+
+			if (scrollViewAlbumCovers != null) {
+				scrollViewAlbumCovers.Dispose ();
+				scrollViewAlbumCovers = null;
+			}
+
 			if (scrollViewLibraryBrowser != null) {
 				scrollViewLibraryBrowser.Dispose ();
 				scrollViewLibraryBrowser = null;

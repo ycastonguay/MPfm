@@ -96,25 +96,26 @@ namespace MPfm.Mac
 
             synchronizedScrollView = scrollView;
             NSView synchronizedContentView = synchronizedScrollView.ContentView;
-            synchronizedContentView.PostsBoundsChangedNotifications = true;
 
+            // Add a notification to know when the scroll view is scrolled
+            synchronizedContentView.PostsBoundsChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.NSViewBoundsDidChangeNotification, (notification) => { 
 
+                // Calculate the difference
                 NSClipView changedContentView = (NSClipView)notification.Object;
                 RectangleF rect = changedContentView.DocumentVisibleRect();
                 PointF curOffset = ContentView.Bounds.Location;
                 PointF newOffset = curOffset;
-                
                 newOffset.Y = rect.Location.Y;
-                
+
+                // Synchronize position if different
                 if (curOffset != newOffset)
                 {
                     ContentView.ScrollToPoint(newOffset);
                     ReflectScrolledClipView(ContentView);
                     ContentView.SetNeedsDisplayInRect(ContentView.Frame);
                 }
-
-            });
+            }, synchronizedContentView);
         }
 
         public void StopSynchronizing()
@@ -124,65 +125,9 @@ namespace MPfm.Mac
 
             NSView synchronizedContentView = synchronizedScrollView.ContentView;
 
+            // Remove notification
             NSNotificationCenter.DefaultCenter.RemoveObserver(this, "NSViewBoundsDidChangeNotification", synchronizedContentView);
-
             synchronizedScrollView = null;
-        }
-//
-//        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
-//        {
-//            base.DrawRect(dirtyRect);
-//
-//            CGGradient gradientBackground;
-//            CGGradient gradientHeader;
-//            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-//
-//            float[] locationListBackground = new float[] { 1.0f, 0.0f };
-//            List<float> colorListBackground = new List<float>();
-//            colorListBackground.AddRange(GradientColor1.Components);
-//            colorListBackground.AddRange(GradientColor2.Components);
-//            float[] locationListHeader = new float[] { 1.0f, 0.0f };
-//            List<float> colorListHeader = new List<float>();
-//            colorListHeader.AddRange(HeaderGradientColor1.Components);
-//            colorListHeader.AddRange(HeaderGradientColor2.Components);
-//            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
-//            gradientHeader = new CGGradient(colorSpace, colorListHeader.ToArray(), locationListHeader);
-//            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-//
-//            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-//            context.SaveState();
-//            context.AddRect(rectBackground);
-//            context.Clip();
-//            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-//            context.RestoreState();
-//
-//            if (IsHeaderVisible)
-//            {
-//                RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
-//                context.SaveState();
-//                context.AddRect(rectHeader);
-//                context.Clip();
-//                context.DrawLinearGradient(gradientHeader, new PointF(0, Bounds.Height - 24), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-//                context.RestoreState();
-//                           
-////                context.SaveState();
-////                context.SetStrokeColor(new CGColor(0.4f, 1.0f));
-////                context.StrokeRect(Get1pxRect(new RectangleF(0, 0, Bounds.Width, Bounds.Height - 24)));
-////                context.RestoreState();
-//            }
-//
-//            context.SaveState();
-//            context.SetStrokeColor(new CGColor(0.35f, 1.0f));
-//            context.StrokeRect(Get1pxRect(Bounds));
-//            context.RestoreState();
-//
-//        }
-//
-//        RectangleF Get1pxRect(RectangleF rect)
-//        {
-//            RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
-//            return newRect;
-//        }
-           
+        }           
     }
 }
