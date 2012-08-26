@@ -12,7 +12,7 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSTableView tableViewAlbumCovers { get; set; }
+		MonoMac.AppKit.NSTableView tableAlbumCovers { get; set; }
 
 		[Outlet]
 		MPfm.Mac.MPfmScrollView scrollViewAlbumCovers { get; set; }
@@ -283,9 +283,9 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (tableViewAlbumCovers != null) {
-				tableViewAlbumCovers.Dispose ();
-				tableViewAlbumCovers = null;
+			if (tableAlbumCovers != null) {
+				tableAlbumCovers.Dispose ();
+				tableAlbumCovers = null;
 			}
 
 			if (scrollViewAlbumCovers != null) {

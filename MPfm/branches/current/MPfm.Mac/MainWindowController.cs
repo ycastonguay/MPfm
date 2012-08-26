@@ -56,10 +56,9 @@ namespace MPfm.Mac
 
         LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource libraryBrowserDataSource = null;
-
         SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
         SongBrowserDataSource songBrowserDataSource = null;
-        //SongBrowserSource songBrowserSource = null;
+        AlbumCoverSource albumCoverSource = null;
 
 		//strongly typed window accessor00
 		public new MainWindow Window {
@@ -142,8 +141,8 @@ namespace MPfm.Mac
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 
-            //scrollViewAlbumCovers.FocusRingType = NSFocusRingType.None;
-            //scrollViewSongBrowser.FocusRingType = NSFocusRingType.None;
+            tableAlbumCovers.FocusRingType = NSFocusRingType.None;
+            tableSongBrowser.FocusRingType = NSFocusRingType.None;
             scrollViewSongBrowser.BorderType = NSBorderType.NoBorder;
             scrollViewAlbumCovers.BorderType = NSBorderType.NoBorder;
             scrollViewAlbumCovers.HasHorizontalScroller = false;
@@ -151,6 +150,8 @@ namespace MPfm.Mac
 
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
+
+            //tableViewAlbumCovers.Delegate
 		}
 
         private void SetTheme()
@@ -644,6 +645,8 @@ namespace MPfm.Mac
             // Set data source
             songBrowserDataSource = new SongBrowserDataSource(audioFiles);
             tableSongBrowser.DataSource = songBrowserDataSource;
+            albumCoverSource = new AlbumCoverSource(songBrowserPresenter, audioFiles);
+            tableAlbumCovers.Source = albumCoverSource;
 		}
 
 		#endregion
