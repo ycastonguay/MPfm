@@ -59,7 +59,7 @@ namespace MPfm.Mac
 
         SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
         SongBrowserDataSource songBrowserDataSource = null;
-        SongBrowserSource songBrowserSource = null;
+        //SongBrowserSource songBrowserSource = null;
 
 		//strongly typed window accessor00
 		public new MainWindow Window {
@@ -142,7 +142,8 @@ namespace MPfm.Mac
 			this.songBrowserPresenter.BindView(this);
 			this.libraryBrowserPresenter.BindView(this);
 
-            //this.Window.ContentView.AddSubview(
+            scrollViewLibraryBrowser.SetSynchronizedScrollView(scrollViewSongBrowser);
+            scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewLibraryBrowser);
 		}
 
         private void SetTheme()
@@ -634,8 +635,8 @@ namespace MPfm.Mac
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
             // Set data source
-            songBrowserSource = new SongBrowserSource(audioFiles);
-            tableSongBrowser.Source = songBrowserSource;
+            songBrowserDataSource = new SongBrowserDataSource(audioFiles);
+            tableSongBrowser.DataSource = songBrowserDataSource;
 		}
 
 		#endregion

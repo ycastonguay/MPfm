@@ -1600,7 +1600,7 @@
 																							<string key="NSFrameSize">{400, 154}</string>
 																							<reference key="NSSuperview" ref="497439405"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="658394144"/>
+																							<reference key="NSNextKeyView" ref="1018308452"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<object class="NSTableHeaderView" key="NSHeaderView" id="566226135">
@@ -1852,7 +1852,7 @@
 																			<string key="NSFrame">{{0, -5}, {402, 172}}</string>
 																			<reference key="NSSuperview" ref="556046785"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="1018308452"/>
+																			<reference key="NSNextKeyView" ref="497439405"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133682</int>
 																			<reference key="NSVScroller" ref="658394144"/>
@@ -2023,7 +2023,7 @@
 																							<string key="NSFrameSize">{375, 152}</string>
 																							<reference key="NSSuperview" ref="36467682"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="631740251"/>
+																							<reference key="NSNextKeyView" ref="759208895"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<object class="NSTableHeaderView" key="NSHeaderView" id="877937246">
@@ -2207,7 +2207,7 @@
 																			<string key="NSFrame">{{0, -3}, {377, 170}}</string>
 																			<reference key="NSSuperview" ref="421545823"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="759208895"/>
+																			<reference key="NSNextKeyView" ref="36467682"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133682</int>
 																			<reference key="NSVScroller" ref="688644208"/>
@@ -2437,7 +2437,7 @@
 																			<string key="NSFrameSize">{778, 159}</string>
 																			<reference key="NSSuperview" ref="628665911"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="494425073"/>
+																			<reference key="NSNextKeyView" ref="234049385"/>
 																			<string key="NSReuseIdentifierKey">_NS:13</string>
 																			<bool key="NSEnabled">YES</bool>
 																			<object class="NSTableHeaderView" key="NSHeaderView" id="608358240">
@@ -2668,7 +2668,6 @@
 																	<string key="NSFrame">{{224, 17}, {15, 102}}</string>
 																	<reference key="NSSuperview" ref="901815034"/>
 																	<reference key="NSWindow"/>
-																	<reference key="NSNextKeyView"/>
 																	<string key="NSReuseIdentifierKey">_NS:58</string>
 																	<reference key="NSTarget" ref="901815034"/>
 																	<string key="NSAction">_doScroller:</string>
@@ -2708,7 +2707,7 @@
 															<string key="NSFrameSize">{780, 177}</string>
 															<reference key="NSSuperview" ref="744588613"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="234049385"/>
+															<reference key="NSNextKeyView" ref="628665911"/>
 															<string key="NSReuseIdentifierKey">_NS:9</string>
 															<int key="NSsFlags">133682</int>
 															<reference key="NSVScroller" ref="679588447"/>
@@ -3435,6 +3434,22 @@
 						<reference key="destination" ref="807940356"/>
 					</object>
 					<int key="connectionID">559</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">scrollViewLibraryBrowser</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="312103850"/>
+					</object>
+					<int key="connectionID">578</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">scrollViewSongBrowser</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="901815034"/>
+					</object>
+					<int key="connectionID">579</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -5327,6 +5342,7 @@
 					<string>127.IBPluginDependency</string>
 					<string>128.IBPluginDependency</string>
 					<string>129.IBPluginDependency</string>
+					<string>132.CustomClassName</string>
 					<string>132.IBPluginDependency</string>
 					<string>133.IBPluginDependency</string>
 					<string>134.IBPluginDependency</string>
@@ -5355,6 +5371,7 @@
 					<string>185.IBPluginDependency</string>
 					<string>186.IBPluginDependency</string>
 					<string>189.IBPluginDependency</string>
+					<string>19.CustomClassName</string>
 					<string>19.IBPluginDependency</string>
 					<string>190.IBPluginDependency</string>
 					<string>192.IBPluginDependency</string>
@@ -5384,6 +5401,7 @@
 					<string>264.IBPluginDependency</string>
 					<string>265.IBPluginDependency</string>
 					<string>28.IBPluginDependency</string>
+					<string>289.CustomClassName</string>
 					<string>289.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>290.IBPluginDependency</string>
@@ -5433,6 +5451,7 @@
 					<string>341.IBPluginDependency</string>
 					<string>35.IBPluginDependency</string>
 					<string>38.IBPluginDependency</string>
+					<string>389.CustomClassName</string>
 					<string>389.IBPluginDependency</string>
 					<string>39.IBPluginDependency</string>
 					<string>39.designableToolbarItemIdentifier</string>
@@ -5571,6 +5590,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>MPfmScrollView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5599,6 +5619,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>MPfmScrollView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5631,6 +5652,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>MPfmScrollView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5692,6 +5714,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>MPfmScrollView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>toolbarOpen</string>
@@ -5833,17 +5856,17 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">577</int>
+			<int key="maxID">579</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">MPfmCell</string>
-					<string key="superclassName">NSTextFieldCell</string>
+					<string key="className">MPfmScrollView</string>
+					<string key="superclassName">NSScrollView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MPfmCell.h</string>
+						<string key="minorKey">./Classes/MPfmScrollView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -6134,6 +6157,8 @@
 							<string>lblTitleSongBrowser</string>
 							<string>lblVolume</string>
 							<string>outlineLibraryBrowser</string>
+							<string>scrollViewLibraryBrowser</string>
+							<string>scrollViewSongBrowser</string>
 							<string>searchSongBrowser</string>
 							<string>sliderPosition</string>
 							<string>sliderTimeShifting</string>
@@ -6192,7 +6217,9 @@
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
-							<string>MPfmOutlineView</string>
+							<string>NSOutlineView</string>
+							<string>MPfmScrollView</string>
+							<string>MPfmScrollView</string>
 							<string>NSSearchField</string>
 							<string>SongPositionSlider</string>
 							<string>NSSlider</string>
@@ -6255,6 +6282,8 @@
 							<string>lblTitleSongBrowser</string>
 							<string>lblVolume</string>
 							<string>outlineLibraryBrowser</string>
+							<string>scrollViewLibraryBrowser</string>
+							<string>scrollViewSongBrowser</string>
 							<string>searchSongBrowser</string>
 							<string>sliderPosition</string>
 							<string>sliderTimeShifting</string>
@@ -6423,7 +6452,15 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">outlineLibraryBrowser</string>
-								<string key="candidateClassName">MPfmOutlineView</string>
+								<string key="candidateClassName">NSOutlineView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scrollViewLibraryBrowser</string>
+								<string key="candidateClassName">MPfmScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scrollViewSongBrowser</string>
+								<string key="candidateClassName">MPfmScrollView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">searchSongBrowser</string>

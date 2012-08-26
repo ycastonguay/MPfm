@@ -12,6 +12,12 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		MPfm.Mac.MPfmScrollView scrollViewLibraryBrowser { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmScrollView scrollViewSongBrowser { get; set; }
+
+		[Outlet]
 		MPfm.Mac.MPfmView viewTimeShifting { get; set; }
 
 		[Outlet]
@@ -271,6 +277,16 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (scrollViewLibraryBrowser != null) {
+				scrollViewLibraryBrowser.Dispose ();
+				scrollViewLibraryBrowser = null;
+			}
+
+			if (scrollViewSongBrowser != null) {
+				scrollViewSongBrowser.Dispose ();
+				scrollViewSongBrowser = null;
+			}
+
 			if (viewTimeShifting != null) {
 				viewTimeShifting.Dispose ();
 				viewTimeShifting = null;

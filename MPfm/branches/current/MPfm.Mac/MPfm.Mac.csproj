@@ -179,6 +179,8 @@
     <Compile Include="Windows\Controllers\SplashWindowController.cs" />
     <Compile Include="Controls\MPfmButton.cs" />
     <Compile Include="Objects\SongBrowserSource.cs" />
+    <Compile Include="Controls\MPfmTableCellView.cs" />
+    <Compile Include="Controls\MPfmScrollView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
