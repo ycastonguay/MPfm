@@ -35,7 +35,8 @@ namespace MPfm.Mac
     [Register("MPfmAlbumCoverView")]
     public class MPfmAlbumCoverView : NSView
     {
-        private bool isMouseDown = false;
+        SongBrowserItem item;
+        bool isMouseDown = false;
 
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
@@ -54,10 +55,15 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
+            GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
             GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
 
-            this.FocusRingType = NSFocusRingType.None;
+            //this.FocusRingType = NSFocusRingType.None;
+        }
+
+        public void SetItem(SongBrowserItem item)
+        {
+            this.item = item;
         }
 
         [Export("mouseDown:")]
@@ -85,35 +91,27 @@ namespace MPfm.Mac
         public override void DrawRect(System.Drawing.RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);
-            
-            CGGradient gradientBackground;
-            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-            
-            float[] locationListBackground = new float[] { 1.0f, 0.0f };
-            List<float> colorListBackground = new List<float>();
-            colorListBackground.AddRange(GradientColor1.Components);
-            colorListBackground.AddRange(GradientColor2.Components);
-            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
-            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            
-            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-            context.SaveState();
-            context.AddRect(rectBackground);
-            context.Clip();
-            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-            context.RestoreState();
 
-//            context.SaveState();
-//            context.SetStrokeColor(new CGColor(0.35f, 1.0f));
-//            context.StrokeRect(Get1pxRect(Bounds));
-//            context.RestoreState();
-            
-        }
-        
-        RectangleF Get1pxRect(RectangleF rect)
-        {
-            RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
-            return newRect;
-        }
+            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+
+            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
+            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1, 0, 0, 0.5f));
+
+            //NSAttributedString attString = new NSAttributedString("Hello world");
+            //attString.bo
+
+            float widthArtistName = CocoaHelper.MeasureStringWidth(context, item.AudioFile.ArtistName, "TitilliumText25L-800wt", 13);
+            RectangleF rectArtistName = new RectangleF(8, rectBackground.Height - 24, widthArtistName, 12);
+            rectArtistName.Inflate(4, 4);
+            CocoaHelper.FillRect(context, rectArtistName, new CGColor(0, 0, 0, 0.35f));
+            CocoaHelper.DrawText(context, item.AudioFile.ArtistName, "TitilliumText25L-800wt", 13, rectBackground.Size.Height, 8, 22);
+
+            float widthAlbumTitle = CocoaHelper.MeasureStringWidth(context, item.AudioFile.AlbumTitle, "TitilliumText25L-400wt", 13);
+            RectangleF rectAlbumTitle = new RectangleF(8, rectBackground.Height - 44, widthAlbumTitle, 12);
+            rectAlbumTitle.Inflate(4, 4);
+            CocoaHelper.FillRect(context, rectAlbumTitle, new CGColor(0, 0, 0, 0.35f));
+            CocoaHelper.DrawText(context, item.AudioFile.AlbumTitle, "TitilliumText25L-400wt", 13, rectBackground.Size.Height, 8, 42);
+        }        
     }
 }

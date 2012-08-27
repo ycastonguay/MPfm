@@ -36,6 +36,7 @@ namespace MPfm.Mac
     /// </summary>
     public class AlbumCoverSource : NSTableViewSource
     {
+        List<MPfmAlbumCoverView> views = new List<MPfmAlbumCoverView>();
         ISongBrowserPresenter songBrowserPresenter;
         List<IGrouping<string, SongBrowserItem>> groups;
 
@@ -59,9 +60,6 @@ namespace MPfm.Mac
 
         public override float GetRowHeight(NSTableView tableView, int row)
         {
-            //SongBrowserItem item = groups[row].ToList()[0];
-
-            //return (row + 1) * 20;
             return groups[row].Count() * 18;
         }
 
@@ -69,22 +67,12 @@ namespace MPfm.Mac
         {           
             return groups.Count;
         }
-        
-        public override NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+
+        public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
-            // Get table column name
-            string tableColumnName = ((string)(NSString)(tableColumn.Identifier)).Replace("column", "");
-            
-            // TEMP
-            if(tableColumnName == "IsPlaying")
-            {
-                // If something else than NSImage is returned, the application crashes...
-                //return new NSImage(new SizeF(16, 16));
-                return ImageResources.images16x16[0];
-            }
-            
-            //return Items[row].KeyValues[tableColumnName];
-            return new NSString();
-        }
+            MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
+            view.SetItem(groups[row].ToList()[0]);
+            return view;
+        }       
     }
 }

@@ -83,7 +83,7 @@
     <EnablePackageSigning>False</EnablePackageSigning>
     <Externalconsole>True</Externalconsole>
     <EnableCodeSigning>False</EnableCodeSigning>
-    <CreatePackage>False</CreatePackage>
+    <CreatePackage>True</CreatePackage>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
