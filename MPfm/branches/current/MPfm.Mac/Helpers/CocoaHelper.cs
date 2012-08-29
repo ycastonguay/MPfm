@@ -48,6 +48,15 @@ namespace MPfm.Mac
             }
         }
 
+        public static RectangleF MeasureString(SizeF sizeConstraint, string text, string fontName, float fontSize)
+        {
+            NSMutableDictionary dict = new NSMutableDictionary();
+            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
+            NSString nsstr = new NSString(text);
+            RectangleF rect = nsstr.BoundingRectWithSize(sizeConstraint, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
+            return rect;
+        }
+
         public static float MeasureStringWidth(CGContext context, string text, string fontName, float fontSize)
         {
             context.SaveState();
@@ -57,14 +66,10 @@ namespace MPfm.Mac
             //context.TranslateCTM(0, 20);
             context.ScaleCTM(1, -1);
             context.SetTextDrawingMode(CGTextDrawingMode.Invisible);
-
-            //NSString nsstr = new NSString(text);
-            //NSMutableDictionary dict = new NSMutableDictionary();
-//            RectangleF rect = nsstr.BoundingRectWithSize(new SizeF(50, 24), NSStringDrawingOptions.UsesFontLeading, new NSDictionary());
-
             context.ShowTextAtPoint(pos.X, pos.Y, text);
             PointF pos2 = context.TextPosition;
             context.RestoreState();
+
             return pos2.X - pos.X;
         }
 
@@ -111,6 +116,18 @@ namespace MPfm.Mac
             context.ScaleCTM(1, -1);
             context.ShowTextAtPoint(x, y, text);
             context.RestoreState();
+        }
+
+        public static void DrawText(RectangleF rect, string text, string fontName, float fontSize, NSColor fontColor)
+        {
+            NSMutableDictionary dict = new NSMutableDictionary();
+            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
+            dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
+            NSString nsstr = new NSString(text);
+            RectangleF rectBounds = nsstr.BoundingRectWithSize(new SizeF(rect.Width, rect.Height), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
+            rectBounds.X = rect.X;
+            rectBounds.Y = rect.Y;
+            nsstr.DrawString(rectBounds, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
         }
     }
 }
