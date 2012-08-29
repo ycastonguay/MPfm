@@ -36,8 +36,7 @@ namespace MPfm.Mac
     /// </summary>
     public class AlbumCoverSource : NSTableViewSource
     {
-        List<MPfmAlbumCoverView> views = new List<MPfmAlbumCoverView>();
-        ISongBrowserPresenter songBrowserPresenter;
+        AlbumCoverCacheService albumCoverCacheService;
         List<IGrouping<string, SongBrowserItem>> groups;
 
         public List<SongBrowserItem> Items { get; private set; }
@@ -45,9 +44,9 @@ namespace MPfm.Mac
         /// <summary>
         /// Initializes a new instance of the <see cref="MPfm.Mac.AlbumCoverSource"/> class.
         /// </summary>
-        public AlbumCoverSource(ISongBrowserPresenter songBrowserPresenter, IEnumerable<AudioFile> audioFiles)
+        public AlbumCoverSource(AlbumCoverCacheService albumCoverCacheService, IEnumerable<AudioFile> audioFiles)
         {
-            this.songBrowserPresenter = songBrowserPresenter;           
+            this.albumCoverCacheService = albumCoverCacheService;           
 
             // Create list of items
             Items = new List<SongBrowserItem>();
@@ -71,7 +70,10 @@ namespace MPfm.Mac
         public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
             MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
-            view.SetItem(groups[row].ToList()[0]);
+            SongBrowserItem item = groups[row].ToList()[0];
+            NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
+            Console.WriteLine("GetViewForItem " + row.ToString());           
+            view.SetItem(item, image);
             return view;
         }       
     }

@@ -39,10 +39,10 @@ namespace MPfm.MVP
 	/// </summary>
 	public class SongBrowserPresenter : ISongBrowserPresenter
 	{
-		private ISongBrowserView view = null;
-		private readonly IAudioFileCacheService audioFileCacheService = null;
-		private readonly ILibraryService libraryService = null;
-		private readonly IPlayerPresenter playerPresenter = null;
+		ISongBrowserView view = null;
+		readonly IAudioFileCacheService audioFileCacheService = null;
+		readonly ILibraryService libraryService = null;
+		readonly IPlayerPresenter playerPresenter = null;      
 		
 		public SongBrowserQueryEntity Query { get; private set; }
 		

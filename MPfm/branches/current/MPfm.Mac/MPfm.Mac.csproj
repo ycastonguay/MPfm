@@ -183,6 +183,7 @@
     <Compile Include="Controls\MPfmScrollView.cs" />
     <Compile Include="Objects\AlbumCoverSource.cs" />
     <Compile Include="Controls\MPfmAlbumCoverView.cs" />
+    <Compile Include="Objects\AlbumCoverCacheService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />

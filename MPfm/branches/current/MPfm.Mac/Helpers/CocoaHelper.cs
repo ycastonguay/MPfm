@@ -118,15 +118,15 @@ namespace MPfm.Mac
             context.RestoreState();
         }
 
-        public static void DrawText(RectangleF rect, string text, string fontName, float fontSize, NSColor fontColor)
+        public static void DrawText(RectangleF rect, float x, float y, string text, string fontName, float fontSize, NSColor fontColor)
         {
             NSMutableDictionary dict = new NSMutableDictionary();
             dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
             dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
             NSString nsstr = new NSString(text);
             RectangleF rectBounds = nsstr.BoundingRectWithSize(new SizeF(rect.Width, rect.Height), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
-            rectBounds.X = rect.X;
-            rectBounds.Y = rect.Y;
+            rectBounds.X = rect.X + x;
+            rectBounds.Y = rect.Y + y;
             nsstr.DrawString(rectBounds, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
         }
     }

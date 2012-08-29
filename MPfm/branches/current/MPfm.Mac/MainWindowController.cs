@@ -59,6 +59,7 @@ namespace MPfm.Mac
         SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
         SongBrowserDataSource songBrowserDataSource = null;
         AlbumCoverSource albumCoverSource = null;
+        AlbumCoverCacheService albumCoverCacheService = null;
 
 		//strongly typed window accessor00
 		public new MainWindow Window {
@@ -83,12 +84,14 @@ namespace MPfm.Mac
 		// Call to load from the XIB/NIB file
 		public MainWindowController(IPlayerPresenter playerPresenter,
 		                            ISongBrowserPresenter songBrowserPresenter,
-		                            ILibraryBrowserPresenter libraryBrowserPresenter) : base ("MainWindow")
+		                            ILibraryBrowserPresenter libraryBrowserPresenter,
+                                    AlbumCoverCacheService albumCoverCacheService) : base ("MainWindow")
         {
             // Set properties
             this.playerPresenter = playerPresenter;
             this.songBrowserPresenter = songBrowserPresenter;
             this.libraryBrowserPresenter = libraryBrowserPresenter;
+            this.albumCoverCacheService = new AlbumCoverCacheService();
 		}		
 
 		public override void WindowDidLoad()
@@ -645,7 +648,7 @@ namespace MPfm.Mac
             // Set data source
             songBrowserDataSource = new SongBrowserDataSource(audioFiles);
             tableSongBrowser.DataSource = songBrowserDataSource;
-            albumCoverSource = new AlbumCoverSource(songBrowserPresenter, audioFiles);
+            albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
             tableAlbumCovers.Source = albumCoverSource;
 		}
 
