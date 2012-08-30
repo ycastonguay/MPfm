@@ -31,22 +31,25 @@ namespace MPfm.Core
     /// </summary>
     public class CacheStore<TObj, TId> //where TObj : struct where TId : struct
     {
+        readonly object lockObject = new object();
+
         List<CacheStoreItem<TObj, TId>> listItems;
 
         /// <summary>
         /// Limit of items in the cache store.
         /// 0 = infinite (default).
         /// </summary>
-        public int Limit { get; set; }
+        int limit = 0;
 
-        public CacheStore()
+        public CacheStore(int limit)
         {
             listItems = new List<CacheStoreItem<TObj, TId>>();
+            this.limit = limit;
         }
 
         void CheckForLimit()
         {
-            if (listItems.Count <= Limit)
+            if (listItems.Count <= limit)
                 return;
 
             // Order items by timestamp
@@ -59,7 +62,7 @@ namespace MPfm.Core
                 listItems.Remove(itemsOrdered[0]);
 
                 // Check for limit
-                if(listItems.Count <= Limit)
+                if(listItems.Count <= limit)
                     break;
             }
         }
@@ -77,11 +80,14 @@ namespace MPfm.Core
 
         public TObj GetObjectById(TId id)
         {
-            CacheStoreItem<TObj, TId> item = listItems.FirstOrDefault(x => x.Id.Equals(id));
-            if(item == null)
-                return default(TObj);
-            else
-                return item.Object;
+            lock (lockObject)
+            {
+                CacheStoreItem<TObj, TId> item = listItems.FirstOrDefault(x => x.Id.Equals(id));
+                if (item == null)
+                    return default(TObj);
+                else
+                    return item.Object;
+            }
         }
     }
 

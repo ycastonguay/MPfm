@@ -38,8 +38,7 @@ namespace MPfm.Mac
 
         public AlbumCoverCacheService()
         {
-            cacheStore = new CacheStore<NSImage, string>();
-            cacheStore.Limit = 10;
+            cacheStore = new CacheStore<NSImage, string>(10);
         }
 
         public NSImage GetAlbumCover(string artistName, string albumTitle)
