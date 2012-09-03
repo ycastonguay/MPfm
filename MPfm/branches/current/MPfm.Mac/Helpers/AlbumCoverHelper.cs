@@ -39,14 +39,14 @@ namespace MPfm.Mac
         public static NSImage GetAlbumCover(string audioFilePath)
         {
             // Try to extract image from tags
-            System.Drawing.Image image = AudioFile.ExtractImageForAudioFile(audioFilePath);
+            Console.WriteLine("Getting album cover (" + audioFilePath + ")...");
+            Image image = AudioFile.ExtractImageForAudioFile(audioFilePath);
             if(image == null)
             {
                 // Try to find the cover in the current folder
+                Console.WriteLine("Checking folder for album cover (" + audioFilePath + ")...");
                 string folderPath = Path.GetDirectoryName(audioFilePath);
                 UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
-
-                UnixFileSystemInfo[] infos = rootDirectoryInfo.GetFileSystemEntries();
                 foreach(UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
                 {
                     // Check if the file matches
@@ -58,6 +58,7 @@ namespace MPfm.Mac
                        (fileName.StartsWith("FOLDER") ||
                         fileName.StartsWith("COVER")))
                     {
+                        Console.WriteLine("Found image file: " + fileInfo.FullName);
                         return new NSImage(fileInfo.FullName);
                     }
                 }

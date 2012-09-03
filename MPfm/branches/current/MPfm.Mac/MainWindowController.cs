@@ -566,16 +566,22 @@ namespace MPfm.Mac
             }
         }
 
-        private void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+        void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
         {
             // Create window and start process
             if(updateLibraryWindowController != null) {
                 updateLibraryWindowController.Dispose();
             }
 
-            updateLibraryWindowController = new UpdateLibraryWindowController();
+            updateLibraryWindowController = new UpdateLibraryWindowController(this);
             updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
             updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
+        }
+
+        public void RefreshAll()
+        {
+            libraryBrowserPresenter.AudioFileFormatFilterChanged(AudioFileFormat.All);
+            songBrowserPresenter.ChangeQuery(songBrowserPresenter.Query);
         }
 
         #region IPlayerView implementation

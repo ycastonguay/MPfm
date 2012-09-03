@@ -275,7 +275,7 @@ namespace MPfm.Library
 			sql.AppendLine("SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles ");
 			if (audioFileFormat != AudioFileFormat.All && !String.IsNullOrEmpty(artistName))
 			{				
-				sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' AND ArtistName = '" + artistName + "'");
+				sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' AND ArtistName = '" + artistName.Replace("'", "''") + "'");
 			}
             else if (audioFileFormat != AudioFileFormat.All)
             {
@@ -283,7 +283,7 @@ namespace MPfm.Library
             }
 			else if(!String.IsNullOrEmpty(artistName))
 			{
-				sql.AppendLine(" WHERE ArtistName = '" + artistName.ToString() + "' ");
+				sql.AppendLine(" WHERE ArtistName = '" + artistName.Replace("'", "''").ToString() + "' ");
 			}
 			sql.AppendLine(" ORDER BY ArtistName");
 

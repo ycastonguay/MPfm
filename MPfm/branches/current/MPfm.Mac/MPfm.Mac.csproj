@@ -10,94 +10,94 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MPfm.Mac</RootNamespace>
     <AssemblyName>MPfm</AssemblyName>
-    <SynchReleaseVersion>False</SynchReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <DefineConstants>DEBUG;MACOSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
-    <EnableCodeSigning>False</EnableCodeSigning>
-    <CreatePackage>False</CreatePackage>
-    <EnablePackageSigning>False</EnablePackageSigning>
-    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <ConsolePause>false</ConsolePause>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <OutputPath>..\Output\Debug</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
-    <EnableCodeSigning>False</EnableCodeSigning>
-    <CreatePackage>False</CreatePackage>
-    <EnablePackageSigning>False</EnablePackageSigning>
-    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <ConsolePause>false</ConsolePause>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <OutputPath>..\Output\Release</OutputPath>
     <DefineConstants>MACOSX</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>False</EnableCodeSigning>
-    <CreatePackage>False</CreatePackage>
-    <EnablePackageSigning>False</EnablePackageSigning>
-    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <OutputPath>..\Output\Debug_Linux</OutputPath>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug_Mac</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>False</EnableCodeSigning>
-    <CreatePackage>False</CreatePackage>
-    <EnablePackageSigning>False</EnablePackageSigning>
-    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
-    <Externalconsole>True</Externalconsole>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output\Release_Mac</OutputPath>
     <DefineConstants>MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
-    <IncludeMonoRuntime>True</IncludeMonoRuntime>
-    <EnablePackageSigning>False</EnablePackageSigning>
-    <Externalconsole>True</Externalconsole>
-    <EnableCodeSigning>False</EnableCodeSigning>
-    <CreatePackage>True</CreatePackage>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <Externalconsole>true</Externalconsole>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>true</CreatePackage>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output\Release_Linux</OutputPath>
     <DefineConstants>LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IncludeMonoRuntime>False</IncludeMonoRuntime>
-    <EnableCodeSigning>False</EnableCodeSigning>
-    <EnablePackageSigning>False</EnablePackageSigning>
-    <CreatePackage>False</CreatePackage>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -148,7 +148,6 @@
     <Compile Include="Controls\SongPositionSlider.cs" />
     <Compile Include="Objects\LibraryBrowserOutlineViewDelegate.cs" />
     <Compile Include="Objects\MainSplitViewDelegate.cs" />
-    <Compile Include="Helpers\AlbumCoverHelper.cs" />
     <Compile Include="Objects\ImageResources.cs" />
     <Compile Include="Objects\SongBrowserDataSource.cs" />
     <Compile Include="Objects\SongBrowserItem.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="Objects\AlbumCoverSource.cs" />
     <Compile Include="Controls\MPfmAlbumCoverView.cs" />
     <Compile Include="Objects\AlbumCoverCacheService.cs" />
+    <Compile Include="Helpers\AlbumCoverHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />

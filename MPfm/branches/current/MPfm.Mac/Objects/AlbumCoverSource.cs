@@ -36,6 +36,10 @@ namespace MPfm.Mac
     /// </summary>
     public class AlbumCoverSource : NSTableViewSource
     {
+        //public delegate Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView> FetchAlbumCoverDelegate(SongBrowserItem item, MPfmAlbumCoverView view);
+        public delegate AlbumCoverAsyncResponse FetchAlbumCoverDelegate(SongBrowserItem item, MPfmAlbumCoverView view);
+
+        //FetchAlbumCoverDelegate fetchAlbumCoverDelegate;
         AlbumCoverCacheService albumCoverCacheService;
         List<IGrouping<string, SongBrowserItem>> groups;
 
@@ -46,7 +50,7 @@ namespace MPfm.Mac
         /// </summary>
         public AlbumCoverSource(AlbumCoverCacheService albumCoverCacheService, IEnumerable<AudioFile> audioFiles)
         {
-            this.albumCoverCacheService = albumCoverCacheService;           
+            this.albumCoverCacheService = albumCoverCacheService;
 
             // Create list of items
             Items = new List<SongBrowserItem>();
@@ -71,10 +75,49 @@ namespace MPfm.Mac
         {
             MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
             SongBrowserItem item = groups[row].ToList()[0];
-            NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
-            Console.WriteLine("GetViewForItem " + row.ToString());           
-            view.SetItem(item, image);
+            FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
+            fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
+            //NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
+            Console.WriteLine("GetViewForItem " + row.ToString());
+            //view.SetItem(item, image);
+            view.SetItem(item, null);
+            //view.SetNeedsDisplayInRect(view.Bounds);
             return view;
         }       
+
+        //public Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView> FetchAlbumCoverAsync(SongBrowserItem item, MPfmAlbumCoverView view)
+        public AlbumCoverAsyncResponse FetchAlbumCoverAsync(SongBrowserItem item, MPfmAlbumCoverView view)
+        {
+            NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
+            //Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView> tuple = new Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView>(item, image, view);
+            //return tuple;
+            AlbumCoverAsyncResponse response = new AlbumCoverAsyncResponse(){
+                Item = item,
+                Image = image,
+                View = view
+            };
+            return response;
+        }
+        
+        void FetchAlbumCoverAsyncCallback(IAsyncResult r)
+        {
+            // Get result
+            FetchAlbumCoverDelegate fetchAlbumCover = (FetchAlbumCoverDelegate)r.AsyncState;
+            AlbumCoverAsyncResponse response = fetchAlbumCover.EndInvoke(r);
+
+            if (response != null && response.View != null)
+            {
+                response.View.SetItem(response.Item, response.Image);
+                if(response.Image != null)
+                    response.View.SetNeedsDisplayInRect(response.View.Bounds);
+            }
+        }
+    }
+
+    public class AlbumCoverAsyncResponse
+    {
+        public SongBrowserItem Item { get; set; }
+        public NSImage Image { get; set; }
+        public MPfmAlbumCoverView View { get; set; }
     }
 }

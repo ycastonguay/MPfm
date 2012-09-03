@@ -33,11 +33,11 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class UpdateLibraryWindowController : MonoMac.AppKit.NSWindowController, IUpdateLibraryView
 	{
-		private MainWindowController mainWindowController = null;
-		private IMPfmGateway gateway = null;
-		private ILibraryService libraryService = null;
-		private IUpdateLibraryService updateLibraryService = null;
-		private IUpdateLibraryPresenter presenter = null;
+		MainWindowController mainWindowController = null;
+		IMPfmGateway gateway = null;
+		ILibraryService libraryService = null;
+		IUpdateLibraryService updateLibraryService = null;
+		IUpdateLibraryPresenter presenter = null;
 
 		#region Constructors
 		
@@ -55,15 +55,15 @@ namespace MPfm.Mac
 		}
 		
 		// Call to load from the XIB/NIB file
-		public UpdateLibraryWindowController() : base ("UpdateLibraryWindow")
+		public UpdateLibraryWindowController(MainWindowController mainWindowController) : base ("UpdateLibraryWindow")
 		{
+            this.mainWindowController = mainWindowController;
 			Initialize();
 		}
 		
 		// Shared initialization code
 		void Initialize()
 		{
-
 			// Custom types cannot be used in the constructors under Mac.
 			string database = "/Users/animal/.MPfm/MPfm.Database.db";
 			gateway = new MPfmGateway(database);
@@ -131,6 +131,7 @@ namespace MPfm.Mac
 
 		partial void btnOK_Click(NSObject sender)
 		{
+            mainWindowController.RefreshAll();
 			this.Close();
 		}
 
