@@ -39,7 +39,6 @@ using MonoMac.CoreText;
 namespace MPfm.Mac
 {
     /// <summary>
-    /// 
     /// Main window controller.
     /// </summary>
     //[Register("NSWindow")]
@@ -57,7 +56,7 @@ namespace MPfm.Mac
         LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource libraryBrowserDataSource = null;
         SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
-        SongBrowserDataSource songBrowserDataSource = null;
+        SongBrowserSource songBrowserSource = null;
         AlbumCoverSource albumCoverSource = null;
         AlbumCoverCacheService albumCoverCacheService = null;
 
@@ -153,8 +152,6 @@ namespace MPfm.Mac
 
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
-
-            //tableViewAlbumCovers.Delegate
 		}
 
         private void SetTheme()
@@ -548,7 +545,7 @@ namespace MPfm.Mac
             try
             {
                 // Get selected item and start playback
-                AudioFile audioFile = songBrowserDataSource.Items [tableSongBrowser.SelectedRow].AudioFile;
+                AudioFile audioFile = songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
                 songBrowserPresenter.TableRowDoubleClicked(audioFile);
             } 
             catch (Exception ex)
@@ -652,8 +649,8 @@ namespace MPfm.Mac
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
             // Set data source
-            songBrowserDataSource = new SongBrowserDataSource(audioFiles);
-            tableSongBrowser.DataSource = songBrowserDataSource;
+            songBrowserSource = new SongBrowserSource(audioFiles);
+            tableSongBrowser.Source = songBrowserSource;
             albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
             tableAlbumCovers.Source = albumCoverSource;
 		}

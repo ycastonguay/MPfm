@@ -149,7 +149,6 @@
     <Compile Include="Objects\LibraryBrowserOutlineViewDelegate.cs" />
     <Compile Include="Objects\MainSplitViewDelegate.cs" />
     <Compile Include="Objects\ImageResources.cs" />
-    <Compile Include="Objects\SongBrowserDataSource.cs" />
     <Compile Include="Objects\SongBrowserItem.cs" />
     <Compile Include="Objects\SongBrowserTableViewDelegate.cs" />
     <Compile Include="Windows\Controllers\UpdateLibraryWindowController.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="Controls\MPfmAlbumCoverView.cs" />
     <Compile Include="Objects\AlbumCoverCacheService.cs" />
     <Compile Include="Helpers\AlbumCoverHelper.cs" />
+    <Compile Include="Controls\MPfmTableRowView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />

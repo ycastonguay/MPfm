@@ -54,8 +54,8 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
-            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
+            GradientColor1 = new CGColor(1.0f, 1.0f, 1.0f);
+            GradientColor2 = new CGColor(0.8f, 0.8f, 0.8f);
         }
 
         [Export("mouseDown:")]
@@ -78,6 +78,19 @@ namespace MPfm.Mac
 
             // Set flag
             isMouseDown = false;
-        }           
+        }        
+
+        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
+        {
+            base.DrawRect(dirtyRect);
+
+            float padding = 6;
+
+            // Draw background
+            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
+            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
+        }
     }
 }

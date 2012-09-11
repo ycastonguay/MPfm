@@ -69,13 +69,19 @@ namespace MPfm.Core
 
         public void Add(TObj obj, TId id)
         {
-            listItems.Add(new CacheStoreItem<TObj, TId>(obj, id));
-            CheckForLimit();
+            lock (lockObject)
+            {
+                listItems.Add(new CacheStoreItem<TObj, TId>(obj, id));
+                CheckForLimit();
+            }
         }
 
         public void Clear()
         {
-            listItems.Clear();
+            lock (lockObject)
+            {
+                listItems.Clear();
+            }
         }
 
         public TObj GetObjectById(TId id)

@@ -1387,16 +1387,23 @@ namespace MPfm.Sound
             string extension = Path.GetExtension(filePath).ToUpper();
             if (extension == ".MP3")
             {
-                // Get tags using TagLib
-                using (TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath))
+                try
                 {
-                    // Can we get the image from the ID3 tags?
-                    if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+                    // Get tags using TagLib
+                    using (TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath))
                     {
-                        // Get image from ID3 tags
-                        ImageConverter ic = new ImageConverter();
-                        imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
+                        // Can we get the image from the ID3 tags?
+                        if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+                        {
+                            // Get image from ID3 tags
+                            ImageConverter ic = new ImageConverter();
+                            imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
+                        }
                     }
+                }
+                catch
+                {
+                    // Failed to recover album art. Do nothing.
                 }
             }
 

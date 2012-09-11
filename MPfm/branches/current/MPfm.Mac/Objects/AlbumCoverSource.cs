@@ -25,8 +25,6 @@ using System.Linq;
 using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using Ninject;
-using MPfm.MVP;
 using MPfm.Sound;
 
 namespace MPfm.Mac
@@ -36,10 +34,8 @@ namespace MPfm.Mac
     /// </summary>
     public class AlbumCoverSource : NSTableViewSource
     {
-        //public delegate Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView> FetchAlbumCoverDelegate(SongBrowserItem item, MPfmAlbumCoverView view);
         public delegate AlbumCoverAsyncResponse FetchAlbumCoverDelegate(SongBrowserItem item, MPfmAlbumCoverView view);
 
-        //FetchAlbumCoverDelegate fetchAlbumCoverDelegate;
         AlbumCoverCacheService albumCoverCacheService;
         List<IGrouping<string, SongBrowserItem>> groups;
 
@@ -74,6 +70,7 @@ namespace MPfm.Mac
         public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
             MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
+
             SongBrowserItem item = groups[row].ToList()[0];
             FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
             fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
@@ -89,8 +86,6 @@ namespace MPfm.Mac
         public AlbumCoverAsyncResponse FetchAlbumCoverAsync(SongBrowserItem item, MPfmAlbumCoverView view)
         {
             NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
-            //Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView> tuple = new Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView>(item, image, view);
-            //return tuple;
             AlbumCoverAsyncResponse response = new AlbumCoverAsyncResponse(){
                 Item = item,
                 Image = image,

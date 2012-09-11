@@ -50,6 +50,11 @@ namespace MPfm.Mac
 				Items.Add(new SongBrowserItem(audioFile));
 		}
 
+        public override float GetRowHeight(NSTableView tableView, int row)
+        {
+            return 18;
+        }
+
         public override int GetRowCount(NSTableView tableView)
         {
             return Items.Count;
@@ -71,30 +76,18 @@ namespace MPfm.Mac
             return Items[row].KeyValues[tableColumnName];
         }
 
-//        public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
-//        {
-//            throw new System.NotImplementedException ();
-//        }
+        public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            MPfmTableCellView view = (MPfmTableCellView)tableView.MakeView("tableCellView", this);
+            return view;
+        }      
 
-//        public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+//        public override NSTableRowView GetRowView(NSTableView tableView, int row)
 //        {
-//            throw new System.NotImplementedException ();
-//        }
-
-//        public override NSCell GetCell(NSTableView tableView, NSTableColumn tableColumn, int row)
-//        {
-////            // Request a recycled cell to save memory
-////            MyRecordingsTableViewCell cell = (MyRecordingsTableViewCell)tableView.DequeueReusableCell(cellIdentifier);
-////            
-////            // Create cell if cell could not be recycled
-////            if (cell == null)
-////                cell = new MyRecordingsTableViewCell();
-////            
-////            // Set entity
-////            cell.SetEntity(Items[indexPath.Row]);
-////            
-////            return cell;
+//            //MPfmTableRowView view = new MPfmTableRowView();
+//            //NSTableRowView rowView = (NSTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
+//            MPfmTableRowView rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
+//            return rowView;
 //        }
 	}
 }
-
