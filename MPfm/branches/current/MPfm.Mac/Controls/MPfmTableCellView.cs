@@ -80,17 +80,17 @@ namespace MPfm.Mac
             isMouseDown = false;
         }        
 
-        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
-        {
-            base.DrawRect(dirtyRect);
-
-            float padding = 6;
-
-            // Draw background
-            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
-            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
-        }
+//        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
+//        {
+//            base.DrawRect(dirtyRect);
+//
+//            float padding = 6;
+//
+//            // Draw background
+//            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+//            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+//            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
+//            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
+//        }
     }
 }

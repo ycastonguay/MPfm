@@ -65,7 +65,7 @@ namespace MPfm.Mac
             // Get table column name
             string tableColumnName = ((string)(NSString)(tableColumn.Identifier)).Replace("column", "");
 
-            // TEMP
+            // TEPM
             if(tableColumnName == "IsPlaying")
             {
                 // If something else than NSImage is returned, the application crashes...
@@ -78,9 +78,37 @@ namespace MPfm.Mac
 
         public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
-            MPfmTableCellView view = (MPfmTableCellView)tableView.MakeView("tableCellView", this);
+            string identifier = tableColumn.Identifier.ToString();
+            if (identifier == "columnIsPlaying")
+            {
+                MPfmTableCellView isPlayingView = (MPfmTableCellView)tableView.MakeView("tableCellIsPlayingView", this);
+                return isPlayingView;
+            } 
+
+            NSTableCellView view = (NSTableCellView)tableView.MakeView("tableCellView", this);
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            if (identifier == "columnTrackNumber")
+            {
+                view.TextField.StringValue = Items[row].AudioFile.TrackNumber.ToString();
+            }
+            else if (identifier == "columnTitle")
+            {
+                view.TextField.StringValue = Items[row].AudioFile.Title;
+            }
+            else if (identifier == "columnLength")
+            {
+                view.TextField.StringValue = Items[row].AudioFile.Length;
+            }
+            else if (identifier == "columnArtistName")
+            {
+                view.TextField.StringValue = Items[row].AudioFile.ArtistName;
+            }
+            else if (identifier == "columnAlbumTitle")
+            {
+                view.TextField.StringValue = Items[row].AudioFile.AlbumTitle;
+            }
             return view;
-        }      
+        }
 
 //        public override NSTableRowView GetRowView(NSTableView tableView, int row)
 //        {
