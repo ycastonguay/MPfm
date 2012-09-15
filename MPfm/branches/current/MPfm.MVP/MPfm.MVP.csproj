@@ -113,7 +113,6 @@
     <Compile Include="Presenters\SplashPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
-    <Compile Include="TinyIoC\TinyIoC.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -144,7 +143,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Services\Interfaces\" />
     <Folder Include="Presenters\Interfaces\" />
-    <Folder Include="TinyIoC\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
