@@ -124,10 +124,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="MainWindowController.cs" />
-    <Compile Include="MainWindow.designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
+    <Compile Include="Windows/MainWindow.designer.cs">
+      <DependentUpon>Windows/MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -185,16 +183,18 @@
     <Compile Include="Helpers\AlbumCoverHelper.cs" />
     <Compile Include="Controls\MPfmTableRowView.cs" />
     <Compile Include="Controls\MPfmIsPlayingTableCellView.cs" />
+    <Compile Include="Windows\MainWindow.cs" />
+    <Compile Include="Windows\Controllers\MainWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainWindow.xib" />
-    <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
     <InterfaceDefinition Include="Windows\XIB\UpdateLibraryWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PlaylistWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PreferencesWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SplashWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\MainWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\MainMenu.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
