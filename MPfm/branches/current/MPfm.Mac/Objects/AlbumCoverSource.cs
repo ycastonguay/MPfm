@@ -55,7 +55,7 @@ namespace MPfm.Mac
 
             // Group albums
             groups = Items.GroupBy(x => x.AudioFile.AlbumTitle).ToList();
-        }
+        }       
 
         public override float GetRowHeight(NSTableView tableView, int row)
         {

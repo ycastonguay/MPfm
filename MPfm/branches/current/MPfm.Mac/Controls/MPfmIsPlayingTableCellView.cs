@@ -1,5 +1,5 @@
 //
-// MPfmTableCellView.cs: Custom table cell view for view-based NSTableView.
+// MPfmIsPlayingTableCellView.cs: Custom table cell view for view-based NSTableView.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -30,32 +30,39 @@ using MonoMac.Foundation;
 namespace MPfm.Mac
 {
     /// <summary>
-    /// Custom table cell view for view-based NSTableView.
+    /// Custom table cell view for view-based NSTableView. Displays an animation to indicate that the song is currently playing.
     /// </summary>
-    [Register("MPfmTableCellView")]
-    public class MPfmTableCellView : NSTableCellView
+    [Register("MPfmIsPlayingTableCellView")]
+    public class MPfmIsPlayingTableCellView : NSTableCellView
     {
-        private bool isMouseDown = false;
+        bool isPlaying = false;
+        bool isMouseDown = false;
 
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
 
         [Export("init")]
-        public MPfmTableCellView() : base(NSObjectFlag.Empty)
+        public MPfmIsPlayingTableCellView() : base(NSObjectFlag.Empty)
         {
             Initialize();
         }
 
         // Called when created from unmanaged code
-        public MPfmTableCellView(IntPtr handle) : base (handle)
+        public MPfmIsPlayingTableCellView(IntPtr handle) : base (handle)
         {
             Initialize();
         }
 
-        private void Initialize()
+        void Initialize()
         {
             GradientColor1 = new CGColor(1.0f, 1.0f, 1.0f);
             GradientColor2 = new CGColor(0.8f, 0.8f, 0.8f);
+        }
+
+        public void SetIsPlaying(bool isPlaying)
+        {
+            this.isPlaying = isPlaying;
+            SetNeedsDisplayInRect(Bounds);
         }
 
         [Export("mouseDown:")]
@@ -86,11 +93,31 @@ namespace MPfm.Mac
 
             float padding = 6;
 
-//            // Draw background
-//            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-//            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-//            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
-//            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
+            if(!isPlaying)
+                return;
+
+            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+
+            float size = (Bounds.Width > Bounds.Height) ? Bounds.Height : Bounds.Width;
+            RectangleF rect = new RectangleF(padding / 2, padding / 2, size - padding, size - padding);
+
+            CGPath path = new CGPath();
+            path.MoveToPoint(new PointF(0, 0));
+            float outerRadius = 16;
+            float innerRadius = 4;
+            //path.AddArc(rect.Width / 2, rect.Height / 2, 45, 0*3.142f/180, angle*3.142f/180, false);
+            path.AddArc(outerRadius / 2, outerRadius / 2, outerRadius / 2, 0, 360, false);
+            path.CloseSubpath();
+
+//            path.AddArc(rect.Width / 4, rect.Height / 4, 45, 0*3.142f/180, angle*3.142f/180, false);
+//            path.CloseSubpath();           
+
+            CocoaHelper.EOFillPath(context, path, new CGColor(0.0f, 0.0f, 0.0f));
+
+            //CocoaHelper.FillEllipsis(context, rect, new CGColor(0.2f, 0.75f, 0.2f));
+            //CocoaHelper.DrawEllipsis(context, rect, new CGColor(0.2f, 0.8f, 0.2f), 2);
+            //rect.Inflate(new SizeF(1.0f, 1.0f));
+            //CocoaHelper.DrawEllipsis(context, rect, new CGColor(0.2f, 0.95f, 0.2f), 0.5f);
         }
     }
 }

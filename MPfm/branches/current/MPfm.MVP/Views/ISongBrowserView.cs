@@ -30,6 +30,6 @@ namespace MPfm.MVP
 	public interface ISongBrowserView
 	{
 		void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles);
+        //void RefreshCurrentlyPlayingSong(AudioFile audioFile);
 	}
 }
-

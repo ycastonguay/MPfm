@@ -612,6 +612,8 @@ namespace MPfm.Mac
                 if(image != null)
                     imageAlbumCover.Image = image;
             }
+
+            songBrowserSource.RefreshIsPlaying(tableSongBrowser, entity.FilePath);
 		}
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
@@ -654,6 +656,11 @@ namespace MPfm.Mac
             albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
             tableAlbumCovers.Source = albumCoverSource;
 		}
+
+//        public void RefreshCurrentlyPlayingSong(AudioFile audioFile)
+//        {
+//            songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile);
+//        }
 
 		#endregion
 

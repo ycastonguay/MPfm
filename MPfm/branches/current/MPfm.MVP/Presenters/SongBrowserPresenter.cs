@@ -67,7 +67,18 @@ namespace MPfm.MVP
 			this.playerPresenter = playerPresenter;
 			this.libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;
+
+            //this.playerPresenter.Player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
 		}
+
+//        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
+//        {
+//            if(data.IsPlaybackStopped)
+//                return;
+//
+//            // Update view with new song            
+//            view.RefreshCurrentlyPlayingSong(data.AudioFileEnded);
+//        }
 
 		#endregion		
 		

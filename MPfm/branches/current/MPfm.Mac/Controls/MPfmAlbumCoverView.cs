@@ -101,7 +101,7 @@ namespace MPfm.Mac
             // Draw background
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
             RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
+            CocoaHelper.FillGradient(context, rectBackground, GradientColor1, GradientColor2);
 
             // Check if an album cover is available
             if (imageAlbumCover != null)

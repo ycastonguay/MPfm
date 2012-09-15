@@ -34,6 +34,7 @@ namespace MPfm.Mac
     /// </summary>
     public class SongBrowserItem : NSObject
     {
+        public bool IsPlaying { get; set; }
         public AudioFile AudioFile { get; private set; }
         public NSObject Null { get; private set; }
         public Dictionary<string, NSString> KeyValues { get; private set; }

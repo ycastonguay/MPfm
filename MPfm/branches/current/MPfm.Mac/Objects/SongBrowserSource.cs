@@ -50,6 +50,35 @@ namespace MPfm.Mac
 				Items.Add(new SongBrowserItem(audioFile));
 		}
 
+        public void RefreshIsPlaying(NSTableView tableView, string filePath)
+        {
+            // Remove old value
+            foreach (SongBrowserItem item in Items)
+            {
+                if(item.IsPlaying)
+                {
+                    item.IsPlaying = false;
+                    int row = Items.IndexOf(item);
+                    MPfmIsPlayingTableCellView view = (MPfmIsPlayingTableCellView)tableView.GetView(0, row, false);
+                    if(view != null)
+                        view.SetIsPlaying(false);
+                }
+            }
+
+            // Add new value
+            foreach (SongBrowserItem item in Items)
+            {
+                if(item.AudioFile.FilePath == filePath)
+                {
+                    item.IsPlaying = true;
+                    int row = Items.IndexOf(item);
+                    MPfmIsPlayingTableCellView view = (MPfmIsPlayingTableCellView)tableView.GetView(0, row, false);
+                    if(view != null)
+                        view.SetIsPlaying(true);
+                }
+            }
+        }
+
         public override float GetRowHeight(NSTableView tableView, int row)
         {
             return 18;
@@ -81,7 +110,7 @@ namespace MPfm.Mac
             string identifier = tableColumn.Identifier.ToString();
             if (identifier == "columnIsPlaying")
             {
-                MPfmTableCellView isPlayingView = (MPfmTableCellView)tableView.MakeView("tableCellIsPlayingView", this);
+                MPfmIsPlayingTableCellView isPlayingView = (MPfmIsPlayingTableCellView)tableView.MakeView("tableCellIsPlayingView", this);
                 return isPlayingView;
             } 
 

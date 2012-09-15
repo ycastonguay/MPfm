@@ -83,7 +83,44 @@ namespace MPfm.Mac
             context.RestoreState();
         }
 
-        public static void DrawGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2)
+        public static void DrawEllipsis(CGContext context, RectangleF rect, CGColor color, float lineWidth)
+        {
+            context.SaveState();
+            context.SetStrokeColor(color);
+            context.SetLineWidth(lineWidth);
+            context.AddEllipseInRect(rect);
+            context.StrokePath();
+            context.RestoreState();
+        }
+
+        public static void FillEllipsis(CGContext context, RectangleF rect, CGColor color)
+        {
+            context.SaveState();
+            context.SetFillColor(color);
+            context.FillEllipseInRect(rect);
+            context.FillPath();
+            context.RestoreState();
+        }
+
+        public static void FillPath(CGContext context, CGPath path, CGColor color)
+        {
+            context.SaveState();
+            context.SetFillColor(color);
+            context.AddPath(path);
+            context.FillPath();
+            context.RestoreState();
+        }
+
+        public static void EOFillPath(CGContext context, CGPath path, CGColor color)
+        {
+            context.SaveState();
+            context.SetFillColor(color);
+            context.AddPath(path);
+            context.EOFillPath();
+            context.RestoreState();
+        }
+
+        public static void FillGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2)
         {
             CGGradient gradientBackground;
             CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
