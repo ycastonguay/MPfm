@@ -20,7 +20,9 @@
 
 using System;
 using System.IO;
-using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace MPfm.MVP
 {
@@ -49,7 +51,7 @@ namespace MPfm.MVP
 		static ConfigurationHelper()
 		{
 			// Get assembly directory
-			string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+			//string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 			
 #if (MACOSX)
         	HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
@@ -64,6 +66,33 @@ namespace MPfm.MVP
 			DatabaseFilePath = Path.Combine(HomeDirectory, "MPfm.Database.db");
 			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");
 		}
+
+        /// <summary>
+        /// Loads MPfmConfig from file.
+        /// </summary>
+        /// <param name="filePath">Configuration file path</param>
+        /// <returns>MPfmConfig object</returns>
+        public static MPfmConfig Load(string filePath)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(MPfmConfig));
+            TextReader textReader = new StreamReader(filePath);
+            Object obj = deserializer.Deserialize(textReader);
+            MPfmConfig theme = (MPfmConfig)obj;
+            return theme;
+        }
+        
+        /// <summary>
+        /// Saves MPfmConfig to file.
+        /// </summary>
+        /// <param name="filePath">Configuration file path</param>
+        /// <param name="config">MPfmConfig object</param>
+        public static void Save(string filePath, MPfmConfig config)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(MPfmConfig));
+            TextWriter textWriter = new StreamWriter(filePath);
+            serializer.Serialize(textWriter, config);
+            textWriter.Close();
+        }
     }
 }
 

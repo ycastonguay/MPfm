@@ -85,13 +85,19 @@ namespace MPfm.MVP
 		/// </summary>
 		/// <param name='view'>Library Browser view implementation</param>	
 		public void BindView(ILibraryBrowserView view)
-		{
-			// Validate parameters 
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
+        {
+            // Validate parameters 
+            if (view == null)			
+                throw new ArgumentNullException("The view parameter is null!");
 			
-			// Set property
-			this.view = view;
+            // Set property
+            this.view = view;
+
+            // Load configuration
+            if (MPfmConfig.Instance.ShowTooltips)
+            {
+                string empty = string.Empty;
+            }
 			
 			// Refresh view (first level nodes)
 			view.RefreshLibraryBrowser(GetFirstLevelNodes());

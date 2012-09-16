@@ -67,8 +67,8 @@ namespace MPfm.MVP
             Tracing.Log("====================================================================");
             Tracing.Log("MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
             Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
-            Tracing.Log("InitializationService.Initialize -- Starting initialization...");
-    
+            Tracing.Log("InitializationService.Initialize -- Starting initialization...");   
+
             // Create configuration
             CreateConfiguration();
             
@@ -103,9 +103,15 @@ namespace MPfm.MVP
 		/// Creates the configuration.
 		/// </summary>
 		private void CreateConfiguration()
-		{
+        {
             // Check for configuration file
-            Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");			
+            Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
+            if (File.Exists(ConfigurationHelper.ConfigurationFilePath))
+            {
+                // Load configuration file
+                //MPfmConfig.Instance.Load();
+            }
+            ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
 		}
 		
 		/// <summary>
