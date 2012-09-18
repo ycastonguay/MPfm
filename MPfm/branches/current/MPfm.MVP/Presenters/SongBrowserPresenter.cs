@@ -67,8 +67,10 @@ namespace MPfm.MVP
 			this.playerPresenter = playerPresenter;
 			this.libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;
-
             //this.playerPresenter.Player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
+
+            // Create default query
+            Query = new SongBrowserQueryEntity();
 		}
 
 //        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)

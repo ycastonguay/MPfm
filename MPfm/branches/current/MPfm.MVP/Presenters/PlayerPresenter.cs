@@ -76,7 +76,7 @@ namespace MPfm.MVP
 			device.Id = -1;
 
 			// Create player
-			player = new MPfm.Player.Player(device, 44100, 1000, 10, true);
+			player = new MPfm.Player.Player(device, 44100, 1000, 100, true);
 			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;	
 		}
 
@@ -267,8 +267,9 @@ namespace MPfm.MVP
     				player.Stop();
     				
     				// Refresh view with empty information
-                    Tracing.Log("PlayerPresenter.Stop -- Refresh song information with empty entity...");
+                    Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
     				view.RefreshSongInformation(new SongInformationEntity());
+                    view.RefreshPlayerPosition(new PlayerPositionEntity());
     			}
             }
             catch(Exception ex)

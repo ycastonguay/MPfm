@@ -37,7 +37,9 @@ namespace MPfm.Core
         /// <param name="message">Message to log</param>
         public static void Log(string message)
         {
-            Trace.WriteLine("[" + DateTime.Now.ToString() + "] " + message);
+            string content = "[" + DateTime.Now.ToString() + "] " + message; 
+            Trace.WriteLine(content);
+            Console.WriteLine(content);
             Trace.Flush();
         }
 
@@ -47,11 +49,15 @@ namespace MPfm.Core
         /// <param name="ex">Exception</param>
         public static void Log(Exception ex)
         {
-            Trace.WriteLine("Error occured: " + ex.Message + "\n" + ex.StackTrace);
+            string content = "Error occured: " + ex.Message + "\n" + ex.StackTrace;
+            Trace.WriteLine(content);
+            Console.WriteLine(content);
 
             if (ex.InnerException != null)
             {
-                Trace.WriteLine("Inner exception: " + ex.InnerException.Message + "\n" + ex.InnerException.StackTrace);
+                string inner = "Inner exception: " + ex.InnerException.Message + "\n" + ex.InnerException.StackTrace;
+                Trace.WriteLine(inner);
+                Console.WriteLine(inner);
             }
         }
 

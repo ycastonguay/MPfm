@@ -25,6 +25,7 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.Library;
+using Ninject;
 
 namespace MPfm.Mac
 {
@@ -66,15 +67,18 @@ namespace MPfm.Mac
 		{
 			// Custom types cannot be used in the constructors under Mac.
 			string database = "/Users/animal/.MPfm/MPfm.Database.db";
-			gateway = new MPfmGateway(database);
-			libraryService = new LibraryService(gateway);
-			updateLibraryService = new UpdateLibraryService(libraryService);
+//			gateway = new MPfmGateway(database);
+//			libraryService = new LibraryService(gateway);
+//			updateLibraryService = new UpdateLibraryService(libraryService);
+//
+//			// Create presenter
+//			presenter = new UpdateLibraryPresenter(
+//				libraryService,
+//				updateLibraryService
+//			);
 
-			// Create presenter
-			presenter = new UpdateLibraryPresenter(
-				libraryService,
-				updateLibraryService
-			);
+            presenter = Bootstrapper.GetKernel().Get<UpdateLibraryPresenter>();
+
 			presenter.BindView(this);
 
 			// Center window
@@ -86,32 +90,11 @@ namespace MPfm.Mac
 			lblTitle.StringValue = string.Empty;
 			lblSubtitle.StringValue = string.Empty;
 
-			//toolbar.ValidateVisibleItems();
-
 			btnOK.Enabled = false;
 			btnCancel.Enabled = true;
 			btnSaveLog.Enabled = false;
 
-
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
-			textViewErrorLog.InsertText(new NSString("ASFASDFADSF\nasdkasdkasd"));
+			textViewErrorLog.InsertText(new NSString("Test\nTest"));
 			textViewErrorLog.Editable = false;
 		}
 		

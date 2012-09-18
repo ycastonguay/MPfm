@@ -49,6 +49,11 @@ namespace MPfm.MVP
         /// Player current position (in time string, such as 00:00.000).
         /// </summary>
         public string Position { get; set; }
+
+        public PlayerPositionEntity()
+        {
+            Position = "0:00.000";
+        }
     }
 }
 

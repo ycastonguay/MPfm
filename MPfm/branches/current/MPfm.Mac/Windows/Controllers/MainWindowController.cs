@@ -585,15 +585,13 @@ namespace MPfm.Mac
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
-            using (var p = new NSAutoreleasePool ())
-            {
-                lblPosition.StringValue = entity.Position;
-                sliderPosition.SetPosition(entity.PositionPercentage * 100);
-            }
+            lblPosition.StringValue = entity.Position;           
+            sliderPosition.SetPosition(entity.PositionPercentage * 100);
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)
         {
+            // Set labels
             lblArtistName.StringValue = entity.ArtistName;
             lblAlbumTitle.StringValue = entity.AlbumTitle;
             lblSongTitle.StringValue = entity.Title;
@@ -606,14 +604,23 @@ namespace MPfm.Mac
             lblBitsPerSample.StringValue = entity.BitsPerSampleString;
             lblSampleRate.StringValue = entity.SampleRateString;
 
-            if(!String.IsNullOrEmpty(entity.FilePath))
+            // Set album cover
+            if (!String.IsNullOrEmpty(entity.FilePath))
             {
                 NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
-                if(image != null)
+                if (image != null)
                     imageAlbumCover.Image = image;
+                else
+                    imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
+            } 
+            else
+            {
+                imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
             }
 
-            songBrowserSource.RefreshIsPlaying(tableSongBrowser, entity.FilePath);
+            // Refresh which song is playing in the Song Browser
+            if(songBrowserSource != null)
+                songBrowserSource.RefreshIsPlaying(tableSongBrowser, entity.FilePath);
 		}
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
