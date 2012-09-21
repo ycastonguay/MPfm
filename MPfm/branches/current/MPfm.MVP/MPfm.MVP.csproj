@@ -127,6 +127,9 @@
     <Compile Include="Presenters\Interfaces\IEffectsPresenter.cs" />
     <Compile Include="Views\IEffectsView.cs" />
     <Compile Include="Presenters\EffectsPresenter.cs" />
+    <Compile Include="Views\IPreferencesView.cs" />
+    <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />
+    <Compile Include="Presenters\PreferencesPresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

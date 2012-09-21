@@ -50,9 +50,9 @@ namespace MPfm.Mac
         public EffectsWindowController(IEffectsPresenter effectsPresenter) 
             : base ("EffectsWindow")
         {
-            // Set properties
             this.effectsPresenter = effectsPresenter;
             Initialize();
+            this.effectsPresenter.BindView(this);
         }
         
         // Shared initialization code
