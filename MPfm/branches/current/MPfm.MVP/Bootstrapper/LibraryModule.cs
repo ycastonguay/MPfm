@@ -51,6 +51,7 @@ namespace MPfm.MVP
 			Bind<ISongBrowserPresenter>().To<SongBrowserPresenter>().InSingletonScope();
 			Bind<ILibraryBrowserPresenter>().To<LibraryBrowserPresenter>().InSingletonScope();
 			Bind<IUpdateLibraryPresenter>().To<UpdateLibraryPresenter>().InSingletonScope();
+            Bind<IEffectsPresenter>().To<EffectsPresenter>().InSingletonScope();
 		}		
 	}
 }

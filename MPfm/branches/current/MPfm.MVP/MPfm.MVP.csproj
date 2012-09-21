@@ -124,6 +124,9 @@
     <Compile Include="Config\MPfmWindowsConfig.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
+    <Compile Include="Presenters\Interfaces\IEffectsPresenter.cs" />
+    <Compile Include="Views\IEffectsView.cs" />
+    <Compile Include="Presenters\EffectsPresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

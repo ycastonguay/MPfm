@@ -84,12 +84,18 @@ namespace MPfm.Mac
 		public MainWindowController(IPlayerPresenter playerPresenter,
 		                            ISongBrowserPresenter songBrowserPresenter,
 		                            ILibraryBrowserPresenter libraryBrowserPresenter,
+                                    PlaylistWindowController playlistWindowController,
+                                    EffectsWindowController effectsWindowController,
+                                    PreferencesWindowController preferencesWindowController,
                                     AlbumCoverCacheService albumCoverCacheService) : base ("MainWindow")
         {
             // Set properties
             this.playerPresenter = playerPresenter;
             this.songBrowserPresenter = songBrowserPresenter;
             this.libraryBrowserPresenter = libraryBrowserPresenter;
+            this.playlistWindowController = playlistWindowController;
+            this.effectsWindowController = effectsWindowController;
+            this.preferencesWindowController = preferencesWindowController;
             this.albumCoverCacheService = new AlbumCoverCacheService();
 		}		
 
@@ -134,9 +140,9 @@ namespace MPfm.Mac
             SetTheme();
 
             // Create controllers
-            playlistWindowController = new PlaylistWindowController();
-            effectsWindowController = new EffectsWindowController();
-            preferencesWindowController = new PreferencesWindowController();
+            //playlistWindowController = new PlaylistWindowController();
+            //effectsWindowController = new EffectsWindowController();
+            //preferencesWindowController = new PreferencesWindowController();
 
 			// Bind views
             this.playerPresenter.BindView(this);
