@@ -109,9 +109,9 @@ namespace MPfm.MVP
             if (File.Exists(ConfigurationHelper.ConfigurationFilePath))
             {
                 // Load configuration file
-                //MPfmConfig.Instance.Load();
+                MPfmConfig.Instance.Load();
             }
-            ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
+            //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
 		}
 		
 		/// <summary>

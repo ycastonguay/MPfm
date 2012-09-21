@@ -122,6 +122,8 @@
     <Compile Include="Config\MPfmTableViewColumnConfig.cs" />
     <Compile Include="Config\MPfmWindowConfig.cs" />
     <Compile Include="Config\MPfmWindowsConfig.cs" />
+    <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Services\Interfaces\IPlayerService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

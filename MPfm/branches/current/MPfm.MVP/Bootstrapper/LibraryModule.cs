@@ -41,6 +41,7 @@ namespace MPfm.MVP
 			Bind<IMPfmGateway>().To<MPfmGateway>().WithConstructorArgument("databaseFilePath", ConfigurationHelper.DatabaseFilePath);
 			
 			Bind<IInitializationService>().To<InitializationService>().InSingletonScope();
+            Bind<IPlayerService>().To<PlayerService>().InSingletonScope();
 			Bind<ILibraryService>().To<LibraryService>().InSingletonScope();
 			Bind<IAudioFileCacheService>().To<AudioFileCacheService>().InSingletonScope();		
             Bind<IUpdateLibraryService>().To<UpdateLibraryService>().InSingletonScope();

@@ -1,5 +1,5 @@
-//
-// IPlayerPresenter.cs: Player presenter interface.
+﻿//
+// IPlayerService.cs: Interface for the PlayerService class.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,33 +20,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
+using MPfm.Player;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-	/// Player presenter interface.
-	/// </summary>
-	public interface IPlayerPresenter
-	{
-		void BindView(IPlayerView view);		
-		
-		void Play();
-		void Play(IEnumerable<AudioFile> audioFiles);
-		void Play(IEnumerable<string> filePaths);
-		void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();
-  
-        void SetPosition(float percentage);
-        void SetVolume(float volume);
-        void SetTimeShifting(float timeShifting);
-	}
-}
+    /// <summary>
+    /// Interface for the PlayerService class.
+    /// </summary>
+    public interface IPlayerService
+    {
+        IPlayer Player { get; }
 
+        void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
+        void Dispose();
+    }
+}

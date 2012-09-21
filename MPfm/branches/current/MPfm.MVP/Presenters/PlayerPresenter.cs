@@ -39,61 +39,31 @@ namespace MPfm.MVP
 	public class PlayerPresenter : IPlayerPresenter
 	{
 		// Private variables
-		private IPlayerView view = null;
-		private Timer timerRefreshSongPosition = null;
-
-		#region Other Properties
-
-		private MPfm.Player.IPlayer player = null;
-		/// <summary>
-		/// Returns the current instance of the Player class.
-		/// </summary>
-		public MPfm.Player.IPlayer Player
-		{
-			get
-			{
-				return player;
-			}
-		}
-		
-		#endregion
+		IPlayerView view = null;
+		Timer timerRefreshSongPosition = null;
+        IPlayerService playerService = null;
 
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.PlayerPresenter"/> class.
 		/// </summary>
-		public PlayerPresenter()
+		public PlayerPresenter(IPlayerService playerService)
 		{	
+            // Set properties
+            this.playerService = playerService;
+
 			// Create update position timer
 			timerRefreshSongPosition = new Timer();			
 			timerRefreshSongPosition.Interval = 100;
 			timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
-						
-			// Create device
-			Device device = new Device();
-			device.DriverType = DriverType.DirectSound;
-			device.Id = -1;
 
-			// Create player
-			player = new MPfm.Player.Player(device, 44100, 1000, 100, true);
-			player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;	
-		}
-
-		/// <summary>
-		/// Releases all resource used by the <see cref="MPfm.UI.MainWindowPresenter"/> object.
-		/// </summary>
-		/// <remarks>
-		/// Call <see cref="Dispose"/> when you are finished using the <see cref="MPfm.UI.MainWindowPresenter"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="MPfm.UI.MainWindowPresenter"/> in an unusable state. After
-		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="MPfm.UI.MainWindowPresenter"/>
-		/// so the garbage collector can reclaim the memory that the <see cref="MPfm.UI.MainWindowPresenter"/> was occupying.
-		/// </remarks>
-		public void Dispose()
-		{
-			// Dispose player
-			player.Dispose();
-			player = null;
+            // Initialize player
+            Device device = new Device(){
+                DriverType = DriverType.DirectSound,
+                Id = -1
+            };
+            playerService.Initialize(device, 44100, 1000, 100);
 		}
 
 		#endregion
@@ -124,16 +94,16 @@ namespace MPfm.MVP
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
             // Check player
-            if(player.IsSettingPosition)
+            if(playerService.Player.IsSettingPosition)
                 return;
 
 			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
-			entity.PositionBytes = player.GetPosition();
-    		entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-    		entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
+            entity.PositionBytes = playerService.Player.GetPosition();
+            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.SampleRate);
     		entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-			entity.PositionPercentage = ((float)player.GetPosition() / (float)player.Playlist.CurrentItem.LengthBytes) * 100;
+            entity.PositionPercentage = ((float)playerService.Player.GetPosition() / (float)playerService.Player.Playlist.CurrentItem.LengthBytes) * 100;
 			
 			// Send changes to view
 			view.RefreshPlayerPosition(entity);
@@ -148,7 +118,7 @@ namespace MPfm.MVP
 		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
 		{
 			// Refresh song information
-			RefreshSongInformation(Player.Playlist.CurrentItem.AudioFile);
+            RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
 		}
 		
 		/// <summary>
@@ -160,11 +130,11 @@ namespace MPfm.MVP
             {
     			// Start playback
                 Tracing.Log("PlayerPresenter.Play -- Starting playback...");
-    			player.Play();
+                playerService.Player.Play();
     	
     			// Refresh song information
     			Tracing.Log("PlayerPresenter.Play -- Refreshing song information...");
-                RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+                RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
     			
     			// Start timer
                 Tracing.Log("PlayerPresenter.Play -- Starting timer...");
@@ -186,8 +156,8 @@ namespace MPfm.MVP
             {
     			// Replace playlist
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Clearing playlist and adding items...");
-    			player.Playlist.Clear();
-    			player.Playlist.AddItems(audioFiles.ToList());
+                playerService.Player.Playlist.Clear();
+                playerService.Player.Playlist.AddItems(audioFiles.ToList());
     			
     			// Start playback
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Starting playback...");
@@ -209,8 +179,8 @@ namespace MPfm.MVP
             {
     			// Replace playlist
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Clearing playlist and adding items...");
-    			player.Playlist.Clear();
-    			player.Playlist.AddItems(filePaths.ToList());
+                playerService.Player.Playlist.Clear();
+                playerService.Player.Playlist.AddItems(filePaths.ToList());
     			
     			// Start playback
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Starting playback...");
@@ -233,10 +203,10 @@ namespace MPfm.MVP
             {
     			// Replace playlist
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Clearing playlist and adding items...");
-    			player.Playlist.Clear();
-    			player.Playlist.AddItems(audioFiles.ToList());
+                playerService.Player.Playlist.Clear();
+                playerService.Player.Playlist.AddItems(audioFiles.ToList());
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Skipping to item " + startAudioFilePath + " in playlist...");
-    			player.Playlist.GoTo(startAudioFilePath);
+                playerService.Player.Playlist.GoTo(startAudioFilePath);
     			
     			// Start playback
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Starting playback...");
@@ -256,7 +226,7 @@ namespace MPfm.MVP
             try
             {
     			// Check if the player is playing
-    			if(player.IsPlaying)
+                if(playerService.Player.IsPlaying)
     			{
     				// Stop timer
                     Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
@@ -264,7 +234,7 @@ namespace MPfm.MVP
     				
     				// Stop player
                     Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
-    				player.Stop();
+                    playerService.Player.Stop();
     				
     				// Refresh view with empty information
                     Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
@@ -286,11 +256,11 @@ namespace MPfm.MVP
             try
             {
     			// Check if the player is playing
-    			if(player.IsPlaying)
+                if(playerService.Player.IsPlaying)
     			{
     				// Pause player
                     Tracing.Log("PlayerPresenter.Stop -- Pausing playback...");
-    				player.Pause();
+                    playerService.Player.Pause();
     			}
             }
             catch(Exception ex)
@@ -308,11 +278,11 @@ namespace MPfm.MVP
             {
     			// Go to next song
                 Tracing.Log("PlayerPresenter.Next -- Skipping to next item in playlist...");
-    			player.Next();
+                playerService.Player.Next();
     	
     			// Refresh controls
                 Tracing.Log("PlayerPresenter.Next -- Refreshing song information...");
-    			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+                RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
             }
             catch(Exception ex)
             {
@@ -329,10 +299,10 @@ namespace MPfm.MVP
             {
     			// Go to previous song
                 Tracing.Log("PlayerPresenter.Previous -- Skipping to previous item in playlist...");
-    			player.Previous();
+                playerService.Player.Previous();
     	
     			// Refresh controls
-    			RefreshSongInformation(player.Playlist.CurrentItem.AudioFile);
+                RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
                 Tracing.Log("PlayerPresenter.Previous -- Refreshing song information...");
             }
             catch(Exception ex)
@@ -378,7 +348,7 @@ namespace MPfm.MVP
                 // Set position
                 Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
                 timerRefreshSongPosition.Stop();
-                player.SetPosition((double)percentage);
+                playerService.Player.SetPosition((double)percentage);
                 timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -393,7 +363,7 @@ namespace MPfm.MVP
             {
                 // Set volume and refresh UI
                 Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
-                player.Volume = volume / 100;
+                playerService.Player.Volume = volume / 100;
                 view.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 
@@ -415,7 +385,7 @@ namespace MPfm.MVP
                 
                 // Set time shifting and refresh UI
                 Tracing.Log("PlayerPresenter.SetTimeShifting -- Setting time shifting to " + timeShifting.ToString("0.00") + "%");
-                player.TimeShifting = result;
+                playerService.Player.TimeShifting = result;
                 view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
                     TimeShifting = timeShifting,
                     TimeShiftingString = timeShifting.ToString("0") + " %"
