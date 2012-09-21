@@ -53,6 +53,7 @@ namespace MPfm.MVP
 			Bind<IUpdateLibraryPresenter>().To<UpdateLibraryPresenter>().InSingletonScope();
             Bind<IEffectsPresenter>().To<EffectsPresenter>().InSingletonScope();
             Bind<IPreferencesPresenter>().To<PreferencesPresenter>().InSingletonScope();
+            Bind<IPlaylistPresenter>().To<PlaylistPresenter>().InSingletonScope();
 		}		
 	}
 }

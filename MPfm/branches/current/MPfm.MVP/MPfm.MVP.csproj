@@ -130,6 +130,9 @@
     <Compile Include="Views\IPreferencesView.cs" />
     <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />
     <Compile Include="Presenters\PreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlaylistPresenter.cs" />
+    <Compile Include="Views\IPlaylistView.cs" />
+    <Compile Include="Presenters\PlaylistPresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
