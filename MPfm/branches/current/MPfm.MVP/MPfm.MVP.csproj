@@ -133,6 +133,7 @@
     <Compile Include="Presenters\Interfaces\IPlaylistPresenter.cs" />
     <Compile Include="Views\IPlaylistView.cs" />
     <Compile Include="Presenters\PlaylistPresenter.cs" />
+    <Compile Include="Helpers\EQPresetHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

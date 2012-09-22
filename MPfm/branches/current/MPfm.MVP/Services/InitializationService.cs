@@ -23,8 +23,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
-using MPfm.Core;
 using System.Reflection;
+using MPfm.Core;
+using MPfm.Player;
 
 namespace MPfm.MVP
 {	
@@ -112,6 +113,8 @@ namespace MPfm.MVP
                 MPfmConfig.Instance.Load();
             }
             //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
+            //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
+            //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}
 		
 		/// <summary>

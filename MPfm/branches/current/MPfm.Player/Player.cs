@@ -1616,7 +1616,7 @@ namespace MPfm.Player
             // Validate that the main channel exists
             if (mixerChannel == null)
             {
-                throw new Exception("Error adding EQ: The main channel doesn't exist!");
+                throw new Exception("Error adding EQ: The mixer channel doesn't exist!");
             }
 
             // Check if an handle already exists
@@ -2171,12 +2171,12 @@ namespace MPfm.Player
                     eventData.AudioFileStarted = null;
                     eventData.AudioFileEnded = Playlist.CurrentItem.AudioFile;
 
-                    // Check if EQ is enabled
-                    if (isEQEnabled)
-                    {
-                        // Remove EQ
-                        RemoveEQ();
-                    }
+//                    // Check if EQ is enabled
+//                    if (isEQEnabled)
+//                    {
+//                        // Remove EQ
+//                        RemoveEQ();
+//                    }
 
                     // Dispose channels
                     playlist.DisposeChannels();
