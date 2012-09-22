@@ -95,21 +95,24 @@ namespace MPfm.Mac
             viewBackgroundInformation.HeaderGradientColor2 = new CGColor(0.65f, 0.65f, 0.65f, 1.0f);
             viewBackgroundInformation.IsHeaderVisible = true;
 
-            popupPreset.Font = NSFont.FromFontName("Junction", 12f);
+            popupPreset.Font = NSFont.FromFontName("Junction", 11.5f);
             lblName.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12f);
-            lblTitleInformation.Font = NSFont.FromFontName("TitilliumText25L-600wt", 14f);
-            lblTitlePreset.Font = NSFont.FromFontName("TitilliumText25L-600wt", 14f);
-            lblEQOn.Font = NSFont.FromFontName("Junction", 11.5f);
+            lblTitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13f);
+            lblTitlePreset.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13f);
+            lblEQOn.Font = NSFont.FromFontName("Junction", 11f);
+            lblScalePlus6.Font = NSFont.FromFontName("Junction", 12f);
+            lblScale0.Font = NSFont.FromFontName("Junction", 12f);
+            lblScaleMinus6.Font = NSFont.FromFontName("Junction", 12f);
             btnAutoLevel.Font = NSFont.FromFontName("Junction", 11f);
             btnDelete.Font = NSFont.FromFontName("Junction", 11f);
             btnSave.Font = NSFont.FromFontName("Junction", 11f);
             btnReset.Font = NSFont.FromFontName("Junction", 11f);
             txtName.Font = NSFont.FromFontName("Junction", 11f);
 
-            btnAutoLevel.Image = ImageResources.images16x16[0];
-            btnDelete.Image = ImageResources.images16x16[0];
-            btnSave.Image = ImageResources.images16x16[0];
-            btnReset.Image = ImageResources.images16x16[0];
+            btnAutoLevel.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_shape_align_middle");
+            btnDelete.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_delete");
+            btnSave.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_tick");
+            btnReset.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_exclamation");
 
             SetTheme();
         }

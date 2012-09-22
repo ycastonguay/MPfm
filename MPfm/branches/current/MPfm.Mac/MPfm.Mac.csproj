@@ -239,29 +239,6 @@
   <ItemGroup>
     <Content Include="Bass.Net.dll.config" />
     <Content Include="MPfm.icns" />
-    <Content Include="Resources\32x32\document-open.png" />
-    <Content Include="Resources\32x32\audio-x-generic.png" />
-    <Content Include="Resources\32x32\drive-harddisk.png" />
-    <Content Include="Resources\32x32\media-playback-pause.png" />
-    <Content Include="Resources\32x32\media-playback-start.png" />
-    <Content Include="Resources\32x32\media-playback-stop.png" />
-    <Content Include="Resources\32x32\media-skip-forward.png" />
-    <Content Include="Resources\32x32\preferences-desktop.png" />
-    <Content Include="Resources\32x32\preferences-system.png" />
-    <Content Include="Resources\32x32\view-refresh.png" />
-    <Content Include="Resources\32x32\media-skip-backward.png" />
-    <Content Include="Resources\16x16\go-last.png" />
-    <Content Include="Resources\16x16\list-add.png" />
-    <Content Include="Resources\16x16\list-remove.png" />
-    <Content Include="Resources\16x16\media-playback-start.png" />
-    <Content Include="Resources\16x16\accessories-text-editor.png" />
-    <Content Include="Resources\16x16\media-playback-stop.png" />
-    <Content Include="Resources\16x16\document-new.png" />
-    <Content Include="Resources\16x16\document-save-as.png" />
-    <Content Include="Resources\16x16\document-save.png" />
-    <Content Include="Resources\32x32\document-new.png" />
-    <Content Include="Resources\32x32\document-save-as.png" />
-    <Content Include="Resources\32x32\document-save.png" />
     <Content Include="Resources\Splash.png" />
     <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
     <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
@@ -296,10 +273,40 @@
     <Content Include="Resources\Fonts\Junction.otf" />
     <Content Include="Resources\Fonts\Inconsolata.otf" />
     <Content Include="Resources\Fonts\DroidSansMono.ttf" />
-    <Content Include="Resources\16x16\group.png" />
-    <Content Include="Resources\16x16\cd.png" />
-    <Content Include="Resources\16x16\user.png" />
-    <Content Include="Resources\16x16\database.png" />
+    <Content Include="Resources\16x16\tango\accessories-text-editor.png" />
+    <Content Include="Resources\16x16\tango\database.png" />
+    <Content Include="Resources\16x16\tango\cd.png" />
+    <Content Include="Resources\16x16\tango\document-new.png" />
+    <Content Include="Resources\16x16\tango\document-save.png" />
+    <Content Include="Resources\16x16\tango\document-save-as.png" />
+    <Content Include="Resources\16x16\tango\emblem-important.png" />
+    <Content Include="Resources\16x16\tango\go-last.png" />
+    <Content Include="Resources\16x16\tango\group.png" />
+    <Content Include="Resources\16x16\tango\list-add.png" />
+    <Content Include="Resources\16x16\tango\list-remove.png" />
+    <Content Include="Resources\16x16\tango\media-playback-start.png" />
+    <Content Include="Resources\16x16\tango\media-playback-stop.png" />
+    <Content Include="Resources\16x16\tango\user.png" />
+    <Content Include="Resources\32x32\tango\document-open.png" />
+    <Content Include="Resources\32x32\tango\document-save.png" />
+    <Content Include="Resources\32x32\tango\document-save-as.png" />
+    <Content Include="Resources\32x32\tango\media-playback-start.png" />
+    <Content Include="Resources\32x32\tango\media-playback-stop.png" />
+    <Content Include="Resources\32x32\tango\drive-harddisk.png" />
+    <Content Include="Resources\32x32\tango\media-playback-pause.png" />
+    <Content Include="Resources\32x32\tango\media-skip-forward.png" />
+    <Content Include="Resources\32x32\tango\document-new.png" />
+    <Content Include="Resources\32x32\tango\media-skip-backward.png" />
+    <Content Include="Resources\32x32\tango\preferences-desktop.png" />
+    <Content Include="Resources\32x32\tango\preferences-system.png" />
+    <Content Include="Resources\32x32\tango\view-refresh.png" />
+    <Content Include="Resources\32x32\tango\audio-x-generic.png" />
+    <Content Include="Resources\16x16\fam\tick.png" />
+    <Content Include="Resources\16x16\fam\delete.png" />
+    <Content Include="Resources\16x16\fam\information.png" />
+    <Content Include="Resources\16x16\fam\exclamation.png" />
+    <Content Include="Resources\16x16\fam\cancel.png" />
+    <Content Include="Resources\16x16\fam\shape_align_middle.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -314,6 +321,9 @@
     <Folder Include="Windows\XIB\" />
     <Folder Include="Windows\Controllers\" />
     <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\16x16\fam\" />
+    <Folder Include="Resources\16x16\tango\" />
+    <Folder Include="Resources\32x32\tango\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

@@ -48,34 +48,43 @@ namespace MPfm.Mac
         {
             // Load 16x16px images
             images16x16 = new List<NSImage>() {
-                new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16", string.Empty)) { Name = "list-add" },
-                new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16", string.Empty)) { Name = "accessories-text-editor" },
-                new NSImage(NSBundle.MainBundle.PathForResource("list-remove", "png", "Resources/16x16", string.Empty)) { Name = "list-remove" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/16x16", string.Empty)) { Name = "media-playback-start" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources/16x16", string.Empty)) { Name = "media-playback-stop" },
-                new NSImage(NSBundle.MainBundle.PathForResource("go-last", "png", "Resources/16x16", string.Empty)) { Name = "go-last" },
-                new NSImage(NSBundle.MainBundle.PathForResource("cd", "png", "Resources/16x16", string.Empty)) { Name = "cd" },
-                new NSImage(NSBundle.MainBundle.PathForResource("database", "png", "Resources/16x16", string.Empty)) { Name = "database" },
-                new NSImage(NSBundle.MainBundle.PathForResource("group", "png", "Resources/16x16", string.Empty)) { Name = "group" },
-                new NSImage(NSBundle.MainBundle.PathForResource("user", "png", "Resources/16x16", string.Empty)) { Name = "user" }
+                new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_list-add" },
+                new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_accessories-text-editor" },
+                new NSImage(NSBundle.MainBundle.PathForResource("list-remove", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_list-remove" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_media-playback-start" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_media-playback-stop" },
+                new NSImage(NSBundle.MainBundle.PathForResource("go-last", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_go-last" },
+                new NSImage(NSBundle.MainBundle.PathForResource("cd", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_cd" },
+                new NSImage(NSBundle.MainBundle.PathForResource("database", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_database" },
+                new NSImage(NSBundle.MainBundle.PathForResource("group", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_group" },
+                new NSImage(NSBundle.MainBundle.PathForResource("user", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_user" },
+                new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_document-save" },
+                new NSImage(NSBundle.MainBundle.PathForResource("emblem-important", "png", "Resources/16x16/tango", string.Empty)) { Name = "tango_emblem-important" },
+
+                new NSImage(NSBundle.MainBundle.PathForResource("cancel", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_cancel" },
+                new NSImage(NSBundle.MainBundle.PathForResource("delete", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_delete" },
+                new NSImage(NSBundle.MainBundle.PathForResource("exclamation", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_exclamation" },
+                new NSImage(NSBundle.MainBundle.PathForResource("information", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_information" },
+                new NSImage(NSBundle.MainBundle.PathForResource("shape_align_middle", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_shape_align_middle" },
+                new NSImage(NSBundle.MainBundle.PathForResource("tick", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_tick" }
             };
 
             // Load 32x32px images
             images32x32 = new List<NSImage>() {
-                new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources/32x32", string.Empty)) { Name = "document-open" },
-                new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources/32x32", string.Empty)) { Name = "drive-harddisk" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/32x32", string.Empty)) { Name = "media-playback-start" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources/32x32", string.Empty)) { Name = "media-playback-pause" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources/32x32", string.Empty)) { Name = "media-playback-stop" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-backward", "png", "Resources/32x32", string.Empty)) { Name = "media-skip-backward" },
-                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-forward", "png", "Resources/32x32", string.Empty)) { Name = "media-skip-forward" },
-                new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources/32x32", string.Empty)) { Name = "view-refresh" },
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources/32x32", string.Empty)) { Name = "preferences-desktop" },
-                new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources/32x32", string.Empty)) { Name = "audio-x-generic" },
-                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources/32x32", string.Empty)) { Name = "preferences-system" },
-                new NSImage(NSBundle.MainBundle.PathForResource("document-new", "png", "Resources/32x32", string.Empty)) { Name = "document-new" },
-                new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/32x32", string.Empty)) { Name = "document-save" },
-                new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32", string.Empty)) { Name = "document-save-as" }
+                new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_document-open" },
+                new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_drive-harddisk" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-start", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_media-playback-start" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-pause", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_media-playback-pause" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-playback-stop", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_media-playback-stop" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-backward", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_media-skip-backward" },
+                new NSImage(NSBundle.MainBundle.PathForResource("media-skip-forward", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_media-skip-forward" },
+                new NSImage(NSBundle.MainBundle.PathForResource("view-refresh", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_view-refresh" },
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-desktop", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_preferences-desktop" },
+                new NSImage(NSBundle.MainBundle.PathForResource("audio-x-generic", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_audio-x-generic" },
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_preferences-system" },
+                new NSImage(NSBundle.MainBundle.PathForResource("document-new", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_document-new" },
+                new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_document-save" },
+                new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32/tango", string.Empty)) { Name = "tango_document-save-as" }
             };
 
             // Load splash image

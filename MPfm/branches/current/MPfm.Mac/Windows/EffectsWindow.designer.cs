@@ -215,6 +215,15 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQOn { get; set; }
 
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblScalePlus6 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblScale0 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblScaleMinus6 { get; set; }
+
 		[Action ("actionSlider0ChangeValue:")]
 		partial void actionSlider0ChangeValue (MonoMac.Foundation.NSObject sender);
 
@@ -630,6 +639,21 @@ namespace MPfm.Mac
 			if (lblEQOn != null) {
 				lblEQOn.Dispose ();
 				lblEQOn = null;
+			}
+
+			if (lblScalePlus6 != null) {
+				lblScalePlus6.Dispose ();
+				lblScalePlus6 = null;
+			}
+
+			if (lblScale0 != null) {
+				lblScale0.Dispose ();
+				lblScale0 = null;
+			}
+
+			if (lblScaleMinus6 != null) {
+				lblScaleMinus6.Dispose ();
+				lblScaleMinus6 = null;
 			}
 		}
 	}

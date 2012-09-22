@@ -76,20 +76,20 @@ namespace MPfm.Mac
             // Check icon
             if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.AllSongs)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "database");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "tango_database");
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artists)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "group");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "tango_group");
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Album ||
                      libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Albums)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "cd");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "tango_cd");
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artist)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "user");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "tango_user");
             } 
 
             return view;

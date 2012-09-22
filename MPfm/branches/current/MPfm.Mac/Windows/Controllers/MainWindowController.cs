@@ -177,7 +177,7 @@ namespace MPfm.Mac
             viewTimeShifting.IsHeaderVisible = true;
 
             // Set label fonts
-            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-999wt", 22);
+            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 22);
             lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
             lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 16);
             lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
@@ -188,16 +188,16 @@ namespace MPfm.Mac
             lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11.4f);
             lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11.4f);
 
-            lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
-            lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
-            lblTitleLoops.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
-            lblTitleMarkers.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
-            lblTitleSongBrowser.Font = NSFont.FromFontName("TitilliumText25L-999wt", 14);
+            lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
+            lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
+            lblTitleLoops.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
+            lblTitleMarkers.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
+            lblTitleSongBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
 
-            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
-            lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
-            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
-            lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-999wt", 13);
+            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
+            lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
+            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
+            lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
 
             lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);

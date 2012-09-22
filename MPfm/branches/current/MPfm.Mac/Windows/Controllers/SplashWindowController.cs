@@ -66,7 +66,7 @@ namespace MPfm.Mac
             this.Window.Display();
 
             // Set fonts
-            lblMessage.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13.0f);
+            lblMessage.Font = NSFont.FromFontName("TitilliumText25L-600wt", 13.0f);
             lblMessage.StringValue = "Loading player...";
         }
 
