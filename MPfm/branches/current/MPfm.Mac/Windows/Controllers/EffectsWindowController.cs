@@ -136,10 +136,219 @@ namespace MPfm.Mac
 
         }
 
+        partial void actionPresetChange(NSObject sender)
+        {
+        }
+
+        partial void actionEQOnChange(NSObject sender)
+        {
+        }
+
+        partial void actionNameChanged(NSObject sender)
+        {
+        }
+
+        partial void actionSave(NSObject sender)
+        {
+        }
+
+        partial void actionDelete(NSObject sender)
+        {
+        }
+
+        partial void actionAutoLevel(NSObject sender)
+        {
+        }
+
+        partial void actionReset(NSObject sender)
+        {
+        }
+
+        partial void actionSlider0ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(0, sliderEQ0.FloatValue);
+        }
+
+        partial void actionSlider1ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(1, sliderEQ1.FloatValue);
+        }
+
+        partial void actionSlider2ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(2, sliderEQ2.FloatValue);
+        }
+
+        partial void actionSlider3ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(3, sliderEQ3.FloatValue);
+        }
+
+        partial void actionSlider4ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(4, sliderEQ4.FloatValue);
+        }
+
+        partial void actionSlider5ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(5, sliderEQ5.FloatValue);
+        }
+
+        partial void actionSlider6ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(6, sliderEQ6.FloatValue);
+        }
+
+        partial void actionSlider7ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(7, sliderEQ7.FloatValue);
+        }
+
+        partial void actionSlider8ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(8, sliderEQ8.FloatValue);
+        }
+
+        partial void actionSlider9ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(9, sliderEQ9.FloatValue);
+        }
+
+        partial void actionSlider10ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(10, sliderEQ10.FloatValue);
+        }
+
+        partial void actionSlider11ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(11, sliderEQ11.FloatValue);
+        }
+
+        partial void actionSlider12ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(12, sliderEQ12.FloatValue);
+        }
+
+        partial void actionSlider13ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(13, sliderEQ13.FloatValue);
+        }
+
+        partial void actionSlider14ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(14, sliderEQ14.FloatValue);
+        }
+
+        partial void actionSlider15ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(15, sliderEQ15.FloatValue);
+        }
+
+        partial void actionSlider16ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(16, sliderEQ16.FloatValue);
+        }
+
+        partial void actionSlider17ChangeValue(NSObject sender)
+        {
+            effectsPresenter.SetEQParam(17, sliderEQ17.FloatValue);
+        }
+
         #region IEffectsView implementation
         
         public void UpdateFader(int index, float value)
         {
+            string strValue = value.ToString("0.0") + " dB";
+            if (index == 0)
+            {
+                sliderEQ0.FloatValue = value;
+                lblEQValue0.StringValue = strValue;
+            } 
+            else if (index == 1)
+            {
+                sliderEQ1.FloatValue = value;
+                lblEQValue1.StringValue = strValue;
+            }
+            else if (index == 2)
+            {
+                sliderEQ2.FloatValue = value;
+                lblEQValue2.StringValue = strValue;
+            }
+            else if (index == 3)
+            {
+                sliderEQ3.FloatValue = value;
+                lblEQValue3.StringValue = strValue;
+            }
+            else if (index == 4)
+            {
+                sliderEQ4.FloatValue = value;
+                lblEQValue4.StringValue = strValue;
+            }
+            else if (index == 5)
+            {
+                sliderEQ5.FloatValue = value;
+                lblEQValue5.StringValue = strValue;
+            }
+            else if (index == 6)
+            {
+                sliderEQ6.FloatValue = value;
+                lblEQValue6.StringValue = strValue;
+            }
+            else if (index == 7)
+            {
+                sliderEQ7.FloatValue = value;
+                lblEQValue7.StringValue = strValue;
+            }
+            else if (index == 8)
+            {
+                sliderEQ8.FloatValue = value;
+                lblEQValue8.StringValue = strValue;
+            }
+            else if (index == 9)
+            {
+                sliderEQ9.FloatValue = value;
+                lblEQValue9.StringValue = strValue;
+            }
+            else if (index == 10)
+            {
+                sliderEQ10.FloatValue = value;
+                lblEQValue10.StringValue = strValue;
+            }
+            else if (index == 11)
+            {
+                sliderEQ11.FloatValue = value;
+                lblEQValue11.StringValue = strValue;
+            }
+            else if (index == 12)
+            {
+                sliderEQ12.FloatValue = value;
+                lblEQValue12.StringValue = strValue;
+            }
+            else if (index == 13)
+            {
+                sliderEQ13.FloatValue = value;
+                lblEQValue13.StringValue = strValue;
+            }
+            else if (index == 14)
+            {
+                sliderEQ14.FloatValue = value;
+                lblEQValue14.StringValue = strValue;
+            }
+            else if (index == 15)
+            {
+                sliderEQ15.FloatValue = value;
+                lblEQValue15.StringValue = strValue;
+            }
+            else if (index == 16)
+            {
+                sliderEQ16.FloatValue = value;
+                lblEQValue16.StringValue = strValue;
+            }
+            else if (index == 17)
+            {
+                sliderEQ17.FloatValue = value;
+                lblEQValue17.StringValue = strValue;
+            }
         }
         
         public void UpdateFaders(IEnumerable<float> values)

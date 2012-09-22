@@ -172,6 +172,102 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQValue17 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSPopUpButton popupPreset { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnEQOn { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtName { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnSave { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnDelete { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnReset { get; set; }
+
+		[Action ("actionSlider0ChangeValue:")]
+		partial void actionSlider0ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider1ChangeValue:")]
+		partial void actionSlider1ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider2ChangeValue:")]
+		partial void actionSlider2ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider3ChangeValue:")]
+		partial void actionSlider3ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider4ChangeValue:")]
+		partial void actionSlider4ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider5ChangeValue:")]
+		partial void actionSlider5ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider6ChangeValue:")]
+		partial void actionSlider6ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider7ChangeValue:")]
+		partial void actionSlider7ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider8ChangeValue:")]
+		partial void actionSlider8ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider9ChangeValue:")]
+		partial void actionSlider9ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider10ChangeValue:")]
+		partial void actionSlider10ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider11ChangeValue:")]
+		partial void actionSlider11ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider12ChangeValue:")]
+		partial void actionSlider12ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider13ChangeValue:")]
+		partial void actionSlider13ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider14ChangeValue:")]
+		partial void actionSlider14ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider15ChangeValue:")]
+		partial void actionSlider15ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider16ChangeValue:")]
+		partial void actionSlider16ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSlider17ChangeValue:")]
+		partial void actionSlider17ChangeValue (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPresetChange:")]
+		partial void actionPresetChange (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEQOnChange:")]
+		partial void actionEQOnChange (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionNameChanged:")]
+		partial void actionNameChanged (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSave:")]
+		partial void actionSave (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionDelete:")]
+		partial void actionDelete (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAutoLevel:")]
+		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionReset:")]
+		partial void actionReset (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -443,6 +539,41 @@ namespace MPfm.Mac
 			if (lblEQValue17 != null) {
 				lblEQValue17.Dispose ();
 				lblEQValue17 = null;
+			}
+
+			if (popupPreset != null) {
+				popupPreset.Dispose ();
+				popupPreset = null;
+			}
+
+			if (btnEQOn != null) {
+				btnEQOn.Dispose ();
+				btnEQOn = null;
+			}
+
+			if (txtName != null) {
+				txtName.Dispose ();
+				txtName = null;
+			}
+
+			if (btnSave != null) {
+				btnSave.Dispose ();
+				btnSave = null;
+			}
+
+			if (btnDelete != null) {
+				btnDelete.Dispose ();
+				btnDelete = null;
+			}
+
+			if (btnAutoLevel != null) {
+				btnAutoLevel.Dispose ();
+				btnAutoLevel = null;
+			}
+
+			if (btnReset != null) {
+				btnReset.Dispose ();
+				btnReset = null;
 			}
 		}
 	}

@@ -33,6 +33,10 @@ namespace MPfm.MVP
 	public interface IEffectsPresenter
 	{
 		void BindView(IEffectsView view);		
+
+        void SetEQParam(int index, float value);
+        void LoadPreset(string presetName);
+        void SavePreset(string presetName);
 	}
 }
 
