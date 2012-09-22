@@ -74,7 +74,25 @@ namespace MPfm.MVP
 
         public void SetEQParam(int index, float value)
         {
+            // Set EQ and update UI
+            playerService.Player.UpdateEQBand(index, value, true);
             view.UpdateFader(index, value);
+        }
+
+        public void BypassEQ()
+        {
+            playerService.Player.BypassEQ();
+        }
+
+        public void AutoLevel()
+        {
+        }
+
+        public void Reset()
+        {
+            playerService.Player.ResetEQ();
+            for (int a = 0; a < 18; a++)
+                view.UpdateFader(a, 0);
         }
 
         public void LoadPreset(string presetName)
@@ -82,6 +100,10 @@ namespace MPfm.MVP
         }
 
         public void SavePreset(string presetName)
+        {
+        }
+
+        public void DeletePreset(string presetName)
         {
         }
 	}

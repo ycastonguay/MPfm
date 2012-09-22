@@ -34,7 +34,6 @@ namespace MPfm.MVP
 	public interface IEffectsView
 	{
         void UpdateFader(int index, float value);
-        void UpdateFaders(IEnumerable<float> values);
         void UpdatePresetList(IEnumerable<string> presets);
 	}
 }

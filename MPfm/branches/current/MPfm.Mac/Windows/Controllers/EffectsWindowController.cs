@@ -21,8 +21,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MonoMac.CoreGraphics;
 using MPfm.MVP;
 
 namespace MPfm.Mac
@@ -74,11 +75,41 @@ namespace MPfm.Mac
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
+
         }
 
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
+
+            viewBackground.GradientColor1 = new CGColor(0.125f, 0.125f, 0.125f, 1.0f);
+            viewBackground.GradientColor2 = new CGColor(0.35f, 0.35f, 0.35f, 1.0f);
+            viewBackgroundPreset.GradientColor1 = new CGColor(0.85f, 0.85f, 0.85f, 1.0f);
+            viewBackgroundPreset.GradientColor2 = new CGColor(0.6f, 0.6f, 0.6f, 1.0f);
+            viewBackgroundPreset.HeaderGradientColor1 = new CGColor(0.925f, 0.925f, 0.925f, 1.0f);
+            viewBackgroundPreset.HeaderGradientColor2 = new CGColor(0.65f, 0.65f, 0.65f, 1.0f);
+            viewBackgroundPreset.IsHeaderVisible = true;
+            viewBackgroundInformation.GradientColor1 = new CGColor(0.85f, 0.85f, 0.85f, 1.0f);
+            viewBackgroundInformation.GradientColor2 = new CGColor(0.6f, 0.6f, 0.6f, 1.0f);
+            viewBackgroundInformation.HeaderGradientColor1 = new CGColor(0.925f, 0.925f, 0.925f, 1.0f);
+            viewBackgroundInformation.HeaderGradientColor2 = new CGColor(0.65f, 0.65f, 0.65f, 1.0f);
+            viewBackgroundInformation.IsHeaderVisible = true;
+
+            popupPreset.Font = NSFont.FromFontName("Junction", 12f);
+            lblName.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12f);
+            lblTitleInformation.Font = NSFont.FromFontName("TitilliumText25L-600wt", 14f);
+            lblTitlePreset.Font = NSFont.FromFontName("TitilliumText25L-600wt", 14f);
+            lblEQOn.Font = NSFont.FromFontName("Junction", 11.5f);
+            btnAutoLevel.Font = NSFont.FromFontName("Junction", 11f);
+            btnDelete.Font = NSFont.FromFontName("Junction", 11f);
+            btnSave.Font = NSFont.FromFontName("Junction", 11f);
+            btnReset.Font = NSFont.FromFontName("Junction", 11f);
+            txtName.Font = NSFont.FromFontName("Junction", 11f);
+
+            btnAutoLevel.Image = ImageResources.images16x16[0];
+            btnDelete.Image = ImageResources.images16x16[0];
+            btnSave.Image = ImageResources.images16x16[0];
+            btnReset.Image = ImageResources.images16x16[0];
 
             SetTheme();
         }
@@ -133,15 +164,16 @@ namespace MPfm.Mac
             lblEQValue15.Font = NSFont.FromFontName("Junction", 11);
             lblEQValue16.Font = NSFont.FromFontName("Junction", 11);
             lblEQValue17.Font = NSFont.FromFontName("Junction", 11);
-
         }
 
         partial void actionPresetChange(NSObject sender)
         {
+            effectsPresenter.LoadPreset(popupPreset.StringValue);
         }
 
         partial void actionEQOnChange(NSObject sender)
         {
+            effectsPresenter.BypassEQ();
         }
 
         partial void actionNameChanged(NSObject sender)
@@ -150,18 +182,22 @@ namespace MPfm.Mac
 
         partial void actionSave(NSObject sender)
         {
+            effectsPresenter.SavePreset(txtName.StringValue);
         }
 
         partial void actionDelete(NSObject sender)
         {
+            effectsPresenter.DeletePreset(txtName.StringValue);
         }
 
         partial void actionAutoLevel(NSObject sender)
         {
+            effectsPresenter.AutoLevel();
         }
 
         partial void actionReset(NSObject sender)
         {
+            effectsPresenter.Reset();
         }
 
         partial void actionSlider0ChangeValue(NSObject sender)
@@ -349,10 +385,6 @@ namespace MPfm.Mac
                 sliderEQ17.FloatValue = value;
                 lblEQValue17.StringValue = strValue;
             }
-        }
-        
-        public void UpdateFaders(IEnumerable<float> values)
-        {
         }
         
         public void UpdatePresetList(IEnumerable<string> presets)

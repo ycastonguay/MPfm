@@ -194,6 +194,27 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSButton btnReset { get; set; }
 
+		[Outlet]
+		MPfm.Mac.MPfmView viewBackground { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewBackgroundPreset { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewBackgroundInformation { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleInformation { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblName { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQOn { get; set; }
+
 		[Action ("actionSlider0ChangeValue:")]
 		partial void actionSlider0ChangeValue (MonoMac.Foundation.NSObject sender);
 
@@ -574,6 +595,41 @@ namespace MPfm.Mac
 			if (btnReset != null) {
 				btnReset.Dispose ();
 				btnReset = null;
+			}
+
+			if (viewBackground != null) {
+				viewBackground.Dispose ();
+				viewBackground = null;
+			}
+
+			if (viewBackgroundPreset != null) {
+				viewBackgroundPreset.Dispose ();
+				viewBackgroundPreset = null;
+			}
+
+			if (viewBackgroundInformation != null) {
+				viewBackgroundInformation.Dispose ();
+				viewBackgroundInformation = null;
+			}
+
+			if (lblTitlePreset != null) {
+				lblTitlePreset.Dispose ();
+				lblTitlePreset = null;
+			}
+
+			if (lblTitleInformation != null) {
+				lblTitleInformation.Dispose ();
+				lblTitleInformation = null;
+			}
+
+			if (lblName != null) {
+				lblName.Dispose ();
+				lblName = null;
+			}
+
+			if (lblEQOn != null) {
+				lblEQOn.Dispose ();
+				lblEQOn = null;
 			}
 		}
 	}

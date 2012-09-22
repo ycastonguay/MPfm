@@ -35,8 +35,13 @@ namespace MPfm.MVP
 		void BindView(IEffectsView view);		
 
         void SetEQParam(int index, float value);
+        void BypassEQ();
+        void AutoLevel();
+        void Reset();
+
         void LoadPreset(string presetName);
         void SavePreset(string presetName);
+        void DeletePreset(string presetName);
 	}
 }
 

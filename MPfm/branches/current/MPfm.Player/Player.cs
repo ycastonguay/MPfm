@@ -1781,7 +1781,8 @@ namespace MPfm.Player
             // Validate that the main channel exists
             if (mixerChannel == null)
             {
-                throw new Exception("Error resetting EQ: The main channel doesn't exist!");
+                //throw new Exception("Error resetting EQ: The main channel doesn't exist!");
+                return;
             }
 
             // Loop through bands
