@@ -57,6 +57,15 @@ namespace MPfm.Mac
 		MPfm.Mac.MPfmView viewRight { get; set; }
 
 		[Outlet]
+		MPfm.Mac.MPfmView viewPitchShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSPopUpButton popupPitchShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton btnPlayLoop { get; set; }
 
 		[Outlet]
@@ -141,6 +150,18 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblBpm { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSPopUpButton popupTimeShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnDetectTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblOriginalTempo { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
 
 		[Outlet]
@@ -190,6 +211,24 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblFilterBySoundFormat { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitlePitchShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtOriginalTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblResetTimeShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtTimeShiftingValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblResetPitchShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtPitchShiftingValue { get; set; }
 
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
@@ -358,6 +397,21 @@ namespace MPfm.Mac
 				viewRight = null;
 			}
 
+			if (viewPitchShifting != null) {
+				viewPitchShifting.Dispose ();
+				viewPitchShifting = null;
+			}
+
+			if (popupPitchShifting != null) {
+				popupPitchShifting.Dispose ();
+				popupPitchShifting = null;
+			}
+
+			if (sliderPitchShifting != null) {
+				sliderPitchShifting.Dispose ();
+				sliderPitchShifting = null;
+			}
+
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
@@ -498,6 +552,26 @@ namespace MPfm.Mac
 				lblLength = null;
 			}
 
+			if (lblBpm != null) {
+				lblBpm.Dispose ();
+				lblBpm = null;
+			}
+
+			if (popupTimeShifting != null) {
+				popupTimeShifting.Dispose ();
+				popupTimeShifting = null;
+			}
+
+			if (btnDetectTempo != null) {
+				btnDetectTempo.Dispose ();
+				btnDetectTempo = null;
+			}
+
+			if (lblOriginalTempo != null) {
+				lblOriginalTempo.Dispose ();
+				lblOriginalTempo = null;
+			}
+
 			if (cboSoundFormat != null) {
 				cboSoundFormat.Dispose ();
 				cboSoundFormat = null;
@@ -581,6 +655,36 @@ namespace MPfm.Mac
 			if (lblFilterBySoundFormat != null) {
 				lblFilterBySoundFormat.Dispose ();
 				lblFilterBySoundFormat = null;
+			}
+
+			if (lblSubtitlePitchShifting != null) {
+				lblSubtitlePitchShifting.Dispose ();
+				lblSubtitlePitchShifting = null;
+			}
+
+			if (txtOriginalTempo != null) {
+				txtOriginalTempo.Dispose ();
+				txtOriginalTempo = null;
+			}
+
+			if (lblResetTimeShifting != null) {
+				lblResetTimeShifting.Dispose ();
+				lblResetTimeShifting = null;
+			}
+
+			if (txtTimeShiftingValue != null) {
+				txtTimeShiftingValue.Dispose ();
+				txtTimeShiftingValue = null;
+			}
+
+			if (lblResetPitchShifting != null) {
+				lblResetPitchShifting.Dispose ();
+				lblResetPitchShifting = null;
+			}
+
+			if (txtPitchShiftingValue != null) {
+				txtPitchShiftingValue.Dispose ();
+				txtPitchShiftingValue = null;
 			}
 		}
 	}

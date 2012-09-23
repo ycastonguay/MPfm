@@ -18,23 +18,21 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MonoMac.CoreGraphics;
-
-//#define MACOSX
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using MonoMac.Foundation;
+using System.Reflection;
+using System.Text;
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+using MonoMac.CoreText;
+using MonoMac.Foundation;
+using MPfm.Core;
 using MPfm.Library;
 using MPfm.MVP;
 using MPfm.Sound;
 using Ninject;
-using System.Drawing;
-using System.Text;
-using MPfm.Core;
-using System.Reflection;
-using MonoMac.CoreText;
 
 namespace MPfm.Mac
 {
@@ -123,6 +121,14 @@ namespace MPfm.Mac
             cboSoundFormat.AddItem("WAV");
             cboSoundFormat.AddItem("WV");
 
+            // Add items to Time Shifting and Pitch Shifting popup buttons
+            popupPitchShifting.RemoveAllItems();
+            popupPitchShifting.AddItem("Semitones");
+            popupPitchShifting.AddItem("Cents");
+            popupTimeShifting.RemoveAllItems();
+            popupTimeShifting.AddItem("Tempo");
+            popupTimeShifting.AddItem("Percent");
+
             // Initialize and configure Library Browser
             libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate(this.libraryBrowserPresenter);
             outlineLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
@@ -175,18 +181,22 @@ namespace MPfm.Mac
             viewSongPosition.IsHeaderVisible = true;
             viewVolume.IsHeaderVisible = true;
             viewTimeShifting.IsHeaderVisible = true;
+            viewPitchShifting.IsHeaderVisible = true;
 
             // Set label fonts
             lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 22);
-            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
+            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 19);
             lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 16);
             lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
 
-            lblSampleRate.Font = NSFont.FromFontName("Junction", 11.4f);
-            lblBitrate.Font = NSFont.FromFontName("Junction", 11.4f);
-            lblFileType.Font = NSFont.FromFontName("Junction", 11.4f);
-            lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11.4f);
-            lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11.4f);
+            lblSampleRate.Font = NSFont.FromFontName("Junction", 11f);
+            lblBitrate.Font = NSFont.FromFontName("Junction", 11f);
+            lblFileType.Font = NSFont.FromFontName("Junction", 11f);
+            lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11f);
+            lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11f);
+
+            lblOriginalTempo.Font = NSFont.FromFontName("Junction", 11f);
+            lblBpm.Font = NSFont.FromFontName("Junction", 11f);
 
             lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
             lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
@@ -198,12 +208,20 @@ namespace MPfm.Mac
             lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
             lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
             lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
+            lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
 
-            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
-            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
-            lblTimeShifting.Font = NSFont.FromFontName("DroidSansMono", 11f);
+            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 17f);
+            lblLength.Font = NSFont.FromFontName("DroidSansMono", 17f);
             lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
+            txtOriginalTempo.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            txtTimeShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
 
+            lblResetTimeShifting.Font = NSFont.FromFontName("Junction", 11);
+            lblResetPitchShifting.Font = NSFont.FromFontName("Junction", 11);
+
+            popupPitchShifting.Font = NSFont.FromFontName("Junction", 10);
+            popupTimeShifting.Font = NSFont.FromFontName("Junction", 10);
             cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
 
@@ -253,6 +271,8 @@ namespace MPfm.Mac
             columnMarkerComments.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
             columnMarkerComments.DataCell.Font = NSFont.FromFontName("Junction", 11f);
 
+            btnDetectTempo.Font = NSFont.FromFontName("Junction", 11f);
+
             btnPlayLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnAddLoop.Font = NSFont.FromFontName("Junction", 11f);
@@ -297,6 +317,7 @@ namespace MPfm.Mac
             btnPlaySelectedSong.Image = ImageResources.images16x16[3];
             btnStopLoop.Image = ImageResources.images16x16[4];
             btnGoToMarker.Image = ImageResources.images16x16[5];
+            btnDetectTempo.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_time");
         }
 
 		#endregion

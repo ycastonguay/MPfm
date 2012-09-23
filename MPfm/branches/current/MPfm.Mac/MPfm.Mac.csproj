@@ -307,6 +307,7 @@
     <Content Include="Resources\16x16\fam\exclamation.png" />
     <Content Include="Resources\16x16\fam\cancel.png" />
     <Content Include="Resources\16x16\fam\shape_align_middle.png" />
+    <Content Include="Resources\16x16\fam\time.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

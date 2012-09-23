@@ -96,7 +96,7 @@ namespace MPfm.Mac
             viewBackgroundInformation.IsHeaderVisible = true;
 
             popupPreset.Font = NSFont.FromFontName("Junction", 11.5f);
-            lblName.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12f);
+            lblName.Font = NSFont.FromFontName("Junction", 11f);
             lblTitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13f);
             lblTitlePreset.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13f);
             lblEQOn.Font = NSFont.FromFontName("Junction", 11f);

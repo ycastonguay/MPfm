@@ -66,7 +66,8 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("exclamation", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_exclamation" },
                 new NSImage(NSBundle.MainBundle.PathForResource("information", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_information" },
                 new NSImage(NSBundle.MainBundle.PathForResource("shape_align_middle", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_shape_align_middle" },
-                new NSImage(NSBundle.MainBundle.PathForResource("tick", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_tick" }
+                new NSImage(NSBundle.MainBundle.PathForResource("tick", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_tick" },
+                new NSImage(NSBundle.MainBundle.PathForResource("time", "png", "Resources/16x16/fam", string.Empty)) { Name = "fam_time" }
             };
 
             // Load 32x32px images
