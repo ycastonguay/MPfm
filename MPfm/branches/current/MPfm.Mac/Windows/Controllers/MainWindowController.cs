@@ -292,32 +292,32 @@ namespace MPfm.Mac
         private void LoadImages()
         {
             // Load images in toolbar
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32[0];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32[1];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32[2];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32[3];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32[4];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32[5];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32[6];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32[7];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32[8];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32[9];
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32[10];
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_document-open");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_view-refresh");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-playback-start");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-playback-pause");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-playback-stop");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-skip-backward");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-skip-forward");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_view-refresh");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_preferences-desktop");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_audio-x-generic");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_preferences-system");
 
             // Load button images
-            btnAddLoop.Image = ImageResources.images16x16[0];
-            btnAddMarker.Image = ImageResources.images16x16[0];
-            btnAddSongToPlaylist.Image = ImageResources.images16x16[0];
-            btnEditLoop.Image = ImageResources.images16x16[1];
-            btnEditMarker.Image = ImageResources.images16x16[1];
-            btnEditSongMetadata.Image = ImageResources.images16x16[1];
-            btnRemoveLoop.Image = ImageResources.images16x16[2];
-            btnRemoveMarker.Image = ImageResources.images16x16[2];
-            btnPlayLoop.Image = ImageResources.images16x16[3];
-            btnPlaySelectedSong.Image = ImageResources.images16x16[3];
-            btnStopLoop.Image = ImageResources.images16x16[4];
-            btnGoToMarker.Image = ImageResources.images16x16[5];
-            btnDetectTempo.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_time");
+            btnAddLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
+            btnAddMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
+            btnAddSongToPlaylist.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
+            btnEditLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_pencil");
+            btnEditMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_pencil");
+            btnEditSongMetadata.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_pencil");
+            btnRemoveLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
+            btnRemoveMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
+            btnPlayLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-start");
+            btnPlaySelectedSong.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-start");
+            btnStopLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-stop");
+            btnGoToMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_go-last");
+            btnDetectTempo.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_time");
         }
 
 		#endregion

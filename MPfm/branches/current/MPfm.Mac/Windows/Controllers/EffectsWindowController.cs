@@ -109,10 +109,10 @@ namespace MPfm.Mac
             btnReset.Font = NSFont.FromFontName("Junction", 11f);
             txtName.Font = NSFont.FromFontName("Junction", 11f);
 
-            btnAutoLevel.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_shape_align_middle");
-            btnDelete.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_delete");
-            btnSave.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_tick");
-            btnReset.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "fam_exclamation");
+            btnAutoLevel.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_shape_align_middle");
+            btnDelete.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
+            btnSave.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_tick");
+            btnReset.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_exclamation");
 
             SetTheme();
         }

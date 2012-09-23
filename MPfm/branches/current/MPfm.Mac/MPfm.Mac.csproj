@@ -308,6 +308,9 @@
     <Content Include="Resources\16x16\fam\cancel.png" />
     <Content Include="Resources\16x16\fam\shape_align_middle.png" />
     <Content Include="Resources\16x16\fam\time.png" />
+    <Content Include="Resources\16x16\fam\pencil.png" />
+    <Content Include="Resources\16x16\fam\accept.png" />
+    <Content Include="Resources\16x16\fam\add.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
