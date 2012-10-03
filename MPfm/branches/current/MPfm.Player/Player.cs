@@ -1070,7 +1070,7 @@ namespace MPfm.Player
 
                 // Load 18-band equalizer
                 Tracing.Log("Player.Play -- Creating equalizer (Preset: " + currentEQPreset + ")...");
-                AddEQ(currentEQPreset);
+                //AddEQ(currentEQPreset);
 
                 // Check if EQ is bypassed
                 if (isEQBypassed)
@@ -1264,12 +1264,16 @@ namespace MPfm.Player
                 throw new Exception("Player.Stop error: The main channel is null!");
             }
 
+            // Set flags
+            currentLoop = null;
+            isPlaying = false;
+
             // Check if EQ is enabled
             if (isEQEnabled)
             {
                 // Remove EQ
-                Tracing.Log("Player.Stop -- Removing equalizer...");
-                RemoveEQ();
+                //Tracing.Log("Player.Stop -- Removing equalizer...");
+                //RemoveEQ();
             }
 
             // Stop mixer channel
@@ -1314,10 +1318,7 @@ namespace MPfm.Player
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
             }
-
-            // Set flags
-            currentLoop = null;
-            isPlaying = false;
+           
         }
 
         /// <summary>

@@ -210,8 +210,8 @@ namespace MPfm.Mac
             lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
             lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
 
-            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 17f);
-            lblLength.Font = NSFont.FromFontName("DroidSansMono", 17f);
+            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 16f);
+            lblLength.Font = NSFont.FromFontName("DroidSansMono", 16f);
             lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
             txtOriginalTempo.Font = NSFont.FromFontName("DroidSansMono", 10f);
             txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);

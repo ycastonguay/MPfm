@@ -151,8 +151,6 @@ namespace MPfm.Mac
 
 //        public override NSTableRowView GetRowView(NSTableView tableView, int row)
 //        {
-//            //MPfmTableRowView view = new MPfmTableRowView();
-//            //NSTableRowView rowView = (NSTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
 //            MPfmTableRowView rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
 //            return rowView;
 //        }

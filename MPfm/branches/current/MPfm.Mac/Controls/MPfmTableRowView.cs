@@ -81,17 +81,26 @@ namespace MPfm.Mac
 //            // Set flag
 //            isMouseDown = false;
 //        }        
-        [Export ("drawBackgroundInRect:")]
+
+        //[Export ("drawBackgroundInRect:")]
         public override void DrawBackgrounn(RectangleF dirtyRect)
         {
             base.DrawBackgrounn(dirtyRect); // WTF Backgrounn?
 
-            NSGradient gradient = new NSGradient(new NSColor[]{
-                NSColor.White, NSColor.Black
-            });
-            gradient.DrawInRect(dirtyRect, 90);
+//            NSGradient gradient = new NSGradient(new NSColor[]{
+//                NSColor.White, NSColor.Black
+//            });
+//            gradient.DrawInRect(dirtyRect, 90);
+
+            // Draw background
+            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            RectangleF rectBackground = new RectangleF(0, 0, dirtyRect.Width, dirtyRect.Height);
+            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
+            CocoaHelper.FillGradient(context, dirtyRect, GradientColor1, GradientColor2);
 
         }
+
+
 
 //
 //
