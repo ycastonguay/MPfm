@@ -612,8 +612,14 @@ namespace MPfm.Mac
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
-            lblPosition.StringValue = entity.Position;           
-            sliderPosition.SetPosition(entity.PositionPercentage * 100);
+            // When setting .StringValue, use a autorelease pool to keep the warnings away
+            // http://mono.1490590.n4.nabble.com/Memory-Leak-td3206211.html
+            using (NSAutoreleasePool pool = new NSAutoreleasePool())
+            {
+                // TODO: Bug CPU hit when updating label...
+                lblPosition.StringValue = entity.Position;
+                sliderPosition.SetPosition(entity.PositionPercentage * 100);
+            };
 		}
 		
 		public void RefreshSongInformation(SongInformationEntity entity)

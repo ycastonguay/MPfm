@@ -24,6 +24,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using MonoMac.AppKit;
+using MonoMac.CoreAnimation;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 
@@ -35,8 +36,12 @@ namespace MPfm.Mac
     [Register("MPfmIsPlayingTableCellView")]
     public class MPfmIsPlayingTableCellView : NSTableCellView
     {
-        bool isPlaying = false;
-        bool isMouseDown = false;
+        int animationFrame = 0;
+        float padding = 6;
+        NSTimer timer;
+
+        public bool IsPlaying { get; private set; }
+        public bool IsMouseDown { get; private set; }
 
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
@@ -55,21 +60,97 @@ namespace MPfm.Mac
 
         void Initialize()
         {
+            // Set default colors
             GradientColor1 = new CGColor(1.0f, 1.0f, 1.0f);
             GradientColor2 = new CGColor(0.8f, 0.8f, 0.8f);
+
+            // Activate layers
+            this.WantsLayer = true;
+            //this.Layer.BackgroundColor = new CGColor(0.9f, 0.9f, 0.9f);
+        }
+
+        public override void AwakeFromNib()
+        {
+            base.AwakeFromNib();
+        }
+
+        public override void ViewWillDraw()
+        {
+            base.ViewWillDraw();
         }
 
         public void SetIsPlaying(bool isPlaying)
         {
-            this.isPlaying = isPlaying;
+            this.IsPlaying = isPlaying;
             SetNeedsDisplayInRect(Bounds);
+
+            if (!isPlaying)
+            {
+                if(timer != null && timer.IsValid)
+                    timer.Invalidate();
+            }
+            else
+            {
+                if(Layer.AnchorPoint.X == 0 && Layer.AnchorPoint.Y == 0)
+                {
+                    CATransaction.Begin();
+                    CATransaction.SetValueForKey(new NSNumber(0.00005f), CATransaction.AnimationDurationKey); 
+                    Layer.AnchorPoint = new PointF(0.5f, 0.5f);
+                    Layer.Position = new PointF(Layer.Position.X + (Layer.Bounds.Size.Width * (Layer.AnchorPoint.X - 0f)), 
+                                                Layer.Position.Y + (Layer.Bounds.Size.Height * (Layer.AnchorPoint.Y - 0f)));
+    
+                    CATransaction.Commit();                
+                }
+
+                if(Layer != null)
+                {
+                    animationFrame = 2;
+                    timer = NSTimer.CreateRepeatingScheduledTimer(0.75f, delegate {
+
+                        float radians = 0;
+
+                        if(animationFrame < 3)
+                            animationFrame++;
+                        else
+                            animationFrame = 0;
+
+                        radians = (float)Math.PI * (animationFrame * 90.0f) / 180.0f;
+                        Console.WriteLine("====> AnimationFrame: " + animationFrame.ToString() + " -- Radians: " + radians.ToString());
+                        CATransaction.Begin();
+                        CATransaction.SetValueForKey(new NSNumber(0.75f), CATransaction.AnimationDurationKey); 
+                        CATransaction.AnimationTimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.Linear);
+
+                        CATransform3D transform = Layer.Transform;
+                        CATransform3D transform1 = Layer.Transform.Rotate(radians, 0, 0, 1.0f);
+                        CATransform3D transform2 = Layer.Transform.Rotate(radians, 0, 0, 1.0f);
+                        transform = transform.Concat(transform1);
+                        //transform = transform.Concat(transform2);
+                        this.Layer.Transform = transform;
+
+                        CATransaction.Commit();
+
+                        //a += 4;
+    //                    float radians = (float)Math.PI * a / 180.0f;
+    //                    Console.WriteLine("Rotating to " + radians.ToString("0.00"));
+    //
+    //                    CATransaction.Begin();
+    //                    CATransaction.SetValueForKey(new NSNumber(1), CATransaction.AnimationDurationKey); 
+    //
+    //                    CATransform3D transformRotation = this.Layer.Transform.Rotate(radians, 0.0f, 0.0f, 1.0f);
+    //                    this.Layer.Transform = transformRotation;
+    //
+    //                    CATransaction.Commit();
+
+                    });
+                }
+            }
         }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
         {
             // Set flag
-            isMouseDown = true;
+            IsMouseDown = true;
 
             base.MouseDown(theEvent);
 
@@ -84,40 +165,67 @@ namespace MPfm.Mac
             base.MouseUp(theEvent);
 
             // Set flag
-            isMouseDown = false;
-        }        
+            IsMouseDown = false;
+        }
 
         public override void DrawRect(System.Drawing.RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);
 
-            float padding = 6;
+            if(!IsPlaying)
+                return;           
 
-            if(!isPlaying)
-                return;
-
+            // Save context state
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
 
+            // Calculate size
             float size = (Bounds.Width > Bounds.Height) ? Bounds.Height : Bounds.Width;
+            float circleRadius = (size - 4) / 2;
             RectangleF rect = new RectangleF(padding / 2, padding / 2, size - padding, size - padding);
 
+            //CGColor color1 = new CGColor(0.0f, 0.5f, 0.0f);
+            //CGColor color2 = new CGColor(0.0f, 1.0f, 0.0f);
+            CGColor color1 = new CGColor(0.0f, 0.3f, 0.0f);
+            CGColor color2 = new CGColor(0.65f, 1.0f, 0.65f);
+            CGGradient gradientBackground;
+            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();            
+            float[] locationListBackground = new float[] { 1.0f, 0.0f };
+            List<float> colorListBackground = new List<float>();
+            colorListBackground.AddRange(color1.Components);
+            colorListBackground.AddRange(color2.Components);
+            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
+
+            // Create path
             CGPath path = new CGPath();
-            path.MoveToPoint(new PointF(0, 0));
-            float outerRadius = 16;
-            float innerRadius = 4;
-            //path.AddArc(rect.Width / 2, rect.Height / 2, 45, 0*3.142f/180, angle*3.142f/180, false);
-            path.AddArc(outerRadius / 2, outerRadius / 2, outerRadius / 2, 0, 360, false);
-            path.CloseSubpath();
+            float x = Bounds.Width / 2;
+            float y = Bounds.Height / 2;
+            path.AddArc(x, y, circleRadius, 0, 2 * (float)Math.PI, false);
+            path.AddArc(x, y, circleRadius / 3, 0, 2 * (float)Math.PI, false);
+            context.AddPath(path);
 
-//            path.AddArc(rect.Width / 4, rect.Height / 4, 45, 0*3.142f/180, angle*3.142f/180, false);
-//            path.CloseSubpath();           
+            // Draw outline
+            context.SetLineWidth(1.5f);
+            //context.SetStrokeColor(new CGColor(0.35f, 0.6f, 0.35f));
+            context.SetStrokeColor(new CGColor(0.65f, 0.65f, 0.65f));
+            context.StrokePath();
 
-            CocoaHelper.EOFillPath(context, path, new CGColor(0.0f, 0.0f, 0.0f));
+            // Clip path and draw gradient inside
+            context.AddPath(path);
+            context.EOClip();
+            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsAfterEndLocation);
 
-            //CocoaHelper.FillEllipsis(context, rect, new CGColor(0.2f, 0.75f, 0.2f));
-            //CocoaHelper.DrawEllipsis(context, rect, new CGColor(0.2f, 0.8f, 0.2f), 2);
-            //rect.Inflate(new SizeF(1.0f, 1.0f));
-            //CocoaHelper.DrawEllipsis(context, rect, new CGColor(0.2f, 0.95f, 0.2f), 0.5f);
+//            // Draw outline
+//            context.AddPath(path);
+//            //context.SetLineWidth(1.5f);
+//            context.SetLineWidth(1.25f);
+//            //context.SetStrokeColor(new CGColor(0.0f, 0.25f, 0.0f));
+//            //context.SetStrokeColor(new CGColor(0.0f, 0.0f, 0.0f));
+//            context.SetStrokeColor(new CGColor(0.65f, 0.65f, 0.65f));
+//            context.StrokePath();
+
+            // Restore state
+            context.RestoreState();
         }
     }
 }

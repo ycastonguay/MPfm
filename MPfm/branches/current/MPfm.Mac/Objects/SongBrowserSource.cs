@@ -57,6 +57,8 @@ namespace MPfm.Mac
             {
                 if(item.IsPlaying)
                 {
+                    Console.WriteLine("Set IsPlaying=false to " + item.AudioFile.FilePath);
+
                     item.IsPlaying = false;
                     int row = Items.IndexOf(item);
                     MPfmIsPlayingTableCellView view = (MPfmIsPlayingTableCellView)tableView.GetView(0, row, false);
@@ -70,11 +72,15 @@ namespace MPfm.Mac
             {
                 if(item.AudioFile.FilePath == filePath)
                 {
+                    Console.WriteLine("Set IsPlaying=true to " + item.AudioFile.FilePath);
+
                     item.IsPlaying = true;
                     int row = Items.IndexOf(item);
                     MPfmIsPlayingTableCellView view = (MPfmIsPlayingTableCellView)tableView.GetView(0, row, false);
                     if(view != null)
                         view.SetIsPlaying(true);
+
+                    break;
                 }
             }
         }
@@ -94,7 +100,7 @@ namespace MPfm.Mac
             // Get table column name
             string tableColumnName = ((string)(NSString)(tableColumn.Identifier)).Replace("column", "");
 
-            // TEPM
+            // TEMP
             if(tableColumnName == "IsPlaying")
             {
                 // If something else than NSImage is returned, the application crashes...
@@ -110,7 +116,11 @@ namespace MPfm.Mac
             string identifier = tableColumn.Identifier.ToString();
             if (identifier == "columnIsPlaying")
             {
+                // Create view
                 MPfmIsPlayingTableCellView isPlayingView = (MPfmIsPlayingTableCellView)tableView.MakeView("tableCellIsPlayingView", this);
+
+                // Reset flag (since an already used to 
+                isPlayingView.SetIsPlaying(false);
                 return isPlayingView;
             } 
 
