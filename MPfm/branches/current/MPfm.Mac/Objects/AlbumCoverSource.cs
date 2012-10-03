@@ -26,6 +26,7 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.Sound;
+using MPfm.Core;
 
 namespace MPfm.Mac
 {
@@ -69,23 +70,25 @@ namespace MPfm.Mac
 
         public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
+            // Create view
             MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
 
+            // Get item for view
             SongBrowserItem item = groups[row].ToList()[0];
+            Tracing.Log("AlbumCoverSource - GetViewForItem " + item.AudioFile.FilePath);
             FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
             fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
-            //NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
             Console.WriteLine("GetViewForItem " + row.ToString());
-            //view.SetItem(item, image);
             view.SetItem(item, null);
-            //view.SetNeedsDisplayInRect(view.Bounds);
             return view;
         }       
 
         //public Tuple<SongBrowserItem, NSImage, MPfmAlbumCoverView> FetchAlbumCoverAsync(SongBrowserItem item, MPfmAlbumCoverView view)
         public AlbumCoverAsyncResponse FetchAlbumCoverAsync(SongBrowserItem item, MPfmAlbumCoverView view)
         {
+            Tracing.Log("FetchAlbumCoverAsync " + item.AudioFile.FilePath);
             NSImage image = albumCoverCacheService.TryGetAlbumCover(item.AudioFile.FilePath, item.AudioFile.ArtistName, item.AudioFile.AlbumTitle);
+            Tracing.Log("FetchAlbumCoverAsync - got cover " + item.AudioFile.FilePath);
             AlbumCoverAsyncResponse response = new AlbumCoverAsyncResponse(){
                 Item = item,
                 Image = image,
@@ -102,9 +105,18 @@ namespace MPfm.Mac
 
             if (response != null && response.View != null)
             {
-                response.View.SetItem(response.Item, response.Image);
-                if(response.Image != null)
-                    response.View.SetNeedsDisplayInRect(response.View.Bounds);
+                try
+                {
+                    Tracing.Log("FetchAlbumCoverAsyncCallback - Setting item " + response.Item.AudioFile.FilePath);
+                    response.View.SetItem(response.Item, response.Image);
+                    Tracing.Log("FetchAlbumCoverAsyncCallback - Refreshing item " + response.Item.AudioFile.FilePath);
+                    if(response.Image != null)
+                        response.View.SetNeedsDisplayInRect(response.View.Bounds);
+                }
+                catch(Exception ex)
+                {
+                    Tracing.Log(ex);
+                }
             }
         }
     }

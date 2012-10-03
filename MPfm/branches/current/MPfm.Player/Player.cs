@@ -754,7 +754,7 @@ namespace MPfm.Player
 				// Default
 				// 10ms update period does not work under Linux. Major stuttering
             	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 1000); 
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 10);					
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);					
             }		
 
             // Set flags            

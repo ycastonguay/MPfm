@@ -155,8 +155,9 @@ namespace MPfm.MVP
             try
             {
     			// Replace playlist
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Clearing playlist and adding items...");
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Clearing playlist...");
                 playerService.Player.Playlist.Clear();
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Adding items...");
                 playerService.Player.Playlist.AddItems(audioFiles.ToList());
     			
     			// Start playback
@@ -178,8 +179,9 @@ namespace MPfm.MVP
             try
             {
     			// Replace playlist
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Clearing playlist and adding items...");
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Clearing playlist...");
                 playerService.Player.Playlist.Clear();
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Adding items...");
                 playerService.Player.Playlist.AddItems(filePaths.ToList());
     			
     			// Start playback
@@ -202,9 +204,22 @@ namespace MPfm.MVP
             try
             {
     			// Replace playlist
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Clearing playlist and adding items...");
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Clearing playlist...");
                 playerService.Player.Playlist.Clear();
-                playerService.Player.Playlist.AddItems(audioFiles.ToList());
+                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items...");
+                if(audioFiles == null)
+                {
+                    Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items: audioFiles == null");
+                    List<AudioFile> listAudioFiles = audioFiles.ToList();
+                    playerService.Player.Playlist.AddItems(listAudioFiles); // simulate bug
+                }
+                else
+                {
+                    Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items...");
+                    List<AudioFile> listAudioFiles = audioFiles.ToList();
+                    Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items (count = " + listAudioFiles.Count + "...");
+                    playerService.Player.Playlist.AddItems(listAudioFiles);
+                }
                 Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Skipping to item " + startAudioFilePath + " in playlist...");
                 playerService.Player.Playlist.GoTo(startAudioFilePath);
     			

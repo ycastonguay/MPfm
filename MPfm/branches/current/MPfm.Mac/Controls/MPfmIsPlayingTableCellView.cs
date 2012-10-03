@@ -83,67 +83,67 @@ namespace MPfm.Mac
         {
             this.IsPlaying = isPlaying;
             SetNeedsDisplayInRect(Bounds);
-
-            if (!isPlaying)
-            {
-                if(timer != null && timer.IsValid)
-                    timer.Invalidate();
-            }
-            else
-            {
-                if(Layer.AnchorPoint.X == 0 && Layer.AnchorPoint.Y == 0)
-                {
-                    CATransaction.Begin();
-                    CATransaction.SetValueForKey(new NSNumber(0.00005f), CATransaction.AnimationDurationKey); 
-                    Layer.AnchorPoint = new PointF(0.5f, 0.5f);
-                    Layer.Position = new PointF(Layer.Position.X + (Layer.Bounds.Size.Width * (Layer.AnchorPoint.X - 0f)), 
-                                                Layer.Position.Y + (Layer.Bounds.Size.Height * (Layer.AnchorPoint.Y - 0f)));
-    
-                    CATransaction.Commit();                
-                }
-
-                if(Layer != null)
-                {
-                    animationFrame = 2;
-                    timer = NSTimer.CreateRepeatingScheduledTimer(0.75f, delegate {
-
-                        float radians = 0;
-
-                        if(animationFrame < 3)
-                            animationFrame++;
-                        else
-                            animationFrame = 0;
-
-                        radians = (float)Math.PI * (animationFrame * 90.0f) / 180.0f;
-                        Console.WriteLine("====> AnimationFrame: " + animationFrame.ToString() + " -- Radians: " + radians.ToString());
-                        CATransaction.Begin();
-                        CATransaction.SetValueForKey(new NSNumber(0.75f), CATransaction.AnimationDurationKey); 
-                        CATransaction.AnimationTimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.Linear);
-
-                        CATransform3D transform = Layer.Transform;
-                        CATransform3D transform1 = Layer.Transform.Rotate(radians, 0, 0, 1.0f);
-                        CATransform3D transform2 = Layer.Transform.Rotate(radians, 0, 0, 1.0f);
-                        transform = transform.Concat(transform1);
-                        //transform = transform.Concat(transform2);
-                        this.Layer.Transform = transform;
-
-                        CATransaction.Commit();
-
-                        //a += 4;
-    //                    float radians = (float)Math.PI * a / 180.0f;
-    //                    Console.WriteLine("Rotating to " + radians.ToString("0.00"));
-    //
-    //                    CATransaction.Begin();
-    //                    CATransaction.SetValueForKey(new NSNumber(1), CATransaction.AnimationDurationKey); 
-    //
-    //                    CATransform3D transformRotation = this.Layer.Transform.Rotate(radians, 0.0f, 0.0f, 1.0f);
-    //                    this.Layer.Transform = transformRotation;
-    //
-    //                    CATransaction.Commit();
-
-                    });
-                }
-            }
+//
+//            if (!isPlaying)
+//            {
+//                if(timer != null && timer.IsValid)
+//                    timer.Invalidate();
+//            }
+//            else
+//            {
+//                if(Layer.AnchorPoint.X == 0 && Layer.AnchorPoint.Y == 0)
+//                {
+//                    CATransaction.Begin();
+//                    CATransaction.SetValueForKey(new NSNumber(0.00005f), CATransaction.AnimationDurationKey); 
+//                    Layer.AnchorPoint = new PointF(0.5f, 0.5f);
+//                    Layer.Position = new PointF(Layer.Position.X + (Layer.Bounds.Size.Width * (Layer.AnchorPoint.X - 0f)), 
+//                                                Layer.Position.Y + (Layer.Bounds.Size.Height * (Layer.AnchorPoint.Y - 0f)));
+//    
+//                    CATransaction.Commit();                
+//                }
+//
+//                if(Layer != null)
+//                {
+//                    animationFrame = 2;
+//                    timer = NSTimer.CreateRepeatingScheduledTimer(0.75f, delegate {
+//
+//                        float radians = 0;
+//
+//                        if(animationFrame < 3)
+//                            animationFrame++;
+//                        else
+//                            animationFrame = 0;
+//
+//                        radians = (float)Math.PI * (animationFrame * 90.0f) / 180.0f;
+//                        Console.WriteLine("====> AnimationFrame: " + animationFrame.ToString() + " -- Radians: " + radians.ToString());
+//                        CATransaction.Begin();
+//                        CATransaction.SetValueForKey(new NSNumber(0.75f), CATransaction.AnimationDurationKey); 
+//                        CATransaction.AnimationTimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.Linear);
+//
+//                        CATransform3D transform = Layer.Transform;
+//                        CATransform3D transform1 = Layer.Transform.Rotate(radians, 0, 0, 1.0f);
+//                        CATransform3D transform2 = Layer.Transform.Rotate(radians, 0, 0, 1.0f);
+//                        transform = transform.Concat(transform1);
+//                        //transform = transform.Concat(transform2);
+//                        this.Layer.Transform = transform;
+//
+//                        CATransaction.Commit();
+//
+//                        //a += 4;
+//    //                    float radians = (float)Math.PI * a / 180.0f;
+//    //                    Console.WriteLine("Rotating to " + radians.ToString("0.00"));
+//    //
+//    //                    CATransaction.Begin();
+//    //                    CATransaction.SetValueForKey(new NSNumber(1), CATransaction.AnimationDurationKey); 
+//    //
+//    //                    CATransform3D transformRotation = this.Layer.Transform.Rotate(radians, 0.0f, 0.0f, 1.0f);
+//    //                    this.Layer.Transform = transformRotation;
+//    //
+//    //                    CATransaction.Commit();
+//
+//                    });
+//                }
+//            }
         }
 
         [Export("mouseDown:")]
