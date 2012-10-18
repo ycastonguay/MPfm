@@ -149,6 +149,9 @@ namespace MPfm.GTK
 		{				
 			// Get default font name
 			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;			
+			string titleFontName = "Sans Bold 10";
+			string subtitleFontName = "Sans Bold 9";
+			
 			this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
 			this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
@@ -156,22 +159,22 @@ namespace MPfm.GTK
 	
 			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
 			
-			this.lblLibraryBrowser.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));								
-			this.lblCurrentSong.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblMarkers.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblLoops.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblSongBrowser.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-						
-			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblLibraryBrowser.ModifyFont(FontDescription.FromString(titleFontName));								
+			this.lblSongBrowser.ModifyFont(FontDescription.FromString(titleFontName));
+			this.lblCurrentSong.ModifyFont(FontDescription.FromString(titleFontName));			
+			this.lblLoops.ModifyFont(FontDescription.FromString(titleFontName));
+			this.lblMarkers.ModifyFont(FontDescription.FromString(titleFontName));
 			
+			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));			
 			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblCurrentLength.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-						
-			this.lblSongPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblTimeShifting.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblInformation.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblVolume.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			
+			this.lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
+			this.lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			this.lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			this.lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
+			this.lblVolume.ModifyFont(FontDescription.FromString(subtitleFontName));
 			
 			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
