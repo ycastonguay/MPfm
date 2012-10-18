@@ -156,15 +156,15 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-remove</property>
       </action>
-      <action id="actionEditLoop">
+      <action id="addAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-add</property>
+      </action>
+      <action id="editAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-edit</property>
-      </action>
-      <action id="actionStopLoop">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-media-stop</property>
       </action>
       <action id="actionEditMarker">
         <property name="Type">Action</property>
@@ -671,10 +671,36 @@
                                     <property name="MemberName" />
                                     <property name="Spacing">6</property>
                                     <child>
-                                      <widget class="Gtk.Label" id="lblTimeShifting">
+                                      <widget class="Gtk.HBox" id="hbox11">
                                         <property name="MemberName" />
-                                        <property name="Xalign">0</property>
-                                        <property name="LabelProp" translatable="yes">Time Shifting</property>
+                                        <property name="Spacing">6</property>
+                                        <child>
+                                          <widget class="Gtk.Label" id="lblTimeShifting">
+                                            <property name="MemberName" />
+                                            <property name="Xalign">0</property>
+                                            <property name="LabelProp" translatable="yes">Time Shifting</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="Expand">False</property>
+                                            <property name="Fill">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.ComboBox" id="combobox1">
+                                            <property name="MemberName" />
+                                            <property name="IsTextCombo">True</property>
+                                            <property name="Items" translatable="yes">Tempo
+Percent</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">1</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="Expand">False</property>
+                                            <property name="Fill">False</property>
+                                          </packing>
+                                        </child>
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -854,35 +880,44 @@
                         <child>
                           <widget class="Gtk.VBox" id="vboxLoops">
                             <property name="MemberName" />
-                            <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Label" id="lblLoops">
+                              <widget class="Gtk.HBox" id="hbox8">
                                 <property name="MemberName" />
-                                <property name="Xalign">0</property>
-                                <property name="LabelProp" translatable="yes">Loops</property>
+                                <property name="Spacing">6</property>
+                                <child>
+                                  <widget class="Gtk.Label" id="lblLoops">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="LabelProp" translatable="yes">Loops</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">0</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Toolbar" id="toolbarLoops">
+                                    <property name="MemberName" />
+                                    <property name="ShowArrow">False</property>
+                                    <property name="ButtonStyle">Icons</property>
+                                    <property name="IconSize">Menu</property>
+                                    <node name="toolbarLoops" type="Toolbar">
+                                      <node type="Toolitem" action="actionPlayLoop" />
+                                      <node type="Toolitem" action="editAction" />
+                                      <node type="Toolitem" action="addAction" />
+                                      <node type="Toolitem" action="actionRemoveLoop" />
+                                    </node>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">1</property>
+                                    <property name="AutoSize">True</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
-                                <property name="AutoSize">True</property>
-                                <property name="Expand">False</property>
-                                <property name="Fill">False</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="Gtk.Toolbar" id="toolbarLoops">
-                                <property name="MemberName" />
-                                <property name="ShowArrow">False</property>
-                                <property name="ButtonStyle">Icons</property>
-                                <property name="IconSize">Menu</property>
-                                <node name="toolbarLoops" type="Toolbar">
-                                  <node type="Toolitem" action="actionPlayLoop" />
-                                  <node type="Toolitem" action="actionStopLoop" />
-                                  <node type="Toolitem" action="actionEditLoop" />
-                                  <node type="Toolitem" action="actionRemoveLoop" />
-                                </node>
-                              </widget>
-                              <packing>
-                                <property name="Position">1</property>
                                 <property name="AutoSize">True</property>
                                 <property name="Expand">False</property>
                                 <property name="Fill">False</property>
@@ -901,7 +936,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">2</property>
+                                <property name="Position">1</property>
                                 <property name="AutoSize">True</property>
                               </packing>
                             </child>
@@ -913,35 +948,44 @@
                         <child>
                           <widget class="Gtk.VBox" id="vboxLoops1">
                             <property name="MemberName" />
-                            <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Label" id="lblMarkers">
+                              <widget class="Gtk.HBox" id="hbox9">
                                 <property name="MemberName" />
-                                <property name="Xalign">0</property>
-                                <property name="LabelProp" translatable="yes">Markers</property>
+                                <property name="Spacing">6</property>
+                                <child>
+                                  <widget class="Gtk.Label" id="lblMarkers">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="LabelProp" translatable="yes">Markers</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">0</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Toolbar" id="toolbarMarkers">
+                                    <property name="MemberName" />
+                                    <property name="ShowArrow">False</property>
+                                    <property name="ButtonStyle">Icons</property>
+                                    <property name="IconSize">Menu</property>
+                                    <node name="toolbarMarkers" type="Toolbar">
+                                      <node type="Toolitem" action="actionGoToMarker" />
+                                      <node type="Toolitem" action="actionAddMarker" />
+                                      <node type="Toolitem" action="actionRemoveMarker" />
+                                      <node type="Toolitem" action="actionEditMarker" />
+                                    </node>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">1</property>
+                                    <property name="AutoSize">True</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
-                                <property name="AutoSize">True</property>
-                                <property name="Expand">False</property>
-                                <property name="Fill">False</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="Gtk.Toolbar" id="toolbarMarkers">
-                                <property name="MemberName" />
-                                <property name="ShowArrow">False</property>
-                                <property name="ButtonStyle">Icons</property>
-                                <property name="IconSize">Menu</property>
-                                <node name="toolbarMarkers" type="Toolbar">
-                                  <node type="Toolitem" action="actionGoToMarker" />
-                                  <node type="Toolitem" action="actionAddMarker" />
-                                  <node type="Toolitem" action="actionRemoveMarker" />
-                                  <node type="Toolitem" action="actionEditMarker" />
-                                </node>
-                              </widget>
-                              <packing>
-                                <property name="Position">1</property>
                                 <property name="AutoSize">True</property>
                                 <property name="Expand">False</property>
                                 <property name="Fill">False</property>
@@ -960,7 +1004,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">2</property>
+                                <property name="Position">1</property>
                                 <property name="AutoSize">True</property>
                               </packing>
                             </child>
@@ -974,32 +1018,15 @@
                     <child>
                       <widget class="Gtk.VBox" id="vboxSongBrowser">
                         <property name="MemberName" />
-                        <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.Label" id="lblSongBrowser">
-                            <property name="MemberName" />
-                            <property name="Xalign">0</property>
-                            <property name="LabelProp" translatable="yes">Song Browser</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">0</property>
-                            <property name="AutoSize">True</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="Gtk.HBox" id="hbox1">
+                          <widget class="Gtk.HBox" id="hbox10">
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Button" id="btnPlaySelectedSongs">
+                              <widget class="Gtk.Label" id="lblSongBrowser">
                                 <property name="MemberName" />
-                                <property name="CanFocus">True</property>
-                                <property name="Type">TextAndIcon</property>
-                                <property name="Icon">stock:gtk-media-play Menu</property>
-                                <property name="Label" translatable="yes">Play selected songs</property>
-                                <property name="UseUnderline">True</property>
+                                <property name="Xalign">0</property>
+                                <property name="LabelProp" translatable="yes">Song Browser</property>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -1009,33 +1036,20 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="btnEditSongMetadata">
+                              <widget class="Gtk.Toolbar" id="toolbarLoops1">
                                 <property name="MemberName" />
-                                <property name="CanFocus">True</property>
-                                <property name="Type">TextAndIcon</property>
-                                <property name="Icon">stock:gtk-edit Menu</property>
-                                <property name="Label" translatable="yes">Edit song metadata</property>
-                                <property name="UseUnderline">True</property>
+                                <property name="ShowArrow">False</property>
+                                <property name="ButtonStyle">Icons</property>
+                                <property name="IconSize">Menu</property>
+                                <node name="toolbarLoops" type="Toolbar">
+                                  <node type="Toolitem" action="actionPlayLoop" />
+                                  <node type="Toolitem" action="editAction" />
+                                  <node type="Toolitem" action="addAction" />
+                                </node>
                               </widget>
                               <packing>
                                 <property name="Position">1</property>
-                                <property name="AutoSize">True</property>
-                                <property name="Expand">False</property>
-                                <property name="Fill">False</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="Gtk.Button" id="btnAddToPlaylist">
-                                <property name="MemberName" />
-                                <property name="CanFocus">True</property>
-                                <property name="Type">TextAndIcon</property>
-                                <property name="Icon">stock:gtk-add Menu</property>
-                                <property name="Label" translatable="yes">Add to playlist</property>
-                                <property name="UseUnderline">True</property>
-                              </widget>
-                              <packing>
-                                <property name="Position">2</property>
-                                <property name="AutoSize">True</property>
+                                <property name="AutoSize">False</property>
                                 <property name="Expand">False</property>
                                 <property name="Fill">False</property>
                               </packing>
@@ -1043,14 +1057,12 @@
                             <child>
                               <widget class="Gtk.Label" id="lblSearchFor">
                                 <property name="MemberName" />
-                                <property name="Xalign">0</property>
+                                <property name="Xalign">1</property>
                                 <property name="LabelProp" translatable="yes">Search for:</property>
                               </widget>
                               <packing>
-                                <property name="Position">3</property>
-                                <property name="AutoSize">True</property>
-                                <property name="Expand">False</property>
-                                <property name="Fill">False</property>
+                                <property name="Position">2</property>
+                                <property name="AutoSize">False</property>
                               </packing>
                             </child>
                             <child>
@@ -1061,13 +1073,13 @@
                                 <property name="InvisibleChar">•</property>
                               </widget>
                               <packing>
-                                <property name="Position">4</property>
+                                <property name="Position">3</property>
                                 <property name="AutoSize">True</property>
                               </packing>
                             </child>
                           </widget>
                           <packing>
-                            <property name="Position">1</property>
+                            <property name="Position">0</property>
                             <property name="AutoSize">True</property>
                             <property name="Expand">False</property>
                             <property name="Fill">False</property>
@@ -1087,7 +1099,7 @@
                             </child>
                           </widget>
                           <packing>
-                            <property name="Position">2</property>
+                            <property name="Position">1</property>
                             <property name="AutoSize">True</property>
                           </packing>
                         </child>
