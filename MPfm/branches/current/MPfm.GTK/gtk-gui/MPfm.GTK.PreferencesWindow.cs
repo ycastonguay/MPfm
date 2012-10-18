@@ -175,6 +175,7 @@ namespace MPfm.GTK
 			w10.Padding = ((uint)(3));
 			// Container child vboxLibraryFolders2.Gtk.Box+BoxChild
 			this.table2 = new global::Gtk.Table (((uint)(2)), ((uint)(5)), false);
+			this.table2.Name = "table2";
 			this.table2.RowSpacing = ((uint)(6));
 			this.table2.ColumnSpacing = ((uint)(6));
 			// Container child table2.Gtk.Table+TableChild

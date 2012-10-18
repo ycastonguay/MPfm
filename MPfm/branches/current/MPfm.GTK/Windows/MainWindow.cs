@@ -127,7 +127,7 @@ namespace MPfm.GTK
 		protected void ExitApplication()
 		{
 			// Dispose controller
-			playerPresenter.Dispose();			
+			//playerPresenter.Dispose();			
 	
 			// Exit application
 			Application.Quit();
@@ -168,8 +168,6 @@ namespace MPfm.GTK
 			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 			this.lblCurrentLength.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
 						
-			this.lblPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblLength.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblSongPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblTimeShifting.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblInformation.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
@@ -538,18 +536,18 @@ namespace MPfm.GTK
 	        string repeatSong = "Song";
 	
 	        // Display the repeat type
-	        if (playerPresenter.Player.RepeatType == RepeatType.Playlist)
-	        {				
-				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
-	        }
-	        else if (playerPresenter.Player.RepeatType == RepeatType.Song)
-	        {				
-				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
-	        }
-	        else
-	        {				
-				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatOff + ")";
-	        }
+//	        if (playerPresenter.Player.RepeatType == RepeatType.Playlist)
+//	        {				
+//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
+//	        }
+//	        else if (playerPresenter.Player.RepeatType == RepeatType.Song)
+//	        {				
+//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
+//	        }
+//	        else
+//	        {				
+//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatOff + ")";
+//	        }
 	    }
 		
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
@@ -603,8 +601,8 @@ namespace MPfm.GTK
 			if(dialog.Run() == (int)ResponseType.Accept)
 			{
 				// Replace playlist
-				playerPresenter.Player.Playlist.Clear();
-				playerPresenter.Player.Playlist.AddItems(dialog.Filenames.ToList());
+				//playerPresenter.Player.Playlist.Clear();
+				//playerPresenter.Player.Playlist.AddItems(dialog.Filenames.ToList());
 				
 				// Create list of audio files
 				audioFiles = new List<AudioFile>();
@@ -706,19 +704,19 @@ namespace MPfm.GTK
 
 		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
 		{
-	        // Cycle through the repeat types
-	        if (playerPresenter.Player.RepeatType == RepeatType.Off)
-	        {
-	            playerPresenter.Player.RepeatType = RepeatType.Playlist;
-	        }
-	        else if (playerPresenter.Player.RepeatType == RepeatType.Playlist)
-	        {
-	            playerPresenter.Player.RepeatType = RepeatType.Song;
-	        }
-	        else
-	        {
-	            playerPresenter.Player.RepeatType = RepeatType.Off;
-	        }
+//	        // Cycle through the repeat types
+//	        if (playerPresenter.Player.RepeatType == RepeatType.Off)
+//	        {
+//	            playerPresenter.Player.RepeatType = RepeatType.Playlist;
+//	        }
+//	        else if (playerPresenter.Player.RepeatType == RepeatType.Playlist)
+//	        {
+//	            playerPresenter.Player.RepeatType = RepeatType.Song;
+//	        }
+//	        else
+//	        {
+//	            playerPresenter.Player.RepeatType = RepeatType.Off;
+//	        }
 	
 	        // Update repeat button
 	        RefreshRepeatButton();

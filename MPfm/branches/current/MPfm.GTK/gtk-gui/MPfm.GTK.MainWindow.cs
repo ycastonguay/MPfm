@@ -56,6 +56,8 @@ namespace MPfm.GTK
 		private global::Gtk.Label lblAlbumTitle;
 		private global::Gtk.Label lblSongTitle;
 		private global::Gtk.Label lblSongFilePath;
+		private global::Gtk.VBox vbox1;
+		private global::Gtk.Label lblTimeShifting1;
 		private global::Gtk.VBox vbox10;
 		private global::Gtk.Label lblInformation;
 		private global::Gtk.Label lblCurrentFileType;
@@ -64,18 +66,16 @@ namespace MPfm.GTK
 		private global::Gtk.Label lblCurrentBitrate;
 		private global::Gtk.HBox hbox6;
 		private global::Gtk.VBox vbox5;
-		private global::Gtk.Label lblPosition;
-		private global::Gtk.Label lblCurrentPosition;
-		private global::Gtk.VBox vbox6;
-		private global::Gtk.Label lblLength;
-		private global::Gtk.Label lblCurrentLength;
-		private global::Gtk.VBox vbox7;
 		private global::Gtk.Label lblSongPosition;
+		private global::Gtk.HBox hbox7;
+		private global::Gtk.Label lblCurrentPosition;
 		private global::Gtk.HScale hscaleSongPosition;
+		private global::Gtk.Label lblCurrentLength;
 		private global::Gtk.VBox vbox8;
 		private global::Gtk.Label lblTimeShifting;
-		private global::Gtk.HBox hbox2;
 		private global::Gtk.HScale hscaleTimeShifting;
+		private global::Gtk.HBox hbox3;
+		private global::Gtk.Label lblCurrentTimeShifting1;
 		private global::Gtk.Label lblCurrentTimeShifting;
 		private global::Gtk.VBox vbox9;
 		private global::Gtk.Label lblVolume;
@@ -369,6 +369,26 @@ namespace MPfm.GTK
 			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox4]));
 			w16.Position = 0;
 			// Container child hbox5.Gtk.Box+BoxChild
+			this.vbox1 = new global::Gtk.VBox ();
+			this.vbox1.Name = "vbox1";
+			this.vbox1.Spacing = 6;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.lblTimeShifting1 = new global::Gtk.Label ();
+			this.lblTimeShifting1.Name = "lblTimeShifting1";
+			this.lblTimeShifting1.Xalign = 0F;
+			this.lblTimeShifting1.LabelProp = global::Mono.Unix.Catalog.GetString ("Pitch Shifting");
+			this.vbox1.Add (this.lblTimeShifting1);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.lblTimeShifting1]));
+			w17.Position = 0;
+			w17.Expand = false;
+			w17.Fill = false;
+			this.hbox5.Add (this.vbox1);
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox1]));
+			w18.PackType = ((global::Gtk.PackType)(1));
+			w18.Position = 1;
+			w18.Expand = false;
+			w18.Fill = false;
+			// Container child hbox5.Gtk.Box+BoxChild
 			this.vbox10 = new global::Gtk.VBox ();
 			this.vbox10.Name = "vbox10";
 			this.vbox10.Spacing = 6;
@@ -378,59 +398,59 @@ namespace MPfm.GTK
 			this.lblInformation.Xalign = 0F;
 			this.lblInformation.LabelProp = global::Mono.Unix.Catalog.GetString ("Information");
 			this.vbox10.Add (this.lblInformation);
-			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblInformation]));
-			w17.Position = 0;
-			w17.Expand = false;
-			w17.Fill = false;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblInformation]));
+			w19.Position = 0;
+			w19.Expand = false;
+			w19.Fill = false;
 			// Container child vbox10.Gtk.Box+BoxChild
 			this.lblCurrentFileType = new global::Gtk.Label ();
 			this.lblCurrentFileType.Name = "lblCurrentFileType";
 			this.lblCurrentFileType.Xalign = 0F;
 			this.lblCurrentFileType.LabelProp = global::Mono.Unix.Catalog.GetString ("FLAC");
 			this.vbox10.Add (this.lblCurrentFileType);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentFileType]));
-			w18.Position = 1;
-			w18.Expand = false;
-			w18.Fill = false;
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentFileType]));
+			w20.Position = 1;
+			w20.Expand = false;
+			w20.Fill = false;
 			// Container child vbox10.Gtk.Box+BoxChild
 			this.lblCurrentSampleRate = new global::Gtk.Label ();
 			this.lblCurrentSampleRate.Name = "lblCurrentSampleRate";
 			this.lblCurrentSampleRate.Xalign = 0F;
 			this.lblCurrentSampleRate.LabelProp = global::Mono.Unix.Catalog.GetString ("44100 Hz");
 			this.vbox10.Add (this.lblCurrentSampleRate);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentSampleRate]));
-			w19.Position = 2;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentSampleRate]));
+			w21.Position = 2;
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child vbox10.Gtk.Box+BoxChild
 			this.lblCurrentBitsPerSample = new global::Gtk.Label ();
 			this.lblCurrentBitsPerSample.Name = "lblCurrentBitsPerSample";
 			this.lblCurrentBitsPerSample.Xalign = 0F;
 			this.lblCurrentBitsPerSample.LabelProp = global::Mono.Unix.Catalog.GetString ("16 bits");
 			this.vbox10.Add (this.lblCurrentBitsPerSample);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentBitsPerSample]));
-			w20.Position = 3;
-			w20.Expand = false;
-			w20.Fill = false;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentBitsPerSample]));
+			w22.Position = 3;
+			w22.Expand = false;
+			w22.Fill = false;
 			// Container child vbox10.Gtk.Box+BoxChild
 			this.lblCurrentBitrate = new global::Gtk.Label ();
 			this.lblCurrentBitrate.Name = "lblCurrentBitrate";
 			this.lblCurrentBitrate.Xalign = 0F;
 			this.lblCurrentBitrate.LabelProp = global::Mono.Unix.Catalog.GetString ("320 kbps");
 			this.vbox10.Add (this.lblCurrentBitrate);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentBitrate]));
-			w21.Position = 4;
-			w21.Expand = false;
-			w21.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.lblCurrentBitrate]));
+			w23.Position = 4;
+			w23.Expand = false;
+			w23.Fill = false;
 			this.hbox5.Add (this.vbox10);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox10]));
-			w22.PackType = ((global::Gtk.PackType)(1));
-			w22.Position = 1;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.vbox10]));
+			w24.PackType = ((global::Gtk.PackType)(1));
+			w24.Position = 2;
+			w24.Expand = false;
+			w24.Fill = false;
 			this.vbox3.Add (this.hbox5);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.hbox5]));
-			w23.Position = 0;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.hbox5]));
+			w25.Position = 0;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.hbox6 = new global::Gtk.HBox ();
 			this.hbox6.Name = "hbox6";
@@ -440,74 +460,30 @@ namespace MPfm.GTK
 			this.vbox5.Name = "vbox5";
 			this.vbox5.Spacing = 6;
 			// Container child vbox5.Gtk.Box+BoxChild
-			this.lblPosition = new global::Gtk.Label ();
-			this.lblPosition.Name = "lblPosition";
-			this.lblPosition.Xalign = 0F;
-			this.lblPosition.LabelProp = global::Mono.Unix.Catalog.GetString ("Position");
-			this.vbox5.Add (this.lblPosition);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.lblPosition]));
-			w24.Position = 0;
-			w24.Expand = false;
-			w24.Fill = false;
-			// Container child vbox5.Gtk.Box+BoxChild
-			this.lblCurrentPosition = new global::Gtk.Label ();
-			this.lblCurrentPosition.Name = "lblCurrentPosition";
-			this.lblCurrentPosition.Xalign = 0F;
-			this.lblCurrentPosition.LabelProp = global::Mono.Unix.Catalog.GetString ("[Position]");
-			this.vbox5.Add (this.lblCurrentPosition);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.lblCurrentPosition]));
-			w25.Position = 1;
-			w25.Expand = false;
-			w25.Fill = false;
-			this.hbox6.Add (this.vbox5);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox5]));
-			w26.Position = 0;
-			w26.Expand = false;
-			w26.Fill = false;
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.vbox6 = new global::Gtk.VBox ();
-			this.vbox6.Name = "vbox6";
-			this.vbox6.Spacing = 6;
-			// Container child vbox6.Gtk.Box+BoxChild
-			this.lblLength = new global::Gtk.Label ();
-			this.lblLength.Name = "lblLength";
-			this.lblLength.Xalign = 0F;
-			this.lblLength.LabelProp = global::Mono.Unix.Catalog.GetString ("Length");
-			this.vbox6.Add (this.lblLength);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.lblLength]));
-			w27.Position = 0;
-			w27.Expand = false;
-			w27.Fill = false;
-			// Container child vbox6.Gtk.Box+BoxChild
-			this.lblCurrentLength = new global::Gtk.Label ();
-			this.lblCurrentLength.Name = "lblCurrentLength";
-			this.lblCurrentLength.Xalign = 0F;
-			this.lblCurrentLength.LabelProp = global::Mono.Unix.Catalog.GetString ("[Length]");
-			this.vbox6.Add (this.lblCurrentLength);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.lblCurrentLength]));
-			w28.Position = 1;
-			w28.Expand = false;
-			w28.Fill = false;
-			this.hbox6.Add (this.vbox6);
-			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox6]));
-			w29.Position = 1;
-			w29.Expand = false;
-			w29.Fill = false;
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.vbox7 = new global::Gtk.VBox ();
-			this.vbox7.Name = "vbox7";
-			this.vbox7.Spacing = 6;
-			// Container child vbox7.Gtk.Box+BoxChild
 			this.lblSongPosition = new global::Gtk.Label ();
 			this.lblSongPosition.Name = "lblSongPosition";
 			this.lblSongPosition.Xalign = 0F;
 			this.lblSongPosition.LabelProp = global::Mono.Unix.Catalog.GetString ("Song Position");
-			this.vbox7.Add (this.lblSongPosition);
-			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.lblSongPosition]));
-			w30.Position = 0;
-			w30.Expand = false;
-			w30.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
+			this.vbox5.Add (this.lblSongPosition);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.lblSongPosition]));
+			w26.Position = 0;
+			w26.Expand = false;
+			w26.Fill = false;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.hbox7 = new global::Gtk.HBox ();
+			this.hbox7.Name = "hbox7";
+			this.hbox7.Spacing = 6;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.lblCurrentPosition = new global::Gtk.Label ();
+			this.lblCurrentPosition.Name = "lblCurrentPosition";
+			this.lblCurrentPosition.Xalign = 0F;
+			this.lblCurrentPosition.LabelProp = global::Mono.Unix.Catalog.GetString ("[Position]");
+			this.hbox7.Add (this.lblCurrentPosition);
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.lblCurrentPosition]));
+			w27.Position = 0;
+			w27.Expand = false;
+			w27.Fill = false;
+			// Container child hbox7.Gtk.Box+BoxChild
 			this.hscaleSongPosition = new global::Gtk.HScale (null);
 			this.hscaleSongPosition.CanFocus = true;
 			this.hscaleSongPosition.Name = "hscaleSongPosition";
@@ -518,14 +494,27 @@ namespace MPfm.GTK
 			this.hscaleSongPosition.DrawValue = false;
 			this.hscaleSongPosition.Digits = 0;
 			this.hscaleSongPosition.ValuePos = ((global::Gtk.PositionType)(2));
-			this.vbox7.Add (this.hscaleSongPosition);
-			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hscaleSongPosition]));
-			w31.Position = 1;
-			w31.Expand = false;
-			w31.Fill = false;
-			this.hbox6.Add (this.vbox7);
-			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox7]));
-			w32.Position = 2;
+			this.hbox7.Add (this.hscaleSongPosition);
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.hscaleSongPosition]));
+			w28.Position = 1;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.lblCurrentLength = new global::Gtk.Label ();
+			this.lblCurrentLength.Name = "lblCurrentLength";
+			this.lblCurrentLength.Xalign = 0F;
+			this.lblCurrentLength.LabelProp = global::Mono.Unix.Catalog.GetString ("[Length]");
+			this.hbox7.Add (this.lblCurrentLength);
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.lblCurrentLength]));
+			w29.Position = 2;
+			w29.Expand = false;
+			w29.Fill = false;
+			this.vbox5.Add (this.hbox7);
+			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.hbox7]));
+			w30.Position = 1;
+			w30.Expand = false;
+			w30.Fill = false;
+			this.hbox6.Add (this.vbox5);
+			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox5]));
+			w31.Position = 0;
 			// Container child hbox6.Gtk.Box+BoxChild
 			this.vbox8 = new global::Gtk.VBox ();
 			this.vbox8.Name = "vbox8";
@@ -536,15 +525,11 @@ namespace MPfm.GTK
 			this.lblTimeShifting.Xalign = 0F;
 			this.lblTimeShifting.LabelProp = global::Mono.Unix.Catalog.GetString ("Time Shifting");
 			this.vbox8.Add (this.lblTimeShifting);
-			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.lblTimeShifting]));
-			w33.Position = 0;
-			w33.Expand = false;
-			w33.Fill = false;
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.lblTimeShifting]));
+			w32.Position = 0;
+			w32.Expand = false;
+			w32.Fill = false;
 			// Container child vbox8.Gtk.Box+BoxChild
-			this.hbox2 = new global::Gtk.HBox ();
-			this.hbox2.Name = "hbox2";
-			this.hbox2.Spacing = 6;
-			// Container child hbox2.Gtk.Box+BoxChild
 			this.hscaleTimeShifting = new global::Gtk.HScale (null);
 			this.hscaleTimeShifting.CanFocus = true;
 			this.hscaleTimeShifting.Name = "hscaleTimeShifting";
@@ -556,27 +541,43 @@ namespace MPfm.GTK
 			this.hscaleTimeShifting.DrawValue = false;
 			this.hscaleTimeShifting.Digits = 0;
 			this.hscaleTimeShifting.ValuePos = ((global::Gtk.PositionType)(0));
-			this.hbox2.Add (this.hscaleTimeShifting);
-			global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.hscaleTimeShifting]));
+			this.vbox8.Add (this.hscaleTimeShifting);
+			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hscaleTimeShifting]));
+			w33.Position = 1;
+			w33.Expand = false;
+			w33.Fill = false;
+			// Container child vbox8.Gtk.Box+BoxChild
+			this.hbox3 = new global::Gtk.HBox ();
+			this.hbox3.Name = "hbox3";
+			this.hbox3.Spacing = 6;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.lblCurrentTimeShifting1 = new global::Gtk.Label ();
+			this.lblCurrentTimeShifting1.Name = "lblCurrentTimeShifting1";
+			this.lblCurrentTimeShifting1.Xalign = 0F;
+			this.lblCurrentTimeShifting1.LabelProp = global::Mono.Unix.Catalog.GetString ("Reset");
+			this.hbox3.Add (this.lblCurrentTimeShifting1);
+			global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.lblCurrentTimeShifting1]));
 			w34.Position = 0;
-			// Container child hbox2.Gtk.Box+BoxChild
+			w34.Expand = false;
+			w34.Fill = false;
+			// Container child hbox3.Gtk.Box+BoxChild
 			this.lblCurrentTimeShifting = new global::Gtk.Label ();
 			this.lblCurrentTimeShifting.Name = "lblCurrentTimeShifting";
 			this.lblCurrentTimeShifting.Xalign = 0F;
 			this.lblCurrentTimeShifting.LabelProp = global::Mono.Unix.Catalog.GetString ("100 %");
-			this.hbox2.Add (this.lblCurrentTimeShifting);
-			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.lblCurrentTimeShifting]));
-			w35.Position = 1;
+			this.hbox3.Add (this.lblCurrentTimeShifting);
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.lblCurrentTimeShifting]));
+			w35.Position = 2;
 			w35.Expand = false;
 			w35.Fill = false;
-			this.vbox8.Add (this.hbox2);
-			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hbox2]));
-			w36.Position = 1;
+			this.vbox8.Add (this.hbox3);
+			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hbox3]));
+			w36.Position = 2;
 			w36.Expand = false;
 			w36.Fill = false;
 			this.hbox6.Add (this.vbox8);
 			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox8]));
-			w37.Position = 3;
+			w37.Position = 1;
 			w37.Expand = false;
 			w37.Fill = false;
 			this.vbox3.Add (this.hbox6);
