@@ -150,7 +150,12 @@ namespace MPfm.GTK
 			// Get default font name
 			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;			
 			string titleFontName = "Sans Bold 10";
-			string subtitleFontName = "Sans Bold 9";
+			string subtitleFontName = "Sans Bold 8";
+			string buttonFontName = "Sans Bold 8";
+			string largePositionFontName = "Mono Bold 11";
+			
+			this.btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
+			this.btnTimeShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
 			
 			this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
 			this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
@@ -167,8 +172,9 @@ namespace MPfm.GTK
 			
 			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
 			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));			
-			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblCurrentLength.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+				
+			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(largePositionFontName));
+			this.lblCurrentLength.ModifyFont(FontDescription.FromString(largePositionFontName));
 			
 			this.lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
 			this.lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));

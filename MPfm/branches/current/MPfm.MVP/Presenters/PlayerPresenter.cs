@@ -64,6 +64,7 @@ namespace MPfm.MVP
                 Id = -1
             };
             playerService.Initialize(device, 44100, 5000, 100);
+            playerService.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
 		}
 
 		#endregion
