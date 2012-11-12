@@ -25,11 +25,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using AutoMapper;
+using TinyMessenger;
 using MPfm.Core;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
-using AutoMapper;
 
 namespace MPfm.MVP
 {
@@ -39,19 +40,23 @@ namespace MPfm.MVP
 	public class PlayerPresenter : IPlayerPresenter
 	{
 		// Private variables
-		IPlayerView view = null;
-		Timer timerRefreshSongPosition = null;
-        IPlayerService playerService = null;
+		IPlayerView view;
+		Timer timerRefreshSongPosition;
+        readonly IPlayerService playerService;
+        readonly IAudioFileCacheService audioFileCacheService;
+        readonly ITinyMessengerHub messageHub;
 
 		#region Constructor and Dispose
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.PlayerPresenter"/> class.
 		/// </summary>
-		public PlayerPresenter(IPlayerService playerService)
+		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService)
 		{	
             // Set properties
+            this.messageHub = messageHub;
             this.playerService = playerService;
+            this.audioFileCacheService = audioFileCacheService;
 
 			// Create update position timer
 			timerRefreshSongPosition = new Timer();			
@@ -65,7 +70,15 @@ namespace MPfm.MVP
             };
             playerService.Initialize(device, 44100, 5000, 100);
             playerService.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-		}
+
+            // Subscribe to events
+            messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
+                Play(audioFileCacheService.SelectAudioFiles(m.Query));
+            });
+            messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
+                Play(audioFileCacheService.SelectAudioFiles(m.Query), m.Item.FilePath);
+            });
+        }
 
 		#endregion
 		

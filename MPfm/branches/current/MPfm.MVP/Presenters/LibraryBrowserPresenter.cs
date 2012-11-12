@@ -43,8 +43,6 @@ namespace MPfm.MVP
         readonly ITinyMessengerHub messageHub;
 		readonly ILibraryService libraryService;
 		readonly IAudioFileCacheService audioFileCacheService;
-		readonly IPlayerPresenter playerPresenter;
-		//readonly ISongBrowserPresenter songBrowserPresenter;
 		
 		public AudioFileFormat Filter { get; private set; }
 		
@@ -54,15 +52,11 @@ namespace MPfm.MVP
 		/// Initializes a new instance of the <see cref="MPfm.MVP.LibraryBrowserPresenter"/> class.
 		/// </summary>
 		public LibraryBrowserPresenter(ITinyMessengerHub messageHub,
-                                        IPlayerPresenter playerPresenter, 
-		                                //ISongBrowserPresenter songBrowserPresenter, 
 		                                ILibraryService libraryService,
 		                                IAudioFileCacheService audioFileCacheService)
 		{						
 			// Set properties
             this.messageHub = messageHub;
-			this.playerPresenter = playerPresenter;
-			//this.songBrowserPresenter = songBrowserPresenter;
 			this.libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;			
 			
@@ -119,7 +113,6 @@ namespace MPfm.MVP
             messageHub.PublishAsync(new LibraryBrowserItemSelectedMessage(this){
                 Item = entity
             });
-			//songBrowserPresenter.ChangeQuery(entity.Query);	
 		}
 		
 		/// <summary>
@@ -196,8 +189,11 @@ namespace MPfm.MVP
 		public void TreeNodeDoubleClicked(LibraryBrowserEntity entity)
 		{
             // Call player presenter
-            Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Calling PlayerPresenter.Play with item " + entity.Title);
-			playerPresenter.Play(audioFileCacheService.SelectAudioFiles(entity.Query));
+            Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Publishing LibraryBrowserItemDoubleClickedMessageay with item " + entity.Title);
+			//playerPresenter.Play(audioFileCacheService.SelectAudioFiles(entity.Query));
+            messageHub.PublishAsync(new LibraryBrowserItemDoubleClickedMessage(this){
+                Query = entity.Query
+            });
 		}
 
 		#endregion

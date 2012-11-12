@@ -44,7 +44,6 @@ namespace MPfm.MVP
         readonly ITinyMessengerHub messageHub;
 		readonly IAudioFileCacheService audioFileCacheService;
 		readonly ILibraryService libraryService;
-        readonly IPlayerPresenter playerPresenter;
 		
 		public SongBrowserQueryEntity Query { get; private set; }
 		
@@ -53,17 +52,14 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.SongBrowserPresenter"/> class.
 		/// </summary>
-		public SongBrowserPresenter(ITinyMessengerHub messageHub,
-                                     IPlayerPresenter playerPresenter, 
+		public SongBrowserPresenter(ITinyMessengerHub messageHub,                                     
 		                             ILibraryService libraryService,
 		                             IAudioFileCacheService audioFileCacheService)
 		{
 			// Set properties
-			this.playerPresenter = playerPresenter;
 			this.libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;
             this.messageHub = messageHub;
-            //this.playerPresenter.Player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
 
             // Create default query
             Query = new SongBrowserQueryEntity();
@@ -128,8 +124,11 @@ namespace MPfm.MVP
 		/// <param name='audioFile'>Audio file</param>
 		public void TableRowDoubleClicked(AudioFile audioFile)
 		{			
-            Tracing.Log("SongBrowserPresenter.TableRowDoubleClicked -- Calling PlayerPresenter.Play with item " + audioFile.Title + "...");
-			playerPresenter.Play(audioFileCacheService.SelectAudioFiles(Query), audioFile.FilePath);
+            Tracing.Log("SongBrowserPresenter.TableRowDoubleClicked -- Publishing SongBrowserItemDoubleClickedMessage with item " + audioFile.Title + "...");
+            messageHub.PublishAsync(new SongBrowserItemDoubleClickedMessage(this){
+                Item = audioFile,
+                Query = Query
+            });
 		}
 		
 		#endregion
