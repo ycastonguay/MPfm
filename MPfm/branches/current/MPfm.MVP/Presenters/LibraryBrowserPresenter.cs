@@ -25,11 +25,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using AutoMapper;
+using TinyMessenger;
 using MPfm.Core;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
-using AutoMapper;
 
 namespace MPfm.MVP
 {
@@ -38,11 +39,12 @@ namespace MPfm.MVP
 	/// </summary>
 	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
 	{
-		private ILibraryBrowserView view = null;		
-		private readonly ILibraryService libraryService = null;
-		private readonly IAudioFileCacheService audioFileCacheService = null;
-		private readonly IPlayerPresenter playerPresenter = null;
-		private readonly ISongBrowserPresenter songBrowserPresenter = null;
+        ILibraryBrowserView view;
+        readonly ITinyMessengerHub messageHub;
+		readonly ILibraryService libraryService;
+		readonly IAudioFileCacheService audioFileCacheService;
+		readonly IPlayerPresenter playerPresenter;
+		//readonly ISongBrowserPresenter songBrowserPresenter;
 		
 		public AudioFileFormat Filter { get; private set; }
 		
@@ -51,24 +53,16 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.MVP.LibraryBrowserPresenter"/> class.
 		/// </summary>
-		public LibraryBrowserPresenter(IPlayerPresenter playerPresenter, 
-		                               ISongBrowserPresenter songBrowserPresenter, 
-		                               ILibraryService libraryService,
-		                               IAudioFileCacheService audioFileCacheService)
-		{
-			// Validate parameters
-			if(playerPresenter == null)			
-				throw new ArgumentNullException("The playerPresenter parameter is null!");
-			if(songBrowserPresenter == null)			
-				throw new ArgumentNullException("The songBrowserPresenter parameter is null!");
-			if(libraryService == null)			
-				throw new ArgumentNullException("The libraryService parameter is null!");
-			if(audioFileCacheService == null)			
-				throw new ArgumentNullException("The audioFileCacheService parameter is null!");			
-						
+		public LibraryBrowserPresenter(ITinyMessengerHub messageHub,
+                                        IPlayerPresenter playerPresenter, 
+		                                //ISongBrowserPresenter songBrowserPresenter, 
+		                                ILibraryService libraryService,
+		                                IAudioFileCacheService audioFileCacheService)
+		{						
 			// Set properties
+            this.messageHub = messageHub;
 			this.playerPresenter = playerPresenter;
-			this.songBrowserPresenter = songBrowserPresenter;
+			//this.songBrowserPresenter = songBrowserPresenter;
 			this.libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;			
 			
@@ -121,8 +115,11 @@ namespace MPfm.MVP
 		/// <param name='entity'>Library Browser entity</param>
 		public void TreeNodeSelected(LibraryBrowserEntity entity)
 		{
-            Tracing.Log("LibraryBrowserPresenter.TreeNodeSelected -- Calling SongBrowserPresenter.ChangeQuery with item " + entity.Title + "...");
-			songBrowserPresenter.ChangeQuery(entity.Query);			
+            Tracing.Log("LibraryBrowserPresenter.TreeNodeSelected -- Broadcasting LibraryBrowserItemSelected message (" + entity.Title + ")...");
+            messageHub.PublishAsync(new LibraryBrowserItemSelectedMessage(this){
+                Item = entity
+            });
+			//songBrowserPresenter.ChangeQuery(entity.Query);	
 		}
 		
 		/// <summary>

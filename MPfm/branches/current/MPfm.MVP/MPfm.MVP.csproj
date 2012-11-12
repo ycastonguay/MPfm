@@ -134,6 +134,11 @@
     <Compile Include="Views\IPlaylistView.cs" />
     <Compile Include="Presenters\PlaylistPresenter.cs" />
     <Compile Include="Helpers\EQPresetHelper.cs" />
+    <Compile Include="TinyIoC\TinyIoC.cs" />
+    <Compile Include="TinyIoC\TinyMessenger.cs" />
+    <Compile Include="Messages\PlayerStatusMessage.cs" />
+    <Compile Include="Messages\PlayerStatusType.cs" />
+    <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -165,6 +170,7 @@
     <Folder Include="Services\Interfaces\" />
     <Folder Include="Presenters\Interfaces\" />
     <Folder Include="Config\" />
+    <Folder Include="Messages\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

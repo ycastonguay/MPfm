@@ -24,6 +24,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using TinyMessenger;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Player;
@@ -35,19 +36,36 @@ namespace MPfm.MVP
     /// </summary>
     public class PlayerService : IPlayerService
     {
+        readonly ITinyMessengerHub messageHub;
+
+        public PlayerStatusType Status { get; private set; }
         public IPlayer Player { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MPfm.MVP.PlayerService"/> class.
         /// </summary>
-		public PlayerService()
+		public PlayerService(ITinyMessengerHub messageHub)
 		{
+            this.messageHub = messageHub;
 		}
+
+        private void UpdatePlayerStatus(PlayerStatusType status)
+        {
+            this.Status = status;
+            messageHub.PublishAsync(new PlayerStatusMessage(this){
+                Status = status
+            });
+        }
 
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
         {
             // Initialize player
             Player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
+        }
+
+        public void Play()
+        {
+
         }
 
         /// <summary>

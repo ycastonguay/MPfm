@@ -25,6 +25,7 @@ using MPfm.MVP;
 using MPfm.Player;
 using MPfm.Sound;
 using Ninject;
+using TinyMessenger;
 
 namespace MPfm.MVP
 {
@@ -54,7 +55,8 @@ namespace MPfm.MVP
             Bind<IEffectsPresenter>().To<EffectsPresenter>().InSingletonScope();
             Bind<IPreferencesPresenter>().To<PreferencesPresenter>().InSingletonScope();
             Bind<IPlaylistPresenter>().To<PlaylistPresenter>().InSingletonScope();
+
+            Bind<ITinyMessengerHub>().To<TinyMessengerHub>().InSingletonScope();
 		}		
 	}
 }
-

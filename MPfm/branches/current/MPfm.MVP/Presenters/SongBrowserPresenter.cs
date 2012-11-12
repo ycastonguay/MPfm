@@ -25,12 +25,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using AutoMapper;
+using Ninject;
+using TinyMessenger;
 using MPfm.Core;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
-using AutoMapper;
-using Ninject;
 
 namespace MPfm.MVP
 {
@@ -39,10 +40,11 @@ namespace MPfm.MVP
 	/// </summary>
 	public class SongBrowserPresenter : ISongBrowserPresenter
 	{
-		ISongBrowserView view = null;
-		readonly IAudioFileCacheService audioFileCacheService = null;
-		readonly ILibraryService libraryService = null;
-		readonly IPlayerPresenter playerPresenter = null;      
+		ISongBrowserView view ;
+        readonly ITinyMessengerHub messageHub;
+		readonly IAudioFileCacheService audioFileCacheService;
+		readonly ILibraryService libraryService;
+        readonly IPlayerPresenter playerPresenter;
 		
 		public SongBrowserQueryEntity Query { get; private set; }
 		
@@ -51,26 +53,25 @@ namespace MPfm.MVP
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.SongBrowserPresenter"/> class.
 		/// </summary>
-		public SongBrowserPresenter(IPlayerPresenter playerPresenter, 
-		                            ILibraryService libraryService,
-		                            IAudioFileCacheService audioFileCacheService)
+		public SongBrowserPresenter(ITinyMessengerHub messageHub,
+                                     IPlayerPresenter playerPresenter, 
+		                             ILibraryService libraryService,
+		                             IAudioFileCacheService audioFileCacheService)
 		{
-			// Validate parameters
-			if(playerPresenter == null)
-				throw new ArgumentNullException("The playerPresenter parameter is null!");
-			if(libraryService == null)				
-				throw new ArgumentNullException("The libraryService parameter is null!");
-			if(audioFileCacheService == null)				
-				throw new ArgumentNullException("The audioFileCacheService parameter is null!");
-			
 			// Set properties
 			this.playerPresenter = playerPresenter;
 			this.libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;
+            this.messageHub = messageHub;
             //this.playerPresenter.Player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
 
             // Create default query
             Query = new SongBrowserQueryEntity();
+
+            // Subscribe to events
+            messageHub.Subscribe<LibraryBrowserItemSelectedMessage>((LibraryBrowserItemSelectedMessage m) => {
+                ChangeQuery(m.Item.Query);
+            });
 		}
 
 //        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
