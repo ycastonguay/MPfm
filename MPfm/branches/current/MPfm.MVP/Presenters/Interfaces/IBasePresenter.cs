@@ -30,9 +30,10 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Base presenter interface.
 	/// </summary>
-	public interface IBasePresenter
+    public interface IBasePresenter<T> where T : IBaseView
 	{
-        //void BindView(IBaseView view);
+        T View { get; }
+        void BindView(T view);
 	}
 }
 

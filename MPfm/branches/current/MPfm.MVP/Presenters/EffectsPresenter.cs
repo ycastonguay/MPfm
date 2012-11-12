@@ -36,11 +36,11 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Effects presenter.
 	/// </summary>
-	public class EffectsPresenter : IEffectsPresenter
+	public class EffectsPresenter : BasePresenter<IEffectsView>, IEffectsPresenter
 	{
 		// Private variables
-		IEffectsView view = null;
-        IPlayerService playerService = null;
+		//IEffectsView view = null;
+        IPlayerService playerService;
 
 		#region Constructor and Dispose
 
@@ -58,25 +58,25 @@ namespace MPfm.MVP
 
 		#endregion
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Effects view implementation</param>		
-		public void BindView(IEffectsView view)
-		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");			
-						
-			// Set properties
-			this.view = view;	
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Effects view implementation</param>		
+//		public void BindView(IEffectsView view)
+//		{
+//			// Validate parameters
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");			
+//						
+//			// Set properties
+//			this.view = view;	
+//		}
 
         public void SetEQParam(int index, float value)
         {
             // Set EQ and update UI
             playerService.Player.UpdateEQBand(index, value, true);
-            view.UpdateFader(index, value);
+            View.UpdateFader(index, value);
         }
 
         public void BypassEQ()
@@ -92,7 +92,7 @@ namespace MPfm.MVP
         {
             playerService.Player.ResetEQ();
             for (int a = 0; a < 18; a++)
-                view.UpdateFader(a, 0);
+                View.UpdateFader(a, 0);
         }
 
         public void LoadPreset(string presetName)

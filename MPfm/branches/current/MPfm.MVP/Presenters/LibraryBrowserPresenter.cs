@@ -37,9 +37,9 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Library browser presenter.
 	/// </summary>
-	public class LibraryBrowserPresenter : ILibraryBrowserPresenter
+	public class LibraryBrowserPresenter : BasePresenter<ILibraryBrowserView>, ILibraryBrowserPresenter
 	{
-        ILibraryBrowserView view;
+        //ILibraryBrowserView view;
         readonly ITinyMessengerHub messageHub;
 		readonly ILibraryService libraryService;
 		readonly IAudioFileCacheService audioFileCacheService;
@@ -68,28 +68,42 @@ namespace MPfm.MVP
 		
 		#region ILibraryBrowserPresenter implementation
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Library Browser view implementation</param>	
-		public void BindView(ILibraryBrowserView view)
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Library Browser view implementation</param>	
+//		public void BindView(ILibraryBrowserView view)
+//        {
+//            // Validate parameters 
+//            if (view == null)			
+//                throw new ArgumentNullException("The view parameter is null!");
+//			
+//            // Set property
+//            this.view = view;
+//
+//            // Load configuration
+//            if (MPfmConfig.Instance.ShowTooltips)
+//            {
+//                string empty = string.Empty;
+//            }
+//			
+//			// Refresh view (first level nodes)
+//			view.RefreshLibraryBrowser(GetFirstLevelNodes());
+//		}
+
+        public void BindView(ILibraryBrowserView view)
         {
-            // Validate parameters 
-            if (view == null)			
-                throw new ArgumentNullException("The view parameter is null!");
-			
-            // Set property
-            this.view = view;
+            base.BindView(view);
 
             // Load configuration
             if (MPfmConfig.Instance.ShowTooltips)
             {
                 string empty = string.Empty;
             }
-			
-			// Refresh view (first level nodes)
-			view.RefreshLibraryBrowser(GetFirstLevelNodes());
-		}
+
+            // Refresh view (first level nodes)
+            view.RefreshLibraryBrowser(GetFirstLevelNodes());
+        }
 		
 		/// <summary>
 		/// Call this method when the Audio File Format combo box selected value has changed.
@@ -100,7 +114,7 @@ namespace MPfm.MVP
 			// Refresh view (first level nodes)
             Tracing.Log("LibraryBrowserPresenter.AudioFileFormatFilterChanged -- Getting first level nodes and refreshing view...");
 			this.Filter = format;
-			view.RefreshLibraryBrowser(GetFirstLevelNodes());
+			View.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
 		
 		/// <summary>
@@ -127,7 +141,7 @@ namespace MPfm.MVP
             if (entity.Type == LibraryBrowserEntityType.Artists)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Artist nodes and refreshing view (RefreshLibraryBrowserNode)...");
-                view.RefreshLibraryBrowserNode(
+                View.RefreshLibraryBrowserNode(
                     entity,
                     GetArtistNodes(Filter),
                     userData
@@ -136,7 +150,7 @@ namespace MPfm.MVP
             else if (entity.Type == LibraryBrowserEntityType.Albums)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Album nodes and refreshing view (RefreshLibraryBrowserNode)...");
-                view.RefreshLibraryBrowserNode(
+                View.RefreshLibraryBrowserNode(
                     entity,
                     GetAlbumNodes(Filter),
                     userData
@@ -145,7 +159,7 @@ namespace MPfm.MVP
             else if (entity.Type == LibraryBrowserEntityType.Artist)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting ArtistAlbum nodes and refreshing view (RefreshLibraryBrowserNode)...");
-                view.RefreshLibraryBrowserNode(
+                View.RefreshLibraryBrowserNode(
                     entity,
                     GetArtistAlbumNodes(Filter, entity.Query.ArtistName),
                     userData

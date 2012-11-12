@@ -36,10 +36,10 @@ namespace MPfm.MVP
 	/// <summary>
     /// Preferences presenter.
 	/// </summary>
-    public class PreferencesPresenter : IPreferencesPresenter
+    public class PreferencesPresenter : BasePresenter<IPreferencesView>, IPreferencesPresenter
 	{
 		// Private variables
-		IPreferencesView view = null;
+		//IPreferencesView view = null;
 
 		#region Constructor and Dispose
 
@@ -52,19 +52,19 @@ namespace MPfm.MVP
 
 		#endregion
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Preferences view implementation</param>		
-		public void BindView(IPreferencesView view)
-		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");			
-						
-			// Set properties
-			this.view = view;	
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Preferences view implementation</param>		
+//		public void BindView(IPreferencesView view)
+//		{
+//			// Validate parameters
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");			
+//						
+//			// Set properties
+//			this.view = view;	
+//		}
 	}
 }
 

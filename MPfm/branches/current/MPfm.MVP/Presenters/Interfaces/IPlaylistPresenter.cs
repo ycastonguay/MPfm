@@ -30,7 +30,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Playlist presenter interface.
 	/// </summary>
-    public interface IPlaylistPresenter : IBasePresenter
+    public interface IPlaylistPresenter : IBasePresenter<IPlaylistView>
 	{
 		void BindView(IPlaylistView view);		
 	}

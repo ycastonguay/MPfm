@@ -31,11 +31,11 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Splash screen presenter.
 	/// </summary>
-	public class SplashPresenter : ISplashPresenter
+	public class SplashPresenter : BasePresenter<ISplashView>, ISplashPresenter
 	{       
         public delegate void InitializeSplashDelegate();
 
-        ISplashView view;
+        //ISplashView view;
         InitializeSplashDelegate initializeSplashDelegate;
         readonly IInitializationService initializationService;
 
@@ -54,19 +54,19 @@ namespace MPfm.MVP
 		
 		#region ISplashPresenter implementation
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Splash screen view implementation</param>	
-		public void BindView(ISplashView view)
-		{
-			// Validate parameters 
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
-			
-			// Set property
-			this.view = view;
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Splash screen view implementation</param>	
+//		public void BindView(ISplashView view)
+//		{
+//			// Validate parameters 
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");
+//			
+//			// Set property
+//			this.view = view;
+//		}
 
         public void Initialize()
         {
@@ -85,7 +85,7 @@ namespace MPfm.MVP
         public void InitializeAsyncCallback(IAsyncResult result)
         {
             object state = result.AsyncState;
-            view.InitDone();
+            View.InitDone();
         }
 	}
 }

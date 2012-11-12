@@ -37,10 +37,10 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Player presenter.
 	/// </summary>
-	public class PlayerPresenter : IPlayerPresenter
+	public class PlayerPresenter : BasePresenter<IPlayerView>, IPlayerPresenter
 	{
 		// Private variables
-		IPlayerView view;
+		//IPlayerView view;
 		Timer timerRefreshSongPosition;
         readonly IPlayerService playerService;
         readonly IAudioFileCacheService audioFileCacheService;
@@ -82,19 +82,19 @@ namespace MPfm.MVP
 
 		#endregion
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Player view implementation</param>		
-		public void BindView(IPlayerView view)
-		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");			
-						
-			// Set properties
-			this.view = view;	
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Player view implementation</param>		
+//		public void BindView(IPlayerView view)
+//		{
+//			// Validate parameters
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");			
+//						
+//			// Set properties
+//			this.view = view;	
+//		}
 		
 		/// <summary>
 		/// Handles the timer update position elapsed.
@@ -120,7 +120,7 @@ namespace MPfm.MVP
             entity.PositionPercentage = ((float)playerService.Player.GetPosition() / (float)playerService.Player.Playlist.CurrentItem.LengthBytes) * 100;
 			
 			// Send changes to view
-			view.RefreshPlayerPosition(entity);
+			View.RefreshPlayerPosition(entity);
 		}
 		
 		/// <summary>
@@ -267,8 +267,8 @@ namespace MPfm.MVP
     				
     				// Refresh view with empty information
                     Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
-    				view.RefreshSongInformation(new SongInformationEntity());
-                    view.RefreshPlayerPosition(new PlayerPositionEntity());
+                    View.RefreshSongInformation(new SongInformationEntity());
+                    View.RefreshPlayerPosition(new PlayerPositionEntity());
     			}
             }
             catch(Exception ex)
@@ -367,7 +367,7 @@ namespace MPfm.MVP
 			}			
 			
 			// Update view
-			view.RefreshSongInformation(entity);
+            View.RefreshSongInformation(entity);
 		}
         
         public void SetPosition(float percentage)
@@ -393,7 +393,7 @@ namespace MPfm.MVP
                 // Set volume and refresh UI
                 Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
                 playerService.Player.Volume = volume / 100;
-                view.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
+                View.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 
                 });
@@ -415,7 +415,7 @@ namespace MPfm.MVP
                 // Set time shifting and refresh UI
                 Tracing.Log("PlayerPresenter.SetTimeShifting -- Setting time shifting to " + timeShifting.ToString("0.00") + "%");
                 playerService.Player.TimeShifting = result;
-                view.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
+                View.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
                     TimeShifting = timeShifting,
                     TimeShiftingString = timeShifting.ToString("0") + " %"
                 });
@@ -428,7 +428,7 @@ namespace MPfm.MVP
         
         private void SetError(Exception ex)
         {
-            view.PlayerError(ex);
+            View.PlayerError(ex);
         }
 	}
 }

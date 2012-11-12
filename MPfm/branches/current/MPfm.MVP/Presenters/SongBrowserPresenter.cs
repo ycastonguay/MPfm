@@ -38,9 +38,9 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Song browser presenter.
 	/// </summary>
-	public class SongBrowserPresenter : ISongBrowserPresenter
+	public class SongBrowserPresenter : BasePresenter<ISongBrowserView>, ISongBrowserPresenter
 	{
-		ISongBrowserView view ;
+		//ISongBrowserView view ;
         readonly ITinyMessengerHub messageHub;
 		readonly IAudioFileCacheService audioFileCacheService;
 		readonly ILibraryService libraryService;
@@ -83,19 +83,19 @@ namespace MPfm.MVP
 		
 		#region ISongBrowserPresenter implementation
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Song Browser view implementation</param>	
-		public void BindView(ISongBrowserView view)
-		{
-			// Validate parameters 
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
-			
-			// Set property
-			this.view = view;
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Song Browser view implementation</param>	
+//		public void BindView(ISongBrowserView view)
+//		{
+//			// Validate parameters 
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");
+//			
+//			// Set property
+//			this.view = view;
+//		}
 		
 		/// <summary>
 		/// Changes the Song Browser query and updates the Song Browser view.
@@ -114,7 +114,7 @@ namespace MPfm.MVP
 
             // Refresh view
             Tracing.Log("SongBrowserPresenter.ChangeQuery -- Refreshing song browser...");
-			view.RefreshSongBrowser(audioFiles);
+			View.RefreshSongBrowser(audioFiles);
 		}
 		
 		/// <summary>

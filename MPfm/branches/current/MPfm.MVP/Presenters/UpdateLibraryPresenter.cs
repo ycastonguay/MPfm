@@ -41,7 +41,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Update Library window presenter.
 	/// </summary>
-	public class UpdateLibraryPresenter : IUpdateLibraryPresenter
+	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
 	{		
 		private IUpdateLibraryView view = null;
 		private ILibraryService libraryService = null;		
@@ -93,19 +93,19 @@ namespace MPfm.MVP
 		
 		#region IUpdateLibraryPresenter implementation
 			
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Update Library view implementation</param>	
-		public void BindView(IUpdateLibraryView view)
-		{
-			// Validate parameters 
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");
-			
-			// Set property
-			this.view = view;
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Update Library view implementation</param>	
+//		public void BindView(IUpdateLibraryView view)
+//		{
+//			// Validate parameters 
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");
+//			
+//			// Set property
+//			this.view = view;
+//		}
 		
 		/// <summary>
 		/// Starts the update library process in a background thread. 

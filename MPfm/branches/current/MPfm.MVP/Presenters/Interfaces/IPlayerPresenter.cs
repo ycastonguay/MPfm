@@ -30,7 +30,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Player presenter interface.
 	/// </summary>
-    public interface IPlayerPresenter : IBasePresenter
+    public interface IPlayerPresenter : IBasePresenter<IPlayerView>
 	{
 		void BindView(IPlayerView view);		
 		

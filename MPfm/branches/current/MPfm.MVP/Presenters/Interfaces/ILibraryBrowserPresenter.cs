@@ -27,7 +27,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Library browser presenter interface.
 	/// </summary>
-    public interface ILibraryBrowserPresenter : IBasePresenter
+    public interface ILibraryBrowserPresenter : IBasePresenter<ILibraryBrowserView>
 	{
 		AudioFileFormat Filter { get; }
 		

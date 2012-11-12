@@ -36,10 +36,10 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Base presenter.
 	/// </summary>
-	public class BasePresenter : IBasePresenter
+	public class BasePresenter<T> : IBasePresenter<T> where T : IBaseView
 	{
 		// Private variables
-        //IBaseView view;
+        public T View { get; private set; }
 
 		#region Constructor and Dispose
 
@@ -49,18 +49,18 @@ namespace MPfm.MVP
 
 		#endregion
 		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>View implementation</param>		
-//		public void BindView(IBaseView view)
-//		{
-//			// Validate parameters
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");			
-//						
-//			// Set properties
-//			this.view = view;	
-//		}
+		/// <summary>
+		/// Binds the view to its implementation.
+		/// </summary>
+		/// <param name='view'>View implementation</param>		
+		public void BindView(T view)
+		{
+			// Validate parameters
+			if(view == null)			
+				throw new ArgumentNullException("The view parameter is null!");			
+						
+			// Set properties
+			this.View = view;	
+		}
 	}
 }

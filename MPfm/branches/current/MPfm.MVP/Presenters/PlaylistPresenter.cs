@@ -36,10 +36,10 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Playlist presenter.
 	/// </summary>
-	public class PlaylistPresenter : IPlaylistPresenter
+	public class PlaylistPresenter : BasePresenter<IPlaylistView>, IPlaylistPresenter
 	{
 		// Private variables
-		IPlaylistView view = null;
+		//IPlaylistView view = null;
 
 		#region Constructor and Dispose
 
@@ -52,19 +52,19 @@ namespace MPfm.MVP
 
 		#endregion
 		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>Playlist view implementation</param>		
-		public void BindView(IPlaylistView view)
-		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");			
-						
-			// Set properties
-			this.view = view;	
-		}
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>Playlist view implementation</param>		
+//		public void BindView(IPlaylistView view)
+//		{
+//			// Validate parameters
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");			
+//						
+//			// Set properties
+//			this.view = view;	
+//		}
 	}
 }
 
