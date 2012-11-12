@@ -141,6 +141,10 @@
     <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
     <Compile Include="Messages\SongBrowserItemDoubleClickedMessage.cs" />
     <Compile Include="Messages\LibraryBrowserItemDoubleClickedMessage.cs" />
+    <Compile Include="Views\ViewFactory.cs" />
+    <Compile Include="Presenters\BasePresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IBasePresenter.cs" />
+    <Compile Include="Views\IBaseView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

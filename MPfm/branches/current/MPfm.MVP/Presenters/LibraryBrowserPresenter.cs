@@ -190,7 +190,6 @@ namespace MPfm.MVP
 		{
             // Call player presenter
             Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Publishing LibraryBrowserItemDoubleClickedMessageay with item " + entity.Title);
-			//playerPresenter.Play(audioFileCacheService.SelectAudioFiles(entity.Query));
             messageHub.PublishAsync(new LibraryBrowserItemDoubleClickedMessage(this){
                 Query = entity.Query
             });

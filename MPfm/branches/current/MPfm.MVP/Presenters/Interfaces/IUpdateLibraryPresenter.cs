@@ -30,7 +30,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Update Library window presenter interface.
 	/// </summary>
-	public interface IUpdateLibraryPresenter
+    public interface IUpdateLibraryPresenter : IBasePresenter
 	{		
 		void BindView(IUpdateLibraryView view);
 		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);

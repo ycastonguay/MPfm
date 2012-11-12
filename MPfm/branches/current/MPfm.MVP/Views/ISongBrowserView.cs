@@ -27,7 +27,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Song browser view interface.
 	/// </summary>
-	public interface ISongBrowserView
+    public interface ISongBrowserView : IBaseView
 	{
 		void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles);
         //void RefreshCurrentlyPlayingSong(AudioFile audioFile);

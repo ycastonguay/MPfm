@@ -1,5 +1,5 @@
 //
-// IPreferencesView.cs: Preferences view interface.
+// IBaseView.cs: Base view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -29,10 +29,9 @@ using MPfm.Sound;
 namespace MPfm.MVP
 {
 	/// <summary>
-    /// Preferences view interface.
+	/// Base view interface.
 	/// </summary>
-    public interface IPreferencesView : IBaseView
+	public interface IBaseView
 	{
 	}
 }
-

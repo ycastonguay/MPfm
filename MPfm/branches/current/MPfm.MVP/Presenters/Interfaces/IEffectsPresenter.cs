@@ -30,7 +30,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Effects presenter interface.
 	/// </summary>
-	public interface IEffectsPresenter
+	public interface IEffectsPresenter : IBasePresenter
 	{
 		void BindView(IEffectsView view);		
 

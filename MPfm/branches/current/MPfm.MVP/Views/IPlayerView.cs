@@ -30,7 +30,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Player view interface.
 	/// </summary>
-	public interface IPlayerView
+    public interface IPlayerView : IBaseView
 	{
 		/// <summary>
 		/// This method is called when the song position needs to be refreshed.

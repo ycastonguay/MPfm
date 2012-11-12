@@ -31,7 +31,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Playlist view interface.
 	/// </summary>
-	public interface IPlaylistView
+    public interface IPlaylistView : IBaseView
 	{
 	}
 }

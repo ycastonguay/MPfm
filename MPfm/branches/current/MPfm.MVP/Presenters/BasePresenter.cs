@@ -1,5 +1,5 @@
 //
-// IPreferencesView.cs: Preferences view interface.
+// BasePresenter.cs: Base presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -22,17 +22,45 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Timers;
 using MPfm.Core;
+using MPfm.Player;
 using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
+using AutoMapper;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-    /// Preferences view interface.
+	/// Base presenter.
 	/// </summary>
-    public interface IPreferencesView : IBaseView
+	public class BasePresenter : IBasePresenter
 	{
+		// Private variables
+        //IBaseView view;
+
+		#region Constructor and Dispose
+
+		public BasePresenter()
+		{	
+		}
+
+		#endregion
+		
+//		/// <summary>
+//		/// Binds the view to its implementation.
+//		/// </summary>
+//		/// <param name='view'>View implementation</param>		
+//		public void BindView(IBaseView view)
+//		{
+//			// Validate parameters
+//			if(view == null)			
+//				throw new ArgumentNullException("The view parameter is null!");			
+//						
+//			// Set properties
+//			this.view = view;	
+//		}
 	}
 }
-

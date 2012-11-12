@@ -26,7 +26,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Library browser view interface.
 	/// </summary>
-	public interface ILibraryBrowserView
+    public interface ILibraryBrowserView : IBaseView
 	{
 		void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
 		void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData);

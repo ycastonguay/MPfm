@@ -27,7 +27,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Song browser presenter interface.
 	/// </summary>
-	public interface ISongBrowserPresenter
+    public interface ISongBrowserPresenter : IBasePresenter
 	{	
 		SongBrowserQueryEntity Query { get; }
 		

@@ -3421,4 +3421,12 @@
       </widget>
     </child>
   </widget>
+  <widget class="Gtk.Window" id="MPfm.GTK.SplashWindow" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">SplashWindow</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
 </stetic-interface>

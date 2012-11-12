@@ -1,5 +1,5 @@
 //
-// IPreferencesView.cs: Preferences view interface.
+// IBasePresenter.cs: Base presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -23,16 +23,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Core;
 using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-    /// Preferences view interface.
+	/// Base presenter interface.
 	/// </summary>
-    public interface IPreferencesView : IBaseView
+	public interface IBasePresenter
 	{
+        //void BindView(IBaseView view);
 	}
 }
 

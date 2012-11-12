@@ -30,8 +30,10 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Splash screen view interface.
 	/// </summary>
-	public interface ISplashView
+    public interface ISplashView : IBaseView
 	{
+
+
         void RefreshStatus(string message);
         void InitDone();
 	}

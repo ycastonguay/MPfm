@@ -1,5 +1,5 @@
-//
-// IPreferencesView.cs: Preferences view interface.
+﻿//
+// ViewFactory.cs: Factory creating implementations of views as configured in the Bootstrapper.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,19 +20,27 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
+using TinyMessenger;
+using Ninject;
 
 namespace MPfm.MVP
 {
-	/// <summary>
-    /// Preferences view interface.
-	/// </summary>
-    public interface IPreferencesView : IBaseView
-	{
-	}
-}
+    /// <summary>
+    /// Factory creating implementations of views as configured in the Bootstrapper.
+    /// </summary>
+    public static class ViewFactory
+    {
+        static ViewFactory()
+        {
+        }
 
+        public static ISplashView CreateSplashView()
+        {
+            return Bootstrapper.GetKernel().Get<ISplashView>();
+        }
+    }
+}

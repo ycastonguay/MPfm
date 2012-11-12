@@ -31,7 +31,7 @@ namespace MPfm.MVP
 	/// <summary>
 	/// Effects view interface.
 	/// </summary>
-	public interface IEffectsView
+	public interface IEffectsView : IBaseView
 	{
         void UpdateFader(int index, float value);
         void UpdatePresetList(IEnumerable<string> presets);
