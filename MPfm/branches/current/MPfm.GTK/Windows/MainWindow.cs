@@ -26,7 +26,7 @@ namespace MPfm.GTK
 	/// <summary>
 	/// Main window.
 	/// </summary>
-	public partial class MainWindow: Gtk.Window, IPlayerView, ILibraryBrowserView, ISongBrowserView
+	public partial class MainWindow: Gtk.Window, IMainView
 	{
 		// Private variables
 		private string currentDirectory = string.Empty;

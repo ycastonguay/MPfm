@@ -32,7 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
     public interface ISplashPresenter : IBasePresenter<ISplashView>
 	{
-        void BindView(ISplashView view);
         void Initialize();
 	}
 }

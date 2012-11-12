@@ -32,8 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface IEffectsPresenter : IBasePresenter<IEffectsView>
 	{
-		void BindView(IEffectsView view);		
-
         void SetEQParam(int index, float value);
         void BypassEQ();
         void AutoLevel();

@@ -33,5 +33,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface IBaseView
 	{
+        // BindView: Let each implementation of view call bindview.
+        // 
 	}
 }

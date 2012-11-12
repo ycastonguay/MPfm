@@ -32,7 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
     public interface IPreferencesPresenter : IBasePresenter<IPreferencesView>
 	{
-		void BindView(IPreferencesView view);		
 	}
 }
 

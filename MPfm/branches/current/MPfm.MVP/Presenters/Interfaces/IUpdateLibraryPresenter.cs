@@ -32,7 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
     public interface IUpdateLibraryPresenter : IBasePresenter<IUpdateLibraryView>
 	{		
-		//void BindView(IUpdateLibraryView view);
 		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
 		void Cancel();
 		void SaveLog(string filePath);		

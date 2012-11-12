@@ -42,5 +42,18 @@ namespace MPfm.MVP
         {
             return Bootstrapper.GetKernel().Get<ISplashView>();
         }
+
+        public static IMainView CreateMainView()
+        {
+            return Bootstrapper.GetKernel().Get<IMainView>();
+        }
+
+        public static IPreferencesView CreatePreferencesView()
+        {
+            return Bootstrapper.GetKernel().Get<IPreferencesView>();
+        }
+
+
+
     }
 }

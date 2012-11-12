@@ -18,12 +18,15 @@ namespace MPfm.GTK
 
 			// Add view implementations to IoC
 			Bootstrapper.GetKernel().Bind<ISplashView>().To<SplashWindow>();
+			Bootstrapper.GetKernel().Bind<IMainView>().To<MainWindow>();
+			//Bootstrapper.GetKernel().Bind<IPreferencesView>().To<PreferencesWindow>();
 
 			// Create splash view
 			splashWindow = (SplashWindow)ViewFactory.CreateSplashView();
+			mainWindow = (MainWindow)ViewFactory.CreateMainView();
 
 			// Let Ninject create the MainWindow for us
-			mainWindow = Bootstrapper.GetKernel().Get<MainWindow>();
+			//mainWindow = Bootstrapper.GetKernel().Get<MainWindow>();
 			mainWindow.Icon = new Gdk.Pixbuf(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/icon48.png");
 			mainWindow.ShowAll();
 						

@@ -1,5 +1,5 @@
 //
-// ISongBrowserPresenter.cs: Song browser presenter interface.
+// ISplashView.cs: Splash screen view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,19 +19,18 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using MPfm.Core;
 using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Song browser presenter interface.
+	/// Splash screen view interface.
 	/// </summary>
-    public interface ISongBrowserPresenter : IBasePresenter<ISongBrowserView>
-	{	
-		SongBrowserQueryEntity Query { get; }
-		
-		void ChangeQuery(SongBrowserQueryEntity query);
-		void TableRowDoubleClicked(AudioFile audioFile);
+    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView
+	{
 	}
 }

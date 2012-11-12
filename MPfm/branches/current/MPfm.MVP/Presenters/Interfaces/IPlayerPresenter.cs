@@ -32,8 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
     public interface IPlayerPresenter : IBasePresenter<IPlayerView>
 	{
-		void BindView(IPlayerView view);		
-		
 		void Play();
 		void Play(IEnumerable<AudioFile> audioFiles);
 		void Play(IEnumerable<string> filePaths);

@@ -32,8 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
     public interface ISplashView : IBaseView
 	{
-
-
         void RefreshStatus(string message);
         void InitDone();
 	}

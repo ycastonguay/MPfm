@@ -31,8 +31,6 @@ namespace MPfm.MVP
 	{
 		AudioFileFormat Filter { get; }
 		
-		void BindView(ILibraryBrowserView view);
-		
 		void AudioFileFormatFilterChanged(AudioFileFormat format);
 		
 		void TreeNodeExpanded(LibraryBrowserEntity entity, object userData);

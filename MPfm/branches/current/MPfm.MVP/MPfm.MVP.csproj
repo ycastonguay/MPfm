@@ -145,6 +145,7 @@
     <Compile Include="Presenters\BasePresenter.cs" />
     <Compile Include="Presenters\Interfaces\IBasePresenter.cs" />
     <Compile Include="Views\IBaseView.cs" />
+    <Compile Include="Views\IMainView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
