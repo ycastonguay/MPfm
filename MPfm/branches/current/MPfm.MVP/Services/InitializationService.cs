@@ -70,20 +70,13 @@ namespace MPfm.MVP
             Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
             Tracing.Log("InitializationService.Initialize -- Starting initialization...");   
 
-            // Create configuration
-            CreateConfiguration();
-            
-            // Create library
-            CreateLibrary();
-            
-            // Refresh cache
+            // Load data needed to start the application
+            LoadConfiguration();
+            LoadLibrary();
             audioFileCacheService.RefreshCache();
         }
 
-        /// <summary>
-        /// Creates the trace listener.
-        /// </summary>
-        private void CreateTraceListener()
+        void CreateTraceListener()
         {
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
@@ -100,10 +93,7 @@ namespace MPfm.MVP
             Trace.Listeners.Add(textTraceListener);
         }
 		
-		/// <summary>
-		/// Creates the configuration.
-		/// </summary>
-		private void CreateConfiguration()
+		void LoadConfiguration()
         {
             // Check for configuration file
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
@@ -117,13 +107,7 @@ namespace MPfm.MVP
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}
 		
-		/// <summary>
-		/// Creates and initializes the library.
-		/// </summary>
-		/// <exception cref='Exception'>
-		/// Represents errors that occur during application execution.
-		/// </exception>
-		private void CreateLibrary()
+		void LoadLibrary()
 		{
             try
             {

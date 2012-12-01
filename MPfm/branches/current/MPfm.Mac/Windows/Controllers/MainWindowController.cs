@@ -624,64 +624,72 @@ namespace MPfm.Mac
 		
 		public void RefreshSongInformation(SongInformationEntity entity)
         {
-            // Set labels
-            lblArtistName.StringValue = entity.ArtistName;
-            lblAlbumTitle.StringValue = entity.AlbumTitle;
-            lblSongTitle.StringValue = entity.Title;
-            lblSongPath.StringValue = entity.FilePath;
-            lblPosition.StringValue = entity.Position;
-            lblLength.StringValue = entity.Length;
+            InvokeOnMainThread(delegate {
+                // Set labels
+                lblArtistName.StringValue = entity.ArtistName;
+                lblAlbumTitle.StringValue = entity.AlbumTitle;
+                lblSongTitle.StringValue = entity.Title;
+                lblSongPath.StringValue = entity.FilePath;
+                lblPosition.StringValue = entity.Position;
+                lblLength.StringValue = entity.Length;
 
-            lblFileType.StringValue = entity.FileTypeString;
-            lblBitrate.StringValue = entity.BitrateString;
-            lblBitsPerSample.StringValue = entity.BitsPerSampleString;
-            lblSampleRate.StringValue = entity.SampleRateString;
+                lblFileType.StringValue = entity.FileTypeString;
+                lblBitrate.StringValue = entity.BitrateString;
+                lblBitsPerSample.StringValue = entity.BitsPerSampleString;
+                lblSampleRate.StringValue = entity.SampleRateString;
 
-            // Set album cover
-            if (!String.IsNullOrEmpty(entity.FilePath))
-            {
-                NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
-                if (image != null)
-                    imageAlbumCover.Image = image;
+                // Set album cover
+                if (!String.IsNullOrEmpty(entity.FilePath))
+                {
+                    NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
+                    if (image != null)
+                        imageAlbumCover.Image = image;
+                    else
+                        imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
+                } 
                 else
+                {
                     imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
-            } 
-            else
-            {
-                imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
-            }
+                }
 
-            // Refresh which song is playing in the Song Browser
-            if(songBrowserSource != null)
-                songBrowserSource.RefreshIsPlaying(tableSongBrowser, entity.FilePath);
+                // Refresh which song is playing in the Song Browser
+                if(songBrowserSource != null)
+                    songBrowserSource.RefreshIsPlaying(tableSongBrowser, entity.FilePath);
+            });
 		}
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
         {
-            lblVolume.StringValue = entity.VolumeString;
-            if(sliderVolume.FloatValue != entity.Volume)
-                sliderVolume.FloatValue = entity.Volume;
+            InvokeOnMainThread(delegate {
+                lblVolume.StringValue = entity.VolumeString;
+                if(sliderVolume.FloatValue != entity.Volume)
+                    sliderVolume.FloatValue = entity.Volume;
+            });
         }
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
         {
-            lblTimeShifting.StringValue = entity.TimeShiftingString;
-            if(sliderTimeShifting.FloatValue != entity.TimeShifting)
-                sliderTimeShifting.FloatValue = entity.TimeShifting;
+            InvokeOnMainThread(delegate {
+                lblTimeShifting.StringValue = entity.TimeShiftingString;
+                if(sliderTimeShifting.FloatValue != entity.TimeShifting)
+                    sliderTimeShifting.FloatValue = entity.TimeShifting;
+            });
         }
 
         public void PlayerError(Exception ex)
         {
-            // Build text
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("An error occured in the Player component:");
-            sb.AppendLine(ex.Message);
-            sb.AppendLine();
-            sb.AppendLine(ex.StackTrace);
+            InvokeOnMainThread(delegate {
+                // Build text
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("An error occured in the Player component:");
+                sb.AppendLine(ex.Message);
+                sb.AppendLine();
+                sb.AppendLine(ex.StackTrace);
 
-            // Show alert
-            Tracing.Log(sb.ToString());
-            CocoaHelper.ShowCriticalAlert(sb.ToString());
+                // Show alert
+                Tracing.Log(sb.ToString());
+                CocoaHelper.ShowCriticalAlert(sb.ToString());
+            });
         }
 
         #endregion
@@ -690,11 +698,13 @@ namespace MPfm.Mac
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
-            // Set data source
-            songBrowserSource = new SongBrowserSource(audioFiles);
-            tableSongBrowser.Source = songBrowserSource;
-            albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
-            tableAlbumCovers.Source = albumCoverSource;
+            InvokeOnMainThread(delegate {
+                // Set data source
+                songBrowserSource = new SongBrowserSource(audioFiles);
+                tableSongBrowser.Source = songBrowserSource;
+                albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
+                tableAlbumCovers.Source = albumCoverSource;
+            });
 		}
 
 //        public void RefreshCurrentlyPlayingSong(AudioFile audioFile)
@@ -708,9 +718,11 @@ namespace MPfm.Mac
 
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
-			// Set Library Browser data source
-			libraryBrowserDataSource = new LibraryBrowserDataSource(entities, this.libraryBrowserPresenter);
-			outlineLibraryBrowser.DataSource = libraryBrowserDataSource;
+            InvokeOnMainThread(delegate {
+    			// Set Library Browser data source
+    			libraryBrowserDataSource = new LibraryBrowserDataSource(entities, this.libraryBrowserPresenter);
+    			outlineLibraryBrowser.DataSource = libraryBrowserDataSource;
+            });
 		}
 
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
