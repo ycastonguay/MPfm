@@ -1,5 +1,5 @@
 //
-// BasePresenter.cs: Base presenter.
+// LibraryBrowserViewModel.cs: View model for the Library Browser view.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,47 +20,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Timers;
 using MPfm.Core;
-using MPfm.Player;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using AutoMapper;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Base presenter.
+	/// View model for the Library Browser view.
 	/// </summary>
-	public class BasePresenter<T> : IBasePresenter<T> where T : IBaseView
+	public class LibraryBrowserViewModel : BaseViewModel
 	{
-		// Private variables
-        public T View { get; private set; }
-
-		#region Constructor and Dispose
-
-		public BasePresenter()
-		{	
-		}
-
-		#endregion
-		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>View implementation</param>		
-		public void BindView(T view)
-		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");			
-						
-			// Set properties
-			this.View = view;
-		}
+        // Put calls to presenter here (with Action/Func)
+        public Action<object> OnItemDoubleClick { get; private set; }
+        //public Action
 	}
 }

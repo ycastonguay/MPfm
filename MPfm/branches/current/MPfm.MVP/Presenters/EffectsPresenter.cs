@@ -40,7 +40,7 @@ namespace MPfm.MVP
 	{
 		// Private variables
 		//IEffectsView view = null;
-        IPlayerService playerService;
+        readonly IPlayerService playerService;
 
 		#region Constructor and Dispose
 
@@ -57,20 +57,6 @@ namespace MPfm.MVP
 		}
 
 		#endregion
-		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Effects view implementation</param>		
-//		public void BindView(IEffectsView view)
-//		{
-//			// Validate parameters
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");			
-//						
-//			// Set properties
-//			this.view = view;	
-//		}
 
         public void SetEQParam(int index, float value)
         {

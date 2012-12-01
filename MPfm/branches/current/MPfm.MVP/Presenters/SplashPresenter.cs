@@ -54,20 +54,6 @@ namespace MPfm.MVP
 		
 		#region ISplashPresenter implementation
 		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Splash screen view implementation</param>	
-//		public void BindView(ISplashView view)
-//		{
-//			// Validate parameters 
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");
-//			
-//			// Set property
-//			this.view = view;
-//		}
-
         public void Initialize()
         {
             // Initialize configuration and library

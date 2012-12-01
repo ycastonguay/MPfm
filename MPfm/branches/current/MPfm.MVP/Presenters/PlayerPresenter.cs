@@ -82,20 +82,11 @@ namespace MPfm.MVP
 
 		#endregion
 		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Player view implementation</param>		
-//		public void BindView(IPlayerView view)
-//		{
-//			// Validate parameters
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");			
-//						
-//			// Set properties
-//			this.view = view;	
-//		}
-		
+        public void Dispose()
+        {
+            playerService.Dispose();
+        }
+        
 		/// <summary>
 		/// Handles the timer update position elapsed.
 		/// </summary>

@@ -22,11 +22,8 @@ namespace MPfm.GTK
 			//Bootstrapper.GetKernel().Bind<IPreferencesView>().To<PreferencesWindow>();
 
 			// Create splash view
-			splashWindow = (SplashWindow)ViewFactory.CreateSplashView();
+			//splashWindow = (SplashWindow)ViewFactory.CreateSplashView();
 			mainWindow = (MainWindow)ViewFactory.CreateMainView();
-
-			// Let Ninject create the MainWindow for us
-			//mainWindow = Bootstrapper.GetKernel().Get<MainWindow>();
 			mainWindow.Icon = new Gdk.Pixbuf(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/icon48.png");
 			mainWindow.ShowAll();
 						

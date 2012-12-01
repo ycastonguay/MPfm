@@ -83,20 +83,6 @@ namespace MPfm.MVP
 		
 		#region ISongBrowserPresenter implementation
 		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Song Browser view implementation</param>	
-//		public void BindView(ISongBrowserView view)
-//		{
-//			// Validate parameters 
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");
-//			
-//			// Set property
-//			this.view = view;
-//		}
-		
 		/// <summary>
 		/// Changes the Song Browser query and updates the Song Browser view.
 		/// </summary>

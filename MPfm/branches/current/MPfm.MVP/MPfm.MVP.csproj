@@ -146,6 +146,9 @@
     <Compile Include="Presenters\Interfaces\IBasePresenter.cs" />
     <Compile Include="Views\IBaseView.cs" />
     <Compile Include="Views\IMainView.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\SplashViewModel.cs" />
+    <Compile Include="ViewModels\LibraryBrowserViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -178,6 +181,7 @@
     <Folder Include="Presenters\Interfaces\" />
     <Folder Include="Config\" />
     <Folder Include="Messages\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

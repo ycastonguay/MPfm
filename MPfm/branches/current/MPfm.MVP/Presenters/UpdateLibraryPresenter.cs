@@ -43,9 +43,9 @@ namespace MPfm.MVP
 	/// </summary>
 	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
 	{		
-		private IUpdateLibraryView view = null;
-		private ILibraryService libraryService = null;		
-		private IUpdateLibraryService updateLibraryService = null;
+		IUpdateLibraryView view ;
+		readonly ILibraryService libraryService;		
+		readonly IUpdateLibraryService updateLibraryService;
 		
 		#region Constructor and Dispose
 
@@ -54,12 +54,6 @@ namespace MPfm.MVP
 		/// </summary>
 		public UpdateLibraryPresenter(ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
 		{
-			// Check for null
-			if(libraryService == null)
-				throw new ArgumentNullException("The libraryService parameter cannot be null!");
-			if(updateLibraryService == null)
-				throw new ArgumentNullException("The updateLibraryService parameter cannot be null!");
-
 			// Set properties
 			this.libraryService = libraryService;
 			this.updateLibraryService = updateLibraryService;

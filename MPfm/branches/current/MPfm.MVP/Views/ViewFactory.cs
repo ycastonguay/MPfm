@@ -34,13 +34,21 @@ namespace MPfm.MVP
     /// </summary>
     public static class ViewFactory
     {
+        static List<object> presenters;
+
         static ViewFactory()
         {
+            presenters = new List<object>();
         }
 
         public static ISplashView CreateSplashView()
         {
-            return Bootstrapper.GetKernel().Get<ISplashView>();
+            ISplashView view = Bootstrapper.GetKernel().Get<ISplashView>();
+            ISplashPresenter presenter = Bootstrapper.GetKernel().Get<ISplashPresenter>();
+            //view.SetPresenter((IBasePresenter<IBaseView>)presenter);
+            presenters.Add(presenter); // Make sure GC doesn't kill the presenter...
+            presenter.BindView(view);
+            return view; // Call initialize on IBaseView when view is ready to let presenter initialize stuff in background
         }
 
         public static IMainView CreateMainView()

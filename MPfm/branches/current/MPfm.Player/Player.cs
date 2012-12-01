@@ -1877,7 +1877,8 @@ namespace MPfm.Player
         private int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
             // If the current sub channel is null, end the stream            
-            if(playlist == null || playlist.CurrentItem == null)
+			if(playlist == null || playlist.CurrentItem == null || playlist.Items[currentMixPlaylistIndex] == null ||
+			   playlist.Items[currentMixPlaylistIndex].Channel == null)
             {
                 // Return end-of-channel
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;

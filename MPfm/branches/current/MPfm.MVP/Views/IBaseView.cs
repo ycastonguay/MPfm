@@ -33,7 +33,23 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface IBaseView
 	{
-        // BindView: Let each implementation of view call bindview.
-        // 
+        //IBasePresenter<IBaseView> Presenter { get; }
+        //void SetPresenter(IBasePresenter<IBaseView> presenter); // Keep reference to presenter to prevent GC to destroy presenter before destroying view
+        //void Initialize();
 	}
+
+    // Doesn't work; the view implementation cannot inherit from Gtk.Window + BaseView.
+//    public class BaseView : IBaseView
+//    {
+//        public IBasePresenter<IBaseView> Presenter { get; private set; }
+//
+//        public void SetPresenter(IBasePresenter<IBaseView> presenter)
+//        {
+//            this.Presenter = presenter;
+//        }
+//
+//        public void Initialize()
+//        {
+//        }
+//    }
 }

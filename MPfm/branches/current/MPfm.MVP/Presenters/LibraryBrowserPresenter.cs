@@ -67,29 +67,6 @@ namespace MPfm.MVP
 		#endregion		
 		
 		#region ILibraryBrowserPresenter implementation
-		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Library Browser view implementation</param>	
-//		public void BindView(ILibraryBrowserView view)
-//        {
-//            // Validate parameters 
-//            if (view == null)			
-//                throw new ArgumentNullException("The view parameter is null!");
-//			
-//            // Set property
-//            this.view = view;
-//
-//            // Load configuration
-//            if (MPfmConfig.Instance.ShowTooltips)
-//            {
-//                string empty = string.Empty;
-//            }
-//			
-//			// Refresh view (first level nodes)
-//			view.RefreshLibraryBrowser(GetFirstLevelNodes());
-//		}
 
         public void BindView(ILibraryBrowserView view)
         {
@@ -104,7 +81,7 @@ namespace MPfm.MVP
             // Refresh view (first level nodes)
             view.RefreshLibraryBrowser(GetFirstLevelNodes());
         }
-		
+
 		/// <summary>
 		/// Call this method when the Audio File Format combo box selected value has changed.
 		/// </summary>

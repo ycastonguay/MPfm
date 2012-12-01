@@ -1,5 +1,5 @@
 //
-// IPlayerPresenter.cs: Player presenter interface.
+// BaseViewModel.cs: Base view model.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -20,33 +20,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Player presenter interface.
+	/// Base view model.
 	/// </summary>
-    public interface IPlayerPresenter : IBasePresenter<IPlayerView>
+	public class BaseViewModel
 	{
-        void Dispose();
-        
-		void Play();
-		void Play(IEnumerable<AudioFile> audioFiles);
-		void Play(IEnumerable<string> filePaths);
-		void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();
-  
-        void SetPosition(float percentage);
-        void SetVolume(float volume);
-        void SetTimeShifting(float timeShifting);
 	}
 }
-

@@ -683,7 +683,7 @@ namespace MPfm.Sound
                 }
                 catch (Exception ex)
                 {
-                    // Throw exception
+                    // Throw exception TODO: Check if file exists when catching the exception (to make a better error description)
                     throw new Exception("An error occured while reading the tags and properties of the file (" + filePath + ").", ex);
                 }
                 finally
