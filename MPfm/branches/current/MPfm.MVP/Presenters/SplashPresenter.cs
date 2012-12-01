@@ -25,6 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using System.Threading.Tasks;
 
 namespace MPfm.MVP
 {
@@ -33,10 +34,6 @@ namespace MPfm.MVP
 	/// </summary>
 	public class SplashPresenter : BasePresenter<ISplashView>, ISplashPresenter
 	{       
-        public delegate void InitializeSplashDelegate();
-
-        //ISplashView view;
-        InitializeSplashDelegate initializeSplashDelegate;
         readonly IInitializationService initializationService;
 
 		#region Constructor and Dispose
@@ -47,7 +44,6 @@ namespace MPfm.MVP
 		public SplashPresenter(IInitializationService initializationService)
 		{
             this.initializationService = initializationService;
-            initializeSplashDelegate = new InitializeSplashDelegate(InitializeAsync);
 		}
 
 		#endregion		
@@ -56,22 +52,13 @@ namespace MPfm.MVP
 		
         public void Initialize()
         {
-            // Initialize configuration and library
-            //initializationService.Initialize();
-            initializeSplashDelegate.BeginInvoke(InitializeAsyncCallback, initializeSplashDelegate);
+            Task.Factory.StartNew(() => {
+                initializationService.Initialize();
+                View.InitDone();
+            });
         }
 		
 		#endregion
 
-        public void InitializeAsync()
-        {
-            initializationService.Initialize();
-        }
-        
-        public void InitializeAsyncCallback(IAsyncResult result)
-        {
-            object state = result.AsyncState;
-            View.InitDone();
-        }
 	}
 }

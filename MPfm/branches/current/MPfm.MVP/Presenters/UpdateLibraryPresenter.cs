@@ -43,7 +43,6 @@ namespace MPfm.MVP
 	/// </summary>
 	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
 	{		
-		IUpdateLibraryView view ;
 		readonly ILibraryService libraryService;		
 		readonly IUpdateLibraryService updateLibraryService;
 		
@@ -70,7 +69,7 @@ namespace MPfm.MVP
         /// <param name="e">Event arguments</param>
         protected void updateLibraryService_RaiseRefreshStatusEvent(object sender, RefreshStatusEventArgs e)
         {            
-            view.RefreshStatus(e.Entity);
+            View.RefreshStatus(e.Entity);
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace MPfm.MVP
         /// <param name="e">Event arguments</param>
         protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
         {
-            view.ProcessEnded(e.Canceled);   
+            View.ProcessEnded(e.Canceled);   
         }
 
 		#endregion

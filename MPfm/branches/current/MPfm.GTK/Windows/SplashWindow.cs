@@ -20,26 +20,47 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Gdk;
 using MPfm.MVP;
 
 namespace MPfm.GTK
 {
 	public partial class SplashWindow : Gtk.Window, ISplashView
 	{
-		public SplashWindow() : 
+		readonly ISplashPresenter splashPresenter;
+		
+		public SplashWindow(ISplashPresenter splashPresenter) : 
 		base(Gtk.WindowType.Toplevel)
 		{
-				this.Build();
+			this.Build();
+			this.splashPresenter = splashPresenter;
+		
+			this.ModifyBg(Gtk.StateType.Normal, new Color(0, 0, 0));
+			this.lblStatus.ModifyFg(Gtk.StateType.Normal, new Color(255, 255, 255));
+			
+			// Set image background
+			Pixbuf imageCover = new Pixbuf("Splash.png");
+			imageBackground.Pixbuf = imageCover;
+			
+			splashPresenter.BindView(this);
+			splashPresenter.Initialize();
 		}
 
 		#region ISplashView implementation
 
 		public void RefreshStatus(string message)
 		{
+			Gtk.Application.Invoke(delegate{
+				lblStatus.Text = message;
+			});
 		}
 
 		public void InitDone()
 		{
+			Gtk.Application.Invoke(delegate{
+				MainClass.mainWindow.ShowAll();
+				this.Destroy();
+			});
 		}
 
 		#endregion

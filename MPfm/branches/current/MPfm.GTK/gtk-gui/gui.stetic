@@ -547,7 +547,7 @@
                                         <property name="MemberName" />
                                         <property name="Spacing">4</property>
                                         <child>
-                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting2">
+                                          <widget class="Gtk.Label" id="lblPitchShiftingReset">
                                             <property name="MemberName" />
                                             <property name="Xalign">0</property>
                                             <property name="LabelProp" translatable="yes">Reset</property>
@@ -561,10 +561,10 @@
                                           <placeholder />
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting3">
+                                          <widget class="Gtk.Label" id="lblPitchShiftingValue">
                                             <property name="MemberName" />
                                             <property name="Xalign">0</property>
-                                            <property name="LabelProp" translatable="yes">120 bpm</property>
+                                            <property name="LabelProp" translatable="yes">100 %</property>
                                           </widget>
                                           <packing>
                                             <property name="Position">2</property>
@@ -602,7 +602,7 @@
                                         <property name="MemberName" />
                                         <property name="Spacing">4</property>
                                         <child>
-                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting4">
+                                          <widget class="Gtk.Label" id="lblOriginalTempo">
                                             <property name="MemberName" />
                                             <property name="Xalign">0</property>
                                             <property name="LabelProp" translatable="yes">Original tempo:</property>
@@ -613,7 +613,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="Gtk.SpinButton" id="spinbutton4">
+                                          <widget class="Gtk.SpinButton" id="spinOriginalTempoValue">
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Upper">100</property>
@@ -630,7 +630,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting5">
+                                          <widget class="Gtk.Label" id="lblOriginalTempoBPM">
                                             <property name="MemberName" />
                                             <property name="Xalign">0</property>
                                             <property name="LabelProp" translatable="yes">bpm</property>
@@ -901,7 +901,7 @@
                                         <property name="MemberName" />
                                         <property name="Spacing">4</property>
                                         <child>
-                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting1">
+                                          <widget class="Gtk.Label" id="lblTimeShiftingReset">
                                             <property name="MemberName" />
                                             <property name="Xalign">0</property>
                                             <property name="LabelProp" translatable="yes">Reset</property>
@@ -915,7 +915,7 @@
                                           <placeholder />
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="lblCurrentTimeShifting">
+                                          <widget class="Gtk.Label" id="lblTimeShiftingValue">
                                             <property name="MemberName" />
                                             <property name="Xalign">0</property>
                                             <property name="LabelProp" translatable="yes">100 %</property>
@@ -3421,12 +3421,43 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.SplashWindow" design-size="400 300">
+  <widget class="Gtk.Window" id="MPfm.GTK.SplashWindow" design-size="646 554">
     <property name="MemberName" />
     <property name="Title" translatable="yes">SplashWindow</property>
-    <property name="WindowPosition">CenterOnParent</property>
+    <property name="WindowPosition">CenterAlways</property>
+    <property name="Resizable">False</property>
+    <property name="AllowGrow">False</property>
+    <property name="Decorated">False</property>
     <child>
-      <placeholder />
+      <widget class="Gtk.VBox" id="vbox1">
+        <property name="MemberName" />
+        <child>
+          <widget class="Gtk.Image" id="imageBackground">
+            <property name="MemberName" />
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="lblStatus">
+            <property name="MemberName" />
+            <property name="Xpad">4</property>
+            <property name="Xalign">0</property>
+            <property name="LabelProp" translatable="yes">Loading...</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+            <property name="Padding">2</property>
+          </packing>
+        </child>
+      </widget>
     </child>
   </widget>
 </stetic-interface>

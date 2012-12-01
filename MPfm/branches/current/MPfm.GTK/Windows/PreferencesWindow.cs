@@ -20,13 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.MVP;
 
 namespace MPfm.GTK
 {
 	/// <summary>
 	/// Settings window.
 	/// </summary>
-	public partial class PreferencesWindow : Gtk.Window
+	public partial class PreferencesWindow : Gtk.Window, IPreferencesView
 	{
 		/// <summary>
 		/// Reference to the main window.

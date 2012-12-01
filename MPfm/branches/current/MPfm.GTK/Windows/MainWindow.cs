@@ -32,7 +32,6 @@ namespace MPfm.GTK
 		private readonly IPlayerPresenter playerPresenter = null;		
 		private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
 		private readonly ISongBrowserPresenter songBrowserPresenter = null;
-		private readonly IInitializationService initializationService = null;
 		
 		private PreferencesWindow windowSettings = null;
 		private PlaylistWindow windowPlaylist = null;
@@ -50,15 +49,13 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
 		/// </summary>
-		public MainWindow(IInitializationService initializationService,
-						  IPlayerPresenter playerPresenter, 
+		public MainWindow(IPlayerPresenter playerPresenter, 
 		                  ISongBrowserPresenter songBrowserPresenter,
 		                  ILibraryBrowserPresenter libraryBrowserPresenter): base (Gtk.WindowType.Toplevel)
 		{
 			Build();
 	
 			// Set properties
-			this.initializationService = initializationService;
 			this.playerPresenter = playerPresenter;
 			this.songBrowserPresenter = songBrowserPresenter;
 			this.libraryBrowserPresenter = libraryBrowserPresenter;
@@ -71,9 +68,6 @@ namespace MPfm.GTK
 			
 			// Set font properties
 			SetFontProperties();
-			
-			// Initialize configuration and library
-			initializationService.Initialize();			
 			
 			// Initialize browsers
 			InitializeSongBrowser();
@@ -217,7 +211,7 @@ namespace MPfm.GTK
 		{
 			try
 			{
-				Console.WriteLine("MainWindow - RenderSongBrowserCell");
+				//Console.WriteLine("MainWindow - RenderSongBrowserCell");
 				// Get model data
 				AudioFile audioFile = (AudioFile)model.GetValue(iter, 0);
 				if(audioFile == null)
@@ -301,7 +295,7 @@ namespace MPfm.GTK
 		private void RenderLibraryBrowserCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			// Get model data
-			Console.WriteLine("MainWindow - RenderLibraryBrowserCell");
+			//Console.WriteLine("MainWindow - RenderLibraryBrowserCell");
 			LibraryBrowserEntity entity = (LibraryBrowserEntity)model.GetValue(iter, 0);
 	
 			// Get property name
@@ -352,6 +346,7 @@ namespace MPfm.GTK
 			string titleFontName = "Sans Bold 10";
 			string subtitleFontName = "Sans Bold 8";
 			string buttonFontName = "Sans Bold 8";
+			string textFontName = "Sans 8";
 			string largePositionFontName = "Mono Bold 11";
 			
 			this.btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
@@ -371,24 +366,34 @@ namespace MPfm.GTK
 			this.lblMarkers.ModifyFont(FontDescription.FromString(titleFontName));
 			
 			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));			
+			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(textFontName));			
 				
 			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(largePositionFontName));
 			this.lblCurrentLength.ModifyFont(FontDescription.FromString(largePositionFontName));
 			
 			this.lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
+			
 			this.lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			this.lblTimeShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
+			this.btnDetectTempo.ModifyFont(FontDescription.FromString(textFontName));			
+			
 			this.lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			this.lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblPitchShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			
 			this.lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
 			this.lblVolume.ModifyFont(FontDescription.FromString(subtitleFontName));
 			
-			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-			this.lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(textFontName));
 						
-			this.lblCurrentTimeShifting.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-			this.lblCurrentVolume.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			this.lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			this.lblCurrentVolume.ModifyFont(FontDescription.FromString(textFontName));
 		}
 		
 		private AudioFileFormat GetCurrentAudioFileFormatFilter()
@@ -854,7 +859,7 @@ namespace MPfm.GTK
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
 		{
 			Gtk.Application.Invoke(delegate{			
-				lblCurrentTimeShifting.Text = entity.TimeShiftingString;
+				lblTimeShiftingValue.Text = entity.TimeShiftingString;
 				if(entity.TimeShifting != hscaleTimeShifting.Value)
 					hscaleTimeShifting.Value = (float)entity.TimeShifting;
 			});
