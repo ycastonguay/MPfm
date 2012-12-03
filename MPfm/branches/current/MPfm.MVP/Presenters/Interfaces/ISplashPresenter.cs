@@ -32,6 +32,6 @@ namespace MPfm.MVP
 	/// </summary>
     public interface ISplashPresenter : IBasePresenter<ISplashView>
 	{
-        void Initialize();
+        void Initialize(Action onInitDone);
 	}
 }

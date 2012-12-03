@@ -50,12 +50,18 @@ namespace MPfm.MVP
 		
 		#region ISplashPresenter implementation
 		
-        public void Initialize()
+        public void Initialize(Action onInitDone)
         {
-            Task.Factory.StartNew(() => {
+            Task taskInit = Task.Factory.StartNew(() => {
                 initializationService.Initialize();
-                View.InitDone();
+                Console.WriteLine("SplashPresenter - Init done");
+                View.InitDone();                
             });
+            
+            Console.WriteLine("SplashPresenter - Waiting for task finish...");
+            taskInit.Wait();
+            Console.WriteLine("SplashPresenter - Task completed!");
+            onInitDone.Invoke();            
         }
 		
 		#endregion

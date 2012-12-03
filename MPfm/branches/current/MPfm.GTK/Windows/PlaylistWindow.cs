@@ -19,13 +19,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using MPfm.MVP;
 
 namespace MPfm.GTK
 {
 	/// <summary>
 	/// Playlist window.
 	/// </summary>
-	public partial class PlaylistWindow : Gtk.Window
+	public partial class PlaylistWindow : BaseWindow, IPlaylistView
 	{
 		/// <summary>
 		/// Reference to the main window.
@@ -36,8 +37,8 @@ namespace MPfm.GTK
 		/// Initializes a new instance of the <see cref="MPfm.GTK.PlaylistWindow"/> class.
 		/// </summary>
 		/// <param name='main'>Reference to the main window.</param>
-		public PlaylistWindow(MainWindow main) : 
-				base(Gtk.WindowType.Toplevel)
+		public PlaylistWindow(MainWindow main, Action<IBaseView> onViewReady) : 
+				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
 			

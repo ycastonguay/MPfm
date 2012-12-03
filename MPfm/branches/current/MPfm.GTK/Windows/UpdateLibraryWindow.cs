@@ -31,7 +31,7 @@ namespace MPfm.GTK
 	/// <summary>
 	/// Update Library window.
 	/// </summary>
-	public partial class UpdateLibraryWindow : Gtk.Window, IUpdateLibraryView
+	public partial class UpdateLibraryWindow : BaseWindow, IUpdateLibraryView
 	{
 		// Private variables		
 		private IUpdateLibraryPresenter presenter = null;
@@ -39,8 +39,8 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
 		/// </summary>		
-		public UpdateLibraryWindow (UpdateLibraryMode mode, List<string> filePaths, string folderPath) : 
-				base(Gtk.WindowType.Toplevel)
+		public UpdateLibraryWindow (UpdateLibraryMode mode, List<string> filePaths, string folderPath, Action<IBaseView> onViewReady) : 
+				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build ();	
 						

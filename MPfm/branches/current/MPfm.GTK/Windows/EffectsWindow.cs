@@ -19,14 +19,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 using Pango;
+using MPfm.MVP;
 
 namespace MPfm.GTK
 {
 	/// <summary>
 	/// Effects window.
 	/// </summary>
-	public partial class EffectsWindow : Gtk.Window
+	public partial class EffectsWindow : BaseWindow, IEffectsView
 	{
 		/// <summary>
 		/// Reference to the main window.
@@ -37,8 +39,8 @@ namespace MPfm.GTK
 		/// Initializes a new instance of the <see cref="MPfm.GTK.EffectsWindow"/> class.
 		/// </summary>
 		/// <param name='main'>Reference to the main window.</param>
-		public EffectsWindow(MainWindow main) : 
-				base(Gtk.WindowType.Toplevel)
+		public EffectsWindow(MainWindow main, Action<IBaseView> onViewReady) : 
+				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
 			
@@ -106,6 +108,21 @@ namespace MPfm.GTK
 			// Hide window instead
 			this.HideAll();
 		}
+
+		#region IEffectsView implementation
+		
+		public void UpdateFader(int index, float value)
+		{
+			
+		}
+
+		public void UpdatePresetList(IEnumerable<string> presets)
+		{
+			
+		}
+		
+		#endregion
+		
 	}
 }
 

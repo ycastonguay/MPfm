@@ -1,5 +1,5 @@
 //
-// ISplashView.cs: Splash screen view interface.
+// IMainPresenter.cs: Main window presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -19,22 +19,19 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using MPfm.Core;
 using MPfm.Sound;
 
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Splash screen view interface.
+	/// Main window presenter interface.
 	/// </summary>
-    public interface ISplashView : IBaseView
+	public interface IMainPresenter : IBasePresenter<IMainView>
 	{
-        //Action OnViewReady { get; set; }           
-        
-        void RefreshStatus(string message);
-        void InitDone();
 	}
 }
+

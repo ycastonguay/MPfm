@@ -25,16 +25,19 @@ using MPfm.MVP;
 
 namespace MPfm.GTK
 {
-	public partial class SplashWindow : Gtk.Window, ISplashView
+	public partial class SplashWindow : BaseWindow, ISplashView
 	{
-		readonly ISplashPresenter splashPresenter;
-		
-		public SplashWindow(ISplashPresenter splashPresenter) : 
-		base(Gtk.WindowType.Toplevel)
+		public SplashWindow(Action<IBaseView> onViewReady) : 
+		base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
-			this.splashPresenter = splashPresenter;
 		
+			Initialize();	
+			Console.WriteLine("SplashWindow - Constructor ended");
+		}
+		
+		private void Initialize()
+		{
 			this.ModifyBg(Gtk.StateType.Normal, new Color(0, 0, 0));
 			this.lblStatus.ModifyFg(Gtk.StateType.Normal, new Color(255, 255, 255));
 			
@@ -42,12 +45,26 @@ namespace MPfm.GTK
 			Pixbuf imageCover = new Pixbuf("Splash.png");
 			imageBackground.Pixbuf = imageCover;
 			
-			splashPresenter.BindView(this);
-			splashPresenter.Initialize();
+			//splashPresenter.BindView(this);
+			//splashPresenter.Initialize();
+			Console.WriteLine("SplashWindow - Invoking OnViewReady...");
+			OnViewReady.Invoke(this);
+		}
+		
+		protected override void OnRealized()
+		{
+			Console.WriteLine("SplashWindow - OnRealized");
+			base.OnRealized();			
+		}
+		
+		protected override void OnShown()
+		{
+			Console.WriteLine("SplashWindow - OnShown");
+			base.OnShown();
 		}
 
 		#region ISplashView implementation
-
+		
 		public void RefreshStatus(string message)
 		{
 			Gtk.Application.Invoke(delegate{
@@ -56,13 +73,13 @@ namespace MPfm.GTK
 		}
 
 		public void InitDone()
-		{
-			Gtk.Application.Invoke(delegate{
-				MainClass.mainWindow.ShowAll();
+		{					
+			Gtk.Application.Invoke(delegate{				
 				this.Destroy();
-			});
+			});					
 		}
 
 		#endregion
+
 	}
 }

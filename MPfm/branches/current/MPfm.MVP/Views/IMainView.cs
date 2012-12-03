@@ -32,5 +32,8 @@ namespace MPfm.MVP
 	/// </summary>
     public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView
 	{
+        Action OnOpenPreferencesWindow { get; set; }
+        Action OnOpenEffectsWindow { get; set; }
+        Action OnOpenPlaylistWindow { get; set; }
 	}
 }

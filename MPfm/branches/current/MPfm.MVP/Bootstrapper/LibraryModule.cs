@@ -48,6 +48,7 @@ namespace MPfm.MVP
             Bind<IUpdateLibraryService>().To<UpdateLibraryService>().InSingletonScope();
 			
             Bind<ISplashPresenter>().To<SplashPresenter>().InSingletonScope();
+            Bind<IMainPresenter>().To<MainPresenter>();
 			Bind<IPlayerPresenter>().To<PlayerPresenter>().InSingletonScope();
 			Bind<ISongBrowserPresenter>().To<SongBrowserPresenter>().InSingletonScope();
 			Bind<ILibraryBrowserPresenter>().To<LibraryBrowserPresenter>().InSingletonScope();

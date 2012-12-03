@@ -27,24 +27,20 @@ namespace MPfm.GTK
 	/// <summary>
 	/// Settings window.
 	/// </summary>
-	public partial class PreferencesWindow : Gtk.Window, IPreferencesView
-	{
-		/// <summary>
-		/// Reference to the main window.
-		/// </summary>
-		private MainWindow main = null;
-		
+	public partial class PreferencesWindow : BaseWindow, IPreferencesView
+	{		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
 		/// </summary>
 		/// <param name='main'>Reference to the main window.</param>
-		public PreferencesWindow (MainWindow main) : 
-				base(Gtk.WindowType.Toplevel)
+		public PreferencesWindow (Action<IBaseView> onViewReady) : 
+				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build ();
 			
-			// Set reference to main window
-			this.main = main;
+			// Notify that the view is ready
+			onViewReady.Invoke(this);
+			this.Show();
 		}
 		
 		/// <summary>
@@ -56,10 +52,11 @@ namespace MPfm.GTK
 		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
 		{
 			// Prevent window from closing
-			args.RetVal = true;
+			//args.RetVal = true;
 			
 			// Hide window instead
-			this.HideAll();
+			//this.HideAll();
+			Console.WriteLine("PreferencesWindow - OnDeleteEvent");
 		}
 	}
 }

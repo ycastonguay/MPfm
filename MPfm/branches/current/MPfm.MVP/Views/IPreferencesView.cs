@@ -32,7 +32,7 @@ namespace MPfm.MVP
     /// Preferences view interface.
 	/// </summary>
     public interface IPreferencesView : IBaseView
-	{
+	{        
 	}
 }
 

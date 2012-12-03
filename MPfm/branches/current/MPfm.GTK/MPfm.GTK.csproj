@@ -98,6 +98,7 @@
     <Compile Include="gtk-gui\MPfm.GTK.PreferencesWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.SplashWindow.cs" />
     <Compile Include="Windows\SplashWindow.cs" />
+    <Compile Include="Windows\BaseWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

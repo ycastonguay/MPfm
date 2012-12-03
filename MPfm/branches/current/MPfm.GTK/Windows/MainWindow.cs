@@ -26,7 +26,7 @@ namespace MPfm.GTK
 	/// <summary>
 	/// Main window.
 	/// </summary>
-	public partial class MainWindow: Gtk.Window, IMainView
+	public partial class MainWindow: BaseWindow, IMainView
 	{
 		// Private variables
 		private readonly IPlayerPresenter playerPresenter = null;		
@@ -49,12 +49,14 @@ namespace MPfm.GTK
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWindow"/> class.
 		/// </summary>
-		public MainWindow(IPlayerPresenter playerPresenter, 
+		public MainWindow(Action<IBaseView> onViewReady,
+						  IPlayerPresenter playerPresenter, 
 		                  ISongBrowserPresenter songBrowserPresenter,
-		                  ILibraryBrowserPresenter libraryBrowserPresenter): base (Gtk.WindowType.Toplevel)
-		{
-			Build();
-	
+		                  ILibraryBrowserPresenter libraryBrowserPresenter): base (Gtk.WindowType.Toplevel, onViewReady)
+		{			
+			Build();			
+			Icon = new Pixbuf(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/icon48.png");
+			
 			// Set properties
 			this.playerPresenter = playerPresenter;
 			this.songBrowserPresenter = songBrowserPresenter;
@@ -105,6 +107,9 @@ namespace MPfm.GTK
 			cboSoundFormat.GrabFocus();
 						
 			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
+			
+			// Set view as ready
+			onViewReady.Invoke(this);
 		}
 	
 		/// <summary>
@@ -500,7 +505,7 @@ namespace MPfm.GTK
 				}
 				
 				// Create and display window
-				windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.SpecificFolder, null, dialog.Filename);		
+				windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.SpecificFolder, null, dialog.Filename, null);		
 				windowUpdateLibrary.ShowAll();	
 			}
 							
@@ -517,7 +522,7 @@ namespace MPfm.GTK
 			}
 			
 			// Create and display window
-			windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.WholeLibrary, null, null);		
+			windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.WholeLibrary, null, null, null);		
 			windowUpdateLibrary.ShowAll();
 		}		
 					
@@ -571,7 +576,7 @@ namespace MPfm.GTK
 			// Create window if it doesn't exists
 			if(windowPlaylist == null)
 			{				
-				windowPlaylist = new PlaylistWindow(this);			
+				windowPlaylist = new PlaylistWindow(this, null);
 			}
 			
 			// Display window			
@@ -583,7 +588,7 @@ namespace MPfm.GTK
 			// Create window if it doesn't exists
 			if(windowEffects == null)
 			{				
-				windowEffects = new EffectsWindow(this);			
+				windowEffects = new EffectsWindow(this, null);			
 			}
 			
 			// Display window			
@@ -592,14 +597,8 @@ namespace MPfm.GTK
 		
 		protected void OnActionSettingsActivated(object sender, System.EventArgs e)
 		{
-			// Create window if it doesn't exists
-			if(windowSettings == null)
-			{				
-				windowSettings = new PreferencesWindow(this);			
-			}
-			
-			// Display window			
-			windowSettings.ShowAll();		
+			if(OnOpenPreferencesWindow != null)
+				OnOpenPreferencesWindow.Invoke();
 		}
 
 		protected void OnAboutActionActivated(object sender, System.EventArgs e)
@@ -978,5 +977,14 @@ namespace MPfm.GTK
 		}
 		
 		#endregion
+
+		#region IMainView implementation
+		
+		public System.Action OnOpenPreferencesWindow { get; set; }
+		public System.Action OnOpenEffectsWindow { get; set; }
+		public System.Action OnOpenPlaylistWindow { get; set; }
+		
+		#endregion
+
 	}
 }

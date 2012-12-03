@@ -1,5 +1,5 @@
 //
-// BasePresenter.cs: Base presenter.
+// MainPresenter.cs: Main window presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -34,33 +34,48 @@ using AutoMapper;
 namespace MPfm.MVP
 {
 	/// <summary>
-	/// Base presenter.
+	/// Main window presenter.
 	/// </summary>
-	public class BasePresenter<T> : IBasePresenter<T> where T : IBaseView
+	public class MainPresenter : BasePresenter<IMainView>, IMainPresenter
 	{
-		// Private variables
-        public T View { get; private set; }
-
 		#region Constructor and Dispose
 
-		public BasePresenter()
-		{	
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MPfm.MVP.EffectsPresenter"/> class.
+        /// </summary>
+        /// <param name='playerService'>
+        /// Player service.
+        /// </param>
+		public MainPresenter()
+		{
+            
 		}
 
 		#endregion
-		
-		/// <summary>
-		/// Binds the view to its implementation.
-		/// </summary>
-		/// <param name='view'>View implementation</param>		
-		public virtual void BindView(T view)
-		{
-			// Validate parameters
-			if(view == null)			
-				throw new ArgumentNullException("The view parameter is null!");			
-						
-			// Set properties
-			this.View = view;
-		}
-	}
+        
+        public override void BindView(IMainView view)
+        {            
+            // Subscribe to view actions
+            view.OnOpenPlaylistWindow = OpenPlaylistWindow;
+            view.OnOpenEffectsWindow = OpenEffectsWindow;
+            view.OnOpenPreferencesWindow = OpenPreferencesWindow;
+            
+            base.BindView(view);
+        }
+        
+        void OpenPlaylistWindow()
+        {
+        }
+
+        void OpenEffectsWindow()
+        {
+        }
+
+        void OpenPreferencesWindow()
+        {
+            NavigationManager.CreatePreferencesWindow();
+        }
+        
+    }
 }
+
