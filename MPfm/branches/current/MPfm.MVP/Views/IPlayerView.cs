@@ -19,6 +19,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -33,6 +34,7 @@ namespace MPfm.MVP
     public interface IPlayerView : IBaseView
 	{
         Action OnPlayerPlay { get; set; }
+        Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         Action OnPlayerPause { get; set; }
         Action OnPlayerStop { get; set; }
         Action OnPlayerPrevious { get; set; }

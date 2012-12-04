@@ -34,14 +34,8 @@ namespace MPfm.Mac
     /// </summary>
     public class SongBrowserTableViewDelegate : NSTableViewDelegate
     {
-        private ISongBrowserPresenter songBrowserPresenter = null;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.Mac.SongBrowserTableViewDelegate"/> class.
-        /// </summary>
-        public SongBrowserTableViewDelegate(ISongBrowserPresenter songBrowserPresenter)
+        public SongBrowserTableViewDelegate()
         {
-            this.songBrowserPresenter = songBrowserPresenter;
         }
     }
 }

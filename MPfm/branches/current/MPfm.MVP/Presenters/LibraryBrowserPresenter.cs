@@ -75,13 +75,11 @@ namespace MPfm.MVP
             view.OnAudioFileFormatFilterChanged = (format) => { AudioFileFormatFilterChanged(format); };
             view.OnTreeNodeSelected = (entity) => { TreeNodeSelected(entity); };
             view.OnTreeNodeExpanded = (entity, obj) => { TreeNodeExpanded(entity, obj); };
+            view.OnTreeNodeExpandable = (entity) => { return TreeNodeExpandable(entity); };
             view.OnTreeNodeDoubleClicked = (entity) => { TreeNodeDoubleClicked(entity); };
 
-            // Load configuration
-            if (MPfmConfig.Instance.ShowTooltips)
-            {
-                string empty = string.Empty;
-            }
+//            // Load configuration
+//            if (MPfmConfig.Instance.ShowTooltips)
 
             // Refresh view (first level nodes)
             view.RefreshLibraryBrowser(GetFirstLevelNodes());

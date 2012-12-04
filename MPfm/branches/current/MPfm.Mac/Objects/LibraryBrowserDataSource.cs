@@ -34,8 +34,7 @@ namespace MPfm.Mac
 	/// </summary>
 	public class LibraryBrowserDataSource : NSOutlineViewDataSource
 	{
-        private readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
-
+        readonly Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable;
 		public List<LibraryBrowserItem> Items { get; private set; }
 
         /// <summary>
@@ -44,10 +43,12 @@ namespace MPfm.Mac
         /// <param name='entities'>List of LibraryBrowserEntity</param>
         /// <param name='libraryBrowserPresenter'>Library Browser Presenter (necessary to get additional data for the data source)</param>
 		public LibraryBrowserDataSource(IEnumerable<LibraryBrowserEntity> entities, 
-                                        ILibraryBrowserPresenter libraryBrowserPresenter)
+                                        Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> onTreeNodeExpandable)
         {
-            // Set properties
-            this.libraryBrowserPresenter = libraryBrowserPresenter;
+            if(onTreeNodeExpandable == null)
+                throw new ArgumentNullException("onTreeNodeExpandable");
+
+            this.OnTreeNodeExpandable = onTreeNodeExpandable;
 
 			// Create list of items
 			Items = new List<LibraryBrowserItem>();
@@ -76,7 +77,8 @@ namespace MPfm.Mac
             if (libraryBrowserItem.SubItems.Count > 0 && libraryBrowserItem.SubItems [0].Entity.Type == LibraryBrowserEntityType.Dummy)
             {
                 // Extract more data
-                IEnumerable<LibraryBrowserEntity> entities = libraryBrowserPresenter.TreeNodeExpandable(libraryBrowserItem.Entity);
+                //IEnumerable<LibraryBrowserEntity> entities = libraryBrowserPresenter.TreeNodeExpandable(libraryBrowserItem.Entity);
+                IEnumerable<LibraryBrowserEntity> entities = OnTreeNodeExpandable.Invoke(libraryBrowserItem.Entity);
 
                 // Clear subitems (dummy node) and fill with actual nodes
                 libraryBrowserItem.SubItems.Clear();

@@ -47,6 +47,7 @@ namespace MPfm.Mac
         protected override void Dispose(bool disposing)
         {
             Console.WriteLine("BaseWindowController - Dispose(" + disposing.ToString() + ")");
+            // TODO: Is this a good place to call OnViewDestroy?
             base.Dispose(disposing);
         }
 
@@ -56,6 +57,7 @@ namespace MPfm.Mac
 
         public void ShowView(bool shown)
         {
+            // TODO: Complete this
         }
 
         #endregion

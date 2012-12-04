@@ -33,6 +33,7 @@ namespace MPfm.MVP
         Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }        
         Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
+        Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
         
 		void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
 		void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData);

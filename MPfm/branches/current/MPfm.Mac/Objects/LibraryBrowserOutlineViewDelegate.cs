@@ -37,14 +37,17 @@ namespace MPfm.Mac
     /// </summary>
     public class LibraryBrowserOutlineViewDelegate : NSOutlineViewDelegate
     {
-        ILibraryBrowserPresenter libraryBrowserPresenter = null;
+        readonly Action<LibraryBrowserEntity> OnTreeNodeSelected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserOutlineViewDelegate"/> class.
         /// </summary>
-        public LibraryBrowserOutlineViewDelegate(ILibraryBrowserPresenter libraryBrowserPresenter)
+        public LibraryBrowserOutlineViewDelegate(Action<LibraryBrowserEntity> onTreeNodeSelected)
         {
-            this.libraryBrowserPresenter = libraryBrowserPresenter;
+            if(onTreeNodeSelected == null)
+                throw new ArgumentNullException("onTreeNodeSelected");
+
+            this.OnTreeNodeSelected = onTreeNodeSelected;
         }
 
         /// <summary>
@@ -59,7 +62,7 @@ namespace MPfm.Mac
 
             // Call presenter if a valid item has been found
             if(item != null)
-                libraryBrowserPresenter.TreeNodeSelected(item.Entity);
+                OnTreeNodeSelected.Invoke(item.Entity);
         }
 
         [Export("outlineView:viewForTableColumn:item:")]
