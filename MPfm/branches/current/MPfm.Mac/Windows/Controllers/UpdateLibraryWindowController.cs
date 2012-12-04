@@ -32,7 +32,7 @@ namespace MPfm.Mac
     /// <summary>
     /// Update Library window controller.
     /// </summary>
-	public partial class UpdateLibraryWindowController : MonoMac.AppKit.NSWindowController, IUpdateLibraryView
+	public partial class UpdateLibraryWindowController : BaseWindowController, IUpdateLibraryView
 	{
 		MainWindowController mainWindowController = null;
 		IMPfmGateway gateway = null;
@@ -43,20 +43,23 @@ namespace MPfm.Mac
 		#region Constructors
 		
 		// Called when created from unmanaged code
-		public UpdateLibraryWindowController(IntPtr handle) : base (handle)
+		public UpdateLibraryWindowController(IntPtr handle) 
+            : base (handle)
 		{
 			Initialize();
 		}
 		
 		// Called when created directly from a XIB file
 		[Export ("initWithCoder:")]
-		public UpdateLibraryWindowController(NSCoder coder) : base (coder)
+		public UpdateLibraryWindowController(NSCoder coder) 
+            : base (coder)
 		{
 			Initialize();
 		}
 		
 		// Call to load from the XIB/NIB file
-		public UpdateLibraryWindowController(MainWindowController mainWindowController) : base ("UpdateLibraryWindow")
+		public UpdateLibraryWindowController(MainWindowController mainWindowController, Action<IBaseView> onViewReady) 
+            : base ("UpdateLibraryWindow", onViewReady)
 		{
             this.mainWindowController = mainWindowController;
 			Initialize();

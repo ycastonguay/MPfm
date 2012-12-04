@@ -28,28 +28,30 @@ using MPfm.MVP;
 
 namespace MPfm.Mac
 {
-    public partial class EffectsWindowController : MonoMac.AppKit.NSWindowController, IEffectsView
+    public partial class EffectsWindowController : BaseWindowController, IEffectsView
     {
         readonly IEffectsPresenter effectsPresenter = null;
 
         #region Constructors
         
         // Called when created from unmanaged code
-        public EffectsWindowController(IntPtr handle) : base (handle)
+        public EffectsWindowController(IntPtr handle) 
+            : base (handle)
         {
             Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export ("initWithCoder:")]
-        public EffectsWindowController(NSCoder coder) : base (coder)
+        public EffectsWindowController(NSCoder coder) 
+            : base (coder)
         {
             Initialize();
         }
         
         // Call to load from the XIB/NIB file
-        public EffectsWindowController(IEffectsPresenter effectsPresenter) 
-            : base ("EffectsWindow")
+        public EffectsWindowController(IEffectsPresenter effectsPresenter, Action<IBaseView> onViewReady) 
+            : base ("EffectsWindow", onViewReady)
         {
             this.effectsPresenter = effectsPresenter;
             Initialize();

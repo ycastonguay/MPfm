@@ -40,6 +40,7 @@ namespace MPfm.Mac
 	{
         SplashWindowController splashWindowController;
 		MainWindowController mainWindowController;
+        NavigationManager navigationManager;
 		
 		public AppDelegate()
 		{
@@ -47,37 +48,53 @@ namespace MPfm.Mac
 
 		public override void FinishedLaunching(NSObject notification)
 		{
-            // Create splash screen
-            splashWindowController = Bootstrapper.GetKernel().Get<SplashWindowController>();
-            splashWindowController.Window.AlphaValue = 0;
-            //splashWindowController.Window.MakeKeyAndOrderFront(this);
-            splashWindowController.Window.OrderFront(this);
+            // Add view implementations to IoC
+            Bootstrapper.GetKernel().Bind<NavigationManager>().To<MacNavigationManager>();
+            Bootstrapper.GetKernel().Bind<ISplashView>().To<SplashWindowController>();
+            Bootstrapper.GetKernel().Bind<IMainView>().To<MainWindowController>();
+            Bootstrapper.GetKernel().Bind<IUpdateLibraryView>().To<UpdateLibraryWindowController>();
+            Bootstrapper.GetKernel().Bind<IPlaylistView>().To<PlaylistWindowController>();
+            Bootstrapper.GetKernel().Bind<IEffectsView>().To<EffectsWindowController>();
+            Bootstrapper.GetKernel().Bind<IPreferencesView>().To<PreferencesWindowController>();
 
-            // Fade in splash screen
-            NSMutableDictionary dict = new NSMutableDictionary();
-            dict.Add(NSViewAnimation.TargetKey, splashWindowController.Window);
-            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
-            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-            anim.Duration = 0.4f;
-            anim.StartAnimation();
+            // Create and start navigation manager
+            navigationManager = Bootstrapper.GetKernel().Get<NavigationManager>();
+            navigationManager.Start();
+
+
+
+
+            // Create splash screen
+            //splashWindowController = Bootstrapper.GetKernel().Get<SplashWindowController>();
+            //splashWindowController.Window.AlphaValue = 0;
+            //splashWindowController.Window.MakeKeyAndOrderFront(this);
+            //splashWindowController.Window.OrderFront(this);
+
+//            // Fade in splash screen
+//            NSMutableDictionary dict = new NSMutableDictionary();
+//            dict.Add(NSViewAnimation.TargetKey, splashWindowController.Window);
+//            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
+//            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+//            anim.Duration = 0.4f;
+//            anim.StartAnimation();
         }
 
         public void LoadScreens()
         {
             // Load main window
-            mainWindowController = Bootstrapper.GetKernel().Get<MainWindowController>();
-            mainWindowController.Window.AlphaValue = 0;
-            mainWindowController.Window.MakeKeyAndOrderFront(this);
+            //mainWindowController = Bootstrapper.GetKernel().Get<MainWindowController>();
+            //mainWindowController.Window.AlphaValue = 0;
+            //mainWindowController.Window.MakeKeyAndOrderFront(this);
             //mainWindowController.Window.OrderBack(this);
 
-            // Fade in main window
-            NSMutableDictionary dict = new NSMutableDictionary();
-            dict.Add(NSViewAnimation.TargetKey, mainWindowController.Window);
-            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
-            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-            anim.Duration = 0.4f;
-            anim.StartAnimation();
-            anim.AnimationDidEnd += HandleAnimationDidEnd;
+//            // Fade in main window
+//            NSMutableDictionary dict = new NSMutableDictionary();
+//            dict.Add(NSViewAnimation.TargetKey, mainWindowController.Window);
+//            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
+//            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+//            anim.Duration = 0.4f;
+//            anim.StartAnimation();
+//            anim.AnimationDidEnd += HandleAnimationDidEnd;
         }
 
         void HandleAnimationDidEnd(object sender, EventArgs e)

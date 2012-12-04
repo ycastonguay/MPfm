@@ -52,16 +52,17 @@ namespace MPfm.MVP
 		
         public void Initialize(Action onInitDone)
         {
-            Task taskInit = Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() => {
+                Console.WriteLine("SplashPresenter - Starting initialization service...");
                 initializationService.Initialize();
-                Console.WriteLine("SplashPresenter - Init done");
-                View.InitDone();                
+                Console.WriteLine("SplashPresenter - Initialization service done!");
+            }).ContinueWith((a) => {
+                Console.WriteLine("SplashPresenter - Notifying view...");
+                View.InitDone();        
+                Console.WriteLine("SplashPresenter - Raising action...");
+                onInitDone.Invoke();
+                Console.WriteLine("SplashPresenter - Action raised successfully!");
             });
-            
-            Console.WriteLine("SplashPresenter - Waiting for task finish...");
-            taskInit.Wait();
-            Console.WriteLine("SplashPresenter - Task completed!");
-            onInitDone.Invoke();            
         }
 		
 		#endregion

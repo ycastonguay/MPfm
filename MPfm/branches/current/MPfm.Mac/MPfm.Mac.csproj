@@ -192,6 +192,8 @@
     </Compile>
     <Compile Include="Windows\Controllers\EditMarkerWindowController.cs" />
     <Compile Include="Windows\EditMarkerWindow.cs" />
+    <Compile Include="Windows\Controllers\BaseWindowController.cs" />
+    <Compile Include="Classes\MacNavigationManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -328,6 +330,7 @@
     <Folder Include="Resources\16x16\fam\" />
     <Folder Include="Resources\16x16\tango\" />
     <Folder Include="Resources\32x32\tango\" />
+    <Folder Include="Classes\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

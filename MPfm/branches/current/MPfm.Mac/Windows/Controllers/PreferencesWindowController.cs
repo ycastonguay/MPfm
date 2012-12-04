@@ -27,28 +27,30 @@ using MPfm.MVP;
 
 namespace MPfm.Mac
 {
-    public partial class PreferencesWindowController : MonoMac.AppKit.NSWindowController, IPreferencesView
+    public partial class PreferencesWindowController : BaseWindowController, IPreferencesView
     {
         readonly IPreferencesPresenter preferencesPresenter;
 
         #region Constructors
         
         // Called when created from unmanaged code
-        public PreferencesWindowController(IntPtr handle) : base (handle)
+        public PreferencesWindowController(IntPtr handle) 
+            : base (handle)
         {
             Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export ("initWithCoder:")]
-        public PreferencesWindowController(NSCoder coder) : base (coder)
+        public PreferencesWindowController(NSCoder coder) 
+            : base (coder)
         {
             Initialize();
         }
         
         // Call to load from the XIB/NIB file
-        public PreferencesWindowController(IPreferencesPresenter preferencesPresenter)
-            : base ("PreferencesWindow")
+        public PreferencesWindowController(IPreferencesPresenter preferencesPresenter, Action<IBaseView> onViewReady)
+            : base ("PreferencesWindow", onViewReady)
         {
             this.preferencesPresenter = preferencesPresenter;
             Initialize();

@@ -40,8 +40,16 @@ namespace MPfm.Mac
     /// Main window controller.
     /// </summary>
     //[Register("NSWindow")]
-	public partial class MainWindowController : MonoMac.AppKit.NSWindowController, IPlayerView, ISongBrowserView, ILibraryBrowserView
+	public partial class MainWindowController : BaseWindowController, IMainView, IPlayerView, ISongBrowserView, ILibraryBrowserView
 	{
+        #region IMainView implementation
+
+        public Action OnOpenPreferencesWindow { get; set; }
+        public Action OnOpenEffectsWindow { get; set; }
+        public Action OnOpenPlaylistWindow { get; set; }
+
+        #endregion
+
 		readonly IPlayerPresenter playerPresenter = null;
 		readonly ISongBrowserPresenter songBrowserPresenter = null;
 		readonly ILibraryBrowserPresenter libraryBrowserPresenter = null;
@@ -68,13 +76,15 @@ namespace MPfm.Mac
 		#region Constructors
 		
 		// Called when created from unmanaged code
-		public MainWindowController(IntPtr handle) : base (handle)
+		public MainWindowController(IntPtr handle) 
+            : base (handle)
 		{
 		}
 		
 		// Called when created directly from a XIB file
 		[Export ("initWithCoder:")]
-		public MainWindowController(NSCoder coder) : base (coder)
+		public MainWindowController(NSCoder coder) 
+            : base (coder)
 		{
 		}
 		
@@ -82,10 +92,11 @@ namespace MPfm.Mac
 		public MainWindowController(IPlayerPresenter playerPresenter,
 		                            ISongBrowserPresenter songBrowserPresenter,
 		                            ILibraryBrowserPresenter libraryBrowserPresenter,
-                                    PlaylistWindowController playlistWindowController,
-                                    EffectsWindowController effectsWindowController,
-                                    PreferencesWindowController preferencesWindowController,
-                                    AlbumCoverCacheService albumCoverCacheService) : base ("MainWindow")
+                                    //PlaylistWindowController playlistWindowController,
+                                    //EffectsWindowController effectsWindowController,
+                                    //PreferencesWindowController preferencesWindowController,
+                                    AlbumCoverCacheService albumCoverCacheService,
+                                    Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
             // Set properties
             this.playerPresenter = playerPresenter;
@@ -95,6 +106,8 @@ namespace MPfm.Mac
             this.effectsWindowController = effectsWindowController;
             this.preferencesWindowController = preferencesWindowController;
             this.albumCoverCacheService = new AlbumCoverCacheService();
+
+            this.Window.MakeKeyAndOrderFront(this);
 		}		
 
 		public override void WindowDidLoad()
@@ -597,7 +610,7 @@ namespace MPfm.Mac
                 updateLibraryWindowController.Dispose();
             }
 
-            updateLibraryWindowController = new UpdateLibraryWindowController(this);
+            updateLibraryWindowController = new UpdateLibraryWindowController(this, null);
             updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
             updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
         }

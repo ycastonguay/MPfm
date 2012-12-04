@@ -27,21 +27,23 @@ using MPfm.MVP;
 
 namespace MPfm.Mac
 {
-    public partial class PlaylistWindowController : MonoMac.AppKit.NSWindowController, IPlaylistView
+    public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {
         readonly IPlaylistPresenter playlistPresenter;
 
         #region Constructors
         
         // Called when created from unmanaged code
-        public PlaylistWindowController(IntPtr handle) : base (handle)
+        public PlaylistWindowController(IntPtr handle) 
+            : base (handle)
         {
             Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export ("initWithCoder:")]
-        public PlaylistWindowController(NSCoder coder) : base (coder)
+        public PlaylistWindowController(NSCoder coder) 
+            : base (coder)
         {
             this.playlistPresenter = playlistPresenter;
             Initialize();
@@ -49,8 +51,8 @@ namespace MPfm.Mac
         }
         
         // Call to load from the XIB/NIB file
-        public PlaylistWindowController(IPlaylistPresenter playlistPresenter)
-            : base ("PlaylistWindow")
+        public PlaylistWindowController(IPlaylistPresenter playlistPresenter, Action<IBaseView> onViewReady) 
+            : base ("PlaylistWindow", onViewReady)
         {
             Initialize();
         }

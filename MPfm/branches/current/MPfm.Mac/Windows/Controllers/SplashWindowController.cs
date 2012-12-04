@@ -8,36 +8,36 @@ using MPfm.MVP;
 
 namespace MPfm.Mac
 {
-    public partial class SplashWindowController : MonoMac.AppKit.NSWindowController, ISplashView
+    public partial class SplashWindowController : BaseWindowController, ISplashView
     {
-        ISplashPresenter splashPresenter;
-
         #region Constructors
         
         // Called when created from unmanaged code
-        public SplashWindowController(IntPtr handle) : base (handle)
+        public SplashWindowController(IntPtr handle) 
+            : base (handle)
         {
             Initialize();
         }
         
         // Called when created directly from a XIB file
         [Export ("initWithCoder:")]
-        public SplashWindowController(NSCoder coder) : base (coder)
+        public SplashWindowController(NSCoder coder) 
+            : base (coder)
         {
             Initialize();
         }
         
         // Call to load from the XIB/NIB file
-        public SplashWindowController(ISplashPresenter splashPresenter) 
-            : base ("SplashWindow")
+        public SplashWindowController(Action<IBaseView> onViewReady) 
+            : base ("SplashWindow", onViewReady)
         {
-            this.splashPresenter = splashPresenter;
             Initialize();
         }
         
         // Shared initialization code
         void Initialize()
         {
+            this.Window.MakeKeyAndOrderFront(this);
         }
         
         #endregion
@@ -68,6 +68,9 @@ namespace MPfm.Mac
             // Set fonts
             lblMessage.Font = NSFont.FromFontName("TitilliumText25L-600wt", 13.0f);
             lblMessage.StringValue = "Loading player...";
+
+            // Set view as ready
+            OnViewReady.Invoke(this);
         }
 
         public override void WindowDidLoad()
@@ -79,8 +82,9 @@ namespace MPfm.Mac
 //            appDelegate.LoadScreens();
 
             // Bind view and initialize
-            splashPresenter.BindView(this);
-            splashPresenter.Initialize();
+            //splashPresenter.BindView(this);
+            //splashPresenter.Initialize(() => {
+            //});
         }
 
         #region ISplashView implementation
@@ -102,8 +106,8 @@ namespace MPfm.Mac
 //                anim.StartAnimation();
 
                 // Load screens
-                AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
-                appDelegate.LoadScreens();
+                //AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
+                //appDelegate.LoadScreens();
 
                 lblMessage.StringValue = "Initialization successful!";
             });
