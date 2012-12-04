@@ -29,6 +29,8 @@ namespace MPfm.MVP
 	/// </summary>
     public interface ISongBrowserView : IBaseView
 	{
+        Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        
 		void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles);
         //void RefreshCurrentlyPlayingSong(AudioFile audioFile);
 	}

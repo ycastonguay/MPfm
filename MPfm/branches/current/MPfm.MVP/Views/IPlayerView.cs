@@ -32,21 +32,18 @@ namespace MPfm.MVP
 	/// </summary>
     public interface IPlayerView : IBaseView
 	{
-		/// <summary>
-		/// This method is called when the song position needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Player position entity.
-		/// </param>
+        Action OnPlayerPlay { get; set; }
+        Action OnPlayerPause { get; set; }
+        Action OnPlayerStop { get; set; }
+        Action OnPlayerPrevious { get; set; }
+        Action OnPlayerNext { get; set; }
+        Action<float> OnPlayerSetVolume { get; set; }
+        Action<float> OnPlayerSetPitchShifting { get; set; }
+        Action<float> OnPlayerSetTimeShifting { get; set; }
+        Action<float> OnPlayerSetPosition { get; set; }
+        
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
-		/// <summary>
-		/// This method is called when the song information needs to be refreshed.
-		/// </summary>
-		/// <param name='entity'>
-		/// Song information entity.
-		/// </param>
 		void RefreshSongInformation(SongInformationEntity entity);
-
         void RefreshPlayerVolume(PlayerVolumeEntity entity);
         void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
         

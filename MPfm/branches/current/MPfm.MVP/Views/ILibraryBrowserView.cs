@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Sound;
 
 namespace MPfm.MVP
 {
@@ -28,6 +29,11 @@ namespace MPfm.MVP
 	/// </summary>
     public interface ILibraryBrowserView : IBaseView
 	{
+        Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
+        Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }        
+        Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
+        
 		void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
 		void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData);
 	}

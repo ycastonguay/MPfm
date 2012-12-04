@@ -83,6 +83,13 @@ namespace MPfm.MVP
 		
 		#region ISongBrowserPresenter implementation
 		
+        public override void BindView (ISongBrowserView view)
+        {
+            base.BindView(view);
+            
+            view.OnTableRowDoubleClicked = (audioFile) => { TableRowDoubleClicked(audioFile); };
+        }
+        
 		/// <summary>
 		/// Changes the Song Browser query and updates the Song Browser view.
 		/// </summary>

@@ -25,8 +25,6 @@ namespace MPfm.GTK
 			
 			// Create and start navigation manager
 			navigationManager = Bootstrapper.GetKernel().Get<NavigationManager>();
-			
-			// Start navigation
 			navigationManager.Start();
 			Application.Run();
 		}

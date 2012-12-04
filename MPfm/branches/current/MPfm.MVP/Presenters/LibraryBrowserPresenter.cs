@@ -63,7 +63,7 @@ namespace MPfm.MVP
 			// Set default filter
 			Filter = AudioFileFormat.All;
 		}
-
+        
 		#endregion		
 		
 		#region ILibraryBrowserPresenter implementation
@@ -71,6 +71,11 @@ namespace MPfm.MVP
         public void BindView(ILibraryBrowserView view)
         {
             base.BindView(view);
+            
+            view.OnAudioFileFormatFilterChanged = (format) => { AudioFileFormatFilterChanged(format); };
+            view.OnTreeNodeSelected = (entity) => { TreeNodeSelected(entity); };
+            view.OnTreeNodeExpanded = (entity, obj) => { TreeNodeExpanded(entity, obj); };
+            view.OnTreeNodeDoubleClicked = (entity) => { TreeNodeDoubleClicked(entity); };
 
             // Load configuration
             if (MPfmConfig.Instance.ShowTooltips)

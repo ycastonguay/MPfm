@@ -79,15 +79,30 @@ namespace MPfm.MVP
                 Play(audioFileCacheService.SelectAudioFiles(m.Query), m.Item.FilePath);
             });
         }
-
-		#endregion
-		
+        
         public void Dispose()
         {
             playerService.Dispose();
         }
         
-		/// <summary>
+        public override void BindView(IPlayerView view)
+        {
+            base.BindView(view);
+            
+            view.OnPlayerPlay = () => { Play(); };
+            view.OnPlayerPause = () => { Pause(); };
+            view.OnPlayerStop = () => { Stop(); };
+            view.OnPlayerPrevious = () => { Previous(); };
+            view.OnPlayerNext = () => { Next(); };
+            //view.OnPlayerSetPitchShifting = (float) => { 
+            view.OnPlayerSetPosition = (pos) => { SetPosition(pos); };
+            view.OnPlayerSetTimeShifting = (val) => { SetTimeShifting(val); };
+            view.OnPlayerSetVolume = (vol) => { SetVolume(vol); };
+        }
+
+		#endregion
+		
+        		/// <summary>
 		/// Handles the timer update position elapsed.
 		/// </summary>
 		/// <param name='sender'>
