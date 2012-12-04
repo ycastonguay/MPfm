@@ -29,8 +29,6 @@ namespace MPfm.Mac
 {
     public partial class PreferencesWindowController : BaseWindowController, IPreferencesView
     {
-        readonly IPreferencesPresenter preferencesPresenter;
-
         #region Constructors
         
         // Called when created from unmanaged code
@@ -49,21 +47,27 @@ namespace MPfm.Mac
         }
         
         // Call to load from the XIB/NIB file
-        public PreferencesWindowController(IPreferencesPresenter preferencesPresenter, Action<IBaseView> onViewReady)
+        public PreferencesWindowController(Action<IBaseView> onViewReady)
             : base ("PreferencesWindow", onViewReady)
         {
-            this.preferencesPresenter = preferencesPresenter;
             Initialize();
-            this.preferencesPresenter.BindView(this);
         }
         
         // Shared initialization code
         void Initialize()
         {
+            this.Window.MakeKeyAndOrderFront(this);
         }
         
         #endregion
-        
+
+        public override void AwakeFromNib()
+        {
+            base.AwakeFromNib();
+
+            OnViewReady.Invoke(this);
+        }
+
         //strongly typed window accessor
         public new PreferencesWindow Window
         {

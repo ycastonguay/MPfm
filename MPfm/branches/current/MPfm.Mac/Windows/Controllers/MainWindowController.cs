@@ -108,7 +108,16 @@ namespace MPfm.Mac
             // Set properties
             this.albumCoverCacheService = new AlbumCoverCacheService();
 
+            this.Window.AlphaValue = 0;
             this.Window.MakeKeyAndOrderFront(this);
+
+            // Fade in main window
+            NSMutableDictionary dict = new NSMutableDictionary();
+            dict.Add(NSViewAnimation.TargetKey, Window);
+            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
+            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+            anim.Duration = 0.4f;
+            anim.StartAnimation();
 		}		
 
 		public override void WindowDidLoad()
@@ -470,21 +479,21 @@ namespace MPfm.Mac
 
 		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
-            // Show window
-            playlistWindowController.Window.MakeKeyAndOrderFront(this);          
+            if(OnOpenPlaylistWindow != null)
+                OnOpenPlaylistWindow.Invoke();
 		}
 
 		partial void actionOpenEffectsWindow(NSObject sender)
 		{
-            // Show window
-            effectsWindowController.Window.MakeKeyAndOrderFront(this);          
-		}
+            if(OnOpenEffectsWindow != null)
+                OnOpenEffectsWindow.Invoke();
+        }
 
 		partial void actionOpenPreferencesWindow(NSObject sender)
 		{
-            // Show window
-            preferencesWindowController.Window.MakeKeyAndOrderFront(this);
-		}
+            if(OnOpenPreferencesWindow != null)
+                OnOpenPreferencesWindow.Invoke();
+        }
 
         partial void actionAddSongToPlaylist(NSObject sender)
         {

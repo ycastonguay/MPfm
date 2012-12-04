@@ -60,46 +60,6 @@ namespace MPfm.Mac
             // Create and start navigation manager
             navigationManager = Bootstrapper.GetKernel().Get<NavigationManager>();
             navigationManager.Start();
-
-
-
-
-            // Create splash screen
-            //splashWindowController = Bootstrapper.GetKernel().Get<SplashWindowController>();
-            //splashWindowController.Window.AlphaValue = 0;
-            //splashWindowController.Window.MakeKeyAndOrderFront(this);
-            //splashWindowController.Window.OrderFront(this);
-
-//            // Fade in splash screen
-//            NSMutableDictionary dict = new NSMutableDictionary();
-//            dict.Add(NSViewAnimation.TargetKey, splashWindowController.Window);
-//            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
-//            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-//            anim.Duration = 0.4f;
-//            anim.StartAnimation();
-        }
-
-        public void LoadScreens()
-        {
-            // Load main window
-            //mainWindowController = Bootstrapper.GetKernel().Get<MainWindowController>();
-            //mainWindowController.Window.AlphaValue = 0;
-            //mainWindowController.Window.MakeKeyAndOrderFront(this);
-            //mainWindowController.Window.OrderBack(this);
-
-//            // Fade in main window
-//            NSMutableDictionary dict = new NSMutableDictionary();
-//            dict.Add(NSViewAnimation.TargetKey, mainWindowController.Window);
-//            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
-//            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-//            anim.Duration = 0.4f;
-//            anim.StartAnimation();
-//            anim.AnimationDidEnd += HandleAnimationDidEnd;
-        }
-
-        void HandleAnimationDidEnd(object sender, EventArgs e)
-        {
-            splashWindowController.Close();
         }
 	}
 }

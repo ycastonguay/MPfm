@@ -33,7 +33,7 @@ namespace MPfm.MVP
 	/// </summary>
 	public interface IBaseView
 	{        
-        Action<IBaseView> OnViewDestroy { get; set; }
+        Action OnViewDestroy { get; set; }
         
         void ShowView(bool shown);
 	}

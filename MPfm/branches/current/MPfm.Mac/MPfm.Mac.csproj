@@ -194,6 +194,7 @@
     <Compile Include="Windows\EditMarkerWindow.cs" />
     <Compile Include="Windows\Controllers\BaseWindowController.cs" />
     <Compile Include="Classes\MacNavigationManager.cs" />
+    <Compile Include="Classes\MPfmWindowDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />

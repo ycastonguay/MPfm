@@ -65,6 +65,10 @@ namespace MPfm.MVP
                 splashPresenter.Initialize(onInitDone); // TODO: Should the presenter call NavMgr instead of using an action?
             };
             splashView = Bootstrapper.GetKernel().Get<ISplashView>(new ConstructorArgument("onViewReady", onViewReady));
+            splashView.OnViewDestroy = () => {
+                splashView = null;
+                splashPresenter = null;
+            };
         }
         
         public virtual void CreateMainWindow()
@@ -80,7 +84,15 @@ namespace MPfm.MVP
                 songBrowserPresenter = Bootstrapper.GetKernel().Get<ISongBrowserPresenter>();
                 songBrowserPresenter.BindView((ISongBrowserView)view);                
             };            
-            mainView = Bootstrapper.GetKernel().Get<IMainView>(new ConstructorArgument("onViewReady", onViewReady));            
+            mainView = Bootstrapper.GetKernel().Get<IMainView>(new ConstructorArgument("onViewReady", onViewReady));
+            mainView.OnViewDestroy = () => {
+                mainView = null;
+                mainPresenter = null;
+                playerPresenter.Dispose(); // Dispose unmanaged stuff (i.e. BASS)
+                playerPresenter = null;
+                libraryBrowserPresenter = null;
+                songBrowserPresenter = null;
+            };
         }
         
         public virtual void CreatePreferencesWindow()
@@ -100,7 +112,7 @@ namespace MPfm.MVP
             
             // Create view and manage view destruction
             preferencesView = Bootstrapper.GetKernel().Get<IPreferencesView>(new ConstructorArgument("onViewReady", onViewReady));
-            preferencesView.OnViewDestroy = (view) => {
+            preferencesView.OnViewDestroy = () => {
                 preferencesView = null;
                 preferencesPresenter = null;
             };

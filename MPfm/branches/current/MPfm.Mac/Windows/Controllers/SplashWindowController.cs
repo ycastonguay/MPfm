@@ -37,7 +37,16 @@ namespace MPfm.Mac
         // Shared initialization code
         void Initialize()
         {
+            this.Window.AlphaValue = 0;
             this.Window.MakeKeyAndOrderFront(this);
+
+            // Fade in splash screen
+            NSMutableDictionary dict = new NSMutableDictionary();
+            dict.Add(NSViewAnimation.TargetKey, Window);
+            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
+            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+            anim.Duration = 0.4f;
+            anim.StartAnimation();
         }
         
         #endregion
@@ -96,20 +105,16 @@ namespace MPfm.Mac
         public void InitDone()
         {
             InvokeOnMainThread(delegate {
+                lblMessage.StringValue = "Initialization successful!";                
 
-//                // Fade in splash screen
-//                NSMutableDictionary dict = new NSMutableDictionary();
-//                dict.Add(NSViewAnimation.TargetKey, Window);
-//                dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeOutEffect);
-//                NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-//                anim.Duration = 0.4f;
-//                anim.StartAnimation();
+                // Fade out splash screen
+                NSMutableDictionary dict = new NSMutableDictionary();
+                dict.Add(NSViewAnimation.TargetKey, Window);
+                dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeOutEffect);
+                NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+                anim.Duration = 0.4f;
+                anim.StartAnimation();
 
-                // Load screens
-                //AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
-                //appDelegate.LoadScreens();
-
-                lblMessage.StringValue = "Initialization successful!";
             });
         }
 

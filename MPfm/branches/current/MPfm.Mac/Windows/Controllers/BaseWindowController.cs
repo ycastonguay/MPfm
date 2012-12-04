@@ -10,6 +10,7 @@ namespace MPfm.Mac
 {
     public class BaseWindowController : MonoMac.AppKit.NSWindowController, IBaseView
     {
+        MPfmWindowDelegate windowDelegate;
         protected Action<IBaseView> OnViewReady { get; set; }
 
         #region Constructors
@@ -40,27 +41,30 @@ namespace MPfm.Mac
         // Shared initialization code
         void Initialize()
         {
+            windowDelegate = new MPfmWindowDelegate(() => { OnViewDestroy.Invoke(); });
+            this.Window.Delegate = windowDelegate;
         }
         
         #endregion
-        
+
         protected override void Dispose(bool disposing)
         {
             Console.WriteLine("BaseWindowController - Dispose(" + disposing.ToString() + ")");
-            // TODO: Is this a good place to call OnViewDestroy?
             base.Dispose(disposing);
         }
 
         #region IBaseView implementation
         
-        public Action<IBaseView> OnViewDestroy { get; set; }
+        public Action OnViewDestroy { get; set; }
 
         public void ShowView(bool shown)
         {
-            // TODO: Complete this
+            this.Window.ContentView.Hidden = !shown;
+
+            if(shown)
+                this.Window.MakeKeyAndOrderFront(this);
         }
 
         #endregion
     }
 }
-
