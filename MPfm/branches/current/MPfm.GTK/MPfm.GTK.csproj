@@ -99,6 +99,7 @@
     <Compile Include="gtk-gui\MPfm.GTK.SplashWindow.cs" />
     <Compile Include="Windows\SplashWindow.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
+    <Compile Include="Classes\GtkNavigationManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -163,6 +164,7 @@
     <Folder Include="Lib\x86\" />
     <Folder Include="Lib\x64\" />
     <Folder Include="Windows\" />
+    <Folder Include="Classes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon48.png">

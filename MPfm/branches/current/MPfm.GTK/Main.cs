@@ -9,10 +9,13 @@ namespace MPfm.GTK
 {
 	public class MainClass
 	{
+		static NavigationManager navigationManager;
+		
 		public static void Main (string[] args)
 		{
 			// Add view implementations to IoC
-			Application.Init();			
+			Application.Init();
+			Bootstrapper.GetKernel().Bind<NavigationManager>().To<GtkNavigationManager>().InSingletonScope();
 			Bootstrapper.GetKernel().Bind<ISplashView>().To<SplashWindow>();
 			Bootstrapper.GetKernel().Bind<IMainView>().To<MainWindow>();
 			Bootstrapper.GetKernel().Bind<IUpdateLibraryView>().To<UpdateLibraryWindow>();
@@ -20,8 +23,11 @@ namespace MPfm.GTK
 			Bootstrapper.GetKernel().Bind<IEffectsView>().To<EffectsWindow>();
 			Bootstrapper.GetKernel().Bind<IPlaylistView>().To<PlaylistWindow>();
 			
+			// Create and start navigation manager
+			navigationManager = Bootstrapper.GetKernel().Get<NavigationManager>();
+			
 			// Start navigation
-			NavigationManager.Start();						
+			navigationManager.Start();
 			Application.Run();
 		}
 	}

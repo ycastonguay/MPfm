@@ -38,6 +38,8 @@ namespace MPfm.MVP
 	/// </summary>
 	public class MainPresenter : BasePresenter<IMainView>, IMainPresenter
 	{
+        readonly NavigationManager navigationManager;
+        
 		#region Constructor and Dispose
 
         /// <summary>
@@ -46,9 +48,9 @@ namespace MPfm.MVP
         /// <param name='playerService'>
         /// Player service.
         /// </param>
-		public MainPresenter()
+		public MainPresenter(NavigationManager navigationManager)
 		{
-            
+            this.navigationManager = navigationManager;          
 		}
 
 		#endregion
@@ -73,7 +75,7 @@ namespace MPfm.MVP
 
         void OpenPreferencesWindow()
         {
-            NavigationManager.CreatePreferencesWindow();
+            navigationManager.CreatePreferencesWindow();
         }
         
     }

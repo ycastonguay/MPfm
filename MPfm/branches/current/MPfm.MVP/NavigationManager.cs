@@ -33,30 +33,26 @@ namespace MPfm.MVP
     /// <summary>
     /// Manager class for managing view and presenter instances.
     /// </summary>
-    public static class NavigationManager
+    public abstract class NavigationManager
     {
-        static ISplashView splashView;
-        static ISplashPresenter splashPresenter;
+        ISplashView splashView;
+        ISplashPresenter splashPresenter;
         
-        static IMainView mainView;
-        static IMainPresenter mainPresenter;
-        static IPlayerPresenter playerPresenter;
-        static ILibraryBrowserPresenter libraryBrowserPresenter;
-        static ISongBrowserPresenter songBrowserPresenter;
+        IMainView mainView;
+        IMainPresenter mainPresenter;
+        IPlayerPresenter playerPresenter;
+        ILibraryBrowserPresenter libraryBrowserPresenter;
+        ISongBrowserPresenter songBrowserPresenter;
         
-        static IPreferencesView preferencesView;
-        static IPreferencesPresenter preferencesPresenter;                       
-
-        static NavigationManager()
-        {
-        }
+        IPreferencesView preferencesView;
+        IPreferencesPresenter preferencesPresenter;
         
-        public static void Start()
+        public virtual void Start()
         {
             CreateSplashWindow();
         }
 
-        public static void CreateSplashWindow()
+        public virtual void CreateSplashWindow()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action onInitDone = () => {
@@ -71,7 +67,7 @@ namespace MPfm.MVP
             splashView = Bootstrapper.GetKernel().Get<ISplashView>(new ConstructorArgument("onViewReady", onViewReady));
         }
         
-        public static void CreateMainWindow()
+        public virtual void CreateMainWindow()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {
@@ -87,7 +83,7 @@ namespace MPfm.MVP
             mainView = Bootstrapper.GetKernel().Get<IMainView>(new ConstructorArgument("onViewReady", onViewReady));            
         }
         
-        public static void CreatePreferencesWindow()
+        public virtual void CreatePreferencesWindow()
         {
             // If the view is still visible, just make it the top level window
             if(preferencesView != null)
