@@ -36,29 +36,31 @@ namespace MPfm.GTK
 		private Gtk.ListStore storeSongBrowser = null;
 		private Gtk.ListStore storeAudioFileFormat = null;
 		
-		#region View Actions
-		
-		public System.Action OnOpenPreferencesWindow { get; set; }
-		public System.Action OnOpenEffectsWindow { get; set; }
-		public System.Action OnOpenPlaylistWindow { get; set; }
-		public System.Action OnPlayerPlay { get; set; }
-		public System.Action OnPlayerPause { get; set; }
-		public System.Action OnPlayerStop { get; set; }
-		public System.Action OnPlayerPrevious { get; set; }
-		public System.Action OnPlayerNext { get; set; }	
-		public System.Action<float> OnPlayerSetPitchShifting { get; set; }
-		public System.Action<float> OnPlayerSetTimeShifting { get; set; }
-		public System.Action<float> OnPlayerSetVolume { get; set; }
-		public System.Action<float> OnPlayerSetPosition { get; set; }
-		
+        #region View Actions
+        
+        public System.Action OnOpenPreferencesWindow { get; set; }
+        public System.Action OnOpenEffectsWindow { get; set; }
+        public System.Action OnOpenPlaylistWindow { get; set; }
+        public System.Action OnPlayerPlay { get; set; }
+        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public System.Action OnPlayerPause { get; set; }
+        public System.Action OnPlayerStop { get; set; }
+        public System.Action OnPlayerPrevious { get; set; }
+        public System.Action OnPlayerNext { get; set; } 
+        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
+        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
+        public System.Action<float> OnPlayerSetVolume { get; set; }
+        public System.Action<float> OnPlayerSetPosition { get; set; }
+        
         public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
         public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
-        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }		
-		public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
-		
-		public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-	
-		#endregion
+        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
+        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+        
+        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        
+        #endregion
 		
 		#region Application Init/Destroy
 		

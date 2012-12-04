@@ -31,7 +31,7 @@ namespace MPfm.GTK
 	public class BaseWindow : Gtk.Window, IBaseView
 	{
 		protected Action<IBaseView> OnViewReady;
-		public Action<IBaseView> OnViewDestroy { get; set; }
+		public Action OnViewDestroy { get; set; }
 		
 		public BaseWindow(Gtk.WindowType windowType, Action<IBaseView> onViewReady)
 			: base(windowType)
@@ -42,16 +42,20 @@ namespace MPfm.GTK
 		protected override bool OnDeleteEvent(Gdk.Event evnt)
 		{
 			if(OnViewDestroy != null)
-				OnViewDestroy.Invoke(this);
+				OnViewDestroy.Invoke();
 			return base.OnDeleteEvent(evnt);
 		}
 		
 		public void ShowView(bool shown)
 		{
 			if(shown)
+			{
 				this.ShowAll();
+			}
 			else
+			{
 				this.HideAll();
+			}
 		}
 	}
 }
