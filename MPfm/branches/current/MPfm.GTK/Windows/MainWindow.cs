@@ -122,10 +122,6 @@ namespace MPfm.GTK
 		/// </summary>
 		protected void ExitApplication()
 		{
-			// Dispose controller
-			//playerPresenter.Dispose();
-			// TODO: Dispose Player somewhere?
-	
 			// Exit application
 			Console.WriteLine("MainWindow - ExitApplication");
 			Application.Quit();
