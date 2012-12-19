@@ -39,7 +39,7 @@ namespace MPfm.Core
         {
             string content = "[" + DateTime.Now.ToString() + "] " + message; 
             Trace.WriteLine(content);
-            Console.WriteLine(content);
+            //Console.WriteLine(content);
             Trace.Flush();
         }
 

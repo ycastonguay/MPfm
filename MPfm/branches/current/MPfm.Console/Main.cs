@@ -22,14 +22,19 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Timers;
 using System.Threading;
+using System.Threading.Tasks;
+using Mono;
+using Mono.Terminal;
 using MPfm.MVP;
 using MPfm.Player;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Ninject;
+using MPfm.Core;
 
 namespace MPfm.Console
 {
@@ -37,79 +42,160 @@ namespace MPfm.Console
     {
         static IPlayerService playerService;
         static System.Timers.Timer timerRefreshPosition;
+        static Window win;
 
         public static void Main(string[] args)
         {
             //PrintMSDOSChars(); return;
+            bool continueRunning = true;
             
             // Check params and extract list of files to open
             string[] files = CheckParams(args);
-            if(files == null)
+            if (files == null)
                 return;
-            
-            Initialize();
-            
-            playerService.Player.PlayFiles(files.ToList());
-            
-            System.Console.Clear();
-            System.Console.BackgroundColor = ConsoleColor.Blue;
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.Write(ConsoleHelper.GetStringFillingScreenWidthWithSpaces(' '));
-            System.Console.SetCursorPosition(0, 0);
-            System.Console.Write(ConsoleHelper.GetCenteredString("MPfm: Music Player for Musicians"));
 
-            //System.Console.SetCursorPosition(0, 1);
-            //System.Console.Write(ConsoleHelper.GetStringFillingScreenWidthWithSpaces('-'));
-            //System.Console.SetCursorPosition(0, 1);
-            //System.Console.Write(ConsoleHelper.GetCenteredString(" [Current song] ").Replace(" ", "-"));
-
-            System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = ConsoleColor.Gray;
-            System.Console.WriteLine();
-            System.Console.WriteLine("Artist Name: ");
-            System.Console.WriteLine("Album Title: ");
-            System.Console.WriteLine("Song Title: ");
-            System.Console.WriteLine("Position/Length: [00:00.000 / 00:00.000]");
-
-
-            // Set cursor to last line
-            System.Console.SetCursorPosition(0, System.Console.WindowHeight - 2);
-            ConsoleHelper.Write("F1", ConsoleColor.Blue, ConsoleColor.White);
-            ConsoleHelper.Write(" Play             ");
-            ConsoleHelper.Write("^X", ConsoleColor.Blue, ConsoleColor.White);
-            ConsoleHelper.Write(" Exit             ");
-            
-            while(true)
+            // Initialize ncurses
+            // TODO: Add animation \|/-                        
+            try
             {
-                // Read input
-                ConsoleKeyInfo key = System.Console.ReadKey();
-                
-                // Check for CTRL-X
-                if(key.Modifiers == ConsoleModifiers.Control && key.Key == ConsoleKey.X)
-                    break; // Exit app
+                InitializeApp();
+                InitializePlayer();
+                playerService.Player.PlayFiles(files.ToList());
+                playerService.Player.OnPlaylistIndexChanged += (data) => {
+                    if(data.IsPlaybackStopped)
+                    {
+                        PrintSong(null);
+                    }
+                    else
+                    {
+                        PrintSong(data.AudioFileStarted);
+                    }
+                };
+                PrintMain();
+                PrintSong(playerService.Player.Playlist.Items[0].AudioFile);
+            } 
+            catch (Exception ex)
+            {
+                Curses.clear();
+                Curses.addstr("An error occured: " + ex.Message + "\n" + ex.StackTrace + "\n");
+                Curses.refresh();
+                Curses.endwin();
+                return;
+            }
 
+            // NOTE: This is weird, when the player is init in another thread, the playback is fine in debug mode. I
+            //       If the player is init in main thread, the playback always stops after 1 second in debug.
+
+//            // Initialize player in another thread
+//            Task.Factory.StartNew(() => {
+//                InitializePlayer();
+//            }).ContinueWith((a) => {
+//                
+//                try
+//                {
+//                    PrintMain();
+//                    playerService.Player.PlayFiles(files.ToList());
+//                }
+//                catch(Exception ex)
+//                {
+//                    Curses.clear();
+//                    Curses.addstr("An error occured: " + ex.Message + "\n" + ex.StackTrace + "\n");
+//                    Curses.refresh();
+//                    //Curses.endwin();
+//                    continueRunning = false; // TODO: Find a better way to exit app
+//                }
+//            });
+
+            // Main loop
+            while(continueRunning)
+            {
+                long pos;
+                int ch = Curses.getch();
+                switch(ch)
+                {
+                    case Curses.KeyF1:
+                        playerService.Player.Play();
+                        break;
+                    case Curses.KeyF2:
+                        playerService.Player.Pause();
+                        break;
+                    case Curses.KeyF3:
+                        playerService.Player.Stop();
+                        break;
+                    case Curses.KeyF4:
+                        playerService.Player.Previous();
+                        break;
+                    case Curses.KeyF5:
+                        playerService.Player.Next();
+                        break;
+                    case Curses.KeyF10:
+                        ExitApp();
+                        break;
+                    case Curses.KeyResize:
+                        PrintMain();
+                        if(playerService.Player.Playlist.CurrentItem != null)
+                            PrintSong(playerService.Player.Playlist.CurrentItem.AudioFile);
+                        break;
+                    case Curses.KeyLeft:
+                        pos = playerService.Player.GetPosition() - 50000;
+                        if(pos < 0)
+                            pos = 0;
+                        playerService.Player.SetPosition(pos);
+                        break;
+                    case Curses.KeyRight:
+                        pos = playerService.Player.GetPosition() + 50000;
+                        if(pos > playerService.Player.Playlist.CurrentItem.LengthBytes)
+                            pos = playerService.Player.Playlist.CurrentItem.LengthBytes - 50000;
+                        playerService.Player.SetPosition(pos);
+                        break;
+                    case Curses.KeyUp:
+                        pos = playerService.Player.GetPosition() - 50000;
+                        if(pos < 0)
+                            pos = 0;
+                        playerService.Player.SetPosition(pos);
+                        break;
+                    case Curses.KeyDown:
+                        pos = playerService.Player.GetPosition() + 50000;
+                        if(pos > playerService.Player.Playlist.CurrentItem.LengthBytes)
+                            pos = playerService.Player.Playlist.CurrentItem.LengthBytes - 50000;
+                        playerService.Player.SetPosition(pos);
+                        break;
+                }
             }
         }
         
-        public static void Initialize()
+        public static void InitializeApp()
         {
-//            Curses.initscr();
-//            Curses.move(2, 2);
-//            System.Console.WriteLine("Hello world!");
-//            Curses.refresh();
-//            Curses.getch();
-//            Curses.endwin();
-            
-            
-            System.Console.Clear();
-            System.Console.WriteLine("MPfm: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");            
-            System.Console.WriteLine("BASS audio library © 1999-2012 Un4seen Developments.");
-            System.Console.WriteLine("BASS.NET audio library © 2005-2012 radio42.");
-            System.Console.WriteLine();
-            System.Console.Write("Loading...");
-            Debug.WriteLine("DebugWriteLine");
-            Trace.WriteLine("TraceWriteLine");
-            
+            // Build loading screen text
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("MPfm: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");
+            sb.AppendLine("BASS audio library © 1999-2012 Un4seen Developments.");
+            sb.AppendLine("BASS.NET audio library © 2005-2012 radio42.");
+            sb.AppendLine();
+            sb.Append("Loading...");
+
+            win = Curses.initscr(); // Start curses mode
+            Curses.raw();
+            win.keypad(true);
+            Curses.noecho();  // Dont output chars while getch
+            Curses.cbreak();  // Take input chars one at a time
+            Curses.start_color();
+            Curses.use_default_colors();
+            Curses.init_pair(1, Curses.COLOR_WHITE, Curses.COLOR_BLUE);
+            Curses.init_pair(2, Curses.COLOR_WHITE, Curses.COLOR_BLACK);
+            Curses.init_pair(3, Curses.COLOR_BLACK, Curses.COLOR_WHITE);
+            Curses.init_pair(4, Curses.COLOR_YELLOW, Curses.COLOR_BLUE);
+            Curses.addstr(sb.ToString());
+            Curses.refresh();
+        }
+
+        public static void ExitApp()
+        {
+            Curses.endwin();
+        }
+
+        public static void InitializePlayer()
+        {           
             // Initialize app
             IInitializationService initService = Bootstrapper.GetKernel().Get<IInitializationService>();
             initService.Initialize();
@@ -121,14 +207,29 @@ namespace MPfm.Console
             };
             playerService = Bootstrapper.GetKernel().Get<IPlayerService>();
             playerService.Initialize(device, 44100, 5000, 100);
+            playerService.Player.Volume = 0.9f;
             //playerService.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
             
             timerRefreshPosition = new System.Timers.Timer();
             timerRefreshPosition.Interval = 100;
             timerRefreshPosition.Elapsed += (sender, e) => {
-                long position = playerService.Player.GetPosition();
-                System.Console.SetCursorPosition(20, 4);
-                System.Console.Out.Write(position.ToString());
+                try
+                {
+                    long bytes = playerService.Player.GetPosition();
+                    long samples = ConvertAudio.ToPCM(bytes, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                    long ms = ConvertAudio.ToMS(samples, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.SampleRate);
+                    string pos = Conversion.MillisecondsToTimeString((ulong)ms);
+                    Curses.move(6, 19);
+                    Curses.attron(Curses.ColorPair(4));
+                    Curses.addstr(pos + " / " + playerService.Player.Playlist.CurrentItem.LengthString);
+                    Curses.attroff(Curses.ColorPair(4));
+                    Curses.move(12, 0);
+                    Curses.refresh();
+                }
+                catch(Exception ex)
+                {
+                    Curses.addstr("Error while fetching song position: " + ex.Message);
+                }
             };
             timerRefreshPosition.Start();
         }
@@ -139,16 +240,16 @@ namespace MPfm.Console
             string file;
             
             // Validate parameters
-            if(args.Length == 0)               
+            if (args.Length == 0)
             {
                 PrintHelp();
                 return null;           
             }
             
-            foreach(string arg in args)
+            foreach (string arg in args)
             {
                 // Check if the parameter is an option (--)
-                if(arg.Length >= 2 && arg.StartsWith("--"))
+                if (arg.Length >= 2 && arg.StartsWith("--"))
                     options.Add(arg);
                 else
                     file = arg;
@@ -158,8 +259,30 @@ namespace MPfm.Console
             string[] split = file.Split(new char[]{','});
             
             List<string> splitFinal = new List<string>();
-            foreach(string thisSplit in split)
-                splitFinal.Add(thisSplit.Replace("\"", ""));
+            foreach (string thisSplit in split)
+            {
+                if(Directory.Exists(thisSplit))
+                {
+                    // Recursive
+                    string[] directories = Directory.GetDirectories(thisSplit);
+                    string[] files = Directory.GetFiles(thisSplit);
+                    foreach(string thisFile in files)
+                    {
+                        if(thisFile.ToUpper().Contains("FLAC") ||
+                           thisFile.ToUpper().Contains("MP3"))
+                            splitFinal.Add(thisFile);
+                    }
+                }
+                else if(File.Exists(thisSplit))
+                {
+                    splitFinal.Add(thisSplit.Replace("\"", ""));
+                }
+                else
+                {
+                    // File not found
+                }
+                
+            }
             
             // Do the files exist?
             
@@ -215,6 +338,120 @@ namespace MPfm.Console
             System.Console.WriteLine();
             
         }
-    }
 
+        public static void PrintMain()
+        {
+            Curses.clear();
+
+            // Write title
+            Curses.attron(Curses.ColorPair(3));
+            Curses.addstr(ConsoleHelper.GetCenteredString("MPfm: Music Player for Musicians"));
+            Curses.attroff(Curses.ColorPair(3));
+
+            // Write background
+            Curses.attron(Curses.ColorPair(4));
+            Curses.move(1, 0);
+            Curses.addch(Curses.ACS_ULCORNER);
+            Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_HLINE);
+            string currentSong = "[ Current song ]";
+            Curses.addstr(currentSong);
+            for (int z = 0; z < System.Console.WindowWidth - 4 - currentSong.Length; z++)
+                Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_URCORNER);
+
+            for (int z = 2; z < 10; z++)
+            {
+                Curses.move(z, 0);
+                Curses.addch(Curses.ACS_VLINE);
+                Curses.addstr(new string(' ', System.Console.WindowWidth - 2));
+                Curses.addch(Curses.ACS_VLINE);
+            }
+
+            Curses.move(10, 0);
+            Curses.addch(Curses.ACS_LLCORNER);
+            Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_HLINE);
+            for (int z = 0; z < System.Console.WindowWidth - 4; z++)
+                Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_LRCORNER);
+            Curses.attroff(Curses.ColorPair(4));
+            
+            // Write current song properties
+            Curses.attron(Curses.ColorPair(1));
+            Curses.move(2, 2);
+            Curses.addstr("Artist Name: ");
+            Curses.move(3, 2);
+            Curses.addstr("Album Title: ");
+            Curses.move(4, 2);
+            Curses.addstr("Song Title: ");
+            Curses.move(5, 2);
+            Curses.addstr("File Path: ");
+            Curses.move(6, 2);
+            Curses.addstr("Position/Length: ");
+            Curses.attroff(Curses.ColorPair(1));
+
+            // Write menu 
+            Curses.move(System.Console.WindowHeight - 1, 0);
+            Dictionary<string, string> dictOptions = new Dictionary<string, string>();
+            dictOptions.Add("F1", "Play");
+            dictOptions.Add("F2", "Pause");
+            dictOptions.Add("F3", "Stop");
+            dictOptions.Add("F4", "Previous");
+            dictOptions.Add("F5", "Next");
+            dictOptions.Add("F10", "Exit");
+
+            // Calculate item width
+            double itemWidth = System.Console.WindowWidth / dictOptions.Count;
+            itemWidth = Math.Round(itemWidth);
+            foreach (KeyValuePair<string, string> kvp in dictOptions)
+            {
+                Curses.attron(Curses.ColorPair(2));// | Curses.A_DIM);
+                Curses.addstr(kvp.Key);
+                Curses.attroff(Curses.ColorPair(2));// | Curses.A_DIM);
+                Curses.attron(Curses.ColorPair(3));
+                Curses.addstr(ConsoleHelper.FillString(kvp.Value, (int)itemWidth));
+                Curses.attroff(Curses.ColorPair(3));// | Curses.A_DIM);
+            }
+
+            Curses.refresh();
+        }
+
+        public static void PrintSong(AudioFile audioFile)
+        {
+            // Clear any info
+            string clear = new string(' ', System.Console.WindowWidth - 20);
+            Curses.attron(Curses.ColorPair(4));
+            Curses.move(2, 19);
+            Curses.addstr(clear);
+            Curses.move(3, 19);
+            Curses.addstr(clear);
+            Curses.move(4, 19);
+            Curses.addstr(clear);
+            Curses.move(5, 19);
+            Curses.addstr(clear);
+            Curses.attroff(Curses.ColorPair(4));
+
+            if (audioFile != null)
+            {
+                // TODO: Make sure the song position refresh doesn't conflict with printing song (i.e. Curses.move).
+                uint trackCount = audioFile.TrackCount;
+                if(trackCount == 0)
+                    trackCount = (uint)playerService.Player.Playlist.Items.Count;
+                Curses.attron(Curses.ColorPair(4));
+                Curses.move(2, 19);
+                Curses.addstr(audioFile.ArtistName);
+                Curses.move(3, 19);
+                Curses.addstr(audioFile.AlbumTitle);
+                Curses.move(4, 19);
+                Curses.addstr("(" + audioFile.TrackNumber.ToString("00") + "/" + trackCount.ToString("00") + ") " + audioFile.Title);
+                Curses.move(5, 19);
+                Curses.addstr(audioFile.FilePath);
+                Curses.attroff(Curses.ColorPair(4));
+            }
+
+            Curses.move(12, 0);
+        }
+    }
 }
+

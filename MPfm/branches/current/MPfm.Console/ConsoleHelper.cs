@@ -21,9 +21,9 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
-using MPfm.Player;
 using System.Threading;
 using System.Text;
+using MPfm.Player;
 
 namespace MPfm.Console
 {
@@ -77,7 +77,13 @@ namespace MPfm.Console
 
         public static string GetCenteredString(string message)
         {
-            return String.Format("\r{0," + (System.Console.WindowWidth + message.Length) / 2 + "}", message);
+            string center = String.Format("\r{0," + ((System.Console.WindowWidth + message.Length) / 2) + "}", message);
+            return center + new string(' ', System.Console.WindowWidth - center.Length + 1);
+        }
+
+        public static string FillString(string message, int width)
+        {
+            return message + new string(' ', width - message.Length);
         }
 
         public static string GetStringFillingScreenWidthWithSpaces(char character)

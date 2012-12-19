@@ -10,30 +10,37 @@
     <RootNamespace>MPfm.Console</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
+    <Externalconsole>True</Externalconsole>
     <AssemblyName>mpfm</AssemblyName>
-    <Commandlineparameters>"/mnt/flac/Castonguay Yanick/- Indie 12 - Session 2 - 022.flac"</Commandlineparameters>
+    <Commandlineparameters>"/Volumes/Data1/Flac/Castonguay Yanick/- Indie 12 - Session 2 - 022.flac"</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
+    <Externalconsole>True</Externalconsole>
     <AssemblyName>mpfm</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug_Linux</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>MPfm.Console</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug_Mac</OutputPath>
     <WarningLevel>4</WarningLevel>
     <AssemblyName>MPfm.Console</AssemblyName>
   </PropertyGroup>
@@ -42,13 +49,19 @@
     <Reference Include="Ninject">
       <HintPath>Lib\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ConsoleHelper.cs" />
     <Compile Include="PlayerTest.cs" />
-    <Compile Include="Curses.cs" />
+    <Compile Include="MonoCurses\binding.cs" />
+    <Compile Include="MonoCurses\constants.cs" />
+    <Compile Include="MonoCurses\gui.cs" />
+    <Compile Include="MonoCurses\handles.cs" />
+    <Compile Include="MonoCurses\mainloop.cs" />
+    <Compile Include="CursesHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -75,9 +88,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
+    <Folder Include="MonoCurses\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lib\Ninject.dll" />
+    <None Include="Lib\libmono-curses.dylib" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
