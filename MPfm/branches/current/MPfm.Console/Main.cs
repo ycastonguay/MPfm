@@ -113,23 +113,22 @@ namespace MPfm.Console
                 int ch = Curses.getch();
                 switch(ch)
                 {
-                    case Curses.KeyF1:
+                    case Curses.KeyF1: // Player screen
                         playerService.Player.Play();
                         break;
-                    case Curses.KeyF2:
+                    case Curses.KeyF2: // Playlist screen
                         playerService.Player.Pause();
                         break;
-                    case Curses.KeyF3:
+                    case Curses.KeyF3: // Effects screen
                         playerService.Player.Stop();
                         break;
-                    case Curses.KeyF4:
-                        playerService.Player.Previous();
+                    case Curses.KeyF4: // 
                         break;
                     case Curses.KeyF5:
-                        playerService.Player.Next();
                         break;
                     case Curses.KeyF10:
                         ExitApp();
+                        continueRunning = false;
                         break;
                     case Curses.KeyResize:
                         PrintMain();
@@ -149,16 +148,10 @@ namespace MPfm.Console
                         playerService.Player.SetPosition(pos);
                         break;
                     case Curses.KeyUp:
-                        pos = playerService.Player.GetPosition() - 50000;
-                        if(pos < 0)
-                            pos = 0;
-                        playerService.Player.SetPosition(pos);
+                        playerService.Player.Previous();
                         break;
                     case Curses.KeyDown:
-                        pos = playerService.Player.GetPosition() + 50000;
-                        if(pos > playerService.Player.Playlist.CurrentItem.LengthBytes)
-                            pos = playerService.Player.Playlist.CurrentItem.LengthBytes - 50000;
-                        playerService.Player.SetPosition(pos);
+                        playerService.Player.Next();
                         break;
                 }
             }
@@ -348,34 +341,55 @@ namespace MPfm.Console
             Curses.addstr(ConsoleHelper.GetCenteredString("MPfm: Music Player for Musicians"));
             Curses.attroff(Curses.ColorPair(3));
 
-            // Write background
-            Curses.attron(Curses.ColorPair(4));
-            Curses.move(1, 0);
-            Curses.addch(Curses.ACS_ULCORNER);
-            Curses.addch(Curses.ACS_HLINE);
-            Curses.addch(Curses.ACS_HLINE);
-            string currentSong = "[ Current song ]";
-            Curses.addstr(currentSong);
-            for (int z = 0; z < System.Console.WindowWidth - 4 - currentSong.Length; z++)
-                Curses.addch(Curses.ACS_HLINE);
-            Curses.addch(Curses.ACS_URCORNER);
+            // Print windows
+            ConsoleHelper.PrintWindow("Current Song", System.Console.WindowWidth, 7, 0, 1);
+            ConsoleHelper.PrintWindow("Player Properties", System.Console.WindowWidth, System.Console.WindowHeight - 12, 0, 8);
+            ConsoleHelper.PrintWindow("Player Controls", System.Console.WindowWidth, 3, 0, System.Console.WindowHeight - 4);
 
-            for (int z = 2; z < 10; z++)
-            {
-                Curses.move(z, 0);
-                Curses.addch(Curses.ACS_VLINE);
-                Curses.addstr(new string(' ', System.Console.WindowWidth - 2));
-                Curses.addch(Curses.ACS_VLINE);
-            }
+            // Print player properties
+            Curses.attron(Curses.ColorPair(1));
+            Curses.move(9, 2);           
+            Curses.addstr("Volume:");
+            Curses.move(10, 2);
+            Curses.addstr("Time Shifting:");
+            Curses.move(11, 2);           
+            Curses.addstr("Pitch Shifting:");
+            Curses.attroff(Curses.ColorPair(1));
 
-            Curses.move(10, 0);
-            Curses.addch(Curses.ACS_LLCORNER);
-            Curses.addch(Curses.ACS_HLINE);
-            Curses.addch(Curses.ACS_HLINE);
-            for (int z = 0; z < System.Console.WindowWidth - 4; z++)
-                Curses.addch(Curses.ACS_HLINE);
-            Curses.addch(Curses.ACS_LRCORNER);
-            Curses.attroff(Curses.ColorPair(4));
+            // Print player controls
+            Curses.attron(Curses.ColorPair(1));
+            Curses.move(System.Console.WindowHeight - 3, 2);           
+            Curses.addstr("[SPACE] Play/Pause   [LEFT] Prev. song   [RIGHT] Next song   [UP] -1sec   [DOWN] +1sec");
+            Curses.attroff(Curses.ColorPair(1));
+
+//            // Write background
+//            Curses.attron(Curses.ColorPair(4));
+//            Curses.move(1, 0);
+//            Curses.addch(Curses.ACS_ULCORNER);
+//            Curses.addch(Curses.ACS_HLINE);
+//            Curses.addch(Curses.ACS_HLINE);
+//            string currentSong = "[ Current Song ]";
+//            Curses.addstr(currentSong);
+//            for (int z = 0; z < System.Console.WindowWidth - 4 - currentSong.Length; z++)
+//                Curses.addch(Curses.ACS_HLINE);
+//            Curses.addch(Curses.ACS_URCORNER);
+//
+//            for (int z = 2; z < 10; z++)
+//            {
+//                Curses.move(z, 0);
+//                Curses.addch(Curses.ACS_VLINE);
+//                Curses.addstr(new string(' ', System.Console.WindowWidth - 2));
+//                Curses.addch(Curses.ACS_VLINE);
+//            }
+//
+//            Curses.move(10, 0);
+//            Curses.addch(Curses.ACS_LLCORNER);
+//            Curses.addch(Curses.ACS_HLINE);
+//            Curses.addch(Curses.ACS_HLINE);
+//            for (int z = 0; z < System.Console.WindowWidth - 4; z++)
+//                Curses.addch(Curses.ACS_HLINE);
+//            Curses.addch(Curses.ACS_LRCORNER);
+//            Curses.attroff(Curses.ColorPair(4));
             
             // Write current song properties
             Curses.attron(Curses.ColorPair(1));
@@ -394,11 +408,11 @@ namespace MPfm.Console
             // Write menu 
             Curses.move(System.Console.WindowHeight - 1, 0);
             Dictionary<string, string> dictOptions = new Dictionary<string, string>();
-            dictOptions.Add("F1", "Play");
-            dictOptions.Add("F2", "Pause");
-            dictOptions.Add("F3", "Stop");
-            dictOptions.Add("F4", "Previous");
-            dictOptions.Add("F5", "Next");
+            dictOptions.Add("F1", "Player");
+            dictOptions.Add("F2", "Playlist");
+            dictOptions.Add("F3", "Effects");
+            //dictOptions.Add("F4", "Previous");
+            //dictOptions.Add("F5", "Next");
             dictOptions.Add("F10", "Exit");
 
             // Calculate item width
@@ -410,7 +424,7 @@ namespace MPfm.Console
                 Curses.addstr(kvp.Key);
                 Curses.attroff(Curses.ColorPair(2));// | Curses.A_DIM);
                 Curses.attron(Curses.ColorPair(3));
-                Curses.addstr(ConsoleHelper.FillString(kvp.Value, (int)itemWidth));
+                Curses.addstr(ConsoleHelper.FillString(kvp.Value, (int)itemWidth - kvp.Key.Length));
                 Curses.attroff(Curses.ColorPair(3));// | Curses.A_DIM);
             }
 
@@ -420,19 +434,8 @@ namespace MPfm.Console
         public static void PrintSong(AudioFile audioFile)
         {
             // Clear any info
-            string clear = new string(' ', System.Console.WindowWidth - 20);
-            Curses.attron(Curses.ColorPair(4));
-            Curses.move(2, 19);
-            Curses.addstr(clear);
-            Curses.move(3, 19);
-            Curses.addstr(clear);
-            Curses.move(4, 19);
-            Curses.addstr(clear);
-            Curses.move(5, 19);
-            Curses.addstr(clear);
-            Curses.attroff(Curses.ColorPair(4));
-
-            if (audioFile != null)
+            int availableWidth = System.Console.WindowWidth - 21;
+            if(audioFile != null)
             {
                 // TODO: Make sure the song position refresh doesn't conflict with printing song (i.e. Curses.move).
                 uint trackCount = audioFile.TrackCount;
@@ -440,13 +443,13 @@ namespace MPfm.Console
                     trackCount = (uint)playerService.Player.Playlist.Items.Count;
                 Curses.attron(Curses.ColorPair(4));
                 Curses.move(2, 19);
-                Curses.addstr(audioFile.ArtistName);
+                Curses.addstr(ConsoleHelper.FillString(audioFile.ArtistName, availableWidth));
                 Curses.move(3, 19);
-                Curses.addstr(audioFile.AlbumTitle);
+                Curses.addstr(ConsoleHelper.FillString(audioFile.AlbumTitle, availableWidth));
                 Curses.move(4, 19);
-                Curses.addstr("(" + audioFile.TrackNumber.ToString("00") + "/" + trackCount.ToString("00") + ") " + audioFile.Title);
+                Curses.addstr(ConsoleHelper.FillString("(" + audioFile.TrackNumber.ToString("00") + "/" + trackCount.ToString("00") + ") " + audioFile.Title, availableWidth));
                 Curses.move(5, 19);
-                Curses.addstr(audioFile.FilePath);
+                Curses.addstr(ConsoleHelper.FillString(audioFile.FilePath, availableWidth));
                 Curses.attroff(Curses.ColorPair(4));
             }
 

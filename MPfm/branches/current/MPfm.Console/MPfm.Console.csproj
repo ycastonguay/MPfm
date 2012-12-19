@@ -61,7 +61,6 @@
     <Compile Include="MonoCurses\gui.cs" />
     <Compile Include="MonoCurses\handles.cs" />
     <Compile Include="MonoCurses\mainloop.cs" />
-    <Compile Include="CursesHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

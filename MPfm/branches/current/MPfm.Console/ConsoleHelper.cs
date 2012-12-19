@@ -23,7 +23,8 @@ using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
 using System.Text;
-using MPfm.Player;
+using Mono;
+using Mono.Terminal;
 
 namespace MPfm.Console
 {
@@ -77,13 +78,19 @@ namespace MPfm.Console
 
         public static string GetCenteredString(string message)
         {
-            string center = String.Format("\r{0," + ((System.Console.WindowWidth + message.Length) / 2) + "}", message);
-            return center + new string(' ', System.Console.WindowWidth - center.Length + 1);
+            return String.Format("{0,-" + System.Console.WindowWidth.ToString() + "}", String.Format("{0," + ((System.Console.WindowWidth + message.Length) / 2).ToString() +  "}", message));
         }
 
         public static string FillString(string message, int width)
         {
-            return message + new string(' ', width - message.Length);
+            if(width <= 0)
+                return string.Empty;
+
+            string str = string.Format("{0,-" + width.ToString() + "}", message);
+            if (str.Length > width && width > 4)
+
+                str = str.Substring(0, width - 4) + "(..)";
+            return str;
         }
 
         public static string GetStringFillingScreenWidthWithSpaces(char character)
@@ -93,6 +100,41 @@ namespace MPfm.Console
                 spaces += character;
 
             return spaces;
+        }
+
+        public static void PrintWindow(string title, int width, int height, int x, int y)
+        {
+            // Write background
+            int line = y;
+            Curses.attron(Curses.ColorPair(4));
+            Curses.move(line, 0);
+            Curses.addch(Curses.ACS_ULCORNER);
+            Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_HLINE);
+            string titleWithBrackets = "[ " + title + " ]";
+            Curses.addstr(titleWithBrackets);
+            for (int z = 0; z < width - 4 - titleWithBrackets.Length; z++)
+                Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_URCORNER);
+            line++;
+            
+            for (int z = line; z < y + height - 1; z++)
+            {
+                Curses.move(z, 0);
+                Curses.addch(Curses.ACS_VLINE);
+                Curses.addstr(new string(' ', width - 2));
+                Curses.addch(Curses.ACS_VLINE);
+                line++;
+            }
+
+            Curses.move(line, 0);
+            Curses.addch(Curses.ACS_LLCORNER);
+            Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_HLINE);
+            for (int z = 0; z < width - 4; z++)
+                Curses.addch(Curses.ACS_HLINE);
+            Curses.addch(Curses.ACS_LRCORNER);
+            Curses.attroff(Curses.ColorPair(4));
         }
     }
 }
