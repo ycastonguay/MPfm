@@ -261,8 +261,10 @@ namespace MPfm.Console
                     string[] files = Directory.GetFiles(thisSplit);
                     foreach(string thisFile in files)
                     {
-                        if(thisFile.ToUpper().Contains("FLAC") ||
-                           thisFile.ToUpper().Contains("MP3"))
+                        string ext = Path.GetExtension(thisFile);
+
+                        if(ext.ToUpper() == ".FLAC" ||
+                           ext.ToUpper() == ".MP3")
                             splitFinal.Add(thisFile);
                     }
                 }

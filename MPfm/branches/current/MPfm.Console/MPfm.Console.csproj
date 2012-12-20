@@ -19,7 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>True</Externalconsole>
     <AssemblyName>mpfm</AssemblyName>
-    <Commandlineparameters>"/Volumes/Data1/Flac/Castonguay Yanick/- Indie 12 - Session 2 - 022.flac"</Commandlineparameters>
+    <Commandlineparameters>"/Volumes/Data1/Flac/Radiohead/Kid A/"</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
