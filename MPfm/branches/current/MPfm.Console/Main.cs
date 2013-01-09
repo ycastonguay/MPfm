@@ -212,9 +212,13 @@ namespace MPfm.Console
                     long samples = ConvertAudio.ToPCM(bytes, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
                     long ms = ConvertAudio.ToMS(samples, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.SampleRate);
                     string pos = Conversion.MillisecondsToTimeString((ulong)ms);
+
+                    //int dataAvailable = playerService.Player.MixerChannel.GetMixerDataAvailable();
+                    int dataAvailable = playerService.Player.MixerChannel.GetDataAvailable();
+
                     Curses.move(6, 19);
                     Curses.attron(Curses.ColorPair(4));
-                    Curses.addstr(pos + " / " + playerService.Player.Playlist.CurrentItem.LengthString);
+                    Curses.addstr(pos + " / " + playerService.Player.Playlist.CurrentItem.LengthString + " / " + dataAvailable.ToString());
                     Curses.attroff(Curses.ColorPair(4));
                     Curses.move(12, 0);
                     Curses.refresh();

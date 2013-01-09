@@ -20,10 +20,16 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
+using System.Collections.Concurrent;
 
 namespace MPfm.Sound
 {
@@ -32,6 +38,15 @@ namespace MPfm.Sound
     /// </summary>
     public class PlaylistItem
     {
+        private System.Timers.Timer timerFillBuffer = null;
+        private ByteArrayQueue queue = null;
+        private List<Task> tasksDecode = null;
+        private CancellationTokenSource cancellationTokenSource = null;
+        private CancellationToken cancellationToken;
+        private int tempBufferLength = 20000;
+        private int dataBufferLength = 1000000;
+        private long decodePosition = 0;
+
         /// <summary>
         /// Private value for the Id property.
         /// </summary>
@@ -204,10 +219,14 @@ namespace MPfm.Sound
         /// <param name="audioFile">Audio file metadata</param>
         public PlaylistItem(Playlist playlist, AudioFile audioFile)
         {
-            // Set properties
             this.id = Guid.NewGuid();
             this.playlist = playlist;
             this.audioFile = audioFile;
+
+            tasksDecode = new List<Task>();
+            timerFillBuffer = new System.Timers.Timer();
+            timerFillBuffer.Interval = 200;
+            timerFillBuffer.Elapsed += HandleTimerFillBufferElapsed;
         }
 
         /// <summary>
@@ -248,8 +267,137 @@ namespace MPfm.Sound
             lengthMilliseconds = (int)ConvertAudio.ToMS(lengthSamples, (uint)audioFile.SampleRate);
             lengthString = Conversion.MillisecondsToTimeString((ulong)lengthMilliseconds);
 
+            // Decode file in another thread
+            //Decode(0);
+
             // Set flag
             isLoaded = true;
+        }
+
+        private void HandleTimerFillBufferElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // Disable timer 
+            timerFillBuffer.Stop();
+
+            // Check buffer status (is there enough space to fill more chunks?)
+            if (queue.BufferLength - queue.BufferDataLength < tempBufferLength)
+            {
+                // Reactivate timer; check for buffer health in 200ms
+                timerFillBuffer.Start();
+                return;
+            }
+
+            // Resume decoding from previous position
+            StartDecode(decodePosition);
+        }
+
+        public void CancelDecode()
+        {
+            // Check if the decode task can be cancelled
+            if (tasksDecode.Count > 0)
+            {
+                cancellationTokenSource.Cancel(true);
+                try
+                {
+                    Task.WaitAll(tasksDecode.ToArray());
+                }
+                catch(AggregateException ex)
+                {
+                    // This means the task has been canceled successfully
+                }
+            }
+
+            // Cleanup any previous decodes
+            queue = null;
+
+            // Reset token
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken = cancellationTokenSource.Token;
+        }
+
+        public void Decode(long startPosition)
+        {
+            // Create queue and start decoding
+            queue = new ByteArrayQueue(dataBufferLength);            
+            StartDecode(startPosition);
+        }
+
+        private void StartDecode(long startPosition)
+        {
+            // Cancel any decode task
+            //CancelDecode();
+
+            // Create channel and get length
+            Channel channel = Channel.CreateFileStreamForDecoding(audioFile.FilePath, true);
+            long length = channel.GetLength();
+            decodePosition = startPosition;
+            
+            // Decode file in a different thread
+            Task taskDecode = Task.Factory.StartNew(() => {
+                try
+                {
+                    // Set starting position
+                    if(startPosition > 0)
+                        channel.SetPosition(startPosition);
+
+                    // Loop until file has been 100% decoded
+                    while (true)
+                    {
+                        // Check for cancel
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        // Check buffer status (is there enough space to fill more chunks?)
+                        if(queue.BufferLength - queue.BufferDataLength < tempBufferLength)
+                        {
+                            // Start fill buffer timer
+                            timerFillBuffer.Start();
+                            break; // No more space, quit loop+thread
+                        }
+
+                        // Decode chunk
+                        byte[] bytes = new byte[tempBufferLength];
+                        int dataLength = 0;
+                        try
+                        {
+                            dataLength = channel.GetData(bytes, tempBufferLength);
+                            if(dataLength == -1)
+                            {
+                                BASSError error = Bass.BASS_ErrorGetCode();
+                                if(error == BASSError.BASS_ERROR_ENDED)
+                                {
+                                    break; // Decode done
+                                }
+                                else
+                                {
+                                    Console.WriteLine(error.ToString());
+                                    throw new Exception(error.ToString());
+                                }
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            throw;
+                        }
+
+                        // Add to queue
+                        decodePosition += bytes.Length;
+                        queue.Enqueue(bytes);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    // Exception in cancallation token
+                    Console.WriteLine(ex.Message);
+                    //throw; // no need to throw on cancel
+                }
+            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+            tasksDecode.Add(taskDecode);
+        }
+
+        public byte[] GetData(int length)
+        {
+            return queue.Dequeue(length);
         }
 
         /// <summary>
@@ -272,6 +420,6 @@ namespace MPfm.Sound
 
             // Set flags
             isLoaded = false;
-        }
+        }       
     }
 }

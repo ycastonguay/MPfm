@@ -95,6 +95,7 @@
     <Compile Include="Tracing.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="CacheStore.cs" />
+    <Compile Include="ByteArrayQueue.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -19,7 +19,8 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>True</Externalconsole>
     <AssemblyName>mpfm</AssemblyName>
-    <Commandlineparameters>"/Volumes/Data1/Flac/Varèse Edgard/The Complete Works/"</Commandlineparameters>
+    <Commandlineparameters>"/Volumes/Data1/Flac/Radiohead/OK Computer/"</Commandlineparameters>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>

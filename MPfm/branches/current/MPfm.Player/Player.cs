@@ -35,6 +35,7 @@ using Un4seen.Bass.AddOn.Ape;
 using Un4seen.Bass.AddOn.Flac;
 using Un4seen.Bass.AddOn.Fx;
 using Un4seen.Bass.AddOn.Mix;
+using System.Threading.Tasks;
 
 namespace MPfm.Player
 {
@@ -44,9 +45,6 @@ namespace MPfm.Player
     /// </summary>
     public class Player : MPfm.Player.IPlayer
     {
-        /// <summary>
-        /// Timer for the player.
-        /// </summary>
         private System.Timers.Timer timerPlayer = null;
         private Channel streamChannel = null;
 
@@ -942,6 +940,9 @@ namespace MPfm.Player
                     playlist.Items[a].Load();
                 }
 
+                // Start decoding first playlist item
+                //playlist.Items[Playlist.CurrentItemIndex].Decode(0);
+
                 try
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
@@ -1298,6 +1299,9 @@ namespace MPfm.Player
                 Tracing.Log("Player.Stop -- Stopping WASAPI playback...");
                 BassWasapi.BASS_WASAPI_Stop(false);
             }
+
+            // Stop decoding the current file (doesn't throw an exception if decode has finished)
+            Playlist.CurrentItem.CancelDecode();
 
             // Remove syncs            
             RemoveSyncCallbacks();
@@ -1897,10 +1901,13 @@ namespace MPfm.Player
                     timerPlayer.Start();
                 }
 
-                // Get data from the current channel since it is running                
+                // Get data from the current channel since it is running
                 int data = playlist.Items[currentMixPlaylistIndex].Channel.GetData(buffer, length);
-
                 return data;
+
+//                byte[] bufferData = playlist.Items[currentMixPlaylistIndex].GetData(length);
+//                Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
+//                return bufferData.Length;
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
@@ -1923,6 +1930,7 @@ namespace MPfm.Player
 
                         // Load first item                        
                         Playlist.Items[0].Load();
+                        //Playlist.Items[0].Decode(0);
 
                         // Load second item if it exists
                         if (Playlist.Items.Count > 1)
@@ -1930,7 +1938,7 @@ namespace MPfm.Player
                             Playlist.Items[1].Load();
                         }
 
-                        // Return data from the new channel                        
+                        // Return data from the new channel                
                         return Playlist.CurrentItem.Channel.GetData(buffer, length);
                     }
 

@@ -588,6 +588,17 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         /// <summary>
+        /// Returns the amount of data the channel has buffered.
+        /// </summary>
+        /// <returns>
+        /// The data available.
+        /// </returns>
+        public int GetDataAvailable()
+        {
+            return Bass.BASS_ChannelGetData(handle, new short[0], (int)BASSData.BASS_DATA_AVAILABLE);
+        }
+
+        /// <summary>
         /// Gets data from a mixer channel/stream buffer.
         /// </summary>
         /// <param name="buffer">Buffer to receive data</param>
@@ -596,6 +607,21 @@ namespace MPfm.Sound.BassNetWrapper
         public int GetMixerData(float[] buffer, int length)
         {
             return BassMix.BASS_Mixer_ChannelGetData(handle, buffer, length);
+        }
+
+        /// <summary>
+        /// Returns the amount of data the mixer channel has buffered.
+        /// </summary>
+        /// <returns>
+        /// The mixer data available.
+        /// </returns>
+        public int GetMixerDataAvailable()
+        {
+            int code = BassMix.BASS_Mixer_ChannelGetData(handle, new short[0], (int)BASSData.BASS_DATA_AVAILABLE); 
+            if(code == -1)
+                Base.CheckForError();
+
+            return code;
         }
 
         #endregion

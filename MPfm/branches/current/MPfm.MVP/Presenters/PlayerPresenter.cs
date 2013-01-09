@@ -117,14 +117,17 @@ namespace MPfm.MVP
             if(playerService.Player.IsSettingPosition)
                 return;
 
+            int available = playerService.Player.MixerChannel.GetDataAvailable();
+            
 			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
             entity.PositionBytes = playerService.Player.GetPosition();
             entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
             entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.SampleRate);
-    		entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+    		entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
             entity.PositionPercentage = ((float)playerService.Player.GetPosition() / (float)playerService.Player.Playlist.CurrentItem.LengthBytes) * 100;
 			
+
 			// Send changes to view
 			View.RefreshPlayerPosition(entity);
 		}
