@@ -117,10 +117,14 @@
     <Compile Include="BassWrapper\ASIO\BassASIOEnums.cs" />
     <Compile Include="BassWrapper\ASIO\BassASIOStructs.cs" />
     <Compile Include="BassWrapper\ASIO\BassASIOMethods.cs" />
-    <Compile Include="BassWrapper\BassWrapper.cs" />
     <Compile Include="BassWrapper\BassEnums.cs" />
     <Compile Include="BassWrapper\BassStructs.cs" />
     <Compile Include="BassWrapper\BassCallbacks.cs" />
+    <Compile Include="BassWrapper\BassMethods.cs" />
+    <Compile Include="BassWrapper\Mix\BassMixCallbacks.cs" />
+    <Compile Include="BassWrapper\Mix\BassMixEnums.cs" />
+    <Compile Include="BassWrapper\Mix\BassMixMethods.cs" />
+    <Compile Include="BassWrapper\Mix\BassMixStructs.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiMethods.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiEnums.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiStructs.cs" />

@@ -34,4 +34,6 @@ namespace MPfm.Sound.BassWrapper
     public delegate bool RECORDPROC(int handle, IntPtr buffer, int length, IntPtr user);
     public delegate int STREAMPROC(int handle, IntPtr buffer, int length, IntPtr user);
     public delegate void SYNCPROC(int handle, int channel, int data, IntPtr user);
+
+    public delegate void ENCODEPROC(int handle, int channel, IntPtr buffer, int length, IntPtr user);
 }
