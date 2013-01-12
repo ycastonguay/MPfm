@@ -97,6 +97,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Containers\FlowLayoutPanelTheme.cs" />
+    <Compile Include="Misc\ColorManipulation.cs" />
+    <Compile Include="Misc\ImageConversion.cs" />
     <Compile Include="Fonts\CustomFont.cs" />
     <Compile Include="Fonts\CustomFontEditorForm.cs">
       <SubType>Form</SubType>
@@ -131,6 +133,7 @@
     <Compile Include="Misc\BackgroundGradient.cs" />
     <Compile Include="Misc\Gradient.cs" />
     <Compile Include="Containers\PanelTheme.cs" />
+    <Compile Include="Misc\ImageManipulation.cs" />
     <Compile Include="Misc\PaintHelper.cs" />
     <Compile Include="ScrollBar\HScrollBar.cs">
       <SubType>Component</SubType>

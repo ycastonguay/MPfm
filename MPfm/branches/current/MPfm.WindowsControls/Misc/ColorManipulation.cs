@@ -18,13 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 
-namespace MPfm.Core
+namespace MPfm.WindowsControls
 {
     /// <summary>
     /// The ColorManipulation class contains static functions related to manipulating colors.

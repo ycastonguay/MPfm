@@ -19,10 +19,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace MPfm.Core
 {
@@ -37,10 +34,14 @@ namespace MPfm.Core
         /// <param name="message">Message to log</param>
         public static void Log(string message)
         {
-            string content = "[" + DateTime.Now.ToString() + "] " + message; 
+            string content = "[" + DateTime.Now.ToString() + "] " + message;
+
+#if IOS || ANDROID
+            Console.WriteLine(content);
+#else       
             Trace.WriteLine(content);
-            //Console.WriteLine(content);
             Trace.Flush();
+#endif
         }
 
         /// <summary>
@@ -50,15 +51,17 @@ namespace MPfm.Core
         public static void Log(Exception ex)
         {
             string content = "Error occured: " + ex.Message + "\n" + ex.StackTrace;
-            Trace.WriteLine(content);
-            Console.WriteLine(content);
-
+            string inner = string.Empty;
             if (ex.InnerException != null)
-            {
-                string inner = "Inner exception: " + ex.InnerException.Message + "\n" + ex.InnerException.StackTrace;
-                Trace.WriteLine(inner);
-                Console.WriteLine(inner);
-            }
+                inner = "Inner exception: " + ex.InnerException.Message + "\n" + ex.InnerException.StackTrace;
+
+#if IOS || ANDROID
+            Console.WriteLine(content);
+            Console.WriteLine(inner);
+#else
+            Trace.WriteLine(content);
+            Trace.WriteLine(inner);
+#endif
         }
 
         /// <summary>
@@ -67,8 +70,12 @@ namespace MPfm.Core
         /// <param name="message"></param>
         public static void LogWithoutTimeStamp(string message)
         {
+#if IOS || ANDROID
+            Console.WriteLine(message);
+#else
             Trace.WriteLine(message);
             Trace.Flush();
+#endif
         }
 
     }

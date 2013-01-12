@@ -18,12 +18,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 
-namespace MPfm.Core
+namespace MPfm.WindowsControls
 {
 	/// <summary>
 	/// The ImageManipulation class contains static functions for manipulating images.
