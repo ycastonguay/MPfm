@@ -121,6 +121,11 @@
     <Compile Include="BassWrapper\BassStructs.cs" />
     <Compile Include="BassWrapper\BassCallbacks.cs" />
     <Compile Include="BassWrapper\BassMethods.cs" />
+    <Compile Include="BassWrapper\BassWrapperGlobals.cs" />
+    <Compile Include="BassWrapper\FX\BassFXCallbacks.cs" />
+    <Compile Include="BassWrapper\FX\BassFXEnums.cs" />
+    <Compile Include="BassWrapper\FX\BassFXMethods.cs" />
+    <Compile Include="BassWrapper\FX\BassFXStructs.cs" />
     <Compile Include="BassWrapper\Mix\BassMixCallbacks.cs" />
     <Compile Include="BassWrapper\Mix\BassMixEnums.cs" />
     <Compile Include="BassWrapper\Mix\BassMixMethods.cs" />

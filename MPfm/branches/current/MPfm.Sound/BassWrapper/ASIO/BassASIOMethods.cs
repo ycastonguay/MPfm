@@ -30,18 +30,18 @@ namespace MPfm.Sound.BassWrapper.ASIO
         public const int BASSASIOVERSION = 257;
         private static int a;
         private static string b;
-        static BassAsio()
-        {
-            //BassAsio.a = 0;
-            //BassAsio.b = "bassasio.dll";
-            //if (!BassNet.OmitCheckVersion)
-            //{
-            //    BassAsio.a();
-            //}
-        }
-        private BassAsio()
-        {
-        }
+        //static BassAsio()
+        //{
+        //    //BassAsio.a = 0;
+        //    //BassAsio.b = "bassasio.dll";
+        //    //if (!BassNet.OmitCheckVersion)
+        //    //{
+        //    //    BassAsio.a();
+        //    //}
+        //}
+        //private BassAsio()
+        //{
+        //}
         [DllImport("bassasio.dll", CharSet = CharSet.Auto)]
         public static extern BASSError BASS_ASIO_ErrorGetCode();
         //[DllImport("bassasio.dll", CharSet = CharSet.Auto, EntryPoint = "BASS_ASIO_GetDeviceInfo")]
