@@ -24,9 +24,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.IO;
-using System.Text;
 using MPfm.Core;
-using Un4seen.Bass.AddOn.Tags;
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;

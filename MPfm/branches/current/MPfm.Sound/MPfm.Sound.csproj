@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>..\Output\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -71,6 +71,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bass.Net, Version=2.4.8.0, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Bass.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -83,9 +87,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Bass.Net">
-      <HintPath>Lib\Bass.Net.dll</HintPath>
     </Reference>
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
@@ -112,6 +113,18 @@
     <Compile Include="Bass.Net\Base.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
+    <Compile Include="BassWrapper\ASIO\BassASIOCallbacks.cs" />
+    <Compile Include="BassWrapper\ASIO\BassASIOEnums.cs" />
+    <Compile Include="BassWrapper\ASIO\BassASIOStructs.cs" />
+    <Compile Include="BassWrapper\ASIO\BassASIOMethods.cs" />
+    <Compile Include="BassWrapper\BassWrapper.cs" />
+    <Compile Include="BassWrapper\BassEnums.cs" />
+    <Compile Include="BassWrapper\BassStructs.cs" />
+    <Compile Include="BassWrapper\BassCallbacks.cs" />
+    <Compile Include="BassWrapper\Wasapi\BassWasapiMethods.cs" />
+    <Compile Include="BassWrapper\Wasapi\BassWasapiEnums.cs" />
+    <Compile Include="BassWrapper\Wasapi\BassWasapiStructs.cs" />
+    <Compile Include="BassWrapper\Wasapi\BassWasapiCallbacks.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />

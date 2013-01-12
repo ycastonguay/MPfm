@@ -21,15 +21,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
-using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass;
-using System.Collections.Concurrent;
 
 namespace MPfm.Sound
 {
