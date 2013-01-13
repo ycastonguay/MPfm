@@ -105,9 +105,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="Bass.Net">
-      <HintPath>..\MPfm.Sound\Lib\Bass.Net.dll</HintPath>
-    </Reference>
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
