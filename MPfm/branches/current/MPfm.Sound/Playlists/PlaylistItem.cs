@@ -25,7 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound.BassNetWrapper;
-using Un4seen.Bass;
+using MPfm.Sound.BassWrapper;
 
 namespace MPfm.Sound
 {

@@ -21,17 +21,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using MPfm.Core;
-using MPfm.Sound;
-using Un4seen.Bass;
-using Un4seen.BassAsio;
-using Un4seen.BassWasapi;
-using Un4seen.Bass.AddOn.Flac;
-using Un4seen.Bass.AddOn.Fx;
+using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassWrapper.ASIO;
+using MPfm.Sound.BassWrapper.Wasapi;
 
 namespace MPfm.Sound.BassNetWrapper
 {

@@ -19,17 +19,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using MPfm.Core;
-using MPfm.Sound;
-using Un4seen.Bass;
-using Un4seen.BassAsio;
-using Un4seen.Bass.AddOn.Mix;
-using Un4seen.Bass.AddOn.Fx;
+using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassWrapper.FX;
+using MPfm.Sound.BassWrapper.Mix;
 
 namespace MPfm.Sound.BassNetWrapper
 {

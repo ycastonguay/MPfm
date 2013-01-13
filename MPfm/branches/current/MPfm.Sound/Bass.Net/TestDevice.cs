@@ -20,20 +20,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Windows.Forms;
-using Un4seen.Bass;
-using Un4seen.BassAsio;
-using Un4seen.BassWasapi;
-using Un4seen.Bass.AddOn.Flac;
-using Un4seen.Bass.AddOn.Fx;
+using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassWrapper.ASIO;
+using MPfm.Sound.BassWrapper.Wasapi;
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -170,7 +160,9 @@ namespace MPfm.Sound.BassNetWrapper
                 }
 
                 // Get stream info
-                BASS_CHANNELINFO channelInfo = Bass.BASS_ChannelGetInfo(stream);
+                //BASS_CHANNELINFO channelInfo = Bass.BASS_ChannelGetInfo(stream);
+                BASS_CHANNELINFO channelInfo = new BASS_CHANNELINFO();
+                Bass.BASS_ChannelGetInfo(stream, ref channelInfo);
 
                 // Create callback
                 streamProc = new STREAMPROC(DirectSoundCallback);

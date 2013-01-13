@@ -116,39 +116,32 @@ namespace MPfm.Sound.BassWrapper.Wasapi
         //    }
         //    return result;
         //}
-        //public static BASS_WASAPI_DEVICEINFO BASS_WASAPI_GetDeviceInfo(int device)
-        //{
-        //    BASS_WASAPI_DEVICEINFO bASS_WASAPI_DEVICEINFO = new BASS_WASAPI_DEVICEINFO();
-        //    if (BassWasapi.BASS_WASAPI_GetDeviceInfo(device, bASS_WASAPI_DEVICEINFO))
-        //    {
-        //        return bASS_WASAPI_DEVICEINFO;
-        //    }
-        //    return null;
-        //}
-        //public static BASS_WASAPI_DEVICEINFO[] BASS_WASAPI_GetDeviceInfos()
-        //{
-        //    List<BASS_WASAPI_DEVICEINFO> list = new List<BASS_WASAPI_DEVICEINFO>();
-        //    int num = 0;
-        //    BASS_WASAPI_DEVICEINFO item;
-        //    while ((item = BassWasapi.BASS_WASAPI_GetDeviceInfo(num)) != null)
-        //    {
-        //        list.Add(item);
-        //        num++;
-        //    }
-        //    BassWasapi.BASS_WASAPI_GetCPU();
-        //    return list.ToArray();
-        //}
-        //public static int BASS_WASAPI_GetDeviceCount()
-        //{
-        //    BASS_WASAPI_DEVICEINFO info = new BASS_WASAPI_DEVICEINFO();
-        //    int num = 0;
-        //    while (BassWasapi.BASS_WASAPI_GetDeviceInfo(num, info))
-        //    {
-        //        num++;
-        //    }
-        //    BassWasapi.BASS_WASAPI_GetCPU();
-        //    return num;
-        //}
+        [DllImport("basswasapi.dll", CharSet = CharSet.Auto)]
+        public static extern bool BASS_WASAPI_GetDeviceInfo(int device, ref BASS_WASAPI_DEVICEINFO info);
+        public static BASS_WASAPI_DEVICEINFO[] BASS_WASAPI_GetDeviceInfos()
+        {
+            List<BASS_WASAPI_DEVICEINFO> list = new List<BASS_WASAPI_DEVICEINFO>();
+            int num = 0;
+            BASS_WASAPI_DEVICEINFO item = new BASS_WASAPI_DEVICEINFO();
+            while ((BassWasapi.BASS_WASAPI_GetDeviceInfo(num, ref item)) != null)
+            {
+                list.Add(item);
+                num++;
+            }
+            BassWasapi.BASS_WASAPI_GetCPU();
+            return list.ToArray();
+        }
+        public static int BASS_WASAPI_GetDeviceCount()
+        {
+            BASS_WASAPI_DEVICEINFO info = new BASS_WASAPI_DEVICEINFO();
+            int num = 0;
+            while (BassWasapi.BASS_WASAPI_GetDeviceInfo(num, ref info))
+            {
+                num++;
+            }
+            BassWasapi.BASS_WASAPI_GetCPU();
+            return num;
+        }
         [DllImport("basswasapi.dll", CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BASS_WASAPI_SetDevice(int device);

@@ -19,6 +19,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 
@@ -44,6 +45,10 @@ namespace MPfm.Sound.BassWrapper.ASIO
         //}
         [DllImport("bassasio.dll", CharSet = CharSet.Auto)]
         public static extern BASSError BASS_ASIO_ErrorGetCode();
+
+        [DllImport("bassasio.dll", CharSet = CharSet.Auto)]
+        public static extern bool BASS_ASIO_GetDeviceInfo(int device, ref BASS_ASIO_DEVICEINFO info);
+
         //[DllImport("bassasio.dll", CharSet = CharSet.Auto, EntryPoint = "BASS_ASIO_GetDeviceInfo")]
         //[return: MarshalAs(UnmanagedType.Bool)]
         //private static extern bool BASS_ASIO_GetDeviceInfoInternal([In] int A_0, [In] [Out] ref Un4seen.BassAsio.a A_1);
@@ -66,19 +71,19 @@ namespace MPfm.Sound.BassWrapper.ASIO
         //    }
         //    return null;
         //}
-        //public static BASS_ASIO_DEVICEINFO[] BASS_ASIO_GetDeviceInfos()
-        //{
-        //    List<BASS_ASIO_DEVICEINFO> list = new List<BASS_ASIO_DEVICEINFO>();
-        //    int num = 0;
-        //    BASS_ASIO_DEVICEINFO item;
-        //    while ((item = BassAsio.BASS_ASIO_GetDeviceInfo(num)) != null)
-        //    {
-        //        list.Add(item);
-        //        num++;
-        //    }
-        //    BassAsio.BASS_ASIO_GetCPU();
-        //    return list.ToArray();
-        //}
+        public static BASS_ASIO_DEVICEINFO[] BASS_ASIO_GetDeviceInfos()
+        {
+            List<BASS_ASIO_DEVICEINFO> list = new List<BASS_ASIO_DEVICEINFO>();
+            int num = 0;
+            BASS_ASIO_DEVICEINFO item = new BASS_ASIO_DEVICEINFO();
+            while ((BassAsio.BASS_ASIO_GetDeviceInfo(num, ref item)) != null)
+            {
+                list.Add(item);
+                num++;
+            }
+            BassAsio.BASS_ASIO_GetCPU();
+            return list.ToArray();
+        }
         //public static int BASS_ASIO_GetDeviceCount()
         //{
         //    BASS_ASIO_DEVICEINFO info = new BASS_ASIO_DEVICEINFO();

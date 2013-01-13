@@ -20,17 +20,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using MPfm.Core;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using Un4seen.Bass;
-using Un4seen.Bass.AddOn.Flac;
-using Un4seen.Bass.AddOn.Fx;
+using MPfm.Sound.BassWrapper;
 
 namespace MPfm.Player
 {

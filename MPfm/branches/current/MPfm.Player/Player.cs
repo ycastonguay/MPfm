@@ -21,21 +21,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
-using Un4seen.Bass;
-using Un4seen.BassAsio;
-using Un4seen.BassWasapi;
-using Un4seen.Bass.AddOn.Ape;
-using Un4seen.Bass.AddOn.Flac;
-using Un4seen.Bass.AddOn.Fx;
-using Un4seen.Bass.AddOn.Mix;
-using System.Threading.Tasks;
+using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassWrapper.ASIO;
+using MPfm.Sound.BassWrapper.FX;
+using MPfm.Sound.BassWrapper.Wasapi;
 
 namespace MPfm.Player
 {
@@ -571,9 +565,6 @@ namespace MPfm.Player
             timerPlayer.Interval = 1000;
             timerPlayer.Enabled = false;
 
-			// Register BASS.NET
-			Un4seen.Bass.BassNet.Registration("yanick.castonguay@gmail.com", "2X3433427152222");		
-			
             // Initialize BASS library by OS type
             if (OS.Type == OSType.Windows)
             {
@@ -587,9 +578,10 @@ namespace MPfm.Player
                 //ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
                 //ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
                 wmaPluginHandle = Base.LoadPlugin("basswma.dll");
-                wvPluginHandle = Base.LoadPlugin("basswv.dll");     
-								            
-            	Base.LoadFxPlugin();
+                wvPluginHandle = Base.LoadPlugin("basswv.dll");
+
+                int bassFxVersion = Base.GetFxPluginVersion();            
+            	//Base.LoadFxPlugin();
             }
 			else // Linux or Mac OS X
 			{				
@@ -815,7 +807,7 @@ namespace MPfm.Player
         public void FreePlugins()
         {
             // Dispose plugins
-            Base.FreeFxPlugin();
+            //Base.FreeFxPlugin();
 			
 			// Free plugins if they have been loaded successfully
 			if(aacPluginHandle > 0)			
@@ -1645,7 +1637,8 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(fxEQHandle, eq);
+                //Bass.BASS_FXSetParameters(fxEQHandle, eq);
+                SetFXParameters(fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
 
@@ -1694,9 +1687,11 @@ namespace MPfm.Player
         /// <returns>EQ parameters</returns>
         public BASS_BFX_PEAKEQ GetEQParams(int band)
         {
-            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            eq.lBand = band;
-            Bass.BASS_FXGetParameters(fxEQHandle, eq);
+            IntPtr param = new IntPtr();
+            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ {lBand = band};
+            Bass.BASS_FXGetParameters(fxEQHandle, param);
+            GCHandle gch = GCHandle.FromIntPtr(param);
+            eq = (BASS_BFX_PEAKEQ)gch.Target;
             
             return eq;
         }
@@ -1711,7 +1706,7 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
-            Bass.BASS_FXSetParameters(fxEQHandle, eq);
+            SetFXParameters(fxEQHandle, eq);
 
             // Set EQ preset value too?
             if (setCurrentEQPresetValue)
@@ -1719,6 +1714,13 @@ namespace MPfm.Player
                 // Set EQ preset value
                 currentEQPreset.Bands[band].Gain = gain;
             }
+        }
+
+        private void SetFXParameters(int handle, BASS_BFX_PEAKEQ eq)
+        {
+            GCHandle gch = GCHandle.Alloc(eq);
+            Bass.BASS_FXSetParameters(handle, GCHandle.ToIntPtr(gch));
+            gch.Free();            
         }
 
         /// <summary>
@@ -1773,7 +1775,8 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(fxEQHandle, eq);
+                //Bass.BASS_FXSetParameters(fxEQHandle, eq);
+                SetFXParameters(fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
         }

@@ -19,6 +19,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Sound.BassWrapper;
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -29,6 +30,6 @@ namespace MPfm.Sound.BassNetWrapper
     {
         long GetPosition(int handle);
         void RemoveSync(int handle, int syncHandle);
-        int SetSync(int handle, Un4seen.Bass.BASSSync type, long param, Un4seen.Bass.SYNCPROC syncProc);
+        int SetSync(int handle, BASSSync type, long param, SYNCPROC syncProc);
     }
 }

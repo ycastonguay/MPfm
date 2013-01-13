@@ -19,6 +19,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Sound.BassWrapper;
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -34,7 +35,7 @@ namespace MPfm.Sound.BassNetWrapper
         void AddChannel(int channelHandle);       
         double Bytes2Seconds(long position);        
         void Free();
-        void GetAttribute(Un4seen.Bass.BASSAttribute attribute, ref float value);
+        void GetAttribute(BASSAttribute attribute, ref float value);
         int GetData(byte[] buffer, int length);
         int GetData(IntPtr buffer, int length);
         int GetData(float[] buffer, int length);
@@ -42,7 +43,7 @@ namespace MPfm.Sound.BassNetWrapper
         int GetMixerData(float[] buffer, int length);
         long GetPosition();
         int GetSampleRate();        
-        Un4seen.Bass.BASSActive IsActive();        
+        BASSActive IsActive();        
         void Lock(bool state);
         void Pause();
         void Play(bool restart);
@@ -50,12 +51,12 @@ namespace MPfm.Sound.BassNetWrapper
         void RemoveSync(int syncHandle);
         void ResetFX(int handleFX);
         long Seconds2Bytes2(double position);
-        void SetAttribute(Un4seen.Bass.BASSAttribute attribute, float value);
-        Un4seen.Bass.BASSFlag SetFlags(Un4seen.Bass.BASSFlag flags, Un4seen.Bass.BASSFlag mask);
-        int SetFX(Un4seen.Bass.BASSFXType type, int priority);
+        void SetAttribute(BASSAttribute attribute, float value);
+        BASSFlag SetFlags(BASSFlag flags, BASSFlag mask);
+        int SetFX(BASSFXType type, int priority);
         void SetPosition(long position);
         void SetSampleRate(int sampleRate);
-        int SetSync(Un4seen.Bass.BASSSync type, long param, Un4seen.Bass.SYNCPROC syncProc);
+        int SetSync(BASSSync type, long param, SYNCPROC syncProc);
         void SetTempo(float tempo);
         void Stop();
 

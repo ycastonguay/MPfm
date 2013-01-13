@@ -21,19 +21,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using MPfm.Core;
-using MPfm.Sound;
-using Un4seen.Bass;
-using Un4seen.BassAsio;
-using Un4seen.BassWasapi;
-using Un4seen.Bass.AddOn.Flac;
-using Un4seen.Bass.AddOn.Fx;
-using Un4seen.Bass.AddOn.Mix;
+using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassWrapper.ASIO;
+using MPfm.Sound.BassWrapper.FX;
+using MPfm.Sound.BassWrapper.Mix;
+using MPfm.Sound.BassWrapper.Wasapi;
+
+//using Un4seen.Bass;
+//using Un4seen.BassAsio;
+//using Un4seen.BassWasapi;
+//using Un4seen.Bass.AddOn.Fx;
+//using Un4seen.Bass.AddOn.Mix;
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -43,20 +42,20 @@ namespace MPfm.Sound.BassNetWrapper
     /// </summary>
     public static class Base
     {
-        #region BASS.NET Registration
+        //#region BASS.NET Registration
         
-        /// <summary>
-        /// Registers the BASS.NET library using the email and registration key.
-        /// </summary>
-        /// <param name="email">Email</param>
-        /// <param name="registrationKey">Registration key</param>
-        public static void Register(string email, string registrationKey)
-        {
-            // Set registration information
-            BassNet.Registration(email, registrationKey);
-        }
+        ///// <summary>
+        ///// Registers the BASS.NET library using the email and registration key.
+        ///// </summary>
+        ///// <param name="email">Email</param>
+        ///// <param name="registrationKey">Registration key</param>
+        //public static void Register(string email, string registrationKey)
+        //{
+        //    // Set registration information
+        //    BassNet.Registration(email, registrationKey);
+        //}
 
-        #endregion
+        //#endregion
 
         #region Initialize/Free Devices
 
@@ -266,15 +265,15 @@ namespace MPfm.Sound.BassNetWrapper
             return plugin;
         }
 
-        /// <summary>
-        /// Loads all the BASS plugins in the directory path.
-        /// </summary>
-        /// <param name="directoryPath">Directory path</param>
-        /// <returns>Dictionary of plugin handles and plugin file paths</returns>
-        public static Dictionary<int, string> LoadPluginDirectory(string directoryPath)
-        {
-            return Bass.BASS_PluginLoadDirectory(directoryPath);
-        }
+        ///// <summary>
+        ///// Loads all the BASS plugins in the directory path.
+        ///// </summary>
+        ///// <param name="directoryPath">Directory path</param>
+        ///// <returns>Dictionary of plugin handles and plugin file paths</returns>
+        //public static Dictionary<int, string> LoadPluginDirectory(string directoryPath)
+        //{
+        //    return Bass.BASS_PluginLoadDirectory(directoryPath);
+        //}
 
         /// <summary>
         /// Frees all the BASS plugins from the directory path.
@@ -304,42 +303,42 @@ namespace MPfm.Sound.BassNetWrapper
             }
         }		
 
-        /// <summary>
-        /// Loads the BASS FX plugin.
-        /// </summary>
-        public static void LoadFxPlugin()
-        {
-            //// Load plugins           
-            //string filePathFlacPlugin = Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath) + "\\bass_fx.dll";
-            //int pluginFlac = Bass.BASS_PluginLoad(filePathFlacPlugin);
-            //if (pluginFlac == 0)
-            //{
-            //    // Check for error (throw exception if the error is found)
-            //    CheckForError();
-            //}
+        ///// <summary>
+        ///// Loads the BASS FX plugin.
+        ///// </summary>
+        //public static void LoadFxPlugin()
+        //{
+        //    //// Load plugins           
+        //    //string filePathFlacPlugin = Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath) + "\\bass_fx.dll";
+        //    //int pluginFlac = Bass.BASS_PluginLoad(filePathFlacPlugin);
+        //    //if (pluginFlac == 0)
+        //    //{
+        //    //    // Check for error (throw exception if the error is found)
+        //    //    CheckForError();
+        //    //}
 
-            //return pluginFlac;
+        //    //return pluginFlac;
 
-            // Load FX plugin
-            if (!BassFx.LoadMe())
-            {
-                // Check for error (throw exception if the error is found)
-                CheckForError();
-            }
-        }
+        //    // Load FX plugin
+        //    if (!BassFx.LoadMe())
+        //    {
+        //        // Check for error (throw exception if the error is found)
+        //        CheckForError();
+        //    }
+        //}
 
-        /// <summary>
-        /// Frees the BASS FX plugin.
-        /// </summary>
-        public static void FreeFxPlugin()
-        {
-            // Free FX plugin
-            if (!BassFx.FreeMe())
-            {
-                // Check for error (throw exception if the error is found)
-                CheckForError();
-            }
-        }
+        ///// <summary>
+        ///// Frees the BASS FX plugin.
+        ///// </summary>
+        //public static void FreeFxPlugin()
+        //{
+        //    // Free FX plugin
+        //    if (!BassFx.FreeMe())
+        //    {
+        //        // Check for error (throw exception if the error is found)
+        //        CheckForError();
+        //    }
+        //}
 		
 		/// <summary>
 		/// Returns the BASS library version.
@@ -353,7 +352,7 @@ namespace MPfm.Sound.BassNetWrapper
 			int version = Bass.BASS_GetVersion();
 			
 			// Check version with BASS.NET
-			if(Utils.HighWord(version) != Bass.BASSVERSION)
+			if(Conversion.HighWord(version) != Bass.BASSVERSION)
 			{
 				// Wrong version
 				throw new Exception("The version of the BASS library does not match with BASS.NET!");
@@ -387,7 +386,7 @@ namespace MPfm.Sound.BassNetWrapper
 			int version = BassFx.BASS_FX_GetVersion();			
 				
 			// Check version with BASS.NET
-			if(Utils.HighWord(version) != BassFx.BASSFXVERSION)
+			if(Conversion.HighWord(version) != BassFx.BASSFXVERSION)
 			{
 				// Wrong version
 				throw new Exception("The version of the BASS FX plugin does not match with BASS.NET!");
@@ -408,7 +407,7 @@ namespace MPfm.Sound.BassNetWrapper
 			int version = BassMix.BASS_Mixer_GetVersion();
 				
 			// Check version with BASS.NET
-			if(Utils.HighWord(version) != BassMix.BASSMIXVERSION)
+            if (Conversion.HighWord(version) != BassMix.BASSMIXVERSION)
 			{
 				// Wrong version
 				throw new Exception("The version of the BASS MIX plugin does not match with BASS.NET!");
@@ -428,7 +427,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <returns>Level in dB</returns>
         public static Double LevelToDB_16Bit(double level)
         {
-            return Utils.LevelToDB(level, 65535);
+            return Conversion.LevelToDB(level, 65535);
         }
 
         #endregion
@@ -442,7 +441,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void CheckForError()
         {
             // Get error code
-            Un4seen.Bass.BASSError error = Bass.BASS_ErrorGetCode();
+            BASSError error = Bass.BASS_ErrorGetCode();
 
             // Check if there is an error
             if(error != BASSError.BASS_OK)

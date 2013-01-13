@@ -90,10 +90,19 @@ namespace MPfm.Sound.BassWrapper
     }
 
     [Serializable]
-    public sealed class BASS_DEVICEINFO
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct BASS_DEVICEINFO_TEMP
     {
-        public string name = string.Empty;
-        public string driver = string.Empty;
+        public IntPtr a;
+        public IntPtr b;
+        public BASSDeviceInfo c;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    public class BASS_DEVICEINFO
+    {
+        public string name;// = string.Empty;
+        public string driver;// = string.Empty;
         public BASSDeviceInfo flags;
         public bool IsEnabled
         {

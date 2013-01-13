@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using MPfm.Sound;
 using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.BassWrapper.FX;
 
 namespace MPfm.Player
 {
@@ -57,7 +58,7 @@ namespace MPfm.Player
         void Dispose();
         void FreeDevice();
         void FreePlugins();
-        Un4seen.Bass.AddOn.Fx.BASS_BFX_PEAKEQ GetEQParams(int band);
+        BASS_BFX_PEAKEQ GetEQParams(int band);
         long GetPosition();
         void GoTo(int index);
         void GoToMarker(Marker marker);

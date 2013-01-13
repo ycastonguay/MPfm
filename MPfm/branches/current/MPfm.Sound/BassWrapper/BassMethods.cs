@@ -89,39 +89,64 @@ namespace MPfm.Sound.BassWrapper
         //    }
         //    return flag;
         //}
-		public static BASS_DEVICEINFO BASS_GetDeviceInfo(int device)
-		{
-            //BASS_DEVICEINFO bASS_DEVICEINFO = new BASS_DEVICEINFO();
-            //if (Bass.BASS_GetDeviceInfo(device, bASS_DEVICEINFO))
-            //{
-            //    return bASS_DEVICEINFO;
-            //}
-			return null;
-		}
-		public static BASS_DEVICEINFO[] BASS_GetDeviceInfos()
-		{
-			List<BASS_DEVICEINFO> list = new List<BASS_DEVICEINFO>();
-			int num = 0;
-			BASS_DEVICEINFO item;
-			while ((item = Bass.BASS_GetDeviceInfo(num)) != null)
-			{
-				list.Add(item);
-				num++;
-			}
-			Bass.BASS_GetCPU();
-			return list.ToArray();
-		}
-		public static int BASS_GetDeviceCount()
-		{
-			BASS_DEVICEINFO info = new BASS_DEVICEINFO();
-			int num = 0;
-            //while (Bass.BASS_GetDeviceInfo(num, info))
-            //{
-            //    num++;
-            //}
-            //Bass.BASS_GetCPU();
-			return num;
-		}
+        //public static BASS_DEVICEINFO BASS_GetDeviceInfo(int device)
+        //{
+        //    //BASS_DEVICEINFO bASS_DEVICEINFO = new BASS_DEVICEINFO();
+        //    //if (Bass.BASS_GetDeviceInfo(device, bASS_DEVICEINFO))
+        //    //{
+        //    //    return bASS_DEVICEINFO;
+        //    //}
+        //    return null;
+        //}
+
+        [DllImport("bass.dll", CharSet = CharSet.Auto, EntryPoint = "BASS_GetDeviceInfo")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool BASS_GetDeviceInfoInternal([In] int A_0, [In] [Out] ref BASS_DEVICEINFO_TEMP A_1);
+        public static bool BASS_GetDeviceInfo(int device, ref BASS_DEVICEINFO info)
+        {
+            BASS_DEVICEINFO_TEMP temp = new BASS_DEVICEINFO_TEMP();
+            bool success = Bass.BASS_GetDeviceInfoInternal(device, ref temp);
+            if (success)
+            {
+                info.name = Marshal.PtrToStringAnsi(temp.a);
+                info.driver = Marshal.PtrToStringAnsi(temp.b);
+                info.flags = temp.c;
+            }
+            return success;
+        }
+        public static BASS_DEVICEINFO[] BASS_GetDeviceInfos()
+        {
+            List<BASS_DEVICEINFO> list = new List<BASS_DEVICEINFO>();
+            int num = 0;
+            BASS_DEVICEINFO tempItem = new BASS_DEVICEINFO();
+            while (true)
+            {
+                bool success = Bass.BASS_GetDeviceInfo(num, ref tempItem);
+                if(!success)
+                    break;
+
+                // Create a new item (or the list will be full of the same item reference)
+                BASS_DEVICEINFO info = new BASS_DEVICEINFO();
+                info.name = tempItem.name;
+                info.driver = tempItem.driver;
+                info.flags = tempItem.flags;
+                list.Add(info);
+                num++;
+            }
+            Bass.BASS_GetCPU();
+            return list.ToArray();
+        }
+        //public static int BASS_GetDeviceCount()
+        //{
+        //    BASS_DEVICEINFO info = new BASS_DEVICEINFO();
+        //    int num = 0;
+        //    //while (Bass.BASS_GetDeviceInfo(num, info))
+        //    //{
+        //    //    num++;
+        //    //}
+        //    //Bass.BASS_GetCPU();
+        //    return num;
+        //}
 		[DllImport("bass.dll", CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool BASS_GetInfo([In] [Out] BASS_INFO info);
@@ -620,39 +645,39 @@ namespace MPfm.Sound.BassWrapper
         //    }
         //    return flag;
         //}
-		public static BASS_DEVICEINFO BASS_RecordGetDeviceInfo(int device)
-		{
-            //BASS_DEVICEINFO bASS_DEVICEINFO = new BASS_DEVICEINFO();
-            //if (Bass.BASS_RecordGetDeviceInfo(device, bASS_DEVICEINFO))
-            //{
-            //    return bASS_DEVICEINFO;
-            //}
-			return null;
-		}
-		public static BASS_DEVICEINFO[] BASS_RecordGetDeviceInfos()
-		{
-			List<BASS_DEVICEINFO> list = new List<BASS_DEVICEINFO>();
-			int num = 0;
-			BASS_DEVICEINFO item;
-			while ((item = Bass.BASS_RecordGetDeviceInfo(num)) != null)
-			{
-				list.Add(item);
-				num++;
-			}
-			Bass.BASS_GetCPU();
-			return list.ToArray();
-		}
-		public static int BASS_RecordGetDeviceCount()
-		{
-			BASS_DEVICEINFO info = new BASS_DEVICEINFO();
-			int num = 0;
-            //while (Bass.BASS_RecordGetDeviceInfo(num, info))
-            //{
-            //    num++;
-            //}
-            //Bass.BASS_GetCPU();
-			return num;
-		}
+        //public static BASS_DEVICEINFO BASS_RecordGetDeviceInfo(int device)
+        //{
+        //    //BASS_DEVICEINFO bASS_DEVICEINFO = new BASS_DEVICEINFO();
+        //    //if (Bass.BASS_RecordGetDeviceInfo(device, bASS_DEVICEINFO))
+        //    //{
+        //    //    return bASS_DEVICEINFO;
+        //    //}
+        //    return null;
+        //}
+        //public static BASS_DEVICEINFO[] BASS_RecordGetDeviceInfos()
+        //{
+        //    List<BASS_DEVICEINFO> list = new List<BASS_DEVICEINFO>();
+        //    int num = 0;
+        //    BASS_DEVICEINFO item;
+        //    while ((item = Bass.BASS_RecordGetDeviceInfo(num)) != null)
+        //    {
+        //        list.Add(item);
+        //        num++;
+        //    }
+        //    Bass.BASS_GetCPU();
+        //    return list.ToArray();
+        //}
+        //public static int BASS_RecordGetDeviceCount()
+        //{
+        //    BASS_DEVICEINFO info = new BASS_DEVICEINFO();
+        //    int num = 0;
+        //    //while (Bass.BASS_RecordGetDeviceInfo(num, info))
+        //    //{
+        //    //    num++;
+        //    //}
+        //    //Bass.BASS_GetCPU();
+        //    return num;
+        //}
 		[DllImport("bass.dll", CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool BASS_RecordSetDevice(int device);
@@ -722,6 +747,10 @@ namespace MPfm.Sound.BassWrapper
 		[DllImport("bass.dll", CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool BASS_RecordFree();
+
+        [DllImport("bass.dll")]
+        public static extern bool BASS_ChannelGetInfo(int device, [In] [Out] ref BASS_CHANNELINFO info);
+
         //[DllImport("bass.dll", CharSet = CharSet.Auto, EntryPoint = "BASS_ChannelGetInfo")]
         //[return: MarshalAs(UnmanagedType.Bool)]
         //private static extern bool BASS_ChannelGetInfoInternal(int A_0, [In] [Out] ref b A_1);
@@ -1241,9 +1270,14 @@ namespace MPfm.Sound.BassWrapper
         //    }
         //    return result;
         //}
-        //[DllImport("bass.dll", CharSet = CharSet.Auto)]
-        //[return: MarshalAs(UnmanagedType.Bool)]
-        //public static extern bool BASS_FXReset(int handle);
+
+	    [DllImport("bass.dll", CharSet = CharSet.Auto)]
+	    public static extern bool BASS_FXGetParameters(int handle, IntPtr param);
+        [DllImport("bass.dll", CharSet = CharSet.Auto)]
+        public static extern bool BASS_FXSetParameters(int handle, IntPtr param);
+        [DllImport("bass.dll", CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool BASS_FXReset(int handle);
         //public static bool LoadMe()
         //{
         //    bool result = Utils.a(Bass.b, ref Bass.a);

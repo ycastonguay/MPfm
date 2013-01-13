@@ -19,18 +19,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-//using System.Drawing;
-//using System.Drawing.Drawing2D;
-//using System.Drawing.Imaging;
 using System.Text;
-using System.IO;
 
 namespace MPfm.Core
 {
 	/// <summary>
 	/// The Conversion class contains static functions that convert objects into different formats. 
 	/// </summary>
-	public class Conversion
+	public static class Conversion
 	{
 		/// <summary>
 		/// The StringToByteArray static function converts a string into a byte array.
@@ -283,5 +279,20 @@ namespace MPfm.Core
 			Enum.TryParse<T>(value, out obj);
 			return obj;
 		}
+
+        public static short HighWord(int dWord)
+        {
+            return (short)(dWord >> 16 & 65535);
+        }
+
+        public static double LevelToDB(int level, int maxLevel)
+        {
+            return 20.0 * Math.Log10((double)level / (double)maxLevel);
+        }
+
+        public static double LevelToDB(double level, double maxLevel)
+        {
+            return 20.0 * Math.Log10(level / maxLevel);
+        }
 	}
 }

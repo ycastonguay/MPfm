@@ -321,12 +321,8 @@ namespace MPfm
                 Tracing.Log("Main form init -- Configuration file path: " + configurationFilePath);
                 Tracing.Log("Main form init -- Database file path: " + databaseFilePath);                
                 Tracing.Log("Main form init -- Log file path: " + logFilePath);                
-
-                // Register BASS.NET with key
-                Tracing.Log("Main form init -- Registering BASS.NET...");
-                Base.Register("yanick.castonguay@gmail.com", "2X3433427152222");
                
-                // Create configuration with default settings\
+                // Create configuration with default settings
                 Tracing.Log("Main form init -- Loading configuration...");
                 frmSplash.SetStatus("Loading configuration...");                
                 config = new MPfmConfiguration(configurationFilePath);
