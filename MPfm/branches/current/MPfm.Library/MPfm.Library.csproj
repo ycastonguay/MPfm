@@ -133,10 +133,6 @@
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
       <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
       <Name>MPfm.Player</Name>

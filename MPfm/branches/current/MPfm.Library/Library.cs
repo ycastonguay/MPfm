@@ -23,8 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Linq;
-using System.Drawing;
+//using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -916,7 +915,7 @@ namespace MPfm.Library
                     audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
 
                     // Display update
-                    UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, Cover = null, SongTitle = audioFile.Title }, null);
+                    UpdateLibraryReportProgress("Adding media to the library", "Adding " + filePath, percentCompleted, totalNumberOfFiles, currentFilePosition, "Adding " + filePath, filePath, new UpdateLibraryProgressDataSong { AlbumTitle = audioFile.AlbumTitle, ArtistName = audioFile.ArtistName, SongTitle = audioFile.Title }, null);
                 }
             }
             catch (Exception ex)
@@ -1531,16 +1530,17 @@ namespace MPfm.Library
             return TagLib.File.Create(filePath);
         }
 
+#if (!IOS && !ANDROID)
         /// <summary>
         /// Returns the album art in the ID3 tags, or the folder.jpg
         /// image if the tags are empty.
         /// </summary>
         /// <param name="filePath">Media file path</param>
         /// <returns>Image</returns>
-        public static Image GetAlbumArtFromID3OrFolder(string filePath)
+        public static System.Drawing.Image GetAlbumArtFromID3OrFolder(string filePath)
         {
             // Declare variables
-            Image image = null;
+			System.Drawing.Image image = null;
             TagLib.File file = null;
 
             try
@@ -1552,7 +1552,7 @@ namespace MPfm.Library
                 if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
                 {
                     // Get image from ID3 tags
-                    ImageConverter ic = new ImageConverter();
+					System.Drawing.ImageConverter ic = new System.Drawing.ImageConverter();
                     image = (System.Drawing.Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
                 }
 
@@ -1596,7 +1596,7 @@ namespace MPfm.Library
                     try
                     {
                         // Get image from file
-                        image = Image.FromFile(imagePath);
+						image = System.Drawing.Image.FromFile(imagePath);
                     }
                     catch
                     {
@@ -1608,6 +1608,7 @@ namespace MPfm.Library
 
             return image;
         }
+#endif
 
         #endregion
 

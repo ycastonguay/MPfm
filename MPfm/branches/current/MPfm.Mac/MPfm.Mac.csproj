@@ -215,28 +215,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
-      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
-      <Name>MPfm.Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>MPfm.Player</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
-      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
-      <Name>MPfm.MVP</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Bass.Net.dll.config" />
     <Content Include="MPfm.icns" />
     <Content Include="Resources\Splash.png" />

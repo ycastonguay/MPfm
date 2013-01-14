@@ -79,10 +79,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>

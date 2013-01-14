@@ -25,7 +25,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.IO;
 using System.IO.Compression;
-#if (!MACOSX && !LINUX)
+#if (!MACOSX && !LINUX && !IOS && !ANDROID)
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -40,7 +40,7 @@ using MPfm.Core;
 
 namespace MPfm.Sound
 {
-#if (!MACOSX && !LINUX)			
+#if (!MACOSX && !LINUX && !IOS && !ANDROID)			
 	
     /// <summary>
     /// The PeakFile class can generate peak files asynchronously using multiple threads with Reactive Extensions.

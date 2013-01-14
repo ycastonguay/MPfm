@@ -23,8 +23,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Data.Linq;
+//using System.Data.Linq;
 using System.Data.SQLite;
+//using Mono.Data.Sqlite;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -43,7 +44,8 @@ namespace MPfm.Library
     public class SQLiteGateway : ISQLiteGateway
     {
         // Private variables        
-        private DbProviderFactory factory = null;        
+        private DbProviderFactory factory = null;
+		private SQLiteConnection connection = null;
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.
@@ -69,9 +71,9 @@ namespace MPfm.Library
             // Initialize factory
             Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");
 						
-#if (!MACOSX && !LINUX)			
+#if (!MACOSX && !LINUX && !IOS && !ANDROID)			
         	factory = DbProviderFactories.GetFactory("System.Data.SQLite");
-#else			
+#elif (MACOSX || LINUX)			
 			factory = DbProviderFactories.GetFactory("Mono.Data.SQLite");			
 #endif
 			

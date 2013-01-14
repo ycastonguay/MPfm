@@ -147,12 +147,6 @@
     <Compile Include="XingInfoHeaderReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Lib\bass.dll" />
     <Content Include="Lib\Bass.Net.dll" />
     <Content Include="Lib\bassasio.dll" />

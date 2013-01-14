@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace MPfm.Library
 {
@@ -41,9 +40,5 @@ namespace MPfm.Library
         /// Song title.
         /// </summary>
         public string SongTitle { get; set; }
-        /// <summary>
-        /// Album cover.
-        /// </summary>
-        public Image Cover { get; set; }    
     }
 }

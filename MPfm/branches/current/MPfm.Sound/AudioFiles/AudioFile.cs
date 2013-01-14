@@ -1365,6 +1365,8 @@ namespace MPfm.Sound
             }
         }
 
+#if (!IOS && !ANDROID)
+
         /// <summary>
         /// Extracts album art from an audio file.
         /// </summary>
@@ -1445,6 +1447,8 @@ namespace MPfm.Sound
 				
             return imageCover;
         }
+
+#endif
 	}
 }
 

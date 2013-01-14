@@ -36,9 +36,11 @@ namespace MPfm.MVP
 	{
 		// Private variables		
 		private Stream fileTracing = null;
-        private TextWriterTraceListener textTraceListener = null;
-		
         private IAudioFileCacheService audioFileCacheService = null;
+
+#if (!IOS && !ANDROID)
+        private TextWriterTraceListener textTraceListener = null;
+#endif
         
 		#region Constructor and Dispose
 
@@ -78,6 +80,7 @@ namespace MPfm.MVP
 
         void CreateTraceListener()
         {
+#if (!IOS && !ANDROID)
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
             {
@@ -91,6 +94,7 @@ namespace MPfm.MVP
             }
             textTraceListener = new TextWriterTraceListener(fileTracing);
             Trace.Listeners.Add(textTraceListener);
+#endif
         }
 		
 		void LoadConfiguration()

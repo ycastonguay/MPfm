@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -79,6 +79,49 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lib\Ninject.dll" />
+    <None Include="Lib\AutoMapper.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bootstrapper\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Presenters\Interfaces\" />
+    <Folder Include="Config\" />
+    <Folder Include="Messages\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Services\LibraryService.cs" />
@@ -153,48 +196,4 @@
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="NavigationManager.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
-      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
-      <Name>MPfm.Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>MPfm.Player</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="Lib\Ninject.dll" />
-    <None Include="Lib\AutoMapper.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bootstrapper\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Presenters\Interfaces\" />
-    <Folder Include="Config\" />
-    <Folder Include="Messages\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
-          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
-          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>
