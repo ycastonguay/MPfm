@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.Player;
 using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.BassWrapper;
+using System.IO;
 
 namespace MPfm.iOS
 {
@@ -37,9 +40,15 @@ namespace MPfm.iOS
 				DriverType = DriverType.DirectSound,
 				Id = -1
 			};
+            string test = BassWrapperGlobals.DllImportValue_Bass;
 			player = new MPfm.Player.Player(device, 44100, 5000, 100, true);
-			string a = string.Empty;
-
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string path2 = NSBundle.MainBundle.BundlePath;
+            string filePath = Path.Combine(path2, "01.mp3");
+            string filePath2 = Path.Combine(path2, "02.mp3");
+            //filePath = filePath.Replace("/Documents", "");
+            bool exists = File.Exists(filePath);
+            player.PlayFiles(new List<string> { filePath, filePath2 });
 		}
 		
 		public override void ViewDidUnload ()

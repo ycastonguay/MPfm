@@ -647,6 +647,14 @@ namespace MPfm.Player
                         pluginPath = exePath.Replace("MonoBundle", "Resources");
 #endif
 
+#if IOS
+                    // Load decoding plugins (http://www.un4seen.com/forum/?topic=13851.msg96559#msg96559)
+                    flacPluginHandle = Base.LoadPlugin("BASSFLAC");
+                    wvPluginHandle = Base.LoadPlugin("BASSWV");
+                    apePluginHandle = Base.LoadPlugin("BASS_APE");
+                    mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
+
+#else
                     // Check in the current directory first
                     if(!File.Exists(pluginPath + "/libbassflac.dylib"))
                     {
@@ -658,6 +666,7 @@ namespace MPfm.Player
 					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
                     wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
                     mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
+#endif
 	            }
 			}
 						
@@ -1143,7 +1152,7 @@ namespace MPfm.Player
             Tracing.Log("Player.PlayFiles -- Playing a list of " + audioFiles.Count.ToString() + " files.");
             foreach (AudioFile audioFile in audioFiles)
             {
-                // Check if the file exists                
+                // Check if the file exists
                 if (!File.Exists(audioFile.FilePath))
                 {
                     // Throw exception
