@@ -25,10 +25,9 @@ namespace ProjectSync
                     {
                         if (part.ToUpper().Contains(".CSPROJ"))
                         {
-                            bool exists = File.Exists(part);
-                            string fullPath = Path.GetFullPath(part);
-                            bool fullPathExists = File.Exists(fullPath);
-                            string combinedPath = Path.GetFullPath(baseDirectory + "\\" + part);
+                            // Make sure the directory separator is right on every platform (the solution file contains '\')
+                            string combinedPath = Path.GetFullPath(Path.Combine(baseDirectory, part));
+                            combinedPath = combinedPath.Replace('\\', Path.DirectorySeparatorChar);
                             bool combinedPathExists = File.Exists(combinedPath);
                             listProjectFilePaths.Add(combinedPath);
                         }

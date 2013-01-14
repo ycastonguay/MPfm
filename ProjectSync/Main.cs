@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
+using System.Timers;
 using System.Xml.Linq;
 
 namespace ProjectSync
 {
     public class MainClass
     {
+        private static Timer timer = null;
+        private static DateTime dateTimeRefresh = DateTime.Now;
         public static List<string> listProjectFiles = new List<string>();
         public static FileSystemWatcher fileSystemWatcher = null;
 
@@ -61,27 +64,76 @@ namespace ProjectSync
                 return;
             }
 
-            Log("Listening to file changes of the following directory: " + baseSolutionPath);
-            fileSystemWatcher = new FileSystemWatcher();
-            fileSystemWatcher.IncludeSubdirectories = true;
-            fileSystemWatcher.Path = baseSolutionPath;
-            fileSystemWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName |
-                                             NotifyFilters.DirectoryName;
-            //fileSystemWatcher.Filter = "*.csproj";
-
-            fileSystemWatcher.Changed += HandleFileWatcherChanged;
-            fileSystemWatcher.Created += HandleFileWatcherCreated;
-            fileSystemWatcher.Deleted += HandleFileWatcherDeleted;
-            fileSystemWatcher.Renamed += HandleFileWatcherRenamed;
-
-            fileSystemWatcher.EnableRaisingEvents = true;
             Log("Press \'q\' to exit the application.");
             Log("");
+
+            timer = new Timer(5000);
+            timer.Elapsed += (object sender, ElapsedEventArgs e) => {
+                Log("Checking for changes in files...");
+                DateTime dateTimeCurrentRefresh = DateTime.Now; // Keep a timestamp from the moment we are checking files to make sure we don't miss an update
+                CheckForChanges(listProjectFiles);
+                dateTimeRefresh = dateTimeCurrentRefresh;
+            };
+            timer.Start();
+
+//            Log("Listening to file changes of the following directory: " + baseSolutionPath);
+//            fileSystemWatcher = new FileSystemWatcher(baseSolutionPath, "*");
+//            fileSystemWatcher.IncludeSubdirectories = true;
+//            fileSystemWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName |
+//                                             NotifyFilters.DirectoryName;
+//            //fileSystemWatcher.Filter = "*.csproj";
+//
+//            fileSystemWatcher.Changed += HandleFileWatcherChanged;
+//            fileSystemWatcher.Created += HandleFileWatcherCreated;
+//            fileSystemWatcher.Deleted += HandleFileWatcherDeleted;
+//            fileSystemWatcher.Renamed += HandleFileWatcherRenamed;
+//
+//            fileSystemWatcher.EnableRaisingEvents = true;
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 if (keyInfo.Key == ConsoleKey.Q)
+                {
+                    timer.Stop();
                     break;
+                }
+            }
+        }
+
+        private static void CheckForChanges(List<string> filePaths)
+        {
+            // Check for changed files
+            List<string> changedFiles = new List<string>();
+            foreach (string filePath in filePaths)
+            {
+                DateTime dateTimeWrite = File.GetLastWriteTime(filePath);
+                //Log("Checking project file for changes: " + filePath);
+                //Log("File timestamp: " + dateTimeWrite.ToLongDateString() + " " + dateTimeWrite.ToLongTimeString());
+                if (dateTimeWrite >= dateTimeRefresh)
+                {
+                    changedFiles.Add(filePath);
+                }
+            }
+
+            // Loop through modified CSPROJ files
+            foreach (string filePath in changedFiles)
+            {
+                // Fetch all CSPROJ files from the same directory
+                Log("Changed file: " + filePath);
+                string directoryPath = Path.GetDirectoryName(filePath);
+                string[] csProjFiles = Directory.GetFiles(directoryPath, "*.csproj");
+                
+                // Make a list of project files to update
+                List<string> projectFilesToUpdate = csProjFiles.ToList();
+                projectFilesToUpdate.Remove(filePath);
+                List<string> compiles = ProjectFileReader.ExtractProjectCompileFilePaths(filePath);
+                
+                // Update other CSPROJ files
+                foreach (string projectFilePath in projectFilesToUpdate)
+                {
+                    Log("Updating project file " + projectFilePath);
+                    //UpdateProjectFile(projectFilePath, compiles);
+                }
             }
         }
 
@@ -108,44 +160,7 @@ namespace ProjectSync
                     // Update other CSPROJ files
                     foreach (string projectFilePath in projectFilesToUpdate)
                     {
-                        // Read XML content
-                        string fileContents = File.ReadAllText(projectFilePath);
-                        XDocument xdoc = XDocument.Parse(fileContents);
-                        XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
-                        XElement elProject = xdoc.Element(ns + "Project");
-                        List<XElement> elGlobalCompiles = xdoc.Descendants(ns + "Compile").ToList();
-                        if (elProject == null)
-                            throw new Exception("Could not find the Project xml node.");
-
-                        // Remove Compile nodes
-                        foreach (XElement elCompile in elGlobalCompiles)
-                            elCompile.Remove();
-
-                        // Add a ItemGroup with all compiles
-                        XElement elGlobalItemGroup = new XElement(ns + "ItemGroup");
-                        foreach (string compile in compiles)
-                        {
-                            XElement elCompile = new XElement(ns + "Compile");
-                            XAttribute attrInclude = new XAttribute("Include", compile);
-                            elCompile.Add(attrInclude);
-                            elGlobalItemGroup.Add(elCompile);
-                        }
-                        elProject.Add(elGlobalItemGroup);
-
-                        // Remove empty ItemGroup nodes
-                        List<XElement> elItemGroups = xdoc.Descendants(ns + "ItemGroup").ToList();
-                        foreach (XElement elItemGroup in elItemGroups)
-                        {
-                            if (!elItemGroup.HasElements)
-                            {
-                                elItemGroup.Remove();
-                            }
-                        }
-
-                        // Save new project file
-                        //xdoc.Save(directoryPath + "\\" + "test.xml");
-                        Log("Writing project file: " + projectFilePath);
-                        xdoc.Save(projectFilePath);
+                        UpdateProjectFile(projectFilePath, compiles);
                     }
 
                     // Reactive file watcher
@@ -177,6 +192,47 @@ namespace ProjectSync
         private static void HandleFileWatcherRenamed(object sender, RenamedEventArgs e)
         {
             Log("A file has been renamed: " + e.FullPath);
+        }
+
+        private static void UpdateProjectFile(string filePath, List<string> compileList)
+        {
+            // Read XML content
+            string fileContents = File.ReadAllText(filePath);
+            XDocument xdoc = XDocument.Parse(fileContents);
+            XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
+            XElement elProject = xdoc.Element(ns + "Project");
+            List<XElement> elGlobalCompiles = xdoc.Descendants(ns + "Compile").ToList();
+            if (elProject == null)
+                throw new Exception("Could not find the Project xml node.");
+            
+            // Remove Compile nodes
+            foreach (XElement elCompile in elGlobalCompiles)
+                elCompile.Remove();
+            
+            // Add a ItemGroup with all compiles
+            XElement elGlobalItemGroup = new XElement(ns + "ItemGroup");
+            foreach (string compile in compileList)
+            {
+                XElement elCompile = new XElement(ns + "Compile");
+                XAttribute attrInclude = new XAttribute("Include", compile);
+                elCompile.Add(attrInclude);
+                elGlobalItemGroup.Add(elCompile);
+            }
+            elProject.Add(elGlobalItemGroup);
+            
+            // Remove empty ItemGroup nodes
+            List<XElement> elItemGroups = xdoc.Descendants(ns + "ItemGroup").ToList();
+            foreach (XElement elItemGroup in elItemGroups)
+            {
+                if (!elItemGroup.HasElements)
+                {
+                    elItemGroup.Remove();
+                }
+            }
+            
+            // Save project file
+            Log("Writing project file: " + filePath);
+            xdoc.Save(filePath);
         }
 
         private static void Log(string message)
