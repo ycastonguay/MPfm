@@ -29,20 +29,7 @@ namespace MPfm.Sound.BassWrapper.ASIO
     public sealed class BassAsio
     {
         public const int BASSASIOVERSION = 257;
-        private static int a;
-        private static string b;
-        //static BassAsio()
-        //{
-        //    //BassAsio.a = 0;
-        //    //BassAsio.b = "bassasio.dll";
-        //    //if (!BassNet.OmitCheckVersion)
-        //    //{
-        //    //    BassAsio.a();
-        //    //}
-        //}
-        //private BassAsio()
-        //{
-        //}
+
         [DllImport("bassasio.dll", CharSet = CharSet.Auto)]
         public static extern BASSError BASS_ASIO_ErrorGetCode();
 
@@ -222,77 +209,5 @@ namespace MPfm.Sound.BassWrapper.ASIO
         public static extern bool BASS_ASIO_ChannelSetVolume([MarshalAs(UnmanagedType.Bool)] bool input, int channel, float volume);
         [DllImport("bassasio.dll", CharSet = CharSet.Auto)]
         public static extern float BASS_ASIO_ChannelGetVolume([MarshalAs(UnmanagedType.Bool)] bool input, int channel);
-    //    public static bool LoadMe()
-    //    {
-    //        bool result = Utils.a(BassAsio.b, ref BassAsio.a);
-    //        if (!BassNet.OmitCheckVersion)
-    //        {
-    //            BassAsio.a();
-    //        }
-    //        return result;
-    //    }
-    //    public static bool LoadMe(string path)
-    //    {
-    //        bool result = Utils.a(Path.Combine(path, BassAsio.b), ref BassAsio.a);
-    //        if (!BassNet.OmitCheckVersion)
-    //        {
-    //            BassAsio.a();
-    //        }
-    //        return result;
-    //    }
-    //    public static bool FreeMe()
-    //    {
-    //        return Utils.a(ref BassAsio.a);
-    //    }
-    //    private static void a()
-    //    {
-    //        try
-    //        {
-    //            if (Utils.HighWord(BassAsio.BASS_ASIO_GetVersion()) != 257)
-    //            {
-    //                Version version = BassAsio.BASS_ASIO_GetVersion(2);
-    //                Version version2 = new Version(1, 1);
-    //                FileVersionInfo fileVersionInfo = null;
-    //                ProcessModuleCollection modules = Process.GetCurrentProcess().Modules;
-    //                for (int i = modules.Count - 1; i >= 0; i--)
-    //                {
-    //                    ProcessModule processModule = modules[i];
-    //                    if (processModule.ModuleName.ToLower().Equals(BassAsio.b.ToLower()))
-    //                    {
-    //                        fileVersionInfo = processModule.FileVersionInfo;
-    //                        break;
-    //                    }
-    //                }
-    //                if (fileVersionInfo != null)
-    //                {
-    //                    MessageBox.Show(string.Format("An incorrect version of BASSASIO was loaded!\r\n\r\nVersion loaded: {0}.{1}\r\nVersion expected: {2}.{3}\r\n\r\nFile: {4}\r\nFileVersion: {5}\r\nDescription: {6}\r\nCompany: {7}\r\nLanguage: {8}", new object[]
-    //                    {
-    //                        version.Major,
-    //                        version.Minor,
-    //                        version2.Major,
-    //                        version2.Minor,
-    //                        fileVersionInfo.FileName,
-    //                        fileVersionInfo.FileVersion,
-    //                        fileVersionInfo.FileDescription,
-    //                        fileVersionInfo.CompanyName + " " + fileVersionInfo.LegalCopyright,
-    //                        fileVersionInfo.Language
-    //                    }), "Incorrect BASSASIO Version", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-    //                }
-    //                else
-    //                {
-    //                    MessageBox.Show(string.Format("An incorrect version of BASSASIO was loaded!\r\n\r\nVersion loaded: {0}.{1}\r\nVersion expected: {2}.{3}", new object[]
-    //                    {
-    //                        version.Major,
-    //                        version.Minor,
-    //                        version2.Major,
-    //                        version2.Minor
-    //                    }), "Incorrect BASSASIO Version", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-    //                }
-    //            }
-    //        }
-    //        catch
-    //        {
-    //        }
-    //    }
     }
 }

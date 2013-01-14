@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -154,6 +154,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
+      <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
+      <Name>MPfm.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
       <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
       <Name>MPfm.Player</Name>
@@ -168,15 +176,7 @@
     <None Include="Lib\Ninject.dll" />
     <None Include="Lib\AutoMapper.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bootstrapper\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Presenters\Interfaces\" />
-    <Folder Include="Config\" />
-    <Folder Include="Messages\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
