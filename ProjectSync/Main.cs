@@ -132,7 +132,7 @@ namespace ProjectSync
                 foreach (string projectFilePath in projectFilesToUpdate)
                 {
                     Log("Updating project file " + projectFilePath);
-                    //UpdateProjectFile(projectFilePath, compiles);
+                    UpdateProjectFile(projectFilePath, compiles);
                 }
             }
         }
