@@ -19,8 +19,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Runtime.InteropServices;
 
 namespace MPfm.Sound.BassWrapper.Mix
 {
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void SYNCPROCEX(int handle, int channel, int data, IntPtr user, long offset);
 }

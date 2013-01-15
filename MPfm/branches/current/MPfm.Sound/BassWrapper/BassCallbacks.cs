@@ -23,17 +23,55 @@ using System.Runtime.InteropServices;
 
 namespace MPfm.Sound.BassWrapper
 {
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void DOWNLOADPROC(IntPtr buffer, int length, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void DSPPROC(int handle, int channel, IntPtr buffer, int length, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void FILECLOSEPROC(IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate long FILELENPROC(IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate int FILEREADPROC(IntPtr buffer, int length, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     [return: MarshalAs(UnmanagedType.Bool)]
     public delegate bool FILESEEKPROC(long offset, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     [return: MarshalAs(UnmanagedType.Bool)]
     public delegate bool RECORDPROC(int handle, IntPtr buffer, int length, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate int STREAMPROC(int handle, IntPtr buffer, int length, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void SYNCPROC(int handle, int channel, int data, IntPtr user);
 
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void ENCODEPROC(int handle, int channel, IntPtr buffer, int length, IntPtr user);
 }

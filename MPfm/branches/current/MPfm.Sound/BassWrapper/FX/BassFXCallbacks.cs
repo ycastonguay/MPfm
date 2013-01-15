@@ -23,7 +23,18 @@ using System.Runtime.InteropServices;
 
 namespace MPfm.Sound.BassWrapper.FX
 {
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void BPMBEATPROC(int handle, double beatpos, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void BPMPROC(int handle, float bpm, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void BPMPROCESSPROC(int channel, float percent);
 }
