@@ -3,13 +3,24 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>MPfm: Music Player for Musicians</string>
+	<string>MP4M</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Images/icon57.png</string>
+		<string>Images/icon114.png</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>org.mp4m.ios</string>
+	<key>CFBundleName</key>
+	<string>MP4M</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>MinimumOSVersion</key>
 	<string>5.0</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

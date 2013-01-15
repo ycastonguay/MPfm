@@ -30,6 +30,9 @@ using MPfm.Sound.BassWrapper;
 using MPfm.Sound.BassWrapper.ASIO;
 using MPfm.Sound.BassWrapper.FX;
 using MPfm.Sound.BassWrapper.Wasapi;
+#if IOS
+using MonoTouch;
+#endif
 
 namespace MPfm.Player
 {
@@ -1571,7 +1574,11 @@ namespace MPfm.Player
                 mixerChannel.SetPosition(0);
 
                 // Set sync
+#if IOS
+                Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProcIOS);
+#else
                 Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
+#endif
                 Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
 
                 // Set new callback (length already in floating point)
@@ -1823,7 +1830,13 @@ namespace MPfm.Player
         {                       
             // Set sync
             PlayerSyncProc syncProc = new PlayerSyncProc();
+
+#if IOS
+            syncProc.SyncProc = new SYNCPROC(PlayerSyncProcIOS);
+#else
             syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
+#endif
+
             syncProc.Handle = mixerChannel.SetSync(fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
 
             // Add to list
@@ -2053,7 +2066,7 @@ namespace MPfm.Player
         /// <param name="channel">Channel handle</param>
         /// <param name="data">Data</param>
         /// <param name="user">User data</param>
-        private void LoopSyncProc(int handle, int channel, int data, IntPtr user)
+        internal void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
             // Validate nulls
             if (CurrentLoop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
@@ -2096,7 +2109,7 @@ namespace MPfm.Player
         /// <param name="channel">Channel handle</param>
         /// <param name="data">Data</param>
         /// <param name="user">User data</param>
-        private void PlayerSyncProc(int handle, int channel, int data, IntPtr user)
+        internal void PlayerSyncProc(int handle, int channel, int data, IntPtr user)
         {
             // Declare variables
             bool playbackStopped = false;
@@ -2231,11 +2244,27 @@ namespace MPfm.Player
             }
         }
 
+#if IOS
+
+        [MonoPInvokeCallback(typeof(STREAMPROC))]
         private static int StreamCallbackIOS(int handle, IntPtr buffer, int length, IntPtr user)
         {
             return Player.CurrentPlayer.StreamCallback(handle, buffer, length, user);
         }
 
+        [MonoPInvokeCallback(typeof(SYNCPROC))]
+        private static void PlayerSyncProcIOS(int handle, int channel, int data, IntPtr user)
+        {
+            Player.CurrentPlayer.PlayerSyncProc(handle, channel, data, user);
+        }
+
+        [MonoPInvokeCallback(typeof(SYNCPROC))]
+        private static void LoopSyncProcIOS(int handle, int channel, int data, IntPtr user)
+        {
+            Player.CurrentPlayer.LoopSyncProc(handle, channel, data, user);
+        }
+
+#endif
         #endregion
     }
 }

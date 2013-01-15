@@ -134,6 +134,7 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="monotouch" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Bass.Net.dll" />
