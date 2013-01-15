@@ -36,9 +36,15 @@ namespace MPfm.Player
     /// <summary>
     /// The Player class manages audio playback through playlists and supports
     /// multiple driver types and devices.
-    /// </summary>
+    /// </summary>    
     public class Player : MPfm.Player.IPlayer
     {
+        /// <summary>
+        /// This static instance of the player is used only on iOS, because MonoTouch requires all C callbacks
+        /// to be static.
+        /// http://docs.xamarin.com/ios/guides/advanced_topics/limitations
+        /// </summary>
+        internal static Player CurrentPlayer = null;
         private System.Timers.Timer timerPlayer = null;
         private Channel streamChannel = null;
 
@@ -547,6 +553,7 @@ namespace MPfm.Player
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
             // Initialize system using specified values
+            Player.CurrentPlayer = this;
             this.device = device;
             this.mixerSampleRate = mixerSampleRate;
             this.bufferSize = bufferSize;
@@ -948,7 +955,13 @@ namespace MPfm.Player
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
                     Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
+
+#if IOS
+                    streamProc = new STREAMPROC(StreamCallbackIOS);
+#else
                     streamProc = new STREAMPROC(StreamCallback);
+#endif
+
                     streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, streamProc);
 
                     Tracing.Log("Player.Play -- Creating time shifting channel...");
@@ -1867,17 +1880,17 @@ namespace MPfm.Player
 
         #endregion
 
-        #region Callback Events        
-
+        #region Callback Events
+        
         /// <summary>
-        /// Callback used for DirectSound devices.
+        /// Callback used for standard devices (including DirectSound).
         /// </summary>
         /// <param name="handle">Channel handle</param>
         /// <param name="buffer">Buffer data</param>
         /// <param name="length">Buffer length</param>
         /// <param name="user">User data</param>
         /// <returns>Audio data</returns>
-        private int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
+        internal int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
             // If the current sub channel is null, end the stream            
 			if(playlist == null || playlist.CurrentItem == null || playlist.Items[currentMixPlaylistIndex] == null ||
@@ -2216,6 +2229,11 @@ namespace MPfm.Player
                 // Raise event
                 OnPlaylistIndexChanged(eventData);
             }
+        }
+
+        private static int StreamCallbackIOS(int handle, IntPtr buffer, int length, IntPtr user)
+        {
+            return Player.CurrentPlayer.StreamCallback(handle, buffer, length, user);
         }
 
         #endregion
