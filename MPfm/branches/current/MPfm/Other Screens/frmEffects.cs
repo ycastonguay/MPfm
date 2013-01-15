@@ -440,19 +440,6 @@ namespace MPfm
             // Set configuration and save
             main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
             main.Config.Save();
-
-            //// Set equalizer
-            //if (m_main.Player.IsEQEnabled)
-            //{
-            //    // Remove EQ
-            //    main.Player.RemoveEQ();
-            //}
-            //else
-            //{
-            //    // Add EQ
-            //    EQPreset preset = GetEQPresetFromCurrentValues();
-            //    main.Player.AddEQ(preset);
-            //}
         }        
 
         /// <summary>

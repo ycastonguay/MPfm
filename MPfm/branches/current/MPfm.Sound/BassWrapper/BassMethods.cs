@@ -639,10 +639,13 @@ namespace MPfm.Sound.BassWrapper
 		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool BASS_ChannelRemoveLink(int handle, int chan);
-	    [DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
-	    public static extern bool BASS_FXGetParameters(int handle, IntPtr param);
+
         [DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
-        public static extern bool BASS_FXSetParameters(int handle, IntPtr param);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool BASS_FXGetParameters(int handle, [MarshalAs(UnmanagedType.AsAny)] [In] [Out] object par);
+        [DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool BASS_FXSetParameters(int handle, [MarshalAs(UnmanagedType.AsAny)] [In] object par);
         [DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BASS_FXReset(int handle);

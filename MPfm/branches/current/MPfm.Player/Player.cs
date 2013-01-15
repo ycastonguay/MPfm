@@ -1646,8 +1646,7 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                //Bass.BASS_FXSetParameters(fxEQHandle, eq);
-                SetFXParameters(fxEQHandle, eq);
+                Bass.BASS_FXSetParameters(fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
 
@@ -1696,12 +1695,8 @@ namespace MPfm.Player
         /// <returns>EQ parameters</returns>
         public BASS_BFX_PEAKEQ GetEQParams(int band)
         {
-            IntPtr param = new IntPtr();
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ {lBand = band};
-            Bass.BASS_FXGetParameters(fxEQHandle, param);
-            GCHandle gch = GCHandle.FromIntPtr(param);
-            eq = (BASS_BFX_PEAKEQ)gch.Target;
-            
+            Bass.BASS_FXGetParameters(fxEQHandle, eq);            
             return eq;
         }
 
@@ -1715,7 +1710,7 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
-            SetFXParameters(fxEQHandle, eq);
+            Bass.BASS_FXSetParameters(fxEQHandle, eq);
 
             // Set EQ preset value too?
             if (setCurrentEQPresetValue)
@@ -1723,13 +1718,6 @@ namespace MPfm.Player
                 // Set EQ preset value
                 currentEQPreset.Bands[band].Gain = gain;
             }
-        }
-
-        private void SetFXParameters(int handle, BASS_BFX_PEAKEQ eq)
-        {
-            GCHandle gch = GCHandle.Alloc(eq);
-            Bass.BASS_FXSetParameters(handle, GCHandle.ToIntPtr(gch));
-            gch.Free();            
         }
 
         /// <summary>
@@ -1784,8 +1772,7 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                //Bass.BASS_FXSetParameters(fxEQHandle, eq);
-                SetFXParameters(fxEQHandle, eq);
+                Bass.BASS_FXSetParameters(fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
         }
