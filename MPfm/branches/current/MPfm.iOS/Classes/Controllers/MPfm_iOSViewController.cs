@@ -7,12 +7,14 @@ using MPfm.Player;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.BassWrapper;
 using System.IO;
+using System.Timers;
 
 namespace MPfm.iOS
 {
 	public partial class MPfm_iOSViewController : UIViewController
 	{
 		private IPlayer player;
+        private Timer timer;
 
 		static bool UserInterfaceIdiomIsPhone {
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -35,6 +37,21 @@ namespace MPfm.iOS
 		{
 			base.ViewDidLoad ();
 			
+            timer = new Timer();
+            timer.Interval = 100;
+            timer.Elapsed += (sender, e) => {
+                InvokeOnMainThread(() => {
+                    try
+                    {
+                        lblPosition.Text = player.GetPosition().ToString();
+                    }
+                    catch
+                    {
+                        lblPosition.Text = "Error";
+                    }
+                });
+            };
+
 			// Perform any additional setup after loading the view, typically from a nib.
 			Device device = new Device(){
 				DriverType = DriverType.DirectSound,
@@ -49,6 +66,7 @@ namespace MPfm.iOS
             //filePath = filePath.Replace("/Documents", "");
             bool exists = File.Exists(filePath);
             player.PlayFiles(new List<string> { filePath, filePath2 });
+            timer.Start();
 		}
 		
 		public override void ViewDidUnload ()
@@ -72,6 +90,21 @@ namespace MPfm.iOS
 				return true;
 			}
 		}
+
+        partial void actionPlay(NSObject sender)
+        {
+            player.Play();
+        }
+
+        partial void actionPause(NSObject sender)
+        {
+            player.Pause();
+        }
+
+        partial void actionStop(NSObject sender)
+        {
+            player.Stop();
+        }
 	}
 }
 

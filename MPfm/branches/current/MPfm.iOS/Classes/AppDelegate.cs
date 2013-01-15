@@ -34,6 +34,16 @@ namespace MPfm.iOS
 			
 			return true;
 		}
+
+        public override void WillTerminate(UIApplication application)
+        {
+            // Clean up player
+            if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
+            {
+                MPfm.Player.Player.CurrentPlayer.Stop();
+            }
+            MPfm.Player.Player.CurrentPlayer.Dispose();
+        }
 	}
 }
 

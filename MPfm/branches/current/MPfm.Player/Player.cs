@@ -47,7 +47,7 @@ namespace MPfm.Player
         /// to be static.
         /// http://docs.xamarin.com/ios/guides/advanced_topics/limitations
         /// </summary>
-        internal static Player CurrentPlayer = null;
+        public static Player CurrentPlayer = null;
         private System.Timers.Timer timerPlayer = null;
         private Channel streamChannel = null;
 
