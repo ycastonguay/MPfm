@@ -167,10 +167,10 @@ namespace MPfm.Sound.BassWrapper
 		public static extern bool BASS_SetDevice(int device);
 		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
 		public static extern int BASS_GetDevice();
-		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
-		public static extern IntPtr BASS_GetDSoundObject(int handle);
-		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
-		public static extern IntPtr BASS_GetDSoundObject(BASSDirectSound dsobject);
+//		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
+//		public static extern IntPtr BASS_GetDSoundObject(int handle);
+//		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
+//		public static extern IntPtr BASS_GetDSoundObject(BASSDirectSound dsobject);
 		[DllImport(BassWrapperGlobals.DllImportValue_Bass, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool BASS_Update(int length);

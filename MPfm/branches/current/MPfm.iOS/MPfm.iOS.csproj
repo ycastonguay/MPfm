@@ -82,6 +82,7 @@
     <MtouchI18n />
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchSdkVersion>6.0</MtouchSdkVersion>
+    <IpaPackageName />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
