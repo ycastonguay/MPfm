@@ -31,6 +31,8 @@ namespace MPfm.iOS
 			window.RootViewController = viewController;
 			window.MakeKeyAndVisible ();
 
+            // Show status bar again
+            UIApplication.SharedApplication.SetStatusBarHidden(false, true);
 			
 			return true;
 		}

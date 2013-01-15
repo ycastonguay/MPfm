@@ -164,4 +164,8 @@
     <Content Include="Images\icon57.png" />
     <Content Include="Images\icon114.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\Default.png" />
+  </ItemGroup>
 </Project>
