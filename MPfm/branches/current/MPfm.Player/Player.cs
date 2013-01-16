@@ -622,6 +622,7 @@ namespace MPfm.Player
 				Tracing.Log("Player init -- BASS Mix Version: " + bassMixVersion);
 
 				// Check OS type
+                Console.WriteLine("Player init -- OS is " + OS.Type.ToString());
 	            if (OS.Type == OSType.Linux)
 	            {
                     string pluginPath = string.Empty;
@@ -675,26 +676,23 @@ namespace MPfm.Player
 	            }
 	            else if (OS.Type == OSType.MacOSX)
 	            {
-					// Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)								
-					string pluginPath = string.Empty;				
-					
-                    // Try to get the plugins in the current path
-                    string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-#if DEBUG
-                        pluginPath = exePath;
-#else
-                        pluginPath = exePath.Replace("MonoBundle", "Resources");
-#endif
-
 #if IOS
                     // Load decoding plugins (http://www.un4seen.com/forum/?topic=13851.msg96559#msg96559)
+                    Console.WriteLine("Loading iOS plugins (FLAC)...");
                     flacPluginHandle = Base.LoadPlugin("BASSFLAC");
+                    Console.WriteLine("Loading iOS plugins (WV)...");
                     wvPluginHandle = Base.LoadPlugin("BASSWV");
+                    Console.WriteLine("Loading iOS plugins (APE)...");
                     apePluginHandle = Base.LoadPlugin("BASS_APE");
+                    Console.WriteLine("Loading iOS plugins (MPC)...");
                     mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
-
 #else
+
+                    // Try to get the plugins in the current path
+                    Console.WriteLine("Loading OS X plugins...");
+                    string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    string pluginPath = exePath.Replace("MonoBundle", "Resources");
+
                     // Check in the current directory first
                     if(!File.Exists(pluginPath + "/libbassflac.dylib"))
                     {
@@ -1117,7 +1115,7 @@ namespace MPfm.Player
 
                 // Load 18-band equalizer
                 Tracing.Log("Player.Play -- Creating equalizer (Preset: " + currentEQPreset + ")...");
-                AddEQ(currentEQPreset);
+                //AddEQ(currentEQPreset); // TODO: MonoTouch doesn't like the FX implementation
 
                 // Check if EQ is bypassed
                 if (isEQBypassed)

@@ -23,6 +23,12 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UISlider sliderPosition { get; set; }
+
 		[Action ("actionPlay:")]
 		partial void actionPlay (MonoTouch.Foundation.NSObject sender);
 
@@ -58,6 +64,16 @@ namespace MPfm.iOS
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
+			}
+
+			if (imageViewAlbumArt != null) {
+				imageViewAlbumArt.Dispose ();
+				imageViewAlbumArt = null;
+			}
+
+			if (sliderPosition != null) {
+				sliderPosition.Dispose ();
+				sliderPosition = null;
 			}
 		}
 	}

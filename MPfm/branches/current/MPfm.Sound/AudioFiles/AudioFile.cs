@@ -1449,6 +1449,47 @@ namespace MPfm.Sound
         }
 
 #endif
+                
+        /// <summary>
+        /// Extracts the album art from the audio file. Returns a byte array containing the image.
+        /// </summary>
+        /// <param name="filePath">Audio file path</param>
+        /// <returns>Byte array (image)</returns>
+        public static byte[] ExtractImageByteArrayForAudioFile(string filePath)
+        {
+            byte[] bytes = new byte[0];
+
+            // Check if the file exists
+            if (!File.Exists(filePath))
+            {
+                return null;
+            }
+            
+            // Check the file extension
+            string extension = Path.GetExtension(filePath).ToUpper();
+            if (extension == ".MP3")
+            {
+                try
+                {
+                    // Get tags using TagLib
+                    using (TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath))
+                    {
+                        // Can we get the image from the ID3 tags?
+                        if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+                        {
+                            // Get image from ID3 tags
+                            bytes = file.Tag.Pictures[0].Data.Data;
+                        }
+                    }
+                }
+                catch
+                {
+                    // Failed to recover album art. Do nothing.
+                }
+            }
+            
+            return bytes;
+        }
 	}
 }
 
