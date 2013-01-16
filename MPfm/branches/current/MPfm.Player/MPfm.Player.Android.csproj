@@ -22,11 +22,12 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>..\Output\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Output\MPfm.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -44,6 +47,7 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -52,6 +56,7 @@
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -60,6 +65,8 @@
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -69,6 +76,8 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -81,16 +90,9 @@
     <Reference Include="Bass.Net">
       <HintPath>Lib\Bass.Net.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound</Name>
-    </ProjectReference>
+    <Reference Include="taglib-sharp">
+      <HintPath>..\MPfm.Sound\Lib\Android\taglib-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Bass.Net.dll" />
@@ -116,5 +118,15 @@
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -21,12 +21,13 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>..\Output\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DocumentationFile>..\Output\MPfm.Sound.XML</DocumentationFile>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -45,6 +48,7 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -53,6 +57,7 @@
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -61,6 +66,8 @@
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -70,6 +77,8 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -88,33 +97,12 @@
     <Reference Include="Bass.Net">
       <HintPath>Lib\Bass.Net.dll</HintPath>
     </Reference>
-    <Reference Include="taglib-sharp">
-      <HintPath>Lib\taglib-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Posix" />
+    <Reference Include="taglib-sharp">
+      <HintPath>Lib\Android\taglib-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lib\bass.dll" />
-    <Content Include="Lib\Bass.Net.dll" />
-    <Content Include="Lib\bassasio.dll" />
-    <Content Include="Lib\bassflac.dll" />
-    <Content Include="Lib\basswasapi.dll" />
-    <Content Include="Lib\basswma.dll" />
-    <Content Include="Lib\basswv.dll" />
-    <Content Include="Lib\bass_aac.dll" />
-    <Content Include="Lib\bass_alac.dll" />
-    <Content Include="Lib\bass_ape.dll" />
-    <Content Include="Lib\bass_fx.dll" />
-    <Content Include="Lib\bass_mpc.dll" />
-    <Content Include="Lib\bass_ofr.dll" />
-    <Content Include="Lib\bass_tta.dll" />
-    <Content Include="Lib\System.Reactive.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -174,5 +162,11 @@
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -30,6 +30,7 @@ using MPfm.Sound.BassWrapper;
 using MPfm.Sound.BassWrapper.ASIO;
 using MPfm.Sound.BassWrapper.FX;
 using MPfm.Sound.BassWrapper.Wasapi;
+
 #if IOS
 using MonoTouch;
 #endif
@@ -48,6 +49,18 @@ namespace MPfm.Player
         /// http://docs.xamarin.com/ios/guides/advanced_topics/limitations
         /// </summary>
         public static Player CurrentPlayer = null;
+
+        /// <summary>
+        /// Defines the BASS plugin path. Useful for Android where this cannot be determined by Environment.SpecialFolder.
+        /// </summary>
+        /// </value>
+        public static string PluginDirectoryPath { get; set; }
+
+        /// <summary>
+        /// Defines if floating point must be used (always except for Android).
+        /// </summary>
+        public bool UseFloatingPoint { get; private set;}
+
         private System.Timers.Timer timerPlayer = null;
         private Channel streamChannel = null;
 
@@ -568,6 +581,10 @@ namespace MPfm.Player
             loops = new List<Loop>();
             syncProcs = new List<PlayerSyncProc>();
 
+#if !ANDROID
+            UseFloatingPoint = true;
+#endif
+
             // Create timer
             Tracing.Log("Player init -- Creating timer...");
             timerPlayer = new System.Timers.Timer();
@@ -606,42 +623,55 @@ namespace MPfm.Player
 
 				// Check OS type
 	            if (OS.Type == OSType.Linux)
-	            {				
-					// Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)								
-					string pluginPath = string.Empty;				
-					string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);				
-					
-					// Check in the current directory first
-					if(!File.Exists(exePath + "/libbassflac.so"))
-					{
-						// Check in /usr/lib/mpfm
-						if(!File.Exists("/usr/lib/mpfm/libbassflac.so"))
-						{
-							// Check in /opt/lib/mpfm
-							if(!File.Exists("/opt/lib/mpfm/libbassflac.so"))
-							{
-								// The plugins could not be found!
-								throw new Exception("The BASS plugins could not be found either in the current directory, in /usr/lib/mpfm or in /opt/lib/mpfm!");
-							}
-							else
-							{
-								pluginPath = "/opt/lib/mpfm";
-							}						
-						}
-						else
-						{
-							pluginPath = "/usr/lib/mpfm";
-						}
-					}
-					else
-					{					
-						pluginPath = exePath;
-					}
-					
-	                // Load decoding plugins
-					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.so");
-					wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.so");
-					mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.so");
+	            {
+                    string pluginPath = string.Empty;
+
+#if ANDROID
+                    pluginPath = PluginDirectoryPath;
+                    aacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_aac.so"));
+                    //alacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_alac.so"));
+                    apePluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_ape.so"));
+                    flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
+                    wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
+
+#else
+
+                    // Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)
+                    string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);               
+                    
+                    // Check in the current directory first
+                    if(!File.Exists(exePath + "/libbassflac.so"))
+                    {
+                        // Check in /usr/lib/mpfm
+                        if(!File.Exists("/usr/lib/mpfm/libbassflac.so"))
+                        {
+                            // Check in /opt/lib/mpfm
+                            if(!File.Exists("/opt/lib/mpfm/libbassflac.so"))
+                            {
+                                // The plugins could not be found!
+                                throw new Exception("The BASS plugins could not be found either in the current directory, in /usr/lib/mpfm or in /opt/lib/mpfm!");
+                            }
+                            else
+                            {
+                                pluginPath = "/opt/lib/mpfm";
+                            }                       
+                        }
+                        else
+                        {
+                            pluginPath = "/usr/lib/mpfm";
+                        }
+                    }
+                    else
+                    {                   
+                        pluginPath = exePath;
+                    }
+
+                    // Load decoding plugins
+                    flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
+                    wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
+                    mpcPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_mpc.so"));
+
+#endif					
 	            }
 	            else if (OS.Type == OSType.MacOSX)
 	            {
@@ -883,7 +913,7 @@ namespace MPfm.Player
                     if (!playlist.Items[playlist.CurrentItemIndex + 1].IsLoaded)
                     {
                         // Create the next channel
-                        playlist.Items[playlist.CurrentItemIndex + 1].Load();
+                        playlist.Items[playlist.CurrentItemIndex + 1].Load(UseFloatingPoint);
                     }
                 }
             }
@@ -948,7 +978,7 @@ namespace MPfm.Player
                 for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
                 {
                     // Load channel and audio file metadata
-                    playlist.Items[a].Load();
+                    playlist.Items[a].Load(UseFloatingPoint);
                 }
 
                 // Start decoding first playlist item
@@ -965,10 +995,9 @@ namespace MPfm.Player
                     streamProc = new STREAMPROC(StreamCallback);
 #endif
 
-                    streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, streamProc);
-
+                    streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, streamProc);
                     Tracing.Log("Player.Play -- Creating time shifting channel...");
-                    fxChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(streamChannel.Handle, true, true);
+                    fxChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(streamChannel.Handle, true, UseFloatingPoint);
                 }
                 catch(Exception ex)
                 {
@@ -987,7 +1016,7 @@ namespace MPfm.Player
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
-                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, false);
+                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, false);
                         mixerChannel.AddChannel(fxChannel.Handle);
                     }
                     catch (Exception ex)
@@ -1006,7 +1035,7 @@ namespace MPfm.Player
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
-                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, true);
                         mixerChannel.AddChannel(fxChannel.Handle);
 
                     }
@@ -1088,7 +1117,7 @@ namespace MPfm.Player
 
                 // Load 18-band equalizer
                 Tracing.Log("Player.Play -- Creating equalizer (Preset: " + currentEQPreset + ")...");
-                //AddEQ(currentEQPreset);
+                AddEQ(currentEQPreset);
 
                 // Check if EQ is bypassed
                 if (isEQBypassed)
@@ -1954,13 +1983,13 @@ namespace MPfm.Player
                         //m_playlist.DisposeChannels();
 
                         // Load first item                        
-                        Playlist.Items[0].Load();
+                        Playlist.Items[0].Load(UseFloatingPoint);
                         //Playlist.Items[0].Decode(0);
 
                         // Load second item if it exists
                         if (Playlist.Items.Count > 1)
                         {
-                            Playlist.Items[1].Load();
+                            Playlist.Items[1].Load(UseFloatingPoint);
                         }
 
                         // Return data from the new channel                

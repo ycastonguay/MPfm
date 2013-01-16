@@ -228,7 +228,7 @@ namespace MPfm.Sound
         /// <summary>
         /// Loads the current channel and audio file metadata.
         /// </summary>
-        public void Load()
+        public void Load(bool useFloatingPoint)
         {
             // Load audio file metadata
             audioFile.RefreshMetadata();
@@ -241,7 +241,7 @@ namespace MPfm.Sound
             }
 
             // Load channel
-            channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(audioFile.FilePath, true);
+            channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(audioFile.FilePath, useFloatingPoint);
 
             // Load channel length
             lengthBytes = channel.GetLength();
