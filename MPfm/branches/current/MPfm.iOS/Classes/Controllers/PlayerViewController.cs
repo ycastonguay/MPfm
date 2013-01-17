@@ -11,10 +11,11 @@ using System.Timers;
 using MPfm.Sound;
 using MPfm.Core;
 using System.Linq;
+using MonoTouch.CoreGraphics;
 
 namespace MPfm.iOS
 {
-	public partial class MPfm_iOSViewController : UIViewController
+	public partial class PlayerViewController : BaseViewController
 	{
 		private IPlayer player;
         private Timer timer;
@@ -23,8 +24,8 @@ namespace MPfm.iOS
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
 		}
 
-		public MPfm_iOSViewController ()
-			: base (UserInterfaceIdiomIsPhone ? "MPfm_iOSViewController_iPhone" : "MPfm_iOSViewController_iPad", null)
+		public PlayerViewController()
+			: base (UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
 		}
 		
@@ -39,7 +40,21 @@ namespace MPfm.iOS
 		public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            // Set fonts
+            lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 28);
+            lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
+            lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
+            lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
+            lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
+            btnPrevious.Font = UIFont.FromName("OstrichSans-Black", 18);
+            btnPlayPause.Font = UIFont.FromName("OstrichSans-Black", 18);
+            btnNext.Font = UIFont.FromName("OstrichSans-Black", 18);
 			
+            // Reduce the song position slider size
+            sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
+            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, 180, sliderPosition.Frame.Height);
+
             timer = new Timer();
             timer.Interval = 100;
             timer.Elapsed += (sender, e) => {
@@ -50,7 +65,7 @@ namespace MPfm.iOS
                         long samples = ConvertAudio.ToPCM(bytes, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
                         long ms = ConvertAudio.ToMS(samples, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.SampleRate);
                         string pos = Conversion.MillisecondsToTimeString((ulong)ms);
-                        lblPosition.Text = pos + " / " + player.Playlist.CurrentItem.LengthString;
+                        lblPosition.Text = pos;
                         sliderPosition.Value = ms;
                     } catch
                     {
@@ -79,6 +94,14 @@ namespace MPfm.iOS
 			
 			ReleaseDesignerOutlets ();
 		}
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.SetTitle("Now Playing");
+        }
 		
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
 		{
@@ -90,19 +113,21 @@ namespace MPfm.iOS
 			}
 		}
 
-        private void RefreshAudioFile(AudioFile audioFile)
+        private void RefreshAudioFile(AudioFile audioFile, bool isSameAlbum)
         {
             InvokeOnMainThread(() => {
-
-                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                NSData imageData = NSData.FromArray(bytesImage);
-                UIImage image = UIImage.LoadFromData(imageData);
+                if(!isSameAlbum)
+                {
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                    NSData imageData = NSData.FromArray(bytesImage);
+                    UIImage image = UIImage.LoadFromData(imageData);
+                    imageViewAlbumArt.Image = image;
+                }
 
                 lblArtistName.Text = audioFile.ArtistName;
                 lblAlbumTitle.Text = audioFile.AlbumTitle;
                 lblTitle.Text = audioFile.Title;
-                imageViewAlbumArt.Image = image;
-
+                lblLength.Text = player.Playlist.CurrentItem.LengthString;
                 sliderPosition.MaxValue = player.Playlist.CurrentItem.LengthMilliseconds;
             });
         }
@@ -129,25 +154,24 @@ namespace MPfm.iOS
             }
             
             player.OnPlaylistIndexChanged += (data) => {
-                RefreshAudioFile(data.AudioFileStarted);
+                if(data.AudioFileEnded != null &&
+                   data.AudioFileEnded.ArtistName == data.AudioFileStarted.ArtistName &&
+                   data.AudioFileEnded.AlbumTitle == data.AudioFileStarted.AlbumTitle)
+                {
+                    RefreshAudioFile(data.AudioFileStarted, true);
+                }
+                else
+                {
+                    RefreshAudioFile(data.AudioFileStarted, false);
+                }
             };
             timer.Start();
-            RefreshAudioFile(player.Playlist.CurrentItem.AudioFile);
-        }
-
-        partial void actionPlay(NSObject sender)
-        {
-            player.Play();
+            RefreshAudioFile(player.Playlist.CurrentItem.AudioFile, false);
         }
 
         partial void actionPause(NSObject sender)
         {
             player.Pause();
-        }
-
-        partial void actionStop(NSObject sender)
-        {
-            player.Stop();
         }
 
         partial void actionPrevious(NSObject sender)

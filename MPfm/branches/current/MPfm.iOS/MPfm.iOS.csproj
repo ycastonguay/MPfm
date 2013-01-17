@@ -119,16 +119,32 @@
     <None Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Controllers\MPfm_iOSViewController.cs" />
-    <Compile Include="Classes\Controllers\MPfm_iOSViewController.designer.cs">
-      <DependentUpon>MPfm_iOSViewController.cs</DependentUpon>
+    <Compile Include="Classes\Controllers\PlayerViewController.designer.cs">
+      <DependentUpon>PlayerViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\AppDelegate.cs" />
     <Compile Include="Classes\Main.cs" />
+    <Compile Include="Classes\Controllers\SplashViewController.cs" />
+    <Compile Include="Classes\Controllers\SplashViewController.designer.cs">
+      <DependentUpon>SplashViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\PlayerViewController.cs" />
+    <Compile Include="Classes\Controllers\ListViewController.cs" />
+    <Compile Include="Classes\Controllers\ListViewController.designer.cs">
+      <DependentUpon>ListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\BaseViewController.cs" />
+    <Compile Include="Classes\Delegates\AppDelegate.cs" />
+    <Compile Include="Classes\Delegates\ListTableViewSource.cs" />
+    <Compile Include="Classes\Objects\GenericListItem.cs" />
+    <Compile Include="Classes\Controls\MPfmNavigationController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="XIB\iPad\MPfm_iOSViewController_iPad.xib" />
-    <InterfaceDefinition Include="XIB\iPhone\MPfm_iOSViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\SplashViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPad\PlayerViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\PlayerViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\ListViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\ListViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -161,10 +177,21 @@
     <Folder Include="XIB\iPad\" />
     <Folder Include="Classes\Controllers\" />
     <Folder Include="Images\" />
+    <Folder Include="Classes\Objects\" />
+    <Folder Include="Fonts\" />
+    <Folder Include="Images\Tabs\" />
+    <Folder Include="Classes\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />
     <Content Include="Images\icon114.png" />
+    <Content Include="Fonts\Junction.otf" />
+    <Content Include="Images\Tabs\more.png" />
+    <Content Include="Images\Tabs\more%402x.png" />
+    <Content Include="Fonts\OstrichBlack.ttf" />
+    <Content Include="Fonts\OstrichLight.ttf" />
+    <Content Include="Fonts\OstrichRegular.ttf" />
+    <Content Include="Fonts\OstrichRounded.ttf" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default%402x.png" />
