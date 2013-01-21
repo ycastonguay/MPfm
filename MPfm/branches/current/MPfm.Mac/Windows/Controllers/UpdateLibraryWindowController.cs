@@ -25,7 +25,13 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.Library;
-using Ninject;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Library.Gateway;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.Mac
 {
@@ -35,7 +41,6 @@ namespace MPfm.Mac
 	public partial class UpdateLibraryWindowController : BaseWindowController, IUpdateLibraryView
 	{
 		MainWindowController mainWindowController = null;
-		IMPfmGateway gateway = null;
 		ILibraryService libraryService = null;
 		IUpdateLibraryService updateLibraryService = null;
 		IUpdateLibraryPresenter presenter = null;
@@ -45,14 +50,6 @@ namespace MPfm.Mac
 		// Called when created from unmanaged code
 		public UpdateLibraryWindowController(IntPtr handle) 
             : base (handle)
-		{
-			Initialize();
-		}
-		
-		// Called when created directly from a XIB file
-		[Export ("initWithCoder:")]
-		public UpdateLibraryWindowController(NSCoder coder) 
-            : base (coder)
 		{
 			Initialize();
 		}
@@ -80,7 +77,7 @@ namespace MPfm.Mac
 //				updateLibraryService
 //			);
 
-            presenter = Bootstrapper.GetKernel().Get<UpdateLibraryPresenter>();
+            presenter = Bootstrapper.GetContainer().Resolve<UpdateLibraryPresenter>();
 
 			presenter.BindView(this);
 

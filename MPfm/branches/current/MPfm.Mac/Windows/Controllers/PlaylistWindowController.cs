@@ -24,6 +24,8 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
+using MPfm.MVP.Views;
+using MPfm.MVP.Presenters.Interfaces;
 
 namespace MPfm.Mac
 {
@@ -38,16 +40,6 @@ namespace MPfm.Mac
             : base (handle)
         {
             Initialize();
-        }
-        
-        // Called when created directly from a XIB file
-        [Export ("initWithCoder:")]
-        public PlaylistWindowController(NSCoder coder) 
-            : base (coder)
-        {
-            this.playlistPresenter = playlistPresenter;
-            Initialize();
-            this.playlistPresenter.BindView(this);
         }
         
         // Call to load from the XIB/NIB file

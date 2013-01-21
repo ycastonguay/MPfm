@@ -26,7 +26,6 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using Ninject;
 using MPfm.MVP;
 
 namespace MPfm.Mac

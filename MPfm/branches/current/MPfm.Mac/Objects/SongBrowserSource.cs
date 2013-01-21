@@ -28,6 +28,7 @@ using MonoMac.Foundation;
 using MPfm.MVP;
 using MPfm.Sound;
 using System.Drawing;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac
 {

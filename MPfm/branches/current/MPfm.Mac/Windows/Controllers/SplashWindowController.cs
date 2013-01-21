@@ -5,6 +5,7 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.Mac
 {
@@ -19,13 +20,13 @@ namespace MPfm.Mac
             Initialize();
         }
         
-        // Called when created directly from a XIB file
-        [Export ("initWithCoder:")]
-        public SplashWindowController(NSCoder coder) 
-            : base (coder)
-        {
-            Initialize();
-        }
+//        // Called when created directly from a XIB file
+//        [Export ("initWithCoder:")]
+//        public SplashWindowController(NSCoder coder) 
+//            : base (coder)
+//        {
+//            Initialize();
+//        }
         
         // Call to load from the XIB/NIB file
         public SplashWindowController(Action<IBaseView> onViewReady) 

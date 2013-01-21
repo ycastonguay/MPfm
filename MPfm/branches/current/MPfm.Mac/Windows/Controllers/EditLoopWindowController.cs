@@ -5,6 +5,7 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.Mac
 {
@@ -15,14 +16,6 @@ namespace MPfm.Mac
         // Called when created from unmanaged code
         public EditLoopWindowController(IntPtr handle) 
             : base (handle)
-        {
-            Initialize();
-        }
-        
-        // Called when created directly from a XIB file
-        [Export ("initWithCoder:")]
-        public EditLoopWindowController(NSCoder coder) 
-            : base (coder)
         {
             Initialize();
         }

@@ -32,7 +32,10 @@ using MPfm.Core;
 using MPfm.Library;
 using MPfm.MVP;
 using MPfm.Sound;
-using Ninject;
+using MPfm.MVP.Views;
+using MPfm.MVP.Models;
+using MPfm.Sound.AudioFiles;
+using MPfm.Library.UpdateLibrary;
 
 namespace MPfm.Mac
 {
@@ -94,14 +97,7 @@ namespace MPfm.Mac
             : base (handle)
 		{
 		}
-		
-		// Called when created directly from a XIB file
-		[Export ("initWithCoder:")]
-		public MainWindowController(NSCoder coder) 
-            : base (coder)
-		{
-		}
-		
+
 		// Call to load from the XIB/NIB file
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {

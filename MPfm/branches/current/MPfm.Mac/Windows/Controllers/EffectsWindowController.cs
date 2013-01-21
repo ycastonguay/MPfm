@@ -25,6 +25,8 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.CoreGraphics;
 using MPfm.MVP;
+using MPfm.MVP.Views;
+using MPfm.MVP.Presenters.Interfaces;
 
 namespace MPfm.Mac
 {
@@ -37,14 +39,6 @@ namespace MPfm.Mac
         // Called when created from unmanaged code
         public EffectsWindowController(IntPtr handle) 
             : base (handle)
-        {
-            Initialize();
-        }
-        
-        // Called when created directly from a XIB file
-        [Export ("initWithCoder:")]
-        public EffectsWindowController(NSCoder coder) 
-            : base (coder)
         {
             Initialize();
         }

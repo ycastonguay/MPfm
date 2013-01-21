@@ -25,7 +25,7 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.MVP;
-using Ninject;
+using MPfm.MVP.Presenters.Interfaces;
 
 namespace MPfm.Mac
 {
@@ -42,14 +42,14 @@ namespace MPfm.Mac
         [Export("init")]
         public SongPositionSlider() : base(NSObjectFlag.Empty)
         {
-            playerPresenter = Bootstrapper.GetKernel().Get<IPlayerPresenter>();
+            playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
             this.Continuous = true;
         }
 
         // Called when created from unmanaged code
         public SongPositionSlider(IntPtr handle) : base (handle)
         {
-            playerPresenter = Bootstrapper.GetKernel().Get<IPlayerPresenter>();
+            playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
             this.Continuous = true;
         }
 

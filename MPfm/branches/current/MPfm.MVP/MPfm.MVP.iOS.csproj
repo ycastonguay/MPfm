@@ -191,7 +191,6 @@
     <Compile Include="Models\SongInformationEntity.cs" />
     <Compile Include="Models\UpdateLibraryEntity.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
-    <Compile Include="Bootstrapper\LibraryModule.cs" />
     <Compile Include="Services\UpdateLibraryService.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />

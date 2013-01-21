@@ -11,6 +11,7 @@
     <RootNamespace>MPfm.Mac</RootNamespace>
     <AssemblyName>MPfm</AssemblyName>
     <SynchReleaseVersion>False</SynchReleaseVersion>
+    <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -27,6 +28,7 @@
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <OutputPath>..\Output\Debug</OutputPath>
+    <UseSGen>False</UseSGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -40,6 +42,7 @@
     <IncludeMonoRuntime>False</IncludeMonoRuntime>
     <OutputPath>..\Output\Release</OutputPath>
     <DefineConstants>MACOSX</DefineConstants>
+    <UseSGen>False</UseSGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -55,6 +58,7 @@
     <OutputPath>..\Output\Debug_Linux</OutputPath>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <UseSGen>False</UseSGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -70,6 +74,7 @@
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <Externalconsole>True</Externalconsole>
+    <UseSGen>False</UseSGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -85,6 +90,7 @@
     <EnableCodeSigning>False</EnableCodeSigning>
     <CreatePackage>True</CreatePackage>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <UseSGen>False</UseSGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -98,6 +104,7 @@
     <EnableCodeSigning>False</EnableCodeSigning>
     <EnablePackageSigning>False</EnablePackageSigning>
     <CreatePackage>False</CreatePackage>
+    <UseSGen>False</UseSGen>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -110,9 +117,6 @@
     </Reference>
     <Reference Include="AutoMapper">
       <HintPath>Lib\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject">
-      <HintPath>Lib\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="Mono.Data.Sqlite" />

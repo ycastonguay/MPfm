@@ -30,6 +30,7 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Services.Events;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
+using System.Text.RegularExpressions;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;

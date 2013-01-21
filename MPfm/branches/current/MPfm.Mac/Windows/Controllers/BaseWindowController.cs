@@ -5,6 +5,7 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.Mac
 {
@@ -41,7 +42,10 @@ namespace MPfm.Mac
         // Shared initialization code
         void Initialize()
         {
-            windowDelegate = new MPfmWindowDelegate(() => { OnViewDestroy.Invoke(); });
+            windowDelegate = new MPfmWindowDelegate(() => { 
+                if(OnViewDestroy != null)
+                    OnViewDestroy.Invoke(); 
+            });
             this.Window.Delegate = windowDelegate;
         }
         

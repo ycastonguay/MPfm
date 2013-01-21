@@ -29,7 +29,8 @@ using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MPfm.MVP;
-using Ninject;
+using TinyIoC;
+using MPfm.MVP.Views;
 
 namespace MPfm.Mac
 {
@@ -38,8 +39,6 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class AppDelegate : NSApplicationDelegate
 	{
-        SplashWindowController splashWindowController;
-		MainWindowController mainWindowController;
         NavigationManager navigationManager;
 		
 		public AppDelegate()
@@ -49,16 +48,16 @@ namespace MPfm.Mac
 		public override void FinishedLaunching(NSObject notification)
 		{
             // Add view implementations to IoC
-            Bootstrapper.GetKernel().Bind<NavigationManager>().To<MacNavigationManager>();
-            Bootstrapper.GetKernel().Bind<ISplashView>().To<SplashWindowController>();
-            Bootstrapper.GetKernel().Bind<IMainView>().To<MainWindowController>();
-            Bootstrapper.GetKernel().Bind<IUpdateLibraryView>().To<UpdateLibraryWindowController>();
-            Bootstrapper.GetKernel().Bind<IPlaylistView>().To<PlaylistWindowController>();
-            Bootstrapper.GetKernel().Bind<IEffectsView>().To<EffectsWindowController>();
-            Bootstrapper.GetKernel().Bind<IPreferencesView>().To<PreferencesWindowController>();
+            Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
 
             // Create and start navigation manager
-            navigationManager = Bootstrapper.GetKernel().Get<NavigationManager>();
+            navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
             navigationManager.Start();
         }
 	}

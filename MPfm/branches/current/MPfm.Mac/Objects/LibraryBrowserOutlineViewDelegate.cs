@@ -26,9 +26,8 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
-
 using MPfm.MVP;
-using Ninject;
+using MPfm.MVP.Models;
 
 namespace MPfm.Mac
 {

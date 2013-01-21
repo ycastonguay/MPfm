@@ -18,47 +18,77 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Models;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Timers;
 using AutoMapper;
+using TinyIoC;
+using MPfm.Core;
+using MPfm.Library;
+using MPfm.MVP;
+using MPfm.Player;
+using MPfm.Sound;
+using MPfm.Library.Gateway;
+using MPfm.MVP.Services;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Presenters;
+using MPfm.MVP.Helpers;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
-using Ninject;
+using MPfm.MVP.Models;
 
-namespace MPfm.MVP.Bootstrapper
+namespace MPfm.MVP
 {
-	/// <summary>
-	/// Singleton static class for bootstrapping the application.
-	/// Configures AutoMapper and Ninject.
-	/// </summary>
-	public static class Bootstrapper
-	{
-		/// <summary>
-		/// Instance of the Ninject StandardKernel.
-		/// </summary>
-		private static IKernel kernel;
-
-        static LibraryModule module;
-		
-		/// <summary>
-		/// Constructor for the Bootstrapper static class.
-		/// </summary>
-		static Bootstrapper()
-		{
-			// Create Ninject kernel
-            module = new LibraryModule();
-			kernel = new StandardKernel(module);
-			
-			// Configure Automapper
-			Mapper.CreateMap<AudioFile, SongInformationEntity>();
-		}
-		
-		/// <summary>
-		/// Returns the instance of the StandardKernel for resolving dependencies.
-		/// </summary>
-		/// <returns>StandardKernel</returns>		
-		public static IKernel GetKernel()
-		{
-			return kernel;
-		}
-	}
+    /// <summary>
+    /// Singleton static class for bootstrapping the application.
+    /// Configures AutoMapper and Ninject.
+    /// </summary>
+    public static class Bootstrapper
+    {
+        /// <summary>
+        /// Constructor for the Bootstrapper static class.
+        /// </summary>
+        static Bootstrapper()
+        {
+            // Get IoC container
+            var container = TinyIoC.TinyIoCContainer.Current;
+            
+            // Register services
+            //container.Register<IMPfmGateway, MPfmGateway>().UsingConstructor(() => new MPfmGateway(ConfigurationHelper.DatabaseFilePath));
+            container.Register<IMPfmGateway>(new MPfmGateway(ConfigurationHelper.DatabaseFilePath));
+            container.Register<IInitializationService, InitializationService>().AsSingleton();
+            container.Register<IPlayerService, PlayerService>().AsSingleton();
+            container.Register<ILibraryService, LibraryService>().AsSingleton();
+            container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
+            container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
+            
+            // Register presenters
+            container.Register<ISplashPresenter, SplashPresenter>().AsSingleton();
+            container.Register<IMainPresenter, MainPresenter>().AsSingleton();
+            container.Register<IPlayerPresenter, PlayerPresenter>().AsSingleton();
+            container.Register<ISongBrowserPresenter, SongBrowserPresenter>().AsSingleton();
+            container.Register<ILibraryBrowserPresenter, LibraryBrowserPresenter>().AsSingleton();
+            container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
+            container.Register<IEffectsPresenter, EffectsPresenter>().AsSingleton();
+            container.Register<IPreferencesPresenter, PreferencesPresenter>().AsSingleton();
+            container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
+            
+            // Configure Automapper
+            Mapper.CreateMap<AudioFile, SongInformationEntity>();
+        }
+        
+        /// <summary>
+        /// Returns the IoC container.
+        /// </summary>
+        /// <returns>IoC container</returns>
+        public static TinyIoC.TinyIoCContainer GetContainer()
+        {
+            return TinyIoC.TinyIoCContainer.Current;
+        }
+    }
 }
 

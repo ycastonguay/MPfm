@@ -23,6 +23,8 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MPfm.MVP;
+using TinyIoC;
+using MPfm.MVP.Views;
 
 namespace MPfm.Mac
 {
@@ -31,6 +33,12 @@ namespace MPfm.Mac
     /// </summary>
     public class MacNavigationManager : NavigationManager
     {
+        public override ISplashView CreateSplashWindowInstance(Action<IBaseView> onViewReady)
+        {
+            ISplashView splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            return splashView;
+        }
+
         public override void Start()
         {
             using (var pool = new NSAutoreleasePool())
