@@ -20,11 +20,10 @@
 
 using System;
 using System.IO;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
+using MPfm.MVP.Config;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Helpers
 {
     /// <summary>
     /// Helper static class for configuration paths.

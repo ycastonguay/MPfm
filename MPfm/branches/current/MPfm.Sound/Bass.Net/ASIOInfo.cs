@@ -21,7 +21,7 @@
 
 using MPfm.Sound.BassWrapper.ASIO;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// Defines a data structure for holding information about an ASIO device.

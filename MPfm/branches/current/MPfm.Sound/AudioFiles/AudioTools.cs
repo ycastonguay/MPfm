@@ -21,14 +21,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.IO.Compression;
-using System.Runtime.InteropServices;
-using System.Text;
-using MPfm.Sound.BassNetWrapper;
+using System.Linq;
+using MPfm.Sound.Bass.Net;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.AudioFiles
 {
     /// <summary>
     /// This static class contains different methods for manipulating audio.

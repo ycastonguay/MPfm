@@ -18,11 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.IO;
-using System.Reflection;
-
-namespace MPfm.MVP
+namespace MPfm.MVP.Models
 {
     /// <summary>
     /// Data structure repesenting the current player time shifting.

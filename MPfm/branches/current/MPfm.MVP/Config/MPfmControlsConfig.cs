@@ -18,14 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-
-namespace MPfm.MVP
+namespace MPfm.MVP.Config
 {
     /// <summary>
     /// Class containing all control settings for MPfm.

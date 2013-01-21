@@ -1,4 +1,4 @@
-//
+﻿//
 // AudioFileCacheService.cs: Service used for interacting with the audio file metadata cache.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,20 +20,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Timers;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
-using MPfm.Sound;
-using AutoMapper;
-using Ninject;
+using MPfm.MVP.Models;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services
 {	
 	/// <summary>
 	/// Service used for interacting with the audio file metadata cache.
@@ -55,7 +49,7 @@ namespace MPfm.MVP
 		#region Constructor and Dispose
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.MVP.AudioFileCacheService"/> class.
+		/// Initializes a new instance of the <see cref="AudioFileCacheService"/> class.
 		/// </summary>
 		public AudioFileCacheService(ILibraryService libraryService)
 		{

@@ -1,4 +1,4 @@
-//
+﻿//
 // IUpdateLibraryView.cs: Update Library window view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,14 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
+using MPfm.MVP.Models;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Views
 {
 	/// <summary>
 	/// Update Library window view interface.

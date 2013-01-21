@@ -1,4 +1,4 @@
-//
+﻿//
 // ISongBrowserView.cs: Song browser view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,9 +20,9 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Views
 {
 	/// <summary>
 	/// Song browser view interface.

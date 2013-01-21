@@ -19,10 +19,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using MPfm.Sound.BassWrapper;
 
-namespace MPfm.Player
+namespace MPfm.Player.Objects
 {
     /// <summary>
     /// Defines synchronization callback properties to be used with the Player class.

@@ -21,7 +21,7 @@
 
 using MPfm.Sound.BassWrapper.FX;
 
-namespace MPfm.Player
+namespace MPfm.Player.Objects
 {
     /// <summary>
     /// Defines a band of the 18-band equalizer (see EQPreset).

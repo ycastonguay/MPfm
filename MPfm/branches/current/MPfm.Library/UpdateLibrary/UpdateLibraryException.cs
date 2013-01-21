@@ -20,9 +20,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 
-namespace MPfm.Library
+namespace MPfm.Library.UpdateLibrary
 {
     /// <summary>
     /// Defines a custom exception for the Update Library background process.

@@ -18,13 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Models
 {
 	/// <summary>
 	/// Data structure representing a song browser query.

@@ -19,13 +19,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-
-namespace MPfm.Core
+namespace MPfm.Core.Attributes
 {
     /// <summary>
     /// This attribute is used to map database fields and object properties.

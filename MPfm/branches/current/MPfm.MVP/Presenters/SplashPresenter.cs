@@ -1,4 +1,4 @@
-//
+﻿//
 // SplashPresenter.cs: Splash screen presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -19,15 +19,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Timers;
 using System.Threading.Tasks;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
 	/// Splash screen presenter.
@@ -39,7 +36,7 @@ namespace MPfm.MVP
 		#region Constructor and Dispose
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.MVP.SplashPresenter"/> class.
+		/// Initializes a new instance of the <see cref="SplashPresenter"/> class.
 		/// </summary>
 		public SplashPresenter(IInitializationService initializationService)
 		{

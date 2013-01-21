@@ -18,9 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     interface ITestDevice
     {

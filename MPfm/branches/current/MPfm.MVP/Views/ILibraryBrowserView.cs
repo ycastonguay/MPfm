@@ -1,4 +1,4 @@
-//
+﻿//
 // ILibraryBrowserView.cs: Library browser view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,9 +20,10 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
+using MPfm.MVP.Models;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Views
 {
 	/// <summary>
 	/// Library browser view interface.

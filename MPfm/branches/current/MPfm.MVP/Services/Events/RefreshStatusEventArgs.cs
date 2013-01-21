@@ -19,10 +19,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
-using System.Reflection;
+using MPfm.MVP.Models;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services.Events
 {
 	/// <summary>
 	/// Refresh status event arguments.
@@ -35,7 +34,7 @@ namespace MPfm.MVP
 		public UpdateLibraryEntity Entity { get; set; }
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.MVP.RefreshStatusEventArgs"/> class.
+		/// Initializes a new instance of the <see cref="RefreshStatusEventArgs"/> class.
 		/// </summary>
 		/// <param name='entity'>Entity for updating library</param>
 		public RefreshStatusEventArgs(UpdateLibraryEntity entity)

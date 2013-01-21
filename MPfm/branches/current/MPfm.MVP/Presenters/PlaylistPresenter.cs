@@ -1,4 +1,4 @@
-//
+﻿//
 // PlaylistPresenter.cs: Playlist presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,20 +18,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Timers;
-using MPfm.Core;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using AutoMapper;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
 	/// Playlist presenter.
@@ -44,7 +34,7 @@ namespace MPfm.MVP
 		#region Constructor and Dispose
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.MVP.PlaylistPresenter"/> class.
+        /// Initializes a new instance of the <see cref="PlaylistPresenter"/> class.
         /// </summary>
 		public PlaylistPresenter()
 		{	

@@ -1,4 +1,4 @@
-//
+﻿//
 // IUpdateLibraryPresenter.cs: Update Library window presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,12 +20,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Library;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Services.Events;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services.Interfaces
 {
 	/// <summary>
 	/// Update Library window presenter interface.

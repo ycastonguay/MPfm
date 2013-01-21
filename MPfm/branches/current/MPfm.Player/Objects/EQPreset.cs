@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MPfm.Player
+namespace MPfm.Player.Objects
 {
     /// <summary>
     /// Defines a 18-band equalizer preset for the Player using BASS FX.

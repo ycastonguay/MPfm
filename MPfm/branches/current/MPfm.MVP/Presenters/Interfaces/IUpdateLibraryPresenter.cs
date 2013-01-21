@@ -1,4 +1,4 @@
-//
+﻿//
 // IUpdateLibraryPresenter.cs: Update Library window presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,14 +18,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Library;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
 	/// Update Library window presenter interface.

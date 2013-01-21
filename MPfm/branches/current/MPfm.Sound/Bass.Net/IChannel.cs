@@ -21,7 +21,7 @@
 using System;
 using MPfm.Sound.BassWrapper;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     interface IChannel
     {

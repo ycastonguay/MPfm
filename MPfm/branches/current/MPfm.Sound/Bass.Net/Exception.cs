@@ -20,10 +20,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Linq;
-using System.Text;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// Custom exception class for the MPfm BASS.NET wrapper.

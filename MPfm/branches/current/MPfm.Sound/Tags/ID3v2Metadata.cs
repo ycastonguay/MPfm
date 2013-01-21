@@ -19,13 +19,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using System.Text;
-using System.Reflection;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Tags
 {
     /// <summary>
     /// Reads and writes ID3v2 metadata for multiple audio formats.    

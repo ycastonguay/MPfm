@@ -19,13 +19,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MPfm.Core;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.AudioFiles
 {
     /// <summary>
     /// This static class contains methods for converting audio position/length values into different formats.

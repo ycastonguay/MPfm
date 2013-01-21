@@ -18,18 +18,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using TinyMessenger;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Sound.Bass.Net;
 using MPfm.Player;
+using TinyMessenger;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services
 {
     /// <summary>
     /// Service used for interacting with a single instance of a Player.
@@ -42,7 +37,7 @@ namespace MPfm.MVP
         public IPlayer Player { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.MVP.PlayerService"/> class.
+        /// Initializes a new instance of the <see cref="PlayerService"/> class.
         /// </summary>
 		public PlayerService(ITinyMessengerHub messageHub)
 		{
@@ -69,13 +64,13 @@ namespace MPfm.MVP
         }
 
         /// <summary>
-        /// Releases all resource used by the <see cref="MPfm.MVP.PlayerService"/> object.
+        /// Releases all resource used by the <see cref="PlayerService"/> object.
         /// </summary>
         /// <remarks>
-        /// Call <see cref="Dispose"/> when you are finished using the <see cref="MPfm.MVP.PlayerService"/>. The
-        /// <see cref="Dispose"/> method leaves the <see cref="MPfm.MVP.PlayerService"/> in an unusable state. After
-        /// calling <see cref="Dispose"/>, you must release all references to the <see cref="MPfm.MVP.PlayerService"/>
-        /// so the garbage collector can reclaim the memory that the <see cref="MPfm.MVP.PlayerService"/> was occupying.
+        /// Call <see cref="Dispose"/> when you are finished using the <see cref="PlayerService"/>. The
+        /// <see cref="Dispose"/> method leaves the <see cref="PlayerService"/> in an unusable state. After
+        /// calling <see cref="Dispose"/>, you must release all references to the <see cref="PlayerService"/>
+        /// so the garbage collector can reclaim the memory that the <see cref="PlayerService"/> was occupying.
         /// </remarks>
         public void Dispose()
         {

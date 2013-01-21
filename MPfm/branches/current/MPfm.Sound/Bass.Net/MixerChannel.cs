@@ -22,7 +22,7 @@ using System;
 using MPfm.Sound.BassWrapper;
 using MPfm.Sound.BassWrapper.Mix;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// Defines a mixer channel to be used with BASS.NET.

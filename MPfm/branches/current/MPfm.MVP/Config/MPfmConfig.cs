@@ -18,14 +18,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
+using MPfm.MVP.Helpers;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Config
 {
     /// <summary>
     /// Singleton containing all settings for MPfm.

@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MPfm.Core
+namespace MPfm.Core.Extensions
 {
     /// <summary>
     /// Extensions for the Dictionary class.

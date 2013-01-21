@@ -18,12 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// Defines the driver type (DirectSound, ASIO or WASAPI).

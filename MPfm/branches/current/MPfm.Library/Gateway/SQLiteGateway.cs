@@ -20,18 +20,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
-//using System.Data.Linq;
 using System.Data.SQLite;
-//using Mono.Data.Sqlite;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using MPfm.Core;
+using MPfm.Core.Attributes;
+using MPfm.Core.Extensions;
+//using System.Data.Linq;
+//using Mono.Data.Sqlite;
 
-namespace MPfm.Library
+namespace MPfm.Library.Gateway
 {
     /// <summary>
     /// The SQLiteGateway class is a data adapter class which makes it easier to select, insert, update and delete

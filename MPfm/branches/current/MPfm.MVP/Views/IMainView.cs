@@ -1,4 +1,4 @@
-//
+﻿//
 // ISplashView.cs: Splash screen view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -19,13 +19,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Views
 {
 	/// <summary>
 	/// Splash screen view interface.

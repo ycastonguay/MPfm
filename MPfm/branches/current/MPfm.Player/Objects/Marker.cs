@@ -19,11 +19,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace MPfm.Player
+namespace MPfm.Player.Objects
 {
     /// <summary>
     /// Defines a Marker, which points to a specific position in an audio file.

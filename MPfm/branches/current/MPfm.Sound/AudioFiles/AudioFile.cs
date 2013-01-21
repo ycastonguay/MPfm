@@ -19,18 +19,18 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.IO;
 using MPfm.Core;
+using MPfm.Core.Attributes;
+using MPfm.Sound.Tags;
+
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
 #endif
 
-namespace MPfm.Sound
+namespace MPfm.Sound.AudioFiles
 {
 	/// <summary>
 	/// The AudioFile class contains the metadata of an audio file.

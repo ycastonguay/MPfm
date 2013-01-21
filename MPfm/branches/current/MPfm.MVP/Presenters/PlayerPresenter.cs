@@ -1,4 +1,4 @@
-//
+﻿//
 // PlayerPresenter.cs: Player presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,19 +20,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Timers;
 using AutoMapper;
-using TinyMessenger;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
+using MPfm.Player.Events;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 using MPfm.Core;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using TinyMessenger;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
 	/// Player presenter.

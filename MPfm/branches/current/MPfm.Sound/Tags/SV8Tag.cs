@@ -18,13 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Tags
 {  
     /// <summary>
     /// Data structure for SV8/MPC tags.

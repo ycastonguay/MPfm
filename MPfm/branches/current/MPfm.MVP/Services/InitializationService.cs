@@ -1,4 +1,4 @@
-//
+﻿//
 // InitializationService.cs: Service used for creating/updating the database and log files.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -19,15 +19,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Diagnostics;
 using System.Reflection;
 using MPfm.Core;
-using MPfm.Player;
+using MPfm.MVP.Config;
+using MPfm.MVP.Helpers;
+using MPfm.MVP.Services.Interfaces;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services
 {	
 	/// <summary>
 	/// Service used for creating/updating the database and log files.
@@ -45,7 +44,7 @@ namespace MPfm.MVP
 		#region Constructor and Dispose
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.MVP.InitializationService"/> class.
+		/// Initializes a new instance of the <see cref="InitializationService"/> class.
 		/// </summary>
 		public InitializationService(IAudioFileCacheService audioFileCacheService)
 		{

@@ -1,4 +1,4 @@
-//
+﻿//
 // ISplashPresenter.cs: Splash screen presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -19,13 +19,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Sound;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
 	/// Splash screen presenter interface.

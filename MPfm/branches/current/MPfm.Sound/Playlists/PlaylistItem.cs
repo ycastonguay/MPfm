@@ -24,10 +24,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 using MPfm.Sound.BassWrapper;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Playlists
 {
     /// <summary>
     /// Defines a playlist item to be used with the Player.
@@ -241,7 +242,7 @@ namespace MPfm.Sound
             }
 
             // Load channel
-            channel = MPfm.Sound.BassNetWrapper.Channel.CreateFileStreamForDecoding(audioFile.FilePath, useFloatingPoint);
+            channel = Channel.CreateFileStreamForDecoding(audioFile.FilePath, useFloatingPoint);
 
             // Load channel length
             lengthBytes = channel.GetLength();
@@ -358,7 +359,7 @@ namespace MPfm.Sound
                             dataLength = channel.GetData(bytes, tempBufferLength);
                             if(dataLength == -1)
                             {
-                                BASSError error = Bass.BASS_ErrorGetCode();
+                                BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
                                 if(error == BASSError.BASS_ERROR_ENDED)
                                 {
                                     break; // Decode done

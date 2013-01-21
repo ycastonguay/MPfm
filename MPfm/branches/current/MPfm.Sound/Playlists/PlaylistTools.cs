@@ -21,14 +21,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Linq;
 using System.Text;
-using System.Xml;
 using System.Xml.Linq;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Playlists
 {
     /// <summary>
     /// This static class contains useful methods for loading and saving playlists.

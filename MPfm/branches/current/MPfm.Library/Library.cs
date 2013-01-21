@@ -29,8 +29,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using MPfm.Core;
+using MPfm.Library.Gateway;
+using MPfm.Library.Objects;
+using MPfm.Library.UpdateLibrary;
 using MPfm.Sound;
 using MPfm.Player;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library
 {

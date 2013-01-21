@@ -19,16 +19,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+using MPfm.MVP.Models;
+using MPfm.Sound.AudioFiles;
 using TinyMessenger;
-using MPfm.Sound;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Messages
 {
     /// <summary>
     /// Message indicating an item has been double-clicked in the Song Browser.

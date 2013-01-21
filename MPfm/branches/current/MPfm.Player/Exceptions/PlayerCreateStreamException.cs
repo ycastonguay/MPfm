@@ -20,11 +20,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MPfm.Sound.Bass.Net;
 
-namespace MPfm.Player
+namespace MPfm.Player.Exceptions
 {
     /// <summary>
     /// This Exception class is raised when the player has failed to create a stream.
@@ -36,7 +34,7 @@ namespace MPfm.Player
         /// <summary>
         /// Indicates what driver type was used to initialize the stream.
         /// </summary>
-        public MPfm.Sound.BassNetWrapper.DriverType DriverType { get; set; }
+        public DriverType DriverType { get; set; }
         /// <summary>
         /// Indicates what sample rate was used to initialize the stream.
         /// </summary>
@@ -63,7 +61,7 @@ namespace MPfm.Player
             : base(message, innerException)
         {
             // Set default values
-            DriverType = Sound.BassNetWrapper.DriverType.DirectSound;
+            DriverType = DriverType.DirectSound;
             SampleRate = 0;
             UseFloatingPoint = false;
             UseTimeShifting = false;

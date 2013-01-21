@@ -1,4 +1,4 @@
-//
+﻿//
 // LibraryBrowserViewModel.cs: View model for the Library Browser view.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -19,11 +19,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.Core;
-using MPfm.Sound;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.ViewModels
 {
 	/// <summary>
 	/// View model for the Library Browser view.

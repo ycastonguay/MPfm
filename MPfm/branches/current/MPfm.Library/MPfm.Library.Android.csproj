@@ -99,7 +99,8 @@
       <HintPath>Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite" />
-    <Reference Include="taglib-sharp">
+    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Sound\Lib\Android\taglib-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>

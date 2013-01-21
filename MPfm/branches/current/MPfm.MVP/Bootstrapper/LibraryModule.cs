@@ -1,4 +1,4 @@
-//
+﻿//
 // LibraryModule.cs: Configuration module for Ninject.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,16 +18,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
-using MPfm.Sound;
-using Ninject;
+using MPfm.Library.Gateway;
+using MPfm.MVP.Helpers;
+using MPfm.MVP.Presenters;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services;
+using MPfm.MVP.Services.Interfaces;
 using TinyMessenger;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Bootstrapper
 {
 	/// <summary>
 	/// Configuration module for Ninject.

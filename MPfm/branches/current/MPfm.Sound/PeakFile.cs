@@ -20,11 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.IO;
-using System.IO.Compression;
 #if (!MACOSX && !LINUX && !IOS && !ANDROID)
 using System.Reactive;
 using System.Reactive.Concurrency;
@@ -32,11 +27,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading;
 #endif
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Core;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Sound
 {

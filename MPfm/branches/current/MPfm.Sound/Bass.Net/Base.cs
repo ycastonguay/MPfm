@@ -34,7 +34,7 @@ using MPfm.Sound.BassWrapper.Wasapi;
 //using Un4seen.Bass.AddOn.Fx;
 //using Un4seen.Bass.AddOn.Mix;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// The Base class contains methods for initializing audio devices,
@@ -77,7 +77,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void Init(int deviceId, int frequency, BASSInit init)
         {
             // Initialize system
-            if (!Bass.BASS_Init(deviceId, frequency, init, IntPtr.Zero))
+            if (!BassWrapper.Bass.BASS_Init(deviceId, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -103,7 +103,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void InitASIO(int deviceId, int frequency, BASSInit init, BASSASIOInit asioInit)
         {
             // Initialize base device
-            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
+            if (!BassWrapper.Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();            
@@ -142,7 +142,7 @@ namespace MPfm.Sound.BassNetWrapper
             BASSWASAPIInit wasapiInit, float buffer, float period, WASAPIPROC proc)
         {
             // Initialize base device
-            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
+            if (!BassWrapper.Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();  
@@ -162,7 +162,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void Free()
         {
             // Free system
-            if(!Bass.BASS_Free())
+            if(!BassWrapper.Bass.BASS_Free())
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();            
@@ -180,7 +180,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <returns>Value (integer)</returns>
         public static int GetConfig(BASSConfig option)
         {
-            return Bass.BASS_GetConfig(option);
+            return BassWrapper.Bass.BASS_GetConfig(option);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void SetConfig(BASSConfig option, int value)
         {
             // Set configuration value
-            if(!Bass.BASS_SetConfig(option, value))
+            if(!BassWrapper.Bass.BASS_SetConfig(option, value))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -205,7 +205,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static BASS_INFO GetInfo()
         {
             BASS_INFO info = new BASS_INFO();
-            if (!Bass.BASS_GetInfo(info))
+            if (!BassWrapper.Bass.BASS_GetInfo(info))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -225,7 +225,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <returns>Volume</returns>
         public static float GetVolume()
         {
-            return Bass.BASS_GetVolume();
+            return BassWrapper.Bass.BASS_GetVolume();
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void SetVolume(float volume)
         {
             // Set volume
-            if (!Bass.BASS_SetVolume(volume))
+            if (!BassWrapper.Bass.BASS_SetVolume(volume))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -255,7 +255,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static int LoadPlugin(string pluginFilePath)
         {
             // Load plugins            
-            int plugin = Bass.BASS_PluginLoad(pluginFilePath);
+            int plugin = BassWrapper.Bass.BASS_PluginLoad(pluginFilePath);
             if (plugin == 0)
             {
                 // Check for error (throw exception if the error is found)
@@ -296,7 +296,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void FreePlugin(int handle)
         {
             // Free Flac plugin
-            if (!Bass.BASS_PluginFree(handle))
+            if (!BassWrapper.Bass.BASS_PluginFree(handle))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -349,10 +349,10 @@ namespace MPfm.Sound.BassNetWrapper
 		public static int GetBASSVersion()
 		{			
 			// Load BASS library by checking the version
-			int version = Bass.BASS_GetVersion();
+			int version = BassWrapper.Bass.BASS_GetVersion();
 			
 			// Check version with BASS.NET
-			if(Conversion.HighWord(version) != Bass.BASSVERSION)
+			if(Conversion.HighWord(version) != BassWrapper.Bass.BASSVERSION)
 			{
 				// Wrong version
 				throw new Exception("The version of the BASS library does not match with BASS.NET!");
@@ -367,7 +367,7 @@ namespace MPfm.Sound.BassNetWrapper
 		public static void FreeBASS()
 		{
 			// Free BASS library
-			bool success = Bass.BASS_Free();
+			bool success = BassWrapper.Bass.BASS_Free();
 			if(!success)
 			{				
 				Base.CheckForError();
@@ -441,7 +441,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static void CheckForError()
         {
             // Get error code
-            BASSError error = Bass.BASS_ErrorGetCode();
+            BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
 
             // Check if there is an error
             if(error != BASSError.BASS_OK)

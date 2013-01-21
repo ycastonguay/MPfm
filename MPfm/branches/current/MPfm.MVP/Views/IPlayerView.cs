@@ -1,4 +1,4 @@
-//
+﻿//
 // IPlayerView.cs: Player view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,13 +20,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using MPfm.Core;
-using MPfm.Sound;
+using MPfm.MVP.Models;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Views
 {
 	/// <summary>
 	/// Player view interface.

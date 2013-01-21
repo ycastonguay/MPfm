@@ -24,12 +24,17 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MPfm.Core;
+using MPfm.Player.Events;
+using MPfm.Player.Exceptions;
+using MPfm.Player.Objects;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 using MPfm.Sound.BassWrapper;
 using MPfm.Sound.BassWrapper.ASIO;
 using MPfm.Sound.BassWrapper.FX;
 using MPfm.Sound.BassWrapper.Wasapi;
+using MPfm.Sound.Playlists;
 
 #if IOS
 using MonoTouch;
@@ -993,9 +998,9 @@ namespace MPfm.Player
                     streamProc = new STREAMPROC(StreamCallback);
 #endif
 
-                    streamChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, streamProc);
+                    streamChannel = Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, streamProc);
                     Tracing.Log("Player.Play -- Creating time shifting channel...");
-                    fxChannel = MPfm.Sound.BassNetWrapper.Channel.CreateStreamForTimeShifting(streamChannel.Handle, true, UseFloatingPoint);
+                    fxChannel = Channel.CreateStreamForTimeShifting(streamChannel.Handle, true, UseFloatingPoint);
                 }
                 catch(Exception ex)
                 {
@@ -1014,7 +1019,7 @@ namespace MPfm.Player
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
-                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, false);
+                        mixerChannel = MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, false);
                         mixerChannel.AddChannel(fxChannel.Handle);
                     }
                     catch (Exception ex)
@@ -1033,7 +1038,7 @@ namespace MPfm.Player
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
-                        mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, true);
+                        mixerChannel = MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, true);
                         mixerChannel.AddChannel(fxChannel.Handle);
 
                     }
@@ -1098,7 +1103,7 @@ namespace MPfm.Player
                 {
                     // Create mixer stream
                     Tracing.Log("Player.Play -- Creating mixer channel (WASAPI)...");
-                    mixerChannel = MPfm.Sound.BassNetWrapper.MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                    mixerChannel = MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
                     mixerChannel.AddChannel(fxChannel.Handle);
 
                     // Start playback

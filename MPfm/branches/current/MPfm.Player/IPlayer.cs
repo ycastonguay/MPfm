@@ -20,9 +20,12 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Player.Objects;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 using MPfm.Sound.BassWrapper.FX;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Player
 {

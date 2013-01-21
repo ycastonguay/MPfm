@@ -87,7 +87,8 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="taglib-sharp">
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Sound\Lib\Android\taglib-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -96,15 +97,7 @@
     <None Include="Lib\Ninject.dll" />
     <None Include="Lib\AutoMapper.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bootstrapper\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Presenters\Interfaces\" />
-    <Folder Include="Config\" />
-    <Folder Include="Messages\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

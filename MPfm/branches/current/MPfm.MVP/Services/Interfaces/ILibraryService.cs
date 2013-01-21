@@ -18,12 +18,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using MPfm.Sound;
-using MPfm.Library;
+using MPfm.Library.Objects;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services.Interfaces
 {
     /// <summary>
     /// Interface for the LibraryService class.

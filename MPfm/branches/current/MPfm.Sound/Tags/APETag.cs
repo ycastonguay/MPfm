@@ -21,10 +21,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Tags
 {  
     /// <summary>
     /// Data structure for APEv1 and APEv2 tags. The property names are based on the APE keys.

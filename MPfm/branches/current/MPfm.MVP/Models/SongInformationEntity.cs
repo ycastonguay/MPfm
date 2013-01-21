@@ -18,12 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.IO;
-using System.Reflection;
-using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Models
 {
     /// <summary>
     /// Data structure repesenting song information.
@@ -49,7 +46,7 @@ namespace MPfm.MVP
 		public string SampleRateString { get; set; }
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.MVP.SongInformationEntity"/> class.
+		/// Initializes a new instance of the <see cref="SongInformationEntity"/> class.
 		/// </summary>
 		public SongInformationEntity()
 		{

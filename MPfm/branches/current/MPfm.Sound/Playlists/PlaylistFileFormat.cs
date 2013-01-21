@@ -18,12 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MPfm.Sound
+namespace MPfm.Sound.Playlists
 {
 	/// <summary>
     /// Defines the supported playlist file formats for MPfm.

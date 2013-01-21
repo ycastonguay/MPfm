@@ -1,4 +1,4 @@
-//
+﻿//
 // NavigationManager.cs: Manager class for managing view and presenter instances.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -24,7 +24,8 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using TinyMessenger;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
 using Ninject;
 using Ninject.Parameters;
 
@@ -60,11 +61,11 @@ namespace MPfm.MVP
                 CreateMainWindow();
             };
             Action<IBaseView> onViewReady = (view) => {
-                splashPresenter = Bootstrapper.GetKernel().Get<ISplashPresenter>();
+                splashPresenter = Bootstrapper.Bootstrapper.GetKernel().Get<ISplashPresenter>();
                 splashPresenter.BindView((ISplashView)view);
                 splashPresenter.Initialize(onInitDone); // TODO: Should the presenter call NavMgr instead of using an action?
             };
-            splashView = Bootstrapper.GetKernel().Get<ISplashView>(new ConstructorArgument("onViewReady", onViewReady));
+            splashView = Bootstrapper.Bootstrapper.GetKernel().Get<ISplashView>(new ConstructorArgument("onViewReady", onViewReady));
             splashView.OnViewDestroy = () => {
                 splashView = null;
                 splashPresenter = null;
@@ -75,16 +76,16 @@ namespace MPfm.MVP
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {
-                mainPresenter = Bootstrapper.GetKernel().Get<IMainPresenter>();
+                mainPresenter = Bootstrapper.Bootstrapper.GetKernel().Get<IMainPresenter>();
                 mainPresenter.BindView((IMainView)view);                
-                playerPresenter = Bootstrapper.GetKernel().Get<IPlayerPresenter>();
+                playerPresenter = Bootstrapper.Bootstrapper.GetKernel().Get<IPlayerPresenter>();
                 playerPresenter.BindView((IPlayerView)view);
-                libraryBrowserPresenter = Bootstrapper.GetKernel().Get<ILibraryBrowserPresenter>();
+                libraryBrowserPresenter = Bootstrapper.Bootstrapper.GetKernel().Get<ILibraryBrowserPresenter>();
                 libraryBrowserPresenter.BindView((ILibraryBrowserView)view);                
-                songBrowserPresenter = Bootstrapper.GetKernel().Get<ISongBrowserPresenter>();
+                songBrowserPresenter = Bootstrapper.Bootstrapper.GetKernel().Get<ISongBrowserPresenter>();
                 songBrowserPresenter.BindView((ISongBrowserView)view);                
             };            
-            mainView = Bootstrapper.GetKernel().Get<IMainView>(new ConstructorArgument("onViewReady", onViewReady));
+            mainView = Bootstrapper.Bootstrapper.GetKernel().Get<IMainView>(new ConstructorArgument("onViewReady", onViewReady));
             mainView.OnViewDestroy = () => {
                 mainView = null;
                 mainPresenter = null;
@@ -106,12 +107,12 @@ namespace MPfm.MVP
             
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {
-                preferencesPresenter = Bootstrapper.GetKernel().Get<IPreferencesPresenter>();
+                preferencesPresenter = Bootstrapper.Bootstrapper.GetKernel().Get<IPreferencesPresenter>();
                 preferencesPresenter.BindView((IPreferencesView)view);                
             };            
             
             // Create view and manage view destruction
-            preferencesView = Bootstrapper.GetKernel().Get<IPreferencesView>(new ConstructorArgument("onViewReady", onViewReady));
+            preferencesView = Bootstrapper.Bootstrapper.GetKernel().Get<IPreferencesView>(new ConstructorArgument("onViewReady", onViewReady));
             preferencesView.OnViewDestroy = () => {
                 preferencesView = null;
                 preferencesPresenter = null;

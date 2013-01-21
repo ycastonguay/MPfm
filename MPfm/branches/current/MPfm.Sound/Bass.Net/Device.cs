@@ -19,9 +19,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// Defines an audio device that can be used with the Player.
@@ -59,7 +57,7 @@ namespace MPfm.Sound.BassNetWrapper
         public Device()
         {
             // Set default values
-            DriverType = BassNetWrapper.DriverType.DirectSound;
+            DriverType = DriverType.DirectSound;
             IsDefault = true;
             Id = -1; // default id for default device in BASS
             Name = "Default device";

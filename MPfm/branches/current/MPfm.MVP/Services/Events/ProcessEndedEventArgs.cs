@@ -19,10 +19,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
-using System.Reflection;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services.Events
 {
 	/// <summary>
 	/// Process ended event arguments.
@@ -35,7 +33,7 @@ namespace MPfm.MVP
 		public bool Canceled { get; set; }
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.MVP.ProcessEndedEventArgs"/> class.
+		/// Initializes a new instance of the <see cref="ProcessEndedEventArgs"/> class.
 		/// </summary>
 		/// <param name='canceled'>Defines if the process was canceled or not.</param>
 		public ProcessEndedEventArgs(bool canceled)

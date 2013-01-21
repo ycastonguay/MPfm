@@ -18,15 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using TinyMessenger;
-
-namespace MPfm.MVP
+namespace MPfm.MVP.Messages
 {
     /// <summary>
     /// Enumeration of player status types.

@@ -19,14 +19,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MPfm.Sound.BassWrapper;
 using MPfm.Sound.BassWrapper.ASIO;
 using MPfm.Sound.BassWrapper.Wasapi;
 
-namespace MPfm.Sound.BassNetWrapper
+namespace MPfm.Sound.Bass.Net
 {
     /// <summary>
     /// This class contains methods to help detect devices and test sounds.
@@ -43,7 +42,7 @@ namespace MPfm.Sound.BassNetWrapper
             List<Device> devices = new List<Device>();
 
             // Detect DirectSound devices
-            List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
+            List<BASS_DEVICEINFO> devicesDirectSound = BassWrapper.Bass.BASS_GetDeviceInfos().ToList();
             for(int a = 0; a < devicesDirectSound.Count; a++)
             {
                 // Make sure the device is usable
@@ -114,7 +113,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (driverType == DriverType.DirectSound)
             {
                 // Detect DirectSound devices
-                List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
+                List<BASS_DEVICEINFO> devicesDirectSound = BassWrapper.Bass.BASS_GetDeviceInfos().ToList();
                 for (int a = 0; a < devicesDirectSound.Count; a++)
                 {
                     // Check if the driver name is the same, and make sure the device is also enabled (i.e. available)
@@ -185,7 +184,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static Device GetDefaultDirectSoundOutputDevice()
         {
             // Detect DirectSound devices
-            List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
+            List<BASS_DEVICEINFO> devicesDirectSound = BassWrapper.Bass.BASS_GetDeviceInfos().ToList();
             for (int a = 0; a < devicesDirectSound.Count; a++)
             {
                 // Check if the device is the default one

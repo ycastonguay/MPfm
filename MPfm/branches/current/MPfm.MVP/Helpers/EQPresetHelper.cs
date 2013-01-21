@@ -20,12 +20,10 @@
 
 using System;
 using System.IO;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using MPfm.Player;
+using MPfm.Player.Objects;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Helpers
 {
     /// <summary>
     /// Helper static class for loading/saving EQ presets.

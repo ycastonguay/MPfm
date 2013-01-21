@@ -20,18 +20,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.Common;
-//using System.Data.Linq;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text;
-using MPfm.Core;
-using MPfm.Player;
-using MPfm.Sound;
+using MPfm.Library.Objects;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+//using System.Data.Linq;
 
-namespace MPfm.Library
+namespace MPfm.Library.Gateway
 {
     /// <summary>
     /// The MPfmGateway class implements the SQLiteGateway class.

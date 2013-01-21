@@ -19,15 +19,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Net;
 using System.Text;
-using System.Reflection;
 using MPfm.Core;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Tags
 {
     /// <summary>
     /// Reads SV8 metadata for MPC (MusePack) audio files.

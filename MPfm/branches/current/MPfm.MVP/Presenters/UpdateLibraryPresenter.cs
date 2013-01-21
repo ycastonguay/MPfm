@@ -1,4 +1,4 @@
-//
+﻿//
 // UpdateLibraryPresenter.cs: Update Library window presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -20,23 +20,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Events;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
+
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
 #endif
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
 	/// Update Library window presenter.

@@ -19,15 +19,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Player
+namespace MPfm.Player.Events
 {
     /// <summary>
     /// Defines the data structure for the event when the playlist index changes (i.e. when an audio file

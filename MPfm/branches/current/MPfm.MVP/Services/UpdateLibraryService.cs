@@ -1,4 +1,4 @@
-//
+﻿//
 // UpdateLibraryService.cs: Service used for updating the library with new
 //                          audio files using a background worker.
 //
@@ -22,22 +22,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Library.Objects;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Models;
+using MPfm.MVP.Services.Events;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Sound.AudioFiles;
+
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
 #endif
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services
 {
 	/// <summary>
 	///	Service used for updating the library with new audio files using a background worker.

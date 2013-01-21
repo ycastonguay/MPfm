@@ -1,4 +1,4 @@
-//
+﻿//
 // Bootstrapper.cs: Singleton static class for bootstrapping the application.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,22 +18,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Timers;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
-using MPfm.Sound;
+using MPfm.MVP.Models;
 using AutoMapper;
+using MPfm.Sound.AudioFiles;
 using Ninject;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Bootstrapper
 {
 	/// <summary>
 	/// Singleton static class for bootstrapping the application.

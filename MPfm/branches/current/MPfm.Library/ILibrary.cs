@@ -20,7 +20,10 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.Gateway;
+using MPfm.Library.UpdateLibrary;
 using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library
 {

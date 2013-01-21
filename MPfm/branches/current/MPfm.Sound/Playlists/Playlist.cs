@@ -19,12 +19,11 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using MPfm.Sound;
 using MPfm.Core;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Playlists
 {
     /// <summary>
     /// Defines a playlist to be used with the Player.

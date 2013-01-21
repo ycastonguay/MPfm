@@ -20,14 +20,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using MPfm.Sound;
-using MPfm.Library;
-using System.Reflection;
+using MPfm.Library.Gateway;
+using MPfm.Library.Objects;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Services
 {
     /// <summary>
     /// Service used for interacting with the library database.

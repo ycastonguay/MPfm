@@ -20,11 +20,11 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Sound;
-using MPfm.Player;
-using MPfm.Library;
+using MPfm.Library.Objects;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Library
+namespace MPfm.Library.Gateway
 {
     /// <summary>
     /// Interface for the MPfmGateway class.

@@ -18,10 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-
-namespace MPfm.Library
+namespace MPfm.Library.UpdateLibrary
 {
     /// <summary>
     /// Defines the data structure for the Update Library finished event.

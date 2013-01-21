@@ -1,4 +1,4 @@
-//
+﻿//
 // ILibraryBrowserPresenter.cs: Library browser presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,11 +18,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using MPfm.Sound;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
 	/// Library browser presenter interface.

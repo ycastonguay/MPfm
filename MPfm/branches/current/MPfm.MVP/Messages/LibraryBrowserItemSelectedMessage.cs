@@ -19,15 +19,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+using MPfm.MVP.Models;
 using TinyMessenger;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Messages
 {
     /// <summary>
     /// Message indicating an item has been selected in the Library Browser.

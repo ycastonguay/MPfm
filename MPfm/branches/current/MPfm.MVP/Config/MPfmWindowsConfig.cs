@@ -18,15 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-
-namespace MPfm.MVP
+namespace MPfm.MVP.Config
 {
     /// <summary>
     /// Class containing settings for all windows for MPfm.
@@ -43,8 +35,8 @@ namespace MPfm.MVP
             // Set defaults
             MainWindow = new MPfmWindowConfig();
             PlaylistWindow = new MPfmWindowConfig();
-            EffectsWindow = new MPfm.MVP.MPfmWindowConfig();
-            PreferencesWindow = new MPfm.MVP.MPfmWindowConfig();
+            EffectsWindow = new MPfmWindowConfig();
+            PreferencesWindow = new MPfmWindowConfig();
         }
     }
 }

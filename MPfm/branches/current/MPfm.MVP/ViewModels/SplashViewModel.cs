@@ -1,4 +1,4 @@
-//
+﻿//
 // SplashViewModel.cs: View model for the Splash screen.
 //
 // Copyright © 2011-2012 Yanick Castonguay
@@ -18,10 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-
-namespace MPfm.MVP
+namespace MPfm.MVP.ViewModels
 {
 	/// <summary>
 	/// View model for the Splash screen.
