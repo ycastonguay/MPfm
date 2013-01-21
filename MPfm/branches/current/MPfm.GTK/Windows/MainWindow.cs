@@ -14,12 +14,13 @@ using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
 using MPfm.MVP;
-using Ninject;
-using Ninject.Parameters;
 using System.Drawing.Imaging;
 using System.Text;
+using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Models;
+using MPfm.Library.UpdateLibrary;
 
 namespace MPfm.GTK
 {
@@ -797,7 +798,7 @@ namespace MPfm.GTK
 				if(drawingImage != null)
 				{
 					// Resize image
-					drawingImage = MPfm.Core.ImageManipulation.ResizeImage(drawingImage, 150, 150);
+					drawingImage = ImageManipulation.ResizeImage(drawingImage, 150, 150);
 					
 					// Set album cover
 					imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);

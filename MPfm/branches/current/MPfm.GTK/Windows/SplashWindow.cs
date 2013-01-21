@@ -22,6 +22,7 @@
 using System;
 using Gdk;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.GTK
 {

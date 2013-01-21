@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using Pango;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.GTK
 {

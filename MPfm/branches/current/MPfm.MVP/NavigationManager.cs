@@ -72,8 +72,6 @@ namespace MPfm.MVP
             };
         }
         
-        public abstract ISplashView CreateSplashWindowInstance(Action<IBaseView> onViewReady);
-        
         public virtual void CreateMainWindow()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.

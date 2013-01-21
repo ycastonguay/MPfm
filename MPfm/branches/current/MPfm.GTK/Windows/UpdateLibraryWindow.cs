@@ -22,9 +22,14 @@ using System;
 using System.Collections.Generic;
 using MPfm.Library;
 using MPfm.MVP;
-using Ninject;
 using Pango;
 using Gtk;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
+using MPfm.MVP.Models;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Presenters;
+using MPfm.MVP.Services;
 
 namespace MPfm.GTK
 {
@@ -48,8 +53,8 @@ namespace MPfm.GTK
 			SetFontProperties();
 			
 			// Create presenter			
-			var libraryService = Bootstrapper.GetKernel().Get<LibraryService>();
-			var updateLibraryService = Bootstrapper.GetKernel().Get<UpdateLibraryService>();
+			var libraryService = Bootstrapper.GetContainer().Resolve<LibraryService>();
+			var updateLibraryService = Bootstrapper.GetContainer().Resolve<UpdateLibraryService>();
 			presenter = new UpdateLibraryPresenter(libraryService, updateLibraryService);
 			presenter.BindView(this);
 			

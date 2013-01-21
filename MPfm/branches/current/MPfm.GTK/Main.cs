@@ -2,8 +2,8 @@ using System;
 using System.IO;
 using System.Reflection;
 using Gtk;
-using Ninject;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.GTK
 {
@@ -15,16 +15,16 @@ namespace MPfm.GTK
 		{
 			// Add view implementations to IoC
 			Application.Init();
-			Bootstrapper.GetKernel().Bind<NavigationManager>().To<GtkNavigationManager>().InSingletonScope();
-			Bootstrapper.GetKernel().Bind<ISplashView>().To<SplashWindow>();
-			Bootstrapper.GetKernel().Bind<IMainView>().To<MainWindow>();
-			Bootstrapper.GetKernel().Bind<IUpdateLibraryView>().To<UpdateLibraryWindow>();
-			Bootstrapper.GetKernel().Bind<IPreferencesView>().To<PreferencesWindow>();
-			Bootstrapper.GetKernel().Bind<IEffectsView>().To<EffectsWindow>();
-			Bootstrapper.GetKernel().Bind<IPlaylistView>().To<PlaylistWindow>();
+			Bootstrapper.GetContainer().Register<NavigationManager, GtkNavigationManager>().AsSingleton();
+			Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IMainView, MainWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();
 			
 			// Create and start navigation manager
-			navigationManager = Bootstrapper.GetKernel().Get<NavigationManager>();
+			navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
 			navigationManager.Start();
 			Application.Run();
 		}

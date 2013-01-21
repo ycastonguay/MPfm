@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using MPfm.MVP;
+using MPfm.MVP.Views;
 
 namespace MPfm.GTK
 {
