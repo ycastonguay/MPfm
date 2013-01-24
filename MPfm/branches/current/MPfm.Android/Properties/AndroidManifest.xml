@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="internalOnly">
   <uses-sdk android:targetSdkVersion="17" />
-  <application android:label="MPfm: Music Player for Musicians">
+  <application android:label="MPfm: Music Player for Musicians" android:theme="@style/MyAppTheme">
   </application>
 </manifest>

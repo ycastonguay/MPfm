@@ -31,11 +31,25 @@ namespace MPfm.Android
 			}
 		}
 		
+		public partial class Color
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int color_black = 2130968576;
+			
+			private Color()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
 			// aapt resource value: 0x7f020000
 			public const int Icon = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public const int Splash = 2130837505;
 			
 			private Drawable()
 			{
@@ -45,8 +59,71 @@ namespace MPfm.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int MyButton = 2131034112;
+			// aapt resource value: 0x7f08000d
+			public const int fragment_player_btnNext = 2131230733;
+			
+			// aapt resource value: 0x7f08000c
+			public const int fragment_player_btnPlayPause = 2131230732;
+			
+			// aapt resource value: 0x7f08000b
+			public const int fragment_player_btnPrevious = 2131230731;
+			
+			// aapt resource value: 0x7f080001
+			public const int fragment_player_frameLayout = 2131230721;
+			
+			// aapt resource value: 0x7f080002
+			public const int fragment_player_imageViewAlbumArt = 2131230722;
+			
+			// aapt resource value: 0x7f080005
+			public const int fragment_player_lblAlbumTitle = 2131230725;
+			
+			// aapt resource value: 0x7f080004
+			public const int fragment_player_lblArtistName = 2131230724;
+			
+			// aapt resource value: 0x7f080008
+			public const int fragment_player_lblLength = 2131230728;
+			
+			// aapt resource value: 0x7f080007
+			public const int fragment_player_lblPosition = 2131230727;
+			
+			// aapt resource value: 0x7f080006
+			public const int fragment_player_lblSongTitle = 2131230726;
+			
+			// aapt resource value: 0x7f080003
+			public const int fragment_player_linearLayout = 2131230723;
+			
+			// aapt resource value: 0x7f08000a
+			public const int fragment_player_linearLayoutButtons = 2131230730;
+			
+			// aapt resource value: 0x7f080000
+			public const int fragment_player_mainLayout = 2131230720;
+			
+			// aapt resource value: 0x7f080009
+			public const int fragment_player_seekBar = 2131230729;
+			
+			// aapt resource value: 0x7f08000e
+			public const int genericcell_image = 2131230734;
+			
+			// aapt resource value: 0x7f08000f
+			public const int genericcell_title = 2131230735;
+			
+			// aapt resource value: 0x7f080010
+			public const int main_layout = 2131230736;
+			
+			// aapt resource value: 0x7f080011
+			public const int main_pager = 2131230737;
+			
+			// aapt resource value: 0x7f080012
+			public const int main_pager_title_strip = 2131230738;
+			
+			// aapt resource value: 0x7f080015
+			public const int menu_item_about = 2131230741;
+			
+			// aapt resource value: 0x7f080013
+			public const int menu_item_effects = 2131230739;
+			
+			// aapt resource value: 0x7f080014
+			public const int menu_item_settings = 2131230740;
 			
 			private Id()
 			{
@@ -57,9 +134,26 @@ namespace MPfm.Android
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int Fragment_Player = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int GenericCell = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Main = 2130903042;
 			
 			private Layout()
+			{
+			}
+		}
+		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f070000
+			public const int main_menu = 2131165184;
+			
+			private Menu()
 			{
 			}
 		}
@@ -67,13 +161,30 @@ namespace MPfm.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int ApplicationName = 2131034113;
 			
-			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int Hello = 2131034112;
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7f060002
+			public const int MyActionBar = 2131099650;
+			
+			// aapt resource value: 0x7f060001
+			public const int MyAppTheme = 2131099649;
+			
+			// aapt resource value: 0x7f060000
+			public const int Theme_Splash = 2131099648;
+			
+			private Style()
 			{
 			}
 		}

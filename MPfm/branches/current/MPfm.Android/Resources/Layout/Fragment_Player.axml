@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_player_mainLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <FrameLayout
+        android:id="@+id/fragment_player_frameLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ImageView
+            android:id="@+id/fragment_player_imageViewAlbumArt"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter" />
+        <LinearLayout
+            android:id="@+id/fragment_player_linearLayout"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/fragment_player_lblArtistName"
+                android:text="[ArtistName]"
+                android:background="#AA000000"
+                android:textColor="#ffffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="6dip" />
+            <TextView
+                android:id="@+id/fragment_player_lblAlbumTitle"
+                android:text="[AlbumTitle]"
+                android:background="#AA000000"
+                android:textColor="#ffffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="6dip" />
+            <TextView
+                android:id="@+id/fragment_player_lblSongTitle"
+                android:text="[SongTitle]"
+                android:background="#AA000000"
+                android:textColor="#ffffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="6dip" />
+            <TextView
+                android:id="@+id/fragment_player_lblPosition"
+                android:text="0:00.000"
+                android:background="#AA000000"
+                android:textColor="#ffffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="6dip" />
+            <TextView
+                android:id="@+id/fragment_player_lblLength"
+                android:text="0.00:000"
+                android:background="#AA000000"
+                android:textColor="#ffffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="6dip" />
+            <SeekBar
+                android:id="@+id/fragment_player_seekBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/fragment_player_linearLayoutButtons"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+              <Button
+                  android:id="@+id/fragment_player_btnPrevious"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Previous" />
+              <Button
+                  android:id="@+id/fragment_player_btnPlayPause"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Play" />
+              <Button
+                  android:id="@+id/fragment_player_btnNext"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Next" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

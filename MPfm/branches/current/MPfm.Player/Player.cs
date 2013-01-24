@@ -788,14 +788,18 @@ namespace MPfm.Player
             {				
 				// Default
 				// 10ms update period does not work under Linux. Major stuttering
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 1000); 
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);	
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);
+
+#if ANDROID
+                Base.SetConfig(BASSConfig.BASS_CONFIG_DEV_BUFFER, 500); // Default on Android: 30ms
+#endif                
             }
             else if (OS.Type == OSType.MacOSX)
             {
 				// Default
 				// 10ms update period does not work under Linux. Major stuttering
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 1000); 
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize);
             	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);					
             }		
 

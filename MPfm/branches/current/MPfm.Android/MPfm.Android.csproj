@@ -44,6 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Support.v13" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,8 +56,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Activities\SplashActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
+    <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
+    <Compile Include="Classes\Adapters\GenericListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\Fragments\GenericListFragment.cs" />
+    <Compile Include="Classes\Fragments\PlayerFragment.cs" />
+    <Compile Include="Classes\Helpers\BitmapHelper.cs" />
+    <Compile Include="Classes\Helpers\BitmapCache.cs" />
+    <Compile Include="Classes\Listeners\TabListener.cs" />
+    <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -71,15 +81,20 @@
     <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_fx.so" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\Layout\Fragment_Player.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\GenericCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Layout\Main.axml" />
+    <AndroidResource Include="Resources\Layout\Main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
@@ -89,6 +104,10 @@
     <ProjectReference Include="..\MPfm.Library\MPfm.Library.Android.csproj">
       <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
       <Name>MPfm.Library.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.Android.csproj">
+      <Project>{b6b0613c-ff39-479d-9ef0-31daf9684a06}</Project>
+      <Name>MPfm.MVP.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.Android.csproj">
       <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
@@ -101,6 +120,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\Menu\main_menu.xml" />
+    <AndroidResource Include="Resources\Values\Styles.xml" />
+    <AndroidResource Include="Resources\Values\Colors.xml" />
+    <AndroidResource Include="Resources\Drawable\Splash.png" />
+    <AndroidResource Include="Resources\Drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
