@@ -251,7 +251,7 @@ namespace MPfm.Library
         public static void CreateDatabaseFile(string databaseFilePath)
         {
             // Create database file
-#if ANDROID
+#if IOS || ANDROID
             MonoSQLiteGateway.CreateDatabaseFile(databaseFilePath);
 #else
             SQLiteGateway.CreateDatabaseFile(databaseFilePath);

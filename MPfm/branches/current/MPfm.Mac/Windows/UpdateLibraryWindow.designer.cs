@@ -33,7 +33,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSubtitle { get; set; }
+        MonoMac.AppKit.NSTextField lblSubtitle { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSScrollView scrollViewErrorLog { get; set; }

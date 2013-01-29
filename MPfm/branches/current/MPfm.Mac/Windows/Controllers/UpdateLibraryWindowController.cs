@@ -26,7 +26,6 @@ using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.Library;
 using MPfm.MVP.Services.Interfaces;
-using MPfm.Library.Gateway;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.UpdateLibrary;
@@ -44,6 +43,8 @@ namespace MPfm.Mac
 		ILibraryService libraryService = null;
 		IUpdateLibraryService updateLibraryService = null;
 		IUpdateLibraryPresenter presenter = null;
+        
+        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
 
 		#region Constructors
 		

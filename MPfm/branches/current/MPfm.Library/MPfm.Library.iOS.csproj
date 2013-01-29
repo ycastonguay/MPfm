@@ -127,23 +127,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Reactive">
-      <HintPath>Lib\System.Reactive.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>Lib\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>Lib\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
@@ -158,13 +145,9 @@
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />
     <EmbeddedResource Include="Scripts\1.00-1.01.sql" />
     <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
-    <Content Include="Lib\AsyncCtpLibrary.dll" />
-    <Content Include="Lib\AsyncCtpLibrary.xml" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
-    <Content Include="Lib\System.Reactive.dll" />
-    <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

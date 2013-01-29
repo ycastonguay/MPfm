@@ -30,51 +30,58 @@ namespace MPfm.Mac
 {
     /// <summary>
     /// Navigation manager for Mac.
+    /// The idea is to make sure that any view creation is done on the main thread, or the windows will not always be visible.
     /// </summary>
     public class MacNavigationManager : NavigationManager
     {
-        public override void Start()
+        public override void BindSplashView(ISplashView view, Action onInitDone)
         {
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
                 {
-                    base.Start();
+                    base.BindSplashView(view, onInitDone);
                 });
             }
         }
-        
-        public override void CreateSplashWindow()
+
+        public override ISplashView CreateSplashView()
         {
+            ISplashView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
                 {
-                    base.CreateSplashWindow();
+                    view = base.CreateSplashView();
                 });
             }
+            return view;
         }
-        
-        public override void CreateMainWindow()
+
+        public override IMainView CreateMainView()
         {
+            IMainView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
                 {
-                    base.CreateMainWindow();
-                }); 
+                    view = base.CreateMainView();
+                });
             }
+            return view;
         }
-        
-        public override void CreatePreferencesWindow()
+
+        public override IPreferencesView CreatePreferencesView()
         {
+            IPreferencesView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
                 {
-                    base.CreatePreferencesWindow();
-                }); 
+                    view = base.CreatePreferencesView();
+                });
             }
+            return view;
         }
     }
 }

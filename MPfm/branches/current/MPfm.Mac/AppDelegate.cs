@@ -58,7 +58,8 @@ namespace MPfm.Mac
 
             // Create and start navigation manager
             navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
-            navigationManager.Start();
+            //navigationManager.Start();
+            navigationManager.CreateSplashView();
         }
 	}
 }

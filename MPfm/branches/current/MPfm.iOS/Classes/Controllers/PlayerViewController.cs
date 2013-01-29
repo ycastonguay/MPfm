@@ -4,7 +4,6 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.Player;
-using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.BassWrapper;
 using System.IO;
 using System.Timers;
@@ -12,6 +11,8 @@ using MPfm.Sound;
 using MPfm.Core;
 using System.Linq;
 using MonoTouch.CoreGraphics;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 
 namespace MPfm.iOS
 {
