@@ -20,16 +20,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Player.Objects;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -146,7 +139,7 @@ namespace MPfm
 
             // Select presets
             //List<Equalizer> eqs = DataAccess.SelectEqualizers();
-            List<EQPreset> eqs = main.Library.Gateway.SelectEQPresets();
+            List<EQPreset> eqs = main.Library.Facade.SelectEQPresets();
 
             // For each EQ
             foreach (EQPreset eq in eqs)
@@ -344,7 +337,7 @@ namespace MPfm
         {
             // Check if equalizer exists            
             //Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
-            EQPreset equalizerExists = main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
+            EQPreset equalizerExists = main.Library.Facade.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists != null)
             {
@@ -352,7 +345,7 @@ namespace MPfm
                 if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {                    
                     //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
-                    main.Library.Gateway.DeleteEqualizer(equalizerExists.EQPresetId);
+                    main.Library.Facade.DeleteEqualizer(equalizerExists.EQPresetId);
 
                     RefreshEQPresets();
                     ResetEQ();
@@ -398,20 +391,20 @@ namespace MPfm
             eq.Bands[17].Gain = (float)fader17.Value / 10;            
 
             // Check if equalizer exists                        
-            EQPreset equalizerExists = main.Library.Gateway.SelectEQPreset(txtEQPresetName.Text);
+            EQPreset equalizerExists = main.Library.Facade.SelectEQPreset(txtEQPresetName.Text);
 
             if (equalizerExists == null)
             {
                 //DataAccess.InsertEqualizer(eq);
-                main.Library.Gateway.InsertEqualizer(eq);
+                main.Library.Facade.InsertEqualizer(eq);
             }
             else
             {
                 if (MessageBox.Show("Are you sure you wish to overwrite the " + equalizerExists.Name + " equalizer preset?", "Overwrite equalizer preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     // Update ID and EQ
-                    eq.EQPresetId = equalizerExists.EQPresetId;                    
-                    main.Library.Gateway.UpdateEqualizer(eq);
+                    eq.EQPresetId = equalizerExists.EQPresetId;
+                    main.Library.Facade.UpdateEqualizer(eq);
                 }
             }
 
@@ -461,7 +454,7 @@ namespace MPfm
         private void SetPreset(string name)
         {
             // Get equalizer                    
-            EQPreset equalizer = main.Library.Gateway.SelectEQPreset(name);
+            EQPreset equalizer = main.Library.Facade.SelectEQPreset(name);
 
             // Set values
             txtEQPresetName.Text = equalizer.Name;

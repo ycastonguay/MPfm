@@ -20,16 +20,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.WindowsControls;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm
 {
@@ -98,7 +90,7 @@ namespace MPfm
                 Text = "Edit Marker";
 
                 // Fetch marker from database                
-                Marker marker = Main.Library.Gateway.SelectMarker(markerId);
+                Marker marker = Main.Library.Facade.SelectMarker(markerId);
 
                 // Check if the marker was found
                 if(marker == null)
@@ -152,7 +144,7 @@ namespace MPfm
             else if (mode == AddEditMarkerWindowMode.Edit)
             {
                 // Select the existing marker from the database
-                marker = Main.Library.Gateway.SelectMarker(markerId);
+                marker = Main.Library.Facade.SelectMarker(markerId);
             }
 
             // Set properties            
@@ -167,7 +159,7 @@ namespace MPfm
             if (mode == AddEditMarkerWindowMode.Add)
             {
                 // Insert marker
-                Main.Library.Gateway.InsertMarker(marker);
+                Main.Library.Facade.InsertMarker(marker);
 
                 // Refresh window as Edit Marker
                 markerId = marker.MarkerId;
@@ -177,7 +169,7 @@ namespace MPfm
             else if (mode == AddEditMarkerWindowMode.Edit)
             {
                 // Update marker
-                Main.Library.Gateway.UpdateMarker(marker);
+                Main.Library.Facade.UpdateMarker(marker);
             }
 
             // Refresh main window marker list

@@ -20,34 +20,23 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Web;
-using System.Web.Services.Protocols;
 using System.Windows.Forms;
 using MPfm.Core;
-using MPfm.Library;
+using MPfm.Player.Events;
+using MPfm.Player.Objects;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 using MPfm.WindowsControls;
-using MPfm.Player;
-using System.Threading.Tasks;
-using System.Reactive.Concurrency;
-using System.Threading;
 
 namespace MPfm
 {
@@ -1173,7 +1162,7 @@ namespace MPfm
         /// Updates the UI.
         /// </summary>
         /// <param name="data">Event data</param>
-        public void player_OnPlaylistIndexChanged(Player.PlayerPlaylistIndexChangedData data)
+        public void player_OnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
         {
             // Declare variables
             AudioFile audioFileDatabase = null;
@@ -1200,7 +1189,7 @@ namespace MPfm
                 if (data.AudioFileEnded != null)
                 {
                     // Get audio file from database
-                    audioFileDatabase = Library.Gateway.SelectAudioFile(data.AudioFileEnded.Id);
+                    audioFileDatabase = Library.Facade.SelectAudioFile(data.AudioFileEnded.Id);
                 }
 
                 // Check if this was the last song
@@ -1238,7 +1227,7 @@ namespace MPfm
                     if (audioFileDatabase != null)
                     {
                         // Update the new song in the database (in case the metadata has changed)
-                        Library.Gateway.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);
+                        Library.Facade.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);
 
                         // Refresh play count
                         SongGridViewItem item = viewSongs2.Items.FirstOrDefault(x => x.AudioFile.Id == player.Playlist.CurrentItem.AudioFile.Id);
@@ -2295,7 +2284,7 @@ namespace MPfm
             btnAddMarker.Enabled = true;
 
             // Fetch markers from database
-            List<Marker> markers = Library.Gateway.SelectMarkers(Player.Playlist.CurrentItem.AudioFile.Id);
+            List<Marker> markers = Library.Facade.SelectMarkers(Player.Playlist.CurrentItem.AudioFile.Id);
 
             // Update grid view
             foreach (Marker marker in markers)
@@ -2335,8 +2324,8 @@ namespace MPfm
             btnAddLoop.Enabled = true;
 
             // Fetch loops from database
-            List<Loop> loops = Library.Gateway.SelectLoops(Player.Playlist.CurrentItem.AudioFile.Id);
-            List<Marker> markers = Library.Gateway.SelectMarkers(Player.Playlist.CurrentItem.AudioFile.Id);
+            List<Loop> loops = Library.Facade.SelectLoops(Player.Playlist.CurrentItem.AudioFile.Id);
+            List<Marker> markers = Library.Facade.SelectMarkers(Player.Playlist.CurrentItem.AudioFile.Id);
 
             // Update grid view
             foreach (Loop loop in loops)
@@ -2515,11 +2504,11 @@ namespace MPfm
             timerUpdateSongPositionPanel.Enabled = true;
 
             // Check if the audio file exists in the database
-            AudioFile audioFileDatabase = Library.Gateway.SelectAudioFile(player.Playlist.CurrentItem.AudioFile.Id);
+            AudioFile audioFileDatabase = Library.Facade.SelectAudioFile(player.Playlist.CurrentItem.AudioFile.Id);
             if (audioFileDatabase != null)
             {
                 // Update the first audio file in the database (in case the metadata has changed)
-                Library.Gateway.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);
+                Library.Facade.UpdateAudioFile(player.Playlist.CurrentItem.AudioFile);
             }
 
             // Refresh warning
@@ -3756,7 +3745,7 @@ namespace MPfm
                 Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
 
                 // Remove marker and refresh list                
-                Library.Gateway.DeleteMarker(markerId);
+                Library.Facade.DeleteMarker(markerId);
                 RefreshMarkers();
             }
         }
@@ -3909,7 +3898,7 @@ namespace MPfm
                 Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
                 // Delete loop and refresh list                
-                Library.Gateway.DeleteLoop(loopId);
+                Library.Facade.DeleteLoop(loopId);
                 RefreshLoops();
             }
         }
@@ -3932,7 +3921,7 @@ namespace MPfm
             Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
             // Fetch loop from database
-            Loop loop = Library.Gateway.SelectLoop(loopId);
+            Loop loop = Library.Facade.SelectLoop(loopId);
 
             // Check if the loop is valid
             if (loop == null)
@@ -4050,7 +4039,7 @@ namespace MPfm
             Guid loopId = new Guid(viewLoops.SelectedItems[0].Tag.ToString());
 
             // Fetch loop from database
-            Loop loop = Library.Gateway.SelectLoop(loopId);
+            Loop loop = Library.Facade.SelectLoop(loopId);
 
             // Check if the loop is valid
             if (loop == null)

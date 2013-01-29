@@ -26,6 +26,7 @@ using System.Xml;
 using System.Xml.Linq;
 using MPfm.Core;
 using MPfm.Sound;
+using MPfm.Sound.Bass.Net;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -191,8 +192,8 @@ namespace MPfm
                 // Check if this XML element was found
                 if (elementAudioDriver != null)
                 {
-                    MPfm.Sound.BassNetWrapper.DriverType driverType;
-                    Enum.TryParse<MPfm.Sound.BassNetWrapper.DriverType>(XMLHelper.GetAttributeValue(elementAudioDriver, "type"), out driverType);
+                    DriverType driverType;
+                    Enum.TryParse<DriverType>(XMLHelper.GetAttributeValue(elementAudioDriver, "type"), out driverType);
                     audioSection.DriverType = driverType;
                 }
                 // Check if this XML element was found

@@ -21,16 +21,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.WindowsControls;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm
 {
@@ -108,7 +101,7 @@ namespace MPfm
                 Text = "Edit Loop";
 
                 // Fetch loop from database                
-                Loop loop = Main.Library.Gateway.SelectLoop(loopId);
+                Loop loop = Main.Library.Facade.SelectLoop(loopId);
 
                 // Check if the loop was found
                 if (loop == null)
@@ -137,14 +130,14 @@ namespace MPfm
         public void RefreshMarkers()
         {
             // Fetch markers from database
-            markers = Main.Library.Gateway.SelectMarkers(main.Player.Playlist.CurrentItem.AudioFile.Id);
+            markers = Main.Library.Facade.SelectMarkers(main.Player.Playlist.CurrentItem.AudioFile.Id);
             markers.Insert(0, new Marker());
 
             // Set combo box items for A
             comboStartPositionMarker.DataSource = markers;
 
             // Set combo box items for B (refetch data because data binding the same objects make both combo box value change at the same time...)
-            markers = Main.Library.Gateway.SelectMarkers(main.Player.Playlist.CurrentItem.AudioFile.Id);
+            markers = Main.Library.Facade.SelectMarkers(main.Player.Playlist.CurrentItem.AudioFile.Id);
             markers.Insert(0, new Marker());
             comboEndPositionMarker.DataSource = markers;  
         }
@@ -182,7 +175,7 @@ namespace MPfm
             else if (mode == AddEditLoopWindowMode.Edit)
             {
                 // Select the existing loop from the database
-                loop = Main.Library.Gateway.SelectLoop(loopId);
+                loop = Main.Library.Facade.SelectLoop(loopId);
             }
 
             // Set properties    
@@ -200,7 +193,7 @@ namespace MPfm
             if (mode == AddEditLoopWindowMode.Add)
             {
                 // Insert loop
-                Main.Library.Gateway.InsertLoop(loop);
+                Main.Library.Facade.InsertLoop(loop);
 
                 // Refresh window as Edit Loop
                 loopId = loop.LoopId;
@@ -210,7 +203,7 @@ namespace MPfm
             else if (mode == AddEditLoopWindowMode.Edit)
             {
                 // Update loop
-                Main.Library.Gateway.UpdateLoop(loop);
+                Main.Library.Facade.UpdateLoop(loop);
             }
 
             // Refresh main window loop list

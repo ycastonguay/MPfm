@@ -19,17 +19,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using MPfm.Sound;
-using MPfm.Library;
-using MPfm.Core;
+using MPfm.Library.UpdateLibrary;
 
 namespace MPfm
 {

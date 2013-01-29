@@ -22,22 +22,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Data.Linq;
-using System.Data.Objects;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Drawing2D;
-using System.Globalization;
 using System.Linq;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using MPfm.Core;
-using MPfm.Sound;
-using MPfm.Library;
-using MPfm.Player;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.WindowsControls
 {

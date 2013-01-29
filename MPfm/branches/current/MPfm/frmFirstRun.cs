@@ -20,18 +20,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.WindowsControls;
+using MPfm.Sound.Bass.Net;
 
 namespace MPfm
 {

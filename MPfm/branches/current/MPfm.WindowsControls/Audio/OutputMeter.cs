@@ -22,16 +22,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MPfm.WindowsControls;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.WindowsControls
 {
@@ -289,8 +282,8 @@ namespace MPfm.WindowsControls
                 //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
                 // Get peak for the last 1000ms
-                float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, MPfm.Sound.ChannelType.Left);
-                float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, MPfm.Sound.ChannelType.Right);
+                float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Left);
+                float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
 
                 // Set the dB range to display (-100 to +10dB)
                 float dbRangeToDisplay = 110;
@@ -316,7 +309,7 @@ namespace MPfm.WindowsControls
                 //
 
                 // Get the VU value from audio tools
-                float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, MPfm.Sound.ChannelType.Left);
+                float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
 
                 // Calculate bar height
                 float barHeight = maxLeftDB + 100;

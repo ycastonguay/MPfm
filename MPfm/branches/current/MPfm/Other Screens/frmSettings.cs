@@ -21,20 +21,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
-using MPfm.Library;
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.WindowsControls;
+using MPfm.Library.Objects;
+using MPfm.Sound.Bass.Net;
 
 namespace MPfm
 {
@@ -490,7 +483,7 @@ namespace MPfm
         public void RefreshFolders()
         {
             // Get the list of folders from the database            
-            List<Folder> folders = main.Library.Gateway.SelectFolders();
+            List<Folder> folders = main.Library.Facade.SelectFolders();
 
             // Check if the list is null
             if (folders != null)
@@ -566,7 +559,7 @@ namespace MPfm
             {
                 // Check if folder already exists
                 //Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
-                Folder folder = main.Library.Gateway.SelectFolderByPath(dialogAddFolder.SelectedPath);
+                Folder folder = main.Library.Facade.SelectFolderByPath(dialogAddFolder.SelectedPath);
 
                 // Cancel if folder already exists
                 if (folder != null)
@@ -589,7 +582,7 @@ namespace MPfm
 
                 // Create new folder
                 //DataAccess.InsertFolder(dialogAddFolder.SelectedPath, recursive);
-                main.Library.Gateway.InsertFolder(dialogAddFolder.SelectedPath, recursive);
+                main.Library.Facade.InsertFolder(dialogAddFolder.SelectedPath, recursive);
                 RefreshFolders();
 
                 //ArrayList list = db.GetFolderNewSongs(dialogAddFolder.SelectedPath);
@@ -648,7 +641,7 @@ namespace MPfm
                     }
 
                     // Delete the folder from the list of configured folders                    
-                    Main.Library.Gateway.DeleteFolder(folderId);
+                    Main.Library.Facade.DeleteFolder(folderId);
 
                     // Remove item from list view
                     item.Remove();

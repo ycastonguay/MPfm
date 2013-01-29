@@ -32,6 +32,8 @@ using MPfm.Core;
 using MPfm.Library;
 using MPfm.Player;
 using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 using MPfm.WindowsControls;
 
 namespace MPfm

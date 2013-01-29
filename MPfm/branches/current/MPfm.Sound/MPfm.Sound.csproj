@@ -81,11 +81,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="taglib-sharp">
-      <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix" />
   </ItemGroup>
@@ -147,21 +145,6 @@
     <Compile Include="XingInfoHeaderReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lib\bass.dll" />
-    <Content Include="Lib\Bass.Net.dll" />
-    <Content Include="Lib\bassasio.dll" />
-    <Content Include="Lib\bassflac.dll" />
-    <Content Include="Lib\basswasapi.dll" />
-    <Content Include="Lib\basswma.dll" />
-    <Content Include="Lib\basswv.dll" />
-    <Content Include="Lib\bass_aac.dll" />
-    <Content Include="Lib\bass_alac.dll" />
-    <Content Include="Lib\bass_ape.dll" />
-    <Content Include="Lib\bass_fx.dll" />
-    <Content Include="Lib\bass_mpc.dll" />
-    <Content Include="Lib\bass_ofr.dll" />
-    <Content Include="Lib\bass_tta.dll" />
-    <Content Include="Lib\System.Reactive.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
