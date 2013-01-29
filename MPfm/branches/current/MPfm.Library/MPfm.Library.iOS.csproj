@@ -195,14 +195,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gateway\IMPfmGateway.cs" />
-    <Compile Include="Gateway\ISQLiteGateway.cs" />
-    <Compile Include="Gateway\MPfmGateway.cs" />
+    <Compile Include="Database\MonoSQLiteGateway.cs" />
+    <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
+    <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
+    <Compile Include="Database\DatabaseFacade.cs" />
     <Compile Include="ILibrary.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />
     <Compile Include="Objects\Setting.cs" />
-    <Compile Include="Gateway\SQLiteGateway.cs" />
+    <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
