@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_updateLibrary_mainLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+  <TextView
+    android:id="@+id/fragment_updateLibrary_lblTitle"
+    android:text="[Title]"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:padding="6dip" />
+  <TextView
+    android:id="@+id/fragment_updateLibrary_lblSubtitle"
+    android:text="[Subtitle]"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:padding="6dip" />
+  <ProgressBar
+    android:id="@+id/fragment_updateLibrary_progressBar"
+    android:max="100"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+  />
+  <Button
+    android:id="@+id/fragment_updateLibrary_button"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Cancel"
+    />
+</LinearLayout>

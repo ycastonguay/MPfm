@@ -20,9 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library.Gateway;
+using MPfm.Library.Database;
 using MPfm.Library.UpdateLibrary;
-using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library
@@ -32,10 +31,6 @@ namespace MPfm.Library
     /// </summary>
     interface ILibrary
     {        
-        List<AudioFile> AudioFiles { get; }
-        bool CancelUpdateLibrary { get; set; }
-        MPfmGateway Gateway { get; }
-		
         event Library.UpdateLibraryFinished OnUpdateLibraryFinished;
         event Library.UpdateLibraryProgress OnUpdateLibraryProgress;
 		

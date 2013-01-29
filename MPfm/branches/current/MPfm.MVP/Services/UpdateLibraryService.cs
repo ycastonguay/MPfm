@@ -410,7 +410,8 @@ namespace MPfm.MVP.Services
             if (recursive)
             {
                 // For each directory, search for new directories
-                foreach (DirectoryInfo directoryInfo in rootDirectoryInfo.GetDirectories())
+                DirectoryInfo[] directoryInfos = rootDirectoryInfo.GetDirectories();
+                foreach (DirectoryInfo directoryInfo in directoryInfos)
                 {
 					// Make sure this isn't an Apple index directory
                     if (!directoryInfo.Name.StartsWith(".Apple"))
@@ -423,12 +424,13 @@ namespace MPfm.MVP.Services
             }
 			
 			string[] extensions = extensionsSupported.Split(new string[]{";"}, StringSplitOptions.RemoveEmptyEntries);
-            // For each extension supported
-            foreach (string extension in extensions)
+            //FileInfo[] fileInfos = rootDirectoryInfo.GetFiles("*." + extension);
+            FileInfo[] fileInfos = rootDirectoryInfo.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
             {
-                foreach (FileInfo fileInfo in rootDirectoryInfo.GetFiles("*." + extension))
+                // Check if file matches supported extensions
+                if (extensions.Contains(fileInfo.Extension.Replace(".", ""), StringComparer.InvariantCultureIgnoreCase))
                 {
-                    // Add file
                     arrayFiles.Add(fileInfo.FullName);
                 }
             }

@@ -68,7 +68,13 @@ namespace MPfm.MVP.Services
             // Create trace listener and start logging
             CreateTraceListener();
             Tracing.Log("====================================================================");
+
+#if !IOS && !ANDROID // MonoDroid doesn't like Assembly methods
             Tracing.Log("MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
+#else
+            Tracing.Log("MPfm: Music Player for Musicians");
+#endif
+
             Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
             Tracing.Log("InitializationService.Initialize -- Starting initialization...");   
 

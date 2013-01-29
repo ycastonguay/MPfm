@@ -31,6 +31,8 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,16 +58,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Activities\SplashActivity.cs" />
+    <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\GenericListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\AndroidNavigationManager.cs" />
+    <Compile Include="Classes\Fragments\BaseFragment.cs" />
+    <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />
     <Compile Include="Classes\Fragments\GenericListFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerFragment.cs" />
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
     <Compile Include="Classes\Helpers\BitmapCache.cs" />
     <Compile Include="Classes\Listeners\TabListener.cs" />
+    <Compile Include="Classes\Objects\ApplicationState.cs" />
     <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +91,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\GenericCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Fragment_UpdateLibrary.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Splash.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -125,6 +137,8 @@
     <AndroidResource Include="Resources\Values\Colors.xml" />
     <AndroidResource Include="Resources\Drawable\Splash.png" />
     <AndroidResource Include="Resources\Drawable\Icon.png" />
+    <AndroidResource Include="Resources\Anim\fade_in.xml" />
+    <AndroidResource Include="Resources\Anim\fade_out.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

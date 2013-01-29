@@ -23,6 +23,20 @@ namespace MPfm.Android
 		{
 		}
 		
+		public partial class Animation
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int fade_in = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int fade_out = 2130968577;
+			
+			private Animation()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -34,8 +48,8 @@ namespace MPfm.Android
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int color_black = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int color_black = 2131034112;
 			
 			private Color()
 			{
@@ -59,71 +73,95 @@ namespace MPfm.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f08000d
-			public const int fragment_player_btnNext = 2131230733;
+			// aapt resource value: 0x7f09000d
+			public const int fragment_player_btnNext = 2131296269;
 			
-			// aapt resource value: 0x7f08000c
-			public const int fragment_player_btnPlayPause = 2131230732;
+			// aapt resource value: 0x7f09000c
+			public const int fragment_player_btnPlayPause = 2131296268;
 			
-			// aapt resource value: 0x7f08000b
-			public const int fragment_player_btnPrevious = 2131230731;
+			// aapt resource value: 0x7f09000b
+			public const int fragment_player_btnPrevious = 2131296267;
 			
-			// aapt resource value: 0x7f080001
-			public const int fragment_player_frameLayout = 2131230721;
+			// aapt resource value: 0x7f090001
+			public const int fragment_player_frameLayout = 2131296257;
 			
-			// aapt resource value: 0x7f080002
-			public const int fragment_player_imageViewAlbumArt = 2131230722;
+			// aapt resource value: 0x7f090002
+			public const int fragment_player_imageViewAlbumArt = 2131296258;
 			
-			// aapt resource value: 0x7f080005
-			public const int fragment_player_lblAlbumTitle = 2131230725;
+			// aapt resource value: 0x7f090005
+			public const int fragment_player_lblAlbumTitle = 2131296261;
 			
-			// aapt resource value: 0x7f080004
-			public const int fragment_player_lblArtistName = 2131230724;
+			// aapt resource value: 0x7f090004
+			public const int fragment_player_lblArtistName = 2131296260;
 			
-			// aapt resource value: 0x7f080008
-			public const int fragment_player_lblLength = 2131230728;
+			// aapt resource value: 0x7f090008
+			public const int fragment_player_lblLength = 2131296264;
 			
-			// aapt resource value: 0x7f080007
-			public const int fragment_player_lblPosition = 2131230727;
+			// aapt resource value: 0x7f090007
+			public const int fragment_player_lblPosition = 2131296263;
 			
-			// aapt resource value: 0x7f080006
-			public const int fragment_player_lblSongTitle = 2131230726;
+			// aapt resource value: 0x7f090006
+			public const int fragment_player_lblSongTitle = 2131296262;
 			
-			// aapt resource value: 0x7f080003
-			public const int fragment_player_linearLayout = 2131230723;
+			// aapt resource value: 0x7f090003
+			public const int fragment_player_linearLayout = 2131296259;
 			
-			// aapt resource value: 0x7f08000a
-			public const int fragment_player_linearLayoutButtons = 2131230730;
+			// aapt resource value: 0x7f09000a
+			public const int fragment_player_linearLayoutButtons = 2131296266;
 			
-			// aapt resource value: 0x7f080000
-			public const int fragment_player_mainLayout = 2131230720;
+			// aapt resource value: 0x7f090000
+			public const int fragment_player_mainLayout = 2131296256;
 			
-			// aapt resource value: 0x7f080009
-			public const int fragment_player_seekBar = 2131230729;
+			// aapt resource value: 0x7f090009
+			public const int fragment_player_seekBar = 2131296265;
 			
-			// aapt resource value: 0x7f08000e
-			public const int genericcell_image = 2131230734;
+			// aapt resource value: 0x7f090012
+			public const int fragment_updateLibrary_button = 2131296274;
 			
-			// aapt resource value: 0x7f08000f
-			public const int genericcell_title = 2131230735;
+			// aapt resource value: 0x7f090010
+			public const int fragment_updateLibrary_lblSubtitle = 2131296272;
 			
-			// aapt resource value: 0x7f080010
-			public const int main_layout = 2131230736;
+			// aapt resource value: 0x7f09000f
+			public const int fragment_updateLibrary_lblTitle = 2131296271;
 			
-			// aapt resource value: 0x7f080011
-			public const int main_pager = 2131230737;
+			// aapt resource value: 0x7f09000e
+			public const int fragment_updateLibrary_mainLayout = 2131296270;
 			
-			// aapt resource value: 0x7f080012
-			public const int main_pager_title_strip = 2131230738;
+			// aapt resource value: 0x7f090011
+			public const int fragment_updateLibrary_progressBar = 2131296273;
 			
-			// aapt resource value: 0x7f080015
-			public const int menu_item_about = 2131230741;
+			// aapt resource value: 0x7f090013
+			public const int genericcell_image = 2131296275;
 			
-			// aapt resource value: 0x7f080013
-			public const int menu_item_effects = 2131230739;
+			// aapt resource value: 0x7f090014
+			public const int genericcell_title = 2131296276;
 			
-			// aapt resource value: 0x7f080014
-			public const int menu_item_settings = 2131230740;
+			// aapt resource value: 0x7f090015
+			public const int main_layout = 2131296277;
+			
+			// aapt resource value: 0x7f090016
+			public const int main_pager = 2131296278;
+			
+			// aapt resource value: 0x7f090017
+			public const int main_pager_title_strip = 2131296279;
+			
+			// aapt resource value: 0x7f09001d
+			public const int menu_item_about = 2131296285;
+			
+			// aapt resource value: 0x7f09001a
+			public const int menu_item_effects = 2131296282;
+			
+			// aapt resource value: 0x7f09001c
+			public const int menu_item_settings = 2131296284;
+			
+			// aapt resource value: 0x7f09001b
+			public const int menu_item_updateLibrary = 2131296283;
+			
+			// aapt resource value: 0x7f090018
+			public const int splash_layout = 2131296280;
+			
+			// aapt resource value: 0x7f090019
+			public const int splash_text = 2131296281;
 			
 			private Id()
 			{
@@ -137,10 +175,16 @@ namespace MPfm.Android
 			public const int Fragment_Player = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int GenericCell = 2130903041;
+			public const int Fragment_UpdateLibrary = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Main = 2130903042;
+			public const int GenericCell = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int Main = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int Splash = 2130903044;
 			
 			private Layout()
 			{
@@ -150,8 +194,8 @@ namespace MPfm.Android
 		public partial class Menu
 		{
 			
-			// aapt resource value: 0x7f070000
-			public const int main_menu = 2131165184;
+			// aapt resource value: 0x7f080000
+			public const int main_menu = 2131230720;
 			
 			private Menu()
 			{
@@ -161,11 +205,11 @@ namespace MPfm.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050001
-			public const int ApplicationName = 2131034113;
+			// aapt resource value: 0x7f060001
+			public const int ApplicationName = 2131099649;
 			
-			// aapt resource value: 0x7f050000
-			public const int Hello = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int Hello = 2131099648;
 			
 			private String()
 			{
@@ -175,14 +219,20 @@ namespace MPfm.Android
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f060002
-			public const int MyActionBar = 2131099650;
+			// aapt resource value: 0x7f070004
+			public const int DialogAnimation = 2131165188;
 			
-			// aapt resource value: 0x7f060001
-			public const int MyAppTheme = 2131099649;
+			// aapt resource value: 0x7f070001
+			public const int MyActionBar = 2131165185;
 			
-			// aapt resource value: 0x7f060000
-			public const int Theme_Splash = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int MyAppTheme = 2131165184;
+			
+			// aapt resource value: 0x7f070002
+			public const int SplashTheme = 2131165186;
+			
+			// aapt resource value: 0x7f070003
+			public const int UpdateLibraryTheme = 2131165187;
 			
 			private Style()
 			{

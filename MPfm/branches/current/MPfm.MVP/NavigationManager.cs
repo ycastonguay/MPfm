@@ -19,12 +19,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using TinyMessenger;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
@@ -36,87 +30,105 @@ namespace MPfm.MVP
     /// </summary>
     public abstract class NavigationManager
     {
-        ISplashView splashView;
-        ISplashPresenter splashPresenter;
-        
-        IMainView mainView;
-        IMainPresenter mainPresenter;
-        IPlayerPresenter playerPresenter;
-        ILibraryBrowserPresenter libraryBrowserPresenter;
-        ISongBrowserPresenter songBrowserPresenter;
-        
-        IPreferencesView preferencesView;
-        IPreferencesPresenter preferencesPresenter;
-        
-        public virtual void Start()
+        private ISplashView _splashView;
+        private ISplashPresenter _splashPresenter;
+
+        private IMainView _mainView;
+        private IMainPresenter _mainPresenter;
+        private IPlayerPresenter _playerPresenter;
+        private ILibraryBrowserPresenter _libraryBrowserPresenter;
+        private ISongBrowserPresenter _songBrowserPresenter;
+
+        private IPreferencesView _preferencesView;
+        private IPreferencesPresenter _preferencesPresenter;
+
+        private IUpdateLibraryView _updateLibraryView;
+        private IUpdateLibraryPresenter _updateLibraryPresenter;
+
+        public virtual void BindSplashView(ISplashView view, Action onInitDone)
         {
-            CreateSplashWindow();
+            _splashView = view;
+            _splashPresenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
+            _splashPresenter.BindView(view);
+            _splashPresenter.Initialize(onInitDone); // TODO: Should the presenter call NavMgr instead of using an action?
         }
-        
-        public virtual void CreateSplashWindow()
+
+        public virtual void BindUpdateLibraryView(IUpdateLibraryView view)
+        {
+            _updateLibraryView = view;
+            _updateLibraryPresenter = Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
+            _updateLibraryPresenter.BindView(view);
+        }
+
+        public virtual ISplashView CreateSplashView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action onInitDone = () => {
+            Action onInitDone = () =>
+            {
                 Console.WriteLine("SplashInitDone");
-                CreateMainWindow();
+                CreateMainView();
             };
-            Action<IBaseView> onViewReady = (view) => {
-                splashPresenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
-                splashPresenter.BindView((ISplashView)view);
-                splashPresenter.Initialize(onInitDone); // TODO: Should the presenter call NavMgr instead of using an action?
+            return CreateSplashView(onInitDone);
+        }
+
+        public virtual ISplashView CreateSplashView(Action onInitDone)
+        {
+            Action<IBaseView> onViewReady = (view) => BindSplashView((ISplashView)view, onInitDone);
+            _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _splashView.OnViewDestroy = () => {
+                _splashView = null;
+                _splashPresenter = null;
             };
-            splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            splashView.OnViewDestroy = () => {
-                splashView = null;
-                splashPresenter = null;
-            };
+            return _splashView;
         }
         
-        public virtual void CreateMainWindow()
+        public virtual IMainView CreateMainView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {
-                mainPresenter = Bootstrapper.GetContainer().Resolve<IMainPresenter>();
-                mainPresenter.BindView((IMainView)view);                
-                playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
-                playerPresenter.BindView((IPlayerView)view);
-                libraryBrowserPresenter = Bootstrapper.GetContainer().Resolve<ILibraryBrowserPresenter>();
-                libraryBrowserPresenter.BindView((ILibraryBrowserView)view);                
-                songBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISongBrowserPresenter>();
-                songBrowserPresenter.BindView((ISongBrowserView)view);                
+                _mainPresenter = Bootstrapper.GetContainer().Resolve<IMainPresenter>();
+                _mainPresenter.BindView((IMainView)view);                
+                _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
+                _playerPresenter.BindView((IPlayerView)view);
+                _libraryBrowserPresenter = Bootstrapper.GetContainer().Resolve<ILibraryBrowserPresenter>();
+                _libraryBrowserPresenter.BindView((ILibraryBrowserView)view);                
+                _songBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISongBrowserPresenter>();
+                _songBrowserPresenter.BindView((ISongBrowserView)view);                
             };            
-            mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            mainView.OnViewDestroy = () => {
-                mainView = null;
-                mainPresenter = null;
-                playerPresenter.Dispose(); // Dispose unmanaged stuff (i.e. BASS)
-                playerPresenter = null;
-                libraryBrowserPresenter = null;
-                songBrowserPresenter = null;
+            _mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _mainView.OnViewDestroy = () => {
+                _mainView = null;
+                _mainPresenter = null;
+                _playerPresenter.Dispose(); // Dispose unmanaged stuff (i.e. BASS)
+                _playerPresenter = null;
+                _libraryBrowserPresenter = null;
+                _songBrowserPresenter = null;
             };
+            return _mainView;
         }
         
-        public virtual void CreatePreferencesWindow()
+        public virtual IPreferencesView CreatePreferencesView()
         {
             // If the view is still visible, just make it the top level window
-            if(preferencesView != null)
+            if(_preferencesView != null)
             {
-                preferencesView.ShowView(true);
-                return;
+                _preferencesView.ShowView(true);
+                return _preferencesView;
             }
             
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {
-                preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
-                preferencesPresenter.BindView((IPreferencesView)view);                
+                _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
+                _preferencesPresenter.BindView((IPreferencesView)view);                
             };            
             
             // Create view and manage view destruction
-            preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            preferencesView.OnViewDestroy = () => {
-                preferencesView = null;
-                preferencesPresenter = null;
+            _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _preferencesView.OnViewDestroy = () => {
+                _preferencesView = null;
+                _preferencesPresenter = null;
             };
+            return _preferencesView;
         }
     }
 }

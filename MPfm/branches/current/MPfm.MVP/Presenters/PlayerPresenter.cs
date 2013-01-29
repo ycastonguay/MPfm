@@ -91,15 +91,15 @@ namespace MPfm.MVP.Presenters
         {
             base.BindView(view);
             
-            view.OnPlayerPlay = () => { Play(); };
-            view.OnPlayerPause = () => { Pause(); };
-            view.OnPlayerStop = () => { Stop(); };
-            view.OnPlayerPrevious = () => { Previous(); };
-            view.OnPlayerNext = () => { Next(); };
+            view.OnPlayerPlay = Play;
+            view.OnPlayerPause = Pause;
+            view.OnPlayerStop = Stop;
+            view.OnPlayerPrevious = Previous;
+            view.OnPlayerNext = Next;
             //view.OnPlayerSetPitchShifting = (float) => { 
-            view.OnPlayerSetPosition = (pos) => { SetPosition(pos); };
-            view.OnPlayerSetTimeShifting = (val) => { SetTimeShifting(val); };
-            view.OnPlayerSetVolume = (vol) => { SetVolume(vol); };
+            view.OnPlayerSetPosition = SetPosition;
+            view.OnPlayerSetTimeShifting = SetTimeShifting;
+            view.OnPlayerSetVolume = SetVolume;
         }
 
 		#endregion

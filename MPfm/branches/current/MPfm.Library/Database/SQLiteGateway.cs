@@ -29,10 +29,9 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Core.Attributes;
 using MPfm.Core.Extensions;
-//using System.Data.Linq;
-//using Mono.Data.Sqlite;
+using MPfm.Library.Database.Interfaces;
 
-namespace MPfm.Library.Gateway
+namespace MPfm.Library.Database
 {
     /// <summary>
     /// The SQLiteGateway class is a data adapter class which makes it easier to select, insert, update and delete
@@ -46,7 +45,7 @@ namespace MPfm.Library.Gateway
     {
         // Private variables        
         private DbProviderFactory factory = null;
-		private SQLiteConnection connection = null;
+        private SQLiteConnection connection = null;
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.
@@ -74,7 +73,7 @@ namespace MPfm.Library.Gateway
 						
 #if (!MACOSX && !LINUX && !IOS && !ANDROID)			
         	factory = DbProviderFactories.GetFactory("System.Data.SQLite");
-#elif (MACOSX || LINUX)			
+#elif (MACOSX || LINUX)	
 			factory = DbProviderFactories.GetFactory("Mono.Data.SQLite");			
 #endif
 			
@@ -87,7 +86,7 @@ namespace MPfm.Library.Gateway
         public static void CreateDatabaseFile(string databaseFilePath)
         {
             // Create new database file
-            SQLiteConnection.CreateFile(databaseFilePath);            
+            SQLiteConnection.CreateFile(databaseFilePath);
         }
 
         /// <summary>

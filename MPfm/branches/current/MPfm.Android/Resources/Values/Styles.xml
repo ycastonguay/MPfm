@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="Theme.Splash" parent="android:Theme.Holo.Light.DarkActionBar">
-    <item name="android:icon">@drawable/icon</item>
-    <item name="android:windowBackground">@drawable/splash</item>
-    <item name="android:windowNoTitle">true</item>
-  </style>
   <style name="MyAppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-    <item name="android:logo">@drawable/icon</item>
+    <item name="android:icon">@drawable/icon</item>
+    <item name="android:logo">@drawable/icon</item>    
     <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
   </style>
   <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
     <item name="android:background">#FF000000</item>
+  </style>
+  <style name="SplashTheme">
+    <item name="android:icon">@drawable/icon</item>
+    <item name="android:padding">0dp</item>
+    <item name="android:windowBackground">@drawable/splash</item>
+    <item name="android:windowFrame">@null</item>
+    <item name="android:windowNoTitle">true</item>
+  </style>
+  <style name="UpdateLibraryTheme" parent="@android:style/Theme.Holo.Dialog">
+    <item name="android:icon">@drawable/icon</item>
+    <!--<item name="android:padding">8dp</item>-->
+    <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+  </style>
+  <style name="DialogAnimation">    
+    <item name="android:windowEnterAnimation">@anim/fade_in</item>
+    <item name="android:windowExitAnimation">@anim/fade_out</item>
   </style>
 </resources>

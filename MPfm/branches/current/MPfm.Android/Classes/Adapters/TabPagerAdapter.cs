@@ -40,6 +40,11 @@ namespace MPfm.Android.Classes.Adapters
         {
         }
 
+        public override int GetItemPosition(Java.Lang.Object p0)
+        {
+            return base.GetItemPosition(p0);
+        }
+
         public override Fragment GetItem(int p0)
         {
             return new GenericListFragment();

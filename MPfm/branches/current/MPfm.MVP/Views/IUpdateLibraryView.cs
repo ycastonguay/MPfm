@@ -18,6 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Views
@@ -27,6 +30,8 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IUpdateLibraryView : IBaseView
 	{
+        Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+
 		void RefreshStatus(UpdateLibraryEntity entity);
 		void AddToLog(string entry);
 		void ProcessEnded(bool canceled);

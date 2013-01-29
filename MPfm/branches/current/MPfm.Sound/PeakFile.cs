@@ -21,13 +21,19 @@
 using System;
 using System.Collections.Generic;
 #if (!MACOSX && !LINUX && !IOS && !ANDROID)
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading;
 #endif
+using System.Runtime.InteropServices;
+using MPfm.Core;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Bass.Net;
 
 namespace MPfm.Sound
 {

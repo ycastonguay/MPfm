@@ -80,20 +80,13 @@ namespace MPfm.MVP.Presenters
 		#endregion
 		
 		#region IUpdateLibraryPresenter implementation
-			
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Update Library view implementation</param>	
-//		public void BindView(IUpdateLibraryView view)
-//		{
-//			// Validate parameters 
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");
-//			
-//			// Set property
-//			this.view = view;
-//		}
+
+        public override void BindView(IUpdateLibraryView view)
+        {
+            base.BindView(view);
+
+            view.OnStartUpdateLibrary = UpdateLibrary;
+        }
 		
 		/// <summary>
 		/// Starts the update library process in a background thread. 

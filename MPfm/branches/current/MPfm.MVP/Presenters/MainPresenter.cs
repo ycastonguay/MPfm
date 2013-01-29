@@ -65,7 +65,7 @@ namespace MPfm.MVP.Presenters
 
         void OpenPreferencesWindow()
         {
-            navigationManager.CreatePreferencesWindow();
+            navigationManager.CreatePreferencesView();
         }
         
     }

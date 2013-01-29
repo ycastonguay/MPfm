@@ -52,11 +52,9 @@ namespace MPfm.MVP.Helpers
 			// Get assembly directory
 			//string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 			
-#if (MACOSX)
-        	HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
-#elif (LINUX)
-			HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
-#elif (!MACOSX && !LINUX)						
+#if IOS || ANDROID
+        	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+#else
 			HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
 #endif
 

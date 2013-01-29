@@ -21,7 +21,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MPfm.Library.Gateway;
+using MPfm.Library.Database;
+using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
@@ -34,7 +35,7 @@ namespace MPfm.MVP.Services
     public class LibraryService : ILibraryService
     {
 		// Private variables
-		private readonly IMPfmGateway gateway = null;
+		private readonly IDatabaseFacade gateway = null;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.Library.UpdateLibraryService"/> class.
@@ -45,7 +46,7 @@ namespace MPfm.MVP.Services
 		/// <exception cref='ArgumentNullException'>
 		/// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
 		/// </exception>
-		public LibraryService(IMPfmGateway gateway)
+		public LibraryService(IDatabaseFacade gateway)
 		{
 			// Check for null
 			if(gateway == null)

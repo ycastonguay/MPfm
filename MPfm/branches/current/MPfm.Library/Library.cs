@@ -22,18 +22,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-//using System.Data.Linq;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using MPfm.Core;
-using MPfm.Library.Gateway;
+using MPfm.Library.Database;
 using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
-using MPfm.Sound;
-using MPfm.Player;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library
@@ -45,7 +40,10 @@ namespace MPfm.Library
     public class Library : ILibrary
     {
         // Background worker for update library process
-        private BackgroundWorker workerUpdateLibrary = null;
+        private readonly BackgroundWorker workerUpdateLibrary = null;
+        public DatabaseFacade Facade { get; private set; }
+        public bool CancelUpdateLibrary { get; set; }
+        private List<AudioFile> _audioFiles;
 
         #region Events
                 
@@ -74,85 +72,16 @@ namespace MPfm.Library
         #region Properties
 
         /// <summary>
-        /// Private value for the DatabaseVersionMajor property.
-        /// </summary>
-        private static int databaseVersionMajor = 1;
-        /// <summary>
         /// Indicates what database major version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMinor property.
         /// </summary>
-        public static int DatabaseVersionMajor
-        {
-            get
-            {
-                return databaseVersionMajor;
-            }
-        }
+        public static int DatabaseVersionMajor { get; private set; }
 
-        /// <summary>
-        /// Private value for the DatabaseVersionMinor property.
-        /// </summary>
-        private static int databaseVersionMinor = 4;
         /// <summary>
         /// Indicates what database minor version is expected. Useful to update the database structure.
         /// Needs to be used with the DatabaseVersionMajor property.
         /// </summary>
-        public static int DatabaseVersionMinor
-        {
-            get
-            {
-                return databaseVersionMinor;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the Gateway property.
-        /// </summary>
-        private MPfmGateway gateway = null;
-        /// <summary>
-        /// Data access library.
-        /// </summary>
-        public MPfmGateway Gateway
-        {
-            get
-            {
-                return gateway;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the CancelUpdateLibrary property.
-        /// </summary>
-        private bool cancelUpdateLibrary = false;
-        /// <summary>
-        /// When true, cancels an update library process if running.
-        /// </summary>
-        public bool CancelUpdateLibrary
-        {
-            get
-            {
-                return cancelUpdateLibrary;
-            }
-            set
-            {
-                cancelUpdateLibrary = value;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the AudioFiles property.
-        /// </summary>
-        private List<AudioFile> audioFiles = null;
-        /// <summary>
-        /// Local cache of the audio file library.
-        /// </summary>
-        public List<AudioFile> AudioFiles
-        {
-            get
-            {
-                return audioFiles;
-            }
-        }
+        public static int DatabaseVersionMinor { get; private set; }
 
         #endregion
 
@@ -164,6 +93,9 @@ namespace MPfm.Library
         /// <param name="databaseFilePath">Database file path</param>
         public Library(string databaseFilePath)
         {
+            _audioFiles = null;
+            CancelUpdateLibrary = false;
+            Facade = null;
             // Check if file path exists
             if (!File.Exists(databaseFilePath))
             {
@@ -172,7 +104,7 @@ namespace MPfm.Library
 
             // Create gateway
             Tracing.Log("Library init -- Initializing gateway...");
-            gateway = new MPfmGateway(databaseFilePath);
+            Facade = new DatabaseFacade(databaseFilePath);
 
             // Create worker process
             Tracing.Log("Library init -- Creating background worker...");
@@ -187,6 +119,12 @@ namespace MPfm.Library
             RefreshCache();
         }
 
+        static Library()
+        {
+            DatabaseVersionMajor = 1;
+            DatabaseVersionMinor = 4;
+        }
+
         #endregion
 
         #region Database Script Creation/Update
@@ -199,7 +137,7 @@ namespace MPfm.Library
         public static string GetDatabaseVersion(string databaseFilePath)
         {
             // Create gateway
-            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
+            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
 
             // Fetch database version
             Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
@@ -229,7 +167,7 @@ namespace MPfm.Library
             int currentMinor = 0;
 
             // Create gateway
-            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
+            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
 
             // Get setting
             Tracing.Log("Main form init -- Fetching database version...");
@@ -313,10 +251,14 @@ namespace MPfm.Library
         public static void CreateDatabaseFile(string databaseFilePath)
         {
             // Create database file
+#if ANDROID
+            MonoSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+#else
             SQLiteGateway.CreateDatabaseFile(databaseFilePath);
+#endif
 
             // Create gateway
-            MPfmGateway gateway = new MPfmGateway(databaseFilePath);
+            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
             
             // Get SQL
             string sql = GetEmbeddedSQLScript("MPfm.Library.Scripts.CreateDatabase.sql");
@@ -527,7 +469,7 @@ namespace MPfm.Library
                 bool folderFound = false;
 
                 // Get the list of folders from the database                
-                List<Folder> folders = gateway.SelectFolders();
+                List<Folder> folders = Facade.SelectFolders();
 
                 // Search through folders if the base found can be found
                 foreach (Folder folder in folders)
@@ -549,7 +491,7 @@ namespace MPfm.Library
                     if (folder.FolderPath.Contains(folderPath))
                     {
                         // Delete this configured folder                        
-                        gateway.DeleteFolder(folder.FolderId);
+                        Facade.DeleteFolder(folder.FolderId);
                     }
                 }
 
@@ -557,7 +499,7 @@ namespace MPfm.Library
                 if (!folderFound)
                 {
                     // Add folder to database                    
-                    gateway.InsertFolder(folderPath, true);
+                    Facade.InsertFolder(folderPath, true);
                 }
             }
 
@@ -627,10 +569,10 @@ namespace MPfm.Library
                 }
 
                 // Get the list of audio files from the database (actually the cache)
-                List<string> filePaths = AudioFiles.Select(x => x.FilePath).ToList();
+                List<string> filePaths = _audioFiles.Select(x => x.FilePath).ToList();
 
                 // Get the list of playlist file paths from database
-                List<string> playlistFilePaths = Gateway.SelectPlaylistFiles().Select(x => x.FilePath).ToList();
+                List<string> playlistFilePaths = Facade.SelectPlaylistFiles().Select(x => x.FilePath).ToList();
 
                 // Compare list of files from database with list of files found on hard disk
                 List<string> audioFilesToUpdate = mediaFiles.Except(filePaths).ToList();
@@ -659,7 +601,7 @@ namespace MPfm.Library
 
                 // Compact database
                 UpdateLibraryReportProgress("Compacting database", "Compacting database...", 100);                
-                gateway.CompactDatabase();
+                Facade.CompactDatabase();
             }
             catch (UpdateLibraryException ex)
             {
@@ -704,7 +646,7 @@ namespace MPfm.Library
         {
             // Refresh audio file cache
             Tracing.Log("Library --  Refreshing audio file cache...");            
-            this.audioFiles = gateway.SelectAudioFiles();
+            this._audioFiles = Facade.SelectAudioFiles();
         }        
 
         /// <summary>
@@ -713,7 +655,7 @@ namespace MPfm.Library
         public void RemoveAudioFilesWithBrokenFilePaths()
         {
             // Get all audio files
-            List<AudioFile> files = gateway.SelectAudioFiles();
+            List<AudioFile> files = Facade.SelectAudioFiles();
 
             // For each audio file
             for (int a = 0; a < files.Count; a++)
@@ -730,7 +672,7 @@ namespace MPfm.Library
                 {
                     Tracing.Log("Removing audio files that do not exist anymore on the hard drive..." + files[a].FilePath);
                     UpdateLibraryReportProgress("Removing audio files that do not exist anymore on the hard drive...", files[a].FilePath, (double)((double)a / (double)files.Count) * 100);
-                    gateway.DeleteAudioFile(files[a].Id);
+                    Facade.DeleteAudioFile(files[a].Id);
                 }
             }
         }   
@@ -748,7 +690,7 @@ namespace MPfm.Library
             UpdateLibraryReportProgress("Searching media files", "Searching media files in library folders");
 
             // Get registered folders            
-            List<Folder> folders = gateway.SelectFolders();
+            List<Folder> folders = Facade.SelectFolders();
 
             // For each registered folder
             foreach (Folder folder in folders)
@@ -935,12 +877,12 @@ namespace MPfm.Library
                 if (audioFile != null)
                 {
                     // Insert audio file                
-                    gateway.InsertAudioFile(audioFile);
+                    Facade.InsertAudioFile(audioFile);
                 }
                 else if (playlistFile != null)
                 {
                     // Insert playlist file                
-                    gateway.InsertPlaylistFile(playlistFile);
+                    Facade.InsertPlaylistFile(playlistFile);
                 }
             }
             catch (Exception ex)
@@ -959,7 +901,7 @@ namespace MPfm.Library
         public void RemoveSongsFromLibrary(string folderPath)
         {
             // Delete audio files based on path            
-            gateway.DeleteAudioFiles(folderPath);
+            Facade.DeleteAudioFiles(folderPath);
         }
 
         #region Select (strings)
@@ -980,7 +922,7 @@ namespace MPfm.Library
         /// <returns>List of artist names</returns>
         public List<string> SelectArtistNames(AudioFileFormat audioFileFormat)
         {
-            return gateway.SelectDistinctArtistNames(audioFileFormat);
+            return Facade.SelectDistinctArtistNames(audioFileFormat);
         }
 
         /// <summary>
@@ -1006,7 +948,7 @@ namespace MPfm.Library
             try
             {
                 // Basic request
-                IEnumerable<AudioFile> queryAudioFiles = from s in AudioFiles
+                IEnumerable<AudioFile> queryAudioFiles = from s in _audioFiles
                                                          select s;
 
                 // Do we have to filter by sound format?
@@ -1053,7 +995,7 @@ namespace MPfm.Library
         /// <returns>List of album titles</returns>
         public Dictionary<string, List<string>> SelectAlbumTitles(AudioFileFormat audioFileFormat)
         {
-            return gateway.SelectDistinctAlbumTitles(audioFileFormat);
+            return Facade.SelectDistinctAlbumTitles(audioFileFormat);
         }
 
         ///// <summary>
@@ -1094,7 +1036,7 @@ namespace MPfm.Library
             try
             {
                 // Get audio file
-                audioFile = AudioFiles.FirstOrDefault(s => s.Id == audioFileId);
+                audioFile = _audioFiles.FirstOrDefault(s => s.Id == audioFileId);
             }
             catch (Exception ex)
             {
@@ -1186,7 +1128,7 @@ namespace MPfm.Library
                 if (String.IsNullOrEmpty(orderBy))
                 {
                     // Set query
-                    queryAudioFiles = from s in AudioFiles
+                    queryAudioFiles = from s in _audioFiles
                                       orderby s.ArtistName, s.AlbumTitle, s.FileType, s.DiscNumber, s.TrackNumber
                                       select s;
                 }
@@ -1196,14 +1138,14 @@ namespace MPfm.Library
                     if (orderByAscending)
                     {
                         // Set query
-                        queryAudioFiles = from s in AudioFiles
+                        queryAudioFiles = from s in _audioFiles
                                           orderby GetPropertyValue(s, orderBy)
                                           select s;
                     }
                     else
                     {
                         // Set query
-                        queryAudioFiles = from s in AudioFiles
+                        queryAudioFiles = from s in _audioFiles
                                           orderby GetPropertyValue(s, orderBy) descending
                                           select s;                        
                     }
@@ -1622,10 +1564,10 @@ namespace MPfm.Library
         public void ResetLibrary()
         {
             // Reset library            
-            gateway.ResetLibrary();
+            Facade.ResetLibrary();
 
             // Compact database            
-            gateway.CompactDatabase();
+            Facade.CompactDatabase();
 
             // Refresh cache
             RefreshCache();
@@ -1638,14 +1580,14 @@ namespace MPfm.Library
         public void UpdateAudioFilePlayCount(Guid audioFileId)
         {
             // Update play count in database            
-            gateway.UpdatePlayCount(audioFileId);
+            Facade.UpdatePlayCount(audioFileId);
 
             // Update play count in cache                  
-            AudioFile audioFile = audioFiles.SingleOrDefault(x => x.Id == audioFileId);
+            AudioFile audioFile = _audioFiles.SingleOrDefault(x => x.Id == audioFileId);
             if (audioFile != null)
             {
                 // Fetch audio file from database
-                AudioFile audioFileDatabase = gateway.SelectAudioFile(audioFile.Id);
+                AudioFile audioFileDatabase = Facade.SelectAudioFile(audioFile.Id);
                 
                 // Is the audio file in the database?
                 if (audioFileDatabase != null)

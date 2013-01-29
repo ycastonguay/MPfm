@@ -84,7 +84,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -113,13 +112,9 @@
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />
     <EmbeddedResource Include="Scripts\1.00-1.01.sql" />
     <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
-    <Content Include="Lib\AsyncCtpLibrary.dll" />
-    <Content Include="Lib\AsyncCtpLibrary.xml" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
-    <Content Include="Lib\System.Reactive.dll" />
-    <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -130,14 +125,15 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="Gateway\IMPfmGateway.cs" />
-    <Compile Include="Gateway\ISQLiteGateway.cs" />
-    <Compile Include="Gateway\MPfmGateway.cs" />
+    <Compile Include="Database\MonoSQLiteGateway.cs" />
+    <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
+    <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
+    <Compile Include="Database\DatabaseFacade.cs" />
     <Compile Include="ILibrary.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />
     <Compile Include="Objects\Setting.cs" />
-    <Compile Include="Gateway\SQLiteGateway.cs" />
+    <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

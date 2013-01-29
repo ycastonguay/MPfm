@@ -26,13 +26,14 @@ using System.Linq;
 using System.Reflection;
 using System.Timers;
 using AutoMapper;
+using MPfm.Library.Database;
+using MPfm.Library.Database.Interfaces;
 using TinyIoC;
 using MPfm.Core;
 using MPfm.Library;
 using MPfm.MVP;
 using MPfm.Player;
 using MPfm.Sound;
-using MPfm.Library.Gateway;
 using MPfm.MVP.Services;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Presenters;
@@ -58,8 +59,8 @@ namespace MPfm.MVP
             var container = TinyIoC.TinyIoCContainer.Current;
             
             // Register services
-            //container.Register<IMPfmGateway, MPfmGateway>().UsingConstructor(() => new MPfmGateway(ConfigurationHelper.DatabaseFilePath));
-            container.Register<IMPfmGateway>(new MPfmGateway(ConfigurationHelper.DatabaseFilePath));
+            //container.Register<IDatabaseFacade, DatabaseFacade>().UsingConstructor(() => new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
+            container.Register<IDatabaseFacade>(new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
             container.Register<IInitializationService, InitializationService>().AsSingleton();
             container.Register<IPlayerService, PlayerService>().AsSingleton();
             container.Register<ILibraryService, LibraryService>().AsSingleton();
@@ -78,7 +79,7 @@ namespace MPfm.MVP
             container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
             
             // Configure Automapper
-            Mapper.CreateMap<AudioFile, SongInformationEntity>();
+            //Mapper.CreateMap<AudioFile, SongInformationEntity>();
         }
         
         /// <summary>
