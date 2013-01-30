@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Runtime;
 using Android.Support.V13.App;
@@ -12,6 +13,7 @@ namespace MPfm.Android.Classes.Adapters
 {
     public class TabPagerAdapter : FragmentPagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
     {
+        private readonly List<Fragment> _fragments;
         private ViewPager _viewPager;
         private ActionBar _actionBar;
 
@@ -20,9 +22,10 @@ namespace MPfm.Android.Classes.Adapters
         {
         }
 
-        public TabPagerAdapter(FragmentManager fm, ViewPager viewPager, ActionBar actionBar)
+        public TabPagerAdapter(FragmentManager fm, List<Fragment> fragments, ViewPager viewPager, ActionBar actionBar)
             : base(fm)
         {
+            _fragments = fragments;
             _viewPager = viewPager;
             _actionBar = actionBar;
         }
@@ -45,14 +48,14 @@ namespace MPfm.Android.Classes.Adapters
             return base.GetItemPosition(p0);
         }
 
-        public override Fragment GetItem(int p0)
+        public override Fragment GetItem(int index)
         {
-            return new GenericListFragment();
+            return _fragments[index];
         }
 
         public override int Count
         {
-            get { return 5; }
+            get { return _fragments.Count; }
         }
 
         public void OnPageScrollStateChanged(int p0)

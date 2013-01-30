@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -19,7 +20,7 @@ using Environment = Android.OS.Environment;
 
 namespace MPfm.Android
 {
-    [Activity(MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/MyAppTheme")]
+    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/MyAppTheme")]
     public class MainActivity : BaseActivity, ISplashView, IUpdateLibraryView, View.IOnClickListener
     {
         private ViewPager _viewPager;
@@ -30,9 +31,12 @@ namespace MPfm.Android
         private Button _updateLibraryDialog_button;
         private TextView _updateLibraryDialog_lblTitle;
         private TextView _updateLibraryDialog_lblSubtitle;
+        private List<Fragment> _fragments;
+        private ProgressBar _updateLibraryDialog_progressBar;
 
         protected override void OnCreate(Bundle bundle)
         {
+            Console.WriteLine("MainActivity - OnCreate");
             base.OnCreate(bundle);
 
             // Get application state
@@ -45,16 +49,8 @@ namespace MPfm.Android
             // Load navigation manager and other important stuff before showing splash screen
             _navigationManager = new AndroidNavigationManager();
             RequestWindowFeature(WindowFeatures.ActionBar);
-            //RequestWindowFeature(WindowFeatures.Progress);
             SetContentView(Resource.Layout.Main);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            //SetProgressBarVisibility(true);
-            //SetProgress(5000);
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
 
             // Bind this activity to splash and update library views
             _navigationManager.BindSplashView(this, ContinueInitialize);
@@ -68,16 +64,22 @@ namespace MPfm.Android
         {
             RunOnUiThread(() =>
                 {
-                    // Stuff has finished loading; load layout
+                    // Create fragments
+                    _fragments = new List<Fragment>
+                        {
+                            new GenericListFragment(), 
+                            new GenericListFragment(), 
+                            new GenericListFragment(), 
+                            new GenericListFragment()
+                        };
+
+                    // Create view
                     _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
-                    _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _viewPager, ActionBar);
+                    _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
                     _viewPager.Adapter = _tabPagerAdapter;
                     _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
-                    var playerTab = ActionBar.NewTab();
-                    playerTab.SetTabListener(_tabPagerAdapter);
-                    playerTab.SetText("Player");
-                    ActionBar.AddTab(playerTab);
+                    // Create tabs
                     var playlistsTab = ActionBar.NewTab();
                     playlistsTab.SetTabListener(_tabPagerAdapter);
                     playlistsTab.SetText("Playlists");
@@ -97,6 +99,42 @@ namespace MPfm.Android
 
                     RemoveSplashScreen();
                 });
+        }
+
+        protected override void OnStart()
+        {
+            Console.WriteLine("MainActivity - OnStart");
+            base.OnStart();
+        }
+
+        protected override void OnRestart()
+        {
+            Console.WriteLine("MainActivity - OnRestart");
+            base.OnRestart();
+        }
+
+        protected override void OnPause()
+        {
+            Console.WriteLine("MainActivity - OnPause");
+            base.OnPause();
+        }
+
+        protected override void OnResume()
+        {
+            Console.WriteLine("MainActivity - OnResume");
+            base.OnResume();
+        }
+
+        protected override void OnStop()
+        {
+            Console.WriteLine("MainActivity - OnStop");
+            base.OnStop();
+        }
+
+        protected override void OnDestroy()
+        {
+            Console.WriteLine("MainActivity - OnDestroy");
+            base.OnDestroy();
         }
 
         public override Java.Lang.Object OnRetainNonConfigurationInstance()
@@ -124,9 +162,12 @@ namespace MPfm.Android
             {
                 ShowUpdateLibrary();
             }
-            else if (text.ToUpper() == "SETTINGS")
+            else if (text.ToUpper() == "PREFERENCES")
             {
-                // Seperate activity?
+                Intent intent = new Intent(this, typeof(PreferencesActivity));
+                //intent.AddFlags(ActivityFlags.ClearTop);
+                StartActivity(intent);
+                //StartActivityForResult(intent, 0);
             }
             else if (text.ToUpper() == "ABOUT MPFM")
             {
@@ -165,6 +206,7 @@ namespace MPfm.Android
             _updateLibraryDialog_button.SetOnClickListener(this);
             _updateLibraryDialog_lblTitle = (TextView) _updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_lblTitle);
             _updateLibraryDialog_lblSubtitle = (TextView)_updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_lblSubtitle);
+            _updateLibraryDialog_progressBar = (ProgressBar) _updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_progressBar);
             _updateLibraryDialog.Show();
 
             // Start update library process
@@ -219,10 +261,11 @@ namespace MPfm.Android
         public void ProcessEnded(bool canceled)
         {
             RunOnUiThread(() =>
-            {
+            {                
                 _updateLibraryDialog_lblTitle.Text = "Update successful.";
                 _updateLibraryDialog_lblSubtitle.Text = string.Empty;
                 _updateLibraryDialog_button.Text = "OK";
+                _updateLibraryDialog_progressBar.Visibility = ViewStates.Gone;
             });
         }
 

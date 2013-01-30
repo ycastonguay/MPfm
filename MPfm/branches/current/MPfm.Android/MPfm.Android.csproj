@@ -59,12 +59,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\PreferencesActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\GenericListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
     <Compile Include="Classes\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Fragments\BaseFragment.cs" />
+    <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
+    <Compile Include="Classes\Fragments\LibraryPreferencesFragment.cs" />
+    <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />
     <Compile Include="Classes\Fragments\GenericListFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerFragment.cs" />
@@ -97,6 +101,18 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\Splash.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Settings.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Fragment_AudioPreferences.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Fragment_GeneralPreferences.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Fragment_LibraryPreferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

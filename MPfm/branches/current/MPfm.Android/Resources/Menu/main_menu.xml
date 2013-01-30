@@ -6,9 +6,9 @@
   <item android:id="@+id/menu_item_updateLibrary"
       android:title="Update Library"
       android:showAsAction="ifRoom|withText" />
-  <item android:id="@+id/menu_item_settings"
+  <item android:id="@+id/menu_item_preferences"
       android:showAsAction="never"
-      android:title="Settings" />
+      android:title="Preferences" />
   <item android:id="@+id/menu_item_about"
       android:showAsAction="never"
       android:title="About MPfm" />
