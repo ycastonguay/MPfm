@@ -7,7 +7,8 @@ namespace MPfm.Android
     [Activity(Icon = "@drawable/icon")]
     public class BaseActivity : Activity, IBaseView
     {
-        public Action OnViewDestroy { get; set; }
+        // Do not call this on activities, it is useless since NavMgr isn't used for activities.
+        public Action<IBaseView> OnViewDestroy { get; set; }
 
         public void ShowView(bool shown)
         {

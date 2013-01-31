@@ -2,7 +2,10 @@ using System;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
+using MPfm.Android.Classes.Fragments;
 using MPfm.MVP;
+using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Views;
 using MPfm.Player;
 using MPfm.Sound.Bass.Net;
 
@@ -22,11 +25,17 @@ namespace MPfm.Android.Classes
         {
             base.OnCreate();
 
+            // Complete IoC configuration
+            TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<NavigationManager, AndroidNavigationManager>().AsSingleton();
+            container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
+            container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
+            container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
+            container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+
+            // Set player plugin directory path
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
             string nativeDir = appInfo.NativeLibraryDir;
-
-            //Bootstrapper.GetContainer().Register<NavigationManager, AndroidNavigationManager>().AsSingleton();
-
             Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
 
             // Initialize player
@@ -36,9 +45,6 @@ namespace MPfm.Android.Classes
                 Id = -1
             };
             _player = new MPfm.Player.Player(device, 44100, 5000, 100, true);
-
-
-            //NavigationManager
         }
 
         public override void OnLowMemory()

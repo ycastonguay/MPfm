@@ -27,7 +27,6 @@ namespace MPfm.Android
         private TabPagerAdapter _tabPagerAdapter;
         private Dialog _splashDialog;
         private Dialog _updateLibraryDialog;
-        private AndroidNavigationManager _navigationManager;
         private Button _updateLibraryDialog_button;
         private TextView _updateLibraryDialog_lblTitle;
         private TextView _updateLibraryDialog_lblSubtitle;
@@ -47,14 +46,14 @@ namespace MPfm.Android
             }
 
             // Load navigation manager and other important stuff before showing splash screen
-            _navigationManager = new AndroidNavigationManager();
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
             // Bind this activity to splash and update library views
-            _navigationManager.BindSplashView(this, ContinueInitialize);
-            _navigationManager.BindUpdateLibraryView(this);
+            AndroidNavigationManager.Instance.BindSplashView(this, ContinueInitialize);
+            AndroidNavigationManager.Instance.BindUpdateLibraryView(this);
+            //AndroidNavigationManager.Instance.StartMobile();
 
             // Show splash screen; then bind this activity to the Splash presenter
             ShowSplashScreen();
@@ -62,15 +61,16 @@ namespace MPfm.Android
 
         private void ContinueInitialize()
         {
+            // This is called after ISplashView.OnInitDone
             RunOnUiThread(() =>
                 {
                     // Create fragments
                     _fragments = new List<Fragment>
                         {
-                            new GenericListFragment(), 
-                            new GenericListFragment(), 
-                            new GenericListFragment(), 
-                            new GenericListFragment()
+                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Playlists),
+                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Artists),
+                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Albums),
+                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Songs)
                         };
 
                     // Create view
@@ -80,25 +80,22 @@ namespace MPfm.Android
                     _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
                     // Create tabs
-                    var playlistsTab = ActionBar.NewTab();
-                    playlistsTab.SetTabListener(_tabPagerAdapter);
-                    playlistsTab.SetText("Playlists");
-                    ActionBar.AddTab(playlistsTab);
-                    var artistsTab = ActionBar.NewTab();
-                    artistsTab.SetTabListener(_tabPagerAdapter);
-                    artistsTab.SetText("Artists");
-                    ActionBar.AddTab(artistsTab);
-                    var albumsTab = ActionBar.NewTab();
-                    albumsTab.SetTabListener(_tabPagerAdapter);
-                    albumsTab.SetText("Albums");
-                    ActionBar.AddTab(albumsTab);
-                    var songsTab = ActionBar.NewTab();
-                    songsTab.SetTabListener(_tabPagerAdapter);
-                    songsTab.SetText("Songs");
-                    ActionBar.AddTab(songsTab);
+                    AddTab("Playlists");
+                    AddTab("Artists");
+                    AddTab("Albums");
+                    AddTab("Songs");
 
+                    // Finished loading; hide splash screen
                     RemoveSplashScreen();
                 });
+        }
+
+        private void AddTab(string title)
+        {
+            var tab = ActionBar.NewTab();
+            tab.SetTabListener(_tabPagerAdapter);
+            tab.SetText(title);
+            ActionBar.AddTab(tab);
         }
 
         protected override void OnStart()

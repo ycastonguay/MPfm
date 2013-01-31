@@ -48,14 +48,6 @@ namespace MPfm.Android.Classes.Adapters
             var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);           
             image.SetBackgroundColor(Color.White);
 
-            //// Check channel and load correct image
-            //if (_items[position].Id == 47)
-            //    image.SetImageDrawable(_context.Resources.GetDrawable(global::Android.Resource.Drawable.channels_pc));
-            //else if (_items[position].Id == 67)
-            //    image.SetImageDrawable(_context.Resources.GetDrawable(global::Android.Resource.Drawable.channels_em));
-            //else
-            //    image.SetImageDrawable(_context.Resources.GetDrawable(global::Android.Resource.Drawable.channels_bap));
-
             return view;
         }
     }

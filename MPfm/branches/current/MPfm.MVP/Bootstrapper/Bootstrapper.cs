@@ -18,31 +18,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Timers;
-using AutoMapper;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
-using TinyIoC;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Player;
-using MPfm.Sound;
 using MPfm.MVP.Services;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
-using MPfm.Sound.AudioFiles;
-using MPfm.MVP.Models;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Bootstrapper
 {
     /// <summary>
     /// Singleton static class for bootstrapping the application.
@@ -72,10 +56,13 @@ namespace MPfm.MVP
             container.Register<IMainPresenter, MainPresenter>().AsSingleton();
             container.Register<IPlayerPresenter, PlayerPresenter>().AsSingleton();
             container.Register<ISongBrowserPresenter, SongBrowserPresenter>().AsSingleton();
+            container.Register<IMobileLibraryBrowserPresenter, MobileLibraryBrowserPresenter>().AsSingleton();
             container.Register<ILibraryBrowserPresenter, LibraryBrowserPresenter>().AsSingleton();
             container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
             container.Register<IEffectsPresenter, EffectsPresenter>().AsSingleton();
-            container.Register<IPreferencesPresenter, PreferencesPresenter>().AsSingleton();
+            container.Register<IAudioPreferencesPresenter, AudioPreferencesPresenter>().AsSingleton();
+            container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsSingleton();
+            container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();
             container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
             
             // Configure Automapper

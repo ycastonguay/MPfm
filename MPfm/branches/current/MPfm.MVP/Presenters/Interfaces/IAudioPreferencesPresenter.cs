@@ -1,5 +1,5 @@
 ﻿//
-// IPreferencesView.cs: Preferences view interface.
+// IAudioPreferencesPresenter.cs: Audio preferences presenter interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -18,13 +18,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.MVP.Views
+using MPfm.MVP.Views;
+
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-    /// Preferences view interface.
+    /// Audio preferences presenter interface.
 	/// </summary>
-    public interface IPreferencesView : IAudioPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
-	{        
+    public interface IAudioPreferencesPresenter : IBasePresenter<IAudioPreferencesView>
+	{
 	}
 }
 

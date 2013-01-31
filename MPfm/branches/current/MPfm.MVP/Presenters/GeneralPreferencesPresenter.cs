@@ -1,5 +1,5 @@
 ﻿//
-// IPreferencesView.cs: Preferences view interface.
+// GeneralPreferencesPresenter.cs: General preferences presenter.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -18,13 +18,29 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.MVP.Views
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
+
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-    /// Preferences view interface.
+    /// General preferences presenter.
 	/// </summary>
-    public interface IPreferencesView : IAudioPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
-	{        
+    public class GeneralPreferencesPresenter : BasePresenter<IGeneralPreferencesView>, IGeneralPreferencesPresenter
+	{
+		// Private variables
+
+		#region Constructor and Dispose
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneralPreferencesPresenter"/> class.
+        /// </summary>
+        public GeneralPreferencesPresenter()
+		{	
+		}
+
+		#endregion
+		
 	}
 }
 

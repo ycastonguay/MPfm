@@ -1,5 +1,5 @@
 ﻿//
-// IPreferencesView.cs: Preferences view interface.
+// IAudioPreferencesView.cs: Audio preferences view interface.
 //
 // Copyright © 2011-2012 Yanick Castonguay
 //
@@ -21,9 +21,9 @@
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Preferences view interface.
+    /// Audio preferences view interface.
 	/// </summary>
-    public interface IPreferencesView : IAudioPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+    public interface IAudioPreferencesView : IBaseView
 	{        
 	}
 }

@@ -65,12 +65,13 @@
     <Compile Include="Classes\Adapters\GenericListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
     <Compile Include="Classes\AndroidNavigationManager.cs" />
-    <Compile Include="Classes\Fragments\BaseFragment.cs" />
+    <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
+    <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
     <Compile Include="Classes\Fragments\LibraryPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />
-    <Compile Include="Classes\Fragments\GenericListFragment.cs" />
+    <Compile Include="Classes\Fragments\MobileLibraryBrowserFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerFragment.cs" />
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
     <Compile Include="Classes\Helpers\BitmapCache.cs" />

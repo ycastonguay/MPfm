@@ -5,6 +5,7 @@ using Android.Content.PM;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
+using MPfm.Android.Classes;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Objects;
@@ -13,7 +14,7 @@ using TagLib.Riff;
 namespace MPfm.Android
 {
     [Activity(Label = "MPfm: Preferences")]
-    public class PreferencesActivity : Activity, View.IOnClickListener
+    public class PreferencesActivity : BaseActivity, View.IOnClickListener
     {
         private ViewPager _viewPager;
         private TabPagerAdapter _tabPagerAdapter;
@@ -28,6 +29,9 @@ namespace MPfm.Android
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Settings);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+
+            // Bind view to presenter
+            //AndroidNavigationManager.Instance.BindPreferencesView(this);
         }
 
         protected override void OnStart()
@@ -37,9 +41,9 @@ namespace MPfm.Android
 
             // Create fragments
             _fragments = new List<Fragment>();
-            _fragments.Add(new GeneralPreferencesFragment());
-            _fragments.Add(new AudioPreferencesFragment());
-            _fragments.Add(new LibraryPreferencesFragment());
+            _fragments.Add((Fragment)AndroidNavigationManager.Instance.CreateGeneralPreferencesView());
+            _fragments.Add((Fragment)AndroidNavigationManager.Instance.CreateAudioPreferencesView());
+            _fragments.Add((Fragment)AndroidNavigationManager.Instance.CreateLibraryPreferencesView());
 
             // Create view pager (for lateral navigation)
             _viewPager = FindViewById<ViewPager>(Resource.Id.settings_pager);
