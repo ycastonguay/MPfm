@@ -155,6 +155,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Lib\Android\taglib-sharp.dll" />
+    <None Include="Lib\iOS\taglib-sharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\iOS\" />
+    <Folder Include="Lib\Android\" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
     <Compile Include="AudioFiles\AudioTools.cs" />
     <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
@@ -210,13 +218,5 @@
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Lib\Android\taglib-sharp.dll" />
-    <None Include="Lib\iOS\taglib-sharp.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lib\iOS\" />
-    <Folder Include="Lib\Android\" />
   </ItemGroup>
 </Project>

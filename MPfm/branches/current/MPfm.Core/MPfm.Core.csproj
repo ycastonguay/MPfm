@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Conversion.cs" />
     <Compile Include="Attributes\DatabaseFieldAttribute.cs" />
@@ -94,6 +95,4 @@
     <Compile Include="CacheStore.cs" />
     <Compile Include="ByteArrayQueue.cs" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -67,7 +67,7 @@ namespace MPfm.MVP.Navigation
                 AddTab("Songs", songsView);
 
                 // Finally hide the splash screen, our UI is ready
-                HideSplash();            
+                HideSplash();
             };            
             ShowSplash(CreateSplashView(onInitDone));
         }
