@@ -184,9 +184,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\MobileLibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileLibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IMobileLibraryBrowserView.cs" />
+    <Compile Include="Views\ILibraryPreferencesView.cs" />
+    <Compile Include="Views\IGeneralPreferencesView.cs" />
+    <Compile Include="Views\IAudioPreferencesView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Models\SongInformationEntity.cs" />
     <Compile Include="Models\UpdateLibraryEntity.cs" />
@@ -231,8 +241,8 @@
     <Compile Include="Views\IEffectsView.cs" />
     <Compile Include="Presenters\EffectsPresenter.cs" />
     <Compile Include="Views\IPreferencesView.cs" />
-    <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />
-    <Compile Include="Presenters\PreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IGeneralPreferencesPresenter.cs" />
+    <Compile Include="Presenters\GeneralPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPlaylistPresenter.cs" />
     <Compile Include="Views\IPlaylistView.cs" />
     <Compile Include="Presenters\PlaylistPresenter.cs" />
