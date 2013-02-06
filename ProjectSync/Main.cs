@@ -4,24 +4,24 @@ using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Timers;
-using System.Xml.Linq;
 
 namespace ProjectSync
 {
     public class MainClass
     {
-        private static Timer timer = null;
-        private static DateTime dateTimeRefresh = DateTime.Now;
-        public static List<string> listProjectFiles = new List<string>();
-        public static FileSystemWatcher fileSystemWatcher = null;
+        private static Timer _timer = null;
+        private static DateTime _dateTimeRefresh = DateTime.Now;
+        private static List<string> _options = new List<string>();
+        private static List<string> _projectFiles = new List<string>();
+        private static readonly FileSystemWatcher _fileSystemWatcher = null;        
 
         public static void Main(string[] args)
         {
             // Validate params
-            if (args.Length == 0 || args.Length > 1)
+            if (args.Length == 0)
             {
-                Log("Error: The first parameter must be the solution file path!");
-                Log("");
+                LogWithoutTimestamp("Error: The first parameter must be the solution file path!");
+                LogWithoutTimestamp("");
                 PrintHelp();
                 return;
             }
@@ -29,34 +29,21 @@ namespace ProjectSync
             // Make sure the solution file exists
             if (!File.Exists(args[0]))
             {
-                Log("Error: The solution file doesn't exist (" + args[0] + ")");
-                Log("");
+                LogWithoutTimestamp("Error: The solution file doesn't exist (" + args[0] + ")");
+                LogWithoutTimestamp("");
                 PrintHelp();
                 return;
             }
 
-            // All things validated; run the app!
-            Run(args[0]);
-        }
+            // Check for options
+            foreach (string t in args)
+                if (t.StartsWith("--"))
+                    _options.Add(t.ToUpper());
 
-        public static void PrintHelp()
-        {
-            Log("Project File Synchronization Tool v1.0");
-            Log("(C) 2013 Yanick Castonguay");
-            Log("");
-            Log("Usage:    ProjectSync.exe [SolutionFilePath]");
-            Log("Examples: ProjectSync.exe MPfm.sln");
-            Log("          ProjectSync.exe C:\\Code\\MPfm\\MPfm.sln");
-        }
-
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public static void Run(string solutionFilePath)
-        {
-            string baseSolutionPath = Path.GetDirectoryName(solutionFilePath);
-            Log("Reading solution file...");
             try
             {
-                listProjectFiles = SolutionFileReader.ExtractProjectFilePaths(solutionFilePath);
+                Log("Reading solution file...");
+                _projectFiles = SolutionFileReader.ExtractProjectFilePaths(args[0]);
             }
             catch (Exception ex)
             {
@@ -64,18 +51,54 @@ namespace ProjectSync
                 return;
             }
 
+            // Check for manual project file refresh
+            if (_options.Contains("--REFRESH"))
+            {
+                // Update project files
+                foreach(string projectFile in _projectFiles)
+                    UpdateProjectFiles(projectFile);
+
+                // Exit the app
+                Log("The manual project file refresh was completed succesfully.");
+                return;
+            }
+
+            // Default mode: watch solution file for changes
+            WatchSolutionFile(args[0]);
+        }
+
+        public static void PrintHelp()
+        {
+            LogWithoutTimestamp("");
+            LogWithoutTimestamp("Project File Synchronization Tool v1.0 (C) 2013 Yanick Castonguay");
+            LogWithoutTimestamp("\n");
+            LogWithoutTimestamp("This tool synchronizes Visual Studio/MonoDevelop project files. It works by watching changes in all project files listed in a solution. It then synchronizes file additions/deletion between project files located in the same directory. You can use this tool to synchronize class library project files between .NET/Mono/MonoTouch/Mono for Android projects.");
+            LogWithoutTimestamp("\n");
+            LogWithoutTimestamp("Option list:");
+            LogWithoutTimestamp("--refresh: Force refreshing all project files from a solution.");
+            LogWithoutTimestamp("\n");
+            LogWithoutTimestamp("Usage:     ProjectSync.exe [SolutionFilePath] [--refresh]");
+            LogWithoutTimestamp("Examples:  ProjectSync.exe MPfm.sln");
+            LogWithoutTimestamp("           ProjectSync.exe C:\\Code\\MPfm\\MPfm.sln");
+            LogWithoutTimestamp("           ProjectSync.exe ~/Projects/MPfm/MPfm.sln --refresh");
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public static void WatchSolutionFile(string solutionFilePath)
+        {
             Log("Press \'q\' to exit the application.");
             Log("");
 
-            timer = new Timer(5000);
-            timer.Elapsed += (object sender, ElapsedEventArgs e) => {
+            _timer = new Timer(5000);
+            _timer.Elapsed += (object sender, ElapsedEventArgs e) => {
                 Log("Checking for changes in files...");
                 DateTime dateTimeCurrentRefresh = DateTime.Now; // Keep a timestamp from the moment we are checking files to make sure we don't miss an update
-                CheckForChanges(listProjectFiles);
-                dateTimeRefresh = dateTimeCurrentRefresh;
+                CheckForChanges(_projectFiles);
+                _dateTimeRefresh = dateTimeCurrentRefresh;
             };
-            timer.Start();
+            _timer.Start();
 
+            // File system watcher doesn't work well on Mac and Linux with Mono :-(
 //            Log("Listening to file changes of the following directory: " + baseSolutionPath);
 //            fileSystemWatcher = new FileSystemWatcher(baseSolutionPath, "*");
 //            fileSystemWatcher.IncludeSubdirectories = true;
@@ -94,22 +117,20 @@ namespace ProjectSync
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 if (keyInfo.Key == ConsoleKey.Q)
                 {
-                    timer.Stop();
+                    _timer.Stop();
                     break;
                 }
             }
         }
 
-        private static void CheckForChanges(List<string> filePaths)
+        private static void CheckForChanges(IEnumerable<string> filePaths)
         {
             // Check for changed files
             List<string> changedFiles = new List<string>();
             foreach (string filePath in filePaths)
             {
                 DateTime dateTimeWrite = File.GetLastWriteTime(filePath);
-                //Log("Checking project file for changes: " + filePath);
-                //Log("File timestamp: " + dateTimeWrite.ToLongDateString() + " " + dateTimeWrite.ToLongTimeString());
-                if (dateTimeWrite >= dateTimeRefresh)
+                if (dateTimeWrite >= _dateTimeRefresh)
                 {
                     changedFiles.Add(filePath);
                 }
@@ -117,23 +138,26 @@ namespace ProjectSync
 
             // Loop through modified CSPROJ files
             foreach (string filePath in changedFiles)
+                UpdateProjectFiles(filePath);
+        }
+
+        private static void UpdateProjectFiles(string masterProjectFilePath)
+        {
+            // Fetch all CSPROJ files from the same directory
+            Log("Updating project files from master file: " + masterProjectFilePath);
+            string directoryPath = Path.GetDirectoryName(masterProjectFilePath);
+            string[] csProjFiles = Directory.GetFiles(directoryPath, "*.csproj");
+                
+            // Make a list of project files to update
+            List<string> projectFilesToUpdate = csProjFiles.ToList();
+            projectFilesToUpdate.Remove(masterProjectFilePath);
+            List<string> compiles = ProjectFileReader.ExtractProjectCompileFilePaths(masterProjectFilePath);
+                
+            // Update other CSPROJ files
+            foreach (string projectFilePath in projectFilesToUpdate)
             {
-                // Fetch all CSPROJ files from the same directory
-                Log("Changed file: " + filePath);
-                string directoryPath = Path.GetDirectoryName(filePath);
-                string[] csProjFiles = Directory.GetFiles(directoryPath, "*.csproj");
-                
-                // Make a list of project files to update
-                List<string> projectFilesToUpdate = csProjFiles.ToList();
-                projectFilesToUpdate.Remove(filePath);
-                List<string> compiles = ProjectFileReader.ExtractProjectCompileFilePaths(filePath);
-                
-                // Update other CSPROJ files
-                foreach (string projectFilePath in projectFilesToUpdate)
-                {
-                    Log("Updating project file " + projectFilePath);
-                    UpdateProjectFile(projectFilePath, compiles);
-                }
+                Log("Updating project file " + projectFilePath);
+                ProjectFileWriter.UpdateProjectFileCompileList(projectFilePath, compiles);
             }
         }
 
@@ -146,7 +170,7 @@ namespace ProjectSync
                     Log("A project file has changed: " + e.FullPath);
 
                     // Deactivate file watcher while editing other CSPROJ files (or this will trigger an endless loop!)
-                    fileSystemWatcher.EnableRaisingEvents = false;
+                    //_fileSystemWatcher.EnableRaisingEvents = false;
 
                     // Fetch all CSPROJ files from the same directory
                     string directoryPath = Path.GetDirectoryName(e.FullPath);
@@ -160,11 +184,12 @@ namespace ProjectSync
                     // Update other CSPROJ files
                     foreach (string projectFilePath in projectFilesToUpdate)
                     {
-                        UpdateProjectFile(projectFilePath, compiles);
+                        Log("Writing project file changes to: " + projectFilePath);
+                        ProjectFileWriter.UpdateProjectFileCompileList(projectFilePath, compiles);
                     }
 
                     // Reactive file watcher
-                    fileSystemWatcher.EnableRaisingEvents = true;
+                    //_fileSystemWatcher.EnableRaisingEvents = true;
                 }
             }
             catch (IOException ex)
@@ -194,51 +219,16 @@ namespace ProjectSync
             Log("A file has been renamed: " + e.FullPath);
         }
 
-        private static void UpdateProjectFile(string filePath, List<string> compileList)
-        {
-            // Read XML content
-            string fileContents = File.ReadAllText(filePath);
-            XDocument xdoc = XDocument.Parse(fileContents);
-            XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
-            XElement elProject = xdoc.Element(ns + "Project");
-            List<XElement> elGlobalCompiles = xdoc.Descendants(ns + "Compile").ToList();
-            if (elProject == null)
-                throw new Exception("Could not find the Project xml node.");
-            
-            // Remove Compile nodes
-            foreach (XElement elCompile in elGlobalCompiles)
-                elCompile.Remove();
-            
-            // Add a ItemGroup with all compiles
-            XElement elGlobalItemGroup = new XElement(ns + "ItemGroup");
-            foreach (string compile in compileList)
-            {
-                XElement elCompile = new XElement(ns + "Compile");
-                XAttribute attrInclude = new XAttribute("Include", compile);
-                elCompile.Add(attrInclude);
-                elGlobalItemGroup.Add(elCompile);
-            }
-            elProject.Add(elGlobalItemGroup);
-            
-            // Remove empty ItemGroup nodes
-            List<XElement> elItemGroups = xdoc.Descendants(ns + "ItemGroup").ToList();
-            foreach (XElement elItemGroup in elItemGroups)
-            {
-                if (!elItemGroup.HasElements)
-                {
-                    elItemGroup.Remove();
-                }
-            }
-            
-            // Save project file
-            Log("Writing project file: " + filePath);
-            xdoc.Save(filePath);
-        }
-
         private static void Log(string message)
         {
             if(!string.IsNullOrEmpty(message))
                 Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] " + message);
         }
+
+        private static void LogWithoutTimestamp(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+                Console.WriteLine(message);
+        }    
     }
 }
