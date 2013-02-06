@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
@@ -11,7 +10,6 @@ using Android.Widget;
 using MPfm.Android.Classes;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
-using MPfm.Android.Classes.Listeners;
 using MPfm.Android.Classes.Objects;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Models;
@@ -21,17 +19,13 @@ using Environment = Android.OS.Environment;
 namespace MPfm.Android
 {
     [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/MyAppTheme")]
-    public class MainActivity : BaseActivity, ISplashView, IUpdateLibraryView, View.IOnClickListener
+    public class MainActivity : BaseActivity
     {
         private ViewPager _viewPager;
         private TabPagerAdapter _tabPagerAdapter;
-        private Dialog _splashDialog;
-        private Dialog _updateLibraryDialog;
-        private Button _updateLibraryDialog_button;
-        private TextView _updateLibraryDialog_lblTitle;
-        private TextView _updateLibraryDialog_lblSubtitle;
         private List<Fragment> _fragments;
-        private ProgressBar _updateLibraryDialog_progressBar;
+        private SplashFragment _splashFragment;
+        private UpdateLibraryFragment _updateLibraryFragment;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -39,14 +33,11 @@ namespace MPfm.Android
             base.OnCreate(bundle);
 
             // Get application state
-            ApplicationState state = (ApplicationState) LastNonConfigurationInstance;
+            ApplicationState state = (ApplicationState)LastNonConfigurationInstance;
             if (state != null)
             {
                 // Restore state here
             }
-
-            // TODO: Move Splash and Update Library to DialogFragment.
-            ShowSplashScreen();
 
             // Request features
             RequestWindowFeature(WindowFeatures.ActionBar);
@@ -64,8 +55,7 @@ namespace MPfm.Android
 
             // Bind this activity to splash and update library views
             AndroidNavigationManager.Instance.MainActivity = this;
-            AndroidNavigationManager.Instance.BindUpdateLibraryView(this);
-            AndroidNavigationManager.Instance.Start(this);
+            AndroidNavigationManager.Instance.Start();
         }
 
         public void AddTab(string title, Fragment fragment)
@@ -128,15 +118,15 @@ namespace MPfm.Android
 
         public override bool OnOptionsItemSelected(IMenuItem menuItem)
         {
+            // TODO: Determine if the menu should call the NavMgr directly, or the presenter... something like a MainMenuPresenter?
             string text = menuItem.TitleFormatted.ToString();
-
             if (text.ToUpper() == "EFFECTS")
             {
-                ProgressDialog progressDialog = ProgressDialog.Show(this, "Update Library", "Updating library...", true);                
+                
             }
             else if (text.ToUpper() == "UPDATE LIBRARY")
             {
-                ShowUpdateLibrary();
+                ShowUpdateLibrary((UpdateLibraryFragment)AndroidNavigationManager.Instance.CreateUpdateLibraryView());
             }
             else if (text.ToUpper() == "PREFERENCES")
             {
@@ -146,125 +136,28 @@ namespace MPfm.Android
             else if (text.ToUpper() == "ABOUT MPFM")
             {
                 //ShowSplashScreen();
-                var dialog = new DialogTest();
-                dialog.Show(FragmentManager, "tagnumber");
+                //var dialog = new DialogTest();
+                //dialog.Show(FragmentManager, "tagnumber");
             }
             return base.OnOptionsItemSelected(menuItem);
         }
 
-        public void ShowSplashScreen()
+        public void ShowSplashScreen(SplashFragment fragment)
         {
-            _splashDialog = new Dialog(this, Resource.Style.SplashTheme);
-            _splashDialog.SetContentView(Resource.Layout.Splash);
-            _splashDialog.SetCancelable(false);
-            _splashDialog.Show();
+            // Display fragment in a dialog
+            _splashFragment = fragment;
+            _splashFragment.Show(FragmentManager, "");
         }
 
         public void RemoveSplashScreen()
         {
-            if (_splashDialog != null)
-            {
-                _splashDialog.Dismiss();
-                _splashDialog = null;
-            }
+            _splashFragment.Dialog.Dismiss();
         }
 
-        private void ShowUpdateLibrary()
+        private void ShowUpdateLibrary(UpdateLibraryFragment fragment)
         {
-            // Configure dialog for Update Library
-            _updateLibraryDialog = new Dialog(this, Resource.Style.UpdateLibraryTheme);
-            _updateLibraryDialog.SetContentView(Resource.Layout.Fragment_UpdateLibrary);
-            _updateLibraryDialog.SetCancelable(false);
-            _updateLibraryDialog.SetTitle("Update Library");
-
-            // Get controls from dialog
-            _updateLibraryDialog_button = (Button)_updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_button);
-            _updateLibraryDialog_button.SetOnClickListener(this);
-            _updateLibraryDialog_lblTitle = (TextView) _updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_lblTitle);
-            _updateLibraryDialog_lblSubtitle = (TextView)_updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_lblSubtitle);
-            _updateLibraryDialog_progressBar = (ProgressBar) _updateLibraryDialog.FindViewById(Resource.Id.fragment_updateLibrary_progressBar);
-            _updateLibraryDialog.Show();
-
-            // Start update library process
-            string musicPath = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryMusic).ToString();
-            OnStartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, musicPath);
-            //OnStartUpdateLibrary(UpdateLibraryMode.WholeLibrary, null, null);
-        }
-
-        private void RemoveUpdateLibrary()
-        {
-            if (_updateLibraryDialog != null)
-            {
-                _updateLibraryDialog.Dismiss();
-                _updateLibraryDialog = null;
-            }
-        }
-
-        #region ISplashView implementation
-
-        public void RefreshStatus(string message)
-        {
-            RunOnUiThread(() =>
-                {
-                    TextView splashTextView = (TextView)_splashDialog.FindViewById(Resource.Id.splash_text);
-                    splashTextView.Text = message;
-                });
-        }
-
-        public void InitDone()
-        {
-        }
-
-        #endregion
-
-        #region IUpdateLibraryView implementation
-
-        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
-
-        public void RefreshStatus(UpdateLibraryEntity entity)
-        {
-            RunOnUiThread(() =>
-            {                
-                _updateLibraryDialog_lblTitle.Text = entity.Title;
-                _updateLibraryDialog_lblSubtitle.Text = entity.Subtitle;
-            });
-        }
-
-        public void AddToLog(string entry)
-        {
-        }
-
-        public void ProcessEnded(bool canceled)
-        {
-            RunOnUiThread(() =>
-            {                
-                _updateLibraryDialog_lblTitle.Text = "Update successful.";
-                _updateLibraryDialog_lblSubtitle.Text = string.Empty;
-                _updateLibraryDialog_button.Text = "OK";
-                _updateLibraryDialog_progressBar.Visibility = ViewStates.Gone;
-            });
-        }
-
-        #endregion
-
-        public void OnClick(View v)
-        {
-            if (_updateLibraryDialog_button.Text == "Cancel")
-            {
-                // TODO: Cancel update
-            }
-
-            RemoveUpdateLibrary();
-        }
-    }
-
-    public class DialogTest : DialogFragment
-    {
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
-            View view = inflater.Inflate(Resource.Layout.Fragment_UpdateLibrary, container);
-            Dialog.SetTitle("Hello world!");
-            return view;
+            _updateLibraryFragment = fragment;
+            _updateLibraryFragment.Show(FragmentManager, "");
         }
     }
 }

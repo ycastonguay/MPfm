@@ -1,5 +1,4 @@
 using MPfm.Android.Classes.Fragments;
-using MPfm.MVP;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
@@ -14,6 +13,11 @@ namespace MPfm.Android.Classes
         }
 
         public MainActivity MainActivity { get; set; }
+
+        public override void ShowSplash(ISplashView view)
+        {
+            MainActivity.ShowSplashScreen((SplashFragment)view);
+        }
 
         public override void HideSplash()
         {

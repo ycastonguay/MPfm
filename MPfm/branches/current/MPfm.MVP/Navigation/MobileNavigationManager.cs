@@ -47,11 +47,12 @@ namespace MPfm.MVP.Navigation
 
         private Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> _mobileLibraryBrowserList = new Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>();
 
+        public abstract void ShowSplash(ISplashView view);
         public abstract void HideSplash();
-        public abstract void PushView(IBaseView context, IBaseView newView);
         public abstract void AddTab(string title, IBaseView view);
+        public abstract void PushView(IBaseView context, IBaseView newView);
 
-        public virtual void Start(ISplashView view)
+        public virtual void Start()
         {
             Action onInitDone = () =>
             {                
@@ -67,34 +68,42 @@ namespace MPfm.MVP.Navigation
 
                 // Finally hide the splash screen, our UI is ready
                 HideSplash();            
-            };
-            BindSplashView(view, onInitDone);
-        }
-
-        private void BindSplashView(ISplashView view, Action onInitDone)
-        {
-            _splashView = view;
-            _splashPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
-            _splashPresenter.BindView(view);
-            _splashPresenter.Initialize(onInitDone);
-        }
-
-        public virtual void BindUpdateLibraryView(IUpdateLibraryView view)
-        {
-            _updateLibraryView = view;
-            _updateLibraryPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
-            _updateLibraryPresenter.BindView(view);
+            };            
+            ShowSplash(CreateSplashView(onInitDone));
         }
 
         public virtual ISplashView CreateSplashView(Action onInitDone)
         {
-            Action<IBaseView> onViewReady = (view) => BindSplashView((ISplashView)view, onInitDone);
+            Action<IBaseView> onViewReady = (view) => {
+                _splashPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
+                _splashPresenter.BindView((ISplashView)view);
+                _splashPresenter.Initialize(onInitDone);
+            };
             _splashView = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _splashView.OnViewDestroy = (view) => {
                 _splashView = null;
                 _splashPresenter = null;
             };
             return _splashView;
+        }
+
+        public virtual IUpdateLibraryView CreateUpdateLibraryView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _updateLibraryPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
+                _updateLibraryPresenter.BindView((IUpdateLibraryView)view);
+            };
+
+            // Create view and manage view destruction
+            _updateLibraryView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _updateLibraryView.OnViewDestroy = (view) =>
+            {
+                _updateLibraryView = null;
+                _updateLibraryPresenter = null;
+            };
+            return _updateLibraryView;
         }
         
         public virtual IAudioPreferencesView CreateAudioPreferencesView()
