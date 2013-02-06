@@ -24,21 +24,15 @@ using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
 
-namespace MPfm.MVP
+namespace MPfm.MVP.Navigation
 {
     /// <summary>
     /// Manager class for managing view and presenter instances.
     /// </summary>
-    public abstract class NavigationManager
+    public abstract class MobileNavigationManager
     {
         private ISplashView _splashView;
         private ISplashPresenter _splashPresenter;
-
-        private IMainView _mainView;
-        private IMainPresenter _mainPresenter;
-        private IPlayerPresenter _playerPresenter;
-        private ILibraryBrowserPresenter _libraryBrowserPresenter;
-        private ISongBrowserPresenter _songBrowserPresenter;
 
         private IPreferencesView _preferencesView;
         private IAudioPreferencesView _audioPreferencesView;
@@ -53,27 +47,36 @@ namespace MPfm.MVP
 
         private Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> _mobileLibraryBrowserList = new Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>();
 
+        public abstract void HideSplash();
         public abstract void PushView(IBaseView context, IBaseView newView);
+        public abstract void AddTab(string title, IBaseView view);
 
-        public virtual void StartMobile()
+        public virtual void Start(ISplashView view)
         {
-            // BindSplashView must have been called before.
-
             Action onInitDone = () =>
-                {
-                    var playlistsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Playlists);
-                    PushView(null, playlistsView); // or AddTab() but that would be only on mobiles. 
-                };
+            {                
+                // Create 4 main tabs
+                var playlistsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Playlists);
+                var artistsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Artists);
+                var albumsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Albums);
+                var songsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Songs);
+                AddTab("Playlists", playlistsView);
+                AddTab("Artists", artistsView);
+                AddTab("Alumbs", albumsView);
+                AddTab("Songs", songsView);
 
-            _splashPresenter.Initialize(onInitDone);
+                // Finally hide the splash screen, our UI is ready
+                HideSplash();            
+            };
+            BindSplashView(view, onInitDone);
         }
 
-        public virtual void BindSplashView(ISplashView view, Action onInitDone)
+        private void BindSplashView(ISplashView view, Action onInitDone)
         {
             _splashView = view;
             _splashPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
             _splashPresenter.BindView(view);
-            //_splashPresenter.Initialize(onInitDone); // TODO: Should the presenter call NavMgr instead of using an action?
+            _splashPresenter.Initialize(onInitDone);
         }
 
         public virtual void BindUpdateLibraryView(IUpdateLibraryView view)
@@ -81,17 +84,6 @@ namespace MPfm.MVP
             _updateLibraryView = view;
             _updateLibraryPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
             _updateLibraryPresenter.BindView(view);
-        }
-
-        public virtual ISplashView CreateSplashView()
-        {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action onInitDone = () =>
-            {
-                Console.WriteLine("SplashInitDone");
-                CreateMainView();
-            };
-            return CreateSplashView(onInitDone);
         }
 
         public virtual ISplashView CreateSplashView(Action onInitDone)
@@ -105,62 +97,6 @@ namespace MPfm.MVP
             return _splashView;
         }
         
-        public virtual IMainView CreateMainView()
-        {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) => {
-                _mainPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IMainPresenter>();
-                _mainPresenter.BindView((IMainView)view);                
-                _playerPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
-                _playerPresenter.BindView((IPlayerView)view);
-                _libraryBrowserPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ILibraryBrowserPresenter>();
-                _libraryBrowserPresenter.BindView((ILibraryBrowserView)view);                
-                _songBrowserPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISongBrowserPresenter>();
-                _songBrowserPresenter.BindView((ISongBrowserView)view);                
-            };            
-            _mainView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _mainView.OnViewDestroy = (view) => {
-                _mainView = null;
-                _mainPresenter = null;
-                _playerPresenter.Dispose(); // Dispose unmanaged stuff (i.e. BASS)
-                _playerPresenter = null;
-                _libraryBrowserPresenter = null;
-                _songBrowserPresenter = null;
-            };
-            return _mainView;
-        }
-        
-        public virtual IPreferencesView CreatePreferencesView()
-        {
-            // If the view is still visible, just make it the top level window
-            if(_preferencesView != null)
-            {
-                _preferencesView.ShowView(true);
-                return _preferencesView;
-            }
-            
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-                {                    
-                    _audioPreferencesPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
-                    _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
-                    _generalPreferencesPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
-                    _generalPreferencesPresenter.BindView((IGeneralPreferencesView)view);
-                    _libraryPreferencesPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
-                    _libraryPreferencesPresenter.BindView((ILibraryPreferencesView)view);
-                };
-            
-            // Create view and manage view destruction
-            _preferencesView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _preferencesView.OnViewDestroy = (view) => {
-                _preferencesView = null;
-                _audioPreferencesPresenter = null;
-                _generalPreferencesPresenter = null;
-                _libraryPreferencesPresenter = null;
-            };
-            return _preferencesView;
-        }
-
         public virtual IAudioPreferencesView CreateAudioPreferencesView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
@@ -229,7 +165,8 @@ namespace MPfm.MVP
             };
 
             // Create view and manage view destruction
-            var newView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            IMobileLibraryBrowserView newView = null;
+            newView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             newView.BrowserType = browserType; // TODO: Shouldn't this be in the presenter instead...? browserType + filter (can be artist or album)
             newView.OnViewDestroy = (view) =>
             {

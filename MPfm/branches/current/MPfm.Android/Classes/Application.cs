@@ -5,6 +5,7 @@ using Android.Runtime;
 using MPfm.Android.Classes.Fragments;
 using MPfm.MVP;
 using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player;
 using MPfm.Sound.Bass.Net;
@@ -27,7 +28,9 @@ namespace MPfm.Android.Classes
 
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
-            container.Register<NavigationManager, AndroidNavigationManager>().AsSingleton();
+            container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
+            container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
             container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();

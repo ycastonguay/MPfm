@@ -49,19 +49,21 @@ namespace MPfm.MVP.Presenters
 		
         public void Initialize(Action onInitDone)
         {
-            Task.Factory.StartNew(() => {
-                Console.WriteLine("SplashPresenter - Starting initialization service...");
-                View.RefreshStatus("Loading...");
-                initializationService.Initialize();
-                View.RefreshStatus("Initialization done!");
-                Console.WriteLine("SplashPresenter - Initialization service done!");
-            }).ContinueWith((a) => {
-                Console.WriteLine("SplashPresenter - Notifying view...");
-                View.InitDone();        
-                Console.WriteLine("SplashPresenter - Raising action...");
-                onInitDone.Invoke();
-                Console.WriteLine("SplashPresenter - Action raised successfully!");
-            });
+            Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine("SplashPresenter - Starting initialization service...");
+                    View.RefreshStatus("Loading...");
+                    initializationService.Initialize();
+                    View.RefreshStatus("Initialization done!");
+                    Console.WriteLine("SplashPresenter - Initialization service done!");
+                }).ContinueWith((a) =>
+                    {
+                        Console.WriteLine("SplashPresenter - Notifying view...");
+                        View.InitDone();
+                        Console.WriteLine("SplashPresenter - Raising action...");
+                        onInitDone.Invoke();
+                        Console.WriteLine("SplashPresenter - Action raised successfully!");
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 		
 		#endregion

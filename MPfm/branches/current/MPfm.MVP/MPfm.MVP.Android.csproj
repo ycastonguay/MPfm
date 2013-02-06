@@ -108,6 +108,7 @@
   </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\MobileLibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileLibraryBrowserPresenter.cs" />
@@ -187,7 +188,7 @@
     <Compile Include="ViewModels\LibraryBrowserViewModel.cs" />
     <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
-    <Compile Include="NavigationManager.cs" />
+    <Compile Include="Navigation\NavigationManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">

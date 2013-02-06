@@ -1,10 +1,11 @@
 using MPfm.Android.Classes.Fragments;
 using MPfm.MVP;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes
 {
-    public sealed class AndroidNavigationManager : NavigationManager
+    public sealed class AndroidNavigationManager : MobileNavigationManager
     {
         private static readonly AndroidNavigationManager _instance = new AndroidNavigationManager();
         public static AndroidNavigationManager Instance
@@ -14,6 +15,18 @@ namespace MPfm.Android.Classes
 
         public MainActivity MainActivity { get; set; }
 
+        public override void HideSplash()
+        {
+            MainActivity.RemoveSplashScreen();
+        }
+
+        public override void AddTab(string title, IBaseView view)
+        {
+            MobileLibraryBrowserFragment fragment = (MobileLibraryBrowserFragment)view;
+            MainActivity.AddTab(title, fragment);
+            // iOS: AppDelegate.AddTabItem(newView);
+        }
+
         public override void PushView(IBaseView context, IBaseView newView)
         {
             // If there's no context, this means this is a top-level view
@@ -21,9 +34,6 @@ namespace MPfm.Android.Classes
             {
                 if (newView is IMobileLibraryBrowserView)
                 {
-                    MobileLibraryBrowserFragment fragment = (MobileLibraryBrowserFragment)newView;
-                    //MainActivity.AddTabItem(newView);
-                    // iOS: AppDelegate.AddTabItem(newView);
                 }
                 else if (newView is IAudioPreferencesView)
                 {

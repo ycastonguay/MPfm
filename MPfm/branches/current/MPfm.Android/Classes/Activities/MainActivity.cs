@@ -45,53 +45,32 @@ namespace MPfm.Android
                 // Restore state here
             }
 
-            // Load navigation manager and other important stuff before showing splash screen
+            // TODO: Move Splash and Update Library to DialogFragment.
+            ShowSplashScreen();
+
+            // Request features
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
+            // Get controls
+            _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
+
+            // Create view pager adapter
+            _fragments = new List<Fragment>();
+            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
+            _viewPager.Adapter = _tabPagerAdapter;
+            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+
             // Bind this activity to splash and update library views
-            AndroidNavigationManager.Instance.BindSplashView(this, ContinueInitialize);
+            AndroidNavigationManager.Instance.MainActivity = this;
             AndroidNavigationManager.Instance.BindUpdateLibraryView(this);
-            //AndroidNavigationManager.Instance.StartMobile();
-
-            // Show splash screen; then bind this activity to the Splash presenter
-            ShowSplashScreen();
+            AndroidNavigationManager.Instance.Start(this);
         }
 
-        private void ContinueInitialize()
+        public void AddTab(string title, Fragment fragment)
         {
-            // This is called after ISplashView.OnInitDone
-            RunOnUiThread(() =>
-                {
-                    // Create fragments
-                    _fragments = new List<Fragment>
-                        {
-                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Playlists),
-                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Artists),
-                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Albums),
-                            (Fragment)AndroidNavigationManager.Instance.CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Songs)
-                        };
-
-                    // Create view
-                    _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
-                    _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
-                    _viewPager.Adapter = _tabPagerAdapter;
-                    _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
-
-                    // Create tabs
-                    AddTab("Playlists");
-                    AddTab("Artists");
-                    AddTab("Albums");
-                    AddTab("Songs");
-
-                    // Finished loading; hide splash screen
-                    RemoveSplashScreen();
-                });
-        }
-
-        private void AddTab(string title)
-        {
+            _fragments.Add(fragment);
             var tab = ActionBar.NewTab();
             tab.SetTabListener(_tabPagerAdapter);
             tab.SetText(title);
@@ -162,26 +141,26 @@ namespace MPfm.Android
             else if (text.ToUpper() == "PREFERENCES")
             {
                 Intent intent = new Intent(this, typeof(PreferencesActivity));
-                //intent.AddFlags(ActivityFlags.ClearTop);
                 StartActivity(intent);
-                //StartActivityForResult(intent, 0);
             }
             else if (text.ToUpper() == "ABOUT MPFM")
             {
-                ShowSplashScreen();
+                //ShowSplashScreen();
+                var dialog = new DialogTest();
+                dialog.Show(FragmentManager, "tagnumber");
             }
             return base.OnOptionsItemSelected(menuItem);
         }
 
-        private void ShowSplashScreen()
+        public void ShowSplashScreen()
         {
             _splashDialog = new Dialog(this, Resource.Style.SplashTheme);
             _splashDialog.SetContentView(Resource.Layout.Splash);
-            _splashDialog.SetCancelable(false);            
+            _splashDialog.SetCancelable(false);
             _splashDialog.Show();
         }
 
-        private void RemoveSplashScreen()
+        public void RemoveSplashScreen()
         {
             if (_splashDialog != null)
             {
@@ -276,6 +255,16 @@ namespace MPfm.Android
             }
 
             RemoveUpdateLibrary();
+        }
+    }
+
+    public class DialogTest : DialogFragment
+    {
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            View view = inflater.Inflate(Resource.Layout.Fragment_UpdateLibrary, container);
+            Dialog.SetTitle("Hello world!");
+            return view;
         }
     }
 }
