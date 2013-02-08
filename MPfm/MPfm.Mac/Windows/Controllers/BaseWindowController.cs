@@ -59,8 +59,7 @@ namespace MPfm.Mac
         void Initialize()
         {
             windowDelegate = new MPfmWindowDelegate(() => { 
-                if(OnViewDestroy != null)
-                    OnViewDestroy.Invoke(); 
+                if(OnViewDestroy != null) OnViewDestroy.Invoke(this); 
             });
             this.Window.Delegate = windowDelegate;
         }
@@ -75,7 +74,7 @@ namespace MPfm.Mac
 
         #region IBaseView implementation
         
-        public Action OnViewDestroy { get; set; }
+        public Action<IBaseView> OnViewDestroy { get; set; }
 
         public void ShowView(bool shown)
         {

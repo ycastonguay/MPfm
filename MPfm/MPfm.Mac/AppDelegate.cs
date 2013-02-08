@@ -26,8 +26,10 @@ using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MPfm.MVP;
-using TinyIoC;
+using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using TinyIoC;
 
 namespace MPfm.Mac
 {
@@ -36,7 +38,7 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class AppDelegate : NSApplicationDelegate
 	{
-        NavigationManager navigationManager;
+        NavigationManager _navigationManager;
 		
 		public AppDelegate()
 		{
@@ -54,9 +56,9 @@ namespace MPfm.Mac
             Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
 
             // Create and start navigation manager
-            navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
             //navigationManager.Start();
-            navigationManager.CreateSplashView();
+            _navigationManager.CreateSplashView();
         }
 	}
 }

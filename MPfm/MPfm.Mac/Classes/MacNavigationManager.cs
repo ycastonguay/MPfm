@@ -19,8 +19,8 @@ using System;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
-using MPfm.MVP;
 using TinyIoC;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace MPfm.Mac
@@ -31,50 +31,39 @@ namespace MPfm.Mac
     /// </summary>
     public class MacNavigationManager : NavigationManager
     {
-        public override void BindSplashView(ISplashView view, Action onInitDone)
-        {
-            using (var pool = new NSAutoreleasePool())
-            {
-                pool.InvokeOnMainThread(delegate
-                {
-                    base.BindSplashView(view, onInitDone);
-                });
-            }
-        }
-
         public override ISplashView CreateSplashView()
         {
             ISplashView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
-                {
+                                        {
                     view = base.CreateSplashView();
                 });
             }
             return view;
         }
-
+        
         public override IMainView CreateMainView()
         {
             IMainView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
-                {
+                                        {
                     view = base.CreateMainView();
                 });
             }
             return view;
         }
-
+        
         public override IPreferencesView CreatePreferencesView()
         {
             IPreferencesView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate
-                {
+                                        {
                     view = base.CreatePreferencesView();
                 });
             }

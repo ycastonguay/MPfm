@@ -28,6 +28,7 @@ using MPfm.MVP.Views;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
+using MPfm.MVP.Bootstrapper;
 
 namespace MPfm.Mac
 {
