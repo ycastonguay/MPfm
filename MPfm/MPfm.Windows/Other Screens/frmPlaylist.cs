@@ -1,7 +1,4 @@
-//
-// frmPlaylist.cs: Playlist window. This is where the user can view and manipulate playlists. 
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

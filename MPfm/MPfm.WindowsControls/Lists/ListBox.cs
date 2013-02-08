@@ -1,8 +1,4 @@
-﻿//
-// ListBox.cs: This list box control is based on the System.Windows.Forms.ListBox control.
-//             It adds custom drawing, supports embedded fonts and other features.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

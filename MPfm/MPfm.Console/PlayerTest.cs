@@ -1,7 +1,4 @@
-//
-// PlayerTest.cs: This class is for testing the player using a console.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

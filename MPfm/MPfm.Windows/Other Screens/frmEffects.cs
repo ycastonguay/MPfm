@@ -1,7 +1,4 @@
-//
-// frmEffects.cs: Effects window. This is where the user can configure a 18-band equalizer and VST plugins.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

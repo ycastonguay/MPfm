@@ -1,8 +1,4 @@
-﻿//
-// SongGridView.cs: This custom control is a grid view displaying songs from the 
-//                  user library. It can be used to display playlist contents.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

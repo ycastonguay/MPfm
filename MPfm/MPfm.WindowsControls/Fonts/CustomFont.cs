@@ -1,7 +1,4 @@
-//
-// CustomFont.cs: This object represents a custom font (standard or embedded font).
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

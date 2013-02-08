@@ -1,7 +1,4 @@
-﻿//
-// Gradient.cs: The Gradient class groups different properties related to gradients into one object.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

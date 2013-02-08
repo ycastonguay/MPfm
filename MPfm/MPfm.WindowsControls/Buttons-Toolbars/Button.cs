@@ -1,8 +1,4 @@
-//
-// Button.cs: This button control is similar to the System.Windows.Forms.Button class 
-//            but adds support for embedded Fonts and anti-aliasing.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

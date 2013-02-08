@@ -1,7 +1,4 @@
-﻿//
-// WindowsConfigurationSection.cs: Configuration section used for MPfm windows settings.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

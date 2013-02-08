@@ -1,8 +1,4 @@
-﻿//
-// PlayerCreateStreamException.cs: This Exception class is raised when the 
-//                                 player has failed to create a stream.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

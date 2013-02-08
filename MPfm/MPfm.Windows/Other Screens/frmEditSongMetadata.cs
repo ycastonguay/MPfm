@@ -1,8 +1,4 @@
-//
-// frmEditSongMetadata.cs: Edit Song Metadata window. This is where the user can modify the ID3 and other
-//                         tags for the media files.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

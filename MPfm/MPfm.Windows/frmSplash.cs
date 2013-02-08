@@ -1,7 +1,4 @@
-//
-// frmSplash.cs: Splash screen window. This is where the MPfm logo is displayed with the copyright notices and credits.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

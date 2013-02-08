@@ -1,7 +1,4 @@
-//
-// SecondaryWindowTheme.cs: Defines a theme object for MPfm secondary windows.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

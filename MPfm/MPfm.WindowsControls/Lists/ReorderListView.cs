@@ -1,8 +1,4 @@
-//
-// ReorderListView.cs: This list view control is based on the System.Windows.Forms.ListView control.
-//                     It adds custom flickerless redrawing and reordering.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

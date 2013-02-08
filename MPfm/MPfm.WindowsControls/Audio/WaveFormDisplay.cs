@@ -1,10 +1,4 @@
-﻿//
-// WaveFormDisplay.cs: This control displays the wave form of an audio file, extracted using readData. 
-//                     Supports background loading of the wave form. This control is used in the 
-//                     Loops & Markers panel of MPfm.
-//                     The control appearance can be changed using the public properties.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

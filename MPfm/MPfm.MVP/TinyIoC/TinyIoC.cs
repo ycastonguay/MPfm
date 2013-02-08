@@ -1,17 +1,19 @@
-﻿//===============================================================================
-// TinyIoC
+// Copyright © 2011-2013 Yanick Castonguay
 //
-// An easy to use, hassle free, Inversion of Control Container for small projects
-// and beginners alike.
+// This file is part of MPfm.
 //
-// https://github.com/grumpydev/TinyIoC
-//===============================================================================
-// Copyright © Steven Robbins.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 #region Preprocessor Directives
 // Uncomment this line if you want the container to automatically

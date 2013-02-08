@@ -1,7 +1,4 @@
-﻿//
-// Marker.cs: This file contains the class defining a marker to be used with the Player.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

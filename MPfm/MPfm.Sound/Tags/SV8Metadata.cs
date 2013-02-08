@@ -1,7 +1,4 @@
-﻿//
-// SV8Metadata.cs: Reads SV8 metadata for MPC (MusePack) audio files.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

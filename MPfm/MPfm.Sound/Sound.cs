@@ -1,7 +1,4 @@
-//
-// Sound.cs: FMOD Wrapper Sound class.
-//
-// Copyright © 2011 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

@@ -1,8 +1,4 @@
-//
-// frmMain.cs: Main form for the MPfm application. Contains the Artist Browser, Song Browser,
-//             Current Song Panel, Playback controls, etc.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

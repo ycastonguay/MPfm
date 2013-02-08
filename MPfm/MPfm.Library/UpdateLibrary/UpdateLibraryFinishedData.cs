@@ -1,7 +1,4 @@
-﻿//
-// UpdateLibraryFinishedData.cs: Data structure for UpdateLibrary.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

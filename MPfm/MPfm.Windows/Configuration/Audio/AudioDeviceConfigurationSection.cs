@@ -1,8 +1,4 @@
-﻿//
-// AudioDeviceConfigurationSection.cs: Defines the Device node inside 
-//                                     the Audio configuration section.
-//
-// Copyright © 2011 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -17,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http:/s/www.gnu.org/licenses/>.
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,4 @@
-﻿//
-// AudioFileCacheService.cs: Service used for interacting with the audio file metadata cache.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

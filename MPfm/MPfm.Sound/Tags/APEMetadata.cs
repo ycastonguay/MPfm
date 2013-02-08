@@ -1,7 +1,4 @@
-﻿//
-// APEMetadata.cs: Reads and writes APEv1/APEv2 metadata for multiple audio formats.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

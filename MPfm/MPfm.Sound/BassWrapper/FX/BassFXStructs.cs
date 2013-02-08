@@ -1,7 +1,4 @@
-﻿//
-// BassFXStructs.cs: This file contains structs for the P/Invoke wrapper of the BASS FX audio library.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

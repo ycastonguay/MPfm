@@ -1,8 +1,4 @@
-//
-// frmAddEditMarker.cs: Add/Edit Markers window. This is where the user can add or edit 
-//                      markers for an audio file.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

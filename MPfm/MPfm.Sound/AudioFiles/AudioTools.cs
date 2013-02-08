@@ -1,8 +1,4 @@
-﻿//
-// AudioTools.cs: This static class contains useful methods for treating raw sound data
-//                for display in output meters for example.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //

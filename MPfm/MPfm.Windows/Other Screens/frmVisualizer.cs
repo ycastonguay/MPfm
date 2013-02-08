@@ -1,8 +1,4 @@
-﻿//
-// frmVisualizer.cs: Visualizer window. This is where the user can visualize effects such as
-//                   wave forms, spectrum analyzers, and more. 
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -18,7 +14,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
-
 
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,4 @@
-//
-// AppDelegate.cs: App delegate. Uses Ninject to create the MainWindow.
-//
-// Copyright © 2011-2012 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
