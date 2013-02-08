@@ -21,6 +21,8 @@ using System.Reflection;
 using Gtk;
 using MPfm.MVP;
 using MPfm.MVP.Views;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Bootstrapper;
 
 namespace MPfm.GTK
 {
@@ -42,7 +44,7 @@ namespace MPfm.GTK
 			
 			// Create and start navigation manager
 			navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
-			navigationManager.Start();
+			navigationManager.CreateSplashView();
 			Application.Run();
 		}
 	}

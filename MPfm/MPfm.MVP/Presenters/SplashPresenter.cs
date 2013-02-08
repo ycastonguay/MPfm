@@ -46,6 +46,12 @@ namespace MPfm.MVP.Presenters
 		
         public void Initialize(Action onInitDone)
         {
+            TaskScheduler taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+#if LINUX
+            // Mono on Linux crashes for some reason if FromCurrentSynchronizationContext is used... weird!            
+            taskScheduler = TaskScheduler.Default;
+#endif
+
             Task.Factory.StartNew(() =>
                 {
                     Console.WriteLine("SplashPresenter - Starting initialization service...");
@@ -60,7 +66,7 @@ namespace MPfm.MVP.Presenters
                         Console.WriteLine("SplashPresenter - Raising action...");
                         onInitDone.Invoke();
                         Console.WriteLine("SplashPresenter - Action raised successfully!");
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, taskScheduler);
         }
 		
 		#endregion

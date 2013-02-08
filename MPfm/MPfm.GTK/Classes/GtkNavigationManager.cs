@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 using MPfm.MVP;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 
 namespace MPfm.GTK
 {
@@ -26,32 +28,31 @@ namespace MPfm.GTK
 	/// </summary>
 	public class GtkNavigationManager : NavigationManager
 	{
-		public override void Start()
+		public override ISplashView CreateSplashView()
 		{
+			ISplashView view = null;
 			Gtk.Application.Invoke(delegate {
-				base.Start();
+				view = base.CreateSplashView();
 			});
-		}
-
-		public override void CreateSplashWindow()
-		{
-			Gtk.Application.Invoke(delegate {
-				base.CreateSplashWindow();
-			});
+			return view;
 		}
 		
-		public override void CreateMainWindow()
+		public override IMainView CreateMainView()
 		{
+			IMainView view = null;
 			Gtk.Application.Invoke(delegate {
-				base.CreateMainWindow();
-			});				
+				view = base.CreateMainView();
+			});		
+			return view;
 		}
 		
-		public override void CreatePreferencesWindow()
+		public override IPreferencesView CreatePreferencesView()
 		{
+			IPreferencesView view = null;
 			Gtk.Application.Invoke(delegate {
-				base.CreatePreferencesWindow();
-			});				
+				view = base.CreatePreferencesView();
+			});		
+			return view;
 		}
 	}
 }

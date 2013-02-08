@@ -27,6 +27,7 @@ using MPfm.MVP.Models;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Services;
+using MPfm.MVP.Bootstrapper;
 
 namespace MPfm.GTK
 {
@@ -35,6 +36,8 @@ namespace MPfm.GTK
 	/// </summary>
 	public partial class UpdateLibraryWindow : BaseWindow, IUpdateLibraryView
 	{
+		public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+
 		// Private variables		
 		private IUpdateLibraryPresenter presenter = null;
 		
