@@ -26,12 +26,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mono;
 using Mono.Terminal;
-using MPfm.MVP;
 using MPfm.Player;
 using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
-using Ninject;
 using MPfm.Core;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Bootstrapper;
+using MPfm.Sound.Bass.Net;
 
 namespace MPfm.Console
 {
@@ -187,7 +188,7 @@ namespace MPfm.Console
         public static void InitializePlayer()
         {           
             // Initialize app
-            IInitializationService initService = Bootstrapper.GetKernel().Get<IInitializationService>();
+            IInitializationService initService = Bootstrapper.GetContainer().Resolve<IInitializationService>();
             initService.Initialize();
 
             // Initialize player
@@ -195,7 +196,7 @@ namespace MPfm.Console
                 DriverType = DriverType.DirectSound,
                 Id = -1
             };
-            playerService = Bootstrapper.GetKernel().Get<IPlayerService>();
+            playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
             playerService.Initialize(device, 44100, 5000, 100);
             playerService.Player.Volume = 0.9f;
             //playerService.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
