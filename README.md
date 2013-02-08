@@ -23,7 +23,7 @@ Please use the [ProjectSync](https://github.com/ycastonguay/MPfm/tree/master/Pro
 How to build MPfm
 --
 
-There are no makefiles at the moment, so you will need Visual Studio and/or MonoDevelop to build the project depending on the platform.
+There are no makefiles at the moment, so you will need [Visual Studio](http://www.microsoft.com/visualstudio/) and/or [MonoDevelop](http://monodevelop.com/) to build the project depending on the platform.
 
 There are several solution files in the root directory of the project. Here is a list of the solution files per platform:
 
@@ -36,8 +36,7 @@ There are several solution files in the root directory of the project. Here is a
 The project source code already contains a few dependencies (such as the BASS audio library, TinyIoC, etc.), but you will need the following libraries/software installed to build MPfm:
 
 __Windows__:
-+ .NET Framework 4.0+
-+ WinForms
++ [.NET Framework 4.0+](http://www.microsoft.com/net)
 
 __Mac__:
 + [Mono](http://www.mono-project.com)
