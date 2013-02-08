@@ -565,7 +565,7 @@
             // 
             this.btnTestAudioSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTestAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestAudioSettings.Image = global::MPfm.Properties.Resources.sound;
+            this.btnTestAudioSettings.Image = global::MPfm.Windows.Properties.Resources.sound;
             this.btnTestAudioSettings.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnTestAudioSettings.IsAutoSized = false;
             this.btnTestAudioSettings.Location = new System.Drawing.Point(16, 398);
@@ -843,7 +843,7 @@
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNext.Enabled = false;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNext.Image = global::MPfm.Properties.Resources.arrow_right;
+            this.btnNext.Image = global::MPfm.Windows.Properties.Resources.arrow_right;
             this.btnNext.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnNext.IsAutoSized = false;
             this.btnNext.Location = new System.Drawing.Point(447, 454);
@@ -912,7 +912,7 @@
             this.btnCancelWizard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancelWizard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancelWizard.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelWizard.Image = global::MPfm.Properties.Resources.door_in;
+            this.btnCancelWizard.Image = global::MPfm.Windows.Properties.Resources.door_in;
             this.btnCancelWizard.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnCancelWizard.IsAutoSized = false;
             this.btnCancelWizard.Location = new System.Drawing.Point(296, 454);

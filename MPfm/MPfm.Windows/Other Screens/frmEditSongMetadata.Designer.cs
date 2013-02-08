@@ -165,7 +165,7 @@ namespace MPfm
             // 
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSave.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSave.IsAutoSized = true;
             this.btnSave.Location = new System.Drawing.Point(0, 0);
@@ -234,7 +234,7 @@ namespace MPfm
             // 
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
+            this.btnClose.Image = global::MPfm.Windows.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnClose.IsAutoSized = true;
             this.btnClose.Location = new System.Drawing.Point(63, 0);

@@ -118,7 +118,7 @@ namespace MPfm
             // 
             // pictureBackground
             // 
-            this.pictureBackground.Image = global::MPfm.Properties.Resources.MPFM_Splash_0_5_0_3;
+            this.pictureBackground.Image = global::MPfm.Windows.Properties.Resources.MPFM_Splash_0_5_0_3;
             this.pictureBackground.Location = new System.Drawing.Point(0, 0);
             this.pictureBackground.Name = "pictureBackground";
             this.pictureBackground.Size = new System.Drawing.Size(640, 504);

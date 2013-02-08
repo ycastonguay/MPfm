@@ -421,7 +421,7 @@ namespace MPfm
             // 
             this.btnTestSaveAudioSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTestSaveAudioSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
+            this.btnTestSaveAudioSettings.Image = global::MPfm.Windows.Properties.Resources.sound;
             this.btnTestSaveAudioSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTestSaveAudioSettings.IsAutoSized = true;
             this.btnTestSaveAudioSettings.Location = new System.Drawing.Point(30, 28);
@@ -490,7 +490,7 @@ namespace MPfm
             // 
             this.btnResetToDefault.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResetToDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetToDefault.Image = global::MPfm.Properties.Resources.cog;
+            this.btnResetToDefault.Image = global::MPfm.Windows.Properties.Resources.cog;
             this.btnResetToDefault.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResetToDefault.IsAutoSized = true;
             this.btnResetToDefault.Location = new System.Drawing.Point(173, 28);
@@ -844,7 +844,7 @@ namespace MPfm
             this.btnPeakFileCustomDirectoryBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPeakFileCustomDirectoryBrowse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPeakFileCustomDirectoryBrowse.Enabled = false;
-            this.btnPeakFileCustomDirectoryBrowse.Image = global::MPfm.Properties.Resources.folder_explore;
+            this.btnPeakFileCustomDirectoryBrowse.Image = global::MPfm.Windows.Properties.Resources.folder_explore;
             this.btnPeakFileCustomDirectoryBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPeakFileCustomDirectoryBrowse.IsAutoSized = false;
             this.btnPeakFileCustomDirectoryBrowse.Location = new System.Drawing.Point(506, 48);
@@ -1091,7 +1091,7 @@ namespace MPfm
             // 
             this.btnAddFolder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAddFolder.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddFolder.Image = global::MPfm.Properties.Resources.add;
+            this.btnAddFolder.Image = global::MPfm.Windows.Properties.Resources.add;
             this.btnAddFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddFolder.IsAutoSized = true;
             this.btnAddFolder.Location = new System.Drawing.Point(6, 6);
@@ -1230,7 +1230,7 @@ namespace MPfm
             // 
             this.btnRemoveFolder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRemoveFolder.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveFolder.Image = global::MPfm.Properties.Resources.delete;
+            this.btnRemoveFolder.Image = global::MPfm.Windows.Properties.Resources.delete;
             this.btnRemoveFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveFolder.IsAutoSized = true;
             this.btnRemoveFolder.Location = new System.Drawing.Point(104, 6);
@@ -1299,7 +1299,7 @@ namespace MPfm
             // 
             this.btnGeneralSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnGeneralSettings.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGeneralSettings.Image = global::MPfm.Properties.Resources.wrench;
+            this.btnGeneralSettings.Image = global::MPfm.Windows.Properties.Resources.wrench;
             this.btnGeneralSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGeneralSettings.IsAutoSized = true;
             this.btnGeneralSettings.Location = new System.Drawing.Point(0, 0);
@@ -1368,7 +1368,7 @@ namespace MPfm
             // 
             this.btnAudioSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAudioSettings.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAudioSettings.Image = global::MPfm.Properties.Resources.control_equalizer;
+            this.btnAudioSettings.Image = global::MPfm.Windows.Properties.Resources.control_equalizer;
             this.btnAudioSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAudioSettings.IsAutoSized = true;
             this.btnAudioSettings.Location = new System.Drawing.Point(81, 0);
@@ -1437,7 +1437,7 @@ namespace MPfm
             // 
             this.btnLibrarySettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLibrarySettings.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLibrarySettings.Image = global::MPfm.Properties.Resources.database;
+            this.btnLibrarySettings.Image = global::MPfm.Windows.Properties.Resources.database;
             this.btnLibrarySettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLibrarySettings.IsAutoSized = true;
             this.btnLibrarySettings.Location = new System.Drawing.Point(150, 0);
@@ -1542,7 +1542,7 @@ namespace MPfm
             // 
             this.btnOpenASIOControlPanel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenASIOControlPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenASIOControlPanel.Image = global::MPfm.Properties.Resources.application_view_detail;
+            this.btnOpenASIOControlPanel.Image = global::MPfm.Windows.Properties.Resources.application_view_detail;
             this.btnOpenASIOControlPanel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOpenASIOControlPanel.IsAutoSized = true;
             this.btnOpenASIOControlPanel.Location = new System.Drawing.Point(430, 28);
@@ -2326,7 +2326,7 @@ namespace MPfm
             // 
             this.picAudioSettingsWarning.BackColor = System.Drawing.Color.Transparent;
             this.picAudioSettingsWarning.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.tick;
+            this.picAudioSettingsWarning.Image = global::MPfm.Windows.Properties.Resources.tick;
             this.picAudioSettingsWarning.Location = new System.Drawing.Point(6, 5);
             this.picAudioSettingsWarning.Margin = new System.Windows.Forms.Padding(6, 5, 0, 3);
             this.picAudioSettingsWarning.Name = "picAudioSettingsWarning";

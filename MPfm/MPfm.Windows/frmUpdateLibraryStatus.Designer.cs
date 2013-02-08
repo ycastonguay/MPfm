@@ -567,7 +567,7 @@ namespace MPfm
             // 
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOK.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Image = global::MPfm.Properties.Resources.accept;
+            this.btnOK.Image = global::MPfm.Windows.Properties.Resources.accept;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOK.IsAutoSized = true;
             this.btnOK.Location = new System.Drawing.Point(0, 0);
@@ -636,7 +636,7 @@ namespace MPfm
             // 
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancel.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Image = global::MPfm.Properties.Resources.cancel;
+            this.btnCancel.Image = global::MPfm.Windows.Properties.Resources.cancel;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancel.IsAutoSized = true;
             this.btnCancel.Location = new System.Drawing.Point(51, 0);
@@ -705,7 +705,7 @@ namespace MPfm
             // 
             this.btnSaveLog.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSaveLog.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveLog.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSaveLog.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSaveLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveLog.IsAutoSized = true;
             this.btnSaveLog.Location = new System.Drawing.Point(125, 0);

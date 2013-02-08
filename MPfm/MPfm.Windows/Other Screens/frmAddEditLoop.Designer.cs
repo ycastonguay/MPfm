@@ -297,7 +297,7 @@ namespace MPfm
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::MPfm.Properties.Resources.error;
+            this.pictureBox1.Image = global::MPfm.Windows.Properties.Resources.error;
             this.pictureBox1.Location = new System.Drawing.Point(0, 2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(21, 23);
@@ -837,7 +837,7 @@ namespace MPfm
             // 
             this.btnEndPositionGoTo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEndPositionGoTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEndPositionGoTo.Image = global::MPfm.Properties.Resources.arrow_right;
+            this.btnEndPositionGoTo.Image = global::MPfm.Windows.Properties.Resources.arrow_right;
             this.btnEndPositionGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEndPositionGoTo.IsAutoSized = false;
             this.btnEndPositionGoTo.Location = new System.Drawing.Point(285, 62);
@@ -906,7 +906,7 @@ namespace MPfm
             // 
             this.btnEndPositionPunchIn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEndPositionPunchIn.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEndPositionPunchIn.Image = global::MPfm.Properties.Resources.time;
+            this.btnEndPositionPunchIn.Image = global::MPfm.Windows.Properties.Resources.time;
             this.btnEndPositionPunchIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEndPositionPunchIn.IsAutoSized = false;
             this.btnEndPositionPunchIn.Location = new System.Drawing.Point(203, 62);
@@ -975,7 +975,7 @@ namespace MPfm
             // 
             this.btnStartPositionPunchIn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStartPositionPunchIn.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartPositionPunchIn.Image = global::MPfm.Properties.Resources.time;
+            this.btnStartPositionPunchIn.Image = global::MPfm.Windows.Properties.Resources.time;
             this.btnStartPositionPunchIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStartPositionPunchIn.IsAutoSized = false;
             this.btnStartPositionPunchIn.Location = new System.Drawing.Point(203, 31);
@@ -1044,7 +1044,7 @@ namespace MPfm
             // 
             this.btnStartPositionGoTo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStartPositionGoTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartPositionGoTo.Image = global::MPfm.Properties.Resources.arrow_right;
+            this.btnStartPositionGoTo.Image = global::MPfm.Windows.Properties.Resources.arrow_right;
             this.btnStartPositionGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStartPositionGoTo.IsAutoSized = false;
             this.btnStartPositionGoTo.Location = new System.Drawing.Point(285, 31);
@@ -1480,7 +1480,7 @@ namespace MPfm
             // 
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSave.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSave.IsAutoSized = true;
             this.btnSave.Location = new System.Drawing.Point(0, 0);
@@ -1549,7 +1549,7 @@ namespace MPfm
             // 
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Image = global::MPfm.Properties.Resources.cancel;
+            this.btnClose.Image = global::MPfm.Windows.Properties.Resources.cancel;
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnClose.IsAutoSized = true;
             this.btnClose.Location = new System.Drawing.Point(63, 0);

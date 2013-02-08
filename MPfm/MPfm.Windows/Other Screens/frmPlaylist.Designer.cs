@@ -133,7 +133,7 @@ namespace MPfm
             // miPlaylistPlaySong
             // 
             this.miPlaylistPlaySong.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.miPlaylistPlaySong.Image = global::MPfm.Properties.Resources.control_play;
+            this.miPlaylistPlaySong.Image = global::MPfm.Windows.Properties.Resources.control_play;
             this.miPlaylistPlaySong.Name = "miPlaylistPlaySong";
             this.miPlaylistPlaySong.Size = new System.Drawing.Size(179, 22);
             this.miPlaylistPlaySong.Text = "Play selected song";
@@ -141,7 +141,7 @@ namespace MPfm
             // 
             // miPlaylistRemoveSongs
             // 
-            this.miPlaylistRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
+            this.miPlaylistRemoveSongs.Image = global::MPfm.Windows.Properties.Resources.delete;
             this.miPlaylistRemoveSongs.Name = "miPlaylistRemoveSongs";
             this.miPlaylistRemoveSongs.Size = new System.Drawing.Size(179, 22);
             this.miPlaylistRemoveSongs.Text = "Remove song(s)";
@@ -151,7 +151,7 @@ namespace MPfm
             // 
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = global::MPfm.Properties.Resources.arrow_switch;
+            this.button1.Image = global::MPfm.Windows.Properties.Resources.arrow_switch;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button1.IsAutoSized = true;
             this.button1.Location = new System.Drawing.Point(556, 0);
@@ -220,7 +220,7 @@ namespace MPfm
             // 
             this.btnOpenPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenPlaylist.Image = global::MPfm.Properties.Resources.folder_page;
+            this.btnOpenPlaylist.Image = global::MPfm.Windows.Properties.Resources.folder_page;
             this.btnOpenPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOpenPlaylist.IsAutoSized = true;
             this.btnOpenPlaylist.Location = new System.Drawing.Point(103, 0);
@@ -289,7 +289,7 @@ namespace MPfm
             // 
             this.btnRemoveSongs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRemoveSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveSongs.Image = global::MPfm.Properties.Resources.delete;
+            this.btnRemoveSongs.Image = global::MPfm.Windows.Properties.Resources.delete;
             this.btnRemoveSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveSongs.IsAutoSized = true;
             this.btnRemoveSongs.Location = new System.Drawing.Point(439, 0);
@@ -358,7 +358,7 @@ namespace MPfm
             // 
             this.btnSavePlaylistAs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSavePlaylistAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePlaylistAs.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSavePlaylistAs.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSavePlaylistAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSavePlaylistAs.IsAutoSized = true;
             this.btnSavePlaylistAs.Location = new System.Drawing.Point(317, 0);
@@ -427,7 +427,7 @@ namespace MPfm
             // 
             this.btnSavePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSavePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePlaylist.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSavePlaylist.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSavePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSavePlaylist.IsAutoSized = true;
             this.btnSavePlaylist.Location = new System.Drawing.Point(212, 0);
@@ -496,7 +496,7 @@ namespace MPfm
             // 
             this.btnNewPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNewPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPlaylist.Image = global::MPfm.Properties.Resources.page_white_text;
+            this.btnNewPlaylist.Image = global::MPfm.Windows.Properties.Resources.page_white_text;
             this.btnNewPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNewPlaylist.IsAutoSized = true;
             this.btnNewPlaylist.Location = new System.Drawing.Point(0, 0);
@@ -689,7 +689,7 @@ namespace MPfm
             // 
             // miLoadPlaylistBrowse
             // 
-            this.miLoadPlaylistBrowse.Image = global::MPfm.Properties.Resources.folder_page;
+            this.miLoadPlaylistBrowse.Image = global::MPfm.Windows.Properties.Resources.folder_page;
             this.miLoadPlaylistBrowse.Name = "miLoadPlaylistBrowse";
             this.miLoadPlaylistBrowse.Size = new System.Drawing.Size(207, 22);
             this.miLoadPlaylistBrowse.Text = "Browse...";
@@ -717,7 +717,7 @@ namespace MPfm
             // 
             // miLoadPlaylistLibrary
             // 
-            this.miLoadPlaylistLibrary.Image = global::MPfm.Properties.Resources.database;
+            this.miLoadPlaylistLibrary.Image = global::MPfm.Windows.Properties.Resources.database;
             this.miLoadPlaylistLibrary.Name = "miLoadPlaylistLibrary";
             this.miLoadPlaylistLibrary.Size = new System.Drawing.Size(207, 22);
             this.miLoadPlaylistLibrary.Text = "Library playlists";

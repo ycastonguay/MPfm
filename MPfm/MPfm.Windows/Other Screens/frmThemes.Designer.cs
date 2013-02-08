@@ -306,7 +306,7 @@ namespace MPfm
             // 
             this.btnSaveTheme.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSaveTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveTheme.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSaveTheme.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSaveTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveTheme.Location = new System.Drawing.Point(182, 31);
             this.btnSaveTheme.Name = "btnSaveTheme";
@@ -369,7 +369,7 @@ namespace MPfm
             // 
             this.btnApplyTheme.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnApplyTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyTheme.Image = global::MPfm.Properties.Resources.accept;
+            this.btnApplyTheme.Image = global::MPfm.Windows.Properties.Resources.accept;
             this.btnApplyTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnApplyTheme.Location = new System.Drawing.Point(756, 81);
             this.btnApplyTheme.Name = "btnApplyTheme";
@@ -1326,7 +1326,7 @@ namespace MPfm
             // 
             this.btnPlaySelectedSong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPlaySelectedSong.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlaySelectedSong.Image = global::MPfm.Properties.Resources.control_play;
+            this.btnPlaySelectedSong.Image = global::MPfm.Windows.Properties.Resources.control_play;
             this.btnPlaySelectedSong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPlaySelectedSong.Location = new System.Drawing.Point(0, 0);
             this.btnPlaySelectedSong.Name = "btnPlaySelectedSong";
@@ -1922,7 +1922,7 @@ namespace MPfm
             // 
             this.btnSaveThemeAs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSaveThemeAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveThemeAs.Image = global::MPfm.Properties.Resources.disk;
+            this.btnSaveThemeAs.Image = global::MPfm.Windows.Properties.Resources.disk;
             this.btnSaveThemeAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveThemeAs.Location = new System.Drawing.Point(274, 31);
             this.btnSaveThemeAs.Name = "btnSaveThemeAs";
@@ -2105,7 +2105,7 @@ namespace MPfm
             // 
             this.btnLoadTheme.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoadTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadTheme.Image = global::MPfm.Properties.Resources.folder_page;
+            this.btnLoadTheme.Image = global::MPfm.Windows.Properties.Resources.folder_page;
             this.btnLoadTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLoadTheme.Location = new System.Drawing.Point(89, 31);
             this.btnLoadTheme.Name = "btnLoadTheme";
@@ -2169,7 +2169,7 @@ namespace MPfm
             this.btnRemoveTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveTheme.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRemoveTheme.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveTheme.Image = global::MPfm.Properties.Resources.delete;
+            this.btnRemoveTheme.Image = global::MPfm.Windows.Properties.Resources.delete;
             this.btnRemoveTheme.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveTheme.Location = new System.Drawing.Point(381, 31);
             this.btnRemoveTheme.Name = "btnRemoveTheme";

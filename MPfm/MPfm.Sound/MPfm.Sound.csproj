@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\System.Reactive.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>

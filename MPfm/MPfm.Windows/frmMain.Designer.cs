@@ -674,7 +674,7 @@ namespace MPfm
             // 
             // miFileUpdateLibrary
             // 
-            this.miFileUpdateLibrary.Image = global::MPfm.Properties.Resources.arrow_rotate_clockwise;
+            this.miFileUpdateLibrary.Image = global::MPfm.Windows.Properties.Resources.arrow_rotate_clockwise;
             this.miFileUpdateLibrary.Name = "miFileUpdateLibrary";
             this.miFileUpdateLibrary.Size = new System.Drawing.Size(178, 22);
             this.miFileUpdateLibrary.Text = "&Update Library";
@@ -927,7 +927,7 @@ namespace MPfm
             // 
             // btnUpdateLibrary
             // 
-            this.btnUpdateLibrary.Image = global::MPfm.Properties.Resources.arrow_rotate_clockwise;
+            this.btnUpdateLibrary.Image = global::MPfm.Windows.Properties.Resources.arrow_rotate_clockwise;
             this.btnUpdateLibrary.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUpdateLibrary.Name = "btnUpdateLibrary";
             this.btnUpdateLibrary.Size = new System.Drawing.Size(82, 34);
@@ -1002,7 +1002,7 @@ namespace MPfm
             // 
             // btnRepeat
             // 
-            this.btnRepeat.Image = global::MPfm.Properties.Resources.control_repeat;
+            this.btnRepeat.Image = global::MPfm.Windows.Properties.Resources.control_repeat;
             this.btnRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRepeat.Name = "btnRepeat";
             this.btnRepeat.Size = new System.Drawing.Size(72, 34);

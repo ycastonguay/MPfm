@@ -8,7 +8,7 @@
     <ProjectGuid>{BCFDCCC6-2F8C-40BB-BE51-BC8E208242D3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm</RootNamespace>
+    <RootNamespace>MPfm.Windows</RootNamespace>
     <AssemblyName>MPfm</AssemblyName>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>

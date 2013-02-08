@@ -2774,7 +2774,7 @@ namespace MPfm
             this.btnSaveEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSaveEQPreset.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSaveEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveEQPreset.Image = global::MPfm.Properties.Resources.tick;
+            this.btnSaveEQPreset.Image = global::MPfm.Windows.Properties.Resources.tick;
             this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveEQPreset.IsAutoSized = false;
             this.btnSaveEQPreset.Location = new System.Drawing.Point(6, 132);
@@ -2844,7 +2844,7 @@ namespace MPfm
             this.btnDeleteEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDeleteEQPreset.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDeleteEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteEQPreset.Image = global::MPfm.Properties.Resources.delete;
+            this.btnDeleteEQPreset.Image = global::MPfm.Windows.Properties.Resources.delete;
             this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDeleteEQPreset.IsAutoSized = false;
             this.btnDeleteEQPreset.Location = new System.Drawing.Point(6, 166);
@@ -2914,7 +2914,7 @@ namespace MPfm
             this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAutoLevel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAutoLevel.Image = global::MPfm.Properties.Resources.shape_align_middle;
+            this.btnAutoLevel.Image = global::MPfm.Windows.Properties.Resources.shape_align_middle;
             this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAutoLevel.IsAutoSized = false;
             this.btnAutoLevel.Location = new System.Drawing.Point(6, 200);
@@ -2984,7 +2984,7 @@ namespace MPfm
             this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResetEQ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnResetEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetEQ.Image = global::MPfm.Properties.Resources.exclamation;
+            this.btnResetEQ.Image = global::MPfm.Windows.Properties.Resources.exclamation;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResetEQ.IsAutoSized = false;
             this.btnResetEQ.Location = new System.Drawing.Point(6, 234);

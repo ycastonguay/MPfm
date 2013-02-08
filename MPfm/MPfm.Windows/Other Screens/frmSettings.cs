@@ -511,33 +511,33 @@ namespace MPfm
             // Check state and update UI
             if (audioSettingsState == AudioSettingsState.NotChanged)
             {
-                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.tick;
+                picAudioSettingsWarning.Image = global::MPfm.Windows.Properties.Resources.tick;
                 lblAudioSettingsWarning.Text = "The audio settings haven't been changed.";
-                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
+                btnTestSaveAudioSettings.Image = global::MPfm.Windows.Properties.Resources.sound;
                 btnTestSaveAudioSettings.Text = "Test audio settings";
                 btnTestSaveAudioSettings.Enabled = true;
             }
             else if (audioSettingsState == AudioSettingsState.NotTested)
             {
-                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.error;
+                picAudioSettingsWarning.Image = global::MPfm.Windows.Properties.Resources.error;
                 lblAudioSettingsWarning.Text = "The audio settings have changed but haven't been tested.";
-                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.sound;
+                btnTestSaveAudioSettings.Image = global::MPfm.Windows.Properties.Resources.sound;
                 btnTestSaveAudioSettings.Text = "Test audio settings";
                 btnTestSaveAudioSettings.Enabled = true;
             }
             else if (audioSettingsState == AudioSettingsState.Tested)
             {
-                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.accept;
+                picAudioSettingsWarning.Image = global::MPfm.Windows.Properties.Resources.accept;
                 lblAudioSettingsWarning.Text = "The new audio settings have been tested successfully. Click on 'Save audio settings' to continue.";
-                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.disk;
+                btnTestSaveAudioSettings.Image = global::MPfm.Windows.Properties.Resources.disk;
                 btnTestSaveAudioSettings.Text = "Save audio settings";
                 btnTestSaveAudioSettings.Enabled = true;
             }
             else if (audioSettingsState == AudioSettingsState.Saved)
             {
                 lblAudioSettingsWarning.Text = "The new audio settings has been applied and saved successfully.";
-                picAudioSettingsWarning.Image = global::MPfm.Properties.Resources.accept;                
-                btnTestSaveAudioSettings.Image = global::MPfm.Properties.Resources.disk;
+                picAudioSettingsWarning.Image = global::MPfm.Windows.Properties.Resources.accept;                
+                btnTestSaveAudioSettings.Image = global::MPfm.Windows.Properties.Resources.disk;
                 btnTestSaveAudioSettings.Text = "Save audio settings";
                 btnTestSaveAudioSettings.Enabled = false;
             }            

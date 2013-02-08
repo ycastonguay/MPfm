@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Fonts", "MPfm.Fonts\MP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Library", "MPfm.Library\MPfm.Library.csproj", "{2A62D229-D7FC-41DA-B676-BB1371659BFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm", "MPfm\MPfm.csproj", "{BCFDCCC6-2F8C-40BB-BE51-BC8E208242D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm", "MPfm.Windows\MPfm.Windows.csproj", "{BCFDCCC6-2F8C-40BB-BE51-BC8E208242D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.WindowsControls", "MPfm.WindowsControls\MPfm.WindowsControls.csproj", "{11C9F839-A47E-455E-8D10-661E47DE664C}"
 EndProject
