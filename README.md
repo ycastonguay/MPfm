@@ -27,7 +27,7 @@ There are no makefiles at the moment, so you will need Visual Studio and/or Mono
 
 There are several solution files in the root directory of the project. Here is a list of the solution files per platform:
 
-+  __Windows__: `MPfm.sln`
++  __Windows__: `MPfm_Windows.sln`
 +  __Mac__: `MPfm_Mac.sln`
 +  __Linux__: `MPfm_Linux.sln`
 +  __iOS__: `MPfm_iOS.sln`
@@ -40,10 +40,12 @@ __Windows__:
 + WinForms
 
 __Mac__:
++ [Mono](http://www.mono-project.com)
 + [MonoMac](https://github.com/mono/monomac)
 + [Xcode](https://developer.apple.com/xcode/)
 
 __Linux__:
++ [Mono](http://www.mono-project.com)
 + [GTK#](http://www.mono-project.com/GtkSharp)
 
 __iOS__:
