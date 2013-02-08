@@ -1,26 +1,15 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// WARNING
 //
-// This file is part of MPfm.
+// This file has been generated automatically by MonoDevelop to store outlets and
+// actions made in the Xcode designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-// MPfm is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// MPfm is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
-
 using MonoTouch.Foundation;
 
 namespace MPfm.iOS
 {
-	[Register ("MPfm_iOSViewController")]
-	partial class MPfm_iOSViewController
+	[Register ("PlayerViewController")]
+	partial class PlayerViewController
 	{
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblPosition { get; set; }
@@ -40,14 +29,20 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UISlider sliderPosition { get; set; }
 
-		[Action ("actionPlay:")]
-		partial void actionPlay (MonoTouch.Foundation.NSObject sender);
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblLength { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnPrevious { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnPlayPause { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnNext { get; set; }
 
 		[Action ("actionPause:")]
 		partial void actionPause (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionStop:")]
-		partial void actionStop (MonoTouch.Foundation.NSObject sender);
 
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoTouch.Foundation.NSObject sender);
@@ -85,6 +80,26 @@ namespace MPfm.iOS
 			if (sliderPosition != null) {
 				sliderPosition.Dispose ();
 				sliderPosition = null;
+			}
+
+			if (lblLength != null) {
+				lblLength.Dispose ();
+				lblLength = null;
+			}
+
+			if (btnPrevious != null) {
+				btnPrevious.Dispose ();
+				btnPrevious = null;
+			}
+
+			if (btnPlayPause != null) {
+				btnPlayPause.Dispose ();
+				btnPlayPause = null;
+			}
+
+			if (btnNext != null) {
+				btnNext.Dispose ();
+				btnNext = null;
 			}
 		}
 	}

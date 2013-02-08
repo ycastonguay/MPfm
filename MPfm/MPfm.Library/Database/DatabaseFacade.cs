@@ -42,7 +42,7 @@ namespace MPfm.Library.Database
         public DatabaseFacade(string databaseFilePath)
         {
 
-#if IOS || ANDROID
+#if IOS || ANDROID || MACOSX || LINUX
             _gateway = new MonoSQLiteGateway(databaseFilePath);
 #else
             _gateway = new SQLiteGateway(databaseFilePath);
