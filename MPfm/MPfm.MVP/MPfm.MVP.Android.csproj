@@ -110,6 +110,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
+    <Compile Include="Presenters\MobileOptionsMenuPresenter.cs" />
     <Compile Include="Presenters\MobileLibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileLibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IMobileOptionsMenuView.cs" />
     <Compile Include="Views\IMobileLibraryBrowserView.cs" />
     <Compile Include="Views\ILibraryPreferencesView.cs" />
     <Compile Include="Views\IGeneralPreferencesView.cs" />
@@ -125,7 +128,7 @@
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Models\SongInformationEntity.cs" />
     <Compile Include="Models\UpdateLibraryEntity.cs" />
-    <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Services\UpdateLibraryService.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />

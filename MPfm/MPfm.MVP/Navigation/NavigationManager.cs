@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.MVP.Bootstrap;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
@@ -58,11 +59,11 @@ namespace MPfm.MVP.Navigation
             };
             Action<IBaseView> onViewReady = (view) =>
             {
-                _splashPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
+                _splashPresenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
                 _splashPresenter.BindView((ISplashView)view);
                 _splashPresenter.Initialize(onInitDone); // TODO: Should the presenter call NavMgr instead of using an action?
             };
-            _splashView = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _splashView.OnViewDestroy = (view) =>
             {
                 _splashView = null;
@@ -75,16 +76,16 @@ namespace MPfm.MVP.Navigation
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {
-                _mainPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IMainPresenter>();
+                _mainPresenter = Bootstrapper.GetContainer().Resolve<IMainPresenter>();
                 _mainPresenter.BindView((IMainView)view);                
-                _playerPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
+                _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
                 _playerPresenter.BindView((IPlayerView)view);
-                _libraryBrowserPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ILibraryBrowserPresenter>();
+                _libraryBrowserPresenter = Bootstrapper.GetContainer().Resolve<ILibraryBrowserPresenter>();
                 _libraryBrowserPresenter.BindView((ILibraryBrowserView)view);                
-                _songBrowserPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ISongBrowserPresenter>();
+                _songBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISongBrowserPresenter>();
                 _songBrowserPresenter.BindView((ISongBrowserView)view);                
             };            
-            _mainView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _mainView.OnViewDestroy = (view) => {
                 _mainView = null;
                 _mainPresenter = null;
@@ -108,16 +109,16 @@ namespace MPfm.MVP.Navigation
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
                 {                    
-                    _audioPreferencesPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
+                    _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
                     _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
-                    _generalPreferencesPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
+                    _generalPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
                     _generalPreferencesPresenter.BindView((IGeneralPreferencesView)view);
-                    _libraryPreferencesPresenter = Bootstrapper.Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
+                    _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
                     _libraryPreferencesPresenter.BindView((ILibraryPreferencesView)view);
                 };
             
             // Create view and manage view destruction
-            _preferencesView = Bootstrapper.Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _preferencesView.OnViewDestroy = (view) => {
                 _preferencesView = null;
                 _audioPreferencesPresenter = null;

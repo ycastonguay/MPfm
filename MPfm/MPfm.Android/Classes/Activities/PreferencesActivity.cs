@@ -25,6 +25,7 @@ using Android.OS;
 using MPfm.Android.Classes;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
+using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
 using TagLib.Riff;
 

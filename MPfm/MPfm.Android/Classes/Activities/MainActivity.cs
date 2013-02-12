@@ -23,15 +23,10 @@ using Android.Content.PM;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
-using Android.Widget;
-using MPfm.Android.Classes;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
+using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
-using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
-using Environment = Android.OS.Environment;
 
 namespace MPfm.Android
 {

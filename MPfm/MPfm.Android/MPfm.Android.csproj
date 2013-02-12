@@ -64,7 +64,6 @@
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\GenericListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
-    <Compile Include="Classes\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
     <Compile Include="Classes\Helpers\BitmapCache.cs" />
     <Compile Include="Classes\Listeners\TabListener.cs" />
+    <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Objects\ApplicationState.cs" />
     <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
