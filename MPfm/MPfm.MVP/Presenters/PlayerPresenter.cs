@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using AutoMapper;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
@@ -74,8 +73,15 @@ namespace MPfm.MVP.Presenters
             messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
                 Play(audioFileCacheService.SelectAudioFiles(m.Query));
             });
-            messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
-                Play(audioFileCacheService.SelectAudioFiles(m.Query), m.Item.FilePath);
+            messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) =>
+            {
+                string filePath = m != null ? m.Item.FilePath : null;
+                Play(audioFileCacheService.SelectAudioFiles(m.Query), filePath);
+            });
+            messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) =>
+            {
+                string filePath = m.Item != null ? m.Item.FilePath : null;
+                Play(audioFileCacheService.SelectAudioFiles(m.Query), filePath);
             });
         }
         
@@ -275,7 +281,7 @@ namespace MPfm.MVP.Presenters
     				
     				// Refresh view with empty information
                     Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
-                    View.RefreshSongInformation(new SongInformationEntity());
+    			    View.RefreshSongInformation(null);
                     View.RefreshPlayerPosition(new PlayerPositionEntity());
     			}
             }
@@ -363,19 +369,7 @@ namespace MPfm.MVP.Presenters
 		/// </param>
 		private void RefreshSongInformation(AudioFile audioFile)
 		{			
-			// Map entity
-			SongInformationEntity entity = Mapper.Map<AudioFile, SongInformationEntity>(audioFile);
-			if(audioFile != null)
-			{
-				entity.BitsPerSampleString = entity.BitsPerSample.ToString() + " bits";
-				entity.SampleRateString = entity.SampleRate.ToString() + " Hz";
-				entity.BitrateString = entity.Bitrate.ToString() + " kbps";
-				if(entity.FileType != AudioFileFormat.All)					
-					entity.FileTypeString = entity.FileType.ToString();								
-			}			
-			
-			// Update view
-            View.RefreshSongInformation(entity);
+            View.RefreshSongInformation(audioFile);
 		}
         
         public void SetPosition(float percentage)

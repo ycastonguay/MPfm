@@ -27,6 +27,8 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using TagLib.Riff;
 
 namespace MPfm.Android
@@ -36,7 +38,8 @@ namespace MPfm.Android
     {
         private ViewPager _viewPager;
         private TabPagerAdapter _tabPagerAdapter;
-        private List<Fragment> _fragments;
+        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
+        private MobileNavigationManager _navigationManager;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -58,10 +61,11 @@ namespace MPfm.Android
             base.OnStart();
 
             // Create fragments
-            _fragments = new List<Fragment>();
-            _fragments.Add((Fragment)AndroidNavigationManager.Instance.CreateGeneralPreferencesView());
-            _fragments.Add((Fragment)AndroidNavigationManager.Instance.CreateAudioPreferencesView());
-            _fragments.Add((Fragment)AndroidNavigationManager.Instance.CreateLibraryPreferencesView());
+            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
+            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.PreferencesGeneral, (Fragment)_navigationManager.CreateGeneralPreferencesView()));
+            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.PreferencesAudio, (Fragment)_navigationManager.CreateAudioPreferencesView()));
+            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.PreferencesLibrary, (Fragment)_navigationManager.CreateLibraryPreferencesView()));
 
             // Create view pager (for lateral navigation)
             _viewPager = FindViewById<ViewPager>(Resource.Id.settings_pager);

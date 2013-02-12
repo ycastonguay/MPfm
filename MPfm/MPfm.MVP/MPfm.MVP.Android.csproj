@@ -74,9 +74,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="AutoMapper">
-      <HintPath>Lib\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="Mono.Posix" />
     <Reference Include="System.Data.SQLite">
@@ -108,6 +105,7 @@
   </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
@@ -126,7 +124,6 @@
     <Compile Include="Views\IGeneralPreferencesView.cs" />
     <Compile Include="Views\IAudioPreferencesView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
-    <Compile Include="Models\SongInformationEntity.cs" />
     <Compile Include="Models\UpdateLibraryEntity.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Services\UpdateLibraryService.cs" />

@@ -27,17 +27,20 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
     [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/MyAppTheme")]
-    public class MainActivity : BaseActivity
+    public class MainActivity : BaseActivity, IMobileOptionsMenuView
     {
         private ViewPager _viewPager;
         private TabPagerAdapter _tabPagerAdapter;
-        private List<Fragment> _fragments;
+        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
         private SplashFragment _splashFragment;
-        private UpdateLibraryFragment _updateLibraryFragment;
+        private AndroidNavigationManager _navigationManager;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -60,23 +63,44 @@ namespace MPfm.Android
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
 
             // Create view pager adapter
-            _fragments = new List<Fragment>();
+            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
             _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
             // Bind this activity to splash and update library views
-            AndroidNavigationManager.Instance.MainActivity = this;
-            AndroidNavigationManager.Instance.Start();
+            _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            _navigationManager.MainActivity = this;
+            _navigationManager.Start();
         }
 
-        public void AddTab(string title, Fragment fragment)
+        public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
-            _fragments.Add(fragment);
+            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(type, fragment));
             var tab = ActionBar.NewTab();
             tab.SetTabListener(_tabPagerAdapter);
             tab.SetText(title);
             ActionBar.AddTab(tab);
+        }
+
+        public void PushTabView(MobileNavigationTabType type, Fragment fragment)
+        {
+            // Check fragment type
+            if (fragment is PlayerFragment)
+            {
+                // This fragment should completely hide the view pager
+                _viewPager.Visibility = ViewStates.Gone;
+                var transaction = FragmentManager.BeginTransaction();
+                transaction.Add(Resource.Id.main_fragment_container, fragment);
+                transaction.AddToBackStack(null);
+                transaction.Commit();
+            }
+        }
+
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+            _viewPager.Visibility = ViewStates.Visible;
         }
 
         protected override void OnStart()
@@ -130,7 +154,6 @@ namespace MPfm.Android
 
         public override bool OnOptionsItemSelected(IMenuItem menuItem)
         {
-            // TODO: Determine if the menu should call the NavMgr directly, or the presenter... something like a MainMenuPresenter?
             string text = menuItem.TitleFormatted.ToString();
             if (text.ToUpper() == "EFFECTS")
             {
@@ -138,7 +161,7 @@ namespace MPfm.Android
             }
             else if (text.ToUpper() == "UPDATE LIBRARY")
             {
-                ShowUpdateLibrary((UpdateLibraryFragment)AndroidNavigationManager.Instance.CreateUpdateLibraryView());
+                ShowUpdateLibrary((UpdateLibraryFragment)_navigationManager.CreateUpdateLibraryView());
             }
             else if (text.ToUpper() == "PREFERENCES")
             {
@@ -158,7 +181,7 @@ namespace MPfm.Android
         {
             // Display fragment in a dialog
             _splashFragment = fragment;
-            _splashFragment.Show(FragmentManager, "");
+            _splashFragment.Show(FragmentManager, "Splash");
         }
 
         public void RemoveSplashScreen()
@@ -168,8 +191,19 @@ namespace MPfm.Android
 
         private void ShowUpdateLibrary(UpdateLibraryFragment fragment)
         {
-            _updateLibraryFragment = fragment;
-            _updateLibraryFragment.Show(FragmentManager, "");
+            fragment.Show(FragmentManager, "UpdateLibrary");
         }
+
+        #region IMobileOptionsMenuView implementation
+
+        public Action OnClickPreferences { get; set; }
+        public Action OnClickEffects { get; set; }
+        public Action OnClickAbout { get; set; }
+        public void RefreshMenu(Dictionary<MobileOptionsMenuType, string> options)
+        {
+            
+        }
+
+        #endregion
     }
 }

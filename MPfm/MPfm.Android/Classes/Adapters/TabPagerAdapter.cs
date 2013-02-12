@@ -17,20 +17,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Runtime;
 using Android.Support.V13.App;
 using Android.Support.V4.View;
-using Android.Views;
-using Android.Widget;
-using MPfm.Android.Classes.Fragments;
-using MPfm.Android.Classes.Objects;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.Android.Classes.Adapters
 {
     public class TabPagerAdapter : FragmentPagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
     {
-        private readonly List<Fragment> _fragments;
+        private readonly List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
         private ViewPager _viewPager;
         private ActionBar _actionBar;
 
@@ -39,7 +37,7 @@ namespace MPfm.Android.Classes.Adapters
         {
         }
 
-        public TabPagerAdapter(FragmentManager fm, List<Fragment> fragments, ViewPager viewPager, ActionBar actionBar)
+        public TabPagerAdapter(FragmentManager fm, List<KeyValuePair<MobileNavigationTabType, Fragment>> fragments, ViewPager viewPager, ActionBar actionBar)
             : base(fm)
         {
             _fragments = fragments;
@@ -67,7 +65,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Fragment GetItem(int index)
         {
-            return _fragments[index];
+            return _fragments[index].Value;
         }
 
         public override int Count

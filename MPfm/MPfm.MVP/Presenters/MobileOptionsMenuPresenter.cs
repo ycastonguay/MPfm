@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
@@ -39,14 +40,25 @@ namespace MPfm.MVP.Presenters
 		#endregion
 
         public override void BindView(IMobileOptionsMenuView view)
-        {            
-            // Subscribe to view actions
+        {
+            base.BindView(view);
+
             view.OnClickAbout = OnClickAbout;
             view.OnClickEffects = OnClickEffects;
             view.OnClickPreferences = OnClickPreferences;
             
-            base.BindView(view);
+            Initialize();
         }
+
+	    private void Initialize()
+	    {	        
+            Dictionary<MobileOptionsMenuType, string> dictionary = new Dictionary<MobileOptionsMenuType, string>();
+            dictionary.Add(MobileOptionsMenuType.UpdateLibrary, "Update Library");
+            dictionary.Add(MobileOptionsMenuType.Effects, "Effects");
+            dictionary.Add(MobileOptionsMenuType.Preferences, "Preferences");
+            dictionary.Add(MobileOptionsMenuType.About, "About MPfm");
+            View.RefreshMenu(dictionary);
+	    }
 
 	    private void OnClickPreferences()
 	    {

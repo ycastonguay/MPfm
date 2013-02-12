@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -24,19 +25,19 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Android.Classes.Helpers;
 using MPfm.Core;
+using MPfm.MVP.Views;
 using MPfm.Player;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
 using Environment = Android.OS.Environment;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class PlayerFragment : Fragment, View.IOnClickListener
+    public class PlayerFragment : BaseFragment, View.IOnClickListener, IPlayerView
     {        
-        private BitmapCache bitmapCache;
-
+        private BitmapCache _bitmapCache;
         private View _view;
         private ImageView _imageViewAlbumArt;
         private TextView _lblArtistName;
@@ -47,54 +48,16 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnPlayPause;
         private Button _btnPrevious;
         private Button _btnNext;
+        
+        // Leave an empty constructor or the application will crash at runtime
+        public PlayerFragment() : base(null) { }
 
-        private Timer timer;
-        private IPlayer player;
-
-        private void Initialize()
+        public PlayerFragment(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
-            // Configure player
-            player = MPfm.Player.Player.CurrentPlayer;
-            player.OnPlaylistIndexChanged += (data) =>
-            {
-                if (data.AudioFileEnded != null &&
-                   data.AudioFileEnded.ArtistName == data.AudioFileStarted.ArtistName &&
-                   data.AudioFileEnded.AlbumTitle == data.AudioFileStarted.AlbumTitle)
-                {
-                    RefreshAudioFile(data.AudioFileStarted, true);
-                }
-                else
-                {
-                    RefreshAudioFile(data.AudioFileStarted, false);
-                }
-            };
-
-            // Create bitmap cache
-            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            int cacheSize = maxMemory / 8;
-            bitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
-
-            // Create timer for updating position
-            timer = new Timer();
-            timer.Interval = 100;
-            timer.Elapsed += (sender, e) => Activity.RunOnUiThread(() =>
-                {
-                    try
-                    {
-                        long bytes = MPfm.Player.Player.CurrentPlayer.GetPosition();
-                        long samples = ConvertAudio.ToPCM(bytes, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                        long ms = ConvertAudio.ToMS(samples, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.SampleRate);
-                        string pos = Conversion.MillisecondsToTimeString((ulong)ms);
-                        _lblPosition.Text = pos;
-                        //sliderPosition.Value = ms;
-                    }
-                    catch
-                    {
-                        _lblPosition.Text = "0:00.000";
-                    }
-                });
+            
         }
-    
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = inflater.Inflate(Resource.Layout.Fragment_Player, container, false);
@@ -111,93 +74,88 @@ namespace MPfm.Android.Classes.Fragments
             _btnPrevious.SetOnClickListener(this);
             _btnNext.SetOnClickListener(this);
 
+            // Create bitmap cache
+            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
+            int cacheSize = maxMemory / 8;
+            _bitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
+
             // Match height with width (cannot do that in xml)
             //_imageViewAlbumArt.LayoutParameters = new ViewGroup.LayoutParams(_imageViewAlbumArt.Width, _imageViewAlbumArt.Width);
             return _view;
-        }
-
-        public override void OnResume()
-        {
-            base.OnResume();
-
-            Initialize();
-
-            if(!player.IsPlaying)
-                Play();
         }
 
         public void OnClick(View v)
         {
             if (v.Id == Resource.Id.fragment_player_btnPlayPause)
             {
-                MPfm.Player.Player.CurrentPlayer.Pause();
+                OnPlayerPause();
             }
             else if (v.Id == Resource.Id.fragment_player_btnPrevious)
             {
-                MPfm.Player.Player.CurrentPlayer.Previous();
+                OnPlayerPrevious();
             }
             else if (v.Id == Resource.Id.fragment_player_btnNext)
             {
-                MPfm.Player.Player.CurrentPlayer.Next();                
+                OnPlayerNext();
             }
         }
 
-        private List<string> DirectorySearch(string directoryPath)
-        {
-            List<string> filePaths = new List<string>();
-            foreach (string filePath in Directory.GetFiles(directoryPath))
-            {
-                if (filePath.ToUpper().Contains(".MP3") ||
-                    filePath.ToUpper().Contains(".FLAC"))
-                {
-                    filePaths.Add(filePath);
-                }
-            }
-            foreach (string subDirectoryPath in Directory.GetDirectories(directoryPath))
-            {
-                filePaths.AddRange(DirectorySearch(subDirectoryPath));
-            }
-            return filePaths;
-        }
+        #region IPlayerView implementation
 
-        private void Play()
-        {
-            string musicPath = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryMusic).ToString();
-            List<string> listFiles = DirectorySearch(musicPath);
+        public Action OnPlayerPlay { get; set; }
+        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public Action OnPlayerPause { get; set; }
+        public Action OnPlayerStop { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action<float> OnPlayerSetVolume { get; set; }
+        public Action<float> OnPlayerSetPitchShifting { get; set; }
+        public Action<float> OnPlayerSetTimeShifting { get; set; }
+        public Action<float> OnPlayerSetPosition { get; set; }
 
-            if (listFiles.Count > 0)
-            {
-                player.PlayFiles(listFiles);
-            }
-            else
-            {
-                return;
-            }
-
-            timer.Start();
-            RefreshAudioFile(player.Playlist.CurrentItem.AudioFile, false);
-        }
-
-        private void RefreshAudioFile(AudioFile audioFile, bool isSameAlbum)
+        public void RefreshPlayerPosition(MVP.Models.PlayerPositionEntity entity)
         {
             Activity.RunOnUiThread(() =>
-            {
-                if (!isSameAlbum)
                 {
-                    Task.Factory.StartNew(() =>
-                        {
-                            // Decode album art, add to cache, update image view
-                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                            bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageViewAlbumArt);
-                        });
-                }
-
-                _lblArtistName.Text = audioFile.ArtistName;
-                _lblAlbumTitle.Text = audioFile.AlbumTitle;
-                _lblSongTitle.Text = audioFile.Title;
-                _lblLength.Text = player.Playlist.CurrentItem.LengthString;
-                //sliderPosition.MaxValue = player.Playlist.CurrentItem.LengthMilliseconds;
-            });
+                    _lblPosition.Text = entity.Position;
+                });
         }
+
+        public void RefreshSongInformation(AudioFile audioFile)
+        {
+            Activity.RunOnUiThread(() =>
+                {
+                    if (audioFile != null)
+                    {
+                        Task.Factory.StartNew(() =>
+                            {
+                                // Decode album art, add to cache, update image view
+                                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                                _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageViewAlbumArt);
+                            });
+
+                        _lblArtistName.Text = audioFile.ArtistName;
+                        _lblAlbumTitle.Text = audioFile.AlbumTitle;
+                        _lblSongTitle.Text = audioFile.Title;
+                        _lblLength.Text = audioFile.Length;
+                        //sliderPosition.MaxValue = player.Playlist.CurrentItem.LengthMilliseconds;
+                    }
+                });            
+        }
+
+        public void RefreshPlayerVolume(MVP.Models.PlayerVolumeEntity entity)
+        {
+        }
+
+        public void RefreshPlayerTimeShifting(MVP.Models.PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        public void PlayerError(System.Exception ex)
+        {
+
+        }
+
+        #endregion
     }
 }

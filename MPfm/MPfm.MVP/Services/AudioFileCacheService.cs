@@ -164,6 +164,7 @@ namespace MPfm.MVP.Services
                 //}
 
                 // Execute query
+                var test = queryAudioFiles.ToList();
                 return queryAudioFiles.ToList();
             }
             catch (Exception ex)

@@ -29,11 +29,16 @@ namespace MPfm.MVP.Navigation
     /// </summary>
     public abstract class MobileNavigationManager
     {
+        private readonly object _locker = new object();
+
         private IMobileOptionsMenuView _optionsMenuView;
         private IMobileOptionsMenuPresenter _optionsMenuPresenter;
 
         private ISplashView _splashView;
         private ISplashPresenter _splashPresenter;
+
+        private IPlayerView _playerView;
+        private IPlayerPresenter _playerPresenter;
 
         private IAudioPreferencesView _audioPreferencesView;
         private IGeneralPreferencesView _generalPreferencesView;
@@ -49,27 +54,27 @@ namespace MPfm.MVP.Navigation
 
         public abstract void ShowSplash(ISplashView view);
         public abstract void HideSplash();
-        public abstract void AddTab(string title, IBaseView view);
-        public abstract void PushView(IBaseView context, IBaseView newView);
+        public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
+        public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
 
         public virtual void Start()
         {
             Action onInitDone = () =>
             {                
                 // Create 4 main tabs
-                var playlistsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Playlists);
-                var artistsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Artists);
-                var albumsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Albums);
-                var songsView = CreateMobileLibraryBrowserView(MobileLibraryBrowserType.Songs);
-                AddTab("Playlists", playlistsView);
-                AddTab("Artists", artistsView);
-                AddTab("Alumbs", albumsView);
-                AddTab("Songs", songsView);
+                var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists);
+                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists);
+                var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums);
+                var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs);
+                AddTab(MobileNavigationTabType.Playlists, "Playlists", playlistsView);
+                AddTab(MobileNavigationTabType.Artists, "Artists", artistsView);
+                AddTab(MobileNavigationTabType.Albums, "Albums", albumsView);
+                AddTab(MobileNavigationTabType.Songs, "Songs", songsView);
 
                 // iOS has one more tab, the More tab (Options Menu equivalent on Android).
 #if IOS
                 var moreView = CreateOptionsMenuView();
-                AddTab("More", moreView);
+                AddTab(MobileNavigationTabType.More, "More", moreView);
 #endif
 
                 // Finally hide the splash screen, our UI is ready
@@ -190,14 +195,18 @@ namespace MPfm.MVP.Navigation
             return _libraryPreferencesView;
         }
 
-        public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileLibraryBrowserType browserType)
+        public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType)
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>();
-                presenter.BindView((IMobileLibraryBrowserView)view);
-                _mobileLibraryBrowserList.Add((IMobileLibraryBrowserView)view, presenter);
+                // The view list can be accessed from different threads.
+                lock (_locker)
+                {
+                    var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() {{"tabType", tabType}});
+                    presenter.BindView((IMobileLibraryBrowserView) view);
+                    _mobileLibraryBrowserList.Add((IMobileLibraryBrowserView) view, presenter);
+                }
             };
 
             // Create view and manage view destruction
@@ -206,11 +215,47 @@ namespace MPfm.MVP.Navigation
             newView.BrowserType = browserType; // TODO: Shouldn't this be in the presenter instead...? browserType + filter (can be artist or album)
             newView.OnViewDestroy = (view) =>
             {
-                if (_mobileLibraryBrowserList.ContainsKey((IMobileLibraryBrowserView)view))
-                    _mobileLibraryBrowserList.Remove((IMobileLibraryBrowserView)view);
+                // The view list can be accessed from different threads.
+                lock (_locker)
+                {
+                    if (_mobileLibraryBrowserList.ContainsKey((IMobileLibraryBrowserView) view))
+                        _mobileLibraryBrowserList.Remove((IMobileLibraryBrowserView) view);
+                }
             };
             return newView;
         }
-    
+
+        public virtual IPlayerView CreatePlayerView(Action<IBaseView> onViewBindedToPresenter)
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
+                _playerPresenter.BindView((IPlayerView)view);
+                if (onViewBindedToPresenter != null)
+                    onViewBindedToPresenter(view);
+            };
+
+            // Create view and manage view destruction
+            _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _playerView.OnViewDestroy = (view) =>
+            {
+                _playerView = null;
+                _playerPresenter = null;
+            };
+            return _playerView;
+        }
+    }
+
+    public enum MobileNavigationTabType
+    {
+        Playlists = 0,
+        Artists = 1,
+        Albums = 2,
+        Songs = 3,
+        More = 4, // only used on iOS
+        PreferencesGeneral = 5,
+        PreferencesAudio = 6,
+        PreferencesLibrary = 7
     }
 }

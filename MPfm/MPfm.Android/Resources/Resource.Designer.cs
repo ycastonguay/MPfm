@@ -157,35 +157,38 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f09001b
 			public const int genericcell_title = 2131296283;
 			
+			// aapt resource value: 0x7f09001e
+			public const int main_fragment_container = 2131296286;
+			
 			// aapt resource value: 0x7f09001c
 			public const int main_layout = 2131296284;
 			
 			// aapt resource value: 0x7f09001d
 			public const int main_pager = 2131296285;
 			
-			// aapt resource value: 0x7f090025
-			public const int menu_item_about = 2131296293;
-			
-			// aapt resource value: 0x7f090022
-			public const int menu_item_effects = 2131296290;
-			
-			// aapt resource value: 0x7f090024
-			public const int menu_item_preferences = 2131296292;
+			// aapt resource value: 0x7f090026
+			public const int menu_item_about = 2131296294;
 			
 			// aapt resource value: 0x7f090023
-			public const int menu_item_updateLibrary = 2131296291;
+			public const int menu_item_effects = 2131296291;
 			
-			// aapt resource value: 0x7f09001e
-			public const int settings_layout = 2131296286;
+			// aapt resource value: 0x7f090025
+			public const int menu_item_preferences = 2131296293;
+			
+			// aapt resource value: 0x7f090024
+			public const int menu_item_updateLibrary = 2131296292;
 			
 			// aapt resource value: 0x7f09001f
-			public const int settings_pager = 2131296287;
+			public const int settings_layout = 2131296287;
 			
 			// aapt resource value: 0x7f090020
-			public const int splash_layout = 2131296288;
+			public const int settings_pager = 2131296288;
 			
 			// aapt resource value: 0x7f090021
-			public const int splash_text = 2131296289;
+			public const int splash_layout = 2131296289;
+			
+			// aapt resource value: 0x7f090022
+			public const int splash_text = 2131296290;
 			
 			private Id()
 			{

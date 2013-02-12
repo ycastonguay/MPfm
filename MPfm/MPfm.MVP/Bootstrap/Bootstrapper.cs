@@ -38,22 +38,21 @@ namespace MPfm.MVP.Bootstrap
         {
             // Get IoC container
             var container = TinyIoC.TinyIoCContainer.Current;
-            
+
             // Register services
-            //container.Register<IDatabaseFacade, DatabaseFacade>().UsingConstructor(() => new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
             container.Register<IDatabaseFacade>(new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
             container.Register<IInitializationService, InitializationService>().AsSingleton();
             container.Register<IPlayerService, PlayerService>().AsSingleton();
             container.Register<ILibraryService, LibraryService>().AsSingleton();
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
-            
+
             // Register presenters
             container.Register<ISplashPresenter, SplashPresenter>().AsSingleton();
             container.Register<IMainPresenter, MainPresenter>().AsSingleton();
             container.Register<IPlayerPresenter, PlayerPresenter>().AsSingleton();
             container.Register<ISongBrowserPresenter, SongBrowserPresenter>().AsSingleton();
-            container.Register<IMobileLibraryBrowserPresenter, MobileLibraryBrowserPresenter>().AsSingleton();
+            container.Register<IMobileLibraryBrowserPresenter, MobileLibraryBrowserPresenter>().AsMultiInstance();
             container.Register<IMobileOptionsMenuPresenter, MobileOptionsMenuPresenter>().AsSingleton();
             container.Register<ILibraryBrowserPresenter, LibraryBrowserPresenter>().AsSingleton();
             container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
@@ -62,9 +61,6 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsSingleton();
             container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();
             container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
-            
-            // Configure Automapper
-            //Mapper.CreateMap<AudioFile, SongInformationEntity>();
         }
         
         /// <summary>

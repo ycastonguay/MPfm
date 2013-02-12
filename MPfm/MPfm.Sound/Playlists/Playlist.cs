@@ -241,11 +241,11 @@ namespace MPfm.Sound.Playlists
         public void AddItem(AudioFile audioFile)
         {
             // Add new playlist item at the end
-            Tracing.Log("Playlist.cs -- Adding " + audioFile.FilePath); 
+            //Tracing.Log("Playlist.cs -- Adding " + audioFile.FilePath); 
             Items.Add(new PlaylistItem(this, audioFile));
 
             // Update current item
-            Tracing.Log("Playlist.cs -- Updating " + audioFile.FilePath);
+            //Tracing.Log("Playlist.cs -- Updating " + audioFile.FilePath);
             UpdateCurrentItem();
         }
 

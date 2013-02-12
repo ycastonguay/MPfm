@@ -21,9 +21,16 @@ using Android.Content.PM;
 using Android.Runtime;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Library.Database;
+using MPfm.Library.Database.Interfaces;
 using MPfm.MVP;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Helpers;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Presenters;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Player;
 using MPfm.Sound.Bass.Net;
@@ -33,8 +40,6 @@ namespace MPfm.Android.Classes
     [Application (Name="my.App", Debuggable=true, Label="MPfm: Music Player for Musicians")]
     public class MPfmApplication : Application
     {
-        private IPlayer _player;
-
         public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 
             : base(javaReference, transfer) 
         { 
@@ -48,6 +53,7 @@ namespace MPfm.Android.Classes
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            container.Register<IPlayerView, PlayerFragment>().AsMultiInstance();
             container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
@@ -58,14 +64,6 @@ namespace MPfm.Android.Classes
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
             string nativeDir = appInfo.NativeLibraryDir;
             Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
-
-            // Initialize player
-            Device device = new Device()
-            {
-                DriverType = DriverType.DirectSound,
-                Id = -1
-            };
-            _player = new MPfm.Player.Player(device, 44100, 5000, 100, true);
         }
 
         public override void OnLowMemory()

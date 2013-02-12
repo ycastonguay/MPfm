@@ -35,6 +35,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public MobileLibraryBrowserType BrowserType { get; set; }
         public string Filter { get; set; }
+        public Action<int> OnItemClick { get; set; }
 
         public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
@@ -68,8 +69,8 @@ namespace MPfm.Android.Classes.Fragments
 
         public override void OnListItemClick(ListView l, View v, int position, long id)
         {
-            Console.WriteLine("OnListItemClick");
             base.OnListItemClick(l, v, position, id);
+            OnItemClick(position);
         }
 
         public void OnClick(View v)

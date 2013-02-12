@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace MPfm.MVP.Views
 {
@@ -27,5 +28,16 @@ namespace MPfm.MVP.Views
         Action OnClickPreferences { get; set; }
         Action OnClickEffects { get; set; }
         Action OnClickAbout { get; set; }
+
+        // -- title, -- type of option/enum?
+	    void RefreshMenu(Dictionary<MobileOptionsMenuType, string> options);
 	}
+
+    public enum MobileOptionsMenuType
+    {
+        About = 0,
+        Preferences = 1,
+        Effects = 2,
+        UpdateLibrary = 3
+    }
 }
