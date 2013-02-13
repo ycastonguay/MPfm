@@ -21,7 +21,7 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Classes.Objects
 {
     public class GenericListItem
     {

@@ -16,52 +16,44 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MPfm.Library.UpdateLibrary;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 
-namespace MPfm.iOS.Classes.Controllers
+namespace MPfm.iOS
 {
-    public partial class SplashViewController : BaseViewController, ISplashView
+    public partial class UpdateLibraryViewController : BaseViewController, IUpdateLibraryView
     {
-        #region ISplashView implementation
-
-        public void RefreshStatus(string message)
-        {
-        }
-
-        public void InitDone()
-        {
-        }
-
-        #endregion
-
         static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
         }
 
-        public SplashViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
+        public UpdateLibraryViewController(Action<IBaseView> onViewReady)
+			: base (onViewReady, UserInterfaceIdiomIsPhone ? "UpdateLibraryViewController_iPhone" : "UpdateLibraryViewController_iPad", null)
         {
         }
-        
+		
         public override void DidReceiveMemoryWarning()
         {
             // Releases the view if it doesn't have a superview.
             base.DidReceiveMemoryWarning();
-            
+			
             // Release any cached data, images, etc that aren't in use.
         }
-        
+		
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+			
+            // Perform any additional setup after loading the view, typically from a nib.
         }
-        
+		
         public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
         {
             // Return true for supported orientations
@@ -73,6 +65,24 @@ namespace MPfm.iOS.Classes.Controllers
                 return true;
             }
         }
+
+        #region IUpdateLibraryView implementation
+        
+        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        
+        public void RefreshStatus(UpdateLibraryEntity entity)
+        {
+        }
+        
+        public void AddToLog(string entry)
+        {
+        }
+        
+        public void ProcessEnded(bool canceled)
+        {
+        }
+        
+        #endregion
     }
 }
 

@@ -128,23 +128,35 @@
       <DependentUpon>SplashViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controllers\PlayerViewController.cs" />
-    <Compile Include="Classes\Controllers\ListViewController.cs" />
-    <Compile Include="Classes\Controllers\ListViewController.designer.cs">
-      <DependentUpon>ListViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Controllers\BaseViewController.cs" />
     <Compile Include="Classes\Delegates\AppDelegate.cs" />
-    <Compile Include="Classes\Delegates\ListTableViewSource.cs" />
     <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Classes\Controls\MPfmNavigationController.cs" />
+    <Compile Include="Classes\Navigation\iOSNavigationManager.cs" />
+    <Compile Include="Classes\Controllers\Base\BaseViewController.cs" />
+    <Compile Include="Classes\Controllers\MobileLibraryBrowserViewController.cs" />
+    <Compile Include="Classes\Controllers\MobileLibraryBrowserViewController.designer.cs">
+      <DependentUpon>MobileLibraryBrowserViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\MoreViewController.cs" />
+    <Compile Include="Classes\Controllers\MoreViewController.designer.cs">
+      <DependentUpon>MoreViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\UpdateLibraryViewController.cs" />
+    <Compile Include="Classes\Controllers\UpdateLibraryViewController.designer.cs">
+      <DependentUpon>UpdateLibraryViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\SplashViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPad\PlayerViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\PlayerViewController_iPhone.xib" />
-    <InterfaceDefinition Include="XIB\iPad\ListViewController_iPad.xib" />
-    <InterfaceDefinition Include="XIB\iPhone\ListViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\MobileLibraryBrowserViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\MobileLibraryBrowserViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\MoreViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\MoreViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\UpdateLibraryViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\UpdateLibraryViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -159,6 +171,8 @@
     <Folder Include="Fonts\" />
     <Folder Include="Images\Tabs\" />
     <Folder Include="Classes\Controls\" />
+    <Folder Include="Classes\Navigation\" />
+    <Folder Include="Classes\Controllers\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />

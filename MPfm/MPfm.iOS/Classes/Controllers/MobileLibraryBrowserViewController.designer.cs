@@ -15,29 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MPfm.MVP;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Classes.Controllers
 {
-	public abstract class BaseViewController : UIViewController//, IBaseView
+	[Register ("MobileLibraryBrowserViewController")]
+	partial class MobileLibraryBrowserViewController
 	{
-        //public Action OnViewDestroy { get; set; } // Is this useful on iOS?
-        //protected Action<IBaseView> OnViewReady { get; set; }
-
-        public BaseViewController(string nibName, NSBundle bundle)
-            : base(nibName, bundle)
-        {
-        }
-
-//        public void ShowView(bool shown)
-//        {
-//            this.View.Hidden = !shown;
-//        }
+		[Outlet]
+		MonoTouch.UIKit.UITableView tableView { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
+			}
+		}
 	}
 }
-

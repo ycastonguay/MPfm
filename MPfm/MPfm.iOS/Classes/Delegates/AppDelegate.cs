@@ -20,8 +20,15 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Controllers;
+using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
+using MPfm.iOS.Classes.Navigation;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Classes.Delegates
 {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the 
 	// User Interface of the application, as well as listening (and optionally responding) to 
@@ -29,19 +36,11 @@ namespace MPfm.iOS
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{		
-		UIWindow window;
-        UITabBarController tabBarController;
-        MPfmNavigationController artistNavController;
-        MPfmNavigationController albumNavController;
-        MPfmNavigationController playlistNavController;
-        MPfmNavigationController moreNavController;
-
-        SplashViewController splashViewController;
-		PlayerViewController playerViewController;
-        ListViewController artistViewController;
-        ListViewController albumViewController;
-        ListViewController playlistViewController;
-        ListViewController moreViewController;
+		UIWindow _window;
+        UITabBarController _tabBarController;
+        SplashViewController _splashViewController;
+		iOSNavigationManager _navigationManager;
+        List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
 
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
@@ -52,157 +51,30 @@ namespace MPfm.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+			// Complete IoC configuration
+			TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+			container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
+			container.Register<ISplashView, SplashViewController>().AsMultiInstance();
+            container.Register<IMobileOptionsMenuView, MoreViewController>().AsMultiInstance();
+			container.Register<IPlayerView, PlayerViewController>().AsMultiInstance();
+			container.Register<IUpdateLibraryView, UpdateLibraryViewController>().AsMultiInstance();
+			container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserViewController>().AsMultiInstance();
+			//container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
+			//container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
+			//container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+
             // Create window 
-			window = new UIWindow(UIScreen.MainScreen.Bounds);
+			_window = new UIWindow(UIScreen.MainScreen.Bounds);
 
             // Create tab bar controller, but hide it while the splash screen is visible
-            tabBarController = new UITabBarController();
-            tabBarController.View.Hidden = true;
-            window.RootViewController = tabBarController;
-            
-            // Create splash screen and display it while loading 
-            splashViewController = new SplashViewController();
-            splashViewController.View.Frame = window.Frame;
-            splashViewController.View.AutoresizingMask = UIViewAutoresizing.All;
-            window.AddSubview(splashViewController.View);
-            window.MakeKeyAndVisible();
-                       
-            playerViewController = new PlayerViewController();
+            _tabBarController = new UITabBarController();
+            _tabBarController.View.Hidden = true;
+            _window.RootViewController = _tabBarController;
 
-            // Get list of fonts
-            //List<String> fontFamilies = new List<String>(UIFont.FamilyNames);
-            //fontFamilies.Sort();
-            //List<string> fontNames = UIFont.FontNamesForFamilyName("Ostrich Sans Rounded").ToList();
-
-            // Prepare navigation controllers
-            //artistNavController = new MPfmNavigationController("OstrichSansRounded-Medium", 26);
-            artistNavController = new MPfmNavigationController("OstrichSans-Black", 26);
-            artistNavController.NavigationBar.BackgroundColor = UIColor.Clear;
-            artistNavController.NavigationBar.TintColor = UIColor.Clear;
-            albumNavController = new MPfmNavigationController("OstrichSans-Black", 26);
-            albumNavController.NavigationBar.BackgroundColor = UIColor.Clear;
-            albumNavController.NavigationBar.TintColor = UIColor.Clear;
-            playlistNavController = new MPfmNavigationController("OstrichSans-Black", 26);
-            playlistNavController.NavigationBar.BackgroundColor = UIColor.Clear;
-            playlistNavController.NavigationBar.TintColor = UIColor.Clear;
-            moreNavController = new MPfmNavigationController("OstrichSans-Black", 26);
-            moreNavController.NavigationBar.BackgroundColor = UIColor.Clear;
-            moreNavController.NavigationBar.TintColor = UIColor.Clear;
-
-            // Prepare Artists view controller
-            artistViewController = new ListViewController("Artists", new List<GenericListItem>() { 
-                new GenericListItem() {
-                    Title = "Amon Tobin",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Aphex Twin",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Blake James",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Bob Marley & The Wailers",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Broken Social Scene",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Can",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Dylan Bob",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "My Bloody Valentine",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Public Image Ltd.",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "The Future Sound of London",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                } 
-            }, (item) => { 
-                playerViewController.HidesBottomBarWhenPushed = true;
-                artistNavController.PushViewController(playerViewController, true);
-            });
-            artistNavController.PushViewController(artistViewController, false);
-
-            // Prepare Albums tab
-            albumViewController = new ListViewController("Albums", new List<GenericListItem>() { 
-                new GenericListItem() {
-                    Title = "Album 1",
-                    Subtitle = "Artist Name",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Album 2",
-                    Subtitle = "Artist Name",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                } 
-            }, null);
-            albumNavController.PushViewController(albumViewController, false);
-
-            // Prepare Playlist tab
-            playlistViewController = new ListViewController("Playlists", new List<GenericListItem>() { 
-                new GenericListItem() {
-                    Title = "Playlist 1",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "Playlist 2",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                } 
-            }, null);
-            playlistNavController.PushViewController(playlistViewController, false);
-
-            // Prepare More tab
-            moreViewController = new ListViewController("More", new List<GenericListItem>() { 
-                new GenericListItem() {
-                    Title = "Settings",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                },
-                new GenericListItem() {
-                    Title = "About MP4M",
-                    Image = UIImage.FromBundle("/Images/icon114.png")
-                } 
-            }, null);
-            moreNavController.PushViewController(moreViewController, false);
-
-            // Create text attributes for tab bar items
-            UITextAttributes attr = new UITextAttributes();
-            //attr.Font = UIFont.FromName("Junction", 11);
-            attr.Font = UIFont.FromName("OstrichSans-Black", 13);
-            attr.TextColor = UIColor.White;
-            //attr.TextShadowColor = UIColor.DarkGray;
-            //attr.TextShadowOffset = new UIOffset(1, 1);
-            artistNavController.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
-            albumNavController.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
-            playlistNavController.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
-            moreNavController.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
-
-            // Add view controllers to tab bar
-            tabBarController.ViewControllers = new UIViewController[] {
-                artistNavController,
-                albumNavController,
-                playlistNavController,
-                moreNavController
-            };
-
-            splashViewController.RemoveFromParentViewController();
-            tabBarController.View.Hidden = false;
-
-            // Show status bar again
-            //UIApplication.SharedApplication.SetStatusBarHidden(false, true);
+			// Start navigation manager
+			_navigationManager = (iOSNavigationManager)container.Resolve<MobileNavigationManager>();
+			_navigationManager.AppDelegate = this;
+			_navigationManager.Start();
 			
 			return true;
 		}
@@ -215,6 +87,61 @@ namespace MPfm.iOS
                 MPfm.Player.Player.CurrentPlayer.Stop();
             }
             MPfm.Player.Player.CurrentPlayer.Dispose();
+        }
+
+        public void ShowSplash(SplashViewController viewController)
+        {
+            _splashViewController = viewController;
+            _splashViewController.View.Frame = _window.Frame;
+            _splashViewController.View.AutoresizingMask = UIViewAutoresizing.All;
+            _window.AddSubview(_splashViewController.View);
+            _window.MakeKeyAndVisible();
+        }
+
+        public void HideSplash()
+        {
+            _tabBarController.View.Hidden = false;            
+        }
+
+        public void AddTab(MobileNavigationTabType type, string title, UIViewController viewController)
+        {
+            // Create text attributes for tab
+            UITextAttributes attr = new UITextAttributes();
+            //attr.Font = UIFont.FromName("Junction", 11);
+            attr.Font = UIFont.FromName("OstrichSans-Black", 13);
+            attr.TextColor = UIColor.White;
+            attr.TextShadowColor = UIColor.DarkGray;
+            attr.TextShadowOffset = new UIOffset(1, 1);
+
+            // Create navigation controller
+            var navCtrl = new MPfmNavigationController("OstrichSans-Black", 26);
+            navCtrl.SetTitle(title);
+            navCtrl.NavigationBar.BackgroundColor = UIColor.Clear;
+            navCtrl.NavigationBar.TintColor = UIColor.Clear;
+            navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
+            navCtrl.TabBarItem.Title = title;
+            navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
+            navCtrl.PushViewController(viewController, false);
+
+            // Add view controller to list
+            _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
+
+            // Add navigation controller as a tab
+            var list = new List<UIViewController>();
+            if(_tabBarController.ViewControllers != null)
+                list = _tabBarController.ViewControllers.ToList();
+            list.Add(navCtrl);
+            _tabBarController.ViewControllers = list.ToArray();
+        }
+
+        public void PushTabView(MobileNavigationTabType type, UIViewController viewController)
+        {
+            if (viewController is PlayerViewController)
+            {
+                viewController.HidesBottomBarWhenPushed = true;
+                var navCtrl = _navigationControllers.FirstOrDefault(x => x.Key == type).Value;
+                navCtrl.PushViewController(viewController, true);
+            }
         }
 	}
 }

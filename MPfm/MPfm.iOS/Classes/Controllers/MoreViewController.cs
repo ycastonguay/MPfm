@@ -16,26 +16,26 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.iOS.Classes.Controllers.Base;
 
-namespace MPfm.iOS.Classes.Controllers
+namespace MPfm.iOS
 {
-    public partial class SplashViewController : BaseViewController, ISplashView
+    public partial class MoreViewController : BaseViewController, IMobileOptionsMenuView
     {
-        #region ISplashView implementation
+        #region IMobileOptionsMenuView implementation
 
-        public void RefreshStatus(string message)
+        public void RefreshMenu(Dictionary<MobileOptionsMenuType, string> options)
         {
         }
 
-        public void InitDone()
-        {
-        }
+        public Action OnClickPreferences { get; set; }
+        public Action OnClickEffects { get; set; }
+        public Action OnClickAbout { get; set; }
 
         #endregion
 
@@ -44,24 +44,18 @@ namespace MPfm.iOS.Classes.Controllers
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
         }
 
-        public SplashViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
+        public MoreViewController(Action<IBaseView> onViewReady)
+			: base (onViewReady, UserInterfaceIdiomIsPhone ? "MoreViewController_iPhone" : "MoreViewController_iPad", null)
         {
         }
-        
-        public override void DidReceiveMemoryWarning()
-        {
-            // Releases the view if it doesn't have a superview.
-            base.DidReceiveMemoryWarning();
-            
-            // Release any cached data, images, etc that aren't in use.
-        }
-        
+		
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+			
+            // Perform any additional setup after loading the view, typically from a nib.
         }
-        
+		
         public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
         {
             // Return true for supported orientations

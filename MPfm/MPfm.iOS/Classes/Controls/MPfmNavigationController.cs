@@ -22,7 +22,7 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Classes.Controls
 {
     [Register("MPfmNavigationController")]
     public class MPfmNavigationController : UINavigationController

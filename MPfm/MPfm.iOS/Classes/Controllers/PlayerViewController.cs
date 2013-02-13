@@ -21,19 +21,21 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.Player;
-using MPfm.Sound.BassWrapper;
 using System.IO;
 using System.Timers;
-using MPfm.Sound;
 using MPfm.Core;
 using System.Linq;
 using MonoTouch.CoreGraphics;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
+using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Controls;
+using MPfm.MVP.Views;
+using MPfm.MVP.Models;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Classes.Controllers
 {
-	public partial class PlayerViewController : BaseViewController
+	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
 		private IPlayer player;
         private Timer timer;
@@ -42,17 +44,9 @@ namespace MPfm.iOS
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
 		}
 
-		public PlayerViewController()
-			: base (UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
+		public PlayerViewController(Action<IBaseView> onViewReady)
+			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
-		}
-		
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-			
-			// Release any cached data, images, etc that aren't in use.
 		}
 		
 		public override void ViewDidLoad()
@@ -73,44 +67,32 @@ namespace MPfm.iOS
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
             sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, 180, sliderPosition.Frame.Height);
 
-            timer = new Timer();
-            timer.Interval = 100;
-            timer.Elapsed += (sender, e) => {
-                InvokeOnMainThread(() => {
-                    try
-                    {
-                        long bytes = MPfm.Player.Player.CurrentPlayer.GetPosition();
-                        long samples = ConvertAudio.ToPCM(bytes, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                        long ms = ConvertAudio.ToMS(samples, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.SampleRate);
-                        string pos = Conversion.MillisecondsToTimeString((ulong)ms);
-                        lblPosition.Text = pos;
-                        sliderPosition.Value = ms;
-                    } catch
-                    {
-                        lblPosition.Text = "0:00.000";
-                    }
-                });
-            };
-
-            // Initialize player
-            Device device = new Device(){
-				DriverType = DriverType.DirectSound,
-				Id = -1
-			};
-            player = new MPfm.Player.Player(device, 44100, 5000, 100, true);
-            Play();
-		}
-		
-		public override void ViewDidUnload ()
-		{
-			base.ViewDidUnload ();
-			
-			// Clear any references to subviews of the main view in order to
-			// allow the Garbage Collector to collect them sooner.
-			//
-			// e.g. myOutlet.Dispose (); myOutlet = null;
-			
-			ReleaseDesignerOutlets ();
+//            timer = new Timer();
+//            timer.Interval = 100;
+//            timer.Elapsed += (sender, e) => {
+//                InvokeOnMainThread(() => {
+//                    try
+//                    {
+//                        long bytes = MPfm.Player.Player.CurrentPlayer.GetPosition();
+//                        long samples = ConvertAudio.ToPCM(bytes, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+//                        long ms = ConvertAudio.ToMS(samples, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.SampleRate);
+//                        string pos = Conversion.MillisecondsToTimeString((ulong)ms);
+//                        lblPosition.Text = pos;
+//                        sliderPosition.Value = ms;
+//                    } catch
+//                    {
+//                        lblPosition.Text = "0:00.000";
+//                    }
+//                });
+//            };
+//
+//            // Initialize player
+//            Device device = new Device(){
+//				DriverType = DriverType.DirectSound,
+//				Id = -1
+//			};
+//            player = new MPfm.Player.Player(device, 44100, 5000, 100, true);
+//            Play();
 		}
 
         public override void ViewWillAppear(bool animated)
@@ -120,8 +102,8 @@ namespace MPfm.iOS
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Now Playing");
         }
-		
-		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
+
+		public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
 		{
 			// Return true for supported orientations
 			if (UserInterfaceIdiomIsPhone) {
@@ -201,6 +183,41 @@ namespace MPfm.iOS
         {
             player.Next();
         }
+
+        #region IPlayerView implementation
+
+        public void RefreshPlayerPosition(PlayerPositionEntity entity)
+        {
+        }
+
+        public void RefreshSongInformation(AudioFile audioFile)
+        {
+        }
+
+        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        {
+        }
+
+        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        public void PlayerError(Exception ex)
+        {
+        }
+
+        public Action OnPlayerPlay { get; set; }
+        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public Action OnPlayerPause { get; set; }
+        public Action OnPlayerStop { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action<float> OnPlayerSetVolume { get; set; }
+        public Action<float> OnPlayerSetPitchShifting { get; set; }
+        public Action<float> OnPlayerSetTimeShifting { get; set; }
+        public Action<float> OnPlayerSetPosition { get; set; }
+
+        #endregion
 	}
 }
 

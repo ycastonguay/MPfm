@@ -6,7 +6,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Classes.Controllers
 {
 	[Register ("PlayerViewController")]
 	partial class PlayerViewController
