@@ -16,30 +16,23 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Timers;
 using Gtk;
 using Gdk;
 using Pango;
-using Mono.Posix;
 using Mono.Unix;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.MVP;
 using System.Drawing.Imaging;
 using System.Text;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Models;
 using MPfm.Library.UpdateLibrary;
+using MPfm.GTK.Helpers;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Windows
 {
 	/// <summary>
 	/// Main window.
@@ -108,7 +101,7 @@ namespace MPfm.GTK
 	
 			// Refresh other stuff
 			RefreshRepeatButton();
-			RefreshSongInformation(new SongInformationEntity());			
+			RefreshSongInformation(null);			
 			
 			// Fill sound format combo box
 			storeAudioFileFormat = new ListStore(typeof(string));			
@@ -789,93 +782,96 @@ namespace MPfm.GTK
 			});
 		}
 		
-		public void RefreshSongInformation(SongInformationEntity entity)
+		public void RefreshSongInformation(AudioFile audioFile)
 		{
 			Gtk.Application.Invoke(delegate{
-		        // Refresh labels
-				Console.WriteLine("MainWindow - RefreshSongInformation");
-		        lblArtistName.Text = entity.ArtistName;
-		        lblAlbumTitle.Text = entity.AlbumTitle;
-		        lblSongTitle.Text = entity.Title;
-		        lblSongFilePath.Text = entity.FilePath;	        
-				lblCurrentPosition.Text = entity.Position;
-				lblCurrentLength.Text = entity.Length;
-							
-				lblCurrentFileType.Text = entity.FileTypeString;
-				lblCurrentBitrate.Text = entity.BitrateString;
-				lblCurrentSampleRate.Text = entity.SampleRateString;
-				lblCurrentBitsPerSample.Text = entity.BitsPerSampleString;
-							
-				//Pixbuf stuff = new Pixbuf("icon48.png");
-				//stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
-				//this.imageAlbumCover.Pixbuf = stuff;
-				
-				System.Drawing.Image drawingImage = AudioFile.ExtractImageForAudioFile(entity.FilePath);			
-				
-				if(drawingImage != null)
+				if(audioFile != null)
 				{
-					// Resize image
-					drawingImage = ImageManipulation.ResizeImage(drawingImage, 150, 150);
+			        // Refresh labels
+					Console.WriteLine("MainWindow - RefreshSongInformation");
+			        lblArtistName.Text = audioFile.ArtistName;
+			        lblAlbumTitle.Text = audioFile.AlbumTitle;
+			        lblSongTitle.Text = audioFile.Title;
+			        lblSongFilePath.Text = audioFile.FilePath;	        
+					//lblCurrentPosition.Text = audioFile.Position;
+					lblCurrentLength.Text = audioFile.Length;
+								
+					lblCurrentFileType.Text = audioFile.FileType.ToString();
+					lblCurrentBitrate.Text = audioFile.Bitrate.ToString();
+					lblCurrentSampleRate.Text = audioFile.SampleRate.ToString();
+					lblCurrentBitsPerSample.Text = audioFile.BitsPerSample.ToString();
+								
+					//Pixbuf stuff = new Pixbuf("icon48.png");
+					//stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
+					//this.imageAlbumCover.Pixbuf = stuff;
 					
-					// Set album cover
-					imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);
-				}
-				else
-				{
-					// Get Unix-style directory information (i.e. case sensitive file names)
-					if(!String.IsNullOrEmpty(entity.FilePath))
+					System.Drawing.Image drawingImage = AudioFile.ExtractImageForAudioFile(audioFile.FilePath);			
+					
+					if(drawingImage != null)
 					{
-						try
+						// Resize image
+						drawingImage = ImageManipulation.ResizeImage(drawingImage, 150, 150);
+						
+						// Set album cover
+						imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);
+					}
+					else
+					{
+						// Get Unix-style directory information (i.e. case sensitive file names)
+						if(!String.IsNullOrEmpty(audioFile.FilePath))
 						{
-							bool imageFound = false;
-							string folderPath = System.IO.Path.GetDirectoryName(entity.FilePath);
-							UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
-							
-							// For each directory, search for new directories
-							UnixFileSystemInfo[] infos = rootDirectoryInfo.GetFileSystemEntries();
-			            	foreach (UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
-			            	{
-								// Check if the file matches
-								string fileName = fileInfo.Name.ToUpper();
-								if((fileName.EndsWith(".JPG") ||
-								    fileName.EndsWith(".JPEG") ||
-								    fileName.EndsWith(".PNG") ||
-								    fileName.EndsWith(".GIF")) &&
-								   (fileName.StartsWith("FOLDER") ||
-								 	fileName.StartsWith("COVER")))
+							try
+							{
+								bool imageFound = false;
+								string folderPath = System.IO.Path.GetDirectoryName(audioFile.FilePath);
+								UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
+								
+								// For each directory, search for new directories
+								UnixFileSystemInfo[] infos = rootDirectoryInfo.GetFileSystemEntries();
+				            	foreach (UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
+				            	{
+									// Check if the file matches
+									string fileName = fileInfo.Name.ToUpper();
+									if((fileName.EndsWith(".JPG") ||
+									    fileName.EndsWith(".JPEG") ||
+									    fileName.EndsWith(".PNG") ||
+									    fileName.EndsWith(".GIF")) &&
+									   (fileName.StartsWith("FOLDER") ||
+									 	fileName.StartsWith("COVER")))
+									{
+										// Get image from file
+										imageFound = true;
+										Pixbuf imageCover = new Pixbuf(fileInfo.FullName);
+										imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
+										this.imageAlbumCover.Pixbuf = imageCover;
+									}
+								}
+								
+								// Set empty image if not cover not found
+								if(!imageFound)
 								{
-									// Get image from file
-									imageFound = true;
-									Pixbuf imageCover = new Pixbuf(fileInfo.FullName);
-									imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
-									this.imageAlbumCover.Pixbuf = imageCover;
+									this.imageAlbumCover.Pixbuf = null;
 								}
 							}
-							
-							// Set empty image if not cover not found
-							if(!imageFound)
+							catch
 							{
 								this.imageAlbumCover.Pixbuf = null;
 							}
 						}
-						catch
+						else
 						{
-							this.imageAlbumCover.Pixbuf = null;
+							// Set empty album cover
+							imageAlbumCover.Pixbuf = null;
 						}
 					}
-					else
-					{
-						// Set empty album cover
-						imageAlbumCover.Pixbuf = null;
+					
+					// Check if image cover is still empty
+					if(imageAlbumCover.Pixbuf == null)
+					{				
+						Pixbuf imageCover = new Pixbuf("black.png");
+						imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
+						this.imageAlbumCover.Pixbuf = imageCover;
 					}
-				}
-				
-				// Check if image cover is still empty
-				if(imageAlbumCover.Pixbuf == null)
-				{				
-					Pixbuf imageCover = new Pixbuf("black.png");
-					imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
-					this.imageAlbumCover.Pixbuf = imageCover;
 				}
 			});
 		}		

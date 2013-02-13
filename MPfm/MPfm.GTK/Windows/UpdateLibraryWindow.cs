@@ -27,9 +27,9 @@ using MPfm.MVP.Models;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Services;
-using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Bootstrap;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Windows
 {
 	/// <summary>
 	/// Update Library window.

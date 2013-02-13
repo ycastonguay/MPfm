@@ -21,7 +21,7 @@ using MPfm.MVP;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Navigation
 {
 	/// <summary>
 	/// Navigation manager for Gtk.

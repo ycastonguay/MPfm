@@ -20,7 +20,7 @@
       </source>
     </icon-set>
   </icon-factory>
-  <widget class="Gtk.Window" id="MPfm.GTK.MainWindow" design-size="777 646">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.MainWindow" design-size="777 646">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -1280,7 +1280,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.PreferencesWindow" design-size="625 462">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.PreferencesWindow" design-size="625 462">
     <action-group name="Default">
       <action id="actionAddFolder">
         <property name="Type">Action</property>
@@ -1951,7 +1951,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.PlaylistWindow" design-size="816 303">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.PlaylistWindow" design-size="816 303">
     <action-group name="Default">
       <action id="newAction">
         <property name="Type">Action</property>
@@ -2047,7 +2047,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.EffectsWindow" design-size="1032 697">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.EffectsWindow" design-size="1032 697">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <property name="Title" translatable="yes">Effects</property>
@@ -3220,7 +3220,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.UpdateLibraryWindow" design-size="691 426">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.UpdateLibraryWindow" design-size="691 426">
     <action-group name="Default">
       <action id="actionOK">
         <property name="Type">Action</property>
@@ -3421,7 +3421,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.SplashWindow" design-size="646 554">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.SplashWindow" design-size="646 554">
     <property name="MemberName" />
     <property name="Title" translatable="yes">SplashWindow</property>
     <property name="WindowPosition">CenterAlways</property>
