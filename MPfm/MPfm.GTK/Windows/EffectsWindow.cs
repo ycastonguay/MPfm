@@ -21,7 +21,7 @@ using Pango;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Windows
 {
 	/// <summary>
 	/// Effects window.

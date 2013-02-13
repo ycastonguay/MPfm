@@ -11,36 +11,36 @@
     <AssemblyName>mpfm</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug_Linux</OutputPath>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug_Mac_GTK</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
@@ -81,23 +81,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.MainWindow.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.PlaylistWindow.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.EffectsWindow.cs" />
     <Compile Include="Windows\MainWindow.cs" />
     <Compile Include="Windows\PlaylistWindow.cs" />
     <Compile Include="Windows\EffectsWindow.cs" />
     <Compile Include="Windows\UpdateLibraryWindow.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.UpdateLibraryWindow.cs" />
     <Compile Include="Windows\PreferencesWindow.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.PreferencesWindow.cs" />
-    <Compile Include="gtk-gui\MPfm.GTK.SplashWindow.cs" />
     <Compile Include="Windows\SplashWindow.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
-    <Compile Include="Classes\GtkNavigationManager.cs" />
-    <Compile Include="Classes\ImageManipulation.cs" />
+    <Compile Include="Classes\Navigation\GtkNavigationManager.cs" />
+    <Compile Include="Classes\Helpers\ImageManipulation.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.Windows.EffectsWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.Windows.MainWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.Windows.PlaylistWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.Windows.PreferencesWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.Windows.SplashWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.Windows.UpdateLibraryWindow.cs" />
+    <Compile Include="Classes\Main.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -149,10 +149,6 @@
     <None Include="Lib\x86\libbass_mpc.so" />
     <None Include="Lib\x86\libbass_tta.so" />
     <None Include="Lib\x86\libbasswv.so" />
-    <None Include="Bass.Net.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Lib\Ninject.dll" />
     <None Include="black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -163,10 +159,12 @@
     <Folder Include="Lib\x64\" />
     <Folder Include="Windows\" />
     <Folder Include="Classes\" />
+    <Folder Include="Classes\Navigation\" />
+    <Folder Include="Classes\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon48.png">
-      <DeployService-UseProjectRelativePath>True</DeployService-UseProjectRelativePath>
+      <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Splash.png">

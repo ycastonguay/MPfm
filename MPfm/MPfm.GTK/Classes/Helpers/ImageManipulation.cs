@@ -19,7 +19,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Helpers
 {
 	/// <summary>
 	/// The ImageManipulation class contains static functions for manipulating images.

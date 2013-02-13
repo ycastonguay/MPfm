@@ -22,7 +22,9 @@ using Gtk;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.MVP.Navigation;
-using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Bootstrap;
+using MPfm.GTK.Navigation;
+using MPfm.GTK.Windows;
 
 namespace MPfm.GTK
 {

@@ -19,7 +19,7 @@ using System;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Windows
 {
 	/// <summary>
 	/// Settings window.
