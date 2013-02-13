@@ -34,24 +34,21 @@ namespace MPfm.MVP.Presenters
 	/// Update Library window presenter.
 	/// </summary>
 	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
-	{		
-		readonly ILibraryService libraryService;		
-		readonly IUpdateLibraryService updateLibraryService;
+	{
+	    private readonly IAudioFileCacheService _audioFileCacheService;
+		readonly ILibraryService _libraryService;		
+		readonly IUpdateLibraryService _updateLibraryService;
 		
-		#region Constructor and Dispose
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.UpdateLibraryPresenter"/> class.
-		/// </summary>
-		public UpdateLibraryPresenter(ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
+		public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
 		{
 			// Set properties
-			this.libraryService = libraryService;
-			this.updateLibraryService = updateLibraryService;
+		    _audioFileCacheService = audioFileCacheService;
+		    _libraryService = libraryService;
+			_updateLibraryService = updateLibraryService;
 			
 			// Set events
-            this.updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
-            this.updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
+            _updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
+            _updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
 		}
 
         /// <summary>
@@ -71,12 +68,13 @@ namespace MPfm.MVP.Presenters
         /// <param name="e">Event arguments</param>
         protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
         {
+            // Refresh audio file cache service
+            _audioFileCacheService.RefreshCache();
+
+            // TODO: Tell other library/song browsers to update themselves!
+
             View.ProcessEnded(e.Canceled);   
         }
-
-		#endregion
-		
-		#region IUpdateLibraryPresenter implementation
 
         public override void BindView(IUpdateLibraryView view)
         {
@@ -94,7 +92,7 @@ namespace MPfm.MVP.Presenters
 		/// <param name='folderPath'>Folder path to add to the database</param>
 		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
 		{
-			updateLibraryService.UpdateLibrary(mode, filePaths, folderPath);
+			_updateLibraryService.UpdateLibrary(mode, filePaths, folderPath);
 		}
 		
 		/// <summary>
@@ -102,7 +100,7 @@ namespace MPfm.MVP.Presenters
 		/// </summary>
 		public void Cancel()
 		{	
-			updateLibraryService.Cancel();
+			_updateLibraryService.Cancel();
 		}
 
 		/// <summary>
@@ -111,9 +109,7 @@ namespace MPfm.MVP.Presenters
 		/// <param name='filePath'>Log file path</param>
 		public void SaveLog(string filePath)
 		{			
-			updateLibraryService.SaveLog(filePath);
+			_updateLibraryService.SaveLog(filePath);
 		}
-			
-		#endregion
 	}
 }

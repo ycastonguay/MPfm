@@ -15,31 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using MPfm.MVP.Models;
+using TinyMessenger;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-	/// Library browser view interface for mobile devices.
-	/// </summary>
-    public interface IMobileLibraryBrowserView : IBaseView
-	{
-        MobileLibraryBrowserType BrowserType { get; set; }
-        string Filter { get; set; }
-
-        Action<int> OnItemClick { get; set; }
-
-        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
-	}
-
-    public enum MobileLibraryBrowserType
+    /// <summary>
+    /// Message indicating an item has been double-clicked in the Library Browser.
+    /// </summary>
+    public class AudioFileCacheUpdatedMessage : TinyMessageBase
     {
-        Playlists = 0,
-        Artists = 1,
-        Albums = 2,
-        Songs = 3
+        public AudioFileCacheUpdatedMessage(object sender) 
+            : base(sender)
+        {
+        }
     }
 }
-

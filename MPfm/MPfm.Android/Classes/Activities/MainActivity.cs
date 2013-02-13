@@ -89,6 +89,7 @@ namespace MPfm.Android
             if (fragment is PlayerFragment)
             {
                 // This fragment should completely hide the view pager
+                ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
                 _viewPager.Visibility = ViewStates.Gone;
                 var transaction = FragmentManager.BeginTransaction();
                 transaction.Add(Resource.Id.main_fragment_container, fragment);
@@ -101,6 +102,7 @@ namespace MPfm.Android
         {
             base.OnBackPressed();
             _viewPager.Visibility = ViewStates.Visible;
+            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
         }
 
         protected override void OnStart()
@@ -177,14 +179,14 @@ namespace MPfm.Android
             return base.OnOptionsItemSelected(menuItem);
         }
 
-        public void ShowSplashScreen(SplashFragment fragment)
+        public void ShowSplash(SplashFragment fragment)
         {
             // Display fragment in a dialog
             _splashFragment = fragment;
             _splashFragment.Show(FragmentManager, "Splash");
         }
 
-        public void RemoveSplashScreen()
+        public void HideSplash()
         {
             _splashFragment.Dialog.Dismiss();
         }

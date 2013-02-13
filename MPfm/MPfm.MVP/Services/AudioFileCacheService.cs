@@ -19,10 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using TinyMessenger;
 
 namespace MPfm.MVP.Services
 {	
@@ -31,45 +33,27 @@ namespace MPfm.MVP.Services
 	/// </summary>
 	public class AudioFileCacheService : IAudioFileCacheService
 	{
-		private readonly ISongBrowserView view = null;
-		private readonly ILibraryService libraryService = null;
-		
-		private List<AudioFile> audioFiles = null;
-		public List<AudioFile> AudioFiles
-		{
-			get
-			{
-				return audioFiles;
-			}
-		}
-		
-		#region Constructor and Dispose
+	    private readonly ITinyMessengerHub _messengerHub;
+	    private readonly ILibraryService _libraryService;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AudioFileCacheService"/> class.
-		/// </summary>
-		public AudioFileCacheService(ILibraryService libraryService)
+	    public List<AudioFile> AudioFiles { get; private set; }
+
+	    public AudioFileCacheService(ITinyMessengerHub messengerHub, ILibraryService libraryService)
 		{
-			if(libraryService == null)			
-				throw new ArgumentNullException("The libraryService parameter is null!");
-						
-			// Set properties
-			this.libraryService = libraryService;
-			
-			// Refresh cache
-			//RefreshCache();
+		    _messengerHub = messengerHub;
+		    _libraryService = libraryService;
 		}
 
-		#endregion		
-		
-		#region IAudioFileCacheService implementation
-		
-		/// <summary>
+	    /// <summary>
 		/// Refreshes the audio file metadata cache.
 		/// </summary>
 		public void RefreshCache()
 		{
-			audioFiles = libraryService.SelectAudioFiles().ToList();
+            // Update cache
+			AudioFiles = _libraryService.SelectAudioFiles().ToList();
+
+            // Warn any subscribers that the audio file cache has been updated (i.e. library/song browser presenters)
+            _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
 		}
         
 		/// <summary>
@@ -87,7 +71,7 @@ namespace MPfm.MVP.Services
                 if (String.IsNullOrEmpty(query.OrderBy))
                 {
                     // Set query
-                    queryAudioFiles = from s in audioFiles
+                    queryAudioFiles = from s in AudioFiles
                                       orderby s.ArtistName, s.AlbumTitle, s.FileType, s.DiscNumber, s.TrackNumber
                                       select s;
                 }
@@ -97,14 +81,14 @@ namespace MPfm.MVP.Services
                     if (query.OrderByAscending)
                     {
                         // Set query
-                        queryAudioFiles = from s in audioFiles
+                        queryAudioFiles = from s in AudioFiles
                                           orderby GetPropertyValue(s, query.OrderBy)
                                           select s;
                     }
                     else
                     {
                         // Set query
-                        queryAudioFiles = from s in audioFiles
+                        queryAudioFiles = from s in AudioFiles
                                           orderby GetPropertyValue(s, query.OrderBy) descending
                                           select s;                        
                     }
@@ -173,8 +157,6 @@ namespace MPfm.MVP.Services
                 throw;
             }
         }
-		
-		#endregion
 					
 		/// <summary>
         /// Fetches the property value of an object.

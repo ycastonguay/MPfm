@@ -28,18 +28,17 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void ShowSplash(ISplashView view)
         {
-            MainActivity.ShowSplashScreen((SplashFragment)view);
+            MainActivity.ShowSplash((SplashFragment)view);
         }
 
         public override void HideSplash()
         {
-            MainActivity.RemoveSplashScreen();
+            MainActivity.HideSplash();
         }
 
         public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
         {
             MainActivity.AddTab(type, title, (Fragment)view);
-            // iOS: AppDelegate.AddTabItem(newView);
         }
 
         public override void PushTabView(MobileNavigationTabType type, IBaseView view)

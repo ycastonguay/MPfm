@@ -17,11 +17,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Objects;
+using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
@@ -31,7 +33,7 @@ namespace MPfm.Android.Classes.Fragments
         private View _view;
         private Button _button;
         private EditText _editText;
-        private List<GenericListItem> _items;
+        private IEnumerable<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
         public MobileLibraryBrowserType BrowserType { get; set; }
         public string Filter { get; set; }
@@ -42,29 +44,10 @@ namespace MPfm.Android.Classes.Fragments
         {
         }
 
-        public override void OnStart()
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, global::Android.OS.Bundle savedInstanceState)
         {
-            base.OnStart();
-
-            _items = new List<GenericListItem>()
-                {
-                    new GenericListItem()
-                        {
-                            Title = "Item 1"
-                        },
-                    new GenericListItem()
-                        {
-                            Title = "Item 2"
-                        },
-                    new GenericListItem()
-                        {
-                            Title = "Item 3"
-                        }
-                };
-            ListAdapter = new GenericListAdapter(Activity, _items);
-
-            //ListView.SetDrawSelectorOnTop(false);
-            //ListView.Selector = Resources.GetDrawable(Resource.Drawable.channels_bap_selected);
+            ListAdapter = new MobileLibraryBrowserListAdapter(Activity, _entities.ToList());
+            return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
         public override void OnListItemClick(ListView l, View v, int position, long id)
@@ -87,5 +70,21 @@ namespace MPfm.Android.Classes.Fragments
             builder.Show();
         }
 
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+        {
+            _entities = entities;
+            var listAdapter = (MobileLibraryBrowserListAdapter) ListAdapter;
+
+            // Update list adapter only if the view was created
+            if (listAdapter != null)
+            {
+                http://stackoverflow.com/questions/6837397/updating-listview-by-notifydatasetchanged-has-to-use-runonuithread
+                Activity.RunOnUiThread(() => {
+                    listAdapter.SetData(entities);   
+                    listAdapter.NotifyDataSetChanged();
+                });                
+            }
+
+        }
     }
 }

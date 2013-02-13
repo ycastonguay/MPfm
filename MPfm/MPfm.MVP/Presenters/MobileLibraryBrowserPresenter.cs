@@ -16,6 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
@@ -34,17 +36,17 @@ namespace MPfm.MVP.Presenters
 	{
         private readonly MobileNavigationManager _navigationManager;
 	    private readonly MobileNavigationTabType _tabType;
-	    private readonly ITinyMessengerHub _messageHub;
+	    private readonly ITinyMessengerHub _messengerHub;
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
 		
 		public AudioFileFormat Filter { get; private set; }
 		
-        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, ITinyMessengerHub messageHub, MobileNavigationManager navigationManager,
+        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
                                              ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
 		{
             _tabType = tabType;
-            _messageHub = messageHub;
+            _messengerHub = messengerHub;
             _navigationManager = navigationManager;
             _libraryService = libraryService;
 			_audioFileCacheService = audioFileCacheService;			
@@ -57,12 +59,22 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             view.OnItemClick = OnItemClick;
+
+            // Subscribe to any audio file cache update so we can update this screen
+            _messengerHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
+            RefreshLibraryBrowser();
         }
+
+	    private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage audioFileCacheUpdatedMessage)
+	    {
+            // Refresh browser with new data
+            RefreshLibraryBrowser();
+	    }
 
 	    private void OnItemClick(int i)
 	    {
             // Make sure the view was binded to the presenter before publishing a message
-	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messageHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
 	            {
 	                Item = null,
 	                Query = new SongBrowserQueryEntity()
@@ -76,6 +88,65 @@ namespace MPfm.MVP.Presenters
             _navigationManager.PushTabView(_tabType, view);
 
 	    }
+
+        private void RefreshLibraryBrowser()
+        {
+            IEnumerable<LibraryBrowserEntity> items = new List<LibraryBrowserEntity>();
+            if (_tabType == MobileNavigationTabType.Artists)
+                items = GetArtistItems();
+            View.RefreshLibraryBrowser(items);
+        }
+
+        private IEnumerable<LibraryBrowserEntity> GetArtistItems()
+        {
+            var format = AudioFileFormat.All;
+            var list = new List<LibraryBrowserEntity>();
+            List<string> artists = _libraryService.SelectDistinctArtistNames(format);
+            foreach (string artist in artists)
+            {
+                list.Add(new LibraryBrowserEntity()
+                {
+                    Title = artist,
+                    Type = LibraryBrowserEntityType.Artist,
+                    Query = new SongBrowserQueryEntity()
+                    {
+                        Format = format,
+                        ArtistName = artist
+                    }
+                });
+            }
+            return list;
+        }
+
+        private IEnumerable<LibraryBrowserEntity> GetFirstLevelItems()
+        {
+            List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
+
+
+
+            list.Add(new LibraryBrowserEntity()
+            {
+                Title = "All Songs",
+                Type = LibraryBrowserEntityType.AllSongs
+            });
+
+            list.Add(new LibraryBrowserEntity()
+            {
+                Title = "Artists",
+                Type = LibraryBrowserEntityType.Artists,
+                SubItems = new List<LibraryBrowserEntity>() { new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" } } // dummy node
+            });
+
+            list.Add(new LibraryBrowserEntity()
+            {
+                Title = "Albums",
+                Type = LibraryBrowserEntityType.Albums,
+                SubItems = new List<LibraryBrowserEntity>() { new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" } } // dummy node
+            });
+
+            return list;
+        }
+
 	}
 }
 

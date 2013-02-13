@@ -59,12 +59,13 @@ namespace MPfm.Android.Classes.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Cancelable = false;
             SetStyle(DialogFragmentStyle.Normal, Resource.Style.UpdateLibraryTheme);
         }
 
         public override void OnStart()
         {
-            base.OnStart();
+            base.OnStart();            
 
             // Start update library process
             string musicPath = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryMusic).ToString();

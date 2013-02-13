@@ -62,7 +62,7 @@
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
-    <Compile Include="Classes\Adapters\GenericListAdapter.cs" />
+    <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
