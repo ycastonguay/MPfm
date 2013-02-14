@@ -7,17 +7,21 @@
     <FrameLayout
         android:id="@+id/fragment_player_frameLayout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <ImageView
-            android:id="@+id/fragment_player_imageViewAlbumArt"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="fitCenter" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1.0">
         <LinearLayout
             android:id="@+id/fragment_player_linearLayout"
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+            <ImageView
+                android:id="@+id/fragment_player_imageViewAlbumArt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:adjustViewBounds="true"
+                android:src="@drawable/Icon" />
             <TextView
                 android:id="@+id/fragment_player_lblArtistName"
                 android:text="[ArtistName]"
@@ -69,24 +73,27 @@
                 android:layout_height="wrap_content" />
             <LinearLayout
                 android:id="@+id/fragment_player_linearLayoutButtons"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
-              <Button
-                  android:id="@+id/fragment_player_btnPrevious"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:text="Previous" />
-              <Button
-                  android:id="@+id/fragment_player_btnPlayPause"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:text="Play" />
-              <Button
-                  android:id="@+id/fragment_player_btnNext"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:text="Next" />
+                <Button
+                    android:id="@+id/fragment_player_btnPrevious"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Previous"
+                    android:padding="20dp" />
+                <Button
+                    android:id="@+id/fragment_player_btnPlayPause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pause"
+                    android:padding="20dp" />
+                <Button
+                    android:id="@+id/fragment_player_btnNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next"
+                    android:padding="20dp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

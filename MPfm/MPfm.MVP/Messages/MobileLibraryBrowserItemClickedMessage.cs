@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using MPfm.MVP.Models;
-using MPfm.Sound.AudioFiles;
 using TinyMessenger;
 
 namespace MPfm.MVP.Messages
@@ -26,7 +25,7 @@ namespace MPfm.MVP.Messages
     /// </summary>
     public class MobileLibraryBrowserItemClickedMessage : TinyMessageBase
     {
-        public AudioFile Item { get; set; }
+        public string FilePath { get; set; }
         public SongBrowserQueryEntity Query { get; set; }
 
         public MobileLibraryBrowserItemClickedMessage(object sender) 

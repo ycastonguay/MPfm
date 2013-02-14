@@ -81,6 +81,7 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             view.OnStartUpdateLibrary = UpdateLibrary;
+            view.OnCancelUpdateLibrary = Cancel;
         }
 		
 		/// <summary>

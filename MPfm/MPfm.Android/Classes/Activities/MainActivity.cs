@@ -23,6 +23,8 @@ using Android.Content.PM;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
+using Android.Views.Animations;
+using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
@@ -41,18 +43,12 @@ namespace MPfm.Android
         private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
         private SplashFragment _splashFragment;
         private AndroidNavigationManager _navigationManager;
+        private LinearLayout _miniPlayer;
 
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("MainActivity - OnCreate");
             base.OnCreate(bundle);
-
-            // Get application state
-            ApplicationState state = (ApplicationState)LastNonConfigurationInstance;
-            if (state != null)
-            {
-                // Restore state here
-            }
 
             // Request features
             RequestWindowFeature(WindowFeatures.ActionBar);
@@ -61,6 +57,8 @@ namespace MPfm.Android
 
             // Get controls
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
+            _miniPlayer = FindViewById<LinearLayout>(Resource.Id.main_miniplayer);
+            _miniPlayer.Visibility = ViewStates.Gone;
 
             // Create view pager adapter
             _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
@@ -89,6 +87,10 @@ namespace MPfm.Android
             if (fragment is PlayerFragment)
             {
                 // This fragment should completely hide the view pager
+                //_miniPlayer.Alpha = 1;
+                _miniPlayer.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
+                _miniPlayer.StartAnimation(anim);
                 ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
                 _viewPager.Visibility = ViewStates.Gone;
                 var transaction = FragmentManager.BeginTransaction();
@@ -103,6 +105,12 @@ namespace MPfm.Android
             base.OnBackPressed();
             _viewPager.Visibility = ViewStates.Visible;
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+            Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
+            anim.AnimationEnd += (sender, args) =>
+                {
+                    _miniPlayer.Visibility = ViewStates.Gone;
+                };
+            _miniPlayer.StartAnimation(anim);
         }
 
         protected override void OnStart()
@@ -139,13 +147,6 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - OnDestroy");
             base.OnDestroy();
-        }
-
-        public override Java.Lang.Object OnRetainNonConfigurationInstance()
-        {
-            // Save stuff here
-            ApplicationState state = new ApplicationState();
-            return state;
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)

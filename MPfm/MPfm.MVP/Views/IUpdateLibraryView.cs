@@ -28,6 +28,7 @@ namespace MPfm.MVP.Views
     public interface IUpdateLibraryView : IBaseView
 	{
         Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        Action OnCancelUpdateLibrary { get; set; }
 
 		void RefreshStatus(UpdateLibraryEntity entity);
 		void AddToLog(string entry);

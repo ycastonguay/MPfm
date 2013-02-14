@@ -35,10 +35,7 @@
             android:layout_toRightOf="@id/fragment_updateLibrary_progressBar"
             android:textSize="14dp"
             android:ellipsize="end"
-            android:singleLine="false"
-            android:maxHeight="60dp"
-            android:maxLines="2"
-            android:minHeight="60dp" />
+            android:singleLine="true" />
     </RelativeLayout>
     <Button
         android:id="@+id/fragment_updateLibrary_button"

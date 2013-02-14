@@ -37,6 +37,9 @@ namespace MPfm.Android.Classes.Fragments
         private TextView _lblSubtitle;
         private ProgressBar _progressBar;      
 
+        // Leave an empty constructor or the application will crash at runtime
+        public UpdateLibraryFragment() : base(null) { }
+
         public UpdateLibraryFragment(System.Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
@@ -45,7 +48,7 @@ namespace MPfm.Android.Classes.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             Dialog.SetTitle("Update Library");
-            _view = inflater.Inflate(Resource.Layout.Fragment_UpdateLibrary, container, false);
+            _view = inflater.Inflate(Resource.Layout.UpdateLibrary, container, false);
             _button = _view.FindViewById<Button>(Resource.Id.fragment_updateLibrary_button);
             _lblTitle = _view.FindViewById<TextView>(Resource.Id.fragment_updateLibrary_lblTitle);
             _lblSubtitle = _view.FindViewById<TextView>(Resource.Id.fragment_updateLibrary_lblSubtitle);
@@ -75,18 +78,20 @@ namespace MPfm.Android.Classes.Fragments
 
         private void ButtonOnClick(object sender, EventArgs eventArgs)
         {
-            Dismiss();            
-            //if (_updateLibraryDialog_button.Text == "Cancel")
-            //{
-            //    // TODO: Cancel update
-            //}
-
-            //RemoveUpdateLibrary();
+            if (_button.Text == "Cancel")
+            {
+                OnCancelUpdateLibrary();
+            }
+            else
+            {
+                Dismiss();                
+            }
         }
 
         #region IUpdateLibraryView implementation
 
         public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action OnCancelUpdateLibrary { get; set; }
 
         public void RefreshStatus(UpdateLibraryEntity entity)
         {

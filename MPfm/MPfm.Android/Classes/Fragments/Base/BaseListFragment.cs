@@ -40,13 +40,13 @@ namespace MPfm.Android.Classes.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {            
             base.OnCreate(savedInstanceState);
-            OnViewReady(this);
+            if(OnViewReady != null) OnViewReady(this);
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            OnViewDestroy(this);
+            if (OnViewReady != null) OnViewDestroy(this);
         }
     }
 }

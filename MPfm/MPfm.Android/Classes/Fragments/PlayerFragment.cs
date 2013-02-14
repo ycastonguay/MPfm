@@ -60,7 +60,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _view = inflater.Inflate(Resource.Layout.Fragment_Player, container, false);
+            _view = inflater.Inflate(Resource.Layout.Player, container, false);
             _imageViewAlbumArt = _view.FindViewById<ImageView>(Resource.Id.fragment_player_imageViewAlbumArt);
             _lblArtistName = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblArtistName);
             _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblAlbumTitle);
@@ -72,7 +72,7 @@ namespace MPfm.Android.Classes.Fragments
             _btnNext = _view.FindViewById<Button>(Resource.Id.fragment_player_btnNext);
             _btnPlayPause.SetOnClickListener(this);
             _btnPrevious.SetOnClickListener(this);
-            _btnNext.SetOnClickListener(this);
+            _btnNext.SetOnClickListener(this);            
 
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);

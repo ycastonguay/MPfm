@@ -39,6 +39,9 @@ namespace MPfm.Android.Classes.Fragments
         public string Filter { get; set; }
         public Action<int> OnItemClick { get; set; }
 
+        // Leave an empty constructor or the application will crash at runtime
+        public MobileLibraryBrowserFragment() : base(null) { }
+
         public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {

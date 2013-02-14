@@ -80,8 +80,7 @@ namespace MPfm.MVP.Presenters
             });
             messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) =>
             {
-                string filePath = m.Item != null ? m.Item.FilePath : null;
-                Play(audioFileCacheService.SelectAudioFiles(m.Query), filePath);
+                Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
             });
         }
         

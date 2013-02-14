@@ -39,8 +39,9 @@ namespace MPfm.MVP.Presenters
 	    private readonly ITinyMessengerHub _messengerHub;
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
-		
-		public AudioFileFormat Filter { get; private set; }
+	    private List<LibraryBrowserEntity> _items;
+
+	    public AudioFileFormat Filter { get; private set; }
 		
         public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
                                              ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
@@ -76,25 +77,20 @@ namespace MPfm.MVP.Presenters
             // Make sure the view was binded to the presenter before publishing a message
 	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
 	            {
-	                Item = null,
-	                Query = new SongBrowserQueryEntity()
-	                    {
-	                        ArtistName = ""
-	                    }
+	                Query = _items[i].Query
 	            });
 
             // Create player view
             var view = _navigationManager.CreatePlayerView(onViewBindedToPresenter);
             _navigationManager.PushTabView(_tabType, view);
-
 	    }
 
         private void RefreshLibraryBrowser()
         {
-            IEnumerable<LibraryBrowserEntity> items = new List<LibraryBrowserEntity>();
+            _items = new List<LibraryBrowserEntity>();
             if (_tabType == MobileNavigationTabType.Artists)
-                items = GetArtistItems();
-            View.RefreshLibraryBrowser(items);
+                _items = GetArtistItems().ToList();
+            View.RefreshLibraryBrowser(_items);
         }
 
         private IEnumerable<LibraryBrowserEntity> GetArtistItems()
@@ -117,36 +113,6 @@ namespace MPfm.MVP.Presenters
             }
             return list;
         }
-
-        private IEnumerable<LibraryBrowserEntity> GetFirstLevelItems()
-        {
-            List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
-
-
-
-            list.Add(new LibraryBrowserEntity()
-            {
-                Title = "All Songs",
-                Type = LibraryBrowserEntityType.AllSongs
-            });
-
-            list.Add(new LibraryBrowserEntity()
-            {
-                Title = "Artists",
-                Type = LibraryBrowserEntityType.Artists,
-                SubItems = new List<LibraryBrowserEntity>() { new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" } } // dummy node
-            });
-
-            list.Add(new LibraryBrowserEntity()
-            {
-                Title = "Albums",
-                Type = LibraryBrowserEntityType.Albums,
-                SubItems = new List<LibraryBrowserEntity>() { new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" } } // dummy node
-            });
-
-            return list;
-        }
-
 	}
 }
 
