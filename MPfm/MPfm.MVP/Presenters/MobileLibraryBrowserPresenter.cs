@@ -89,11 +89,15 @@ namespace MPfm.MVP.Presenters
         {
             _items = new List<LibraryBrowserEntity>();
             if (_tabType == MobileNavigationTabType.Artists)
-                _items = GetArtistItems().ToList();
+                _items = GetArtists().ToList();
+            else if (_tabType == MobileNavigationTabType.Albums)
+                _items = GetAlbums().ToList();
+            else if (_tabType == MobileNavigationTabType.Songs)
+                _items = GetSongs().ToList();
             View.RefreshLibraryBrowser(_items);
         }
 
-        private IEnumerable<LibraryBrowserEntity> GetArtistItems()
+        private IEnumerable<LibraryBrowserEntity> GetArtists()
         {
             var format = AudioFileFormat.All;
             var list = new List<LibraryBrowserEntity>();
@@ -113,6 +117,76 @@ namespace MPfm.MVP.Presenters
             }
             return list;
         }
-	}
+
+        private IEnumerable<LibraryBrowserEntity> GetAlbums()
+        {
+            return GetArtistAlbums(string.Empty);
+        }
+
+        private IEnumerable<LibraryBrowserEntity> GetArtistAlbums(string artistName)
+        {
+            var format = AudioFileFormat.All;
+            var list = new List<LibraryBrowserEntity>();
+            var albumTitles = _libraryService.SelectDistinctAlbumTitles(format, artistName);
+            var albums = new List<string>();
+
+            // Extract album titles from dictionary
+            foreach (var keyValue in albumTitles)
+                foreach (string albumTitle in keyValue.Value)
+                    albums.Add(albumTitle);
+
+            // Order the albums by title
+            albums = albums.OrderBy(x => x).ToList();
+			
+			// Convert to entities
+			foreach(string album in albums)
+			{
+				list.Add(new LibraryBrowserEntity(){
+					Title = album,
+					Type = LibraryBrowserEntityType.Album,
+					Query = new SongBrowserQueryEntity(){
+						Format = format,
+						ArtistName = artistName,
+						AlbumTitle = album						
+					}
+				});
+			}
+
+            return list;
+        }
+
+        private IEnumerable<LibraryBrowserEntity> GetSongs()
+        {
+            return GetSongs(string.Empty, string.Empty);
+        }
+
+        private IEnumerable<LibraryBrowserEntity> GetSongs(string artistName, string albumTitle)
+        {
+            var format = AudioFileFormat.All;
+            var list = new List<LibraryBrowserEntity>();
+            var audioFiles = _libraryService.SelectAudioFiles(format, artistName, albumTitle, string.Empty);
+            var songs = audioFiles.Select(x => x.Title).OrderBy(x => x).ToList();
+
+            // Convert to entities
+            foreach (var song in songs)
+            {
+                list.Add(new LibraryBrowserEntity()
+                {
+                    Title = song,
+                    Type = LibraryBrowserEntityType.Song,
+                    Query = new SongBrowserQueryEntity()
+                    {
+                        Format = format,                        
+                        ArtistName = artistName,
+                        AlbumTitle = albumTitle,
+                        SearchTerms = song
+                    }
+                });
+            }
+
+            return list;
+        }
+    
+    }
 }
 

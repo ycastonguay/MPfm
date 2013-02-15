@@ -53,7 +53,7 @@ namespace MPfm.MVP.Models
 	/// </summary>
 	public enum LibraryBrowserEntityType
 	{
-		AllSongs = 0, Artists = 1, Albums = 2, Artist = 3, ArtistAlbum = 4, Album = 5, Dummy = 100
+		AllSongs = 0, Artists = 1, Albums = 2, Artist = 3, ArtistAlbum = 4, Album = 5, Song = 6, Dummy = 100
 	}
 }
 
