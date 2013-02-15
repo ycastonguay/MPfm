@@ -32,6 +32,10 @@ namespace MPfm.iOS.Classes.Controllers
     {
         #region IMobileLibraryBrowserView implementation
 
+        public void RefreshLibraryBrowser(IEnumerable<MPfm.MVP.Models.LibraryBrowserEntity> entities)
+        {
+        }
+
         public MobileLibraryBrowserType BrowserType { get; set; }
         public string Filter { get; set; }
         public Action<int> OnItemClick { get; set; }

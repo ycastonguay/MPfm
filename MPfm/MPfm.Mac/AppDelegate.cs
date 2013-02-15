@@ -26,7 +26,7 @@ using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MPfm.MVP;
-using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using TinyIoC;
