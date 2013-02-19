@@ -268,5 +268,6 @@
     <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />
+    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
   </ItemGroup>
 </Project>

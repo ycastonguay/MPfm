@@ -69,6 +69,7 @@ namespace MPfm.iOS
         #region IUpdateLibraryView implementation
         
         public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action OnCancelUpdateLibrary { get; set; }
         
         public void RefreshStatus(UpdateLibraryEntity entity)
         {

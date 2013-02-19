@@ -653,26 +653,26 @@ namespace MPfm.Mac
             };
 		}
 		
-		public void RefreshSongInformation(SongInformationEntity entity)
+		public void RefreshSongInformation(AudioFile audioFile)
         {
             InvokeOnMainThread(delegate {
                 // Set labels
-                lblArtistName.StringValue = entity.ArtistName;
-                lblAlbumTitle.StringValue = entity.AlbumTitle;
-                lblSongTitle.StringValue = entity.Title;
-                lblSongPath.StringValue = entity.FilePath;
-                lblPosition.StringValue = entity.Position;
-                lblLength.StringValue = entity.Length;
+                lblArtistName.StringValue = audioFile.ArtistName;
+                lblAlbumTitle.StringValue = audioFile.AlbumTitle;
+                lblSongTitle.StringValue = audioFile.Title;
+                lblSongPath.StringValue = audioFile.FilePath;
+                //lblPosition.StringValue = audioFile.Position;
+                lblLength.StringValue = audioFile.Length;
 
-                lblFileType.StringValue = entity.FileTypeString;
-                lblBitrate.StringValue = entity.BitrateString;
-                lblBitsPerSample.StringValue = entity.BitsPerSampleString;
-                lblSampleRate.StringValue = entity.SampleRateString;
+                lblFileType.StringValue = audioFile.FileType.ToString();
+                lblBitrate.StringValue = audioFile.Bitrate.ToString();
+                lblBitsPerSample.StringValue = audioFile.BitsPerSample.ToString();
+                lblSampleRate.StringValue = audioFile.SampleRate.ToString();
 
                 // Set album cover
-                if (!String.IsNullOrEmpty(entity.FilePath))
+                if (!String.IsNullOrEmpty(audioFile.FilePath))
                 {
-                    NSImage image = AlbumCoverHelper.GetAlbumCover(entity.FilePath);
+                    NSImage image = AlbumCoverHelper.GetAlbumCover(audioFile.FilePath);
                     if (image != null)
                         imageAlbumCover.Image = image;
                     else
@@ -685,7 +685,7 @@ namespace MPfm.Mac
 
                 // Refresh which song is playing in the Song Browser
                 if(songBrowserSource != null)
-                    songBrowserSource.RefreshIsPlaying(tableSongBrowser, entity.FilePath);
+                    songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
             });
 		}
 

@@ -28,7 +28,7 @@ using MPfm.MVP.Views;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
-using MPfm.MVP.Bootstrapper;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.Mac
 {
@@ -43,6 +43,7 @@ namespace MPfm.Mac
 		IUpdateLibraryPresenter presenter = null;
         
         public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action OnCancelUpdateLibrary { get; set; }
 
 		#region Constructors
 		
