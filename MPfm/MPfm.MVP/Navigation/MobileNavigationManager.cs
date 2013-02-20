@@ -203,7 +203,8 @@ namespace MPfm.MVP.Navigation
                 // The view list can be accessed from different threads.
                 lock (_locker)
                 {
-                    var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() {{"tabType", tabType}});
+                    var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() 
+                        {{"tabType", tabType }, { "browserType", browserType}});
                     presenter.BindView((IMobileLibraryBrowserView) view);
                     _mobileLibraryBrowserList.Add((IMobileLibraryBrowserView) view, presenter);
                 }
@@ -212,7 +213,6 @@ namespace MPfm.MVP.Navigation
             // Create view and manage view destruction
             IMobileLibraryBrowserView newView = null;
             newView = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            newView.BrowserType = browserType; // TODO: Shouldn't this be in the presenter instead...? browserType + filter (can be artist or album)
             newView.OnViewDestroy = (view) =>
             {
                 // The view list can be accessed from different threads.

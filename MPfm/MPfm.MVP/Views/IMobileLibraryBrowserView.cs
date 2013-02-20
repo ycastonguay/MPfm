@@ -26,9 +26,6 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IMobileLibraryBrowserView : IBaseView
 	{
-        MobileLibraryBrowserType BrowserType { get; set; }
-        string Filter { get; set; }
-
         Action<int> OnItemClick { get; set; }
 
         void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);

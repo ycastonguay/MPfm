@@ -36,6 +36,7 @@ namespace MPfm.MVP.Presenters
 	{
         private readonly MobileNavigationManager _navigationManager;
 	    private readonly MobileNavigationTabType _tabType;
+	    private readonly MobileLibraryBrowserType _browserType;
 	    private readonly ITinyMessengerHub _messengerHub;
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
@@ -43,10 +44,11 @@ namespace MPfm.MVP.Presenters
 
 	    public AudioFileFormat Filter { get; private set; }
 		
-        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
+        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
                                              ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
 		{
             _tabType = tabType;
+            _browserType = browserType;
             _messengerHub = messengerHub;
             _navigationManager = navigationManager;
             _libraryService = libraryService;
@@ -74,6 +76,20 @@ namespace MPfm.MVP.Presenters
 
 	    private void OnItemClick(int i)
 	    {
+            // PLAYLIST TAB: Playlists --> Player
+            // ARTISTS TAB: Artists --> Albums --> Songs --> Player
+            // ALBUMS TAB: Albums --> Songs --> Player
+            // SONGS TAB: Songs --> Player
+
+            // Check if another MobileLibraryBrowser view needs to be pushed
+            if (_tabType == MobileNavigationTabType.Artists || _tabType == MobileNavigationTabType.Albums)
+            {
+                var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
+                var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType);
+                _navigationManager.PushTabView(_tabType, newView);
+                return;
+            }
+
             // Make sure the view was binded to the presenter before publishing a message
 	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
 	            {
