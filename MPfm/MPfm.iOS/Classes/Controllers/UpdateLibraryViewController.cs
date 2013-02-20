@@ -45,8 +45,26 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-			
-            // Perform any additional setup after loading the view, typically from a nib.
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+
+            string musicPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            OnStartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, musicPath);
+        }
+
+        partial void actionButtonClicked(NSObject sender)
+        {
+            if(button.Title(UIControlState.Normal) == "OK")
+            {
+                DismissViewController(true, null);
+            }
+            else
+            {
+                OnCancelUpdateLibrary();
+            }
         }
 
         #region IUpdateLibraryView implementation
@@ -56,6 +74,10 @@ namespace MPfm.iOS
         
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
+            InvokeOnMainThread(() => {
+                lblTitle.Text = entity.Title;
+                lblSubtitle.Text = entity.Subtitle;
+            });
         }
         
         public void AddToLog(string entry)
@@ -64,6 +86,13 @@ namespace MPfm.iOS
         
         public void ProcessEnded(bool canceled)
         {
+            InvokeOnMainThread(() => {
+                lblTitle.Text = "Update library successful.";
+                lblSubtitle.Text = string.Empty;
+                button.SetTitle("OK", UIControlState.Normal);
+                activityIndicator.StopAnimating();
+                activityIndicator.Hidden = true;
+            });
         }
         
         #endregion

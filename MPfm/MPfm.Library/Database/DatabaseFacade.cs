@@ -113,7 +113,7 @@ namespace MPfm.Library.Database
 					{
 						sql.AppendLine(" AND ");
 					}
-					sql.AppendLine(" [ArtistName] = '" + albumTitle + "' ");
+					sql.AppendLine(" [AlbumTitle] = '" + albumTitle + "' ");
 				}
 				if(!String.IsNullOrEmpty(search))
 				{

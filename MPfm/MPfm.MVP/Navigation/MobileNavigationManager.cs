@@ -21,6 +21,7 @@ using MPfm.MVP.Bootstrap;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Navigation
 {
@@ -63,10 +64,10 @@ namespace MPfm.MVP.Navigation
             Action onInitDone = () =>
             {                
                 // Create 4 main tabs
-                var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists);
-                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists);
-                var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums);
-                var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs);
+                var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new SongBrowserQueryEntity());
+                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new SongBrowserQueryEntity());
+                var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new SongBrowserQueryEntity());
+                var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new SongBrowserQueryEntity());
                 AddTab(MobileNavigationTabType.Playlists, "Playlists", playlistsView);
                 AddTab(MobileNavigationTabType.Artists, "Artists", artistsView);
                 AddTab(MobileNavigationTabType.Albums, "Albums", albumsView);
@@ -196,7 +197,7 @@ namespace MPfm.MVP.Navigation
             return _libraryPreferencesView;
         }
 
-        public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType)
+        public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, SongBrowserQueryEntity query)
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
@@ -205,7 +206,7 @@ namespace MPfm.MVP.Navigation
                 lock (_locker)
                 {
                     var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() 
-                        {{"tabType", tabType }, { "browserType", browserType}});
+                        {{"tabType", tabType}, {"browserType", browserType}, {"query", query}});
                     presenter.BindView((IMobileLibraryBrowserView) view);
                     _mobileLibraryBrowserList.Add((IMobileLibraryBrowserView) view, presenter);
                 }

@@ -104,8 +104,10 @@ namespace MPfm.iOS
         
         public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
         {
-            _items = options;
-            tableView.ReloadData();
+            InvokeOnMainThread(() => {
+                _items = options;
+                tableView.ReloadData();
+            });
         }
         
         #endregion

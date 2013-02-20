@@ -113,8 +113,10 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
         {
-            _items = entities.ToList();
-            tableView.ReloadData();
+            InvokeOnMainThread(() => {
+                _items = entities.ToList();
+                tableView.ReloadData();
+            });
         }
 
         #endregion

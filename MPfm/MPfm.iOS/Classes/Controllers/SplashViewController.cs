@@ -27,18 +27,6 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class SplashViewController : BaseViewController, ISplashView
     {
-        #region ISplashView implementation
-
-        public void RefreshStatus(string message)
-        {
-        }
-
-        public void InitDone()
-        {
-        }
-
-        #endregion
-
         public SplashViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
         {
@@ -56,6 +44,17 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewDidLoad();
         }
+
+        #region ISplashView implementation
+        
+        public void RefreshStatus(string message)
+        {
+        }
+        
+        public void InitDone()
+        {
+        }
+        
+        #endregion    
     }
 }
-

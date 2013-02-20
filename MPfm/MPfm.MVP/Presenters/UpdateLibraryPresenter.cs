@@ -70,9 +70,6 @@ namespace MPfm.MVP.Presenters
         {
             // Refresh audio file cache service
             _audioFileCacheService.RefreshCache();
-
-            // TODO: Tell other library/song browsers to update themselves!
-
             View.ProcessEnded(e.Canceled);   
         }
 

@@ -90,68 +90,79 @@ namespace MPfm.iOS.Classes.Delegates
 
         public void ShowSplash(SplashViewController viewController)
         {
-            _splashViewController = viewController;
-            _splashViewController.View.Frame = _window.Frame;
-            _splashViewController.View.AutoresizingMask = UIViewAutoresizing.All;
-            _window.AddSubview(_splashViewController.View);
-            _window.MakeKeyAndVisible();
-        }
+            InvokeOnMainThread(() => {
+                _splashViewController = viewController;
+                _splashViewController.View.Frame = _window.Frame;
+                _splashViewController.View.AutoresizingMask = UIViewAutoresizing.All;
+                _window.AddSubview(_splashViewController.View);
+                _window.MakeKeyAndVisible();
+            });
+            }
 
         public void HideSplash()
         {
-            _tabBarController.View.Hidden = false;            
+            InvokeOnMainThread(() => {
+                _tabBarController.View.Hidden = false;            
+            });
         }
 
         public void AddTab(MobileNavigationTabType type, string title, UIViewController viewController)
         {
-            // Create text attributes for tab
-            UITextAttributes attr = new UITextAttributes();
-            //attr.Font = UIFont.FromName("Junction", 11);
-            attr.Font = UIFont.FromName("OstrichSans-Black", 13);
-            attr.TextColor = UIColor.White;
-            attr.TextShadowColor = UIColor.DarkGray;
-            attr.TextShadowOffset = new UIOffset(1, 1);
+            InvokeOnMainThread(() => {
+                // Create text attributes for tab
+                UITextAttributes attr = new UITextAttributes();
+                //attr.Font = UIFont.FromName("Junction", 11);
+                attr.Font = UIFont.FromName("OstrichSans-Black", 13);
+                attr.TextColor = UIColor.White;
+                attr.TextShadowColor = UIColor.DarkGray;
+                attr.TextShadowOffset = new UIOffset(1, 1);
 
-            // Create navigation controller
-            var navCtrl = new MPfmNavigationController("OstrichSans-Black", 26);
-            navCtrl.SetTitle(title);
-            navCtrl.NavigationBar.BackgroundColor = UIColor.Clear;
-            navCtrl.NavigationBar.TintColor = UIColor.Clear;
-            navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
-            navCtrl.TabBarItem.Title = title;
-            navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
-            navCtrl.PushViewController(viewController, false);
+                // Create navigation controller
+                var navCtrl = new MPfmNavigationController("OstrichSans-Black", 26);
+                navCtrl.SetTitle(title);
+                navCtrl.NavigationBar.BackgroundColor = UIColor.Clear;
+                navCtrl.NavigationBar.TintColor = UIColor.Clear;
+                navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
+                navCtrl.TabBarItem.Title = title;
+                navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
+                navCtrl.PushViewController(viewController, false);
 
-            // Add view controller to list
-            _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
+                // Add view controller to list
+                _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
 
-            // Add navigation controller as a tab
-            var list = new List<UIViewController>();
-            if(_tabBarController.ViewControllers != null)
-                list = _tabBarController.ViewControllers.ToList();
-            list.Add(navCtrl);
-            _tabBarController.ViewControllers = list.ToArray();
+                // Add navigation controller as a tab
+                var list = new List<UIViewController>();
+                if (_tabBarController.ViewControllers != null)
+                    list = _tabBarController.ViewControllers.ToList();
+                list.Add(navCtrl);
+                _tabBarController.ViewControllers = list.ToArray();
+            });
         }
 
         public void PushTabView(MobileNavigationTabType type, UIViewController viewController)
         {
-            if (viewController is PlayerViewController)
-            {
-                viewController.HidesBottomBarWhenPushed = true;
+            InvokeOnMainThread(() => {
+                if (viewController is PlayerViewController)
+                {
+                    viewController.HidesBottomBarWhenPushed = true;
+                }
+
                 var navCtrl = _navigationControllers.FirstOrDefault(x => x.Key == type).Value;
                 navCtrl.PushViewController(viewController, true);
-            }
+            });
         }
 
         public void PushDialogView(UIViewController viewController)
         {
-            if (viewController is UpdateLibraryViewController)
-            {
-                viewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
-                viewController.ModalInPopover = true;
-                viewController.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
-                _tabBarController.PresentViewController(viewController, true, null);
-            }
+            InvokeOnMainThread(() => {
+                if (viewController is UpdateLibraryViewController)
+                {
+                    viewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+                    viewController.ModalInPopover = true;
+                    viewController.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
+                    _tabBarController.PresentViewController(viewController, true, null);
+                }
+            });
         }
     }
 }

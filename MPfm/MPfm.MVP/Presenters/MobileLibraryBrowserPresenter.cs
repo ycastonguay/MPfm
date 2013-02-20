@@ -40,13 +40,17 @@ namespace MPfm.MVP.Presenters
 	    private readonly ITinyMessengerHub _messengerHub;
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
+        private readonly SongBrowserQueryEntity _query;
+
 	    private List<LibraryBrowserEntity> _items;
 
 	    public AudioFileFormat Filter { get; private set; }
 		
-        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
+        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, SongBrowserQueryEntity query,
+                                             ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
                                              ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
 		{
+            _query = query;
             _tabType = tabType;
             _browserType = browserType;
             _messengerHub = messengerHub;
@@ -82,15 +86,16 @@ namespace MPfm.MVP.Presenters
             // SONGS TAB: Songs --> Player
 
             // Check if another MobileLibraryBrowser view needs to be pushed
-            if (_tabType == MobileNavigationTabType.Artists || _tabType == MobileNavigationTabType.Albums)
+            if ((_tabType == MobileNavigationTabType.Artists || _tabType == MobileNavigationTabType.Albums) &&
+                _browserType != MobileLibraryBrowserType.Songs)
             {
                 var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
-                var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType);
+                var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[i].Query);
                 _navigationManager.PushTabView(_tabType, newView);
                 return;
             }
 
-            // Make sure the view was binded to the presenter before publishing a message
+            // Make sure the view was binded to the presenter before publishing a message (TODO: Move Query param into CreatePlayerView)
 	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
 	            {
 	                Query = _items[i].Query
@@ -104,12 +109,20 @@ namespace MPfm.MVP.Presenters
         private void RefreshLibraryBrowser()
         {
             _items = new List<LibraryBrowserEntity>();
-            if (_tabType == MobileNavigationTabType.Artists)
-                _items = GetArtists().ToList();
-            else if (_tabType == MobileNavigationTabType.Albums)
-                _items = GetAlbums().ToList();
-            else if (_tabType == MobileNavigationTabType.Songs)
-                _items = GetSongs().ToList();
+            switch (_browserType)
+            {
+                case MobileLibraryBrowserType.Playlists:
+                    break;
+                case MobileLibraryBrowserType.Artists:
+                    _items = GetArtists().ToList();
+                    break;
+                case MobileLibraryBrowserType.Albums:
+                    _items = GetAlbums(_query.ArtistName).ToList(); 
+                    break;
+                case MobileLibraryBrowserType.Songs:
+                    _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();                    
+                    break;
+            }
             View.RefreshLibraryBrowser(_items);
         }
 
@@ -136,10 +149,10 @@ namespace MPfm.MVP.Presenters
 
         private IEnumerable<LibraryBrowserEntity> GetAlbums()
         {
-            return GetArtistAlbums(string.Empty);
+            return GetAlbums(string.Empty);
         }
 
-        private IEnumerable<LibraryBrowserEntity> GetArtistAlbums(string artistName)
+        private IEnumerable<LibraryBrowserEntity> GetAlbums(string artistName)
         {
             var format = AudioFileFormat.All;
             var list = new List<LibraryBrowserEntity>();
@@ -181,7 +194,15 @@ namespace MPfm.MVP.Presenters
             var format = AudioFileFormat.All;
             var list = new List<LibraryBrowserEntity>();
             var audioFiles = _libraryService.SelectAudioFiles(format, artistName, albumTitle, string.Empty);
-            var songs = audioFiles.Select(x => x.Title).OrderBy(x => x).ToList();
+
+            // If a single album is specified, order songs by disc number/track number
+            if (!String.IsNullOrEmpty(albumTitle))
+                audioFiles = audioFiles.OrderBy(x => x.DiscNumber).ThenBy(x => x.TrackNumber).ToList();
+            else
+                audioFiles = audioFiles.OrderBy(x => x.Title).ToList();
+
+            // Get song titles
+            var songs = audioFiles.Select(x => x.Title).ToList();
 
             // Convert to entities
             foreach (var song in songs)
