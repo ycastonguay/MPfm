@@ -84,6 +84,14 @@ namespace MPfm.iOS.Classes.Controllers
             OnPlayerNext();
         }
 
+        partial void actionMarkers(NSObject sender)
+        {
+        }
+
+        partial void actionLoops(NSObject sender)
+        {
+        }
+
         #region IPlayerView implementation
 
         public Action OnPlayerPlay { get; set; }

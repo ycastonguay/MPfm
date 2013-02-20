@@ -1,6 +1,6 @@
 // WARNING
 //
-// This file has been generated automatically by MonoDevelop to store outlets and
+// This file has been generated automatically by Xamarin Studio to store outlets and
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
@@ -41,6 +41,12 @@ namespace MPfm.iOS.Classes.Controllers
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnNext { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnLoops { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnMarkers { get; set; }
+
 		[Action ("actionPause:")]
 		partial void actionPause (MonoTouch.Foundation.NSObject sender);
 
@@ -49,6 +55,12 @@ namespace MPfm.iOS.Classes.Controllers
 
 		[Action ("actionNext:")]
 		partial void actionNext (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionLoops:")]
+		partial void actionLoops (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionMarkers:")]
+		partial void actionMarkers (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -100,6 +112,16 @@ namespace MPfm.iOS.Classes.Controllers
 			if (btnNext != null) {
 				btnNext.Dispose ();
 				btnNext = null;
+			}
+
+			if (btnLoops != null) {
+				btnLoops.Dispose ();
+				btnLoops = null;
+			}
+
+			if (btnMarkers != null) {
+				btnMarkers.Dispose ();
+				btnMarkers = null;
 			}
 		}
 	}

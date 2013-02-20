@@ -35,7 +35,7 @@ namespace MPfm.iOS.Classes.Controllers
         private string _cellIdentifier = "MobileLibraryBrowserCell";
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "ListViewController_iPhone" : "ListViewController_iPad", null)
+            : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
         {
         }
         
