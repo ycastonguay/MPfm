@@ -22,27 +22,14 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
+using System.Linq;
 
 namespace MPfm.iOS
 {
     public partial class MoreViewController : BaseViewController, IMobileOptionsMenuView
     {
-        #region IMobileOptionsMenuView implementation
-
-        public void RefreshMenu(Dictionary<MobileOptionsMenuType, string> options)
-        {
-        }
-
-        public Action OnClickPreferences { get; set; }
-        public Action OnClickEffects { get; set; }
-        public Action OnClickAbout { get; set; }
-
-        #endregion
-
-        static bool UserInterfaceIdiomIsPhone
-        {
-            get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-        }
+        string _cellIdentifier = "MoreCell";
+        List<KeyValuePair<MobileOptionsMenuType, string>> _items;
 
         public MoreViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "MoreViewController_iPhone" : "MoreViewController_iPad", null)
@@ -52,21 +39,76 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-			
-            // Perform any additional setup after loading the view, typically from a nib.
+
+            _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
+            tableView.WeakDataSource = this;
+            tableView.WeakDelegate = this;
         }
-		
-        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
+
+        public override void ViewDidDisappear(bool animated)
         {
-            // Return true for supported orientations
-            if (UserInterfaceIdiomIsPhone)
-            {
-                return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
-            } else
-            {
-                return true;
-            }
+            tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
+            base.ViewDidDisappear(animated);
+        }        
+        
+        [Export ("tableView:numberOfRowsInSection:")]
+        public int RowsInSection(UITableView tableview, int section)
+        {
+            return _items.Count;
         }
+        
+        [Export ("tableView:cellForRowAtIndexPath:")]
+        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            // Request a recycled cell to save memory
+            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+            
+            // Set cell style
+            var cellStyle = UITableViewCellStyle.Default;
+            
+            // Create cell if cell could not be recycled
+            if (cell == null)
+                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+            
+            // Set title
+            cell.TextLabel.Text = _items[indexPath.Row].Value;
+            
+            // Set font
+            cell.TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 26);
+            
+            // Set chevron
+            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            
+            //            // Check this is the version cell (remove all user interaction)
+            //            if (viewModel.Items[indexPath.Row].ItemType == MoreItemType.Version)
+            //            {
+            //                cell.Accessory = UITableViewCellAccessory.None;
+            //                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+            //                cell.TextLabel.TextColor = UIColor.Gray;
+            //                cell.TextLabel.TextAlignment = UITextAlignment.Center;
+            //                cell.TextLabel.Font = UIFont.FromName("Asap", 16);
+            //            }
+            
+            return cell;
+        }
+        
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            OnItemClick(_items[indexPath.Row].Key);
+        }
+
+        #region IMobileOptionsMenuView implementation
+
+        public Action<MobileOptionsMenuType> OnItemClick { get; set; }
+        
+        public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
+        {
+            _items = options;
+            tableView.ReloadData();
+        }
+        
+        #endregion
     }
 }
 

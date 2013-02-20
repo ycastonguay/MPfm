@@ -56,6 +56,7 @@ namespace MPfm.MVP.Navigation
         public abstract void HideSplash();
         public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
+        public abstract void PushDialogView(IBaseView view);
 
         public virtual void Start()
         {

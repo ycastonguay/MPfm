@@ -56,6 +56,23 @@ namespace MPfm.iOS.Classes.Controllers.Base
             base.ViewDidDisappear(animated);
             OnViewDestroy(this);
         }
+
+        public static bool UserInterfaceIdiomIsPhone
+        {
+            get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
+        }
+
+        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
+        {
+            // Return true for supported orientations
+            if (UserInterfaceIdiomIsPhone)
+            {
+                return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
+            } else
+            {
+                return true;
+            }
+        }
 	}
 }
 

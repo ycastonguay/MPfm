@@ -145,7 +145,6 @@
     <None Include="Lib\AutoMapper.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bootstrapper\" />
     <Folder Include="Helpers\" />
     <Folder Include="Services\Interfaces\" />
     <Folder Include="Presenters\Interfaces\" />

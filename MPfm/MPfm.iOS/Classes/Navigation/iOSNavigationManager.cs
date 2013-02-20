@@ -46,5 +46,10 @@ namespace MPfm.iOS.Classes.Navigation
 		{
 			AppDelegate.PushTabView(type, (UIViewController)view);
 		}
+
+        public override void PushDialogView(IBaseView view)
+        {
+            AppDelegate.PushDialogView((UIViewController)view);
+        }
 	}
 }

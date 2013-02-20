@@ -29,11 +29,6 @@ namespace MPfm.iOS
 {
     public partial class UpdateLibraryViewController : BaseViewController, IUpdateLibraryView
     {
-        static bool UserInterfaceIdiomIsPhone
-        {
-            get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-        }
-
         public UpdateLibraryViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "UpdateLibraryViewController_iPhone" : "UpdateLibraryViewController_iPad", null)
         {
@@ -52,18 +47,6 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 			
             // Perform any additional setup after loading the view, typically from a nib.
-        }
-		
-        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
-        {
-            // Return true for supported orientations
-            if (UserInterfaceIdiomIsPhone)
-            {
-                return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
-            } else
-            {
-                return true;
-            }
         }
 
         #region IUpdateLibraryView implementation

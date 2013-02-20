@@ -22,7 +22,6 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controllers;
-using MPfm.iOS.Classes.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
@@ -143,6 +142,16 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.PushViewController(viewController, true);
             }
         }
-	}
-}
 
+        public void PushDialogView(UIViewController viewController)
+        {
+            if (viewController is UpdateLibraryViewController)
+            {
+                viewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+                viewController.ModalInPopover = true;
+                viewController.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
+                _tabBarController.PresentViewController(viewController, true, null);
+            }
+        }
+    }
+}

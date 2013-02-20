@@ -40,10 +40,6 @@ namespace MPfm.iOS.Classes.Controllers
 		private IPlayer player;
         private Timer timer;
 
-		static bool UserInterfaceIdiomIsPhone {
-			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-		}
-
 		public PlayerViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
@@ -102,16 +98,6 @@ namespace MPfm.iOS.Classes.Controllers
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Now Playing");
         }
-
-		public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
-		{
-			// Return true for supported orientations
-			if (UserInterfaceIdiomIsPhone) {
-				return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
-			} else {
-				return true;
-			}
-		}
 
         private void RefreshAudioFile(AudioFile audioFile, bool isSameAlbum)
         {
@@ -186,6 +172,17 @@ namespace MPfm.iOS.Classes.Controllers
 
         #region IPlayerView implementation
 
+        public Action OnPlayerPlay { get; set; }
+        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public Action OnPlayerPause { get; set; }
+        public Action OnPlayerStop { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action<float> OnPlayerSetVolume { get; set; }
+        public Action<float> OnPlayerSetPitchShifting { get; set; }
+        public Action<float> OnPlayerSetTimeShifting { get; set; }
+        public Action<float> OnPlayerSetPosition { get; set; }
+
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
         }
@@ -205,17 +202,6 @@ namespace MPfm.iOS.Classes.Controllers
         public void PlayerError(Exception ex)
         {
         }
-
-        public Action OnPlayerPlay { get; set; }
-        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
-        public Action OnPlayerPause { get; set; }
-        public Action OnPlayerStop { get; set; }
-        public Action OnPlayerPrevious { get; set; }
-        public Action OnPlayerNext { get; set; }
-        public Action<float> OnPlayerSetVolume { get; set; }
-        public Action<float> OnPlayerSetPitchShifting { get; set; }
-        public Action<float> OnPlayerSetTimeShifting { get; set; }
-        public Action<float> OnPlayerSetPosition { get; set; }
 
         #endregion
 	}

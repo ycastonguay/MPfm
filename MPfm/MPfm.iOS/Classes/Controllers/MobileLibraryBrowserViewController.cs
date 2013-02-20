@@ -21,39 +21,18 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Controls;
 using MPfm.MVP.Views;
+using MPfm.MVP.Models;
+using System.Linq;
 
 namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
-        #region IMobileLibraryBrowserView implementation
-
-        public void RefreshLibraryBrowser(IEnumerable<MPfm.MVP.Models.LibraryBrowserEntity> entities)
-        {
-        }
-
-        public MobileLibraryBrowserType BrowserType { get; set; }
-        public string Filter { get; set; }
-        public Action<int> OnItemClick { get; set; }
-
-        #endregion
-
-//        private UIBarButtonItem btnBack;
-//        private Action<GenericListItem> actionOnItemSelected;
-//        private ListTableViewSource tableViewSource;
-//        private string title;
-//        public List<GenericListItem> Items { get; private set; }
-        private List<GenericListItem> _items;
+        private List<LibraryBrowserEntity> _items;
         private string _cellIdentifier = "MobileLibraryBrowserCell";
-
-        static bool UserInterfaceIdiomIsPhone
-        {
-            get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-        }
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "ListViewController_iPhone" : "ListViewController_iPad", null)
@@ -64,37 +43,16 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewDidLoad();
 
-            _items = new List<GenericListItem>();
-            _items.Add(new GenericListItem() {
-                Title = "Hello",
-                Image = UIImage.FromBundle("/Images/icon114.png")
-            });
+            _items = new List<LibraryBrowserEntity>();
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
         }
         
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-        }
-
         public override void ViewDidDisappear(bool animated)
         {
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             base.ViewDidDisappear(animated);
-        }
-        
-        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
-        {
-            // Return true for supported orientations
-            if (UserInterfaceIdiomIsPhone)
-            {
-                return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
-            } else
-            {
-                return true;
-            }
-        }
+        }        
 
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
@@ -117,8 +75,8 @@ namespace MPfm.iOS.Classes.Controllers
             
             // Set title
             cell.TextLabel.Text = _items[indexPath.Row].Title;
-            cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
-            cell.ImageView.Image = _items[indexPath.Row].Image;
+            //cell.DetailTextLabel.Text = _items[indexPath.Row].
+            //cell.ImageView.Image = _items[indexPath.Row].Image;
             
             // Set font
             //cell.TextLabel.Font = UIFont.FromName("Junction", 20);
@@ -146,6 +104,21 @@ namespace MPfm.iOS.Classes.Controllers
         {
             OnItemClick(indexPath.Row);
         }
+
+        #region IMobileLibraryBrowserView implementation
+        
+        public MobileLibraryBrowserType BrowserType { get; set; }
+        public string Filter { get; set; }
+        public Action<int> OnItemClick { get; set; }
+
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+        {
+            _items = entities.ToList();
+            tableView.ReloadData();
+        }
+
+        #endregion
+
     }
 }
 

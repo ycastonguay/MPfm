@@ -25,12 +25,9 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IMobileOptionsMenuView : IBaseView
 	{
-        Action OnClickPreferences { get; set; }
-        Action OnClickEffects { get; set; }
-        Action OnClickAbout { get; set; }
+        Action<MobileOptionsMenuType> OnItemClick { get; set; }
 
-        // -- title, -- type of option/enum?
-	    void RefreshMenu(Dictionary<MobileOptionsMenuType, string> options);
+	    void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options);
 	}
 
     public enum MobileOptionsMenuType

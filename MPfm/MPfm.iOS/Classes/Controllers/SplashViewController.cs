@@ -39,11 +39,6 @@ namespace MPfm.iOS.Classes.Controllers
 
         #endregion
 
-        static bool UserInterfaceIdiomIsPhone
-        {
-            get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-        }
-
         public SplashViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
         {
@@ -60,18 +55,6 @@ namespace MPfm.iOS.Classes.Controllers
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-        }
-        
-        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
-        {
-            // Return true for supported orientations
-            if (UserInterfaceIdiomIsPhone)
-            {
-                return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
-            } else
-            {
-                return true;
-            }
         }
     }
 }

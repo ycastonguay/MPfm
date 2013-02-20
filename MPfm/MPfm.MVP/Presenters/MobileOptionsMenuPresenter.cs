@@ -29,6 +29,7 @@ namespace MPfm.MVP.Presenters
 	public class MobileOptionsMenuPresenter : BasePresenter<IMobileOptionsMenuView>, IMobileOptionsMenuPresenter
 	{
         readonly MobileNavigationManager _navigationManager;
+        List<KeyValuePair<MobileOptionsMenuType, string>> _items;
         
 		#region Constructor and Dispose
 
@@ -43,34 +44,45 @@ namespace MPfm.MVP.Presenters
         {
             base.BindView(view);
 
-            view.OnClickAbout = OnClickAbout;
-            view.OnClickEffects = OnClickEffects;
-            view.OnClickPreferences = OnClickPreferences;
+            view.OnItemClick = OnItemClick;
             
             Initialize();
         }
 
 	    private void Initialize()
 	    {	        
-            Dictionary<MobileOptionsMenuType, string> dictionary = new Dictionary<MobileOptionsMenuType, string>();
-            dictionary.Add(MobileOptionsMenuType.UpdateLibrary, "Update Library");
-            dictionary.Add(MobileOptionsMenuType.Effects, "Effects");
-            dictionary.Add(MobileOptionsMenuType.Preferences, "Preferences");
-            dictionary.Add(MobileOptionsMenuType.About, "About MPfm");
-            View.RefreshMenu(dictionary);
+            _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Effects, "Effects"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About MPfm"));
+            View.RefreshMenu(_items);
 	    }
 
-	    private void OnClickPreferences()
-	    {
-	    }
-
-	    private void OnClickEffects()
-	    {
-	    }
-
-	    private void OnClickAbout()
-	    {
-	    }
+        private void OnItemClick(MobileOptionsMenuType menuType)
+        {
+            switch (menuType)
+            {
+                case MobileOptionsMenuType.About:
+                {
+                    break;
+                }
+                case MobileOptionsMenuType.UpdateLibrary:
+                {
+                    var view = _navigationManager.CreateUpdateLibraryView();
+                    _navigationManager.PushDialogView(view);
+                    break;
+                }
+                case MobileOptionsMenuType.Effects:
+                {
+                    break;
+                }
+                case MobileOptionsMenuType.Preferences:
+                {
+                    break;
+                }
+            }
+        }
     }
 }
 

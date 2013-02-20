@@ -128,7 +128,6 @@
     </Compile>
     <Compile Include="Classes\Controllers\PlayerViewController.cs" />
     <Compile Include="Classes\Delegates\AppDelegate.cs" />
-    <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Classes\Controls\MPfmNavigationController.cs" />
     <Compile Include="Classes\Navigation\iOSNavigationManager.cs" />
     <Compile Include="Classes\Controllers\Base\BaseViewController.cs" />
@@ -210,4 +209,14 @@
       <Name>MPfm.MVP.iOS</Name>
     </ProjectReference>
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
