@@ -100,6 +100,11 @@ namespace MPfm.Android
             }
         }
 
+        public void PushDialogView(Fragment fragment)
+        {
+            
+        }
+
         public override void OnBackPressed()
         {
             base.OnBackPressed();
@@ -199,10 +204,8 @@ namespace MPfm.Android
 
         #region IMobileOptionsMenuView implementation
 
-        public Action OnClickPreferences { get; set; }
-        public Action OnClickEffects { get; set; }
-        public Action OnClickAbout { get; set; }
-        public void RefreshMenu(Dictionary<MobileOptionsMenuType, string> options)
+        public Action<MobileOptionsMenuType> OnItemClick { get; set; }
+        public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
         {
             
         }
