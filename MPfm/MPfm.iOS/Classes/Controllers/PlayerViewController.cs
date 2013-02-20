@@ -37,9 +37,6 @@ namespace MPfm.iOS.Classes.Controllers
 {
 	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
-		private IPlayer player;
-        private Timer timer;
-
 		public PlayerViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
@@ -62,33 +59,6 @@ namespace MPfm.iOS.Classes.Controllers
             // Reduce the song position slider size
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
             sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, 180, sliderPosition.Frame.Height);
-
-//            timer = new Timer();
-//            timer.Interval = 100;
-//            timer.Elapsed += (sender, e) => {
-//                InvokeOnMainThread(() => {
-//                    try
-//                    {
-//                        long bytes = MPfm.Player.Player.CurrentPlayer.GetPosition();
-//                        long samples = ConvertAudio.ToPCM(bytes, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-//                        long ms = ConvertAudio.ToMS(samples, (uint)MPfm.Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.SampleRate);
-//                        string pos = Conversion.MillisecondsToTimeString((ulong)ms);
-//                        lblPosition.Text = pos;
-//                        sliderPosition.Value = ms;
-//                    } catch
-//                    {
-//                        lblPosition.Text = "0:00.000";
-//                    }
-//                });
-//            };
-//
-//            // Initialize player
-//            Device device = new Device(){
-//				DriverType = DriverType.DirectSound,
-//				Id = -1
-//			};
-//            player = new MPfm.Player.Player(device, 44100, 5000, 100, true);
-//            Play();
 		}
 
         public override void ViewWillAppear(bool animated)
@@ -99,75 +69,19 @@ namespace MPfm.iOS.Classes.Controllers
             navCtrl.SetTitle("Now Playing");
         }
 
-        private void RefreshAudioFile(AudioFile audioFile, bool isSameAlbum)
-        {
-            InvokeOnMainThread(() => {
-                if(!isSameAlbum)
-                {
-                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    NSData imageData = NSData.FromArray(bytesImage);
-                    UIImage image = UIImage.LoadFromData(imageData);
-                    imageViewAlbumArt.Image = image;
-                }
-
-                lblArtistName.Text = audioFile.ArtistName;
-                lblAlbumTitle.Text = audioFile.AlbumTitle;
-                lblTitle.Text = audioFile.Title;
-                lblLength.Text = player.Playlist.CurrentItem.LengthString;
-                sliderPosition.MaxValue = player.Playlist.CurrentItem.LengthMilliseconds;
-            });
-        }
-
-        private void Play()
-        {
-            // Add files to play
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            List<string> listFiles = Directory.EnumerateFiles(documentsPath).ToList();
-            
-            if (listFiles.Count > 0)
-            {
-                player.PlayFiles(listFiles);
-            } 
-            else
-            {
-                string path2 = NSBundle.MainBundle.BundlePath;
-                string filePath = Path.Combine(path2, "01.mp3");                
-                string filePath2 = Path.Combine(path2, "02.mp3");
-                string filePath3 = Path.Combine(path2, "03.mp3");
-                string filePath4 = Path.Combine(path2, "04.mp3");
-                string filePath5 = Path.Combine(path2, "05.mp3");
-                player.PlayFiles(new List<string> { filePath, filePath2, filePath3, filePath4, filePath5 });
-            }
-            
-            player.OnPlaylistIndexChanged += (data) => {
-                if(data.AudioFileEnded != null &&
-                   data.AudioFileEnded.ArtistName == data.AudioFileStarted.ArtistName &&
-                   data.AudioFileEnded.AlbumTitle == data.AudioFileStarted.AlbumTitle)
-                {
-                    RefreshAudioFile(data.AudioFileStarted, true);
-                }
-                else
-                {
-                    RefreshAudioFile(data.AudioFileStarted, false);
-                }
-            };
-            timer.Start();
-            RefreshAudioFile(player.Playlist.CurrentItem.AudioFile, false);
-        }
-
         partial void actionPause(NSObject sender)
         {
-            player.Pause();
+            OnPlayerPause();
         }
 
         partial void actionPrevious(NSObject sender)
         {
-            player.Previous();
+            OnPlayerPrevious();
         }
 
         partial void actionNext(NSObject sender)
         {
-            player.Next();
+            OnPlayerNext();
         }
 
         #region IPlayerView implementation
@@ -185,10 +99,26 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
+            InvokeOnMainThread(() => {
+                lblPosition.Text = entity.Position;
+            });
         }
 
         public void RefreshSongInformation(AudioFile audioFile)
         {
+            InvokeOnMainThread(() => {
+                // TODO: Add a memory cache and stop reloading the image from disk every time
+                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                NSData imageData = NSData.FromArray(bytesImage);
+                UIImage image = UIImage.LoadFromData(imageData);
+                imageViewAlbumArt.Image = image;
+
+                lblArtistName.Text = audioFile.ArtistName;
+                lblAlbumTitle.Text = audioFile.AlbumTitle;
+                lblTitle.Text = audioFile.Title;
+                lblLength.Text = audioFile.Length;
+                sliderPosition.MaxValue = 100;
+            });
         }
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
@@ -201,6 +131,10 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void PlayerError(Exception ex)
         {
+            InvokeOnMainThread(() => {
+                var alert = new UIAlertView("An error occured", ex.Message, null, "OK", null);
+                alert.Show();
+            });
         }
 
         #endregion

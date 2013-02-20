@@ -47,11 +47,20 @@ namespace MPfm.iOS.Classes.Controllers
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
         }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.SetTitle("Library Browser");
+        }
         
         public override void ViewDidDisappear(bool animated)
         {
-            tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             base.ViewDidDisappear(animated);
+
+            tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
         }        
 
         [Export ("tableView:numberOfRowsInSection:")]
