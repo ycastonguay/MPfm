@@ -32,24 +32,34 @@ namespace MPfm.MVP.Navigation
     {
         private readonly object _locker = new object();
 
-        private IMobileOptionsMenuView _optionsMenuView;
-        private IMobileOptionsMenuPresenter _optionsMenuPresenter;
-
         private ISplashView _splashView;
         private ISplashPresenter _splashPresenter;
-
+        private IMobileOptionsMenuView _optionsMenuView;
+        private IMobileOptionsMenuPresenter _optionsMenuPresenter;
+        private IUpdateLibraryView _updateLibraryView;
+        private IUpdateLibraryPresenter _updateLibraryPresenter;
         private IPlayerView _playerView;
         private IPlayerPresenter _playerPresenter;
 
+        // Player sub views
+        private IPlayerMetadataView _playerMetadataView;
+        private IPlayerMetadataPresenter _playerMetadataPresenter;
+        private ILoopsView _loopsView;
+        private ILoopsPresenter _loopsPresenter;
+        private IMarkersView _markersView;
+        private IMarkersPresenter _markersPresenter;
+        private ITimeShiftingView _timeShiftingView;
+        private ITimeShiftingPresenter _timeShiftingPresenter;
+        private IPitchShiftingView _pitchShiftingView;
+        private IPitchShiftingPresenter _pitchShiftingPresenter;
+
+        // Preferences sub views
         private IAudioPreferencesView _audioPreferencesView;
         private IGeneralPreferencesView _generalPreferencesView;
         private ILibraryPreferencesView _libraryPreferencesView;
         private IAudioPreferencesPresenter _audioPreferencesPresenter;
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
-
-        private IUpdateLibraryView _updateLibraryView;
-        private IUpdateLibraryPresenter _updateLibraryPresenter;
 
         private Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> _mobileLibraryBrowserList = new Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>();
 
@@ -58,6 +68,7 @@ namespace MPfm.MVP.Navigation
         public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushDialogView(IBaseView view);
+        public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
 
         public virtual void Start()
         {
@@ -234,6 +245,20 @@ namespace MPfm.MVP.Navigation
             {
                 _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
                 _playerPresenter.BindView((IPlayerView)view);
+
+                // Add scroll view items
+                var playerMetadata = CreatePlayerMetadataView();
+                var loops = CreateLoopsView();
+                var markers = CreateMarkersView();
+                var timeShifting = CreateTimeShiftingView();
+                var pitchShifting = CreatePitchShiftingView();
+
+                PushPlayerSubview(_playerView, playerMetadata);
+                PushPlayerSubview(_playerView, loops);
+                PushPlayerSubview(_playerView, markers);
+                PushPlayerSubview(_playerView, timeShifting);
+                PushPlayerSubview(_playerView, pitchShifting);
+
                 if (onViewBindedToPresenter != null)
                     onViewBindedToPresenter(view);
             };
@@ -246,6 +271,101 @@ namespace MPfm.MVP.Navigation
                 _playerPresenter = null;
             };
             return _playerView;
+        }
+
+        public virtual IPlayerMetadataView CreatePlayerMetadataView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _playerMetadataPresenter = Bootstrapper.GetContainer().Resolve<IPlayerMetadataPresenter>();
+                _playerMetadataPresenter.BindView((IPlayerMetadataView)view);
+            };
+            
+            // Create view and manage view destruction
+            _playerMetadataView = Bootstrapper.GetContainer().Resolve<IPlayerMetadataView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _playerMetadataView.OnViewDestroy = (view) =>
+            {
+                _playerMetadataView = null;
+                _playerMetadataPresenter = null;
+            };
+            return _playerMetadataView;
+        }
+
+        public virtual ILoopsView CreateLoopsView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _loopsPresenter = Bootstrapper.GetContainer().Resolve<ILoopsPresenter>();
+                _loopsPresenter.BindView((ILoopsView)view);
+            };
+            
+            // Create view and manage view destruction
+            _loopsView = Bootstrapper.GetContainer().Resolve<ILoopsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _loopsView.OnViewDestroy = (view) =>
+            {
+                _loopsView = null;
+                _loopsPresenter = null;
+            };
+            return _loopsView;
+        }
+
+        public virtual IMarkersView CreateMarkersView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _markersPresenter = Bootstrapper.GetContainer().Resolve<IMarkersPresenter>();
+                _markersPresenter.BindView((IMarkersView)view);
+            };
+            
+            // Create view and manage view destruction
+            _markersView = Bootstrapper.GetContainer().Resolve<IMarkersView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _markersView.OnViewDestroy = (view) =>
+            {
+                _markersView = null;
+                _markersPresenter = null;
+            };
+            return _markersView;
+        }
+
+        public virtual ITimeShiftingView CreateTimeShiftingView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _timeShiftingPresenter = Bootstrapper.GetContainer().Resolve<ITimeShiftingPresenter>();
+                _timeShiftingPresenter.BindView((ITimeShiftingView)view);
+            };
+            
+            // Create view and manage view destruction
+            _timeShiftingView = Bootstrapper.GetContainer().Resolve<ITimeShiftingView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _timeShiftingView.OnViewDestroy = (view) =>
+            {
+                _timeShiftingView = null;
+                _timeShiftingPresenter = null;
+            };
+            return _timeShiftingView;
+        }
+
+        public virtual IPitchShiftingView CreatePitchShiftingView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
+                _pitchShiftingPresenter.BindView((IPitchShiftingView)view);
+            };
+            
+            // Create view and manage view destruction
+            _pitchShiftingView = Bootstrapper.GetContainer().Resolve<IPitchShiftingView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _pitchShiftingView.OnViewDestroy = (view) =>
+            {
+                _pitchShiftingView = null;
+                _pitchShiftingPresenter = null;
+            };
+            return _pitchShiftingView;
         }
     }
 

@@ -18,20 +18,20 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MPfm.Player;
 using System.IO;
+using System.Linq;
 using System.Timers;
 using MPfm.Core;
-using System.Linq;
-using MonoTouch.CoreGraphics;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
+using MPfm.Player;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -59,6 +59,13 @@ namespace MPfm.iOS.Classes.Controllers
             // Reduce the song position slider size
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
             sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, 180, sliderPosition.Frame.Height);
+
+            // Setup scroll view and page control
+            scrollView.WeakDelegate = this;
+            scrollView.PagingEnabled = true;
+            scrollView.ShowsHorizontalScrollIndicator = false;
+            scrollView.ShowsVerticalScrollIndicator = false;
+            pageControl.CurrentPage = 0;
 		}
 
         public override void ViewWillAppear(bool animated)
@@ -67,6 +74,27 @@ namespace MPfm.iOS.Classes.Controllers
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Now Playing");
+        }
+
+        public void AddScrollView(UIViewController viewController)
+        {
+            viewController.View.Frame = new RectangleF(scrollView.Subviews.Length * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+            scrollView.AddSubview(viewController.View);
+            pageControl.Pages = scrollView.Subviews.Length;
+            scrollView.ContentSize = new SizeF(scrollView.Subviews.Length * scrollView.Frame.Width, scrollView.Frame.Height);
+        }
+
+        [Export("scrollViewDidScroll:")]
+        public void ScrollViewDidScroll(UIScrollView scrollview)
+        {
+            float pageWidth = scrollView.Frame.Size.Width;
+            int page = (int)Math.Floor((scrollView.ContentOffset.X - pageWidth / 2) / pageWidth) + 1;
+            pageControl.CurrentPage = page;
+        }
+
+        [Export("scrollViewDidEndDecelerating:")]
+        public void ScrollViewDidEndDecelerating(UIScrollView scrollView)
+        {
         }
 
         partial void actionPause(NSObject sender)
@@ -82,14 +110,6 @@ namespace MPfm.iOS.Classes.Controllers
         partial void actionNext(NSObject sender)
         {
             OnPlayerNext();
-        }
-
-        partial void actionMarkers(NSObject sender)
-        {
-        }
-
-        partial void actionLoops(NSObject sender)
-        {
         }
 
         #region IPlayerView implementation

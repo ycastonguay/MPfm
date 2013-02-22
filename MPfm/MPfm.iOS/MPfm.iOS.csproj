@@ -27,6 +27,7 @@
     <MtouchI18n />
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-v -v -v -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <CrashReportingApiKey />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -143,6 +144,30 @@
     <Compile Include="Classes\Controllers\UpdateLibraryViewController.designer.cs">
       <DependentUpon>UpdateLibraryViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\LoopsViewController.cs" />
+    <Compile Include="Classes\Controllers\LoopsViewController.designer.cs">
+      <DependentUpon>LoopsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\MarkersViewController.cs" />
+    <Compile Include="Classes\Controllers\MarkersViewController.designer.cs">
+      <DependentUpon>MarkersViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\EffectsViewController.cs" />
+    <Compile Include="Classes\Controllers\EffectsViewController.designer.cs">
+      <DependentUpon>EffectsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\TimeShiftingViewController.cs" />
+    <Compile Include="Classes\Controllers\TimeShiftingViewController.designer.cs">
+      <DependentUpon>TimeShiftingViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\PitchShiftingViewController.cs" />
+    <Compile Include="Classes\Controllers\PitchShiftingViewController.designer.cs">
+      <DependentUpon>PitchShiftingViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\PlayerMetadataViewController.cs" />
+    <Compile Include="Classes\Controllers\PlayerMetadataViewController.designer.cs">
+      <DependentUpon>PlayerMetadataViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -155,6 +180,18 @@
     <InterfaceDefinition Include="XIB\iPhone\MoreViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\UpdateLibraryViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\UpdateLibraryViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\LoopsViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\LoopsViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\MarkersViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\MarkersViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\EffectsViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\EffectsViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\TimeShiftingViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\TimeShiftingViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\PitchShiftingViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\PitchShiftingViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\PlayerMetadataViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\PlayerMetadataViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -186,6 +223,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

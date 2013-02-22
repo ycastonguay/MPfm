@@ -42,10 +42,10 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIButton btnNext { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnLoops { get; set; }
+		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnMarkers { get; set; }
+		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
 
 		[Action ("actionPause:")]
 		partial void actionPause (MonoTouch.Foundation.NSObject sender);
@@ -55,12 +55,6 @@ namespace MPfm.iOS.Classes.Controllers
 
 		[Action ("actionNext:")]
 		partial void actionNext (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionLoops:")]
-		partial void actionLoops (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionMarkers:")]
-		partial void actionMarkers (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -114,14 +108,14 @@ namespace MPfm.iOS.Classes.Controllers
 				btnNext = null;
 			}
 
-			if (btnLoops != null) {
-				btnLoops.Dispose ();
-				btnLoops = null;
+			if (scrollView != null) {
+				scrollView.Dispose ();
+				scrollView = null;
 			}
 
-			if (btnMarkers != null) {
-				btnMarkers.Dispose ();
-				btnMarkers = null;
+			if (pageControl != null) {
+				pageControl.Dispose ();
+				pageControl = null;
 			}
 		}
 	}

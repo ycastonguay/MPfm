@@ -268,5 +268,20 @@
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
+    <Compile Include="Views\ILoopsView.cs" />
+    <Compile Include="Views\IMarkersView.cs" />
+    <Compile Include="Views\IPitchShiftingView.cs" />
+    <Compile Include="Views\ITimeShiftingView.cs" />
+    <Compile Include="Views\IPlayerMetadataView.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMarkersPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ITimeShiftingPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPitchShiftingPresenter.cs" />
+    <Compile Include="Presenters\LoopsPresenter.cs" />
+    <Compile Include="Presenters\MarkersPresenter.cs" />
+    <Compile Include="Presenters\TimeShiftingPresenter.cs" />
+    <Compile Include="Presenters\PitchShiftingPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerMetadataPresenter.cs" />
+    <Compile Include="Presenters\PlayerMetadataPresenter.cs" />
   </ItemGroup>
 </Project>

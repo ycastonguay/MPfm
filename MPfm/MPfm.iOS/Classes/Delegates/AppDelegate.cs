@@ -61,6 +61,11 @@ namespace MPfm.iOS.Classes.Delegates
 			//container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
 			//container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
 			//container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
+            container.Register<IMarkersView, MarkersViewController>().AsMultiInstance();
+            container.Register<ITimeShiftingView, TimeShiftingViewController>().AsMultiInstance();
+            container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
+            container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
 
             // Create window 
 			_window = new UIWindow(UIScreen.MainScreen.Bounds);

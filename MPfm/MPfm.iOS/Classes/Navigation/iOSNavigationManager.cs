@@ -51,5 +51,11 @@ namespace MPfm.iOS.Classes.Navigation
         {
             AppDelegate.PushDialogView((UIViewController)view);
         }
+
+        public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)
+        {
+            var playerViewController = (PlayerViewController)playerView;
+            playerViewController.AddScrollView((UIViewController)view);
+        }
 	}
 }
