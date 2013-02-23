@@ -100,6 +100,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
     <Compile Include="AudioFiles\AudioTools.cs" />
     <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
@@ -155,11 +161,5 @@
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core.Android</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

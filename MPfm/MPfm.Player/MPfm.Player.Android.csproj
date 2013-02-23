@@ -104,6 +104,16 @@
   </Target>
   -->
   <ItemGroup>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Events\PlayerStreamCallbackData.cs" />
     <Compile Include="Exceptions\PlayerCreateStreamException.cs" />
     <Compile Include="IPlayer.cs" />
@@ -116,15 +126,5 @@
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
-      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core.Android</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -92,7 +92,6 @@
     <None Include="Lib\Ninject.dll" />
     <None Include="Lib\AutoMapper.dll" />
   </ItemGroup>
-  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
@@ -105,8 +104,25 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.Android.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.Android.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
@@ -191,23 +207,21 @@
     <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.Android.csproj">
-      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
-      <Name>MPfm.Library.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.Android.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>MPfm.Player.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
-      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound.Android</Name>
-    </ProjectReference>
+    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
+    <Compile Include="Views\ILoopsView.cs" />
+    <Compile Include="Views\IMarkersView.cs" />
+    <Compile Include="Views\IPitchShiftingView.cs" />
+    <Compile Include="Views\ITimeShiftingView.cs" />
+    <Compile Include="Views\IPlayerMetadataView.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMarkersPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ITimeShiftingPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPitchShiftingPresenter.cs" />
+    <Compile Include="Presenters\LoopsPresenter.cs" />
+    <Compile Include="Presenters\MarkersPresenter.cs" />
+    <Compile Include="Presenters\TimeShiftingPresenter.cs" />
+    <Compile Include="Presenters\PitchShiftingPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerMetadataPresenter.cs" />
+    <Compile Include="Presenters\PlayerMetadataPresenter.cs" />
   </ItemGroup>
 </Project>

@@ -53,7 +53,8 @@ namespace MPfm.Android
             // Request features
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+            //ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+            // TODO: Try to find a way to display only one tab at a time (similar to Google Play Music)
 
             // Get controls
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);

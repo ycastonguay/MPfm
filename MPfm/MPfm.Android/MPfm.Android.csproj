@@ -68,6 +68,11 @@
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
+    <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
+    <Compile Include="Classes\Fragments\MarkersFragment.cs" />
+    <Compile Include="Classes\Fragments\LoopsFragment.cs" />
+    <Compile Include="Classes\Fragments\PitchShiftingFragment.cs" />
+    <Compile Include="Classes\Fragments\TimeShiftingFragment.cs" />
     <Compile Include="Classes\Fragments\SplashFragment.cs" />
     <Compile Include="Classes\Fragments\LibraryPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />
@@ -116,6 +121,21 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\LibraryPreferences.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\TimeShifting.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PitchShifting.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Loops.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Markers.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PlayerMetadata.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
