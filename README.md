@@ -12,13 +12,15 @@ For more information, go to the MPfm website: http://mp4m.org.
 Important notes:
 --
 
-Please note that I'm currently refactoring the application to support multiple platforms using a Model-View-Presenter pattern. Only the Windows version is stable at this moment. The other platforms should be considered as alpha, so use them at your own risk.
+I'm currently refactoring the project with version 0.7.0.0. Please consult the [Mantis bug tracker for MPfm](http://www.mp4m.org/mantis/roadmap_page.php).
 
-The project doesn't contain any makefiles at the moment, they will be added later.
+MPfm uses the __BASS audio library__, which is a commercial library, but available for free for open source projects. The MPfm source code repository contains the BASS static/dynamic libraries needed to build each platform. To download updated versions of the BASS library, go to the [BASS library home page](http://www.un4seen.com). Please note that newer versions might introduce breaking changes.
 
-If you want to deploy the iOS and Android versions to hardware devices, you'll need a valid Xamarin license. You can obtain a license here: http://www.xamarin.com
+If you want to deploy the iOS and Android versions to hardware devices, you'll need a valid Xamarin license. You can obtain a license [here](http://www.xamarin.com).
 
-Please use the [ProjectSync](https://github.com/ycastonguay/MPfm/tree/master/ProjectSync) tool (included on this repository) to synchronize desktop/iOS/Android project files before commiting any changes.
+The project doesn't contain any makefiles at the moment, they will be added later for the Linux and Mac platforms.
+
+Please use the [ProjectSync](https://github.com/ycastonguay/MPfm/tree/master/ProjectSync) tool (included on this repository) to synchronize desktop/iOS/Android project files before submitting any pull requests.
 
 How to build MPfm
 --
