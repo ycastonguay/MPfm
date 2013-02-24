@@ -33,7 +33,7 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            this.View.BackgroundColor = UIColor.Brown;
+            lblTitle.Font = UIFont.FromName("OstrichSans-Black", 28);
 
             base.ViewDidLoad();
         }

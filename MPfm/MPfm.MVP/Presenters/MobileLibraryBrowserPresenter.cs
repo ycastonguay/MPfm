@@ -109,21 +109,25 @@ namespace MPfm.MVP.Presenters
         private void RefreshLibraryBrowser()
         {
             _items = new List<LibraryBrowserEntity>();
+
             switch (_browserType)
             {
                 case MobileLibraryBrowserType.Playlists:
+                    View.RefreshLibraryBrowser(_items, _browserType, "Playlists");
                     break;
                 case MobileLibraryBrowserType.Artists:
                     _items = GetArtists().ToList();
+                    View.RefreshLibraryBrowser(_items, _browserType, "Artists");
                     break;
                 case MobileLibraryBrowserType.Albums:
-                    _items = GetAlbums(_query.ArtistName).ToList(); 
+                    _items = GetAlbums(_query.ArtistName).ToList();
+                    View.RefreshLibraryBrowser(_items, _browserType, (String.IsNullOrEmpty(_query.ArtistName)) ? "Albums" : _query.ArtistName);
                     break;
                 case MobileLibraryBrowserType.Songs:
-                    _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();                    
+                    _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();
+                    View.RefreshLibraryBrowser(_items, _browserType, (String.IsNullOrEmpty(_query.AlbumTitle)) ? "Songs" : _query.AlbumTitle);
                     break;
             }
-            View.RefreshLibraryBrowser(_items);
         }
 
         private IEnumerable<LibraryBrowserEntity> GetArtists()
@@ -201,22 +205,20 @@ namespace MPfm.MVP.Presenters
             else
                 audioFiles = audioFiles.OrderBy(x => x.Title).ToList();
 
-            // Get song titles
-            var songs = audioFiles.Select(x => x.Title).ToList();
-
             // Convert to entities
-            foreach (var song in songs)
+            foreach (var audioFile in audioFiles)
             {
                 list.Add(new LibraryBrowserEntity()
                 {
-                    Title = song,
+                    Title = audioFile.Title,
+                    AudioFile = audioFile,
                     Type = LibraryBrowserEntityType.Song,
                     Query = new SongBrowserQueryEntity()
                     {
                         Format = format,                        
                         ArtistName = artistName,
                         AlbumTitle = albumTitle,
-                        SearchTerms = song
+                        SearchTerms = audioFile.Title
                     }
                 });
             }

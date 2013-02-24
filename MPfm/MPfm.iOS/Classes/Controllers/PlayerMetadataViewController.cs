@@ -39,15 +39,7 @@ namespace MPfm.iOS
             lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
             lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
 
-            this.View.BackgroundColor = UIColor.Orange;
-
             base.ViewDidLoad();            
-        }
-
-        public override void ViewWillAppear(bool animated)
-        {
-            // TODO: This event is not called when the view is added manually! (i.e. to a UIScrollView)!
-            base.ViewWillAppear(animated);
         }
 
         public void RefreshAudioFile(AudioFile audioFile)

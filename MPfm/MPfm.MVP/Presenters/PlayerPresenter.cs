@@ -77,6 +77,10 @@ namespace MPfm.MVP.Presenters
             {
                 Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
             });
+            messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) =>
+            {
+                RefreshSongInformation(m.Data.AudioFileStarted);
+            });
         }
         
         public void Dispose()
@@ -105,14 +109,15 @@ namespace MPfm.MVP.Presenters
             if(playerService.IsSettingPosition)
                 return;
 
-            int available = playerService.GetDataAvailable();
+            //int available = playerService.GetDataAvailable();
             
 			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
             entity.PositionBytes = playerService.GetPosition();
             entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
             entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)playerService.CurrentPlaylistItem.AudioFile.SampleRate);
-    		entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+    		//entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+            entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
             entity.PositionPercentage = ((float)playerService.GetPosition() / (float)playerService.CurrentPlaylistItem.LengthBytes) * 100;
 
 			// Send changes to view

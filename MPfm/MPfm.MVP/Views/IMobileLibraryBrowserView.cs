@@ -28,7 +28,7 @@ namespace MPfm.MVP.Views
 	{
         Action<int> OnItemClick { get; set; }
 
-        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
+        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle);
 	}
 
     public enum MobileLibraryBrowserType

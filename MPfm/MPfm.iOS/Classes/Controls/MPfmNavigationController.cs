@@ -27,36 +27,96 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmNavigationController")]
     public class MPfmNavigationController : UINavigationController
     {
-        UILabel labelTitle;
+        UILabel _lblTitle;
+        UILabel _lblSubtitle;
+        UIButton _btnBack;
+        UIButton _btnEffects;
         
-        public MPfmNavigationController(string fontName, float fontSize) : base()
+        public MPfmNavigationController() : base()
         {
-            // Create title label
-            labelTitle = new UILabel(new RectangleF(0, 3, UIScreen.MainScreen.Bounds.Width, 40));
-            labelTitle.TextColor = UIColor.White;
-            labelTitle.BackgroundColor = UIColor.Clear;
-            labelTitle.Text = string.Empty;
-            labelTitle.TextAlignment = UITextAlignment.Center;
-            labelTitle.Font = UIFont.FromName(fontName, fontSize);
-            
-            // Add controls
-            this.NavigationBar.AddSubview(labelTitle);
+            this.WeakDelegate = this;
+
+            _btnBack = new UIButton(UIButtonType.Custom);
+            _btnBack.Frame = new RectangleF(4, 4, 36, 36);
+            _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back.png"), UIControlState.Normal);
+            _btnBack.TouchUpInside += (sender, e) => { 
+                if(ViewControllers.Length > 1)
+                {
+                    PopViewControllerAnimated(true);
+                }
+            };
+
+            _btnEffects = new UIButton(UIButtonType.RoundedRect);
+            _btnEffects.Frame = new RectangleF(this.NavigationBar.Frame.Width - 4 - 36, 4, 36, 36);
+            _btnEffects.SetBackgroundImage(UIImage.FromBundle("Images/effects.png"), UIControlState.Normal);
+
+            _lblTitle = new UILabel(new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 100, 20));
+            _lblTitle.TextColor = UIColor.White;
+            _lblTitle.BackgroundColor = UIColor.Clear;
+            _lblTitle.Text = "MPfm";
+            _lblTitle.TextAlignment = UITextAlignment.Left;
+            _lblTitle.Font = UIFont.FromName("OstrichSans-Black", 20);
+            //_lblTitle.Font = UIFont.FromName("LeagueGothic-Regular", 20);
+
+            _lblSubtitle = new UILabel(new RectangleF(50, 23, UIScreen.MainScreen.Bounds.Width - 100, 20));
+            _lblSubtitle.LineBreakMode = UILineBreakMode.HeadTruncation;
+            _lblSubtitle.TextColor = UIColor.LightGray;
+            _lblSubtitle.BackgroundColor = UIColor.Clear;
+            _lblSubtitle.Text = "Library Browser";
+            _lblSubtitle.TextAlignment = UITextAlignment.Left;
+            _lblSubtitle.Font = UIFont.FromName("OstrichSans-Black", 14);
+            //_lblSubtitle.Font = UIFont.FromName("LeagueGothic-Regular", 16);
+
+            this.NavigationBar.AddSubview(_btnBack);
+            this.NavigationBar.AddSubview(_btnEffects);
+            this.NavigationBar.AddSubview(_lblTitle);
+            this.NavigationBar.AddSubview(_lblSubtitle);
         }
-        
-        public void SetTitle(string title)
+
+        [Export("navigationBar:shouldPushItem:")]
+        public bool ShouldPushItem(UINavigationItem item)
         {
-            this.NavigationItem.Title = string.Empty;
-            
+            if (ViewControllers.Length > 1)
+            {
+                UIView.Animate(0.25, () => { 
+                    _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back_wide.png"), UIControlState.Normal);
+                    _btnBack.Frame = new RectangleF(4, 4, 43, 36);
+                    _lblTitle.Frame = new RectangleF(57, 6, UIScreen.MainScreen.Bounds.Width - 60, 20);
+                    _lblSubtitle.Frame = new RectangleF(57, 23, UIScreen.MainScreen.Bounds.Width - 60, 20);
+                });
+            }
+
+            return true;
+        }
+
+        [Export("navigationBar:shouldPopItem:")]
+        public bool ShouldPopItem(UINavigationItem item)
+        {
+            if (ViewControllers.Length == 1)
+            {
+                UIView.Animate(0.25, () => { 
+                    _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back.png"), UIControlState.Normal);
+                    _btnBack.Frame = new RectangleF(4, 4, 36, 36);
+                    _lblTitle.Frame = new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 60, 20);
+                    _lblSubtitle.Frame = new RectangleF(50, 23, UIScreen.MainScreen.Bounds.Width - 60, 20);
+                });
+            }
+
+            return true;
+        }
+
+        public void SetSubtitle(string subtitle)
+        {
             UIView.Animate(0.25f, delegate
             { 
-                labelTitle.Alpha = 0;
+                _lblSubtitle.Alpha = 0;
             }, delegate
             {
-                labelTitle.Text = title;
+                _lblSubtitle.Text = subtitle;
             });
             UIView.Animate(0.25f, delegate
             { 
-                labelTitle.Alpha = 1;
+                _lblSubtitle.Alpha = 1;
             });
         }
     }

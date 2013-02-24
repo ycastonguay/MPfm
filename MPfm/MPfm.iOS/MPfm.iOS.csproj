@@ -219,11 +219,20 @@
     <Content Include="Fonts\OstrichLight.ttf" />
     <Content Include="Fonts\OstrichRegular.ttf" />
     <Content Include="Fonts\OstrichRounded.ttf" />
+    <Content Include="Fonts\LeagueGothic-CondensedItalic.otf" />
+    <Content Include="Fonts\LeagueGothic-CondensedRegular.otf" />
+    <Content Include="Fonts\LeagueGothic-Italic.otf" />
+    <Content Include="Fonts\LeagueGothic-Regular.otf" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Images\effects.png" />
+    <BundleResource Include="Images\Tabs\audio.png" />
+    <BundleResource Include="Images\Tabs\audio%402x.png" />
+    <BundleResource Include="Images\back_wide%402x.png" />
+    <BundleResource Include="Images\back%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

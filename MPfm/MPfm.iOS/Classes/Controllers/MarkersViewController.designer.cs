@@ -1,5 +1,6 @@
+// WARNING
 //
-// This file has been generated automatically by MonoDevelop to store outlets and
+// This file has been generated automatically by Xamarin Studio to store outlets and
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
@@ -7,12 +8,18 @@ using MonoTouch.Foundation;
 
 namespace MPfm.iOS
 {
-    [Register ("MarkersViewController")]
-    partial class MarkersViewController
-    {
-        void ReleaseDesignerOutlets()
-        {
-        }
-    }
+	[Register ("MarkersViewController")]
+	partial class MarkersViewController
+	{
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
+			}
+		}
+	}
 }
-

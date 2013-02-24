@@ -80,7 +80,7 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Now Playing");
+            navCtrl.SetSubtitle("Now Playing");
         }
 
         public void AddScrollView(UIViewController viewController)
@@ -142,11 +142,19 @@ namespace MPfm.iOS.Classes.Controllers
         public void RefreshSongInformation(AudioFile audioFile)
         {
             InvokeOnMainThread(() => {
-                // TODO: Add a memory cache and stop reloading the image from disk every time
-                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                NSData imageData = NSData.FromArray(bytesImage);
-                UIImage image = UIImage.LoadFromData(imageData);
-                imageViewAlbumArt.Image = image;
+
+                try
+                {
+                    // TODO: Add a memory cache and stop reloading the image from disk every time
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                    NSData imageData = NSData.FromArray(bytesImage);
+                    UIImage image = UIImage.LoadFromData(imageData);
+                    imageViewAlbumArt.Image = image;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Could not load album art: " + ex.Message);
+                }
 
                 //lblArtistName.Text = audioFile.ArtistName;
                 //lblAlbumTitle.Text = audioFile.AlbumTitle;

@@ -1,20 +1,9 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// WARNING
 //
-// This file is part of MPfm.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the Xcode designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-// MPfm is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// MPfm is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
-
 using MonoTouch.Foundation;
 
 namespace MPfm.iOS.Classes.Controllers
@@ -24,12 +13,60 @@ namespace MPfm.iOS.Classes.Controllers
 	{
 		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewAlbumCover { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imageViewAlbumCover { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblArtistName { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblAlbumTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblSubtitle1 { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblSubtitle2 { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;
+			}
+
+			if (viewAlbumCover != null) {
+				viewAlbumCover.Dispose ();
+				viewAlbumCover = null;
+			}
+
+			if (imageViewAlbumCover != null) {
+				imageViewAlbumCover.Dispose ();
+				imageViewAlbumCover = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblSubtitle1 != null) {
+				lblSubtitle1.Dispose ();
+				lblSubtitle1 = null;
+			}
+
+			if (lblSubtitle2 != null) {
+				lblSubtitle2.Dispose ();
+				lblSubtitle2 = null;
 			}
 		}
 	}

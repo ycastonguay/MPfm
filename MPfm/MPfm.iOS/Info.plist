@@ -24,6 +24,10 @@
 		<string>Fonts/OstrichLight.ttf</string>
 		<string>Fonts/OstrichRegular.ttf</string>
 		<string>Fonts/OstrichRounded.ttf</string>
+		<string>Fonts/LeagueGothic-CondensedItalic.otf</string>
+		<string>Fonts/LeagueGothic-CondensedRegular.otf</string>
+		<string>Fonts/LeagueGothic-Italic.otf</string>
+		<string>Fonts/LeagueGothic-Regular.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

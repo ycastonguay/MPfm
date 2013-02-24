@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Models
 {
@@ -40,6 +41,8 @@ namespace MPfm.MVP.Models
 		/// Sub items (to create a tree view hierarchy).
 		/// </summary>
 		public List<LibraryBrowserEntity> SubItems { get; set; }
+
+        public AudioFile AudioFile { get; set; }
 		
 		public LibraryBrowserEntity()
 		{

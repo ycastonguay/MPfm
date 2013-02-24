@@ -26,6 +26,9 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
 using System.Linq;
+using MPfm.Sound.AudioFiles;
+using MonoTouch.CoreAnimation;
+using MonoTouch.CoreGraphics;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -33,6 +36,8 @@ namespace MPfm.iOS.Classes.Controllers
     {
         private List<LibraryBrowserEntity> _items;
         private string _cellIdentifier = "MobileLibraryBrowserCell";
+        private string _navigationBarTitle = string.Empty;
+        private MobileLibraryBrowserType _browserType;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -45,6 +50,19 @@ namespace MPfm.iOS.Classes.Controllers
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
+            lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 20);
+            lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Black", 16);
+            lblSubtitle1.Font = UIFont.FromName("OstrichSans-Black", 12);
+            lblSubtitle2.Font = UIFont.FromName("OstrichSans-Black", 12);
+
+
+            //lblArtistName.SizeToFit();
+            //lblAlbumTitle.SizeToFit();
+//            lblArtistName.Font = UIFont.FromName("LeagueGothic-Italic", 26);
+//            lblAlbumTitle.Font = UIFont.FromName("LeagueGothic-Italic", 22);
+//            lblSubtitle1.Font = UIFont.FromName("LeagueGothic-Regular", 16);
+//            lblSubtitle2.Font = UIFont.FromName("LeagueGothic-Regular", 16);
+
             base.ViewDidLoad();
         }
 
@@ -53,7 +71,7 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Library Browser");
+            navCtrl.SetSubtitle(_navigationBarTitle);
         }
         
         public override void ViewDidDisappear(bool animated)
@@ -77,6 +95,8 @@ namespace MPfm.iOS.Classes.Controllers
             
             // Set cell style
             var cellStyle = UITableViewCellStyle.Subtitle;
+            if (_browserType == MobileLibraryBrowserType.Albums)
+                cellStyle = UITableViewCellStyle.Default;
             
             // Create cell if cell could not be recycled
             if (cell == null)
@@ -85,25 +105,18 @@ namespace MPfm.iOS.Classes.Controllers
             // Set title
             cell.TextLabel.Text = _items[indexPath.Row].Title;
             //cell.DetailTextLabel.Text = _items[indexPath.Row].
-            //cell.ImageView.Image = _items[indexPath.Row].Image;
+
+            if (_browserType == MobileLibraryBrowserType.Albums)
+                cell.ImageView.Image = UIImage.FromBundle("Images/icon114");
             
             // Set font
             //cell.TextLabel.Font = UIFont.FromName("Junction", 20);
-            cell.TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 26);
-            cell.DetailTextLabel.Font = UIFont.FromName("OstrichSans-Medium", 18);
+            cell.TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 20);
+            //cell.TextLabel.Font = UIFont.FromName("LeagueGothic-Regular", 26);
+            //cell.DetailTextLabel.Font = UIFont.FromName("LeagueGothic-Regular", 18);
             
             // Set chevron
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-            
-            //            // Check this is the version cell (remove all user interaction)
-            //            if (viewModel.Items[indexPath.Row].ItemType == MoreItemType.Version)
-            //            {
-            //                cell.Accessory = UITableViewCellAccessory.None;
-            //                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            //                cell.TextLabel.TextColor = UIColor.Gray;
-            //                cell.TextLabel.TextAlignment = UITextAlignment.Center;
-            //                cell.TextLabel.Font = UIFont.FromName("Asap", 16);
-            //            }
             
             return cell;
         }
@@ -116,15 +129,50 @@ namespace MPfm.iOS.Classes.Controllers
 
         #region IMobileLibraryBrowserView implementation
         
-        public MobileLibraryBrowserType BrowserType { get; set; }
-        public string Filter { get; set; }
         public Action<int> OnItemClick { get; set; }
 
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle)
         {
             InvokeOnMainThread(() => {
                 _items = entities.ToList();
+                _browserType = browserType;
+                _navigationBarTitle = navigationBarTitle;
                 tableView.ReloadData();
+
+                // Hide album cover if not showing songs
+                if(browserType != MobileLibraryBrowserType.Songs)
+                {
+                    viewAlbumCover.Hidden = true;
+                    tableView.Frame = this.View.Frame;
+                }
+                else
+                {
+                    var audioFile = _items[0].AudioFile;
+                    lblArtistName.Text = audioFile.ArtistName;
+                    lblAlbumTitle.Text = audioFile.AlbumTitle;
+                    lblSubtitle1.Text = _items.Count().ToString() + " songs";
+
+                    //CGSize s = [yourString sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(width, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                    NSString strArtistName = new NSString(audioFile.ArtistName);
+                    SizeF sizeArtistName = strArtistName.StringSize(lblArtistName.Font, new SizeF(lblArtistName.Frame.Width, lblArtistName.Frame.Height), UILineBreakMode.WordWrap);
+                    lblArtistName.Frame = new RectangleF(lblArtistName.Frame.X, lblArtistName.Frame.Y, sizeArtistName.Width, sizeArtistName.Height);
+
+                    NSString strAlbumTitle = new NSString(audioFile.AlbumTitle);
+                    SizeF sizeAlbumTitle = strAlbumTitle.StringSize(lblAlbumTitle.Font, new SizeF(lblAlbumTitle.Frame.Width, lblAlbumTitle.Frame.Height), UILineBreakMode.WordWrap);
+                    lblAlbumTitle.Frame = new RectangleF(lblAlbumTitle.Frame.X, lblAlbumTitle.Frame.Y, sizeAlbumTitle.Width, sizeAlbumTitle.Height);
+
+                    // TODO: Add a memory cache and stop reloading the image from disk every time
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                    NSData imageData = NSData.FromArray(bytesImage);
+                    UIImage image = UIImage.LoadFromData(imageData);
+                    imageViewAlbumCover.Image = image;
+                    imageViewAlbumCover.BackgroundColor = UIColor.Black;
+
+                    CAGradientLayer gradient = new CAGradientLayer();
+                    gradient.Frame = viewAlbumCover.Bounds;
+                    gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+                    viewAlbumCover.Layer.InsertSublayer(gradient, 0);
+                }
             });
         }
 

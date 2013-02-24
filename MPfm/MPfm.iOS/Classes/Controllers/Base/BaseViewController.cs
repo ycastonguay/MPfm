@@ -60,6 +60,9 @@ namespace MPfm.iOS.Classes.Controllers.Base
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            this.NavigationItem.SetHidesBackButton(true, true);
+            
             OnViewReady(this);
         }
 
