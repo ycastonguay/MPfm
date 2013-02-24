@@ -283,5 +283,6 @@
     <Compile Include="Presenters\PitchShiftingPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPlayerMetadataPresenter.cs" />
     <Compile Include="Presenters\PlayerMetadataPresenter.cs" />
+    <Compile Include="Messages\PlayerPlaylistIndexChangedMessage.cs" />
   </ItemGroup>
 </Project>

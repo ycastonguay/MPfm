@@ -38,11 +38,11 @@ namespace MPfm.iOS
 		
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+
+            base.ViewDidLoad();
         }
 
         public override void ViewDidDisappear(bool animated)

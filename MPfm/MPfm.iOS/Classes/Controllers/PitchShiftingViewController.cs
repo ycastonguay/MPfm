@@ -33,10 +33,9 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-            
             this.View.BackgroundColor = UIColor.Brown;
-        }
 
+            base.ViewDidLoad();
+        }
     }
 }

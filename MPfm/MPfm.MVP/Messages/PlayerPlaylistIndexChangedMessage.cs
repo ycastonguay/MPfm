@@ -15,16 +15,21 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
+using TinyMessenger;
+using MPfm.Player.Events;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-	/// Player metadata view interface.
-	/// </summary>
-	public interface IPlayerMetadataView : IBaseView
-	{
-        void RefreshAudioFile(AudioFile audioFile);
-	}
+    /// <summary>
+    /// Message indicating player playlist index has changed.
+    /// </summary>
+    public class PlayerPlaylistIndexChangedMessage : TinyMessageBase
+    {
+        public PlayerPlaylistIndexChangedData Data { get; set; }
+
+        public PlayerPlaylistIndexChangedMessage(object sender) 
+            : base(sender)
+        {
+        }
+    }
 }

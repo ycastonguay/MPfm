@@ -29,6 +29,7 @@ namespace MPfm.MVP.Services.Interfaces
     public interface IPlayerService
     {
         bool IsSettingPosition { get; }
+        bool IsPaused { get; }
         PlaylistItem CurrentPlaylistItem { get; }
         float Volume { get; }
 

@@ -1155,6 +1155,18 @@ namespace MPfm.Player
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
                     mixerChannel.Play(false);
                 }
+
+                // Raise audio file finished event (if an event is subscribed)
+                if (OnPlaylistIndexChanged != null)
+                {
+                    // Create data
+                    PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
+                    data.IsPlaybackStopped = false;
+                    data.AudioFileStarted = playlist.CurrentItem.AudioFile;
+                    
+                    // Raise event
+                    OnPlaylistIndexChanged(data);
+                }
             }
             catch (Exception ex)
             {
@@ -1393,18 +1405,6 @@ namespace MPfm.Player
 
             // Start playback
             Play();
-
-            // Raise audio file finished event (if an event is subscribed)
-            if (OnPlaylistIndexChanged != null)
-            {
-                // Create data
-                PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
-                data.IsPlaybackStopped = false;
-                data.AudioFileStarted = audioFileStarted;
-
-                // Raise event
-                OnPlaylistIndexChanged(data);
-            }
         }
 
         /// <summary>

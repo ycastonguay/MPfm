@@ -48,13 +48,19 @@ namespace MPfm.iOS.Classes.Controllers.Base
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            OnViewReady(this);
+            //OnViewReady(this);
         }
 
         public override void ViewDidDisappear(bool animated)
         {
             base.ViewDidDisappear(animated);
             OnViewDestroy(this);
+        }
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+            OnViewReady(this);
         }
 
         public static bool UserInterfaceIdiomIsPhone

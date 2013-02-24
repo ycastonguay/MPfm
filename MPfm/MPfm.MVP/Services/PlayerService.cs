@@ -24,6 +24,7 @@ using TinyMessenger;
 using MPfm.Sound.AudioFiles;
 using System.Linq;
 using MPfm.Sound.Playlists;
+using MPfm.Player.Events;
 
 namespace MPfm.MVP.Services
 {
@@ -37,6 +38,7 @@ namespace MPfm.MVP.Services
         private PlayerStatusType _status;
 
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
+        public bool IsPaused { get { return _player.IsPaused; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public float Volume { get { return _player.Volume; } }
 
@@ -57,11 +59,18 @@ namespace MPfm.MVP.Services
         {
             // Initialize player
             _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
+            _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
+        }
+
+        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
+        {
+            messageHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
         }
 
         public void Play()
         {
             _player.Play();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles)
@@ -69,6 +78,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.Clear();
             _player.Playlist.AddItems(audioFiles.ToList());
             _player.Play();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
         public void Play(IEnumerable<string> filePaths)
@@ -76,6 +86,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.Clear();
             _player.Playlist.AddItems(filePaths.ToList());
             _player.Play();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
@@ -84,27 +95,35 @@ namespace MPfm.MVP.Services
             _player.Playlist.AddItems(audioFiles.ToList());
             _player.Playlist.GoTo(startAudioFilePath);
             _player.Play();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
         public void Stop()
         {
-            if(_player.IsPlaying)
+            if (_player.IsPlaying)
+            {
                 _player.Stop();
+                UpdatePlayerStatus(PlayerStatusType.Stopped);
+            }
         }
 
         public void Pause()
         {
             _player.Pause();
+            PlayerStatusType statusType = (_player.IsPaused) ? PlayerStatusType.Paused : PlayerStatusType.Playing;
+            UpdatePlayerStatus(statusType);
         }
 
         public void Next()
         {
             _player.Next();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
         public void Previous()
         {
             _player.Previous();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
         public void RepeatType()

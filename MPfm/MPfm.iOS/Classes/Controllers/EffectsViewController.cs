@@ -31,6 +31,13 @@ namespace MPfm.iOS
         {
         }
 
+        public override void ViewDidLoad()
+        {
+            this.View.BackgroundColor = UIColor.Green;
+            
+            base.ViewDidLoad();
+        }
+
         #region IEffectsView implementation
 
         public void UpdateFader(int index, float value)

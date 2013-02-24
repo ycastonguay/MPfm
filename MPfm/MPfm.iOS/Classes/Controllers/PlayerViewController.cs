@@ -32,6 +32,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
+using MonoTouch.MediaPlayer;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -44,12 +45,11 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
 
             // Set fonts
-            lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 28);
-            lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
-            lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
+            //lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 28);
+            //lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
+            //lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
             lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
             lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
             btnPrevious.Font = UIFont.FromName("OstrichSans-Black", 18);
@@ -66,6 +66,13 @@ namespace MPfm.iOS.Classes.Controllers
             scrollView.ShowsHorizontalScrollIndicator = false;
             scrollView.ShowsVerticalScrollIndicator = false;
             pageControl.CurrentPage = 0;
+
+            // Create MPVolumeView
+            //MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, this.View.Frame.Height - 30, this.View.Frame.Width, 30));
+            MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, 30, this.View.Frame.Width, 40));
+            this.View.AddSubview(volumeView);
+
+            base.ViewDidLoad();            
 		}
 
         public override void ViewWillAppear(bool animated)
@@ -141,9 +148,9 @@ namespace MPfm.iOS.Classes.Controllers
                 UIImage image = UIImage.LoadFromData(imageData);
                 imageViewAlbumArt.Image = image;
 
-                lblArtistName.Text = audioFile.ArtistName;
-                lblAlbumTitle.Text = audioFile.AlbumTitle;
-                lblTitle.Text = audioFile.Title;
+                //lblArtistName.Text = audioFile.ArtistName;
+                //lblAlbumTitle.Text = audioFile.AlbumTitle;
+                //lblTitle.Text = audioFile.Title;
                 lblLength.Text = audioFile.Length;
                 sliderPosition.MaxValue = 100;
             });

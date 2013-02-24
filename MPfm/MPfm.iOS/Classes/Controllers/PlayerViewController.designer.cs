@@ -15,15 +15,6 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UILabel lblPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblArtistName { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblAlbumTitle { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
 
 		[Outlet]
@@ -61,21 +52,6 @@ namespace MPfm.iOS.Classes.Controllers
 			if (lblPosition != null) {
 				lblPosition.Dispose ();
 				lblPosition = null;
-			}
-
-			if (lblArtistName != null) {
-				lblArtistName.Dispose ();
-				lblArtistName = null;
-			}
-
-			if (lblAlbumTitle != null) {
-				lblAlbumTitle.Dispose ();
-				lblAlbumTitle = null;
-			}
-
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
 			}
 
 			if (imageViewAlbumArt != null) {

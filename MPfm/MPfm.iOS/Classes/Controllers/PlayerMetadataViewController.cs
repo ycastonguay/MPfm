@@ -21,6 +21,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.iOS
 {
@@ -32,11 +33,30 @@ namespace MPfm.iOS
         }
 
         public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-                
+        {                
+            // Set fonts
+            lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 28);
+            lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
+            lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
+
             this.View.BackgroundColor = UIColor.Orange;
+
+            base.ViewDidLoad();            
         }
 
+        public override void ViewWillAppear(bool animated)
+        {
+            // TODO: This event is not called when the view is added manually! (i.e. to a UIScrollView)!
+            base.ViewWillAppear(animated);
+        }
+
+        public void RefreshAudioFile(AudioFile audioFile)
+        {
+            InvokeOnMainThread(() => {
+                lblArtistName.Text = audioFile.ArtistName;
+                lblAlbumTitle.Text = audioFile.AlbumTitle;
+                lblTitle.Text = audioFile.Title;
+            });
+        }
     }
 }

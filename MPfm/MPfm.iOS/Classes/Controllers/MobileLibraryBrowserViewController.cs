@@ -41,11 +41,11 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-
             _items = new List<LibraryBrowserEntity>();
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+
+            base.ViewDidLoad();
         }
 
         public override void ViewWillAppear(bool animated)

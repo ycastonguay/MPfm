@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
 using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
@@ -35,13 +36,20 @@ namespace MPfm.MVP.Presenters
 		{
             this.playerService = playerService;
             this.messageHub = messageHub;
+
+        }
+
+        private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
+        {
+            View.RefreshAudioFile(message.Data.AudioFileStarted);
         }
 
         public override void BindView(IPlayerMetadataView view)
         {            
             // Subscribe to view actions
-            
             base.BindView(view);
+
+            messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
         }
     }
 }

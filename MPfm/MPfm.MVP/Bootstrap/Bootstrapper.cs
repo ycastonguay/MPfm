@@ -22,6 +22,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
+using TinyMessenger;
 
 namespace MPfm.MVP.Bootstrap
 {
@@ -41,6 +42,7 @@ namespace MPfm.MVP.Bootstrap
 
             // Register services
             container.Register<IDatabaseFacade>(new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
+            container.Register<ITinyMessengerHub, TinyMessengerHub>().AsSingleton(); 
             container.Register<IInitializationService, InitializationService>().AsSingleton();
             container.Register<IPlayerService, PlayerService>().AsSingleton();
             container.Register<ILibraryService, LibraryService>().AsSingleton();
