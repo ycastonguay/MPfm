@@ -44,11 +44,6 @@ namespace MPfm.MVP.Presenters
         readonly IAudioFileCacheService audioFileCacheService;
         readonly ITinyMessengerHub messageHub;
 
-		#region Constructor and Dispose
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.PlayerPresenter"/> class.
-		/// </summary>
 		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService)
 		{	
             // Set properties
@@ -67,7 +62,7 @@ namespace MPfm.MVP.Presenters
                 Id = -1
             };
             playerService.Initialize(device, 44100, 5000, 100);
-            playerService.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+            //playerService.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
 
             // Subscribe to events
             messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
@@ -104,33 +99,21 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerSetVolume = SetVolume;
         }
 
-		#endregion
-		
-        		/// <summary>
-		/// Handles the timer update position elapsed.
-		/// </summary>
-		/// <param name='sender'>
-		/// Sender.
-		/// </param>
-		/// <param name='e'>
-		/// E.
-		/// </param>
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
             // Check player
-            if(playerService.Player.IsSettingPosition)
+            if(playerService.IsSettingPosition)
                 return;
 
-            int available = playerService.Player.MixerChannel.GetDataAvailable();
+            int available = playerService.GetDataAvailable();
             
 			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
-            entity.PositionBytes = playerService.Player.GetPosition();
-            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.SampleRate);
+            entity.PositionBytes = playerService.GetPosition();
+            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)playerService.CurrentPlaylistItem.AudioFile.SampleRate);
     		entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-            entity.PositionPercentage = ((float)playerService.Player.GetPosition() / (float)playerService.Player.Playlist.CurrentItem.LengthBytes) * 100;
-			
+            entity.PositionPercentage = ((float)playerService.GetPosition() / (float)playerService.CurrentPlaylistItem.LengthBytes) * 100;
 
 			// Send changes to view
 			View.RefreshPlayerPosition(entity);
@@ -145,7 +128,7 @@ namespace MPfm.MVP.Presenters
 		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
 		{
 			// Refresh song information
-            RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
+            RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
 		}
 		
 		/// <summary>
@@ -155,16 +138,8 @@ namespace MPfm.MVP.Presenters
 		{            
             try
             {
-    			// Start playback
-                Tracing.Log("PlayerPresenter.Play -- Starting playback...");
-                playerService.Player.Play();
-    	
-    			// Refresh song information
-    			Tracing.Log("PlayerPresenter.Play -- Refreshing song information...");
-                RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
-    			
-    			// Start timer
-                Tracing.Log("PlayerPresenter.Play -- Starting timer...");
+                playerService.Play();
+                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
     			timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -181,15 +156,9 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-    			// Replace playlist
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Clearing playlist...");
-                playerService.Player.Playlist.Clear();
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Adding items...");
-                playerService.Player.Playlist.AddItems(audioFiles.ToList());
-    			
-    			// Start playback
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>) -- Starting playback...");
-    			Play();
+                playerService.Play(audioFiles);
+                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
+                timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -205,15 +174,9 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-    			// Replace playlist
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Clearing playlist...");
-                playerService.Player.Playlist.Clear();
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Adding items...");
-                playerService.Player.Playlist.AddItems(filePaths.ToList());
-    			
-    			// Start playback
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<string>) -- Starting playback...");
-    			Play();
+                playerService.Play(filePaths);
+                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
+                timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -230,29 +193,9 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-    			// Replace playlist
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Clearing playlist...");
-                playerService.Player.Playlist.Clear();
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items...");
-                if(audioFiles == null)
-                {
-                    Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items: audioFiles == null");
-                    List<AudioFile> listAudioFiles = audioFiles.ToList();
-                    playerService.Player.Playlist.AddItems(listAudioFiles); // simulate bug
-                }
-                else
-                {
-                    Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items...");
-                    List<AudioFile> listAudioFiles = audioFiles.ToList();
-                    Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Adding items (count = " + listAudioFiles.Count + "...");
-                    playerService.Player.Playlist.AddItems(listAudioFiles);
-                }
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Skipping to item " + startAudioFilePath + " in playlist...");
-                playerService.Player.Playlist.GoTo(startAudioFilePath);
-    			
-    			// Start playback
-                Tracing.Log("PlayerPresenter.Play(IEnumerable<AudioFile>, string) -- Starting playback...");
-    			Play();
+                playerService.Play(audioFiles, startAudioFilePath);
+                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
+                timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -267,22 +210,18 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-    			// Check if the player is playing
-                if(playerService.Player.IsPlaying)
-    			{
-    				// Stop timer
-                    Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
-    				timerRefreshSongPosition.Stop();
-    				
-    				// Stop player
-                    Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
-                    playerService.Player.Stop();
-    				
-    				// Refresh view with empty information
-                    Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
-    			    View.RefreshSongInformation(null);
-                    View.RefreshPlayerPosition(new PlayerPositionEntity());
-    			}
+				// Stop timer
+                Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
+				timerRefreshSongPosition.Stop();
+				
+				// Stop player
+                Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
+                playerService.Stop();
+				
+				// Refresh view with empty information
+                Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
+			    View.RefreshSongInformation(null);
+                View.RefreshPlayerPosition(new PlayerPositionEntity());
             }
             catch(Exception ex)
             {
@@ -297,13 +236,7 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-    			// Check if the player is playing
-                if(playerService.Player.IsPlaying)
-    			{
-    				// Pause player
-                    Tracing.Log("PlayerPresenter.Stop -- Pausing playback...");
-                    playerService.Player.Pause();
-    			}
+                playerService.Pause();
             }
             catch(Exception ex)
             {
@@ -320,11 +253,11 @@ namespace MPfm.MVP.Presenters
             {
     			// Go to next song
                 Tracing.Log("PlayerPresenter.Next -- Skipping to next item in playlist...");
-                playerService.Player.Next();
+                playerService.Next();
     	
     			// Refresh controls
                 Tracing.Log("PlayerPresenter.Next -- Refreshing song information...");
-                RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
+                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
             }
             catch(Exception ex)
             {
@@ -341,10 +274,10 @@ namespace MPfm.MVP.Presenters
             {
     			// Go to previous song
                 Tracing.Log("PlayerPresenter.Previous -- Skipping to previous item in playlist...");
-                playerService.Player.Previous();
+                playerService.Previous();
     	
     			// Refresh controls
-                RefreshSongInformation(playerService.Player.Playlist.CurrentItem.AudioFile);
+                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
                 Tracing.Log("PlayerPresenter.Previous -- Refreshing song information...");
             }
             catch(Exception ex)
@@ -360,12 +293,6 @@ namespace MPfm.MVP.Presenters
 		{
 		}
 		
-		/// <summary>
-		/// Refreshes the song information on the main view.
-		/// </summary>
-		/// <param name='audioFile'>
-		/// Audio file.
-		/// </param>
 		private void RefreshSongInformation(AudioFile audioFile)
 		{			
             View.RefreshSongInformation(audioFile);
@@ -378,7 +305,7 @@ namespace MPfm.MVP.Presenters
                 // Set position
                 Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
                 timerRefreshSongPosition.Stop();
-                playerService.Player.SetPosition((double)percentage);
+                playerService.SetPosition((double)percentage);
                 timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -393,7 +320,7 @@ namespace MPfm.MVP.Presenters
             {
                 // Set volume and refresh UI
                 Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
-                playerService.Player.Volume = volume / 100;
+                playerService.SetVolume(volume / 100);
                 View.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 
@@ -415,7 +342,7 @@ namespace MPfm.MVP.Presenters
                 
                 // Set time shifting and refresh UI
                 Tracing.Log("PlayerPresenter.SetTimeShifting -- Setting time shifting to " + timeShifting.ToString("0.00") + "%");
-                playerService.Player.TimeShifting = result;
+                playerService.SetTimeShifting(result);
                 View.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
                     TimeShifting = timeShifting,
                     TimeShiftingString = timeShifting.ToString("0") + " %"

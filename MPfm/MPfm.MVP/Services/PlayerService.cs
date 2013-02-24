@@ -15,11 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+using MPfm.Player;
+using MPfm.Sound.Bass.Net;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
-using MPfm.Sound.Bass.Net;
-using MPfm.Player;
 using TinyMessenger;
+using MPfm.Sound.AudioFiles;
+using System.Linq;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.MVP.Services
 {
@@ -28,14 +32,14 @@ namespace MPfm.MVP.Services
     /// </summary>
     public class PlayerService : IPlayerService
     {
-        readonly ITinyMessengerHub messageHub;
+        private readonly ITinyMessengerHub messageHub;
+        private IPlayer _player;
+        private PlayerStatusType _status;
 
-        public PlayerStatusType Status { get; private set; }
-        public IPlayer Player { get; private set; }
+        public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
+        public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
+        public float Volume { get { return _player.Volume; } }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerService"/> class.
-        /// </summary>
 		public PlayerService(ITinyMessengerHub messageHub)
 		{
             this.messageHub = messageHub;
@@ -43,7 +47,7 @@ namespace MPfm.MVP.Services
 
         private void UpdatePlayerStatus(PlayerStatusType status)
         {
-            this.Status = status;
+            this._status = status;
             messageHub.PublishAsync(new PlayerStatusMessage(this){
                 Status = status
             });
@@ -52,12 +56,106 @@ namespace MPfm.MVP.Services
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
         {
             // Initialize player
-            Player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
+            _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
         }
 
         public void Play()
         {
+            _player.Play();
+        }
 
+        public void Play(IEnumerable<AudioFile> audioFiles)
+        {
+            _player.Playlist.Clear();
+            _player.Playlist.AddItems(audioFiles.ToList());
+            _player.Play();
+        }
+
+        public void Play(IEnumerable<string> filePaths)
+        {
+            _player.Playlist.Clear();
+            _player.Playlist.AddItems(filePaths.ToList());
+            _player.Play();
+        }
+
+        public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
+        {
+            _player.Playlist.Clear();
+            _player.Playlist.AddItems(audioFiles.ToList());
+            _player.Playlist.GoTo(startAudioFilePath);
+            _player.Play();
+        }
+
+        public void Stop()
+        {
+            if(_player.IsPlaying)
+                _player.Stop();
+        }
+
+        public void Pause()
+        {
+            _player.Pause();
+        }
+
+        public void Next()
+        {
+            _player.Next();
+        }
+
+        public void Previous()
+        {
+            _player.Previous();
+        }
+
+        public void RepeatType()
+        {
+            // TODO: Cycle through repeat types
+            //_player.RepeatType
+        }
+
+        public int GetDataAvailable()
+        {
+            return _player.MixerChannel.GetDataAvailable();
+        }
+
+        public long GetPosition()
+        {
+            return _player.GetPosition();
+        }
+
+        public void SetPosition(double percentage)
+        {
+            _player.SetPosition(percentage);
+        }
+
+        public void SetPosition(long bytes)
+        {
+            _player.SetPosition(bytes);
+        }
+
+        public void SetVolume(float volume)
+        {
+            _player.Volume = volume;
+        }
+
+        public void SetTimeShifting(float timeShifting)
+        {
+            _player.TimeShifting = timeShifting;
+        }
+
+        public void BypassEQ()
+        {
+            _player.BypassEQ();
+        }
+
+        public void ResetEQ()
+        {
+            _player.ResetEQ();
+        }
+
+        public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
+        {
+            _player.UpdateEQBand(band, gain, setCurrentEQPresetValue);
         }
 
         /// <summary>
@@ -72,10 +170,10 @@ namespace MPfm.MVP.Services
         public void Dispose()
         {
             // Dispose player
-            if (Player != null)
+            if (_player != null)
             {
-                Player.Dispose();
-                Player = null;
+                _player.Dispose();
+                _player = null;
             }
         }
     }

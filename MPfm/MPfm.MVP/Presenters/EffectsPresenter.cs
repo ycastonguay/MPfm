@@ -49,13 +49,13 @@ namespace MPfm.MVP.Presenters
         public void SetEQParam(int index, float value)
         {
             // Set EQ and update UI
-            playerService.Player.UpdateEQBand(index, value, true);
+            playerService.UpdateEQBand(index, value, true);
             View.UpdateFader(index, value);
         }
 
         public void BypassEQ()
         {
-            playerService.Player.BypassEQ();
+            playerService.BypassEQ();
         }
 
         public void AutoLevel()
@@ -64,7 +64,7 @@ namespace MPfm.MVP.Presenters
 
         public void Reset()
         {
-            playerService.Player.ResetEQ();
+            playerService.ResetEQ();
             for (int a = 0; a < 18; a++)
                 View.UpdateFader(a, 0);
         }

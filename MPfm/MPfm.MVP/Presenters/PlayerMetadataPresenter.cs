@@ -18,6 +18,8 @@
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.MVP.Services.Interfaces;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -26,9 +28,14 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class PlayerMetadataPresenter : BasePresenter<IPlayerMetadataView>, IPlayerMetadataPresenter
 	{
-        public PlayerMetadataPresenter()
+        ITinyMessengerHub messageHub;
+        IPlayerService playerService;
+
+        public PlayerMetadataPresenter(ITinyMessengerHub messageHub, IPlayerService playerService)
 		{
-		}
+            this.playerService = playerService;
+            this.messageHub = messageHub;
+        }
 
         public override void BindView(IPlayerMetadataView view)
         {            

@@ -15,8 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using MPfm.Player;
+using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.MVP.Services.Interfaces
 {
@@ -25,9 +28,33 @@ namespace MPfm.MVP.Services.Interfaces
     /// </summary>
     public interface IPlayerService
     {
-        IPlayer Player { get; }
+        bool IsSettingPosition { get; }
+        PlaylistItem CurrentPlaylistItem { get; }
+        float Volume { get; }
 
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
+
+        void Play();
+        void Play(IEnumerable<AudioFile> audioFiles);
+        void Play(IEnumerable<string> filePaths);
+        void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
+        void Stop();
+        void Pause();
+        void Next();
+        void Previous();
+        void RepeatType();
+
+        int GetDataAvailable();
+        long GetPosition();
+
+        void SetPosition(double percentage);
+        void SetPosition(long bytes);
+        void SetVolume(float volume);
+        void SetTimeShifting(float timeShifting);
+
+        void BypassEQ();
+        void ResetEQ();
+        void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
     }
 }
