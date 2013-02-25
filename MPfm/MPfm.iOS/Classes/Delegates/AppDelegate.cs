@@ -61,6 +61,7 @@ namespace MPfm.iOS.Classes.Delegates
 			//container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
 			//container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
 			//container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            container.Register<IEffectsView, EffectsViewController>().AsMultiInstance();
             container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
             container.Register<IMarkersView, MarkersViewController>().AsMultiInstance();
             container.Register<ITimeShiftingView, TimeShiftingViewController>().AsMultiInstance();
@@ -166,13 +167,13 @@ namespace MPfm.iOS.Classes.Delegates
         public void PushDialogView(UIViewController viewController)
         {
             InvokeOnMainThread(() => {
-                if (viewController is UpdateLibraryViewController)
-                {
+                //if (viewController is UpdateLibraryViewController)
+                //{
                     viewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
                     viewController.ModalInPopover = true;
                     viewController.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
                     _tabBarController.PresentViewController(viewController, true, null);
-                }
+                //}
             });
         }
     }

@@ -38,6 +38,8 @@ namespace MPfm.MVP.Navigation
         private IMobileOptionsMenuPresenter _optionsMenuPresenter;
         private IUpdateLibraryView _updateLibraryView;
         private IUpdateLibraryPresenter _updateLibraryPresenter;
+        private IEffectsView _effectsView;
+        private IEffectsPresenter _effectsPresenter;
         private IPlayerView _playerView;
         private IPlayerPresenter _playerPresenter;
 
@@ -366,6 +368,25 @@ namespace MPfm.MVP.Navigation
                 _pitchShiftingPresenter = null;
             };
             return _pitchShiftingView;
+        }
+
+        public virtual IEffectsView CreateEffectsView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _effectsPresenter = Bootstrapper.GetContainer().Resolve<IEffectsPresenter>();
+                _effectsPresenter.BindView((IEffectsView)view);
+            };
+            
+            // Create view and manage view destruction
+            _effectsView = Bootstrapper.GetContainer().Resolve<IEffectsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _effectsView.OnViewDestroy = (view) =>
+            {
+                _effectsView = null;
+                _effectsPresenter = null;
+            };
+            return _effectsView;
         }
     }
 

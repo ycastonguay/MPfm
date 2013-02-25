@@ -75,6 +75,8 @@ namespace MPfm.MVP.Presenters
                 }
                 case MobileOptionsMenuType.Effects:
                 {
+                    var view = _navigationManager.CreateEffectsView();
+                    _navigationManager.PushDialogView(view);
                     break;
                 }
                 case MobileOptionsMenuType.Preferences:

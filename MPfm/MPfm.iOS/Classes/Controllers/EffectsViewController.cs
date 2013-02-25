@@ -21,6 +21,8 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MonoTouch.CoreAnimation;
+using MonoTouch.CoreGraphics;
 
 namespace MPfm.iOS
 {
@@ -33,8 +35,11 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            this.View.BackgroundColor = UIColor.Green;
-            
+            CAGradientLayer gradient = new CAGradientLayer();
+            gradient.Frame = this.View.Bounds;
+            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+            this.View.Layer.InsertSublayer(gradient, 0);
+
             base.ViewDidLoad();
         }
 

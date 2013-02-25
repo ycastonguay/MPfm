@@ -21,6 +21,8 @@ using System.Drawing;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -49,6 +51,11 @@ namespace MPfm.iOS.Classes.Controls
             _btnEffects = new UIButton(UIButtonType.RoundedRect);
             _btnEffects.Frame = new RectangleF(this.NavigationBar.Frame.Width - 4 - 36, 4, 36, 36);
             _btnEffects.SetBackgroundImage(UIImage.FromBundle("Images/effects.png"), UIControlState.Normal);
+            _btnEffects.TouchUpInside += (sender, e) => { 
+                // TODO: This class should never call the Navigation Manager!
+                var navMgr = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+
+            };
 
             _lblTitle = new UILabel(new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 100, 20));
             _lblTitle.TextColor = UIColor.White;
