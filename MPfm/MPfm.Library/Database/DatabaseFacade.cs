@@ -95,7 +95,7 @@ namespace MPfm.Library.Database
 				if(format != AudioFileFormat.All)
 				{
 					count++;
-					sql.AppendLine(" [FileType] = '" + format.ToString() + "'");
+					sql.AppendLine(" [FileType] = '" + FormatSQLValue(format.ToString()) + "'");
 				}
 				if(!String.IsNullOrEmpty(artistName))
 				{
@@ -104,7 +104,7 @@ namespace MPfm.Library.Database
 					{
 						sql.AppendLine(" AND ");
 					}
-					sql.AppendLine(" [ArtistName] = '" + artistName + "' ");
+                    sql.AppendLine(" [ArtistName] = '" + FormatSQLValue(artistName) + "' ");
 				}
 				if(!String.IsNullOrEmpty(albumTitle))
 				{
@@ -113,7 +113,7 @@ namespace MPfm.Library.Database
 					{
 						sql.AppendLine(" AND ");
 					}
-					sql.AppendLine(" [AlbumTitle] = '" + albumTitle + "' ");
+                    sql.AppendLine(" [AlbumTitle] = '" + FormatSQLValue(albumTitle) + "' ");
 				}
 				if(!String.IsNullOrEmpty(search))
 				{
@@ -197,7 +197,7 @@ namespace MPfm.Library.Database
         /// <param name="basePath">Base audio file path</param>
         public void DeleteAudioFiles(string basePath)
         {
-            _gateway.Delete("AudioFiles", "FilePath LIKE '" + basePath + "%'");
+            _gateway.Delete("AudioFiles", "FilePath LIKE '" + FormatSQLValue(basePath) + "%'");
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace MPfm.Library.Database
 			sql.AppendLine("SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles ");
 			if (audioFileFormat != AudioFileFormat.All && !String.IsNullOrEmpty(artistName))
 			{				
-				sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' AND ArtistName = '" + artistName.Replace("'", "''") + "'");
+                sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' AND ArtistName = '" + FormatSQLValue(artistName) + "'");
 			}
             else if (audioFileFormat != AudioFileFormat.All)
             {
@@ -282,7 +282,7 @@ namespace MPfm.Library.Database
             }
 			else if(!String.IsNullOrEmpty(artistName))
 			{
-				sql.AppendLine(" WHERE ArtistName = '" + artistName.Replace("'", "''").ToString() + "' ");
+				sql.AppendLine(" WHERE ArtistName = '" + FormatSQLValue(artistName) + "' ");
 			}
 			sql.AppendLine(" ORDER BY ArtistName");
 
@@ -387,7 +387,7 @@ namespace MPfm.Library.Database
         /// <returns>Folder</returns>
         public Folder SelectFolderByPath(string path)
         {
-            Folder folder = _gateway.SelectOne<Folder>("SELECT * FROM Folders WHERE FolderPath = '" + path + "'");
+            Folder folder = _gateway.SelectOne<Folder>("SELECT * FROM Folders WHERE FolderPath = '" + FormatSQLValue(path) + "'");
             return folder;
         }
 
@@ -455,7 +455,7 @@ namespace MPfm.Library.Database
         /// <returns>EQPreset</returns>
         public EQPreset SelectEQPreset(string name)
         {
-            EQPreset preset = _gateway.SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE Name = '" + name + "'");
+            EQPreset preset = _gateway.SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE Name = '" + FormatSQLValue(name) + "'");
             return preset;
         }
 
@@ -804,7 +804,7 @@ namespace MPfm.Library.Database
         /// <returns>Setting object</returns>
         public Setting SelectSetting(string name)
         {
-            Setting setting = _gateway.SelectOne<Setting>("SELECT * FROM Settings WHERE SettingName = '" + name + "'");
+            Setting setting = _gateway.SelectOne<Setting>("SELECT * FROM Settings WHERE SettingName = '" + FormatSQLValue(name) + "'");
             return setting;
         }
 
@@ -882,7 +882,7 @@ namespace MPfm.Library.Database
         public void DeletePlaylistFile(string filePath)
         {
             // Delete loop
-            _gateway.Delete("PlaylistFiles", "FilePath = '" + filePath + "'");
+            _gateway.Delete("PlaylistFiles", "FilePath = '" + FormatSQLValue(filePath) + "'");
         }
 
         #endregion
@@ -1006,5 +1006,10 @@ namespace MPfm.Library.Database
 		{
 			_gateway.CompactDatabase();
 		}
+
+        private string FormatSQLValue(string value)
+        {
+            return value.Replace("'", "''");
+        }
     }
 }
