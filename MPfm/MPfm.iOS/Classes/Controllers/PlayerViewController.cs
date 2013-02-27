@@ -69,7 +69,8 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Create MPVolumeView
             //MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, this.View.Frame.Height - 30, this.View.Frame.Width, 30));
-            MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, 30, this.View.Frame.Width, 40));
+            //MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, this.View.Frame.Height, this.View.Frame.Width, 30));
+            MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46 - 4, UIScreen.MainScreen.Bounds.Width - 16, 46));
             this.View.AddSubview(volumeView);
 
             base.ViewDidLoad();            
