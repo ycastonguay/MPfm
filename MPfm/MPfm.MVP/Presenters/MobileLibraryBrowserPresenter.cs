@@ -95,10 +95,12 @@ namespace MPfm.MVP.Presenters
                 return;
             }
 
-            // Make sure the view was binded to the presenter before publishing a message (TODO: Move Query param into CreatePlayerView)
+            // Make sure the view was binded to the presenter before publishing a message
+            // Why is an action used here? Because on desktop devices, IPlayerView is initialized right away. On mobile devices, IPlayerView is only initialized when playback is started.
 	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
 	            {
-	                Query = _items[i].Query
+	                Query = _items[i].Query,
+                    FilePath = _items[i].AudioFile.FilePath
 	            });
 
             // Create player view
@@ -217,8 +219,7 @@ namespace MPfm.MVP.Presenters
                     {
                         Format = format,                        
                         ArtistName = artistName,
-                        AlbumTitle = albumTitle,
-                        SearchTerms = audioFile.Title
+                        AlbumTitle = albumTitle
                     }
                 });
             }
