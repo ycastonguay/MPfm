@@ -169,6 +169,7 @@
     <Compile Include="Classes\Controllers\PlayerMetadataViewController.designer.cs">
       <DependentUpon>PlayerMetadataViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmSlider.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

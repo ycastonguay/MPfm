@@ -46,7 +46,7 @@
 						<string key="NSFrame">{{0, 27}, {320, 320}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="824166459"/>
+						<reference key="NSNextKeyView" ref="173158704"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -63,7 +63,7 @@
 						<string key="NSFrameSize">{320, 28}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1053688210"/>
+						<reference key="NSNextKeyView" ref="824166459"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -78,6 +78,7 @@
 						<string key="NSFrame">{{0, 311}, {320, 32}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="404078540"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -124,7 +125,7 @@
 						<string key="NSFrame">{{243, 5}, {66, 21}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="173158704"/>
+						<reference key="NSNextKeyView" ref="1053688210"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -211,6 +212,7 @@
 						<string key="NSFrame">{{214, 347}, {106, 29}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="727961586"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -240,7 +242,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<float key="IBUIValue">0.5</float>
+						<float key="IBUIMaxValue">10000</float>
 					</object>
 					<object class="IBUIScrollView" id="173158704">
 						<reference key="NSNextResponder" ref="774585933"/>
@@ -263,7 +265,7 @@
 						<string key="NSFrame">{{0, 309}, {320, 36}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="404078540"/>
+						<reference key="NSNextKeyView" ref="681114901"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -519,6 +521,7 @@
 				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="37.CustomClassName">MPfmSlider</string>
 				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -536,6 +539,14 @@
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">MPfmSlider</string>
+					<string key="superclassName">UISlider</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MPfmSlider.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">PlayerViewController</string>
 					<string key="superclassName">UIViewController</string>
@@ -567,7 +578,7 @@
 						<string key="lblPosition">UILabel</string>
 						<string key="pageControl">UIPageControl</string>
 						<string key="scrollView">UIScrollView</string>
-						<string key="sliderPosition">UISlider</string>
+						<string key="sliderPosition">MPfmSlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="btnNext">
@@ -604,7 +615,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="sliderPosition">
 							<string key="name">sliderPosition</string>
-							<string key="candidateClassName">UISlider</string>
+							<string key="candidateClassName">MPfmSlider</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

@@ -307,10 +307,14 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                // Set position
+                // Make sure the percentage isn't 100% or BASS will return an error.               
+                double pct = (double)percentage;
+                if(pct > 99.9)
+                    pct = 99.9;
+
                 Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
                 timerRefreshSongPosition.Stop();
-                playerService.SetPosition((double)percentage);
+                playerService.SetPosition(pct);
                 timerRefreshSongPosition.Start();
             }
             catch(Exception ex)

@@ -45,11 +45,7 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
-
             // Set fonts
-            //lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 28);
-            //lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
-            //lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
             lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
             lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
             btnPrevious.Font = UIFont.FromName("OstrichSans-Black", 18);
@@ -67,9 +63,13 @@ namespace MPfm.iOS.Classes.Controllers
             scrollView.ShowsVerticalScrollIndicator = false;
             pageControl.CurrentPage = 0;
 
-            // Create MPVolumeView
-            //MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, this.View.Frame.Height - 30, this.View.Frame.Width, 30));
-            //MPVolumeView volumeView = new MPVolumeView(new RectangleF(0, this.View.Frame.Height, this.View.Frame.Width, 30));
+            sliderPosition.OnTouchesMoved = (position) => {
+                // 0 to 10000
+                Console.WriteLine("Position: Setting value to " + position.ToString());
+                OnPlayerSetPosition(position / 100);
+            };
+
+            // Create MPVolumeView (only visible on physical iOS device)
             MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46 - 4, UIScreen.MainScreen.Bounds.Width - 16, 46));
             this.View.AddSubview(volumeView);
 
@@ -137,6 +137,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
             InvokeOnMainThread(() => {
                 lblPosition.Text = entity.Position;
+                sliderPosition.SetPosition(entity.PositionPercentage * 100);
             });
         }
 
@@ -144,24 +145,28 @@ namespace MPfm.iOS.Classes.Controllers
         {
             InvokeOnMainThread(() => {
 
-                try
+                if(audioFile != null)
                 {
-                    // TODO: Add a memory cache and stop reloading the image from disk every time
-                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    NSData imageData = NSData.FromArray(bytesImage);
-                    UIImage image = UIImage.LoadFromData(imageData);
-                    imageViewAlbumArt.Image = image;
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine("Could not load album art: " + ex.Message);
-                }
+                    try
+                    {
+                        // TODO: Add a memory cache and stop reloading the image from disk every time
+                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                        NSData imageData = NSData.FromArray(bytesImage);
+                        UIImage image = UIImage.LoadFromData(imageData);
+                        imageViewAlbumArt.Image = image;
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Could not load album art: " + ex.Message);
+                    }
 
-                //lblArtistName.Text = audioFile.ArtistName;
-                //lblAlbumTitle.Text = audioFile.AlbumTitle;
-                //lblTitle.Text = audioFile.Title;
-                lblLength.Text = audioFile.Length;
-                sliderPosition.MaxValue = 100;
+                    lblLength.Text = audioFile.Length;
+                }
+                else
+                {
+                    // TODO: If the playlist is finished, return to the Mobile Library Browser. At least that's what the iOS Music app does.
+                    lblLength.Text = string.Empty;
+                }
             });
         }
 

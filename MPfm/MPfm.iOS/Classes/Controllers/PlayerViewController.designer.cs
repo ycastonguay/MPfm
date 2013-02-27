@@ -18,7 +18,7 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISlider sliderPosition { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmSlider sliderPosition { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblLength { get; set; }
