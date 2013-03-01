@@ -35,7 +35,7 @@ namespace MPfm.iOS.Classes.Delegates
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{		
-		UIWindow _window;
+		MPfmWindow _window;
         UITabBarController _tabBarController;
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
@@ -69,7 +69,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
 
             // Create window 
-			_window = new UIWindow(UIScreen.MainScreen.Bounds);
+			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
 
             // Create tab bar controller, but hide it while the splash screen is visible
             _tabBarController = new UITabBarController();
@@ -102,6 +102,9 @@ namespace MPfm.iOS.Classes.Delegates
                 _splashViewController.View.AutoresizingMask = UIViewAutoresizing.All;
                 _window.AddSubview(_splashViewController.View);
                 _window.MakeKeyAndVisible();
+
+                // The application is now ready to receive remote events
+                UIApplication.SharedApplication.BeginReceivingRemoteControlEvents();
             });
             }
 

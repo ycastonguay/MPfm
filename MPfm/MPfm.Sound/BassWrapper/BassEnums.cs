@@ -180,7 +180,10 @@ namespace MPfm.Sound.BassWrapper
         BASS_CONFIG_SPLIT_BUFFER = 67088,
         BASS_CONFIG_MP4_VIDEO = 67328,
         BASS_CONFIG_AAC_MP4,
-        BASS_CONFIG_WINAMP_INPUT_TIMEOUT = 67584
+        BASS_CONFIG_WINAMP_INPUT_TIMEOUT = 67584,
+        BASS_CONFIG_IOS_MIXAUDIO = 34,
+        BASS_CONFIG_IOS_SPEAKER = 39,
+        BASS_CONFIG_IOS_NOTIFY = 46
     }
 
     [Flags]
@@ -674,5 +677,12 @@ namespace MPfm.Sound.BassWrapper
         MPEG_LOAS,
         MPEG_HEAAC = 5648,
         EXTENSIBLE = -2
+    }
+
+    [Flags]
+    public enum BASSIOSNotify
+    {
+        BASS_IOSNOTIFY_INTERRUPT = 1,
+        BASS_IOSNOTIFY_INTERRUPT_END = 2
     }
 }

@@ -32,6 +32,7 @@ namespace MPfm.iOS.Classes.Controls
         private bool _isTouchDown = false;
 
         public Action<float> OnTouchesMoved;
+        public Action<float> OnTouchesEnded;
 
         public MPfmSlider(IntPtr handle) : base (handle)
         {
@@ -57,6 +58,9 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
+            if (OnTouchesEnded != null)
+                OnTouchesEnded(this.Value);
+
             _isTouchDown = false;
             Console.WriteLine("Slider - TouchesEnded");
             base.TouchesEnded(touches, evt);

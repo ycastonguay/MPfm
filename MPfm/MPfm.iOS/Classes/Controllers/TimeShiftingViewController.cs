@@ -34,8 +34,24 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             lblTitle.Font = UIFont.FromName("OstrichSans-Black", 28);
+            lblTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
+            lblOriginalTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
+            btnDetectTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
+            btnReset.Font = UIFont.FromName("OstrichSans-Black", 18);
 
             base.ViewDidLoad();
+        }
+
+        partial void actionDetectTempo(NSObject sender)
+        {
+        }
+
+        partial void actionReset(NSObject sender)
+        {
+        }
+
+        partial void actionSegmentChanged(NSObject sender)
+        {
         }
     }
 }

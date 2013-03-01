@@ -71,4 +71,9 @@ namespace MPfm.Sound.BassWrapper
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 #endif
     public delegate void ENCODEPROC(int handle, int channel, IntPtr buffer, int length, IntPtr user);
+
+#if IOS
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
+    public delegate void IOSNOTIFY(int status);
 }

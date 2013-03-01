@@ -284,5 +284,6 @@
     <Compile Include="Presenters\Interfaces\IPlayerMetadataPresenter.cs" />
     <Compile Include="Presenters\PlayerMetadataPresenter.cs" />
     <Compile Include="Messages\PlayerPlaylistIndexChangedMessage.cs" />
+    <Compile Include="Messages\PlayerCommandMessage.cs" />
   </ItemGroup>
 </Project>

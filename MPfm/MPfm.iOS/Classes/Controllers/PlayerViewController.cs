@@ -38,6 +38,9 @@ namespace MPfm.iOS.Classes.Controllers
 {
 	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
+        private bool _isPositionChanging = false;
+        private string _currentAlbumArtKey = string.Empty;
+
 		public PlayerViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
@@ -63,14 +66,20 @@ namespace MPfm.iOS.Classes.Controllers
             scrollView.ShowsVerticalScrollIndicator = false;
             pageControl.CurrentPage = 0;
 
+            // TODO: Block slider when the player is paused.
             sliderPosition.OnTouchesMoved = (position) => {
-                // 0 to 10000
+                _isPositionChanging = true;
+                Console.WriteLine("Position: Setting value to " + position.ToString());
+                lblPosition.Text = position.ToString();
+            };
+            sliderPosition.OnTouchesEnded = (position) => {
                 Console.WriteLine("Position: Setting value to " + position.ToString());
                 OnPlayerSetPosition(position / 100);
+                _isPositionChanging = false;
             };
 
             // Create MPVolumeView (only visible on physical iOS device)
-            MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46 - 4, UIScreen.MainScreen.Bounds.Width - 16, 46));
+            MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46, UIScreen.MainScreen.Bounds.Width - 16, 46));
             this.View.AddSubview(volumeView);
 
             base.ViewDidLoad();            
@@ -136,8 +145,11 @@ namespace MPfm.iOS.Classes.Controllers
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
             InvokeOnMainThread(() => {
-                lblPosition.Text = entity.Position;
-                sliderPosition.SetPosition(entity.PositionPercentage * 100);
+                if(!_isPositionChanging)
+                {
+                    lblPosition.Text = entity.Position;
+                    sliderPosition.SetPosition(entity.PositionPercentage * 100);
+                }
             });
         }
 
@@ -149,11 +161,23 @@ namespace MPfm.iOS.Classes.Controllers
                 {
                     try
                     {
-                        // TODO: Add a memory cache and stop reloading the image from disk every time
-                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                        NSData imageData = NSData.FromArray(bytesImage);
-                        UIImage image = UIImage.LoadFromData(imageData);
-                        imageViewAlbumArt.Image = image;
+
+                        // Check if the album art needs to be refreshed
+                        string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
+                        if(_currentAlbumArtKey != key)
+                        {
+                            // TODO: Add a memory cache and stop reloading the image from disk every time
+                            _currentAlbumArtKey = key;
+                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                            NSData imageData = NSData.FromArray(bytesImage);
+                            UIImage image = UIImage.LoadFromData(imageData);
+                            imageViewAlbumArt.Alpha = 0;
+                            imageViewAlbumArt.Image = image;
+
+                            UIView.Animate(0.3, () => {
+                                imageViewAlbumArt.Alpha = 1;
+                            });
+                        }
                     }
                     catch(Exception ex)
                     {

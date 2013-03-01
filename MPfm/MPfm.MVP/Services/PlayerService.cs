@@ -33,7 +33,7 @@ namespace MPfm.MVP.Services
     /// </summary>
     public class PlayerService : IPlayerService
     {
-        private readonly ITinyMessengerHub messageHub;
+        private readonly ITinyMessengerHub _messengerHub;
         private IPlayer _player;
         private PlayerStatusType _status;
 
@@ -44,13 +44,13 @@ namespace MPfm.MVP.Services
 
 		public PlayerService(ITinyMessengerHub messageHub)
 		{
-            this.messageHub = messageHub;
+            _messengerHub = messageHub;
 		}
 
         private void UpdatePlayerStatus(PlayerStatusType status)
         {
             this._status = status;
-            messageHub.PublishAsync(new PlayerStatusMessage(this){
+            _messengerHub.PublishAsync(new PlayerStatusMessage(this){
                 Status = status
             });
         }
@@ -60,11 +60,37 @@ namespace MPfm.MVP.Services
             // Initialize player
             _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
+            _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
         }
 
         void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
         {
-            messageHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
+            _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
+        }
+
+        public void PlayerCommandMessageReceived(PlayerCommandMessage m)
+        {
+            switch (m.Command)
+            {
+                case PlayerCommandMessageType.Play:
+                    Play();
+                    break;
+                case PlayerCommandMessageType.Pause:
+                    Pause();
+                    break;
+                case PlayerCommandMessageType.Stop:
+                    Stop();
+                    break;
+                case PlayerCommandMessageType.PlayPause:
+                    PlayPause();
+                    break;
+                case PlayerCommandMessageType.Previous:
+                    Previous();
+                    break;
+                case PlayerCommandMessageType.Next:
+                    Next();
+                    break;
+            }
         }
 
         public void Play()
@@ -112,6 +138,14 @@ namespace MPfm.MVP.Services
             _player.Pause();
             PlayerStatusType statusType = (_player.IsPaused) ? PlayerStatusType.Paused : PlayerStatusType.Playing;
             UpdatePlayerStatus(statusType);
+        }
+
+        public void PlayPause()
+        {
+            if (_player.IsPlaying)
+                _player.Pause();
+            else
+                _player.Play();
         }
 
         public void Next()

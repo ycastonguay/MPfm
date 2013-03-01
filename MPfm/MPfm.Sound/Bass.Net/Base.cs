@@ -167,6 +167,28 @@ namespace MPfm.Sound.Bass.Net
 
         #endregion
 
+        #region Playback
+
+        public static void Start()
+        {
+            if (!BassWrapper.Bass.BASS_Start())
+                CheckForError();
+        }
+
+        public static void Pause()
+        {
+            if (!BassWrapper.Bass.BASS_Pause())
+                CheckForError();
+        }
+
+        public static void Stop()
+        {
+            if (!BassWrapper.Bass.BASS_Stop())
+                CheckForError();
+        }
+
+        #endregion
+
         #region Configuration/Information
         
         /// <summary>

@@ -116,6 +116,7 @@ namespace MPfm.Player
         private STREAMPROC streamProc;
         private ASIOPROC asioProc;
         private WASAPIPROC wasapiProc;
+        private IOSNOTIFY iosNotifyProc;
 
         #endregion
 
@@ -131,6 +132,18 @@ namespace MPfm.Player
         /// starts to play).
         /// </summary>
         public event PlaylistIndexChanged OnPlaylistIndexChanged;
+
+        /// <summary>
+        /// Delegate method for the OnAudioInterrupted event.
+        /// </summary>
+        /// <param name="data">OnAudioInterruptedData data</param>
+        public delegate void AudioInterrupted(AudioInterruptedData data);
+        /// <summary>
+        /// The OnAudioInterrupted event is triggered when the audio is interrupted by a system event.
+        /// Only useful on iOS for now. An example of use of this event would be to react when the user stops the
+        /// playback using the lock screen, remote control, etc.
+        /// </summary>
+        public event AudioInterrupted OnAudioInterrupted;
 
         #endregion
 
@@ -583,6 +596,8 @@ namespace MPfm.Player
             loops = new List<Loop>();
             syncProcs = new List<PlayerSyncProc>();
 
+            // TODO: Use preprocessor conditions only instead of trying to detect the operating system at runtime (safer).
+
 #if !ANDROID
             UseFloatingPoint = true;
 #endif
@@ -688,6 +703,15 @@ namespace MPfm.Player
                     apePluginHandle = Base.LoadPlugin("BASS_APE");
                     Console.WriteLine("Loading iOS plugins (MPC)...");
                     mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
+
+                    Console.WriteLine("Configuring IOSNOTIFY delegate...");
+                    iosNotifyProc = new IOSNOTIFY(IOSNotifyProc);
+                    IntPtr ptr = Marshal.GetFunctionPointerForDelegate(iosNotifyProc);
+                    Bass.BASS_SetConfigPtr(BASSConfig.BASS_CONFIG_IOS_NOTIFY, ptr);
+
+                    Console.WriteLine("Configuring AirPlay and remote control...");
+                    Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_IOS_MIXAUDIO, 0); // 0 = AirPlay
+
 #else
 
                     // Try to get the plugins in the current path
@@ -1151,6 +1175,9 @@ namespace MPfm.Player
                 // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
                 if (device.DriverType == DriverType.DirectSound)
                 {
+                    // For iOS: This is required to update the AirPlay/remote player status
+                    Base.Start();
+
                     // Start playback
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
                     mixerChannel.Play(false);
@@ -1257,12 +1284,14 @@ namespace MPfm.Player
                 if (!isPaused)
                 {
                     // Pause the playback channel
-                    mixerChannel.Pause();
+                    Base.Pause();
+                    //mixerChannel.Pause();
                 }
                 else
                 {
                     // Unpause the playback channel
-                    mixerChannel.Play(false);
+                    Base.Start();
+                    //mixerChannel.Play(false);
                 }
             }
             else if (device.DriverType == DriverType.ASIO)
@@ -1348,6 +1377,9 @@ namespace MPfm.Player
                 // Stop main channel
                 //Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
                 //m_mainChannel.Stop();
+
+                // For iOS: This is required to update the AirPlay/remote player status
+                Base.Stop();
             }
             else if (device.DriverType == DriverType.ASIO)
             {
@@ -2295,6 +2327,27 @@ namespace MPfm.Player
         private static void LoopSyncProcIOS(int handle, int channel, int data, IntPtr user)
         {
             Player.CurrentPlayer.LoopSyncProc(handle, channel, data, user);
+        }
+
+        [MonoPInvokeCallback(typeof(IOSNOTIFY))]
+        private static void IOSNotifyProc(int status)
+        {
+            switch(status)
+            {
+                case (int)BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT:
+                    Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT");
+                    
+                    // Stop playback completely
+                    //Player.CurrentPlayer.StopPlayback(true, true);
+                    
+                    // Invoke delegate to notify service/presenter
+//                    if(Player.CurrentPlayer.OnAudioInterrupted != null)
+//                        Player.CurrentPlayer.OnAudioInterrupted.Invoke();
+                    break;
+                case (int)BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT_END:
+                    Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT_END");
+                    break;
+            }
         }
 
 #endif

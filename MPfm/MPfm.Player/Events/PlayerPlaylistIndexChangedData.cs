@@ -1,5 +1,7 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
+// Copyright © 2011-2013 Yanick Castonguay
+//
 // This file is part of MPfm.
 //
 // MPfm is free software: you can redistribute it and/or modify
@@ -39,7 +41,7 @@ namespace MPfm.Player.Events
         /// Defines the audio file that just started. Might be null if the playback has stopped.
         /// </summary>
         public AudioFile AudioFileStarted { get; set; }
-
+        
         /// <summary>
         /// Default constructor for the PlayerPlaylistIndexChangedData class.
         /// </summary>
