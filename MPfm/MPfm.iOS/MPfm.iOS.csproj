@@ -56,7 +56,7 @@
     <MtouchI18n />
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-v -v -v -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <CodesignProvision>1DD1E6B7-C93C-4B7E-BC11-47742877E8E0</CodesignProvision>
+    <CodesignProvision>5C51C790-BB21-4F44-BECA-051A853109C6</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -171,6 +171,8 @@
     </Compile>
     <Compile Include="Classes\Controls\MPfmSlider.cs" />
     <Compile Include="Classes\Controls\MPfmWindow.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
+    <Compile Include="Classes\Helpers\DarwinHardwareHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -211,6 +213,7 @@
     <Folder Include="Classes\Controls\" />
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Controllers\Base\" />
+    <Folder Include="Classes\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />

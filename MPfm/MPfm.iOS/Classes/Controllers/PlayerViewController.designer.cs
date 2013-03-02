@@ -38,6 +38,9 @@ namespace MPfm.iOS.Classes.Controllers
 		[Outlet]
 		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
 
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmWaveFormView waveFormView { get; set; }
+
 		[Action ("actionPause:")]
 		partial void actionPause (MonoTouch.Foundation.NSObject sender);
 
@@ -92,6 +95,11 @@ namespace MPfm.iOS.Classes.Controllers
 			if (pageControl != null) {
 				pageControl.Dispose ();
 				pageControl = null;
+			}
+
+			if (waveFormView != null) {
+				waveFormView.Dispose ();
+				waveFormView = null;
 			}
 		}
 	}

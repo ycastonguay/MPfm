@@ -47,6 +47,33 @@ namespace MPfm.MVP.Services
             _messengerHub = messageHub;
 		}
 
+        public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
+        {
+            // Initialize player
+            _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
+            _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
+            _player.OnAudioInterrupted += HandleOnAudioInterrupted;
+            _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
+        }
+
+        /// <summary>
+        /// This player notification is used to notify that the audio has been interrupted (only used on iOS).
+        /// </summary>
+        /// <param name="data">Event data</param>
+        void HandleOnAudioInterrupted(AudioInterruptedData data)
+        {
+            UpdatePlayerStatus(PlayerStatusType.Paused);
+        }
+
+        /// <summary>
+        /// This player notification is used to notify that a new song is playing.
+        /// </summary>
+        /// <param name="data">Event data</param>
+        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
+        {
+            _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
+        }
+
         private void UpdatePlayerStatus(PlayerStatusType status)
         {
             this._status = status;
@@ -55,19 +82,10 @@ namespace MPfm.MVP.Services
             });
         }
 
-        public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
-        {
-            // Initialize player
-            _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
-            _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
-            _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
-        }
-
-        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
-        {
-            _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
-        }
-
+        /// <summary>
+        /// Receives player commands via TinyMessenger.
+        /// </summary>
+        /// <param name="m">Message</param>
         public void PlayerCommandMessageReceived(PlayerCommandMessage m)
         {
             switch (m.Command)

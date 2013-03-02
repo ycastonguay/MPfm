@@ -53,6 +53,9 @@ namespace MPfm.Player
         int UpdateThreads { get; set; }
         float Volume { get; set; }
 
+        event Player.PlaylistIndexChanged OnPlaylistIndexChanged;
+        event Player.AudioInterrupted OnAudioInterrupted;
+
         void ApplyEQPreset(EQPreset preset);        
         void BypassEQ();
         void Dispose();
@@ -66,7 +69,6 @@ namespace MPfm.Player
         void InitializeDevice(Device device, int mixerSampleRate);
         void LoadPlugins();
         void Next();
-        event Player.PlaylistIndexChanged OnPlaylistIndexChanged;
         void Pause();
         void Play();
         void PlayFiles(List<AudioFile> audioFiles);

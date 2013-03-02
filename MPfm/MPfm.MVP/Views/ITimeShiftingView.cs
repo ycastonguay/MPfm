@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
 namespace MPfm.MVP.Views
@@ -24,5 +25,6 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ITimeShiftingView : IBaseView
 	{
+        Action<float> OnSetTimeShifting { get; set; }
 	}
 }

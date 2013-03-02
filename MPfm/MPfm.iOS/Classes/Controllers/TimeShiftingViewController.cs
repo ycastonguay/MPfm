@@ -39,7 +39,14 @@ namespace MPfm.iOS
             btnDetectTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
             btnReset.Font = UIFont.FromName("OstrichSans-Black", 18);
 
+            slider.ValueChanged += HandleSliderValueChanged;
+
             base.ViewDidLoad();
+        }
+
+        void HandleSliderValueChanged(object sender, EventArgs e)
+        {
+            OnSetTimeShifting(slider.Value);
         }
 
         partial void actionDetectTempo(NSObject sender)
@@ -53,5 +60,11 @@ namespace MPfm.iOS
         partial void actionSegmentChanged(NSObject sender)
         {
         }
+
+        #region ITimeShiftingView implementation
+        
+        public Action<float> OnSetTimeShifting { get; set; }
+        
+        #endregion
     }
 }

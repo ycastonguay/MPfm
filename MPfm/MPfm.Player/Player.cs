@@ -2336,13 +2336,13 @@ namespace MPfm.Player
             {
                 case (int)BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT:
                     Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT");
-                    
-                    // Stop playback completely
-                    //Player.CurrentPlayer.StopPlayback(true, true);
+
+                    // Stop playback
+                    Player.CurrentPlayer.Pause();
                     
                     // Invoke delegate to notify service/presenter
-//                    if(Player.CurrentPlayer.OnAudioInterrupted != null)
-//                        Player.CurrentPlayer.OnAudioInterrupted.Invoke();
+                    if(Player.CurrentPlayer.OnAudioInterrupted != null)
+                        Player.CurrentPlayer.OnAudioInterrupted(new AudioInterruptedData());
                     break;
                 case (int)BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT_END:
                     Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT_END");

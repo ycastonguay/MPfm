@@ -33,8 +33,15 @@ namespace MPfm.MVP.Presenters
         public override void BindView(ITimeShiftingView view)
         {            
             // Subscribe to view actions
-            
+            view.OnSetTimeShifting = SetTimeShifting;
+
             base.BindView(view);
+        }
+
+        private void SetTimeShifting(float value)
+        {
+
+
         }
     }
 }

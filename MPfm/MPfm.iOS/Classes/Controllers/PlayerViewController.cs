@@ -82,6 +82,12 @@ namespace MPfm.iOS.Classes.Controllers
             MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46, UIScreen.MainScreen.Bounds.Width - 16, 46));
             this.View.AddSubview(volumeView);
 
+            // Only display wave form on iPhone 5+
+            if (DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone5)
+            {
+                waveFormView.Hidden = true;
+            }
+
             base.ViewDidLoad();            
 		}
 
