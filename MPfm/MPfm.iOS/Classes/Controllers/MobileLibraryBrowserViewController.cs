@@ -18,17 +18,19 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Delegates;
-using MPfm.iOS.Classes.Controls;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Delegates;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -38,6 +40,7 @@ namespace MPfm.iOS.Classes.Controllers
         private string _cellIdentifier = "MobileLibraryBrowserCell";
         private string _navigationBarTitle = string.Empty;
         private MobileLibraryBrowserType _browserType;
+        private Task _currentTask;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -55,6 +58,7 @@ namespace MPfm.iOS.Classes.Controllers
             lblSubtitle1.Font = UIFont.FromName("OstrichSans-Black", 12);
             lblSubtitle2.Font = UIFont.FromName("OstrichSans-Black", 12);
 
+            _currentTask = Task.Factory.StartNew (() => { });
 
             //lblArtistName.SizeToFit();
             //lblAlbumTitle.SizeToFit();
@@ -103,11 +107,15 @@ namespace MPfm.iOS.Classes.Controllers
                 cell = new UITableViewCell(cellStyle, _cellIdentifier);
             
             // Set title
+            cell.Tag = indexPath.Row;
             cell.TextLabel.Text = _items[indexPath.Row].Title;
             //cell.DetailTextLabel.Text = _items[indexPath.Row].
 
             if (_browserType == MobileLibraryBrowserType.Albums)
-                cell.ImageView.Image = UIImage.FromBundle("Images/icon114");
+            {
+                cell.ImageView.Image = UIImage.FromBundle("Images/emptyalbumart");
+                OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+            }
             
             // Set font
             //cell.TextLabel.Font = UIFont.FromName("Junction", 20);
@@ -130,7 +138,41 @@ namespace MPfm.iOS.Classes.Controllers
         #region IMobileLibraryBrowserView implementation
         
         public Action<int> OnItemClick { get; set; }
+        public Action<string, string> OnRequestAlbumArt { get; set; }
 
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
+        {
+            InvokeOnMainThread(() => {
+
+                // Get item from list
+                var item = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
+                if(item == null)
+                    return;
+
+                // Get cell from item
+                int index = _items.IndexOf(item);
+                var cell = tableView.VisibleCells.FirstOrDefault(x => x.Tag == index);
+                if(cell == null)
+                    return;
+
+                // Load image
+                _currentTask = _currentTask.ContinueWith(t => {
+                    NSData imageData = NSData.FromArray(albumArtData);
+                    UIImage imageNotResized = UIImage.LoadFromData(imageData);
+                    UIImage image = ScaleImage(imageNotResized, (int)cell.Bounds.Height * 2);
+                    InvokeOnMainThread(() => {
+                        if(cell != null)
+                        {
+                            if(cell.ImageView != null)
+                            {
+                                cell.ImageView.Image = image;
+                            }
+                        }
+                    });
+                });
+            });
+        }
+    
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle)
         {
             InvokeOnMainThread(() => {
@@ -178,6 +220,77 @@ namespace MPfm.iOS.Classes.Controllers
 
         #endregion
 
+        public static UIImage ScaleImage(UIImage image, int maxSize)
+        {           
+            UIImage res;
+            
+            using (CGImage imageRef = image.CGImage)
+            {
+                CGImageAlphaInfo alphaInfo = imageRef.AlphaInfo;
+                CGColorSpace colorSpaceInfo = CGColorSpace.CreateDeviceRGB();
+                if (alphaInfo == CGImageAlphaInfo.None)
+                {
+                    alphaInfo = CGImageAlphaInfo.NoneSkipLast;
+                }
+                
+                int width, height;
+                
+                width = imageRef.Width;
+                height = imageRef.Height;
+                
+                
+                if (height >= width)
+                {
+                    width = (int)Math.Floor((double)width * ((double)maxSize / (double)height));
+                    height = maxSize;
+                }
+                else
+                {
+                    height = (int)Math.Floor((double)height * ((double)maxSize / (double)width));
+                    width = maxSize;
+                }
+                
+                
+                CGBitmapContext bitmap;
+                
+                if (image.Orientation == UIImageOrientation.Up || image.Orientation == UIImageOrientation.Down)
+                {
+                    bitmap = new CGBitmapContext(IntPtr.Zero, width, height, imageRef.BitsPerComponent, imageRef.BytesPerRow, colorSpaceInfo, alphaInfo);
+                }
+                else
+                {
+                    bitmap = new CGBitmapContext(IntPtr.Zero, height, width, imageRef.BitsPerComponent, imageRef.BytesPerRow, colorSpaceInfo, alphaInfo);
+                }
+                
+                switch (image.Orientation)
+                {
+                    case UIImageOrientation.Left:
+                        bitmap.RotateCTM((float)Math.PI / 2);
+                        bitmap.TranslateCTM(0, -height);
+                        break;
+                    case UIImageOrientation.Right:
+                        bitmap.RotateCTM(-((float)Math.PI / 2));
+                        bitmap.TranslateCTM(-width, 0);
+                        break;
+                    case UIImageOrientation.Up:
+                        break;
+                    case UIImageOrientation.Down:
+                        bitmap.TranslateCTM(width, height);
+                        bitmap.RotateCTM(-(float)Math.PI);
+                        break;
+                }
+                
+                bitmap.DrawImage(new Rectangle(0, 0, width, height), imageRef);
+                
+                
+                res = UIImage.FromImage(bitmap.ToImage());
+                bitmap = null;
+                
+            }
+            
+            
+            return res;
+        }
     }
 }
 

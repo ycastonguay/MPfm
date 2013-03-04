@@ -27,8 +27,10 @@ namespace MPfm.MVP.Views
     public interface IMobileLibraryBrowserView : IBaseView
 	{
         Action<int> OnItemClick { get; set; }
+        Action<string, string> OnRequestAlbumArt { get; set; }
 
         void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle);
+        void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData);
 	}
 
     public enum MobileLibraryBrowserType

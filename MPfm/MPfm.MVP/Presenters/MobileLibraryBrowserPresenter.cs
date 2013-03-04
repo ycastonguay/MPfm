@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
@@ -42,6 +44,7 @@ namespace MPfm.MVP.Presenters
         private readonly IAudioFileCacheService _audioFileCacheService;
         private readonly SongBrowserQueryEntity _query;
 
+        private Task _currentTask;
 	    private List<LibraryBrowserEntity> _items;
 
 	    public AudioFileFormat Filter { get; private set; }
@@ -59,6 +62,7 @@ namespace MPfm.MVP.Presenters
 			_audioFileCacheService = audioFileCacheService;			
 			
 			Filter = AudioFileFormat.All;
+            _currentTask = Task.Factory.StartNew(() => { });
 		}
 		
         public override void BindView(IMobileLibraryBrowserView view)
@@ -66,6 +70,7 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             view.OnItemClick = OnItemClick;
+            view.OnRequestAlbumArt = RequestAlbumArt;
 
             // Subscribe to any audio file cache update so we can update this screen
             _messengerHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
@@ -77,6 +82,23 @@ namespace MPfm.MVP.Presenters
             // Refresh browser with new data
             RefreshLibraryBrowser();
 	    }
+
+        private void RequestAlbumArt(string artistName, string albumTitle)
+        {
+            // Only run one task at a time.
+            _currentTask = _currentTask.ContinueWith(t => {
+                // Get the file path of the first file in the album
+                var audioFiles = _libraryService.SelectAudioFiles(AudioFileFormat.All, artistName, albumTitle, string.Empty);
+                var audioFile = (audioFiles != null && audioFiles.Count() > 0) ? audioFiles.ElementAt(0) : null;
+
+                if (audioFile != null)
+                {
+                    // Update with with album art byte array
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                    View.RefreshAlbumArtCell(artistName, albumTitle, bytesImage);
+                }
+            });
+        }
 
 	    private void OnItemClick(int i)
 	    {

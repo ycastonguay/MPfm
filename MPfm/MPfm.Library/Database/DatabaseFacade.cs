@@ -284,7 +284,7 @@ namespace MPfm.Library.Database
 			{
 				sql.AppendLine(" WHERE ArtistName = '" + FormatSQLValue(artistName) + "' ");
 			}
-			sql.AppendLine(" ORDER BY ArtistName");
+			sql.AppendLine(" ORDER BY ArtistName, AlbumTitle ");
 
             // Select distinct
             List<Tuple<object, object>> listTuple = _gateway.SelectTuple(sql.ToString());
