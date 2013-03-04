@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.MVP.Views
 {
@@ -26,5 +28,11 @@ namespace MPfm.MVP.Views
 	public interface ITimeShiftingView : IBaseView
 	{
         Action<float> OnSetTimeShifting { get; set; }
+        Action<TimeShiftingMode> OnSetTimeShiftingMode { get; set; }
+        Action OnResetTimeShifting { get; set; }
+        Action OnDetectTempo { get; set; }
+        
+        void RefreshTimeShifting(PlayerTimeShiftingEntity entity);
+        void TimeShiftingError(Exception ex);
 	}
 }

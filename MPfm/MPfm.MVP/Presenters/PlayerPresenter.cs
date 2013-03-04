@@ -61,7 +61,7 @@ namespace MPfm.MVP.Presenters
                 DriverType = DriverType.DirectSound,
                 Id = -1
             };
-            playerService.Initialize(device, 44100, 5000, 100);
+            playerService.Initialize(device, 44100, 1000, 100);
             //playerService.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
 
             // Subscribe to events

@@ -21,6 +21,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.iOS
 {
@@ -39,6 +40,12 @@ namespace MPfm.iOS
             btnDetectTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
             btnReset.Font = UIFont.FromName("OstrichSans-Black", 18);
 
+            // Use Appearance API (iOS 5+) for segmented control
+            UITextAttributes attr = new UITextAttributes();
+            attr.Font = UIFont.FromName("OstrichSans-Black", 14);
+            attr.TextColor = UIColor.White;
+            segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
+
             slider.ValueChanged += HandleSliderValueChanged;
 
             base.ViewDidLoad();
@@ -51,20 +58,54 @@ namespace MPfm.iOS
 
         partial void actionDetectTempo(NSObject sender)
         {
+            OnDetectTempo();
         }
 
         partial void actionReset(NSObject sender)
         {
+            OnResetTimeShifting();
         }
 
         partial void actionSegmentChanged(NSObject sender)
         {
+            TimeShiftingMode mode = (TimeShiftingMode)segmentedControl.SelectedSegment;
+            switch(mode)
+            {
+                case TimeShiftingMode.Percentage:
+                    btnDetectTempo.Hidden = true;
+                    lblOriginalTempo.Hidden = true;
+                    break;
+                case TimeShiftingMode.Tempo:
+                    btnDetectTempo.Hidden = false;
+                    lblOriginalTempo.Hidden = false;
+                    break;
+            }
+            OnSetTimeShiftingMode(mode);
         }
 
         #region ITimeShiftingView implementation
-        
+
         public Action<float> OnSetTimeShifting { get; set; }
-        
+        public Action<TimeShiftingMode> OnSetTimeShiftingMode { get; set; }
+        public Action OnResetTimeShifting { get; set; }
+        public Action OnDetectTempo { get; set; }
+
+        public void RefreshTimeShifting(MPfm.MVP.Models.PlayerTimeShiftingEntity entity)
+        {
+            InvokeOnMainThread(() => {
+                lblTempo.Text = entity.TimeShiftingString;
+                slider.Value = entity.TimeShifting;
+            });
+        }
+
+        public void TimeShiftingError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("Time shifting error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
         #endregion
     }
 }

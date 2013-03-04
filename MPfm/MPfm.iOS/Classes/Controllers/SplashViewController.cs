@@ -34,6 +34,14 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
+            // Check for iPhone 5 resolution (1136x640)
+            if (UIScreen.MainScreen.Bounds.Height == 568)
+                imageView.Image = UIImage.FromBundle("Images/Splash/Default-568h");
+            else
+                imageView.Image = UIImage.FromBundle("Images/Splash/Default");
+
+            lblStatus.Font = UIFont.FromName("OstrichSans-Black", 16);
+
             base.ViewDidLoad();
         }
 
@@ -41,6 +49,9 @@ namespace MPfm.iOS.Classes.Controllers
         
         public void RefreshStatus(string message)
         {
+            InvokeOnMainThread(() => {
+                lblStatus.Text = message;
+            });
         }
         
         public void InitDone()

@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C2034</string>
+		<string key="IBDocument.SystemVersion">12C54</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
@@ -80,13 +80,15 @@
 								<string key="NSFrame">{{18, 86}, {284, 23}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="680978106"/>
+								<reference key="NSNextKeyView" ref="219647475"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<float key="IBUIValue">0.5</float>
+								<float key="IBUIValue">100</float>
+								<float key="IBUIMinValue">50</float>
+								<float key="IBUIMaxValue">150</float>
 							</object>
 							<object class="IBUISegmentedControl" id="368777031">
 								<reference key="NSNextResponder" ref="817949346"/>
@@ -102,8 +104,8 @@
 								<int key="IBNumberOfSegments">2</int>
 								<int key="IBSelectedSegmentIndex">0</int>
 								<array key="IBSegmentTitles">
-									<string>Tempo</string>
 									<string>Percentage</string>
+									<string>Tempo</string>
 								</array>
 								<array class="NSMutableArray" key="IBSegmentWidths">
 									<real value="0.0"/>
@@ -124,10 +126,11 @@
 							</object>
 							<object class="IBUILabel" id="373375632">
 								<reference key="NSNextResponder" ref="817949346"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{20, 246}, {280, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -159,17 +162,17 @@
 							<object class="IBUILabel" id="219647475">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 110}, {280, 21}}</string>
+								<string key="NSFrame">{{20, 114}, {280, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="888411714"/>
+								<reference key="NSNextKeyView" ref="680978106"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">120 bpm</string>
+								<string key="IBUIText">100 %</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -188,7 +191,7 @@
 								<string key="NSFrame">{{20, 145}, {280, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="219647475"/>
+								<reference key="NSNextKeyView" ref="888411714"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -220,7 +223,7 @@
 							</object>
 							<object class="IBUIButton" id="888411714">
 								<reference key="NSNextResponder" ref="817949346"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{20, 197}, {280, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
@@ -452,7 +455,7 @@
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<integer value="1" key="8.IUISegmentedControlInspectorSelectedSegmentMetadataKey"/>
+				<integer value="0" key="8.IUISegmentedControlInspectorSelectedSegmentMetadataKey"/>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>

@@ -37,6 +37,12 @@ namespace MPfm.iOS
             lblInterval.Font = UIFont.FromName("OstrichSans-Black", 18);
             btnReset.Font = UIFont.FromName("OstrichSans-Black", 18);
 
+            // Use Appearance API (iOS 5+) for segmented control
+            UITextAttributes attr = new UITextAttributes();
+            attr.Font = UIFont.FromName("OstrichSans-Black", 14);
+            attr.TextColor = UIColor.White;
+            segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
+
             base.ViewDidLoad();
         }
 
