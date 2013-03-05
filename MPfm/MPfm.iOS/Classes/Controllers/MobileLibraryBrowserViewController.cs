@@ -142,35 +142,52 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
         {
-            InvokeOnMainThread(() => {
+            int cellHeight = 88; // TODO: 44 for iPhone 3GS-
 
-                // Get item from list
-                var item = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
-                if(item == null)
-                    return;
-
-                // Get cell from item
-                int index = _items.IndexOf(item);
-                var cell = tableView.VisibleCells.FirstOrDefault(x => x.Tag == index);
-                if(cell == null)
-                    return;
-
-                // Load image
-                _currentTask = _currentTask.ContinueWith(t => {
-                    NSData imageData = NSData.FromArray(albumArtData);
-                    UIImage imageNotResized = UIImage.LoadFromData(imageData);
-                    UIImage image = ScaleImage(imageNotResized, (int)cell.Bounds.Height * 2);
-                    InvokeOnMainThread(() => {
-                        if(cell != null)
+            Task<UIImage>.Factory.StartNew(() => {
+                using (NSData imageData = NSData.FromArray(albumArtData))
+                {
+                    using (UIImage image = UIImage.LoadFromData(imageData))
+                    {
+                        if (image != null)
                         {
-                            if(cell.ImageView != null)
+                            try
                             {
-                                cell.ImageView.Image = image;
+                                // IDEA: Return UIimage from task and then continue with setting the imageview on the main thread.
+                                UIImage imageResized = ScaleImage(image, cellHeight);
+                                return imageResized;
+                            } 
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error resizing image " + artistName + " - " + albumTitle + ": " + ex.Message);
                             }
                         }
-                    });
+                    }
+                }
+
+                return null;
+            }).ContinueWith(t => {
+                UIImage image = t.Result;
+                if(image == null)
+                    return;
+
+                InvokeOnMainThread(() => {
+                    // Get item from list
+                    var item = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
+                    if (item == null)
+                        return;
+                    
+                    // Get cell from item
+                    int index = _items.IndexOf(item);
+                    var cell = tableView.VisibleCells.FirstOrDefault(x => x.Tag == index);
+                    if (cell == null)
+                        return;
+
+                    // Make sure cell is available
+                    if(cell != null && cell.ImageView != null)
+                        cell.ImageView.Image = image;
                 });
-            });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle)
