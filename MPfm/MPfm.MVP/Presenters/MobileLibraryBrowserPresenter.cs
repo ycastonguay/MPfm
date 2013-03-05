@@ -184,27 +184,30 @@ namespace MPfm.MVP.Presenters
         {
             var format = AudioFileFormat.All;
             var list = new List<LibraryBrowserEntity>();
+
+            // Fetch album titles from library
             var albumTitles = _libraryService.SelectDistinctAlbumTitles(format, artistName);
-            var albums = new List<string>();
 
             // Extract album titles from dictionary
-            foreach (var keyValue in albumTitles)
-                foreach (string albumTitle in keyValue.Value)
-                    albums.Add(albumTitle);
+            var albums = new List<KeyValuePair<string, string>>();
+            foreach (var key in albumTitles)
+                foreach (string albumTitle in key.Value)
+                    albums.Add(new KeyValuePair<string, string>(key.Key, albumTitle));
 
             // Order the albums by title
-            albums = albums.OrderBy(x => x).ToList();
+            albums = albums.OrderBy(x => x.Value).ToList();
 			
 			// Convert to entities
-			foreach(string album in albums)
+			foreach(var album in albums)
 			{
 				list.Add(new LibraryBrowserEntity(){
-					Title = album,
+					Title = album.Value,
+                    Subtitle = album.Key,
 					Type = LibraryBrowserEntityType.Album,
 					Query = new SongBrowserQueryEntity(){
 						Format = format,
 						ArtistName = artistName,
-						AlbumTitle = album						
+						AlbumTitle = album.Value						
 					}
 				});
 			}

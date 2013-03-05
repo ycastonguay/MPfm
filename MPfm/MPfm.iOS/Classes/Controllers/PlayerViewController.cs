@@ -175,10 +175,12 @@ namespace MPfm.iOS.Classes.Controllers
                             // TODO: Add a memory cache and stop reloading the image from disk every time
                             _currentAlbumArtKey = key;
                             byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                            NSData imageData = NSData.FromArray(bytesImage);
-                            UIImage image = UIImage.LoadFromData(imageData);
-                            imageViewAlbumArt.Alpha = 0;
-                            imageViewAlbumArt.Image = image;
+                            using(NSData imageData = NSData.FromArray(bytesImage))
+                            using(UIImage image = UIImage.LoadFromData(imageData))
+                            {
+                                imageViewAlbumArt.Alpha = 0;
+                                imageViewAlbumArt.Image = image;
+                            }
 
                             UIView.Animate(0.3, () => {
                                 imageViewAlbumArt.Alpha = 1;

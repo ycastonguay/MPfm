@@ -99,31 +99,49 @@ namespace MPfm.iOS.Classes.Controllers
             
             // Set cell style
             var cellStyle = UITableViewCellStyle.Subtitle;
-            if (_browserType == MobileLibraryBrowserType.Albums)
-                cellStyle = UITableViewCellStyle.Default;
             
             // Create cell if cell could not be recycled
             if (cell == null)
                 cell = new UITableViewCell(cellStyle, _cellIdentifier);
-            
-            // Set title
-            cell.Tag = indexPath.Row;
-            cell.TextLabel.Text = _items[indexPath.Row].Title;
-            //cell.DetailTextLabel.Text = _items[indexPath.Row].
 
+            // Create selected cell background view
+            UIView backView = new UIView(cell.Frame);
+            CAGradientLayer gradient = new CAGradientLayer();
+            gradient.Frame = cell.Bounds;
+            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(1.0f, 1.0f, 1.0f, 1), new CGColor(0.95f, 0.95f, 0.95f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+            backView.Layer.InsertSublayer(gradient, 0);
+            cell.BackgroundView = backView;
+
+            // Create selected cell background view
+            UIView backViewSelected = new UIView(cell.Frame);
+            CAGradientLayer gradientSelected = new CAGradientLayer();
+            gradientSelected.Frame = cell.Bounds;
+            gradientSelected.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.6f, 0.6f, 0.6f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+            backViewSelected.Layer.InsertSublayer(gradientSelected, 0);
+            cell.SelectedBackgroundView = backViewSelected;
+
+            // Set title            
+            cell.Tag = indexPath.Row;
+            cell.TextLabel.BackgroundColor = UIColor.Clear;
+            cell.TextLabel.Text = _items[indexPath.Row].Title;
+
+            // Set subtitle/image if necessary
             if (_browserType == MobileLibraryBrowserType.Albums)
             {
+                cell.DetailTextLabel.BackgroundColor = UIColor.Clear;
+                cell.DetailTextLabel.TextColor = UIColor.Gray;
+                cell.DetailTextLabel.HighlightedTextColor = UIColor.White;
+                cell.DetailTextLabel.Font = UIFont.FromName("OstrichSans-Medium", 16);
+                cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
+                cell.ImageView.BackgroundColor = UIColor.White;
                 cell.ImageView.Image = UIImage.FromBundle("Images/emptyalbumart");
                 OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
             }
             
             // Set font
-            //cell.TextLabel.Font = UIFont.FromName("Junction", 20);
             cell.TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 20);
-            //cell.TextLabel.Font = UIFont.FromName("LeagueGothic-Regular", 26);
-            //cell.DetailTextLabel.Font = UIFont.FromName("LeagueGothic-Regular", 18);
-            
-            // Set chevron
+            cell.TextLabel.TextColor = UIColor.Black;
+            cell.TextLabel.HighlightedTextColor = UIColor.White;
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             
             return cell;
@@ -185,7 +203,13 @@ namespace MPfm.iOS.Classes.Controllers
 
                     // Make sure cell is available
                     if(cell != null && cell.ImageView != null)
+                    {
+                        cell.ImageView.Alpha = 0;
                         cell.ImageView.Image = image;
+                        UIView.Animate(0.1, () => {
+                            cell.ImageView.Alpha = 1;
+                        });
+                    }
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
@@ -222,9 +246,11 @@ namespace MPfm.iOS.Classes.Controllers
 
                     // TODO: Add a memory cache and stop reloading the image from disk every time
                     byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    NSData imageData = NSData.FromArray(bytesImage);
-                    UIImage image = UIImage.LoadFromData(imageData);
-                    imageViewAlbumCover.Image = image;
+                    using(NSData imageData = NSData.FromArray(bytesImage))
+                    using(UIImage image = UIImage.LoadFromData(imageData))
+                    {
+                        imageViewAlbumCover.Image = image;
+                    }
                     imageViewAlbumCover.BackgroundColor = UIColor.Black;
 
                     CAGradientLayer gradient = new CAGradientLayer();

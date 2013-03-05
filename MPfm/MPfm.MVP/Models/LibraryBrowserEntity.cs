@@ -33,6 +33,7 @@ namespace MPfm.MVP.Models
 		/// Item title.
 		/// </summary>
 		public string Title { get; set; }
+        public string Subtitle { get; set; }
 		/// <summary>
 		/// Item filter.
 		/// </summary>
