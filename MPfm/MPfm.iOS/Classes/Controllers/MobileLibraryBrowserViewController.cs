@@ -31,6 +31,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
+using System.Collections.Concurrent;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -41,6 +42,7 @@ namespace MPfm.iOS.Classes.Controllers
         private string _navigationBarTitle = string.Empty;
         private MobileLibraryBrowserType _browserType;
         private Task _currentTask;
+        private List<KeyValuePair<string, UIImage>> _imageCache;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -59,6 +61,7 @@ namespace MPfm.iOS.Classes.Controllers
             lblSubtitle2.Font = UIFont.FromName("OstrichSans-Black", 12);
 
             _currentTask = Task.Factory.StartNew (() => { });
+            _imageCache = new List<KeyValuePair<string, UIImage>>();
 
             //lblArtistName.SizeToFit();
             //lblAlbumTitle.SizeToFit();
@@ -134,8 +137,20 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.DetailTextLabel.Font = UIFont.FromName("OstrichSans-Medium", 16);
                 cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
                 cell.ImageView.BackgroundColor = UIColor.White;
-                cell.ImageView.Image = UIImage.FromBundle("Images/emptyalbumart");
-                OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+                cell.ImageView.Frame = new RectangleF(0, 0, 44, 44);
+
+                // Check if album art is cached
+                string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].Query.AlbumTitle;
+                KeyValuePair<string, UIImage> keyPair = _imageCache.FirstOrDefault(x => x.Key == key);
+                if(keyPair.Equals(default(KeyValuePair<string, UIImage>)))
+                {
+                    cell.ImageView.Image = UIImage.FromBundle("Images/emptyalbumart");
+                    OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+                }
+                else
+                {
+                    cell.ImageView.Image = keyPair.Value;
+                }
             }
             
             // Set font
@@ -171,7 +186,7 @@ namespace MPfm.iOS.Classes.Controllers
                         {
                             try
                             {
-                                // IDEA: Return UIimage from task and then continue with setting the imageview on the main thread.
+                                // Resize image
                                 UIImage imageResized = ScaleImage(image, cellHeight);
                                 return imageResized;
                             } 
@@ -190,6 +205,14 @@ namespace MPfm.iOS.Classes.Controllers
                     return;
 
                 InvokeOnMainThread(() => {
+
+                    // Remove older image from cache if exceeds cache size
+                    if(_imageCache.Count > 20)
+                        _imageCache.RemoveAt(0);
+                    
+                    // Add image to cache
+                    _imageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
+
                     // Get item from list
                     var item = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
                     if (item == null)
@@ -206,6 +229,7 @@ namespace MPfm.iOS.Classes.Controllers
                     {
                         cell.ImageView.Alpha = 0;
                         cell.ImageView.Image = image;
+                        cell.ImageView.Frame = new RectangleF(0, 0, 44, 44);
                         UIView.Animate(0.1, () => {
                             cell.ImageView.Alpha = 1;
                         });
