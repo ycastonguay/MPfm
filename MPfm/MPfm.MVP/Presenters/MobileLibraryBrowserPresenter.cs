@@ -238,6 +238,7 @@ namespace MPfm.MVP.Presenters
                 list.Add(new LibraryBrowserEntity()
                 {
                     Title = audioFile.Title,
+                    Subtitle = audioFile.Length,
                     AudioFile = audioFile,
                     Type = LibraryBrowserEntityType.Song,
                     Query = new SongBrowserQueryEntity()
