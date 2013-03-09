@@ -46,26 +46,42 @@ namespace MPfm.iOS
         public void RefreshAudioFile(AudioFile audioFile)
         {
             InvokeOnMainThread(() => {
-                lblArtistName.Text = audioFile.ArtistName;
-                lblAlbumTitle.Text = audioFile.AlbumTitle;
-                lblTitle.Text = audioFile.Title;
 
-                // Update AirPlay metadata with generic info
-                if(MPNowPlayingInfoCenter.DefaultCenter != null)
+                if(audioFile == null)
                 {
-                    // TODO: Add a memory cache and stop reloading the image from disk every time
-                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    NSData imageData = NSData.FromArray(bytesImage);
-                    UIImage image = UIImage.LoadFromData(imageData);
-
-                    MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = new MPNowPlayingInfo() {
-                        Artist = audioFile.ArtistName,
-                        AlbumTitle = audioFile.AlbumTitle,
-                        Title = audioFile.Title,
-                        Artwork = new MPMediaItemArtwork(image)
-                    };
+                    lblArtistName.Text = string.Empty;
+                    lblAlbumTitle.Text = string.Empty;
+                    lblTitle.Text = string.Empty;
+                    
+                    // Update AirPlay metadata with generic info
+                    if(MPNowPlayingInfoCenter.DefaultCenter != null)
+                    {
+                        // Reset info
+                        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = null;
+                    }
                 }
+                else
+                {
+                    lblArtistName.Text = audioFile.ArtistName;
+                    lblAlbumTitle.Text = audioFile.AlbumTitle;
+                    lblTitle.Text = audioFile.Title;
 
+                    // Update AirPlay metadata with generic info
+                    if(MPNowPlayingInfoCenter.DefaultCenter != null)
+                    {
+                        // TODO: Add a memory cache and stop reloading the image from disk every time
+                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                        NSData imageData = NSData.FromArray(bytesImage);
+                        UIImage image = UIImage.LoadFromData(imageData);
+
+                        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = new MPNowPlayingInfo() {
+                            Artist = audioFile.ArtistName,
+                            AlbumTitle = audioFile.AlbumTitle,
+                            Title = audioFile.Title,
+                            Artwork = new MPMediaItemArtwork(image)
+                        };
+                    }
+                }
             });
         }
     }

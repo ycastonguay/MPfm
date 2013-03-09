@@ -74,14 +74,30 @@ namespace MPfm.MVP.Presenters
 
             // Subscribe to any audio file cache update so we can update this screen
             _messengerHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
+            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>(PlayerPlaylistIndexChanged);
+
             RefreshLibraryBrowser();
         }
 
-	    private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage audioFileCacheUpdatedMessage)
+	    private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage message)
 	    {
             // Refresh browser with new data
             RefreshLibraryBrowser();
 	    }
+
+        private void PlayerPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
+        {
+            if (_browserType == MobileLibraryBrowserType.Songs)
+            {
+                // Find song index in list
+                int index = -1;
+                index = _items.FindIndex(x => x.AudioFile.FilePath == message.Data.AudioFileStarted.FilePath);
+                if(index >= 0)
+                {
+                    View.RefreshCurrentlyPlayingSong(index, _items[index].AudioFile);
+                }
+            }
+        }
 
         private void RequestAlbumArt(string artistName, string albumTitle)
         {

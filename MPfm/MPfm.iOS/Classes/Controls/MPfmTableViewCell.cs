@@ -32,6 +32,7 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmTableViewCell : UITableViewCell
     {
         public UILabel IndexTextLabel { get; private set; }
+        public UIImageView RightImageView { get; private set; }
 
         public MPfmTableViewCell() : base()
         {
@@ -79,9 +80,13 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel = new UILabel();
             IndexTextLabel.BackgroundColor = UIColor.Clear;
             IndexTextLabel.Font = UIFont.FromName("OstrichSans-Black", 20);
-            IndexTextLabel.TextColor = UIColor.Black;
+            IndexTextLabel.TextColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddSubview(IndexTextLabel);
+
+            RightImageView = new UIImageView();
+            RightImageView.Hidden = true;
+            AddSubview(RightImageView);
         }
 
         public override void LayoutSubviews()
@@ -92,13 +97,20 @@ namespace MPfm.iOS.Classes.Controls
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
             {
                 TextLabel.Frame = new RectangleF(53, 4, Bounds.Width - 106, 22);
-                DetailTextLabel.Frame = new RectangleF(53, 24, Bounds.Width - 53, 16);
+                DetailTextLabel.Frame = new RectangleF(53, 24, Bounds.Width - 24, 16);
             }
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
             {
                 TextLabel.Frame = new RectangleF(33, 4, Bounds.Width - 106, 22);
-                DetailTextLabel.Frame = new RectangleF(33, 24, Bounds.Width - 53, 16);
+                DetailTextLabel.Frame = new RectangleF(33, 24, Bounds.Width - 24, 16);
                 IndexTextLabel.Frame = new RectangleF(12, 4, 22, 38);
+            }
+            if (RightImageView.Image != null)
+            {
+                TextLabel.Frame = new RectangleF(33, 4, Bounds.Width - 106, 22);
+                DetailTextLabel.Frame = new RectangleF(33, 24, Bounds.Width - 24, 16);
+                IndexTextLabel.Frame = new RectangleF(12, 4, 22, 38);
+                RightImageView.Frame = new RectangleF(Bounds.Width - 12, 4, 24, 24);
             }
         }
     }

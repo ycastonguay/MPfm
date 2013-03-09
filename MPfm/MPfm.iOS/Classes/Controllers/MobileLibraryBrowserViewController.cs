@@ -261,6 +261,17 @@ namespace MPfm.iOS.Classes.Controllers
             });
         }
 
+        public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
+        {
+            InvokeOnMainThread(() => {
+                MPfmTableViewCell cell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(index, 0));
+                if(cell != null)
+                {
+
+                }
+            });
+        }
+
         #endregion
 
         public static UIImage ScaleImage(UIImage image, int maxSize)

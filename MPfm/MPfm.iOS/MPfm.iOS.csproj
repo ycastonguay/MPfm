@@ -56,7 +56,7 @@
     <MtouchI18n />
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-v -v -v -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <CodesignProvision>1DD1E6B7-C93C-4B7E-BC11-47742877E8E0</CodesignProvision>
+    <CodesignProvision>5C51C790-BB21-4F44-BECA-051A853109C6</CodesignProvision>
     <CrashReportingApiKey />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -217,6 +217,7 @@
     <Folder Include="Classes\Controllers\Base\" />
     <Folder Include="Classes\Helpers\" />
     <Folder Include="Images\Splash\" />
+    <Folder Include="Images\Buttons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />
@@ -246,6 +247,22 @@
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Images\emptyalbumart.png" />
+    <BundleResource Include="Images\Buttons\next_on.png" />
+    <BundleResource Include="Images\Buttons\next_on%402x.png" />
+    <BundleResource Include="Images\Buttons\next.png" />
+    <BundleResource Include="Images\Buttons\next%402x.png" />
+    <BundleResource Include="Images\Buttons\pause_on.png" />
+    <BundleResource Include="Images\Buttons\pause_on%402x.png" />
+    <BundleResource Include="Images\Buttons\pause.png" />
+    <BundleResource Include="Images\Buttons\pause%402x.png" />
+    <BundleResource Include="Images\Buttons\play_on.png" />
+    <BundleResource Include="Images\Buttons\play_on%402x.png" />
+    <BundleResource Include="Images\Buttons\play.png" />
+    <BundleResource Include="Images\Buttons\play%402x.png" />
+    <BundleResource Include="Images\Buttons\previous_on.png" />
+    <BundleResource Include="Images\Buttons\previous_on%402x.png" />
+    <BundleResource Include="Images\Buttons\previous.png" />
+    <BundleResource Include="Images\Buttons\previous%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

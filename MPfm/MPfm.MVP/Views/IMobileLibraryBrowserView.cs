@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Views
@@ -30,6 +31,7 @@ namespace MPfm.MVP.Views
         Action<string, string> OnRequestAlbumArt { get; set; }
 
         void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle);
+        void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
         void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData);
 	}
 

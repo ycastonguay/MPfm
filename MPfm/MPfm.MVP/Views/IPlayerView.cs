@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Views
 {
@@ -37,7 +38,8 @@ namespace MPfm.MVP.Views
         Action<float> OnPlayerSetPitchShifting { get; set; }
         Action<float> OnPlayerSetTimeShifting { get; set; }
         Action<float> OnPlayerSetPosition { get; set; }
-        
+    
+        void RefreshPlayerStatus(PlayerStatusType status);
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		void RefreshSongInformation(AudioFile audioFile);
         void RefreshPlayerVolume(PlayerVolumeEntity entity);

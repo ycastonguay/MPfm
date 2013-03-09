@@ -81,6 +81,10 @@ namespace MPfm.MVP.Presenters
             {
                 RefreshSongInformation(m.Data.AudioFileStarted);
             });
+            messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) =>
+            {
+                View.RefreshPlayerStatus(m.Status);
+            });
         }
         
         public void Dispose()

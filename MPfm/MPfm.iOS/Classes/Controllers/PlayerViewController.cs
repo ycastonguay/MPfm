@@ -33,6 +33,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MonoTouch.MediaPlayer;
+using MPfm.MVP.Messages;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -51,10 +52,18 @@ namespace MPfm.iOS.Classes.Controllers
             // Set fonts
             lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
             lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
-            btnPrevious.Font = UIFont.FromName("OstrichSans-Black", 18);
-            btnPlayPause.Font = UIFont.FromName("OstrichSans-Black", 18);
-            btnNext.Font = UIFont.FromName("OstrichSans-Black", 18);
-			
+
+            // Load button bitmaps
+            btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous"), UIControlState.Normal);
+            btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Highlighted);
+            btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause"), UIControlState.Normal);
+            btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause_on"), UIControlState.Highlighted);
+            btnNext.SetImage(UIImage.FromBundle("Images/Buttons/next"), UIControlState.Normal);
+            btnNext.SetImage(UIImage.FromBundle("Images/Buttons/next_on"), UIControlState.Highlighted);
+
+            //sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
+            //sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
+
             // Reduce the song position slider size
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
             sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, 180, sliderPosition.Frame.Height);
@@ -80,6 +89,8 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Create MPVolumeView (only visible on physical iOS device)
             MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46, UIScreen.MainScreen.Bounds.Width - 16, 46));
+            //volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
+            //volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
             this.View.AddSubview(volumeView);
 
             // Only display wave form on iPhone 5+
@@ -204,10 +215,28 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
         {
+            // Not necessary on iOS. The volume is controlled by the MPVolumeView.
         }
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
         {
+        }
+
+        public void RefreshPlayerStatus(PlayerStatusType status)
+        {
+            InvokeOnMainThread(() => {
+                switch (status)
+                {
+                    case PlayerStatusType.Paused:
+                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/play"), UIControlState.Normal);
+                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/play_on"), UIControlState.Highlighted);
+                        break;
+                    case PlayerStatusType.Playing:
+                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause"), UIControlState.Normal);
+                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause_on"), UIControlState.Highlighted);
+                        break;
+                }
+            });
         }
 
         public void PlayerError(Exception ex)
