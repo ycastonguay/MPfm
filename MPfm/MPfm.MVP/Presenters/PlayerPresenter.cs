@@ -129,18 +129,6 @@ namespace MPfm.MVP.Presenters
 		}
 		
 		/// <summary>
-		/// Handles the player playlist index changed event.
-		/// </summary>
-		/// <param name='data'>
-		/// Playlist index changed data.
-		/// </param>
-		protected void HandlePlayerOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
-		{
-			// Refresh song information
-            RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
-		}
-		
-		/// <summary>
 		/// Starts playback.
 		/// </summary>
 		public void Play()
@@ -266,7 +254,7 @@ namespace MPfm.MVP.Presenters
     	
     			// Refresh controls
                 Tracing.Log("PlayerPresenter.Next -- Refreshing song information...");
-                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
+                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
             }
             catch(Exception ex)
             {
@@ -286,7 +274,7 @@ namespace MPfm.MVP.Presenters
                 playerService.Previous();
     	
     			// Refresh controls
-                RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
+                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
                 Tracing.Log("PlayerPresenter.Previous -- Refreshing song information...");
             }
             catch(Exception ex)

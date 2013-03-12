@@ -157,7 +157,7 @@ namespace MPfm.Sound
                     audioFileLength /= 2;
 
                     // Check if peak file exists
-                    if (File.Exists(peakFilePath))                        
+                    if (File.Exists(peakFilePath))
                     {
                         // Delete peak file
                         File.Delete(peakFilePath);
@@ -189,7 +189,6 @@ namespace MPfm.Sound
 
                     // Create buffer
                     data = Marshal.AllocHGlobal(chunkSize);
-                    //buffer = new byte[chunkSize];
                     buffer = new float[chunkSize];
 
                     // Is an event binded to OnProcessData?
@@ -211,9 +210,12 @@ namespace MPfm.Sound
                         if (cancellationToken.IsCancellationRequested)
                         {
                             // Set flags, exit loop
+                            Console.WriteLine("PeakFileGenerator - Cancelling...");
                             cancelled = true;
                             IsLoading = false;
-                            OnProcessDone(new PeakFileDoneData());
+                            OnProcessDone(new PeakFileDoneData() { 
+                                Cancelled = true
+                            });
                             break;
                         }
 
@@ -234,12 +236,11 @@ namespace MPfm.Sound
                             if (a % 2 == 0)
                             {
                                 // Left channel
-                                floatLeft[a / 2] = buffer[a];
-                            }
-                            else
+                                floatLeft [a / 2] = buffer [a];
+                            } else
                             {
                                 // Left channel
-                                floatRight[a / 2] = buffer[a];
+                                floatRight [a / 2] = buffer [a];
                             }
                         }
 
@@ -274,14 +275,12 @@ namespace MPfm.Sound
                             OnProcessData(dataProgress); 
 
                             // Reset min/max list
-                            //listMinMaxForProgressData.Clear();
                             listMinMaxForProgressData = new List<WaveDataMinMax>();
                         }
 
                         // Increment current block
                         currentBlock++;
-                    }
-                    while (read == chunkSize);
+                    } while (read == chunkSize);
 
                     // Free channel
                     channelDecode.Free();
@@ -292,14 +291,12 @@ namespace MPfm.Sound
                     floatRight = null;
                     buffer = null;
                     minMax = null;
-                }
-                catch (Exception ex)
+                } catch (Exception ex)
                 {
                     // Return exception
                     //e.Result = ex;
                     throw ex;
-                }
-                finally
+                } finally
                 {
                     // Close writer and stream
                     gzipStream.Close();
@@ -321,8 +318,7 @@ namespace MPfm.Sound
                             {
                                 // Delete file
                                 File.Delete(peakFilePath);
-                            }
-                            catch
+                            } catch
                             {
                                 // Just skip this step.
                                 Tracing.Log("Could not delete peak file " + peakFilePath + ".");
@@ -333,8 +329,10 @@ namespace MPfm.Sound
 
                 // Set completed
                 IsLoading = false;
-                OnProcessDone(new PeakFileDoneData());
-            });
+                OnProcessDone(new PeakFileDoneData() {
+                    Cancelled = false
+                });
+            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
         }
 
         /// <summary>
@@ -342,8 +340,9 @@ namespace MPfm.Sound
         /// </summary>
         public void Cancel()
         {
-            if(IsLoading)
-                cancellationTokenSource.Cancel();
+            if (IsLoading)
+                if(cancellationTokenSource != null)
+                    cancellationTokenSource.Cancel();
         }
 
         /// <summary>
@@ -362,6 +361,7 @@ namespace MPfm.Sound
             long audioFileLength = 0;
             int chunkSize = 0;
             int numberOfBlocks = 0;
+         
             int currentBlock = 0;
 
             try
@@ -530,10 +530,11 @@ namespace MPfm.Sound
     }
 
     /// <summary>
-    /// Defines the data used with the OnProcessDone event (actually nothing).
+    /// Defines the data used with the OnProcessDone event.
     /// </summary>
     public class PeakFileDoneData
     {
+        public bool Cancelled { get; set; }
     }
 
     /// <summary>

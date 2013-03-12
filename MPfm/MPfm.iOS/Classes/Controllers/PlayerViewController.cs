@@ -176,9 +176,9 @@ namespace MPfm.iOS.Classes.Controllers
 
                 if(audioFile != null)
                 {
+                    Console.WriteLine("PlayerViewCtrl - RefreshSongInformation - " + audioFile.FilePath);
                     try
                     {
-
                         // Check if the album art needs to be refreshed
                         string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
                         if(_currentAlbumArtKey != key)

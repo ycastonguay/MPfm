@@ -28,6 +28,7 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -36,7 +37,11 @@ namespace MPfm.iOS.Classes.Controls
     {
         private PeakFileGenerator _peakFileGenerator;
         private string _status = "Initial status";
-        private bool _isLoading = true;
+        private bool _isLoading = false;
+        private UIImage _imageCache = null;
+        private List<WaveDataMinMax> WaveDataHistory { get; set; }
+
+        public WaveFormDisplayType DisplayType { get; set; }
 
         public MPfmWaveFormView(IntPtr handle) 
             : base (handle)
@@ -52,7 +57,10 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            this.BackgroundColor = UIColor.DarkGray;
+            this.BackgroundColor = UIColor.Black;
+            WaveDataHistory = new List<WaveDataMinMax>();
+            DisplayType = WaveFormDisplayType.Stereo;
+
             _peakFileGenerator = new PeakFileGenerator();
             _peakFileGenerator.OnProcessStarted += HandleOnPeakFileProcessStarted;
             _peakFileGenerator.OnProcessData += HandleOnPeakFileProcessData;
@@ -62,8 +70,14 @@ namespace MPfm.iOS.Classes.Controls
         void HandleOnPeakFileProcessStarted(PeakFileStartedData data)
         {
             InvokeOnMainThread(() => {
+                WaveDataHistory = new List<WaveDataMinMax>((int)data.TotalBlocks);
+                if(_imageCache != null)
+                {
+                    _imageCache.Dispose();
+                    _imageCache = null;
+                }
                 _isLoading = true;
-                _status = "Peak file started";
+                _status = "Loading (0% done)";
                 SetNeedsDisplay();
             });
         }
@@ -71,6 +85,20 @@ namespace MPfm.iOS.Classes.Controls
         void HandleOnPeakFileProcessData(PeakFileProgressData data)
         {
             InvokeOnMainThread(() => {
+
+                // Add wave data to history. Use a while a loop to modify the collection while looping.
+                List<WaveDataMinMax> minMaxs = data.MinMax;
+                while (true)
+                {
+                    if (minMaxs.Count == 0)
+                    {
+                        break;
+                    }
+                    
+                    WaveDataHistory.Add(minMaxs[0]);
+                    minMaxs.RemoveAt(0);
+                }
+
                 _status = "Loading (" + data.PercentageDone.ToString("0") + "% done)";
                 SetNeedsDisplay();
             });
@@ -79,6 +107,16 @@ namespace MPfm.iOS.Classes.Controls
         void HandleOnPeakFileProcessDone(PeakFileDoneData data)
         {
             InvokeOnMainThread(() => {
+                if(data.Cancelled)
+                {
+                    if(_imageCache != null)
+                    {
+                        _imageCache.Dispose();
+                        _imageCache = null;
+                    }
+                    WaveDataHistory = new List<WaveDataMinMax>();
+                }
+
                 _status = string.Empty;
                 _isLoading = false;
                 SetNeedsDisplay();
@@ -88,8 +126,11 @@ namespace MPfm.iOS.Classes.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
             // Check if another peak file is already loading
+            Console.WriteLine("WaveFormView - LoadPeakFile audioFile: " + audioFile.FilePath);
             if (_peakFileGenerator.IsLoading)
                 _peakFileGenerator.Cancel();
+
+            //
 
             // Check if the peak file subfolder exists
             string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
@@ -102,17 +143,70 @@ namespace MPfm.iOS.Classes.Controls
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine("PeakFile - Failed to create folder!");
+                    Console.WriteLine("PeakFile - Failed to create folder: " + ex.Message);
                     return;
                 }
             }
 
             // Generate peak file path
             string peakFilePath = Path.Combine(peakFileFolder, Normalizer.NormalizeStringForUrl(audioFile.ArtistName + "_" + audioFile.AlbumTitle + "_" + audioFile.Title + "_" + audioFile.FileType.ToString()) + ".peak");
-            
-            // Start generating peak file in background
-            Console.WriteLine("PeakFile - Generating " + peakFilePath + "...");
-            _peakFileGenerator.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+
+            // Check if peak file exists
+            bool peakFileLoadedSuccessfully = false;
+            if (File.Exists(peakFilePath))
+            {
+                Task<List<WaveDataMinMax>>.Factory.StartNew(() => {
+                    List<WaveDataMinMax> data = null;
+                    try
+                    {
+                        data = _peakFileGenerator.ReadPeakFile(peakFilePath);
+                        if(data != null)
+                            return data;
+                    } 
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error reading peak file: " + ex.Message);
+                    }
+
+                    try
+                    {
+                        Console.WriteLine("Peak file could not be loaded - Generating " + peakFilePath + "...");
+                        _peakFileGenerator.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+                    } 
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error generating peak file: " + ex.Message);
+                    }
+                    return null;
+                }, TaskCreationOptions.LongRunning).ContinueWith(t => {
+                    List<WaveDataMinMax> data = (List<WaveDataMinMax>)t.Result;
+
+                    if (data == null)
+                    {
+                        // The peak file has been generated on another thread
+                        return;
+                    }
+                    else
+                    {
+                        InvokeOnMainThread(() => {
+                            // Refresh image cache
+                            WaveDataHistory = data;
+                            if(_imageCache != null)
+                            {
+                                _imageCache.Dispose();
+                                _imageCache = null;
+                            }
+                            SetNeedsDisplay();
+                        });
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            } 
+            else
+            {
+                // Start generating peak file in background
+                Console.WriteLine("Peak file doesn't exist - Generating " + peakFilePath + "...");
+                _peakFileGenerator.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+            }
         }
 
         public void CancelPeakFileGeneration()
@@ -134,33 +228,269 @@ namespace MPfm.iOS.Classes.Controls
                 return;
             }
 
-            // Load bitmap cache (iOS 4.0+ / OSX 10.6+ does not require to have a byte array buffer)
-//            int bitsPerComponent = 8;
-//            int bytesPerPixel = 4;
-//            int bytesPerRow = (Bounds.Width * bitsPerComponent * bytesPerPixel + 7) / 8;
-//            int dataSize = bytesPerRow * Bounds.Height;
-//            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-//            context = new CGBitmapContext(null, Bounds.Width, Bounds.Height, bitsPerComponent, bytesPerRow, colorSpace, CGImageAlphaInfo.PremultipliedLast | CGBitmapFlags.ByteOrder32Big);
-            UIGraphics.BeginImageContext(Bounds.Size);
-            context = UIGraphics.GetCurrentContext();
-            if (context == null)
+            // If there is no wave data and nothing is loading, just display nothing
+            if (WaveDataHistory.Count == 0)
             {
-                // Error
-                Console.WriteLine("Error initializing bitmap cache!");
                 return;
             }
 
-            context.SetStrokeColor(new CGColor(1, 1, 1, 1));
-            context.SetLineWidth(10);
-            context.StrokeLineSegments(new PointF[2] { new PointF(10, 0), new PointF(10, this.Bounds.Height) });
+            // Check if bitmap cache should be reloaded
+            if (_imageCache == null)
+            {
+                //UIGraphics.BeginImageContext(Bounds.Size);
+                UIGraphics.BeginImageContextWithOptions(Bounds.Size, false, 0);
+                context = UIGraphics.GetCurrentContext();
+                if (context == null)
+                {
+                    // Error
+                    Console.WriteLine("Error initializing bitmap cache!");
+                    return;
+                }
 
-            UIImage image = UIGraphics.GetImageFromCurrentImageContext();
-            UIGraphics.EndImageContext();
+                // Declare variables
+                int widthAvailable = (int)Bounds.Width;
+                int heightAvailable = (int)Bounds.Height;
+                float x1 = 0;
+                float x2 = 0;
+                float leftMin = 0;
+                float leftMax = 0;
+                float rightMin = 0;
+                float rightMax = 0;
+                float mixMin = 0;
+                float mixMax = 0;
+                float leftMaxHeight = 0;
+                float leftMinHeight = 0;
+                float rightMaxHeight = 0;
+                float rightMinHeight = 0;
+                float mixMaxHeight = 0;
+                float mixMinHeight = 0;
+                int historyIndex = 0;
+                int historyCount = 0;
+                float lineWidth = 0;
+                float lineWidthPerHistoryItem = 0;
+                int nHistoryItemsPerLine = 0;
+                float desiredLineWidth = 1.0f;
+                WaveDataMinMax[] subset = null;      
+
+                historyCount = WaveDataHistory.Count;
+
+                // Find out how many samples are represented by each line of the wave form, depending on its width.
+                // For example, if the history has 45000 items, and the control has a width of 1000px, 45 items will need to be averaged by line.
+                lineWidthPerHistoryItem = (float)widthAvailable / (float)historyCount;
+                //float historyItemsPerLine = (float)WaveDataHistory.Count / (float)Bounds.Width;
+
+                // Check if the line width is below the desired line width
+                if (lineWidthPerHistoryItem < desiredLineWidth)
+                {
+                    // Try to get a line width around 0.5f so the precision is good enough and no artifacts will be shown.
+                    while (lineWidth < desiredLineWidth)
+                    {
+                        // Increment the number of history items per line
+                        Console.WriteLine("Determining line width (lineWidth: " + lineWidth.ToString() + " desiredLineWidth: " + desiredLineWidth.ToString() + " nHistoryItemsPerLine: " + nHistoryItemsPerLine.ToString() + " lineWidthPerHistoryItem: " + lineWidthPerHistoryItem.ToString());
+                        nHistoryItemsPerLine++;
+                        lineWidth += lineWidthPerHistoryItem;
+                    }
+                    nHistoryItemsPerLine--;
+                    lineWidth -= lineWidthPerHistoryItem;
+                } 
+                else
+                {
+                    // The lines are larger than 0.5 pixels.
+                    lineWidth = lineWidthPerHistoryItem;
+                    nHistoryItemsPerLine = 1;
+                }
+
+                Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
+
+                context.SetStrokeColor(new CGColor(1, 1, 0.3f, 1));
+                context.SetLineWidth(lineWidth);
+                //context.SetLineWidth(0.5f);
+
+                for (float i = 0; i < widthAvailable; i += lineWidth)
+                {
+                    // Determine the maximum height of a line (+/-)
+                    //Console.WriteLine("WaveForm - Rendering " + i.ToString() + " on " + widthAvailable.ToString());
+                    float heightToRenderLine = 0;
+                    if (DisplayType == WaveFormDisplayType.Stereo)
+                    {
+                        heightToRenderLine = (float)heightAvailable / 4;
+                    }
+                    else
+                    {
+                        heightToRenderLine = (float)heightAvailable / 2;
+                    }
+                    
+                    // Determine x position
+                    x1 = i;
+                    x2 = i + lineWidth;
+                    
+                    try
+                    {
+                        // Check if there are multiple history items per line
+                        if (nHistoryItemsPerLine > 1)
+                        {
+                            if (historyIndex + nHistoryItemsPerLine > historyCount)
+                            {
+                                // Create subset with remaining data
+                                subset = new WaveDataMinMax[historyCount - historyIndex];
+                                WaveDataHistory.CopyTo(historyIndex, subset, 0, historyCount - historyIndex);
+                            }
+                            else
+                            {
+                                subset = new WaveDataMinMax[nHistoryItemsPerLine];
+                                WaveDataHistory.CopyTo(historyIndex, subset, 0, nHistoryItemsPerLine);
+                            }
+                            
+                            leftMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Left);
+                            leftMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Left);
+                            rightMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Right);
+                            rightMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Right);
+                            mixMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Mix);
+                            mixMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Mix);
+                        }
+                        else
+                        {
+                            leftMin = WaveDataHistory[historyIndex].leftMin;
+                            leftMax = WaveDataHistory[historyIndex].leftMax;
+                            rightMin = WaveDataHistory[historyIndex].rightMin;
+                            rightMax = WaveDataHistory[historyIndex].rightMax;
+                            mixMin = WaveDataHistory[historyIndex].mixMin;
+                            mixMax = WaveDataHistory[historyIndex].mixMax;
+                        }
+                        
+                        // Increment history count
+                        //historyCount += historyItemsPerLine;
+                        
+                        leftMaxHeight = leftMax * heightToRenderLine;
+                        leftMinHeight = leftMin * heightToRenderLine;
+                        rightMaxHeight = rightMax * heightToRenderLine;
+                        rightMinHeight = rightMin * heightToRenderLine;
+                        mixMaxHeight = mixMax * heightToRenderLine;
+                        mixMinHeight = mixMin * heightToRenderLine;
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+
+                    // Determine display type
+                    if (DisplayType == WaveFormDisplayType.LeftChannel ||
+                        DisplayType == WaveFormDisplayType.RightChannel ||
+                        DisplayType == WaveFormDisplayType.Mix)
+                    {
+                        // Calculate min/max line height
+                        float minLineHeight = 0;
+                        float maxLineHeight = 0;
+                        
+                        // Set mib/max
+                        if (DisplayType == WaveFormDisplayType.LeftChannel)
+                        {
+                            minLineHeight = leftMinHeight;
+                            maxLineHeight = leftMaxHeight;
+                        }
+                        else if (DisplayType == WaveFormDisplayType.RightChannel)
+                        {
+                            minLineHeight = rightMinHeight;
+                            maxLineHeight = rightMaxHeight;
+                        }
+                        else if (DisplayType == WaveFormDisplayType.Mix)
+                        {
+                            minLineHeight = mixMinHeight;
+                            maxLineHeight = mixMaxHeight;
+                        }
+                        
+                        // ------------------------
+                        // Positive Max Value                   
+                        
+                        // Draw positive value (y: middle to top)                   
+
+                        context.StrokeLineSegments(new PointF[2] {
+                            new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine - maxLineHeight)                        
+                        });
+                        
+                        // ------------------------
+                        // Negative Max Value
+                        
+                        // Draw negative value (y: middle to height)
+                        context.StrokeLineSegments(new PointF[2] {
+                            new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine + (-minLineHeight))
+                        });
+                    }
+                    else if (DisplayType == WaveFormDisplayType.Stereo)
+                    {
+                        // -----------------------------------------
+                        // LEFT Channel - Positive Max Value
+                        
+                        // Draw positive value (y: middle to top)
+                        context.StrokeLineSegments(new PointF[2] {
+                            new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine - leftMaxHeight)
+                        });
+                        
+                        // -----------------------------------------
+                        // LEFT Channel - Negative Max Value
+                        
+                        // Draw negative value (y: middle to height)
+                        context.StrokeLineSegments(new PointF[2] {
+                            new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine + (-leftMinHeight))
+                        });
+                        
+                        // -----------------------------------------
+                        // RIGHT Channel - Positive Max Value
+                        
+                        // Multiply by 3 to get the new center line for right channel
+                        // Draw positive value (y: middle to top)
+                        context.StrokeLineSegments(new PointF[2] {
+                            new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) - rightMaxHeight)
+                        });
+                        
+                        // -----------------------------------------
+                        // RIGHT Channel - Negative Max Value
+                        
+                        // Draw negative value (y: middle to height)
+                        context.StrokeLineSegments(new PointF[2] {
+                            new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) + (-rightMinHeight))
+                        });
+                    }
+
+                    // Increment the history index; pad the last values if the count is about to exceed
+                    if (historyIndex < historyCount - 1)
+                    {
+                        // Increment by the number of history items per line
+                        historyIndex += nHistoryItemsPerLine;
+                    }
+                }
+
+                // Get image from context
+                _imageCache = UIGraphics.GetImageFromCurrentImageContext();
+                UIGraphics.EndImageContext();
+            }
 
             // Draw bitmap cache
             context = UIGraphics.GetCurrentContext();
-            context.DrawImage(Bounds, image.CGImage);
-
+            context.DrawImage(Bounds, _imageCache.CGImage);
         }
+    }
+
+    /// <summary>
+    /// Defines the wave form display type.
+    /// </summary>
+    public enum WaveFormDisplayType
+    {
+        /// <summary>
+        /// Left channel.
+        /// </summary>
+        LeftChannel = 0, 
+        /// <summary>
+        /// Right channel.
+        /// </summary>
+        RightChannel = 1, 
+        /// <summary>
+        /// Stereo (left and right channels).
+        /// </summary>
+        Stereo = 2, 
+        /// <summary>
+        /// Mix (mix of left/right channels).
+        /// </summary>
+        Mix = 3
     }
 }
