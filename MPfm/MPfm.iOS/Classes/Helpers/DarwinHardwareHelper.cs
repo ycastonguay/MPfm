@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 using MonoTouch;
 using MonoTouch.UIKit;
 
-namespace MPfm.iOS
+namespace MPfm.iOS.Helpers
 {
     /// <summary>
     /// Helper for detecting the hardware version of the current device.

@@ -214,6 +214,7 @@ namespace MPfm.Sound
                             cancelled = true;
                             IsLoading = false;
                             OnProcessDone(new PeakFileDoneData() { 
+                                AudioFilePath = audioFilePath,
                                 Cancelled = true
                             });
                             break;
@@ -330,6 +331,7 @@ namespace MPfm.Sound
                 // Set completed
                 IsLoading = false;
                 OnProcessDone(new PeakFileDoneData() {
+                    AudioFilePath = audioFilePath,
                     Cancelled = false
                 });
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
@@ -534,6 +536,7 @@ namespace MPfm.Sound
     /// </summary>
     public class PeakFileDoneData
     {
+        public string AudioFilePath { get; set; }
         public bool Cancelled { get; set; }
     }
 

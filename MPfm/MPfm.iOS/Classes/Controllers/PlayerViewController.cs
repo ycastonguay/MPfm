@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Timers;
 using MPfm.Core;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Player;
@@ -29,11 +30,11 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
-using MonoTouch.MediaPlayer;
-using MPfm.MVP.Messages;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controllers
 {

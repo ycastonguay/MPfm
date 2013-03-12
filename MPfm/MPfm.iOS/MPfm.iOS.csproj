@@ -175,6 +175,7 @@
     <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
     <Compile Include="Classes\Helpers\DarwinHardwareHelper.cs" />
     <Compile Include="Classes\Controls\MPfmTableViewCell.cs" />
+    <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
