@@ -157,5 +157,6 @@
     <Compile Include="OS.cs" />
     <Compile Include="CacheStore.cs" />
     <Compile Include="ByteArrayQueue.cs" />
+    <Compile Include="Normalizer.cs" />
   </ItemGroup>
 </Project>

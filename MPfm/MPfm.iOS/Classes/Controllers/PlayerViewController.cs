@@ -204,6 +204,9 @@ namespace MPfm.iOS.Classes.Controllers
                     }
 
                     lblLength.Text = audioFile.Length;
+
+                    // Load peak file in background
+                    waveFormView.LoadPeakFile(audioFile);
                 }
                 else
                 {

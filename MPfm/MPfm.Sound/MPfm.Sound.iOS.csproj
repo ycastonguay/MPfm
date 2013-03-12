@@ -161,6 +161,7 @@
   <ItemGroup>
     <Folder Include="Lib\iOS\" />
     <Folder Include="Lib\Android\" />
+    <Folder Include="PeakFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
@@ -208,7 +209,6 @@
     <Compile Include="Playlists\PlaylistItem.cs" />
     <Compile Include="Playlists\PlaylistTools.cs" />
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
-    <Compile Include="PeakFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\APETag.cs" />
     <Compile Include="Tags\SV7Metadata.cs" />
@@ -218,5 +218,6 @@
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerator.cs" />
   </ItemGroup>
 </Project>
