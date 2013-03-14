@@ -18,6 +18,7 @@
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Presenters
 {
@@ -26,15 +27,35 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class MarkersPresenter : BasePresenter<IMarkersView>, IMarkersPresenter
 	{
-        public MarkersPresenter()
+        readonly MobileNavigationManager _navigationManager;
+
+        public MarkersPresenter(MobileNavigationManager navigationManager)
 		{
+            _navigationManager = navigationManager;
 		}
 
         public override void BindView(IMarkersView view)
         {            
             // Subscribe to view actions
-            
+            view.OnAddMarker = OnAddMarker;
+            view.OnEditMarker = OnEditMarker;
+
             base.BindView(view);
+        }
+
+        private void CreateMarkerDetailsView()
+        {
+            var view = _navigationManager.CreateMarkerDetailsView();
+            _navigationManager.PushDialogView(view);
+        }
+
+        private void OnAddMarker()
+        {
+            CreateMarkerDetailsView();
+        }
+
+        private void OnEditMarker(Marker marker)
+        {
         }
     }
 }

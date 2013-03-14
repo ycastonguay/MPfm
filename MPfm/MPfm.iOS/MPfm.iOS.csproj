@@ -176,6 +176,14 @@
     <Compile Include="Classes\Helpers\DarwinHardwareHelper.cs" />
     <Compile Include="Classes\Controls\MPfmTableViewCell.cs" />
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
+    <Compile Include="Classes\Controllers\LoopDetailsViewController.cs" />
+    <Compile Include="Classes\Controllers\LoopDetailsViewController.designer.cs">
+      <DependentUpon>LoopDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\MarkerDetailsViewController.cs" />
+    <Compile Include="Classes\Controllers\MarkerDetailsViewController.designer.cs">
+      <DependentUpon>MarkerDetailsViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -200,6 +208,10 @@
     <InterfaceDefinition Include="XIB\iPhone\PitchShiftingViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\PlayerMetadataViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\PlayerMetadataViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\LoopDetailsViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\LoopDetailsViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\MarkerDetailsViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\MarkerDetailsViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

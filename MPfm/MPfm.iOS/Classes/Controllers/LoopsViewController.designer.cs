@@ -12,13 +12,32 @@ namespace MPfm.iOS
 	partial class LoopsViewController
 	{
 		[Outlet]
+		MonoTouch.UIKit.UITableView tableView { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnAddLoop { get; set; }
+
+		[Action ("actionAddLoop:")]
+		partial void actionAddLoop (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
+			}
+
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
+			}
+
+			if (btnAddLoop != null) {
+				btnAddLoop.Dispose ();
+				btnAddLoop = null;
 			}
 		}
 	}

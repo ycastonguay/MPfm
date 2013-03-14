@@ -15,20 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Player.Objects;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-	/// Markers view interface.
+	/// Loop details presenter interface.
 	/// </summary>
-	public interface IMarkersView : IBaseView
-	{
-        Action OnAddMarker { get; set; }
-        Action<Marker> OnEditMarker { get; set; }
-
-        void RefreshMarkers(List<Marker> markers);
+    public interface ILoopDetailsPresenter : IBasePresenter<ILoopDetailsView>
+	{	
 	}
 }

@@ -63,7 +63,9 @@ namespace MPfm.iOS.Classes.Delegates
 			//container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
             container.Register<IEffectsView, EffectsViewController>().AsMultiInstance();
             container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
+            container.Register<ILoopDetailsView, LoopDetailsViewController>().AsMultiInstance();
             container.Register<IMarkersView, MarkersViewController>().AsMultiInstance();
+            container.Register<IMarkerDetailsView, MarkerDetailsViewController>().AsMultiInstance();
             container.Register<ITimeShiftingView, TimeShiftingViewController>().AsMultiInstance();
             container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();

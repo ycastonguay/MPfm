@@ -18,44 +18,23 @@
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-	/// Loops view presenter.
+	/// Marker details view presenter.
 	/// </summary>
-	public class LoopsPresenter : BasePresenter<ILoopsView>, ILoopsPresenter
+	public class MarkerDetailsPresenter : BasePresenter<IMarkerDetailsView>, IMarkerDetailsPresenter
 	{
-        readonly MobileNavigationManager _navigationManager;
-
-        public LoopsPresenter(MobileNavigationManager navigationManager)
+        public MarkerDetailsPresenter()
 		{
-            _navigationManager = navigationManager;
 		}
 
-        public override void BindView(ILoopsView view)
+        public override void BindView(IMarkerDetailsView view)
         {            
             // Subscribe to view actions
-            view.OnAddLoop = OnAddLoop;
-            view.OnEditLoop = OnEditLoop;
-
+            
             base.BindView(view);
-        }
-
-        private void CreateLoopDetailsView()
-        {
-            var view = _navigationManager.CreateLoopDetailsView();
-            _navigationManager.PushDialogView(view);
-        }
-
-        private void OnAddLoop()
-        {
-            CreateLoopDetailsView();
-        }
-        
-        private void OnEditLoop(Loop loop)
-        {
         }
     }
 }

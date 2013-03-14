@@ -48,8 +48,12 @@ namespace MPfm.MVP.Navigation
         private IPlayerMetadataPresenter _playerMetadataPresenter;
         private ILoopsView _loopsView;
         private ILoopsPresenter _loopsPresenter;
+        private ILoopDetailsView _loopDetailsView;
+        private ILoopDetailsPresenter _loopDetailsPresenter;
         private IMarkersView _markersView;
         private IMarkersPresenter _markersPresenter;
+        private IMarkerDetailsView _markerDetailsView;
+        private IMarkerDetailsPresenter _markerDetailsPresenter;
         private ITimeShiftingView _timeShiftingView;
         private ITimeShiftingPresenter _timeShiftingPresenter;
         private IPitchShiftingView _pitchShiftingView;
@@ -313,6 +317,25 @@ namespace MPfm.MVP.Navigation
             return _loopsView;
         }
 
+        public virtual ILoopDetailsView CreateLoopDetailsView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _loopDetailsPresenter = Bootstrapper.GetContainer().Resolve<ILoopDetailsPresenter>();
+                _loopDetailsPresenter.BindView((ILoopDetailsView)view);
+            };
+            
+            // Create view and manage view destruction
+            _loopDetailsView = Bootstrapper.GetContainer().Resolve<ILoopDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _loopDetailsView.OnViewDestroy = (view) =>
+            {
+                _loopDetailsView = null;
+                _loopDetailsPresenter = null;
+            };
+            return _loopDetailsView;
+        }
+
         public virtual IMarkersView CreateMarkersView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
@@ -330,6 +353,25 @@ namespace MPfm.MVP.Navigation
                 _markersPresenter = null;
             };
             return _markersView;
+        }
+
+        public virtual IMarkerDetailsView CreateMarkerDetailsView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>();
+                _markerDetailsPresenter.BindView((IMarkerDetailsView)view);
+            };
+            
+            // Create view and manage view destruction
+            _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _markerDetailsView.OnViewDestroy = (view) =>
+            {
+                _markerDetailsView = null;
+                _markerDetailsPresenter = null;
+            };
+            return _markerDetailsView;
         }
 
         public virtual ITimeShiftingView CreateTimeShiftingView()

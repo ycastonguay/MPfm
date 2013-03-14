@@ -16,45 +16,34 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using MPfm.iOS.Classes.Controllers.Base;
 
 namespace MPfm.iOS
 {
-    public partial class MarkersViewController : BaseViewController, IMarkersView
+    public partial class LoopDetailsViewController : BaseViewController, ILoopDetailsView
     {
-        public MarkersViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)
+        public LoopDetailsViewController(Action<IBaseView> onViewReady)
+            : base (onViewReady, UserInterfaceIdiomIsPhone ? "LoopDetailsViewController_iPhone" : "LoopDetailsViewController_iPad", null)
         {
         }
 
         public override void ViewDidLoad()
         {
-            lblTitle.Font = UIFont.FromName("OstrichSans-Black", 28);
-
             base.ViewDidLoad();
         }
 
-        partial void actionAddMarker(NSObject sender)
+        partial void actionClose(NSObject sender)
         {
-            if(OnAddMarker != null)
-                OnAddMarker();
+            this.DismissViewController(true, null);
         }
-
-        #region IMarkersView implementation
-
-        public Action OnAddMarker { get; set; }
-        public Action<Marker> OnEditMarker { get; set; }
-
-        public void RefreshMarkers(List<Marker> markers)
+        
+        partial void actionDeleteLoop(NSObject sender)
         {
         }
-
-        #endregion
     }
 }
+

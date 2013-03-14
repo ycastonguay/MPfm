@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
@@ -24,5 +26,9 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ILoopsView : IBaseView
 	{
+        Action OnAddLoop { get; set; }
+        Action<Loop> OnEditLoop { get; set; }
+        
+        void RefreshLoops(List<Loop> loops);
 	}
 }

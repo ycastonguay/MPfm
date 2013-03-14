@@ -35,7 +35,7 @@ namespace MPfm.MVP.Presenters
 
         public MobileOptionsMenuPresenter(MobileNavigationManager navigationManager)
 		{
-            this._navigationManager = navigationManager;          
+            _navigationManager = navigationManager;          
 		}
 
 		#endregion

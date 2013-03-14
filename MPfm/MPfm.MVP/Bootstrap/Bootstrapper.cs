@@ -64,7 +64,9 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();
             container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
             container.Register<ILoopsPresenter, LoopsPresenter>().AsSingleton();
+            container.Register<ILoopDetailsPresenter, LoopDetailsPresenter>().AsSingleton();
             container.Register<IMarkersPresenter, MarkersPresenter>().AsSingleton();
+            container.Register<IMarkerDetailsPresenter, MarkerDetailsPresenter>().AsSingleton();
             container.Register<ITimeShiftingPresenter, TimeShiftingPresenter>().AsSingleton();
             container.Register<IPitchShiftingPresenter, PitchShiftingPresenter>().AsSingleton();
             container.Register<IPlayerMetadataPresenter, PlayerMetadataPresenter>().AsSingleton();
