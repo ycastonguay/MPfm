@@ -224,5 +224,6 @@
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
     <Compile Include="PeakFiles\PeakFileGenerator.cs" />
+    <Compile Include="PeakFiles\IPeakFileGenerator.cs" />
   </ItemGroup>
 </Project>

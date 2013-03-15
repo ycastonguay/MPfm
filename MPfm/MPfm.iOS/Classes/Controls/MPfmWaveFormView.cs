@@ -18,17 +18,18 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.PeakFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using System.IO;
-using System.Threading.Tasks;
 using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
@@ -36,7 +37,7 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmWaveFormView")]
     public class MPfmWaveFormView : UIView
     {
-        private PeakFileGenerator _peakFileGenerator;
+        private IPeakFileGenerator _peakFileGenerator;
         private string _status = "Initial status";
         private bool _isLoading = false;
         private UIImage _imageCache = null;
@@ -63,7 +64,7 @@ namespace MPfm.iOS.Classes.Controls
             _waveDataHistory = new List<WaveDataMinMax>();
             DisplayType = WaveFormDisplayType.Stereo;
 
-            _peakFileGenerator = new PeakFileGenerator();
+            _peakFileGenerator = Bootstrapper.GetContainer().Resolve<IPeakFileGenerator>();
             _peakFileGenerator.OnProcessStarted += HandleOnPeakFileProcessStarted;
             _peakFileGenerator.OnProcessData += HandleOnPeakFileProcessData;
             _peakFileGenerator.OnProcessDone += HandleOnPeakFileProcessDone;
@@ -107,7 +108,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             InvokeOnMainThread(() => {
                 //if(data.Cancelled)
-                if(data.AudioFilePath != _currentAudioFile.FilePath)
+                if(_currentAudioFile != null && data.AudioFilePath != _currentAudioFile.FilePath)
                 {
                     if(_imageCache != null)
                     {
